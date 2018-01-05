@@ -1,0 +1,6 @@
+suites:
+    ozdemir_suite:
+        namespace: Ozdemir\Datatables
+        psr4_prefix: Ozdemir\Datatables
+        src_path: src
+        spec_path: tests

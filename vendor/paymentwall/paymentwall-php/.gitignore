@@ -1,0 +1,15 @@
+# Vagrant
+.vagrant/*
+Vagrantfile
+
+# SublimeText
+*.sublime-project
+*.sublime-workspace
+
+# Composer
+composer.phar
+vendor/
+composer.lock
+
+# Behat
+behat*

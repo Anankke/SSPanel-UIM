@@ -1,0 +1,35 @@
+///
+/// Dimension by HTML5 UP
+/// html5up.net | @ajlkn
+/// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+///
+
+/* Basic */
+
+	// MSIE: Required for IEMobile.
+		@-ms-viewport {
+			width: device-width;
+		}
+
+	// Ensures page width is always >=320px.
+		@include breakpoint(xsmall) {
+			html, body {
+				min-width: 320px;
+			}
+		}
+
+	body {
+		background: _palette(bg);
+
+		// Prevents animation/transition "flicker" on page load.
+		// Automatically added/removed by js/main.js.
+			&.is-loading,
+			&.is-switching {
+				*, *:before, *:after {
+					@include vendor('animation', 'none !important');
+					@include vendor('transition', 'none !important');
+					@include vendor('transition-delay', 'none !important');
+				}
+			}
+
+	}

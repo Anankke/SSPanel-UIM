@@ -1,0 +1,17 @@
+<?php
+
+// if the library is the project, try to use the composer's autoload for the tests
+$composerAutoload = __DIR__ . '/../vendor/autoload.php';
+
+if (is_file($composerAutoload)) {
+    include $composerAutoload;
+} else {
+    die('Unable to find autoload.php file, please use composer to load dependencies:
+
+wget http://getcomposer.org/composer.phar
+php composer.phar install
+
+Visit http://getcomposer.org/ for more information.
+
+');
+}

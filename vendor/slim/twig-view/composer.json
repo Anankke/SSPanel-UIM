@@ -1,0 +1,29 @@
+{
+    "name": "slim/twig-view",
+    "type": "library",
+    "description": "Slim Framework view helper built on top of the Twig templating component",
+    "keywords": ["slim","framework","view","template","twig"],
+    "homepage": "http://slimframework.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Lockhart",
+            "email": "hello@joshlockhart.com",
+            "homepage": "http://joshlockhart.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "pimple/pimple": "~3.0",
+        "twig/twig": "~1.18"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "psr/http-message": "~0.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Slim\\Views\\": "src"
+        }
+    }
+}

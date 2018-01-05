@@ -1,0 +1,53 @@
+.nav {
+	list-style: none;
+	margin: $margin-md 0;
+	padding: 0;
+	position: relative;
+	@include clearfix();
+	a,
+	.a {
+		align-items: center;
+		display: flex;
+		min-height: $nav-height;
+		padding: 0 $grid-gutter;
+		position: relative;
+		&:focus,
+		&:hover {
+			text-decoration: none;
+		}
+	}
+	li {
+		display: block;
+		position: relative;
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.nav-justified,
+.nav-list {
+	align-items: flex-start;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.nav-justified {
+	flex-wrap: nowrap;
+	> li {
+		flex-grow: 1;
+		> a,
+		> .a {
+			justify-content: center;
+			text-align: center;
+		}
+	}
+}
+
+.nav-list {
+	flex-wrap: wrap;
+	> li {
+		float: left;
+	}
+}

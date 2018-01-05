@@ -1,0 +1,1 @@
+CREATE TABLE `login_ip` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `userid` BIGINT NOT NULL , `ip` TEXT NOT NULL , `datetime` BIGINT NOT NULL , `type` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

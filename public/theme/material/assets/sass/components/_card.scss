@@ -1,0 +1,175 @@
+.card {
+	background-color: $white;
+	border-radius: 2px;
+	box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+	display: flex;
+	margin-top: $margin-md;
+	margin-bottom: $margin-md;
+	&[href]:focus,
+	&[href]:hover {
+		outline: 0;
+		text-decoration: none;
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.card-#{$color} {
+			background-color: nth($palette-list-color, $i);
+			color: nth($palette-list-text, $i);
+			a,
+			a:focus,
+			a:hover {
+				color: inherit;
+			}
+		}
+	}
+
+.card-action {
+	border-top: 1px solid $black-divider;
+	min-height: $nav-height;
+	@include clearfix();
+	.card-main > & {
+		&:first-child {
+			border-top: 0;
+		}
+	}
+}
+
+.card-action-btn {
+	margin: (($nav-height - $btn-height) / 2) ($grid-gutter / 2);
+	white-space: nowrap;
+	.btn + .btn {
+		margin-left: ($grid-gutter / 2);
+	}
+}
+
+.card-header {
+	align-items: center;
+	border-bottom: 1px solid $black-divider;
+	display: flex;
+	min-height: $header-height;
+	.card-main > & {
+		&:last-child {
+			border-bottom: 0;
+		}
+	}
+}
+
+.card-header-side {
+	margin-top: $margin-sm;
+	margin-bottom: $margin-sm;
+	&.pull-left {
+		order: -1;
+		padding-left: $grid-gutter;
+	}
+	&.pull-right {
+		order: 1;
+		padding-right: $grid-gutter;
+	}
+}
+
+.card-heading {
+	display: block;
+	font-size: $font-size-h4;
+	line-height: $line-height-h4;
+	margin-top: $margin-md;
+	margin-bottom: $margin-md;
+	.card-header & {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}
+
+.card-img {
+	display: block;
+	overflow: hidden;
+	position: relative;
+	.card-main > & {
+		&:first-child {
+			border-radius: 2px 2px 0 0;
+		}
+		&:last-child {
+			border-radius: 0 0 2px 2px;
+		}
+	}
+	img {
+		display: block;
+		height: auto;
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+
+.card-img-heading {
+	color: $white-text-solid;
+	margin: 0;
+	padding: $margin-sm $grid-gutter;
+	position: absolute;
+		bottom: 0;
+		left: 0;
+	width: 100%;
+	z-index: 1;
+	&:before {
+		background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1) 70%, rgba(0, 0, 0, 0.2));
+		content: "";
+		display: block;
+		height: 300%;
+		position: absolute;
+			bottom: 0;
+			left: 0;
+		width: 100%;
+		z-index: -1;
+	}
+}
+
+.card-inner {
+	margin: $margin-md $grid-gutter;
+	.card-header & {
+		flex: 1;
+		margin-top: $margin-sm;
+		margin-bottom: $margin-sm;
+	}
+}
+
+.card-main {
+	flex: 1;
+	min-width: 0;
+}
+
+.card-side {
+	background-color: $offwhite-solid;
+	border-radius: 2px 0 0 2px;
+	max-width: 33.33333%;
+	padding-right: $grid-gutter;
+	padding-left: $grid-gutter;
+	&[href] {
+		color: inherit;
+		&:focus,
+		&:hover {
+			outline: 0;
+			text-decoration: none;
+		}
+	}
+	&.card-side-img {
+		overflow: hidden;
+		padding-right: 0;
+		padding-left: 0;
+	}
+	&.pull-right {
+		border-radius: 0 2px 2px 0;
+		order: 1;
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.card-#{$color} .card-side {
+			background-color: nth($palette-list-dark, $i);
+			color: nth($palette-list-text-dark, $i);
+		}
+	}

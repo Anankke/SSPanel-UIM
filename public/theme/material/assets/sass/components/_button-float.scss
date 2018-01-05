@@ -1,0 +1,183 @@
+.fbtn {
+	background-color: $offwhite-solid;
+	border-radius: 50%;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+	clear: both;
+	color: $black-text-solid;
+	cursor: pointer;
+	display: block;
+	font-size: $font-size;
+	font-weight: $font-weight-medium;
+	height: $fbtn-height;
+	line-height: $line-height;
+	margin: $margin-sm auto;
+	padding: (($fbtn-height - $line-height) / 2) 0;
+	position: relative;
+	text-align: center;
+	transition-duration: 0.3s;
+	transition-property: opacity, transform;
+	transition-timing-function: $timing;
+	user-select: none;
+	width: $fbtn-height;
+	&:active,
+	&:focus,
+	&:hover {
+		color: $black-text-solid;
+		outline: 0;
+		text-decoration: none;
+	}
+	&:after {
+		border-radius: 50%;
+		box-shadow: 0 6px 9px rgba(0, 0, 0, 0.15);
+		content: "";
+		display: block;
+		height: 100%;
+		opacity: 0;
+		position: absolute;
+			top: 0;
+			left: 0;
+		transition: opacity 0.3s $timing;
+		width: 100%;
+	}
+	&:active:after,
+	&:focus:after {
+		opacity: 1;
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.fbtn-#{$color} {
+			background-color: nth($palette-list-color, $i);
+			color: nth($palette-list-text, $i) !important;
+		}
+	}
+
+// size
+	.fbtn-lg {
+		font-size: $font-size-h4;
+		height: ($fbtn-height + $base * 2);
+		line-height: $line-height-h4;
+		padding-top: (($fbtn-height + $base * 2 - $line-height-h4) / 2);
+		padding-bottom: (($fbtn-height + $base * 2 - $line-height-h4) / 2);
+		width: ($fbtn-height + $base * 2);
+	}
+
+.fbtn-container {
+	backface-visibility: hidden;
+	position: fixed;
+		right: $grid-gutter;
+		bottom: $margin-sm;
+	transition: transform 0.3s $timing;
+	z-index: ($content-base + 1);
+	// 992
+		@include responsive(md) {
+			transform: translateY(0) !important;
+		}
+}
+
+.fbtn-dropdown,
+.fbtn-dropup {
+	position: absolute;
+		left: 0;
+	transform: scale(0, 0);
+	transition: transform 0s 0.3s;
+	width: 100%;
+	.fbtn-inner.open & {
+		transform: scale(1, 1);
+		transition: none;
+	}
+	.fbtn {
+		opacity: 0;
+		transform: scale(0, 0);
+		.fbtn-inner.open & {
+			opacity: 1;
+			transform: scale(1, 1);
+		}
+	}
+}
+
+.fbtn-dropdown {
+	// position
+		top: 100%;
+}
+
+.fbtn-dropup {
+	// position
+		bottom: 100%;
+}
+
+.fbtn-inner {
+	position: relative;
+}
+
+.fbtn-ori,
+.fbtn-sub {
+	align-items: center;
+	display: flex;
+	height: 100%;
+	margin-left: -0.5em;
+	position: absolute;
+		top: 0;
+		left: 50%;
+	transition-duration: 0.3s;
+	transition-property: opacity, transform;
+	transition-timing-function: $timing;
+}
+
+.fbtn-ori {
+	.fbtn-inner.open & {
+		opacity: 0;
+		transform: rotate(225deg);
+	}
+}
+
+.fbtn-sub {
+	opacity: 0;
+	transform: rotate(-225deg);
+	.fbtn-inner.open & {
+		opacity: 1;
+		transform: rotate(0);
+	}
+}
+
+.fbtn-text {
+	background-color: $black-text;
+	border-radius: 2px;
+	color: $white-text-solid;
+	display: none;
+	font-size: $font-size-h6;
+	line-height: $line-height-h6;
+	margin-top: ($line-height-h6 / -2 - 1);
+	margin-left: $grid-gutter;
+	padding: 2px ($grid-gutter / 2);
+	position: absolute;
+		top: 50%;
+		left: 100%;
+	white-space: nowrap;
+	.fbtn-inner.open & {
+		display: block;
+	}
+	// touch
+		html.no-touchevents & {
+			display: block;
+			opacity: 0;
+			transform: scale(0, 0);
+			transition: opacity 0.3s $timing, transform 0s 0.3s;
+		}
+		html.no-touchevents .fbtn:hover > & {
+			opacity: 1;
+			transform: scale(1, 1);
+			transition: opacity 0.3s $timing;
+		}
+}
+
+.fbtn-text-left {
+	margin-right: $grid-gutter;
+	margin-left: 0;
+	// position
+		right: 100%;
+		left: auto;
+}

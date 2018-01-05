@@ -1,0 +1,48 @@
+build: false
+shallow_clone: true
+platform: x86
+clone_folder: c:\projects\polyfill
+
+cache:
+    - c:\php -> appveyor.yml
+
+init:
+    - SET PATH=c:\php;%PATH%
+    - SET COMPOSER_NO_INTERACTION=1
+    - SET PHP=1
+
+install:
+    - IF EXIST c:\php (SET PHP=0) ELSE (mkdir c:\php)
+    - cd c:\php
+    - IF %PHP%==1 appveyor DownloadFile http://windows.php.net/downloads/releases/archives/php-5.3.3-nts-Win32-VC9-x86.zip
+    - IF %PHP%==1 7z x php-5.3.3-nts-Win32-VC9-x86.zip -y >nul
+    - IF %PHP%==1 appveyor DownloadFile http://nebm.ist.utl.pt/~glopes/misc/intl_win/ICU-51.2-dlls.zip
+    - IF %PHP%==1 7z x ICU-51.2-dlls.zip -y >nul
+    - IF %PHP%==1 del /Q *.zip
+    - IF %PHP%==1 cd ext
+    - IF %PHP%==1 appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/apcu/4.0.10/php_apcu-4.0.10-5.3-nts-vc9-x86.zip
+    - IF %PHP%==1 7z x php_apcu-4.0.10-5.3-nts-vc9-x86.zip -y >nul
+    - IF %PHP%==1 appveyor DownloadFile http://nebm.ist.utl.pt/~glopes/misc/intl_win/php_intl-3.0.0-5.3-nts-vc9-x86.zip
+    - IF %PHP%==1 7z x php_intl-3.0.0-5.3-nts-vc9-x86.zip -y >nul
+    - IF %PHP%==1 del /Q *.zip
+    - IF %PHP%==1 cd ..
+    - IF %PHP%==1 appveyor DownloadFile https://phar.phpunit.de/phpunit-4.8.15.phar
+    - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
+    - IF %PHP%==1 echo @php %%~dp0phpunit-4.8.15.phar %%* > phpunit.bat
+    - IF %PHP%==1 copy /Y php.ini-development php.ini
+    - IF %PHP%==1 echo max_execution_time=1200 >> php.ini
+    - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
+    - IF %PHP%==1 echo extension_dir=ext >> php.ini
+    - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_apcu.dll >> php.ini
+    - IF %PHP%==1 echo apc.enable_cli=1 >> php.ini
+    - IF %PHP%==1 echo extension=php_intl.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_ldap.dll >> php.ini
+    - appveyor DownloadFile https://getcomposer.org/composer.phar
+    - cd c:\projects\polyfill
+    - IF %APPVEYOR_REPO_BRANCH%==master (SET COMPOSER_ROOT_VERSION=dev-master) ELSE (SET COMPOSER_ROOT_VERSION=%APPVEYOR_REPO_BRANCH%.x-dev)
+    - composer update --prefer-source --no-progress --ansi
+
+test_script:
+    - phpunit

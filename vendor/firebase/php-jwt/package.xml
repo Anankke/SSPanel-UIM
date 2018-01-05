@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>JWT</name>
+ <channel>pear.php.net</channel>
+ <summary>A JWT encoder/decoder.</summary>
+ <description>A JWT encoder/decoder library for PHP.</description>
+ <lead>
+  <name>Neuman Vong</name>
+  <user>lcfrs</user>
+  <email>neuman+pear@twilio.com</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Firebase Operations</name>
+  <user>firebase</user>
+  <email>operations@firebase.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2015-07-22</date>
+ <version>
+  <release>3.0.0</release>
+  <api>3.0.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</license>
+ <notes>
+Initial release with basic support for JWT encoding, decoding and signature verification.
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <dir name="tests">
+    <file name="JWTTest.php" role="test" />
+   </dir>
+   <file name="Authentication/JWT.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.1</min>
+   </php>
+   <pearinstaller>
+    <min>1.7.0</min>
+   </pearinstaller>
+   <extension>
+    <name>json</name>
+   </extension>
+   <extension>
+    <name>hash</name>
+   </extension>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2015-04-01</date>
+   <license uri="http://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</license>
+   <notes>
+Initial release with basic support for JWT encoding, decoding and signature verification.
+   </notes>
+  </release>
+ </changelog>
+</package>

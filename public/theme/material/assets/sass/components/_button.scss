@@ -1,0 +1,81 @@
+.btn {
+	background-color: $offwhite;
+	background-image: none;
+	background-position: 50% 50%;
+	background-size: 100% 100%;
+	border: 0;
+	border-radius: 2px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+	color: inherit;
+	cursor: pointer;
+	display: inline-block;
+	font-size: $font-size;
+	font-weight: $font-weight-medium;
+	line-height: $line-height;
+	margin-bottom: 0;
+	max-width: 100%;
+	padding: (($btn-height - $line-height) / 2) ($grid-gutter / 2);
+	position: relative;
+	text-align: center;
+	text-transform: uppercase;
+	user-select: none;
+	vertical-align: middle;
+	white-space: nowrap;
+	&:active,
+	&:focus,
+	&:hover {
+		color: inherit;
+		outline: 0;
+		text-decoration: none;
+	}
+	&:after {
+		background-color: $offwhite;
+		border-radius: 2px;
+		box-shadow: 0 3px 9px rgba(0, 0, 0, 0.3);
+		content: "";
+		display: block;
+		height: 100%;
+		opacity: 0;
+		position: absolute;
+			top: 0;
+			left: 0;
+		transition: opacity 0.3s $timing;
+		width: 100%;
+	}
+	&:active:after,
+	&:focus:after {
+		opacity: 1;
+	}
+	&.waves-attach:active:after {
+		background-color: transparent;
+	}
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		box-shadow: none;
+		cursor: not-allowed;
+		opacity: 0.54;
+		&:after {
+			display: none;
+		}
+		.waves-ripple {
+			display: none;
+		}
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.btn-#{$color} {
+			background-color: nth($palette-list-color, $i);
+			color: nth($palette-list-text, $i) !important;
+		}
+	}
+
+.btn-block {
+	display: block;
+	white-space: normal;
+	width: 100%;
+}

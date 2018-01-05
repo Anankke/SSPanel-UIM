@@ -1,0 +1,32 @@
+@mixin responsive($screen-size) {
+	// 480
+		@if $screen-size == xs {
+			@media only screen and (min-width: $screen-xs) {
+				@content;
+			}
+		}
+	// 768
+		@else if $screen-size == sm {
+			@media only screen and (min-width: $screen-sm) {
+				@content;
+			}
+		}
+	// 992
+		@else if $screen-size == md {
+			@media only screen and (min-width: $screen-md) {
+				@content;
+			}
+		}
+	// 1440
+		@else if $screen-size == lg {
+			@media only screen and (min-width: $screen-lg) {
+				@content;
+			}
+		}
+	// customised break point
+		@else {
+			@media only screen and #{$screen-size} {
+				@content;
+			}
+		}
+}

@@ -1,0 +1,3 @@
+<?php
+// This file was auto-generated from sdk-root/src/data/cloudformation/2010-05-15/paginators-1.json
+return [ 'pagination' => [ 'DescribeStackEvents' => [ 'input_token' => 'NextToken', 'output_token' => 'NextToken', 'result_key' => 'StackEvents', ], 'DescribeStackResources' => [ 'result_key' => 'StackResources', ], 'DescribeStacks' => [ 'input_token' => 'NextToken', 'output_token' => 'NextToken', 'result_key' => 'Stacks', ], 'ListStackResources' => [ 'input_token' => 'NextToken', 'output_token' => 'NextToken', 'result_key' => 'StackResourceSummaries', ], 'ListStacks' => [ 'input_token' => 'NextToken', 'output_token' => 'NextToken', 'result_key' => 'StackSummaries', ], ],];

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="bootstrap.php">
+  <testsuites>
+    <testsuite name="General">
+      <file>./SendGrid.php</file>
+      <file>./helpers/mail/Mail.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>

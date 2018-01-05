@@ -1,0 +1,3 @@
+CREATE TABLE `speedtest` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `nodeid` INT NOT NULL , `datetime` DATETIME NOT NULL , `telecomping` TEXT NOT NULL , `telecomeupload` TEXT NOT NULL , `telecomedownload` TEXT NOT NULL , `unicomping` TEXT NOT NULL , `unicomupload` TEXT NOT NULL , `unicomdownload` TEXT NOT NULL , `cmccping` TEXT NOT NULL , `cmccupload` TEXT NOT NULL , `cmccdownload` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE `speedtest` CHANGE `datetime` `datetime` BIGINT NOT NULL;

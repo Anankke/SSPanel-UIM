@@ -1,0 +1,34 @@
+language: php
+before_script:
+before_script:
+- mkdir prism
+- mkdir prism/bin
+- export PATH=$PATH:$PWD/prism/bin/
+- ./test/prism.sh
+- composer install
+- cd test/unit
+script:
+- "../../vendor/bin/phpunit . --bootstrap bootstrap.php --filter test*"
+after_script:
+- cd ../..
+- ./scripts/s3upload.sh
+php:
+- 5.6
+- 7.0
+env:
+  global:
+  - S3_POLICY: ewogICJleHBpcmF0aW9uIjogIjIxMDAtMDEtMDFUMTI6MDA6MDAuMDAwWiIsCiAgImNvbmRpdGlvbnMiOiBbCiAgICB7ImFjbCI6ICJwdWJsaWMtcmVhZCIgfSwKICAgIHsiYnVja2V0IjogInNlbmRncmlkLW9wZW4tc291cmNlIiB9LAogICAgWyJzdGFydHMtd2l0aCIsICIka2V5IiwgInNlbmRncmlkLXBocC8iXSwKICAgIFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLCAyMDQ4LCAyNjg0MzU0NTZdLAogICAgWyJlcSIsICIkQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL3ppcCJdCiAgXQp9Cgo=
+  - secure: eUN0huKA436uIkISu6V3yW01/gZHC6slBvlnprMPEhzclU2szH6qhWEXWS5CcOG6EEDBReqLZdNAwu+FC69KGFO9+6oW2GQQLSsfEViqFi/Ig2N0r4EBO4jLRebgq0GOfetPwQvJH27d8BCiloPy8rXBb5pskxSNw4B4bRyXHz4=
+  - secure: j38xzMNmzYXR/JJdVumPmDoDVxb6FUDF497AuVPHowGh0egFW8XHWCOMeQWqWZI4Gg17pViQNIJ3xC6WBvob70AF8fsNm0+vxF2s7abXDMcbq5flLTS6ydKLgNu+na/RAkOBbTwxJAGIH/fQh8BH8iGKerCwoqf8sDErAge4NMw=
+  - secure: h3HlxBOsNXBDrIJ0yl467ST6Q8R2TmbL7PltlPcRoHy5gAxn5UiDv5W2+6DSXrwQrTjOUunZ+O9ckcaQGQy1JNhGMwgIkJpyWAHDIHhTYGU289uUIDTHQW/soX0qHJSHSx3iMgDOIc7XnfTz6W7Nv1gYKZFedOMsZ5uBMeGyiXE=
+  - secure: SKSl/RHFQNhGT7OUj7E0AbrQnuDhhCRI/4jC76mmzvy8EJBDgUNevAKJGtug+LVilHrlbk9fLC8rayPW6SGv0s3PowTGm8NMOc48aRBLOr7QRo/sMikJCmRuU6HWptr0NKuf2fq6lV94WDm/pDdyOSNyLga9/eaIDs/Sacp78sw=
+notifications:
+  hipchat:
+    rooms:
+      secure: l4RUOBY44kVhSxx54NU3cmvn598rRMB7Y272Ct/W0fBm1tdGncp42A/rwg7JkiZH9EWXs3tKtoSjqw5xT6QeScUGQDdykS5QVO8lEIkDRGD4WwQ3VDJmRy1+04WtgqFEK8SyYTCcCl4ZJ0rtOcJZgDMvigkOJuLxwGXTDuvfu1k=
+    template:
+    - '<a href="https://travis-ci.org/%{repository}/builds/%{build_id}">%{repository}
+      Build %{build_number}</a> on branch <i>%{branch}</i> by %{author}: <strong>%{message}</strong>
+      <a href="https://github.com/%{repository}/commits/%{commit}">View on GitHub</a>'
+    format: html
+    notify: true

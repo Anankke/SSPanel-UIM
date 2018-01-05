@@ -1,0 +1,10 @@
+test/coverage/*
+dist/
+composer.lock
+vendor
+.env*
+sendgrid-php.php
+composer.phar
+.editorconfig
+test.php
+.idea/

@@ -1,0 +1,1 @@
+ALTER TABLE `ss_invite_code` CHANGE `created_at` `created_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT '2016-06-01 00:00:00';

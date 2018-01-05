@@ -1,0 +1,53 @@
+code,
+kbd,
+pre,
+samp {
+	font-family: $font-fam-mono;
+	font-size: 1em;
+}
+
+code {
+	background-color: $offwhite-solid;
+	border: 1px solid $black-divider-solid;
+	border-radius: 4px;
+	color: $brand-color-accent;
+	font-size: 75%;
+	line-height: 1;
+	padding: 2px 4px;
+}
+
+kbd {
+	background-color: $black-text-solid;
+	border-radius: 4px;
+	color: $white-text-solid;
+	font-size: 75%;
+	padding: 2px 4px;
+	kbd {
+		font-size: 100%;
+		font-weight: $font-weight-medium;
+		padding: 0;
+	}
+}
+
+pre {
+	background-color: $offwhite-solid;
+	border: 1px solid $black-divider-solid;
+	border-radius: 2px;
+	color: $black-text-solid;
+	display: block;
+	font-size: $font-size-h6;
+	line-height: $line-height-h6;
+	margin: $margin-md 0;
+	overflow: auto;
+	padding: $margin-sm ($grid-gutter / 2);
+	word-break: break-all;
+	word-wrap: break-word;
+	code {
+		background-color: transparent;
+		border-radius: 0;
+		color: inherit;
+		font-size: inherit;
+		padding: 0;
+		white-space: pre-wrap;
+	}
+}

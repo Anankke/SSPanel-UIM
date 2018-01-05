@@ -1,0 +1,69 @@
+@function unicode($str){
+	@return unquote("\"") + $str + unquote("\"");
+}
+
+@mixin clearfix() {
+	&:after,
+	&:before {
+		content: "";
+		display: table;
+		line-height: 0;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin form-label() {
+	padding-top: (($input-height - $line-height) / 2);
+	padding-bottom: (($input-height - $line-height) / 2);
+	text-align: right;
+}
+
+@mixin img-responsive() {
+	display: block;
+	height: auto;
+	max-width: 100%;
+	width: 100% \9;
+}
+
+@mixin nav-drawer() {
+	background-color: transparent;
+	display: block !important;
+	overflow: visible;
+	width: ($grid-gutter * 15);
+	z-index: $header-base;
+	&.in ~ .menu-backdrop {
+		display: none;
+		~ .menu-backdrop {
+			display: block;
+		}
+	}
+	&.menu-left {
+		~ .content,
+		~ .footer,
+		~ .header {
+			margin-left: ($grid-gutter * 15);
+		}
+	}
+	&.menu-right {
+		~ .content,
+		~ .footer,
+		~ .header {
+			margin-right: ($grid-gutter * 15);
+		}
+	}
+	.menu-scroll {
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+		transform: none;
+		width: ($grid-gutter * 15);
+	}
+}
+
+@mixin text-overflow() {
+	display: block;
+	line-height: inherit;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

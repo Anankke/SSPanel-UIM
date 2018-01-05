@@ -1,0 +1,41 @@
+{
+  "name": "voku/anti-xss",
+  "description": "anti xss-library",
+  "keywords": [
+    "xss",
+    "security",
+    "anti-xss",
+    "clean"
+  ],
+  "type": "library",
+  "homepage": "https://github.com/voku/anti-xss",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "EllisLab Dev Team",
+      "homepage": "http://ellislab.com/"
+    },
+    {
+      "name": "Lars Moelleken",
+      "email": "lars@moelleken.org",
+      "homepage": "http://www.moelleken.org/"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "voku/portable-utf8": "~2.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "voku\\helper\\": "src/voku/helper/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

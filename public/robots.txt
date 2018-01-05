@@ -1,0 +1,27 @@
+# robots.txt generated at http://tool.chinaz.com/robots/ 
+User-agent: Baiduspider
+Disallow: /
+User-agent: Sosospider
+Disallow: /
+User-agent: sogou spider
+Disallow: /
+User-agent: Slurp
+Disallow: /
+User-agent: Teoma
+Disallow: /
+User-agent: ia_archiver
+Disallow: /
+User-agent: twiceler
+Disallow: /
+User-agent: MSNBot
+Disallow: /
+User-agent: Scrubby
+Disallow: /
+User-agent: Robozilla
+Disallow: /
+User-agent: Gigabot
+Disallow: /
+User-agent: psbot
+Disallow: /
+Crawl-delay: 120
+Disallow: /
