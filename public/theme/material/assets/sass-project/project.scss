@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+@import "../sass/mixin/grid";
+@import "../sass/mixin/responsive";
+@import "../sass/mixin/utilities";
+
+@import "../sass/var/variables";
+
+// project
+	body {
+		padding-bottom: ($line-height + $margin-sm * 4 + 1);
+	}
+
+	.ui-content-header {
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		background-size: cover;
+		margin-bottom: (($line-height / 2 + $margin-md * 2) * -1);
+		padding-top: ($header-height + $margin-sm);
+		padding-bottom: ($line-height / 2 + $margin-md * 2);
+		.page-brand & {
+			background-image: url(#{$css-path}/images/bg/brand.jpg);
+		}
+	}
+
+	.ui-footer {
+		border-top: 1px solid $black-divider;
+		text-align: center;
+		padding-top: $margin-sm;
+		padding-bottom: $margin-sm;
+		position: absolute;
+			bottom: 0;
+			right: 0;
+			left: 0;
+	}
+
+	.ui-header .dropdown.open .dropdown-toggle {
+		background-color: transparent;
+	}
+
+	@import "templates/page-picker";
+	@import "templates/ui-card";
+	@import "templates/ui-tab";

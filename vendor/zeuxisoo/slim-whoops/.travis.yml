@@ -1,0 +1,19 @@
+language: php
+
+php:
+    - 5.5
+    - 5.6
+    - 7.0
+    - hhvm
+
+before_script:
+    - composer self-update
+    - composer install --no-interaction --prefer-source
+    - if [[ "$TRAVIS_PHP_VERSION" == '5.6' ]]; then composer require satooshi/php-coveralls:dev-master -n ; fi
+
+script:
+    - if [[ "$TRAVIS_PHP_VERSION" == '5.6' ]]; then mkdir -p build/logs && phpunit --coverage-clover build/logs/clover.xml ; fi
+    - if [[ "$TRAVIS_PHP_VERSION" != '5.6' ]]; then phpunit ; fi
+
+after_script:
+    - if [[ "$TRAVIS_PHP_VERSION" == '5.6' ]]; then php vendor/bin/coveralls -v ; fi

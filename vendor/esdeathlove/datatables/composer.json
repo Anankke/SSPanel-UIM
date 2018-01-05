@@ -1,0 +1,21 @@
+{
+  "name": "esdeathlove/datatables",
+  "description": "PHP Library to handle server-side processing for Datatables, in a fast and simple way.",
+  "license": "MIT",
+  "config": {
+    "bin-dir": "vendor/bin"
+  },
+  "authors": [
+    {
+      "name": "Yusuf Özdemir",
+      "email": "yusuf@ozdemir.be"
+    }
+  ],
+  "autoload": {
+    "psr-4": {"Ozdemir\\Datatables\\": "src/"}
+  },
+  "minimum-stability": "dev",
+  "require-dev": {
+    "phpspec/phpspec": "~2.0"
+  }
+}

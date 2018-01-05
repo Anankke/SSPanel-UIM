@@ -1,0 +1,11 @@
+{
+  "expiration": "2100-01-01T12:00:00.000Z",
+  "conditions": [
+    {"acl": "public-read" },
+    {"bucket": "sendgrid-open-source" },
+    ["starts-with", "$key", "sendgrid-php/"],
+    ["content-length-range", 2048, 268435456],
+    ["eq", "$Content-Type", "application/zip"]
+  ]
+}
+

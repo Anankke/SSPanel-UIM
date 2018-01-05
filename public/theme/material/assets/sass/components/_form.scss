@@ -1,0 +1,217 @@
+.checkbox,
+.radiobtn {
+	display: block;
+	position: relative;
+	.form-group & {
+		margin-top: (($input-height - $line-height) / 2);
+		padding-bottom: (($input-height - $line-height) / 2);
+	}
+	label {
+		cursor: pointer;
+		margin: 0;
+		min-height: $font-size;
+		padding-left: $line-height;
+	}
+	&.disabled,
+	fieldset[disabled] & {
+		label {
+			color: $black-hint;
+			cursor: not-allowed;
+		}
+	}
+}
+
+.checkbox input[type="checkbox"],
+.radiobtn input[type="radio"] {
+	margin-left: ($line-height * -1);
+	position: absolute;
+}
+
+.checkbox-inline,
+.radiobtn-inline {
+	display: inline-block;
+	margin-right: $grid-gutter;
+}
+
+.form {
+	margin-top: $margin-md;
+	margin-bottom: $margin-md;
+}
+
+.form-control {
+	background-color: transparent;
+	background-image: none;
+	border: 0;
+	border-bottom: 1px solid $black-divider;
+	border-radius: 0;
+	color: inherit;
+	display: block;
+	font-size: $font-size;
+	height: $input-height;
+	line-height: $line-height;
+	padding: (($input-height - $line-height) / 2) 0 (($input-height - $line-height) / 2 - 1);
+	width: 100%;
+	&:focus {
+		border-color: $link-color;
+		border-bottom-width: 2px;
+		outline: 0;
+		padding-bottom: (($input-height - $line-height) / 2 - 2);
+	}
+	&::placeholder {
+		color: $black-hint;
+	}
+	&[disabled],
+	&[readonly],
+	fieldset[disabled] & {
+		border-style: dashed;
+		color: $black-hint;
+		cursor: not-allowed;
+		opacity: 1;
+	}
+	&.form-control-inline {
+		display: inline-block;
+		vertical-align: middle;
+		width: auto;
+	}
+	&.form-control-default {
+		border: 1px solid $black-divider;
+		padding: (($input-height - $line-height) / 2 - 1) ($grid-gutter / 2);
+		&:focus {
+			border: 1px solid $link-color;
+			padding: (($input-height - $line-height) / 2 - 1) ($grid-gutter / 2);
+		}
+		&[disabled],
+		&[readonly],
+		fieldset[disabled] & {
+			background-color: $offwhite;
+		}
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.form-group-#{$color} {
+			.form-control,
+			.form-control:focus {
+				border-color: nth($palette-list-color, $i);
+			}
+		}
+	}
+
+input[type="color"].form-control-default {
+	min-width: ($grid-gutter + $line-height + 2);
+}
+
+select.form-control {
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	@include responsive("(-webkit-min-device-pixel-ratio: 0), (min--moz-device-pixel-ratio: 0)") {
+		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIE1hY2ludG9zaCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1ODZCNTU1QkIxQkUxMUU1OEYzRkZEMkE1Q0Y3MDFBNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo1ODZCNTU1Q0IxQkUxMUU1OEYzRkZEMkE1Q0Y3MDFBNyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjU4NkI1NTU5QjFCRTExRTU4RjNGRkQyQTVDRjcwMUE3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU4NkI1NTVBQjFCRTExRTU4RjNGRkQyQTVDRjcwMUE3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+TozEogAAAGxJREFUeNrs1DEOgDAIheHH4XpqDocdiInYVqA6mEBC2P5vg0QEXw4VUMCPACJq/bSXuty7bAEosIuwAhgBuwjrYgVkkTPuAaLIJe4FvMgtHgGekGE8CsyQaTwDWGQZzwIwAEJAPbsC0nMIMADa5XjRmvnODAAAAABJRU5ErkJggg==);
+		background-position: 100% (($input-height - 12) / 2 - 1);
+		background-repeat: no-repeat;
+		background-size: 12px 12px;
+		padding-right: ($grid-gutter / 2 + 12);
+		&[multiple],
+		&[size] {
+			background-image: none;
+			padding-right: 0;
+		}
+	}
+}
+
+select.form-control-default {
+	@include responsive("(-webkit-min-device-pixel-ratio: 0), (min--moz-device-pixel-ratio: 0)") {
+		background-position: calc(100% - #{$grid-gutter / 2}) (($input-height - 12) / 2 - 1);
+		padding-right: ($grid-gutter + 12) !important;
+		&[multiple],
+		&[size] {
+			padding-right: ($grid-gutter / 2) !important;
+		}
+	}
+}
+
+textarea.form-control {
+	height: auto;
+}
+
+.form-control-static {
+	border-bottom: 1px solid $black-divider;
+	display: block;
+	font-size: $font-size;
+	font-weight: $font-weight-normal;
+	line-height: $line-height;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: (($input-height - $line-height) / 2);
+	padding-bottom: (($input-height - $line-height) / 2 - 1);
+	&.form-control-default {
+		padding-top: (($input-height - $line-height) / 2 - 1);
+	}
+}
+
+.form-group {
+	margin-top: $margin-md;
+	margin-bottom: $margin-md;
+	legend + & {
+		margin-top: 0;
+	}
+}
+
+.form-help {
+	display: block;
+	font-size: $font-size-h6;
+	font-weight: $font-weight-normal;
+	line-height: $line-height;
+	margin-top: $margin-base;
+	margin-bottom: $margin-sm;
+	position: relative;
+}
+
+.form-help-icon {
+	position: absolute;
+		top: (($line-height - $font-size-h6) / 2);
+		right: 0;
+}
+
+.form-help-msg {
+	padding-right: (18em / 14);
+}
+
+.form-label {
+	display: block;
+	// 480
+		@include responsive(xs) {
+			[class*="col-xs"] > & {
+				@include form-label();
+			}
+		}
+	// 768
+		@include responsive(sm) {
+			[class*="col-sm"] > & {
+				@include form-label();
+			}
+		}
+	// 992
+		@include responsive(md) {
+			[class*="col-md"] > & {
+				@include form-label();
+			}
+		}
+	// 1440
+		@include responsive(lg) {
+			[class*="col-lg"] > & {
+				@include form-label();
+			}
+		}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.form-group-#{$color} .form-label {
+			color: nth($palette-list-color, $i);
+		}
+	}

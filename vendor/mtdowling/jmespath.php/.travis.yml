@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm
+
+before_script:
+  - composer install
+
+script: make test
+
+after_script:
+  - make perf
+  - JP_PHP_COMPILE=on make perf
+  - JP_PHP_COMPILE=on CACHE=on make perf

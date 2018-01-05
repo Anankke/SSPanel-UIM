@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+define('PUBLIC_PATH', __DIR__."/public");
+require __DIR__.'/bootstrap.php';
+/***
+ * ss-panel xcat script
+ */
+use App\Command\XCat;
+
+$cat = new XCat($argv);
+$cat->boot();

@@ -1,0 +1,26 @@
+.breadcrumb {
+	list-style: none;
+	margin: $margin-md 0;
+	padding: 0;
+	@include clearfix();
+	> li {
+		display: block;
+		float: left;
+		+ li:before {
+			@extend .icon;
+			color: $black-sec;
+			content: "chevron_right";
+			display: inline-block;
+			margin-left: 0.4em;
+		}
+	}
+	> .active {
+		color: $black-text;
+		> a,
+		> .a {
+			color: $black-text;
+			cursor: text;
+			text-decoration: none;
+		}
+	}
+}

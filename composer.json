@@ -1,0 +1,41 @@
+{
+  "require": {
+    "slim/slim": "*",
+    "slim/csrf": "*",
+    "smarty/smarty": "3.*",
+    "mailgun/mailgun-php": "~1.7.2",
+    "predis/predis": "~1.0",
+    "phpmailer/phpmailer": "~5.2",
+    "vlucas/phpdotenv": "~2.1",
+    "zeuxisoo/slim-whoops": "0.5.*",
+    "firebase/php-jwt": "~3.0",
+    "aws/aws-sdk-php": "3.*",
+    "gregwar/captcha": "1.*",
+    "cloudxns/cloud-xns-api-sdk-php": "*",
+    "guzzlehttp/guzzle": " ~5.0",
+    "voku/anti-xss": "^1.2",
+    "paymentwall/paymentwall-php": "^2.1",
+    "telegram-bot/api": "^2.2",
+    "illuminate/pagination": "5.2.*",
+    "illuminate/database": "5.2.*",
+    "sendgrid/sendgrid": "^5.1",
+    "esdeathlove/datatables": "^1.6",
+    "slim/twig-view": "1.2.0"
+  },
+  "autoload": {
+    "classmap": [
+
+    ],
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+
+ "config": {
+        "secure-http": false
+ },
+ "minimum-stability": "dev",
+  "require-dev": {
+    "khanamiryan/qrcode-detector-decoder": "*"
+  }
+}

@@ -1,0 +1,22 @@
+.btn-flat {
+	background-color: transparent;
+	box-shadow: none;
+	&:after {
+		background-color: $offwhite-dark;
+		box-shadow: none;
+	}
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		background-color: transparent;
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.btn-flat.btn-#{$color} {
+			color: nth($palette-list-color, $i) !important;
+		}
+	}

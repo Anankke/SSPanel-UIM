@@ -1,0 +1,1 @@
+ALTER TABLE `shop` ADD `status` INT NOT NULL DEFAULT '1' AFTER `auto_renew`;

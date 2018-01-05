@@ -1,0 +1,59 @@
+.avatar {
+	background-color: $offwhite;
+	border-radius: 50%;
+	color: inherit;
+	display: block;
+	height: $avatar-height;
+	line-height: $avatar-height;
+	text-align: center;
+	width: $avatar-height;
+	&[href]:focus,
+	&[href]:hover {
+		color: inherit;
+		text-decoration: none;
+	}
+	img {
+		border-radius: 50%;
+		height: 100%;
+		vertical-align: top;
+		width: 100%;
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.avatar-#{$color} {
+			background-color: nth($palette-list-color, $i);
+			color: nth($palette-list-text, $i);
+			&:focus,
+			&:hover {
+				color: nth($palette-list-text, $i);
+			}
+		}
+	}
+
+// size
+	.avatar-lg {
+		height: ($avatar-height * 2);
+		line-height: ($avatar-height * 2);
+		width: ($avatar-height * 2);
+	}
+
+	.avatar-sm {
+		height: ($avatar-height * 0.8);
+		line-height: ($avatar-height * 0.8);
+		width: ($avatar-height * 0.8);
+	}
+
+	.avatar-xs {
+		font-size: $font-size-h6;
+		height: $line-height;
+		line-height: $line-height;
+		width: $line-height;
+	}
+
+.avatar-inline {
+	display: inline-block;
+}

@@ -1,0 +1,96 @@
+.switch {
+	position: relative;
+	&.checkbox,
+	&.radiobtn {
+		label {
+			padding-left: ($font-size-h4 + ($font-size * 5 - $font-size-h4) / 4 + $grid-gutter / 2);
+		}
+	}
+}
+
+.switch-toggle {
+	background-color: $black-hint;
+	border-radius: ($font-size-h6 / 2);
+	cursor: pointer;
+	display: inline-block;
+	height: $font-size-h6;
+	margin-right: ($grid-gutter / 2);
+	position: relative;
+	transition: background-color 0.3s $timing;
+	vertical-align: middle;
+	width: ($font-size-h4 + ($font-size * 5 - $font-size-h4) / 4);
+	&:after,
+	&:before {
+		border-radius: 50%;
+		content: "";
+		display: block;
+		height: $font-size-h4;
+		position: absolute;
+			top:(($font-size-h4 - $font-size-h6) / -2);
+			left: 0;
+		width: $font-size-h4;
+	}
+	&:after {
+		box-shadow: 0 0 0 (($font-size * 5 - $font-size-h4) / 4) rgba(0, 0, 0, 0.1);
+		opacity: 0;
+		transition-duration: 0.3s;
+		transition-property: opacity, transform;
+		transition-timing-function: $timing;
+	}
+	&:active:after {
+		opacity: 1;
+	}
+	&:before {
+		background-color: $white;
+		box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.25);
+		transition-duration: 0.3s;
+		transition-property: background-color, transform;
+		transition-timing-function: $timing;
+	}
+	input[type="checkbox"]:checked + &,
+	input[type="radio"]:checked + & {
+		background-color: rgba(red($brand-color-accent), green($brand-color-accent), blue($brand-color-accent), 0.5);
+		&:after,
+		&:before {
+			transform: translateX(($font-size * 5 - $font-size-h4) / 4);
+		}
+		&:before {
+			background-color: $brand-color-accent;
+		}
+	}
+	input[type="checkbox"]:checked + &,
+	input[type="radio"]:checked + & {
+		&:active:after {
+			box-shadow: 0 0 0 (($font-size * 5 - $font-size-h4) / 4) rgba(red($brand-color-accent), green($brand-color-accent), blue($brand-color-accent), 0.25);
+		}
+	}
+	.checkbox.switch &,
+	.radiobtn.switch & {
+		position: absolute;
+			top: (($line-height - $font-size-h6) / 2);
+			left: 0;
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		@if $color != "brand-accent" {
+			.switch-toggle-#{$color} {
+				input[type="checkbox"]:checked + &,
+				input[type="radio"]:checked + & {
+					background-color: rgba(red(nth($palette-list-color, $i)), green(nth($palette-list-color, $i)), blue(nth($palette-list-color, $i)), 0.5);
+					&:before {
+						background-color: nth($palette-list-color, $i);
+					}
+				}
+				input[type="checkbox"]:checked + &,
+				input[type="radio"]:checked + & {
+					&:active:after {
+						box-shadow: 0 0 0 (($font-size * 5 - $font-size-h4) / 4) rgba(red(nth($palette-list-color, $i)), green(nth($palette-list-color, $i)), blue(nth($palette-list-color, $i)), 0.25);
+					}
+				}
+			}
+		}
+	}

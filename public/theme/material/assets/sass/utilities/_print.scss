@@ -1,0 +1,95 @@
+@media print {
+	*,
+	*:after,
+	*:before {
+		background: transparent !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+
+	a,
+	a:visited {
+		text-decoration: underline;
+	}
+
+	a[href]:after {
+		content: " (" attr(href) ")";
+	}
+
+	a[href^="#"]:after,
+	a[href^="javascript:"]:after {
+		content: "";
+	}
+
+	abbr[title]:after {
+		content: " (" attr(title) ")";
+	}
+
+	blockquote,
+	pre {
+		border: 1px solid $black-divider-solid;
+		page-break-inside: avoid;
+	}
+
+	img,
+	tr {
+		page-break-inside: avoid;
+	}
+
+	img {
+		max-width: 100% !important;
+	}
+
+	h2,
+	h3,
+	p {
+		orphans: 3;
+		widows: 3;
+	}
+
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
+
+	thead {
+		display: table-header-group;
+	}
+
+	.hidden-print {
+		display: none !important;
+	}
+
+	// material
+		.card,
+		.card-img,
+		.card-side {
+			border-radius: 0 !important;
+		}
+
+		.card,
+		.tile {
+			border: 1px solid $black-divider-solid;
+		}
+}
+
+.visible-print-block {
+	display: none !important;
+	@media print {
+		display: block !important;
+	}
+}
+
+.visible-print-inline {
+	display: none !important;
+	@media print {
+		display: inline !important;
+	}
+}
+
+.visible-print-inline-block {
+	display: none !important;
+	@media print {
+		display: inline-block !important;
+	}
+}

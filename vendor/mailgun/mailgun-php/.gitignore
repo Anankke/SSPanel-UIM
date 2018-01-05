@@ -1,0 +1,10 @@
+.DS_Store
+vendor
+composer.phar
+smoketest.php
+rackspace_logo.jpg
+mailgun_icon.png
+build
+composer.lock
+nbproject/*
+.idea

@@ -1,0 +1,82 @@
+.table {
+	background-color: $white;
+	border: 0;
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.06), 0 0 3px rgba(0, 0, 0, 0.18), 0 1px 3px rgba(0, 0, 0, 0.18);
+	margin-top: $margin-md;
+	margin-bottom: $margin-md;
+	width: 100%;
+	.card-table > & {
+		box-shadow: none;
+		margin-right: ($grid-gutter * -1);
+		margin-left: ($grid-gutter * -1);
+		&:first-child {
+			margin-top: 0;
+		}
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	> tbody {
+		&:first-child > tr:first-child {
+			td,
+			th {
+				border-top: 0;
+			}
+		}
+		> tr:hover {
+			background-color: $offwhite-solid;
+		}
+	}
+	td,
+	th {
+		border-top: 1px solid $black-divider-solid;
+		font-size: $font-size;
+		line-height: $line-height;
+		padding: (($cell-height - $line-height) / 2 - 1) $grid-gutter (($cell-height - $line-height) / 2);
+		vertical-align: top;
+		&.nowrap {
+			white-space: nowrap;
+			width: 1%;
+		}
+	}
+	> thead {
+		&:first-child > tr:first-child {
+			td,
+			th {
+				border-top: 0;
+			}
+		}
+		td,
+		th {
+			color: $black-hint-solid;
+			font-size: $font-size-h6;
+			vertical-align: bottom;
+		}
+	}
+}
+
+.table-responsive {
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.06), 0 0 3px rgba(0, 0, 0, 0.18), 0 1px 3px rgba(0, 0, 0, 0.18);
+	margin-top: $margin-md;
+	margin-bottom: $margin-md;
+	min-height: 0.01%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	.card-table > & {
+		box-shadow: none;
+		margin-right: ($grid-gutter * -1);
+		margin-left: ($grid-gutter * -1);
+		&:first-child {
+			margin-top: 0;
+		}
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	> .table {
+		box-shadow: none;
+		margin: 0;
+	}
+}
