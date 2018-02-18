@@ -1,1 +1,0 @@
-ALTER TABLE `user` ADD `ga_token` TEXT NOT NULL AFTER `theme`, ADD `ga_enable` INT NOT NULL DEFAULT '0' AFTER `ga_token`;
