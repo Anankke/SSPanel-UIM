@@ -2356,6 +2356,11 @@ img {
 	background-color: #666;
 	color: #fff!important
 }
+/*示例颜色：訂閱按鈕顏色*/
+.btn-subscription {
+  background-color: #ffa100;
+	color: #fff
+}
 
 .btn-green,.btn-orange {
 	color: rgba(0,0,0,.87)!important
@@ -3150,6 +3155,16 @@ width: auto
 .form-control-default.picker__select--month,.form-control-default.picker__select--year,.form-control.form-control-default {
 border: 1px solid rgba(0,0,0,.12);
 padding: 7px 8px
+}
+/*
+邀請鏈接框input樣式
+*/
+.form-control[readonly], .form-control.readonly, .form-control[disabled], .form-control.disabled {
+    font-size: 18px;
+    color: #999;
+    border-color: #d0d0d0;
+    box-shadow: none;
+    cursor: not-allowed;
 }
 
 .form-control-default.picker__select--month:focus,.form-control-default.picker__select--year:focus,.form-control.form-control-default:focus {
