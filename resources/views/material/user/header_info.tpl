@@ -121,7 +121,6 @@
 			cursor:not-allowed;
 			background-color:#fff
 		}
-
 		
 		
 		
@@ -146,7 +145,6 @@
 			background-color: #000;
 			border-color: #000;
 		}
-
 		.pagination>.active>span {
 		  background-color: #f50057;
 		  color: #fff;
@@ -166,7 +164,7 @@
 		}
 		
 		.page-green .ui-content-header {
-			background-image: url(/theme/material/css/images/bg/green.jpg);
+			background-image: url(/theme/material/css/images/bg/amber.jpg);
 		}
 		
 		
