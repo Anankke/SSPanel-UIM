@@ -322,3 +322,13 @@ $System_Config['zfbjk_qrcodeurl']='https://www.zhaojin97.cn/wp-content/uploads/2
 
 #不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转，但是，强烈推荐不开启。
 $System_Config['relay_insecure_mode']='true';
+
+#在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
+
+if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ) {
+
+$list = explode("," , $_SERVER["HTTP_X_FORWARDED_FOR"]);
+
+$_SERVER["REMOTE_ADDR"] = $list[0];
+
+}
