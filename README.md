@@ -12,11 +12,15 @@ telegram交流群：https://t.me/joinchat/Fjn0HkeqdoovkJgTRnvoNw
 
 感谢LALA給出教程：https://lala.im/2398.html
 
-**原作者为**https://github.com/galaxychuck，因某些原因删除github仓库，现代为上传
+**原作者为**https://github.com/galaxychuck
+
+因某些原因删除github仓库，现代为上传
 
 因本人不懂编程，不接受功能需求及面板搭建失败之类issus。
 
-### 图片 Images
+所有图片由仟佰星云制作，仅供示例，请搭建完成手动替换图片
+
+### 示例图片 Images
 
 Image:
 -------------------
@@ -51,6 +55,3 @@ Image:
 -------------------
 
 ![](https://github.com/galaxychuck/images/blob/master/7.jpg)
-
-> 账号使用情况
--------------------
