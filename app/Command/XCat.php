@@ -111,7 +111,7 @@ class XCat
 
     public function initdownload()
     {
-        system('git clone https://github.com/esdeathlove/panel-download.git '.BASE_PATH."/public/ssr-download/", $ret);
+        system('git clone https://github.com/galaxychuck/panel-download.git '.BASE_PATH."/public/ssr-download/", $ret);
         echo $ret;
     }
 
@@ -203,10 +203,10 @@ class XCat
     public function initQQWry()
     {
         echo("downloading....");
-        $copywrite = file_get_contents("https://github.com/esdeathlove/qqwry-download/raw/master/copywrite.rar");
+        $copywrite = file_get_contents("https://github.com/galaxychuck/qqwry-download/raw/master/copywrite.rar");
         $newmd5 = md5($copywrite);
         file_put_contents(BASE_PATH."/storage/qqwry.md5", $newmd5);
-        $qqwry = file_get_contents("https://github.com/esdeathlove/qqwry-download/raw/master/qqwry.rar");
+        $qqwry = file_get_contents("https://github.com/galaxychuck/qqwry-download/raw/master/qqwry.rar");
         if ($qqwry != "") {
             $key = unpack("V6", $copywrite)[6];
             for ($i=0; $i<0x200; $i++) {
