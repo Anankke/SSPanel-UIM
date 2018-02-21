@@ -54,7 +54,7 @@
                               <div class="content">
 							<div class="inner">
 								<h1>{$config["appName"]}</h1>
-								<p>走出屏障矗達星雲之上，只為了與妳相遇。</p>
+								<p>请问您今天要来点兔子吗？</p>
                           </div>
                       </div>	
                               <nav>
@@ -74,17 +74,17 @@
 					<div id="main">
                       <!--标签1开始-->
                       <article id="1">
-                      <h2 class="major">簡介</h2>
-                      <p>我們活在浩瀚的宇宙裏，</p><p> 漫天飄灑的宇宙塵埃和星河光塵，</p><p>我們是比這些還要渺小的存在。</p><p>妳並不知道生活在什麽時候就突然改變方向，陷入墨水壹般濃稠的黑暗裏去。</p><p>妳被失望拖進深淵，妳被疾病拉進墳墓，</p><p>妳被挫折踐踏得體無完膚，妳被嘲笑、被諷刺、被討厭、被怨恨、被放棄。</p> <p>但是我們卻總是在內心裏保留著希望，保留著不甘心放棄的跳動的心。</p> <p>我們依然在大大的絕望裏小小地努力著。</p><p>這種不想放棄的心情，</p><p>它們變成無邊黑暗裏的小小星辰。</p><p>我們都是小小的星辰。</p></article>
+                      <h2 class="major">简介</h2>
+                      <p>这里是示范文字</p><p> 请到站点文件夹</p><p>resources/views/material/index.tpl</p><p>第79行进行修改</p></article>
+					  <!--   简介修改示例: <p> 123</p>  一个  <p> 123</p>  为一行，请不要删除 </article>-->
                      <!--标签4开始-->
                       <article id="4">
-								<h2 class="major">聯系我們</h2>
+								<h2 class="major">联系我们</h2>
 								<ul class="icons">
-                                   <p>由於某方面大力壓制</p>
-                                  <p>請不要聯系我們</p>
-                                  <p>謝謝關愛！</p>
+                                   <p>此处填写联系方式</p>
                                     <li>
-                                      <a target="_blank" href="https://www.facebook.com/qianbx/" class="icon fa-facebook">
+                                      <a target="_blank" href="#" class="icon fa-facebook">
+									 <!-- 请在fontawesome.com寻找替换图标 href替换链接 -->
                                       <span class="label">Facebook</span>
                                       </a>
                                     </li>
@@ -92,13 +92,13 @@
                                   </article>
                       <!--标签5开始-->
 	                        <article id="5">
-							<h2 class="major">軟體下載</h2>
+							<h2 class="major">软件下載</h2>
 							<ul>
 							  <li><a href="/ssr-download/ssr-win.7z" class="icon fa-windows"><span class="label"></span> Windows</a></li>
 							  <li><a href="/ssr-download/ssr-mac.dmg" class="icon fa-apple"><span class="label">Mac</span> Mac</a></li>
 							  <li><a href="/ssr-download/ssr-android.apk" class="icon fa-android"><span class="label">Android</span> Android</a></li>
 							  <li><a href="#ios" class="icon fa-apple"><span class="label">iOS</span> iOS</a></li>
-                              <li><a href="/ssr-download/SSTap.7z" class="icon fa-gamepad"><span class="label">Win遊戲專用</span> Win遊戲專用</a></li>
+                              <li><a href="/ssr-download/SSTap.7z" class="icon fa-gamepad"><span class="label">Win游戏专用</span> Win游戏专用</a></li>
                             
 	                         </ul>
                              </article>
