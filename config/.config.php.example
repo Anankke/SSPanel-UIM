@@ -299,11 +299,12 @@ $System_Config['sendgrid_sender'] = '';
 #取值 paymentwall,zfbjk,spay,f2fpay,none
 $System_Config['payment_system']='f2fpay';
 
-#alipay,f2fpay 
+#alipay,f2fpay amount为充值金额
 $System_Config['f2fpay_app_id']='';
 $System_Config['f2fpay_p_id']='';
 $System_Config['alipay_public_key']='';
 $System_Config['merchant_private_key']='';
+$System_Config['amount']=[5,10,20,50,100];
 
 #PaymentWall
 $System_Config['pmw_publickey']='';

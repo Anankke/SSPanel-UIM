@@ -52,12 +52,11 @@ class Pay
                          <label class="floating-label" for="number">请选择充值金额</label>
                         <select id="type" class="form-control" name="amount">
                             <option></option>
-                            <option value="10">10元</option>
-                            <option value="20">20元</option>
-                            <option value="50">50元</option>
-                            <option value="100">100元</option>
-                            <option value="200">200元</option>
-                            <option value="500">500元</option>
+                            <option value="'.Config::get('amount')[0].'">'.Config::get('amount')[0].'元</option>
+                            <option value="'.Config::get('amount')[1].'">'.Config::get('amount')[1].'元</option>
+                            <option value="'.Config::get('amount')[2].'">'.Config::get('amount')[2].'元</option>
+                            <option value="'.Config::get('amount')[3].'">'.Config::get('amount')[3].'元</option>
+                            <option value="'.Config::get('amount')[4].'">'.Config::get('amount')[4].'元</option>
                         </select>
                         </div>
                         <p></p>
