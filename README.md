@@ -12,6 +12,8 @@ telegram交流群：https://t.me/joinchat/Fjn0HkeqdoovkJgTRnvoNw
 
 **此面板作者为**[galaxychuck](https://github.com/galaxychuck)，因某些原因删除仓库，现代为上传
 
+作者Paypal打賞：galaxychuck1995@gmail.com
+
 本人不懂编程，不接受功能需求及面板搭建失败之类issus，欢迎dalao提交pr
 
 本面板在[宝塔面板5.6.0](www.bt.cn)，宝塔安装版 nginx1.12，php 7.1 ，mysql 5.7 上全部功能测试通过
