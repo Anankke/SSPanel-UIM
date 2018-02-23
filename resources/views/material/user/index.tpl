@@ -296,7 +296,7 @@
                                           </p>
                                           {if $user->class!=0}
                                           	 <p><dt>Telegram(VIP可见)</dt>
-											<dd><!--{$user->class}--><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="//t.me/joinchat/XXXXXXXXXX" target="view_window">点击加入TG群</a></dd>
+											<dd><!--{$user->class}--><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="请到index.tpl第299行修改" target="view_window">点击加入TG群</a></dd>
                                           {else}
                                              
                                               {/if}
