@@ -12,7 +12,7 @@ telegram交流群：https://t.me/joinchat/Fjn0HkeqdoovkJgTRnvoNw
 
 **此面板作者为**[galaxychuck](https://github.com/galaxychuck)，因某些原因删除仓库，现代为上传
 
-作者Paypal打賞：galaxychuck1995@gmail.com
+**作者Paypal打賞：galaxychuck1995@gmail.com
 
 本人不懂编程，不接受功能需求及面板搭建失败之类issus，欢迎dalao提交pr
 
