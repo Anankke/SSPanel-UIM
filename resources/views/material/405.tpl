@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>您的访问方式不正确 - 仟佰星云</title>
+		<title>您的访问方式不正确 - {$config["appName"]} </title>
       <meta name="keywords" content=""/>
       <meta name="description" content=""/>
       <meta charset="utf-8" />
@@ -30,7 +30,7 @@
 							</ul>
 						</nav>
               </header>
-					 <footer id="footer"><p class="copyright">&copy;2014-2017 仟佰星云</p></footer>
+					 <footer id="footer"><p class="copyright">&copy;2014-2017 {$config["appName"]} </p></footer>
 			</div>
 			<div id="bg"></div>
 			<script src="assets/js/jquery.min.js"></script>

@@ -10,11 +10,13 @@
 
 telegram交流群：https://t.me/joinchat/Fjn0HkeqdoovkJgTRnvoNw
 
-**原作者为**[galaxychuck](https://github.com/galaxychuck)，因某些原因删除仓库，现代为上传
+**此面板作者为**[galaxychuck](https://github.com/galaxychuck)，因某些原因删除仓库，现代为上传
 
-因本人不懂编程，不接受功能需求及面板搭建失败之类issus，本面板未经搭建测试。
+本人不懂编程，不接受功能需求及面板搭建失败之类issus，欢迎dalao提交pr
 
-所有图片由仟佰星云制作，仅供示例，请搭建完成手动替换图片
+本面板在[宝塔面板5.6.0](www.bt.cn)，宝塔安装版 nginx1.12，php 7.1 ，mysql 5.7 上全部功能测试通过
+
+所有图片由**仟佰星云**制作，**仅供示例**，请搭建完成**手动**替换图片和文字等
 
 ## 搭建教程
 
