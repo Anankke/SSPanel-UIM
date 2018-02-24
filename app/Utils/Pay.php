@@ -18,7 +18,9 @@ class Pay
             case 'zfbjk':
                 return Pay::zfbjk_html($user);
             case 'f2fpay':
-                return Pay::f2fpay_html($user);                
+                return Pay::f2fpay_html($user);
+			case 'yftpay':
+                return Pay::yftpay_html($user); 
             default:
                 return "";
         }
@@ -63,6 +65,25 @@ class Pay
                         <a class="btn btn-flat waves-attach" id="urlChange" ><span class="icon">local_gas_station</span>&nbsp;充值</a>
 ';              
     }
+	private static function yftpay_html($user)
+    {
+        return '
+										<form action="/user/code/yft" method="post" target="_blank">
+										<div class="card-inner">
+											<p class="card-heading">在线充值</p>
+											<div class="form-group form-group-label">
+												<label class="floating-label" for="price">充值金额</label>
+												<input class="form-control" id="price" name="price" type="text">
+											</div>
+										</div>
+										<div class="card-action">
+											<div class="card-action-btn pull-left">
+												<button type="submit" class="btn btn-flat waves-attach" id="yftCoin" ><span class="icon">check</span>&nbsp;充值</button>
+											</div>
+										</div>
+									</form>     
+';
+    } 
     private static function pmw_html($user)
     {
         \Paymentwall_Config::getInstance()->set(array(
