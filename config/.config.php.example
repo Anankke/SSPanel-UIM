@@ -316,6 +316,10 @@ $System_Config['pmw_height']='350px';
 $System_Config['alipay_id']='';
 $System_Config['alipay_key']='';
 
+#alipay,yftpay
+$System_Config['yft_secret']='';
+$System_Config['yft_accesskey']='';
+
 #alipay,zfbjk.com
 $System_Config['zfbjk_pid']='';
 $System_Config['zfbjk_key']='';
