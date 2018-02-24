@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\YftOrder;
 use App\Services\Auth;
 use App\Utils\YftOrderNumUtil;
+use App\Services\Config;
 
 class YftPay extends BaseController
 {
@@ -53,9 +54,9 @@ class YftPay extends BaseController
         $return_url = $request->getUri()->getScheme()."://".$request->getUri()->getHost().$pay_config->pay_config["return_url"];
         //需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 
-        $secret = $pay_config->pay_config["secret"];
+        $secret = Config::get('yft_secret');
 
-        $accesskey = $pay_config->pay_config["accesskey"];
+        $accesskey = Config::get('yft_accesskey');
 
         //生成订单号
         $ss_order_no = YftOrderNumUtil::generate_yftOrder(8);
