@@ -299,6 +299,7 @@ $System_Config['sendgrid_sender'] = '';
 #取值 doiampay,paymentwall,zfbjk,spay,f2fpay,none
 $System_Config['payment_system']='none';
 
+// www.daimiyun.cn
 $System_Config['doiampay']=[
     'enabled' => [
         'wepay'=>1, // 微信支付1 启用 0 关闭
