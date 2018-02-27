@@ -1,5 +1,5 @@
 <?php
- 
+
 //  ss-panel v3 配置
 //
 // !!! 修改此key为随机字符串确保网站安全 !!!
@@ -296,8 +296,33 @@ $System_Config['sendgrid_sender'] = '';
 
 #支付系统
 
-#取值 paymentwall,zfbjk,spay,f2fpay,none
-$System_Config['payment_system']='f2fpay';
+#取值 doiampay,paymentwall,zfbjk,spay,f2fpay,none
+$System_Config['payment_system']='none';
+
+$System_Config['doiampay']=[
+    'enabled' => [
+        'wepay'=>1, // 微信支付1 启用 0 关闭
+        'alipay'=>1, // 支付宝1 启用 0 关闭
+        'qqpay'=>1, // QQ支付1 启用 0 关闭
+    ],
+    'mchdata' => [
+        'wepay'=>[
+            'mchid' => 188888888,   // 商户号
+            'phone' => 18888888888, //手机号
+            'token' => "example" // 安全验证码
+        ],
+        'alipay'=>[
+            'mchid' => ,   // 商户号
+            'phone' => , //手机号
+            'token' => "" // 安全验证码
+        ],
+        'qqpay'=>[
+            'mchid' => ,   // 商户号
+            'phone' => , //手机号
+            'token' => "" // 安全验证码
+        ],
+    ]
+];
 
 #alipay,f2fpay amount为充值金额
 $System_Config['f2fpay_app_id']='';
