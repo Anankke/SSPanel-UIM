@@ -311,7 +311,7 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
         $user = $this->user;
-        
+
         //生成二维码
         $qrPayResult = Pay::alipay_get_qrcode($user, $amount, $qrPay);
         //  根据状态值进行业务处理
@@ -322,7 +322,7 @@ class UserController extends BaseController
                 $res['msg'] = "二维码生成成功";
                 $res['amount'] = $amount;
                 $res['qrcode'] = $qrPay->create_erweima($aliresponse->qr_code);
-                
+
                 break;
             case "FAILED":
                 $res['ret'] = 0;
@@ -332,18 +332,18 @@ class UserController extends BaseController
             case "UNKNOWN":
                 $res['ret'] = 0;
                 $res['msg'] = "系统异常，状态未知!!!!!! 请使用其他方式付款。";
-                
+
                 break;
             default:
                 $res['ret'] = 0;
                 $res['msg'] = "创建订单二维码返回异常!!!!!! 请使用其他方式付款。";
-                
+
                 break;
         }
-        
+
         return $response->getBody()->write(json_encode($res));
     }
-    
+
     public function alipay($request, $response, $args)
     {
         $amount = $request->getQueryParams()["amount"];
@@ -529,7 +529,7 @@ class UserController extends BaseController
     }
 
 
- 
+
     public function node($request, $response, $args)
     {
         $user = Auth::getUser();
@@ -553,7 +553,7 @@ class UserController extends BaseController
         $node_class=array();
 
             $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();
-  
+
 
         $ports_count += 1;
 
@@ -1654,7 +1654,7 @@ class UserController extends BaseController
  //       Auth::logout();
    //     $user->kill_user();
         $res['ret'] = 1;
-        $res['msg'] = "您没有使用此功能的权限。";  
+        $res['msg'] = "您没有使用此功能的权限。";
         return $this->echoJson($response, $res);
     }
 

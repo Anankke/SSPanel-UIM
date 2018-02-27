@@ -346,10 +346,16 @@ $app->group('/link', function () {
     $this->get('/{token}', 'App\Controllers\LinkController:GetContent');
 });
 
-
+$app->group('/user',function(){
+    $this->post("/doiam","App\Utils\DoiAMPay:handle");
+})->add(new Auth());
+$app->group("/doiam",function(){
+    $this->post("/callback/{type}","App\Utils\DoiAMPay:handle_callback");
+    $this->get("/return/alipay","App\Utils\DoiAMPay:handle_return");
+    $this->post("/status","App\Utils\DoiAMPay:status");
+});
 
 
 
 // Run Slim Routes for App
 $app->run();
- 
