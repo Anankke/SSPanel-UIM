@@ -49,8 +49,6 @@ use App\Services\Mail;
 
 class DoiAMPay{
 
-    protected const VERSION = "2.1.4";
-
     public function smarty()
     {
         $this->smarty = View::getSmarty();
