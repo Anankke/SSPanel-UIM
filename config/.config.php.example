@@ -296,10 +296,10 @@ $System_Config['sendgrid_sender'] = '';
 
 #支付系统
 
-#取值 doiampay,paymentwall,zfbjk,spay,f2fpay,none
+#取值 doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none
 $System_Config['payment_system']='none';
 
-// www.daimiyun.cn
+#doiampay,https://www.daimiyun.cn/v3/
 $System_Config['doiampay']=[
     'enabled' => [
         'wepay'=>1, // 微信支付1 启用 0 关闭
@@ -342,7 +342,7 @@ $System_Config['pmw_height']='350px';
 $System_Config['alipay_id']='';
 $System_Config['alipay_key']='';
 
-#alipay,yftpay
+#yftpay,https://pay.anypay.me/
 $System_Config['yft_secret']='';
 $System_Config['yft_accesskey']='';
 
