@@ -264,12 +264,12 @@ class Job
 
         Job::updatedownload();
     }
-
-    public static function updatedownload()
-    {
-        system('cd '.BASE_PATH."/public/ssr-download/ && git pull", $ret);
-        echo $ret;
-    }
+//   注释該代碼：會導致重置流量任務失效
+ //   public static function updatedownload()
+ //   {
+ //     system('cd '.BASE_PATH."/public/ssr-download/ && git pull", $ret);
+ //       echo $ret;
+  //  }
 
     public static function CheckJob()
     {
