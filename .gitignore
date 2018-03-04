@@ -2,7 +2,4 @@
 .DS_Store
 /vendor
 /config/.config.php
-.idea/modules.xml
-.idea/UIChanges.iml
-.idea/vcs.xml
-.idea/workspace.xml
+/.idea
