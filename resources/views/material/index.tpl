@@ -29,7 +29,7 @@
 							<div class="inner">
                                   <p>用户：<code>{$user->user_name}</code>
                                     等级：{if $user->class!=0}
-											<code>VIP</code>
+											<code>VIP{$user->class}</code>
                                           {else}
                                              <code>免费</code>
                                               {/if}
