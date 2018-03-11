@@ -3,7 +3,7 @@
 //  ss-panel v3 配置
 //
 // !!! 修改此key为随机字符串确保网站安全 !!!
-$System_Config['key'] = '(2)s^21m(&21jn1(H282';
+$System_Config['key'] = '';
 $System_Config['debug'] =  'false';  //  正式环境请确保为false
 $System_Config['appName'] = '';             //站点名称
 $System_Config['baseUrl'] = 'https://url.com';            // 站点地址
@@ -165,13 +165,14 @@ $System_Config['auto_backup_passwd']='zip password';
 #跳转延时,ms
 $System_Config['jump_delay']='1800';
 
-
-
 #是否启用邀请码注册
 $System_Config['enable_invite_code']='false';
 
 #是否启用邮箱验证码
 $System_Config['enable_email_verify']='true';
+
+#是否允许用户注销账户
+$System_Config['enable_kill']='true';
 
 #邮箱验证码有效期
 $System_Config['email_verify_ttl']='3600';
