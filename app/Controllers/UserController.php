@@ -1651,12 +1651,28 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
- //       Auth::logout();
-   //     $user->kill_user();
-        $res['ret'] = 1;
-        $res['msg'] = "您没有使用此功能的权限。";
-        return $this->echoJson($response, $res);
+    if ((float)$user->money > '1') {
+        $res['ret'] = 0;
+        $res['msg'] = "不可删除,您当前的余额 [".$user->money."]元 大于 [1.00]元.";
+     } else {
+        if ($user->class != '0') {
+            $res['ret'] = 0;
+            $res['msg'] = "不可删除,您的会员还未失效.";
+        } else {
+            if (Config::get('enable_kill') == 'true') {
+                Auth::logout();
+                $user->kill_user();
+                $res['ret'] = 1;
+                $res['msg'] = "GG!您的帐号已经从我们的系统中删除.欢迎下次光临!";
+                } else {
+                $res['ret'] = 0;
+                $res['msg'] = "管理员不允许删除,如需删除请联系管理员.";
+            }
+        }
+        
     }
+    return $this->echoJson($response, $res);
+}
 
     public function trafficLog($request, $response, $args)
     {
