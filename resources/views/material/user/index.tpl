@@ -276,7 +276,7 @@
 										<dl class="dl-horizontal">
 											<p><dt>帐号等级</dt>
                                               {if $user->class!=0}
-											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<code>VIP{$user->class}</dd>
+											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<code>VIP{$user->class}</code></dd>
                                           {else}
                                               <dd><i class="icon icon-md t4-text">stars</i>&nbsp;免费</dd>
                                               {/if}
