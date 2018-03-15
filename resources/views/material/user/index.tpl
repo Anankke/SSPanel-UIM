@@ -120,7 +120,7 @@
                                                       <p><span class="icon icon-lg text-white">filter_2</span> 打开App，点击右下角的<span class="icon icon-lg text-white">add</span>号图标</p>
                                                         <p><span class="icon icon-lg text-white">filter_3</span> 添加/升级 SSR订阅</p>
                                                           <p><span class="icon icon-lg text-white">filter_4</span> 添加订阅地址，输入以下订阅地址后确定</p>
-                                                      <p><span class="icon icon-lg text-white">filter_5</span> 订阅出现系统自带的与仟佰星云，请把系统自带的无效订阅左滑删除（自带影响订阅更新速度）</p>
+                                                      <p><span class="icon icon-lg text-white">filter_5</span> 订阅出现系统自带的与{$config["appName"]}，请把系统自带的无效订阅左滑删除（自带影响订阅更新速度）</p>
                                                        <p><span class="icon icon-lg text-white">filter_6</span> 点击确定并升级</p>
                                                       <p><span class="icon icon-lg text-white">filter_7</span> 选择任意节点</p>
                                                       <p><span class="icon icon-lg text-white">filter_8</span> 路由选择：略过区域网路以及中国大陆</p>
@@ -151,7 +151,7 @@
 														{$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0)}
 														{if URL::SSRCanConnect($user)}
 														<dl class="dl-horizontal">
-                                                          <p><dt><code>优点导入普通端口，如果普通端口无法使用再导入单端口</code></dt></p>
+                                                          <p><dt><code>优先导入普通端口，如果普通端口无法使用再导入单端口</code></dt></p>
 															<p><dt>端口</dt>
 															<dd>{$user->port}</dd></p>
 
