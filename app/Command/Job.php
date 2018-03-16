@@ -262,7 +262,8 @@ class Job
             Job::backup();
         }
 
-        Job::updatedownload();
+        //Job::updatedownload();
+        //修复未知updatedownload函数问题
     }
 //   注释該代碼：會導致重置流量任務失效
  //   public static function updatedownload()

@@ -11,10 +11,10 @@ $System_Config['timeZone'] = 'PRC';        // PRC 天朝时间  UTC 格林时间
 $System_Config['pwdMethod'] = 'sha256';       // 密码加密   可选 md5,sha256
 $System_Config['salt'] = '';               // 密码加密用，从旧版升级请留空
 $System_Config['theme']    = 'material';   // 主题
-$System_Config['authDriver'] = 'cookie';   // 登录验证存储方式 可选: cookie,redis
-$System_Config['sessionDriver'] = 'cookie';
-$System_Config['cacheDriver'] = 'cookie';
-$System_Config['tokenDriver'] = 'db';
+$System_Config['authDriver'] = 'cookie';   //不能更改此项
+$System_Config['sessionDriver'] = 'cookie'; //  可选: cookie,redis
+$System_Config['cacheDriver'] = 'cookie';   //  可选: cookie,redis
+$System_Config['tokenDriver'] = 'db';   //  可选: db,redis
 
 //$System_Config['version'] = '<a href="https://www.zhaoj.in">Glzjin</a> mod-2016042210000';
 
@@ -163,7 +163,7 @@ $System_Config['auto_backup_passwd']='zip password';
 
 
 #跳转延时,ms
-$System_Config['jump_delay']='1800';
+$System_Config['jump_delay']='1200';  //1000ms=1s,不建议太长
 
 #是否启用邀请码注册
 $System_Config['enable_invite_code']='false';
@@ -191,10 +191,10 @@ $System_Config['reg_protocol']='auth_sha1_v4';
 $System_Config['reg_protocol_param']='';
 
 #注册时默认混淆方式
-$System_Config['reg_obfs']='tls1.2_ticket_auth';
+$System_Config['reg_obfs']='http_simple';//tls更容易识别，修改为http_simple
 
 #注册时默认混淆参数
-$System_Config['reg_obfs_param']='';
+$System_Config['reg_obfs_param']='amazon.cn';//默认使用amazon.cn作为混淆参数
 
 #注册时默认禁止访问IP列表，半角英文逗号分割
 $System_Config['reg_forbidden_ip']='127.0.0.0/8,::1/128';
@@ -353,7 +353,7 @@ $System_Config['zfbjk_key']='';
 $System_Config['zfbjk_qrcodeurl']='https://www.zhaojin97.cn/wp-content/uploads/2016/01/630c50ab52bc139b2a33af8cc64e47ad2016010111570425541.jpg';
 
 #不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转，但是，强烈推荐不开启。
-$System_Config['relay_insecure_mode']='true';
+$System_Config['relay_insecure_mode']='false';//默认关闭不安全中转
 
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
 
