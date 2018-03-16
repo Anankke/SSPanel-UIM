@@ -2,11 +2,10 @@
 
 //  ss-panel v3 配置
 //
-// !!! 修改此key为随机字符串确保网站安全 !!!
-$System_Config['key'] = '';
+$System_Config['key'] = '114514';			// !!! 瞎jb修改此key为随机字符串确保网站安全 !!!
 $System_Config['debug'] =  'false';  //  正式环境请确保为false
 $System_Config['appName'] = '';             //站点名称
-$System_Config['baseUrl'] = 'https://url.com';            // 站点地址
+$System_Config['baseUrl'] = 'http://url.com';            // 站点地址
 $System_Config['timeZone'] = 'PRC';        // PRC 天朝时间  UTC 格林时间
 $System_Config['pwdMethod'] = 'sha256';       // 密码加密   可选 md5,sha256
 $System_Config['salt'] = '';               // 密码加密用，从旧版升级请留空
@@ -191,10 +190,10 @@ $System_Config['reg_protocol']='auth_sha1_v4';
 $System_Config['reg_protocol_param']='';
 
 #注册时默认混淆方式
-$System_Config['reg_obfs']='http_simple';//tls更容易识别，修改为http_simple
+$System_Config['reg_obfs']='';
 
 #注册时默认混淆参数
-$System_Config['reg_obfs_param']='amazon.cn';//默认使用amazon.cn作为混淆参数
+$System_Config['reg_obfs_param']='amazon.cn';
 
 #注册时默认禁止访问IP列表，半角英文逗号分割
 $System_Config['reg_forbidden_ip']='127.0.0.0/8,::1/128';
