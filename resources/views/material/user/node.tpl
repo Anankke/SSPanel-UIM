@@ -480,7 +480,7 @@ function urlChange(id,is_mu,rule_id) {
 	{
 		var doc = document.getElementById('infoifram').contentWindow.document;
 		doc.open();
-		doc.write('<img src="https://www.zhaoj.in/wp-content/uploads/2016/07/1469595156fca44223cf8da9719e1d084439782b27.gif" style="width: 100%;height: 100%; border: none;"/>');
+		doc.write('<img src="../images/node.gif" style="width: 100%;height: 100%; border: none;"/>');
 		doc.close();
 	}
 	else

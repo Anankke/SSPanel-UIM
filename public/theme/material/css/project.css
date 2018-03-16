@@ -4,6 +4,7 @@ body {
 }
 
 .ui-content-header {
+  background-image: url(./images/bg/brand.jpg);
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -12,7 +13,8 @@ body {
   padding-bottom: 58px;
 }
 .page-brand .ui-content-header {
-  background-image: url(./images/bg/brand.jpg);
+  /**background-image: url(./images/bg/brand.jpg);**/
+  /**移除无效css**/
 }
 
 .ui-footer {
