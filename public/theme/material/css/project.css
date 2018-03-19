@@ -260,3 +260,7 @@ body {
 .ui-tab {
   margin-top: 10px;
 }
+
+.pagination {
+display:none;
+}

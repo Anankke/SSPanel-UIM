@@ -66,13 +66,13 @@
             if (currentPage == 1 || currentPage == ""){
                 $("#pre").removeAttr('onclick');
             }else {
-                window.location.href = "/admin/yftOrder?page=" + (currentPage - 1);
+                window.location.href = "/admin/yftOrder?page=" + {$currentPage -1};
             }
         }else if ("next" == type){
             if (currentPage == countPage){
                 $("#pre").removeAttr('onclick');
             }else {
-                window.location.href = "/admin/yftOrder?page=" + (currentPage + 1);
+                window.location.href = "/admin/yftOrder?page=" + {$currentPage -1};
             }
         }else if ("end" == type){
             if (countPage == currentPage){
