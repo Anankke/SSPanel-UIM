@@ -261,6 +261,6 @@ body {
   margin-top: 10px;
 }
 
-.pagination {
+.table-responsive ul {
 display:none;
 }
