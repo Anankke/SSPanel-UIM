@@ -53,7 +53,6 @@
                 <a class="btn btn-brand" href="javascript:void(0)" id="pre" onclick="goto('pre')">上一页</a>
                 <a class="btn btn-brand" href="javascript:void(0)" id="nxt" onclick="goto('next')">下一页</a>
                 <a class="btn btn-brand" href="javascript:void(0)" id="end" onclick="goto('end')">尾页</a>
-                {$orderList->render()}
         </div>
     </div>
 </main>
@@ -64,19 +63,16 @@
         var currentPage = $("#currentPage").val();
         if ("pre" == type){
             if (currentPage == 1 || currentPage == ""){
-                $("#pre").removeAttr('onclick');
             }else {
                 window.location.href = "/admin/yftOrder?page=" + {$currentPage -1};
             }
         }else if ("next" == type){
             if (currentPage == countPage){
-                $("#pre").removeAttr('onclick');
             }else {
                 window.location.href = "/admin/yftOrder?page=" + {$currentPage -1};
             }
         }else if ("end" == type){
             if (countPage == currentPage){
-                $("#end").removeAttr('onclick');
             }else {
                 window.location.href = "/admin/yftOrder?page=" + countPage;
             }
