@@ -13,7 +13,7 @@
 	<!-- css -->
 	<link href="/theme/material/css/base.css" rel="stylesheet">
 	<link href="/theme/material/css/project.css" rel="stylesheet">
-	<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="/theme/material/css/icon.css" rel="stylesheet">
 	<link href="//cdn.staticfile.org/material-design-lite/1.1.0/material.min.css" rel="stylesheet">
 	<link href="//cdn.staticfile.org/datatables/1.10.13/css/dataTables.material.min.css" rel="stylesheet">
 
