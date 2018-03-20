@@ -69,7 +69,7 @@
         }else if ("next" == type){
             if (currentPage == countPage){
             }else {
-                window.location.href = "/admin/yftOrder?page=" + {$currentPage -1};
+                window.location.href = "/admin/yftOrder?page=" + {$currentPage +1};
             }
         }else if ("end" == type){
             if (countPage == currentPage){
