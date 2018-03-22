@@ -16,7 +16,7 @@ class ShopController extends AdminController
         $table_config['total_column'] = array("op" => "操作", "id" => "ID", "name" => "商品名称",
                         "price" => "价格", "content" => "商品内容",
                         "auto_renew" => "自动续费", "auto_reset_bandwidth" => "续费时是否重置流量",
-                        "status" => "状态");
+                        "status" => "状态", "speedlimit" => "端口速度", "connector" => "IP限制");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
@@ -65,6 +65,14 @@ class ShopController extends AdminController
 
         if ($request->getParam('reset_exp')!=0) {
             $content["reset_exp"]=$request->getParam('reset_exp');
+        }
+
+        if ($request->getParam('speedlimit')!=0) {
+            $content["speedlimit"]=$request->getParam('speedlimit');
+        }
+
+        if ($request->getParam('connector')!=0) {
+            $content["connector"]=$request->getParam('connector');
         }
 
         $shop->content=json_encode($content);
@@ -137,6 +145,14 @@ class ShopController extends AdminController
 
         if ($request->getParam('reset_exp')!=0) {
             $content["reset_exp"]=$request->getParam('reset_exp');
+        }
+        
+        if ($request->getParam('speedlimit')!=0) {
+            $content["speedlimit"]=$request->getParam('speedlimit');
+        }
+
+        if ($request->getParam('connector')!=0) {
+            $content["connector"]=$request->getParam('connector');
         }
 
         $shop->content=json_encode($content);
