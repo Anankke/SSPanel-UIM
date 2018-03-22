@@ -29,15 +29,15 @@ class Shop extends Model
                     $content_text .= " 在 ".$content["reset_exp"]." 天内，每 ".$value." 天重置流量为 ".$content["reset_value"]." G ";
                     break;
                 case "speedlimit":
-                    $content_text .= "用户端口限速变为".$content["reset_value"]." Mbps";
+                    $content_text .= "用户端口限速变为".$content["speedlimit"]." Mbps";
                     break;
                 case "connector":
-                    $content_text .= "用户IP限制变为".$content["reset_value"]." 个";
+                    $content_text .= "用户IP限制变为".$content["connector"]." 个";
                     break;
                 default:
             }
 
-            if ($i<count($content)&&$key!="reset_exp") {
+            if ($i<count($content)&&$key!="connector") {
                 $content_text .= ",";
             }
 

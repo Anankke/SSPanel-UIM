@@ -16,7 +16,7 @@ class ShopController extends AdminController
         $table_config['total_column'] = array("op" => "操作", "id" => "ID", "name" => "商品名称",
                         "price" => "价格", "content" => "商品内容",
                         "auto_renew" => "自动续费", "auto_reset_bandwidth" => "续费时是否重置流量",
-                        "status" => "状态", "speedlimit" => "端口速度", "connector" => "IP限制");
+                        "status" => "状态");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
