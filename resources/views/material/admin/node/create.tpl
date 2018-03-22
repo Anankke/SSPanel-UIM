@@ -145,6 +145,11 @@
 										<label class="floating-label" for="node_speedlimit">节点限速(对于每个用户端口)（Mbps）</label>
 										<input class="form-control" id="node_speedlimit" type="text" value="0" name="node_speedlimit">
 									</div>
+
+									<div class="form-group form-group-label">
+										<label class="floating-label" for="node_connector">节点IP限制</label>
+										<input class="form-control" id="node_connector" type="text" value="0" name="node_connector">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -205,6 +210,7 @@
 		  group: {required: true},
 		  status: {required: true},
 		  node_speedlimit: {required: true},
+		  node_connector: {required: true},
 		  sort: {required: true},
 		  node_bandwidth_limit: {required: true},
 		  bandwidthlimit_resetday: {required: true}
@@ -255,6 +261,7 @@
 										group: $("#group").val(),
                     status: $("#status").val(),
 										node_speedlimit: $("#node_speedlimit").val(),
+										node_connector: $("#node_connector").val(),
                     sort: $("#sort").val(),
 										class: $("#class").val(),
 										node_bandwidth_limit: $("#node_bandwidth_limit").val(),
