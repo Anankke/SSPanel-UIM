@@ -1,4 +1,4 @@
-
+﻿
 
 
 {include file='user/main.tpl'}
@@ -36,48 +36,55 @@
 														<div data-toggle="tile" data-target="#heading{$node_order->$prefix}">
 															<div class="tile-side pull-left" data-ignore="tile">
 																<div class="avatar avatar-sm">
-																	<span class="icon {if $node_heartbeat[$prefix]=='在线'}text-green{else}{if $node_heartbeat[$prefix]=='暂无数据'}text-green{else}text-red{/if}{/if}">{if $node_heartbeat[$prefix]=="在线"}backup{else}{if $node_heartbeat[$prefix]=='暂无数据'}toll{else}warning{/if}{/if}
-                                                                  </span>
-                                                              </div>
+																	<span class="icon {if $node_heartbeat[$prefix]=='在线'}text-green{else}{if $node_heartbeat[$prefix]=='暂无数据'}text-orange{else}text-red{/if}{/if}">{if $node_heartbeat[$prefix]=="在线"}backup{else}{if $node_heartbeat[$prefix]=='暂无数据'}report{else}warning{/if}{/if}</span>
+																</div>
 															</div>
-                                                         
-														<div class="tile-inner">
+															<div class="tile-inner">
 																<div class="text-overflow">
-                                                                  <font color="#383838"><img src="/images/prefix/{$prefix}.jpg" height="22" width="40"> {$prefix}</font> | <font color="#ff9000"><i class="icon icon-lg">flight_takeoff</i></font> <strong><b><font color="#474747">{$node_alive[$prefix]}</font></b></strong> | <font color="#ff9000"><i class="icon icon-lg">import_export</i></font>  <font color="#828282">{$node_method[$prefix]}</font> | <font color="#ff9000"><i class="icon icon-lg">equalizer</i></font> {if isset($node_bandwidth[$prefix])==true}<font color="#aaaaaa">{$node_bandwidth[$prefix]}</font>{else}N/A{/if} | <font color="#ff9000"><i class="icon icon-lg">network_check</i></font> <font color="#a5a5a5">{$node->traffic_rate} 倍率</font> | <font color="#ff9000"><i class="icon icon-lg">notifications_none</i></font> <font color="#c4c4c4">{$node->status}</font>
-                                                          </div>
+                                                                  <font color="#383838"><img src="/images/prefix/{$prefix}.jpg" height="22" width="40"> {$prefix}</font> | {if $user->class!=0}<font color="#ff9000"><i class="icon icon-lg">flight_takeoff</i></font> <strong>{else}{/if}<b><font color="#474747">{$node_alive[$prefix]}</font></b></strong> | <font color="#ff9000"><i class="icon icon-lg">import_export</i></font>  <font color="#828282">{$node_method[$prefix]}</font> | <font color="#ff9000"><i class="icon icon-lg">equalizer</i></font> {if isset($node_bandwidth[$prefix])==true}<font color="#aaaaaa">{$node_bandwidth[$prefix]}</font>{else}N/A{/if} | <font color="#ff9000"><i class="icon icon-lg">network_check</i></font> <font color="#a5a5a5">{$node->traffic_rate} 倍率</font> | <font color="#ff9000"><i class="icon icon-lg">notifications_none</i></font> <font color="#c4c4c4">{$node->status}</font>
+                                                                 </div>
 															</div>
 														</div>
 														<div class="collapsible-region collapse" id="heading{$node_order->$prefix}">
 															<div class="tile-sub">
 
 																<br>
+
+															
+
  																{if $node->node_class > $user->class}
 
 																		<div class="card">
 																		<div class="card-main">
 																			<div class="card-inner">
-																			<p class="card-heading"><b><i class="icon icon-lg">visibility_off</i>您无查看权限,如需购买VIP请<a href="/user/shop">点击这里</a>。</b></p>
-																			</div>
-                                                                          </div>
-                                                                        </div>
+																			<p class="card-heading" align="center"><b> <i class="icon icon-lg">visibility_off</i> {$user->user_name}，您无查看VIP节点权限，如需购买VIP请<a href="/user/shop">点击这里</a>。</b></p>
+</div></div></div>
 																			{else}
 																	{$relay_rule = null}
 																	{if $node->sort == 10}
 																		{$relay_rule = $tools->pick_out_relay_rule($node->id, $user->port, $relay_rules)}
 																	{/if}
 
-                                     
 																	{if $node->mu_only != 1}
 																	<div class="card">
 																		<div class="card-main">
+
+																			
+
+
 																			<div class="card-inner">
-                                                                              <p class="card-heading" >
+																			
+
+																			<p class="card-heading" >
 																				<a href="javascript:void(0);" onClick="urlChange('{$node->id}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node->name}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
 																				<span class="label label-brand-accent">←点击节点查看配置信息</span>
 																			</p>
-																			<p>备注：{$node->info}</p>																																							 																				 </div>
+                                                                                                                                                                             																												
+																			<p>备注：{$node->info}</p> 
+																			
+																				 	
+																			 </div>
 																		</div>
-                                                                      </div>
 																	</div>
 																	{/if}
 
@@ -102,30 +109,31 @@
 																			{if $node->sort == 10 && $single_muport['user']['is_multi_user'] != 2}
 																				{$relay_rule = $tools->pick_out_relay_rule($node->id, $single_muport['server']->server, $relay_rules)}
 																			{/if}
-                                                                          <div class="card">
-																			<div class="card-main">
- 																					<div class="card-inner">
- 																					<p class="card-heading" >
-																						<a href="javascript:void(0);" onClick="urlChange('{$node->id}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$prefix} {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单 - {$single_muport['server']->server} 端口</a>
- 																						<span class="label label-brand-accent">←点击节点查看配置信息</span>
- 																					</p>
+
+																			<div class="card">
+																				<div class="card-main">
+																					<div class="card-inner">
+																					<p class="card-heading" >
+																						<a href="javascript:void(0);" onClick="urlChange('{$node->id}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$prefix} {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口 Shadowsocks - {$single_muport['server']->server} 端口</a>
+																						<span class="label label-brand-accent">{$node->status}</span>
+																					</p>
+
+
+
 
 																					<p>{$node->info}</p>
 
 																					 </div>
-
 																				</div>
-                                                                              
 																			</div>
 																		{/foreach}
-                                                                      
 																	{/if}
 																	{/if}
 																{/foreach}
 
 
 
-																{if isset($point_node)}
+																	{if isset($point_node)}
 																	{if $point_node!=null}
 
 																		<div class="card">
@@ -135,7 +143,7 @@
 																				</div>
 																			</div>
 																		</div>
-																	
+
 																		<script>
 																		$().ready(function(){
 																			$('#heading{$node_order->$prefix}').on("shown.bs.tile", function() {
@@ -143,16 +151,14 @@
 																			});
 																		});
 																		</script>
-                                                               
-                                                                    
-                                                                
 																	{/if}
 																{/if}
+
 																{$point_node=null}
-															</div>
-												</div></div>
+															</div>                                                                      
+														</div>
+												</div>
 												{/if}
-                                                          
 
 											{/foreach}
 
