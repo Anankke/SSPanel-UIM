@@ -20,7 +20,7 @@ class NodeController extends AdminController
                             "server" => "节点地址", "node_ip" => "节点IP",
                             "info" => "节点信息",
                             "status" => "状态", "traffic_rate" => "流量比率", "node_group" => "节点群组",
-                            "node_class" => "节点等级", "node_speedlimit" => "节点限速/Mbps", "node_connector" => "节点IP限制",
+                            "node_class" => "节点等级", "node_speedlimit" => "节点限速/Mbps",
                             "node_bandwidth" => "已走流量/GB", "node_bandwidth_limit" => "流量限制/GB",
                             "bandwidthlimit_resetday" => "流量重置日", "node_heartbeat" => "上一次活跃时间",
                             "custom_method" => "自定义加密", "custom_rss" => "自定义协议以及混淆",
@@ -50,7 +50,6 @@ class NodeController extends AdminController
         $node->type = $request->getParam('type');
         $node->node_group = $request->getParam('group');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
-        $node->node_connector = $request->getParam('node_connector');
         $node->status = $request->getParam('status');
         $node->sort = $request->getParam('sort');
         if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10) {
@@ -107,7 +106,6 @@ class NodeController extends AdminController
         $node->traffic_rate = $request->getParam('rate');
         $node->info = $request->getParam('info');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
-        $node->node_connector = $request->getParam('node_connector');
         $node->type = $request->getParam('type');
         $node->sort = $request->getParam('sort');
 
@@ -194,7 +192,7 @@ class NodeController extends AdminController
                               "server" => "节点地址", "node_ip" => "节点IP",
                               "info" => "节点信息",
                               "status" => "状态", "traffic_rate" => "流量比率", "node_group" => "节点群组",
-                              "node_class" => "节点等级", "node_speedlimit" => "节点限速/Mbps", "node_connector" => "节点IP限制",
+                              "node_class" => "节点等级", "node_speedlimit" => "节点限速/Mbps",
                               "node_bandwidth" => "已走流量/GB", "node_bandwidth_limit" => "流量限制/GB",
                               "bandwidthlimit_resetday" => "流量重置日", "node_heartbeat" => "上一次活跃时间",
                               "custom_method" => "自定义加密", "custom_rss" => "自定义协议以及混淆",
