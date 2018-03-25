@@ -125,13 +125,13 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="speedlimit">端口限速</label>
-									<input class="form-control" id="speedlimit" type="number" value="0">
+									<input class="form-control" id="speedlimit" type="number" value="{$shop->speedlimit()}">
 								</div>
 
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="connector">IP限制</label>
-									<input class="form-control" id="connector" type="number" value="0">
+									<input class="form-control" id="connector" type="number" value="{$shop->connector()}">
 								</div>
 							</div>
 						</div>
