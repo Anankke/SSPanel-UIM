@@ -30,14 +30,14 @@ class Shop extends Model
                     break;
                 case "speedlimit":
                     if ($value == 0){
-                        $content_text .= "用户端口不限速"
+                        $content_text .= "用户端口不限速";
                     }else{
                         $content_text .= "用户端口限速变为".$value." Mbps";
                     }
                     break;
                 case "connector":
                     if ($value == 0){
-                        $content_text .= "用户IP不限制"
+                        $content_text .= "用户IP不限制";
                     }else{
                         $content_text .= "用户IP限制变为".$value." 个";
                     }
