@@ -138,14 +138,27 @@ class URL
         }
         if($is_mu) {
             if ($user->is_admin) {
-                $mu_nodes = Node::where('sort', 9)->where("type", "1")->get();
+            	if ($is_mu!=1){
+            		$mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where("type", "1")->get();
+            	}else{
+                	$mu_nodes = Node::where('sort', 9)->where("type", "1")->get();
+            	}
             } else {
-                $mu_nodes = Node::where('sort', 9)->where('node_class', '<=', $user->class)->where("type", "1")->where(
-                    function ($query) use ($user) {
-                        $query->where("node_group", "=", $user->node_group)
-                            ->orWhere("node_group", "=", 0);
-                    }
-                )->get();
+                if ($is_mu!=1){
+                    $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where('node_class', '<=', $user->class)->where("type", "1")->where(
+                        function ($query) use ($user) {
+                            $query->where("node_group", "=", $user->node_group)
+                                ->orWhere("node_group", "=", 0);
+                        }
+                    )->get();
+                }else{
+                    $mu_nodes = Node::where('sort', 9)->where('node_class', '<=', $user->class)->where("type", "1")->where(
+                        function ($query) use ($user) {
+                            $query->where("node_group", "=", $user->node_group)
+                                ->orWhere("node_group", "=", 0);
+                        }
+                    )->get();
+                }
             }
         }
         $relay_rules = Relay::where('user_id', $user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
@@ -173,7 +186,7 @@ class URL
                     }
                 }
             }
-            if ($node->custom_rss == 1 && $node->mu_only != -1 && $is_mu == 1) {
+            if ($node->custom_rss == 1 && $node->mu_only != -1 && $is_mu != 0) {
                 foreach ($mu_nodes as $mu_node) {
                     if ($node->sort == 10) {
                         $relay_rule_id = 0;
