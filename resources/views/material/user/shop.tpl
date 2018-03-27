@@ -23,7 +23,7 @@
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
-								<p>注意：新套餐会使原有套餐立即失效，请注意老套餐到期时间</p>
+								<p>所有商品可以叠加购买，VIP时间会叠加</p>
 								<p>当前余额：{$user->money} 元</p>
 							</div>
 						</div>
