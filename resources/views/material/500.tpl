@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>该网页无法正常运作 - 仟佰星云</title>
+		<title>该网页无法正常运作 - {$config["appName"]}</title>
       <meta name="keywords" content=""/>
       <meta name="description" content=""/>
       <meta charset="utf-8" />
@@ -14,27 +14,33 @@
       <noscript>
         <link rel="stylesheet" href="assets/css/noscript.css" />
       </noscript>
-  </head>	
+  </head>
 <body>
-			<div id="wrapper">
-					<header id="header">
-						<div class="logo">
-							<span class="icon fa-rocket"></span></div>
-						<div class="content">
-							<div class="inner">
-								<h1>500错误</h1>
-								<p>重定向的次数过多,请尝试清除 Cookie。</p></div></div>	
-						<nav>
-							<ul>
-								<li><a href="./#">返回首页</a></li>
-							</ul>
-						</nav>
-              </header>
-					 <footer id="footer"><p class="copyright">&copy;2014-2017 仟佰星云</p></footer>
+	<div id="wrapper">
+		<header id="header">
+			<div class="logo">
+				<span class="icon fa-rocket"></span>
 			</div>
-			<div id="bg"></div>
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<div class="content">
+				<div class="inner">
+					<h1>500错误</h1>
+					<p>服务娘崩溃了呢... TwT</p>
+					<p>这件事儿不应该发生的...如果反复出现可以提交一下工单联系站主.</p>
+				</div>
+			</div>
+			<nav>
+				<ul>
+					<li><a href="./#">返回首页</a></li>
+				</ul>
+			</nav>
+		</header>
+		<footer id="footer">
+			<p class="copyright">&copy;2014-2017 {$config["appName"]} </p>
+		</footer>
+	</div>
+	<div id="bg"></div>
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
 </body></html>

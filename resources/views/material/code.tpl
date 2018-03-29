@@ -53,7 +53,7 @@
             
                      <!-- 版权底部 -->
                       <footer id="footer">
-                   <p class="copyright">&copy;2015-2017 仟佰星云</p>
+                   <p class="copyright">&copy;2015-2017 {$config["appName"]}</p>
                       </footer>
               <!-- 版权结束 -->
 			 </div>

@@ -1,94 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>{$config["appName"]}</title>
+        <meta name="keywords" content="{$config["appName"]}"/>
+        <meta name="description" content="{$config["appName"]}"/>
+        <meta charset="utf-8" />
+        <link rel="shortcut icon" href="/favicon.ico"/>
+        <link rel="bookmark" href="/favicon.ico"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+		<link rel="stylesheet" href="assets/css/main.css"/>
+        <link href="/bootstrap" type="text/html" rel="stylesheet">
+        <noscript><link rel="stylesheet" href="./assets/css/noscript.css" /></noscript>   
+  </head>
+  
+       <body>
+			<div id="wrapper">
+              <!--首页开始-->
+                          <div class="content">
+							<div class="inner">
+								<h1>用户协议 Terms of Service</h1>
+                          </div>
+                        </div>
 
-{include file='header.tpl'}
+											<p>{$config["appName"]}，以下简称本站。</p>
+              <div class="table-wrapper">
+										<table>
 
-
-	<main class="content">
-		<div class="content-header ui-content-header">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 col-lg-push-0 col-sm-12 col-sm-push-0">
-						<h1 class="content-heading">TOS</h1>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="container">
-						<section class="content-inner margin-top-no">
-
-
-
-							<div class="card">
-								<div class="card-main">
-									<div class="card-inner">
-										<p>用户协议 Terms of Service</p>
-										    <p>{$config["appName"]}，以下简称本站。</p>
+											<tbody>
+												<tr align="center">
+													<td>隐私安全</td>
+													
+												</tr>
+												<tr>
+													<td>手机号为本站服务的唯一凭证，请自行保管。</td>
+													
+												</tr>
+												<tr>
+													<td>本站会以SHA256加密存储用户密码，所有服务器无日志形式运行。</td>
+													
+												</tr>
+                                              
+											</tbody>
+										</table>
 									</div>
-								</div>
-							</div>
-							
-							<h2 class="content-sub-heading">隐私</h2>
-								
-							<div class="card">
-								<div class="card-main">
-									<div class="card-inner">
-										
-											<p>
-												<ul>
-													<li>用户注册时候需要提供邮箱以及密码，并自行保管。邮箱为用户的唯一凭证。</li>
-													<li>本站会加密存储用户密码，尽量保证数据安全，但并不保证这些信息的绝对安全。</li>
-												</ul>
-											</p>
+										</br>
+                                   <div class="table-wrapper">
+										<table>
+
+											<tbody>
+												<tr align="center">
+													<td>使用条款</td>
+													
+												</tr>
+												<tr>
+													<td>禁止使用本站服务进行任何违法恶意活动。</td>
+													
+												</tr>
+												<tr>
+													<td>使用任何服务，需遵循服务所属国家的相关法律。</td>
+													
+												</tr>
+                                              <tr>
+													<td>对于免费用户，我们有权在不通知的情况下删除账户。</td>
+													
+												</tr>
+												<tr>
+													<td>任何违法使用条款的用户，我们将会删除违规账户并没收使用本站服务的权利。</td>
+													
+												</tr>
+                                              
+											</tbody>
+										</table>
 									</div>
-								</div>
-							</div>
-							
-							
-							<h2 class="content-sub-heading">使用条款</h2>
-								
-							<div class="card">
-								<div class="card-main">
-									<div class="card-inner">
-										
-											<p>
-												<ul>
-													<li>禁止使用本站服务进行任何违法恶意活动。</li>
-													<li>使用任何节点，需遵循节点所属国家的相关法律以及中国法律。</li>
-													<li>禁止滥用本站提供的服务。</li>
-													<li>对于免费用户，我们有权在不通知的情况下删除账户。</li>
-													<li>任何违法使用条款的用户，我们将会删除违规账户并没收使用本站服务的权利。</li>
-											   </ul>
-											</p>
-									</div>
-								</div>
-							</div>
-							
-							
-							
-							<h2 class="content-sub-heading">其它</h2>
-								
-							<div class="card">
-								<div class="card-main">
-									<div class="card-inner">
-										
-											<p>
-												<ul>
-													<li>本站解释权为{$config["appName"]}所有</li>
-													<li>TOS更新时用户需要遵守最新TOS。</li>
-											   </ul>
-											</p>
-									</div>
-								</div>
-							</div>
+                                        
 
-
-		
-							
-						</section>
-			
-			
-			
-		</div>
-	</main>
-
-
-{include file='footer.tpl'}
+                           <nav>
+							<ul>  
+                          <a href="javascript:history.back();" class="button">返回上一页</a>
+                           </ul>
+						</nav>
+                 
+             
+              <!--首页结束-->
+					<div id="main">
+                     
+                      <!--全部标签结束-->
+                              </div>
+                     <!-- 版权底部 -->
+                      <footer id="footer">
+                   <p class="copyright">&copy;2015-2017 {$config["appName"]}</p>
+                      </footer>
+              <!-- 版权结束 -->
+			 </div>
+                <!-- BG -->
+			<div id="bg"></div>
+	        	<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+         <script src="assets/js/main.js"></script>
+	</body>
+</html>
