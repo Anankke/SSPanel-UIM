@@ -280,6 +280,62 @@ class UserController extends BaseController
         return $this->view()->assign('codes', $codes)->assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))->assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))->display('user/donate.tpl');
     }
 
+    function isHTTPS()
+    {
+        define('HTTPS', false);
+        if (defined('HTTPS') && HTTPS) return true;
+        if (!isset($_SERVER)) return FALSE;
+        if (!isset($_SERVER['HTTPS'])) return FALSE;
+        if ($_SERVER['HTTPS'] === 1) {  //Apache
+            return TRUE;
+        } elseif ($_SERVER['HTTPS'] === 'on') { //IIS
+            return TRUE;
+        } elseif ($_SERVER['SERVER_PORT'] == 443) { //其他
+            return TRUE;
+        }
+        return FALSE;
+    }
+  
+    public function codepay($request, $response, $args)
+    {
+        $codepay_id=Config::get('codepay_id');//这里改成码支付ID
+        $codepay_key=Config::get('codepay_key'); //这是您的通讯密钥
+        $uid = $this->user->id;
+        $price = $request->getParam('price');
+        $type = $request->getParam('type');
+        $url = (UserController::isHTTPS() ? 'https://' : 'http://').$_SERVER['HTTP_HOST'];
+        $data = array(
+            "id" => $codepay_id,//你的码支付ID
+            "pay_id" => $uid, //唯一标识 可以是用户ID,用户名,session_id(),订单ID,ip 付款后返回
+            "type" => $type,//1支付宝支付 2QQ钱包 3微信支付 
+            "price" => $price,//金额100元
+            "param" => "",//自定义参数
+            "notify_url"=> $url.'/codepay_callback',//通知地址
+            "return_url"=> $url.'/codepay_callback',//跳转地址
+        ); //构造需要传递的参数
+
+        ksort($data); //重新排序$data数组
+        reset($data); //内部指针指向数组中的第一个元素
+
+        $sign = ''; //初始化需要签名的字符为空
+        $urls = ''; //初始化URL参数为空
+
+        foreach ($data AS $key => $val) { //遍历需要传递的参数
+            if ($val == ''||$key == 'sign') continue; //跳过这些不参数签名
+            if ($sign != '') { //后面追加&拼接URL
+                $sign .= "&";
+                $urls .= "&";
+            }
+            $sign .= "$key=$val"; //拼接为url参数形式
+            $urls .= "$key=" . urlencode($val); //拼接为url参数形式并URL编码参数值
+
+        }
+        $query = $urls . '&sign=' . md5($sign .$codepay_key); //创建订单所需的参数
+        $url = "http://api2.fateqq.com:52888/creat_order/?".$query; //支付页面
+
+        header("Location:".$url);       
+    }
+
 
 
     public function code_check($request, $response, $args)
