@@ -54,7 +54,11 @@
                               <div class="content">
 							<div class="inner">
 								<h1>{$config["appName"]}</h1>
-								<p>请问您今天要来点兔子吗？</p>
+								<!--
+								如果想自定义文本请删除下面这段script代码,格式为
+								<p>自定义文本</p>
+								-->
+								<script type="text/javascript" src="https://api.lwl12.com/hitokoto/main/get?encode=js&charset=utf-8"></script><div id="lwlhitokoto"><script>lwlhitokoto()</script></div>
                           </div>
                       </div>	
                               <nav>
@@ -76,7 +80,11 @@
                       <article id="1">
                       <h2 class="major">简介</h2>
                       <p>这里是示范文字</p><p> 请到站点文件夹</p><p>resources/views/material/index.tpl</p><p>第79行进行修改</p></article>
-					  <!--   简介修改示例: <p> 123</p>  一个  <p> 123</p>  为一行，请不要删除 </article>-->
+					  <!--
+					  简介修改示例: 
+					  <p> 123</p>
+					  一个  <p> 123</p>  为一行，请不要删除 </article>
+					  -->
                      <!--标签4开始-->
                       <article id="4">
 								<h2 class="major">联系我们</h2>
