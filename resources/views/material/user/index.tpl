@@ -306,8 +306,13 @@
 											{else}
 											<dd><i class="icon icon-md">settings_input_component</i>&nbsp;不限速</dd>
 											{/if}</p>
-                                           <p><dt>在线设备数</dt>
-											<dd><i class="icon icon-md">phonelink</i>&nbsp;{$user->online_ip_count()} / {$user->node_connector}</dd></p>
+                                            <p><dt>在线设备数</dt>
+										    {if $user->node_connector!=0}
+											<dd><i class="icon icon-md">phonelink</i>&nbsp;{$user->online_ip_count()} / {$user->node_connector}</dd>
+											{else}
+                                            <dd><i class="icon icon-md">phonelink</i>&nbsp;{$user->online_ip_count()} / 不限制 </dd>
+											{/if}
+											</p>
 											<p><dt>余额</dt>
 											<dd><i class="icon icon-md">monetization_on</i>&nbsp;{$user->money} CNY</dd></p>
 											<p><dt>上次使用</dt>
