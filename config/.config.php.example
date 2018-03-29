@@ -296,8 +296,13 @@ $System_Config['sendgrid_sender'] = '';
 
 #支付系统
 
-#取值 doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none
+#取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none
 $System_Config['payment_system']='none';
+
+#codepay码支付
+#wiki地址:https://github.com/NimaQu/ss-panel-v3-mod_UIChanges/wiki/%E7%A0%81%E6%94%AF%E4%BB%98%E5%AF%B9%E6%8E%A5%E6%95%99%E7%A8%8B/
+$System_Config['codepay_id']='';//码支付ID
+$System_Config['codepay_key']='';//码支付通信密钥
 
 #doiampay,https://www.daimiyun.cn/v3/
 $System_Config['doiampay']=[
