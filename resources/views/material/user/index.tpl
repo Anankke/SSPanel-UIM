@@ -22,7 +22,6 @@
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
                                      <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>
-										<!--<p>其他公告请到<a href="/user/announcement"/>公告面板</a>查看。</p>-->
 										{if $ann != null}
 										<p>{$ann->content}</p>
 										{/if}
@@ -40,9 +39,6 @@
 												<li {if $ssr_prefer}class="active"{/if}>
 													<a class="waves-attach" data-toggle="tab" href="#all_ssr"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
 												</li>
-									<!--			<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#all_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;不可用</a>
-												</li>  -->
 											</ul>
 										</nav>
 										<div class="card-inner">
@@ -86,11 +82,10 @@
 														<p><span class="icon icon-lg text-white">looks_one</span><a href="/ssr-download/ssr-win.7z"> 点击我下载</a></p>
                                                           <p><span class="icon icon-lg text-white">looks_two</span> 解压至任意磁盘</p>
                                                           <p><span class="icon icon-lg text-white">looks_3</span> 运行程序</p>
-															<!--<code>(1)</code>下载<a href="/user/getpcconf?is_mu=0&is_ss=0">普通端口</a>或者<a href="/user/getpcconf?is_mu=1&is_ss=0">这个（单端口多用户）</a>，右键小飞机 服务器 -- 从配置文件导入服务器，选择这个文件<br>
-															<code>(2)(推荐)</code>点击<a class="copy-text" data-clipboard-text="{$ssr_url_all}"> 这里（普通端口）</a>或者<a class="copy-text" data-clipboard-text="{$ssr_url_all}"> 这个(单端口多用户）</a>，然后右键小飞机 -- 从剪贴板复制地址<br> -->
+															
 															<p> <span class="icon icon-lg text-white">looks_4</span> 任务栏右下角右键纸飞机图标--服务器订阅--SSR服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新 SSR 服务器订阅。</p> 
 															<p> <span class="icon icon-lg text-white">looks_5</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网。</p> 
-														<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=0</code><br>
+														<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br>
 														<!--	单端口多用户端口订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=1</code>  -->
 														</p>
                                                        <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p> 
@@ -101,26 +96,23 @@
                                                      	    <p><span class="icon icon-lg text-white">looks_3</span> 把ShadowsocksX拖入到Finder的应用程序列表(Applications)</p>
                                                       		<p><span class="icon icon-lg text-white">looks_4</span> 打开Launchapad里的ShadowsocksX</p>
                                                       		<p><span class="icon icon-lg text-white">looks_5</span> 菜单栏的纸飞机图标-服务器-服务器订阅填入以下订阅地址，更新后出现您的节点</p>
-                                                      <p><span class="icon icon-lg text-white">looks_6</span> 菜单栏的纸飞机图标-打开shadowsocks</p><!-- ，然后下载<a href="/user/getpcconf?is_mu=0&is_ss=0">普通端口</a>或者<a  href="/user/getpcconf?is_mu=1&is_ss=0">这个（单端口多用户）</a>，运行程序，小飞机上右键 服务器列表 子菜单 的 “导入服务器配置文件...” 导入这个文件，然后选择一个合适的服务器，更新一下PAC，然后开启系统代理即可上网。</p>	-->													
-                                        				<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=0</code><br>
-														<!--	单端口多用户端口订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=1</code>   -->
+                                                      <p><span class="icon icon-lg text-white">looks_6</span> 菜单栏的纸飞机图标-打开shadowsocks</p>													
+                                        				<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br>
+													
                                                       </p>
                                                       <p><a href="/user/announcement">点击这里查看Mac傻瓜式教程</a></p> 
 													</div>
                                                   <div class="tab-pane fade" id="all_ssr_linux">
-                                                      <p><a href="/Course.html#Linux">点击这里查看Linux傻瓜式教程</a></p> 
+                                                      <p><a href="/user/announcement">点击这里查看Linux傻瓜式教程</a></p> 
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
                                                         <p><span class="icon icon-lg text-white">looks_one</span> 切换<code>App Store</code>账号-ID:<code>XXXXXXX@icloud.com</code> 密码<code>XXXXXXXX</code>注意特殊符号与大小写,如果显示需要解锁账号，请提交工单或邮件。（千万不要试图登陆iCloud，会上传您的照片与通讯录到这个账户上）</p>
                                                          <p><span class="icon icon-lg text-white">looks_two</span> 商店搜索<code>Shadowrocket</code>下载安装</p>
                                                       	<p><span class="icon icon-lg text-white">looks_3</span> 安装完成后切换回您自己的账号。（请务必切换回您自己的账户）</p>
-                                                      <!--  <p>两种方式导入所有节点</p> 
-                                                        <p>1、在 Safari 中点击 <a href="{$ssr_url_all}">这个（普通端口）</a>或者<a href="{$ssr_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点。</p> -->
 														<p><span class="icon icon-lg text-white">looks_3</span> 打开Shadowrocket软件后，点击右上角<span class="icon icon-lg text-white">add</span>，添加类型为<code>Subscribe</code>，URL填写以下地址即可自动更新节点</p>
                                                       <p><span class="icon icon-lg text-white">looks_4</span> 选择任意节点点击连接，然后点击allow后解锁指纹</p>
                                                       <p><span class="icon icon-lg text-white">looks_5</span> 注意：第一次连接可能不能用，导入后程序退出并重新打开程序后连接即可！</p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=0</code><br>
-														<!--	单端口多用户端口订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=1</code>   -->
+														<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br>
                                                       <p><a href="/user/announcement">点击这里查看iOS傻瓜式教程</a></p> 
 													</div>
 													<div class="tab-pane fade" id="all_ssr_android">
@@ -128,16 +120,12 @@
                                                       <p><span class="icon icon-lg text-white">filter_2</span> 打开App，点击右下角的<span class="icon icon-lg text-white">add</span>号图标</p>
                                                         <p><span class="icon icon-lg text-white">filter_3</span> 添加/升级 SSR订阅</p>
                                                           <p><span class="icon icon-lg text-white">filter_4</span> 添加订阅地址，输入以下订阅地址后确定</p>
-                                                      <p><span class="icon icon-lg text-white">filter_5</span> 订阅出现系统自带的与仟佰星云，请把系统自带的无效订阅左滑删除（自带影响订阅更新速度）</p>
+                                                      <p><span class="icon icon-lg text-white">filter_5</span> 订阅出现系统自带的与{$config["appName"]}，请把系统自带的无效订阅左滑删除（自带影响订阅更新速度）</p>
                                                        <p><span class="icon icon-lg text-white">filter_6</span> 点击确定并升级</p>
                                                       <p><span class="icon icon-lg text-white">filter_7</span> 选择任意节点</p>
                                                       <p><span class="icon icon-lg text-white">filter_8</span> 路由选择：略过区域网路以及中国大陆</p>
                                                         <p><span class="icon icon-lg text-white">filter_9</span> 点击右上角的纸飞机图标即可连接</p>
-                                                 <!--       <p>两种方式导入所有节点</p>
-                                                         <p>1、在手机上默认浏览器中点击<a href="{$ssr_url_all}">这个链接（普通端口）</a>或者<a href="{$ssr_url_all_mu}">这个链接（单端口多用户）</a>，然后点击确定，批量添加完节点，然后路由选择<code>绕过局域网和大陆</code>，右上角开启就可以上网了。同时提供一个 ACL (看您的需要)地址，<a href="/link/{$acl_token}">长按复制地址</a>到客户端里应用即可。</p> 
-                                                         <p>手机上默认浏览器中点击<a href="{$ssr_url_all}">这个链接（普通端口）</a>，同时提供一个 ACL (看您的需要)地址，<a href="/link/{$acl_token}">长按复制地址</a>到客户端里路由设置后更新即可。</p>-->													
-															<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=0</code><br>
-														<!--	单端口多用户端口订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=1</code>  -->
+															<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br>
                                                       <p><a href="/user/announcement">点击这里查看Android傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_router">
@@ -153,8 +141,7 @@
                                                        <p><span class="icon icon-lg text-white">looks_3</span> 打开桌面程序SSTap</p>
                                                        <p><span class="icon icon-lg text-white">looks_4</span> 齿轮图标-SSR订阅-SSR订阅管理添加以下订阅链接即可</p>
                                                        <p><span class="icon icon-lg text-white">looks_5</span> 更新后选择其中一个节点闪电图标测试节点-测试UDP转发...通过!（UDP通过即可连接并开始游戏），如测试不通过，点击齿轮图标设置DNS，推荐谷歌DNS</p>
-														<p><span class="icon icon-lg text-white">flash_auto</span>	订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=0</code><br>
-														<!--	单端口多用户端口订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=1</code>  -->
+														<p><span class="icon icon-lg text-white">flash_auto</span>	订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br>
                                                       </p>
                                                       <p><a href="/user/announcement">点击这里查看游戏客户端傻瓜式教程</a></p>
 													</div>
@@ -164,7 +151,7 @@
 														{$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0)}
 														{if URL::SSRCanConnect($user)}
 														<dl class="dl-horizontal">
-                                                          <p><dt><code>优点导入普通端口，如果普通端口无法使用再导入单端口</code></dt></p>
+                                                          <p><dt><code>优先导入普通端口，如果普通端口无法使用再导入单端口</code></dt></p>
 															<p><dt>端口</dt>
 															<dd>{$user->port}</dd></p>
 
@@ -289,14 +276,14 @@
 										<dl class="dl-horizontal">
 											<p><dt>帐号等级</dt>
                                               {if $user->class!=0}
-											<dd><!--{$user->class}--><i class="icon icon-md t4-text">stars</i>&nbsp;VIP</dd>
+											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<code>VIP{$user->class}</code></dd>
                                           {else}
-                                              <dd><!--{$user->class}--><i class="icon icon-md t4-text">stars</i>&nbsp;免费</dd>
+                                              <dd><i class="icon icon-md t4-text">stars</i>&nbsp;免费</dd>
                                               {/if}
                                           </p>
                                           {if $user->class!=0}
                                           	 <p><dt>Telegram(VIP可见)</dt>
-											<dd><!--{$user->class}--><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="//t.me/joinchat/XXXXXXXXXX" target="view_window">点击加入TG群</a></dd>
+											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="请到index.tpl第299行修改" target="view_window">点击加入TG群</a></dd>
                                           {else}
                                              
                                               {/if}
@@ -304,7 +291,7 @@
 
 											<p><dt>等级过期时间</dt>
                                               {if $user->class_expire!="1989-06-04 00:05:00"}
-											<dd><!--{$user->class}--><i class="icon icon-md">event</i>&nbsp;{$user->class_expire}</dd>
+											<dd><i class="icon icon-md">event</i>&nbsp;{$user->class_expire}</dd>
                                           {else}
                                               <dd><i class="icon icon-md">event</i>&nbsp;不过期</dd>
                                               {/if}
@@ -319,8 +306,13 @@
 											{else}
 											<dd><i class="icon icon-md">settings_input_component</i>&nbsp;不限速</dd>
 											{/if}</p>
-                                           <p><dt>在线设备数</dt>
-											<dd><i class="icon icon-md">phonelink</i>&nbsp;{$user->online_ip_count()}</dd></p>
+                                            <p><dt>在线设备数</dt>
+										    {if $user->node_connector!=0}
+											<dd><i class="icon icon-md">phonelink</i>&nbsp;{$user->online_ip_count()} / {$user->node_connector}</dd>
+											{else}
+                                            <dd><i class="icon icon-md">phonelink</i>&nbsp;{$user->online_ip_count()} / 不限制 </dd>
+											{/if}
+											</p>
 											<p><dt>余额</dt>
 											<dd><i class="icon icon-md">monetization_on</i>&nbsp;{$user->money} CNY</dd></p>
 											<p><dt>上次使用</dt>
@@ -418,40 +410,6 @@
 
 								</div>
 							</div>
-
-
-
-						<!--	<div class="card">
-								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
-										<p class="card-heading">签到获取流量</p>
-											<p>流量不会重置，可以通过签到获取流量。</p>
-
-											<p>每次签到可以获取{$config['checkinMin']}~{$config['checkinMax']}MB流量。</p>
-
-											<p>每天可以签到一次。您可以点击按钮或者摇动手机来签到。</p>
-
-											<p>上次签到时间：<code>{$user->lastCheckInTime()}</code></p>
-
-
-											<p id="checkin-msg"></p>
-
-											{if $geetest_html != null}
-												<div id="popup-captcha"></div>
-											{/if}
-									</div>
-
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											{if $user->isAbleToCheckin() }
-												<p id="checkin-btn">
-													<button id="checkin" class="btn btn-brand btn-flat waves-attach"><span class="icon">check</span>&nbsp;签到</button>
-												</p>
-											{else}
-												<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">check</span>&nbsp;已签到</a></p>
-											{/if}
-										</div>
-									</div> -->
 
 								</div>
 							</div>
@@ -645,6 +603,5 @@ initGeetest({
 
 
 </script>
-<script type="text/javascript"> window.$crisp=[];window.CRISP_WEBSITE_ID="a5d82958-9c91-46f9-9855-e86f0475557a";(function(){ d=document;s=d.createElement("script"); s.src="https://client.crisp.chat/l.js"; s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})(); </script>
 
 

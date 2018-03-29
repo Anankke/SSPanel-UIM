@@ -8,70 +8,66 @@ use App\Services\Config;
 class TelegramProcess
 {
     private static function needbind_method($bot, $message, $command, $user, $reply_to = null)
-    { 
+    {
         if ($user != null) {
             switch ($command) {
-                case 'cq':
-                    $bot->sendMessage($message->getChat()->getId(), "您当月流量状况：
+                case 'traffic':
+                    $bot->sendMessage($message->getChat()->getId(), "您当前的流量状况：
 今日已使用 ".$user->TodayusedTraffic()." ".number_format(($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100, 2)."%
-总共已使用 ".$user->LastusedTraffic()." ".number_format($user->last_day_t/$user->transfer_enable*100, 2)."%
-剩余 ".$user->unusedTraffic()." ".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100, 2)."%
-当前在线设备数 ".$user->online_ip_count()." 台
-					", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+今日之前已使用 ".$user->LastusedTraffic()." ".number_format($user->last_day_t/$user->transfer_enable*100, 2)."%
+未使用 ".$user->unusedTraffic()." ".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100, 2)."%
+					                        ", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
-                case 'qd':
+                case 'checkin':
                     if (!$user->isAbleToCheckin()) {
-                        $bot->sendMessage($message->getChat()->getId(), "仟佰星云:您已经签到过了哦", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+                        $bot->sendMessage($message->getChat()->getId(), "您今天已经签过到了！", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                         break;
                     }
                     $traffic = rand(Config::get('checkinMin'), Config::get('checkinMax'));
                     $user->transfer_enable = $user->transfer_enable + Tools::toMB($traffic);
                     $user->last_check_in_time = time();
                     $user->save();
-                    $bot->sendMessage($message->getChat()->getId(), "走出屏障直达星云之上，只为了与你相遇！你获得了 ".$traffic." MB 流量！", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+                    $bot->sendMessage($message->getChat()->getId(), "签到成功！获得了 ".$traffic." MB 流量！", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
                 default:
                     $bot->sendMessage($message->getChat()->getId(), "???", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
             }
         } else {
-            $bot->sendMessage($message->getChat()->getId(), "您未绑定仟佰星云账号。请/help查看绑定步骤", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+            $bot->sendMessage($message->getChat()->getId(), "您未绑定本站账号。", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
         }
     }
 
 
     public static function telegram_process($bot, $message, $command)
     {
-        $bot->sendChatAction($message->getChat()->getId(), 'typing');
-
         $user = User::where('telegram_id', $message->getFrom()->getId())->first();
 
         if ($message->getChat()->getId() > 0) {
             //个人
+            $bot->sendChatAction($message->getChat()->getId(), 'typing');
 
             switch ($command) {
                 case 'ping':
-                    $bot->sendMessage($message->getChat()->getId(), 'Pong!仟佰星云的 群组ID 是 '.$message->getChat()->getId().',这个一般人没啥用!');
+                    $bot->sendMessage($message->getChat()->getId(), 'Pong!这个群组的 ID 是 '.$message->getChat()->getId().'!');
                     break;
-                case 'tb':
-                $bot->sendMessage($message->getChat()->getId(),"大爷，不支持淘宝了，请直接网站充值！");
-                   // $bot->sendMessage($message->getChat()->getId(), Tuling::chat($message->getFrom()->getId(), substr($message->getText(), 5)));
+                case 'chat':
+                    $bot->sendMessage($message->getChat()->getId(), Tuling::chat($message->getFrom()->getId(), substr($message->getText(), 5)));
                     break;
-                case 'cq':
+                case 'traffic':
                     TelegramProcess::needbind_method($bot, $message, $command, $user);
                     break;
-                case 'qd':
+                case 'checkin':
                     TelegramProcess::needbind_method($bot, $message, $command, $user, $message->getMessageId());
                     break;
                 case 'help':
                     $help_list = "命令列表：
 						/ping  获取群组ID
-						/tb 淘宝购买
-						/cq 查询流量
-						/qd 签到获取流量
+						/traffic 查询流量
+						/checkin 签到续命
 						/help 获取帮助信息
 
-						绑定提示:您可以在网站里点击->资料编辑->滑到页面最下方->Telegram绑定->把二维码拍下来单独发送给TG机器人->绑定成功，机器人扫码登陆，数字登陆、签到等更多精彩功能等着您去发掘。
-					";
+						您可以在面板里点击 资料编辑 ，滑到页面最下方，就可以看到 Telegram 绑定指示了，绑定您的账号，更多精彩功能等着您去发掘。
+					          ";
                     $bot->sendMessage($message->getChat()->getId(), $help_list);
                     break;
                 default:
@@ -141,7 +137,7 @@ class TelegramProcess
                                         $bot->sendMessage($message->getChat()->getId(), "登录验证失败，二维码无效。".substr($qrcode_text, 12));
                                     }
                                 } else {
-                                    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定仟佰星云账号。".substr($qrcode_text, 12));
+                                    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号。".substr($qrcode_text, 12));
                                 }
                             }
 
@@ -157,7 +153,7 @@ class TelegramProcess
                                     $bot->sendMessage($message->getChat()->getId(), "登录验证失败，数字无效。");
                                 }
                             } else {
-                                $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定仟佰星云账号。");
+                                $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号。");
                             }
                             break;
                         }
@@ -170,33 +166,33 @@ class TelegramProcess
                 return;
             }
 
+            $bot->sendChatAction($message->getChat()->getId(), 'typing');
+
             switch ($command) {
                 case 'ping':
                     $bot->sendMessage($message->getChat()->getId(), 'Pong!这个群组的 ID 是 '.$message->getChat()->getId().'!', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
                     break;
-                case 'tb':
-                    $bot->sendMessage($message->getChat()->getId(),"大爷，不支持淘宝了，请直接捐献！");
-                   // if ($message->getChat()->getId() == Config::get('telegram_chatid')) {
-                   //     $bot->sendMessage($message->getChat()->getId(), Tuling::chat($message->getFrom()->getId(), substr($message->getText(), 5)), $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
-                //    } else {
-                  //      $bot->sendMessage($message->getChat()->getId(), '不约，叔叔我们不约。', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
-                 //   }
+                case 'chat':
+                    if ($message->getChat()->getId() == Config::get('telegram_chatid')) {
+                        $bot->sendMessage($message->getChat()->getId(), Tuling::chat($message->getFrom()->getId(), substr($message->getText(), 5)), $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
+                    } else {
+                        $bot->sendMessage($message->getChat()->getId(), '不约，叔叔我们不约。', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
+                    }
                     break;
-                case 'cq':
+                case 'traffic':
                     TelegramProcess::needbind_method($bot, $message, $command, $user, $message->getMessageId());
                     break;
-                case 'qd':
+                case 'checkin':
                     TelegramProcess::needbind_method($bot, $message, $command, $user, $message->getMessageId());
                     break;
                 case 'help':
                     $help_list_group = "命令列表：
 						/ping  获取群组ID
-						/tb 淘宝购买
-						/cq 查询流量
-						/qd 签到获取流量
+						/traffic 查询流量
+						/checkin 签到续命
 						/help 获取帮助信息
 
-						绑定提示:您可以在网站里点击->资料编辑->滑到页面最下方->Telegram绑定->把二维码拍下来单独发送给TG机器人->绑定成功，机器人扫码登陆，数字登陆、签到等更多精彩功能等着您去发掘。
+						您可以在面板里点击 资料编辑 ，滑到页面最下方，就可以看到 Telegram 绑定指示了，绑定您的账号，更多精彩功能等着您去发掘。
 					";
                     $bot->sendMessage($message->getChat()->getId(), $help_list_group, $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
                     break;
@@ -221,7 +217,7 @@ class TelegramProcess
             // or initialize with botan.io tracker api key
             // $bot = new \TelegramBot\Api\Client('YOUR_BOT_API_TOKEN', 'YOUR_BOTAN_TRACKER_API_KEY');
 
-            $command_list = array("ping", "tb" ,"cq", "help", "qd");
+            $command_list = array("ping", "chat" ,"traffic", "help", "checkin");
             foreach ($command_list as $command) {
                 $bot->command($command, function ($message) use ($bot, $command) {
                     TelegramProcess::telegram_process($bot, $message, $command);

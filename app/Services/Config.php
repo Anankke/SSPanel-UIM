@@ -30,7 +30,8 @@ class Config
             "jump_delay" => self::get("jump_delay"),
             "enable_analytics_code" => self::get("enable_analytics_code"),
             "enable_donate" => self::get("enable_donate"),
-            "enable_telegram" => self::get("enable_telegram")
+            "enable_telegram" => self::get("enable_telegram"),
+            "payment_system" => self::get("payment_system")
          ];
     }
 

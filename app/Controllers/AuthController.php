@@ -75,13 +75,13 @@ class AuthController extends BaseController
 
         if ($user == null) {
             $rs['ret'] = 0;
-            $rs['msg'] = "401 邮箱或者密码错误";
+            $rs['msg'] = "邮箱或者密码错误";
             return $response->getBody()->write(json_encode($rs));
         }
 
         if (!Hash::checkPassword($user->pass, $passwd)) {
             $rs['ret'] = 0;
-            $rs['msg'] = "402 邮箱或者密码错误";
+            $rs['msg'] = "邮箱或者密码错误.";
 
 
             $loginip=new LoginIp();
@@ -105,7 +105,7 @@ class AuthController extends BaseController
 
             if (!$rcode) {
                 $res['ret'] = 0;
-                $res['msg'] = "403 两步验证码错误，如果您是丢失了生成器或者错误地设置了这个选项，您可以尝试重置密码，即可取消这个选项。";
+                $res['msg'] = "两步验证码错误，如果您是丢失了生成器或者错误地设置了这个选项，您可以尝试重置密码，即可取消这个选项。";
                 return $response->getBody()->write(json_encode($res));
             }
         }
@@ -190,7 +190,7 @@ class AuthController extends BaseController
 
             if ($email=="") {
                 $res['ret'] = 0;
-                $res['msg'] = "哦？你填了你的邮箱了吗？";
+                $res['msg'] = "未填写邮箱";
                 return $response->getBody()->write(json_encode($res));
             }
 
@@ -246,7 +246,7 @@ class AuthController extends BaseController
             }
 
             $res['ret'] = 1;
-            $res['msg'] = "验证码发送成功，请查收邮件。（邮件可能位于垃圾箱）";
+            $res['msg'] = "验证码发送成功，请查收邮件。";
             return $response->getBody()->write(json_encode($res));
         }
     }
@@ -288,6 +288,13 @@ class AuthController extends BaseController
             $res['msg'] = "邮箱无效";
             return $response->getBody()->write(json_encode($res));
         }
+		// check email
+        $user = User::where('email', $email)->first();
+        if ($user != null) {
+            $res['ret'] = 0;
+            $res['msg'] = "邮箱已经被注册了";
+            return $response->getBody()->write(json_encode($res));
+        }
 
         if (Config::get('enable_email_verify')=='true') {
             $mailcount = EmailVerify::where('email', '=', $email)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
@@ -296,13 +303,12 @@ class AuthController extends BaseController
                 $res['msg'] = "您的邮箱验证码不正确";
                 return $response->getBody()->write(json_encode($res));
             }
-            EmailVerify::where('email', '=', $email)->delete();
         }
 
         // check pwd length
         if (strlen($passwd)<8) {
             $res['ret'] = 0;
-            $res['msg'] = "密码太短";
+            $res['msg'] = "密码请大于8位";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -313,27 +319,21 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        // check email
-        $user = User::where('email', $email)->first();
-        if ($user != null) {
-            $res['ret'] = 0;
-            $res['msg'] = "邮箱已经被注册了";
-            return $response->getBody()->write(json_encode($res));
-        }
-
         if ($imtype==""||$wechat=="") {
             $res['ret'] = 0;
-            $res['msg'] = "要填上你的联络方式哦";
+            $res['msg'] = "请填上你的联络方式";
             return $response->getBody()->write(json_encode($res));
         }
 
         $user = User::where('im_value', $wechat)->where('im_type', $imtype)->first();
         if ($user != null) {
             $res['ret'] = 0;
-            $res['msg'] = "此联络方式已经被注册了";
+            $res['msg'] = "此联络方式已注册";
             return $response->getBody()->write(json_encode($res));
         }
-
+		if (Config::get('enable_email_verify')=='true') {
+			EmailVerify::where('email', '=', $email)->delete();
+        }
         // do reg user
         $user = new User();
 
@@ -379,7 +379,6 @@ class AuthController extends BaseController
         $Garray=explode(",", $group);
 
         $user->node_group=$Garray[rand(0, count($group)-1)];
-        $user->node_group=$Garray[rand(0, count($Garray)-1)];
 
         $ga = new GA();
         $secret = $ga->createSecret();
@@ -390,7 +389,7 @@ class AuthController extends BaseController
 
         if ($user->save()) {
             $res['ret'] = 1;
-            $res['msg'] = "注册成功,正在跳转到用户中心....";
+            $res['msg'] = "注册成功！正在进入用户中心";
 
             Duoshuo::add($user);
 
