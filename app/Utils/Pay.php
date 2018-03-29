@@ -44,7 +44,15 @@ class Pay
         return '
 						<form action="/user/alipay" method="get" target="_blank" >
 							<h3>支付宝充值</h3>
-							<p>充值金额: <input type="text" name="amount" /></p>
+							<p>充值金额:
+              <select id="type" class="form-control" name="amount">
+                  <option></option>
+                  <option value="'.Config::get('amount')[0].'">'.Config::get('amount')[0].'元</option>
+                  <option value="'.Config::get('amount')[1].'">'.Config::get('amount')[1].'元</option>
+                  <option value="'.Config::get('amount')[2].'">'.Config::get('amount')[2].'元</option>
+                  <option value="'.Config::get('amount')[3].'">'.Config::get('amount')[3].'元</option>
+                  <option value="'.Config::get('amount')[4].'">'.Config::get('amount')[4].'元</option>
+              </select></p>
 							<input type="submit" value="提交" />
 						</form>
 ';
@@ -97,7 +105,7 @@ class Pay
 									</form>
 ';
     }
-  
+
     private static function codepay_html($user)
     {
         return '
@@ -112,7 +120,7 @@ class Pay
                         </form>
 ';
     }
-  
+
     private static function pmw_html($user)
     {
         \Paymentwall_Config::getInstance()->set(array(
@@ -785,7 +793,7 @@ class Pay
         }
         exit('success'); //返回成功 不要删除哦
     }
-  
+
     public static function callback($request)
     {
         $driver = Config::get("payment_system");

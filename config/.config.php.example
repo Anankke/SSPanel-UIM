@@ -335,7 +335,6 @@ $System_Config['f2fpay_app_id']='';
 $System_Config['f2fpay_p_id']='';
 $System_Config['alipay_public_key']='';
 $System_Config['merchant_private_key']='';
-$System_Config['amount']=[5,10,20,50,100];
 
 #PaymentWall
 $System_Config['pmw_publickey']='';
@@ -355,6 +354,9 @@ $System_Config['yft_accesskey']='';
 $System_Config['zfbjk_pid']='';
 $System_Config['zfbjk_key']='';
 $System_Config['zfbjk_qrcodeurl']='https://www.zhaojin97.cn/wp-content/uploads/2016/01/630c50ab52bc139b2a33af8cc64e47ad2016010111570425541.jpg';
+
+#充值金额选项设定//f2fpay和spay可用
+$System_Config['amount']=[2,23,233,2333,23333];
 
 #不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转，但是，强烈推荐不开启。
 $System_Config['relay_insecure_mode']='false';//默认关闭不安全中转
