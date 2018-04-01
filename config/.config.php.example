@@ -89,7 +89,7 @@ $System_Config['user_class_expire_default']='2';
 $System_Config['user_class_default']='1';
 
 #用户注册客户端数量限制，0为不限制
-$System_Config['user_conn']='0;
+$System_Config['user_conn']='0';
 
 #用户注册速度默认限制，0为不限制
 $System_Config['user_speedlimit']='0';
