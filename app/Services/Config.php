@@ -31,7 +31,9 @@ class Config
             "enable_analytics_code" => self::get("enable_analytics_code"),
             "enable_donate" => self::get("enable_donate"),
             "enable_telegram" => self::get("enable_telegram"),
-            "payment_system" => self::get("payment_system")
+            "payment_system" => self::get("payment_system"),
+          	"enable_crisp" => self::get("enable_crisp"),
+          	"crisp_id" => self::get("crisp_id")
          ];
     }
 
