@@ -361,18 +361,26 @@ class AuthController extends BaseController
         $user->invite_num = Config::get('inviteNum');
         $user->auto_reset_day = Config::get('reg_auto_reset_day');
         $user->auto_reset_bandwidth = Config::get('reg_auto_reset_bandwidth');
+		$user->money=0;
+		$user->class_expire=date("Y-m-d H:i:s", time()+Config::get('user_class_expire_default')*3600);
+        $user->class = Config::get('user_class_default');
+        $user->node_connector=Config::get('user_conn');
+        $user->node_speedlimit=Config::get('user_speedlimit');
         if (Config::get('enable_invite_code')=='true') {
             $user->ref_by = $c->user_id;
+            if ($user->ref_by !=0) {
+                $user->money=Config::get('invite_get_money');
+                $gift_user=User::where("id", "=", $user->ref_by)->first();
+                $gift_user->transfer_enable=($gift_user->transfer_enable+Config::get('invite_gift')*1024*1024*1024);
+                $gift_user->save();
+            }
         } else {
             $user->ref_by = 0;
         }
         $user->expire_in=date("Y-m-d H:i:s", time()+Config::get('user_expire_in_default')*86400);
         $user->reg_date=date("Y-m-d H:i:s");
         $user->reg_ip=$_SERVER["REMOTE_ADDR"];
-        $user->money=0;
-        $user->class=0;
         $user->plan='A';
-        $user->node_speedlimit=0;
         $user->theme=Config::get('theme');
 
         $group=Config::get('ramdom_group');
