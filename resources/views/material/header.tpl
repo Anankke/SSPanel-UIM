@@ -10,13 +10,13 @@
 	<link href="/theme/material/css/base.min.css" rel="stylesheet">
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
 	<link href="/theme/material/css/icon.css" rel="stylesheet">
-	
+
 	<!-- favicon -->
 	<!-- ... -->
 </head>
-  <style> 
-.divcss5{ position:fixed; bottom:0;} 
-</style> 
+  <style>
+.divcss5{ position:fixed; bottom:0;}
+</style>
 <body class="page-brand">
 	<header class="header header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
@@ -26,7 +26,7 @@
 				</a>
 			</li>
 		</ul>
-		
+
 		<ul class="nav nav-list pull-right">
 			<li class="dropdown margin-right">
 				<a class="dropdown-toggle padding-left-no padding-right-no" data-toggle="dropdown">
@@ -57,7 +57,7 @@
 						</li>
 					</ul>
 				{/if}
-					
+
 			</li>
 		</ul>
 	</header>
@@ -84,7 +84,7 @@
                   	<li>
 				     <a  href="/password/reset"><i class="icon icon-lg">security</i>&nbsp;重置密码</a>
 					</li>
-                  
+
                   <li>
                     <div class="divcss5">
     					<img  src="/images/Ambassador-menu.png" width="230" height="300"/>
@@ -95,3 +95,5 @@
 			</div>
 		</div>
 	</nav>
+
+{if $config["enable_crisp"] == 'true'}{include file='crisp.tpl'}{/if}

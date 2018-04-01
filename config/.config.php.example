@@ -313,6 +313,11 @@ $System_Config['sendgrid_key'] = '';
 $System_Config['sendgrid_sender'] = '';
 
 
+#客服系统
+$System_Config['enable_crisp']='false';
+$System_Config['crisp_id']='null';
+
+
 #支付系统
 
 #取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none
