@@ -79,8 +79,27 @@ $System_Config['enable_duoshuo']='false';
 
 
 
-#用户过期时间，在注册时设置。（天）
+#用户账户过期时间，在注册时设置。（天）
 $System_Config['user_expire_in_default']='3650';
+
+#用户等级过期时间，在注册时设置。（小时）
+$System_Config['user_class_expire_default']='2';
+
+#用户注册等级，在注册时设置。
+$System_Config['user_class_default']='1';
+
+#用户注册客户端数量限制，0为不限制
+$System_Config['user_conn']='0;
+
+#用户注册速度默认限制，0为不限制
+$System_Config['user_speedlimit']='0';
+
+#邀请新用户获得流量奖励，单位G
+$System_Config['invite_gift']='2';
+
+#新用户通过私人邀请链接注册，获得奖励金额（鼓励消费）
+$System_Config['invite_get_money']='1';
+
 
 #Radius数据库设置
 $System_Config['radius_db_host']='';
