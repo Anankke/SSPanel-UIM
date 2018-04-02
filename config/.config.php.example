@@ -58,10 +58,6 @@ $System_Config['smtp_sender'] = '';
 $System_Config['smtp_passsword'] = '';
 $System_Config['smtp_ssl'] = 'true';
 
-# sendgrid
-$System_Config['sendgrid_key'] = '';
-$System_Config['sendgrid_sender'] = '';
-
 
 //备份设置-----------------------------------------------------------------------
 $System_Config['enable_auto_backup']='false';
