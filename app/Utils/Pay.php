@@ -638,7 +638,7 @@ class Pay
 				$user=User::find($trade->userid);
                 $user->money=$user->money+$_POST['total_amount'];
                 $user->save();
-                
+
                 //更新充值（捐赠）记录
                 $codeq=new Code();
                 $codeq->code="支付宝 充值";
@@ -732,12 +732,7 @@ class Pay
             }
         }
         if ($codeq!=null){
-        echo '
-            <script>
-                alert("支付成功，第三方支付小飞机pay祝您购物愉快");
-                window.location.href="/user/code";
-            </script>
-            ';
+
         return;
         }
     }
