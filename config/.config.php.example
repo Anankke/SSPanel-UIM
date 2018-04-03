@@ -58,6 +58,10 @@ $System_Config['smtp_sender'] = '';
 $System_Config['smtp_passsword'] = '';
 $System_Config['smtp_ssl'] = 'true';
 
+# sendgrid
+$System_Config['sendgrid_key'] = '';
+$System_Config['sendgrid_sender'] = '';
+
 
 //备份设置-----------------------------------------------------------------------
 $System_Config['enable_auto_backup']='false';
@@ -146,8 +150,8 @@ $System_Config['payment_system']='none';
 
 #codepay码支付
 #wiki地址:https://goo.gl/dRwRDi  http://t.cn/RnsWjtB
-$System_Config['codepay_id']='';//码支付ID
-$System_Config['codepay_key']='';//码支付通信密钥
+$System_Config['codepay_id']='';      //码支付ID
+$System_Config['codepay_key']='';      //码支付通信密钥
 
 #doiampay,https://www.daimiyun.cn/v3/
 $System_Config['doiampay']=[
