@@ -214,6 +214,8 @@ class URL
     public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         $return_url = '';
+        $return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
+        $return_url .= URL::getUserExpiration($user).($enter == 0 ? ' ' : "\n");
         foreach($items as $item) {
             $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
         }
@@ -337,5 +339,15 @@ class URL
     public static function cloneUser($user) {
         $new_user = clone $user;
         return $new_user;
+    }
+
+    public static function getUserTraffic($user){
+        $ssurl = "google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode(Config::get('appName'));
+        return "ssr://".Tools::base64_url_encode($ssurl);
+    }
+  
+    public static function getUserExpiration($user){
+        $ssurl = "google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->expire_in)."&group=".Tools::base64_url_encode(Config::get('appName'));
+        return "ssr://".Tools::base64_url_encode($ssurl);
     }
 }
