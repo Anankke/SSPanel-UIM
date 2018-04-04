@@ -555,13 +555,6 @@ window.onload = function() {
     }
 };
 
- {if $user->transfer_enable-($user->u+$user->d) == 0}
-window.onload = function() {
-    $("#result").modal();
-    $("#msg").html("您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~");
-};
- {/if}
-
 
 
 var handlerPopup = function (captchaObj) {
