@@ -58,7 +58,7 @@ It will not impact the appearance and can give developers a lot of support :)
 												</tr>
 												<tr>
 													<td>现阶段维护</td>
-													<td><a href="https://github.com/galaxychuck">galaxyq</a></td>
+													<td><a href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a href="https://github.com/mxihan">Rin SAMA</a>，<a href="https://github.com/xcxnig">xcxnig</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a href="https://blog.nimaqu.com">NimaQu</a></td>
 												</tr>
 												<tr>
 													<td>监督</td>
@@ -70,7 +70,7 @@ It will not impact the appearance and can give developers a lot of support :)
 												</tr>
                                               <tr>
 													<td>staff监督</td>
-													<td>感谢<a href="https://t.me/Anankke">Anankke</a>为守护staff完整做出的贡献</td>
+													<td>感谢<a href="https://t.me/Anankke">Anankke</a>为守护staff做出的贡献</td>
 												</tr>
 												<tr>
 													<td>出演</td>
@@ -104,7 +104,7 @@ It will not impact the appearance and can give developers a lot of support :)
                               </div>
                      <!-- 版权底部 -->
                       <footer id="footer">
-                   <p class="copyright">&copy;2015-2017 {$config["appName"]}</p>
+                   <p class="copyright">&copy;2015-2018 {$config["appName"]}</p>
                       </footer>
               <!-- 版权结束 -->
 			 </div>
