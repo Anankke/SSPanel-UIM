@@ -331,7 +331,9 @@ class UserController extends BaseController
 
         }
         $query = $urls . '&sign=' . md5($sign .$codepay_key); //创建订单所需的参数
+
         $url = "https://api2.fateqq.com:52888/creat_order/?".$query; //支付页面
+
 
         header("Location:".$url);
     }
