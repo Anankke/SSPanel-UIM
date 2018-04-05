@@ -1,36 +1,31 @@
-# 欢迎使用SS-panel-modV3再次修改版
+# 欢迎使用ss panel v3 mod 再次修改版
 
 
 **ss-panel-v3-mod**是一款转为shadowsocks设计的web前端面板，再次感谢ss-panel-v3mod 的制作者，修改后的功能简介：
 
-- **f2f当面付集成** ：支付宝f2f接入
-- **UI** ：修改成 ~~援交~~ 圆角、并自定义了几个图标的显示
-- **节点** ：节点列表等級0可见等級1节点但无法看见节点详情，增加了国家图标显示
-- **图片**： 添加 ~~死宅喜欢的~~ 萌化图片
+- **支付系统集成**：集成 支付宝当面付 黛米付 易付通 码支付等多种支付系统，使用方法见项目[wiki]()
+- **UI** ：修改成 ~~援交~~ 圆角、并自定义了几个图标的显示，节点列表等級0可见等級1节点但无法看见节点详情，增加了国家图标显示
+- **商店**：商品增加同时连接设备数，用户限速属性
+- 从肥羊那里抄来的：新用户注册现金奖励|高等级节点体验|设备数量限制
+- **优化**：css和js等置入本地提升加载速度
 
-telegram交流群：https://t.me/joinchat/Fjn0HkeqdoovkJgTRnvoNw
+telegram交流群：https://t.me/sspanelv3mod_UIChanges
 
-**此面板作者为**[galaxychuck](https://github.com/galaxychuck)，因某些原因删除仓库，现代为上传
+**此面板原作者为**[galaxychuck](https://github.com/galaxychuck)，因某些原因删除仓库，现代为上传
 
-此面板对数据库无改动，可直接沿用原版魔改数据库，并对小白不友好，如果你什么都不懂，请左转91vps一键包
+使用此面板需要您有一定的**解决问题能力**（用爱commit从不debug的NimaQu）
 
 **作者Paypal打賞：galaxychuck1995@gmail.com**
 
-本人不懂编程，不接受功能需求及面板搭建失败之类issus，欢迎dalao提交pr，~~付费代搭200一位~~
+**不接受**功能需求及面板搭建失败类issus，欢迎提交pr
 
 本面板在[宝塔面板5.6.0](www.bt.cn)，宝塔安装版 nginx1.12，php 7.1 ，mysql 5.7 上全部功能测试通过
-
-所有图片由**仟佰星云**制作，**仅供示例**，请搭建完成**手动**替换图片和文字等
 
 ## 搭建教程
 
 感谢LALA制作教程：https://lala.im/2398.html
 
 GitHub Wiki : https://github.com/NimaQu/ss-panel-v3-mod_UIChanges/wiki/%E5%89%8D%E7%AB%AF%E5%AE%89%E8%A3%85
-
-易付通接入教程 ：https://github.com/NimaQu/ss-panel-v3-mod_UIChanges/wiki/%E6%98%93%E4%BB%98%E9%80%9A%E6%94%AF%E4%BB%98%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B
-
-黛米付接入教程：https://github.com/NimaQu/ss-panel-v3-mod_UIChanges/wiki/%E9%BB%9B%E7%B1%B3%E4%BB%98%E6%8E%A5%E5%85%A5%E6%95%99%E7%A8%8B
 
 Wiki已经启用，欢迎为此面板制作维护wiki
 
@@ -68,7 +63,7 @@ Image:
 > 教程
 -------------------
 
-![](https://github.com/galaxychuck/images/blob/master/7.jpg)
+![首页](https://i.loli.net/2018/04/05/5ac6407da3a5d.png)
 
 
 
