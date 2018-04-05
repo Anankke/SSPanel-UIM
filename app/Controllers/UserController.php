@@ -295,7 +295,7 @@ class UserController extends BaseController
         }
         return FALSE;
     }
-  
+
     public function codepay($request, $response, $args)
     {
         $codepay_id=Config::get('codepay_id');//这里改成码支付ID
@@ -307,7 +307,7 @@ class UserController extends BaseController
         $data = array(
             "id" => $codepay_id,//你的码支付ID
             "pay_id" => $uid, //唯一标识 可以是用户ID,用户名,session_id(),订单ID,ip 付款后返回
-            "type" => $type,//1支付宝支付 2QQ钱包 3微信支付 
+            "type" => $type,//1支付宝支付 2QQ钱包 3微信支付
             "price" => $price,//金额100元
             "param" => "",//自定义参数
             "notify_url"=> $url.'/codepay_callback',//通知地址
@@ -331,9 +331,9 @@ class UserController extends BaseController
 
         }
         $query = $urls . '&sign=' . md5($sign .$codepay_key); //创建订单所需的参数
-        $url = "http://api2.fateqq.com:52888/creat_order/?".$query; //支付页面
+        $url = "https://api2.fateqq.com:52888/creat_order/?".$query; //支付页面
 
-        header("Location:".$url);       
+        header("Location:".$url);
     }
 
 
@@ -681,10 +681,10 @@ class UserController extends BaseController
                     }
                 }
 
-                if ($node_loadtemp=$node->getNodeLoad()[0]['load']){   
-                    $node_latestload[$temp[0]]=((float)explode(" ", $node_loadtemp)[0])*100;   
-                } else {   
-                    $node_latestload[$temp[0]]=null;   
+                if ($node_loadtemp=$node->getNodeLoad()[0]['load']){
+                    $node_latestload[$temp[0]]=((float)explode(" ", $node_loadtemp)[0])*100;
+                } else {
+                    $node_latestload[$temp[0]]=null;
                 }
 
 
@@ -1730,7 +1730,7 @@ class UserController extends BaseController
                 $res['msg'] = "管理员不允许删除,如需删除请联系管理员.";
             }
         }
-        
+
     }
     return $this->echoJson($response, $res);
 }
