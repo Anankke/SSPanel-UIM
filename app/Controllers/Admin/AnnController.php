@@ -32,17 +32,37 @@ class AnnController extends AdminController
         $ann->date =  date("Y-m-d H:i:s");
         $ann->content =  $request->getParam('content');
         $ann->markdown =  $request->getParam('markdown');
-
+        $issend = $request->getParam('issend');
+        $vip = $request->getParam('vip');
+        $users = User::all();
+      
+        if ($issend == 1){
+            foreach($users as $user){
+                if ($user->class >= $vip){
+                    $subject = Config::get('appName')."-公告";
+                    $to = $user->email;
+                    $text = $ann->content;
+                    try {
+                        Mail::send($to, $subject, 'news/warn.tpl', [
+                            "user" => $user,"text" => $text
+                        ], [
+                        ]);
+                    } catch (Exception $e) {
+                        $rs['ret'] = 0;
+                        $rs['msg'] = $e;
+                        return $response->getBody()->write(json_encode($rs));
+                    }
+                }
+            }
+        }
         if (!$ann->save()) {
             $rs['ret'] = 0;
             $rs['msg'] = "添加失败";
             return $response->getBody()->write(json_encode($rs));
         }
-
         Telegram::SendMarkdown("新公告：".PHP_EOL.$request->getParam('markdown'));
-
         $rs['ret'] = 1;
-        $rs['msg'] = "公告添加成功";
+        $rs['msg'] = "公告添加成功，邮件发送成功";
         return $response->getBody()->write(json_encode($rs));
     }
 
