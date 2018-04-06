@@ -100,6 +100,7 @@
 									{else}
 									<li>最多支持 {$shop->connector()} 个IP同时使用</li>
 									{/if}
+									<li>升级为VIP{$shop->user_class()}</li>
 								</ul><p></p>
 
 								<h4 style="margin-top:12px">续费</h4>
