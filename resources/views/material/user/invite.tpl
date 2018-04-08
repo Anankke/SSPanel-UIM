@@ -41,7 +41,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">说明</p>
-										<p>当您的余额达到100可发工单请求提现。</p>
+										<!--<p>当您的余额达到100可发工单请求提现。</p>-->
 										<p>您每拉一位用户注册，对方充值时您就会获得对方充值金额的 <code>{$config["code_payback"]} %</code> 的提成。</p>
 									</div>
 									

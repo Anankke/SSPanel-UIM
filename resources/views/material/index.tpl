@@ -45,7 +45,7 @@
                       </div>	
 					  	<nav>
 							<ul>
-                                <li><a href="#1">简介</a></li>
+                                <li><a href="#1">一言</a></li>
 					            <li><a href="/user">用户中心</a></li>
 								<li><a href="#5">下载</a></li>
                         </ul>
@@ -63,10 +63,10 @@
                       </div>	
                               <nav>
 							<ul>
-                               <li><a href="#1">简介</a></li>
+                               <!--<li><a href="#1">简介</a></li>-->
 								<li><a href="/auth/login">登录</a></li>
 								<li><a href="/auth/register">注册</a></li>
-                              	<li><a href="#4">联系</a></li>
+                              	<!--<li><a href="#4">联系</a></li>-->
 								<li><a href="#5">下載</a></li>
                               
                            </ul>
@@ -78,8 +78,8 @@
 					<div id="main">
                       <!--标签1开始-->
                       <article id="1">
-                      <h2 class="major">简介</h2>
-                      <p>这里是示范文字</p><p> 请到站点文件夹</p><p>resources/views/material/index.tpl</p><p>第79行进行修改</p></article>
+                      <h2 class="major">一言</h2>
+                      <script type="text/javascript" src="https://api.lwl12.com/hitokoto/main/get?encode=js&charset=utf-8"></script><div id="lwlhitokoto"><script>lwlhitokoto()</script></div><!--<p>这里是示范文字</p><p> 请到站点文件夹</p><p>resources/views/material/index.tpl</p><p>第79行进行修改</p></article>-->
 					  <!--
 					  简介修改示例: 
 					  <p> 123</p>
@@ -148,7 +148,7 @@
                               </div>
                      <!-- 版权底部 -->
                       <footer id="footer">
-                   <p class="copyright">&copy;2015-2017 {$config["appName"]}</p>
+                   <p class="copyright">&copy;2015-<script type="text/javascript">document.write(new Date().getFullYear());</script> {$config["appName"]}</p>
                       </footer>
               <!-- 版权结束 -->
 			 </div>
