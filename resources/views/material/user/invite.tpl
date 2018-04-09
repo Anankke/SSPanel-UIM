@@ -45,7 +45,7 @@
 									<div class="card-inner">
 										<p class="card-heading">注意！</p>
 										<p>邀请链接请给认识的需要的人。</p>
-										<p>剩余可邀请次数：<code>{$user->invite_num}</code></p>
+										<p>剩余可邀请次数：{if $user->invite_num<0}无限{else}<code>{$user->invite_num}</code>{/if}</p>
 									</div>
 								</div>
 							</div>
