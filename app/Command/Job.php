@@ -220,7 +220,7 @@ class Job
 
         #https://github.com/shuax/QQWryUpdate/blob/master/update.php
 
-        $copywrite = file_get_contents("https://github.com/esdeathlove/qqwry-download/raw/master/copywrite.rar");
+        $copywrite = file_get_contents("http://update.cz88.net/ip/copywrite.rar");
 
         $adminUser = User::where("is_admin", "=", "1")->get();
 
@@ -229,7 +229,7 @@ class Job
 
         if ($newmd5 != $oldmd5) {
             file_put_contents(BASE_PATH."/storage/qqwry.md5", $newmd5);
-            $qqwry = file_get_contents("https://github.com/esdeathlove/qqwry-download/raw/master/qqwry.rar");
+            $qqwry = file_get_contents("http://update.cz88.net/ip/qqwry.rar");
             if ($qqwry != "") {
                 $key = unpack("V6", $copywrite)[6];
                 for ($i=0; $i<0x200; $i++) {
