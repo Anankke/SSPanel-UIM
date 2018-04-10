@@ -385,6 +385,8 @@ class AuthController extends BaseController
                 $user->ref_by = $c->user_id;
                 $user->money=Config::get('invite_get_money');
                 $gift_user->transfer_enable=($gift_user->transfer_enable+Config::get('invite_gift')*1024*1024*1024);
+                $gift_user->invite_num -= 1;
+                $gift_user->save();
             }
         }
 
@@ -413,16 +415,8 @@ class AuthController extends BaseController
         if ($user->save()) {
             $res['ret'] = 1;
             $res['msg'] = "注册成功！正在进入用户中心";
-
             Duoshuo::add($user);
-
-
             Radius::Add($user, $user->passwd);
-
-            
-            $gift_user->invite_num -= 1;
-            $gift_user->save();
-
             return $response->getBody()->write(json_encode($res));
         }
         $res['ret'] = 0;
