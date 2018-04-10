@@ -1,4 +1,4 @@
-# 欢迎使用ss panel v3 mod 再次修改版
+# 欢迎使用ss panel v3 mod 再次修改版-Moexin自用存档
 
 
 **ss-panel-v3-mod**是一款转为shadowsocks设计的web前端面板，再次感谢ss-panel-v3mod 的制作者，修改后的功能简介：
