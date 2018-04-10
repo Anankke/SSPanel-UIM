@@ -9,13 +9,12 @@
 - 从肥羊那里抄来的：新用户注册现金奖励|高等级节点体验|设备数量限制
 - **优化**：css和js等置入本地提升加载速度
 
-telegram交流群：https://t.me/sspanelv3mod_UIChanges
+telegram交流群：https://t.me/sspanel_Uim
+参考91yun管理
 
-**此面板原作者为**[galaxychuck](https://github.com/galaxychuck)，因某些原因删除仓库，现代为上传
+**原作者**[galaxychuck](https://github.com/galaxychuck)
 
 使用此面板需要您有一定的**解决问题能力**（用爱commit从不debug的NimaQu）
-
-**作者Paypal打賞：galaxychuck1995@gmail.com**
 
 **不接受**功能需求及面板搭建失败类issus，欢迎提交pr
 
