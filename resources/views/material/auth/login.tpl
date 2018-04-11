@@ -31,7 +31,7 @@
 										<div class="card-main">
 											<div class="card-header">
 												<div class="card-inner">
-													<h1 class="card-heading">登录到用户中心</h1>
+													<h1 class="card-heading" style=" text-align:center;font-weight:bold;">登录到用户中心</h1>
 												</div>
 											</div>
 											<div class="card-inner">
