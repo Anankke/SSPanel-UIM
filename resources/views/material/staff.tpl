@@ -58,7 +58,7 @@ It will not impact the appearance and can give developers a lot of support :)
 												</tr>
 												<tr>
 													<td>现阶段维护</td>
-													<td><a href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a href="https://github.com/mxihan">Rin SAMA</a>，<a href="https://github.com/xcxnig">xcxnig</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a href="https://blog.nimaqu.com">NimaQu</a></td>
+													<td><a href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a href="https://github.com/mxihan">Rin SAMA</a>，<a href="https://github.com/xcxnig">Miku</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a href="https://blog.nimaqu.com">NimaQu</a></td>
 												</tr>
 												<tr>
 													<td>监督</td>
