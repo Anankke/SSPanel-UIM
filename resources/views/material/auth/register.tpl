@@ -10,20 +10,20 @@
 							<div class="card-main">
 								<div class="card-header">
 									<div class="card-inner">
-									<!-- 这里可以取消掉注释换logo图。
-									<h1 class="card-heading"><img src="/images/register.jpg" height=100% width=100% /></h1>
-									-->
-									<h1 class="card-heading">
-										<div class="text" style=" text-align:center;">
-											欢迎来到
+										<!-- 这里可以取消掉注释换logo图。
+										<h1 class="card-heading"><img src="/images/register.jpg" height=100% width=100% /></h1>
+										-->
+										<h1 class="card-heading">
+											<div class="text" style=" text-align:center;">
+												欢迎来到
+											</div>
+											<div class="text" style=" text-align:center;font-weight: bold;">
+												{$config["appName"]}
+											</div>
+										</h1>
 										</div>
-										<div class="text" style=" text-align:center;font-weight: bold;">
-											{$config["appName"]}
-										</div>
-									</h1>
 									</div>
-								</div>
-								<div class="card-inner">
+									<div class="card-inner">
 
 
 										<div class="form-group form-group-label">
@@ -130,6 +130,7 @@
 													<div class="col-md-10 col-md-push-1">
 														<label class="floating-label" for="code">邀请码(可选)</label>
 														<input class="form-control" id="code" type="text" value="{$code}">
+														<p><a href="/code">没有邀请码? 点我点我</a></p>
 													</div>
 												</div>
 											</div>

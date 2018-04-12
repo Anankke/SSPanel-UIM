@@ -33,8 +33,13 @@ class Config
             "enable_telegram" => self::get("enable_telegram"),
             "payment_system" => self::get("payment_system"),
           	"enable_crisp" => self::get("enable_crisp"),
-          	"crisp_id" => self::get("crisp_id")
-         ];
+          	"crisp_id" => self::get("crisp_id"),
+            "telegram_vip" => self::get("telegram_vip"),
+            "index_notice" => self::get("index_notice"),
+            "node_prefix_switch" => self::get("node_prefix_switch"),
+            "ad_index" => self::get("ad_index"),
+            "ad_user" => self::get("ad_user")
+        ];
     }
 
     public static function getDbConfig()
