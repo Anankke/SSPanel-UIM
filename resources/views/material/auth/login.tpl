@@ -10,9 +10,11 @@
 							<ul class="nav nav-justified">
 
 							{if $config['enable_telegram'] == 'true'}
+								{if $config['enable_telegram_qrcode'] == 'true'}
 								<li>
 									<a class="waves-attach" data-toggle="tab" href="#qrcode_login">	TG扫码登录</a>
 								</li>
+								{/if}
                                {/if}
                               	<li class="active">
 							   <a class="waves-attach" data-toggle="tab" href="#passwd_login">密码登录</a>
