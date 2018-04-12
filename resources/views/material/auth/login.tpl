@@ -10,9 +10,11 @@
 							<ul class="nav nav-justified">
 
 							{if $config['enable_telegram'] == 'true'}
+								{if $config['enable_telegram_qrcode'] == 'true'}
 								<li>
 									<a class="waves-attach" data-toggle="tab" href="#qrcode_login">	TG扫码登录</a>
 								</li>
+								{/if}
                                {/if}
                               	<li class="active">
 							   <a class="waves-attach" data-toggle="tab" href="#passwd_login">密码登录</a>
@@ -31,7 +33,7 @@
 										<div class="card-main">
 											<div class="card-header">
 												<div class="card-inner">
-													<h1 class="card-heading" style=" text-align:center;font-weight:bold;">登录到用户中心</h1>
+													<h1 class="card-heading">登录到用户中心</h1>
 												</div>
 											</div>
 											<div class="card-inner">

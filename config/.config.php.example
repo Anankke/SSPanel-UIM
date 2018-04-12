@@ -28,7 +28,12 @@ $System_Config['max_port']='65535';      //端口池最大值
 $System_Config['pacp_offset']='-20000';      //两种方式相对于ss端口的偏移
 $System_Config['pacpp_offset']='-20000';
 $System_Config['Speedtest_duration']='6';      //测速周期/h
-
+//基础设置2
+$System_Config['node_prefix_switch']='false';      //是否显示旗帜
+$System_Config['index_notice'] = '<p>TG客户端: <a target="_blank" href="https://play.google.com/store/apps/details?id=org.thunderdog.challegram&hl=en">Android</a> / <a target="_blank" href="https://telegram.org/blog/telegram-x#x-for-ios">iOS</a></p>';//首页通知上方的自定义通知内容
+$System_Config['telegram_vip'] = '<a href="//t.me/joinchat/AAAAAEGwkOODKeZjCGPKLw" target="view_window">点击加入tg群</a> 客户端 </a><a target="_blank" href="https://play.google.com/store/apps/details?id=org.thunderdog.challegram&hl=en">Android</a> / <a target="_blank" href="https://telegram.org/blog/telegram-x#x-for-ios">iOS</a>';    //Telegram X(VIP可见)
+$System_Config['ad_index'] = '本站Google提供云计算服务,伺服器位于台湾,遵守台湾法律法规';      //注册页面下方的内容
+$System_Config['ad_user'] = '本站Google提供云计算服务,伺服器位于台湾,遵守台湾法律法规';      //用户页面下方的内容
 
 //数据库设置---------------------------------------------------------------------
 $System_Config['db_driver'] = 'mysql';
@@ -126,6 +131,7 @@ $System_Config['tuling_apisecert']='';      //图灵机器人密钥
 $System_Config['telegram_bot']='_bot';      //Telegram 机器人账号
 $System_Config['telegram_group_quiet']='false';      //Telegram 机器人在群组中不回应
 $System_Config['telegram_qrcode']='zxing_local';      //二维码解码方式，online，phpzbar，zxing_online，zxing_local
+$System_Config['enable_telegram_qrcode']='false';      //是否开启Telegram 扫码登陆(有时候会出现扫描失败无限循环报错)
 $System_Config['telegram_request_token']='';      //Telegram 机器人请求Key，随意设置，由大小写英文和数字组成
                                                   //复杂一些，用于校验请求，更新这个参数之后请 php xcat setTelegram
 

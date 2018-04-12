@@ -21,7 +21,8 @@
 							<div class="card">
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
-                                     <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>
+									 <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>
+									 {$config["index_notice"]}
 										{if $ann != null}
 										<p>{$ann->content}</p>
 										{/if}
@@ -286,7 +287,7 @@
                                           </p>
                                           {if $user->class!=0}
                                           	 <p><dt>Telegram(VIP可见)</dt>
-											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="请到index.tpl第299行修改" target="view_window">点击加入TG群</a></dd>
+											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;{$config["telegram_vip"]}</dd>
                                           {else}
                                              
                                               {/if}
