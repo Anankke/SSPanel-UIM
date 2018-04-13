@@ -13,7 +13,7 @@
 				<h1 class="content-heading">节点列表</h1>
 			</div>
 		</div>
-      
+
 		<div class="container">
 			<section class="content-inner margin-top-no">
 				<div class="ui-card-wrap">
@@ -31,7 +31,7 @@
 									{if $node_isv6[$prefix] == 0 && $node_class[$prefix]==0}
 												{$id=$id+1}
                                            {foreach $nodes as $node}
-                                          
+
 													<div class="tile tile-collapse">
 														<div data-toggle="tile" data-target="#heading{$node_order->$prefix}">
 															<div class="tile-side pull-left" data-ignore="tile">
@@ -50,7 +50,7 @@
 
 																<br>
 
-															
+
 
  																{if $node->node_class > $user->class}
 
@@ -69,20 +69,20 @@
 																	<div class="card">
 																		<div class="card-main">
 
-																			
+
 
 
 																			<div class="card-inner">
-																			
+
 
 																			<p class="card-heading" >
 																				<a href="javascript:void(0);" onClick="urlChange('{$node->id}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node->name}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
 																				<span class="label label-brand-accent">←点击节点查看配置信息</span>
 																			</p>
-                                                                                                                                                                             																												
-																			<p>备注：{$node->info}</p> 
-																			
-																				 	
+
+																			<p>备注：{$node->info}</p>
+
+
 																			 </div>
 																		</div>
 																	</div>
@@ -155,7 +155,7 @@
 																{/if}
 
 																{$point_node=null}
-															</div>                                                                      
+															</div>
 														</div>
 												</div>
 												{/if}
@@ -167,7 +167,7 @@
 
 											{$id=1000}
 											{foreach $node_prefix as $prefix => $nodes}
-										{if $node_isv6[$prefix] == 0 && $node_class[$prefix]==1}
+										{if $node_isv6[$prefix] == 0 && $node_class[$prefix]!=1}
 												{$id=$id+1}
                                                           	{foreach $nodes as $node}
 
@@ -189,7 +189,7 @@
 
 																<br>
 
-															
+
 
  																{if $node->node_class > $user->class}
 
@@ -208,20 +208,20 @@
 																	<div class="card">
 																		<div class="card-main">
 
-																			
+
 
 
 																			<div class="card-inner">
-																			
+
 
 																			<p class="card-heading" >
 																				<a href="javascript:void(0);" onClick="urlChange('{$node->id}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node->name}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
 																				<span class="label label-brand-accent">←点击节点查看配置信息</span>
 																			</p>
-                                                                                                                                                                             																												
-																			<p>备注：{$node->info}</p> 
-																			
-																				 	
+
+																			<p>备注：{$node->info}</p>
+
+
 																			 </div>
 																		</div>
 																	</div>
@@ -294,7 +294,7 @@
 																{/if}
 
 																{$point_node=null}
-															</div>                                                                      
+															</div>
 														</div>
 												</div>
 												{/if}
@@ -307,7 +307,7 @@
 								</div>
 							</div>
 							</div>
-                             
+
 
 						<div aria-hidden="true" class="modal modal-va-middle fade" id="nodeinfo" role="dialog" tabindex="-1">
 							<div class="modal-dialog modal-full">
