@@ -167,7 +167,7 @@
 
 											{$id=1000}
 											{foreach $node_prefix as $prefix => $nodes}
-										{if $node_isv6[$prefix] == 0 && $node_class[$prefix]!=1}
+										{if $node_isv6[$prefix] == 0 && $node_class[$prefix]!=0}
 												{$id=$id+1}
                                                           	{foreach $nodes as $node}
 
