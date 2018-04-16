@@ -439,7 +439,7 @@ class Job
 
         $adminUser = User::where("is_admin", "=", "1")->get();
 
-        $latest_content = file_get_contents("https://raw.githubusercontent.com/NimaQu/ss-panel-v3-mod_UIChanges/master/bootstrap.php");
+        $latest_content = file_get_contents("https://raw.githubusercontent.com/NimaQu/ss-panel-v3-mod_uim/master/bootstrap.php");
         $newmd5 = md5($latest_content);
         $oldmd5 = md5(file_get_contents(BASE_PATH."/bootstrap.php"));
 
@@ -454,7 +454,7 @@ class Job
                         echo "Send mail to user: ".$user->id;
                         $subject = Config::get('appName')."-系统提示";
                         $to = $user->email;
-                        $text = "管理员您好，系统发现有了新版本，您可以到 <a href=\"https://github.com/NimaQu/ss-panel-v3-mod_UIChanges/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC\">https://github.com/NimaQu/ss-panel-v3-mod_UIChanges/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC</a> 按照步骤进行升级。" ;
+                        $text = "管理员您好，系统发现有了新版本，您可以到 <a href=\"https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC\">https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC</a> 按照步骤进行升级。" ;
                         try {
                             Mail::send($to, $subject, 'news/warn.tpl', [
                                 "user" => $user,"text" => $text
