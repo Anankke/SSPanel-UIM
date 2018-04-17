@@ -273,11 +273,27 @@ class AuthController extends BaseController
             }
         }
 
-        if (Config::get('enable_invite_code')=='true') {
-            $c = InviteCode::where('code', $code)->first();
-            if ($c == null) {
+        //dumplin：1、enable_invite_code为true则注册必须要填邀请码；2、邀请人等级为0则邀请码不可用；3、邀请人invite_num为可邀请次数，填负数则为无限
+        $c = InviteCode::where('code', $code)->first();
+        if ($c == null) {
+            if (Config::get('enable_invite_code')=='true') {
                 $res['ret'] = 0;
                 $res['msg'] = "邀请码无效";
+                return $response->getBody()->write(json_encode($res));
+            }
+        } else if ($c->user_id != 0) {
+            $gift_user=User::where("id", "=", $c->user_id)->first();
+            if ($gift_user == null) {
+                $res['ret'] = 0;
+                $res['msg'] = "邀请人不存在";
+                return $response->getBody()->write(json_encode($res));
+            } else if ($gift_user->class == 0) {
+                $res['ret'] = 0;
+                $res['msg'] = "邀请人不是VIP";
+                return $response->getBody()->write(json_encode($res));
+            } else if ($gift_user->invite_num == 0) {
+                $res['ret'] = 0;
+                $res['msg'] = "邀请人可用邀请次数为0";
                 return $response->getBody()->write(json_encode($res));
             }
         }
@@ -288,7 +304,7 @@ class AuthController extends BaseController
             $res['msg'] = "邮箱无效";
             return $response->getBody()->write(json_encode($res));
         }
-		// check email
+        // check email
         $user = User::where('email', $email)->first();
         if ($user != null) {
             $res['ret'] = 0;
@@ -331,8 +347,8 @@ class AuthController extends BaseController
             $res['msg'] = "此联络方式已注册";
             return $response->getBody()->write(json_encode($res));
         }
-		if (Config::get('enable_email_verify')=='true') {
-			EmailVerify::where('email', '=', $email)->delete();
+        if (Config::get('enable_email_verify')=='true') {
+            EmailVerify::where('email', '=', $email)->delete();
         }
         // do reg user
         $user = new User();
@@ -361,22 +377,25 @@ class AuthController extends BaseController
         $user->invite_num = Config::get('inviteNum');
         $user->auto_reset_day = Config::get('reg_auto_reset_day');
         $user->auto_reset_bandwidth = Config::get('reg_auto_reset_bandwidth');
-		$user->money=0;
-		$user->class_expire=date("Y-m-d H:i:s", time()+Config::get('user_class_expire_default')*3600);
+        $user->money=0;
+
+        //dumplin：填写邀请人，写入邀请奖励
+        $user->ref_by =0;
+        if ($c != null) {
+            if ($c->user_id != 0) {
+                $gift_user=User::where("id", "=", $c->user_id)->first();
+                $user->ref_by = $c->user_id;
+                $user->money=Config::get('invite_get_money');
+                $gift_user->transfer_enable=($gift_user->transfer_enable+Config::get('invite_gift')*1024*1024*1024);
+                $gift_user->invite_num -= 1;
+                $gift_user->save();
+            }
+        }
+
+        $user->class_expire=date("Y-m-d H:i:s", time()+Config::get('user_class_expire_default')*3600);
         $user->class = Config::get('user_class_default');
         $user->node_connector=Config::get('user_conn');
         $user->node_speedlimit=Config::get('user_speedlimit');
-        if (Config::get('enable_invite_code')=='true') {
-            $user->ref_by = $c->user_id;
-            if ($user->ref_by !=0) {
-                $user->money=Config::get('invite_get_money');
-                $gift_user=User::where("id", "=", $user->ref_by)->first();
-                $gift_user->transfer_enable=($gift_user->transfer_enable+Config::get('invite_gift')*1024*1024*1024);
-                $gift_user->save();
-            }
-        } else {
-            $user->ref_by = 0;
-        }
         $user->expire_in=date("Y-m-d H:i:s", time()+Config::get('user_expire_in_default')*86400);
         $user->reg_date=date("Y-m-d H:i:s");
         $user->reg_ip=$_SERVER["REMOTE_ADDR"];
@@ -398,16 +417,8 @@ class AuthController extends BaseController
         if ($user->save()) {
             $res['ret'] = 1;
             $res['msg'] = "注册成功！正在进入用户中心";
-
             Duoshuo::add($user);
-
-
             Radius::Add($user, $user->passwd);
-
-            if (Config::get('enable_invite_code')=='true') {
-                $c->delete();
-            }
-
             return $response->getBody()->write(json_encode($res));
         }
         $res['ret'] = 0;
