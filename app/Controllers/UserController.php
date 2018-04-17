@@ -969,16 +969,23 @@ class UserController extends BaseController
 
     public function invite($request, $response, $args)
     {
-        $pageNum = 1;
+        /*$pageNum = 1;
         if (isset($request->getQueryParams()["page"])) {
             $pageNum = $request->getQueryParams()["page"];
         }
         $codes=InviteCode::where('user_id', $this->user->id)->orderBy("created_at", "desc")->paginate(15, ['*'], 'page', $pageNum);
-        $codes->setPath('/user/invite');
+        $codes->setPath('/user/invite');*/
+        $code=InviteCode::where('user_id', $this->user->id)->first();
+        if ($code==null) {
+            $char = Tools::genRandomChar(32);
+            $code = new InviteCode();
+            $code->code = $char;
+            $code->user_id = $this->user->id;
+            $code->save();
+        }
 
 
-
-        return $this->view()->assign('codes', $codes)->display('user/invite.tpl');
+        return $this->view()->assign('code', $code)->display('user/invite.tpl');
     }
 
     public function doInvite($request, $response, $args)
