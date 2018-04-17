@@ -73,20 +73,14 @@ $System_Config['auto_backup_passwd']='zip password';
 
 //用户注册设置--------------------------------------------------------------------
 $System_Config['defaultTraffic'] = '1';      // 用户初始流量 单位GB
-$System_Config['inviteNum'] = '10';      // 注册后获得的邀请码数量
 $System_Config['user_expire_in_default']='3650';      //用户账户过期时间，在注册时设置。（天）
 $System_Config['user_class_default']='1';      //用户注册等级，在注册时设置。
 $System_Config['user_class_expire_default']='2';      //用户等级过期时间，在注册时设置。（小时）
 $System_Config['user_conn']='0';      //用户注册客户端数量限制，0为不限制
 $System_Config['user_speedlimit']='0';      //用户注册速度默认限制，0为不限制
-$System_Config['invite_get_money']='1';      //新用户通过私人邀请链接注册，获得奖励金额（鼓励消费）
 $System_Config['reg_auto_reset_day']='0';      //注册时的流量重置日以及需要重置的流量,0不重置
 $System_Config['reg_auto_reset_bandwidth']='0';
 $System_Config['ramdom_group']='0';      //注册时随机分组，注册时随机分配到的分组，多个分组请用英文半角逗号分隔。
-$System_Config['enable_invite_code']='false';      //是否启用邀请码注册
-$System_Config['enable_email_verify']='true';      //是否启用注册邮箱验证码
-$System_Config['email_verify_ttl']='3600';      //邮箱验证码有效期
-$System_Config['email_verify_iplimit']='10';      //单IP可请求验证码次数（上面那个周期内）
 $System_Config['reg_method']='chacha20';      //注册时默认加密方式
 $System_Config['reg_protocol']='auth_sha1_v4';      //注册时默认协议
 $System_Config['reg_protocol_param']='';      //注册时默认协议参数
@@ -94,6 +88,14 @@ $System_Config['reg_obfs']='';      //注册时默认混淆方式
 $System_Config['reg_obfs_param']='amazon.cn';      //注册时默认混淆参数
 $System_Config['reg_forbidden_ip']='127.0.0.0/8,::1/128';      //注册时默认禁止访问IP列表，半角英文逗号分割
 $System_Config['reg_forbidden_port']='';      //注册时默认禁止访问端口列表，半角英文逗号分割，支持端口段
+//邀请链接
+$System_Config['enable_invite_code']='false';      //是否强制开启邀请，为true则注册必须使用邀请链接 且 邀请人等级为0时邀请链接不可用
+$System_Config['inviteNum'] = '10';      // 注册后的邀请链接可用次数
+$System_Config['invite_get_money']='1';      //新用户通过私人邀请链接注册，获得奖励金额（鼓励消费）
+//邮箱验证
+$System_Config['enable_email_verify']='true';      //是否启用注册邮箱验证码
+$System_Config['email_verify_ttl']='3600';      //邮箱验证码有效期
+$System_Config['email_verify_iplimit']='10';      //单IP可请求验证码次数（上面那个周期内）
 
 
 //已注册用户设置------------------------------------------------------------------
