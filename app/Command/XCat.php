@@ -183,6 +183,7 @@ class XCat
             User::where("enable", 1)->update([
             'd' => 0,
             'u' => 0,
+            'last_day_t' => 0,
             ]);
         } catch (\Exception $e) {
             echo $e->getMessage();
