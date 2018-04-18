@@ -70,7 +70,7 @@ class Pay
             return '
             			<p><i class="icon icon-lg">monetization_on</i>&nbsp;余额&nbsp;<font color="red" size="5">'.$user->money.'</font>&nbsp;元</p>
 
-                        <p><img src="/images/qianbai-4.png" height="250" width="200" /></p>
+                        <p><img src="/images/qianbai-4.png" height="250" width="202" /></p>
                         <div class="form-group form-group-label">
                          <label class="floating-label" for="number">请选择充值金额</label>
                         <select id="type" class="form-control" name="amount">
