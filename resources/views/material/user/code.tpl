@@ -126,7 +126,7 @@
 									<h2 class="modal-title">正在连接支付宝</h2>
 								</div>
 								<div class="modal-inner">
-									<p id="title">正在处理...吃个瓜吧</p>
+									<p id="title">感谢您对我们的支持，请耐心等待</p>
                                    <img src="/images/qianbai-2.png" height="200" width="200" />
 								</div>
 							</div>
@@ -143,7 +143,7 @@
 								<div class="modal-inner">
                                    <div class="text-center">
                                     <p id="divide">-------------------------------------------------------------</p>
-									<p id="title">手机端请点击二维码转跳app</p>
+									<p id="title">手机端点击二维码即可转跳app支付</p>
 									<p id="divide">-------------------------------------------------------------</p>
 									<p id="qrcode"></p>
 									<p id="info"></p>

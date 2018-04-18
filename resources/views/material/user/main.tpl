@@ -307,7 +307,6 @@
 				{if $user->isLogin}
 					<span class="access-hide">{$user->user_name}</span>
               	    <span class="icon icon-cd margin-right">account_circle</span>
-				<!--	<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="{$user->gravatar}"></span>  -->
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
@@ -321,8 +320,6 @@
 				{else}
 					<span class="access-hide">未登录</span>
              		 <span class="icon icon-lg margin-right">account_circle</span>
-					<!-- <span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="/theme/material/images/users/avatar-001.jpg"></span>  -->
-
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
 							<a class="padding-right-lg waves-attach" href="/auth/login"><span class="icon icon-lg margin-right">account_box</span>登录</a>
@@ -412,7 +409,7 @@
 							</li>
 						</ul>
 
-					<!--	<a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
+						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_detect">
 							<li><a href="/user/detect"><i class="icon icon-lg">account_balance</i>&nbsp;审计规则</a></li>
 							<li><a href="/user/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a></li>
@@ -426,7 +423,7 @@
 									<i class="icon icon-lg">help</i>&nbsp;问答系统
 								</a>
 							</li>
-							{/if}-->
+							{/if}
 
 
 
