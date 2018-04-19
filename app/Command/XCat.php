@@ -15,7 +15,6 @@ use App\Services\Config;
 
 use App\Utils\GA;
 use App\Utils\QRcode;
-use App\Utils\Tools;
 
 class XCat
 {
@@ -91,10 +90,9 @@ class XCat
     {
         $users = User::all();
         foreach ($users as $user) {
-            $user = $this->user;
             $origin_port = $user->port;
             $user->port = Tools::getAvPort();
-            echo '$origin_port='.$origin_port.'&$user->port='.$user->port.'/n';
+            echo '$origin_port='.$origin_port.'&$user->port='.$user->port."\n";
             $user->save();
         }
     }
