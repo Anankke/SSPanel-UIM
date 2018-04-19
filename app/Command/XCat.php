@@ -95,6 +95,7 @@ class XCat
             $origin_port = $user->port;
             $user->port = Tools::getAvPort();
             echo '$origin_port='.$origin_port.'&$user->port='.$user->port.'/n';
+            $user->save();
         }
     }
 
