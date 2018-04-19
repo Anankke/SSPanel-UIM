@@ -74,6 +74,8 @@ class XCat
                 return Job::updatedownload();
             case("cleanRelayRule"):
                 return $this->cleanRelayRule();
+            case("resetport"):
+                return $this->resetport();
             default:
                 return $this->defaultAction();
         }
@@ -82,6 +84,17 @@ class XCat
     public function defaultAction()
     {
         echo "Memo";
+    }
+
+    public function resetport()
+    {
+        $users = User::all();
+        foreach ($users as $user) {
+            $user = $this->user;
+            $origin_port = $user->port;
+            $user->port = Tools::getAvPort();
+            echo '$origin_port='.$origin_port.'&$user->port='.$user->port.'/n';
+        }
     }
 
     public function cleanRelayRule()
