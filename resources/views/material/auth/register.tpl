@@ -123,8 +123,6 @@
 										</div>
 
 
-
-									<!--	{if $enable_invite_code == 'true'}  -->
 											<div style="display:none" class="form-group form-group-label">
 												<div class="row">
 													<div class="col-md-10 col-md-push-1">
@@ -133,7 +131,6 @@
 													</div>
 												</div>
 											</div>
-								<!--		{/if}   -->
 
 										{if $geetest_html != null}
 											<div class="form-group form-group-label">
@@ -234,11 +231,12 @@
                     }else{
                         $("#result").modal();
                         $("#msg").html(data.msg);
-			document.getElementById("tos").disabled = false;
-
-			{if $geetest_html != null}
-			captcha.refresh();
-			{/if}
+                        setCookie('code','',0);
+                        $("#code").val(getCookie('code'));
+						document.getElementById("tos").disabled = false;
+						{if $geetest_html != null}
+						captcha.refresh();
+						{/if}
                     }
                 },
                 error:function(jqXHR){
