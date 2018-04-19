@@ -15,6 +15,7 @@ use App\Services\Config;
 
 use App\Utils\GA;
 use App\Utils\QRcode;
+use App\Utils\Tools;
 
 class XCat
 {
