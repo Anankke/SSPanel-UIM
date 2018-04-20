@@ -1,0 +1,49 @@
+diff a/app/Command/XCat.php b/app/Command/XCat.php	(rejected hunks)
+@@ -65,47 +65,34 @@
+             case("syncduoshuo"):
+                 return Job::SyncDuoshuo();
+             case("userga"):
+                 return Job::UserGa();
+             case("backup"):
+                 return Job::backup();
+             case("initdownload"):
+                 return $this->initdownload();
+             case("updatedownload"):
+                 return Job::updatedownload();
+             case("cleanRelayRule"):
+                 return $this->cleanRelayRule();
+-            case("resetport"):
+-                return $this->resetport();
+             default:
+                 return $this->defaultAction();
+         }
+     }
+ 
+     public function defaultAction()
+     {
+         echo "Memo";
+     }
+ 
+-    public function resetport()
+-    {
+-        $users = User::all();
+-        foreach ($users as $user) {
+-            $user = $this->user;
+-            $origin_port = $user->port;
+-            $user->port = Tools::getAvPort();
+-            echo '$origin_port='.$origin_port.'&$user->port='.$user->port.'/n';
+-        }
+-    }
+-
+     public function cleanRelayRule()
+     {
+         $rules = Relay::all();
+         foreach ($rules as $rule) {
+             echo($rule->id."\n");
+             if ($rule->source_node_id == 0) {
+                 echo($rule->id."被删除！\n");
+                 $rule->delete();
+                 continue;
+             }
+ 
+             $ruleset = Relay::where('user_id', $rule->user_id)->orwhere('user_id', 0)->get();
