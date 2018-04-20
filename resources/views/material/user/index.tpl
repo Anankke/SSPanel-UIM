@@ -285,8 +285,8 @@
                                               {/if}
                                           </p>
                                           {if $user->class!=0}
-                                          	 <p><dt>Telegram(VIP可见)</dt>
-											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="请到index.tpl第299行修改" target="view_window">点击加入TG群</a></dd>
+                                          	 <p><dt>Telegram(<a href="https://cn.aptoide.com/thank-you?app_id=35403511&store_name=ammaralali" target="view_window">点击下载TG</a>)</dt>
+											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="请到index.tpl第289行修改" target="view_window">点击加入TG群</a></dd>
                                           {else}
                                              
                                               {/if}
