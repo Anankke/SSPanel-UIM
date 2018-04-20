@@ -22,7 +22,7 @@
               <!--首页开始-->
 					<header id="header">
 						<div class="logo">
-						<span class="icon fa-rocket"></span>
+						<img src="/images/logo.png" width="100%" height="100%">
                       </div>
                        {if $user->isLogin}
 						<div class="content">
