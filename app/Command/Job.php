@@ -262,15 +262,15 @@ class Job
             Job::backup();
         }
 
-        //Job::updatedownload();
-        //修复未知updatedownload函数问题
+        Job::updatedownload();
+        
     }
-//   注释該代碼：會導致重置流量任務失效
- //   public static function updatedownload()
- //   {
- //     system('cd '.BASE_PATH."/public/ssr-download/ && git pull", $ret);
- //       echo $ret;
-  //  }
+//   定时任务开启的情况下，每天自动检测有没有最新版的后端，github源来自Miku
+     public static function updatedownload()
+      {
+      	system('cd '.BASE_PATH."/public/ssr-download/ && git pull https://github.com/xcxnig/ssr-download.git");
+     }
+
 
     public static function CheckJob()
     {
