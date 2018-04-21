@@ -1,0 +1,116 @@
+///
+/// Stellar by HTML5 UP
+/// html5up.net | @ajlkn
+/// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+///
+
+/* Header */
+
+	#header {
+		@include padding(5em, 5em, (0, 0, -2em, 0));
+		text-align: center;
+
+		h1 {
+			margin: 0 0 (_size(element-margin) * 0.125) 0;
+		}
+
+		p {
+			font-size: 1.25em;
+			letter-spacing: _font(letter-spacing);
+		}
+
+		&.alt {
+			@include padding(6em, 5em, (1em, 0, 0, 0));
+
+			h1 {
+				font-size: 3.25em;
+			}
+
+			> * {
+				@include vendor('transition', 'opacity 3s ease');
+				@include vendor('transition-delay', '0.5s');
+				opacity: 1;
+			}
+
+			.logo {
+				@include vendor('transition', (
+					'opacity 1.25s ease',
+					'transform 0.5s ease'
+				));
+				@include vendor('transition-delay', '0s');
+				display: block;
+				margin: 0 0 (_size(element-margin) * 0.75) 0;
+
+				img {
+					display: block;
+					margin: 0 auto;
+					max-width: 75%;
+				}
+			}
+		}
+
+		@include breakpoint(large) {
+			@include padding(4em, 4em, (0, 0, -2em, 0));
+
+			&.alt {
+				@include padding(5em, 4em, (1em, 0, 0, 0));
+			}
+		}
+
+		@include breakpoint(medium) {
+			@include padding(4em, 3em, (0, 0, -2em, 0));
+
+			&.alt {
+				@include padding(4em, 3em, (1em, 0, 0, 0));
+			}
+		}
+
+		@include breakpoint(small) {
+			@include padding(3em, 2em, (0, 0, -1em, 0));
+
+			p {
+				font-size: 1em;
+				letter-spacing: 0;
+
+				br {
+					display: none;
+				}
+			}
+
+			&.alt {
+				@include padding(3em, 2em, (1em, 0, 0, 0));
+
+				h1 {
+					font-size: 2.5em;
+				}
+			}
+		}
+
+		@include breakpoint(xsmall) {
+			@include padding(3em, 1.5em, (0, 0, -1em, 0));
+
+			&.alt {
+				@include padding(3em, 1.5em, (1em, 0, 0, 0));
+			}
+		}
+
+		@include breakpoint(xxsmall) {
+			@include padding(2.5em, 1em, (0, 0, -1em, 0));
+
+			&.alt {
+				@include padding(2.5em, 1em, (1em, 0, 0, 0));
+			}
+		}
+
+		body.is-loading & {
+			&.alt {
+				> * {
+					opacity: 0;
+				}
+
+				.logo {
+					@include vendor('transform', 'scale(0.8) rotate(-30deg)');
+				}
+			}
+		}
+	}
