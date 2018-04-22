@@ -20,7 +20,7 @@
 		<div class="container">
 			<section class="content-inner margin-top-no">
 				<div class="row">
-					
+
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -29,7 +29,7 @@
 										<p class="card-heading">说明</p>
 										<p>您每拉一位用户注册，对方充值时您就会获得对方充值金额的 <code>{$config["code_payback"]} %</code> 的提成。</p>
 									</div>
-									
+
 								</div>
 							</div>
 						</div>
@@ -52,7 +52,7 @@
 						</div>
 					</div>
 					{/if}
-                  
+
                   	<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -68,7 +68,7 @@
 					</div>
 
                    	{else}
-                  
+
                   	<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -79,9 +79,32 @@
 							</div>
 						</div>
 					</div>
-				
+
 					{/if}
-					
+					<div class="table-responsive">
+						{$paybacks->render()}
+						<table class="table ">
+							<tr>
+
+                             <!--   <th>ID</th> -->
+                                <th>ID</th>
+								<th>被邀请用户ID</th>
+								<th>获得返利</th>
+                            </tr>
+                            {foreach $paybacks as $payback}
+                            <tr>
+
+                          <!--       <td>#{$payback->id}</td> -->
+                                <td>{$payback->id}</td>
+								<td>{$payback->userid}</td>
+								<td>{$payback->ref_get} 元</td>
+
+                            </tr>
+                            {/foreach}
+                        </table>
+						{$paybacks->render()}
+					</div>
+
 					{include file='dialog.tpl'}
 
 				</div>
@@ -118,4 +141,3 @@
         })
     })
 </script>
-
