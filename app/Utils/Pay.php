@@ -115,7 +115,7 @@ class Pay
                             <br>
                             <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="1" ><img src="/images/alipay.jpg" width="50px" height="50px" /></button>
                             <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="2" ><img src="/images/qqpay.jpg" width="50px" height="50px" /></button>
-                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="3" disabled><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
+                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="3" ><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
 
                         </form>
 ';
