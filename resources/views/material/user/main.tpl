@@ -415,19 +415,16 @@
 							<li><a href="/user/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a></li>
 						</ul>
 
+						{if $config['enable_wecenter']=='true'}
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_trade">帮助</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_trade">
-							{if $config['enable_wecenter']=='true'}
 							<li>
 								<a href="{$config["wecenter_url"]}" target="_blank">
 									<i class="icon icon-lg">help</i>&nbsp;问答系统
 								</a>
 							</li>
-							{/if}
-
-
-
-
+						</ul>
+						{/if}
 
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_help">商店</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_help">

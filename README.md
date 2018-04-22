@@ -11,11 +11,11 @@
 
 telegram交流群：https://t.me/joinchat/GQehSEV7LEU3AmRYKQqDVw
 
-telegtam 频道 ：https://t.me/sspanel_Uim
-
-管理模式参考91yun管理
+telegtam 频道 ：https://t.me/sspanel_Uim  管理模式参考91yun管理
 
 **原作者** [galaxychuck](https://github.com/galaxychuck)
+
+[支持开发者请点我](https://github.com/NimaQu/ss-panel-v3-mod_UIM#%E5%85%B3%E4%BA%8E%E6%8D%90%E8%B5%A0)
 
 本面板在[宝塔面板5.6.0](www.bt.cn)，宝塔安装版 nginx1.12，php 7.1 ，mysql 5.7 上全部功能测试通过
 
@@ -25,7 +25,7 @@ telegtam 频道 ：https://t.me/sspanel_Uim
 
 GitHub Wiki : https://github.com/NimaQu/ss-panel-v3-mod_UIChanges/wiki/%E5%89%8D%E7%AB%AF%E5%AE%89%E8%A3%85
 
-Wiki已经启用，欢迎为此面板制作维护wiki
+Wiki已经启用，欢迎为此面板维护wiki
 
 ### 示例图片 Images
 
@@ -67,54 +67,64 @@ Image:
 
 #### 鸣谢
 
-[galaxychuck](https://github.com/galaxychuck)
+##### [galaxychuck](https://github.com/galaxychuck)
 
 - 面板**原作者**
 
-[dumplin](https://github.com/dumplin233) 
+##### [dumplin](https://github.com/dumplin233) 
 
 - 码支付对接 + 码支付当面付二合一
 - 为面板加入 AFF 链接功能
 - 商品增加限速和限制 ip 属性
 - 多端口订阅
 
-[rinSama](https://github.com/mxihan)
+##### [rinSama](https://github.com/mxihan)
 
 - 整理分类 config.php
 - spay 优化
 
-[miku](https://github.com/xcxnig)
+##### [miku](https://github.com/xcxnig)
 
-- 美观优化和性能优化
+- 美观和性能优化
 
-[Tony Zou](https://github.com/ZJY2003)
+##### [Tony Zou](https://github.com/ZJY2003)
 
 - 为公告增加群发邮件功能
 - 节点负载情况显示&用户账户过期在首页弹窗提醒
 - 增加返利列表
 
-[NimaQu](https://github.com/NimaQu)
+##### [NimaQu](https://github.com/NimaQu)
 
 - 对接易付通
-- 用爱 commit 从不 debug
+
+##### 还有提交过 PR 的朋友，
 
 #### 关于捐赠
 
-我们不是用爱发电，您对我们的帮助将是支持我们做下去的动力，只需您在购买部分产品或向他人推荐产品时从我们的返利链接购买，这就是对我们很大的支持了。~~没有钱了，肯定要做啊，不做没有钱用啊，打工是不可能打工的，这辈子不可能打工的~~
+您对我们的帮助将是支持我们做下去的动力，只需您在购买部分产品或向他人推荐产品时从我们的返利链接购买，这就是对我们很大的支持了。~~没有钱了，肯定要做啊，不做没有钱用啊，打工是不可能打工的，这辈子不可能打工的~~
 
 ##### dumplin
 
-[码支付微信收款功能开通](https://codepay.fateqq.com/i/39756)
+- [码支付-微信收款功能开通](https://codepay.fateqq.com/i/39756)
+
 
 ##### NimaQu
 
-[rixCloud-高速云端数据传输服务](https://my.rixcloud.com/aff.php?aff=1354)
-
-[Uovz-企业级云服务器](https://www.uovz.com/aff.php?aff=215)
-
-[魔方云 - 低成本极速高效 专属您的私有云](https://www.cubecloud.net/aff.php?aff=796)
-
-[DGCHost.NET - Singapore VPS | Cheap Asia VPS](https://www.dgchost.net/client/aff.php?aff=524)
+- [rixCloud-高速云端数据传输服务](https://my.rixcloud.com/aff.php?aff=1354)
 
 
 
+- [Uovz-企业级云服务器](https://www.uovz.com/aff.php?aff=215)
+
+
+
+- [魔方云 - 低成本极速高效 专属您的私有云](https://www.cubecloud.net/aff.php?aff=796)
+
+
+
+- [DGCHost.NET - Singapore VPS | Cheap Asia VPS](https://www.dgchost.net/client/aff.php?aff=524)
+
+
+##### galaxychuck
+
+- 黛米付-支付接入
