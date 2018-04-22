@@ -751,7 +751,7 @@ class Pay
                     $gift_user->save();
 
                     $Payback=new Payback();
-                    $Payback->total=$total;
+                    $Payback->total=$price;
                     $Payback->userid=$user->id;
                     $Payback->ref_by=$user->ref_by;
                     $Payback->ref_get=$codeq->number*(Config::get('code_payback')/100);
