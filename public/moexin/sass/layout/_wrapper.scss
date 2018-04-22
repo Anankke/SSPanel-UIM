@@ -1,0 +1,21 @@
+///
+/// Stellar by HTML5 UP
+/// html5up.net | @ajlkn
+/// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+///
+
+/* Wrapper */
+
+	#wrapper {
+		width: _size(inner);
+		max-width: calc(100% - 4em);
+		margin: 0 auto;
+
+		@include breakpoint(xsmall) {
+			max-width: calc(100% - 2em);
+		}
+
+		@include breakpoint(xxsmall) {
+			max-width: 100%;
+		}
+	}

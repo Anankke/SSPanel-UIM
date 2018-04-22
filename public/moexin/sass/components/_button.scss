@@ -1,0 +1,111 @@
+///
+/// Stellar by HTML5 UP
+/// html5up.net | @ajlkn
+/// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+///
+
+/* Button */
+
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"],
+	button,
+	.button {
+		@include vendor('appearance', 'none');
+		@include vendor('transition', (
+			'background-color #{_duration(transition)} ease-in-out',
+			'color #{_duration(transition)} ease-in-out'
+		));
+		border-radius: _size(border-radius);
+		border: 0;
+		cursor: pointer;
+		display: inline-block;
+		font-weight: _font(weight);
+		height: 2.75em;
+		line-height: 2.75em;
+		min-width: 9.25em;
+		padding: 0 1.5em;
+		text-align: center;
+		text-decoration: none;
+		white-space: nowrap;
+
+		&.icon {
+			padding-left: 1.35em;
+
+			&:before {
+				margin-right: 0.5em;
+			}
+		}
+
+		&.fit {
+			display: block;
+			margin: 0 0 (_size(element-margin) * 0.5) 0;
+			width: 100%;
+		}
+
+		&.small {
+			font-size: 0.8em;
+		}
+
+		&.big {
+			font-size: 1.35em;
+		}
+
+		&.disabled,
+		&:disabled {
+			@include vendor('pointer-events', 'none');
+			opacity: 0.25;
+		}
+
+		@include breakpoint(small) {
+			min-width: 0;
+		}
+	}
+
+	@mixin color-button($p: null) {
+		input[type="submit"],
+		input[type="reset"],
+		input[type="button"],
+		button,
+		.button {
+			background-color: transparent;
+			box-shadow: inset 0 0 0 1px _palette($p, border);
+			color: _palette($p, fg-bold) !important;
+
+			&:hover {
+				background-color: _palette($p, border-bg);
+			}
+
+			&:active {
+				background-color: _palette($p, border2-bg);
+			}
+
+			&.icon {
+				&:before {
+					color: _palette($p, fg-light);
+				}
+			}
+
+			&.special {
+				background-color: _palette(accent);
+				color: _palette(invert, bg) !important;
+				box-shadow: none;
+
+				&:hover {
+					background-color: lighten(_palette(accent), 3);
+				}
+
+				&:active {
+					background-color: darken(_palette(accent), 3);
+				}
+
+				&.icon {
+					&:before {
+						color: _palette(invert, bg) !important;
+					}
+				}
+			}
+		}
+	}
+
+	@include color-button;
