@@ -1,163 +1,398 @@
-<!DOCTYPE HTML> 
-<!--
-	Dimension by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
+<!DOCTYPE HTML>
 <html>
-	<head>
-		<title>{$config["appName"]}</title>
-        <meta name="keywords" content=""/>
-        <meta name="description" content=""/>
-        <meta charset="utf-8" />
-        <link rel="shortcut icon" href="/favicon.ico"/>
-        <link rel="bookmark" href="/favicon.ico"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-		<link rel="stylesheet" href="assets/css/main.css"/>
-        <noscript><link rel="stylesheet" href="./assets/css/noscript.css" /></noscript>   
+  <head>
+    <title>
+      {$config["appName"]} - 可能是最贴心的云服务商
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]>
+      <script src="/moexin/js/ie/html5shiv.js">
+      </script>
+    <![endif]-->
+    <link rel="stylesheet" href="/moexin/css/main.css" />
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="/moexin/css/ie9.css" />
+    <![endif]-->
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="/moexin/css/ie8.css" />
+    <![endif]-->
   </head>
   
-       <body>
-			<div id="wrapper">
-              <!--首页开始-->
-					<header id="header">
-						<div class="logo">
-						<span class="icon fa-rocket"></span>
-                      </div>
-                       {if $user->isLogin}
-						<div class="content">
-							<div class="inner">
-                                  <p>用户：<code>{$user->user_name}</code>
-                                    等级：{if $user->class!=0}
-											<code>VIP{$user->class}</code>
-                                          {else}
-                                             <code>免费</code>
-                                              {/if}
-                                    过期时间：{if $user->class_expire!="1989-06-04 00:05:00"}
-											    <code>{$user->class_expire}</code>
-                                          {else}
-                                              <code>不过期</code>
-                                              {/if}</p>
-                                  <p>总流量：<code>{$user->enableTraffic()}</code>
-                                  已用流量：<code>{$user->usedTraffic()}</code>
-                                  剩余流量：<code>{$user->unusedTraffic()}</code></p>
-                          </div>
-                      </div>	
-					  	<nav>
-							<ul>
-                                <li><a href="#1">简介</a></li>
-					            <li><a href="/user">用户中心</a></li>
-								<li><a href="#5">下载</a></li>
-                        </ul>
-						</nav>
-                              {else}
-                              <div class="content">
-							<div class="inner">
-								<h1>{$config["appName"]}</h1>
-								<!--
-								如果想自定义文本请删除下面这段script代码,格式为
-								<p>自定义文本</p>
-								-->
-								<script type="text/javascript" src="https://api.lwl12.com/hitokoto/main/get?encode=js&charset=utf-8"></script><div id="lwlhitokoto"><script>lwlhitokoto()</script></div>
-                          </div>
-                      </div>	
-                              <nav>
-							<ul>
-                               <li><a href="#1">简介</a></li>
-								<li><a href="/auth/login">登录</a></li>
-								<li><a href="/auth/register">注册</a></li>
-                              	<li><a href="#4">联系</a></li>
-								<li><a href="#5">下載</a></li>
-                              
-                           </ul>
-						</nav>
-                              {/if}
-
-              </header> 
-              <!--首页结束-->
-					<div id="main">
-                      <!--标签1开始-->
-                      <article id="1">
-                      <h2 class="major">简介</h2>
-                      <p>这里是示范文字</p><p> 请到站点文件夹</p><p>resources/views/material/index.tpl</p><p>第79行进行修改</p></article>
-					  <!--
-					  简介修改示例: 
-					  <p> 123</p>
-					  一个  <p> 123</p>  为一行，请不要删除 </article>
-					  -->
-                     <!--标签4开始-->
-                      <article id="4">
-								<h2 class="major">联系我们</h2>
-								<ul class="icons">
-                                   <p>此处填写联系方式</p>
-                                    <li>
-                                      <a target="_blank" href="#" class="icon fa-facebook">
-									 <!-- 请在fontawesome.com寻找替换图标 href替换链接 -->
-                                      <span class="label">Facebook</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                  </article>
-                      <!--标签5开始-->
-	                        <article id="5">
-							<h2 class="major">软件下載</h2>
-							<ul>
-							  <li><a href="/ssr-download/ssr-win.7z" class="icon fa-windows"><span class="label"></span> Windows</a></li>
-							  <li><a href="/ssr-download/ssr-mac.dmg" class="icon fa-apple"><span class="label">Mac</span> Mac</a></li>
-							  <li><a href="/ssr-download/ssr-android.apk" class="icon fa-android"><span class="label">Android</span> Android</a></li>
-							  <li><a href="#ios" class="icon fa-apple"><span class="label">iOS</span> iOS</a></li>
-                              <li><a href="/ssr-download/SSTap.7z" class="icon fa-gamepad"><span class="label">Win游戏专用</span> Win游戏专用</a></li>
-                            
-	                         </ul>
-                             </article>
-                            <!--标签5开始-->
-                      	<article id="login">  
-		
-								<h2 class="major">登录</h2>
-								<form method="post" action="javascript:void(0);">
-									<div class="field half first">
-										<label for="email2">邮箱</label>
-										<input type="text" name="Email" id="email2" />
-									</div>
-									<div class="field half">
-										<label for="passwd">密码</label>
-										<input type="password" name="Password" id="passwd" />
-									</div>
-									
-									<ul class="actions">
-										<li><input id="login" type="submit" value="登录" class="special" /></li>
-										<li><input type="reset" value="清空" /></li>
-									</ul>
-								</form>
-						
-
-                             	<div class="field half">
-											<input value="week" id="remember_me" name="remember_me" type="checkbox" checked>
-											<label for="remember_me">记住我</label>
-								</div>
-
-
-								<br>
-
-								<div id="result" role="dialog" >
-													<p color class="h5 margin-top-sm text-black-hint" id="msg"></p>
-								</div>
-						</article> 
-                      <!--全部标签结束-->
-                      
-                              </div>
-                     <!-- 版权底部 -->
-                      <footer id="footer">
-                   <p class="copyright">&copy;2015-2017 {$config["appName"]}</p>
-                      </footer>
-              <!-- 版权结束 -->
-			 </div>
-                <!-- BG -->
-			<div id="bg"></div>
-	        	<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-         <script src="assets/js/main.js"></script>
-	</body>
+  <body>
+    <!-- Wrapper -->
+    <div id="wrapper">
+      <!-- Header -->
+      <header id="header" class="alt">
+        <span class="logo">
+          <img src="/images/logo.png" width="10%" height="10%" />
+        </span>
+        <h1>
+          {$config["appName"]}
+        </h1>
+        <p>
+          提供最优质网游加速器，网络云存储，离线云挂机等综合服务
+          <br />
+        </p>
+      </header>
+      <!-- Nav -->
+      <nav id="nav">
+        <ul>
+          <li>
+            <a href="#intro" class="active">
+              {$config["appName"]}
+            </a>
+          </li>
+          {if $user->isLogin} {else}
+          <li>
+            <a href="#first">
+              技术优势
+            </a>
+          </li>
+          {/if}
+          <li>
+            <a href="#second">
+              {if $user->isLogin}账号概览{else}平台概览{/if}
+            </a>
+          </li>
+          <li>
+            <a href="#cta">
+              私人订制
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- Main -->
+      <div id="main">
+        <!-- Introduction -->
+        <section id="intro" class="main">
+          <div class="spotlight">
+            <div class="content">
+              <header class="major">
+                <h2>
+                  {$config["appName"]}
+                </h2>
+              </header>
+              <p>
+                <h3>
+                  布局亚太，面向中国，着眼世界
+                </h3>
+                我们在美国西海岸，亚洲北部，亚洲东部以及亚洲东南均有已部署或是规划中的节点，覆盖了90%的中国大陆地区企业应用出海需求。
+              </p>
+              <ul class="actions">
+                {if $user->isLogin}
+                <li>
+                  <a href="/user" class="button">
+                    用户中心
+                  </a>
+                </li>
+                {else}
+                <li>
+                  <a href="/auth/login" class="button">
+                    登陆
+                  </a>
+                </li>
+                <li>
+                  <a href="/auth/register" class="button">
+                    注册
+                  </a>
+                </li>
+                {/if}
+              </ul>
+            </div>
+            <span class="image">
+              <img src="images/pic01.jpg" alt="" />
+            </span>
+          </div>
+        </section>
+        {if $user->isLogin} {else}
+        <!-- First Section -->
+        <section id="first" class="main special">
+          <header class="major">
+            <h2>
+              技术优势
+            </h2>
+          </header>
+          <ul class="features">
+            <li>
+              <span class="icon major style1 fa-code">
+              </span>
+              <h3>
+                高性能硬件设备
+              </h3>
+              <p>
+                我们设计自有的宿主机硬件平台且不断更新，调整，确保每一个客户的实例随时处于最佳性能
+              </p>
+            </li>
+            <li>
+              <span class="icon major style3 fa-copy">
+              </span>
+              <h3>
+                先进的网络架构
+              </h3>
+              <p>
+                我们选择思科作为我们网络设备供应商，同时高度冗余的网络架构设计使得整体可用性大大提高
+              </p>
+            </li>
+            <li>
+              <span class="icon major style5 fa-diamond">
+              </span>
+              <h3>
+                友善且有效的客户服务
+              </h3>
+              <p>
+                我们不断听取客户的意见也不断改进，客服团队拥有多年相关经验，确保客户的任何问题都能得到解决
+              </p>
+            </li>
+          </ul>
+          <footer class="major">
+            <ul class="actions">
+              <li>
+                <a href="//wpa.qq.com/msgrd?v=3&uin=1400605522" class="button">
+                  详情咨询
+                </a>
+              </li>
+            </ul>
+          </footer>
+        </section>
+        {/if}
+        <!-- Second Section -->
+        <section id="second" class="main special">
+          <header class="major">
+            <h2>
+              {if $user->isLogin}尊敬的{if $user->class!=0}VIP{$user->class}{else}免费{/if}用户：{$user->user_name}{else}简单、可靠的准企业级平台{/if}
+            </h2>
+            <p>
+              {if $user->isLogin}{if $user->class!=0}您的VIP到期时间为：{if $user->class_expire!="1989-06-04
+              00:05:00"}{$user->class_expire}{else}不过期{/if}，为保障服务正常使用，请及时充值续费。{else}我们非常乐意为你提供更优质的服务，希望你们能支持我们更好的发展，可以选择充值开通VIP。{/if}{else}通过我们强大的自主设计宿主机平台，我们得以在性能，可用性以及成本方面做到平衡，使得低价高质再也不是梦想{/if}
+            </p>
+          </header>
+          <ul class="statistics">
+            {if $user->isLogin}
+            <li class="style1">
+              <span class="icon fa-hourglass-start">
+              </span>
+              <strong>
+                {$user->unusedTraffic()}
+              </strong>
+              可用流量
+            </li>
+            <li class="style2">
+              <span class="icon fa-hourglass-end">
+              </span>
+              <strong>
+                {$user->TodayusedTraffic()}
+              </strong>
+              今日用量
+            </li>
+            <li class="style3">
+              <span class="icon fa-tachometer">
+              </span>
+              <strong>
+                {if $user->node_speedlimit!=0}{$user->node_speedlimit}Mbps{else}∞{/if}
+              </strong>
+              速度限制
+            </li>
+            <li class="style4">
+              <span class="icon fa-laptop">
+              </span>
+              <strong>
+                {if $user->node_connector!=0}{$user->online_ip_count()} / {$user->node_connector}{else}{$user->online_ip_count()}
+                / ∞{/if}
+              </strong>
+              在线设备
+            </li>
+            <li class="style5">
+              <span class="icon fa-diamond">
+              </span>
+              <strong>
+                {$user->money}
+              </strong>
+              可用余额
+            </li>
+            {else}
+            <li class="style1">
+              <span class="icon fa-users">
+              </span>
+              <strong>
+                <div id="setnum01" class="number">
+                  获取中
+                </div>
+              </strong>
+              活跃用户
+            </li>
+            {/if}
+          </ul>
+          {if $user->isLogin} {else}
+          <p class="content">
+            TCat cloud service provides the best quality online game accelerator,
+            network cloud storage, offline cloud hangers and other comprehensive services.
+            Layout Asia Pacific, face China, eyes on the world. We have deployed or
+            planned nodes in the west coast of the United States, north Asia, east
+            Asia and southeast Asia, covering 90% of mainland Chinese enterprises applying
+            to sea. Simple, reliable and quasi-enterprise platform. Through our powerful
+            self-designed hosting platform, we are able to balance performance, availability,
+            and cost, so that low quality is no longer a dream.
+          </p>
+          {/if}
+          <footer class="major">
+            <ul class="actions">
+              {if $user->isLogin}
+              <li>
+                <a href="/user/code" class="button">
+                  充值余额
+                </a>
+              </li>
+              <li>
+                <a href="/user/shop" class="button">
+                  购买套餐
+                </a>
+              </li>
+              {else}
+              <li>
+                <a href="//wpa.qq.com/msgrd?v=3&uin=1400605522" class="button">
+                  详情咨询
+                </a>
+              </li>
+              {/if}
+            </ul>
+          </footer>
+        </section>
+        <!-- Get Started -->
+        <section id="cta" class="main special">
+          <header class="major">
+            <h2>
+              私人订制
+            </h2>
+            <p>
+              联系我们的销售，获取我们更多的资源信息。
+            </p>
+          </header>
+          <footer class="major">
+            <ul class="actions">
+              <li>
+                <a href="//wpa.qq.com/msgrd?v=3&uin=1400605522" class="button special">
+                  加入我们
+                </a>
+              </li>
+              <li>
+                <a href="//wpa.qq.com/msgrd?v=3&uin=1400605522" class="button">
+                  详情咨询
+                </a>
+              </li>
+            </ul>
+          </footer>
+        </section>
+      </div>
+      <!-- Footer -->
+      <footer id="footer">
+        <section>
+          <h2>
+            关于我们
+          </h2>
+          <p>
+            {$config["appName"]} 始于2017年，Moexin旗下子品牌，与当今主流云计算解决方案保持同步，配备多名资深技术骨干，以保证您的业务正常运行。
+          </p>
+          <ul class="actions">
+            <li>
+              <a href="//wpa.qq.com/msgrd?v=3&uin=1400605522" class="button">
+                加入我们
+              </a>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>
+            联系方式
+          </h2>
+          <dl class="alt">
+            <dt>
+              电话
+            </dt>
+            <dd>
+              (852) 5517-4259
+            </dd>
+            <dt>
+              邮箱
+            </dt>
+            <dd>
+              <a href="#">
+                i@98k.li
+              </a>
+            </dd>
+          </dl>
+          <ul class="icons">
+            <li>
+              <a href="#" class="icon fa-twitter alt">
+                <span class="label">
+                  Twitter
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="icon fa-facebook alt">
+                <span class="label">
+                  Facebook
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="icon fa-instagram alt">
+                <span class="label">
+                  Instagram
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="icon fa-github alt">
+                <span class="label">
+                  GitHub
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="icon fa-dribbble alt">
+                <span class="label">
+                  Dribbble
+                </span>
+              </a>
+            </li>
+          </ul>
+        </section>
+        <p class="copyright">
+          &copy; 2017-
+          <script type="text/javascript">
+            document.write(new Date().getFullYear());
+          </script>
+          <a href="/">
+            {$config["appName"]}
+          </a>
+          .
+        </p>
+      </footer>
+    </div>
+    <!-- Scripts -->
+    <script src="/moexin/js/jquery.min.js">
+    </script>
+    <script src="/moexin/js/jquery.scrollex.min.js">
+    </script>
+    <script src="/moexin/js/jquery.scrolly.min.js">
+    </script>
+    <script src="/moexin/js/skel.min.js">
+    </script>
+    <script src="/moexin/js/util.js">
+    </script>
+    <!--[if lte IE 8]>
+      <script src="/moexin/js/ie/respond.min.js">
+      </script>
+    <![endif]-->
+    <script src="/moexin/js/main.js">
+    </script>
+    <script type="text/javascript">
+      setInterval(displayNum1, 1000);
+      function displayNum1() {
+        document.getElementById("setnum01").innerHTML = Math.floor(Math.random() * (7000 - 6666) + 6666);
+      }
+    </script>
+  </body>
 </html>

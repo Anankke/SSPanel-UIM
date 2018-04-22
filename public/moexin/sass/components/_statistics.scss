@@ -1,0 +1,108 @@
+///
+/// Stellar by HTML5 UP
+/// html5up.net | @ajlkn
+/// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+///
+
+/* Statistics */
+
+	.statistics {
+		@include vendor('display', 'flex');
+		width: 100%;
+		margin: 0 0 (_size(element-margin) * 1.5) 0;
+		padding: 0;
+		list-style: none;
+		cursor: default;
+
+		li {
+			@include vendor('flex', '1');
+			padding: 1.5em;
+			color: _palette(fg-bold);
+			text-align: center;
+
+			&.style1 {
+				background-color: _palette(accent1);
+			}
+
+			&.style2 {
+				background-color: _palette(accent2);
+			}
+
+			&.style3 {
+				background-color: _palette(accent3);
+			}
+
+			&.style4 {
+				background-color: _palette(accent4);
+			}
+
+			&.style5 {
+				background-color: _palette(accent5);
+			}
+
+			strong, b {
+				display: block;
+				font-size: 2em;
+				line-height: 1.1;
+				color: inherit !important;
+				font-weight: _font(weight);
+				letter-spacing: _font(letter-spacing);
+			}
+
+			&:first-child {
+				border-top-left-radius: _size(border-radius);
+				border-bottom-left-radius: _size(border-radius);
+			}
+
+			&:last-child {
+				border-top-right-radius: _size(border-radius);
+				border-bottom-right-radius: _size(border-radius);
+			}
+
+			.icon {
+				display: inline-block;
+
+				&:before {
+					font-size: 2.75rem;
+					line-height: 1.3;
+				}
+			}
+		}
+
+		@include breakpoint(medium) {
+			li {
+				strong, b {
+					font-size: 1.5em;
+				}
+			}
+		}
+
+		@include breakpoint(small) {
+			display: block;
+			width: 20em;
+			max-width: 100%;
+			margin: 0 auto _size(element-margin) auto;
+
+			li {
+				&:first-child {
+					border-bottom-left-radius: 0;
+					border-top-right-radius: _size(border-radius);
+				}
+
+				&:last-child {
+					border-top-right-radius: 0;
+					border-bottom-left-radius: _size(border-radius);
+				}
+
+				.icon {
+					&:before {
+						font-size: 3.75rem;
+					}
+				}
+
+				strong, b {
+					font-size: 2.5em;
+				}
+			}
+		}
+	}

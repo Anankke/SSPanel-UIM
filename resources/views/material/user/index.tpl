@@ -109,15 +109,7 @@
                                                       <p><a href="/user/announcement">点击这里查看Linux傻瓜式教程</a></p> 
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
-                                                        <p><span class="icon icon-lg text-white">looks_one</span> 切换<code>App Store</code>账号-ID:<code>
-														    {if $user->class>1}                                          	 xxxx@apple.com
-															{else}															白金会员以上可见
-															{/if}															
-														</code>密码<code>
-														{if $user->class>1}															xxxxxx
-															{else}															白金会员以上可见
-															{/if}
-														</code>注意特殊符号与大小写,如果显示需要解锁账号，请提交工单或邮件。（千万不要试图登陆iCloud，会上传您的照片与通讯录到这个账户上）</p>
+                                                        <p><span class="icon icon-lg text-white">looks_one</span> 切换<code>App Store</code>{if $user->class!=0}账号-ID:<code>XXXXXXX@icloud.com</code> 密码<code>XXXXXXXX</code>{else}仅VIP可见{/if}注意特殊符号与大小写,如果显示需要解锁账号，请提交工单或邮件。（千万不要试图登陆iCloud，会上传您的照片与通讯录到这个账户上）</p>
                                                          <p><span class="icon icon-lg text-white">looks_two</span> 商店搜索<code>Shadowrocket</code>下载安装</p>
                                                       	<p><span class="icon icon-lg text-white">looks_3</span> 安装完成后切换回您自己的账号。（请务必切换回您自己的账户）</p>
 														<p><span class="icon icon-lg text-white">looks_3</span> 打开Shadowrocket软件后，点击右上角<span class="icon icon-lg text-white">add</span>，添加类型为<code>Subscribe</code>，URL填写以下地址即可自动更新节点</p>
@@ -293,8 +285,8 @@
                                               {/if}
                                           </p>
                                           {if $user->class!=0}
-                                          	 <p><dt>Telegram(VIP可见)</dt>
-											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="请到index.tpl第299行修改" target="view_window">点击加入TG群</a></dd>
+                                          	 <p><dt>Telegram(<a href="https://cn.aptoide.com/thank-you?app_id=35403511&store_name=ammaralali" target="view_window">点击下载TG</a>)</dt>
+											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="请到index.tpl第289行修改" target="view_window">点击加入TG群</a></dd>
                                           {else}
                                              
                                               {/if}

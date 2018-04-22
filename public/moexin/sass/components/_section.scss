@@ -1,0 +1,104 @@
+///
+/// Stellar by HTML5 UP
+/// html5up.net | @ajlkn
+/// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+///
+
+/* Section/Article */
+
+	section, article {
+		&.special {
+			text-align: center;
+		}
+	}
+
+	header {
+		&.major {
+			margin-bottom: (_size(element-margin) * 1.5);
+
+			h2 {
+				font-size: 2em;
+
+				&:after {
+					display: block;
+					content: '';
+					width: 3.25em;
+					height: 2px;
+					margin: (_size(element-margin) * 0.35) 0 (_size(element-margin) * 0.5) 0;
+					border-radius: 2px;
+
+					section.special &, article.special & {
+						margin-left: auto;
+						margin-right: auto;
+					}
+				}
+			}
+
+			p {
+				font-size: 1.25em;
+				letter-spacing: _font(letter-spacing);
+			}
+
+			&.special {
+				text-align: center;
+
+				h2 {
+					&:after {
+						margin-left: auto;
+						margin-right: auto;
+					}
+				}
+			}
+		}
+	}
+
+	footer {
+		&.major {
+			margin-top: (_size(element-margin) * 1.5);
+		}
+	}
+
+	@include breakpoint(small) {
+		header {
+			&.major {
+				margin-bottom: 0;
+
+				h2 {
+					font-size: 1.5em;
+				}
+
+				p {
+					font-size: 1em;
+					letter-spacing: 0;
+
+					br {
+						display: none;
+					}
+				}
+			}
+		}
+
+		footer {
+			&.major {
+				margin-top: 0;
+			}
+		}
+	}
+
+	@mixin color-section($p: null) {
+		header {
+			&.major {
+				h2 {
+					&:after {
+						background-color: _palette($p, border);
+
+						@if $p == 'invert' {
+							@include vendor('background-image', 'linear-gradient(90deg, #{_palette(accent1)}, #{_palette(accent3)}, #{_palette(accent5)})');
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@include color-section;

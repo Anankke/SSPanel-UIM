@@ -30,7 +30,7 @@
 							</ul>
 						</nav>
               </header>
-					 <footer id="footer"><p class="copyright">&copy;2014-2017 {$config["appName"]} </p></footer>
+					 <footer id="footer"><p class="copyright">&copy;2017-<script type="text/javascript">document.write(new Date().getFullYear());</script> {$config["appName"]} </p></footer>
 			</div>
 			<div id="bg"></div>
 			<script src="assets/js/jquery.min.js"></script>

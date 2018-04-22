@@ -1,0 +1,73 @@
+@import 'libs/vars';
+@import 'libs/functions';
+@import 'libs/mixins';
+@import 'libs/skel';
+
+/*
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
+
+/* Spotlight */
+
+	.spotlight {
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+
+		.content {
+			float: left;
+			width: 60%;
+		}
+
+		.image {
+			float: left;
+		}
+	}
+
+/* Features */
+
+	.features {
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+
+		li {
+			float: left;
+		}
+	}
+
+/* Statistics */
+
+	.statistics {
+		display: inline-block;
+		width: auto;
+
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+
+		li {
+			float: left;
+			padding: 1.5em 2.5em;
+		}
+	}
+
+/* Footer */
+
+	#footer {
+		> * {
+			float: left;
+		}
+
+		.copyright {
+			clear: both;
+		}
+	}
