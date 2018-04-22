@@ -25,6 +25,8 @@ class Pay
                 return Pay::yftpay_html($user);
             case 'codepay':
                 return Pay::codepay_html($user);
+            case 'f2fpay_codepay':
+                return Pay::f2fpay_codepay_html($user);
             default:
                 return "";
         }
@@ -35,6 +37,34 @@ class Pay
      * @param  User   $user User
      * @return String       HTML
      */
+    private static function f2fpay_codepay_html($user)
+    {
+
+            return '
+                        <p><i class="icon icon-lg">monetization_on</i>&nbsp;余额&nbsp;<font color="red" size="5">'.$user->money.'</font>&nbsp;元</p>
+
+                        <p><img src="/images/qianbai-4.png" height="250" width="200" /></p>
+                        <div class="form-group form-group-label">
+                        <label class="floating-label" for="number">请选择充值金额</label>
+                        <select id="type" class="form-control" name="amount">
+                            <option></option>
+                            <option value="'.Config::get('amount')[0].'">'.Config::get('amount')[0].'元</option>
+                            <option value="'.Config::get('amount')[1].'">'.Config::get('amount')[1].'元</option>
+                            <option value="'.Config::get('amount')[2].'">'.Config::get('amount')[2].'元</option>
+                            <option value="'.Config::get('amount')[3].'">'.Config::get('amount')[3].'元</option>
+                            <option value="'.Config::get('amount')[4].'">'.Config::get('amount')[4].'元</option>
+                        </select>
+                        </div>
+                        <p></p>
+                        <button class="btn btn-flat waves-attach" id="urlChange"><img src="/images/alipay.jpg" width="50px" height="50px" /></button>
+                        <button class="btn btn-flat waves-attach" onclick="codepay()"><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
+                        <script>
+                            function codepay() {
+                                window.location.href=("/user/code/codepay?type=3&price="+$("#type").val());
+                            }
+                        </script>
+                        ';
+    }
     public static function doiampay_html(User $user){
         return \App\Utils\DoiAMPay::render();
     }
@@ -802,5 +832,15 @@ class Pay
                 return "";
         }
         return null;
+    }
+
+    public static function f2fpay_pay_callback($request)
+    {
+        return Pay::f2fpay_callback();
+    }
+
+    public static function codepay_pay_callback($request)
+    {
+        return Pay::codepay_callback();
     }
 }

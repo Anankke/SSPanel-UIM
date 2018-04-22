@@ -74,7 +74,7 @@ $app->get('/500', 'App\Controllers\HomeController:page500');
 $app->get('/pwm_pingback', 'App\Controllers\HomeController:pay_callback');
 $app->post('/notify', 'App\Controllers\HomeController:notify');
 $app->post('/alipay_callback', 'App\Controllers\HomeController:pay_callback');
-$app->post('/pay_callback', 'App\Controllers\HomeController:pay_callback');
+$app->post('/pay_callback', 'App\Controllers\HomeController:f2fpay_pay_callback');
 $app->get('/pay_callback', 'App\Controllers\HomeController:pay_callback');
 $app->get('/code', 'App\Controllers\HomeController:code');
 $app->get('/tos', 'App\Controllers\HomeController:tos');
@@ -83,7 +83,7 @@ $app->get('/gfwlistjs', 'App\Controllers\LinkController:GetGfwlistJs');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
 $app->get('/yft/notify','App\Controllers\YFTPayCallBackController:yft_notify');
 $app->get('/codepay_callback', 'App\Controllers\HomeController:codepay_callback');
-$app->post('/codepay_callback', 'App\Controllers\HomeController:pay_callback');
+$app->post('/codepay_callback', 'App\Controllers\HomeController:codepay_pay_callback');
 
 
 // User Center
