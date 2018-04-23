@@ -127,4 +127,4 @@ Image:
 
 ##### galaxychuck
 
-- 黛米付-支付接入
+- [黛米付-支付接入](https://www.daimiyun.cn/register.php?aff=624)
