@@ -99,7 +99,7 @@
 										<div class="card-main">
 											<div class="card-header">
 												<div class="card-inner">
-													<h1 class="card-heading">Telegram扫码登录</h1>
+													<h1 class="card-heading" style=" text-align:center;font-weight:bold;">Telegram扫码登录</h1>
 												</div>
 											</div>
 											<div class="card-inner">
@@ -119,7 +119,7 @@
 										<div class="card-main">
 											<div class="card-header">
 												<div class="card-inner">
-													<h1 class="card-heading">Telegram数字登录</h1>
+													<h1 class="card-heading" style=" text-align:center;font-weight:bold;">Telegram数字登录</h1>
 												</div>
 											</div>
 											<div class="card-inner">
