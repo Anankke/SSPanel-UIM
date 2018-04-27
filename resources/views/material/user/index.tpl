@@ -268,7 +268,7 @@
 										</div>
 										<div class="card-action">
 											<div class="card-action-btn pull-left">
-												<p><a class="btn btn-brand btn-flat waves-attach" href="/user/url_reset"><span class="icon">autorenew</span>&nbsp;重置我的订阅链接</a></p>
+												<p><a class="reset-link btn btn-brand btn-flat waves-attach" href="/user/url_reset"><span class="icon">autorenew</span>&nbsp;重置订阅链接</a></p>
 											</div>
 										</div>
 									</div>
@@ -531,7 +531,15 @@ $(function(){
 
 $(".copy-text").click(function () {
 	$("#result").modal();
-	$("#msg").html("已复制到您的剪贴板，请您继续接下来的操作。");
+	$("#msg").html("已拷贝订阅链接，请您继续接下来的操作。");
+});
+$(function(){
+	new Clipboard('.reset-link');
+});
+
+$(".reset-link").click(function () {
+	$("#result").modal();
+	$("#msg").html("已重置您的订阅链接，请变更或添加您的订阅链接！");
 });
 
  {if $user->transfer_enable-($user->u+$user->d) == 0}	
@@ -539,7 +547,7 @@ window.onload = function() {
     $("#result").modal();	
     $("#msg").html("您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~");	
 };	
- {/if}
+ {/if}	
 
 {if $geetest_html == null}
 
