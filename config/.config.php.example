@@ -92,6 +92,7 @@ $System_Config['checkinMin'] = '1';       //用户签到签到最少流量 单�
 $System_Config['checkinMax'] = '50';       //用户签到签到最多流量
 $System_Config['code_payback']='20';      //充值返利百分比
 $System_Config['invite_gift']='2';      //邀请新用户获得流量奖励，单位G
+$System_Config['enable_donate']='false';      //是否开启用户捐赠功能
 $System_Config['enable_login_bind_ip']='false';      //是否将登陆线程和IP绑定
 $System_Config['enable_class_expire_reset']='true';      //等级到期时是否重置流量
 $System_Config['enable_class_expire_reset_traffic']='0';      //等级到期时重置为的流量值，GB
