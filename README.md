@@ -23,7 +23,7 @@ telegtam 频道 ：https://t.me/sspanel_Uim  管理模式参考91yun管理
 
 感谢LALA制作教程：https://lala.im/2398.html
 
-GitHub Wiki : https://github.com/NimaQu/ss-panel-v3-mod_UIChanges/wiki/%E5%89%8D%E7%AB%AF%E5%AE%89%E8%A3%85
+GitHub Wiki : https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%89%8D%E7%AB%AF%E5%AE%89%E8%A3%85
 
 Wiki已经启用，欢迎为此面板维护wiki
 
