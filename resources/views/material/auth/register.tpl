@@ -123,10 +123,15 @@
 										</div>
 
 
-											<div style="display:none" class="form-group form-group-label">
+											<div class="form-group form-group-label">
 												<div class="row">
 													<div class="col-md-10 col-md-push-1">
-														<label class="floating-label" for="code">邀请码{if $enable_invite_code == 'false'}(可选){/if}</label>
+														<label class="floating-label" for="code">邀请码
+														{if $enable_invite_code == 'false'}
+														(可选)
+														{else}
+														(必填)
+														{/if}</label>
 														<input class="form-control" id="code" type="text">
 													</div>
 												</div>
