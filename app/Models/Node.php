@@ -116,7 +116,7 @@ class Node extends Model
         $node_heartbeat = $this->attributes['node_heartbeat'];
         $sort = $this->attributes['sort'];
 
-        if (!($sort == 0 || $sort == 7 || $sort == 8 || $sort==10)) {
+        if (!($sort == 0 || $sort == 7 || $sort == 8 || $sort==10 || $sort==11)) {
             return null;
         }
 
