@@ -405,7 +405,7 @@ class AuthController extends BaseController
         $group=Config::get('ramdom_group');
         $Garray=explode(",", $group);
 
-        $user->node_group=$Garray[rand(0, count($group)-1)];
+        $user->node_group=$Garray[rand(0, count($Garray)-1)];
 
         $ga = new GA();
         $secret = $ga->createSecret();
