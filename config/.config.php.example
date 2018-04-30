@@ -263,6 +263,12 @@ $System_Config['relay_insecure_mode']='false';//默认关闭不安全中转
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
 $System_Config['enable_analytics_code']='false';
 
+
+$System_Config['v2ray_port']='443';
+$System_Config['v2ray_protocol']='HTTP/2 + TLS';
+$System_Config['v2ray_alter_id']='32';
+$System_Config['v2ray_level']='0';
+
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
 
 if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ) {
