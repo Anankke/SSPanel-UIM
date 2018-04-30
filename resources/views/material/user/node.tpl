@@ -93,7 +93,49 @@
 																	{/if}
 
 
+																	{if $node->sort == 11} {
+																		<div class="card">
+																			<div class="card-main">
+																				<div class="card-inner">
+																					<p class="card-heading" >
+																						<a href="javascript:void(0);" >{$node->name}</a>
+																					</p>
+																				</div>
+																				<p>地址：<span class="label label-brand-accent">
+                                                                                    {$node->server}
+																				</span></p>
 
+																				<p>端口：<span class="label label-brand-red">
+																					{$config["v2ray_port"]}
+																				</span></p>
+
+																				<p>协议：<span class="label label-brand-accent">
+																					{$config["v2ray_protocol"]}
+																				</span></p>
+
+																				<p>协议参数：<span class="label label-green">
+																					{$node->server}
+																				</span></p>
+
+																				<p>用户 UUID：<span class="label label-brand">
+																					{$user->getUuid()}
+																				</span></p>
+
+																				<p>流量比例：<span class="label label-red">
+																					{$node->traffic_rate}
+																				</span></p>
+
+																				<p>AlterId：<span class="label label-green">
+																					{$config["v2ray_alter_id"]}
+																				</span></p>
+
+																				<p>Level：<span class="label label-brand">
+																					{$config["v2ray_level"]}
+																				</span></p>
+																				<p>{$node->info}</p>
+																			</div>
+																		</div>
+																	}
 																	{if ($node->sort == 0 || $node->sort == 10) && $node->custom_rss == 1 && $node->mu_only != -1}
 																		{foreach $node_muport as $single_muport}
 
