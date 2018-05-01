@@ -486,7 +486,7 @@
 
 {include file='user/footer.tpl'}
 
-<script src="/theme/material/js/shake.js/shake.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/js/shake.js/shake.js"></script>
 
 <script>
 /*
