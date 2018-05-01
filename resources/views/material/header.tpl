@@ -7,9 +7,9 @@
 	<meta name="theme-color" content="#3f51b5">
 	<title>{$config["appName"]}</title>
 	<!-- css -->
-	<link href="/theme/material/css/base.min.css" rel="stylesheet">
-	<link href="/theme/material/css/project.min.css" rel="stylesheet">
-	<link href="/theme/material/css/icon.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/css/base.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/css/project.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/css/icon.css" rel="stylesheet">
 
 	<!-- favicon -->
 	<!-- ... -->
@@ -46,7 +46,7 @@
 				{else}
 					<span class="access-hide">未登录</span>
              			 <span class="icon icon-cd margin-right">account_circle</span>
-				<!--	<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="/theme/material/images/users/avatar-001.jpg"></span> -->
+				<!--	<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/images/users/avatar-001.jpg"></span> -->
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
