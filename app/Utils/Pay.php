@@ -122,8 +122,10 @@ class Pay
 										<form action="/user/code/yft" method="post" target="_blank">
 										<div class="card-inner">
 											<p class="card-heading">在线充值</p>
+											<p><i class="icon icon-lg">monetization_on</i>&nbsp;余额&nbsp;<font color="red" size="5">'.$user->money.'</font>&nbsp;元</p>
+											<p><img src="/images/qianbai-4.png" height="250" width="200" /></p>
 											<div class="form-group form-group-label">
-												<label class="floating-label" for="price">充值金额</label>
+												<label class="floating-label" for="price">输入充值金额</label>
 												<input class="form-control" id="price" name="price" type="text">
 											</div>
 										</div>

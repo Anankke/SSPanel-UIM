@@ -67,7 +67,7 @@
 								<li><a href="/auth/login">登录</a></li>
 								<li><a href="/auth/register">注册</a></li>
                               	<li><a href="#4">联系</a></li>
-								<li><a href="#5">下載</a></li>
+								<li><a href="#5">下载</a></li>
                               
                            </ul>
 						</nav>
@@ -100,7 +100,7 @@
                                   </article>
                       <!--标签5开始-->
 	                        <article id="5">
-							<h2 class="major">软件下載</h2>
+							<h2 class="major">软件下载</h2>
 							<ul>
 							  <li><a href="/ssr-download/ssr-win.7z" class="icon fa-windows"><span class="label"></span> Windows</a></li>
 							  <li><a href="/ssr-download/ssr-mac.dmg" class="icon fa-apple"><span class="label">Mac</span> Mac</a></li>
