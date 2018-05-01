@@ -29,7 +29,7 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">账号登录修改密码</p>
+										<p class="card-heading">账号登录密码修改</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="oldpwd">当前密码</label>
 											<input class="form-control" id="oldpwd" type="password">
