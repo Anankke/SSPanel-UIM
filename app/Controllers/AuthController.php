@@ -416,7 +416,7 @@ class AuthController extends BaseController
 
         if ($user->save()) {
             $res['ret'] = 1;
-            $res['msg'] = "注册成功！正在进入用户中心";
+            $res['msg'] = "注册成功！正在进入登录界面";
             Duoshuo::add($user);
             Radius::Add($user, $user->passwd);
             return $response->getBody()->write(json_encode($res));
