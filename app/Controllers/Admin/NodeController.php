@@ -114,7 +114,7 @@ class NodeController extends AdminController
         $node->type = $request->getParam('type');
         $node->sort = $request->getParam('sort');
 
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10) {
+        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
             if ($request->getParam('node_ip') != '') {
                 $node->node_ip = $request->getParam('node_ip');
             } else {
