@@ -94,6 +94,7 @@
 
 
 																	{if $node->sort == 11} {
+																		{assign var=server_explode value=";"|explode:$node->server}
 																		<div class="card">
 																			<div class="card-main">
 																				<div class="card-inner">
@@ -102,19 +103,19 @@
 																					</p>
 																				</div>
 																				<p>地址：<span class="label label-brand-accent">
-                                                                                    {$node->server}
+                                                                                    {$server_explode[0]}
 																				</span></p>
 
 																				<p>端口：<span class="label label-brand-red">
-																					{$config["v2ray_port"]}
+																					{$server_explode[1]}
 																				</span></p>
 
 																				<p>协议：<span class="label label-brand-accent">
-																					{$config["v2ray_protocol"]}
+																					{$server_explode[2]}
 																				</span></p>
 
 																				<p>协议参数：<span class="label label-green">
-																					{$node->server}
+																					{$server_explode[0]}
 																				</span></p>
 
 																				<p>用户 UUID：<span class="label label-brand">
@@ -126,11 +127,11 @@
 																				</span></p>
 
 																				<p>AlterId：<span class="label label-green">
-																					{$config["v2ray_alter_id"]}
+																					{$server_explode[3]}
 																				</span></p>
 
 																				<p>Level：<span class="label label-brand">
-																					{$config["v2ray_level"]}
+																					{$server_explode[4]}
 																				</span></p>
 																				<p>{$node->info}</p>
 																			</div>
