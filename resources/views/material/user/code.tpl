@@ -42,7 +42,7 @@
 									<div class="card-inner">
 										<p class="card-heading">充值码</p>
 										<i class="icon icon-lg">view_compact</i>&nbsp;仪表盘
-							<p>当前余额：{$user->money} 元</p>
+							            <p><i class="icon icon-lg">monetization_on</i>当前余额：<font color="red" size="5">{$user->money}</font> 元</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="code">充值码</label>
 											<input class="form-control" id="code" type="text">

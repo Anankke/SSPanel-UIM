@@ -310,7 +310,7 @@
                                           	<p><dt>等级有效期</dt>
                                               <i class="icon icon-md">event</i>
                                               <span class="label-level-expire">剩余</span>
-											  <span id="days-level-expire"></span>
+											  <code><span id="days-level-expire"></span></code>
                                               <span class="label-level-expire">天</span>
                                             </p>
 
@@ -320,13 +320,13 @@
                                             <p><dt>账号有效期</dt>
                                               <i class="icon icon-md">event</i>
                                               <span class="label-account-expire">剩余</span>
-											  <span id="days-account-expire"></span>
+											  <code><span id="days-account-expire"></span></code>
 											  <span class="label-account-expire">天</span>
                                            </p>
 
 											<p><dt>速度限制</dt>
 											{if $user->node_speedlimit!=0}
-											<dd><i class="icon icon-md">settings_input_component</i>&nbsp;{$user->node_speedlimit}Mbps</dd>
+											<dd><i class="icon icon-md">settings_input_component</i>&nbsp;<code>{$user->node_speedlimit}</code>Mbps</dd>
 											{else}
 											<dd><i class="icon icon-md">settings_input_component</i>&nbsp;不限速</dd>
 											{/if}</p>
@@ -338,7 +338,7 @@
 											{/if}
 											</p>
 											<p><dt>余额</dt>
-											<dd><i class="icon icon-md">monetization_on</i>&nbsp;{$user->money} CNY</dd></p>
+											<dd><i class="icon icon-md">monetization_on</i>&nbsp;<code>{$user->money}</code> CNY</dd></p>
 											<p><dt>上次使用</dt>
                                               {if $user->lastSsTime()!="从未使用喵"}
 											<dd><i class="icon icon-md">event</i>&nbsp;{$user->lastSsTime()}</dd>
@@ -486,7 +486,7 @@
 
 {include file='user/footer.tpl'}
 
-<script src="/theme/material/js/shake.js/shake.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/js/shake.js/shake.js"></script>
 
 <script>
 /*

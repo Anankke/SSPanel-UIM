@@ -310,7 +310,7 @@ class URL
             $mu_user->obfs_param = $user->getMuMd5();
             $mu_user->protocol_param = $user->id.":".$user->passwd;
             $user = $mu_user;
-            $node_name .= " - ".$mu_port." 端口单端口多用户";
+            $node_name .= " - ".$mu_port." 单端口";
         }
         if($is_ss) {
             if(!URL::SSCanConnect($user)) {
@@ -332,6 +332,10 @@ class URL
         $return_array['protocol_param'] = $user->protocol_param;
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
+        $return_array['group'] = Config::get('appName');
+        if($mu_port != 0) {
+            $return_array['group'] .= ' - 单端口';
+        }
         return $return_array;
     }
     public static function cloneUser($user) {
