@@ -9,7 +9,7 @@
 - 从肥羊那里**抄**来的：新用户注册现金奖励|高等级节点体验|设备数量限制
 - **优化**：css和js等置入本地提升加载速度
 
-telegram交流群：https://t.me/joinchat/GQehSEV7LEU3AmRYKQqDVw
+telegram交流群：https://t.me/joinchat/GQehSEV7LEU1Z6E8aQ4z3w
 
 telegtam 频道 ：https://t.me/sspanel_Uim  管理模式参考91yun管理
 
