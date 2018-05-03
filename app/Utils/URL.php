@@ -332,6 +332,10 @@ class URL
         $return_array['protocol_param'] = $user->protocol_param;
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
+        $return_array['group'] = Config::get('appName');
+        if($mu_port != 0) {
+            $return_array['group'] .= ' - 单端口';
+        }
         return $return_array;
     }
     public static function cloneUser($user) {
