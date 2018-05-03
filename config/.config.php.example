@@ -99,6 +99,7 @@ $System_Config['enable_account_expire_delete']='false';      //账户到期之�
 $System_Config['enable_account_expire_delete_days']='0';      //账户到期几天之后会删除账户
 $System_Config['enable_auto_clean_uncheck']='false';      //没签到的0级用户自动清理开关
 $System_Config['enable_auto_clean_uncheck_days']='7';      //自动清理多少天没签到的0级用户
+$System_Config['auto_clean_min_money']='1';      //自动清理时余额低于多少的0级用户会被清理（int变量 不要写小数）
 $System_Config['enable_auto_clean_unused']='false';      //未使用的0级用户自动清理开关
 $System_Config['enable_auto_clean_unused_days']='30';	//自动清理多少天没使用的0级用户
 $System_Config['enable_kill']='true';      //是否允许用户注销账户
