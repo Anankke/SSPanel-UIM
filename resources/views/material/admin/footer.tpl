@@ -13,7 +13,6 @@
 	<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/js/project.js"></script>
 
 
-	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script src="//cdn.datatables.net/1.10.16/js/dataTables.jqueryui.min.js"></script>
 	<script src="//cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
