@@ -8,6 +8,7 @@
 - **商店**：商品增加同时连接设备数，用户限速属性
 - 从肥羊那里**抄**来的：新用户注册现金奖励|高等级节点体验|设备数量限制
 - **优化**：css和js等置入本地提升加载速度
+- 增加**v2Ray** 功能，详情请看 [wiki](https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/V2Ray-%E5%AF%B9%E6%8E%A5%E6%95%99%E7%A8%8B)
 
 telegram交流群：https://t.me/joinchat/GQehSEV7LEU1Z6E8aQ4z3w
 
@@ -27,44 +28,6 @@ GitHub Wiki : https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%89%8D%E7%AB
 
 Wiki已经启用，欢迎为此面板维护wiki
 
-### 示例图片 Images
-
-Image:
--------------------
-![](https://github.com/galaxychuck/images/blob/master/1.jpg)
-
-> 登陆界面
--------------------
-
-![](https://github.com/galaxychuck/images/blob/master/2.jpg)
-
-> 首页
-
--------------------
-![](https://github.com/galaxychuck/images/blob/master/3.jpg)
-
-> 位置调整
-
--------------------
-![](https://github.com/galaxychuck/images/blob/master/4.jpg)
-
-> 非VIP查看等級1节点显示
-
--------------------
-![](https://github.com/galaxychuck/images/blob/master/5.jpg)
-
-> f2f支付宝支付（[需要代开当面付点我](https://t.me/galaxyq)）
-
--------------------
-![](https://github.com/galaxychuck/images/blob/master/6.jpg)
-
-> 教程
--------------------
-
-![首页](https://i.loli.net/2018/04/05/5ac6407da3a5d.png)
-
-
-
 #### 鸣谢
 
 ##### [galaxychuck](https://github.com/galaxychuck)
@@ -77,6 +40,7 @@ Image:
 - 为面板加入 AFF 链接功能
 - 商品增加限速和限制 ip 属性
 - 多端口订阅
+- 解决用户列表加载缓慢历史遗留问题
 
 ##### [rinSama](https://github.com/mxihan)
 
@@ -93,11 +57,11 @@ Image:
 - 节点负载情况显示&用户账户过期在首页弹窗提醒
 - 增加返利列表
 
-##### [NimaQu](https://github.com/NimaQu)
+[**indexyz**](https://github.com/Indexyz)
 
-- 对接易付通
+- 为面板增加 v2Ray 功能
 
-##### 还有提交过 PR 的朋友，
+##### 还有所有被引用过代码的同学，以及所有提交过issue的同学。
 
 #### 关于捐赠
 
@@ -110,21 +74,11 @@ Image:
 
 ##### NimaQu
 
-- [rixCloud-高速云端数据传输服务](https://my.rixcloud.com/aff.php?aff=1354)
-
-
-
-- [Uovz-企业级云服务器](https://www.uovz.com/aff.php?aff=215)
-
-
 
 - [魔方云 - 低成本极速高效 专属您的私有云](https://www.cubecloud.net/aff.php?aff=796)
-
-
-
-- [DGCHost.NET - Singapore VPS | Cheap Asia VPS](https://www.dgchost.net/client/aff.php?aff=524)
 
 
 ##### galaxychuck
 
 - [黛米付-支付接入](https://www.daimiyun.cn/register.php?aff=624)
+- [冲上云霄云主机](http://console.soar-clouds.com/aff.php?aff=94)
