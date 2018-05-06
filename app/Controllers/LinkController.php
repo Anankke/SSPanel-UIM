@@ -205,7 +205,7 @@ class LinkController extends BaseController
                     $is_mu = $request->getQueryParams()["is_mu"];
                 }
 
-                $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=allinone.conf');//->getBody()->write($builder->output());
+                $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=Online.conf');//->getBody()->write($builder->output());
                 $newResponse->getBody()->write(LinkController::GetIosConf($user, $is_mu, $is_ss));
                 return $newResponse;
             case 3:
@@ -291,43 +291,89 @@ class LinkController extends BaseController
 
     public static function GetPcConf($user, $is_mu = 0, $is_ss = 0)
     {
+    if ($is_ss==0) {
         $string='
-	{
-	"index" : 0,
-	"random" : false,
-	"sysProxyMode" : 0,
-	"shareOverLan" : false,
-	"bypassWhiteList" : false,
-	"localPort" : 1080,
-	"localAuthPassword" : "'.Tools::genRandomChar(26).'",
-	"dns_server" : "",
-	"reconnectTimes" : 4,
-	"randomAlgorithm" : 0,
-	"TTL" : 60,
-	"connect_timeout" : 5,
-	"proxyRuleMode" : 1,
-	"proxyEnable" : false,
-	"pacDirectGoProxy" : false,
-	"proxyType" : 0,
-	"proxyHost" : "",
-	"proxyPort" : 0,
-	"proxyAuthUser" : "",
-	"proxyAuthPass" : "",
-	"proxyUserAgent" : "",
-	"authUser" : "",
-	"authPass" : "",
-	"autoBan" : false,
-	"sameHostForSameTarget" : true,
-	"keepVisitTime" : 180,
-	"isHideTips" : true,
-	"token" : {
+            {
+                "index" : 0,
+                "random" : false,
+                "sysProxyMode" : 0,
+                "shareOverLan" : false,
+                "bypassWhiteList" : false,
+                "localPort" : 1080,
+                "localAuthPassword" : "'.Tools::genRandomChar(26).'",
+                "dns_server" : "",
+                "reconnectTimes" : 4,
+                "randomAlgorithm" : 0,
+                "TTL" : 60,
+                "connect_timeout" : 5,
+                "proxyRuleMode" : 1,
+                "proxyEnable" : false,
+                "pacDirectGoProxy" : false,
+                "proxyType" : 0,
+                "proxyHost" : "",
+                "proxyPort" : 0,
+                "proxyAuthUser" : "",
+                "proxyAuthPass" : "",
+                "proxyUserAgent" : "",
+                "authUser" : "",
+                "authPass" : "",
+                "autoBan" : false,
+                "sameHostForSameTarget" : true,
+                "keepVisitTime" : 180,
+                "isHideTips" : true,
+                "token" : {
 
-	},
-	"portMap" : {
+                },
+                "portMap" : {
 
-	}
-	}
-		';
+                }
+            }
+        ';
+    } else {
+        $string='
+            {
+                "strategy": null,
+                "index": 6,
+                "global": false,
+                "enabled": false,
+                "shareOverLan": false,
+                "isDefault": false,
+                "localPort": 1080,
+                "pacUrl": null,
+                "useOnlinePac": false,
+                "secureLocalPac": true,
+                "availabilityStatistics": false,
+                "autoCheckUpdate": false,
+                "checkPreRelease": false,
+                "isVerboseLogging": true,
+                "logViewer": {
+                "topMost": false,
+                "wrapText": false,
+                "toolbarShown": false,
+                "Font": "Consolas, 8pt",
+                "BackgroundColor": "Black",
+                "TextColor": "White"
+                },
+                "proxy": {
+                "useProxy": false,
+                "proxyType": 0,
+                "proxyServer": "",
+                "proxyPort": 0,
+                "proxyTimeout": 3
+                },
+                "hotkey": {
+                "SwitchSystemProxy": "",
+                "SwitchSystemProxyMode": "",
+                "SwitchAllowLan": "",
+                "ShowLogs": "",
+                "ServerMoveUp": "",
+                "ServerMoveDown": ""
+                }
+            }
+        ';
+    }
+
+
 
 
         $json=json_decode($string, true);
@@ -335,22 +381,33 @@ class LinkController extends BaseController
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            array_push($temparray, array("remarks"=>$item['remark'],
-                                        "server"=>$item['address'],
-                                        "server_port"=>$item['port'],
-                                        "method"=>$item['method'],
-                                        "obfs"=>$item['obfs'],
-                                        "obfsparam"=>$item['obfs_param'],
-                                        "remarks_base64"=>base64_encode($item['remark']),
-                                        "password"=>$item['passwd'],
-                                        "tcp_over_udp"=>false,
-                                        "udp_over_tcp"=>false,
-                                        "group"=>$item['group'],
-                                        "protocol"=>$item['protocol'],
-                                        "protoparam"=>$item['protocol_param'],
-										"protocolparam"=>$item['protocol_param'],
-                                        "obfs_udp"=>false,
-                                        "enable"=>true));
+            if ($is_ss==0) {
+                array_push($temparray, array("remarks"=>$item['remark'],
+                                            "server"=>$item['address'],
+                                            "server_port"=>$item['port'],
+                                            "method"=>$item['method'],
+                                            "obfs"=>$item['obfs'],
+                                            "obfsparam"=>$item['obfs_param'],
+                                            "remarks_base64"=>base64_encode($item['remark']),
+                                            "password"=>$item['passwd'],
+                                            "tcp_over_udp"=>false,
+                                            "udp_over_tcp"=>false,
+                                            "group"=>$item['group'],
+                                            "protocol"=>$item['protocol'],
+                                            "protoparam"=>$item['protocol_param'],
+                                            "protocolparam"=>$item['protocol_param'],
+                                            "obfs_udp"=>false,
+                                            "enable"=>true));
+            } else {
+                array_push($temparray, array("server"=>$item['address'],
+                                            "server_port"=>$item['port'],
+                                            "password"=>$item['passwd'],
+                                            "method"=>$item['method'],
+                                            "plugin"=>"obfs-local",
+                                            "plugin_opts"=>URL::getSurgeObfs($item).";obfs-host=wns.windows.com",
+                                            "remarks"=>$item['remark'],
+                                            "timeout"=>5));
+            }
         }
 
         $json["configs"]=$temparray;
@@ -363,371 +420,57 @@ class LinkController extends BaseController
         $proxy_name="";
         $proxy_group="";
 
+        $rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].','.Config::get('baseUrl').'/downloads/SSEncrypt.module'.URL::getSurgeObfs($item)."\n";
+            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
             $proxy_name .= ",".$item['remark'];
         }
 
-        return '
+        return '#!MANAGED-CONFIG '.Config::get('baseUrl').''.$_SERVER['REQUEST_URI'].'
+
 [General]
-
-skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local
-
-bypass-tun = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12
-
-dns-server = 119.29.29.29, 223.5.5.5, 114.114.114.114
+// Auto
 loglevel = notify
+dns-server = system,1.2.4.8,80.80.80.80,80.80.81.81,1.1.1.1,1.0.0.1
+skip-proxy = 127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,100.64.0.0/10,17.0.0.0/8,localhost,*.local,*.crashlytics.com
 
+// iOS
+external-controller-access = lhie1@0.0.0.0:6170
 
+allow-wifi-access = true
+
+// macOS
+interface = 0.0.0.0
+socks-interface = 0.0.0.0
+port = 8888
+socks-port = 8889
+
+enhanced-mode-by-rule = false
+
+// Auto
+exclude-simple-hostnames = true
+ipv6 = true
+replica = false
 
 [Proxy]
 DIRECT = direct
 '.$proxy_group.'
 
 [Proxy Group]
-Proxy = select,DIRECT'.$proxy_name.'
-
+PROXY = select,AUTO'.$proxy_name.'
+Domestic = select,DIRECT,PROXY
+Others = select,PROXY,DIRECT
+Apple = select,DIRECT,PROXY,AUTO
+Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
+AUTO = url-test'.$proxy_name.',url = http://www.gstatic.com/generate_204,interval = 1200
 
 [Rule]
 
-DOMAIN-KEYWORD,adsmogo,REJECT
+'.$rules.'
 
-DOMAIN-SUFFIX,acs86.com,REJECT
-
-DOMAIN-SUFFIX,adcome.cn,REJECT
-
-DOMAIN-SUFFIX,adinfuse.com,REJECT
-
-DOMAIN-SUFFIX,admaster.com.cn,REJECT
-
-DOMAIN-SUFFIX,admob.com,REJECT
-
-DOMAIN-SUFFIX,adsage.cn,REJECT
-
-DOMAIN-SUFFIX,adsage.com,REJECT
-
-DOMAIN-SUFFIX,adsmogo.org,REJECT
-
-DOMAIN-SUFFIX,ads.mobclix.com,REJECT
-
-DOMAIN-SUFFIX,adview.cn,REJECT
-
-DOMAIN-SUFFIX,adwhirl.com,REJECT
-
-DOMAIN-SUFFIX,adwo.com,REJECT
-
-DOMAIN-SUFFIX,appads.com,REJECT
-
-DOMAIN-SUFFIX,domob.cn,REJECT
-
-DOMAIN-SUFFIX,domob.com.cn,REJECT
-
-DOMAIN-SUFFIX,domob.org,REJECT
-
-DOMAIN-SUFFIX,doubleclick.net,REJECT
-
-DOMAIN-SUFFIX,duomeng.cn,REJECT
-
-DOMAIN-SUFFIX,duomeng.net,REJECT
-
-DOMAIN-SUFFIX,duomeng.org,REJECT
-
-DOMAIN-SUFFIX,googeadsserving.cn,REJECT
-
-DOMAIN-SUFFIX,guomob.com,REJECT
-
-DOMAIN-SUFFIX,immob.cn,REJECT
-
-DOMAIN-SUFFIX,inmobi.com,REJECT
-
-DOMAIN-SUFFIX,mobads.baidu.com,REJECT
-
-DOMAIN-SUFFIX,mobads-logs.baidu.com,REJECT
-
-DOMAIN-SUFFIX,smartadserver.com,REJECT
-
-DOMAIN-SUFFIX,tapjoyads.com,REJECT
-
-DOMAIN-SUFFIX,umeng.co,REJECT
-
-DOMAIN-SUFFIX,umeng.com,REJECT
-
-DOMAIN-SUFFIX,umtrack.com,REJECT
-
-DOMAIN-SUFFIX,uyunad.com,REJECT
-
-DOMAIN-SUFFIX,youmi.net,REJECT
-
-GEOIP,AD,Proxy
-GEOIP,AE,Proxy
-GEOIP,AF,Proxy
-GEOIP,AG,Proxy
-GEOIP,AI,Proxy
-GEOIP,AL,Proxy
-GEOIP,AM,Proxy
-GEOIP,AO,Proxy
-GEOIP,AQ,Proxy
-GEOIP,AR,Proxy
-GEOIP,AS,Proxy
-GEOIP,AS,Proxy
-GEOIP,AS,Proxy
-GEOIP,AS,Proxy
-GEOIP,AT,Proxy
-GEOIP,AU,Proxy
-GEOIP,AW,Proxy
-GEOIP,AX,Proxy
-GEOIP,AZ,Proxy
-GEOIP,BA,Proxy
-GEOIP,BD,Proxy
-GEOIP,BE,Proxy
-GEOIP,BF,Proxy
-GEOIP,BG,Proxy
-GEOIP,BH,Proxy
-GEOIP,BI,Proxy
-GEOIP,BJ,Proxy
-GEOIP,BL,Proxy
-GEOIP,BM,Proxy
-GEOIP,BN,Proxy
-GEOIP,BO,Proxy
-GEOIP,BQ,Proxy
-GEOIP,BR,Proxy
-GEOIP,BS,Proxy
-GEOIP,BT,Proxy
-GEOIP,BW,Proxy
-GEOIP,BY,Proxy
-GEOIP,BZ,Proxy
-GEOIP,CA,Proxy
-GEOIP,CC,Proxy
-GEOIP,CD,Proxy
-GEOIP,CF,Proxy
-GEOIP,CG,Proxy
-GEOIP,CH,Proxy
-GEOIP,CI,Proxy
-GEOIP,CK,Proxy
-GEOIP,CL,Proxy
-GEOIP,CM,Proxy
-GEOIP,CO,Proxy
-GEOIP,CR,Proxy
-GEOIP,CU,Proxy
-GEOIP,CV,Proxy
-GEOIP,CW,Proxy
-GEOIP,CX,Proxy
-GEOIP,CY,Proxy
-GEOIP,CZ,Proxy
-GEOIP,DE,Proxy
-GEOIP,DJ,Proxy
-GEOIP,DK,Proxy
-GEOIP,DM,Proxy
-GEOIP,DO,Proxy
-GEOIP,DZ,Proxy
-GEOIP,EC,Proxy
-GEOIP,EE,Proxy
-GEOIP,EG,Proxy
-GEOIP,EG,Proxy
-GEOIP,EH,Proxy
-GEOIP,ER,Proxy
-GEOIP,ES,Proxy
-GEOIP,ET,Proxy
-GEOIP,FI,Proxy
-GEOIP,FJ,Proxy
-GEOIP,FK,Proxy
-GEOIP,FM,Proxy
-GEOIP,FO,Proxy
-GEOIP,FR,Proxy
-GEOIP,GA,Proxy
-GEOIP,GB,Proxy
-GEOIP,GD,Proxy
-GEOIP,GE,Proxy
-GEOIP,GF,Proxy
-GEOIP,GG,Proxy
-GEOIP,GH,Proxy
-GEOIP,GI,Proxy
-GEOIP,GL,Proxy
-GEOIP,GM,Proxy
-GEOIP,GN,Proxy
-GEOIP,GP,Proxy
-GEOIP,GQ,Proxy
-GEOIP,GR,Proxy
-GEOIP,GS,Proxy
-GEOIP,GT,Proxy
-GEOIP,GU,Proxy
-GEOIP,GW,Proxy
-GEOIP,GY,Proxy
-GEOIP,HK,Proxy
-GEOIP,HM,Proxy
-GEOIP,HN,Proxy
-GEOIP,HR,Proxy
-GEOIP,HT,Proxy
-GEOIP,HU,Proxy
-GEOIP,ID,Proxy
-GEOIP,IE,Proxy
-GEOIP,IL,Proxy
-GEOIP,IM,Proxy
-GEOIP,IN,Proxy
-GEOIP,IO,Proxy
-GEOIP,IQ,Proxy
-GEOIP,IR,Proxy
-GEOIP,IS,Proxy
-GEOIP,IT,Proxy
-GEOIP,JE,Proxy
-GEOIP,JM,Proxy
-GEOIP,JO,Proxy
-GEOIP,JP,Proxy
-GEOIP,KE,Proxy
-GEOIP,KG,Proxy
-GEOIP,KH,Proxy
-GEOIP,KI,Proxy
-GEOIP,KM,Proxy
-GEOIP,KN,Proxy
-GEOIP,KP,Proxy
-GEOIP,KR,Proxy
-GEOIP,KW,Proxy
-GEOIP,KY,Proxy
-GEOIP,KZ,Proxy
-GEOIP,LA,Proxy
-GEOIP,LB,Proxy
-GEOIP,LC,Proxy
-GEOIP,LI,Proxy
-GEOIP,LK,Proxy
-GEOIP,LR,Proxy
-GEOIP,LS,Proxy
-GEOIP,LT,Proxy
-GEOIP,LU,Proxy
-GEOIP,LV,Proxy
-GEOIP,LY,Proxy
-GEOIP,MA,Proxy
-GEOIP,MC,Proxy
-GEOIP,MD,Proxy
-GEOIP,ME,Proxy
-GEOIP,MF,Proxy
-GEOIP,MG,Proxy
-GEOIP,MH,Proxy
-GEOIP,MK,Proxy
-GEOIP,ML,Proxy
-GEOIP,MM,Proxy
-GEOIP,MN,Proxy
-GEOIP,MO,Proxy
-GEOIP,MP,Proxy
-GEOIP,MQ,Proxy
-GEOIP,MR,Proxy
-GEOIP,MS,Proxy
-GEOIP,MT,Proxy
-GEOIP,MU,Proxy
-GEOIP,MV,Proxy
-GEOIP,MW,Proxy
-GEOIP,MX,Proxy
-GEOIP,MY,Proxy
-GEOIP,MZ,Proxy
-GEOIP,NA,Proxy
-GEOIP,NC,Proxy
-GEOIP,NE,Proxy
-GEOIP,NF,Proxy
-GEOIP,NG,Proxy
-GEOIP,NI,Proxy
-GEOIP,NL,Proxy
-GEOIP,NO,Proxy
-GEOIP,NP,Proxy
-GEOIP,NR,Proxy
-GEOIP,NU,Proxy
-GEOIP,NZ,Proxy
-GEOIP,OM,Proxy
-GEOIP,PA,Proxy
-GEOIP,PE,Proxy
-GEOIP,PF,Proxy
-GEOIP,PG,Proxy
-GEOIP,PH,Proxy
-GEOIP,PK,Proxy
-GEOIP,PL,Proxy
-GEOIP,PM,Proxy
-GEOIP,PN,Proxy
-GEOIP,PR,Proxy
-GEOIP,PS,Proxy
-GEOIP,PT,Proxy
-GEOIP,PW,Proxy
-GEOIP,PY,Proxy
-GEOIP,QA,Proxy
-GEOIP,RE,Proxy
-GEOIP,RO,Proxy
-GEOIP,RS,Proxy
-GEOIP,RU,Proxy
-GEOIP,RW,Proxy
-GEOIP,SA,Proxy
-GEOIP,SB,Proxy
-GEOIP,SC,Proxy
-GEOIP,SD,Proxy
-GEOIP,SE,Proxy
-GEOIP,SG,Proxy
-GEOIP,SH,Proxy
-GEOIP,SI,Proxy
-GEOIP,SJ,Proxy
-GEOIP,SK,Proxy
-GEOIP,SL,Proxy
-GEOIP,SM,Proxy
-GEOIP,SN,Proxy
-GEOIP,SO,Proxy
-GEOIP,SR,Proxy
-GEOIP,SS,Proxy
-GEOIP,ST,Proxy
-GEOIP,SV,Proxy
-GEOIP,SX,Proxy
-GEOIP,SY,Proxy
-GEOIP,SZ,Proxy
-GEOIP,TC,Proxy
-GEOIP,TD,Proxy
-GEOIP,TF,Proxy
-GEOIP,TG,Proxy
-GEOIP,TH,Proxy
-GEOIP,TJ,Proxy
-GEOIP,TK,Proxy
-GEOIP,TL,Proxy
-GEOIP,TM,Proxy
-GEOIP,TN,Proxy
-GEOIP,TO,Proxy
-GEOIP,TR,Proxy
-GEOIP,TT,Proxy
-GEOIP,TV,Proxy
-GEOIP,TW,Proxy
-GEOIP,TZ,Proxy
-GEOIP,UA,Proxy
-GEOIP,UG,Proxy
-GEOIP,UM,Proxy
-GEOIP,US,Proxy
-GEOIP,UY,Proxy
-GEOIP,UZ,Proxy
-GEOIP,VA,Proxy
-GEOIP,VC,Proxy
-GEOIP,VE,Proxy
-GEOIP,VG,Proxy
-GEOIP,VI,Proxy
-GEOIP,VN,Proxy
-GEOIP,VU,Proxy
-GEOIP,WF,Proxy
-GEOIP,WS,Proxy
-GEOIP,YE,Proxy
-GEOIP,YT,Proxy
-GEOIP,ZA,Proxy
-GEOIP,ZM,Proxy
-GEOIP,ZW,Proxy
-IP-CIDR,91.108.4.0/22,Proxy,no-resolve
-
-IP-CIDR,91.108.56.0/22,Proxy,no-resolve
-
-IP-CIDR,109.239.140.0/24,Proxy,no-resolve
-
-IP-CIDR,149.154.160.0/20,Proxy,no-resolve
-
-IP-CIDR,10.0.0.0/8,DIRECT
-
-IP-CIDR,127.0.0.0/8,DIRECT
-
-IP-CIDR,172.16.0.0/12,DIRECT
-
-IP-CIDR,192.168.0.0/16,DIRECT
-
-GEOIP,CN,DIRECT
-
-FINAL,Proxy';
+';
     }
 
     private static function GetSurge($passwd, $method, $server, $port, $defined)
@@ -948,7 +691,7 @@ IP-CIDR,172.16.0.0/12,DIRECT
 IP-CIDR,192.168.0.0/16,DIRECT
 GEOIP,CN,DIRECT
 FINAL,DIRECT
-	  ';
+      ';
         $pac_content.=$find_function_content;
         return $pac_content;
     }
@@ -1318,69 +1061,69 @@ FINAL,Proxy';
     private static function GetApn($apn, $server, $port)
     {
         return '
-		<?xml version="1.0" encoding="UTF-8"?>
-		<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-		<plist version="1.0">
-		<dict>
-			<key>PayloadContent</key>
-			<array>
-				<dict>
-					<key>PayloadContent</key>
-					<array>
-						<dict>
-							<key>DefaultsData</key>
-							<dict>
-								<key>apns</key>
-								<array>
-									<dict>
-										<key>apn</key>
-										<string>'.$apn.'</string>
-										<key>proxy</key>
-										<string>'.$server.'</string>
-										<key>proxyPort</key>
-										<integer>'.$port.'</integer>
-									</dict>
-								</array>
-							</dict>
-							<key>DefaultsDomainName</key>
-							<string>com.apple.managedCarrier</string>
-						</dict>
-					</array>
-					<key>PayloadDescription</key>
-					<string>提供对营运商“接入点名称”的自定义。</string>
-					<key>PayloadDisplayName</key>
-					<string>APN</string>
-					<key>PayloadIdentifier</key>
-					<string>com.tony.APNUNI'.$server.'.</string>
-					<key>PayloadOrganization</key>
-					<string>Tony</string>
-					<key>PayloadType</key>
-					<string>com.apple.apn.managed</string>
-					<key>PayloadUUID</key>
-					<string>7AC1FC00-7670-41CA-9EE1-4A5882DBD'.rand(100, 999).'D</string>
-					<key>PayloadVersion</key>
-					<integer>1</integer>
-				</dict>
-			</array>
-			<key>PayloadDescription</key>
-			<string>APN配置文件</string>
-			<key>PayloadDisplayName</key>
-			<string>APN快速配置 - '.$server.' ('.$apn.')</string>
-			<key>PayloadIdentifier</key>
-			<string>com.tony.APNUNI'.$server.'</string>
-			<key>PayloadOrganization</key>
-			<string>Tony</string>
-			<key>PayloadRemovalDisallowed</key>
-			<false/>
-			<key>PayloadType</key>
-			<string>Configuration</string>
-			<key>PayloadUUID</key>
-			<string>4C355D66-E72E-4DC8-864F-62C416015'.rand(100, 999).'D</string>
-			<key>PayloadVersion</key>
-			<integer>1</integer>
-		</dict>
-		</plist>
-		';
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+        <dict>
+            <key>PayloadContent</key>
+            <array>
+                <dict>
+                    <key>PayloadContent</key>
+                    <array>
+                        <dict>
+                            <key>DefaultsData</key>
+                            <dict>
+                                <key>apns</key>
+                                <array>
+                                    <dict>
+                                        <key>apn</key>
+                                        <string>'.$apn.'</string>
+                                        <key>proxy</key>
+                                        <string>'.$server.'</string>
+                                        <key>proxyPort</key>
+                                        <integer>'.$port.'</integer>
+                                    </dict>
+                                </array>
+                            </dict>
+                            <key>DefaultsDomainName</key>
+                            <string>com.apple.managedCarrier</string>
+                        </dict>
+                    </array>
+                    <key>PayloadDescription</key>
+                    <string>提供对营运商“接入点名称”的自定义。</string>
+                    <key>PayloadDisplayName</key>
+                    <string>APN</string>
+                    <key>PayloadIdentifier</key>
+                    <string>com.tony.APNUNI'.$server.'.</string>
+                    <key>PayloadOrganization</key>
+                    <string>Tony</string>
+                    <key>PayloadType</key>
+                    <string>com.apple.apn.managed</string>
+                    <key>PayloadUUID</key>
+                    <string>7AC1FC00-7670-41CA-9EE1-4A5882DBD'.rand(100, 999).'D</string>
+                    <key>PayloadVersion</key>
+                    <integer>1</integer>
+                </dict>
+            </array>
+            <key>PayloadDescription</key>
+            <string>APN配置文件</string>
+            <key>PayloadDisplayName</key>
+            <string>APN快速配置 - '.$server.' ('.$apn.')</string>
+            <key>PayloadIdentifier</key>
+            <string>com.tony.APNUNI'.$server.'</string>
+            <key>PayloadOrganization</key>
+            <string>Tony</string>
+            <key>PayloadRemovalDisallowed</key>
+            <false/>
+            <key>PayloadType</key>
+            <string>Configuration</string>
+            <key>PayloadUUID</key>
+            <string>4C355D66-E72E-4DC8-864F-62C416015'.rand(100, 999).'D</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+        </dict>
+        </plist>
+        ';
     }
 
 
