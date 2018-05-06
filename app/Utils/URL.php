@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Models\Node;
 use App\Models\Relay;
 use App\Services\Config;
+
 class URL
 {
     /*
@@ -248,6 +249,22 @@ class URL
             }
             return $ssurl;
         }
+    }
+    public static function getV2Url($user, $node){
+        $v2url = "";
+
+        $node_explode = explode(';', $node->server);
+        $item['ps'] = $node->name;
+        $item['add'] = $node_explode[0];
+        $item['port'] = $node_explode[1];
+        $item['id'] = $user->getUuid();
+        $item['aid'] = $node_explode[3];
+        $item['net'] = "tcp";
+        $item['type'] = "none";
+        $arr = array('v'=>'2', 'ps'=>$item['ps'], 'add'=>$item['add'], 'port'=>$item['port'], 'id'=>$item['id'], 'aid'=>$item['aid'], 'net'=>'tcp', 'type'=>'none', 'host'=>'', 'path'=>'', 'tls'=>'');
+        $v2url = "vmess://".Tools::base64_url_encode((json_encode($arr, JSON_UNESCAPED_UNICODE)));
+        //$v2url = "{"."\n  \"v\": \"2\",\n  \"ps\": \"".$item['ps']."\",\n  \"add\":  \"".$item['add']."\",\n  \"port\":  \"".$item['port']."\",\n  \"id\":  \"".$item['id']."\",\n  \"aid\":  \"".$item['aid']."\",\n  \"net\":  \"".$item['net']."\",\n  \"type\":  \"".$item['type']."\",\n  \"host\": \"\",\n  \"path\": \"\",\n  \"tls\": \"\"";
+        return $v2url;
     }
     public static function getJsonObfs($item) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
