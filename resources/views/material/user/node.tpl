@@ -133,6 +133,11 @@
 																				<p>Level：<span class="label label-brand">
 																					{$server_explode[4]}
 																				</span></p>
+
+																				<p>VMess链接：
+																					<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
+																				</p>
+
 																				<p>{$node->info}</p>
 																			</div>
 																		</div>
@@ -313,6 +318,11 @@
 																				<p>Level：<span class="label label-brand">
 																					{$server_explode[4]}
 																				</span></p>
+
+																				<p>VMess链接：
+																					<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
+																				</p>
+
 																				<p>{$node->info}</p>
 																				</div>
 																			</div>
@@ -395,7 +405,7 @@
 							</div>
 							</div>
 
-
+								{include file='dialog.tpl'}
 						<div aria-hidden="true" class="modal modal-va-middle fade" id="nodeinfo" role="dialog" tabindex="-1">
 							<div class="modal-dialog modal-full">
 								<div class="modal-content">
@@ -432,4 +442,12 @@ function urlChange(id,is_mu,rule_id) {
 	}
 	$("#nodeinfo").modal();
 }
+
+$(function(){
+	new Clipboard('.copy-text');
+});
+$(".copy-text").click(function () {
+	$("#result").modal();
+	$("#msg").html("已复制，请进入软件添加。");
+});
 </script>
