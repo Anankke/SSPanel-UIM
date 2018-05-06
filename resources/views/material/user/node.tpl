@@ -65,7 +65,7 @@
 																		{$relay_rule = $tools->pick_out_relay_rule($node->id, $user->port, $relay_rules)}
 																	{/if}
 
-																	{if $node->mu_only != 1}
+																	{if $node->mu_only != 1 && $node->sort != 11}
 																	<div class="card">
 																		<div class="card-main">
 
@@ -93,7 +93,55 @@
 																	{/if}
 
 
+																	{if $node->sort == 11} 
+																		{assign var=server_explode value=";"|explode:$node->server}
+																		<div class="card">
+																			<div class="card-main">
+																				<div class="card-inner">
+																					<p class="card-heading" >
+																						<a href="javascript:void(0);" >{$node->name}</a>
+																					</p>
+																				</div>
+																				<p>地址：<span class="label label-brand-accent">
+                                                                                    {$server_explode[0]}
+																				</span></p>
 
+																				<p>端口：<span class="label label-brand-red">
+																					{$server_explode[1]}
+																				</span></p>
+
+																				<p>协议：<span class="label label-brand-accent">
+																					{$server_explode[2]}
+																				</span></p>
+
+																				<p>协议参数：<span class="label label-green">
+																					{$server_explode[0]}
+																				</span></p>
+
+																				<p>用户 UUID：<span class="label label-brand">
+																					{$user->getUuid()}
+																				</span></p>
+
+																				<p>流量比例：<span class="label label-red">
+																					{$node->traffic_rate}
+																				</span></p>
+
+																				<p>AlterId：<span class="label label-green">
+																					{$server_explode[3]}
+																				</span></p>
+
+																				<p>Level：<span class="label label-brand">
+																					{$server_explode[4]}
+																				</span></p>
+
+																				<p>VMess链接：
+																					<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
+																				</p>
+
+																				<p>{$node->info}</p>
+																			</div>
+																		</div>
+																	{/if}
 																	{if ($node->sort == 0 || $node->sort == 10) && $node->custom_rss == 1 && $node->mu_only != -1}
 																		{foreach $node_muport as $single_muport}
 
@@ -200,7 +248,7 @@
 </div></div></div>
 																			{else}
 																	{$relay_rule = null}
-																	{if $node->sort == 10}
+																	{if $node->sort == 10 && $node->sort != 11}
 																		{$relay_rule = $tools->pick_out_relay_rule($node->id, $user->port, $relay_rules)}
 																	{/if}
 
@@ -230,7 +278,56 @@
 																	{if $node->sort == 0 || $node->sort == 10}
 																		{$point_node=$node}
 																	{/if}
+{if $node->sort == 11} 
+																		{assign var=server_explode value=";"|explode:$node->server}
+																		<div class="card">
+																			<div class="card-main">
+																				<div class="card-inner">
+																					<p class="card-heading" >
+																						<a href="javascript:void(0);" >{$node->name}</a>
+																					</p>
+																				
+																				<p>地址：<span class="label label-brand-accent">
+                                                                                    {$server_explode[0]}
+																				</span></p>
 
+																				<p>端口：<span class="label label-brand-red">
+																					{$server_explode[1]}
+																				</span></p>
+
+																				<p>协议：<span class="label label-brand-accent">
+																					{$server_explode[2]}
+																				</span></p>
+
+																				<p>协议参数：<span class="label label-green">
+																					{$server_explode[0]}
+																				</span></p>
+
+																				<p>用户 UUID：<span class="label label-brand">
+																					{$user->getUuid()}
+																				</span></p>
+
+																				<p>流量比例：<span class="label label-red">
+																					{$node->traffic_rate}
+																				</span></p>
+
+																				<p>AlterId：<span class="label label-green">
+																					{$server_explode[3]}
+																				</span></p>
+
+																				<p>Level：<span class="label label-brand">
+																					{$server_explode[4]}
+																				</span></p>
+
+																				<p>VMess链接：
+																					<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
+																				</p>
+
+																				<p>{$node->info}</p>
+																				</div>
+																			</div>
+																		</div>
+																	{/if}
 
 
 																	{if ($node->sort == 0 || $node->sort == 10) && $node->custom_rss == 1 && $node->mu_only != -1}
@@ -308,7 +405,7 @@
 							</div>
 							</div>
 
-
+								{include file='dialog.tpl'}
 						<div aria-hidden="true" class="modal modal-va-middle fade" id="nodeinfo" role="dialog" tabindex="-1">
 							<div class="modal-dialog modal-full">
 								<div class="modal-content">
@@ -345,4 +442,12 @@ function urlChange(id,is_mu,rule_id) {
 	}
 	$("#nodeinfo").modal();
 }
+
+$(function(){
+	new Clipboard('.copy-text');
+});
+$(".copy-text").click(function () {
+	$("#result").modal();
+	$("#msg").html("已复制，请进入软件添加。");
+});
 </script>
