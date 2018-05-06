@@ -281,7 +281,7 @@
 																					<p class="card-heading" >
 																						<a href="javascript:void(0);" >{$node->name}</a>
 																					</p>
-																				</div>
+																				
 																				<p>地址：<span class="label label-brand-accent">
                                                                                     {$server_explode[0]}
 																				</span></p>
@@ -314,6 +314,7 @@
 																					{$server_explode[4]}
 																				</span></p>
 																				<p>{$node->info}</p>
+																				</div>
 																			</div>
 																		</div>
 																	{/if}

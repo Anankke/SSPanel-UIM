@@ -645,7 +645,7 @@ class UserController extends BaseController
                 }
 
 
-                if ($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10) {
+                if ($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10||$node->sort==11) {
                     $node_tempalive=$node->getOnlineUserCount();
                     $node_prealive[$node->id]=$node_tempalive;
                     if ($node->isNodeOnline() !== null) {
