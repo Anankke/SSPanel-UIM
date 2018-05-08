@@ -8,18 +8,12 @@
 
                     <nav class="tab-nav margin-top-no">
                         <ul class="nav nav-justified">
-
-                            {if $config['enable_telegram'] == 'true'}
-                                <li>
-                                    <a class="waves-attach" data-toggle="tab" href="#qrcode_login"> TG扫码登录</a>
-                                </li>
-                            {/if}
                             <li class="active">
                                 <a class="waves-attach" data-toggle="tab" href="#passwd_login">密码登录</a>
                             </li>
                             {if $config['enable_telegram'] == 'true'}
                                 <li>
-                                    <a class="waves-attach" data-toggle="tab" href="#number_login"> TG数字登录</a>
+                                    <a class="waves-attach" data-toggle="tab" href="#number_login"> Telegram登录</a>
                                 </li>
                             {/if}
                         </ul>
@@ -130,23 +124,21 @@
                                             <div class="card-header">
                                                 <div class="card-inner">
                                                     <h1 class="card-heading"
-                                                        style=" text-align:center;font-weight:bold;">Telegram数字登录</h1>
+                                                        style=" text-align:center;font-weight:bold;">Telegram登录</h1>
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的数字给它。
-                                                </p>
-                                                <div class="form-group form-group-label">
-                                                    <div class="text-center">
-                                                        <h1><code id="code_number">{$login_number}</code></h1>
-                                                    </div>
+												<div class="text-center">
+                                                <p>一键登陆</p>
+												</div>
+												<p id="telegram-alert">正在载入 Telegram，如果长时间未显示请刷新页面或检查代理</p>
+												<div class="text-center" id="telegram-login-box"></div>
+                                                <p>或者添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的数字给它。
+                                                </p>		
+												<div class="text-center">
+                                                        <h2><code id="code_number">{$login_number}</code></h2>
                                                 </div>
                                             </div>
-                                            <div class="text-center">
-                                                <p>快捷登陆方式</p>
-                                            </div>
-                                            <p id="telegram-alert">正在载入Telegram Login，如果长时间未显示请刷新页面或检查网络科学性</p>
-                                            <div id="telegram-login-box"></div>
                                         </div>
                                     </div>
                                 </div>

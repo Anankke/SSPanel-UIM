@@ -469,10 +469,10 @@ class AuthController extends BaseController
                 $this->logUserIp($user->id, $_SERVER["REMOTE_ADDR"]);
 
                 // 登陆成功！
-                return $this->view()->assign('title', '欢迎回来')->assign('message', '正在前往仪表盘')->assign('redirect', '/user')->display('custom_err.tpl');
+                return $this->view()->assign('title', '欢迎回来')->assign('message', '正在前往仪表盘')->assign('redirect', '/user')->display('telegram_success.tpl');
             }
             // 验证失败
-            return $this->view()->assign('title', '登陆超时或非法构造信息')->assign('message', '很抱歉带来的不便，请重新试试')->assign('redirect', '/auth/login')->display('custom_err.tpl');
+            return $this->view()->assign('title', '登陆超时或非法构造信息')->assign('message', '很抱歉带来的不便，请重新试试')->assign('redirect', '/auth/login')->display('telegram_error.tpl');
         }
         return $response->withRedirect('/404');
     }
