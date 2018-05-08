@@ -142,7 +142,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p>快捷登陆方式</p>
+                                            <div class="text-center">
+                                                <p>快捷登陆方式</p>
+                                            </div>
                                             <p id="telegram-alert">正在载入Telegram Login，如果长时间未显示请刷新页面或检查网络科学性</p>
                                             <div id="telegram-login-box"></div>
                                         </div>
@@ -350,8 +352,8 @@
             }
             el.src = 'https://telegram.org/js/telegram-widget.js?4';
             el.setAttribute('data-size', 'large')
-            el.setAttribute('data-telegram-login', '{$config['telegram_bot']}')
-            el.setAttribute('data-auth-url', '{$config['base_url']}/auth/telegram_oauth')
+            el.setAttribute('data-telegram-login', '{$telegram_bot}')
+            el.setAttribute('data-auth-url', '{$base_url}/auth/telegram_oauth')
             el.setAttribute('data-request-access', 'write')
         });
     </script>
