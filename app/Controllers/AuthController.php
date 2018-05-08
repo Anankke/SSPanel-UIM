@@ -53,7 +53,7 @@ class AuthController extends BaseController
             ->assign('login_token', $login_token)
             ->assign('login_number', $login_number)
             ->assign('telegram_bot', Config::get('telegram_bot'))
-            ->assign('base_url', Config::get('base_url'))
+            ->assign('base_url', Config::get('baseUrl'))
             ->display('auth/login.tpl');
     }
 
