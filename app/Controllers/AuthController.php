@@ -487,6 +487,7 @@ class AuthController extends BaseController
         if (strcmp($hash, $check_hash) !== 0) {
             return false; // Bad Data :(
         }
+
         if ((time() - $auth_data['auth_date']) > 300) { // Expire @ 5mins
             return false;
         }
