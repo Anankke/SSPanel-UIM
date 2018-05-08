@@ -61,6 +61,10 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - 为面板增加 v2Ray 功能
 
+[**NeverBehave**](https://github.com/NeverBehave)
+
+- 添加 Telegram OAuth
+
 ##### 还有所有被引用过代码的同学，以及所有提交过issue的同学。
 
 #### 关于捐赠
