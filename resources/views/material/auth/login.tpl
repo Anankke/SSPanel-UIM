@@ -353,7 +353,7 @@
             el.src = 'https://telegram.org/js/telegram-widget.js?4';
             el.setAttribute('data-size', 'large')
             el.setAttribute('data-telegram-login', '{$telegram_bot}')
-            el.setAttribute('data-auth-url', '{App/Service/Config::get('base_url')}/auth/telegram_oauth')
+            el.setAttribute('data-auth-url', '{$base_url}/auth/telegram_oauth')
             el.setAttribute('data-request-access', 'write')
         });
     </script>

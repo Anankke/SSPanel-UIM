@@ -48,7 +48,13 @@ class AuthController extends BaseController
             $login_number = '';
         }
 
-        return $this->view()->assign('geetest_html', $GtSdk)->assign('login_token', $login_token)->assign('login_number', $login_number)->assign('telegram_bot', Config::get('telegram_bot'))->display('auth/login.tpl');
+        return $this->view()
+            ->assign('geetest_html', $GtSdk)
+            ->assign('login_token', $login_token)
+            ->assign('login_number', $login_number)
+            ->assign('telegram_bot', Config::get('telegram_bot'))
+            ->assign('base_url', Config::get('base_url'))
+            ->display('auth/login.tpl');
     }
 
     public function loginHandle($request, $response, $args)
