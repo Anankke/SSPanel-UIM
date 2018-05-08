@@ -341,12 +341,6 @@
     </script>
 {/if}
 {if $config['enable_telegram'] == 'true'}
-    {php}
-        $oauth_url = App/Services/Config::get('base_url'). '/auth/telegram_oauth';
-        $bot = App/Services/Config::get('telegram_bot');
-        $this->assign('telegram_oauth_url', $oauth_url);
-        $this->assign('telegram_bot_name', $bot);
-    {/php}
     <script>
         $(document).ready(function () {
             var el = document.createElement('script');
@@ -356,8 +350,8 @@
             }
             el.src = 'https://telegram.org/js/telegram-widget.js?4';
             el.setAttribute('data-size', 'large')
-            el.setAttribute('data-telegram-login', {$telegram_bot_name})
-            el.setAttribute('data-auth-url',{$telegram_oauth_url})
+            el.setAttribute('data-telegram-login', '{$config['telegram_bot']}')
+            el.setAttribute('data-auth-url', '{$config['base_url']}/auth/telegram_oauth')
             el.setAttribute('data-request-access', 'write')
         });
     </script>
