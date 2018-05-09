@@ -307,6 +307,7 @@ class UserController extends AdminController
 
         $datatables->edit('reg_location', function ($data) {
             $user = User::find($data['id']);            
+            $reg_location = $user->reg_ip;            
             $iplocation = new QQWry();
             $location=$iplocation->getlocation($reg_location);
             $reg_location .= "\n".iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
