@@ -268,7 +268,7 @@
 										</div>
 										<div class="card-action">
 											<div class="card-action-btn pull-left">
-												<p><a class="reset-link btn btn-brand btn-flat waves-attach" href="/user/url_reset"><span class="icon">autorenew</span>&nbsp;重置订阅链接</a></p>
+												<p><a class="reset-link btn btn-brand btn-flat waves-attach" ><span class="icon">autorenew</span>&nbsp;重置订阅链接</a></p>
 											</div>
 										</div>
 									</div>
@@ -540,6 +540,7 @@ $(function(){
 $(".reset-link").click(function () {
 	$("#result").modal();
 	$("#msg").html("已重置您的订阅链接，请变更或添加您的订阅链接！");
+	window.setTimeout("location.href='/user/url_reset'", {$config['jump_delay']});
 });
 
  {if $user->transfer_enable-($user->u+$user->d) == 0}	
