@@ -79,7 +79,7 @@
                       <!--标签1开始-->
                       <article id="1">
                       <h2 class="major">简介</h2>
-                      <p>这里是示范文字</p><p> 请到站点文件夹</p><p>resources/views/material/index.tpl</p><p>第79行进行修改</p></article>
+                      <p>「ホワイトアルバムの季節」が、また、やってきた。</p></article>
 					  <!--
 					  简介修改示例: 
 					  <p> 123</p>
