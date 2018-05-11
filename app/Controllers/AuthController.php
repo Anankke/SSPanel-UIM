@@ -233,7 +233,7 @@ class AuthController extends BaseController
                 return $response->getBody()->write(json_encode($res));
             }
 
-            $code = Tools::genRandomChar(6);
+            $code = Tools::genRandomNum(6);
 
             $ev = new EmailVerify();
             $ev->expire_in = time() + Config::get('email_verify_ttl');
