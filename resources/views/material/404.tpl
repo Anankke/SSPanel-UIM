@@ -9,10 +9,10 @@
       <link rel="bookmark" href="/favicon.ico" type="image/x-icon"/>
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 	<link rel="shortcut icon" type="image/ico" href="images/ssr.ico">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/css/main.css" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sspuic/p@0x04/public/assets/css/main.css" />
 
       <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/css/noscript.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sspuic/p@0x04/public/assets/css/noscript.css" />
       </noscript>
   </head>	
 <body>
