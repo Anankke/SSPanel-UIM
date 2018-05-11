@@ -61,6 +61,10 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - 为面板增加 v2Ray 功能
 
+[**NeverBehave**](https://github.com/NeverBehave)
+
+- 添加 Telegram OAuth
+
 ##### 还有所有被引用过代码的同学，以及所有提交过issue的同学。
 
 #### 关于捐赠
@@ -82,3 +86,9 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - [黛米付-支付接入](https://www.daimiyun.cn/register.php?aff=624)
 - [冲上云霄云主机](http://console.soar-clouds.com/aff.php?aff=94)
+
+
+##### Miku
+
+
+- [qazCloud  | 高速云端数据传输服务](https://www.qaz.cloud)
