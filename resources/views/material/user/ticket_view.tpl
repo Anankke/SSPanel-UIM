@@ -140,7 +140,8 @@
         editor = editormd("editormd", {
             path : "/theme/material/editor/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
 			height: 450,
-			saveHTMLToTextarea : true
+			saveHTMLToTextarea : true,
+			emoji : true
         });
 
         /*
