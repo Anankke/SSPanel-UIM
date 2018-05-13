@@ -110,12 +110,12 @@
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
                                                         <p><span class="icon icon-lg text-white">looks_one</span> 切换<code>App Store</code>账号-ID:<code>
-														    {if $user->class>1}                                          	 xxxx@apple.com
-															{else}															白金会员以上可见
+														    {if $user->class>1}                                          	 xxxx@apple.com(帐号密码请在resources/views/materials/user/index.tpl中修改)
+															{else}															VIP用户可见
 															{/if}															
 														</code>密码<code>
 														{if $user->class>1}															xxxxxx
-															{else}															白金会员以上可见
+															{else}															VIP用户可见
 															{/if}
 														</code>注意特殊符号与大小写,如果显示需要解锁账号，请提交工单或邮件。（千万不要试图登陆iCloud，会上传您的照片与通讯录到这个账户上）</p>
                                                          <p><span class="icon icon-lg text-white">looks_two</span> 商店搜索<code>Shadowrocket</code>下载安装</p>
