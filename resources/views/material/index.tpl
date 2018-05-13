@@ -66,8 +66,8 @@
                                <li><a href="#1">简介</a></li>
 								<li><a href="/auth/login">登录</a></li>
 								<li><a href="/auth/register">注册</a></li>
-                              	<li><a href="#4">联系</a></li>
-								<li><a href="#5">下载</a></li>
+                              	<li><a href="#5">下载</a></li>
+								<li><a href="/staff">STAFF</a></li>
                               
                            </ul>
 						</nav>
