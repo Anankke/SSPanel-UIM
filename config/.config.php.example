@@ -183,6 +183,7 @@ $System_Config['pmw_height']='350px';
 #alipay,spay
 $System_Config['alipay_id']='';
 $System_Config['alipay_key']='';
+$System_Config['amount']=[2,23,233,2333,23333];  //充值金额选项设定
 
 #yftpay,https://pay.anypay.me/
 $System_Config['yft_secret']='';
@@ -192,10 +193,6 @@ $System_Config['yft_accesskey']='';
 $System_Config['zfbjk_pid']='';
 $System_Config['zfbjk_key']='';
 $System_Config['zfbjk_qrcodeurl']='';
-
-#充值金额选项设定//f2fpay和spay可用
-$System_Config['amount']=[2,23,233,2333,23333];
-
 
 //杂项（一般不需要更改-------------------------------------------------------------
 $System_Config['authDriver'] = 'cookie';   //不能更改此项
