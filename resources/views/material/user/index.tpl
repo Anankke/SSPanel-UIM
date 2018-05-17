@@ -77,7 +77,7 @@
 															</li>
 														</ul>
 													</nav>
-													
+
 													<div class="tab-pane fade active in" id="all_ssr_windows">
                                                         {$user = URL::getSSRConnectInfo($pre_user)}
 														{$ssr_url_all = URL::getAllUrl($pre_user, 0, 0)}
@@ -85,13 +85,13 @@
 														<p><span class="icon icon-lg text-white">looks_one</span><a href="/ssr-download/ssr-win.7z"> 点击我下载</a></p>
                                                           <p><span class="icon icon-lg text-white">looks_two</span> 解压至任意磁盘</p>
                                                           <p><span class="icon icon-lg text-white">looks_3</span> 运行程序</p>
-															
-															<p> <span class="icon icon-lg text-white">looks_4</span> 任务栏右下角右键纸飞机图标--服务器订阅--SSR服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新 SSR 服务器订阅。</p> 
-															<p> <span class="icon icon-lg text-white">looks_5</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网。</p> 
+
+															<p> <span class="icon icon-lg text-white">looks_4</span> 任务栏右下角右键纸飞机图标--服务器订阅--SSR服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新 SSR 服务器订阅。</p>
+															<p> <span class="icon icon-lg text-white">looks_5</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网。</p>
 														<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br>
 														<!--	单端口多用户端口订阅地址：<code>{$baseUrl}/link/{$ssr_sub_token}?mu=1</code>  -->
 														</p>
-                                                       <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p> 
+                                                       <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_mac">
 															<p><span class="icon icon-lg text-white">looks_one</span><a href="/ssr-download/ssr-mac.dmg"> 点击我下载</a></p>
@@ -99,20 +99,20 @@
                                                      	    <p><span class="icon icon-lg text-white">looks_3</span> 把ShadowsocksX拖入到Finder的应用程序列表(Applications)</p>
                                                       		<p><span class="icon icon-lg text-white">looks_4</span> 打开Launchapad里的ShadowsocksX</p>
                                                       		<p><span class="icon icon-lg text-white">looks_5</span> 菜单栏的纸飞机图标-服务器-服务器订阅填入以下订阅地址，更新后出现您的节点</p>
-                                                      <p><span class="icon icon-lg text-white">looks_6</span> 菜单栏的纸飞机图标-打开shadowsocks</p>													
+                                                      <p><span class="icon icon-lg text-white">looks_6</span> 菜单栏的纸飞机图标-打开shadowsocks</p>
                                         				<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br>
-													
+
                                                       </p>
-                                                      <p><a href="/user/announcement">点击这里查看Mac傻瓜式教程</a></p> 
+                                                      <p><a href="/user/announcement">点击这里查看Mac傻瓜式教程</a></p>
 													</div>
                                                   <div class="tab-pane fade" id="all_ssr_linux">
-                                                      <p><a href="/user/announcement">点击这里查看Linux傻瓜式教程</a></p> 
+                                                      <p><a href="/user/announcement">点击这里查看Linux傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
                                                         <p><span class="icon icon-lg text-white">looks_one</span> 切换<code>App Store</code>账号-ID:<code>
 														    {if $user->class>1}                                          	 xxxx@apple.com(帐号密码请在resources/views/materials/user/index.tpl中修改)
 															{else}															VIP用户可见
-															{/if}															
+															{/if}
 														</code>密码<code>
 														{if $user->class>1}															xxxxxx
 															{else}															VIP用户可见
@@ -124,7 +124,7 @@
                                                       <p><span class="icon icon-lg text-white">looks_4</span> 选择任意节点点击连接，然后点击allow后解锁指纹</p>
                                                       <p><span class="icon icon-lg text-white">looks_5</span> 注意：第一次连接可能不能用，导入后程序退出并重新打开程序后连接即可！</p>
 														<p><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br>
-                                                      <p><a href="/user/announcement">点击这里查看iOS傻瓜式教程</a></p> 
+                                                      <p><a href="/user/announcement">点击这里查看iOS傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_android">
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssr-android.apk"> 点击我下载</a>并安装</p>
@@ -186,10 +186,10 @@
 															<p>请注意，在当前状态下您的 SSR 订阅链接已经失效，您无法通过此种方式导入节点。</p>
 														{/if}
 													</div>
-                                                  
+
 
 												</div>
-                                            
+
 												<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ss">
 													<nav class="tab-nav margin-top-no">
 														<ul class="nav nav-list">
@@ -296,7 +296,7 @@
                                           	 <p><dt>Telegram(VIP可见)</dt>
 											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="请到index.tpl第299行修改" target="view_window">点击加入TG群</a></dd>
                                           {else}
-                                             
+
                                               {/if}
                                           </p>
 
@@ -354,7 +354,7 @@
 											{if $geetest_html != null}
 												<div id="popup-captcha"></div>
 											{/if}
-									
+
 
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
@@ -378,17 +378,17 @@
 									<div class="card-inner margin-bottom-no">
 
 										<div id="traffic_chart" style="height: 300px; width: 100%;"></div>
-                                     
+
                                       <script src="/assets/js/canvasjs.min.js"> </script>
 										<script type="text/javascript">
 											var chart = new CanvasJS.Chart("traffic_chart",
 
-                                                                           
+
 
 											{
                                          theme: "light1",
 
-                                              
+
 												title:{
 													text: "流量使用情况",
 													fontFamily: "Impact",
@@ -489,14 +489,20 @@
 <script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/js/shake.js/shake.js"></script>
 
 <script>
+
+function DateParse(str_date) {
+		var str_date_splited = str_date.split(/[^0-9]/);
+		return new Date (str_date_splited[0], str_date_splited[1] - 1, str_date_splited[2], str_date_splited[3], str_date_splited[4], str_date_splited[5]);
+}
+
 /*
  * Author: neoFelhz & CloudHammer
  * https://github.com/CloudHammer/CloudHammer/make-sspanel-v3-mod-great-again
  * License: MIT license & SATA license
  */
 function CountDown() {
-    var levelExpire = Date.parse("{$user->class_expire}");
-    var accountExpire = Date.parse("{$user->expire_in}");
+    var levelExpire = DateParse("{$user->class_expire}");
+    var accountExpire = DateParse("{$user->expire_in}");
     var nowDate = new Date();
     var a = nowDate.getTime();
     var b = levelExpire - a;
@@ -543,12 +549,12 @@ $(".reset-link").click(function () {
 	window.setTimeout("location.href='/user/url_reset'", {$config['jump_delay']});
 });
 
- {if $user->transfer_enable-($user->u+$user->d) == 0}	
-window.onload = function() {	
-    $("#result").modal();	
-    $("#msg").html("您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~");	
-};	
- {/if}	
+ {if $user->transfer_enable-($user->u+$user->d) == 0}
+window.onload = function() {
+    $("#result").modal();
+    $("#msg").html("您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~");
+};
+ {/if}
 
 {if $geetest_html == null}
 
@@ -677,5 +683,3 @@ initGeetest({
 
 
 </script>
-
-
