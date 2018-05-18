@@ -42,10 +42,11 @@ Wiki已经启用，欢迎为此面板维护wiki
 - 多端口订阅
 - 解决用户列表加载缓慢历史遗留问题
 
-##### [rinSama](https://github.com/mxihan)
+##### [RinSAMA](https://github.com/mxihan)
 
 - 整理分类 config.php
-- spay 优化
+- 美观性调整
+- 客服系统优化
 
 ##### [miku](https://github.com/xcxnig)
 
