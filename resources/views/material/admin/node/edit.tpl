@@ -76,6 +76,39 @@
 										</label>
 									</div>
 
+									<div class="form-group form-group-label">
+										<label for="offset_mode">
+											<label class="floating-label" for="offset_mode">端口偏移</label>
+											<select id="offset_mode" class="form-control" onchange="change_offset_mode()">
+												<option value="0" selected>不开启</option>
+												<option value="1">合租模式（强制只启用普通端口）</option>
+												<option value="2">NAT模式（强制只启用单端口多用户）</option>
+											</select>
+										</label>
+									</div>
+
+									<div class="form-group form-group-label" id="offset_mode_1">
+										<label for="offset">
+											<label class="floating-label" for="offset">输入偏移量</label>
+											<input class="form-control" id="offset" type="number">
+										</label>
+									</div>
+
+									<div id="offset_mode_2">
+										<div class="form-group form-group-label">
+											<label for="muport">
+												<label class="floating-label" for="muport">内网端口</label>
+												<input class="form-control" id="muport" type="number">
+											</label>
+										</div>
+
+										<div class="form-group form-group-label">
+											<label for="subscribe">
+												<label class="floating-label" for="subscribe">映射外网端口</label>
+												<input class="form-control" id="subscribe" type="number">
+											</label>
+										</div>
+									</div>
 
 								</div>
 							</div>
@@ -189,7 +222,37 @@
 
 {include file='admin/footer.tpl'}
 
+<script>
+	function change_offset_mode() {
+		offset_mode = $("#offset_mode").val();
+		if (offset_mode == 0) 
+		{
+			document.getElementById('offset_mode_1').setAttribute('hidden','hidden');
+			document.getElementById('offset_mode_2').setAttribute('hidden','hidden');
+			document.getElementById('mu_only').removeAttribute('disabled');
+		}
+		if (offset_mode == 1)
+		{
+			document.getElementById('offset_mode_1').removeAttribute('hidden');
+			document.getElementById('offset_mode_2').setAttribute('hidden','hidden');
+			document.getElementById('mu_only').value = -1;
+			document.getElementById('mu_only').setAttribute('disabled','disabled');
+		}
+		if (offset_mode == 2)
+		{			
+			document.getElementById('offset_mode_1').setAttribute('hidden','hidden');
+			document.getElementById('offset_mode_2').removeAttribute('hidden');
+			document.getElementById('mu_only').value = 1;
+			document.getElementById('mu_only').setAttribute('disabled','disabled');
+		}
+	}
 
+	$("#offset_mode").val({$node->offset_mode});
+	$("#offset").val({$node->offset});
+	$("#muport").val({$node->muport});	
+	$("#subscribe").val({$node->subscribe});	
+	change_offset_mode();
+</script>
 {literal}
 <script>
 
@@ -262,7 +325,11 @@
 										node_bandwidth_limit: $("#node_bandwidth_limit").val(),
 										bandwidthlimit_resetday: $("#bandwidthlimit_resetday").val(){/literal},
 										custom_rss: custom_rss,
-										mu_only: $("#mu_only").val()
+										mu_only: $("#mu_only").val(),
+					offset_mode: $("#offset_mode").val(),
+					offset: $("#offset").val(),
+					muport: $("#muport").val(),
+					subscribe: $("#subscribe").val()
 					{literal}
                 },
                 success: function (data) {

@@ -109,8 +109,36 @@
 																				<div class="card-main">
 																					<div class="card-inner">
 																						<p class="card-heading" >
-																							<a href="javascript:void(0);" onClick="urlChange('{$node->id}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node->name}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
-																							<span class="label label-brand-accent">←点击节点查看配置信息</span>
+																							{if isset($node->offset)}
+																								{if URL::SSCanConnect($user)}
+																									{$ss_item = URL::getItem($user, $node, $mu, $relay_rule_id, 1)}
+																								{/if}
+																								{if URL::SSRCanConnect($user)}
+																									{$ssr_item = URL::getItem($user, $node, $mu, $relay_rule_id, 0)}
+																								{/if}
+																								{$node->name}
+																								<p>
+																									服务器地址：{$ssr_item['address']}<br>
+																									服务器端口：{$ssr_item['port']}<br>
+																									加密方式：{$ssr_item['method']}<br>
+																									密码：{$ssr_item['passwd']}<br>
+																									协议：{$ssr_item['protocol']}<br>
+																									协议参数：{$ssr_item['protocol_param']}<br>
+																									混淆：{$ssr_item['obfs']}<br>
+																									混淆参数：{$ssr_item['obfs_param']}<br>
+																									{if isset($ss_item)}
+																										ss://链接：<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{URL::getItemUrl($ss_item,1)}">点击复制</button><br>
+																									{/if}
+																									{if isset($ssr_item)}
+																										ssr://链接：<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{URL::getItemUrl($ssr_item,0)}">点击复制</button><br>
+																									{/if}
+																									{$ss_item = null}
+																									{$ssr_item = null}
+																								</p>
+																							{else}
+																								<a href="javascript:void(0);" onClick="urlChange('{$node->id}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node->name}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
+																								<span class="label label-brand-accent">←点击节点查看配置信息</span>
+																							{/if}
 																						</p>
 																						<p>备注：{$node->info}</p>
 																					 </div>
@@ -135,6 +163,35 @@
 																				{$relay_rule = null}
 																				{if $node->sort == 10 && $single_muport['user']['is_multi_user'] != 2}
 																					{$relay_rule = $tools->pick_out_relay_rule($node->id, $single_muport['server']->server, $relay_rules)}
+																				{/if}
+
+																				{if isset($node->subscribe)}
+																					{if $single_muport['server']->server == $node->muport}
+																						{$ssr_item = URL::getItem($user, $node, $node->muport, $relay_rule_id, 0)}
+																						<div class="card">
+																							<div class="card-main">
+																								<div class="card-inner">
+																									<p class="card-heading" >
+																										{$prefix} - 单端口 Shadowsocks - {$node->subscribe} 端口</a>
+																									</p>
+																									<p>
+																										服务器地址：{$ssr_item['address']}<br>
+																										服务器端口：{$ssr_item['port']}<br>
+																										加密方式：{$ssr_item['method']}<br>
+																										密码：{$ssr_item['passwd']}<br>
+																										协议：{$ssr_item['protocol']}<br>
+																										协议参数：{$ssr_item['protocol_param']}<br>
+																										混淆：{$ssr_item['obfs']}<br>
+																										混淆参数：{$ssr_item['obfs_param']}<br>
+																										ssr://链接：<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{URL::getItemUrl($ssr_item,0)}">点击复制</button><br>
+																										{$ssr_item = null}
+																									</p>
+																									<p>{$node->info}</p>
+																								 </div>
+																							</div>
+																						</div>
+																					{/if}
+																					{continue}
 																				{/if}
 
 																				<div class="card">
@@ -194,7 +251,7 @@
 																				</span></p>
 
 																				<p>VMess链接：
-																					<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
+																					<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</button>
 																				</p>
 
 																				<p>{$node->info}</p>
@@ -240,6 +297,8 @@
 							</div>
                     	</div>
 
+						{include file='dialog.tpl'}
+
                     </div>
                 </div>
 			</section>
@@ -256,6 +315,15 @@
 
 
 <script>
+$(function(){
+	new Clipboard('.copy-text');
+});
+
+$(".copy-text").click(function () {
+	$("#result").modal();
+	$("#msg").html("已复制，请您继续接下来的操作。");
+});
+
 function urlChange(id,is_mu,rule_id) {
     var site = './node/'+id+'?ismu='+is_mu+'&relay_rule='+rule_id;
 	if(id == 'guide')

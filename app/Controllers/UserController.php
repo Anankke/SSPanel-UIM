@@ -581,7 +581,8 @@ class UserController extends BaseController
     {
         $id = $args['id'];
         $point_node=Node::find($id);
-        $prefix=explode(" - ", $point_node->name);
+        $temp = explode(' : ', $point_node->name);
+        $prefix=explode(" - ", $prefix[0]);
         return $this->view()->assign('point_node', $point_node)->assign('prefix', $prefix[0])->assign('id', $id)->display('user/nodeajax.tpl');
     }
 
@@ -617,6 +618,22 @@ class UserController extends BaseController
 
         foreach ($nodes as $node) {
             if (((($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&(!$node->isNodeTrafficOut())) {
+                $temp = explode(' : ', $node->name);
+                if (isset($temp[1])) {
+                    $node->name = $temp[0];
+                    if (is_numeric($temp[1])) {
+                        $node->offset = $temp[1];
+                        $node->mu_only = -1;
+                    } else {
+                        $temp = explode('=>', $temp[1]);
+                        if (is_numeric($temp[0]) && is_numeric($temp[1])) {
+                            $node->mu_only = 1;
+                            $node->muport = $temp[0];
+                            $node->subscribe = $temp[1];
+                        }
+                    }
+                }
+
                 if ($node->sort==9) {
                     $mu_user=User::where('port', '=', $node->server)->first();
                     $mu_user->obfs_param=$this->user->getMuMd5();

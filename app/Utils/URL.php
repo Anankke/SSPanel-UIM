@@ -167,6 +167,22 @@ class URL
             $relay_rules = array();
         }
         foreach ($nodes as $node) {
+            $temp = explode(' : ', $node->name);
+            if (isset($temp[1])) {
+                $node->name = $temp[0];
+                if (is_numeric($temp[1])) {
+                    $node->offset = $temp[1];
+                    $node->mu_only = -1;
+                } else {
+                    $temp = explode('=>', $temp[1]);
+                    if (is_numeric($temp[0]) && is_numeric($temp[1])) {
+                        $node->mu_only = 1;
+                        $node->muport = $temp[0];
+                        $node->subscribe = $temp[1];
+                    }
+                }
+            }
+
             if ($node->mu_only != 1 && $is_mu == 0) {
                 if ($node->sort == 10) {
                     $relay_rule_id = 0;
@@ -324,6 +340,12 @@ class URL
             if ($mu_user == null) {
                 return;
             }
+            if (isset($node->subscribe)) {
+                if ($node->muport != $mu_port) {
+                    return;
+                }
+                $mu_user->port = $node->subscribe;
+            }
             $mu_user->obfs_param = $user->getMuMd5();
             $mu_user->protocol_param = $user->id.":".$user->passwd;
             $user = $mu_user;
@@ -339,6 +361,10 @@ class URL
                 return;
             }
             $user = URL::getSSRConnectInfo($user);
+        }
+
+        if (isset($node->offset)) {
+            $user->port = $user->port + $node->offset;
         }
         $return_array['address'] = $node->server;
         $return_array['port'] = $user->port;

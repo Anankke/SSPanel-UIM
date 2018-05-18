@@ -52,6 +52,31 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->status = $request->getParam('status');
         $node->sort = $request->getParam('sort');
+        $offset_mode = $request->getParam('offset_mode');
+        $offset = $request->getParam('offset');
+        $muport = $request->getParam('muport');
+        $subscribe = $request->getParam('subscribe');
+
+        if ($offset_mode == 1) {
+            if (is_numeric($offset)) {
+                $node->name .= ' : '.$offset;
+            } else {
+                $rs['ret'] = 0;
+                $rs['msg'] = "请输入正确的端口偏移值";
+                return $response->getBody()->write(json_encode($rs));
+            }
+        }
+
+        if ($offset_mode == 2) {
+            if (is_numeric($muport) && is_numeric($subscribe)) {
+                $node->name .= ' : '.$muport.'=>'.$subscribe;
+            } else {
+                $rs['ret'] = 0;
+                $rs['msg'] = "请输入正确的内网端口或公网端口";
+                return $response->getBody()->write(json_encode($rs));
+            }
+        }
+        
         if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
             if ($request->getParam('node_ip') != '') {
                 $node->node_ip = $request->getParam('node_ip');
@@ -91,6 +116,24 @@ class NodeController extends AdminController
     {
         $id = $args['id'];
         $node = Node::find($id);
+        $temp = explode(' : ', $node->name);
+        $node->offset_mode = 0;
+        if (isset($temp[1])) {
+            $node->name = $temp[0];
+            if (is_numeric($temp[1])) {
+                $node->offset = $temp[1];
+                $node->mu_only = -1;
+                $node->offset_mode = 1;
+            } else {
+                $temp = explode('=>', $temp[1]);
+                if (is_numeric($temp[0]) && is_numeric($temp[1])) {
+                    $node->mu_only = 1;
+                    $node->muport = $temp[0];
+                    $node->subscribe = $temp[1];
+                    $node->offset_mode = 2;
+                }
+            }
+        }
         if ($node == null) {
         }
         return $this->view()->assign('node', $node)->display('admin/node/edit.tpl');
@@ -113,6 +156,30 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->type = $request->getParam('type');
         $node->sort = $request->getParam('sort');
+        $offset_mode = $request->getParam('offset_mode');
+        $offset = $request->getParam('offset');
+        $muport = $request->getParam('muport');
+        $subscribe = $request->getParam('subscribe');
+
+        if ($offset_mode == 1) {
+            if (is_numeric($offset)) {
+                $node->name .= ' : '.$offset;
+            } else {
+                $rs['ret'] = 0;
+                $rs['msg'] = "请输入正确的端口偏移值";
+                return $response->getBody()->write(json_encode($rs));
+            }
+        }
+
+        if ($offset_mode == 2) {
+            if (is_numeric($muport) && is_numeric($subscribe)) {
+                $node->name .= ' : '.$muport.'=>'.$subscribe;
+            } else {
+                $rs['ret'] = 0;
+                $rs['msg'] = "请输入正确的内网端口或公网端口";
+                return $response->getBody()->write(json_encode($rs));
+            }
+        }
 
         if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
             if ($request->getParam('node_ip') != '') {
@@ -224,6 +291,11 @@ class NodeController extends AdminController
         $datatables->edit('op', function ($data) {
             return '<a class="btn btn-brand" '.($data['sort'] == 999 ? 'disabled' : 'href="/admin/node/'.$data['id'].'/edit"').'>编辑</a>
                     <a class="btn btn-brand-accent" '.($data['sort'] == 999 ? 'disabled' : 'id="delete" value="'.$data['id'].'" href="javascript:void(0);" onClick="delete_modal_show(\''.$data['id'].'\')"').'>删除</a>';
+        });
+
+        $datatables->edit('name', function ($data) {
+            $temp = explode(' : ', $data['name']);
+            return $temp[0];
         });
 
         $datatables->edit('node_bandwidth', function ($data) {
