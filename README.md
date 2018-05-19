@@ -14,6 +14,8 @@ telegram交流群：https://t.me/joinchat/GQehSEV7LEU1Z6E8aQ4z3w
 
 telegtam 频道 ：https://t.me/sspanel_Uim  管理模式参考91yun管理
 
+演示站: [demo.nimaqu.com](https://demo.nimaqu.com) 账号/密码:admin  mukey=NimaQu
+
 **原作者** [galaxychuck](https://github.com/galaxychuck)
 
 [支持开发者请点我](https://github.com/NimaQu/ss-panel-v3-mod_UIM#%E5%85%B3%E4%BA%8E%E6%8D%90%E8%B5%A0)
