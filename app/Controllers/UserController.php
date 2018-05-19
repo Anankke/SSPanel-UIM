@@ -682,13 +682,9 @@ class UserController extends BaseController
                     }
                 }
 
-                $nodeLoad = $node_loadtemp=$node->getNodeLoad();
-                if (isset($nodeLoad[0])) {
-                    if ($nodeLoad[0]['load']){
-                        $node_latestload[$temp[0]]=((float)explode(" ", $node_loadtemp)[0])*100;
-                    } else {
-                        $node_latestload[$temp[0]]=null;
-                    }
+				$nodeLoad = $node->getNodeLoad();
+                if ($nodeLoad[0]['load']){
+                    $node_latestload[$temp[0]]=((float)(explode(" ",$nodeLoad[0]['load']))[0])*100;
                 } else {
                     $node_latestload[$temp[0]]=null;
                 }
