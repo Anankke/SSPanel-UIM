@@ -105,8 +105,28 @@ class HomeController extends BaseController
         return $newResponse;
     }
     
+    public function codepay_callback($request, $response, $args)
+    {
+        echo '
+            <script>
+               window.location.href="/user/code";
+            </script>
+            ';
+        return;
+    }
+  
     public function pay_callback($request, $response, $args)
     {
         Pay::callback($request);
+    }
+  
+    public function f2fpay_pay_callback($request, $response, $args)
+    {
+        Pay::f2fpay_pay_callback($request);
+    }
+  
+    public function codepay_pay_callback($request, $response, $args)
+    {
+        Pay::codepay_pay_callback($request);
     }
 }

@@ -104,7 +104,7 @@
                                    <p><img src="/images/c_ios_1.jpg"  height="600" width="600" /></p>
                                   <p>2：打开App Store 切换账号，并下载App</p>
                                   <p><img src="/images/c_ios_2.jpg"  height="2000" width="600" /></p>
-                                  <p>3：打开Safari，登录到仟佰星云的用户中心导入节点</p>
+                                  <p>3：打开Safari，登录到 {$config["appName"]} 的用户中心导入节点</p>
                                   <p><img src="/images/c_ios_3.jpg" height="2000" width="600" /></p>
                                    <p>附加：iOS快速连接</p>
                                   <p><img src="/images/c_ios_4.jpg"  height="2000" width="600" /></p>

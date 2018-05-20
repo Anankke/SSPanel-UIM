@@ -74,6 +74,8 @@ class XCat
                 return Job::updatedownload();
             case("cleanRelayRule"):
                 return $this->cleanRelayRule();
+            case("resetport"):
+                return $this->resetport();
             default:
                 return $this->defaultAction();
         }
@@ -82,6 +84,17 @@ class XCat
     public function defaultAction()
     {
         echo "Memo";
+    }
+
+    public function resetport()
+    {
+        $users = User::all();
+        foreach ($users as $user) {
+            $origin_port = $user->port;
+            $user->port = Tools::getAvPort();
+            echo '$origin_port='.$origin_port.'&$user->port='.$user->port."\n";
+            $user->save();
+        }
     }
 
     public function cleanRelayRule()
@@ -111,7 +124,7 @@ class XCat
 
     public function initdownload()
     {
-        system('git clone https://github.com/esdeathlove/panel-download.git '.BASE_PATH."/public/ssr-download/", $ret);
+        system('git clone https://github.com/xcxnig/ssr-download.git '.BASE_PATH."/public/ssr-download/", $ret);
         echo $ret;
     }
 
@@ -183,6 +196,7 @@ class XCat
             User::where("enable", 1)->update([
             'd' => 0,
             'u' => 0,
+            'last_day_t' => 0,
             ]);
         } catch (\Exception $e) {
             echo $e->getMessage();

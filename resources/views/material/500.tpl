@@ -9,10 +9,10 @@
       <link rel="bookmark" href="/favicon.ico" type="image/x-icon"/>
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 	<link rel="shortcut icon" type="image/ico" href="images/ssr.ico">
-      <link rel="stylesheet" href="assets/css/main.css" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sspuic/p@0x04/public/assets/css/main.css" />
 
       <noscript>
-        <link rel="stylesheet" href="assets/css/noscript.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sspuic/p@0x04/public/assets/css/noscript.css" />
       </noscript>
   </head>
 <body>
@@ -39,8 +39,8 @@
 		</footer>
 	</div>
 	<div id="bg"></div>
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/skel.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/js/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/js/skel.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/js/util.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/js/main.js"></script>
 </body></html>

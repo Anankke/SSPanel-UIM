@@ -20,7 +20,8 @@
     "illuminate/database": "5.2.*",
     "sendgrid/sendgrid": "^5.1",
     "esdeathlove/datatables": "^1.6",
-    "slim/twig-view": "1.2.0"
+    "slim/twig-view": "1.2.0",
+    "ramsey/uuid": "^3.0@dev"
   },
   "autoload": {
     "classmap": [

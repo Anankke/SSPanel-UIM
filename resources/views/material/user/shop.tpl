@@ -35,34 +35,17 @@
 						{$shops->render()}
 						<table class="table ">
                             <tr>
-								
-                            <!--    <th>ID</th>    -->
                                 <th>套餐</th>
 								<th>价格</th>
 								<th>套餐详情</th>
-                           <!--       <th>自动续费天数</th>
-								<th>续费时重置流量</th>     -->
                               <th>操作</th>
                                 
                             </tr>
                             {foreach $shops as $shop}
                             <tr>
-								
-                            <!--     <td>#{$shop->id}</td>    -->
                                 <td>{$shop->name}</td>
 								<td>{$shop->price} 元</td>
                                 <td>{$shop->content()}</td>
-							  <!--	{if $shop->auto_renew==0}
-                                <td>不能自动续费</td>
-								{else}
-								<td>可选 在 {$shop->auto_renew} 天后自动续费</td>
-								{/if}
-								
-								{if $shop->auto_reset_bandwidth==0}
-                                <td>不自动重置</td>
-								{else}
-								<td>自动重置</td>
-								{/if}  -->
                                 <td>
                                     <a class="btn btn-brand-accent" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew},{$shop->auto_reset_bandwidth})">购买</a>
                                 </td>

@@ -8,9 +8,9 @@
         <link rel="shortcut icon" href="/favicon.ico"/>
         <link rel="bookmark" href="/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-		<link rel="stylesheet" href="assets/css/main.css"/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sspuic/p@0x04/public/assets/css/main.css"/>
         <link href="/bootstrap" type="text/html" rel="stylesheet">
-        <noscript><link rel="stylesheet" href="./assets/css/noscript.css" /></noscript>   
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sspuic/p@0x04/public/assets/css/noscript.css" /></noscript>   
   </head>
   
        <body>
@@ -58,7 +58,7 @@ It will not impact the appearance and can give developers a lot of support :)
 												</tr>
 												<tr>
 													<td>现阶段维护</td>
-													<td><a href="https://github.com/galaxychuck">galaxyq</a></td>
+													<td><a href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a href="https://github.com/mxihan">Rin SAMA</a>，<a href="https://github.com/xcxnig">Miku</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a href="https://blog.nimaqu.com">NimaQu</a></td>
 												</tr>
 												<tr>
 													<td>监督</td>
@@ -70,7 +70,7 @@ It will not impact the appearance and can give developers a lot of support :)
 												</tr>
                                               <tr>
 													<td>staff监督</td>
-													<td>感谢<a href="https://t.me/Anankke">Anankke</a>为守护staff完整做出的贡献</td>
+													<td>感谢<a href="https://t.me/Anankke">Anankke</a>为守护staff做出的贡献</td>
 												</tr>
 												<tr>
 													<td>出演</td>
@@ -104,16 +104,16 @@ It will not impact the appearance and can give developers a lot of support :)
                               </div>
                      <!-- 版权底部 -->
                       <footer id="footer">
-                   <p class="copyright">&copy;2015-2017 {$config["appName"]}</p>
+                   <p class="copyright">&copy;2015-2018 {$config["appName"]}</p>
                       </footer>
               <!-- 版权结束 -->
 			 </div>
                 <!-- BG -->
 			<div id="bg"></div>
 	        	<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-         <script src="assets/js/main.js"></script>
+			<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/js/jquery.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/js/skel.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/js/util.js"></script>
+         <script src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/js/main.js"></script>
 	</body>
 </html>

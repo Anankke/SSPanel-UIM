@@ -10,7 +10,17 @@
 							<div class="card-main">
 								<div class="card-header">
 									<div class="card-inner">
-										<h1 class="card-heading"><img src="/images/register.jpg" height=100% width=100% /></h1>
+									<!-- 这里可以取消掉注释换logo图。
+									<h1 class="card-heading"><img src="/images/register.jpg" height=100% width=100% /></h1>
+									-->
+									<h1 class="card-heading">
+										<div class="text" style=" text-align:center;">
+											欢迎来到
+										</div>
+										<div class="text" style=" text-align:center;font-weight: bold;">
+											{$config["appName"]}
+										</div>
+									</h1>
 									</div>
 								</div>
 								<div class="card-inner">
@@ -113,17 +123,19 @@
 										</div>
 
 
-
-									<!--	{if $enable_invite_code == 'true'}  -->
 											<div class="form-group form-group-label">
 												<div class="row">
 													<div class="col-md-10 col-md-push-1">
-														<label class="floating-label" for="code">邀请码(可选)</label>
-														<input class="form-control" id="code" type="text" value="{$code}">
+														<label class="floating-label" for="code">邀请码
+														{if $enable_invite_code == 'false'}
+														(可选)
+														{else}
+														(必填)
+														{/if}</label>
+														<input class="form-control" id="code" type="text">
 													</div>
 												</div>
 											</div>
-								<!--		{/if}   -->
 
 										{if $geetest_html != null}
 											<div class="form-group form-group-label">
@@ -208,8 +220,8 @@
                     passwd: $("#passwd").val(),
                     repasswd: $("#repasswd").val(),
 					wechat: $("#wechat").val(),
-					imtype: $("#imtype").val(){if $enable_invite_code == 'true'},
-					code: $("#code").val(){/if}{if $enable_email_verify == 'true'},
+					imtype: $("#imtype").val(),
+					code: $("#code").val(){if $enable_email_verify == 'true'},
 					emailcode: $("#email_code").val(){/if}{if $geetest_html != null},
 					geetest_challenge: validate.geetest_challenge,
                     geetest_validate: validate.geetest_validate,
@@ -224,11 +236,12 @@
                     }else{
                         $("#result").modal();
                         $("#msg").html(data.msg);
-			document.getElementById("tos").disabled = false;
-
-			{if $geetest_html != null}
-			captcha.refresh();
-			{/if}
+                        setCookie('code','',0);
+                        $("#code").val(getCookie('code'));
+						document.getElementById("tos").disabled = false;
+						{if $geetest_html != null}
+						captcha.refresh();
+						{/if}
                     }
                 },
                 error:function(jqXHR){
@@ -363,3 +376,54 @@ function time(o) {
 </script>
 
 {/if}
+
+{*dumplin:aff链*}
+<script>
+	{*dumplin：轮子1.js读取url参数*}
+	function getQueryVariable(variable)
+	{
+	       var query = window.location.search.substring(1);
+	       var vars = query.split("&");
+	       for (var i=0;i<vars.length;i++) {
+	            	var pair = vars[i].split("=");
+	            	if(pair[0] == variable){
+	            		return pair[1];
+	            	}
+	       }
+	       return "";
+	}
+
+	{*dumplin:轮子2.js写入cookie*}
+	function setCookie(cname,cvalue,exdays)
+	{
+	  var d = new Date();
+	  d.setTime(d.getTime()+(exdays*24*60*60*1000));
+	  var expires = "expires="+d.toGMTString();
+	  document.cookie = cname + "=" + cvalue + "; " + expires;
+	}
+
+	{*dumplin:轮子3.js读取cookie*}
+	function getCookie(cname)
+	{
+	  var name = cname + "=";
+	  var ca = document.cookie.split(';');
+	  for(var i=0; i<ca.length; i++) 
+	  {
+	    var c = ca[i].trim();
+	    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+	  }
+	  return "";
+	}
+
+	{*dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码*}
+	if (getQueryVariable('code')!=''){
+		setCookie('code',getQueryVariable('code'),30);
+		window.location.href='/auth/register'; 
+	}
+
+	{*dumplin:读取cookie，自动填入邀请码框*}
+	if ((getCookie('code'))!=''){
+		$("#code").val(getCookie('code'));
+	}
+
+</script>

@@ -23,6 +23,10 @@ class Pay
                 return Pay::f2fpay_html($user);
 			case 'yftpay':
                 return Pay::yftpay_html($user);
+            case 'codepay':
+                return Pay::codepay_html($user);
+            case 'f2fpay_codepay':
+                return Pay::f2fpay_codepay_html($user);
             default:
                 return "";
         }
@@ -33,6 +37,34 @@ class Pay
      * @param  User   $user User
      * @return String       HTML
      */
+    private static function f2fpay_codepay_html($user)
+    {
+
+            return '
+                        <p><i class="icon icon-lg">monetization_on</i>&nbsp;余额&nbsp;<font color="red" size="5">'.$user->money.'</font>&nbsp;元</p>
+
+                        <p><img src="/images/qianbai-4.png" height="250" width="200" /></p>
+                        <div class="form-group form-group-label">
+                        <label class="floating-label" for="number">请选择充值金额</label>
+                        <select id="type" class="form-control" name="amount">
+                            <option></option>
+                            <option value="'.Config::get('amount')[0].'">'.Config::get('amount')[0].'元</option>
+                            <option value="'.Config::get('amount')[1].'">'.Config::get('amount')[1].'元</option>
+                            <option value="'.Config::get('amount')[2].'">'.Config::get('amount')[2].'元</option>
+                            <option value="'.Config::get('amount')[3].'">'.Config::get('amount')[3].'元</option>
+                            <option value="'.Config::get('amount')[4].'">'.Config::get('amount')[4].'元</option>
+                        </select>
+                        </div>
+                        <p></p>
+                        <button class="btn btn-flat waves-attach" id="urlChange"><img src="/images/alipay.jpg" width="50px" height="50px" /></button>
+                        <button class="btn btn-flat waves-attach" onclick="codepay()"><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
+                        <script>
+                            function codepay() {
+                                window.location.href=("/user/code/codepay?type=3&price="+$("#type").val());
+                            }
+                        </script>
+                        ';
+    }
     public static function doiampay_html(User $user){
         return \App\Utils\DoiAMPay::render();
     }
@@ -42,7 +74,15 @@ class Pay
         return '
 						<form action="/user/alipay" method="get" target="_blank" >
 							<h3>支付宝充值</h3>
-							<p>充值金额: <input type="text" name="amount" /></p>
+							<p>充值金额:
+              <select id="type" class="form-control" name="amount">
+                  <option></option>
+                  <option value="'.Config::get('amount')[0].'">'.Config::get('amount')[0].'元</option>
+                  <option value="'.Config::get('amount')[1].'">'.Config::get('amount')[1].'元</option>
+                  <option value="'.Config::get('amount')[2].'">'.Config::get('amount')[2].'元</option>
+                  <option value="'.Config::get('amount')[3].'">'.Config::get('amount')[3].'元</option>
+                  <option value="'.Config::get('amount')[4].'">'.Config::get('amount')[4].'元</option>
+              </select></p>
 							<input type="submit" value="提交" />
 						</form>
 ';
@@ -58,22 +98,13 @@ class Pay
     {
 
             return '
-            			<p><i class="icon icon-lg">monetization_on</i>&nbsp;余额&nbsp;<font color="red" size="5">'.$user->money.'</font>&nbsp;元</p>
-
-                        <p><img src="/images/qianbai-4.png" height="250" width="200" /></p>
-                        <div class="form-group form-group-label">
-                         <label class="floating-label" for="number">请选择充值金额</label>
-                        <select id="type" class="form-control" name="amount">
-                            <option></option>
-                            <option value="'.Config::get('amount')[0].'">'.Config::get('amount')[0].'元</option>
-                            <option value="'.Config::get('amount')[1].'">'.Config::get('amount')[1].'元</option>
-                            <option value="'.Config::get('amount')[2].'">'.Config::get('amount')[2].'元</option>
-                            <option value="'.Config::get('amount')[3].'">'.Config::get('amount')[3].'元</option>
-                            <option value="'.Config::get('amount')[4].'">'.Config::get('amount')[4].'元</option>
-                        </select>
-                        </div>
-                        <p></p>
-                        <a class="btn btn-flat waves-attach" id="urlChange" ><span class="icon">local_gas_station</span>&nbsp;充值</a>
+                        <p><i class="icon icon-lg">monetization_on</i>&nbsp;余额&nbsp;<font color="red" size="5">'.$user->money.'</font>&nbsp;元</p>
+						<p><img src="/images/qianbai-4.png" height="250" width="202" /></p>
+						<div class="form-group form-group-label">
+						<label class="floating-label" for="price">充值金额</label>
+                        <input id="type" class="form-control" name="amount" />
+						</div>
+                        <a class="btn btn-flat waves-attach" id="urlChange" ><span class="icon">check</span>&nbsp;充值</a>
 ';
     }
 	private static function yftpay_html($user)
@@ -82,8 +113,10 @@ class Pay
 										<form action="/user/code/yft" method="post" target="_blank">
 										<div class="card-inner">
 											<p class="card-heading">在线充值</p>
+											<p><i class="icon icon-lg">monetization_on</i>&nbsp;余额&nbsp;<font color="red" size="5">'.$user->money.'</font>&nbsp;元</p>
+											<p><img src="/images/qianbai-4.png" height="250" width="200" /></p>
 											<div class="form-group form-group-label">
-												<label class="floating-label" for="price">充值金额</label>
+												<label class="floating-label" for="price">输入充值金额</label>
 												<input class="form-control" id="price" name="price" type="text">
 											</div>
 										</div>
@@ -95,6 +128,22 @@ class Pay
 									</form>
 ';
     }
+
+    private static function codepay_html($user)
+    {
+        return '
+                        <p class="card-heading">请输入充值金额</p>
+                        <form name="codepay" action="/user/code/codepay" method="get">
+                            <input class="form-control" id="price" name="price" placeholder="输入充值金额后，点击你要付款的应用图标即可" autofocus="autofocus" type="number" min="0.01" max="1000" step="0.01" required="required">
+                            <br>
+                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="1" ><img src="/images/alipay.jpg" width="50px" height="50px" /></button>
+                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="2" ><img src="/images/qqpay.jpg" width="50px" height="50px" /></button>
+                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="3" ><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
+
+                        </form>
+';
+    }
+
     private static function pmw_html($user)
     {
         \Paymentwall_Config::getInstance()->set(array(
@@ -609,13 +658,8 @@ class Pay
                 $trade->save();
 
                 //更新用户账户
-                $user=User::find($trade->userid);
+				$user=User::find($trade->userid);
                 $user->money=$user->money+$_POST['total_amount'];
-                if ($user->class==0) {
-                    $user->class_expire=date("Y-m-d H:i:s", time());
-                    $user->class_expire=date("Y-m-d H:i:s", strtotime($user->class_expire)+86400);
-                    $user->class=1;
-                }
                 $user->save();
 
                 //更新充值（捐赠）记录
@@ -658,6 +702,118 @@ class Pay
             echo "fail";    //请不要修改或删除
         }
     }
+
+    private static function codepay_callback(){
+        //以下五行无需更改
+        ksort($_POST); //排序post参数
+        reset($_POST); //内部指针指向数组中的第一个元素
+        $codepay_key=Config::get('codepay_key'); //这是您的密钥
+        $sign = '';//初始化
+        foreach ($_POST AS $key => $val) { //遍历POST参数
+            if ($val == '' || $key == 'sign') continue; //跳过这些不签名
+            if ($sign) $sign .= '&'; //第一个字符串签名不加& 其他加&连接起来参数
+            $sign .= "$key=$val"; //拼接为url参数形式
+        }
+        if (!$_POST['pay_no'] || md5($sign . $codepay_key) != $_POST['sign']) { //不合法的数据
+            exit('fail'); //返回失败，等待下次回调
+        } else { //合法的数据
+            //业务处理
+            $pay_id = $_POST['pay_id']; //需要充值的ID 或订单号 或用户名
+            $money = (float)$_POST['money']; //实际付款金额
+            $price = (float)$_POST['price']; //订单的原价
+            //$param = $_POST['param']; //自定义参数
+            $pay_no = $_POST['pay_no']; //流水号
+            $codeq=Code::where("code", "=", $pay_no)->first();
+            if ($codeq==null){
+                $user=User::find($pay_id);
+                $codeq=new Code();
+                $codeq->code=$pay_no;
+                $codeq->isused=1;
+                $codeq->type=-1;
+                $codeq->number=$price;
+                $codeq->usedatetime=date("Y-m-d H:i:s");
+                $codeq->userid=$user->id;
+                $codeq->save();
+                $user->money=$user->money+$price;
+                $user->save();
+
+                //更新返利
+                if ($user->ref_by!=""&&$user->ref_by!=0&&$user->ref_by!=null) {
+                    $gift_user=User::where("id", "=", $user->ref_by)->first();
+                    $gift_user->money=($gift_user->money+($codeq->number*(Config::get('code_payback')/100)));
+                    $gift_user->save();
+
+                    $Payback=new Payback();
+                    $Payback->total=$price;
+                    $Payback->userid=$user->id;
+                    $Payback->ref_by=$user->ref_by;
+                    $Payback->ref_get=$codeq->number*(Config::get('code_payback')/100);
+                    $Payback->datetime=time();
+                    $Payback->save();
+                }
+
+                if (Config::get('enable_donate') == 'true') {
+                    if ($user->is_hide == 1) {
+                        Telegram::Send("一位不愿透露姓名的大老爷给我们捐了 ".$codeq->number." 元!");
+                    } else {
+                        Telegram::Send($user->user_name." 大老爷给我们捐了 ".$codeq->number." 元！");
+                    }
+                }
+            }
+
+            exit('success'); //返回成功 不要删除哦
+        }
+
+        return;
+    }
+
+   private static function notify(){
+        //系统订单号
+        $trade_no = $_POST['pay_no'];
+        //交易用户
+        $trade_id = strtok($_POST['pay_id'], "@");
+        //金额
+        $trade_num = $_POST['price'];
+        $param = urldecode($_POST['param']);
+        $codeq=Code::where("code", "=", $trade_no)->first();
+        if($codeq!=null){
+            exit('success'); //说明数据已经处理完毕
+            return;
+        }
+        if($param!=Config::get('alipay')||$trade_no==''){ //鉴权失败
+            exit('fail');
+            return;
+        }
+
+        //更新用户账户
+        $user=User::find($trade_id);
+        $codeq=new Code();
+        $codeq->code=$trade_no;
+        $codeq->isused=1;
+        $codeq->type=-1;
+        $codeq->number=$_POST['price'];
+        $codeq->usedatetime=date("Y-m-d H:i:s");
+        $codeq->userid=$user->id;
+        $codeq->save();
+        $user->money=$user->money+$trade_num;
+        $user->save();
+        //更新返利
+        if ($user->ref_by!=""&&$user->ref_by!=0&&$user->ref_by!=null) {
+            $gift_user=User::where("id", "=", $user->ref_by)->first();
+            $gift_user->money=($gift_user->money+($codeq->number*(Config::get('code_payback')/100)));
+            $gift_user->save();
+
+            $Payback=new Payback();
+            $Payback->total=$trade_num;
+            $Payback->userid=$user->id;
+            $Payback->ref_by=$user->ref_by;
+            $Payback->ref_get=$codeq->number*(Config::get('code_payback')/100);
+            $Payback->datetime=time();
+            $Payback->save();
+        }
+        exit('success'); //返回成功 不要删除哦
+    }
+
     public static function callback($request)
     {
         $driver = Config::get("payment_system");
@@ -670,9 +826,21 @@ class Pay
                 return Pay::zfbjk_callback($request);
             case 'f2fpay':
                 return Pay::f2fpay_callback();
+            case 'codepay':
+                return Pay::codepay_callback();
             default:
                 return "";
         }
         return null;
+    }
+
+    public static function f2fpay_pay_callback($request)
+    {
+        return Pay::f2fpay_callback();
+    }
+
+    public static function codepay_pay_callback($request)
+    {
+        return Pay::codepay_callback();
     }
 }

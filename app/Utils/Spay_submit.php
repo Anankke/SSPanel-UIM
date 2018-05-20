@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class Spay_submit
 {
-    protected $alipay_gateway_new = 'http://www.dayyun.com/spaymq.php/Napi/api/?';
+    protected $alipay_gateway_new = 'http://www.dayyun.com/pay/pay/alipay.php?';
 
     public function __construct($alipay_config)
     {

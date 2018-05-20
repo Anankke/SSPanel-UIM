@@ -196,7 +196,7 @@ class UserController extends BaseController
                 }
 
 
-                if ($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10) {
+                if ($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10||$node->sort==11) {
                     $node_tempalive=$node->getOnlineUserCount();
                     $node_prealive[$node->id]=$node_tempalive;
                     if ($node->isNodeOnline() !== null) {
@@ -278,6 +278,63 @@ class UserController extends BaseController
         )->where("isused", 1)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/donate');
         return $this->view()->assign('codes', $codes)->assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))->assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))->display('user/donate.tpl');
+    }
+
+    function isHTTPS()
+    {
+        define('HTTPS', false);
+        if (defined('HTTPS') && HTTPS) return true;
+        if (!isset($_SERVER)) return FALSE;
+        if (!isset($_SERVER['HTTPS'])) return FALSE;
+        if ($_SERVER['HTTPS'] === 1) {  //Apache
+            return TRUE;
+        } elseif ($_SERVER['HTTPS'] === 'on') { //IIS
+            return TRUE;
+        } elseif ($_SERVER['SERVER_PORT'] == 443) { //其他
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    public function codepay($request, $response, $args)
+    {
+        $codepay_id=Config::get('codepay_id');//这里改成码支付ID
+        $codepay_key=Config::get('codepay_key'); //这是您的通讯密钥
+        $uid = $this->user->id;
+        $price = $request->getParam('price');
+        $type = $request->getParam('type');
+        $url = (UserController::isHTTPS() ? 'https://' : 'http://').$_SERVER['HTTP_HOST'];
+        $data = array(
+            "id" => $codepay_id,//你的码支付ID
+            "pay_id" => $uid, //唯一标识 可以是用户ID,用户名,session_id(),订单ID,ip 付款后返回
+            "type" => $type,//1支付宝支付 2QQ钱包 3微信支付
+            "price" => $price,//金额100元
+            "param" => "",//自定义参数
+            "notify_url"=> $url.'/codepay_callback',//通知地址
+            "return_url"=> $url.'/codepay_callback',//跳转地址
+        ); //构造需要传递的参数
+
+        ksort($data); //重新排序$data数组
+        reset($data); //内部指针指向数组中的第一个元素
+
+        $sign = ''; //初始化需要签名的字符为空
+        $urls = ''; //初始化URL参数为空
+
+        foreach ($data AS $key => $val) { //遍历需要传递的参数
+            if ($val == ''||$key == 'sign') continue; //跳过这些不参数签名
+            if ($sign != '') { //后面追加&拼接URL
+                $sign .= "&";
+                $urls .= "&";
+            }
+            $sign .= "$key=$val"; //拼接为url参数形式
+            $urls .= "$key=" . urlencode($val); //拼接为url参数形式并URL编码参数值
+
+        }
+        $query = $urls . '&sign=' . md5($sign .$codepay_key); //创建订单所需的参数
+        $url = "https://codepay.fateqq.com:51888/creat_order/?".$query; //支付页面
+
+
+        header("Location:".$url);
     }
 
 
@@ -551,6 +608,7 @@ class UserController extends BaseController
         $node_muport=array();
         $node_isv6=array();
         $node_class=array();
+        $node_latestload=array();
 
             $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();
 
@@ -587,7 +645,7 @@ class UserController extends BaseController
                 }
 
 
-                if ($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10) {
+                if ($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10||$node->sort==11) {
                     $node_tempalive=$node->getOnlineUserCount();
                     $node_prealive[$node->id]=$node_tempalive;
                     if ($node->isNodeOnline() !== null) {
@@ -624,9 +682,12 @@ class UserController extends BaseController
                     }
                 }
 
-
-
-
+				$nodeLoad = $node->getNodeLoad();
+                if ($nodeLoad[0]['load']){
+                    $node_latestload[$temp[0]]=((float)(explode(" ",$nodeLoad[0]['load']))[0])*100;
+                } else {
+                    $node_latestload[$temp[0]]=null;
+                }
 
                 array_push($node_prefix[$temp[0]], $node);
             }
@@ -634,7 +695,7 @@ class UserController extends BaseController
         $node_prefix=(object)$node_prefix;
         $node_order=(object)$node_order;
         $tools = new Tools();
-        return $this->view()->assign('relay_rules', $relay_rules)->assign('node_class', $node_class)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->display('user/node.tpl');
+        return $this->view()->assign('relay_rules', $relay_rules)->assign('node_class', $node_class)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->assign('node_latestload', $node_latestload)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
     }
 
 
@@ -907,16 +968,34 @@ class UserController extends BaseController
 
     public function invite($request, $response, $args)
     {
-        $pageNum = 1;
+        /*$pageNum = 1;
         if (isset($request->getQueryParams()["page"])) {
             $pageNum = $request->getQueryParams()["page"];
         }
         $codes=InviteCode::where('user_id', $this->user->id)->orderBy("created_at", "desc")->paginate(15, ['*'], 'page', $pageNum);
-        $codes->setPath('/user/invite');
+        $codes->setPath('/user/invite');*/
+        $code=InviteCode::where('user_id', $this->user->id)->first();
+        if ($code==null) {
+            $char = Tools::genRandomChar(32);
+            $code = new InviteCode();
+            $code->code = $char;
+            $code->user_id = $this->user->id;
+            $code->save();
+        }
+
+        $pageNum = 1;
+        if (isset($request->getQueryParams()["page"])) {
+            $pageNum = $request->getQueryParams()["page"];
+        }
+        $paybacks = Payback::where("ref_by", $this->user->id)->orderBy("id", "desc")->paginate(15, ['*'], 'page', $pageNum);       
+        if (!$paybacks_sum = Payback::where("ref_by", $this->user->id)->sum('ref_get')) {
+            $paybacks_sum = 0;
+        }
+        $paybacks->setPath('/user/invite');
+
+            return $this->view()->assign('code', $code)->assign('paybacks', $paybacks)->assign('paybacks_sum', $paybacks_sum)->display('user/invite.tpl');
 
 
-
-        return $this->view()->assign('codes', $codes)->display('user/invite.tpl');
     }
 
     public function doInvite($request, $response, $args)
@@ -1651,12 +1730,28 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
- //       Auth::logout();
-   //     $user->kill_user();
-        $res['ret'] = 1;
-        $res['msg'] = "您没有使用此功能的权限。";
-        return $this->echoJson($response, $res);
+    if ((float)$user->money > '1') {
+        $res['ret'] = 0;
+        $res['msg'] = "不可删除,您当前的余额 [".$user->money."]元 大于 [1.00]元.";
+     } else {
+        if ($user->class != '0') {
+            $res['ret'] = 0;
+            $res['msg'] = "不可删除,您的会员还未失效.";
+        } else {
+            if (Config::get('enable_kill') == 'true') {
+                Auth::logout();
+                $user->kill_user();
+                $res['ret'] = 1;
+                $res['msg'] = "GG!您的帐号已经从我们的系统中删除.欢迎下次光临!";
+                } else {
+                $res['ret'] = 0;
+                $res['msg'] = "管理员不允许删除,如需删除请联系管理员.";
+            }
+        }
+
     }
+    return $this->echoJson($response, $res);
+}
 
     public function trafficLog($request, $response, $args)
     {

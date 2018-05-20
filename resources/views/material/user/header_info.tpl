@@ -11,8 +11,10 @@
 	
 	
 	<!-- css -->
-	<link href="/theme/material/css/base.min.css" rel="stylesheet">
-	<link href="/theme/material/css/project.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/base.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/project.min.css" rel="stylesheet">
+	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
+	<link href="https://fonts.loli.net/css?family=Material+Icons">
 	
 
 	
@@ -164,7 +166,7 @@
 		}
 		
 		.page-green .ui-content-header {
-			background-image: url(/theme/material/css/images/bg/amber.jpg);
+			background-image: url(https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/css/images/bg/amber.jpg);
 		}
 		
 		

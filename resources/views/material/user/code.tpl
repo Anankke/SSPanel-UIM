@@ -42,7 +42,7 @@
 									<div class="card-inner">
 										<p class="card-heading">充值码</p>
 										<i class="icon icon-lg">view_compact</i>&nbsp;仪表盘
-							<p>当前余额：{$user->money} 元</p>
+							            <p><i class="icon icon-lg">monetization_on</i>当前余额：<font color="red" size="5">{$user->money}</font> 元</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="code">充值码</label>
 											<input class="form-control" id="code" type="text">
@@ -126,7 +126,7 @@
 									<h2 class="modal-title">正在连接支付宝</h2>
 								</div>
 								<div class="modal-inner">
-									<p id="title">正在处理...吃个瓜吧</p>
+									<p id="title">感谢您对我们的支持，请耐心等待</p>
                                    <img src="/images/qianbai-2.png" height="200" width="200" />
 								</div>
 							</div>
@@ -143,7 +143,7 @@
 								<div class="modal-inner">
                                    <div class="text-center">
                                     <p id="divide">-------------------------------------------------------------</p>
-									<p id="title">手机端请点击二维码转跳app</p>
+									<p id="title">手机端点击二维码即可转跳app支付</p>
 									<p id="divide">-------------------------------------------------------------</p>
 									<p id="qrcode"></p>
 									<p id="info"></p>
@@ -222,7 +222,7 @@
 				url: "code/f2fpay",
 				dataType: "json",
 				data: {
-						amount: $("#type").find("option:selected").val()
+						amount: $("#type").val()
 					},
 				success: function (data) {
 					$("#readytopay").modal('hide');

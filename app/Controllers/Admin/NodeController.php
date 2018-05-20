@@ -52,11 +52,16 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->status = $request->getParam('status');
         $node->sort = $request->getParam('sort');
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10) {
+        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
             if ($request->getParam('node_ip') != '') {
                 $node->node_ip = $request->getParam('node_ip');
             } else {
-                $node->node_ip = gethostbyname($request->getParam('server'));
+                if ($node->sort == 11) {
+                    $server_list = explode(";", $request->getParam('server'));
+                    $node->node_ip = gethostbyname($server_list[0]);
+                } else {
+                    $node->node_ip = gethostbyname($request->getParam('server'));
+                }
             }
         } else {
             $node->node_ip="";
@@ -109,12 +114,20 @@ class NodeController extends AdminController
         $node->type = $request->getParam('type');
         $node->sort = $request->getParam('sort');
 
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10) {
+        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
             if ($request->getParam('node_ip') != '') {
                 $node->node_ip = $request->getParam('node_ip');
             } else {
                 if ($node->isNodeOnline()) {
-                    if (!$node->changeNodeIp($request->getParam('server'))) {
+                    $succ = false;
+                    if ($node->sort == 11) {
+                        $server_list = explode(";", $request->getParam('server'));
+                        $succ = $node->changeNodeIp($server_list[0]);
+                    } else {
+                        $succ = $node->changeNodeIp($request->getParam('server'));
+                    }
+
+                    if (!succ) {
                         $rs['ret'] = 0;
                         $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
                         return $response->getBody()->write(json_encode($rs));
@@ -256,6 +269,9 @@ class NodeController extends AdminController
                   break;
                 case 10:
                   $sort = 'Shadowsocks - 中转';
+                  break;
+                case 11:
+                  $sort = 'V2Ray 节点';
                   break;
                 default:
                   $sort = '系统保留';

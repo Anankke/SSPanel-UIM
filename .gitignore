@@ -2,3 +2,5 @@
 .DS_Store
 /vendor
 /config/.config.php
+/.idea
+storage/qqwry.md5
