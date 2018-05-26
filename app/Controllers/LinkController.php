@@ -398,13 +398,22 @@ class LinkController extends BaseController
                                             "protocolparam"=>$item['protocol_param'],
                                             "obfs_udp"=>false,
                                             "enable"=>true));
-            } else {
+            } elseif ($is_ss != 0 && (strpos('$user->obfs','obfs') !== false)) {
                 array_push($temparray, array("server"=>$item['address'],
                                             "server_port"=>$item['port'],
                                             "password"=>$item['passwd'],
                                             "method"=>$item['method'],
                                             "plugin"=>"obfs-local",
                                             "plugin_opts"=>URL::getSurgeObfs($item).";obfs-host=wns.windows.com",
+                                            "remarks"=>$item['remark'],
+                                            "timeout"=>5));
+            } else {
+                array_push($temparray, array("server"=>$item['address'],
+                                            "server_port"=>$item['port'],
+                                            "password"=>$item['passwd'],
+                                            "method"=>$item['method'],
+                                            "plugin"=>"",
+                                            "plugin_opts"=>"",
                                             "remarks"=>$item['remark'],
                                             "timeout"=>5));
             }
