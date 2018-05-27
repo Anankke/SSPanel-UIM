@@ -1019,6 +1019,25 @@ class UserController extends BaseController
         $res['msg'] = "生成成功。";
         return $this->echoJson($response, $res);
     }
+	
+    public function buyInvite($request, $response, $args)
+	{
+		$buy_inviteNum = Config::get("buy_inviteNum");
+		$money = $this->user->money;
+		if($money < $buy_inviteNum) {
+			$res['ret'] = 0;
+            $res['msg'] = "余额不足，请充值";
+            return $response->getBody()->write(json_encode($res));
+		}
+		
+		$this->user->money = $money - $buy_inviteNum;
+		$invite_num = $this->user->invite_num + 1;
+		$this->user->invite_num = $invite_num;
+		$this->user->save();
+		$res['ret'] = 1;
+        $res['msg'] = "购买成功。";
+        return $this->echoJson($response, $res);
+	}
 
     public function sys()
     {
