@@ -74,8 +74,10 @@ class XCat
                 return Job::updatedownload();
             case("cleanRelayRule"):
                 return $this->cleanRelayRule();
-            case("resetport"):
-                return $this->resetport();
+            case("resetPort"):
+                return $this->resetPort();
+			case("resetAllPort"):
+                return $this->resetAllPort();
             default:
                 return $this->defaultAction();
         }
@@ -83,17 +85,51 @@ class XCat
 
     public function defaultAction()
     {
-        echo "Memo";
+        echo "\n用法： php xcat [选项] \n\n";
+		echo "常用选项: \n";
+		echo "  createAdmin - 创建管理员帐号\n";
+		echo "  setTelegram - 设置 Telegram 机器人\n";
+		echo "  cleanRelayRule - 清除所有中转规则\n";
+		echo "  resetPort - 重置单个用户端口\n";
+		echo "  resetAllPort - 重置所有用户端口\n";
+		echo "  initdownload - 下载 SSR 程序至服务器\n";
+		echo "  initQQWry - 下载 IP 解析库 \n";
+		echo "  resetTraffic - 重置所有用户流量\n\n";
     }
 
-    public function resetport()
+	public function resetPort()
     {
-        $users = User::all();
-        foreach ($users as $user) {
-            $origin_port = $user->port;
-            $user->port = Tools::getAvPort();
-            echo '$origin_port='.$origin_port.'&$user->port='.$user->port."\n";
-            $user->save();
+		fwrite(STDOUT, "请输入用户id: ");
+        $user=User::Where("id", "=", trim(fgets(STDIN)))->first();
+        $origin_port = $user->port;
+
+        $user->port = Tools::getAvPort();
+
+        $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
+        foreach ($relay_rules as $rule) {
+            $rule->port = $user->port;
+            $rule->save();
+        }
+		
+		if ($user->save()) {
+            echo "重置成功!\n";
+		}
+    }
+	
+    public function resetAllPort()
+    {
+		
+        $user = $this->user;
+
+        $origin_port = $user->port;
+
+        $user->port = Tools::getAvPort();
+        $user->save();
+
+        $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
+        foreach ($relay_rules as $rule) {
+            $rule->port = $user->port;
+            $rule->save();
         }
     }
 
@@ -141,7 +177,7 @@ class XCat
         fwrite(STDOUT, "Enter password for: $email / 为 $email 添加密码 ");
         $passwd = trim(fgets(STDIN));
         echo "Email: $email, Password: $passwd! ";
-        fwrite(STDOUT, "Press [Y] to create admin..... 按下[Y]确认来确认创建管理员账户..... ");
+        fwrite(STDOUT, "Press [Y] to create admin..... 按下[Y]确认来确认创建管理员账户..... \n");
         $y = trim(fgets(STDIN));
         if (strtolower($y) == "y") {
             echo "start create admin account";
@@ -180,7 +216,7 @@ class XCat
 
 
             if ($user->save()) {
-                echo "Successful/添加成功!";
+                echo "Successful/添加成功!\n";
                 return true;
             }
             echo "添加失败";
