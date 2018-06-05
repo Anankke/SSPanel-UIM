@@ -69,7 +69,7 @@ class HomeController extends BaseController
     
     public function page405($request, $response, $args)
     {
-        return $this->view()->display('4405.tpl');
+        return $this->view()->display('405.tpl');
     }
     
     public function page500($request, $response, $args)
