@@ -44,8 +44,10 @@ class TelegramProcess
 
         if ($message->getChat()->getId() > 0) {
             //个人
-            $bot->sendChatAction($message->getChat()->getId(), 'typing');
-
+            $commands = array("ping", "chat", "traffic", "checkin", "help");
+            if(in_array($command, $commands)){
+                $bot->sendChatAction($message->getChat()->getId(), 'typing');
+            }
             switch ($command) {
                 case 'ping':
                     $bot->sendMessage($message->getChat()->getId(), 'Pong!这个群组的 ID 是 '.$message->getChat()->getId().'!');
@@ -165,9 +167,10 @@ class TelegramProcess
             if (Config::get('telegram_group_quiet') == 'true') {
                 return;
             }
-
-            $bot->sendChatAction($message->getChat()->getId(), 'typing');
-
+            $commands = array("ping", "chat", "traffic", "checkin", "help");
+            if(in_array($command, $commands)){
+                $bot->sendChatAction($message->getChat()->getId(), 'typing');
+            }
             switch ($command) {
                 case 'ping':
                     $bot->sendMessage($message->getChat()->getId(), 'Pong!这个群组的 ID 是 '.$message->getChat()->getId().'!', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
