@@ -35,7 +35,7 @@
 			</nav>
 		</header>
 		<footer id="footer">
-			<p class="copyright">&copy;2014-2017 {$config["appName"]} </p>
+			<p class="copyright">&copy;2014-{date("Y")} {$config["appName"]} </p>
 		</footer>
 	</div>
 	<div id="bg"></div>
