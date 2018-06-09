@@ -229,7 +229,7 @@ class URL
             if($is_ss == 2) {
                 $personal_info = $item['method'].':'.$item['passwd']."@".$item['address'].":".$item['port'];
                 $ssurl = "ss://".Tools::base64_url_encode($personal_info);
-                $ssurl .= "#".rawurlencode(Config::get('appName')." - ".$item['remark']);
+                $ssurl .= "#".rawurlencode(Config::get('appName')." - ".$item['remark'])."\n";
             }else{
                 $personal_info = $item['method'].':'.$item['passwd'];
                 $ssurl = "ss://".Tools::base64_url_encode($personal_info)."@".$item['address'].":".$item['port'];
@@ -245,7 +245,7 @@ class URL
                     }
                     $ssurl .= "?plugin=".rawurlencode($plugin);
                 }
-                $ssurl .= "#".rawurlencode(Config::get('appName')." - ".$item['remark']);
+                $ssurl .= "#".rawurlencode(Config::get('appName')." - ".$item['remark'])."\n";
             }
             return $ssurl;
         }
