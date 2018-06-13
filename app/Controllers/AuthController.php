@@ -206,7 +206,7 @@ class AuthController extends BaseController
             // check email format
             if (!Check::isEmailLegal($email)) {
                 $res['ret'] = 0;
-                $res['msg'] = "邮箱无效";
+                $res['msg'] = "邮箱无效，或使用了不允的郵箱地址";
                 return $response->getBody()->write(json_encode($res));
             }
 
@@ -310,7 +310,7 @@ class AuthController extends BaseController
         // check email format
         if (!Check::isEmailLegal($email)) {
             $res['ret'] = 0;
-            $res['msg'] = "邮箱无效";
+            $res['msg'] = "邮箱无效，或使用了不允的郵箱地址";
             return $response->getBody()->write(json_encode($res));
         }
         // check email
