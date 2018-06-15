@@ -23,15 +23,11 @@ class TelegramProcess
                         $bot->sendMessage($message->getChat()->getId(), "您今天已经签过到了！", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                         break;
                     }
-                    if(($user->userType == 1 and Config::get('deposited_check') == "true") or Config::get('deposited_check') != "true"){    
-                        $traffic = rand(Config::get('checkinMin'), Config::get('checkinMax'));
-                        $user->transfer_enable = $user->transfer_enable + Tools::toMB($traffic);
-                        $user->last_check_in_time = time();
-                        $user->save();
-                        $bot->sendMessage($message->getChat()->getId(), "签到成功！获得了 ".$traffic." MB 流量！", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
-                    }else{
-                        $bot->sendMessage($message->getChat()->getId(), "您的账号未通过".Config::get('deposited_amount')."元付费验证哦～无法进行签到", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
-                    }
+                    $traffic = rand(Config::get('checkinMin'), Config::get('checkinMax'));
+                    $user->transfer_enable = $user->transfer_enable + Tools::toMB($traffic);
+                    $user->last_check_in_time = time();
+                    $user->save();
+                    $bot->sendMessage($message->getChat()->getId(), "签到成功！获得了 ".$traffic." MB 流量！", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
                 default:
                     $bot->sendMessage($message->getChat()->getId(), "???", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);

@@ -1,6 +1,4 @@
-{if ($user->userType == 0 and $config["deposited_check"] == "true")}
-    <script> if(window.location.pathname != "/user/code"){ window.location.href="/user/code"; }</script> 
-{/if}
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
 	<meta charset="UTF-8">

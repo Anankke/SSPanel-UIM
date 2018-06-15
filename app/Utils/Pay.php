@@ -420,7 +420,6 @@ class Pay
                 //logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
                 $user=User::find($trade->userid);
                 $user->money=$user->money+$_POST['total_fee'];
-                Pay::depositedCheck($_POST['total_fee'], $user);
                 $user->save();
                 $codeq=new Code();
                 $codeq->code="支付宝 充值";
@@ -453,7 +452,6 @@ class Pay
                 //logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
                 $user=User::find($trade->userid);
                 $user->money=$user->money+$_POST['total_fee'];
-                Pay::depositedCheck($_POST['total_fee'], $user);
                 $user->save();
                 $codeq=new Code();
                 $codeq->code="支付宝 充值";
@@ -511,7 +509,6 @@ class Pay
                 }
                 $user=User::find($pingback->getUserId());
                 $user->money=$user->money+$pingback->getVirtualCurrencyAmount();
-                Pay::depositedCheck($pingback->getVirtualCurrencyAmount(), $user);
                 $user->save();
                 $codeq=new Code();
                 $codeq->code="Payment Wall 充值";
@@ -581,7 +578,6 @@ class Pay
                 $pl->status=1;
                 $pl->save();
                 $user->money=$user->money+$Money;
-                Pay::depositedCheck($Money, $user);
                 $user->save();
                 $codeq=new Code();
                 $codeq->code="支付宝充值";
@@ -662,9 +658,8 @@ class Pay
                 $trade->save();
 
                 //更新用户账户
-                $user=User::find($trade->userid);
+				$user=User::find($trade->userid);
                 $user->money=$user->money+$_POST['total_amount'];
-                Pay::depositedCheck($_POST['total_amount'], $user);
                 $user->save();
 
                 //更新充值（捐赠）记录
@@ -740,7 +735,6 @@ class Pay
                 $codeq->userid=$user->id;
                 $codeq->save();
                 $user->money=$user->money+$price;
-                Pay::depositedCheck($price, $user);
                 $user->save();
 
                 //更新返利
@@ -802,7 +796,6 @@ class Pay
         $codeq->userid=$user->id;
         $codeq->save();
         $user->money=$user->money+$trade_num;
-        Pay::depositedCheck($trade_num, $user);
         $user->save();
         //更新返利
         if ($user->ref_by!=""&&$user->ref_by!=0&&$user->ref_by!=null) {
@@ -820,14 +813,7 @@ class Pay
         }
         exit('success'); //返回成功 不要删除哦
     }
-    
-    private static function  depositedCheck($amt, $usr){
-        
-        if(Config::get('deposited_amount') <= $amt){
-            $usr->userType=1;
-        }
-    }
-    
+
     public static function callback($request)
     {
         $driver = Config::get("payment_system");
