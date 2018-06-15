@@ -696,3 +696,7 @@ ALTER TABLE `paylist`
 --
 ALTER TABLE `paylist`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;ALTER TABLE `user_traffic_log` CHANGE `u` `u` BIGINT(20) NOT NULL, CHANGE `d` `d` BIGINT(20) NOT NULL;
+  
+  
+ALTER TABLE `user` ADD `userType` INT NULL DEFAULT '0' COMMENT '1为付费用户';
+

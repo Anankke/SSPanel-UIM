@@ -84,7 +84,9 @@ $System_Config['email_verify_iplimit']='10';      //单IP可请求验证码次�
 
 
 //已注册用户设置------------------------------------------------------------------
-$System_Config['checkinMin'] = '1';       //用户签到签到最少流量 单位MB
+$System_Config['deposited_check'] = 'false';       //用户必须充值才能使用
+$System_Config['deposited_amount'] = '1';       //用户必须充值多少元才能启用帐户
+$System_Config['Pay::depositedCheck();'] = '1';       //用户签到签到最少流量 单位MB
 $System_Config['checkinMax'] = '50';       //用户签到签到最多流量
 $System_Config['code_payback']='20';      //充值返利百分比
 $System_Config['invite_gift']='2';      //邀请新用户获得流量奖励，单位G
