@@ -76,7 +76,8 @@ class FinanceMail
 		$datatables = new Datatables(new DatatablesHelper());
         $datatables->query(
 		'select code.number from code
-		where date_format(code.usedatetime,\'%Y-%m\')=date_format(date_sub(curdate(), interval 1 month),\'%Y-%m\' and code.type = -1 and code.isused= 1');
+		where yearweek(date_format(code.usedatetime,'%Y-%m-%d')) = yearweek(now())-1 and code.isused= 1');
+		//每周的第一天是周日，因此统计周日～周六的七天
 		$text_json=$datatables->generate();
         $text_array=json_decode($text_json,true);
         $codes=$text_array['data'];
@@ -112,7 +113,7 @@ class FinanceMail
 				"新鲜出炉的财务周报~".PHP_EOL.
 				"上周总收入笔数:".$sts->getTodayCheckinUser().PHP_EOL.
 				"上周总收入金额:".Tools::flowAutoShow($lastday_total).PHP_EOL.
-				"凌晨也在努力工作~"
+				"周末也在努力工作~"
 			);
 		}
 	}
@@ -158,7 +159,7 @@ class FinanceMail
 				"新鲜出炉的财务月报~".PHP_EOL.
 				"上月总收入笔数:".$sts->getTodayCheckinUser().PHP_EOL.
 				"上月总收入金额:".Tools::flowAutoShow($lastday_total).PHP_EOL.
-				"凌晨也在努力工作~"
+				"月初也在努力工作~"
 			);
 		}
 	}
