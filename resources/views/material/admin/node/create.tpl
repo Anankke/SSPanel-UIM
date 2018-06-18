@@ -110,6 +110,7 @@
 													<option value="8">PAC PLUS PLUS(HTTPS 代理生成 PAC文件)</option>
 													<option value="9">Shadowsocks 单端口多用户</option>
 													<option value="10">Shadowsocks 中转</option>
+													<option value="11">V2Ray</option>
 												</select>
 											</div>
 									</div>

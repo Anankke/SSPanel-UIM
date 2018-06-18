@@ -67,6 +67,14 @@ class ShopController extends AdminController
             $content["reset_exp"]=$request->getParam('reset_exp');
         }
 
+        //if ($request->getParam('speedlimit')!=0) {
+            $content["speedlimit"]=$request->getParam('speedlimit');
+        //}
+
+        //if ($request->getParam('connector')!=0) {
+            $content["connector"]=$request->getParam('connector');
+        //}
+
         $shop->content=json_encode($content);
 
 
@@ -138,6 +146,14 @@ class ShopController extends AdminController
         if ($request->getParam('reset_exp')!=0) {
             $content["reset_exp"]=$request->getParam('reset_exp');
         }
+        
+        //if ($request->getParam('speedlimit')!=0) {
+            $content["speedlimit"]=$request->getParam('speedlimit');
+        //}
+
+        //if ($request->getParam('connector')!=0) {
+            $content["connector"]=$request->getParam('connector');
+        //}
 
         $shop->content=json_encode($content);
 

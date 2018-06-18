@@ -3,6 +3,15 @@
 
 {include file='user/main.tpl'}
 
+<style>.kaobei {
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.kaobei:hover {
+    background-color: #ff7ffe; /* prink */
+    color: white;
+}</style>
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -20,7 +29,7 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">修改密码</p>
+										<p class="card-heading">账号登录密码修改</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="oldpwd">当前密码</label>
 											<input class="form-control" id="oldpwd" type="password">
@@ -49,10 +58,10 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">连接密码修改</p>
-										<p>当前连接密码：{$user->passwd}</p>
+										<p class="card-heading">节点连接密码修改</p>
+										<p>当前连接密码：<code>{$user->passwd}</code><button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">点击拷贝</button></p>
 										<div class="form-group form-group-label">
-											<label class="floating-label" for="sspwd">连接密码</label>
+											<label class="floating-label" for="sspwd">新连接密码</label>
 											<input class="form-control" id="sspwd" type="text">
 										</div>
 
@@ -70,13 +79,13 @@
                       
 
 
-				<!--		<div class="card margin-bottom-no">
+						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">加密方式修改</p>
 										<p>注意：SS 和 SSR 支持的加密方式有所不同，请根据实际情况来进行选择！</p>
-										<p>当前加密方式：{$user->method}</p>
+										<p>当前加密方式：<code>{$user->method}</code></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="method">加密方式</label>
 											<select id="method" class="form-control">
@@ -90,12 +99,12 @@
 									</div>
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
-											<button disabled="disabled" class="btn btn-flat waves-attach" id="method-update" ><span class="icon">check</span>&nbsp;提交</button>
+											<button class="btn btn-flat waves-attach" id="method-update" ><span class="icon">check</span>&nbsp;提交</button>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>  -->
+						</div>  
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -148,7 +157,7 @@
 
 
 
-				<!--		<div class="card margin-bottom-no">
+						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
@@ -185,7 +194,7 @@
 
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
-											<button disabled="disabled" class="btn btn-flat waves-attach" id="ssr-update" ><span class="icon">check</span>&nbsp;提交</button>
+											<button class="btn btn-flat waves-attach" id="ssr-update" ><span class="icon">check</span>&nbsp;提交</button>
 										</div>
 									</div>
 								</div>
@@ -222,7 +231,7 @@
 								</div>
 							</div>
 						</div> 
-</div>-->
+</div>
 					</div>  
 
 
@@ -272,7 +281,7 @@
 
 
 
-					<!--	<div class="card margin-bottom-no">
+						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
@@ -315,14 +324,16 @@
 									</div>
 								</div>
 							</div>
-						</div>    -->
+						</div>    
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">重置端口</p>
-										<p>当前端口：{$user->port}</p>
+										<p>随机更换一个端口使用</p>
+										<p>重置后1分钟内生效</p>
+										<p>当前端口：<code>{$user->port}</code></p>
 
 									</div>
 									<div class="card-action">
@@ -334,7 +345,7 @@
 							</div>
 						</div>
 
-				<!--		<div class="card margin-bottom-no">
+						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
@@ -355,7 +366,7 @@
 									</div>
 								</div>
 							</div>
-						</div> -->
+						</div>
 
 						{if $config['enable_telegram'] == 'true'}
 						<div class="card margin-bottom-no">
@@ -400,6 +411,16 @@
 
 {include file='user/footer.tpl'}
 
+<script>
+$(function(){
+	new Clipboard('.copy-text');
+});
+
+$(".copy-text").click(function () {
+	$("#result").modal();
+	$("#msg").html("已复制到您的剪贴板。");
+});
+</script>
 
 <script>
     $(document).ready(function () {

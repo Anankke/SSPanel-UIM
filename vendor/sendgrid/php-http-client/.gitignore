@@ -1,5 +1,0 @@
-.env
-*.lock
-vendor/
-*.old
-.idea/

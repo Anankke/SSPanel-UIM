@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Models\Node;
 use App\Models\Relay;
 use App\Services\Config;
+
 class URL
 {
     /*
@@ -138,14 +139,27 @@ class URL
         }
         if($is_mu) {
             if ($user->is_admin) {
-                $mu_nodes = Node::where('sort', 9)->where("type", "1")->get();
+            	if ($is_mu!=1){
+            		$mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where("type", "1")->get();
+            	}else{
+                	$mu_nodes = Node::where('sort', 9)->where("type", "1")->get();
+            	}
             } else {
-                $mu_nodes = Node::where('sort', 9)->where('node_class', '<=', $user->class)->where("type", "1")->where(
-                    function ($query) use ($user) {
-                        $query->where("node_group", "=", $user->node_group)
-                            ->orWhere("node_group", "=", 0);
-                    }
-                )->get();
+                if ($is_mu!=1){
+                    $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where('node_class', '<=', $user->class)->where("type", "1")->where(
+                        function ($query) use ($user) {
+                            $query->where("node_group", "=", $user->node_group)
+                                ->orWhere("node_group", "=", 0);
+                        }
+                    )->get();
+                }else{
+                    $mu_nodes = Node::where('sort', 9)->where('node_class', '<=', $user->class)->where("type", "1")->where(
+                        function ($query) use ($user) {
+                            $query->where("node_group", "=", $user->node_group)
+                                ->orWhere("node_group", "=", 0);
+                        }
+                    )->get();
+                }
             }
         }
         $relay_rules = Relay::where('user_id', $user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
@@ -173,7 +187,7 @@ class URL
                     }
                 }
             }
-            if ($node->custom_rss == 1 && $node->mu_only != -1 && $is_mu == 1) {
+            if ($node->custom_rss == 1 && $node->mu_only != -1 && $is_mu != 0) {
                 foreach ($mu_nodes as $mu_node) {
                     if ($node->sort == 10) {
                         $relay_rule_id = 0;
@@ -209,7 +223,7 @@ class URL
     public static function getItemUrl($item, $is_ss) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
         if(!$is_ss) {
-            $ssurl = $item['address'].":".$item['port'].":".$item['protocol'].":".$item['method'].":".$item['obfs'].":".Tools::base64_url_encode($item['passwd'])."/?obfsparam=".Tools::base64_url_encode($item['obfs_param'])."&protoparam=".Tools::base64_url_encode($item['protocol_param'])."&remarks=".Tools::base64_url_encode($item['remark'])."&group=".Tools::base64_url_encode(Config::get('appName'));
+            $ssurl = $item['address'].":".$item['port'].":".$item['protocol'].":".$item['method'].":".$item['obfs'].":".Tools::base64_url_encode($item['passwd'])."/?obfsparam=".Tools::base64_url_encode($item['obfs_param'])."&protoparam=".Tools::base64_url_encode($item['protocol_param'])."&remarks=".Tools::base64_url_encode($item['remark'])."&group=".Tools::base64_url_encode($item['group']);
             return "ssr://".Tools::base64_url_encode($ssurl);
         } else {
             if($is_ss == 2) {
@@ -235,6 +249,22 @@ class URL
             }
             return $ssurl;
         }
+    }
+    public static function getV2Url($user, $node){
+        $v2url = "";
+
+        $node_explode = explode(';', $node->server);
+        $item['ps'] = $node->name;
+        $item['add'] = $node_explode[0];
+        $item['port'] = $node_explode[1];
+        $item['id'] = $user->getUuid();
+        $item['aid'] = $node_explode[3];
+        $item['net'] = "tcp";
+        $item['type'] = "none";
+        $arr = array('v'=>'2', 'ps'=>$item['ps'], 'add'=>$item['add'], 'port'=>$item['port'], 'id'=>$item['id'], 'aid'=>$item['aid'], 'net'=>'tcp', 'type'=>'none', 'host'=>'', 'path'=>'', 'tls'=>'');
+        $v2url = "vmess://".base64_encode((json_encode($arr, JSON_UNESCAPED_UNICODE)));
+        //$v2url = "{"."\n  \"v\": \"2\",\n  \"ps\": \"".$item['ps']."\",\n  \"add\":  \"".$item['add']."\",\n  \"port\":  \"".$item['port']."\",\n  \"id\":  \"".$item['id']."\",\n  \"aid\":  \"".$item['aid']."\",\n  \"net\":  \"".$item['net']."\",\n  \"type\":  \"".$item['type']."\",\n  \"host\": \"\",\n  \"path\": \"\",\n  \"tls\": \"\"";
+        return $v2url;
     }
     public static function getJsonObfs($item) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
@@ -297,7 +327,7 @@ class URL
             $mu_user->obfs_param = $user->getMuMd5();
             $mu_user->protocol_param = $user->id.":".$user->passwd;
             $user = $mu_user;
-            $node_name .= " - ".$mu_port." 端口单端口多用户";
+            $node_name .= " - ".$mu_port." 单端口";
         }
         if($is_ss) {
             if(!URL::SSCanConnect($user)) {
@@ -319,6 +349,10 @@ class URL
         $return_array['protocol_param'] = $user->protocol_param;
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
+        $return_array['group'] = Config::get('appName');
+        if($mu_port != 0) {
+            $return_array['group'] .= ' - 单端口';
+        }
         return $return_array;
     }
     public static function cloneUser($user) {

@@ -54,7 +54,7 @@ class Job
         system('mysqldump --user='.Config::get('db_username').' --password='.Config::get('db_password').' --host='.$db_address_array[0].' '.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').' '.Config::get('db_database').' announcement auto blockip bought code coupon disconnect_ip link login_ip payback radius_ban shop speedtest ss_invite_code ss_node ss_password_reset ticket unblockip user user_token email_verify detect_list relay paylist> /tmp/ssmodbackup/mod.sql', $ret);
 
 
-        system('mysqldump --opt --user='.Config::get('db_username').' --password='.Config::get('db_password').' --host='.$db_address_array[0].' '.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').' -d '.Config::get('db_database').' alive_ip ss_node_info ss_node_online_log user_traffic_log detect_log telegram_session >> /tmp/ssmodbackup/mod.sql', $ret);
+        system('mysqldump --opt --user='.Config::get('db_username').' --password='.Config::get('db_password').' --host='.$db_address_array[0].' '.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').' -d '.Config::get('db_database').' alive_ip ss_node_info ss_node_online_log user_traffic_log detect_log telegram_session yft_order_info >> /tmp/ssmodbackup/mod.sql', $ret);
 
         if (Config::get('enable_radius')=='true') {
             $db_address_array = explode(':', Config::get('radius_db_host'));
@@ -142,6 +142,7 @@ class Job
         DetectLog::where("datetime", "<", time()-86400*3)->delete();
         Speedtest::where("datetime", "<", time()-86400*3)->delete();
         EmailVerify::where("expire_in", "<", time()-86400*3)->delete();
+		 system("rm ".BASE_PATH."/storage/*.png", $ret);
         Telegram::Send("姐姐姐姐，数据库被清理了，感觉身体被掏空了呢~");
 
         //auto reset
@@ -220,7 +221,7 @@ class Job
 
         #https://github.com/shuax/QQWryUpdate/blob/master/update.php
 
-        $copywrite = file_get_contents("https://github.com/esdeathlove/qqwry-download/raw/master/copywrite.rar");
+        $copywrite = file_get_contents("http://update.cz88.net/ip/copywrite.rar");
 
         $adminUser = User::where("is_admin", "=", "1")->get();
 
@@ -229,7 +230,7 @@ class Job
 
         if ($newmd5 != $oldmd5) {
             file_put_contents(BASE_PATH."/storage/qqwry.md5", $newmd5);
-            $qqwry = file_get_contents("https://github.com/esdeathlove/qqwry-download/raw/master/qqwry.rar");
+            $qqwry = file_get_contents("http://update.cz88.net/ip/qqwry.rar");
             if ($qqwry != "") {
                 $key = unpack("V6", $copywrite)[6];
                 for ($i=0; $i<0x200; $i++) {
@@ -263,13 +264,14 @@ class Job
         }
 
         Job::updatedownload();
+        
     }
+//   定时任务开启的情况下，每天自动检测有没有最新版的后端，github源来自Miku
+     public static function updatedownload()
+      {
+      	system('cd '.BASE_PATH."/public/ssr-download/ && git pull https://github.com/xcxnig/ssr-download.git");
+     }
 
-    public static function updatedownload()
-    {
-        system('cd '.BASE_PATH."/public/ssr-download/ && git pull", $ret);
-        echo $ret;
-    }
 
     public static function CheckJob()
     {
@@ -438,7 +440,7 @@ class Job
 
         $adminUser = User::where("is_admin", "=", "1")->get();
 
-        $latest_content = file_get_contents("https://github.com/esdeathlove/ss-panel-v3-mod/raw/new_master/bootstrap.php");
+        $latest_content = file_get_contents("https://raw.githubusercontent.com/NimaQu/ss-panel-v3-mod_uim/master/bootstrap.php");
         $newmd5 = md5($latest_content);
         $oldmd5 = md5(file_get_contents(BASE_PATH."/bootstrap.php"));
 
@@ -453,7 +455,7 @@ class Job
                         echo "Send mail to user: ".$user->id;
                         $subject = Config::get('appName')."-系统提示";
                         $to = $user->email;
-                        $text = "管理员您好，系统发现有了新版本，您可以到 <a href=\"https://github.com/esdeathlove/ss-panel-v3-mod/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97\">https://github.com/esdeathlove/ss-panel-v3-mod/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97</a> 按照步骤进行升级。" ;
+                        $text = "管理员您好，系统发现有了新版本，您可以到 <a href=\"https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC\">https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC</a> 按照步骤进行升级。" ;
                         try {
                             Mail::send($to, $subject, 'news/warn.tpl', [
                                 "user" => $user,"text" => $text
@@ -699,7 +701,8 @@ class Job
 
 
 
-            if ((int)Config::get('enable_auto_clean_uncheck_days')!=0 && max($user->last_check_in_time, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_uncheck_days')*86400) < time() && $user->class == 0) {
+            if ((int)Config::get('enable_auto_clean_uncheck_days')!=0 && max($user->last_check_in_time, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_uncheck_days')*86400) < time() && $user->class == 0 && $user->money <= (int)Config::get('auto_clean_min_money')) {
+
                 if (Config::get('enable_auto_clean_uncheck')=='true') {
                     $subject = Config::get('appName')."-您的用户账户已经被删除了";
                     $to = $user->email;
@@ -727,7 +730,8 @@ class Job
             }
 
 
-            if ((int)Config::get('enable_auto_clean_unused_days')!=0 && max($user->t, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_unused_days')*86400) < time() && $user->class == 0) {
+            if ((int)Config::get('enable_auto_clean_unused_days')!=0 && max($user->t, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_unused_days')*86400) < time() && $user->class == 0 && $user->money <= (int)Config::get('auto_clean_min_money')) {
+
                 if (Config::get('enable_auto_clean_unused')=='true') {
                     $subject = Config::get('appName')."-您的用户账户已经被删除了";
                     $to = $user->email;

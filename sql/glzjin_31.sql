@@ -1,1 +1,0 @@
-ALTER TABLE `paylist` ADD `tradeno` TEXT NULL AFTER `status`, ADD `datetime` BIGINT NOT NULL DEFAULT '0' AFTER `tradeno`;
