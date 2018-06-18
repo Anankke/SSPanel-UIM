@@ -1,4 +1,4 @@
-<?php
+ï»¿<?php
 
 
 namespace App\Command;
@@ -23,28 +23,28 @@ class FinanceMail
         $datatables->query(
 		'Select code.id,code.code,code.type,code.number,code.userid,code.userid as user_name,code.usedatetime 
 		from code
-		where TO_DAYS(NOW()) ¨C TO_DAYS(code.usedatetime) = 1');
+		where TO_DAYS(NOW()) â€“ TO_DAYS(code.usedatetime) = 1');
 		$datatables->edit('number', function ($data) {
             switch ($data['type']) {
               case -1:
-                return "³äÖµ ".$data['number']." Ôª";
+                return "å……å€¼ ".$data['number']." å…ƒ";
 
               case -2:
-                return "Ö§³ö ".$data['number']." Ôª";
+                return "æ”¯å‡º ".$data['number']." å…ƒ";
 
               default:
-                return "ÒÑ¾­·ÏÆú";
+                return "å·²ç»åºŸå¼ƒ";
             }
         });
 
         $datatables->edit('userid', function ($data) {
-            return $data['userid'] == 0 ? 'Î´Ê¹ÓÃ' : $data['userid'];
+            return $data['userid'] == 0 ? 'æœªä½¿ç”¨' : $data['userid'];
         });
 
         $datatables->edit('user_name', function ($data) {
             $user = User::find($data['user_name']);
             if ($user == null) {
-                return "Î´Ê¹ÓÃ";
+                return "æœªä½¿ç”¨";
             }
             return $user->user_name;
         });
@@ -52,22 +52,22 @@ class FinanceMail
         $datatables->edit('type', function ($data) {
             switch ($data['type']) {
               case -1:
-                return "³äÖµ½ğ¶î";
+                return "å……å€¼é‡‘é¢";
               case -2:
-                return "²ÆÎñÖ§³ö";
+                return "è´¢åŠ¡æ”¯å‡º";
               default:
-                return "ÒÑ¾­·ÏÆú";
+                return "å·²ç»åºŸå¼ƒ";
             }
         });
 
         $datatables->edit('usedatetime', function ($data) {
-            return $data['usedatetime'] > '2000-1-1 0:0:0' ? $data['usedatetime'] : "Î´Ê¹ÓÃ";
+            return $data['usedatetime'] > '2000-1-1 0:0:0' ? $data['usedatetime'] : "æœªä½¿ç”¨";
         });
 
 		$adminUser = User::where("is_admin", "=", "1")->get();
         foreach ($adminUser as $user) {
 			echo "Send offline mail to user: ".$user->id;
-			$subject = Config::get('appName')."-²ÆÎñÈÕ±¨";
+			$subject = Config::get('appName')."-è´¢åŠ¡æ—¥æŠ¥";
 			$to = $user->email;
 			$text = $datatables->generate();
 			try {
@@ -83,10 +83,10 @@ class FinanceMail
 		if (Config::get("finance_pulic")=="true") {
 			$sts = new Analytics();    
 			Telegram::Send(
-				"ĞÂÏÊ³öÂ¯µÄ²ÆÎñÈÕ±¨~".PHP_EOL.
-				"×òÈÕ×ÜÊÕÈë±ÊÊı:".$sts->getTodayCheckinUser().PHP_EOL.
-				"×òÈÕ×ÜÊÕÈë½ğ¶î:".Tools::flowAutoShow($lastday_total).PHP_EOL.
-				"Áè³¿Ò²ÔÚÅ¬Á¦¹¤×÷~"
+				"æ–°é²œå‡ºç‚‰çš„è´¢åŠ¡æ—¥æŠ¥~".PHP_EOL.
+				"æ˜¨æ—¥æ€»æ”¶å…¥ç¬”æ•°:".$sts->getTodayCheckinUser().PHP_EOL.
+				"æ˜¨æ—¥æ€»æ”¶å…¥é‡‘é¢:".Tools::flowAutoShow($lastday_total).PHP_EOL.
+				"å‡Œæ™¨ä¹Ÿåœ¨åŠªåŠ›å·¥ä½œ~"
 			);
 		}
     }
