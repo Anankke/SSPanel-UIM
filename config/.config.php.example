@@ -53,7 +53,7 @@ $System_Config['auto_backup_passwd']='zip password';
 
 
 //用户注册设置--------------------------------------------------------------------
-$System_Config['defaultTraffic'] = '1';      // 用户初始流量 单位GB
+$System_Config['defaultTraffic'] = '17';      // 用户初始流量 单位GB
 $System_Config['user_expire_in_default']='3650';      //用户账户过期时间，在注册时设置。（天）
 $System_Config['user_class_default']='1';      //用户注册等级，在注册时设置。
 $System_Config['user_class_expire_default']='2';      //用户等级过期时间，在注册时设置。（小时）
@@ -196,6 +196,10 @@ $System_Config['zfbjk_qrcodeurl']='';
 
 //财务报告设置
 $System_Config['finance_public']='false';//财务报告是否向Telegram群公开
+
+//国旗图标显示
+//启用该项之前务必先仔细阅读教程
+$System_Config['enable_prefix']=='false';
 
 //杂项（一般不需要更改-------------------------------------------------------------
 $System_Config['authDriver'] = 'cookie';   //不能更改此项
