@@ -11,11 +11,12 @@
 
 
 	<!-- css -->
-	<link href="/theme/material/css/base.css" rel="stylesheet">
-	<link href="/theme/material/css/project.css" rel="stylesheet">
-	<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="//cdn.staticfile.org/material-design-lite/1.1.0/material.min.css" rel="stylesheet">
-	<link href="//cdn.staticfile.org/datatables/1.10.13/css/dataTables.material.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/base.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/project.css" rel="stylesheet">
+	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
+	<link href="https://fonts.loli.net/css?family=Material+Icons">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/material.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/css/dataTables.material.min.css" rel="stylesheet">
 
 
 
@@ -23,7 +24,7 @@
 	<!-- ... -->
 </head>
 
-<body class="page-red">
+<body class="page-brand">
 	<header class="header header-red header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
 			<div>
@@ -50,7 +51,7 @@
 				</ul>
 				{else}
 				<span class="access-hide">未登录</span>
-				<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="/theme/material/images/users/avatar-001.jpg"></span>
+				<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/images/users/avatar-001.jpg"></span>
 				</a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li>
@@ -109,7 +110,9 @@
 							<li><a href="/admin/shop"><i class="icon icon-lg">shop</i>&nbsp;商品</a></li>
 							<li><a href="/admin/coupon"><i class="icon icon-lg">card_giftcard</i>&nbsp;优惠码</a></li>
 							<li><a href="/admin/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>
-                            <li><a href="/user/invite"><i class="icon icon-lg">loyalty</i>&nbsp;邀请码</a></li> 
+                            {if $config['payment_system']=='yftpay'}
+							<li><a href="/admin/yftOrder"><i class="icon icon-lg">shopping_cart</i>&nbsp;充值记录</a></li>
+							{/if}
 						</ul>
 
 						<li><a href="/user"><i class="icon icon-lg">person</i>&nbsp;用户中心</a></li>

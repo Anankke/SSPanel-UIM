@@ -7,16 +7,17 @@
 	<meta name="theme-color" content="#3f51b5">
 	<title>{$config["appName"]}</title>
 	<!-- css -->
-	<link href="/theme/material/css/base.min.css" rel="stylesheet">
-	<link href="/theme/material/css/project.min.css" rel="stylesheet">
-	<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/base.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/project.min.css" rel="stylesheet">
+	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
+	<link href="https://fonts.loli.net/css?family=Material+Icons">
+
 	<!-- favicon -->
 	<!-- ... -->
 </head>
-  <style> 
-.divcss5{ position:fixed; bottom:0;} 
-</style> 
+  <style>
+.divcss5{ position:fixed; bottom:0;}
+</style>
 <body class="page-brand">
 	<header class="header header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
@@ -26,7 +27,7 @@
 				</a>
 			</li>
 		</ul>
-		
+
 		<ul class="nav nav-list pull-right">
 			<li class="dropdown margin-right">
 				<a class="dropdown-toggle padding-left-no padding-right-no" data-toggle="dropdown">
@@ -46,7 +47,7 @@
 				{else}
 					<span class="access-hide">未登录</span>
              			 <span class="icon icon-cd margin-right">account_circle</span>
-				<!--	<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="/theme/material/images/users/avatar-001.jpg"></span> -->
+				<!--	<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/images/users/avatar-001.jpg"></span> -->
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
@@ -57,7 +58,7 @@
 						</li>
 					</ul>
 				{/if}
-					
+
 			</li>
 		</ul>
 	</header>
@@ -84,10 +85,10 @@
                   	<li>
 				     <a  href="/password/reset"><i class="icon icon-lg">security</i>&nbsp;重置密码</a>
 					</li>
-                  
+
                   <li>
                     <div class="divcss5">
-    					<img  src="/images/Ambassador-menu.png" width="230" height="300"/>
+    					<img  src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/images/Ambassador-menu.png" width="230" height="300"/>
                       </div>
 					</li>
 					{/if}
@@ -95,3 +96,5 @@
 			</div>
 		</div>
 	</nav>
+
+{if $config["enable_crisp"] == 'true'}{include file='crisp.tpl'}{/if}

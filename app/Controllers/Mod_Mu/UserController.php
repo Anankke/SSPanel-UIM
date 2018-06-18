@@ -10,6 +10,7 @@ use App\Models\Ip;
 use App\Models\DetectLog;
 use App\Controllers\BaseController;
 use App\Utils\Tools;
+use Ramsey\Uuid\Uuid;
 
 class UserController extends BaseController
 {
@@ -67,13 +68,14 @@ class UserController extends BaseController
 
         $users = array();
 
-        $key_list = array('method', 'obfs', 'obfs_param', 'protocol', 'protocol_param',
+        $key_list = array('email', 'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param',
                 'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
                 'is_multi_user', 'id', 'port', 'passwd', 'u', 'd');
 
         foreach ($users_raw as $user_raw) {
             if ($user_raw->transfer_enable > $user_raw->u + $user_raw->d) {
                 $user_raw = Tools::keyFilter($user_raw, $key_list);
+                $user_raw->uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user_raw->passwd)->toString();
                 array_push($users, $user_raw);
             }
         }

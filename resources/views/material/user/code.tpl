@@ -14,13 +14,27 @@
 		<div class="content-header ui-content-header">
 			<div class="container">
 				<h1 class="content-heading">充值</h1>
-              
-              
+
+
 			</div>
 		</div>
 		<div class="container">
 			<section class="content-inner margin-top-no">
-		<!--		<div class="row">
+				<div class="row">
+
+				    {if $pmw!=''}
+					<div class="col-lg-12 col-md-12">
+						<div class="card margin-bottom-no">
+							<div class="card-main">
+								<div class="card-inner">
+									{$pmw}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{/if}
+
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -28,7 +42,7 @@
 									<div class="card-inner">
 										<p class="card-heading">充值码</p>
 										<i class="icon icon-lg">view_compact</i>&nbsp;仪表盘
-							<p>当前余额：{$user->money} 元</p>
+							            <p><i class="icon icon-lg">monetization_on</i>当前余额：<font color="red" size="5">{$user->money}</font> 元</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="code">充值码</label>
 											<input class="form-control" id="code" type="text">
@@ -42,24 +56,8 @@
 								</div>
 							</div>
 						</div>
-					</div> -->
-              {if $pmw!=''}
-					<div class="col-lg-12 col-md-12">
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-										{$pmw}
-									</div>
-									
-								</div>
-							</div>
-						</div>
-					</div>	
-						
-					{/if}
-					
-					
+					</div>
+
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -75,7 +73,7 @@
 														<th>类型</th>
 														<th>操作</th>
 														<th>使用时间</th>
-														
+
 													</tr>
 													{foreach $codes as $code}
 														{if $code->type!=-2}
@@ -115,7 +113,7 @@
 											</div>
 										</div>
 									</div>
-									
+
 								</div>
 							</div>
 						</div>
@@ -128,33 +126,33 @@
 									<h2 class="modal-title">正在连接支付宝</h2>
 								</div>
 								<div class="modal-inner">
-									<p id="title">正在处理...吃个瓜吧</p>
+									<p id="title">感谢您对我们的支持，请耐心等待</p>
                                    <img src="/images/qianbai-2.png" height="200" width="200" />
 								</div>
 							</div>
 						</div>
 					</div>
-					
+
 					<div aria-hidden="true" class="modal modal-va-middle fade" id="alipay" role="dialog" tabindex="-1">
 						<div class="modal-dialog modal-xs">
 							<div class="modal-content">
 							<div class="modal-heading">
 									<a class="modal-close" data-dismiss="modal">×</a>
                               <h2 class="modal-title">请使用支付宝App扫码充值：</h2>
-								</div> 
+								</div>
 								<div class="modal-inner">
                                    <div class="text-center">
                                     <p id="divide">-------------------------------------------------------------</p>
-									<p id="title">手机端请点击二维码转跳app</p>
+									<p id="title">手机端点击二维码即可转跳app支付</p>
 									<p id="divide">-------------------------------------------------------------</p>
 									<p id="qrcode"></p>
 									<p id="info"></p>
 								</div>
                                   </div>
-								
+
 								<div class="modal-footer">
 									<p class="text-right"><button class="btn btn-flat btn-brand waves-attach" data-dismiss="modal" id="alipay_cancel" type="button">取消</button></p>
-								</div>	
+								</div>
 							</div>
 						</div>
 					</div>
@@ -200,7 +198,7 @@
 				}
 			})
 		})
-		
+
 	$("#urlChange").click(function () {
 			$.ajax({
 				type: "GET",
@@ -214,17 +212,17 @@
 						$("#readytopay").modal();
 					}
 				}
-				
+
 			})
 		});
-		
+
 		$("#readytopay").on('shown.bs.modal', function () {
 			$.ajax({
 				type: "POST",
 				url: "code/f2fpay",
 				dataType: "json",
 				data: {
-						amount: $("#type").find("option:selected").val()
+						amount: $("#type").val()
 					},
 				success: function (data) {
 					$("#readytopay").modal('hide');
@@ -243,10 +241,10 @@
 					$("#msg").html(data.msg+"  发生了错误。");
 				}
 			})
-		});	
-	timestamp = {time()}; 
-		
-		
+		});
+	timestamp = {time()};
+
+
 	function f(){
 		$.ajax({
 			type: "GET",
@@ -270,4 +268,3 @@
 	setTimeout(f, 1000);
 })
 </script>
-

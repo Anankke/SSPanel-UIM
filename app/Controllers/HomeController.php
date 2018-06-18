@@ -64,49 +64,41 @@ class HomeController extends BaseController
     
     public function page404($request, $response, $args)
     {
-        $pics=scandir(BASE_PATH."/public/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/404/");
-        
-        if (count($pics)>2) {
-            $pic=$pics[rand(2, count($pics)-1)];
-        } else {
-            $pic="4041.png";
-        }
-        
-        $newResponse = $response->withStatus(404);
-        $newResponse->getBody()->write($this->view()->assign("pic", "/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/404/".$pic)->display('404.tpl'));
-        return $newResponse;
+        return $this->view()->display('404.tpl');
     }
     
     public function page405($request, $response, $args)
     {
-        $pics=scandir(BASE_PATH."/public/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/405/");
-        if (count($pics)>2) {
-            $pic=$pics[rand(2, count($pics)-1)];
-        } else {
-            $pic="4051.png";
-        }
-        
-        $newResponse = $response->withStatus(405);
-        $newResponse->getBody()->write($this->view()->assign("pic", "/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/405/".$pic)->display('405.tpl'));
-        return $newResponse;
+        return $this->view()->display('405.tpl');
     }
     
     public function page500($request, $response, $args)
     {
-        $pics=scandir(BASE_PATH."/public/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/500/");
-        if (count($pics)>2) {
-            $pic=$pics[rand(2, count($pics)-1)];
-        } else {
-            $pic="5001.png";
-        }
-        
-        $newResponse = $response->withStatus(500);
-        $newResponse->getBody()->write($this->view()->assign("pic", "/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/500/".$pic)->display('500.tpl'));
-        return $newResponse;
+		return $this->view()->display('500.tpl');
     }
     
+    public function codepay_callback($request, $response, $args)
+    {
+        echo '
+            <script>
+               window.location.href="/user/code";
+            </script>
+            ';
+        return;
+    }
+  
     public function pay_callback($request, $response, $args)
     {
         Pay::callback($request);
+    }
+  
+    public function f2fpay_pay_callback($request, $response, $args)
+    {
+        Pay::f2fpay_pay_callback($request);
+    }
+  
+    public function codepay_pay_callback($request, $response, $args)
+    {
+        Pay::codepay_pay_callback($request);
     }
 }

@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0cb8aa148eb3bf0a631ea82aa1efec18",
-    "content-hash": "fd4f5cbfac79cf78bf6324bb69096e50",
+    "content-hash": "95ebd3e24470a0ce9587f8e98a40868a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -85,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-02-17 20:09:40"
+            "time": "2017-02-17T20:09:40+00:00"
         },
         {
             "name": "cloudxns/cloud-xns-api-sdk-php",
@@ -122,7 +121,7 @@
             ],
             "description": "CloudXNS SDK FILES",
             "homepage": "https://www.cloudxns.net/",
-            "time": "2016-01-27 02:39:42"
+            "time": "2016-01-27T02:39:42+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -153,7 +152,7 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
-            "time": "2017-02-14 19:40:03"
+            "time": "2017-02-14T19:40:03+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -220,7 +219,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2016-05-12 17:23:41"
+            "time": "2016-05-12T17:23:41+00:00"
         },
         {
             "name": "esdeathlove/datatables",
@@ -256,7 +255,7 @@
                 }
             ],
             "description": "PHP Library to handle server-side processing for Datatables, in a fast and simple way.",
-            "time": "2017-02-19 00:35:03"
+            "time": "2017-02-19T00:35:03+00:00"
         },
         {
             "name": "filp/whoops",
@@ -316,7 +315,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2016-12-26 16:13:31"
+            "time": "2016-12-26T16:13:31+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -359,7 +358,7 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2015-07-22 18:31:08"
+            "time": "2015-07-22T18:31:08+00:00"
         },
         {
             "name": "gregwar/captcha",
@@ -407,7 +406,7 @@
                 "captcha",
                 "spam"
             ],
-            "time": "2015-09-11 15:23:20"
+            "time": "2015-09-11T15:23:20+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -503,7 +502,7 @@
                 "web service"
             ],
             "abandoned": "guzzlehttp/guzzle",
-            "time": "2016-10-26 18:22:07"
+            "time": "2016-10-26T18:22:07+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -556,7 +555,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2017-01-05 06:25:03"
+            "time": "2017-01-05T06:25:03+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -607,7 +606,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-12-20 10:07:11"
+            "time": "2016-12-20T10:07:11+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -665,7 +664,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2016-06-24 23:00:38"
+            "time": "2016-06-24T23:00:38+00:00"
         },
         {
             "name": "guzzlehttp/ringphp",
@@ -716,7 +715,7 @@
                 }
             ],
             "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
-            "time": "2017-01-13 20:44:38"
+            "time": "2017-01-13T20:44:38+00:00"
         },
         {
             "name": "guzzlehttp/streams",
@@ -766,7 +765,7 @@
                 "Guzzle",
                 "stream"
             ],
-            "time": "2016-04-13 16:32:01"
+            "time": "2016-04-13T16:32:01+00:00"
         },
         {
             "name": "illuminate/container",
@@ -809,7 +808,7 @@
             ],
             "description": "The Illuminate Container package.",
             "homepage": "http://laravel.com",
-            "time": "2016-08-01 13:49:14"
+            "time": "2016-08-01T13:49:14+00:00"
         },
         {
             "name": "illuminate/contracts",
@@ -851,7 +850,7 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "http://laravel.com",
-            "time": "2016-08-08 11:46:08"
+            "time": "2016-08-08T11:46:08+00:00"
         },
         {
             "name": "illuminate/database",
@@ -911,7 +910,7 @@
                 "orm",
                 "sql"
             ],
-            "time": "2016-12-06 15:27:14"
+            "time": "2016-12-06T15:27:14+00:00"
         },
         {
             "name": "illuminate/pagination",
@@ -955,7 +954,7 @@
             ],
             "description": "The Illuminate Pagination package.",
             "homepage": "http://laravel.com",
-            "time": "2016-08-01 13:49:14"
+            "time": "2016-08-01T13:49:14+00:00"
         },
         {
             "name": "illuminate/support",
@@ -1011,7 +1010,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "http://laravel.com",
-            "time": "2016-02-22 20:29:02"
+            "time": "2016-02-22T20:29:02+00:00"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -1053,7 +1052,7 @@
                 "hashing",
                 "password"
             ],
-            "time": "2014-11-20 19:18:42"
+            "time": "2014-11-20T19:18:42+00:00"
         },
         {
             "name": "mailgun/mailgun-php",
@@ -1093,7 +1092,7 @@
                 }
             ],
             "description": "The Mailgun SDK provides methods for all API functions.",
-            "time": "2014-11-19 22:31:03"
+            "time": "2014-11-19T22:31:03+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",
@@ -1148,7 +1147,7 @@
                 "json",
                 "jsonpath"
             ],
-            "time": "2016-12-03 22:08:25"
+            "time": "2016-12-03T22:08:25+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -1201,7 +1200,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2017-02-06 22:02:47"
+            "time": "2017-02-06T22:02:47+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -1244,7 +1243,7 @@
                 "router",
                 "routing"
             ],
-            "time": "2017-01-19 11:35:12"
+            "time": "2017-01-19T11:35:12+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1292,7 +1291,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-11-07 23:38:38"
+            "time": "2016-11-07T23:38:38+00:00"
         },
         {
             "name": "paymentwall/paymentwall-php",
@@ -1345,7 +1344,7 @@
                 "paymentwall",
                 "recurring billing"
             ],
-            "time": "2016-07-01 12:06:30"
+            "time": "2016-07-01T12:06:30+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -1405,7 +1404,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2017-01-09 09:33:47"
+            "time": "2017-01-09T09:33:47+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -1451,7 +1450,7 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2017-01-02 20:35:07"
+            "time": "2017-01-02T20:35:07+00:00"
         },
         {
             "name": "predis/predis",
@@ -1501,7 +1500,7 @@
                 "predis",
                 "redis"
             ],
-            "time": "2016-11-22 14:32:30"
+            "time": "2016-11-22T14:32:30+00:00"
         },
         {
             "name": "psr/container",
@@ -1550,7 +1549,7 @@
                 "container-interop",
                 "psr"
             ],
-            "time": "2017-02-14 16:28:37"
+            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1600,7 +1599,87 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06 14:39:51"
+            "time": "2016-08-06T14:39:51+00:00"
+        },
+        {
+            "name": "ramsey/uuid",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/uuid.git",
+                "reference": "29fb62b48611761b4c0c4e8f4a428cad19c2b690"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/29fb62b48611761b4c0c4e8f4a428cad19c2b690",
+                "reference": "29fb62b48611761b4c0c4e8f4a428cad19c2b690",
+                "shasum": ""
+            },
+            "require": {
+                "paragonie/random_compat": "^1.0|^2.0",
+                "php": "^5.4 || ^7.0"
+            },
+            "replace": {
+                "rhumsaa/uuid": "self.version"
+            },
+            "require-dev": {
+                "codeception/aspect-mock": "^1.0 | ~2.0.0",
+                "doctrine/annotations": "~1.2.0",
+                "goaop/framework": "1.0.0-alpha.2 | ^1.0 | ~2.1.0",
+                "ircmaxell/random-lib": "^1.1",
+                "jakub-onderka/php-parallel-lint": "^0.9.0",
+                "mockery/mockery": "^0.9.9",
+                "moontoast/math": "^1.1",
+                "php-mock/php-mock-phpunit": "^0.3|^1.1",
+                "phpunit/phpunit": "^4.7|^5.0|^6.5",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides the PECL libsodium extension for use with the SodiumRandomGenerator",
+                "ext-uuid": "Provides the PECL UUID extension for use with the PeclUuidTimeGenerator and PeclUuidRandomGenerator",
+                "ircmaxell/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
+                "moontoast/math": "Provides support for converting UUID to 128-bit integer (in string form).",
+                "ramsey/uuid-console": "A console application for generating UUIDs with ramsey/uuid",
+                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ramsey\\Uuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marijn Huizendveld",
+                    "email": "marijn.huizendveld@gmail.com"
+                },
+                {
+                    "name": "Thibaud Fabre",
+                    "email": "thibaud@aztech.io"
+                },
+                {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                }
+            ],
+            "description": "Formerly rhumsaa/uuid. A PHP 5.4+ library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID).",
+            "homepage": "https://github.com/ramsey/uuid",
+            "keywords": [
+                "guid",
+                "identifier",
+                "uuid"
+            ],
+            "time": "2018-04-25T19:14:32+00:00"
         },
         {
             "name": "react/promise",
@@ -1643,7 +1722,7 @@
                 "promise",
                 "promises"
             ],
-            "time": "2016-12-22 14:09:01"
+            "time": "2016-12-22T14:09:01+00:00"
         },
         {
             "name": "sendgrid/php-http-client",
@@ -1695,7 +1774,7 @@
                 "rest",
                 "sendgrid"
             ],
-            "time": "2016-11-17 22:45:31"
+            "time": "2016-11-17T22:45:31+00:00"
         },
         {
             "name": "sendgrid/sendgrid",
@@ -1741,7 +1820,7 @@
                 "send",
                 "sendgrid"
             ],
-            "time": "2016-11-17 23:05:01"
+            "time": "2016-11-17T23:05:01+00:00"
         },
         {
             "name": "slim/csrf",
@@ -1791,7 +1870,7 @@
                 "middleware",
                 "slim"
             ],
-            "time": "2016-12-20 20:45:43"
+            "time": "2016-12-20T20:45:43+00:00"
         },
         {
             "name": "slim/slim",
@@ -1861,7 +1940,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2017-02-06 09:10:37"
+            "time": "2017-02-06T09:10:37+00:00"
         },
         {
             "name": "slim/twig-view",
@@ -1912,7 +1991,7 @@
                 "twig",
                 "view"
             ],
-            "time": "2015-07-11 13:57:28"
+            "time": "2015-07-11T13:57:28+00:00"
         },
         {
             "name": "smarty/smarty",
@@ -1965,7 +2044,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-12-14 21:57:25"
+            "time": "2016-12-14T21:57:25+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2025,7 +2104,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-18 19:13:35"
+            "time": "2017-02-18T19:13:35+00:00"
         },
         {
             "name": "symfony/intl",
@@ -2100,7 +2179,7 @@
                 "l10n",
                 "localization"
             ],
-            "time": "2017-02-18 17:35:19"
+            "time": "2017-02-18T17:35:19+00:00"
         },
         {
             "name": "symfony/polyfill",
@@ -2187,7 +2266,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2016-05-18 14:27:53"
+            "time": "2016-05-18T14:27:53+00:00"
         },
         {
             "name": "symfony/translation",
@@ -2251,7 +2330,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-18 17:35:19"
+            "time": "2017-02-18T17:35:19+00:00"
         },
         {
             "name": "telegram-bot/api",
@@ -2306,7 +2385,7 @@
                 "php",
                 "telegram"
             ],
-            "time": "2016-12-12 11:36:44"
+            "time": "2016-12-12T11:36:44+00:00"
         },
         {
             "name": "twig/twig",
@@ -2368,7 +2447,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-02-17 19:29:51"
+            "time": "2017-02-17T19:29:51+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -2418,7 +2497,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2017-02-03 22:05:04"
+            "time": "2017-02-03T22:05:04+00:00"
         },
         {
             "name": "voku/anti-xss",
@@ -2475,7 +2554,7 @@
                 "security",
                 "xss"
             ],
-            "time": "2016-06-01 23:57:07"
+            "time": "2016-06-01T23:57:07+00:00"
         },
         {
             "name": "voku/portable-utf8",
@@ -2545,7 +2624,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2016-06-29 23:42:06"
+            "time": "2016-06-29T23:42:06+00:00"
         },
         {
             "name": "zeuxisoo/slim-whoops",
@@ -2596,7 +2675,7 @@
                 "slim",
                 "whoops"
             ],
-            "time": "2017-01-09 05:24:59"
+            "time": "2017-01-09T05:24:59+00:00"
         }
     ],
     "packages-dev": [
@@ -2648,12 +2727,14 @@
                 "qr",
                 "zxing"
             ],
-            "time": "2017-01-13 09:11:46"
+            "time": "2017-01-13T09:11:46+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "ramsey/uuid": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

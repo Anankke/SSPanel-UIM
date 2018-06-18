@@ -15,6 +15,7 @@ use App\Utils\QQWry;
 use App\Models\Link;
 use App\Utils\Wecenter;
 use App\Utils\Radius;
+use Ramsey\Uuid\Uuid;
 
 class User extends Model
 {
@@ -120,6 +121,10 @@ class User extends Model
         $code->code = Tools::genRandomChar(32);
         $code->user = $uid;
         $code->save();
+    }
+
+    public function getUuid() {
+        return Uuid::uuid3(Uuid::NAMESPACE_DNS, $this->attributes['passwd'])->toString();
     }
 
     public function addManyInviteCodes($num)
