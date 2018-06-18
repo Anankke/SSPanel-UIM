@@ -117,7 +117,7 @@ class AuthController extends BaseController
 
         Auth::login($user->id, $time);
         $rs['ret'] = 1;
-        $rs['msg'] = "欢迎回来";
+        $rs['msg'] = "登录成功";
 
         $loginip = new LoginIp();
         $loginip->ip = $_SERVER["REMOTE_ADDR"];
@@ -153,7 +153,7 @@ class AuthController extends BaseController
 
         Auth::login($user->id, $time);
         $rs['ret'] = 1;
-        $rs['msg'] = "欢迎回来";
+        $rs['msg'] = "登录成功";
 
         $this->logUserIp($user->id, $_SERVER["REMOTE_ADDR"]);
 
