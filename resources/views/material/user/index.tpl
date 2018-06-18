@@ -177,6 +177,9 @@
 
 															<p><dt>自定义混淆</dt>
 															<dd>{$user->obfs}</dd></p>
+
+															<p><dt>自定义混淆参数</dt>
+															<dd>{$user->obfs_param}</dd></p>
 														</dl>
 														{else}
 															<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
@@ -235,6 +238,9 @@
 
 															<p><dt>自定义混淆</dt>
 															<dd>{$user->obfs}</dd></p>
+
+															<p><dt>自定义混淆参数</dt>
+															<dd>{$user->obfs_param}</dd></p>
 														</dl>
 														{else}
 															<p>您好，您目前的 加密方式，混淆，或者协议设置在 SS 客户端下无法连接。请您选用 SSR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
