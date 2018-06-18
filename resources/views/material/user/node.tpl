@@ -25,7 +25,7 @@
 
 									<div class="card-inner margin-bottom-no">
 										<div class="tile-wrap">
-								<p class="card-heading">免费用户节点</p>
+								<p class="card-heading">普通用户节点</p>
 											{$id=0}
 											{foreach $node_prefix as $prefix => $nodes}
 									{if $node_isv6[$prefix] == 0 && $node_class[$prefix]==0}
@@ -228,7 +228,7 @@
 															</div>
 															<div class="tile-inner">
 																<div class="text-overflow">
-                                                                  <font color="#383838"><img src="/images/prefix/{$prefix}.jpg" height="22" width="40"> {$prefix}</font> | {if $user->class!=0}<font color="#ff9000"><i class="icon icon-lg">flight_takeoff</i></font> <strong>{else}{/if}<b><font color="#474747">{$node_alive[$prefix]}</font></b></strong> | <font color="#ff9000"><i class="icon icon-lg">import_export</i></font>  <font color="#828282">{$node_method[$prefix]}</font> | <font color="#ff9000"><i class="icon icon-lg">equalizer</i></font> {if isset($node_bandwidth[$prefix])==true}<font color="#aaaaaa">{$node_bandwidth[$prefix]}</font>{else}N/A{/if} | <font color="#ff9000"><i class="icon icon-lg">network_check</i></font> <font color="#a5a5a5">{$node->traffic_rate} 倍率</font> | <font color="#ff9000"><i class="icon icon-lg">notifications_none</i></font> <font color="#c4c4c4">{$node->status}</font>
+                                                                  <font color="#383838"><img src="/images/prefix/{$prefix}.jpg" height="22" width="40"> {$prefix}</font> | {if $user->class!=0}<font color="#ff9000"><i class="icon icon-lg">flight_takeoff</i></font> <strong>{else}{/if}<b><font color="#474747">{$node_alive[$prefix]}</font></b></strong> | <font color="#ff9000"><i class="icon icon-lg">cloud</i></font> <font color="#828282">负载：{$node_latestload[$prefix]}%</font> | <font color="#ff9000"><i class="icon icon-lg">import_export</i></font>  <font color="#828282">{$node_method[$prefix]}</font> | <font color="#ff9000"><i class="icon icon-lg">equalizer</i></font> {if isset($node_bandwidth[$prefix])==true}<font color="#aaaaaa">{$node_bandwidth[$prefix]}</font>{else}N/A{/if} | <font color="#ff9000"><i class="icon icon-lg">network_check</i></font> <font color="#a5a5a5">{$node->traffic_rate} 倍率</font> | <font color="#ff9000"><i class="icon icon-lg">notifications_none</i></font> <font color="#c4c4c4">{$node->status}</font>
                                                                  </div>
 															</div>
 														</div>

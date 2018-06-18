@@ -153,7 +153,7 @@ class AuthController extends BaseController
 
         Auth::login($user->id, $time);
         $rs['ret'] = 1;
-        $rs['msg'] = "欢迎回来";
+        $rs['msg'] = "登录成功";
 
         $this->logUserIp($user->id, $_SERVER["REMOTE_ADDR"]);
 
@@ -382,7 +382,7 @@ class AuthController extends BaseController
         $user->forbidden_port = Config::get('reg_forbidden_port');
         $user->im_type = $imtype;
         $user->im_value = $antiXss->xss_clean($wechat);
-        $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
+        $user->transfer_enable = Tools::toMB(Config::get('defaultTraffic'));
         $user->invite_num = Config::get('inviteNum');
         $user->auto_reset_day = Config::get('reg_auto_reset_day');
         $user->auto_reset_bandwidth = Config::get('reg_auto_reset_bandwidth');

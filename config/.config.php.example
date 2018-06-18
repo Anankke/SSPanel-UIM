@@ -53,7 +53,7 @@ $System_Config['auto_backup_passwd']='zip password';
 
 
 //用户注册设置--------------------------------------------------------------------
-$System_Config['defaultTraffic'] = '1';      // 用户初始流量 单位GB
+$System_Config['defaultTraffic'] = '1024';      // 用户初始流量 单位MB
 $System_Config['user_expire_in_default']='3650';      //用户账户过期时间，在注册时设置。（天）
 $System_Config['user_class_default']='1';      //用户注册等级，在注册时设置。
 $System_Config['user_class_expire_default']='2';      //用户等级过期时间，在注册时设置。（小时）
