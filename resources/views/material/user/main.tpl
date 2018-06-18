@@ -13,6 +13,10 @@
 	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/project.min.css" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Material+Icons">
+	<link rel="stylesheet" href="/theme/material/css/mdui.min.css">
+	
+	<!-- js -->
+	<script src="/theme/material/js/mdui.min.js"></script>
 
  <style>
     body {
