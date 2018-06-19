@@ -29,17 +29,23 @@ class XCat
     {
         switch ($this->argv[1]) {
             case("install"):
-                    return $this->install();
+                return $this->install();
             case("createAdmin"):
                 return $this->createAdmin();
             case("resetTraffic"):
                 return $this->resetTraffic();
             case("setTelegram"):
-                    return $this->setTelegram();
+                return $this->setTelegram();
             case("initQQWry"):
-                    return $this->initQQWry();
+                 return $this->initQQWry();
             case("sendDiaryMail"):
                 return DailyMail::sendDailyMail();
+			case("sendFinanceMail_day"):
+			    return FinanceMail::sendFinanceMail_day();
+			case("sendFinanceMail_week"):
+			    return FinanceMail::sendFinanceMail_week();
+			case("sendFinanceMail_month"):
+			    return FinanceMail::sendFinanceMail_month();
             case("reall"):
                     return DailyMail::reall();
             case("syncusers"):
