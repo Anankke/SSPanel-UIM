@@ -17,10 +17,8 @@
 	<link href="https://fonts.loli.net/css?family=Material+Icons">
 	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/material.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/css/dataTables.material.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="/theme/material/css/mdui.min.css">
 
-	<!-- js -->
-	<script src="/theme/material/js/mdui.min.js"></script>
+
 
 	<!-- favicon -->
 	<!-- ... -->
