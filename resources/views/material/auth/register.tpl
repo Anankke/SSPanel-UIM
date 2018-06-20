@@ -71,6 +71,7 @@
 													<label class="floating-label" for="email_code">邮箱验证码</label>
 													<input class="form-control" id="email_code" type="text" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;">
 													<button id="email_verify" class="btn btn-block btn-brand-accent waves-attach waves-light">点击获取验证码</button>
+													<a href="" onclick="return false;" data-toggle='modal' data-target='#email_nrcy_modal'>收不到验证码？点击这里</a>
 												</div>
 											</div>
 										</div>
@@ -188,6 +189,24 @@
 									<div class="modal-footer">
 										<p class="text-right"><button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button" id="cancel">我不同意</button>
                                           <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" id="reg" type="button">我同意</button>
+                                      </p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div aria-hidden="true" class="modal modal-va-middle fade" id="email_nrcy_modal" role="dialog" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-heading">
+										<h2 class="modal-title">收不到验证码？</h2>
+									</div>
+									<div class="modal-inner">
+										{include file='email_nrcy.tpl'}
+									</div>
+									<div class="modal-footer">
+										<p class="text-right">
+										<button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">我知道了</button>
                                       </p>
 									</div>
 								</div>
