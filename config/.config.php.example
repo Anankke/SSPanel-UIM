@@ -111,6 +111,10 @@ $System_Config['enable_kill']='true';      //是否允许用户注销账户
 $System_Config['enable_telegram']='false';      //是否开启Telegram bot
 $System_Config['telegram_token']='';      //Telegram bot,bot 的 token ，跟 father bot 申请
 $System_Config['telegram_chatid']='';      //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到。
+
+$System_Config['enable_telegram_manage']='false';      //是否开启Telegram bot管理群通知
+$System_Config['telegram_manage_chatid']='-257269478';      //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到。
+
 $System_Config['enable_tuling']='false';      //是否开启图灵机器人
 $System_Config['tuling_apikey']='';      //图灵机器人API Key
 $System_Config['tuling_apisecert']='';      //图灵机器人密钥
