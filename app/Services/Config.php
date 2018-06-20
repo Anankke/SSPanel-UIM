@@ -22,10 +22,10 @@ class Config
             "appName" => self::get("appName"),
             "version" => VERSION,
             "baseUrl" => self::get("baseUrl"),
-			"deposited_check" => self::get("deposited_check"),
-			"deposited_amount" => self::get("deposited_amount"),
-			"Pay::depositedCheck();" => self::get("Pay::depositedCheck();"),
-            "code_payback" => self::get("code_payback"),
+            "deposited_check" => self::get("deposited_check"),
+            "deposited_amount" => self::get("deposited_amount"),
+            "Pay::depositedCheck();" => self::get("code_payback"),
+            "code_payback" => self::get("checkinMin"),
             "checkinMax" => self::get("checkinMax"),
             "wecenter_url" => self::get("wecenter_url"),
             "enable_wecenter" => self::get("enable_wecenter"),
@@ -34,8 +34,8 @@ class Config
             "enable_donate" => self::get("enable_donate"),
             "enable_telegram" => self::get("enable_telegram"),
             "payment_system" => self::get("payment_system"),
-          	"enable_crisp" => self::get("enable_crisp"),
-          	"crisp_id" => self::get("crisp_id")
+            "enable_crisp" => self::get("enable_crisp"),
+            "crisp_id" => self::get("crisp_id")
          ];
     }
 
