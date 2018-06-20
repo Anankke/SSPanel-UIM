@@ -195,11 +195,10 @@ $System_Config['zfbjk_key']='';
 $System_Config['zfbjk_qrcodeurl']='';
 
 //财务报告设置
-$System_Config['finance_public']='false';//财务报告是否向Telegram群公开
+$System_Config['finance_public']='false';    //财务报告是否向Telegram群公开
 
 //国旗图标显示
-//启用该项之前务必先仔细阅读教程
-$System_Config['enable_prefix']=='false';
+$System_Config['enable_prefix']='false';    //启用该项之前务必先仔细阅读教程
 
 //杂项（一般不需要更改-------------------------------------------------------------
 $System_Config['authDriver'] = 'cookie';   //不能更改此项
