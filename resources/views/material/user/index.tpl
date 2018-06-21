@@ -21,14 +21,27 @@
 							<div class="card">
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
-                                     <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>
+                                     <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>									 
 										{if $ann != null}
 										<p>{$ann->content}</p>
+										{/if}
+										{if $config["enable_admin_contact"] == 'true'}
+										<p class="card-heading">站长联系方式</p>
+										{if $config["admin_contact1"]!=null}
+										<p>{$config["admin_contact1"]}</p>
+										{/if}
+										{if $config["admin_contact2"]!=null}
+										<p>{$config["admin_contact2"]}</p>
+										{/if}
+										{if $config["admin_contact3"]!=null}
+										<p>{$config["admin_contact3"]}</p>
+										{/if}
 										{/if}
 									</div>
 
 								</div>
 							</div>
+
 
 							<div class="card">
 								<div class="card-main">
