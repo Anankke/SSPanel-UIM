@@ -202,7 +202,7 @@ $System_Config['enable_prefix']='false';    //启用该项之前务必先仔细�
 
 //站长联系方式
 $System_Config['admin_contact1'] = 'QQ：1233456';			//QQ、邮箱、微信仅用于举例
-$System_Config['admin_contact2'] = '邮箱123456@'qq.com;			//也可以写电话、tg等其他联系方式
+$System_Config['admin_contact2'] = '邮箱123456@qq.com';			//也可以写电话、tg等其他联系方式
 $System_Config['admin_contact3'] = '微信～123456';			//没有格式要求，想怎么写就怎么写，可留空
 
 //杂项（一般不需要更改-------------------------------------------------------------
