@@ -233,10 +233,6 @@ class UserController extends BaseController
                     }
                 }
 
-
-
-
-
                 array_push($node_prefix[$temp[0]], $node);
             }
         }
@@ -692,9 +688,10 @@ class UserController extends BaseController
 
                 array_push($node_prefix[$name_cheif], $node);
 
-				$region_divided=explode(" ",$name_cheif);
-				$region=$region_divided[0];
-				$node_prefix_file[$name_cheif]=$region;
+				$regex=Config::get('prefix_regex');
+				$matches=array();
+				preg_match($regex,$name_cheif,$matches);
+				$node_prefix_file[$name_cheif]=$matches[0];
 				
             }
         }
@@ -1274,6 +1271,9 @@ class UserController extends BaseController
 
     public function ticket($request, $response, $args)
     {
+		if (Config::get('enable_ticket') != 'true') {
+            exit(0);
+        }
         $pageNum = 1;
         if (isset($request->getQueryParams()["page"])) {
             $pageNum = $request->getQueryParams()["page"];
