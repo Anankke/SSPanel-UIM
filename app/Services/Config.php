@@ -32,15 +32,14 @@ class Config
             "enable_donate" => self::get("enable_donate"),
             "enable_telegram" => self::get("enable_telegram"),
             "payment_system" => self::get("payment_system"),
--          	"enable_crisp" => self::get("enable_crisp"),
-          	"enable_ticket" => self::get("enable_ticket"),
+          	"enable_crisp" => self::get("enable_crisp"),
           	"crisp_id" => self::get("crisp_id"),
-			"enable_prefix"=>self::get("enable_prefix"),
-			"enable_ticket"=>self::get("enable_ticket"),
+          	"enable_ticket"=>self::get("enable_ticket"),
 			"enable_admin_contact"=>self::get("enable_admin_contact"),
 			"admin_contact1"=>self::get("admin_contact1"),
 			"admin_contact2"=>self::get("admin_contact2"),
-			"admin_contact3"=>self::get("admin_contact3")
+			"admin_contact3"=>self::get("admin_contact3"),
+			"enable_prefix"=>self::get("enable_prefix")
          ];
     }
 
