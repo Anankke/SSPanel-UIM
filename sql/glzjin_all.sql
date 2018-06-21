@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `im_type` int(11) DEFAULT '1',
   `im_value` text,
   `last_day_t` bigint(20) NOT NULL DEFAULT '0',
-  `sendDailyMail` int(11) NOT NULL DEFAULT '1',
+  `sendDailyMail` int(11) NOT NULL DEFAULT '0',
   `class` int(11) NOT NULL DEFAULT '0',
   `class_expire` datetime NOT NULL DEFAULT '1989-06-04 00:05:00',
   `expire_in` datetime NOT NULL DEFAULT '2099-06-04 00:05:00',
