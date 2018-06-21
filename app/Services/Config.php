@@ -32,7 +32,7 @@ class Config
             "enable_donate" => self::get("enable_donate"),
             "enable_telegram" => self::get("enable_telegram"),
             "payment_system" => self::get("payment_system"),
--          	"enable_crisp" => self::get("enable_crisp"),
+          	"enable_crisp" => self::get("enable_crisp"),
           	"enable_ticket" => self::get("enable_ticket"),
           	"crisp_id" => self::get("crisp_id"),
 			"enable_prefix"=>self::get("enable_prefix"),
