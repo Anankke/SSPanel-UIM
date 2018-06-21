@@ -51,7 +51,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                                <div class="form-group form-group-label">
+                                                    <div class="row">
+                                                        <div class="col-md-10 col-md-push-1">
+                                                            <label class="floating-label" for="code">两步验证码(没开启就不需要)</label>
+                                                            <input class="form-control" id="code" type="password"
+                                                                   name="code">
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 {if $geetest_html != null}
                                                     <div class="form-group form-group-label">
