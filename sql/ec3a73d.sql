@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `userType` INT NULL DEFAULT '0' COMMENT '1为付费用户';
