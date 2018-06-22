@@ -19,6 +19,14 @@ class Telegram
         }
     }
     
+    public static function SendManage($messageText)
+    {
+        if (Config::get('enable_telegram_manage') == 'true') {
+            $bot = new \TelegramBot\Api\BotApi(Config::get('telegram_token'));
+
+            $bot->sendMessage(Config::get('telegram_manage_chatid'), $messageText);
+        }
+    }
     
     public static function SendMarkdown($messageText)
     {

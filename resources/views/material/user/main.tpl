@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+{if ($user->userType == 0 and $config["deposited_check"] == "true")}
+    <script> if(window.location.pathname != "/user/code"){ window.location.href="/user/code"; }</script> 
+{/if}
 <html lang="zh-cn">
 <head>
 	<meta charset="UTF-8">
@@ -279,7 +281,7 @@
 		}
 
 		.page-orange .ui-content-header {
-			background-image: url(https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/css/images/bg/amber.jpg);
+			background-image: url(/theme/material/css/images/bg/amber.jpg);
 		}
 
 		.content-heading {

@@ -14,8 +14,9 @@
 		<div class="content-header ui-content-header">
 			<div class="container">
 				<h1 class="content-heading">充值</h1>
-
-
+                {if ($user->userType == 0 and $config["deposited_check"] == "true")}
+                <span style="color:white">您必须充值{$config["deposited_amount"]}元以上才能进行使用其他功能哦～</span>
+                {/if}
 			</div>
 		</div>
 		<div class="container">

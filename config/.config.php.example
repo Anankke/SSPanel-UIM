@@ -84,6 +84,8 @@ $System_Config['email_verify_iplimit']='10';      //单IP可请求验证码次�
 
 
 //已注册用户设置------------------------------------------------------------------
+$System_Config['deposited_check'] = 'false';       //用户必须充值才能使用
+$System_Config['deposited_amount'] = '1';       //用户必须充值多少元才能启用帐户
 $System_Config['checkinMin'] = '1';       //用户签到签到最少流量 单位MB
 $System_Config['checkinMax'] = '50';       //用户签到签到最多流量
 $System_Config['code_payback']='20';      //充值返利百分比
@@ -109,6 +111,10 @@ $System_Config['enable_kill']='true';      //是否允许用户注销账户
 $System_Config['enable_telegram']='false';      //是否开启Telegram bot
 $System_Config['telegram_token']='';      //Telegram bot,bot 的 token ，跟 father bot 申请
 $System_Config['telegram_chatid']='';      //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到。
+
+$System_Config['enable_telegram_manage']='false';      //是否开启Telegram bot管理群通知
+$System_Config['telegram_manage_chatid']='-257269478';      //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到。
+
 $System_Config['enable_tuling']='false';      //是否开启图灵机器人
 $System_Config['tuling_apikey']='';      //图灵机器人API Key
 $System_Config['tuling_apisecert']='';      //图灵机器人密钥
