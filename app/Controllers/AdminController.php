@@ -53,7 +53,7 @@ class AdminController extends UserController
 
     public function addInvite($request, $response, $args)
     {
-        $n = $request->getParam('num');
+        $num = $request->getParam('num');
         $prefix = $request->getParam('prefix');
 
         if ($request->getParam('uid')!="0") {
@@ -65,14 +65,14 @@ class AdminController extends UserController
 
             if ($user==null) {
                 $res['ret'] = 0;
-                $res['msg'] = "邀请码添加失败，检查用户id或者用户邮箱是否输入正确";
+                $res['msg'] = "邀请次数添加失败，检查用户id或者用户邮箱是否输入正确";
                 return $response->getBody()->write(json_encode($res));
             }
             $uid = $user->id;
         } else {
             $uid=0;
         }
-		$user->invite_num += $n;
+		$user->invite_num += $num;
 		$user->save();
         $res['ret'] = 1;
         $res['msg'] = "邀请次数添加成功";

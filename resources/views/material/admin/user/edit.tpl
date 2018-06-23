@@ -31,7 +31,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="pass">密码(不修改请留空)</label>
-									<input class="form-control" id="pass" type="password">
+									<input class="form-control" id="pass" type="password"  autocomplete="new-password">
 								</div>
 
 								<div class="form-group form-group-label">
