@@ -24,6 +24,7 @@ class Config
             "baseUrl" => self::get("baseUrl"),
             "checkinMin" => self::get("checkinMin"),
             "code_payback" => self::get("code_payback"),
+			"invite_price"=>self::get("invite_price"),
             "checkinMax" => self::get("checkinMax"),
             "wecenter_url" => self::get("wecenter_url"),
             "enable_wecenter" => self::get("enable_wecenter"),
@@ -39,7 +40,7 @@ class Config
 			"admin_contact1"=>self::get("admin_contact1"),
 			"admin_contact2"=>self::get("admin_contact2"),
 			"admin_contact3"=>self::get("admin_contact3"),
-			"enable_prefix"=>self::get("enable_prefix")
+			"enable_flag"=>self::get("enable_flag")
          ];
     }
 

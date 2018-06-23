@@ -586,7 +586,7 @@ class UserController extends BaseController
     public function node($request, $response, $args)
     {
         $user = Auth::getUser();
-            $nodes = Node::where('type', 1)->orderBy('name')->get();
+        $nodes = Node::where('type', 1)->orderBy('name')->get();
         $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
 
         if (!Tools::is_protocol_relay($user)) {
@@ -594,7 +594,7 @@ class UserController extends BaseController
         }
 
         $node_prefix=array();
-		$node_prefix_file=array();
+		$node_flag_file=array();
         $node_method=array();
         $a=0;//命名的什么JB变量
         $node_order=array();
@@ -691,14 +691,14 @@ class UserController extends BaseController
 				$regex=Config::get('prefix_regex');
 				$matches=array();
 				preg_match($regex,$name_cheif,$matches);
-				$node_prefix_file[$name_cheif]=$matches[0];
+				$node_flag_file[$name_cheif]=$matches[0];
 				
             }
         }
         $node_prefix=(object)$node_prefix;
         $node_order=(object)$node_order;
         $tools = new Tools();
-        return $this->view()->assign('relay_rules', $relay_rules)->assign('node_class', $node_class)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_prefix_file', $node_prefix_file)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->assign('node_latestload', $node_latestload)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
+        return $this->view()->assign('relay_rules', $relay_rules)->assign('node_class', $node_class)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_prefix_file', $node_flag_file)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->assign('node_latestload', $node_latestload)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
     }
 
 
@@ -997,12 +997,11 @@ class UserController extends BaseController
         $paybacks->setPath('/user/invite');
 
             return $this->view()->assign('code', $code)->assign('paybacks', $paybacks)->assign('paybacks_sum', $paybacks_sum)->display('user/invite.tpl');
-
-
     }
 
     public function doInvite($request, $response, $args)
     {
+	    //此函数已废弃
         $n = $this->user->invite_num;
         if ($n < 1) {
             $res['ret'] = 0;
@@ -1022,6 +1021,32 @@ class UserController extends BaseController
         $res['msg'] = "生成成功。";
         return $this->echoJson($response, $res);
     }
+
+	public function buyInvite($request, $response, $args)
+	{
+	    $price=Config::get('invite_price');
+		$num=$request->getParam('num');
+		if($price<0||$num<=0){
+		    $res['ret'] = 0;
+            $res['msg'] = "非法请求";
+            return $response->getBody()->write(json_encode($res));
+		}
+
+		$amount=$price*$num;
+
+		$user=$this->user;
+        if ($user->money<$amount) {
+            $res['ret'] = 0;
+            $res['msg'] = "余额不足，总价为".$amount."元。";
+            return $response->getBody()->write(json_encode($res));
+        }
+		$user->invite_num += $num;
+		$user->money=$user->money-$price;
+		$user->save();
+        $res['ret'] = 1;
+        $res['msg'] = "邀请次数添加成功。";  
+		return $response->getBody()->write(json_encode($res));
+	}
 
     public function sys()
     {
@@ -1195,7 +1220,7 @@ class UserController extends BaseController
         $price=$shop->price*((100-$credit)/100);
         $user=$this->user;
 
-        if ((float)$user->money<(float)$price) {
+        if ($user->money<$price) {
             $res['ret'] = 0;
             $res['msg'] = "余额不足，总价为".$price."元。";
             return $response->getBody()->write(json_encode($res));
@@ -1737,7 +1762,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-    if ((float)$user->money > '1') {
+    if ($user->money > 1) {
         $res['ret'] = 0;
         $res['msg'] = "不可删除,您当前的余额 [".$user->money."]元 大于 [1.00]元.";
      } else {

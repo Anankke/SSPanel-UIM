@@ -196,8 +196,8 @@
 										<p>当前混淆参数：{$user->obfs_param}</p>
 										<p>注意：如果需要兼容原版SS请留空！</p>
 										<div class="form-group form-group-label">
-											<label class="floating-label" for="obs_param">在这输入混淆参数</label>
-											<input class="form-control" id="obfs_param" type="text">
+											<label class="floating-label" for="obs-param">在这输入混淆参数</label>
+											<input class="form-control" id="obfs-param" type="text">
 										</div>
 									</div>
 
@@ -571,7 +571,7 @@ $(".copy-text").click(function () {
                 data: {
                     protocol: $("#protocol").val(),
 					obfs: $("#obfs").val(),
-					obfs_param: $("#obfs_param").val()
+					obfs_param: $("#obfs-param").val()
                 },
                 success: function (data) {
                     if (data.ret) {
