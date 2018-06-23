@@ -36,12 +36,14 @@ class Tools
         }
     }
 
+	//虽然名字是toMB，但是实际上功能是from MB to B
     public static function toMB($traffic)
     {
         $mb = 1048576;
         return $traffic * $mb;
     }
 
+	//虽然名字是toGB，但是实际上功能是from GB to B
     public static function toGB($traffic)
     {
         $gb = 1048576 * 1024;

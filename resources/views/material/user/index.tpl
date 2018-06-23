@@ -21,14 +21,27 @@
 							<div class="card">
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
-                                     <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>
+                                     <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>									 
 										{if $ann != null}
 										<p>{$ann->content}</p>
+										{/if}
+										{if $config["enable_admin_contact"] == 'true'}
+										<p class="card-heading">站长联系方式</p>
+										{if $config["admin_contact1"]!=null}
+										<p>{$config["admin_contact1"]}</p>
+										{/if}
+										{if $config["admin_contact2"]!=null}
+										<p>{$config["admin_contact2"]}</p>
+										{/if}
+										{if $config["admin_contact3"]!=null}
+										<p>{$config["admin_contact3"]}</p>
+										{/if}
 										{/if}
 									</div>
 
 								</div>
 							</div>
+
 
 							<div class="card">
 								<div class="card-main">
@@ -177,6 +190,9 @@
 
 															<p><dt>自定义混淆</dt>
 															<dd>{$user->obfs}</dd></p>
+
+															<p><dt>自定义混淆参数</dt>
+															<dd>{$user->obfs_param}</dd></p>
 														</dl>
 														{else}
 															<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
@@ -235,6 +251,9 @@
 
 															<p><dt>自定义混淆</dt>
 															<dd>{$user->obfs}</dd></p>
+
+															<p><dt>自定义混淆参数</dt>
+															<dd>{$user->obfs_param}</dd></p>
 														</dl>
 														{else}
 															<p>您好，您目前的 加密方式，混淆，或者协议设置在 SS 客户端下无法连接。请您选用 SSR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
