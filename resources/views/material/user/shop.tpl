@@ -23,7 +23,7 @@
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
-								<p>所有商品可以叠加购买，VIP时间会叠加</p>
+								<p>商品不可叠加，新购商品会覆盖旧商品的效果</p>
 								<p>当前余额：{$user->money} 元</p>
 							</div>
 						</div>
