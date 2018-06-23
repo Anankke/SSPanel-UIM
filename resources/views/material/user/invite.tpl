@@ -65,7 +65,7 @@
 										<p>邀请次数价格：{$config['invite_price']}元/个</p>
 											<div class="form-group form-group-label">
 											<label class="floating-label" for="buy-invite-num">在这输入购买次数</label>
-											<input class="form-control" id="buy-invite-num" type="num">
+											<input class="form-control" id="buy-invite-num" type="num" onKeyUp="this.value=this.value.replace(/[^\.\d]/g,'');this.value=this.value.replace('.','');">
 										</div>
 									</div>
 
