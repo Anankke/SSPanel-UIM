@@ -1026,7 +1026,7 @@ class UserController extends BaseController
 	{
 	    $price=Config::get('invite_price');
 		$num=$request->getParam('num');
-		if($price<0||$num<=0){
+		if(is_numeric($num)||$price<0||$num<=0){
 		    $res['ret'] = 0;
             $res['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($res));
