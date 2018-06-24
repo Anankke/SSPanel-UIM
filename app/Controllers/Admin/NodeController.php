@@ -117,24 +117,35 @@ class NodeController extends AdminController
         if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
             if ($request->getParam('node_ip') != '') {
                 $node->node_ip = $request->getParam('node_ip');
-            } else {
+            } 
+			else {
                 if ($node->isNodeOnline()) {
                     $succ = false;
                     if ($node->sort == 11) {
                         $server_list = explode(";", $request->getParam('server'));
                         $succ = $node->changeNodeIp($server_list[0]);
-                    } else {
+                    } 
+					else {
                         $succ = $node->changeNodeIp($request->getParam('server'));
                     }
 
-                    if (!succ) {
+                    if (!$succ) {
                         $rs['ret'] = 0;
                         $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
                         return $response->getBody()->write(json_encode($rs));
                     }
                 }
+				else{
+					if ($node->sort == 11) {
+						$server_list = explode(";", $request->getParam('server'));
+						$node->node_ip = gethostbyname($server_list[0]);
+					} else {
+						$node->node_ip = gethostbyname($request->getParam('server'));
+					}
+				}
             }
-        } else {
+        } 
+		else {
             $node->node_ip="";
         }
 
