@@ -89,6 +89,9 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - [黛米付-支付接入](https://www.daimiyun.cn/register.php?aff=624)
 - [冲上云霄云主机](http://console.soar-clouds.com/aff.php?aff=94)
+- [hiformance](https://my.hiformance.com/aff.php?aff=262)
+- [GGC Cloud](https://clientarea.gigsgigscloud.com/?affid=1574)
+- [DGC Cloud](https://client.dgchost.net/aff.php?aff=806)
 
 
 ##### Miku
