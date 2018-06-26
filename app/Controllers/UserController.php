@@ -569,6 +569,52 @@ class UserController extends BaseController
         return $response->getBody()->write(json_encode($res));
     }
 
+    public function SpecifyPort($request, $response, $args)
+    {
+		$price=Config::get('port_price_specify');
+        $user = $this->user;
+		
+		if ($user->money<$price){
+			$res['ret'] = 0;
+            $res['msg'] = "余额不足。";
+            return $response->getBody()->write(json_encode($res));
+		}
+
+		$port=$request->getParam('port');
+
+		if ($port<Config::get('min_port')||$port>Config::get('max_port')){
+			$res['ret'] = 0;
+            $res['msg'] = "端口不在要求范围内。";
+            return $response->getBody()->write(json_encode($res));
+		}
+
+		$port_occupied = User::pluck('port')->toArray();
+
+		if(in_array($port,$port_occupied)==true){
+			$res['ret'] = 0;
+            $res['msg'] = "端口已被占用。";
+            return $response->getBody()->write(json_encode($res));
+		}
+
+        $origin_port = $user->port;
+
+        $user->port = $port;
+
+
+        $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
+        foreach ($relay_rules as $rule) {
+            $rule->port = $user->port;
+            $rule->save();
+        }
+
+		$user->money-=$price;
+		$user->save();
+
+        $res['ret'] = 1;
+        $res['msg'] = "钦定成功";
+        return $response->getBody()->write(json_encode($res));
+    }
+
     public function GaReset($request, $response, $args)
     {
         $user = $this->user;

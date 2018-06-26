@@ -157,6 +157,7 @@ $app->group('/user', function () {
     $this->get('/gareset', 'App\Controllers\UserController:GaReset');
     $this->get('/telegram_reset', 'App\Controllers\UserController:telegram_reset');
     $this->post('/resetport', 'App\Controllers\UserController:ResetPort');
+    $this->post('/specifyport', 'App\Controllers\UserController:SpecifyPort');
     $this->post('/pacset', 'App\Controllers\UserController:PacSet');
     $this->get('/getpcconf', 'App\Controllers\UserController:GetPcConf');
     $this->get('/getiosconf', 'App\Controllers\UserController:GetIosConf');

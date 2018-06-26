@@ -335,21 +335,42 @@
 							</div>
 						</div>    
 
-						{if $config['port_price']>=0}
+						{if $config['port_price']>=0 || $config['port_price_specify']>=0}
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
+									{if $config['port_price']>=0}
 									<div class="card-inner">
 										<p class="card-heading">重置端口</p>
+										<p>对号码不满意？来摇号吧～！</p>
 										<p>随机更换一个端口使用，价格：<code>{$config['port_price']}</code>元/次</p>
 										<p>重置后1分钟内生效</p>
 										<p>当前端口：<code>{$user->port}</code></p>
 									</div>
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="portreset" ><span class="icon">check</span>&nbsp;重置端口</button>
+											<button class="btn btn-flat waves-attach" id="portreset" ><span class="icon">check</span>&nbsp;摇号</button>
 										</div>
 									</div>
+									{/if}
+
+									{if $config['port_price_specify']>=0}
+									<div class="card-inner">
+										<p class="card-heading">钦定端口</p>
+										<p>不想摇号？来钦定端口吧～！</p>
+										<p>价格：<code>{$config['port_price_specify']}</code>元/次</p>
+										<p>端口范围：<code>{$config['min_port']}～{$config['max_port']}</code></p>
+										<div class="form-group form-group-label">
+											<label class="floating-label" for="port-specify">在这输入想钦定的号</label>
+											<input class="form-control" id="port-specify" type="num">
+										</div>
+									</div>
+									<div class="card-action">
+										<div class="card-action-btn pull-left">
+											<button class="btn btn-flat waves-attach" id="portspecify" ><span class="icon">check</span>&nbsp;钦定</button>
+										</div>
+									</div>
+									{/if}
 								</div>
 							</div>
 						</div>
@@ -441,6 +462,33 @@ $(".copy-text").click(function () {
                 dataType: "json",
                 data: {
 
+                },
+                success: function (data) {
+                    if (data.ret) {
+                        $("#result").modal();
+						$("#msg").html(data.msg);
+                    } else {
+                        $("#result").modal();
+						$("#msg").html(data.msg);
+                    }
+                },
+                error: function (jqXHR) {
+                    $("#result").modal();
+					$("#msg").html(data.msg+"     出现了一些错误。");
+                }
+            })
+        })
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $("#portspecify").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "specifyport",
+                dataType: "json",
+                data: {
+					port: $("#port-specify").val()
                 },
                 success: function (data) {
                     if (data.ret) {
