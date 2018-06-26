@@ -577,7 +577,8 @@ class UserController extends BaseController
     {
         $id = $args['id'];
         $point_node=Node::find($id);
-        $prefix=explode(" - ", $point_node->name);
+        $temp = explode(' : ', $point_node->name);
+        $prefix=explode(" - ", $prefix[0]);
         return $this->view()->assign('point_node', $point_node)->assign('prefix', $prefix[0])->assign('id', $id)->display('user/nodeajax.tpl');
     }
 
@@ -614,6 +615,22 @@ class UserController extends BaseController
 
         foreach ($nodes as $node) {
             if (((($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&(!$node->isNodeTrafficOut())) {
+                $temp = explode(' : ', $node->name);
+                if (isset($temp[1])) {
+                    $node->name = $temp[0];
+                    if (is_numeric($temp[1])) {
+                        $node->offset = $temp[1];
+                        $node->mu_only = -1;
+                    } else {
+                        $temp = explode('=>', $temp[1]);
+                        if (is_numeric($temp[0]) && is_numeric($temp[1])) {
+                            $node->mu_only = 1;
+                            $node->muport = $temp[0];
+                            $node->subscribe = $temp[1];
+                        }
+                    }
+                }
+
                 if ($node->sort==9) {
                     $mu_user=User::where('port', '=', $node->server)->first();
                     $mu_user->obfs_param=$this->user->getMuMd5();
@@ -695,10 +712,17 @@ class UserController extends BaseController
 				
             }
         }
+        $classes=array();
+        foreach ($node_class as $prefix => $class) {
+            if (!isset($classes[$class])) {
+                $classes[$class]=array();
+            }
+            $classes[$class][$prefix]=$node_prefix[$prefix];
+        }
         $node_prefix=(object)$node_prefix;
         $node_order=(object)$node_order;
         $tools = new Tools();
-        return $this->view()->assign('relay_rules', $relay_rules)->assign('node_class', $node_class)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_prefix_file', $node_flag_file)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->assign('node_latestload', $node_latestload)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
+        return $this->view()->assign('classes', $classes)->assign('relay_rules', $relay_rules)->assign('node_class', $node_class)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->assign('node_latestload', $node_latestload)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
     }
 
 
