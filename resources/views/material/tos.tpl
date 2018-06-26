@@ -65,7 +65,7 @@
 													
 												</tr>
 												<tr>
-													<td>任何违法使用条款的用户，我们将会删除违规账户并没收使用本站服务的权利。</td>
+													<td>任何违反使用条款的用户，我们将会删除违规账户并收回使用本站服务的权利。</td>
 													
 												</tr>
                                               
@@ -88,7 +88,7 @@
                               </div>
                      <!-- 版权底部 -->
                       <footer id="footer">
-                   <p class="copyright">&copy;2015-2017 {$config["appName"]}</p>
+                   <p class="copyright">&copy;2015-{date("Y")} {$config["appName"]}</p>
                       </footer>
               <!-- 版权结束 -->
 			 </div>

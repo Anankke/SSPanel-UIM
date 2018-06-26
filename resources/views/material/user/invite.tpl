@@ -54,6 +54,33 @@
 					</div>
 					{/if}
 
+					{if $config['invite_price']>=0}
+					<div class="col-lg-12 col-md-12">
+						<div class="card margin-bottom-no">
+							<div class="card-main">
+								<div class="card-inner">
+
+									<div class="card-inner">
+										<p class="card-heading">购买邀请次数</p>
+										<p>邀请次数价格：{$config['invite_price']}元/个</p>
+											<div class="form-group form-group-label">
+											<label class="floating-label" for="buy-invite-num">在这输入购买次数</label>
+											<input class="form-control" id="buy-invite-num" type="num">
+										</div>
+									</div>
+
+									<div class="card-action">
+										<div class="card-action-btn pull-left">
+											<button class="btn btn-flat waves-attach" id="buy-invite" ><span class="icon">check</span>&nbsp;购买</button>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					{/if}
+
                   	<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -141,4 +168,38 @@
             })
         })
     })
+</script>
+
+<script>
+{include file='table/js_1.tpl'}
+
+$("#buy-invite").click(function () {
+    $.ajax({
+        type: "POST",
+        url: "/user/buy_invite",
+        dataType: "json",
+        data: {
+            num: $("#buy-invite-num").val(),
+        },
+        success: function (data) {
+             if (data.ret) {
+     			$("#result").modal();
+				$("#msg").html(data.msg);
+				window.setTimeout("location.href='/user/invite'", {$config['jump_delay']});
+	        } else {
+                $("#result").modal();
+			    $("#msg").html(data.msg);
+            }
+	    },
+        error: function (jqXHR) {
+            $("#result").modal();
+        	$("#msg").html(data.msg+"     出现了一些错误。");
+        }
+    })
+});
+
+$(document).ready(function(){
+ 	{include file='table/js_2.tpl'}
+});
+
 </script>

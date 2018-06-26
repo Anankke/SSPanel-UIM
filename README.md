@@ -1,7 +1,7 @@
 # 欢迎使用ss panel v3 mod 再次修改版
 
 
-**ss-panel-v3-mod**是一款转为shadowsocks设计的web前端面板，再次感谢ss-panel-v3mod 的制作者，修改后的功能简介：
+**ss-panel-v3-mod**是一款专为shadowsocks设计的web前端面板，再次感谢ss-panel-v3-mod 的制作者，修改后的功能简介：
 
 - **支付系统集成**：集成 支付宝当面付 黛米付 易付通 码支付等多种支付系统，使用方法见项目[wiki](https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/)
 - **UI** ：修改为 ~~援交~~ 圆角、并自定义了几个图标的显示，节点列表等級0可见等級1节点但无法看见节点详情，增加了国家图标显示
@@ -13,6 +13,8 @@
 telegram交流群：https://t.me/joinchat/GQehSEV7LEU1Z6E8aQ4z3w
 
 telegtam 频道 ：https://t.me/sspanel_Uim  管理模式参考91yun管理
+
+演示站: [demo.nimaqu.com](https://demo.nimaqu.com) 账号/密码:admin  mukey=NimaQu
 
 **原作者** [galaxychuck](https://github.com/galaxychuck)
 
@@ -42,10 +44,11 @@ Wiki已经启用，欢迎为此面板维护wiki
 - 多端口订阅
 - 解决用户列表加载缓慢历史遗留问题
 
-##### [rinSama](https://github.com/mxihan)
+##### [RinSAMA](https://github.com/mxihan)
 
 - 整理分类 config.php
-- spay 优化
+- 美观性调整
+- 客服系统优化
 
 ##### [miku](https://github.com/xcxnig)
 

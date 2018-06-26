@@ -279,7 +279,7 @@
 		}
 
 		.page-orange .ui-content-header {
-			background-image: url(https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/css/images/bg/amber.jpg);
+			background-image: url(/theme/material/css/images/bg/amber.jpg);
 		}
 
 		.content-heading {
@@ -362,16 +362,20 @@
 							</li>
 
 
+							{if $config['enable_ticket']=='true'}
                           <li>
 								<a href="/user/ticket">
 									<i class="icon icon-lg">question_answer</i>&nbsp;工单系统
 								</a>
 							</li>
+
+							{/if}
                                <li>
 								<a href="/user/invite">
 									<i class="icon icon-lg">loyalty</i>&nbsp;邀请链接
 								</a>
 							</li>
+							
 
 
 

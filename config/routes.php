@@ -122,8 +122,9 @@ $app->group('/user', function () {
     $this->post('/ticket', 'App\Controllers\UserController:ticket_add');
     $this->get('/ticket/{id}/view', 'App\Controllers\UserController:ticket_view');
     $this->put('/ticket/{id}', 'App\Controllers\UserController:ticket_update');
-
+	
     $this->post('/invite', 'App\Controllers\UserController:doInvite');
+    $this->post('/buy_invite', 'App\Controllers\UserController:buyInvite');
     $this->get('/edit', 'App\Controllers\UserController:edit');
     $this->post('/password', 'App\Controllers\UserController:updatePassword');
     $this->post('/wechat', 'App\Controllers\UserController:updateWechat');
