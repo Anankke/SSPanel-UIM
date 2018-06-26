@@ -582,7 +582,7 @@ class UserController extends BaseController
 
 		$port=$request->getParam('port');
 
-		if ($port<Config::get('min_port')||$port>Config::get('max_port')){
+		if ($port<Config::get('min_port')||$port>Config::get('max_port')||is_numeric($port)==false){
 			$res['ret'] = 0;
             $res['msg'] = "端口不在要求范围内。";
             return $response->getBody()->write(json_encode($res));
@@ -1081,7 +1081,7 @@ class UserController extends BaseController
 	{
 	    $price=Config::get('invite_price');
 		$num=$request->getParam('num');
-		if(is_numeric($num)||$price<0||$num<=0){
+		if(is_numeric($num)==false||$price<0||$num<=0){
 		    $res['ret'] = 0;
             $res['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($res));
