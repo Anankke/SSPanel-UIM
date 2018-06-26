@@ -335,15 +335,15 @@
 							</div>
 						</div>    
 
+						{if $config['port_price']>=0}
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">重置端口</p>
-										<p>随机更换一个端口使用</p>
+										<p>随机更换一个端口使用，价格：<code>{$config['port_price']}</code>元/次</p>
 										<p>重置后1分钟内生效</p>
 										<p>当前端口：<code>{$user->port}</code></p>
-
 									</div>
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
@@ -353,6 +353,7 @@
 								</div>
 							</div>
 						</div>
+						{/if}
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">

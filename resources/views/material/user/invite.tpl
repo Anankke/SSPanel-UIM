@@ -62,7 +62,7 @@
 
 									<div class="card-inner">
 										<p class="card-heading">购买邀请次数</p>
-										<p>邀请次数价格：{$config['invite_price']}元/个</p>
+										<p>邀请次数价格：<code>{$config['invite_price']}</code>元/个</p>
 											<div class="form-group form-group-label">
 											<label class="floating-label" for="buy-invite-num">在这输入购买次数</label>
 											<input class="form-control" id="buy-invite-num" type="num">

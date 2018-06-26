@@ -9,7 +9,8 @@
 //如需换行，直接换行即可，无需换行符
 $System_Config['config_migrate_notice']=
 'enable_prefix和prefix_regex在最近的版本中分别被重命名为enable_flag和flag_regex
-flag_regex在最近的版本中使用了新的值，依然是匹配 国旗名+空格，但效果更好';
+flag_regex在最近的版本中使用了新的值，依然是匹配 国旗名+空格，但效果更好
+新增port_price用于给【重置端口】功能定价';
 
 
 //基础设置，正确填写以下内容你的网站就能使用了-----------------------------------------------------------------------
@@ -112,6 +113,7 @@ $System_Config['auto_clean_min_money']='1';      //自动清理时余额低于�
 $System_Config['enable_auto_clean_unused']='false';      //未使用的0级用户自动清理开关
 $System_Config['enable_auto_clean_unused_days']='30';	//自动清理多少天没使用的0级用户
 $System_Config['enable_kill']='true';      //是否允许用户注销账户
+$System_Config['port_price']='-1';    //用户更换端口所需要的价格，价格小于0时视为不开放购买
 
 
 //Telegram bot设置--------------------------------------------------------------

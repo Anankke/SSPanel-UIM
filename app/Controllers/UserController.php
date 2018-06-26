@@ -541,12 +541,19 @@ class UserController extends BaseController
 
     public function ResetPort($request, $response, $args)
     {
+		$price=Config::get('port_price');
         $user = $this->user;
+		
+		if ($user->money<$price){
+			$res['ret'] = 0;
+            $res['msg'] = "余额不足。";
+            return $response->getBody()->write(json_encode($res));
+		}
 
         $origin_port = $user->port;
 
         $user->port = Tools::getAvPort();
-        $user->save();
+
 
         $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
         foreach ($relay_rules as $rule) {
@@ -554,6 +561,8 @@ class UserController extends BaseController
             $rule->save();
         }
 
+		$user->money-=$price;
+		$user->save();
 
         $res['ret'] = 1;
         $res['msg'] = "设置成功，新端口是".$user->port;
@@ -1041,7 +1050,7 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 		$user->invite_num += $num;
-		$user->money=$user->money-$price;
+		$user->money-=$amount;
 		$user->save();
         $res['ret'] = 1;
         $res['msg'] = "邀请次数添加成功。";  
