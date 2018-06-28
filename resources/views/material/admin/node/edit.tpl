@@ -45,7 +45,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="rate">流量比例</label>
-										<input class="form-control" id="rate" name="rate" type="text" value="{$node->traffic_rate}">
+										<input class="form-control" id="rate" name="rate" type="number" value="{$node->traffic_rate}">
 									</div>
 
 
@@ -124,28 +124,43 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="class">节点等级（不分级请填0，分级为数字）</label>
-										<input class="form-control" id="class" name="class" type="text" value="{$node->node_class}">
+										<input class="form-control" id="class" name="number" type="text" value="{$node->node_class}">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="group">节点群组（分组为数字，不分组请填0）</label>
-										<input class="form-control" id="group" name="group" type="text" value="{$node->node_group}">
+										<input class="form-control" id="group" name="number" type="text" value="{$node->node_group}">
 									</div>
 
+                                    <div class="form-group form-group-label">
+                                        <div class="checkbox switch">
+                                            <label for="port_group">
+                                                <input {if $node->port_group==1}checked{/if} class="access-hide" id="port_group" name="port_group" type="checkbox"><span class="switch-toggle"></span>启用自定义端口段
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-label">
+                                        <label class="floating-label" for="min_port">最小端口</label>
+                                        <input class="form-control" id="min_port" name="min_port" type="number" value="{$node->min_port}">
+                                    </div>
+                                    <div class="form-group form-group-label">
+                                        <label class="floating-label" for="max_port">最大端口</label>
+                                        <input class="form-control" id="max_port" name="max_port" type="number" value="{$node->max_port}">
+                                    </div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="node_bandwidth_limit">节点流量上限（不使用的话请填0）（GB）</label>
-										<input class="form-control" id="node_bandwidth_limit" name="node_bandwidth_limit" type="text" value="{$node->node_bandwidth_limit/1024/1024/1024}">
+										<input class="form-control" id="node_bandwidth_limit" name="node_bandwidth_limit" type="number" value="{$node->node_bandwidth_limit/1024/1024/1024}">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="bandwidthlimit_resetday">节点流量上限清空日</label>
-										<input class="form-control" id="bandwidthlimit_resetday" name="bandwidthlimit_resetday" type="text" value="{$node->bandwidthlimit_resetday}">
+										<input class="form-control" id="bandwidthlimit_resetday" name="bandwidthlimit_resetday" type="number" value="{$node->bandwidthlimit_resetday}">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="node_speedlimit">节点限速(对于每个用户端口)（Mbps）</label>
-										<input class="form-control" id="node_speedlimit" name="node_speedlimit" type="text" value="{$node->node_speedlimit}">
+										<input class="form-control" id="node_speedlimit" name="node_speedlimit" type="number" value="{$node->node_speedlimit}">
 									</div>
 								</div>
 							</div>
@@ -227,6 +242,14 @@
 			{
 				var type=0;
 			}
+            if(document.getElementById('port_group').checked)
+            {
+                var port_group=1;
+            }
+            else
+            {
+                var port_group=0;
+            }
 			{/literal}
 			if(document.getElementById('custom_rss').checked)
 			{
@@ -262,7 +285,10 @@
 										node_bandwidth_limit: $("#node_bandwidth_limit").val(),
 										bandwidthlimit_resetday: $("#bandwidthlimit_resetday").val(){/literal},
 										custom_rss: custom_rss,
-										mu_only: $("#mu_only").val()
+										mu_only: $("#mu_only").val(),
+                    min_port: $("#min_port").val(),
+                    max_port: $("#max_port").val(),
+                    port_group: port_group
 					{literal}
                 },
                 success: function (data) {

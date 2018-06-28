@@ -5,6 +5,9 @@ use App\Models\Node;
 use App\Models\Relay;
 use App\Services\Config;
 
+// for port_group
+use App\Models\UserMethod;
+
 class URL
 {
     /*
@@ -308,6 +311,24 @@ class URL
     * obfs
     * obfs_param
     */
+
+
+    // for port_group
+    public static function checkPortGroup($user, $node) {
+        $new_user = clone $user;
+        if ($node->port_group == 1) {
+            $u = UserMethod::where('user_id',$user->id)->where('node_id',$node->id)->first();
+            $new_user->port = $u->port;
+            $new_user->passwd = $u->passwd;
+            $new_user->method = $u->method;
+            $new_user->protocol = $u->protocol;
+            $new_user->protocol_param = $u->protocol_param;
+            $new_user->obfs = $u->obfs;
+            $new_user->obfs_param = $u->obfs_param;
+        }
+        return $new_user;
+    }
+
     public static function getItem($user, $node, $mu_port = 0, $relay_rule_id = 0, $is_ss = 0) {
         $relay_rule = Relay::where('id', $relay_rule_id)->where(
             function ($query) use ($user) {
@@ -316,6 +337,10 @@ class URL
             }
         )->first();
         $node_name = $node->name;
+
+        // for port_group
+        $user = URL::checkPortGroup($user, $node);
+
         if ($relay_rule != null) {
             $node_name .= " - ".$relay_rule->dist_node()->name;
         }

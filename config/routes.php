@@ -108,6 +108,10 @@ $app->group('/user', function () {
     $this->post('/coupon_check', 'App\Controllers\UserController:CouponCheck');
     $this->post('/buy', 'App\Controllers\UserController:buy');
 
+    // for port_group
+    $this->get('/nodeedit', 'App\Controllers\UserController:nodeedit');
+    $this->post('/usermethod', 'App\Controllers\UserController:updateUserMethod');
+    $this->post('/usermethodport', 'App\Controllers\UserController:updateUserMethodPort');
 
     // Relay Mange
     $this->get('/relay', 'App\Controllers\RelayController:index');

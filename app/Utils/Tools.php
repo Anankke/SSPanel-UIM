@@ -8,6 +8,9 @@ use App\Models\Relay;
 use App\Services\Config;
 use DateTime;
 
+// for port_group
+use App\Models\UserMethod;
+
 class Tools
 {
 
@@ -152,6 +155,14 @@ class Tools
         return $port[0];
     }
 
+    // 根据 $port_group_array 获取端口范围，根据 user_method 表获取已有端口
+    public static function getAvPort_ForPortGroup($port_group_array, $node_id)
+    {
+        $det = UserMethod::where('node_id',$node_id)->pluck('port')->toArray();
+        $port = array_diff(range($port_group_array['min_port'], $port_group_array['max_port']), $det);
+        shuffle($port);
+        return $port[0];
+    }
 
     public static function base64_url_encode($input)
     {
