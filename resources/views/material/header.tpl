@@ -7,8 +7,8 @@
 	<meta name="theme-color" content="#3f51b5">
 	<title>{$config["appName"]}</title>
 	<!-- css -->
-	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/base.min.css" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/project.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/ssplb/p@0x03/public/theme/material/css/base.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/ssplb/p@0x03/public/theme/material/css/project.min.css" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Material+Icons">
 
@@ -47,7 +47,7 @@
 				{else}
 					<span class="access-hide">未登录</span>
              			 <span class="icon icon-cd margin-right">account_circle</span>
-				<!--	<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/images/users/avatar-001.jpg"></span> -->
+				<!--	<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="https://cdn.jsdelivr.net/gh/ssplb/p@0x01/public/theme/material/images/users/avatar-001.jpg"></span> -->
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
@@ -88,7 +88,7 @@
 
                   <li>
                     <div class="divcss5">
-    					<img  src="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/images/Ambassador-menu.png" width="230" height="300"/>
+    					<img  src="https://cdn.jsdelivr.net/gh/ssplb/p@0x01/public/images/Ambassador-menu.png" width="230" height="300"/>
                       </div>
 					</li>
 					{/if}
