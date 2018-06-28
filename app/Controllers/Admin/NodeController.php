@@ -11,6 +11,10 @@ use App\Controllers\AdminController;
 use Ozdemir\Datatables\Datatables;
 use App\Utils\DatatablesHelper;
 
+// for port_group
+use App\Models\UserMethod;
+use App\Models\User;
+
 class NodeController extends AdminController
 {
     public function index($request, $response, $args)
@@ -24,7 +28,7 @@ class NodeController extends AdminController
                             "node_bandwidth" => "已走流量/GB", "node_bandwidth_limit" => "流量限制/GB",
                             "bandwidthlimit_resetday" => "流量重置日", "node_heartbeat" => "上一次活跃时间",
                             "custom_method" => "自定义加密", "custom_rss" => "自定义协议以及混淆",
-                            "mu_only" => "只启用单端口多用户");
+                            "mu_only" => "只启用单端口多用户", "port_group" => "端口段");
         $table_config['default_show_column'] = Array("op", "id", "name", "sort");
         $table_config['ajax_url'] = 'node/ajax';
 
@@ -39,6 +43,16 @@ class NodeController extends AdminController
     public function add($request, $response, $args)
     {
         $node = new Node();
+
+
+        $node->port_group = $request->getParam('port_group');
+        $node->min_port = $request->getParam('min_port');
+        $node->max_port = $request->getParam('max_port');
+        $port_group_array = [
+            'min_port' => $node->min_port,
+            'max_port' => $node->max_port
+        ];
+
         $node->name =  $request->getParam('name');
         $node->server =  $request->getParam('server');
         $node->method =  $request->getParam('method');
@@ -82,6 +96,24 @@ class NodeController extends AdminController
 
         Telegram::Send("新节点添加~".$request->getParam('name'));
 
+        $node = Node::where('server',$request->getParam('server'))->where('name',$request->getParam('name'))->first();
+        if ( ($node->sort == 0 || $node->sort == 9 || $node->sort == 10) && ($node->port_group != 0) ) {
+            $users = User::all();
+            foreach ($users as $user) {
+                $newmethod = new UserMethod();
+                $newmethod->user_id = $user->id;
+                $newmethod->port = Tools::getAvPort_ForPortGroup($port_group_array, $node->id);
+                $newmethod->passwd = $user->passwd;
+                $newmethod->node_id = $node->id;
+                $newmethod->method = $user->method;
+                $newmethod->protocol = $user->protocol;
+                $newmethod->protocol_param = $user->protocol_param;
+                $newmethod->obfs = $user->obfs;
+                $newmethod->obfs_param = $user->obfs_param;
+                $newmethod->save();
+            }
+        }
+
         $rs['ret'] = 1;
         $rs['msg'] = "节点添加成功";
         return $response->getBody()->write(json_encode($rs));
@@ -100,6 +132,28 @@ class NodeController extends AdminController
     {
         $id = $args['id'];
         $node = Node::find($id);
+
+        //  准备一份旧数据
+        $old_node = clone $node;
+        $node->port_group = $request->getParam('port_group');
+        $node->min_port = $request->getParam('min_port');
+        $node->max_port = $request->getParam('max_port');
+        $port_group_array = [
+            'min_port' => $node->min_port,
+            'max_port' => $node->max_port
+        ];
+
+        // 判断是否需要修改user_method内的数据
+        // 默认端口段则不修改
+        $change_user_method=false;
+
+        // 启用自定义端口段
+        if ($node->port_group == 1){
+            // 对比新旧自定义端口是否更改
+            if ( ! ($old_node->min_port == $node->min_port && $old_node->max_port == $node->max_port) ){
+                $change_user_method=true;
+            }
+        }
 
         $node->name =  $request->getParam('name');
         $node->node_group =  $request->getParam('group');
@@ -158,6 +212,52 @@ class NodeController extends AdminController
         $node->node_bandwidth_limit=$request->getParam('node_bandwidth_limit')*1024*1024*1024;
         $node->bandwidthlimit_resetday=$request->getParam('bandwidthlimit_resetday');
 
+        if ( ($node->sort == 0 || $node->sort == 9 || $node->sort == 10) ) {
+            // 表中无数据，则新增
+            // 有数据，则检查旧端口是否处于端口段内，否，则重置
+            if ($change_user_method){
+                $users = User::all();
+                $log_exist = UserMethod::where('node_id',$node->id)->first();
+                if ($log_exist==null) {
+                    foreach ($users as $user) {
+                        $newmethod = new UserMethod();
+                        $newmethod->user_id = $user->id;
+                        $newmethod->passwd = $user->passwd;
+                        $newmethod->port = Tools::getAvPort_ForPortGroup($port_group_array, $node->id);
+                        $newmethod->node_id = $node->id;
+                        $newmethod->method = $user->method;
+                        $newmethod->protocol = $user->protocol;
+                        $newmethod->protocol_param = $user->protocol_param;
+                        $newmethod->obfs = $user->obfs;
+                        $newmethod->obfs_param = $user->obfs_param;
+                        $newmethod->save();
+                    }
+                } else {
+                    foreach ($users as $user) {
+                        $log_exist = UserMethod::where('node_id',$node->id)->where('user_id',$user->id)->first();
+                        if ($log_exist==null) {
+                            $newmethod = new UserMethod();
+                            $newmethod->user_id = $user->id;
+                            $newmethod->passwd = $user->passwd;
+                            $newmethod->port = Tools::getAvPort_ForPortGroup($port_group_array, $node->id);
+                            $newmethod->node_id = $node->id;
+                            $newmethod->method = $user->method;
+                            $newmethod->protocol = $user->protocol;
+                            $newmethod->protocol_param = $user->protocol_param;
+                            $newmethod->obfs = $user->obfs;
+                            $newmethod->obfs_param = $user->obfs_param;
+                            $newmethod->save();
+                        } else {
+                            if ( ! ($log_exist->port <= $port_group_array['max_port'] && $log_exist->port >= $port_group_array['min_port']) ){
+                                $log_exist->port=Tools::getAvPort_ForPortGroup($port_group_array, $node->id);
+                                $log_exist->save();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         if (!$node->save()) {
             $rs['ret'] = 0;
             $rs['msg'] = "修改失败";
@@ -209,7 +309,8 @@ class NodeController extends AdminController
                               "node_bandwidth" => "已走流量/GB", "node_bandwidth_limit" => "流量限制/GB",
                               "bandwidthlimit_resetday" => "流量重置日", "node_heartbeat" => "上一次活跃时间",
                               "custom_method" => "自定义加密", "custom_rss" => "自定义协议以及混淆",
-                              "mu_only" => "只启用单端口多用户");
+                              "mu_only" => "只启用单端口多用户", "port_group" => "端口段", "min_port" => "最小端口",
+                              "max_port"=>"最大端口");
         $key_str = '';
         foreach($total_column as $single_key => $single_value) {
             if($single_key == 'op') {
@@ -301,6 +402,19 @@ class NodeController extends AdminController
 
         $datatables->edit('DT_RowId', function ($data) {
             return 'row_1_'.$data['id'];
+        });
+
+        $datatables->edit('port_group', function ($data) {
+            $port_group = '';
+            switch($data['port_group']) {
+                case 0:
+                  $port_group = '默认';
+                  break;
+                case 1:
+                  $port_group = $data['min_port']." - ".$data['max_port'];
+                  break;
+            }
+            return $port_group;
         });
 
         $body = $response->getBody();

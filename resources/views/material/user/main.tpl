@@ -391,6 +391,12 @@
 									<i class="icon icon-lg">airplanemode_active</i>&nbsp;节点列表
 								</a>
 							</li>
+                            
+                            <li>
+                                <a href="/user/nodeedit">
+                                    <i class="icon icon-lg">sync_problem</i>&nbsp;节点编辑
+                                </a>
+                            </li>
 
 							<li>
 								<a href="/user/relay">

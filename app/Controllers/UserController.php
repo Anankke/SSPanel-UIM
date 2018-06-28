@@ -42,6 +42,9 @@ use App\Utils\Pay;
 use App\Utils\URL;
 use App\Services\Mail;
 
+// for port_group
+use App\Models\UserMethod;
+
 /**
  *  HomeController
  */
@@ -123,6 +126,99 @@ class UserController extends BaseController
         return $this->view()->assign('speedtest', $Speedtest)->assign('hour', Config::get('Speedtest_duration'))->display('user/lookingglass.tpl');
     }
 
+// for port_group ↓↓↓↓↓↓↓↓↓↓
+    public function nodeedit($request, $response, $args)
+    {
+        $user = Auth::getUser();
+        $nodes = Node::where('port_group', 1)->get()->whereIn('sort',[1,9,10]);
+        if (count($nodes)==0) {
+            return $this->view()->assign('nodes', 0)->display('user/nodeedit.tpl');
+        } elseif ($user->is_admin) {
+            $nodes = $nodes->sortBy('name');
+        } else {
+            $nodes = $nodes->whereIn('node_group', [0,$user->node_group])->filter(function ($item) use($user) {
+                return $item['node_class'] <= $user->class;
+            })->sortBy('name');
+        }
+        $usermethods = UserMethod::where('user_id',$user->id)->get();
+        return $this->view()->registerClass("URL", "App\Utils\URL")->assign('nodes', $nodes)->assign('method_list', Config::getSupportParam('method'))->assign('protocol_list', Config::getSupportParam('protocol'))->assign('obfs_list', Config::getSupportParam('obfs'))->assign('usermethods', $usermethods)->display('user/nodeedit.tpl');
+    }
+    public function updateUserMethod($request, $response, $args)
+    {
+        $node_id = $request->getParam('node_id');
+        $protocol = $request->getParam('protocol');
+        $obfs = $request->getParam('obfs');
+        $sspwd = $request->getParam('sspwd');
+        $method = $request->getParam('method');
+        $method = strtolower($method);
+        $user = Auth::getUser();
+        if ($node_id == ""||$protocol == ""||$obfs == ""||$sspwd == ""||$method == "") {
+            $res['ret'] = 0;
+            $res['msg'] = "请填好相应内容";
+            return $response->getBody()->write(json_encode($res));
+        }
+        if (!Tools::is_param_validate('method', $method) || !Tools::is_param_validate('obfs', $obfs) || !Tools::is_param_validate('protocol', $protocol) || !Tools::is_validate($sspwd)) {
+            $res['ret'] = 0;
+            $res['msg'] = "悟空别闹";
+            return $response->getBody()->write(json_encode($res));
+        }
+        $antiXss = new AntiXSS();
+        $user->protocol = $antiXss->xss_clean($protocol);
+        $user->obfs = $antiXss->xss_clean($obfs);
+        if (!Tools::checkNoneProtocol($user)) {
+            $res['ret'] = 0;
+            $res['msg'] = "您好，系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议<br>".implode(',', Config::getSupportParam('allow_none_protocol')).'<br>之内，请您先修改您的加密方式，再来修改此处设置。';
+            return $this->echoJson($response, $res);
+        }
+        if(!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
+            $res['ret'] = 0;
+            $res['msg'] = "很抱歉，由于您的设置会导致没有客户端能够连接，系统已拒绝了您的设置！";
+            return $this->echoJson($response, $res);
+        }
+        $usermethod = UserMethod::where('user_id',$user->id)->where('node_id',$node_id)->first();
+        $usermethod->passwd = $sspwd;
+        $usermethod->method = $method;
+        $usermethod->protocol = $protocol;
+        $usermethod->obfs = $obfs;
+        $usermethod->save();
+        if(!URL::SSCanConnect($user)) {
+            $res['ret'] = 0;
+            $res['msg'] = "设置成功，但您目前的协议、混淆、加密方式设置会导致 SS 原版客户端无法连接，请您自行更换到 SSR 客户端。";
+            return $this->echoJson($response, $res);
+        }
+        if(!URL::SSRCanConnect($user)) {
+            $res['ret'] = 0;
+            $res['msg'] = "设置成功，但您目前的协议、混淆、加密方式设置会导致 SSR 客户端无法连接，请您自行更换到 SS 客户端。";
+            return $this->echoJson($response, $res);
+        }
+        $res['ret'] = 0;
+        $res['msg'] = "设置成功，您可自由选用客户端来连接。";
+        return $this->echoJson($response, $res);
+    }
+    public function updateUserMethodPort($request, $response, $args)
+    {
+        $user = $this->user;
+        $node_id = $request->getParam('node_id');
+        $user_method = UserMethod::where('user_id',$user->id)->where('node_id',$node_id)->first();
+        $node = Node::where('id',$node_id)->first();
+        $port_group_array = [
+            'min_port' => $node->min_port,
+            'max_port' => $node->max_port
+        ];
+        $user_method->port = Tools::getAvPort_ForPortGroup($port_group_array, $node_id);
+        $user_method->save();
+        $relay_rules = Relay::where('user_id', $user->id)->where('source_node_id', $node_id)->get();
+        if ($relay_rules!=null) {
+            foreach ($relay_rules as $rule) {
+                $rule->port = $user_method->port;
+                $rule->save();
+            }
+        }
+        $res['ret'] = 1;
+        $res['msg'] = "设置成功，新端口是".$user_method->port;
+        return $response->getBody()->write(json_encode($res));
+    }
+// for port_group ↑↑↑↑↑↑↑↑↑↑
 
  public function node_admin($request, $response, $args)
     {

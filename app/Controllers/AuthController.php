@@ -24,6 +24,9 @@ use App\Utils\Wecenter;
 use App\Utils\Geetest;
 use App\Utils\TelegramSessionManager;
 
+// for port_group
+use App\Models\UserMethod;
+
 /**
  *  AuthController
  */
@@ -426,6 +429,28 @@ class AuthController extends BaseController
         if ($user->save()) {
             $res['ret'] = 1;
             $res['msg'] = "注册成功！正在进入登录界面";
+
+            $user = User::where('email',$email)->first();
+            $sort_list = [0,9,10];
+            $nodes = Node::where('port_group',1)->whereIn('sort',$sort_list)->get();
+            foreach ($nodes as $node) {
+                $port_group_array = [
+                    'min_port' => $node->min_port,
+                    'max_port' => $node->max_port
+                ];
+                $newmethod = new UserMethod();
+                $newmethod->user_id = $user->id;
+                $newmethod->passwd = $user->passwd;
+                $newmethod->port = Tools::getAvPort_ForPortGroup($port_group_array, $node->id);
+                $newmethod->node_id = $node->id;
+                $newmethod->method = Config::get('reg_method');
+                $newmethod->protocol = Config::get('reg_protocol');
+                $newmethod->protocol_param = Config::get('reg_protocol_param');
+                $newmethod->obfs = Config::get('reg_obfs');
+                $newmethod->obfs_param = Config::get('reg_obfs_param');
+                $newmethod->save();
+            }
+            
             Duoshuo::add($user);
             Radius::Add($user, $user->passwd);
             return $response->getBody()->write(json_encode($res));
