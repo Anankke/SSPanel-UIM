@@ -541,12 +541,19 @@ class UserController extends BaseController
 
     public function ResetPort($request, $response, $args)
     {
+		$price=Config::get('port_price');
         $user = $this->user;
+		
+		if ($user->money<$price){
+			$res['ret'] = 0;
+            $res['msg'] = "余额不足。";
+            return $response->getBody()->write(json_encode($res));
+		}
 
         $origin_port = $user->port;
 
         $user->port = Tools::getAvPort();
-        $user->save();
+
 
         $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
         foreach ($relay_rules as $rule) {
@@ -554,9 +561,57 @@ class UserController extends BaseController
             $rule->save();
         }
 
+		$user->money-=$price;
+		$user->save();
 
         $res['ret'] = 1;
         $res['msg'] = "设置成功，新端口是".$user->port;
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function SpecifyPort($request, $response, $args)
+    {
+		$price=Config::get('port_price_specify');
+        $user = $this->user;
+		
+		if ($user->money<$price){
+			$res['ret'] = 0;
+            $res['msg'] = "余额不足。";
+            return $response->getBody()->write(json_encode($res));
+		}
+
+		$port=$request->getParam('port');
+
+		if ($port<Config::get('min_port')||$port>Config::get('max_port')||is_numeric($port)==false){
+			$res['ret'] = 0;
+            $res['msg'] = "端口不在要求范围内。";
+            return $response->getBody()->write(json_encode($res));
+		}
+
+		$port_occupied = User::pluck('port')->toArray();
+
+		if(in_array($port,$port_occupied)==true){
+			$res['ret'] = 0;
+            $res['msg'] = "端口已被占用。";
+            return $response->getBody()->write(json_encode($res));
+		}
+
+        $origin_port = $user->port;
+
+        $user->port = $port;
+
+
+        $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
+        foreach ($relay_rules as $rule) {
+            $rule->port = $user->port;
+            $rule->save();
+        }
+
+		$user->money-=$price;
+		$user->save();
+
+        $res['ret'] = 1;
+        $res['msg'] = "钦定成功";
         return $response->getBody()->write(json_encode($res));
     }
 
@@ -698,7 +753,7 @@ class UserController extends BaseController
         $node_prefix=(object)$node_prefix;
         $node_order=(object)$node_order;
         $tools = new Tools();
-        return $this->view()->assign('relay_rules', $relay_rules)->assign('node_class', $node_class)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_prefix_file', $node_flag_file)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->assign('node_latestload', $node_latestload)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
+        return $this->view()->assign('relay_rules', $relay_rules)->assign('node_class', $node_class)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_flag_file', $node_flag_file)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->assign('node_latestload', $node_latestload)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
     }
 
 
@@ -1026,7 +1081,7 @@ class UserController extends BaseController
 	{
 	    $price=Config::get('invite_price');
 		$num=$request->getParam('num');
-		if($price<0||$num<=0){
+		if(is_numeric($num)==false||$price<0||$num<=0){
 		    $res['ret'] = 0;
             $res['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($res));
@@ -1041,7 +1096,7 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 		$user->invite_num += $num;
-		$user->money=$user->money-$price;
+		$user->money-=$amount;
 		$user->save();
         $res['ret'] = 1;
         $res['msg'] = "邀请次数添加成功。";  
