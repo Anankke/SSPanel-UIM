@@ -37,7 +37,7 @@ class Job
     {
         $nodes = Node::all();
         foreach ($nodes as $node) {
-            if ($node->sort==0) {
+            if ($node->sort==0 || $node->sort==10) {
                 $ip=gethostbyname($node->server);
                 $node->node_ip=$ip;
                 $node->save();
