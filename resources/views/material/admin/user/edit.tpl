@@ -49,6 +49,14 @@
 										</label>
 									</div>
 								</div>
+                              
+                              	<div class="form-group form-group-label">
+									<div class="checkbox switch">
+										<label for="ga_enable">
+											<input {if $edit_user->ga_enable==1}checked{/if} class="access-hide" id="ga_enable" type="checkbox"><span class="switch-toggle"></span>是否开启二次认真
+										</label>
+									</div>
+								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="money">金钱</label>
@@ -284,6 +292,15 @@
 			{
 				var enable=0;
 			}
+          
+			if(document.getElementById('ga_enable').checked)
+			{
+				var ga_enable=1;
+			}
+			else
+			{
+				var ga_enable=0;
+			}
 
             $.ajax({
                 type: "PUT",
@@ -306,6 +323,7 @@
 										money: $("#money").val(),
                     enable: enable,
                     is_admin: is_admin,
+                    ga_enable: ga_enable,
                     ref_by: $("#ref_by").val(),
                     forbidden_ip: $("#forbidden_ip").val(),
                     forbidden_port: $("#forbidden_port").val(),
