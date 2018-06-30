@@ -56,7 +56,7 @@ class AdminController extends UserController
         $num = $request->getParam('num');
         $prefix = $request->getParam('prefix');
 
-		if(is_numeric($num)==false){
+		if(Tools::isInt($num)==false){
 		    $res['ret'] = 0;
             $res['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($res));
