@@ -441,4 +441,13 @@ class Tools
     {
         return str_replace("::ffff:", "", $rawIp);
     }
+
+	public static function isInt($str)
+	{
+		if($str[0]=='-'){
+			$str=substr($str,1);
+		}
+
+		return ctype_digit($str);
+	}
 }

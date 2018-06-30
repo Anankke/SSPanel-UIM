@@ -565,7 +565,7 @@ class UserController extends BaseController
 		$user->save();
 
         $res['ret'] = 1;
-        $res['msg'] = "设置成功，新端口是".$user->port;
+        $res['msg'] = $user->port;
         return $response->getBody()->write(json_encode($res));
     }
 
@@ -582,7 +582,7 @@ class UserController extends BaseController
 
 		$port=$request->getParam('port');
 
-		if ($port<Config::get('min_port')||$port>Config::get('max_port')||is_numeric($port)==false){
+		if ($port<Config::get('min_port')||$port>Config::get('max_port')||Tools::isInt($port)==false){
 			$res['ret'] = 0;
             $res['msg'] = "端口不在要求范围内。";
             return $response->getBody()->write(json_encode($res));
@@ -1081,7 +1081,7 @@ class UserController extends BaseController
 	{
 	    $price=Config::get('invite_price');
 		$num=$request->getParam('num');
-		if(is_numeric($num)==false||$price<0||$num<=0){
+		if(Tools::isInt($num)==false||$price<0||$num<=0){
 		    $res['ret'] = 0;
             $res['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($res));
@@ -1169,7 +1169,7 @@ class UserController extends BaseController
 
 
         $res['ret'] = 1;
-        $res['msg'] = "发送解封命令解封 ".$_SERVER["REMOTE_ADDR"]." 成功";
+        $res['msg'] = $_SERVER["REMOTE_ADDR"];
         return $this->echoJson($response, $res);
     }
 
