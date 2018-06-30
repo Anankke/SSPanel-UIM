@@ -53,7 +53,7 @@
                               	<div class="form-group form-group-label">
 									<div class="checkbox switch">
 										<label for="ga_enable">
-											<input {if $edit_user->ga_enable==1}checked{/if} class="access-hide" id="ga_enable" type="checkbox"><span class="switch-toggle"></span>是否开启二次认真
+											<input {if $edit_user->ga_enable==1}checked{/if} class="access-hide" id="ga_enable" type="checkbox"><span class="switch-toggle"></span>是否开启二次验证
 										</label>
 									</div>
 								</div>
