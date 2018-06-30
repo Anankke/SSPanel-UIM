@@ -18,7 +18,9 @@
 	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x03/public/theme/material/css/material.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/theme/material/css/dataTables.material.min.css" rel="stylesheet">
 
-
+	<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.jqueryui.min.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.jqueryui.min.css" rel="stylesheet">
 
 	<!-- favicon -->
 	<!-- ... -->
