@@ -139,6 +139,7 @@ $app->group('/user', function () {
     $this->get('/kill', 'App\Controllers\UserController:kill');
     $this->post('/kill', 'App\Controllers\UserController:handleKill');
     $this->get('/logout', 'App\Controllers\UserController:logout');
+    $this->get('/backtoadmin', 'App\Controllers\UserController:backtoadmin');
     $this->get('/code', 'App\Controllers\UserController:code');
     //易付通路由定义 start
     $this->post('/code/yft/pay', 'App\Controllers\YftPay:yftPay');
@@ -284,6 +285,7 @@ $app->group('/admin', function () {
     $this->get('/user/{id}/edit', 'App\Controllers\Admin\UserController:edit');
     $this->put('/user/{id}', 'App\Controllers\Admin\UserController:update');
     $this->delete('/user', 'App\Controllers\Admin\UserController:delete');
+    $this->post('/user/changetouser', 'App\Controllers\Admin\UserController:changetouser');
     $this->get('/user/ajax', 'App\Controllers\Admin\UserController:ajax');
 
 
