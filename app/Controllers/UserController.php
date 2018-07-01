@@ -78,13 +78,9 @@ class UserController extends BaseController
 
         $Ann = Ann::orderBy('date', 'desc')->first();
       
-        $can_backtoadmin = 0;
-        if (Utils\Cookie::get('old_uid') && Utils\Cookie::get('old_email') && Utils\Cookie::get('old_key') && Utils\Cookie::get('old_ip') && Utils\Cookie::get('old_expire_in') && Utils\Cookie::get('old_local')) {
-              $can_backtoadmin = 1;
-        }
 
 
-        return $this->view()->assign("can_backtoadmin", $can_backtoadmin)->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
+        return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
                 ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
                 ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
                 ->assign('enable_duoshuo', Config::get('enable_duoshuo'))->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
