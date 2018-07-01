@@ -78,9 +78,9 @@ class UserController extends BaseController
 
         $Ann = Ann::orderBy('date', 'desc')->first();
       
-        $can_backtoadmin = false;
+        $can_backtoadmin = 0;
         if (Utils\Cookie::get('old_uid') && Utils\Cookie::get('old_email') && Utils\Cookie::get('old_key') && Utils\Cookie::get('old_ip') && Utils\Cookie::get('old_expire_in') && Utils\Cookie::get('old_local')) {
-              $can_backtoadmin = true;
+              $can_backtoadmin = 1;
         }
 
 
