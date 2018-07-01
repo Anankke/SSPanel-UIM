@@ -268,7 +268,7 @@ class UserController extends AdminController
         $datatables->edit('op', function ($data) {
             return '<a class="btn btn-brand" href="/admin/user/'.$data[id].'/edit">编辑</a>
                     <a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\''.$data[id].'\')">删除</a>
-                    <a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\''.$data[id].'\')">切换</a>';
+                    <a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\''.$data[id].'\')">切换为该用户</a>';
         });
 
         $datatables->edit('im_value', function ($data) {
