@@ -42,7 +42,7 @@
 						<div class="modal-content">
 							<div class="modal-heading">
 								<a class="modal-close" data-dismiss="modal">×</a>
-								<h2 class="modal-title">确认要切换此用户？</h2>
+								<h2 class="modal-title">确认要切换为此用户？</h2>
 							</div>
 							<div class="modal-inner">
 								<p>请您确认。</p>
