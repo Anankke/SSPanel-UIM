@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Smarty;
+use App\Utils;
 
 class View
 {
