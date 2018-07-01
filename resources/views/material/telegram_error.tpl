@@ -193,7 +193,7 @@
         <meta http-equiv="refresh" content="3; url={$redirect}"/>
     {/if}
     <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sspuic/p@0x01/public/assets/css/noscript.css"/>
+        <link rel="stylesheet" href="/assets/css/noscript.css"/>
     </noscript>
 </head>
 <body>
