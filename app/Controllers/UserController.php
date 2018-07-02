@@ -409,9 +409,8 @@ class UserController extends BaseController
     public function codepost($request, $response, $args)
     {
         $code = $request->getParam('code');
+		$code = trim($code);
         $user = $this->user;
-
-
 
         if ($code == "") {
             $res['ret'] = 0;
@@ -1056,9 +1055,9 @@ class UserController extends BaseController
             return $this->view()->assign('code', $code)->assign('paybacks', $paybacks)->assign('paybacks_sum', $paybacks_sum)->display('user/invite.tpl');
     }
 
+	//此函数已废弃
     public function doInvite($request, $response, $args)
     {
-	    //此函数已废弃
         $n = $this->user->invite_num;
         if ($n < 1) {
             $res['ret'] = 0;
@@ -1083,6 +1082,8 @@ class UserController extends BaseController
 	{
 	    $price=Config::get('invite_price');
 		$num=$request->getParam('num');
+		$num=trim($num);
+
 		if(Tools::isInt($num)==false||$price<0||$num<=0){
 		    $res['ret'] = 0;
             $res['msg'] = "非法请求";
@@ -1190,6 +1191,8 @@ class UserController extends BaseController
     public function CouponCheck($request, $response, $args)
     {
         $coupon = $request->getParam('coupon');
+		$coupon = trim($coupon);
+
         $shop = $request->getParam('shop');
 
         $shop=Shop::where("id", $shop)->where("status", 1)->first();
@@ -1233,6 +1236,7 @@ class UserController extends BaseController
     public function buy($request, $response, $args)
     {
         $coupon = $request->getParam('coupon');
+		$coupon = trim($coupon);
         $code = $coupon;
         $shop = $request->getParam('shop');
 
@@ -1526,6 +1530,7 @@ class UserController extends BaseController
     {
         $type = $request->getParam('imtype');
         $wechat = $request->getParam('wechat');
+		$wechat = trim($wechat);
 
         $user = $this->user;
 
@@ -1564,6 +1569,7 @@ class UserController extends BaseController
         $protocol = $request->getParam('protocol');
         $obfs = $request->getParam('obfs');
 		$obfs_param = $request->getParam('obfs_param');
+		$obfs_param = trim($obfs_param);
 
         $user = $this->user;
 
@@ -1647,7 +1653,7 @@ class UserController extends BaseController
     public function updateMail($request, $response, $args)
     {
         $mail = $request->getParam('mail');
-
+		$mail = trim($mail);
         $user = $this->user;
 
         if (!($mail == "1"||$mail == "0")) {
@@ -1691,6 +1697,7 @@ class UserController extends BaseController
     {
         $user = Auth::getUser();
         $pwd = $request->getParam('sspwd');
+		$pwd= trim($pwd);
 
         if ($pwd == "") {
             $res['ret'] = 0;

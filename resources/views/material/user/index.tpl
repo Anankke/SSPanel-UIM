@@ -21,7 +21,7 @@
 							<div class="card">
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
-                                     <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>									 
+                                    <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>									 
 										{if $ann != null}
 										<p>{$ann->content}</p>
 										{/if}

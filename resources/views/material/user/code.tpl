@@ -26,24 +26,46 @@
                         <div class="card margin-bottom-no">
                             <div class="card-main">
                                 <div class="card-inner">
-                                    <div class="card-inner">
-                                        <p class="card-heading">注意!</p>
-                                        <p>充值完成后需刷新网页以查看余额。</p>
+                                    <p>充值完成后需刷新网页以查看余额，通常一分钟内到账。</p>
+										{if $config["enable_admin_contact"] == 'true'}
+											<p class="card-heading">如果没有到账请立刻联系站长：</p>
+											{if $config["admin_contact1"]!=null}
+												<li>{$config["admin_contact1"]}</li>
+											{/if}
+											{if $config["admin_contact2"]!=null}
+												<li>{$config["admin_contact2"]}</li>
+											{/if}
+											{if $config["admin_contact2"]!=null}
+												<li>{$config["admin_contact3"]}</li>
+											{/if}
+										{/if}
+										<br/>
+										<p><i class="icon icon-lg">monetization_on</i>当前余额：<font color="red" size="5">{$user->money}</font> 元</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+					
+				    {if $pmw!=''}
+					<div class="col-lg-12 col-md-12">
+						<div class="card margin-bottom-no">
+							<div class="card-main">
+								<div class="card-inner">
+									{$pmw}
+								</div>
+							</div>
+						</div>
+					</div>
+					{/if}
 
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">充值码</p>
-										<i class="icon icon-lg">view_compact</i>&nbsp;仪表盘
-							            <p><i class="icon icon-lg">monetization_on</i>当前余额：<font color="red" size="5">{$user->money}</font> 元</p>
+										<p class="card-heading">充值码</p>									
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="code">充值码</label>
 											<input class="form-control" id="code" type="text">
@@ -58,19 +80,7 @@
 							</div>
 						</div>
 					</div>
-
-				    {if $pmw!=''}
-					<div class="col-lg-12 col-md-12">
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									{$pmw}
-								</div>
-							</div>
-						</div>
-					</div>
-					{/if}
-
+					
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
