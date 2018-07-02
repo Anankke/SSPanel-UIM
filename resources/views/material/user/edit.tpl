@@ -59,7 +59,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">节点连接密码修改</p>
-										<p>当前连接密码：<code>{$user->passwd}</code><button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">点击拷贝</button></p>
+										<p>当前连接密码：<code id="ajax-user-passwd">{$user->passwd}</code><button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">点击拷贝</button></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="sspwd">新连接密码</label>
 											<input class="form-control" id="sspwd" type="text">
@@ -112,6 +112,7 @@
 									<div class="card-inner">
 										<p class="card-heading">联络方式修改</p>
 										<p>当前联络方式：
+										<code id="ajax-im">
 										{if $user->im_type==1}
 										微信
 										{/if}
@@ -127,8 +128,9 @@
 										{if $user->im_type==4}
 										Telegram
 										{/if}
-
-										{$user->im_value}</p>
+										{$user->im_value}
+										</code>
+										</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="imtype">选择您的联络方式</label>
 											<select class="form-control" id="imtype">
@@ -193,7 +195,7 @@
 									</div>
 
 									<div class="card-inner">
-										<p>当前混淆参数：{$user->obfs_param}</p>
+										<p>当前混淆参数：<code id="ajax-user-obfs-param">{$user->obfs_param}</code></p>
 										<p>注意：如果需要兼容原版SS请留空！</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="obs-param">在这输入混淆参数</label>
@@ -251,7 +253,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">IP解封</p>
-										<p>当前状态：{$Block}</p>
+										<p>当前状态：<code id="ajax-block">{$Block}</code></p>
 
 									</div>
 									<div class="card-action">
@@ -335,24 +337,46 @@
 							</div>
 						</div>    
 
+						{if $config['port_price']>=0 || $config['port_price_specify']>=0}
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
+									{if $config['port_price']>=0}
 									<div class="card-inner">
 										<p class="card-heading">重置端口</p>
-										<p>随机更换一个端口使用</p>
+										<p>对号码不满意？来摇号吧～！</p>
+										<p>随机更换一个端口使用，价格：<code>{$config['port_price']}</code>元/次</p>
 										<p>重置后1分钟内生效</p>
-										<p>当前端口：<code>{$user->port}</code></p>
-
+										<p>当前端口：<code id="ajax-user-port">{$user->port}</code></p>
 									</div>
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="portreset" ><span class="icon">check</span>&nbsp;重置端口</button>
+											<button class="btn btn-flat waves-attach" id="portreset" ><span class="icon">check</span>&nbsp;摇号</button>
 										</div>
 									</div>
+									{/if}
+
+									{if $config['port_price_specify']>=0}
+									<div class="card-inner">
+										<p class="card-heading">钦定端口</p>
+										<p>不想摇号？来钦定端口吧～！</p>
+										<p>价格：<code>{$config['port_price_specify']}</code>元/次</p>
+										<p>端口范围：<code>{$config['min_port']}～{$config['max_port']}</code></p>
+										<div class="form-group form-group-label">
+											<label class="floating-label" for="port-specify">在这输入想钦定的号</label>
+											<input class="form-control" id="port-specify" type="num">
+										</div>
+									</div>
+									<div class="card-action">
+										<div class="card-action-btn pull-left">
+											<button class="btn btn-flat waves-attach" id="portspecify" ><span class="icon">check</span>&nbsp;钦定</button>
+										</div>
+									</div>
+									{/if}
 								</div>
 							</div>
 						</div>
+						{/if}
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -444,6 +468,36 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
+						$("#ajax-user-port").html(date.msg);
+						$("#msg").html("设置成功，新端口是"+data.msg);
+						
+                    } else {
+                        $("#result").modal();
+						$("#msg").html(data.msg);
+                    }
+                },
+                error: function (jqXHR) {
+                    $("#result").modal();
+					$("#msg").html(data.msg+"     出现了一些错误。");
+                }
+            })
+        })
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $("#portspecify").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "specifyport",
+                dataType: "json",
+                data: {
+					port: $("#port-specify").val()
+                },
+                success: function (data) {
+                    if (data.ret) {
+                        $("#result").modal();
+						$("#ajax-user-port").html($("#port-specify").val());
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();
@@ -500,7 +554,7 @@ $(".copy-text").click(function () {
                 },
                 success: function (data) {
                     if (data.ret) {
-                         $("#result").modal();
+                        $("#result").modal();
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();
@@ -546,6 +600,7 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
+						$("#ajax-im").html($("#imtype").find("option:selected").text()+" "+$("#wechat").val());
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();
@@ -576,6 +631,7 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
+						$("#ajax-user-obfs-param").html($("#obfs-param").val());
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();
@@ -633,7 +689,8 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
-						$("#msg").html(data.msg);
+						$("#ajax-block").html("IP: "+data.msg+" 没有被封");
+						$("#msg").html("发送解封命令解封 "+data.msg+" 成功");
                     } else {
                         $("#result").modal();
 						$("#msg").html(data.msg);
@@ -717,9 +774,10 @@ $(".copy-text").click(function () {
                 data: {
                     sspwd: $("#sspwd").val()
                 },
-                 success: function (data) {
+                success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
+						$("#ajax-user-passwd").html($("#sspwd").val());
 						$("#msg").html("成功了");
                     } else {
                         $("#result").modal();

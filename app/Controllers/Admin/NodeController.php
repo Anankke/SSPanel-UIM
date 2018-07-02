@@ -40,7 +40,7 @@ class NodeController extends AdminController
     {
         $node = new Node();
         $node->name =  $request->getParam('name');
-        $node->server =  $request->getParam('server');
+        $node->server =  trim($request->getParam('server'));
         $node->method =  $request->getParam('method');
         $node->custom_method =  $request->getParam('custom_method');
         $node->custom_rss =  $request->getParam('custom_rss');
@@ -52,9 +52,11 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->status = $request->getParam('status');
         $node->sort = $request->getParam('sort');
+		$req_node_ip = trim($request->getParam('node_ip'));
+
         if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
-            if ($request->getParam('node_ip') != '') {
-                $node->node_ip = $request->getParam('node_ip');
+            if ($req_node_ip != '') {
+                $node->node_ip = $req_node_ip;
             } else {
                 if ($node->sort == 11) {
                     $server_list = explode(";", $request->getParam('server'));
@@ -103,7 +105,7 @@ class NodeController extends AdminController
 
         $node->name =  $request->getParam('name');
         $node->node_group =  $request->getParam('group');
-        $node->server =  $request->getParam('server');
+        $node->server =  trim($request->getParam('server'));
         $node->method =  $request->getParam('method');
         $node->custom_method =  $request->getParam('custom_method');
         $node->custom_rss =  $request->getParam('custom_rss');
@@ -113,28 +115,41 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->type = $request->getParam('type');
         $node->sort = $request->getParam('sort');
+		$req_node_ip=trim($request->getParam('node_ip'));
 
         if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
-            if ($request->getParam('node_ip') != '') {
-                $node->node_ip = $request->getParam('node_ip');
-            } else {
+            if ($req_node_ip != '') {
+                $node->node_ip = $req_node_ip;
+            } 
+			else {
                 if ($node->isNodeOnline()) {
                     $succ = false;
                     if ($node->sort == 11) {
                         $server_list = explode(";", $request->getParam('server'));
                         $succ = $node->changeNodeIp($server_list[0]);
-                    } else {
+                    } 
+					else {
                         $succ = $node->changeNodeIp($request->getParam('server'));
                     }
 
-                    if (!succ) {
+                    if (!$succ) {
                         $rs['ret'] = 0;
                         $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
                         return $response->getBody()->write(json_encode($rs));
                     }
                 }
+				else{
+					if ($node->sort == 11) {
+						$server_list = explode(";", $request->getParam('server'));
+						$node->node_ip = gethostbyname($server_list[0]);
+					} 
+					else {
+						$node->node_ip = gethostbyname($request->getParam('server'));
+					}
+				}
             }
-        } else {
+        } 
+		else {
             $node->node_ip="";
         }
 
@@ -148,7 +163,8 @@ class NodeController extends AdminController
                 if (time()-$SS_Node->node_heartbeat<300||$SS_Node->node_heartbeat==0) {
                     Radius::AddNas(gethostbyname($request->getParam('server')), $request->getParam('server'));
                 }
-            } else {
+            } 
+			else {
                 Radius::AddNas(gethostbyname($request->getParam('server')), $request->getParam('server'));
             }
         }
