@@ -21,7 +21,7 @@ class FinanceMail
     {
 		$datatables = new Datatables(new DatatablesHelper());
         $datatables->query(
-		'select code.number,code.userid,code.usedatetime from code
+		'select code.number, code.userid, code.usedatetime from code
 		where TO_DAYS(NOW()) - TO_DAYS(code.usedatetime) = 1 and code.type = -1 and code.isused= 1');
 		$text_json=$datatables->generate();
         $text_array=json_decode($text_json,true);
@@ -39,6 +39,25 @@ class FinanceMail
 			$text_html.='</tr>';
 			$income_count+=1;
 			$income_total+=$code['number'];
+		}
+		//易付通的单独表
+		$datatables2 = new Datatables(new DatatablesHelper());
+        $datatables2->query(
+		'select yft_order_info.price, yft_order_info.user_id, yft_order_info.create_time from yft_order_info
+		where TO_DAYS(NOW()) - TO_DAYS(yft_order_info.create_time) = 1 and yft_order_info.state= 1');
+		$text_json2=$datatables2->generate();
+        $text_array2=json_decode($text_json2,true);
+        $codes2=$text_array2['data'];
+		foreach($codes2 as $code2){
+			$text_html.='<tr>';
+			$text_html.='<td>'.$code2['price'].'</td>';
+			$text_html.='<td>'.$code2['user_id'].'</td>';
+			$user=User::find($code2['user_id']);
+			$text_html.='<td>'.$user->user_name.'</td>';
+			$text_html.='<td>'.$code2['create_time'].'</td>';
+			$text_html.='</tr>';
+			$income_count+=1;
+			$income_total+=$code['price'];
 		}
 		$text_html.='</table>';
 		$text_html.='<br>昨日总收入笔数：'.$income_count.'<br>昨日总收入金额：'.$income_total;
@@ -88,6 +107,19 @@ class FinanceMail
 			$income_count+=1;
 			$income_total+=$code['number'];
 		}
+		//易付通的单独表
+		$datatables2 = new Datatables(new DatatablesHelper());
+        $datatables2->query(
+		'select yft_order_info.price from yft_order_info
+		where yearweek(date_format(yft_order_info.create_time,\'%Y-%m-%d\')) = yearweek(now())-1 and yft_order_info.state= 1');
+		//每周的第一天是周日，因此统计周日～周六的七天
+		$text_json2=$datatables2->generate();
+        $text_array2=json_decode($text_json2,true);
+        $codes2=$text_array2['data'];
+		foreach($codes2 as $code2){
+			$income_count+=1;
+			$income_total+=$code2['price'];
+		}
 		$text_html.='<br>上周总收入笔数：'.$income_count.'<br>上周总收入金额：'.$income_total;
 
         $adminUser = User::where("is_admin", "=", "1")->get();
@@ -133,6 +165,18 @@ class FinanceMail
 		foreach($codes as $code){
 			$income_count+=1;
 			$income_total+=$code['number'];
+		}
+		$datatables2 = new Datatables(new DatatablesHelper());
+        $datatables2->query(
+		'select yft_order_info.price from yft_order_info
+		where date_format(yft_order_info.create_time,\'%Y-%m\') =date_format(date_sub(curdate(), interval 1 month),\'%Y-%m\') and yft_order_info.state= 1');
+		//每周的第一天是周日，因此统计周日～周六的七天
+		$text_json2=$datatables2->generate();
+        $text_array2=json_decode($text_json2,true);
+        $codes2=$text_array2['data'];
+		foreach($codes2 as $code2){
+			$income_count+=1;
+			$income_total+=$code2['price'];
 		}
 		$text_html.='<br>上月总收入笔数：'.$income_count.'<br>上月总收入金额：'.$income_total;
 
