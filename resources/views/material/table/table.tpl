@@ -1,4 +1,4 @@
-<table id="table_1" class="display responsive nowrap" style="width:100%">
+<table id="table_1" class="mdl-data-table" cellspacing="0" width="100%">
   <thead>
     <tr>
       {foreach $table_config['total_column'] as $key => $value}

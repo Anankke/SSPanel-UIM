@@ -1,13 +1,5 @@
 {include file='admin/main.tpl'}
 
-<style>
-	table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
-	    content: ""!important;
-	}
-	table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
-	    content: ""!important;
-</style>
-
 
 
 
@@ -98,7 +90,34 @@ function changetouser_modal_show(id) {
 {include file='table/js_1.tpl'}
 
 $(document).ready(function(){
-	{include file='table/js_2.tpl'}
+ 	table_1 = $('#table_1').DataTable({
+			"stateSave": true,
+			"columnDefs": [
+				{
+						targets: [ '_all' ],
+						className: 'mdl-data-table__cell--non-numeric'
+				}
+			],
+			{include file='table/lang_chinese.tpl'}
+  });
+
+	var has_init = JSON.parse(localStorage.getItem(window.location.href + '-hasinit'));
+	if (has_init != true) {
+	    localStorage.setItem(window.location.href + '-hasinit', true);
+	} else {
+	    {foreach $table_config['total_column'] as $key => $value}
+	        var checked = JSON.parse(localStorage.getItem(window.location.href + '-haschecked-checkbox_{$key}'));
+	        if (checked == true) {
+	            document.getElementById('checkbox_{$key}').checked = true;
+	        } else {
+	            document.getElementById('checkbox_{$key}').checked = false;
+	        }
+	    {/foreach}
+	}
+
+	{foreach $table_config['total_column'] as $key => $value}
+	  modify_table_visible('checkbox_{$key}', '{$key}');
+	{/foreach}
 
 	function delete_id(){
 		$.ajax({
@@ -128,6 +147,36 @@ $(document).ready(function(){
 	$("#delete_input").click(function(){
 		delete_id();
 	});
+	
+	$("#search_button").click(function(){
+		if($("#search").val()!="")
+		{
+			search();
+		}
+	});
+
+	$.ajaxSettings.async = false;
+	page = 1;
+	while (1) {
+			next = 1;
+			$.getJSON("user/ajax?page=" + page, function( data ) {
+					if (data.next == 0) {
+						next = 0;
+					}
+					for ( var i=0, ien=data.data.length ; i<ien ; i++ ) {
+						data.data[i][0] = '<a class="btn btn-brand" href="/admin/user/' + data.data[i][0] + '/edit">编辑</a>' +
+						'<a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' + data.data[i][0] + '\')">删除</a>';
+					}
+					table_1.rows.add(data.data).draw();
+			});
+
+			if (next == 0) break;
+
+			page++;
+	}
+	$.ajaxSettings.async = true;
+	
+	
 	function changetouser_id(){
 		$.ajax({
 			type:"POST",

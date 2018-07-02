@@ -287,7 +287,7 @@ $app->group('/admin', function () {
     $this->put('/user/{id}', 'App\Controllers\Admin\UserController:update');
     $this->delete('/user', 'App\Controllers\Admin\UserController:delete');
     $this->post('/user/changetouser', 'App\Controllers\Admin\UserController:changetouser');
-    $this->post('/user/ajax', 'App\Controllers\Admin\UserController:ajax');
+    $this->get('/user/ajax', 'App\Controllers\Admin\UserController:ajax');
 
 
     $this->get('/coupon', 'App\Controllers\AdminController:coupon');
