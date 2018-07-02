@@ -310,13 +310,13 @@ class AlipayTradeService {
 		$image = '<a href= "'.$content.'" target="_blank"><img src="https://pan.baidu.com/share/qrcode?w='.$size.'&amp;h='.$size.'&amp;url='.$url.'"  widht="'.$size.'" height="'.$size.'" />';
 		return $image;
   } */
-	function create_erweima($content, $size = '300', $lev = 'L', $margin= '0') {
+	function create_erweima($content, $size = '200', $lev = 'L', $margin= '0') {
 		$url = urlencode($content);
 		$imageurl = 'http://chart.apis.google.com/chart?chs='.$size.'x'.$size.'&cht=qr&chld='.$lev.'|'.$margin.'&chl='.$content;
 		$image_data = file_get_contents($imageurl);
 		$image_info = getimagesize($imageurl);
 		$base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
-		$qrcode = '<a href= "'.$content.'" target="_blank"><img src="'.$base64_image.'"/></a>';
+		$qrcode = '<a href= "'.$content.'" target="_blank"><img src="http://mobile.qq.com/qrcode?'.$size.'&amp;h='.$size.'&amp;url='.$url.'"  widht="'.$size.'" height="'.$size.'" /></a>';
 		return $qrcode;
 	} 
 }
