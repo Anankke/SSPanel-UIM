@@ -1,6 +1,11 @@
 # 欢迎使用ss panel v3 mod 再次修改版
 https://lala.im/2398.html
 
+41  mv tool/alipay-f2fpay vendor/
+   42  mv -f tool/cacert.pem vendor/guzzle/guzzle/src/Guzzle/Http/Resources/
+   43  mv -f tool/autoload_classmap.php vendor/composer/
+   44  history
+
 **ss-panel-v3-mod**是一款专为shadowsocks设计的web前端面板，再次感谢ss-panel-v3-mod 的制作者，修改后的功能简介：
 
 - **支付系统集成**：集成 支付宝当面付 黛米付 易付通 码支付等多种支付系统，使用方法见项目[wiki](https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/)
