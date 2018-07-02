@@ -14,6 +14,7 @@ use App\Models\Coupon;
 use App\Models\Bought;
 use App\Models\Ticket;
 use App\Services\Config;
+use App\Utils;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Utils\Radius;
@@ -76,6 +77,7 @@ class UserController extends BaseController
         }
 
         $Ann = Ann::orderBy('date', 'desc')->first();
+      
 
 
         return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
@@ -1890,6 +1892,47 @@ class UserController extends BaseController
         $user = $this->user;
         $user->clean_link();
         $newResponse = $response->withStatus(302)->withHeader('Location', '/user');
+        return $newResponse;
+    }
+	
+    public function backtoadmin($request, $response, $args)
+    {
+        $userid = Utils\Cookie::get('uid');
+        $adminid = Utils\Cookie::get('old_uid');
+        $user = User::find($userid);
+        $admin = User::find($adminid);
+      
+        if (!$admin->is_admin || !$user) {
+            Utils\Cookie::set([
+            "uid" => null,
+            "email" => null,
+            "key" =>null,
+            "ip" => null,
+            "expire_in" =>  null,
+            "old_uid" => null,
+            "old_email" => null,
+            "old_key" => null,
+            "old_ip" => null,
+            "old_expire_in" => null,
+            "old_local" =>  null
+        ], time() - 1000);
+        }
+        $expire_in = Utils\Cookie::get('old_expire_in');
+        $local = Utils\Cookie::get('old_local');
+        Utils\Cookie::set([
+            "uid" => Utils\Cookie::get('old_uid'),
+            "email" => Utils\Cookie::get('old_email'),
+            "key" => Utils\Cookie::get('old_key'),
+            "ip" => Utils\Cookie::get('old_expire_in'),
+            "expire_in" =>  $expire_in,
+            "old_uid" => null,
+            "old_email" => null,
+            "old_key" => null,
+            "old_ip" => null,
+            "old_expire_in" => null,
+            "old_local" =>  null
+        ],  $expire_in);
+        $newResponse = $response->withStatus(302)->withHeader('Location', $local);
         return $newResponse;
     }
 }

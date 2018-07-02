@@ -53,7 +53,22 @@
 						</div>
 					</div>
 				</div>
-
+				<div aria-hidden="true" class="modal modal-va-middle fade" id="changetouser_modal" role="dialog" tabindex="-1">
+					<div class="modal-dialog modal-xs">
+						<div class="modal-content">
+							<div class="modal-heading">
+								<a class="modal-close" data-dismiss="modal">×</a>
+								<h2 class="modal-title">确认要切换为该用户？</h2>
+							</div>
+							<div class="modal-inner">
+								<p>请您确认。</p>
+							</div>
+							<div class="modal-footer">
+								<p class="text-right"><button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">取消</button><button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal" id="changetouser_input" type="button">确定</button></p>
+							</div>
+						</div>
+					</div>
+				</div>
 				{include file='dialog.tpl'}
 
 
@@ -76,7 +91,10 @@ function delete_modal_show(id) {
 	deleteid=id;
 	$("#delete_modal").modal();
 }
-
+function changetouser_modal_show(id) {
+	changetouserid=id;
+	$("#changetouser_modal").modal();
+}
 {include file='table/js_1.tpl'}
 
 $(document).ready(function(){
@@ -109,6 +127,35 @@ $(document).ready(function(){
 
 	$("#delete_input").click(function(){
 		delete_id();
+	});
+	function changetouser_id(){
+		$.ajax({
+			type:"POST",
+			url:"/admin/user/changetouser",
+			dataType:"json",
+			data:{
+              userid: changetouserid,
+              adminid: {$user->id},
+              local: '/admin/user'
+			},
+			success:function(data){
+				if(data.ret){
+					$("#result").modal();
+					$("#msg").html(data.msg);
+                    window.setTimeout("location.href='/user'", {$config['jump_delay']});
+				}else{
+					$("#result").modal();
+					$("#msg").html(data.msg);
+				}
+			},
+			error:function(jqXHR){
+				$("#result").modal();
+				$("#msg").html(data.msg+"  发生错误了。");
+			}
+		});
+	}
+	$("#changetouser_input").click(function(){
+		changetouser_id();
 	});
 })
 
