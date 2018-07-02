@@ -88,7 +88,7 @@ $System_Config['inviteNum'] = '10';      // 注册后的邀请链接可用次数
 $System_Config['invite_get_money']='1';      //新用户通过私人邀请链接注册，获得奖励金额（鼓励消费）
 $System_Config['invite_price']='-1';    //用户购买邀请码所需要的价格，价格小于0时视为不开放购买
 //邮箱验证
-$System_Config['enable_email_verify']='true';      //是否启用注册邮箱验证码
+$System_Config['enable_email_verify']='false';      //是否启用注册邮箱验证码
 $System_Config['email_verify_ttl']='3600';      //邮箱验证码有效期
 $System_Config['email_verify_iplimit']='10';      //单IP可请求验证码次数（上面那个周期内）
 
