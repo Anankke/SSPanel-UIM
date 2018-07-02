@@ -61,6 +61,7 @@ class AuthController extends BaseController
     {
         // $data = $request->post('sdf');
         $email = $request->getParam('email');
+		$email = trim($email);
         $email = strtolower($email);
         $passwd = $request->getParam('passwd');
         $code = $request->getParam('code');
@@ -196,6 +197,7 @@ class AuthController extends BaseController
     {
         if (Config::get('enable_email_verify') == 'true') {
             $email = $request->getParam('email');
+			$email = trim($email);
 
             if ($email == "") {
                 $res['ret'] = 0;
@@ -264,13 +266,17 @@ class AuthController extends BaseController
     {
         $name = $request->getParam('name');
         $email = $request->getParam('email');
+		$email = trim($email);
         $email = strtolower($email);
         $passwd = $request->getParam('passwd');
         $repasswd = $request->getParam('repasswd');
         $code = $request->getParam('code');
+		$code = trim($code);
         $imtype = $request->getParam('imtype');
         $emailcode = $request->getParam('emailcode');
+		$emailcode = trim($emailcode);
         $wechat = $request->getParam('wechat');
+		$wechat = trim($wechat);
         // check code
 
         if (Config::get('enable_geetest_reg') == 'true') {

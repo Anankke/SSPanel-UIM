@@ -18,8 +18,6 @@
 	<link href="/theme/material/css/material.min.css" rel="stylesheet">
 	<link href="/theme/material/css/dataTables.material.min.css" rel="stylesheet">
 
-
-
 	<!-- favicon -->
 	<!-- ... -->
 </head>

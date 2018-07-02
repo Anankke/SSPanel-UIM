@@ -96,15 +96,19 @@ class Pay
     }
     private static function f2fpay_html($user)
     {
-
             return '
-                        <p><i class="icon icon-lg">monetization_on</i>&nbsp;余额&nbsp;<font color="red" size="5">'.$user->money.'</font>&nbsp;元</p>
-						<p><img src="/images/qianbai-4.png" height="250" width="202" /></p>
-						<div class="form-group form-group-label">
-						<label class="floating-label" for="price">充值金额</label>
+                        <div class="form-group pull-left">
+                        <p class="modal-title" >本站支持支付宝在线充值</p>
+                        <p>输入充值金额：</p>
+                        <div class="form-group form-group-label">
+                        <label class="floating-label" for="price">充值金额</label>
                         <input id="type" class="form-control" name="amount" />
-						</div>
+                        </div>
                         <a class="btn btn-flat waves-attach" id="urlChange" ><span class="icon">check</span>&nbsp;充值</a>
+                        </div>
+                        <div class="form-group pull-right">
+                        <p><img src="/images/qianbai-4.png" height="205" width="166" /></p>
+                        </div>
 ';
     }
 	private static function yftpay_html($user)

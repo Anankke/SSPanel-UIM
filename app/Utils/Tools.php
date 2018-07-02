@@ -145,13 +145,10 @@ class Tools
     {
         //检索User数据表现有port
         $det = User::pluck('port')->toArray();
-
         $port = array_diff(range(Config::get('min_port'), Config::get('max_port')), $det);
         shuffle($port);
-
         return $port[0];
     }
-
 
     public static function base64_url_encode($input)
     {
@@ -444,4 +441,13 @@ class Tools
     {
         return str_replace("::ffff:", "", $rawIp);
     }
+
+	public static function isInt($str)
+	{
+		if($str[0]=='-'){
+			$str=substr($str,1);
+		}
+
+		return ctype_digit($str);
+	}
 }

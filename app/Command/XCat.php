@@ -82,8 +82,10 @@ class XCat
                 return $this->cleanRelayRule();
             case("resetPort"):
                 return $this->resetPort();
-			case("resetAllPort"):
+	        case("resetAllPort"):
                 return $this->resetAllPort();
+			case("migrateConfig"):
+			    return $this->migrateConfig();
             default:
                 return $this->defaultAction();
         }
@@ -91,16 +93,17 @@ class XCat
 
     public function defaultAction()
     {
-        echo "\n用法： php xcat [选项] \n\n";
-		echo "常用选项: \n";
-		echo "  createAdmin - 创建管理员帐号\n";
-		echo "  setTelegram - 设置 Telegram 机器人\n";
-		echo "  cleanRelayRule - 清除所有中转规则\n";
-		echo "  resetPort - 重置单个用户端口\n";
-		echo "  resetAllPort - 重置所有用户端口\n";
-		echo "  initdownload - 下载 SSR 程序至服务器\n";
-		echo "  initQQWry - 下载 IP 解析库 \n";
-		echo "  resetTraffic - 重置所有用户流量\n\n";
+        echo(PHP_EOL."用法： php xcat [选项]".PHP_EOL);
+		echo("常用选项:".PHP_EOL);
+		echo("  createAdmin - 创建管理员帐号".PHP_EOL);
+		echo("  setTelegram - 设置 Telegram 机器人".PHP_EOL);
+		echo("  cleanRelayRule - 清除所有中转规则".PHP_EOL);
+		echo("  resetPort - 重置单个用户端口".PHP_EOL);
+		echo("  resetAllPort - 重置所有用户端口".PHP_EOL);
+		echo("  initdownload - 下载 SSR 程序至服务器".PHP_EOL);
+		echo("  initQQWry - 下载 IP 解析库".PHP_EOL);
+		echo("  resetTraffic - 重置所有用户流量".PHP_EOL);
+		echo("  migrateConfig - 将配置迁移至新配置".PHP_EOL);
     }
 
 	public function resetPort()
@@ -124,20 +127,88 @@ class XCat
 	
     public function resetAllPort()
     {
-		
-        $user = $this->user;
-
-        $origin_port = $user->port;
-
-        $user->port = Tools::getAvPort();
-        $user->save();
-
-        $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
-        foreach ($relay_rules as $rule) {
-            $rule->port = $user->port;
-            $rule->save();
+        $users = User::all();
+        foreach ($users as $user) {
+            $origin_port = $user->port;
+            $user->port = Tools::getAvPort();
+            echo '$origin_port='.$origin_port.'&$user->port='.$user->port."\n";
+            $user->save();
         }
     }
+
+	public function migrateConfig()
+	{
+	    global $System_Config;
+	    $copy_result=copy(BASE_PATH."/config/.config.php",BASE_PATH."/config/.config.php.bak");
+		if($copy_result==true){
+			echo('备份成功！'.PHP_EOL);
+		}
+		else{
+			echo('备份失败！迁移终止'.PHP_EOL);
+			return false;
+		}
+
+		//将旧config迁移到新config上
+		$config_old=file_get_contents(BASE_PATH."/config/.config.php");
+		$config_new=file_get_contents(BASE_PATH."/config/.config.php.example");
+		$migrated=array();
+		foreach($System_Config as $key => $value_reserve){
+			if($key=='config_migrate_notice'){
+				continue;
+			}
+
+			$regex='/System_Config\[\''.$key.'\'\].*?;/s';
+			$matches_new=array();
+			preg_match($regex,$config_new,$matches_new);
+			if(isset($matches_new[0])==false){
+				echo('配置项：'.$key.' 未能在新config文件中找到，可能已被更名或废弃'.PHP_EOL);
+				continue;
+			}
+
+			$matches_old=array();
+			preg_match($regex,$config_old,$matches_old);
+
+			$config_new=str_replace($matches_new[0],$matches_old[0],$config_new);
+			array_push($migrated,'System_Config[\''.$key.'\']');
+		}
+
+		//检查新增了哪些config
+		$regex_new='/System_Config\[\'.*?\'\]/s';
+		$matches_new_all=array();
+		preg_match_all($regex_new,$config_new,$matches_new_all);
+		$new_all=$matches_new_all[0];
+		$differences=array_diff($new_all,$migrated);
+		foreach($differences as $difference){
+			//裁去首位
+			$difference=substr($difference,15);
+			$difference=substr($difference, 0, -2);
+
+			echo('新增配置项：'.$difference.PHP_EOL);
+		}
+
+		//输出notice
+		$regex_notice='/System_Config\[\'config_migrate_notice\'\].*?(?=\';)/s';
+		$matches_notice=array();
+		preg_match($regex_notice,$config_new,$matches_notice);
+		$notice_new=$matches_notice[0];
+		$notice_new=substr(
+			$notice_new,strpos(
+				$notice_new,'\'',strpos($notice_new,'=') //查找'='之后的第一个'\''，然后substr其后面的notice
+			)+1
+		);
+		echo('以下是迁移附注：');
+		if(isset($System_Config['config_migrate_notice'])==true){
+		    if($System_Config['config_migrate_notice']!=$notice_new){
+			    echo($notice_new);
+			}
+		}
+		else{
+			echo($notice_new);
+		}
+
+		file_put_contents(BASE_PATH."/config/.config.php",$config_new);
+		echo(PHP_EOL.'迁移完成！'.PHP_EOL);
+	}
 
     public function cleanRelayRule()
     {
