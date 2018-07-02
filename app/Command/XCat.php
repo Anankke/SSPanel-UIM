@@ -82,7 +82,7 @@ class XCat
                 return $this->cleanRelayRule();
             case("resetPort"):
                 return $this->resetPort();
-			case("resetAllPort"):
+	        case("resetAllPort"):
                 return $this->resetAllPort();
 			case("migrateConfig"):
 			    return $this->migrateConfig();
@@ -127,18 +127,12 @@ class XCat
 	
     public function resetAllPort()
     {
-		
-        $user = $this->user;
-
-        $origin_port = $user->port;
-
-        $user->port = Tools::getAvPort();
-        $user->save();
-
-        $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
-        foreach ($relay_rules as $rule) {
-            $rule->port = $user->port;
-            $rule->save();
+        $users = User::all();
+        foreach ($users as $user) {
+            $origin_port = $user->port;
+            $user->port = Tools::getAvPort();
+            echo '$origin_port='.$origin_port.'&$user->port='.$user->port."\n";
+            $user->save();
         }
     }
 
