@@ -22,6 +22,7 @@ class Config
             "appName" => self::get("appName"),
             "version" => VERSION,
             "baseUrl" => self::get("baseUrl"),
+			"subUrl" => self::get("subUrl"),
 			"min_port" => self::get("min_port"),
 			"max_port" => self::get("max_port"),
 			"invite_price"=>self::get("invite_price"),
