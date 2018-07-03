@@ -165,7 +165,8 @@ $(document).ready(function(){
 					}
 					for ( var i=0, ien=data.data.length ; i<ien ; i++ ) {
 						data.data[i][0] = '<a class="btn btn-brand" href="/admin/user/' + data.data[i][0] + '/edit">编辑</a>' +
-						'<a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' + data.data[i][0] + '\')">删除</a>';
+						'<a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' + data.data[i][0] + '\')">删除</a>'+
+						'<a class="btn btn-brand-accent" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\'' + data.data[i][0] + '\')">切换为此用户</a>';
 					}
 					table_1.rows.add(data.data).draw();
 			});
