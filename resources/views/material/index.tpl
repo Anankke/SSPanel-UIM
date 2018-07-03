@@ -28,7 +28,7 @@
 						<span class="icon fa-rocket"></span>
                       </div>
                        {if $user->isLogin}
-						<div class="content">
+					<div class="content">
 							<div class="inner">
                                   <p>用户：<code>{$user->user_name}</code>
                                     等级：{if $user->class!=0}
