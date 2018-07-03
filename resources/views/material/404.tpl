@@ -1,40 +1,58 @@
 <!DOCTYPE HTML>
-<html>
-	<head>
-		<title>页面无法找到哦 - {$config["appName"]} </title>
-      <meta name="keywords" content=""/>
-      <meta name="description" content=""/>
-      <meta charset="utf-8" />
-      <link rel="shortcut icon" href="/favicon.ico"/>
-      <link rel="bookmark" href="/favicon.ico" type="image/x-icon"/>
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-	<link rel="shortcut icon" type="image/ico" href="images/ssr.ico">
-      <link rel="stylesheet" href="/assets/css/main.css" />
+<html lang="zh-hans">
+<head>
+  <meta charset="utf-8">
+  <title>404 未知頁面 - {$config["appName"]} </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
 
-      <noscript>
-        <link rel="stylesheet" href="/assets/css/noscript.css" />
-      </noscript>
-  </head>	
+    * {
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    html {
+      color: #888;
+      font-family: "Microsoft YaHei", sans-serif;
+      text-align: center;
+    }
+
+    body {
+      left: 50%;
+      margin: -43px 0 0 -150px;
+      position: absolute;
+      top: 50%;
+      width: 300px;
+    }
+
+    h1 {
+      color: #555;
+      font-size: 2em;
+      font-weight: 400;
+    }
+
+    p {
+      line-height: 1.2;
+    }
+
+    @media only screen and (max-width: 270px) {
+
+      body {
+        margin: 10px auto;
+        position: static;
+        width: 95%;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+    }
+
+  </style>
+</head>
 <body>
-			<div id="wrapper">
-					<header id="header">
-						<div class="logo">
-							<span class="icon fa-rocket"></span></div>
-						<div class="content">
-							<div class="inner">
-								<h1>404错误</h1>
-								<p>您的页面查找不到咯</p></div></div>	
-						<nav>
-							<ul>
-								<li><a href="./#">返回首页</a></li>
-							</ul>
-						</nav>
-              </header>
-					 <footer id="footer"><p class="copyright">&copy;2014-{date("Y")} {$config["appName"]}</p></footer>
-			</div>
-			<div id="bg"></div>
-			<script src="/assets/js/jquery.min.js"></script>
-			<script src="/assets/js/skel.min.js"></script>
-			<script src="/assets/js/util.js"></script>
-			<script src="/assets/js/main.js"></script>
-</body></html>
+  <h1>404</h1>
+  <p>您請求的頁面無法獲取</p>
+</body>
+</html>

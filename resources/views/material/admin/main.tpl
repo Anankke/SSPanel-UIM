@@ -8,15 +8,13 @@
 	<meta name="theme-color" content="#f44336">
 	<title>{$config["appName"]}</title>
 
-
-
 	<!-- css -->
-	<link href="/theme/material/css/base.min.css" rel="stylesheet">
-	<link href="/theme/material/css/project.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/YihanH/ss-panel-v3-mod-mod@v1.2.0.10/public/theme/material/css/base.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/YihanH/ss-panel-v3-mod-mod@v1.2.0.10/public/theme/material/css/project.css" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Material+Icons">
-	<link href="/theme/material/css/material.min.css" rel="stylesheet">
-	<link href="/theme/material/css/dataTables.material.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/YihanH/ss-panel-v3-mod-mod@v1.2.0.10/public/theme/material/css/material.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/YihanH/ss-panel-v3-mod-mod@v1.2.0.10/public/theme/material/css/dataTables.material.min.css" rel="stylesheet">
 
 	<!-- favicon -->
 	<!-- ... -->
@@ -49,7 +47,7 @@
 				</ul>
 				{else}
 				<span class="access-hide">未登录</span>
-				<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="/theme/material/images/users/avatar-001.jpg"></span>
+				<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="https://cdn.jsdelivr.net/gh/YihanH/ss-panel-v3-mod-mod@v1.2.0.10/public/theme/material/images/users/avatar-001.jpg"></span>
 				</a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li>

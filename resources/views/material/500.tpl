@@ -1,46 +1,58 @@
 <!DOCTYPE HTML>
-<html>
-	<head>
-		<title>该网页无法正常运作 - {$config["appName"]}</title>
-      <meta name="keywords" content=""/>
-      <meta name="description" content=""/>
-      <meta charset="utf-8" />
-      <link rel="shortcut icon" href="/favicon.ico"/>
-      <link rel="bookmark" href="/favicon.ico" type="image/x-icon"/>
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-	<link rel="shortcut icon" type="image/ico" href="images/ssr.ico">
-      <link rel="stylesheet" href="/assets/css/main.css" />
+<html lang="zh-hans">
+<head>
+  <meta charset="utf-8">
+  <title>500 系統内部錯誤 - {$config["appName"]} </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
 
-      <noscript>
-        <link rel="stylesheet" href="/assets/css/noscript.css" />
-      </noscript>
-  </head>
+    * {
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    html {
+      color: #888;
+      font-family: "Microsoft YaHei", sans-serif;
+      text-align: center;
+    }
+
+    body {
+      left: 50%;
+      margin: -43px 0 0 -150px;
+      position: absolute;
+      top: 50%;
+      width: 300px;
+    }
+
+    h1 {
+      color: #555;
+      font-size: 2em;
+      font-weight: 400;
+    }
+
+    p {
+      line-height: 1.2;
+    }
+
+    @media only screen and (max-width: 270px) {
+
+      body {
+        margin: 10px auto;
+        position: static;
+        width: 95%;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+    }
+
+  </style>
+</head>
 <body>
-	<div id="wrapper">
-		<header id="header">
-			<div class="logo">
-				<span class="icon fa-rocket"></span>
-			</div>
-			<div class="content">
-				<div class="inner">
-					<h1>500错误</h1>
-					<p>服务娘崩溃了呢... TwT</p>
-					<p>这件事儿不应该发生的...如果反复出现可以提交一下工单联系站主.</p>
-				</div>
-			</div>
-			<nav>
-				<ul>
-					<li><a href="./#">返回首页</a></li>
-				</ul>
-			</nav>
-		</header>
-		<footer id="footer">
-			<p class="copyright">&copy;2014-{date("Y")} {$config["appName"]} </p>
-		</footer>
-	</div>
-	<div id="bg"></div>
-	<script src="/assets/js/jquery.min.js"></script>
-	<script src="/assets/js/skel.min.js"></script>
-	<script src="/assets/js/util.js"></script>
-	<script src="/assets/js/main.js"></script>
-</body></html>
+  <h1>500</h1>
+  <p>服務器出現了一些偏差，我們的程序猿正在研究哪裏出了問題</p>
+</body>
+</html>

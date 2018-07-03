@@ -4,20 +4,14 @@
 	<meta charset="UTF-8">
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
-	<meta name="theme-color" content="#4caf50">
+	<meta name="theme-color" content="#81F7F3">
 	<meta http-equiv="X-Frame-Options" content="sameorigin">
 	<title>{$config["appName"]}</title>
-
-	
-	
 	<!-- css -->
-	<link href="/theme/material/css/base.min.css" rel="stylesheet">
-	<link href="/theme/material/css/project.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/YihanH/ss-panel-v3-mod-mod@v1.2.0.10/public/theme/material/css/base.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/gh/YihanH/ss-panel-v3-mod-mod@v1.2.0.10/public/theme/material/css/project.min.css" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
-	<link href="https://fonts.loli.net/css?family=Material+Icons">
-	
-
-	
+	<link href="https://fonts.loli.net/css?family=Material+Icons">	
 	<!-- favicon -->
 	<!-- ... -->
 	<style>
@@ -166,7 +160,7 @@
 		}
 		
 		.page-green .ui-content-header {
-			background-image: url(/theme/material/css/images/bg/amber.jpg);
+			background-image: url(https://cdn.jsdelivr.net/gh/YihanH/ss-panel-v3-mod-mod@v1.2.0.2/public/theme/material/css/images/bg/amber.jpg);
 		}
 		
 		
