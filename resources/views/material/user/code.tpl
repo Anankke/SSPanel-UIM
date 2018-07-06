@@ -35,7 +35,7 @@
 											{if $config["admin_contact2"]!=null}
 												<li>{$config["admin_contact2"]}</li>
 											{/if}
-											{if $config["admin_contact2"]!=null}
+											{if $config["admin_contact3"]!=null}
 												<li>{$config["admin_contact3"]}</li>
 											{/if}
 										{/if}
