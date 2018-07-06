@@ -68,6 +68,11 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - 添加 Telegram OAuth
 
+[**SoDa**](https://github.com/SoDa-GitHub)
+
+- 国旗正则
+- 财务报表
+
 ##### 还有所有被引用过代码的同学，以及所有提交过issue的同学。
 
 #### 关于捐赠
