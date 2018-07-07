@@ -3846,7 +3846,6 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 	background-clip: padding-box;
 	background-color: #fff;
 	border: 1px solid transparent;
-	border-radius: 4px;
 	/*弹出框圆角*/
 	border-radius: 25px
 }
