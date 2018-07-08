@@ -120,16 +120,8 @@
                                                       <p><a href="/user/announcement">点击这里查看Linux傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
-                                                        <p><span class="icon icon-lg text-white">looks_one</span> 切换<code>App Store</code>账号-ID:<code>
-														    {if $user->class>0}                                          	 xxxx@apple.com(帐号密码请在resources/views/materials/user/index.tpl中修改)
-															{else}															VIP用户可见
-															{/if}
-														</code>密码<code>
-														{if $user->class>0}															xxxxxx
-															{else}															VIP用户可见
-															{/if}
-														</code>注意特殊符号与大小写,如果显示需要解锁账号，请提交工单或邮件。（千万不要试图登陆iCloud，会上传您的照片与通讯录到这个账户上）</p>
-                                                         <p><span class="icon icon-lg text-white">looks_two</span> 商店搜索<code>Shadowrocket</code>下载安装</p>
+                                                        <p><span class="icon icon-lg text-white">looks_one</span> 切换至非国区App Store账号-ID。<code>
+                                                        <p><span class="icon icon-lg text-white">looks_two</span> 商店搜索<code>Shadowrocket</code>下载安装</p>
                                                       	<p><span class="icon icon-lg text-white">looks_3</span> 安装完成后切换回您自己的账号。（请务必切换回您自己的账户）</p>
 														<p><span class="icon icon-lg text-white">looks_3</span> 打开Shadowrocket软件后，点击右上角<span class="icon icon-lg text-white">add</span>，添加类型为<code>Subscribe</code>，URL填写以下地址即可自动更新节点</p>
                                                       <p><span class="icon icon-lg text-white">looks_4</span> 选择任意节点点击连接，然后点击allow后解锁指纹</p>
@@ -309,13 +301,6 @@
 											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<code>VIP{$user->class}</code></dd>
                                           {else}
                                               <dd><i class="icon icon-md t4-text">stars</i>&nbsp;免费</dd>
-                                              {/if}
-                                          </p>
-                                          {if $user->class!=0}
-                                          	 <p><dt>Telegram(VIP可见)</dt>
-											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<a href="请到index.tpl第299行修改" target="view_window">点击加入TG群</a></dd>
-                                          {else}
-
                                               {/if}
                                           </p>
 

@@ -107,7 +107,7 @@ class Pay
                         <a class="btn btn-flat waves-attach" id="urlChange" ><span class="icon">check</span>&nbsp;充值</a>
                         </div>
                         <div class="form-group pull-right">
-                        <p><img src="/images/qianbai-4.png" height="205" width="166" /></p>
+                        <img src="/images/qianbai-4.png" height="205" width="166" />
                         </div>
 ';
     }

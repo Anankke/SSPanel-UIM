@@ -48,7 +48,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="bandwidth">流量（GB）</label>
-									<input class="form-control" id="bandwidth" type="text" value="0">
+									<input class="form-control" id="bandwidth" type="text">
 								</div>
 
 								<div class="form-group form-group-label">

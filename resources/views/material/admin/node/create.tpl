@@ -43,7 +43,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="rate">流量比例</label>
-										<input class="form-control" id="rate" type="text" name="rate">
+										<input class="form-control" id="rate" type="text" name="rate" value="1">
 									</div>
 
 									<div class="form-group form-group-label" hidden="hidden">
@@ -92,7 +92,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="status">节点状态</label>
-										<input class="form-control" id="status" type="text" name="status">
+										<input class="form-control" id="status" type="text" name="status" value="可用">
 									</div>
 
 									<div class="form-group form-group-label">
@@ -117,7 +117,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="info">节点描述</label>
-										<input class="form-control" id="info" type="text" name="info">
+										<input class="form-control" id="info" type="text" name="info" value="无描述">
 									</div>
 
 									<div class="form-group form-group-label">
