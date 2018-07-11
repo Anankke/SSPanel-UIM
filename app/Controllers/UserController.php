@@ -1294,7 +1294,7 @@ class UserController extends BaseController
 
         if ($user->money<$price) {
             $res['ret'] = 0;
-            $res['msg'] = "余额不足，总价为".$price."元。";
+            $res['msg'] = '喵喵喵~ 当前余额不足，总价为'.$price.'元。</br><a href="/user/code">点击进入充值界面</a>';
             return $response->getBody()->write(json_encode($res));
         }
 
