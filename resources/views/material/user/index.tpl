@@ -110,7 +110,7 @@
                                                      	    <p><span class="icon icon-lg text-white">filter_3</span> 把ShadowsocksX拖入到Finder的应用程序列表(Applications)</p>
                                                       		<p><span class="icon icon-lg text-white">filter_4</span> 打开Launchapad里的ShadowsocksX</p>
                                                       		<p><span class="icon icon-lg text-white">filter_5</span> 菜单栏的纸飞机图标-服务器-服务器订阅填入以下订阅地址，更新后出现您的节点</p>
-                                                      <p><span class="icon icon-lg text-white">looks_6</span> 菜单栏的纸飞机图标-打开shadowsocks</p>
+                                                      <p><span class="icon icon-lg text-white">filter_6</span> 菜单栏的纸飞机图标-打开shadowsocks</p>
                                         				<p><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br></p>
 														<p><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击拷贝订阅地址</button><br></p>
                                                       <p><a href="/user/announcement">点击这里查看Mac傻瓜式教程</a></p>

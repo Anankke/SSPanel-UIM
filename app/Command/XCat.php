@@ -147,6 +147,7 @@ class XCat
 			echo('备份失败！迁移终止'.PHP_EOL);
 			return false;
 		}
+		echo(PHP_EOL);
 
 		//将旧config迁移到新config上
 		$config_old=file_get_contents(BASE_PATH."/config/.config.php");
@@ -161,7 +162,7 @@ class XCat
 			$matches_new=array();
 			preg_match($regex,$config_new,$matches_new);
 			if(isset($matches_new[0])==false){
-				echo('配置项：'.$key.' 未能在新config文件中找到，可能已被更名或废弃'.PHP_EOL);
+				echo('未找到配置项：'.$key.' 未能在新config文件中找到，可能已被更名或废弃'.PHP_EOL);
 				continue;
 			}
 
@@ -171,6 +172,7 @@ class XCat
 			$config_new=str_replace($matches_new[0],$matches_old[0],$config_new);
 			array_push($migrated,'System_Config[\''.$key.'\']');
 		}
+		echo(PHP_EOL);
 
 		//检查新增了哪些config
 		$regex_new='/System_Config\[\'.*?\'\]/s';
@@ -185,6 +187,7 @@ class XCat
 
 			echo('新增配置项：'.$difference.PHP_EOL);
 		}
+		echo('新增配置项通常带有默认值，因此通常即使不作任何改动网站也可以正常运行'.PHP_EOL);
 
 		//输出notice
 		$regex_notice='/System_Config\[\'config_migrate_notice\'\].*?(?=\';)/s';
@@ -205,6 +208,7 @@ class XCat
 		else{
 			echo($notice_new);
 		}
+		echo(PHP_EOL);
 
 		file_put_contents(BASE_PATH."/config/.config.php",$config_new);
 		echo(PHP_EOL.'迁移完成！'.PHP_EOL);
