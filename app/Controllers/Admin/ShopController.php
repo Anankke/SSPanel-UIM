@@ -194,10 +194,11 @@ class ShopController extends AdminController
 
     public function bought($request, $response, $args)
     {
-        $table_config['total_column'] = array("op" => "操作", "id" => "ID", "content" => "内容",
+        $table_config['total_column'] = array("op" => "操作", "id" => "ID", 
+						"datetime" => "购买日期","content" => "内容",
                         "price" => "价格", "user_id" => "用户ID",
-                        "user_name" => "用户名", "renew" => "自动续费时间", "auto_reset_bandwidth" => "续费时是否重置流量",
-                        "datetime" => "自动重置");
+                        "user_name" => "用户名", "renew" => "自动续费时间", 
+                        "auto_reset_bandwidth" => "续费时是否重置流量");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
