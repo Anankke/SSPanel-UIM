@@ -81,7 +81,6 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 ##### NimaQu
 
-
 - [魔方云 - 低成本极速高效 专属您的私有云](https://www.cubecloud.net/aff.php?aff=796)
 
 
@@ -93,5 +92,9 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 ##### Miku
 
-
 - [qazCloud  | 高速云端数据传输服务](https://www.qaz.cloud)
+
+##### Tony Zou
+
+- [PumpCloud - HKBN等线路](https://pumpcloud.net/clientarea/aff.php?aff=229)
+- [KDataCenter - 韩国KT线路](https://www.kdatacenter.com/myportal/?affid=303)
