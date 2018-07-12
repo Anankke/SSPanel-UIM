@@ -44,16 +44,25 @@
 											</div>
 										</div>
 										{*
+
+
+
                                   			<!--<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 											<label class="floating-label" for="theme">主题</label>
 											<select id="theme" class="form-control">
+
 													<option value="{$theme}">{$theme}</option>
+
 													</select>
 												</div>
 											</div>
 										</div>-->
+
+
+
+
                                   *}
 										{if $enable_email_verify == 'true'}
 										<div class="form-group form-group-label">
@@ -114,6 +123,7 @@
 											</div>
 										</div>
 
+
 										{if $enable_invite_code == 'true'}
 											<div class="form-group form-group-label">
 												<div class="row">
@@ -124,12 +134,8 @@
 												</div>
 											</div>
 										{/if}
-                    
-														<input class="form-control" id="code" type="text">
-													</div>
-												</div>
-											</div>
-										{/if}
+
+
 										{if $geetest_html != null}
 											<div class="form-group form-group-label">
 												<div class="row">
@@ -226,6 +232,7 @@
           }
 	    {/if}
 			document.getElementById("tos").disabled = true;
+
             $.ajax({
                 type:"POST",
                 url:"/auth/register",
@@ -276,17 +283,24 @@
                 $("#tos_modal").modal();
             }
         });
+
 		{if $geetest_html != null}
 		$('div.modal').on('shown.bs.modal', function() {
 			$("div.gt_slider_knob").hide();
 		});
+
+
 		$('div.modal').on('hidden.bs.modal', function() {
 			$("div.gt_slider_knob").show();
 		});
+
+
 		{/if}
+
 		$("#reg").click(function(){
             register();
         });
+
 		$("#tos").click(function(){
 			{if $geetest_html != null}
 			if(typeof validate == 'undefined')
@@ -295,11 +309,13 @@
                 $("#msg").html("请滑动验证码来完成验证。");
 				return;
 			}
+
 			if (!validate) {
 				$("#result").modal();
                 $("#msg").html("请滑动验证码来完成验证。");
 				return;
 			}
+
 			{/if}
             $("#tos_modal").modal();
         });
@@ -325,9 +341,13 @@ function time(o) {
 			1000)
 		}
 	}
+
+
+
     $(document).ready(function () {
         $("#email_verify").click(function () {
 			time($("#email_verify"));
+
             $.ajax({
                 type: "POST",
                 url: "send",
@@ -339,6 +359,7 @@ function time(o) {
                     if (data.ret) {
                         $("#result").modal();
 			$("#msg").html(data.msg);
+
                     } else {
                         $("#result").modal();
 			$("#msg").html(data.msg);
@@ -358,13 +379,17 @@ function time(o) {
 <script>
 	var handlerEmbed = function (captchaObj) {
         // 将验证码加到id为captcha的元素里
+
 		captchaObj.onSuccess(function () {
 		    validate = captchaObj.getValidate();
 		});
+
 		captchaObj.appendTo("#embed-captcha");
+
 		captcha = captchaObj;
 		// 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
     };
+
 	initGeetest({
 		gt: "{$geetest_html->gt}",
 		challenge: "{$geetest_html->challenge}",
@@ -372,7 +397,9 @@ function time(o) {
 		offline: {if $geetest_html->success}0{else}1{/if} // 表示用户后台检测极验服务器是否宕机，与SDK配合，用户一般不需要关注
 	}, handlerEmbed);
 </script>
+
 {/if}
+
 {*dumplin:aff链*}
 <script>
 	{*dumplin：轮子1.js读取url参数*}
@@ -388,6 +415,7 @@ function time(o) {
 	       }
 	       return "";
 	}
+
 	{*dumplin:轮子2.js写入cookie*}
 	function setCookie(cname,cvalue,exdays)
 	{
@@ -396,6 +424,7 @@ function time(o) {
 	  var expires = "expires="+d.toGMTString();
 	  document.cookie = cname + "=" + cvalue + "; " + expires;
 	}
+
 	{*dumplin:轮子3.js读取cookie*}
 	function getCookie(cname)
 	{
@@ -408,15 +437,19 @@ function time(o) {
 	  }
 	  return "";
 	}
+
 	{*dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码*}
 	if (getQueryVariable('code')!=''){
 		setCookie('code',getQueryVariable('code'),30);
 		window.location.href='/auth/register'; 
 	}
+
     {if $enable_invite_code == 'true'}
 	{*dumplin:读取cookie，自动填入邀请码框*}
 	if ((getCookie('code'))!=''){
 		$("#code").val(getCookie('code'));
 	}
 	{/if}
+
+
 </script>
