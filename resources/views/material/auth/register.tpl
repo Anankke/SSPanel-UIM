@@ -124,19 +124,17 @@
 										</div>
 
 
+										{if $enable_invite_code == 'true'}
 											<div class="form-group form-group-label">
 												<div class="row">
 													<div class="col-md-10 col-md-push-1">
-														<label class="floating-label" for="code">邀请码
-														{if $enable_invite_code == 'false'}
-														(可选)
-														{else}
-														(必填)
-														{/if}</label>
+														<label class="floating-label" for="code">邀请码(必填)</label>
 														<input class="form-control" id="code" type="text">
 													</div>
 												</div>
 											</div>
+										{/if}
+
 
 										{if $geetest_html != null}
 											<div class="form-group form-group-label">
@@ -226,7 +224,13 @@
 <script>
     $(document).ready(function(){
         function register(){
-
+          code = $("#code").val();
+    	{if $enable_invite_code != 'true'}
+           code = 0;
+           if ((getCookie('code'))!=''){
+           code = getCookie('code');
+          }
+	    {/if}
 			document.getElementById("tos").disabled = true;
 
             $.ajax({
@@ -240,7 +244,7 @@
                     repasswd: $("#repasswd").val(),
 					wechat: $("#wechat").val(),
 					imtype: $("#imtype").val(),
-					code: $("#code").val(){if $enable_email_verify == 'true'},
+					code:code{if $enable_email_verify == 'true'},
 					emailcode: $("#email_code").val(){/if}{if $geetest_html != null},
 					geetest_challenge: validate.geetest_challenge,
                     geetest_validate: validate.geetest_validate,
@@ -440,9 +444,12 @@ function time(o) {
 		window.location.href='/auth/register'; 
 	}
 
+    {if $enable_invite_code == 'true'}
 	{*dumplin:读取cookie，自动填入邀请码框*}
 	if ((getCookie('code'))!=''){
 		$("#code").val(getCookie('code'));
 	}
+	{/if}
+
 
 </script>

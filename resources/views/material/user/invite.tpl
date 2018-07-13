@@ -27,10 +27,28 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">说明</p>
-										<p>您每拉一位用户注册，对方充值时您就会获得对方充值金额的 <code>{$config["code_payback"]} %</code> 的提成。</p>
+										<p>您每邀请1位用户注册：</p>
+										<p>您会获得<code>{$config["invite_gift"]} G</code>流量奖励。</p>
+										<p>对方将获得<code>{$config["invite_get_money"]}</code>元奖励作为初始资金。</p>
+										<p>对方充值时您还会获得对方充值金额的 <code>{$config["code_payback"]} %</code> 的返利。</p>
 										<p class="card-heading">已获得返利：<code>{$paybacks_sum}</code> 元</p>
 									</div>
 
+								</div>
+							</div>
+						</div>
+					</div>
+										
+                  	<div class="col-lg-12 col-md-12">
+						<div class="card margin-bottom-no">
+							<div class="card-main">
+								<div class="card-inner">
+									<div class="card-inner">
+												<p class="card-heading">邀请链接</p>
+												<p>邀请他人注册时，请将以下链接发给被邀请者</p>
+												<p><a>{$config["baseUrl"]}/auth/register?code={$code->code}</a></p>
+												<p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击拷贝邀请链接</button></p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -80,20 +98,6 @@
 						</div>
 					</div>
 					{/if}
-
-                  	<div class="col-lg-12 col-md-12">
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-												<p class="card-heading">邀请链接</p>
-												<p><a>{$config["baseUrl"]}/auth/register?code={$code->code}</a></p>
-												<p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击拷贝邀请链接</button></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 
                    	{else}
 
