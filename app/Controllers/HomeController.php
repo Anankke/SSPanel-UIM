@@ -25,6 +25,9 @@ class HomeController extends BaseController
 {
     public function index()
     {
+        if(Config::get('enable_simple') == 'true'){
+          return $this->view()->display('simple.tpl');
+        }
         return $this->view()->display('index.tpl');
     }
 
