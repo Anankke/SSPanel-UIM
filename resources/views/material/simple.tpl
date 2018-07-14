@@ -1,4 +1,7 @@
 {include file='header.tpl'}
+{if $config['appName'] == '跑路'}
+<script>window.location.href='{$config["baseUrl"]}/paolu.html';</script>
+{/if}
 
 
 
