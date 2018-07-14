@@ -57,7 +57,7 @@
 									<div class="card-main">
 										<div class="card-inner">
 											<p class="card-heading">用户面板</p>
-												<a class="btn btn-flat waves-attach waves-light waves-effect" href="/user"><span class="icon">pregnant_woman</span>&nbsp;主人可以点击按钮进入面板</a>
+												<a class="btn btn-flat waves-attach waves-light waves-effect" href="/user"><span class="icon">pregnant_woman</span>&nbsp;主人可以摸这里进入面板</a>
 										</div>
 									</div>
 								</div>
