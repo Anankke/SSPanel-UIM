@@ -744,11 +744,12 @@ class UserController extends BaseController
 
                 array_push($node_prefix[$name_cheif], $node);
 
-				$regex=Config::get('flag_regex');
-				$matches=array();
-				preg_match($regex,$name_cheif,$matches);
-				$node_flag_file[$name_cheif]=$matches[0];
-				
+				if(Config::get('enable_flag')==true){
+					$regex=Config::get('flag_regex');
+					$matches=array();
+					preg_match($regex,$name_cheif,$matches);
+					$node_flag_file[$name_cheif]=$matches[0];
+				}
             }
         }
         $node_prefix=(object)$node_prefix;
