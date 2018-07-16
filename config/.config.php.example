@@ -9,6 +9,7 @@ $System_Config['config_migrate_notice']=
 自动备份改用crontab进行，以实现每隔20分钟备份一次之类的操作,
 详情请看本wiki底部：
 https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/前端安装';
+$System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1
 
 
 //基本设置-----------------------------------------------------------------------
