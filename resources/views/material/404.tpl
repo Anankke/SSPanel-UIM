@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>页面无法找到哦 - {$config["appName"]} </title>
+		<title>页面无法找到哦改动1 - {$config["appName"]} </title>
       <meta name="keywords" content=""/>
       <meta name="description" content=""/>
       <meta charset="utf-8" />
