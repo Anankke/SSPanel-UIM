@@ -47,31 +47,26 @@ class Job
 
     public static function backup()
     {
+		$to = Config::get('auto_backup_email');
+		if($to==null){
+			return false;
+		}
         mkdir('/tmp/ssmodbackup/');
-
         $db_address_array = explode(':', Config::get('db_host'));
-
         system('mysqldump --user='.Config::get('db_username').' --password='.Config::get('db_password').' --host='.$db_address_array[0].' '.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').' '.Config::get('db_database').' announcement auto blockip bought code coupon disconnect_ip link login_ip payback radius_ban shop speedtest ss_invite_code ss_node ss_password_reset ticket unblockip user user_token email_verify detect_list relay paylist> /tmp/ssmodbackup/mod.sql', $ret);
-
-
         system('mysqldump --opt --user='.Config::get('db_username').' --password='.Config::get('db_password').' --host='.$db_address_array[0].' '.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').' -d '.Config::get('db_database').' alive_ip ss_node_info ss_node_online_log user_traffic_log detect_log telegram_session yft_order_info >> /tmp/ssmodbackup/mod.sql', $ret);
-
         if (Config::get('enable_radius')=='true') {
             $db_address_array = explode(':', Config::get('radius_db_host'));
             system('mysqldump --user='.Config::get('radius_db_user').' --password='.Config::get('radius_db_password').' --host='.$db_address_array[0].' '.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').''.Config::get('radius_db_database').'> /tmp/ssmodbackup/radius.sql', $ret);
         }
-
         if (Config::get('enable_wecenter')=='true') {
             $db_address_array = explode(':', Config::get('wecenter_db_host'));
             system('mysqldump --user='.Config::get('wecenter_db_user').' --password='.Config::get('wecenter_db_password').' --host='.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').' '.Config::get('wecenter_db_database').'> /tmp/ssmodbackup/wecenter.sql', $ret);
         }
-
-        system("cp ".Config::get('auto_backup_webroot')."/config/.config.php /tmp/ssmodbackup/configbak.php", $ret);
+        system("cp ".BASE_PATH."/config/.config.php /tmp/ssmodbackup/configbak.php", $ret);
         echo $ret;
         system("zip -r /tmp/ssmodbackup.zip /tmp/ssmodbackup/* -P ".Config::get('auto_backup_passwd'), $ret);
-
-        $subject = Config::get('appName')."-备份成功";
-        $to = Config::get('auto_backup_email');
+        $subject = Config::get('appName')."-备份成功";        
         $text = "您好，系统已经为您自动备份，请查看附件，用您设定的密码解压。" ;
         try {
             Mail::send($to, $subject, 'news/backup.tpl', [
@@ -81,7 +76,6 @@ class Job
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-
         system("rm -rf /tmp/ssmodbackup", $ret);
         system("rm /tmp/ssmodbackup.zip", $ret);
 
@@ -255,12 +249,6 @@ class Job
         if (iconv('gbk', 'utf-8//IGNORE', $Userlocation)!="美国") {
             unlink(BASE_PATH."/storage/qqwry.dat");
             rename(BASE_PATH."/storage/qqwry.dat.bak", BASE_PATH."/storage/qqwry.dat");
-        }
-
-
-
-        if (Config::get('enable_auto_backup') == 'true') {
-            Job::backup();
         }
 
         Job::updatedownload();
@@ -701,7 +689,7 @@ class Job
 
 
 
-            if ((int)Config::get('enable_auto_clean_uncheck_days')!=0 && max($user->last_check_in_time, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_uncheck_days')*86400) < time() && $user->class == 0 && $user->money <= (int)Config::get('auto_clean_min_money')) {
+            if ((int)Config::get('enable_auto_clean_uncheck_days')!=0 && max($user->last_check_in_time, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_uncheck_days')*86400) < time() && $user->class == 0 && $user->money <= Config::get('auto_clean_min_money')) {
 
                 if (Config::get('enable_auto_clean_uncheck')=='true') {
                     $subject = Config::get('appName')."-您的用户账户已经被删除了";
@@ -730,7 +718,7 @@ class Job
             }
 
 
-            if ((int)Config::get('enable_auto_clean_unused_days')!=0 && max($user->t, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_unused_days')*86400) < time() && $user->class == 0 && $user->money <= (int)Config::get('auto_clean_min_money')) {
+            if ((int)Config::get('enable_auto_clean_unused_days')!=0 && max($user->t, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_unused_days')*86400) < time() && $user->class == 0 && $user->money <= Config::get('auto_clean_min_money')) {
 
                 if (Config::get('enable_auto_clean_unused')=='true') {
                     $subject = Config::get('appName')."-您的用户账户已经被删除了";

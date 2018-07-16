@@ -90,7 +90,7 @@ class AdminController extends UserController
     {
         $table_config['total_column'] = array("id" => "ID", "code" => "优惠码",
                           "expire" => "过期时间", "shop" => "限定商品ID",
-                          "credit" => "额度");
+                          "credit" => "额度", "onetime" => "次数");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
@@ -164,7 +164,7 @@ class AdminController extends UserController
     public function ajax_coupon($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select id,code,expire,shop,credit from coupon');
+        $datatables->query('Select id,code,expire,shop,credit,onetime from coupon');
 
         $datatables->edit('expire', function ($data) {
             return date('Y-m-d H:i:s', $data['expire']);

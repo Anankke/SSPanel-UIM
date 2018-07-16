@@ -15,6 +15,7 @@ use App\Services\Config;
 
 use App\Utils\GA;
 use App\Utils\QRcode;
+use App\Utils\Update;
 
 class XCat
 {
@@ -85,7 +86,7 @@ class XCat
 	        case("resetAllPort"):
                 return $this->resetAllPort();
 			case("migrateConfig"):
-			    return $this->migrateConfig();
+			    return Update::update();
             default:
                 return $this->defaultAction();
         }
@@ -135,80 +136,6 @@ class XCat
             $user->save();
         }
     }
-
-	public function migrateConfig()
-	{
-	    global $System_Config;
-	    $copy_result=copy(BASE_PATH."/config/.config.php",BASE_PATH."/config/.config.php.bak");
-		if($copy_result==true){
-			echo('备份成功！'.PHP_EOL);
-		}
-		else{
-			echo('备份失败！迁移终止'.PHP_EOL);
-			return false;
-		}
-
-		//将旧config迁移到新config上
-		$config_old=file_get_contents(BASE_PATH."/config/.config.php");
-		$config_new=file_get_contents(BASE_PATH."/config/.config.php.example");
-		$migrated=array();
-		foreach($System_Config as $key => $value_reserve){
-			if($key=='config_migrate_notice'){
-				continue;
-			}
-
-			$regex='/System_Config\[\''.$key.'\'\].*?;/s';
-			$matches_new=array();
-			preg_match($regex,$config_new,$matches_new);
-			if(isset($matches_new[0])==false){
-				echo('配置项：'.$key.' 未能在新config文件中找到，可能已被更名或废弃'.PHP_EOL);
-				continue;
-			}
-
-			$matches_old=array();
-			preg_match($regex,$config_old,$matches_old);
-
-			$config_new=str_replace($matches_new[0],$matches_old[0],$config_new);
-			array_push($migrated,'System_Config[\''.$key.'\']');
-		}
-
-		//检查新增了哪些config
-		$regex_new='/System_Config\[\'.*?\'\]/s';
-		$matches_new_all=array();
-		preg_match_all($regex_new,$config_new,$matches_new_all);
-		$new_all=$matches_new_all[0];
-		$differences=array_diff($new_all,$migrated);
-		foreach($differences as $difference){
-			//裁去首位
-			$difference=substr($difference,15);
-			$difference=substr($difference, 0, -2);
-
-			echo('新增配置项：'.$difference.PHP_EOL);
-		}
-
-		//输出notice
-		$regex_notice='/System_Config\[\'config_migrate_notice\'\].*?(?=\';)/s';
-		$matches_notice=array();
-		preg_match($regex_notice,$config_new,$matches_notice);
-		$notice_new=$matches_notice[0];
-		$notice_new=substr(
-			$notice_new,strpos(
-				$notice_new,'\'',strpos($notice_new,'=') //查找'='之后的第一个'\''，然后substr其后面的notice
-			)+1
-		);
-		echo('以下是迁移附注：');
-		if(isset($System_Config['config_migrate_notice'])==true){
-		    if($System_Config['config_migrate_notice']!=$notice_new){
-			    echo($notice_new);
-			}
-		}
-		else{
-			echo($notice_new);
-		}
-
-		file_put_contents(BASE_PATH."/config/.config.php",$config_new);
-		echo(PHP_EOL.'迁移完成！'.PHP_EOL);
-	}
 
     public function cleanRelayRule()
     {

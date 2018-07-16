@@ -20,7 +20,7 @@ telegtam 频道 ：https://t.me/sspanel_Uim  管理模式参考91yun管理
 
 [支持开发者请点我](https://github.com/NimaQu/ss-panel-v3-mod_UIM#%E5%85%B3%E4%BA%8E%E6%8D%90%E8%B5%A0)
 
-本面板在[宝塔面板5.6.0](www.bt.cn)，宝塔安装版 nginx1.12，php 7.1 ，mysql 5.7 上全部功能测试通过
+本面板在[宝塔面板5.6.0](https://www.bt.cn)，宝塔安装版 nginx1.12，php 7.1 ，mysql 5.7 上全部功能测试通过
 
 ## 搭建教程
 
@@ -67,6 +67,11 @@ Wiki已经启用，欢迎为此面板维护wiki
 [**NeverBehave**](https://github.com/NeverBehave)
 
 - 添加 Telegram OAuth
+
+[**SoDa**](https://github.com/SoDa-GitHub)
+
+- 国旗正则
+- 财务报表
 
 ##### 还有所有被引用过代码的同学，以及所有提交过issue的同学。
 

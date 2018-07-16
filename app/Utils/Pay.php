@@ -107,7 +107,7 @@ class Pay
                         <a class="btn btn-flat waves-attach" id="urlChange" ><span class="icon">check</span>&nbsp;充值</a>
                         </div>
                         <div class="form-group pull-right">
-                        <p><img src="/images/qianbai-4.png" height="205" width="166" /></p>
+                        <img src="/images/qianbai-4.png" height="205" width="166" />
                         </div>
 ';
     }
@@ -248,8 +248,7 @@ class Pay
         /**************************请求参数**************************/
         // (必填) 商户网站订单系统中唯一订单号，64个字符以内，只能包含字母、数字、下划线，
         // 需保证商户系统端不能重复，建议通过数据库sequence生成，
-        //$outTradeNo = "qrpay".date('Ymdhis').mt_rand(100,1000);
-        $outTradeNo = $pl->id;
+        $outTradeNo = $pl->id."alipay".date('Ymdhis').mt_rand(100,1000);
 
         // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
         $subject = "￥".$pl->total." - ".Config::get("appName")." - {$user->user_name}({$user->email})";

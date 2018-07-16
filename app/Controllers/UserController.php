@@ -744,11 +744,12 @@ class UserController extends BaseController
 
                 array_push($node_prefix[$name_cheif], $node);
 
-				$regex=Config::get('flag_regex');
-				$matches=array();
-				preg_match($regex,$name_cheif,$matches);
-				$node_flag_file[$name_cheif]=$matches[0];
-				
+				if(Config::get('enable_flag')==true){
+					$regex=Config::get('flag_regex');
+					$matches=array();
+					preg_match($regex,$name_cheif,$matches);
+					$node_flag_file[$name_cheif]=$matches[0];
+				}
             }
         }
         $node_prefix=(object)$node_prefix;
@@ -1182,7 +1183,7 @@ class UserController extends BaseController
         if (isset($request->getQueryParams()["page"])) {
             $pageNum = $request->getQueryParams()["page"];
         }
-        $shops = Shop::where("status", 1)->paginate(15, ['*'], 'page', $pageNum);
+        $shops = Shop::where("status", 1)->orderBy("name")->paginate(15, ['*'], 'page', $pageNum);
         $shops->setPath('/user/shop');
 
         return $this->view()->assign('shops', $shops)->display('user/shop.tpl');
@@ -1224,6 +1225,17 @@ class UserController extends BaseController
             $res['msg'] = "此优惠码不可用于此商品";
             return $response->getBody()->write(json_encode($res));
         }
+
+		$use_limit=$coupon->onetime;
+		if($use_limit>0){
+			$user = $this->user;
+			$use_count=Bought::where("userid",$user->id)->where("coupon",$coupon->code)->count();
+			if($use_count>=$use_limit){
+				$res['ret'] = 0;
+				$res['msg'] = "优惠码次数已用完";
+				return $response->getBody()->write(json_encode($res));
+			}			
+		}
 
         $res['ret'] = 1;
         $res['name'] = $shop->name;
@@ -1283,7 +1295,7 @@ class UserController extends BaseController
 
         if ($user->money<$price) {
             $res['ret'] = 0;
-            $res['msg'] = "余额不足，总价为".$price."元。";
+            $res['msg'] = '喵喵喵~ 当前余额不足，总价为'.$price.'元。</br><a href="/user/code">点击进入充值界面</a>';
             return $response->getBody()->write(json_encode($res));
         }
 
