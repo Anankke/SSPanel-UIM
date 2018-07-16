@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>页面无法找到哦 - {$config["appName"]} </title>
+		<title>远程改动测试3 - {$config["appName"]} </title>
       <meta name="keywords" content=""/>
       <meta name="description" content=""/>
       <meta charset="utf-8" />
