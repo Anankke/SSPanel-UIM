@@ -24,7 +24,7 @@
 						<div class="card-main">
 							<div class="card-inner">
 								<p>商品不可叠加，新购商品会覆盖旧商品的效果</p>
-								<p>当前余额：{$user->money} 元</p>
+								<p>当前余额：<code>{$user->money}</code> 元</p>
 							</div>
 						</div>
 					</div>

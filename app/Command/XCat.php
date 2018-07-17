@@ -86,6 +86,8 @@ class XCat
 	        case("resetAllPort"):
                 return $this->resetAllPort();
 			case("migrateConfig"):
+			    return $this->migrateConfig();
+			case("update"):
 			    return Update::update();
             default:
                 return $this->defaultAction();
@@ -104,7 +106,7 @@ class XCat
 		echo("  initdownload - 下载 SSR 程序至服务器".PHP_EOL);
 		echo("  initQQWry - 下载 IP 解析库".PHP_EOL);
 		echo("  resetTraffic - 重置所有用户流量".PHP_EOL);
-		echo("  migrateConfig - 将配置迁移至新配置".PHP_EOL);
+		echo("  update - 更新并迁移配置".PHP_EOL);
     }
 
 	public function resetPort()
@@ -136,6 +138,11 @@ class XCat
             $user->save();
         }
     }
+
+	public function migrateConfig()
+	{
+		echo("此命令已过时，请使用update命令。".PHP_EOL);
+	}
 
     public function cleanRelayRule()
     {
