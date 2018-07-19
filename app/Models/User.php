@@ -43,6 +43,20 @@ class User extends Model
       //  $hash = md5(strtolower(trim($this->attributes['email'])));
         return "/images/Avatar.jpg";//.$hash;
     }
+    
+    public function getUseMoney()
+    {
+        $uid = $this->attributes['id'];
+        $moneys = Bought::where("userid", "=", $uid)->pluck('price')->toArray();
+        return array_sum($moneys);
+    }
+  
+    public function getRechargeMoney()
+    {
+        $uid = $this->attributes['id'];
+        $moneys = Payback::where("userid", "=", $uid)->pluck('total')->toArray();
+        return array_sum($moneys);
+    }
 
     public function isAdmin()
     {
