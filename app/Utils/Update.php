@@ -67,18 +67,20 @@ class Update
 		$differences=array_diff($new_all,$migrated);
 		foreach($differences as $difference){
 			//匹配注释
-			$regex_comment='/'.$difference.'.*/';
-			$regex_comment=str_replace('[','\[',$regex_new);
-			$regex_comment=str_replace(']','\]',$regex_new);
+			$regex_comment='/'.$difference.'.*;.*\/\//s';
+			$regex_comment=str_replace('[','\[',$regex_comment);
+			$regex_comment=str_replace(']','\]',$regex_comment);
 			$matches_comment=array();
 			preg_match($regex_comment,$config_new,$matches_comment);
-			$comment=$matches_comment[0];
-			$comment=substr(
-				$comment,strpos(
-					$comment,'//',strpos($comment,';') //查找';'之后的第一个'//'，然后substr其后面的comment
-				)+2
-			);
-
+			$comment="";
+			if(isset($matches_comment[0])){
+				$comment=$matches_comment[0];
+				$comment=substr(
+					$comment,strpos(
+						$comment,'//',strpos($comment,';') //查找';'之后的第一个'//'，然后substr其后面的comment
+					)+2
+				);
+			}
 			//裁去首尾
 			$difference=substr($difference,15);
 			$difference=substr($difference, 0, -2);
