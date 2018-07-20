@@ -32,8 +32,8 @@ class Update
 
 		//执行版本升级
 		$version_old=0;
-		if(isset(Config::get('version'))){
-			$version_old=Config::get('version');
+		if(isset($System_Config['config_migrate_notice'])){
+			$version_old=isset($System_Config['config_migrate_notice']);
 		}		
 		Update::old_to_new($version_old);
 
