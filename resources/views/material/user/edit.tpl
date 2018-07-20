@@ -167,6 +167,7 @@
 										<p>当前协议：{$user->protocol}</p>
 										<p>注意1：如果需要兼容原版SS请选择带_compatible的兼容选项！</p>
 										<p>注意2：如果您使用原版 SS 客户端此处请直接设置为 origin！</p>
+										<p>注意3：auth_chain 系为实验性协议，可能造成不稳定或无法使用，开启前请询问是否支持</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="protocol">协议</label>
 											<select id="protocol" class="form-control">
