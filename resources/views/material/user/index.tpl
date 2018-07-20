@@ -128,7 +128,7 @@
                                                       <p><a href="/user/announcement">点击这里查看iOS傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_android">
-														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssr-android.apk"> 点击我下载</a>并安装</p>
+														<p><span class="icon icon-lg text-white">filter_1</span>点击下载<a href="/ssr-download/ssr-android.apk"> SSR </a> 或 <a href="/ssr-download/ssrr-android.apk"> SSRR </a> 并安装</p>
                                                       <p><span class="icon icon-lg text-white">filter_2</span> 打开App，点击右下角的<span class="icon icon-lg text-white">add</span>号图标</p>
                                                         <p><span class="icon icon-lg text-white">filter_3</span> 添加/升级 SSR订阅</p>
                                                           <p><span class="icon icon-lg text-white">filter_4</span> 添加订阅地址，输入以下订阅地址后确定</p>
