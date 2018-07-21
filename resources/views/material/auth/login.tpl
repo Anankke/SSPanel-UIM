@@ -46,8 +46,8 @@
                                                     <div class="row">
                                                         <div class="col-md-10 col-md-push-1">
                                                             <label class="floating-label" for="passwd">密码</label>
-                                                            <input class="form-control" id="passwd" type="password"
-                                                                   name="Password">
+                                                            <input class="form-control" id="passwd" type="password" name="Password">
+															<a href="/password/reset" >忘记密码？点击这里</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -145,15 +145,6 @@
                             {/if}
                         </div>
                     </div>
-
-
-                    <div class="clearfix">
-                        <p class="margin-no-top pull-left"><a class="btn btn-flat btn-brand waves-attach"
-                                                              href="/password/reset">忘记密码</a></p>
-                        <p class="margin-no-top pull-right"><a class="btn btn-flat btn-brand waves-attach"
-                                                               href="/auth/register">注册帐号</a></p>
-                    </div>
-
 
                     {include file='dialog.tpl'}
 

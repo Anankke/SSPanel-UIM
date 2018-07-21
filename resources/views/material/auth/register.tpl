@@ -165,12 +165,6 @@
 								</div>
 							</div>
 						</div>
-						<div class="clearfix">
-							<p class="margin-no-top pull-left"><a class="btn btn-flat btn-brand waves-attach" href="/auth/login">已经注册？请登录</a></p>
-						</div>
-
-
-
 
 						{include file='dialog.tpl'}
 

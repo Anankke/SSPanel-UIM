@@ -231,8 +231,7 @@ abbr[title] {
   cursor: help;
 }
 
-b,
-strong {
+b {
   font-weight: 500;
 }
 

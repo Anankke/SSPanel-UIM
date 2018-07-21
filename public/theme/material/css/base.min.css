@@ -67,14 +67,20 @@ a,body {
 }
 
 body {
-	background-color: rgba(245, 245, 245, 0.54);
-	font-family: "Helvetica Neue","Helvetica","Arial","PingFang SC","Hiragino Sans GB", "Microsoft YaHei","WenQuanYi Micro Hei", sans-serif;
-	font-size: 15px;
-	font-weight: 400;
-	line-height: 20px;
-	margin: 0;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: subpixel-antialiased
+    background-color: rgba(245, 245, 245, 0.54);
+    background-attachment: fixed;
+    width: 100%;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    font-family: "Helvetica Neue","Helvetica","Arial","PingFang SC","Hiragino Sans GB", "Microsoft YaHei","WenQuanYi Micro Hei", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: subpixel-antialiased
 }
 
 html {
@@ -193,7 +199,7 @@ legend {
 	width: 100%
 }
 
-.btn,.fbtn,b,dt,kbd kbd,optgroup,strong {
+.btn,.fbtn,b,dt,kbd kbd,optgroup {
 	font-weight: 500
 }
 
