@@ -18,6 +18,7 @@ body {
 }
 
 .ui-footer {
+  background-color:rgba(255,255,255,0.5);
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   text-align: center;
   padding-top: 12px;

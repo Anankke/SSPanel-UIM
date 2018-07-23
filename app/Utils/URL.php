@@ -63,6 +63,7 @@ class URL
             return 3;
         }
     }
+
     public static function SSCanConnect($user, $mu_port = 0) {
         if($mu_port != 0) {
             $mu_user = User::where('port', '=', $mu_port)->where("is_multi_user", "<>", 0)->first();
@@ -77,6 +78,7 @@ class URL
             return false;
         }
     }
+
     public static function SSRCanConnect($user, $mu_port = 0) {
         if($mu_port != 0) {
             $mu_user = User::where('port', '=', $mu_port)->where("is_multi_user", "<>", 0)->first();
@@ -91,6 +93,7 @@ class URL
             return false;
         }
     }
+
     public static function getSSConnectInfo($user) {
         $new_user = clone $user;
         if(URL::CanObfsConnect($new_user->obfs) == 5) {
