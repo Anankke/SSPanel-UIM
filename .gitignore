@@ -2,7 +2,7 @@
 .DS_Store
 /vendor
 /config/.config.php
-/public/images
+/public/images/*.*
 /public/theme/material/css/images/bg
 /.idea
 storage/qqwry.md5
