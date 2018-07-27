@@ -195,7 +195,7 @@
 
 {include file='user/footer.tpl'}
 
-
+{if $config["payment_system"] == "f2fpay"}
 <script>
 	$(document).ready(function () {
 		$("#code-update").click(function () {
@@ -293,3 +293,4 @@
 	setTimeout(f, 1000);
 })
 </script>
+{/if}
