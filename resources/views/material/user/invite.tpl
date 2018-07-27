@@ -38,21 +38,6 @@
 							</div>
 						</div>
 					</div>
-										
-                  	<div class="col-lg-12 col-md-12">
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-												<p class="card-heading">邀请链接</p>
-												<p>邀请他人注册时，请将以下链接发给被邀请者</p>
-												<p><a>{$config["baseUrl"]}/auth/register?code={$code->code}</a></p>
-												<p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击拷贝邀请链接</button></p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 
 					{if $user->class!=0}
 
@@ -62,9 +47,11 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">注意！</p>
-										<p>邀请链接请给认识的需要的人。</p>
+										<p class="card-heading">邀请链接</p>
 										<p>剩余可邀请次数：{if $user->invite_num<0}无限{else}<code>{$user->invite_num}</code>{/if}</p>
+										<p>邀请链接请给认识的需要的人，邀请他人注册时，请将以下链接发给被邀请者</p>
+										<p><a>{$config["baseUrl"]}/auth/register?code={$code->code}</a></p>
+										<p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击拷贝邀请链接</button></p>
 									</div>
 								</div>
 							</div>
