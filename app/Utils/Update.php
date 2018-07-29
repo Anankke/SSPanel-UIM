@@ -64,7 +64,7 @@ class Update
 		$regex_new='/System_Config\[\'.*?\'\]/s';
 		$matches_new_all=array();
 		preg_match_all($regex_new,$config_new,$matches_new_all);
-		$differences=array_diff($new_all,$migrated);
+		$differences=array_diff($matches_new_all,$migrated);
 		foreach($differences as $difference){
 			//匹配注释
 			$regex_comment='/'.$difference.'.*;.*\/\//s';

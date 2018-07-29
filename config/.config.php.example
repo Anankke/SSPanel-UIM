@@ -219,6 +219,12 @@ $System_Config['finance_public']='false';    	//财务报告是否向Telegram群
 $System_Config['enable_flag']='false';    		//启用该项之前务必先仔细阅读教程
 $System_Config['flag_regex']='/.*?(?=\s)/';     //从站点全名中匹配国家/地区的正则表达式(php版)
 
+//节点被墙检测
+$System_Config['enable_detect_gfw']='false';
+$System_Config['detect_gfw_interval']='3600';		//检测间隔，单位：秒，低于推荐值会爆炸
+$System_Config['detect_gfw_port']='22';			//所有节点服务器都打开的TCP端口，常用的为22（SSH端口）
+$System_Config['detect_gfw_url']='https://cn-qz-tcping.torch.njs.app/{ip}/{port}';		//检测节点是否被gfw墙了的API的URL
+$System_Config['detect_gfw_count']='3';		//尝试次数
 
 //高级设置（一般不用改，反正估计也看不懂-------------------------------------------------------------
 ##杂项

@@ -63,6 +63,8 @@ class XCat
                     return Job::syncnode();
             case("syncnasnode"):
                     return Job::syncnasnode();
+			case("detectGFW"):
+				return Job::detectGFW();
             case("syncnas"):
                     return SyncRadius::syncnas();
             case("dailyjob"):
@@ -89,7 +91,7 @@ class XCat
 			    return $this->migrateConfig();
 			case("update"):
 			    return Update::update();
-            default:
+			default:
                 return $this->defaultAction();
         }
     }
