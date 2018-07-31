@@ -803,7 +803,9 @@ class Job
 					$nodes=Node::all();
 					$adminUser = User::where("is_admin", "=", "1")->get();
 					foreach ($nodes as $node){
-						if($node->node_ip==""||$node->node_ip==null){
+						if($node->node_ip==""||
+						$node->node_ip==null||
+						file_exists(BASE_PATH."/storage/".$node->id."offline")==true){
 							continue;
 						}
 						$api_url=Config::get("detect_gfw_url");
