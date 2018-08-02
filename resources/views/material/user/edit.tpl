@@ -469,7 +469,7 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
-						$("#ajax-user-port").html(date.msg);
+						$("#ajax-user-port").html(data.msg);
 						$("#msg").html("设置成功，新端口是"+data.msg);
 						
                     } else {
