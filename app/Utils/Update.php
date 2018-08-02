@@ -100,7 +100,7 @@ class Update
 			)+1
 		);
 		echo('以下是迁移附注：');
-		if(isset($System_Config['config_migrate_notice'])==true){
+		if(isset($System_Config['config_migrate_notice'])){
 		    if($System_Config['config_migrate_notice']!=$notice_new){
 			    echo($notice_new);
 			}
