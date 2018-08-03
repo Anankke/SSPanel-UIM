@@ -255,6 +255,7 @@
 						$("#qrcode").html(data.qrcode);
 						$("#info").html("您的订单金额为："+data.amount+"元。");
 						$("#alipay").modal();
+						setTimeout(f, 1000);
 					} else {
 						$("#result").modal();
 						$("#msg").html(data.msg);
@@ -290,6 +291,5 @@
 		});
 		tid = setTimeout(f, 1000); //循环调用触发setTimeout
 	}
-	setTimeout(f, 1000);
 })
 </script>
