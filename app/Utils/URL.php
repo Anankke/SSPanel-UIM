@@ -276,11 +276,17 @@ class URL
     }
 
     public static function getAllVMessUrl($user) {
-        $nodes = Node::where('sort', '=', 11)->get();
+        $nodes=Node::where('sort', 11)->where(
+            function ($query) use ($user){
+                $query->where("node_group", "=", $user->node_group)
+                    ->orWhere("node_group", "=", 0);
+            }
+        )->where("type", "1")->where("node_class", "<=", $user->class)->orderBy("name")->get();
+
         $result = "";
 
         foreach ($nodes as $node) {
-            $result += self::getV2Url($user, $node);
+            $result += self::getV2Url($user, $node) . ' ';
         }
 
         return $result;
