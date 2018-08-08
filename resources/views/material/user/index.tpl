@@ -285,8 +285,7 @@
 														</ul>
 													</nav>
 													<div class="tab-pane fade active in" id="all_v2ray_info">
-														{$pre_user = URL::cloneUser($user)}
-														{$v2_url_all = URL::getAllVMessUrl($pre_user)}
+														{$v2_url_all = URL::getAllVMessUrl($user)}
 
 														<a class="copy-text" data-clipboard-text="{$v2_url_all}">点击这里复制全部 VMess 链接</a>
 														<p>

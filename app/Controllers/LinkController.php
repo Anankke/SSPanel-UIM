@@ -272,7 +272,7 @@ class LinkController extends BaseController
                 $is_v2ray = false;
 
                 if (isset($request->getQueryParams()["v2ray"])) {
-                    $is_v2ray = ($request->getQueryParams()["v2ray"] === 1);
+                    $is_v2ray = ($request->getQueryParams()["v2ray"] == 1);
                 }
 
                 $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.txt');
