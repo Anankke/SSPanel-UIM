@@ -276,7 +276,7 @@
 													</div>
 												</div>
 
-												<div class="tab-pane fade id="all_v2ray">
+												<div class="tab-pane fade" id="all_v2ray">
 													<nav class="tab-nav margin-top-no">
 														<ul class="nav nav-list">
 															<li class="active">
