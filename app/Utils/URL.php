@@ -286,7 +286,7 @@ class URL
         $result = "";
 
         foreach ($nodes as $node) {
-            $result += URL::getV2Url($user, $node) . ' ';
+            $result += (URL::getV2Url($user, $node) . ' ');
         }
 
         return $result;
