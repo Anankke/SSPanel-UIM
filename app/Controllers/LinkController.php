@@ -1506,7 +1506,7 @@ FINAL,Proxy';
         if (!$is_v2ray) {
             return Tools::base64_url_encode(URL::getAllUrl($user, $mu, 0, 1));
         } else {
-            return URL::getAllVMessUrl($user);
+            return Tools::base64_url_encode(URL::getAllVMessUrl($user));
         }
     }
 }
