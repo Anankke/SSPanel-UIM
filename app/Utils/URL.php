@@ -254,21 +254,38 @@ class URL
         }
     }
     public static function getV2Url($user, $node){
-        $v2url = "";
-
         $node_explode = explode(';', $node->server);
+        $item = [
+            'v'=>'2', 
+            'type'=>'none', 
+            'host'=>'', 
+            'path'=>'', 
+            'tls'=>''
+        ];
         $item['ps'] = $node->name;
         $item['add'] = $node_explode[0];
         $item['port'] = $node_explode[1];
         $item['id'] = $user->getUuid();
         $item['aid'] = $node_explode[3];
-        $item['net'] = "tcp";
-        $item['type'] = "none";
-        $arr = array('v'=>'2', 'ps'=>$item['ps'], 'add'=>$item['add'], 'port'=>$item['port'], 'id'=>$item['id'], 'aid'=>$item['aid'], 'net'=>'tcp', 'type'=>'none', 'host'=>'', 'path'=>'', 'tls'=>'');
-        $v2url = "vmess://".base64_encode((json_encode($arr, JSON_UNESCAPED_UNICODE)));
-        //$v2url = "{"."\n  \"v\": \"2\",\n  \"ps\": \"".$item['ps']."\",\n  \"add\":  \"".$item['add']."\",\n  \"port\":  \"".$item['port']."\",\n  \"id\":  \"".$item['id']."\",\n  \"aid\":  \"".$item['aid']."\",\n  \"net\":  \"".$item['net']."\",\n  \"type\":  \"".$item['type']."\",\n  \"host\": \"\",\n  \"path\": \"\",\n  \"tls\": \"\"";
-        return $v2url;
+        if (count($node_explode) == 5) {
+            $item['net'] = $node_explode[4];
+        } else {
+            $item['net'] = "tcp";
+        } 
+        return "vmess://".base64_encode((json_encode($item, JSON_UNESCAPED_UNICODE)));
     }
+
+    public static function getAllVMessUrl($user) {
+        $nodes = Node::where('sort', '=', 11)->get();
+        $result = "";
+
+        foreach ($nodes as $node) {
+            $result += self::getV2Url($user, $node);
+        }
+
+        return $result;
+    }
+
     public static function getJsonObfs($item) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
         $plugin = "";
