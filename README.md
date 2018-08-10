@@ -94,3 +94,4 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - [黛米付-支付接入](https://www.daimiyun.cn/register.php?aff=624)
 - [冲上云霄云主机](http://console.soar-clouds.com/aff.php?aff=94)
+- [Vultr](https://www.vultr.com/?ref=7205737)
