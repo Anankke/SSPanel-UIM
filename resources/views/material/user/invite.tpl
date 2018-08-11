@@ -100,6 +100,7 @@
 					</div>
 
 					{/if}
+					<div class="col-lg-12 col-md-12">
 					<div class="table-responsive">
 						{$paybacks->render()}
 						<table class="table ">
@@ -122,6 +123,7 @@
                             {/foreach}
                         </table>
 						{$paybacks->render()}
+					</div>
 					</div>
 
 					{include file='dialog.tpl'}
