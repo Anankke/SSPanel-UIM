@@ -108,6 +108,7 @@ class URL
         $new_user->protocol = str_replace("_compatible", "", $new_user->protocol);
         return $new_user;
     }
+
     public static function getSSRConnectInfo($user) {
         $new_user = clone $user;
         if(URL::CanObfsConnect($new_user->obfs) == 4) {
@@ -291,6 +292,33 @@ class URL
 
         return $result;
     }
+
+	public static function getAllSSDUrl($user){
+		if (URL::SSCanConnect($user)==false){
+			return null;
+		}
+		$array_all=array();
+		$array_all['group_name']=Config::get("appName");
+		$array_all['port']=$user->port;
+		$array_all['encryption']=$user->method;
+		$array_all['passwd']=$user->passwd;
+		$array_server=array();
+		$nodes = Node::where("type","1")->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
+		foreach($nodes as $node){
+			if($node->group!=0&&$node->group!=$user->group){
+				continue;
+			}
+			if($node->node_class>=$user->class){
+				continue;
+			}
+			$array_server['id']=$node->id;
+			$array_server['ip']=$node->server;
+			$array_server['remarks']=$node->name;
+			$array_server['ratio']=$node->traffic_rate;
+		}
+		$array_all['servers']=$array_server;
+		return json_encode($array_all);
+	}
 
     public static function getJsonObfs($item) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
