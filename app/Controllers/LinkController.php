@@ -430,7 +430,7 @@ class LinkController extends BaseController
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
+            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
             $proxy_name .= ",".$item['remark'];
         }
 
