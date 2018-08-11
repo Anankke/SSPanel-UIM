@@ -298,7 +298,7 @@ class URL
 			return null;
 		}
 		$array_all=array();
-		$array_all['group_name']=Config::get("appName");
+		$array_all['airport']=Config::get("appName");
 		$array_all['port']=$user->port;
 		$array_all['encryption']=$user->method;
 		$array_all['passwd']=$user->passwd;
