@@ -312,7 +312,7 @@ class URL
 				continue;
 			}
 			$array_server['id']=$node->id;
-			$array_server['ip']=$node->server;
+			$array_server['server']=$node->server;
 			$array_server['remarks']=$node->name;
 			$array_server['ratio']=$node->traffic_rate;
 		}
