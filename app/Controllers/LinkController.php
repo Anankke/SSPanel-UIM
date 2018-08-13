@@ -269,7 +269,7 @@ class LinkController extends BaseController
                     $mu = (int)$request->getQueryParams()["mu"];
                 }
 
-				$client_type=0;
+				$client_type=-2;
 
                 if (isset($request->getQueryParams()["v2ray"])) {
                     if ($request->getQueryParams()["v2ray"] == 1){
