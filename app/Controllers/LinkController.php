@@ -269,21 +269,8 @@ class LinkController extends BaseController
                     $mu = (int)$request->getQueryParams()["mu"];
                 }
 
-				$client_type=-2;
-
-                if (isset($request->getQueryParams()["v2ray"])) {
-                    if ($request->getQueryParams()["v2ray"] == 1){
-						$client_type=11;
-					}
-                }
-				elseif (isset($request->getQueryParams()["ssd"])) {
-					if ($request->getQueryParams()["ssd"] == 1){
-						$client_type=0;
-					}
-				}
-
                 $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.txt');
-                $newResponse->getBody()->write(LinkController::GetSSRSub(User::where("id", "=", $Elink->userid)->first(), $mu, $max, $client_type));
+                $newResponse->getBody()->write(LinkController::GetSSRSub(User::where("id", "=", $Elink->userid)->first(), $mu, $max));
                 return $newResponse;
             default:
                 break;
@@ -1508,15 +1495,15 @@ FINAL,Proxy';
         return $bash;
     }
 
-    public static function GetSSRSub($user, $mu = 0, $max = 0, $client_type = -2)
+    public static function GetSSRSub($user, $mu = 0, $max = 0)
     {
-        if ($client_type==-2) {
+        if ($mu==0||$mu==1) {
             return Tools::base64_url_encode(URL::getAllUrl($user, $mu, 0, 1));
         } 
-		elseif ($client_type==11){
+		elseif ($mu==2){
             return Tools::base64_url_encode(URL::getAllVMessUrl($user));
         }
-		elseif ($client_type==0) {
+		elseif ($mu==3) {
 			return Tools::base64_url_encode(URL::getAllSSDUrl($user));
 		}
     }
