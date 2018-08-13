@@ -303,7 +303,9 @@ class URL
 		$array_all['encryption']=$user->method;
 		$array_all['password']=$user->passwd;
 		$array_server=array();
-		$nodes = Node::where("type","1")->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
+		$nodes = Node::where("type","1")->where(function ($func){
+		$func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
+		})->get();
 		foreach($nodes as $node){
 			if($node->group!=0&&$node->group!=$user->group){
 				continue;
@@ -311,10 +313,11 @@ class URL
 			if($node->node_class>=$user->class){
 				continue;
 			}
-			$array_server['id']=$node->id;
-			$array_server['server']=$node->server;
-			$array_server['remarks']=$node->name;
-			$array_server['ratio']=$node->traffic_rate;
+			$server['id']=$node->id;
+			$server['server']=$node->server;
+			$server['remarks']=$node->name;
+			$server['ratio']=$node->traffic_rate;
+			array_push($array_server,$server);
 		}
 		$array_all['servers']=$array_server;
 		return json_encode($array_all);
