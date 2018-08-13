@@ -301,7 +301,7 @@ class URL
 		$array_all['airport']=Config::get("appName");
 		$array_all['port']=$user->port;
 		$array_all['encryption']=$user->method;
-		$array_all['passwd']=$user->passwd;
+		$array_all['password']=$user->passwd;
 		$array_server=array();
 		$nodes = Node::where("type","1")->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
 		foreach($nodes as $node){

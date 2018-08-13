@@ -335,7 +335,7 @@
 															<p>同时, Shadowsocks 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
 														{/if}
 													</div>
-													<div class="tab-pane fade" id="all_ssd_windows">
+													<div class="tab-pane fade active in" id="all_ssd_windows">
 														{$ssd_url_all = URL::getAllSSDUrl($user)}
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-win.7z"> 点击下载</a>，解压至任意磁盘并运行</p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅。</p>
