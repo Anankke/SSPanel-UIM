@@ -237,13 +237,13 @@
 													dataPoints: [
 														{if $sts->getRawTotalTraffic()!=0}
 															{
-																y: {(($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100}, legendText:"未使用的流量 {number_format((($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getUnusedTrafficUsage()))}", indexLabel: "未使用的流量 {number_format((($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getUnusedTrafficUsage()))}"
+																y: {(($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100},label: "总剩余可用", legendText:"总剩余可用 {number_format((($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getUnusedTrafficUsage()))}", indexLabel: "总剩余可用 {number_format((($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getUnusedTrafficUsage()))}"
 															},
 															{
-																y: {(($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100}, legendText:"已使用的流量 {number_format((($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getLastTrafficUsage()))}", indexLabel: "已使用的流量 {number_format((($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getLastTrafficUsage()))}"
+																y: {(($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100},label: "总过去已用", legendText:"总过去已用 {number_format((($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getLastTrafficUsage()))}", indexLabel: "总过去已用 {number_format((($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getLastTrafficUsage()))}"
 															},
 															{
-																y: {(($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100}, legendText:"今日使用的流量 {number_format((($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getTodayTrafficUsage()))}", indexLabel: "今日使用的流量 {number_format((($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getTodayTrafficUsage()))}"
+																y: {(($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100},label: "总今日已用", legendText:"总今日已用 {number_format((($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getTodayTrafficUsage()))}", indexLabel: "总今日已用 {number_format((($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getTodayTrafficUsage()))}"
 															}
 														{/if}
 													]

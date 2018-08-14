@@ -108,6 +108,7 @@ class URL
         $new_user->protocol = str_replace("_compatible", "", $new_user->protocol);
         return $new_user;
     }
+
     public static function getSSRConnectInfo($user) {
         $new_user = clone $user;
         if(URL::CanObfsConnect($new_user->obfs) == 4) {
@@ -254,21 +255,74 @@ class URL
         }
     }
     public static function getV2Url($user, $node){
-        $v2url = "";
-
         $node_explode = explode(';', $node->server);
+        $item = [
+            'v'=>'2', 
+            'type'=>'none', 
+            'host'=>'', 
+            'path'=>'', 
+            'tls'=>''
+        ];
         $item['ps'] = $node->name;
         $item['add'] = $node_explode[0];
         $item['port'] = $node_explode[1];
         $item['id'] = $user->getUuid();
         $item['aid'] = $node_explode[3];
-        $item['net'] = "tcp";
-        $item['type'] = "none";
-        $arr = array('v'=>'2', 'ps'=>$item['ps'], 'add'=>$item['add'], 'port'=>$item['port'], 'id'=>$item['id'], 'aid'=>$item['aid'], 'net'=>'tcp', 'type'=>'none', 'host'=>'', 'path'=>'', 'tls'=>'');
-        $v2url = "vmess://".base64_encode((json_encode($arr, JSON_UNESCAPED_UNICODE)));
-        //$v2url = "{"."\n  \"v\": \"2\",\n  \"ps\": \"".$item['ps']."\",\n  \"add\":  \"".$item['add']."\",\n  \"port\":  \"".$item['port']."\",\n  \"id\":  \"".$item['id']."\",\n  \"aid\":  \"".$item['aid']."\",\n  \"net\":  \"".$item['net']."\",\n  \"type\":  \"".$item['type']."\",\n  \"host\": \"\",\n  \"path\": \"\",\n  \"tls\": \"\"";
-        return $v2url;
+        if (count($node_explode) == 6) {
+            $item['net'] = $node_explode[5];
+        } else {
+            $item['net'] = "tcp";
+        } 
+        return "vmess://".base64_encode((json_encode($item, JSON_UNESCAPED_UNICODE)));
     }
+
+    public static function getAllVMessUrl($user) {
+        $nodes = Node::where('sort', 11)->where(
+            function ($query) use ($user){
+                $query->where("node_group", "=", $user->node_group)
+                    ->orWhere("node_group", "=", 0);
+            }
+        )->where("type", "1")->where("node_class", "<=", $user->class)->orderBy("name")->get();
+
+        $result = "";
+
+        foreach ($nodes as $node) {
+            $result .= (URL::getV2Url($user, $node) . "\n");
+        }
+
+        return $result;
+    }
+
+	public static function getAllSSDUrl($user){
+		if (URL::SSCanConnect($user)==false){
+			return null;
+		}
+		$array_all=array();
+		$array_all['airport']=Config::get("appName");
+		$array_all['port']=$user->port;
+		$array_all['encryption']=$user->method;
+		$array_all['password']=$user->passwd;
+		$array_server=array();
+		$nodes = Node::where("type","1")->where(function ($func){
+		$func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
+		})->get();
+		foreach($nodes as $node){
+			if($node->group!=0&&$node->group!=$user->group){
+				continue;
+			}
+			if($node->node_class>=$user->class){
+				continue;
+			}
+			$server['id']=$node->id;
+			$server['server']=$node->server;
+			$server['remarks']=$node->name;
+			$server['ratio']=$node->traffic_rate;
+			array_push($array_server,$server);
+		}
+		$array_all['servers']=$array_server;
+		return json_encode($array_all);
+	}
+
     public static function getJsonObfs($item) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
         $plugin = "";

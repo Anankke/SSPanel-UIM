@@ -42,7 +42,7 @@
 											{/if}
 										{/if}
 										<br/>
-										<p><i class="icon icon-lg">monetization_on</i>当前余额：<font color="red" size="5">{$user->money}</font> 元</p>
+										<p><i class="icon icon-lg">attach_money</i>当前余额：<font color="red" size="5">{$user->money}</font> 元</p>
 									</div>
                                 </div>
                             </div>
@@ -255,6 +255,7 @@
 						$("#qrcode").html(data.qrcode);
 						$("#info").html("您的订单金额为："+data.amount+"元。");
 						$("#alipay").modal();
+						setTimeout(f, 1000);
 					} else {
 						$("#result").modal();
 						$("#msg").html(data.msg);
@@ -290,6 +291,5 @@
 		});
 		tid = setTimeout(f, 1000); //循环调用触发setTimeout
 	}
-	setTimeout(f, 1000);
 })
 </script>

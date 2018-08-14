@@ -424,7 +424,7 @@ class LinkController extends BaseController
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
+            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
             $proxy_name .= ",".$item['remark'];
         }
 
@@ -1497,6 +1497,14 @@ FINAL,Proxy';
 
     public static function GetSSRSub($user, $mu = 0, $max = 0)
     {
-        return Tools::base64_url_encode(URL::getAllUrl($user, $mu, 0, 1));
+        if ($mu==0||$mu==1) {
+            return Tools::base64_url_encode(URL::getAllUrl($user, $mu, 0, 1));
+        } 
+		elseif ($mu==2){
+            return Tools::base64_url_encode(URL::getAllVMessUrl($user));
+        }
+		elseif ($mu==3) {
+			return Tools::base64_url_encode(URL::getAllSSDUrl($user));
+		}
     }
 }
