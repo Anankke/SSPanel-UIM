@@ -308,7 +308,7 @@
 														{$user = URL::getSSConnectInfo($pre_user)}
 														{$ss_url_all = URL::getAllUrl($pre_user, 0, 1)}
 														{$ss_url_all_mu = URL::getAllUrl($pre_user, 1, 1)}
-														{$ss_url_all_win = URL::getAllUrl($pre_user, 0, 2)}
+														{$ss_url_all_win = URL::getAllUrl($pre_user, 0, 2, 1)}
 
 														{if URL::SSCanConnect($user)}
 														<dl class="dl-horizontal">
