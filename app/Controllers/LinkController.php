@@ -404,7 +404,7 @@ class LinkController extends BaseController
                                             "password"=>$item['passwd'],
                                             "method"=>$item['method'],
                                             "plugin"=>"obfs-local",
-                                            "plugin_opts"=>URL::getSurgeObfs($item).";obfs-host=wns.windows.com",
+                                            "plugin_opts"=>URL::getSurgeObfs($item),
                                             "remarks"=>$item['remark'],
                                             "timeout"=>5));
             }
