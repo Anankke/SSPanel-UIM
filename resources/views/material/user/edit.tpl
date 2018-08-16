@@ -182,8 +182,8 @@
 
 									<div class="card-inner">
 										<p>当前混淆方式：{$user->obfs}</p>
-										<p>注意1：如果需要兼容原版SS请选择带_compatible的兼容选项！</p>
-										<p>注意2：SS/SSD 和 SSR 支持的混淆类型有所不同，simple_obfs_* 为原版 SS 的混淆方式，其他为 SSR 的混淆方式！</p>
+										<p>注意1：如果需要兼容 SS/SSD 请选择带_compatible的兼容选项！</p>
+										<p>注意2：SS/SSD 和 SSR 支持的混淆类型有所不同，simple_obfs_* 为 SS/SSD 的混淆方式，其他为 SSR 的混淆方式！</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="obfs">混淆方式</label>
 											<select id="obfs" class="form-control">
