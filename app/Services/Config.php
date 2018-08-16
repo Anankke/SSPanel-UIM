@@ -137,7 +137,7 @@ class Config
 					array_push($list, 'rc4-md5', 'rc4-md5-6', 'aes-128-cfb', 'aes-192-cfb', 'aes-256-cfb',
                             'aes-128-ctr', 'aes-192-ctr', 'aes-256-ctr', 'camellia-128-cfb', 'camellia-192-cfb', 'camellia-256-cfb',
                             'bf-cfb', 'cast5-cfb', 'des-cfb', 'des-ede3-cfb', 'idea-cfb',
-                            'rc2-cfb', 'seed-cfb', 'salsa20', 'chacha20', 'xsalsa20', 'chacha20-ietf', 'none')
+                            'rc2-cfb', 'seed-cfb', 'salsa20', 'chacha20', 'xsalsa20', 'chacha20-ietf', 'none');
 				}
                 return $list;
             default:
