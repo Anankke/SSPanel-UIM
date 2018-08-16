@@ -340,7 +340,6 @@
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-win.7z"> 点击下载</a>，解压至任意磁盘并运行</p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅。</p>
 														<p> <span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网。</p>
-														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：点击<a class="copy-text" data-clipboard-text='{$ssd_url_all}'>这里</a>，然后右键小飞机->从剪贴板复制地址</p>
 														<p><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝订阅地址</button><br></p>
                                                        <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p>
 													</div>													
