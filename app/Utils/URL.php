@@ -311,7 +311,7 @@ class URL
 		$func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
 		})->get();
 		foreach($nodes as $node){
-			if($node->group!=0&&$node->group!=$user->group){
+			if($node->node_group!=0&&$node->node_group!=$user->group){
 				continue;
 			}
 			if($node->node_class>=$user->class){
