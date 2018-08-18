@@ -326,7 +326,7 @@ class URL
 		$array_all['servers']=$array_server;
 		$json_all=json_encode($array_all);	
 		if($base64){
-			return base64_encode($json_all);
+			return "ssd://".base64_encode($json_all);
 		}
 		else{
 			return $json_all;
