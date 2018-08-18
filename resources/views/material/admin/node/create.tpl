@@ -67,10 +67,10 @@
 											<label class="floating-label" for="sort">单端口多用户启用</label>
 											<select id="mu_only" class="form-control" name="is_multi_user">
 												<option value="-1">只启用普通端口</option>
-												if($config['enable_old_mode']=='true'){
+												{if $config['enable_old_mode']=='true'}
 													<option value="0">单端口多用户与普通端口并存</option>
 													<option value="1">只启用单端口多用户</option>
-												}
+												{/if}
 											</select>
 										</label>
 									</div>
