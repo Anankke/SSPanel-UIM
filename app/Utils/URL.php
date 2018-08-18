@@ -297,7 +297,7 @@ class URL
         return $result;
     }
 
-	public static function getAllSSDUrl($user){
+	public static function getAllSSDUrl($user,$base64=false){
 		if (URL::SSCanConnect($user)==false){
 			return null;
 		}
@@ -324,7 +324,13 @@ class URL
 			array_push($array_server,$server);
 		}
 		$array_all['servers']=$array_server;
-		return json_encode($array_all);
+		$json_all=json_encode($array_all);	
+		if($base64){
+			return base64_encode($json_all);
+		}
+		else{
+			return $json_all;
+		}
 	}
 
     public static function getJsonObfs($item) {
