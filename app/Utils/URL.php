@@ -314,7 +314,7 @@ class URL
 			if($node->node_group!=0&&$node->node_group!=$user->group){
 				continue;
 			}
-			if($node->node_class>=$user->class){
+			if($node->node_class>$user->class){
 				continue;
 			}
 			$server['id']=$node->id;

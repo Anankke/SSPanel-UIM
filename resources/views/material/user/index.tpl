@@ -280,7 +280,7 @@
 												<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ssd">
 													<nav class="tab-nav margin-top-no">
 														<ul class="nav nav-list">
-															<li>
+															<li class="active">
 																<a class="waves-attach" data-toggle="tab" href="#all_ssd_windows"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
 															</li>
 															<!--
@@ -299,7 +299,7 @@
 																<a class="waves-attach" data-toggle="tab" href="#all_ssd_router"><i class="icon icon-lg">router</i>&nbsp;路由器</a>
 															</li>
 															-->
-															<li class="active">
+															<li>
 																<a class="waves-attach" data-toggle="tab" href="#all_ssd_info"><i class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
 															</li>
 														</ul>
