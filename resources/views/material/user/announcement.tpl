@@ -43,7 +43,7 @@
 														</ul>
 													</nav>
                                       
-                                      <div class="tab-pane fade active in" id="all_ssr_windows">
+                                      <div class="tab-pane fade" id="all_ssr_windows">
                                         <p><code><font size="5">1：下载软件</font></code></p>
                                   		 <p><img src="/images/c_win_1.jpg" height="400" width="500" /></p>
                                		   <p><code><font size="5">2：导入节点（三种方式）</font></code></p>
@@ -130,10 +130,24 @@
 							</div>
                                        <div class="tab-pane fade" id="all_ssr_router">
                                        <h2 class="major">路由器</h2>
+				       <p>由于路由器厂商众多、固件版本不一、硬件质量良莠不齐，我们无法为使用路由器部署本站业务的客户提供一个标准化的教程，此外将服务部署至路由器上还会出现很多问题，例如流量偷跑、滥用以及被服务商检测到使用代理(如Netflix)，因此我们不建议您将本站所提供服务部署到路由器上，若您执意如此请自行搜索以获取相关功能。</p>
 								
 
-							</div>  <div class="tab-pane fade" id="all_ssr_game">
-                                       <h2 class="major">游戏端</h2>
+							</div>  <div class="tab-pane fade active in" id="all_ssr_game">
+                                       <h2 class="major">SSTap(推荐小白使用)</h2>
+				                                              <p><code><font size="5">1：登陆至用户中心并下拉</font></code></p>
+										  <p><img src="https://pics.gzns.tech/images/2018/08/18/Windows-10-x64-2018-08-18-11-45-51.png" height="600" width="950"/></p>
+										  <p><code><font size="5">2:点击下载软件并复制订阅连接<font></code></p>
+										  <p><img src="https://pics.gzns.tech/images/2018/08/18/InkedWindows-10-x64-2018-08-18-11-47-59.jpg" height="600" width="950"/></p>
+										  <p><code><font size="5">3:请务必使用Google Chrome访问，否则可能无法正常复制到剪贴板<font></code></p>
+										  <p><img src="https://pics.gzns.tech/images/2018/08/18/Windows-10-x64-2018-08-18-11-48-11.png" height="600" width="950"/></p>
+										  <p><code><font size="5">4:将压缩包中内容解压到一个文件夹内，并运行其中的 SSTap.exe【注意！请务必允许程序安装虚拟网卡，否则无法正常工作！若杀毒软件报毒，请考虑卸载杀毒软件】<font></code></p>
+										  <p><img src="https://pics.gzns.tech/images/2018/08/18/Windows-10-x64-2018-08-18-11-48-46.png" height="600" width="950"/></p>
+										  <p><code><font size="5">5:右键单击任务栏中的盾牌形图标，SSR订阅管理-添加订阅，Ctrl-V将订阅链接复制进去<font></code></p>
+										  <p><img src="https://pics.gzns.tech/images/2018/08/18/Windows-10-x64-2018-08-18-11-50-07.png" height="600" width="950"/></p>
+										  <p><code><font size="5">6:关闭SSR订阅管理页面，此时软件会自动进行订阅更新<font></code></p>
+                                          <p><img src="https://pics.gzns.tech/images/2018/08/18/Windows-10-x64-2018-08-18-11-50-31.png" height="600" width="950"/></p>
+										<h3 class="major">部分站点已对接SSR订阅自动导入功能，暨在下载的安装包内整合了SSR订阅信息，若按照本教程操作后节点订阅信息仍未出现，请将手机流量共享给电脑后用流量再尝试更新！</h3>
 								
 
 							</div>
