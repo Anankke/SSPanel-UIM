@@ -164,7 +164,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">协议&混淆设置</p>
-										<p>当前协议：{$user->protocol}</p>
+										<p>当前协议：<code id="ajax-user-protocol">{$user->protocol}</code></p>
 										<p>注意1：如果需要兼容 SS/SSD 请选择带_compatible的兼容选项！</p>
 										<p>注意2：如果您使用 SS/SSD 此处请直接设置为 origin！</p>
 										<p>注意3：auth_chain 系为实验性协议，可能造成不稳定或无法使用，开启前请询问是否支持</p>
@@ -181,7 +181,7 @@
 									</div>
 
 									<div class="card-inner">
-										<p>当前混淆方式：{$user->obfs}</p>
+										<p>当前混淆方式：<code id="ajax-user-obfs">{$user->obfs}</code></p>
 										<p>注意1：如果需要兼容 SS/SSD 请选择带_compatible的兼容选项！</p>
 										<p>注意2：SS/SSD 和 SSR 支持的混淆类型有所不同，simple_obfs_* 为 SS/SSD 的混淆方式，其他为 SSR 的混淆方式！</p>
 										<div class="form-group form-group-label">
@@ -273,7 +273,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">每日邮件接收设置</p>
-										<p>当前设置：{if $user->sendDailyMail==1} 发送 {else} 不发送 {/if}</p>
+										<p>当前设置：<code id="ajax-mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}<mail></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="mail">发送设置</label>
 											<select id="mail" class="form-control">
@@ -632,6 +632,8 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
+						$("#ajax-user-protocol").html($("#protocol").val());
+						$("ajax-user-obfs").html($("#obfs").val());
 						$("#ajax-user-obfs-param").html($("#obfs-param").val());
 						$("#msg").html(data.msg);
                     } else {
@@ -808,6 +810,7 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
+						$("#ajax-mail").html($("#mail").val()=="1"?"发送":"不发送");
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();

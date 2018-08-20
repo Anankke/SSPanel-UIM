@@ -304,7 +304,7 @@
 															</li>
 														</ul>
 													</nav>
-													<div class="tab-pane fade active in" id="all_ssd_info">
+													<div class="tab-pane fade" id="all_ssd_info">
 														{$user = URL::getSSConnectInfo($pre_user)}
 														{$ss_url_all = URL::getAllUrl($pre_user, 0, 1)}
 														{$ss_url_all_mu = URL::getAllUrl($pre_user, 1, 1)}
