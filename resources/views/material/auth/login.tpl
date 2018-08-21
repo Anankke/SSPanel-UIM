@@ -93,15 +93,16 @@
                                                     </div>
                                                 </div>
                                             </form>
+                                          {if $config['enable_telegram'] == 'true'}
                                           <hr>
-                                          
-                                          <div class="card-inner">
+                                             <div class="card-inner">
                                                 <h1 class="card-heading" style=" text-align:center;font-weight:bold;">
                                                     TG一键登录</h1>
                                             </div>
                                         		<div id="telegram-alert">正在载入 Telegram，如果长时间未显示请刷新页面或检查代理</div>
-												<div class="text-center" id="telegram-login-box"></div>
-                                        <div class="card-inner"> </div>                                         
+							<div class="text-center" id="telegram-login-box"></div>
+                                        		<div class="card-inner"> </div>
+                                          {/if}
                                         </div>
                                     </div>
                                 </div>
