@@ -306,6 +306,9 @@ class URL
 		$array_all['port']=$user->port;
 		$array_all['encryption']=$user->method;
 		$array_all['password']=$user->passwd;
+		$array_all['traffic_used']=Tools::flowToGB($user->u+$user->d);
+		$array_all['traffic_total']=Tools::flowToGB($user->transfer_enable);
+		$array_all['expiry']=$user->$user->class_expire;
 		$array_server=array();
 		$nodes = Node::where("type","1")->where(function ($func){
 		$func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
