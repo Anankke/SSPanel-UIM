@@ -280,7 +280,7 @@
 												<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ssd">
 													<nav class="tab-nav margin-top-no">
 														<ul class="nav nav-list">
-															<li>
+															<li class="active">
 																<a class="waves-attach" data-toggle="tab" href="#all_ssd_windows"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
 															</li>
 															<!--
@@ -299,16 +299,16 @@
 																<a class="waves-attach" data-toggle="tab" href="#all_ssd_router"><i class="icon icon-lg">router</i>&nbsp;路由器</a>
 															</li>
 															-->
-															<li class="active">
+															<li>
 																<a class="waves-attach" data-toggle="tab" href="#all_ssd_info"><i class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
 															</li>
 														</ul>
 													</nav>
-													<div class="tab-pane fade active in" id="all_ssd_info">
+													<div class="tab-pane fade" id="all_ssd_info">
 														{$user = URL::getSSConnectInfo($pre_user)}
 														{$ss_url_all = URL::getAllUrl($pre_user, 0, 1)}
 														{$ss_url_all_mu = URL::getAllUrl($pre_user, 1, 1)}
-														{$ss_url_all_win = URL::getAllUrl($pre_user, 0, 2)}
+														{$ss_url_all_win = URL::getAllUrl($pre_user, 0, 2, 1)}
 
 														{if URL::SSCanConnect($user)}
 														<dl class="dl-horizontal">
@@ -336,7 +336,7 @@
 														{/if}
 													</div>
 													<div class="tab-pane fade active in" id="all_ssd_windows">
-														{$ssd_url_all = URL::getAllSSDUrl($user)}
+														{$ssd_url_all =URL::getAllSSDUrl($user,true)}
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-win.7z"> 点击下载</a>，解压至任意磁盘并运行</p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅。</p>
 														<p> <span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网。</p>
