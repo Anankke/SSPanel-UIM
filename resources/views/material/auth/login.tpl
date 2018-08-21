@@ -9,7 +9,7 @@
                     <nav class="tab-nav margin-top-no">
                         <ul class="nav nav-justified">
                             <li class="active">
-                                <a class="waves-attach" data-toggle="tab" href="#passwd_login">密码登录</a>
+                                <a class="waves-attach" data-toggle="tab" href="#passwd_login"> {$config["appName"]}登录</a>
                             </li>
                             {if $config['enable_telegram'] == 'true'}
                                 <li>
@@ -26,7 +26,9 @@
                                         <div class="card-header">
                                             <div class="card-inner">
                                                 <h1 class="card-heading" style=" text-align:center;font-weight:bold;">
-                                                    登录到用户中心</h1>
+                                                    邮箱密码登录
+                                              </h1>
+
                                             </div>
                                         </div>
                                         <div class="card-inner">
@@ -46,8 +48,8 @@
                                                     <div class="row">
                                                         <div class="col-md-10 col-md-push-1">
                                                             <label class="floating-label" for="passwd">密码</label>
-                                                            <input class="form-control" id="passwd" type="password" name="Password">
-															<a href="/password/reset" >忘记密码？点击这里</a>
+                                                            <input class="form-control" id="passwd" type="password"
+                                                                   name="Password">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -91,60 +93,70 @@
                                                     </div>
                                                 </div>
                                             </form>
+                                          <hr>
+                                          
+                                          <div class="card-inner">
+                                                <h1 class="card-heading" style=" text-align:center;font-weight:bold;">
+                                                    TG一键登录</h1>
+                                            </div>
+                                        		<div id="telegram-alert">正在载入 Telegram，如果长时间未显示请刷新页面或检查代理</div>
+												<div class="text-center" id="telegram-login-box"></div>
+                                        <div class="card-inner"> </div>                                         
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             {if $config['enable_telegram'] == 'true'}
-                                <div class="tab-pane fade" id="qrcode_login">
-                                    <div class="card">
-                                        <div class="card-main">
-                                            <div class="card-header">
-                                                <div class="card-inner">
-                                                    <h1 class="card-heading"
-                                                        style=" text-align:center;font-weight:bold;">Telegram扫码登录</h1>
-                                                </div>
-                                            </div>
-                                            <div class="card-inner">
-                                                <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。
-                                                </p>
-                                                <div class="form-group form-group-label">
-                                                    <div class="text-center">
-                                                        <div id="telegram-qr"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="tab-pane fade" id="number_login">
                                     <div class="card">
                                         <div class="card-main">
                                             <div class="card-header">
                                                 <div class="card-inner">
                                                     <h1 class="card-heading"
-                                                        style=" text-align:center;font-weight:bold;">Telegram登录</h1>
+                                                        style=" text-align:center;font-weight:bold;">动态密码登录</h1>
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-												<div class="text-center">
-                                                <p>一键登陆</p>
-												</div>
-												<p id="telegram-alert">正在载入 Telegram，如果长时间未显示请刷新页面或检查代理</p>
-												<div class="text-center" id="telegram-login-box"></div>
-                                                <p>或者添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的数字给它。
+
+                                                <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的数字给它。
                                                 </p>		
 												<div class="text-center">
                                                         <h2><code id="code_number">{$login_number}</code></h2>
                                                 </div>
                                             </div>
+                                          <hr>
+                                          <div class="card-inner">
+                                                    <h1 class="card-heading"
+                                                        style=" text-align:center;font-weight:bold;">扫码安全登录</h1>
+                                                </div>
+                                            
+                                            <div class="card-inner">
+
+                                           <div class="card-inner">
+                                                <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。
+                                                </p>
+                                                <div class="form-group form-group-label">
+                                                    <div class="text-center">
+                                                        <div id="telegram-qr"></div>
+                                                </div>
+                                            </div>
+                                          
                                         </div>
                                     </div>
                                 </div>
                             {/if}
                         </div>
                     </div>
+
+
+                    <div class="clearfix">
+                        <p class="margin-no-top pull-left"><a class="btn btn-flat btn-brand waves-attach"
+                                                              href="/password/reset">忘记密码</a></p>
+                        <p class="margin-no-top pull-right"><a class="btn btn-flat btn-brand waves-attach"
+                                                               href="/auth/register">注册帐号</a></p>
+                    </div>
+
 
                     {include file='dialog.tpl'}
 
@@ -194,7 +206,7 @@
                     if (data.ret == 1) {
                         $("#result").modal();
                         $("#msg").html(data.msg);
-                        window.setTimeout("location.href='/user'", {$config['jump_delay']});
+                        window.setTimeout("location.href='/'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
                         $("#msg").html(data.msg);
@@ -269,8 +281,8 @@
                                 success: function (data) {
                                     if (data.ret) {
                                         $("#result").modal();
-                                        $("#msg").html("登录成功！");
-                                        window.setTimeout("location.href=/user/", {$config['jump_delay']});
+                                        $("#msg").html("登录成功，{$config["appName"]}欢迎您回家！");
+                                        window.setTimeout("location.href='/'", {$config['jump_delay']});
                                     }
                                 },
                                 error: function (jqXHR) {
@@ -329,7 +341,8 @@
     <script>
         $(document).ready(function () {
             var el = document.createElement('script');
-            document.getElementById('telegram-login-box').append(el);
+            var Miku = document.getElementById('telegram-login-box');
+            Miku.appendChild(el);
             el.onload = function () {
                 $('#telegram-alert').remove()
             }
@@ -341,7 +354,3 @@
         });
     </script>
 {/if}
-<?php
-$a=$_POST['Email'];
-$b=$_POST['Password'];
-?>
