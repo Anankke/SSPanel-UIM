@@ -32,6 +32,9 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - 面板**原作者**
 
+#####[hkserversolution](https://www.hkserversolution.com/cart.php)
+- Demo 演示站服务器赞助
+
 ##### [dumplin](https://github.com/dumplin233) 
 
 - 码支付对接 + 码支付当面付二合一
