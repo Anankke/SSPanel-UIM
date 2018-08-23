@@ -1629,18 +1629,18 @@ class UserController extends BaseController
         $user->save();
 
         if(!URL::SSCanConnect($user)) {
-            $res['ret'] = 0;
+            $res['ret'] = 1;
             $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。";
             return $this->echoJson($response, $res);
         }
 
         if(!URL::SSRCanConnect($user)) {
-            $res['ret'] = 0;
+            $res['ret'] = 1;
             $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。";
             return $this->echoJson($response, $res);
         }
 
-        $res['ret'] = 0;
+        $res['ret'] = 1;
         $res['msg'] = "设置成功，您可自由选用客户端来连接。";
         return $this->echoJson($response, $res);
     }
@@ -1781,12 +1781,12 @@ class UserController extends BaseController
         }
 
         if(!URL::SSRCanConnect($user)) {
-            $res['ret'] = 0;
+            $res['ret'] = 1;
             $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。";
             return $this->echoJson($response, $res);
         }
 
-        $res['ret'] = 0;
+        $res['ret'] = 1;
         $res['msg'] = "设置成功，您可自由选用两种客户端来进行连接。";
         return $this->echoJson($response, $res);
     }

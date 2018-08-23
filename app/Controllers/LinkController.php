@@ -269,14 +269,8 @@ class LinkController extends BaseController
                     $mu = (int)$request->getQueryParams()["mu"];
                 }
 
-                $is_v2ray = false;
-
-                if (isset($request->getQueryParams()["v2ray"])) {
-                    $is_v2ray = ($request->getQueryParams()["v2ray"] == 1);
-                }
-
                 $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.txt');
-                $newResponse->getBody()->write(LinkController::GetSSRSub(User::where("id", "=", $Elink->userid)->first(), $mu, $max, $is_v2ray));
+                $newResponse->getBody()->write(LinkController::GetSSRSub(User::where("id", "=", $Elink->userid)->first(), $mu, $max));
                 return $newResponse;
             default:
                 break;
@@ -409,8 +403,8 @@ class LinkController extends BaseController
                                             "server_port"=>$item['port'],
                                             "password"=>$item['passwd'],
                                             "method"=>$item['method'],
-                                            "plugin"=>"obfs-local",
-                                            "plugin_opts"=>URL::getSurgeObfs($item).";obfs-host=wns.windows.com",
+                                            "plugin"=>($item['obfs']=='plain')?'':'obfs-local',
+                                            "plugin_opts"=>str_replace(',',';',URL::getSurgeObfs($item)),
                                             "remarks"=>$item['remark'],
                                             "timeout"=>5));
             }
@@ -430,7 +424,7 @@ class LinkController extends BaseController
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
+            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',udp-relay=true,tfo=true'."\n";
             $proxy_name .= ",".$item['remark'];
         }
 
@@ -1501,12 +1495,16 @@ FINAL,Proxy';
         return $bash;
     }
 
-    public static function GetSSRSub($user, $mu = 0, $max = 0, $is_v2ray = false)
+    public static function GetSSRSub($user, $mu = 0, $max = 0)
     {
-        if (!$is_v2ray) {
+        if ($mu==0||$mu==1) {
             return Tools::base64_url_encode(URL::getAllUrl($user, $mu, 0, 1));
-        } else {
+        } 
+		elseif ($mu==2){
             return Tools::base64_url_encode(URL::getAllVMessUrl($user));
         }
+		elseif ($mu==3) {
+			return Tools::base64_url_encode(URL::getAllSSDUrl($user));
+		}
     }
 }

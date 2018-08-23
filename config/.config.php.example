@@ -1,6 +1,6 @@
 <?php
 
-// 注释里请勿使用英文方括号、分号、单引号，否则迁移Config时可能会出现BUG
+//注释里请勿使用英文方括号、分号、单引号，否则迁移Config时会出错
 
 //config迁移附注（由开发者填写本次config迁移后需要注意的地方，站长勿动）
 //如需换行，直接换行即可，无需换行符
@@ -8,7 +8,8 @@ $System_Config['config_migrate_notice']=
 'daliy job不再包含自动备份，
 自动备份改用crontab进行，以实现每隔20分钟备份一次之类的操作,
 详情请看本wiki底部：
-https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/前端安装';
+https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/前端安装
+node_offline_warn被改名为enable_detect_offline';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1
 
 
@@ -23,6 +24,7 @@ $System_Config['db_host'] = 'localhost'; //数据库地址
 $System_Config['db_database'] = 'sspanel';			//数据库名
 $System_Config['db_username'] = 'root';		//数据库用户名
 $System_Config['db_password'] = 'sspanel';			//用户名对应的密码
+$System_Config['enable_old_mode'] = 'true';			//兼容SS、SSR的过时协议
 
 
 //邮件设置-----------------------------------------------------------------------
@@ -219,27 +221,32 @@ $System_Config['finance_public']='false';    	//财务报告是否向Telegram群
 $System_Config['enable_flag']='false';    		//启用该项之前务必先仔细阅读教程
 $System_Config['flag_regex']='/.*?(?=\s)/';     //从站点全名中匹配国家/地区的正则表达式(php版)
 
-//节点被墙检测
+
+//节点检测
+#GFW检测
 $System_Config['enable_detect_gfw']='false';
 $System_Config['detect_gfw_interval']='3600';		//检测间隔，单位：秒，低于推荐值会爆炸
 $System_Config['detect_gfw_port']='22';			//所有节点服务器都打开的TCP端口，常用的为22（SSH端口）
 $System_Config['detect_gfw_url']='https://cn-qz-tcping.torch.njs.app/{ip}/{port}';		//检测节点是否被gfw墙了的API的URL
 $System_Config['detect_gfw_count']='3';		//尝试次数
 
-//高级设置（一般不用改，反正估计也看不懂-------------------------------------------------------------
-##杂项
+#离线检测
+$System_Config['enable_detect_offline']='true';
+
+
+//以下所有均为高级设置（一般不用改，反正估计也看不懂-------------------------------------------------------------
+#杂项
 $System_Config['enable_login_bind_ip']='false';     //是否将登陆线程和IP绑定
 $System_Config['authDriver'] = 'cookie';   			//不能更改此项
 $System_Config['salt'] = '';               			// 密码加密用，请留空
 $System_Config['sessionDriver'] = 'cookie'; 		//  可选: cookie,redis
 $System_Config['cacheDriver'] = 'cookie';   		//  可选: cookie,redis
 $System_Config['tokenDriver'] = 'db';   			//  可选: db,redis
-$System_Config['jump_delay']='1200';  				//跳转延时,ms 1000ms=1s 不建议太长
+$System_Config['jump_delay']='1200';  				//跳转延时，单位ms，不建议太长
 $System_Config['theme']    = 'material';   			// 主题
 $System_Config['pacp_offset']='-20000';      		//VPN 端口偏移
 $System_Config['pacpp_offset']='-20000';
 $System_Config['Speedtest_duration']='6';      		//显示多长时间的测速记录
-$System_Config['node_offline_warn']='true';      	//节点离线设置
 $System_Config['login_warn']='false';      			//异地登陆提示
 $System_Config['timeZone'] = 'PRC';        			// PRC 天朝时间  UTC 格林时间
 $System_Config['pwdMethod'] = 'sha256';       		// 密码加密   可选 md5,sha256
@@ -247,12 +254,11 @@ $System_Config['db_charset'] = 'utf8';
 $System_Config['db_collation'] = 'utf8_general_ci';
 $System_Config['db_prefix'] = '';
 
-
-# aws
+#aws
 $System_Config['aws_access_key_id'] = '';
 $System_Config['aws_secret_access_key'] = '';
 
-# redis
+#redis
 $System_Config['redis_scheme'] = 'tcp';
 $System_Config['redis_host'] = '127.0.0.1';
 $System_Config['redis_port'] = '6379';
@@ -289,12 +295,11 @@ $System_Config['cloudxns_apikey']='';      			//自己去 cloudxns.net 申请
 $System_Config['cloudxns_apisecret']='';
 $System_Config['cloudxns_domain']='zhaoj.in';      	//你的域名
 
-#不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转，但是，强烈推荐不开启。
-$System_Config['relay_insecure_mode']='false';		//默认关闭不安全中转
+#不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转
+$System_Config['relay_insecure_mode']='false';		//强烈推荐不开启
 
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
 $System_Config['enable_analytics_code']='false';
-
 
 $System_Config['v2ray_port']='443';
 $System_Config['v2ray_protocol']='HTTP/2 + TLS';
@@ -304,9 +309,6 @@ $System_Config['v2ray_level']='0';
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
 
 if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ) {
-
 $list = explode("," , $_SERVER["HTTP_X_FORWARDED_FOR"]);
-
 $_SERVER["REMOTE_ADDR"] = $list[0];
-
 }

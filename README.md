@@ -70,8 +70,11 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 [**SoDa**](https://github.com/SoDa-GitHub)
 
-- 国旗正则
+- 一键国旗
 - 财务报表
+- xcat一键update
+- 被墙检测
+- 适配SSD
 
 ##### 还有所有被引用过代码的同学，以及所有提交过issue的同学。
 
@@ -94,3 +97,4 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - [黛米付-支付接入](https://www.daimiyun.cn/register.php?aff=624)
 - [冲上云霄云主机](http://console.soar-clouds.com/aff.php?aff=94)
+- [Vultr](https://www.vultr.com/?ref=7205737)
