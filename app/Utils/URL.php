@@ -257,7 +257,6 @@ class URL
         $node_explode = explode(';', $node->server);
         $item = [
             'v'=>'2', 
-            'type'=>'none', 
             'host'=>'', 
             'path'=>'', 
             'tls'=>''
@@ -267,11 +266,18 @@ class URL
         $item['port'] = $node_explode[1];
         $item['id'] = $user->getUuid();
         $item['aid'] = $node_explode[3];
-        if (count($node_explode) == 6) {
+        if (count($node_explode) >= 6) {
             $item['net'] = $node_explode[5];
         } else {
             $item['net'] = "tcp";
         } 
+
+        if (count($node_explode) >= 7) {
+            $item['type'] = $node_explode[6];
+        } else {
+            $item['type'] = "none";
+        } 
+
         return "vmess://".base64_encode((json_encode($item, JSON_UNESCAPED_UNICODE)));
     }
 
