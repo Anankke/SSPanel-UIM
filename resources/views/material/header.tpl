@@ -88,7 +88,7 @@
 
                   <li>
                     <div class="divcss5">
-    					<img  src="/images/Ambassador-menu.png" width="230" height="300"/>
+    					<img  src="/images/Ambassador-menu.png" width="230" height="310"/>
                       </div>
 					</li>
 					{/if}
