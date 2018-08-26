@@ -451,8 +451,14 @@ class URL
 	}
   
     public static function getUserClassExpiration($user){
+		$class_expire = '';
+	    	if($user->class_expire == "1989-06-04 00:05:00"){
+			$class_expire = '永不过期';
+		}else{
+			$class_expire = $user->class_expire;	
+		}
 		if($user->class !=0){
-			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
+			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
 		}else{
 			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
 		}
