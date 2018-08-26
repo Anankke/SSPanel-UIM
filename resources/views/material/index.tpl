@@ -34,7 +34,7 @@
                                     等级：{if $user->class!=0}
 											<code>VIP{$user->class}</code>
                                           {else}
-                                             <code>免费</code>
+                                             <code>未付费</code>
                                               {/if}
                                     过期时间：{if $user->class_expire!="1989-06-04 00:05:00"}
 											    <code>{$user->class_expire}</code>
@@ -48,10 +48,10 @@
                       </div>	
 					  	<nav>
 							<ul>
-                                <li><a href="#1">简介</a></li>
+                                <!--<li><a href="#1">简介</a></li>-->
 					            <li><a href="/user">用户中心</a></li>
 								<li><a href="/user/logout">退出登录</a></li>
-								<li><a href="#5">下载</a></li>
+								<!--<li><a href="#5">下载</a></li>-->
                         </ul>
 						</nav>
                               {else}
@@ -67,10 +67,10 @@
                       </div>	
                               <nav>
 							<ul>
-                               <li><a href="#1">简介</a></li>
+                                <!--<li><a href="#1">简介</a></li>-->
 								<li><a href="/auth/login">登录</a></li>
-								<li><a href="/auth/register">注册</a></li>
-                              	<li><a href="#5">下载</a></li>
+								<!--<li><a href="/auth/register">注册</a></li>
+                              	<li><a href="#5">下载</a></li>-->
                               
                            </ul>
 						</nav>

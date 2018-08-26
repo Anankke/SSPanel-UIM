@@ -63,7 +63,7 @@ class TelegramProcess
                     break;
                 case 'help':
                     $help_list = "命令列表：
-						/ping  获取群组ID
+						
 						/traffic 查询流量
 						/checkin 签到续命
 						/help 获取帮助信息
@@ -190,7 +190,7 @@ class TelegramProcess
                     break;
                 case 'help':
                     $help_list_group = "命令列表：
-						/ping  获取群组ID
+						
 						/traffic 查询流量
 						/checkin 签到续命
 						/help 获取帮助信息

@@ -140,9 +140,9 @@ class Pay
                         <form name="codepay" action="/user/code/codepay" method="get">
                             <input class="form-control" id="price" name="price" placeholder="输入充值金额后，点击你要付款的应用图标即可" autofocus="autofocus" type="number" min="0.01" max="1000" step="0.01" required="required">
                             <br>
-                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="1" ><img src="/images/alipay.jpg" width="50px" height="50px" /></button>
-                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="2" ><img src="/images/qqpay.jpg" width="50px" height="50px" /></button>
-                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="3" ><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
+                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="1" ><img src="/images/alipay.png" width="50px" height="50px" /></button>
+                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="2" ><img src="/images/qq.png" width="50px" height="50px" /></button>
+                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="3" ><img src="/images/wechat.png" width="50px" height="50px" /></button>
 
                         </form>
 ';
