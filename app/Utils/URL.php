@@ -458,7 +458,7 @@ class URL
 			$class_expire = $user->class_expire;	
 		}
 		if($user->class !=0){
-			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
+			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
 		}else{
 			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
 		}
