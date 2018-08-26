@@ -125,7 +125,7 @@
 
 
 										{if $enable_invite_code == 'true'}
-											<div class="form-group form-group-label">
+											<div class="form-group form-group-label" style="display:none">
 												<div class="row">
 													<div class="col-md-10 col-md-push-1">
 														<label class="floating-label" for="code">邀请码(必填)</label>
