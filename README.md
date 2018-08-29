@@ -10,21 +10,17 @@
 - **优化**：css和js等置入本地提升加载速度
 - 增加**v2Ray** 功能，详情请看 [wiki](https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/V2Ray-%E5%AF%B9%E6%8E%A5%E6%95%99%E7%A8%8B)
 
-telegram交流群：https://t.me/joinchat/GQehSEV7LEU1Z6E8aQ4z3w
+telegram水群：https://t.me/joinchat/GQehSEV7LEU1Z6E8aQ4z3w 参考91yun管理，除非是 bug ，各种疑难杂症提问请先带价（抱歉我们跟你不熟不会帮你免费解决）不然请自行离开
 
-telegtam 频道 ：https://t.me/sspanel_Uim  管理模式参考91yun管理
+telegtam 频道 ：https://t.me/sspanel_Uim 
 
-演示站: [demo.nimaqu.com](https://demo.nimaqu.com) 账号/密码:admin  mukey=NimaQu
+演示站: [demo.nimaqu.com](https://demo.nimaqu.com) 账号和密码都是 admin  对接节点的 mukey=NimaQu
 
 **原作者** [galaxychuck](https://github.com/galaxychuck)
 
 [支持开发者请点我](https://github.com/NimaQu/ss-panel-v3-mod_UIM#%E5%85%B3%E4%BA%8E%E6%8D%90%E8%B5%A0)
 
-本面板在[宝塔面板5.6.0](https://www.bt.cn)，宝塔安装版 nginx1.12，php 7.1 ，mysql 5.7 上全部功能测试通过
-
 ## 搭建教程
-
-感谢LALA制作教程：https://lala.im/2398.html
 
 GitHub Wiki : https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%89%8D%E7%AB%AF%E5%AE%89%E8%A3%85
 
@@ -35,6 +31,9 @@ Wiki已经启用，欢迎为此面板维护wiki
 ##### [galaxychuck](https://github.com/galaxychuck)
 
 - 面板**原作者**
+
+#####[hkserversolution](https://www.hkserversolution.com/cart.php)
+- Demo 演示站服务器赞助
 
 ##### [dumplin](https://github.com/dumplin233) 
 

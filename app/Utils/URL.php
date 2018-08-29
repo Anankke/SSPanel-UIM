@@ -262,7 +262,6 @@ class URL
         $node_explode = explode(';', $node->server);
         $item = [
             'v'=>'2', 
-            'type'=>'none', 
             'host'=>'', 
             'path'=>'', 
             'tls'=>''
@@ -272,11 +271,18 @@ class URL
         $item['port'] = $node_explode[1];
         $item['id'] = $user->getUuid();
         $item['aid'] = $node_explode[3];
-        if (count($node_explode) == 6) {
+        if (count($node_explode) >= 6) {
             $item['net'] = $node_explode[5];
         } else {
             $item['net'] = "tcp";
         } 
+
+        if (count($node_explode) >= 7) {
+            $item['type'] = $node_explode[6];
+        } else {
+            $item['type'] = "none";
+        } 
+
         return "vmess://".base64_encode((json_encode($item, JSON_UNESCAPED_UNICODE)));
     }
 
@@ -308,7 +314,7 @@ class URL
 		$array_all['password']=$user->passwd;
 		$array_all['traffic_used']=Tools::flowToGB($user->u+$user->d);
 		$array_all['traffic_total']=Tools::flowToGB($user->transfer_enable);
-		$array_all['expiry']=$user->$user->class_expire;
+		$array_all['expiry']=$user->class_expire;
 		$array_server=array();
 		$nodes = Node::where("type","1")->where(function ($func){
 		$func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
@@ -436,16 +442,20 @@ class URL
     }
 	
 	public static function getUserTraffic($user){
-		$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode(Config::get('appName'));
-      		return "ssr://".Tools::base64_url_encode($ssurl);
+		if($user->class !=0){
+			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode(Config::get('appName'));
+		}else{
+			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
+		}
+      	return "ssr://".Tools::base64_url_encode($ssurl);
 	}
   
     public static function getUserClassExpiration($user){
 		if($user->class !=0){
-			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
+			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
 		}else{
-			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
+			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
 		}
-		return "ssr://".Tools::base64_url_encode($ssurl);
-    }
+	return "ssr://".Tools::base64_url_encode($ssurl);
+  }
 }

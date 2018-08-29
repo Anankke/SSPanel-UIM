@@ -60,7 +60,7 @@
 								<td>自动重置</td>
 								{/if}
                               <td>
-                                    <a class="btn btn-brand" {if $shop->renew==0}disabled{else} href="javascript:void(0);" onClick="delete_modal_show('{$shop->id}')"{/if}>退订</a>
+                                    <a class="btn btn-brand" {if $shop->renew==0}disabled{else} href="javascript:void(0);" onClick="delete_modal_show('{$shop->id}')"{/if}>关闭自动续费</a>
                                 </td>
                                 
                             </tr>
@@ -75,7 +75,7 @@
 							<div class="modal-content">
 								<div class="modal-heading">
 									<a class="modal-close" data-dismiss="modal">×</a>
-									<h2 class="modal-title">确认要退订？</h2>
+									<h2 class="modal-title">确认要关闭自动续费？</h2>
 								</div>
 								<div class="modal-inner">
 									<p>请您确认。</p>

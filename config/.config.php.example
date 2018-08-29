@@ -10,7 +10,7 @@ $System_Config['config_migrate_notice']=
 详情请看本wiki底部：
 https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/前端安装
 node_offline_warn被改名为enable_detect_offline';
-$System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1
+$System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
 
 //基本设置-----------------------------------------------------------------------
@@ -85,21 +85,21 @@ $System_Config['invite_price']='-1';    					//用户购买邀请码所需要的
 #邮箱验证
 $System_Config['enable_email_verify']='false';      		//是否启用注册邮箱验证码
 $System_Config['email_verify_ttl']='3600';      			//邮箱验证码有效期
-$System_Config['email_verify_iplimit']='10';      			//单IP可请求验证码次数（上面那个周期内）
+$System_Config['email_verify_iplimit']='10';      			//验证码有效期内，单IP可请求验证码次数
 
 
 //已注册用户设置------------------------------------------------------------------
 #基础
-$System_Config['checkinMin'] = '1';       					//用户签到签到最少流量 单位MB
-$System_Config['checkinMax'] = '50';       					//用户签到签到最多流量
+$System_Config['checkinMin'] = '1';       					//用户签到最少流量 单位MB
+$System_Config['checkinMax'] = '50';       					//用户签到最多流量
+$System_Config['enable_auto_clean_uncheck']='false';      	//没签到的0级用户自动清理开关
+$System_Config['enable_auto_clean_uncheck_days']='7';      	//自动清理多少天没签到的0级用户
+$System_Config['auto_clean_min_money']='1';      			//自动清理时余额低于多少的0级用户
+$System_Config['enable_auto_clean_unused']='false';      	//未使用的0级用户自动清理开关
+$System_Config['enable_auto_clean_unused_days']='30';		//自动清理多少天没使用的0级用户
 $System_Config['code_payback']='20';      					//充值返利百分比
 $System_Config['invite_gift']='2';      					//邀请新用户获得流量奖励，单位G
 $System_Config['enable_bought_reset']='true';      			//购买时是否重置流量
-$System_Config['enable_auto_clean_uncheck']='false';      	//没签到的0级用户自动清理开关
-$System_Config['enable_auto_clean_uncheck_days']='7';      	//自动清理多少天没签到的0级用户
-$System_Config['auto_clean_min_money']='1';      			//自动清理时余额低于多少的0级用户会被清理
-$System_Config['enable_auto_clean_unused']='false';      	//未使用的0级用户自动清理开关
-$System_Config['enable_auto_clean_unused_days']='30';		//自动清理多少天没使用的0级用户
 $System_Config['port_price']='-1';    						//用户随机重置端口所需要的价格，价格小于0时视为不开放购买
 $System_Config['port_price_specify']='-1';    				//用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
 

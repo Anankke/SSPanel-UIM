@@ -273,7 +273,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">每日邮件接收设置</p>
-										<p>当前设置：<code id="ajax-mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}<mail></p>
+										<p>当前设置：<code id="ajax-mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}</code></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="mail">发送设置</label>
 											<select id="mail" class="form-control">
