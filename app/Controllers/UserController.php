@@ -1353,7 +1353,7 @@ class UserController extends BaseController
 
         if ($shop==null) {
             $rs['ret'] = 0;
-            $rs['msg'] = "退订失败，订单不存在。";
+            $rs['msg'] = "关闭自动续费失败，订单不存在。";
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -1363,11 +1363,11 @@ class UserController extends BaseController
 
         if (!$shop->save()) {
             $rs['ret'] = 0;
-            $rs['msg'] = "退订失败";
+            $rs['msg'] = "关闭自动续费失败";
             return $response->getBody()->write(json_encode($rs));
         }
         $rs['ret'] = 1;
-        $rs['msg'] = "退订成功";
+        $rs['msg'] = "关闭自动续费成功";
         return $response->getBody()->write(json_encode($rs));
     }
 

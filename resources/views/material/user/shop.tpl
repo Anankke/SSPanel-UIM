@@ -23,7 +23,8 @@
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
-								<p>商品不可叠加，新购商品会覆盖旧商品的效果</p>
+								<p>商品不可叠加，新购商品会覆盖旧商品的效果。</p>
+								<p>购买新套餐时，如果旧套餐未关闭自动续费，则旧套餐的自动续费依然生效。</p>
 								<p>当前余额：<code>{$user->money}</code> 元</p>
 							</div>
 						</div>
