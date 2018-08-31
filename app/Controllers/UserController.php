@@ -971,7 +971,7 @@ class UserController extends BaseController
                     if($location[0] === "中国"){
                         $userip[$single->ip]=implode("", $location);
                     }
-                    else{
+                    else{//国外用原版数据库
                         $location=$lastiplocation->getlocation($single->ip);
                         $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
                     }
