@@ -35,7 +35,6 @@ use App\Models\UnblockIp;
 use App\Models\Payback;
 use App\Models\Relay;
 use App\Utils\QQWry;
-use App\Utils\ipipnetdb;
 use App\Utils\GA;
 use App\Utils\Geetest;
 use App\Utils\Telegram;
@@ -951,8 +950,7 @@ class UserController extends BaseController
         $paybacks = Payback::where("ref_by", $this->user->id)->orderBy("datetime", "desc")->paginate(15, ['*'], 'page', $pageNum);
         $paybacks->setPath('/user/profile');
 
-        $lastiplocation = new QQWry();
-        $firstiplocation = new ipipnetdb();
+        $iplocation = new QQWry();
 
         $userip=array();
 
@@ -967,16 +965,8 @@ class UserController extends BaseController
             {
                 if (!isset($userloginip[$single->ip])) {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
-                    $location=$firstiplocation->find($single->ip);
-                    if($location[0] === "中国"){
-                        $userip[$single->ip]=implode("", $location);
-                    }
-                    else{
-                        $location=$lastiplocation->
-				
-				cation($single->ip);
-                        $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
-                    }
+                    $location=$iplocation->getlocation($single->ip);
+                    $userloginip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
                 }
             }
         }
@@ -995,14 +985,8 @@ class UserController extends BaseController
                 if(!isset($userip[$single->ip]))
                 {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
-                    $location=$firstiplocation->find($single->ip);
-                    if($location[0] === "中国"){
-                        $userip[$single->ip]=implode("", $location);
-                    }
-                    else{
-                        $location=$lastiplocation->getlocation($single->ip);
-                        $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
-                    }
+                    $location=$iplocation->getlocation($single->ip);
+                    $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
                 }
             }
         }
