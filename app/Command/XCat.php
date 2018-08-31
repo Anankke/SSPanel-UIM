@@ -286,6 +286,7 @@ class XCat
         }
       echo("ipipnetdb downloading....");
       $ipipnetdb = file_get_contents("https://github.com/aiden3434/ipipnetfreedb-download/raw/master/ipipnetdb.datx");
+	    //谁有时间经常更新数据库可以把这个改为谁的地址
         if ($ipipnetdb != "") {
             $fp = fopen(BASE_PATH."/storage/ipipnetdb.datx", "wb");
             if ($fp) {
