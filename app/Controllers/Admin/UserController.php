@@ -13,6 +13,7 @@ use App\Utils;
 use App\Utils\Hash;
 use App\Utils\Radius;
 use App\Utils\QQWry;
+use App\Utils\ipipnetdb;
 use App\Utils\Wecenter;
 use App\Utils\Tools;
 
@@ -59,13 +60,20 @@ class UserController extends AdminController
         $useripcount=array();
         $regloc=array();
 
-        $iplocation = new QQWry();
+        $lastiplocation = new QQWry();
+        $firstiplocation = new ipipnetdb();
         foreach ($users as $user) {
             $useripcount[$user->id]=0;
             $userip[$user->id]=array();
 
-            $location=$iplocation->getlocation($user->reg_ip);
-            $regloc[$user->id]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location=$firstiplocation->find($user->reg_ip);
+            if($location[0] === "中国"){
+                $regloc[$user->id]=implode("", $location);
+            }
+            else{
+                $location=$lastiplocation->getlocation($user->reg_ip);
+                $regloc[$user->id]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            }
         }
 
 
@@ -74,8 +82,14 @@ class UserController extends AdminController
             if (isset($useripcount[$single->userid])) {
                 if (!isset($userip[$single->userid][$single->ip])) {
                     $useripcount[$single->userid]=$useripcount[$single->userid]+1;
-                    $location=$iplocation->getlocation($single->ip);
-                    $userip[$single->userid][$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+                    $location=$firstiplocation->find($single->ip);
+                    if($location[0] === "中国"){
+                        $userip[$single->userid][$single->ip]=implode("", $location);
+                    }
+                    else{
+                        $location=$lastiplocation->getlocation($single->ip);
+                        $userip[$single->userid][$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+                    }
                 }
             }
         }
@@ -106,13 +120,20 @@ class UserController extends AdminController
         $useripcount=array();
         $regloc=array();
 
-        $iplocation = new QQWry();
+        $lastiplocation = new QQWry();
+        $firstiplocation = new ipipnetdb();
         foreach ($users as $user) {
             $useripcount[$user->id]=0;
             $userip[$user->id]=array();
 
-            $location=$iplocation->getlocation($user->reg_ip);
-            $regloc[$user->id]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location=$firstiplocation->find($user->reg_ip);
+            if($location[0] === "中国"){
+                $regloc[$user->id]=implode("", $location);
+            }
+            else{
+                $location=$lastiplocation->getlocation($user->reg_ip);
+                $regloc[$user->id]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            }
         }
 
 
@@ -121,8 +142,14 @@ class UserController extends AdminController
             if (isset($useripcount[$single->userid])) {
                 if (!isset($userip[$single->userid][$single->ip])) {
                     $useripcount[$single->userid]=$useripcount[$single->userid]+1;
-                    $location=$iplocation->getlocation($single->ip);
-                    $userip[$single->userid][$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+                    $location=$firstiplocation->find($single->ip);
+                    if($location[0] === "中国"){
+                        $userip[$single->userid][$single->ip]=implode("", $location);
+                    }
+                    else{
+                        $location=$lastiplocation->getlocation($single->ip);
+                        $userip[$single->userid][$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+                    }
                 }
             }
         }
