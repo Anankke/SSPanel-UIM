@@ -277,7 +277,7 @@
 													</div>
 												</div>
 
-												<div class="tab-pane fade {if $config['enable_old_mode']=='false'}active in{/if}" id="all_ssd">
+												<div class="tab-pane fade" id="all_ssd">
 													<nav class="tab-nav margin-top-no">
 														<ul class="nav nav-list">
 															<li class="active">
