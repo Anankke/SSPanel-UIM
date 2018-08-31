@@ -263,7 +263,7 @@ class XCat
 
     public function initQQWry()
     {
-        echo("downloading....");
+        echo("qqwry downloading....");
         $copywrite = file_get_contents("https://github.com/esdeathlove/qqwry-download/raw/master/copywrite.rar");
         $newmd5 = md5($copywrite);
         file_put_contents(BASE_PATH."/storage/qqwry.md5", $newmd5);
@@ -282,7 +282,17 @@ class XCat
                 fwrite($fp, $qqwry);
                 fclose($fp);
             }
-            echo("finish....");
+            echo("qqwry finish....");
+        }
+      echo("ipipnetdb downloading....");
+      $ipipnetdb = file_get_contents("https://github.com/aiden3434/ipipnetfreedb-download/raw/master/ipipnetdb.datx");
+        if ($ipipnetdb != "") {
+            $fp = fopen(BASE_PATH."/storage/ipipnetdb.datx", "wb");
+            if ($fp) {
+                fwrite($fp, $ipipnetdb);
+                fclose($fp);
+            }
+          echo("ipipnetdb finish....");
         }
     }
 }
