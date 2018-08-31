@@ -971,7 +971,7 @@ class UserController extends BaseController
                     if($location[0] === "中国"){
                         $userip[$single->ip]=implode("", $location);
                     }
-                    else{//国外用原版数据库
+                    else{
                         $location=$lastiplocation->getlocation($single->ip);
                         $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
                     }
@@ -993,8 +993,14 @@ class UserController extends BaseController
                 if(!isset($userip[$single->ip]))
                 {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
-                    $location=$iplocation->getlocation($single->ip);
-                    $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+                    $location=$firstiplocation->find($single->ip);
+                    if($location[0] === "中国"){
+                        $userip[$single->ip]=implode("", $location);
+                    }
+                    else{
+                        $location=$lastiplocation->getlocation($single->ip);
+                        $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+                    }
                 }
             }
         }
