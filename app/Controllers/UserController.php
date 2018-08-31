@@ -35,7 +35,6 @@ use App\Models\UnblockIp;
 use App\Models\Payback;
 use App\Models\Relay;
 use App\Utils\QQWry;
-use App\Utils\ipipnetdb;
 use App\Utils\GA;
 use App\Utils\Geetest;
 use App\Utils\Telegram;
@@ -745,12 +744,13 @@ class UserController extends BaseController
 
                 array_push($node_prefix[$name_cheif], $node);
 
-				if(Config::get('enable_flag')==true){
- 					$regex=Config::get('flag_regex');
- 					$matches=array();
- 					preg_match($regex,$name_cheif,$matches);
- 					$node_flag_file[$name_cheif]=$matches[0];
- 				}
+				if(Config::get('enable_flag')=="true"){
+					$regex=Config::get('flag_regex');
+					$matches=array();
+					preg_match($regex,$name_cheif,$matches);
+					if(isset($matches[0])){
+						$node_flag_file[$name_cheif]=$matches[0];
+					}
 					else{
 						$node_flag_file[$name_cheif]="null";
 					}
@@ -950,8 +950,7 @@ class UserController extends BaseController
         $paybacks = Payback::where("ref_by", $this->user->id)->orderBy("datetime", "desc")->paginate(15, ['*'], 'page', $pageNum);
         $paybacks->setPath('/user/profile');
 
-        $lastiplocation = new QQWry();
-        $firstiplocation = new ipipnetdb();
+        $iplocation = new QQWry();
 
         $userip=array();
 
@@ -966,14 +965,8 @@ class UserController extends BaseController
             {
                 if (!isset($userloginip[$single->ip])) {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
-                    $location=$firstiplocation->find($single->ip);
-                    if($location[0] === "中国"){
-                        $userip[$single->ip]=implode("", $location);
-                    }
-                    else{
-                        $location=$lastiplocation->getlocation($single->ip);
-                        $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
-                    }
+                    $location=$iplocation->getlocation($single->ip);
+                    $userloginip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
                 }
             }
         }
@@ -992,14 +985,8 @@ class UserController extends BaseController
                 if(!isset($userip[$single->ip]))
                 {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
-                    $location=$firstiplocation->find($single->ip);
-                    if($location[0] === "中国"){
-                        $userip[$single->ip]=implode("", $location);
-                    }
-                    else{
-                        $location=$lastiplocation->getlocation($single->ip);
-                        $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
-                    }
+                    $location=$iplocation->getlocation($single->ip);
+                    $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
                 }
             }
         }
@@ -1366,7 +1353,7 @@ class UserController extends BaseController
 
         if ($shop==null) {
             $rs['ret'] = 0;
-            $rs['msg'] = "退订失败，订单不存在。";
+            $rs['msg'] = "关闭自动续费失败，订单不存在。";
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -1376,11 +1363,11 @@ class UserController extends BaseController
 
         if (!$shop->save()) {
             $rs['ret'] = 0;
-            $rs['msg'] = "退订失败";
+            $rs['msg'] = "关闭自动续费失败";
             return $response->getBody()->write(json_encode($rs));
         }
         $rs['ret'] = 1;
-        $rs['msg'] = "退订成功";
+        $rs['msg'] = "关闭自动续费成功";
         return $response->getBody()->write(json_encode($rs));
     }
 
@@ -1642,18 +1629,18 @@ class UserController extends BaseController
         $user->save();
 
         if(!URL::SSCanConnect($user)) {
-            $res['ret'] = 0;
+            $res['ret'] = 1;
             $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。";
             return $this->echoJson($response, $res);
         }
 
         if(!URL::SSRCanConnect($user)) {
-            $res['ret'] = 0;
+            $res['ret'] = 1;
             $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。";
             return $this->echoJson($response, $res);
         }
 
-        $res['ret'] = 0;
+        $res['ret'] = 1;
         $res['msg'] = "设置成功，您可自由选用客户端来连接。";
         return $this->echoJson($response, $res);
     }
@@ -1794,12 +1781,12 @@ class UserController extends BaseController
         }
 
         if(!URL::SSRCanConnect($user)) {
-            $res['ret'] = 0;
+            $res['ret'] = 1;
             $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。";
             return $this->echoJson($response, $res);
         }
 
-        $res['ret'] = 0;
+        $res['ret'] = 1;
         $res['msg'] = "设置成功，您可自由选用两种客户端来进行连接。";
         return $this->echoJson($response, $res);
     }
