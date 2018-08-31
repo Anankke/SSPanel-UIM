@@ -35,6 +35,7 @@ use App\Models\UnblockIp;
 use App\Models\Payback;
 use App\Models\Relay;
 use App\Utils\QQWry;
+use App\Utils\ipipnetdb;
 use App\Utils\GA;
 use App\Utils\Geetest;
 use App\Utils\Telegram;
@@ -744,11 +745,16 @@ class UserController extends BaseController
 
                 array_push($node_prefix[$name_cheif], $node);
 
-				if(Config::get('enable_flag')==true){
+				if(Config::get('enable_flag')=="true"){
 					$regex=Config::get('flag_regex');
 					$matches=array();
 					preg_match($regex,$name_cheif,$matches);
-					$node_flag_file[$name_cheif]=$matches[0];
+					if(isset($matches[0])){
+						$node_flag_file[$name_cheif]=$matches[0];
+					}
+					else{
+						$node_flag_file[$name_cheif]="null";
+					}
 				}
             }
         }
@@ -945,7 +951,8 @@ class UserController extends BaseController
         $paybacks = Payback::where("ref_by", $this->user->id)->orderBy("datetime", "desc")->paginate(15, ['*'], 'page', $pageNum);
         $paybacks->setPath('/user/profile');
 
-        $iplocation = new QQWry();
+        $lastiplocation = new QQWry();
+        $firstiplocation = new ipipnetdb();
 
         $userip=array();
 
@@ -960,8 +967,14 @@ class UserController extends BaseController
             {
                 if (!isset($userloginip[$single->ip])) {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
-                    $location=$iplocation->getlocation($single->ip);
-                    $userloginip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+                    $location=$firstiplocation->find($single->ip);
+                    if($location[0] === "中国"){
+                        $userip[$single->ip]=implode("", $location);
+                    }
+                    else{
+                        $location=$lastiplocation->getlocation($single->ip);
+                        $userip[$single->ip]=iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+                    }
                 }
             }
         }
