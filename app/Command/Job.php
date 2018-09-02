@@ -37,7 +37,8 @@ class Job
     {
         $nodes = Node::all();
         foreach ($nodes as $node) {
-            if ($node->sort==0) {
+            $rule = preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/",$node->server);
+            if (!$node->sort and !$rule) {
                 $ip=gethostbyname($node->server);
                 $node->node_ip=$ip;
                 $node->save();
@@ -108,7 +109,8 @@ class Job
     {
         $nodes = Node::all();
         foreach ($nodes as $node) {
-            if ($node->sort==1) {
+            $rule = preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/",$node->server);
+            if ($node->sort and !$rule) {
                 $ip=gethostbyname($node->server);
                 $node->node_ip=$ip;
                 $node->save();
