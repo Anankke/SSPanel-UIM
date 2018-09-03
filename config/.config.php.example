@@ -25,7 +25,7 @@ $System_Config['db_database'] = 'sspanel';			//数据库名
 $System_Config['db_username'] = 'root';		//数据库用户名
 $System_Config['db_password'] = 'sspanel';			//用户名对应的密码
 $System_Config['enable_old_mode'] = 'true';			//兼容SS、SSR的过时协议
-
+$System_Config['mergeSub'] = 0；					//合并单端口，多端口订阅（与节点一起删除时，可能存在少许问题，完美主义者勿开启
 
 //邮件设置-----------------------------------------------------------------------
 $System_Config['mailDriver'] = 'mailgun';   // mailgun or smtp or sendgrid 选择发送邮件的方式
