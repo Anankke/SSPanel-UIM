@@ -59,6 +59,10 @@ class AdminController extends UserController
 		$view=1;
 		$userf=User::where("id", "=", $id)->first();
 		}
+	    	else {
+		$view=0;
+		$userf=User::where("id", "=", 0)->first();
+		}
 		
         return $this->view()->assign('view', $view)->assign('userf', $userf)->display('admin/find.tpl');
     }
