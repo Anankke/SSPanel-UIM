@@ -177,7 +177,7 @@ $(document).ready(function () {
 
 
 </script>
-
+{if $view==1}
 <script>
 
 
@@ -225,7 +225,7 @@ $("#delete").click(function () {
 })
 </script>
 
-
+{/if}
 
 
 
