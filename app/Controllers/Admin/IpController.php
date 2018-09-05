@@ -101,11 +101,18 @@ class IpController extends AdminController
             return date('Y-m-d H:i:s', $data['datetime']);
         });
 
-        $iplocation = new QQWry();
+        $lastiplocation = new QQWry();
+        $firstiplocation = new ipipnetdb();
 
         $datatables->edit('location', function ($data) use ($iplocation) {
-            $location=$iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location=$firstiplocation->find($data['location']);
+            if($location[0] === "中国"){
+                return implode("", $location);
+              }
+            else{
+                $location=$lastiplocation->getlocation($data['location']);
+                return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+              }
         });
 
         $body = $response->getBody();
@@ -121,11 +128,18 @@ class IpController extends AdminController
             return date('Y-m-d H:i:s', $data['datetime']);
         });
 
-        $iplocation = new QQWry();
+        $lastiplocation = new QQWry();
+        $firstiplocation = new ipipnetdb();
 
         $datatables->edit('location', function ($data) use ($iplocation) {
-            $location=$iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location=$firstiplocation->find($data['location']);
+            if($location[0] === "中国"){
+                return implode("", $location);
+              }
+            else{
+                $location=$lastiplocation->getlocation($data['location']);
+                return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+              }
         });
 
         $body = $response->getBody();
@@ -142,10 +156,17 @@ class IpController extends AdminController
         });
 
 
-        $iplocation = new QQWry();
+        $lastiplocation = new QQWry();
+        $firstiplocation = new ipipnetdb();
         $datatables->edit('location', function ($data) use ($iplocation) {
-            $location=$iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location=$firstiplocation->find($data['location']);
+            if($location[0] === "中国"){
+                return implode("", $location);
+              }
+            else{
+                $location=$lastiplocation->getlocation($data['location']);
+                return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+              }
         });
 
         $datatables->edit('type', function ($data) {
@@ -166,7 +187,8 @@ class IpController extends AdminController
             return date('Y-m-d H:i:s', $data['datetime']);
         });
 
-        $iplocation = new QQWry();
+        $lastiplocation = new QQWry();
+        $firstiplocation = new ipipnetdb();
 
         $datatables->edit('ip', function ($data){
             return Tools::getRealIp($data['ip']);
@@ -182,8 +204,14 @@ class IpController extends AdminController
         });
 
         $datatables->edit('location', function ($data) use ($iplocation) {
-            $location=$iplocation->getlocation(Tools::getRealIp($data['location']));
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location=$firstiplocation->find(Tools::getRealIp($data['location']));
+            if($location[0] === "中国"){
+                return implode("", $location);
+              }
+            else{
+                $location=$lastiplocation->getlocation(Tools::getRealIp($data['location']));
+                return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+              }
         });
 
         $body = $response->getBody();
