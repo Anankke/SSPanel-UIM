@@ -282,6 +282,8 @@ $app->group('/admin', function () {
     $this->post('/code/ajax', 'App\Controllers\Admin\CodeController:ajax_code');
 
     // User Mange
+    $this->get('/find', 'App\Controllers\AdminController:find');
+    $this->post('/finduser', 'App\Controllers\AdminController:finduser');
     $this->get('/user', 'App\Controllers\Admin\UserController:index');
     $this->get('/user/{id}/edit', 'App\Controllers\Admin\UserController:edit');
     $this->put('/user/{id}', 'App\Controllers\Admin\UserController:update');

@@ -43,7 +43,7 @@ class NodeController extends BaseController
         $node_id = $args['id'];
 		if($node_id=='0'){
 			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-			$node_id=$node->id;
+			$node_id = $node->id;
 		}
         $node = Node::find($node_id);
         if ($node == null) {
@@ -60,7 +60,9 @@ class NodeController extends BaseController
                 "node_speedlimit" => $node->node_speedlimit,
                 "traffic_rate" => $node->traffic_rate,
                 "mu_only" => $node->mu_only,
-                "sort" => $node->sort
+                "sort" => $node->sort,
+                "server" => $node->server,
+                "type" => "ss-panel-v3-mod_Uim"
             ],
         ];
         return $this->echoJson($response, $res);

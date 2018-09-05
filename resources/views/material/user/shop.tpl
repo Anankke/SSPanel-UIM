@@ -24,7 +24,7 @@
 						<div class="card-main">
 							<div class="card-inner">
 								<p>商品不可叠加，新购商品会覆盖旧商品的效果。</p>
-								<p>购买新套餐时，如果旧套餐未关闭自动续费，则旧套餐的自动续费依然生效。</p>
+								<p>购买新套餐时，如果未关闭旧套餐自动续费，则旧套餐的自动续费依然生效。</p>
 								<p>当前余额：<code>{$user->money}</code> 元</p>
 							</div>
 						</div>
@@ -89,11 +89,18 @@
 									<p id="name">商品名称：</p>
 									<p id="credit">优惠额度：</p>
 									<p id="total">总金额：</p>
-									<p id="auto_reset">在到期时自动续费</p>
-									
+
+									<div class="checkbox switch">
+										<label for="disableothers">
+											<input checked class="access-hide" id="disableothers" type="checkbox">
+											<span class="switch-toggle"></span>关闭旧套餐自动续费
+										</label>
+									</div>
+											
 									<div class="checkbox switch" id="autor">
 										<label for="autorenew">
-											<input checked class="access-hide" id="autorenew" type="checkbox"><span class="switch-toggle"></span>自动续费
+											<input checked class="access-hide" id="autorenew" type="checkbox">
+											<span class="switch-toggle"></span>到期时自动续费
 										</label>
 									</div>
 									
@@ -189,6 +196,13 @@ $("#order_input").click(function () {
 		{
 			var autorenew=0;
 		}
+
+		if(document.getElementById('disableothers').checked){
+			var disableothers=1;
+		}
+		else{
+			var disableothers=0;
+		}
 			
 		$.ajax({
 			type: "POST",
@@ -198,6 +212,7 @@ $("#order_input").click(function () {
 				coupon: $("#coupon").val(),
 				shop: shop,
 				autorenew: autorenew
+				disableothers:disableothers
 			},
 			success: function (data) {
 				if (data.ret) {

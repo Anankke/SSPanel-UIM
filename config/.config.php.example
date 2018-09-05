@@ -24,7 +24,6 @@ $System_Config['db_host'] = 'localhost'; //数据库地址
 $System_Config['db_database'] = 'sspanel';			//数据库名
 $System_Config['db_username'] = 'root';		//数据库用户名
 $System_Config['db_password'] = 'sspanel';			//用户名对应的密码
-$System_Config['enable_old_mode'] = 'true';			//兼容SS、SSR的过时协议
 
 
 //邮件设置-----------------------------------------------------------------------
