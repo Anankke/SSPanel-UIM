@@ -219,7 +219,47 @@ class AuthController extends BaseController
                 $res['msg'] = "此邮箱已经注册";
                 return $response->getBody()->write(json_encode($res));
             }
+	   //检测是否为常用邮箱
+	    $maillist=array('@outlook.com','@hotmail.com', '@live.cn', '@msn.com', '@foxmail.com',
+'@yahoo.com', 
+'@gmail.com', 
+'@126.com', 
+'@163.com', 
+'@sina.com', 
+'@21cn.com', 
+'@sohu.com', 
+'@yahoo.com.cn', 
+'@tom.com', 
+'@qq.com'
+);
+	    $emailArr = explode('@', $email);
+	    if (in_array("@".$emailArr[1],$maillist)==FALSE)
+	       {
 
+	       $strmail="";	
+		  for ($x=0;$x<count($maillist);$x++)
+			{
+				if(($x+1)%3==0)
+				{
+					$strmail=$strmail.$maillist[$x]."<br>";
+				}
+				elseif ($x+1==count($maillist))
+				{
+					$strmail=$strmail.$maillist[$x];
+
+				}
+				else {
+					$strmail=$strmail.$maillist[$x].",&nbsp";
+
+				}
+			}
+                $res['ret'] = 0;
+
+                $res['msg'] = "邮箱不在支持列表中，请使用常用邮箱注册。<p>可用邮箱如下:</p><code>".$strmail."</code>";
+                return $response->getBody()->write(json_encode($res));
+	
+	    }
+		
             $ipcount = EmailVerify::where('ip', '=', $_SERVER["REMOTE_ADDR"])->where('expire_in', '>', time())->count();
             if ($ipcount >= (int)Config::get('email_verify_iplimit')) {
                 $res['ret'] = 0;
@@ -326,7 +366,47 @@ class AuthController extends BaseController
             $res['msg'] = "邮箱已经被注册了";
             return $response->getBody()->write(json_encode($res));
         }
+	   //检测是否为常用邮箱
+	    $maillist=array('@outlook.com','@hotmail.com', '@live.cn', '@msn.com', '@foxmail.com',
+'@yahoo.com', 
+'@gmail.com', 
+'@126.com', 
+'@163.com', 
+'@sina.com', 
+'@21cn.com', 
+'@sohu.com', 
+'@yahoo.com.cn', 
+'@tom.com', 
+'@qq.com'
+);
+	    $emailArr = explode('@', $email);
+	    if (in_array("@".$emailArr[1],$maillist)==FALSE)
+	       {
 
+	       $strmail="";	
+		  for ($x=0;$x<count($maillist);$x++)
+			{
+				if(($x+1)%3==0)
+				{
+					$strmail=$strmail.$maillist[$x]."<br>";
+				}
+				elseif ($x+1==count($maillist))
+				{
+					$strmail=$strmail.$maillist[$x];
+
+				}
+				else {
+					$strmail=$strmail.$maillist[$x].",&nbsp";
+
+				}
+			}
+                $res['ret'] = 0;
+
+                $res['msg'] = "邮箱不在支持列表中，请使用常用邮箱注册。<p>可用邮箱如下:</p><code>".$strmail."</code>";
+                return $response->getBody()->write(json_encode($res));
+	
+	}
+	    
         if (Config::get('enable_email_verify') == 'true') {
             $mailcount = EmailVerify::where('email', '=', $email)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount == null) {

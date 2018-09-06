@@ -74,8 +74,8 @@
                                                         <p>端口：{$userf->port}</p>
 <hr>
                                                         <p>等级：{$userf->class}</p>
-                                                        <p>等级0过期时间：{$userf->expire_in}</p>   
-                                                     <p>等级1过期时间：{$userf->class_expire}</p>
+                                                        <p>账号过期时间：{$userf->expire_in}</p>   
+                                                     <p>等级过期时间：{$userf->class_expire}</p>
 <hr>
                                                         <p>总流量：{$userf->enableTraffic()}</p>
                                                         <p>已用流量：{$userf->LastusedTraffic()}</p>
