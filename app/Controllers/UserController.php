@@ -1308,7 +1308,7 @@ class UserController extends BaseController
         $user->save();
 
 		if($disableothers==1){
-			$boughts=Bought::where("userid", $user->id);
+			$boughts=Bought::where("userid", $user->id)->get();
 			foreach($boughts as $disable_bought){
 				$disable_bought->renew=0;
 				$disable_bought->save();
