@@ -468,7 +468,7 @@ class Job
 
 
         //节点掉线检测
-        if (Config::get("node_offline_warn")=="true") {
+        if (Config::get("enable_detect_offline")=="true") {
             $nodes = Node::all();
 
             foreach ($nodes as $node) {

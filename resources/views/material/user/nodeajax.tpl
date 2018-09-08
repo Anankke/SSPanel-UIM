@@ -233,39 +233,8 @@
 				{
 					type: "line", 
 					showInLegend: true,
-					legendText: "电信下载速度",
-                  	name: "电信下载",
-                  yValueFormatString: "##0.00\"Mb\"",
-					dataPoints: [
-						{$i=0}
-						{foreach $speedtests as $single_speedtest}
-							{if $i==0}
-								{literal}
-								{
-								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getTelecomUpload()},label: "电信下载"
-								{literal}
-								}
-								{/literal}
-								{$i=1}
-							{else}
-								{literal}
-								,{
-								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getTelecomUpload()},label: "电信下载"
-								{literal}
-								}
-								{/literal}
-							{/if}
-						{/foreach}
-						
-					]
-				},
-				{
-					type: "line", 
-					showInLegend: true,
 					legendText: "电信上传速度",
-                  name: "电信上传",
+                  	name: "电信上传",
                   yValueFormatString: "##0.00\"Mb\"",
 					dataPoints: [
 						{$i=0}
@@ -274,7 +243,7 @@
 								{literal}
 								{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getTelecomDownload()},label: "电信上传"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getTelecomUpload()},label: "电信上传"
 								{literal}
 								}
 								{/literal}
@@ -283,7 +252,7 @@
 								{literal}
 								,{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getTelecomDownload()},label: "电信上传"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getTelecomUpload()},label: "电信上传"
 								{literal}
 								}
 								{/literal}
@@ -295,8 +264,8 @@
 				{
 					type: "line", 
 					showInLegend: true,
-					legendText: "联通下载速度",
-                  name: "联通下载",
+					legendText: "电信下载速度",
+                  name: "电信下载",
                   yValueFormatString: "##0.00\"Mb\"",
 					dataPoints: [
 						{$i=0}
@@ -305,7 +274,7 @@
 								{literal}
 								{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getUnicomUpload()},label: "联通下载"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getTelecomDownload()},label: "电信下载"
 								{literal}
 								}
 								{/literal}
@@ -314,7 +283,7 @@
 								{literal}
 								,{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getUnicomUpload()},label: "联通下载"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getTelecomDownload()},label: "电信下载"
 								{literal}
 								}
 								{/literal}
@@ -336,7 +305,7 @@
 								{literal}
 								{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getUnicomDownload()},label: "联通上传"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getUnicomUpload()},label: "联通上传"
 								{literal}
 								}
 								{/literal}
@@ -345,7 +314,7 @@
 								{literal}
 								,{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getUnicomDownload()},label: "联通上传"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getUnicomUpload()},label: "联通上传"
 								{literal}
 								}
 								{/literal}
@@ -357,8 +326,8 @@
 				{
 					type: "line", 
 					showInLegend: true,
-					legendText:"移动上传速度",
-                  name: "移动上传",
+					legendText: "联通下载速度",
+                  name: "联通下载",
                   yValueFormatString: "##0.00\"Mb\"",
 					dataPoints: [
 						{$i=0}
@@ -367,7 +336,7 @@
 								{literal}
 								{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getCmccDownload()},label: "移动上传"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getUnicomDownload()},label: "联通下载"
 								{literal}
 								}
 								{/literal}
@@ -376,7 +345,7 @@
 								{literal}
 								,{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getCmccDownload()},label: "移动上传"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getUnicomDownload()},label: "联通下载"
 								{literal}
 								}
 								{/literal}
@@ -398,7 +367,7 @@
 								{literal}
 								{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getCmccUpload()},label: "移动下载"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getCmccDownload()},label: "移动下载"
 								{literal}
 								}
 								{/literal}
@@ -407,7 +376,38 @@
 								{literal}
 								,{
 								{/literal}
-									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getCmccUpload()},label: "移动下载"
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getCmccDownload()},label: "移动下载"
+								{literal}
+								}
+								{/literal}
+							{/if}
+						{/foreach}
+						
+					]
+				},
+				{
+					type: "line", 
+					showInLegend: true,
+					legendText:"移动上传速度",
+                  name: "移动上传",
+                  yValueFormatString: "##0.00\"Mb\"",
+					dataPoints: [
+						{$i=0}
+						{foreach $speedtests as $single_speedtest}
+							{if $i==0}
+								{literal}
+								{
+								{/literal}
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getCmccUpload()},label: "移动上传"
+								{literal}
+								}
+								{/literal}
+								{$i=1}
+							{else}
+								{literal}
+								,{
+								{/literal}
+									x: new Date({$single_speedtest->datetime*1000}), y:{$single_speedtest->getCmccUpload()},label: "移动上传"
 								{literal}
 								}
 								{/literal}

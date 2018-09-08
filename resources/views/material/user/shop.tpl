@@ -24,7 +24,7 @@
 						<div class="card-main">
 							<div class="card-inner">
 								<p>商品不可叠加，新购商品会覆盖旧商品的效果。</p>
-								<p>购买新套餐时，如果旧套餐未关闭自动续费，则旧套餐的自动续费依然生效。</p>
+								<p>购买新套餐时，如果未关闭旧套餐自动续费，则旧套餐的自动续费依然生效。</p>
 								<p>当前余额：<code>{$user->money}</code> 元</p>
 							</div>
 						</div>
@@ -48,7 +48,7 @@
 								<td>{$shop->price} 元</td>
                                 <td>{$shop->content()}</td>
                                 <td>
-                                    <a class="btn btn-brand-accent" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew},{$shop->auto_reset_bandwidth})">购买</a>
+                                    <a class="btn btn-brand-accent" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
                                 </td>
                             </tr>
                             {/foreach}
@@ -89,11 +89,18 @@
 									<p id="name">商品名称：</p>
 									<p id="credit">优惠额度：</p>
 									<p id="total">总金额：</p>
-									<p id="auto_reset">在到期时自动续费</p>
-									
+
+									<div class="checkbox switch">
+										<label for="disableothers">
+											<input checked class="access-hide" id="disableothers" type="checkbox">
+											<span class="switch-toggle"></span>关闭旧套餐自动续费
+										</label>
+									</div>
+									<br/>
 									<div class="checkbox switch" id="autor">
 										<label for="autorenew">
-											<input checked class="access-hide" id="autorenew" type="checkbox"><span class="switch-toggle"></span>自动续费
+											<input checked class="access-hide" id="autorenew" type="checkbox">
+											<span class="switch-toggle"></span>到期时自动续费
 										</label>
 									</div>
 									
@@ -127,8 +134,7 @@
 
 
 <script>
-function buy(id,auto,auto_reset) {
-	auto_renew=auto;
+function buy(id,auto) {
 	if(auto==0)
 	{
 		document.getElementById('autor').style.display="none";
@@ -137,16 +143,6 @@ function buy(id,auto,auto_reset) {
 	{
 		document.getElementById('autor').style.display="";
 	}
-	
-	if(auto_reset==0)
-	{
-		document.getElementById('auto_reset').style.display="none";
-	}
-	else
-	{
-		document.getElementById('auto_reset').style.display="";
-	}
-	
 	shop=id;
 	$("#coupon_modal").modal();
 }
@@ -189,6 +185,13 @@ $("#order_input").click(function () {
 		{
 			var autorenew=0;
 		}
+
+		if(document.getElementById('disableothers').checked){
+			var disableothers=1;
+		}
+		else{
+			var disableothers=0;
+		}
 			
 		$.ajax({
 			type: "POST",
@@ -197,7 +200,8 @@ $("#order_input").click(function () {
 			data: {
 				coupon: $("#coupon").val(),
 				shop: shop,
-				autorenew: autorenew
+				autorenew: autorenew,
+				disableothers:disableothers
 			},
 			success: function (data) {
 				if (data.ret) {
