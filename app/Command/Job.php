@@ -229,7 +229,7 @@ class Job
                         }
                     }
                 } else {
-                    if ($user_traffic_left*1024*1024 < (int)Config::get('notify_limit_value')){
+                    if ($user_traffic_left / 1024 / 1024 < (int)Config::get('notify_limit_value')){
                         $subject = Config::get('appName')." - 您的流量不足";
                         $to = $user->email;
                         $text = "您好，系统发现您剩余流量流量已经小于 ".Config::get('notify_limit_value')."MB。" ;
