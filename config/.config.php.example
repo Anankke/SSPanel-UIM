@@ -5,12 +5,9 @@
 //config迁移附注（由开发者填写本次config迁移后需要注意的地方，站长勿动）
 //如需换行，直接换行即可，无需换行符
 $System_Config['config_migrate_notice']=
-'daliy job不再包含自动备份，
-自动备份改用crontab进行，以实现每隔20分钟备份一次之类的操作,
-详情请看本wiki底部：
-https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/前端安装
-node_offline_warn被改名为enable_detect_offline
-新增流量过低提醒';
+'node_offline_warn被改名为enable_detect_offline
+新增流量过低提醒
+增加注册功能开关';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
 
@@ -55,6 +52,7 @@ $System_Config['auto_backup_passwd']='';	//备份的压缩密码
 
 
 //用户注册设置--------------------------------------------------------------------
+$System_Config['enable_register'] = 'true';					//是否开启注册功能
 $System_Config['defaultTraffic'] = '1';      				//用户初始流量 单位GB
 $System_Config['user_expire_in_default']='3650';        	//用户账户过期时间，在注册时设置。（天）
 $System_Config['user_class_default']='0';      				//用户注册等级，在注册时设置。
