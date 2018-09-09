@@ -217,14 +217,27 @@ class URL
         return $return_array;
     }
     public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
-        $items = URL::getAllItems($user, $is_mu, $is_ss);
         $return_url = '';
-      	if ($user->transfer_enable >0){
-      		$return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
-      		$return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
-      	}
-        foreach($items as $item) {
-            $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
+        if ($user->transfer_enable >0){
+            $return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
+            $return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
+        }
+        if(Config::getPublicConfig('mergeSub')){
+            $is_mu = 1;
+            $items = URL::getAllItems($user, $is_mu, $is_ss);
+            foreach($items as $item) {
+                $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
+            }
+            $is_mu = 0;
+            $items = URL::getAllItems($user, $is_mu, $is_ss);
+            foreach($items as $item) {
+                $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
+            }
+        }else{
+            $items = URL::getAllItems($user, $is_mu, $is_ss);
+            foreach($items as $item) {
+                $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
+            }
         }
         return $return_url;
     }
@@ -261,9 +274,9 @@ class URL
     public static function getV2Url($user, $node){
         $node_explode = explode(';', $node->server);
         $item = [
-            'v'=>'2', 
-            'host'=>'', 
-            'path'=>'', 
+            'v'=>'2',
+            'host'=>'',
+            'path'=>'',
             'tls'=>''
         ];
         $item['ps'] = $node->name;
@@ -275,13 +288,13 @@ class URL
             $item['net'] = $node_explode[5];
         } else {
             $item['net'] = "tcp";
-        } 
+        }
 
         if (count($node_explode) >= 7) {
             $item['type'] = $node_explode[6];
         } else {
             $item['type'] = "none";
-        } 
+        }
 
         return "vmess://".base64_encode((json_encode($item, JSON_UNESCAPED_UNICODE)));
     }
@@ -333,7 +346,7 @@ class URL
 			array_push($array_server,$server);
 		}
 		$array_all['servers']=$array_server;
-		$json_all=json_encode($array_all);	
+		$json_all=json_encode($array_all);
 		if($base64){
 			return "ssd://".base64_encode($json_all);
 		}
@@ -431,7 +444,7 @@ class URL
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
         $return_array['group'] = Config::get('appName');
-        if($mu_port != 0) {
+        if($mu_port != 0 && !Config::getPublicConfig('mergeSub')) {
             $return_array['group'] .= ' - 单端口';
         }
         return $return_array;
@@ -440,7 +453,7 @@ class URL
         $new_user = clone $user;
         return $new_user;
     }
-	
+
 	public static function getUserTraffic($user){
 		if($user->class !=0){
 			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode(Config::get('appName'));
@@ -449,7 +462,7 @@ class URL
 		}
       	return "ssr://".Tools::base64_url_encode($ssurl);
 	}
-  
+
     public static function getUserClassExpiration($user){
 		if($user->class !=0){
 			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
