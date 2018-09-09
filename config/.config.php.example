@@ -112,6 +112,11 @@ $System_Config['enable_account_expire_delete']='true';      //账户到期之后
 $System_Config['enable_account_expire_delete_days']='7';    //账户到期几天之后会删除账户
 $System_Config['enable_kill']='true';      					//是否允许用户注销账户
 
+$System_Config['enable_notify_traffic_low'] = 'false';        //流量低提醒
+$System_Config['notify_limit_mode'] = 'per';                //per为按照百分比提醒，mb为按照固定剩余流量提醒
+$System_Config['notify_limit_value'] = '20';                //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
+
+
 
 //Telegram bot设置--------------------------------------------------------------
 $System_Config['enable_telegram']='false';      	//是否开启Telegram bot

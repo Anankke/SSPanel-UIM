@@ -211,6 +211,39 @@ class Job
                     echo $e->getMessage();
                 }
             }
+
+            if (Config::get('enable_notify_traffic_low')=='true'){
+                $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
+                if (Config::get('notify_limit_mode') == 'per'){
+                    if (($user_traffic_left / $user->transfer_enable * 100) < (int)Config::get('notify_limit_value')){
+                        $subject = Config::get('appName')." - 您的流量不足";
+                        $to = $user->email;
+                        $text = "您好，系统发现您剩余流量流量已经小于 ".Config::get('notify_limit_value')."%。" ;
+                        try {
+                            Mail::send($to, $subject, 'news/warn.tpl', [
+                                "user" => $user,"text" => $text
+                            ], [
+                            ]);
+                        } catch (Exception $e) {
+                            echo $e->getMessage();
+                        }
+                    }
+                } else {
+                    if ($user_traffic_left*1024*1024 < (int)Config::get('notify_limit_value')){
+                        $subject = Config::get('appName')." - 您的流量不足";
+                        $to = $user->email;
+                        $text = "您好，系统发现您剩余流量流量已经小于 ".Config::get('notify_limit_value')."MB。" ;
+                        try {
+                            Mail::send($to, $subject, 'news/warn.tpl', [
+                                "user" => $user,"text" => $text
+                            ], [
+                            ]);
+                        } catch (Exception $e) {
+                            echo $e->getMessage();
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -644,6 +677,7 @@ class Job
                 $rb->save();
                 Radius::Delete($user->email);
             }
+
 
             if (strtotime($user->expire_in) < time() && (((Config::get('enable_account_expire_reset')=='true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset')=='true' && ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true))) {
                 if (Config::get('enable_account_expire_reset')=='true') {
