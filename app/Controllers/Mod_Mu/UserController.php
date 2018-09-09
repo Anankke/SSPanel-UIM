@@ -81,7 +81,7 @@ class UserController extends BaseController
         foreach ($users_raw as $user_raw) {
             if ($user_raw->transfer_enable > $user_raw->u + $user_raw->d) {
                 $user_raw = Tools::keyFilter($user_raw, $key_list);
-                $user_raw->uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user->id . "|" . $user_raw->passwd)->toString();
+                $user_raw->uuid = $user_raw->getUuid();
                 array_push($users, $user_raw);
             }
         }

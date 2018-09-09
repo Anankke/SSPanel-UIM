@@ -48,7 +48,7 @@
 								<td>{$shop->price} 元</td>
                                 <td>{$shop->content()}</td>
                                 <td>
-                                    <a class="btn btn-brand-accent" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew},{$shop->auto_reset_bandwidth})">购买</a>
+                                    <a class="btn btn-brand-accent" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
                                 </td>
                             </tr>
                             {/foreach}
@@ -96,7 +96,7 @@
 											<span class="switch-toggle"></span>关闭旧套餐自动续费
 										</label>
 									</div>
-											
+									<br/>
 									<div class="checkbox switch" id="autor">
 										<label for="autorenew">
 											<input checked class="access-hide" id="autorenew" type="checkbox">
@@ -134,8 +134,7 @@
 
 
 <script>
-function buy(id,auto,auto_reset) {
-	auto_renew=auto;
+function buy(id,auto) {
 	if(auto==0)
 	{
 		document.getElementById('autor').style.display="none";
@@ -144,16 +143,6 @@ function buy(id,auto,auto_reset) {
 	{
 		document.getElementById('autor').style.display="";
 	}
-	
-	if(auto_reset==0)
-	{
-		document.getElementById('auto_reset').style.display="none";
-	}
-	else
-	{
-		document.getElementById('auto_reset').style.display="";
-	}
-	
 	shop=id;
 	$("#coupon_modal").modal();
 }
@@ -211,7 +200,7 @@ $("#order_input").click(function () {
 			data: {
 				coupon: $("#coupon").val(),
 				shop: shop,
-				autorenew: autorenew
+				autorenew: autorenew,
 				disableothers:disableothers
 			},
 			success: function (data) {

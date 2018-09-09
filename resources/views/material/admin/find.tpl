@@ -69,19 +69,19 @@
 	                                        <div class="card">
                                                 <div class="card-main">
                                                         <div class="card-inner">
-							<p>用户名：{$userf->user_name}</p>
+														<p>用户名：{$userf->user_name}</p>
                                                         <p>邮箱：{$userf->email}</p>
                                                         <p>端口：{$userf->port}</p>
 <hr>
                                                         <p>等级：{$userf->class}</p>
-                                                        <p>等级0过期时间：{$userf->expire_in}</p>   
-                                                     <p>等级1过期时间：{$userf->class_expire}</p>
+                                                        <p>账户过期时间：{$userf->expire_in}</p>   
+														<p>等级过期时间：{$userf->class_expire}</p>
 <hr>
                                                         <p>总流量：{$userf->enableTraffic()}</p>
                                                         <p>已用流量：{$userf->LastusedTraffic()}</p>
                                                         <p>金钱：{$userf->money}</p>
 <hr>
-                                                       <a class="btn btn-brand btn-flat waves-attach" href="/admin/user/{$userf->id}/edit" target="_blank" ><font style="color:green"><span class="icon">check</span>&nbsp;编辑</font></a>
+														<a class="btn btn-brand btn-flat waves-attach" href="/admin/user/{$userf->id}/edit" target="_blank" ><font style="color:green"><span class="icon">check</span>&nbsp;编辑</font></a>
                                                         &nbsp;&nbsp;<a class="btn btn-brand btn-flat waves-attach" id="delete"  ><font style="color:red"><span class="icon">close</span>&nbsp;删除</font></a>
 
                                                        
