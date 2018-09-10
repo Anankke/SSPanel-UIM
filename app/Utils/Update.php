@@ -64,10 +64,14 @@ class Update
 		$regex_new='/System_Config\[\'.*?\'\]/s';
 		$matches_new_all=array();
 		preg_match_all($regex_new,$config_new,$matches_new_all);
-		$differences=array_diff($matches_new_all,$migrated);
+		$differences=array_diff($matches_new_all[0],$migrated);
 		foreach($differences as $difference){
+			if($difference=='System_Config[\'config_migrate_notice\']'||
+			$difference=='System_Config[\'version\']'){
+				continue;
+			}
 			//匹配注释
-			$regex_comment='/'.$difference.'.*;.*\/\//s';
+			$regex_comment='/'.$difference.'.*?;.*?\/\/.*?(?=\n)/s';
 			$regex_comment=str_replace('[','\[',$regex_comment);
 			$regex_comment=str_replace(']','\]',$regex_comment);
 			$matches_comment=array();
