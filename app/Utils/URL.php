@@ -335,7 +335,7 @@ class URL
 					$query->Where("user_id", "=", $user->id)
 						->orWhere("user_id", "=", 0);
 				}
-			)->orderby('priority DESC','id')->first();
+			)->orderBy('priority','DESC')->orderBy('id')->first();
 			if ($relay_rule != null) {
 				$server['remarks']=$node->name.' => '.$relay_rule->dist_node()->name;
 				$server['ratio']=$node->traffic_rate+$relay_rule->dist_node()->traffic_rate;
@@ -410,7 +410,7 @@ class URL
                 $query->Where("user_id", "=", $user->id)
                     ->orWhere("user_id", "=", 0);
             }
-        )->orderby('priority DESC','id')->first();
+        )->orderBy('priority','DESC')->orderBy('id')->first();
         $node_name = $node->name;
         if ($relay_rule != null) {
             $node_name .= " - ".$relay_rule->dist_node()->name;
