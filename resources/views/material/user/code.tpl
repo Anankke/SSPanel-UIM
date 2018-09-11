@@ -158,26 +158,22 @@
                         <div class="modal-content">
                             <div class="modal-heading">
                                 <a class="modal-close" id="AliPayReadyToPayClose" data-dismiss="modal">×</a>
-                                <h2 class="modal-title">支付宝扫码充值：<span style="color: red;"
+                                <h2 class="modal-title">支付宝扫码充值<span style="color: red;margin-left: 10px;"
                                                                             id="countTime"></span>
                                 </h2>
                             </div>
                             <div class="modal-inner" style="text-align: center">
 
                                 <div class="text-center">
-                                    <p id="divide">------------------------------------------------</p>
                                     <p id="title">手机端点击二维码即可转跳app支付</p>
-                                    <p id="divide">------------------------------------------------</p>
                                     <p id="qrcode">
                                         <a href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}">
                                             <img src="{$QRcode}" width="200px"/>
                                         </a>
                                     </p>
-                                    <p id="divide">------------------------------------------------</p>
                                     <p id="title">需要输入相应的金额进行充值</p>
                                     <p id="title">请在倒计时结束前进行支付哦</p>
                                     <p id="title">充值成功后会在一分钟内提示</p>
-                                    <p id="divide">------------------------------------------------</p>
                                     <p id="info"></p>
                                 </div>
                             </div>

@@ -259,11 +259,6 @@ class UserController extends BaseController
             ->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
     }
 
-    public function alitest()
-    {
-        dd(AliPay::sendMail());
-    }
-
     public function donate($request, $response, $args)
     {
         if (Config::get('enable_donate') != 'true') {
