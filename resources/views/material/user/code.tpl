@@ -163,9 +163,10 @@
                                 </h2>
                             </div>
                             <div class="modal-inner" style="text-align: center">
-                                <a href="{$QRcodeUrl}" target="view_window">
+                                <a href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}" target="view_window">
                                     <img src="{$QRcode}" width="200px"/>
                                 </a>
+                                <div style="margin: 5px">需要输入相应的金额进行充值</div>
                                 <div style="margin: 5px">手机用户可以直接点击二维码</div>
                                 <div style="margin: 5px">请在倒计时结束前进行支付哦</div>
                             </div>
