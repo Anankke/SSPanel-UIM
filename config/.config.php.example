@@ -28,6 +28,12 @@ $System_Config['db_password'] = 'sspanel';			//用户名对应的密码
 //邮件设置-----------------------------------------------------------------------
 $System_Config['mailDriver'] = 'mailgun';   // mailgun or smtp or sendgrid 选择发送邮件的方式
 
+# chenPay
+$System_Config['AliPay_EMail'] = ''; //失效通知email
+$System_Config['AliPay_QRcode'] = ''; //支付宝二维码
+$System_Config['AliPay_Cookie'] = ''; //支付宝cookie
+//https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm 的 https://mbillexprod.alipay.com/enterprise/tradeListQuery.json接口
+
 # mailgun
 $System_Config['mailgun_key'] = '';
 $System_Config['mailgun_domain'] = '';
@@ -157,7 +163,7 @@ $System_Config['enable_geetest_checkin']='false';       //启用签到验证码
 
 
 //支付系统设置--------------------------------------------------------------------
-#取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay
+#取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay,chenAlipay
 $System_Config['payment_system']='none';
 
 #codepay码支付
