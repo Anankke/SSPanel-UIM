@@ -163,7 +163,7 @@
                                 </h2>
                             </div>
                             <div class="modal-inner" style="text-align: center">
-                                <a href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}" target="view_window">
+                                <a href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}">
                                     <img src="{$QRcode}" width="200px"/>
                                 </a>
                                 <div style="margin: 5px">需要输入相应的金额进行充值</div>
