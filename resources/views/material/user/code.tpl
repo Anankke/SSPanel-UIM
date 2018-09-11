@@ -158,7 +158,7 @@
                         <div class="modal-content">
                             <div class="modal-heading">
                                 <a class="modal-close" id="AliPayReadyToPayClose" data-dismiss="modal">×</a>
-                                <h2 class="modal-title">请使用支付宝App扫码充值：<span style="color: red;"
+                                <h2 class="modal-title">支付宝扫码充值：<span style="color: red;"
                                                                             id="countTime"></span>
                                 </h2>
                             </div>
