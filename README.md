@@ -1,4 +1,4 @@
-# 欢迎使用ss panel v3 mod 再次修改版
+# 欢迎使用ss panel v3 mod 自带支付宝监听修改版
 
 - 免签约支付宝程序自检测 根据COOKIE
 - EMAIL通知失效情况
