@@ -212,7 +212,7 @@ class Job
                 }
             }
 
-            if (Config::get('enable_notify_traffic_low')=='true'){
+            if (Config::get('notify_limit_mode') !='false'){
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 if (Config::get('notify_limit_mode') == 'per'){
                     if (($user_traffic_left / $user->transfer_enable * 100) < (int)Config::get('notify_limit_value')){

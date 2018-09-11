@@ -7,11 +7,7 @@ class Config
     public static function get($key)
     {
         global $System_Config;
-        if (isset($System_Config[$key])){
-            return $System_Config[$key];
-        } else {
-            return null;
-        }
+        return $System_Config[$key];
     }
 
     public static function set($key, $value)
