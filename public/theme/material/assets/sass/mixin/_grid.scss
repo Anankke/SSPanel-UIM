@@ -1,0 +1,78 @@
+@mixin make-container() {
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: $grid-gutter;
+	padding-left: $grid-gutter;
+	@include clearfix();
+}
+
+@mixin make-row() {
+	margin-right: ($grid-gutter * -1);
+	margin-left: ($grid-gutter * -1);
+	@include clearfix();
+}
+
+// col
+	@mixin calc-col($index, $class, $type) {
+		@if ($type == colwidth) and ($index > 0) {
+			.col-#{$class}-#{$index} {
+				width: percentage(($index / $grid-cols));
+			}
+		}
+		@if ($type == offset) {
+			.col-#{$class}-offset-#{$index} {
+				margin-left: percentage(($index / $grid-cols));
+			}
+		}
+		@if ($type == pull) {
+			.col-#{$class}-pull-#{$index} {
+				right: percentage(($index / $grid-cols));
+			}
+		}
+		@if ($type == push) {
+			.col-#{$class}-push-#{$index} {
+				left: percentage(($index / $grid-cols));
+			}
+		}
+	}
+
+	@mixin float-col($class) {
+		$i: 1;
+		$list: "";
+		$list: ".col-#{$class}-#{$i}";
+		@for $i from (1 + 1) through $grid-cols {
+			$list: "#{$list}, .col-#{$class}-#{$i}";
+		}
+		#{$list} {
+			float: left;
+		}
+	}
+
+	@mixin loop-col($columns, $class, $type) {
+		@for $i from 0 through $columns {
+			@include calc-col($i, $class, $type);
+		}
+	}
+
+	@mixin make-col() {
+		$i: 1;
+		$list: "";
+		$list: ".col-xx-#{$i}, .col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}";
+		@for $i from (1 + 1) through $grid-cols {
+			$list: "#{$list}, .col-xx-#{$i}, .col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}";
+		}
+		#{$list} {
+			min-height: 1px;
+			position: relative;
+			padding-left: $grid-gutter;
+			padding-right: $grid-gutter;
+		}
+	}
+
+	@mixin make-grid($class) {
+		@include float-col($class);
+		@include loop-col($grid-cols, $class, colwidth);
+		@include loop-col($grid-cols, $class, offset);
+		@include loop-col($grid-cols, $class, pull);
+		@include loop-col($grid-cols, $class, push);
+	}

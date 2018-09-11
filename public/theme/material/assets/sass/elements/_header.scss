@@ -1,0 +1,141 @@
+.header {
+	backface-visibility: hidden;
+	background-color: $offwhite-solid;
+	color: $black-text-solid;
+	min-height: $header-height;
+	z-index: $header-base;
+	&:after {
+		box-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+		content: "";
+		display: block;
+		height: 100%;
+		opacity: 0;
+		position: absolute;
+			top: 0;
+			left: 0;
+		transition: opacity 0.3s $timing;
+		width: 100%;
+		z-index: -1;
+	}
+	&.affix:after {
+		opacity: 1;
+	}
+	a {
+		color: inherit;
+		z-index: 1;
+	}
+	.nav {
+		margin-top: 0;
+		margin-bottom: 0;
+		> li > a,
+		> li > .a {
+			height: $header-height;
+		}
+	}
+	.tab-nav {
+		box-shadow: none;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.header-#{$color} {
+			background-color: nth($palette-list-color, $i);
+			color: nth($palette-list-text, $i);
+		}
+	}
+
+.header-affix {
+	max-height: $header-height;
+	overflow: hidden;
+	width: 0;
+	&.affix {
+		width: auto;
+	}
+}
+
+.header-affix-hide {
+	max-height: $header-height;
+	overflow: hidden;
+	width: auto;
+	&.affix {
+		width: 0;
+	}
+}
+
+.header-logo,
+.header-text {
+	align-items: center;
+	display: flex;
+	float: left;
+	font-weight: $font-weight-light;
+	height: $header-height;
+	line-height: $line-height-h4;
+	margin: 0 $grid-gutter;
+	white-space: nowrap;
+	&:focus,
+	&:hover {
+		outline: 0;
+		text-decoration: none;
+	}
+}
+
+.header-logo {
+	font-size: $font-size-h4;
+	img {
+		display: block;
+		max-height: ($header-height * 0.75);
+		width: auto;
+	}
+}
+
+.header-seamed,
+.header-standard,
+.header-waterfall {
+	position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+}
+
+.header-standard {
+	&:after {
+		opacity: 1;
+	}
+}
+
+.header-transparent {
+	background-color: transparent;
+	&:before {
+		background-color: $offwhite-solid;
+		content: "";
+		display: block;
+		height: 100%;
+		opacity: 0;
+		position: absolute;
+			top: 0;
+			left: 0;
+		transition: opacity 0.3s $timing;
+		width: 100%;
+		z-index: -1;
+	}
+	&.affix:before {
+		opacity: 1;
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.page-#{$color} .header-transparent {
+			color: nth($palette-list-text, $i);
+			&:before {
+				background-color: nth($palette-list-color, $i);
+			}
+		}
+	}

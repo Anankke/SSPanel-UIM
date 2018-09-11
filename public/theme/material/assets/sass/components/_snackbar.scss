@@ -1,0 +1,59 @@
+.snackbar {
+	position: fixed;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	z-index: ($top-base + 1);
+	a {
+		cursor: pointer;
+		&:focus,
+		&:hover {
+			text-decoration: none;
+		}
+	}
+	// 768
+		@include responsive(sm) {
+			padding-right: $grid-gutter;
+			padding-left: $grid-gutter;
+			// position
+				bottom: $margin-md;
+			.fbtn-container ~ & {
+				// position
+					right: ($base * 2 + $fbtn-height + $grid-gutter);
+			}
+		}
+}
+
+.snackbar-inner {
+	backface-visibility: hidden;
+	background-color: $black-text;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+	color: $white-text-solid;
+	display: flex;
+	max-width: 100%;
+	padding: $margin-sm $grid-gutter;
+	transform: translate(0, 200%);
+	transition: transform 0.3s $timing;
+	@include clearfix();
+	&.in {
+		transform: translate(0, 0);
+	}
+	// 768
+		@include responsive(sm) {
+			border-radius: 2px;
+			float: left;
+		}
+}
+
+.snackbar-text {
+	min-width: 0;
+}
+
+[data-dismiss="snackbar"] {
+	cursor: pointer;
+	font-weight: $font-weight-medium;
+	margin-left: $grid-gutter;
+	order: 1;
+	text-transform: uppercase;
+	white-space: nowrap;
+}

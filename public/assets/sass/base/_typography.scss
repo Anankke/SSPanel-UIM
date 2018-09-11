@@ -1,0 +1,183 @@
+///
+/// Dimension by HTML5 UP
+/// html5up.net | @ajlkn
+/// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+///
+
+/* Type */
+
+	html {
+		font-size: 16pt;
+
+		@include breakpoint(xlarge) {
+			font-size: 12pt;
+		}
+
+		@include breakpoint(small) {
+			font-size: 11pt;
+		}
+
+		@include breakpoint(xxsmall) {
+			font-size: 10pt;
+		}
+	}
+
+	body, input, select, textarea {
+		color: _palette(fg);
+		font-family: _font(family);
+		font-weight: _font(weight);
+		font-size: 1rem;
+		line-height: 1.65;
+	}
+
+	a {
+		@include vendor('transition', (
+			'color #{_duration(transition)} ease-in-out',
+			'background-color #{_duration(transition)} ease-in-out',
+			'border-bottom-color #{_duration(transition)} ease-in-out'
+		));
+		border-bottom: dotted 1px _palette(fg-light);
+		text-decoration: none;
+		color: inherit;
+
+		&:hover {
+			border-bottom-color: transparent;
+		}
+	}
+
+	strong, b {
+		color: _palette(fg-bold);
+		font-weight: _font(weight-bold);
+	}
+
+	em, i {
+		font-style: italic;
+	}
+
+	p {
+		margin: 0 0 _size(element-margin) 0;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		color: _palette(fg-bold);
+		font-weight: _font(weight-bold);
+		line-height: 1.5;
+		margin: 0 0 (_size(element-margin) * 0.5) 0;
+		text-transform: uppercase;
+		letter-spacing: _font(letter-spacing);
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		&.major {
+			border-bottom: solid _size(border-width) _palette(border);
+			width: -moz-max-content;
+			width: -webkit-max-content;
+			width: -ms-max-content;
+			width: max-content;
+			padding-bottom: 0.5rem;
+			margin: 0 0 (_size(element-margin) * 1) 0;
+		}
+	}
+
+	h1 {
+		font-size: 2.25rem;
+		line-height: 1.3;
+		letter-spacing: _font(letter-spacing-heading);
+	}
+
+	h2 {
+		font-size: 1.5rem;
+		line-height: 1.4;
+		letter-spacing: _font(letter-spacing-heading);
+	}
+
+	h3 {
+		font-size: 1rem;
+	}
+
+	h4 {
+		font-size: 0.8rem;
+	}
+
+	h5 {
+		font-size: 0.7rem;
+	}
+
+	h6 {
+		font-size: 0.6rem;
+	}
+
+	@include breakpoint(small) {
+		h1 {
+			font-size: 1.75rem;
+			line-height: 1.4;
+		}
+
+		h2 {
+			font-size: 1.25em;
+			line-height: 1.5;
+		}
+	}
+
+	sub {
+		font-size: 0.8rem;
+		position: relative;
+		top: 0.5rem;
+	}
+
+	sup {
+		font-size: 0.8rem;
+		position: relative;
+		top: -0.5rem;
+	}
+
+	blockquote {
+		border-left: solid (_size(border-width) * 4) _palette(border);
+		font-style: italic;
+		margin: 0 0 _size(element-margin) 0;
+		padding: (_size(element-margin) / 4) 0 (_size(element-margin) / 4) _size(element-margin);
+	}
+
+	code {
+		background: _palette(border-bg);
+		border-radius: _size(border-radius);
+		font-family: _font(family-fixed);
+		font-size: 0.9rem;
+		margin: 0 0.25rem;
+		padding: 0.25rem 0.65rem;
+	}
+
+	pre {
+		-webkit-overflow-scrolling: touch;
+		font-family: _font(family-fixed);
+		font-size: 0.9rem;
+		margin: 0 0 _size(element-margin) 0;
+
+		code {
+			display: block;
+			line-height: 1.75;
+			padding: 1rem 1.5rem;
+			overflow-x: auto;
+		}
+	}
+
+	hr {
+		border: 0;
+		border-bottom: solid _size(border-width) _palette(border);
+		margin: (_size(element-margin) * 1.375) 0;
+	}
+
+	.align-left {
+		text-align: left;
+	}
+
+	.align-center {
+		text-align: center;
+	}
+
+	.align-right {
+		text-align: right;
+	}

@@ -1,0 +1,132 @@
+.progress {
+	background-color: $brand-color-accent-light;
+	height: ($base / 2);
+	margin-top: $margin-md;
+	margin-bottom: $margin-md;
+	overflow: hidden;
+	position: relative;
+}
+
+.progress-bar {
+	background-color: $brand-color-accent;
+	border-radius: 0 1px 1px 0;
+	height: 100%;
+	position: absolute;
+		top: 0;
+		left: 0;
+	transition: width 0.3s $timing;
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		@if $color != "brand-accent" {
+			.progress-#{$color} {
+				background-color: nth($palette-list-light, $i);
+				.progress-bar {
+					background-color: nth($palette-list-color, $i);
+				}
+			}
+		}
+	}
+
+.progress-bar-indeterminate {
+	background-color: $brand-color-accent;
+	&:after,
+	&:before {
+		animation-duration: 2.1s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+		background-color: inherit;
+		border-radius: 1px;
+		content: '';
+		display: block;
+		position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+		transition: width 0.3s $timing;
+		will-change: left, width;
+	}
+	&:after {
+		animation-name: pbar-indeterminate-one;
+		// position
+			left: 0;
+	}
+	&:before {
+		animation-name: pbar-indeterminate-two;
+		// position
+			right: 0;
+	}
+}
+
+// animation
+	@keyframes pbar-indeterminate-one {
+		0% {
+			// position
+				left: 0%;
+			width: 0%;
+		}
+		50% {
+			// position
+				left: 25%;
+			width: 75%;
+		}
+		75% {
+			// position
+				left: 100%;
+			width: 0%;
+		}
+	}
+
+	@keyframes pbar-indeterminate-two {
+		0%,
+		50% {
+			// position
+				left: 0%;
+			width: 0%;
+		}
+		75% {
+			// position
+				left: 0%;
+			width: 25%;
+		}
+		100% {
+			// position
+				left: 100%;
+			width: 0%;
+		}
+	}
+
+.progress-position-absolute-bottom,
+.progress-position-absolute-top,
+.progress-position-fixed-bottom,
+.progress-position-fixed-top {
+	margin: 0;
+	// position
+		left: 0;
+	width: 100%;
+}
+
+.progress-position-absolute-bottom,
+.progress-position-absolute-top {
+	position: absolute;
+}
+
+.progress-position-absolute-bottom,
+.progress-position-fixed-bottom {
+	// position
+		bottom: 0;
+}
+
+.progress-position-absolute-top,
+.progress-position-fixed-top {
+	// position
+		top: 0;
+}
+
+.progress-position-fixed-top,
+.progress-position-fixed-bottom {
+	position: fixed;
+}

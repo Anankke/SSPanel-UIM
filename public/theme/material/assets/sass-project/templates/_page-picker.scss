@@ -1,0 +1,158 @@
+// page-picker.html
+	.ui-picker-divider {
+		background-color: $black-divider-solid;
+		flex: 0 0 auto;
+		position: relative;
+		width: 1px;
+		z-index: 1;
+	}
+
+	.ui-picker-draggable-count {
+		position: absolute;
+			top: (($avatar-height * 0.8) / -2);
+			right: (($avatar-height * 0.8) / -2);
+	}
+
+	.ui-picker-draggable-handler {
+		cursor: crosshair;
+		cursor: -webkit-grab;
+		position: relative;
+		.ui-picker-selected & {
+			z-index: 2;
+			&:active {
+				cursor: -webkit-grabbing;
+			}
+			strong {
+				display: none;
+			}
+			.icon {
+				display: inline-block;
+			}
+		}
+		strong {
+			display: inline;
+		}
+		.icon {
+			display: none;
+		}
+	}
+
+	.ui-picker-info {
+		background-color: $white;
+		flex: 0 0 auto;
+		overflow: hidden;
+		position: relative;
+		transition: width 0.3s $timing;
+		width: 0;
+	}
+
+	.ui-picker-info-active {
+		width: ($grid-gutter * 25);
+	}
+
+	.ui-picker-info-detail {
+		padding-right: $grid-gutter;
+		padding-left: $grid-gutter;
+	}
+
+	.ui-picker-info-null {
+		&:after {
+			background-color: $offwhite-solid;
+			content: "Select an item to view its details.";
+			display: block;
+			font-size: $font-size-h4;
+			font-weight:  $font-weight-light;
+			height: 100%;
+			line-height: $line-height-h4;
+			padding: ($nav-height + ($nav-height - $line-height-h4) / 2) $grid-gutter;
+			position: absolute;
+				top: 0;
+				left: 0;
+			text-align: center;
+			width: 100%;
+			z-index: 1;
+		}
+	}
+
+	.ui-picker-inner {
+		overflow-x: hidden;
+		overflow-y: auto;
+		position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+	}
+
+	.ui-picker-item {
+		position: relative;
+		transition: opacity 0.3s $timing;
+		&.ui-picker-draggable {
+			.ui-picker-lib.ui-picker-dragging & {
+				opacity: 0.69;
+			}
+		}
+	}
+
+	.ui-picker-lib {
+		min-height: calc(100vh - #{$header-height});
+		@include clearfix;
+	}
+
+	.ui-picker-main {
+		flex: 1 1 auto;
+		position: relative;
+	}
+
+	.ui-picker-map-wrap {
+		height: ($grid-gutter * 25 / 16 * 9); 
+		width: ($grid-gutter * 25);
+	}
+
+	.ui-picker-nav {
+		@extend .ui-picker-info;
+		width: ($grid-gutter * 15);
+	}
+
+	.ui-picker-page {
+		height: 100vh;
+		min-width: $screen-md;
+		padding-top: $header-height;
+		padding-bottom: 0;
+	}
+
+	.ui-picker-selectable-handler {
+		display: block;
+		height: 100%;
+		position: absolute;
+			top: 0;
+			left: 0;
+		width: 100%;
+		z-index: 1;
+	}
+
+	.ui-picker-wrap {
+		display: flex;
+		flex-direction: row;
+		height: 100%;
+		overflow: hidden;
+		width: 100%;
+	}
+
+	// jquery ui helpers
+		.ui-draggable-helper {
+			width: ($grid-gutter * 13) !important;
+		}
+
+		.ui-droppable-helper {
+			background-color: rgba(red($brand-color-accent), green($brand-color-accent), blue($brand-color-accent), 0.09) !important;
+			border-color: $brand-color-accent !important;
+		}
+
+		.ui-selectable-helper {
+			background-color: $black-divider;
+			border: 1px solid $black-divider-solid;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			position: absolute;
+			z-index: 100;
+		}

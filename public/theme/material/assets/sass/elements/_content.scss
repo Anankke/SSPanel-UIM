@@ -1,0 +1,42 @@
+.content-header {
+	background-color: $offwhite-solid;
+	color: $black-text-solid;
+	overflow: hidden;
+	padding-top: $margin-sm;
+	padding-bottom: $margin-sm;
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.content-header-#{$color},
+		.page-#{$color} .content-header {
+			background-color: nth($palette-list-color, $i);
+			color: nth($palette-list-text, $i);
+		}
+	}
+
+.content-heading {
+	font-weight: $font-weight-light;
+}
+
+.content-inner {
+	margin-top: $margin-lg;
+	margin-bottom: $margin-lg;
+}
+
+.content-sub-heading {
+	font-size: $font-size-h4;
+	font-weight: $font-weight-medium;
+	line-height: $line-height-h4;
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		.page-#{$color} .content-sub-heading {
+			color: nth($palette-list-color, $i);
+		}
+	}

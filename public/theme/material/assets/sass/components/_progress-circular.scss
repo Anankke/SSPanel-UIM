@@ -1,0 +1,169 @@
+.progress-circular {
+	height: $pcircular-height;
+	margin-top: $margin-md;
+	margin-bottom: $margin-md;
+	overflow: hidden;
+	position: relative;
+	width: $pcircular-height;
+}
+
+.progress-circular-center {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.progress-circular-gap {
+	border-top: 2px solid $brand-color-accent;
+	position: absolute;
+		top: 0;
+		right: ($pcircular-height / 2 - 1);
+		bottom: 0;
+		left: ($pcircular-height / 2 - 1);
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		@if $color != "brand-accent" {
+			.progress-circular-gap {
+				.progress-circular-#{$color} & {
+					border-top-color: nth($palette-list-color, $i);
+				}
+			}
+		}
+	}
+
+.progress-circular-inline {
+	display: inline-block;
+	margin-right: $grid-gutter;
+	margin-left: $grid-gutter;
+}
+
+.progress-circular-inner {
+	animation: pcircular-inner-rotate 5.25s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+	height: $pcircular-height;
+	position: relative;
+	width: $pcircular-height;
+	will-change: transform;
+}
+
+.progress-circular-left,
+.progress-circular-right {
+	height: $pcircular-height;
+	overflow: hidden;
+	position: absolute;
+		top: 0;
+	width: ($pcircular-height / 2);
+}
+
+.progress-circular-left {
+	// position
+		left: 0;
+}
+
+.progress-circular-right {
+	// position
+		right: 0;
+}
+
+.progress-circular-spinner {
+	border: ($base / 2) solid $brand-color-accent;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	height: $pcircular-height;
+	position: absolute;
+		top: 0;
+	width: $pcircular-height;
+	will-change: transform;
+	.progress-circular-left & {
+		animation: pcircular-spinner-left 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+		border-right-color: transparent;
+		// position
+			left: 0;
+	}
+	.progress-circular-right & {
+		animation: pcircular-spinner-right 1.3125s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+		border-left-color: transparent;
+		// position
+			right: 0;
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		@if $color != "brand-accent" {
+			.progress-circular-spinner {
+				.progress-circular-#{$color} & {
+					border-top-color: nth($palette-list-color, $i);
+				}
+				.progress-circular-#{$color} .progress-circular-left & {
+					border-left-color: nth($palette-list-color, $i);
+				}
+				.progress-circular-#{$color} .progress-circular-right & {
+					border-right-color: nth($palette-list-color, $i);
+				}
+			}
+		}
+	}
+
+.progress-circular-wrapper {
+	animation: pcircular-wrapper-rotate 2.91667s linear infinite;
+	will-change: transform;
+}
+
+// animation
+	@keyframes pcircular-inner-rotate {
+		12.5% {
+			transform: rotate(135deg);
+		}
+		25% {
+			transform: rotate(270deg);
+		}
+		37.5% {
+			transform: rotate(405deg);
+		}
+		50% {
+			transform: rotate(540deg);
+		}
+		62.5% {
+			transform: rotate(675deg);
+		}
+		75% {
+			transform: rotate(810deg);
+		}
+		87.5% {
+			transform: rotate(945deg);
+		}
+		100% {
+			transform: rotate(1080deg);
+		}
+	}
+
+	@keyframes pcircular-spinner-left {
+		0%,
+		100% {
+			transform: rotate(130deg);
+		}
+		50% {
+			transform: rotate(-5deg);
+		}
+	}
+
+	@keyframes pcircular-spinner-right {
+		0%,
+		100% {
+			transform: rotate(-130deg);
+		}
+		50% {
+			transform: rotate(5deg);
+		}
+	}
+
+	@keyframes pcircular-wrapper-rotate {
+		100% {
+			transform: rotate(360deg);
+		}
+	}

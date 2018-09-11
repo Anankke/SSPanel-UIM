@@ -1,0 +1,33 @@
+// ui-card.html
+	.ui-card-pre {
+		align-items: center;
+		display: flex;
+		// 768
+			@include responsive(sm) {
+				min-height: 189px;
+			}
+	}
+
+	.ui-card-pre-media {
+		// 768
+			@include responsive(sm) {
+				min-height: 353px;
+			}
+		// 992
+			@include responsive(md) {
+				min-height: 394px;
+			}
+		// 1440
+			@include responsive(lg) {
+				min-height: 389px;
+			}
+	}
+
+	.ui-card-wrap {
+		margin-top: $margin-md;
+		margin-bottom: ($margin-md * -1);
+		@include clearfix();
+		.card {
+			margin-top: 0;
+		}
+	}

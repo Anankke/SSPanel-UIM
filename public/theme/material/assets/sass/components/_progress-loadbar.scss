@@ -1,0 +1,97 @@
+.load-bar {
+	float: right;
+	height: 100%;
+	overflow: hidden;
+	width: 50%;
+	&:first-child {
+		float: left;
+	}
+}
+
+.load-bar-base {
+	animation: load-bar-right-in 0.9s $timing 1 forwards;
+	background-color: $brand-color-accent;
+	float: left;
+	height: 100%;
+	overflow: hidden;
+	transform: translate(-100%, 0);
+	transform-origin: top right;
+	width: 100%;
+	will-change: transform;
+	.load-bar:first-child & {
+		animation: load-bar-left-in 0.9s $timing 1 forwards;
+		transform: translate(100%, 0);
+		transform-origin: top left;
+	}
+}
+
+// animation
+	@keyframes load-bar-left-in {
+		0% {
+			transform: translate(100%, 0);
+		}
+		100% {
+			transform: translate(0, 0);
+		}
+	}
+
+	@keyframes load-bar-right-in {
+		0% {
+			transform: translate(-100%, 0);
+		}
+		100% {
+			transform: translate(0, 0);
+		}
+	}
+
+.load-bar-content {
+	animation: load-bar-right 3.6s linear infinite forwards;
+	animation-delay: 0.9s;
+	float: left;
+	height: 100%;
+	position: relative;
+	transform-origin: top center;
+	width: 400%;
+	will-change: transform;
+	.load-bar:first-child & {
+		animation: load-bar-left 3.6s linear infinite forwards;
+		animation-delay: 0.9s;
+	}
+}
+
+// animation
+	@keyframes load-bar-left {
+		0% {
+			transform: translate(0, 0);
+		}
+		100% {
+			transform: translate(-100%, 0);
+		}
+	}
+
+	@keyframes load-bar-right {
+		0% {
+			transform: translate(-100%, 0);
+		}
+		100% {
+			transform: translate(0, 0);
+		}
+	}
+
+.load-bar-progress {
+	background-color: transparent;
+	float: left;
+	height: 100%;
+	width: 25%;
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		@if $color != "brand-accent" {
+			.load-bar-progress-#{$color} {
+				background-color: nth($palette-list-color, $i);
+			}
+		}
+	}

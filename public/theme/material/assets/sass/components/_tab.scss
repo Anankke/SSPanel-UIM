@@ -1,0 +1,84 @@
+.tab-nav {
+	box-shadow: 0 1px 0 $black-divider;
+	margin-top: $margin-md;
+	margin-bottom: $margin-md;
+	position: relative;
+	.nav {
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
+		> li {
+			> a,
+			> .a {
+				color: inherit;
+				text-transform: uppercase;
+				&:after {
+					border-bottom: 2px solid $brand-color-accent;
+					content: "";
+					display: block;
+					opacity: 0;
+					position: absolute;
+						bottom: 0;
+						left: 0;
+					transition: opacity 0.3s $timing;
+					width: 100%;
+				}
+				&:focus:after,
+				&:hover:after {
+					opacity: 0.3;
+				}
+			}
+			&.active > a:after,
+			&.active > .a:after {
+				opacity: 1;
+				transition: opacity 0s 0.45s;
+			}
+		}
+	}
+}
+
+.tab-nav-indicator {
+	background-color: transparent;
+	height: 2px;
+	position: absolute;
+		bottom: 0;
+	&.animate {
+		background-color: $brand-color-accent;
+		transition: left 0.225s $timing 0.225s, right 0.45s $timing;
+		will-change: left, right;
+		&.reverse {
+			transition: left 0.45s $timing, right 0.225s $timing 0.225s;
+		}
+	}
+}
+
+// colour
+	@each $color in $palette-list-class {
+		$i: index($palette-list-class, $color);
+
+		@if $color != "brand-accent" {
+			.tab-nav-#{$color} {
+				.nav {
+					> li {
+						> a,
+						> .a {
+							&:after {
+								border-bottom-color: nth($palette-list-color, $i);
+							}
+						}
+					}
+				}
+				.tab-nav-indicator.animate {
+					background-color: nth($palette-list-color, $i);
+				}
+			}
+		}
+	}
+
+.tab-pane {
+	display: none;
+	visibility: hidden;
+	&.active {
+		display: block;
+		visibility: visible;
+	}
+}
