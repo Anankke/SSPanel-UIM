@@ -114,7 +114,7 @@ class AliPay
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $amount;
-        $pl->datetime = time() + 10 * 60;//有效时间
+        $pl->datetime = time() + 3 * 60;//有效时间
         $pl->save();
         $pl->ret = 1;
         return $pl;
