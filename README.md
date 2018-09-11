@@ -16,8 +16,10 @@
     crontab -e
     */1 * * * * php /你的目录/xcat alipay
     
-https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm访问后按F12查看
-https://mbillexprod.alipay.com/enterprise/tradeListQuery.json接口
+https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm
+访问后按F12查看
+https://mbillexprod.alipay.com/enterprise/tradeListQuery.json
+接口
 
 
 ### 原作者介绍
