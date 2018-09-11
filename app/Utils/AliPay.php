@@ -148,7 +148,7 @@ class AliPay
         Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听COOKIE出现问题', "LOG提醒你，COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
     }
 
-    public static function checkAliPay()
+    public static function checkAliPayOne()
     {
         $json = static::getAliPay();
         if (!$json) self::sendMail();
@@ -160,5 +160,13 @@ class AliPay
             }
         }
         Paylist::where('status', 0)->where('datetime', '<', time())->delete();
+    }
+
+    public static function checkAliPay()
+    {
+        for ($i = 1; $i <= 10; $i++) {
+            self::checkAliPayOne();
+            sleep(5);
+        }
     }
 }
