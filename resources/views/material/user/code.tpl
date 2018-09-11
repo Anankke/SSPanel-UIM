@@ -158,12 +158,15 @@
                         <div class="modal-content">
                             <div class="modal-heading">
                                 <a class="modal-close" id="AliPayReadyToPayClose" data-dismiss="modal">×</a>
-                                <h2 class="modal-title">请使用支付宝App扫码充值：<span style="color: red;padding: 10px;border: 1px solid red;border-radius: 5px"
+                                <h2 class="modal-title">请使用支付宝App扫码充值：<span style="color: red;"
                                                                             id="countTime"></span>
                                 </h2>
                             </div>
                             <div class="modal-inner" style="text-align: center">
-                                <img src="{$QRcode}" width="200px"/>
+                                <a href="{$QRcodeUrl}" target="view_window">
+                                    <img src="{$QRcode}" width="200px"/>
+                                </a>
+                                <div style="margin: 5px">手机用户可以直接点击二维码</div>
                                 <div style="margin: 5px">请在倒计时结束前进行支付哦</div>
                             </div>
                         </div>
@@ -338,7 +341,9 @@
                         if (data.ret) {
                             if (data.status == 1) {
                                 close('充值成功！');
-                                setTimeout(location.reload(), 5000);
+                                setTimeout(function (){
+                                    location.reload()
+                                }, 3000);
                             }
                         }
                     }
@@ -367,7 +372,7 @@
             }, 1000);
 
             function getCountdown() {
-                countdown.innerHTML = "<span>" + (m > 10 ? m : '0' + m) + "</span> ：<span>" + (s > 10 ? s : '0' + s) + "</span>";
+                countdown.innerHTML = "<span>" + (m > 10 ? m : '0' + m) + "</span>:<span>" + (s > 10 ? s : '0' + s) + "</span>";
                 if (m == 0 && s == 0) {
                     close('倒计时结束了');
                 } else if (m >= 0) {
