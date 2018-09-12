@@ -419,9 +419,13 @@ class UserController extends BaseController
     public function NewAliPay($request, $response, $args)
     {
         $fee = $request->getQueryParams()["fee"];
-        if ($fee == "") {
+        if (!is_numeric($fee)) {
             $res['ret'] = 0;
-            $res['msg'] = "请输入金额";
+            $res['msg'] = "请输入正确金额";
+            return $response->getBody()->write(json_encode($res));
+        } elseif ($fee < 0) {
+            $res['ret'] = 0;
+            $res['msg'] = "请输入正确金额";
             return $response->getBody()->write(json_encode($res));
         }
         return $response->getBody()->write(json_encode(AliPay::newOrder($this->user, $fee)));
