@@ -50,6 +50,9 @@
 					  	<nav>
 							<ul>
                                 <li><a href="#1">简介</a></li>
+								<li><a href="/user/code">充值</a></li>
+								<li><a href="/user/shop">续期</a></li>
+								<li><a href="/user/node">节点列表</a></li>
 					            <li><a href="/user">用户中心</a></li>
 								<li><a href="/user/logout">退出登录</a></li>
 								<li><a href="#5">下载</a></li>
