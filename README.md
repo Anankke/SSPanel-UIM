@@ -18,12 +18,15 @@
 ### 运行
     crontab -e
     */1 * * * * php /你的目录/xcat alipay
-    
+
+### 获取COOKIE
 https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm
 访问后按F12查看
 https://mbillexprod.alipay.com/enterprise/tradeListQuery.json
 接口
 
+### 大概流程
+![image](http://ww1.sinaimg.cn/large/006v0omggy1fv6sq3h0dfg308s0fnx6s.gif)
 
 ### 原作者介绍
 
