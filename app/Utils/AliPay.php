@@ -25,7 +25,7 @@ class AliPay
     {
         $a = '<a class="btn btn-flat waves-attach" id="urlChangeAliPay" ><span class="icon">check</span>&nbsp;充值</a>';
         if (file_exists(static::$file))
-            $a = '<a class="btn btn-flat waves-attach" href="javascript:;"><span class="icon">check</span>&nbsp;暂停使用，稍后再试！</a>';
+            $a = '<a class="btn btn-flat waves-attach" href="javascript:;">&nbsp;暂停使用，稍后再试！</a>';
         return '
                         <div class="form-group pull-left">
                         <p class="modal-title" >本站支持支付宝在线充值</p>
