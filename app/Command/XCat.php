@@ -9,6 +9,7 @@ namespace App\Command;
 
 use App\Models\User;
 use App\Models\Relay;
+use App\Utils\AliPay;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Services\Config;
@@ -31,6 +32,8 @@ class XCat
         switch ($this->argv[1]) {
             case("install"):
                 return $this->install();
+            case("alipay"):
+                return $this->alipay();
             case("createAdmin"):
                 return $this->createAdmin();
             case("resetTraffic"):
@@ -139,6 +142,11 @@ class XCat
             echo '$origin_port='.$origin_port.'&$user->port='.$user->port."\n";
             $user->save();
         }
+    }
+
+    public function alipay()
+    {
+        AliPay::checkAliPay();
     }
 
 	public function migrateConfig()

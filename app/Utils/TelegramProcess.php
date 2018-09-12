@@ -207,6 +207,9 @@ class TelegramProcess
                             $bot->sendMessage($message->getChat()->getId(), '不约，叔叔我们不约。', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
                         }
                     }
+                    if ($message->getNewChatMember() != null && Config::get('enable_welcome_message') == 'true') {
+                        $bot->sendMessage($message->getChat()->getId(), "欢迎 ".$message->getNewChatMember()->getFirstName()." ".$message->getNewChatMember()->getLastName(), $parseMode = null, $disablePreview = false);
+                    }
             }
         }
 
