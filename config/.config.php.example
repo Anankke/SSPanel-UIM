@@ -95,6 +95,7 @@ $System_Config['email_verify_iplimit']='10';      			//验证码有效期内，�
 
 //已注册用户设置------------------------------------------------------------------
 #基础
+$System_Config['enable_register'] = 'true';					//是否开启注册功能
 $System_Config['checkinMin'] = '1';       					//用户签到最少流量 单位MB
 $System_Config['checkinMax'] = '50';       					//用户签到最多流量
 $System_Config['enable_auto_clean_uncheck']='false';      	//没签到的0级用户自动清理开关
@@ -118,6 +119,10 @@ $System_Config['enable_account_expire_delete']='true';      //账户到期之后
 $System_Config['enable_account_expire_delete_days']='7';    //账户到期几天之后会删除账户
 $System_Config['enable_kill']='true';      					//是否允许用户注销账户
 
+$System_Config['enable_notify_traffic_low'] = 'false';        //流量低提醒
+$System_Config['notify_limit_mode'] = 'per';                //per为按照百分比提醒，mb为按照固定剩余流量提醒
+$System_Config['notify_limit_value'] = '20';                //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
+
 
 //Telegram bot设置--------------------------------------------------------------
 $System_Config['enable_telegram']='false';      	//是否开启Telegram bot
@@ -131,6 +136,7 @@ $System_Config['telegram_group_quiet']='false'; 	//Telegram 机器人在群组�
 $System_Config['telegram_qrcode']='zxing_local';	//二维码解码方式，online，phpzbar，zxing_online，zxing_local
 $System_Config['telegram_request_token']='';      	//Telegram 机器人请求Key，随意设置，由大小写英文和数字组成
 													//复杂一些，用于校验请求，更新这个参数之后请 php xcat setTelegram
+$System_Config['enable_welcome_message']='true';    //机器人发送欢迎消息
 
 //沟通设置--------------------------------------------------------------------
 #客服系统设置，注册地址 https://crisp.chat/
