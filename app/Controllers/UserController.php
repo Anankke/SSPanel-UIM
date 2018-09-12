@@ -423,7 +423,7 @@ class UserController extends BaseController
             $res['ret'] = 0;
             $res['msg'] = "请输入正确金额";
             return $response->getBody()->write(json_encode($res));
-        } elseif ($fee < 0) {
+        } elseif ($fee <= 0) {
             $res['ret'] = 0;
             $res['msg'] = "请输入正确金额";
             return $response->getBody()->write(json_encode($res));
