@@ -166,12 +166,13 @@
 
                                 <div class="text-center">
                                     <p id="title">手机端点击二维码即可转跳app支付</p>
+                                    <p id="title">需要输入相应的金额进行充值</p>
                                     <p id="qrcode">
                                         <a href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}">
                                             <img src="{$QRcode}" width="200px"/>
                                         </a>
                                     </p>
-                                    <p id="title">需要输入相应的金额进行充值</p>
+                                    <p id="title">支付成功后需要一分钟内提醒</p>
                                     <p id="title">请在倒计时结束前进行支付哦</p>
                                     <p id="info"></p>
                                 </div>
