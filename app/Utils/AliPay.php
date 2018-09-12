@@ -19,7 +19,7 @@ use App\Services\Mail;
 
 class AliPay
 {
-    static $file = __DIR__ . '../../storage/framework/smarty/cache/aliPayDie.ini';
+    static $file = __DIR__ . '/../../storage/framework/smarty/cache/aliPayDie.ini';
 
     public static function getHTML()
     {
@@ -150,10 +150,10 @@ class AliPay
     public static function sendMail()
     {
         $time = date('Y-m-d H:i:s');
-//        if (!file_exists(static::$file)) {
-//            Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听COOKIE出现问题', "LOG提醒你，COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
-//            file_put_contents(static::$file, '1');
-//        }
+        if (!file_exists(static::$file)) {
+            Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听COOKIE出现问题', "LOG提醒你，COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
+            file_put_contents(static::$file, '1');
+        }
     }
 
     public static function checkAliPayOne()
@@ -173,9 +173,9 @@ class AliPay
 
     public static function checkAliPay()
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 2; $i++) {
             self::checkAliPayOne();
-            sleep(5);
+            sleep(30);
         }
     }
 }
