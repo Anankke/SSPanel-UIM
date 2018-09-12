@@ -19,8 +19,13 @@ use App\Services\Mail;
 
 class AliPay
 {
+    static $file = __DIR__ . '../../storage/framework/smarty/cache/aliPayDie.ini';
+
     public static function getHTML()
     {
+        $a = '<a class="btn btn-flat waves-attach" id="urlChangeAliPay" ><span class="icon">check</span>&nbsp;充值</a>';
+        if (file_exists(static::$file))
+            $a = '<a class="btn btn-flat waves-attach" href="javascript:;"><span class="icon">check</span>&nbsp;暂停使用，稍后再试！</a>';
         return '
                         <div class="form-group pull-left">
                         <p class="modal-title" >本站支持支付宝在线充值</p>
@@ -28,9 +33,7 @@ class AliPay
                         <div class="form-group form-group-label">
                         <label class="floating-label" for="price">充值金额</label>
                         <input type="number" id="AliPayType" class="form-control" name="amount" />
-                        </div>
-                        <a class="btn btn-flat waves-attach" id="urlChangeAliPay" ><span class="icon">check</span>&nbsp;充值</a>
-                        </div>
+                        </div>' . $a . '</div>
                         <div class="form-group pull-right">
                         <img src="/images/qianbai-4.png" height="205" width="166" />
                         </div>
@@ -148,12 +151,14 @@ class AliPay
     {
         $time = date('Y-m-d H:i:s');
         Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听COOKIE出现问题', "LOG提醒你，COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
+        if (!file_exists(static::$file)) file_put_contents(static::$file, '1');
     }
 
     public static function checkAliPayOne()
     {
         $json = static::getAliPay();
         if (!$json) self::sendMail();
+        else if (file_exists(static::$file)) unlink(static::$file);
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
             $order = static::comparison(json_decode($json, true), $item->total, $item->datetime);
