@@ -2,7 +2,7 @@
 
 use Slim\App;
 use Slim\Container;
-use App\Controllers;
+//use App\Controllers;
 use App\Middleware\Auth;
 use App\Middleware\Guest;
 use App\Middleware\Admin;

@@ -19,6 +19,5 @@ class Auto extends Model
     public function content()
     {
         return str_replace(PHP_EOL, '<br>', $this->attributes['value']);
-        ;
     }
 }
