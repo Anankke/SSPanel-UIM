@@ -93,7 +93,26 @@ class AliPay
     public static function getAliPay()
     {
         $client = new \GuzzleHttp\Client();
-        $request = $client->createRequest('POST', "https://mbillexprod.alipay.com/enterprise/tradeListQuery.json", ['headers' => [
+//        $request = $client->createRequest('POST', "https://mbillexprod.alipay.com/enterprise/tradeListQuery.json", ['headers' => [
+//            'Accept' => 'application/json, text/javascript',
+//            'Accept-Encoding' => 'gzip, deflate, br',
+//            'Accept-Language' => 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
+//            'Connection' => 'keep-alive',
+//            'Content-Length' => '295',
+//            'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+//            'Cookie' => Config::get("AliPay_Cookie"),
+//            'Host' => 'mbillexprod.alipay.com',
+//            'Origin' => 'https://mbillexprod.alipay.com',
+//            'Referer' => 'https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm',
+//            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+//            'X-Requested-With' => 'XMLHttpRequest'
+//        ], 'body' => 'queryEntrance=1&billUserId=' . static::getCookieName('uid') .
+//            '&status=SUCCESS&entityFilterType=0&activeTargetSearchItem=tradeNo&tradeFrom=ALL&' .
+//            'startTime=' . date('Y-m-d') . '+00%3A00%3A00&endTime=' . date('Y-m-d', strtotime('+1 day')) . '+00%3A00%3A00&' .
+//            'pageSize=20&pageNum=1&sortTarget=gmtCreate&order=descend&sortType=0&' .
+//            '_input_charset=gbk&ctoken=' . static::getCookieName('ctoken')]);
+
+        $request = $client->createRequest('POST', "https://mbillexprod.alipay.com/enterprise/fundAccountDetail.json", ['headers' => [
             'Accept' => 'application/json, text/javascript',
             'Accept-Encoding' => 'gzip, deflate, br',
             'Accept-Language' => 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
@@ -103,13 +122,13 @@ class AliPay
             'Cookie' => Config::get("AliPay_Cookie"),
             'Host' => 'mbillexprod.alipay.com',
             'Origin' => 'https://mbillexprod.alipay.com',
-            'Referer' => 'https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm',
+            'Referer' => 'https://mbillexprod.alipay.com/enterprise/fundAccountDetail.htm',
             'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
             'X-Requested-With' => 'XMLHttpRequest'
         ], 'body' => 'queryEntrance=1&billUserId=' . static::getCookieName('uid') .
-            '&status=SUCCESS&entityFilterType=0&activeTargetSearchItem=tradeNo&tradeFrom=ALL&' .
-            'startTime=' . date('Y-m-d') . '+00%3A00%3A00&endTime=' . date('Y-m-d', strtotime('+1 day')) . '+00%3A00%3A00&' .
-            'pageSize=20&pageNum=1&sortTarget=gmtCreate&order=descend&sortType=0&' .
+            '&showType=1&type=&precisionQueryKey=tradeNo&' .
+            'startDateInput=' . date('Y-m-d') . '+00%3A00%3A00&endDateInput=' . date('Y-m-d', strtotime('+1 day')) . '+00%3A00%3A00&' .
+            'pageSize=20&pageNum=1&sortTarget=tradeTime&order=descend&sortType=0&' .
             '_input_charset=gbk&ctoken=' . static::getCookieName('ctoken')]);
         return iconv('GBK', 'UTF-8', $client->send($request)->getBody()->getContents());
     }
@@ -137,9 +156,13 @@ class AliPay
         if (isset($json['result']['detail'])) {
             if (is_array($json['result']['detail'])) {
                 foreach ($json['result']['detail'] as $item) {
-                    if ($item['tradeFrom'] == '外部商户' && $item['direction'] == '卖出' &&
-                        strtotime($item['gmtCreate']) < $time && $item['totalAmount'] == $fee) {
-                        return $item['outTradeNo'];
+//                    if ($item['tradeFrom'] == '外部商户' && $item['direction'] == '卖出' &&
+//                        strtotime($item['gmtCreate']) < $time && $item['totalAmount'] == $fee) {
+//                        return $item['outTradeNo'];
+//                    }
+                    if ($item['signProduct'] == '转账收款码' && $item['accountType'] == '交易' &&
+                        strtotime($item['tradeTime']) < $time && $item['tradeAmount'] == $fee) {
+                        return $item['tradeNo'];
                     }
                 }
             }
@@ -175,7 +198,7 @@ class AliPay
     {
         for ($i = 1; $i <= 2; $i++) {
             self::checkAliPayOne();
-            sleep(30);
+            if ($i != 2) sleep(30);
         }
     }
 }
