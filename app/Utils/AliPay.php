@@ -224,13 +224,13 @@ class AliPay
     public static function sendMail($type = 1)
     {
         $time = date('Y-m-d H:i:s');
-        if (!file_exists(static::$file)) {
+        if (!file_exists(static::$file) || !file_exists(static::$fileWx)) {
             $name = '支付宝';
             if ($type == 2) {
                 $name = '微信';
                 file_put_contents(static::$fileWx, '1');
             } else file_put_contents(static::$file, '1');
-            Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题', "LOG提醒你，'.$name.'COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
+            Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题', "LOG提醒你，{$name}COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
         }
     }
 
