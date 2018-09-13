@@ -91,14 +91,14 @@
 																	{/if}
 
 
-																	{if $node->sort == 11} 
+																	{if $node->sort == 11}
 																		{assign var=server_explode value=";"|explode:$node->server}
 																		<div class="card">
 																			<div class="card-main">
 																				<div class="card-inner">
 																					<p class="card-heading" >
 																						<a href="javascript:void(0);" >{$node->name}</a>
-																					</p>																				
+																					</p>
 																				<p>地址：<span class="label label-brand-accent">
                                                                                     {$server_explode[0]}
 																				</span></p>
@@ -209,7 +209,7 @@
 											{/foreach}
 
 
-								{if is_array($node_prefix)}<p class="card-heading">VIP用户节点</p>{/if}
+								<p class="card-heading">VIP用户节点</p>
 
 											{$id=1000}
 											{foreach $node_prefix as $prefix => $nodes}
@@ -276,7 +276,7 @@
 																	{if $node->sort == 0 || $node->sort == 10}
 																		{$point_node=$node}
 																	{/if}
-{if $node->sort == 11} 
+{if $node->sort == 11}
 																		{assign var=server_explode value=";"|explode:$node->server}
 																		<div class="card">
 																			<div class="card-main">
@@ -284,7 +284,7 @@
 																					<p class="card-heading" >
 																						<a href="javascript:void(0);" >{$node->name}</a>
 																					</p>
-																				
+
 																				<p>地址：<span class="label label-brand-accent">
                                                                                     {$server_explode[0]}
 																				</span></p>
