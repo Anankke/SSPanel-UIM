@@ -264,11 +264,11 @@ class AliPay
 
     public static function checkAliPay()
     {
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 2; $i++) {
             self::checkAliPayOne();
             self::checkWxPayOne();
             Paylist::where('status', 0)->where('datetime', '<', time())->delete();
-            if ($i != 5) sleep(10);
+            if ($i != 2) sleep(30);
         }
     }
 }
