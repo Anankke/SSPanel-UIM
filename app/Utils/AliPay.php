@@ -229,7 +229,7 @@ class AliPay
             if ($type == 2) {
                 $name = '微信';
                 file_put_contents(static::$fileWx, '1');
-            }else file_put_contents(static::$file, '1');
+            } else file_put_contents(static::$file, '1');
             Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题', "LOG提醒你，'.$name.'COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
         }
     }
@@ -250,12 +250,12 @@ class AliPay
 
     public static function checkWxPayOne()
     {
-        $json = static::getWxPay();
-        if (!$json) self::sendMail(2);
+        $json = json_decode(static::getWxPay(), true);
+        if ($json['BaseResponse']['Ret'] == 1101) self::sendMail(2);
         else if (file_exists(static::$fileWx)) unlink(static::$file);
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
-            $order = static::WxComparison(json_decode($json, true), $item->total, $item->datetime);
+            $order = static::WxComparison($json, $item->total, $item->datetime);
             if ($order) {
                 if (!Paylist::where('tradeno', $order)->first()) static::AliPay_callback($item, $order);
             }
