@@ -71,7 +71,7 @@ class Update
 				continue;
 			}
 			//匹配注释
-			$regex_comment='/'.$difference.'.*?;.*?\/\/.*?(?=\n)/s';
+			$regex_comment='/'.$difference.'.*?;.*?(?=\n)/s';
 			$regex_comment=str_replace('[','\[',$regex_comment);
 			$regex_comment=str_replace(']','\]',$regex_comment);
 			$matches_comment=array();
