@@ -262,7 +262,7 @@ class AuthController extends BaseController
         }
     }
 
-    public function registerHandle($request, $response, $next)
+    public function registerHandle($request, $response)
     {
         $name = $request->getParam('name');
         $email = $request->getParam('email');
@@ -279,6 +279,7 @@ class AuthController extends BaseController
 		$wechat = trim($wechat);
         // check code
 
+
         if (Config::get('enable_geetest_reg') == 'true') {
             $ret = Geetest::verify($request->getParam('geetest_challenge'), $request->getParam('geetest_validate'), $request->getParam('geetest_seccode'));
             if (!$ret) {
@@ -287,6 +288,7 @@ class AuthController extends BaseController
                 return $response->getBody()->write(json_encode($res));
             }
         }
+
 
         //dumplin：1、enable_invite_code为true则注册必须要填邀请码；2、邀请人等级为0则邀请码不可用；3、邀请人invite_num为可邀请次数，填负数则为无限
         $c = InviteCode::where('code', $code)->first();
@@ -312,6 +314,8 @@ class AuthController extends BaseController
                 return $response->getBody()->write(json_encode($res));
             }
         }
+
+
 
         // check email format
         if (!Check::isEmailLegal($email)) {
@@ -407,6 +411,7 @@ class AuthController extends BaseController
             }
         }
 
+
         $user->class_expire = date("Y-m-d H:i:s", time() + Config::get('user_class_expire_default') * 3600);
         $user->class = Config::get('user_class_default');
         $user->node_connector = Config::get('user_conn');
@@ -436,6 +441,7 @@ class AuthController extends BaseController
             Radius::Add($user, $user->passwd);
             return $response->getBody()->write(json_encode($res));
         }
+
         $res['ret'] = 0;
         $res['msg'] = "未知错误";
         return $response->getBody()->write(json_encode($res));

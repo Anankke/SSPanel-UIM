@@ -7,7 +7,8 @@ use App\Utils\Radius;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use App\Controllers\AdminController;
-
+use App\Utils\CloudflareDriver;
+use App\Services\Config;
 use Ozdemir\Datatables\Datatables;
 use App\Utils\DatatablesHelper;
 
@@ -80,6 +81,12 @@ class NodeController extends AdminController
             $rs['ret'] = 0;
             $rs['msg'] = "添加失败";
             return $response->getBody()->write(json_encode($rs));
+        }
+
+
+        $domain_name = explode('.'.Config::get('cloudflare_name'), $node->server);
+        if (Config::get('cloudflare_enable') == 'true') {
+            CloudflareDriver::updateRecord($domain_name[0], $node->node_ip);
         }
 
         Telegram::Send("新节点添加~".$request->getParam('name'));

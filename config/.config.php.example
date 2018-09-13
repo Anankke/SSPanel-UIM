@@ -7,7 +7,9 @@
 $System_Config['config_migrate_notice']=
 'node_offline_warn被改名为enable_detect_offline
 新增流量过低提醒
-增加注册功能开关';
+增加注册功能开关
+新增机器人欢迎语
+Cloudflare Api支持，在添加节点的时候新建解析记录（使用前php composer.phar install）';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
 
@@ -129,6 +131,7 @@ $System_Config['telegram_group_quiet']='false'; 	//Telegram 机器人在群组�
 $System_Config['telegram_qrcode']='zxing_local';	//二维码解码方式，online，phpzbar，zxing_online，zxing_local
 $System_Config['telegram_request_token']='';      	//Telegram 机器人请求Key，随意设置，由大小写英文和数字组成
 													//复杂一些，用于校验请求，更新这个参数之后请 php xcat setTelegram
+$System_Config['enable_welcome_message']='true';    //机器人发送欢迎消息
 
 //沟通设置--------------------------------------------------------------------
 #客服系统设置，注册地址 https://crisp.chat/
@@ -297,6 +300,12 @@ $System_Config['enable_cloudxns']='false';      	//是否开启Cloudxns
 $System_Config['cloudxns_apikey']='';      			//自己去 cloudxns.net 申请
 $System_Config['cloudxns_apisecret']='';
 $System_Config['cloudxns_domain']='zhaoj.in';      	//你的域名
+
+#Cloudflare
+$System_Config['cloudflare_enable']='false';                                            //是否开启 Cloudflare 解析
+$System_Config['cloudflare_email']='user@example.com';                                  //Cloudflare 邮箱地址
+$System_Config['cloudflare_key']='c2547eb745079dac9320b638f5e225cf483cc5cfdda41';       //Cloudflare API Key
+$System_Config['cloudflare_name']='example.com';                                        //域名
 
 #不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转
 $System_Config['relay_insecure_mode']='false';		//强烈推荐不开启
