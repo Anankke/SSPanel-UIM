@@ -209,7 +209,7 @@
 											{/foreach}
 
 
-								{if $node_prefix}<p class="card-heading">VIP用户节点</p>{/if}
+								{if is_array($node_prefix)}<p class="card-heading">VIP用户节点</p>{/if}
 
 											{$id=1000}
 											{foreach $node_prefix as $prefix => $nodes}
