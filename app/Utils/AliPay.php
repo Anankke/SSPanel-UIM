@@ -251,7 +251,7 @@ class AliPay
     public static function checkWxPayOne()
     {
         $json = json_decode(static::getWxPay(), true);
-        if ($json['BaseResponse']['Ret'] == 1101) self::sendMail(2);
+        if ($json['BaseResponse']['Ret'] > 0) self::sendMail(2);
         else if (file_exists(static::$fileWx)) unlink(static::$file);
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
