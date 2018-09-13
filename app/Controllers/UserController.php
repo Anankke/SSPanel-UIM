@@ -254,8 +254,7 @@ class UserController extends BaseController
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
         return $this->view()->assign('codes', $codes)->assign('QRcodeUrl', Config::get('AliPay_QRcode'))
-            ->assign('QRcode',
-                'https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=' . urlencode(Config::get('AliPay_QRcode')))
+            ->assign('WxQRcodeUrl',Config::get('WxPay_QRcode'))
             ->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
     }
 
@@ -429,6 +428,11 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
         return $response->getBody()->write(json_encode(AliPay::newOrder($this->user, $fee)));
+    }
+
+    public function alitest($request, $response, $args)
+    {
+        print_r(AliPay::getWxPay());
     }
 
     public function codepost($request, $response, $args)

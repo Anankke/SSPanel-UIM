@@ -158,8 +158,8 @@
                         <div class="modal-content">
                             <div class="modal-heading">
                                 <a class="modal-close" id="AliPayReadyToPayClose" data-dismiss="modal">×</a>
-                                <h2 class="modal-title">支付宝扫码充值<span style="color: red;margin-left: 10px;"
-                                                                            id="countTime"></span>
+                                <h2 class="modal-title">扫码充值<span style="color: red;margin-left: 10px;"
+                                                                     id="countTime"></span>
                                 </h2>
                             </div>
                             <div class="modal-inner" style="text-align: center">
@@ -167,8 +167,15 @@
                                 <div class="text-center">
                                     <p id="title">手机端点击二维码即可转跳app支付</p>
                                     <p id="qrcode">
-                                        <a href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}">
-                                            <img src="{$QRcode}" width="200px"/>
+                                        <a class="alipayShow"
+                                           href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}">
+                                            <img src="https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl={$QRcodeUrl}"
+                                                 width="200px"/>
+                                        </a>
+
+                                        <a class="wxpayShow" href="{$WxQRcodeUrl}" style="display: none;">
+                                            <img src="https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl={$WxQRcodeUrl}"
+                                                 width="200px"/>
                                         </a>
                                     </p>
                                     <p id="title">支付成功后大约一分钟内提示</p>
@@ -314,7 +321,15 @@
         }
 
 
-        $("#urlChangeAliPay").click(function () {
+        $("#urlChangeAliPay,#urlChangeAliPay2").click(function () {
+            var $type = $(this).attr('type');
+            if ($type == 2) {
+                $('.wxpayShow').show();
+                $('.alipayShow').hide();
+            } else {
+                $('.alipayShow').show();
+                $('.wxpayShow').hide();
+            }
             $.ajax({
                 type: "GET",
                 url: "NewAliPay",
@@ -351,7 +366,7 @@
                         if (data.ret) {
                             if (data.status == 1) {
                                 close('充值成功！');
-                                setTimeout(function (){
+                                setTimeout(function () {
                                     location.reload()
                                 }, 3000);
                             }
