@@ -244,12 +244,14 @@ class AliPay
     public function sendMail($type = 1)
     {
         $time = date('Y-m-d H:i:s');
-        if ($this->getConfig('AliPay_Status') == 1 || $this->getConfig('WxPay_Status') == 1) {
+        if ($this->getConfig('AliPay_Status') == 1 && $type == 1) {
             $name = '支付宝';
-            if ($type == 2) {
-                $name = '微信';
-                self::setConfig('AliPay_Status', 0);
-            } else self::setConfig('WxPay_Status', 0);
+            self::setConfig('AliPay_Status', 0);
+            Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题', "LOG提醒你，{$name}COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
+        }
+        if ($this->getConfig('WxPay_Status') == 1 && $type == 2) {
+            $name = '微信';
+            self::setConfig('WxPay_Status', 0);
             Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题', "LOG提醒你，{$name}COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
         }
     }
