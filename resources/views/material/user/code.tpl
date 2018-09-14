@@ -338,12 +338,12 @@
             var $alipayUrl = '{$QRcodeUrl}',
                 $wxpayUrl = '{$WxQRcodeUrl}';
         }
-        $("#AliPayType").val($('.btn-price:first-child').text());
+        $("#AliPayType").val($('.btn-price:first-child').attr('price'));
         $(".btn-price").click(function () {
             $pay_type = $(this).attr('type');
             $('.btn-price').removeClass('active');
             $(this).addClass('active');
-            $("#AliPayType").val($(this).text());
+            $("#AliPayType").val($(this).attr('price'));
         });
         $("#urlChangeAliPay,#urlChangeAliPay2").click(function () {
             var $type = $(this).attr('type')

@@ -36,15 +36,14 @@ class AliPay
         if (!$this->getConfig('WxPay_Status') == 0)
             $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><img src="/images/weixin.jpg" width="45"></a>';
         $html = '<div class="form-group pull-left">
-                        <p class="modal-title" >本站支持支付宝/微信在线充值</p>
-                        <p>输入充值金额：</p>
-                        <div class="form-group form-group-label">';
+                        <p class="modal-title" >本站支持支付宝/微信在线充值</p>';
         if (preg_match('/\|/', $this->getConfig('Pay_Price'))) {
             $data = explode('|', $this->getConfig('Pay_Price'));
+            $html .= '<p>选择充值金额：</p><div class="form-group form-group-label">';
             foreach ($data as $key => $item)
-                $html .= '<a class="btn btn-price ' . ($key == 0 ? 'active' : '') . '" type="' . $key . '">' . $item . '</a>';
+                $html .= '<a class="btn btn-price ' . ($key == 0 ? 'active' : '') . '" price="' . $item . '" type="' . $key . '">' . $item . '元</a>';
             $html .= '<input type="hidden" id="AliPayType" class="form-control" name="amount" />';
-        } else $html .= '<label class="floating-label" for="price">充值金额</label>
+        } else $html .= '<p>输入充值金额：</p><div class="form-group form-group-label"><label class="floating-label" for="price">充值金额</label>
                         <input type="number" id="AliPayType" class="form-control" name="amount" />';
         $html .= '</div>' . $a . '</div>
                         <div class="form-group pull-right">
