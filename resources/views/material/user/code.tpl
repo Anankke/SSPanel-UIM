@@ -327,7 +327,7 @@
         }
 
 
-        var $zxing = 'https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=',
+        var $zxing = 'http://qr.liantu.com/api.php?&w=200&text=',
             $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
             $wxpayApp = 'weixin://',
             $pay_type = 0;
