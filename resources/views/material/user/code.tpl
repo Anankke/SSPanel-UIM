@@ -1,5 +1,16 @@
 {include file='user/main.tpl'}
+<style>
+    .btn-price {
+        margin: 0 5px;
+        background: #fff;
+        padding: 5px 10px;
+    }
 
+    .btn-price.active {
+        background: #1972f4;
+        color: #fff;
+    }
+</style>
 
 <main class="content">
     <div class="content-header ui-content-header">
@@ -165,17 +176,11 @@
                             <div class="modal-inner" style="text-align: center">
 
                                 <div class="text-center">
-                                    <p id="title" class="alipayShow">手机端点击二维码即可转跳支付宝支付</p>
-                                    <p id="title" class="wxpayShow">手机端保存二维码后点击二维码到图库扫码支付</p>
+                                    <p id="title" class="textShow"></p>
                                     <p id="qrcode">
-                                        <a class="alipayShow"
-                                           href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}">
-                                            <img src="https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl={$QRcodeUrl}"
-                                                 width="200px"/>
-                                        </a>
-                                        <a class="wxpayShow" href="weixin://"
-                                           style="display: none;">
-                                            <img src="https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl={$WxQRcodeUrl}"
+                                        <a class="pay"
+                                           href="">
+                                            <img src=""
                                                  width="200px"/>
                                         </a>
                                     </p>
@@ -322,14 +327,32 @@
         }
 
 
+        var $type = $(this).attr('type'),
+            $zxing = 'https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=',
+            $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
+            $wxpayApp = 'weixin://',
+            $pay_type = 0;
+        if ('{$QRcodeUrl}'.indexOf('|') > 0) {
+            var $alipayUrl = '{$QRcodeUrl}'.split('|'),
+                $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
+        } else {
+            var $alipayUrl = '{$QRcodeUrl}',
+                $wxpayUrl = '{$WxQRcodeUrl}';
+        }
+        $("#AliPayType").val($('.btn-price:first-child').text());
+        $(".btn-price").click(function () {
+            $pay_type = $(this).attr('type');
+            $('.btn-price').removeClass('active');
+            $(this).addClass('active');
+            $("#AliPayType").val($(this).text());
+        });
         $("#urlChangeAliPay,#urlChangeAliPay2").click(function () {
-            var $type = $(this).attr('type');
             if ($type == 2) {
-                $('.wxpayShow').show();
-                $('.alipayShow').hide();
+                $('.pay').attr('href', $wxpayApp).children('img').attr('src', $zxing + $wxpayUrl[$pay_type]);
+                $('.textShow').html('手机端保存二维码后点击二维码到图库扫码支付');
             } else {
-                $('.alipayShow').show();
-                $('.wxpayShow').hide();
+                $('.pay').attr('href', $alipay + $alipayUrl[$pay_type]).children('img').attr('src', $zxing + $alipayUrl[$pay_type]);
+                $('.textShow').html('手机端点击二维码即可转跳支付宝支付');
             }
             $.ajax({
                 type: "GET",

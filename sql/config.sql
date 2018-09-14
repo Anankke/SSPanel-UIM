@@ -39,5 +39,7 @@ INSERT INTO `config` VALUES ('WxPay_QRcode', NULL);
 INSERT INTO `config` VALUES ('WxPay_Status', '1');
 INSERT INTO `config` VALUES ('WxPay_Url', 'wx.qq.com');
 INSERT INTO `config` VALUES ('WxPay_SyncKey', NULL);
+INSERT INTO `config` VALUES ('Pay_Price', NULL);
+
 
 SET FOREIGN_KEY_CHECKS = 1;

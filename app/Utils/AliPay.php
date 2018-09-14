@@ -35,18 +35,22 @@ class AliPay
             $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay" type="1" ><img src="/images/alipay.jpg" width="45"></a>';
         if (!$this->getConfig('WxPay_Status') == 0)
             $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><img src="/images/weixin.jpg" width="45"></a>';
-        return '
-                        <div class="form-group pull-left">
+        $html = '<div class="form-group pull-left">
                         <p class="modal-title" >本站支持支付宝/微信在线充值</p>
                         <p>输入充值金额：</p>
-                        <div class="form-group form-group-label">
-                        <label class="floating-label" for="price">充值金额</label>
-                        <input type="number" id="AliPayType" class="form-control" name="amount" />
-                        </div>' . $a . '</div>
+                        <div class="form-group form-group-label">';
+        if (preg_match('/\|/', $this->getConfig('Pay_Price'))) {
+            $data = explode('|', $this->getConfig('Pay_Price'));
+            foreach ($data as $key => $item)
+                $html .= '<a class="btn btn-price ' . ($key == 0 ? 'active' : '') . '" type="' . $key . '">' . $item . '</a>';
+            $html .= '<input type="hidden" id="AliPayType" class="form-control" name="amount" />';
+        } else $html .= '<label class="floating-label" for="price">充值金额</label>
+                        <input type="number" id="AliPayType" class="form-control" name="amount" />';
+        $html .= '</div>' . $a . '</div>
                         <div class="form-group pull-right">
                         <img src="/images/qianbai-2.png" height="205" />
-                        </div>
-';
+                        </div>';
+        return $html;
     }
 
     public static function AliPay_callback($trade, $order)

@@ -31,8 +31,14 @@
 									<label class="floating-label" for="number">失效通知邮箱</label>
 									<input class="form-control" id="Notice_EMail" type="text" value="{$payConfig['Notice_EMail']}">
 								</div>
+
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="amount">支付宝二维码</label>
+									<label class="floating-label" for="number">规定金额设定（不设定则无需输入，英文“|”分割，必须大于2）</label>
+									<input class="form-control" id="Pay_Price" type="text" value="{$payConfig['Pay_Price']}">
+								</div>
+
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="amount">支付宝二维码（金额设定后需要英文“|”分割）</label>
 									<input class="form-control" id="AliPay_QRcode" type="text" value="{$payConfig['AliPay_QRcode']}">
 								</div>
 								
@@ -47,7 +53,7 @@
 									<input class="form-control" id="WxPay_Url" type="text" value="{$payConfig['WxPay_Url']}">
 								</div>
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="number">微信二维码</label>
+									<label class="floating-label" for="number">微信二维码（金额设定后需要英文“|”分割）</label>
 									<input class="form-control" id="WxPay_QRcode" type="text" value="{$payConfig['WxPay_QRcode']}">
 								</div>
 
@@ -113,7 +119,8 @@
                     AliPay_Cookie: $("#AliPay_Cookie").val(),
                     WxPay_Url: $("#WxPay_Url").val(),
                     WxPay_QRcode: $("#WxPay_QRcode").val(),
-                    WxPay_Cookie: $("#WxPay_Cookie").val()
+                    WxPay_Cookie: $("#WxPay_Cookie").val(),
+                    Pay_Price: $("#Pay_Price").val()
                 },
                 success: function (data) {
                     if (data.ret) {
