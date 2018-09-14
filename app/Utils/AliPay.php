@@ -229,7 +229,8 @@ class AliPay
 //                    }
                     if ($item['signProduct'] == '转账收款码' && $item['accountType'] == '交易' &&
                         strtotime($item['tradeTime']) < $time && $item['tradeAmount'] == $fee) {
-                        return $item['orderNo'];
+                        if (!Paylist::where('tradeno', $item['orderNo'])->first())
+                            return $item['orderNo'];
                     }
                 }
             }
@@ -258,7 +259,8 @@ class AliPay
                         $fees = explode('微信支付收款', $item['FileName']);
                         $fees = explode('元', $fees[1])[0];
                         if ($item['CreateTime'] < $time && $fees == $fee) {
-                            return $item['MsgId'];
+                            if (!Paylist::where('tradeno', $item['MsgId'])->first())
+                                return $item['MsgId'];
                         }
                     }
                 }
@@ -309,9 +311,7 @@ class AliPay
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
             $order = static::AliComparison(json_decode($json, true), $item->total, $item->datetime);
-            if ($order) {
-                if (!Paylist::where('tradeno', $order)->first()) static::AliPay_callback($item, $order);
-            }
+            if ($order) static::AliPay_callback($item, $order);
         }
     }
 
@@ -323,9 +323,7 @@ class AliPay
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
             $order = static::WxComparison($json, $item->total, $item->datetime);
-            if ($order) {
-                if (!Paylist::where('tradeno', $order)->first()) static::AliPay_callback($item, $order);
-            }
+            if ($order) static::AliPay_callback($item, $order);
         }
     }
 
