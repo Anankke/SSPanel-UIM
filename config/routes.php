@@ -90,7 +90,7 @@ $app->group('/user', function () {
     $this->get('', 'App\Controllers\UserController:index');
     $this->get('/', 'App\Controllers\UserController:index');
     $this->get('/CheckAliPay', 'App\Controllers\UserController:CheckAliPay');
-//    $this->get('/alitest', 'App\Controllers\UserController:alitest');
+    $this->get('/alitest', 'App\Controllers\UserController:alitest');
     $this->get('/NewAliPay', 'App\Controllers\UserController:NewAliPay');
     $this->post('/checkin', 'App\Controllers\UserController:doCheckin');
     $this->get('/node', 'App\Controllers\UserController:node');
