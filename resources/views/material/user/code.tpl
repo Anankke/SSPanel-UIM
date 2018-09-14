@@ -12,7 +12,7 @@
     .btn-price.active {
         background: #1972f4;
         color: #fff;
-        border: 1px solid #fff;
+        /*border: 1px solid #fff;*/
         padding: 8px 20px;
     }
 </style>
