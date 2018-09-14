@@ -181,7 +181,7 @@
                                         <a class="pay"
                                            href="">
                                             <img src=""
-                                                 width="200px"/>
+                                                 width="300px"/>
                                         </a>
                                     </p>
                                     <p id="title">支付成功后大约一分钟内提示</p>
@@ -349,7 +349,7 @@
             var $type = $(this).attr('type')
             if ($type == 2) {
                 $('.pay').attr('href', $wxpayApp).children('img').attr('src', $zxing + $wxpayUrl[$pay_type]);
-                $('.textShow').html('手机端保存二维码后点击二维码到图库扫码支付');
+                $('.textShow').html('手机端长按二维码保存到手机<br>点击二维码进入扫一扫选择图片支付');
             } else {
                 $('.pay').attr('href', $alipay + $alipayUrl[$pay_type]).children('img').attr('src', $zxing + $alipayUrl[$pay_type]);
                 $('.textShow').html('手机端点击二维码即可转跳支付宝支付');
