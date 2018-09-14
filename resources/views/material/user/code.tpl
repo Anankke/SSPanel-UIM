@@ -159,7 +159,7 @@
                             <div class="modal-heading">
                                 <a class="modal-close" id="AliPayReadyToPayClose" data-dismiss="modal">×</a>
                                 <h2 class="modal-title">扫码充值<span style="color: red;margin-left: 10px;"
-                                                                     id="countTime"></span>
+                                                                  id="countTime"></span>
                                 </h2>
                             </div>
                             <div class="modal-inner" style="text-align: center">
@@ -173,7 +173,8 @@
                                                  width="200px"/>
                                         </a>
 
-                                        <a class="wxpayShow" href="weixin://qr/{$WxQRcodeUrl}" style="display: none;">
+                                        <a class="wxpayShow" href="weixin://qr/{explode('//',$WxQRcodeUrl)[1]}"
+                                           style="display: none;">
                                             <img src="https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl={$WxQRcodeUrl}"
                                                  width="200px"/>
                                         </a>
