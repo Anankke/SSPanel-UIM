@@ -165,15 +165,15 @@
                             <div class="modal-inner" style="text-align: center">
 
                                 <div class="text-center">
-                                    <p id="title">手机端点击二维码即可转跳app支付</p>
+                                    <p id="title" class="alipayShow">手机端点击二维码即可转跳app支付</p>
+                                    <p id="title" class="wxpayShow">请保存图片后到微信图库扫码支付</p>
                                     <p id="qrcode">
                                         <a class="alipayShow"
                                            href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}">
                                             <img src="https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl={$QRcodeUrl}"
                                                  width="200px"/>
                                         </a>
-
-                                        <a class="wxpayShow" href="weixin://{str_replace('wxp://','',$WxQRcodeUrl)}"
+                                        <a class="wxpayShow" href="weixin://"
                                            style="display: none;">
                                             <img src="https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl={$WxQRcodeUrl}"
                                                  width="200px"/>
