@@ -173,7 +173,7 @@
                                                  width="200px"/>
                                         </a>
 
-                                        <a class="wxpayShow" href="{$WxQRcodeUrl}" style="display: none;">
+                                        <a class="wxpayShow" href="weixin://qr/{$WxQRcodeUrl}" style="display: none;">
                                             <img src="https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl={$WxQRcodeUrl}"
                                                  width="200px"/>
                                         </a>

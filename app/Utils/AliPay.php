@@ -172,7 +172,6 @@ class AliPay
     public function getWxPay()
     {
         $client = new \GuzzleHttp\Client();
-        $skey = '@crypt_27d03f1b_932f0713a3dcb59ba8ff82f3b7f3c0d4';
         if (!$this->getConfig('WxPay_SyncKey')) {
             $syncJson = $this->getWxSyncKey();
             if ($syncJson['BaseResponse']['Ret'] > 0) return $syncJson;
