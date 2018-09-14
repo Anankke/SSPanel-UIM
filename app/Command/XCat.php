@@ -146,7 +146,7 @@ class XCat
 
     public function alipay()
     {
-        AliPay::checkAliPay();
+        (new AliPay)->checkAliPay();
     }
 
 	public function migrateConfig()

@@ -21,14 +21,22 @@ class AliPay
 {
     static $file = __DIR__ . '/../../storage/framework/smarty/cache/aliPayDie.ini';
     static $fileWx = __DIR__ . '/../../storage/framework/smarty/cache/wxPayDie.ini';
+    private $config = [];
 
-    public static function getHTML()
+    public function __construct()
+    {
+        $data = [];
+        foreach (\App\Models\Config::get() as $item) $data[$item->name] = $item->value;
+        $this->config = $data;
+    }
+
+    public function getHTML()
     {
         $a = '';
-        if (file_exists(static::$file))
+        if ($this->getConfig('AliPay_Status') == 0)
             $a .= '<a class="btn btn-flat waves-attach" href="javascript:;">&nbsp;暂停使用，稍后再试！</a>';
         else $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay" type="1" ><span class="icon">check</span>&nbsp;支付宝充值</a>';
-        if (file_exists(static::$fileWx))
+        if ($this->getConfig('WxPay_Status') == 0)
             $a .= '<a class="btn btn-flat waves-attach" href="javascript:;">&nbsp;暂停使用，稍后再试！</a>';
         else $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><span class="icon">check</span>&nbsp;微信充值</a>';
         return '
@@ -88,9 +96,9 @@ class AliPay
         return Paylist::where("id", '=', $id)->where('status', 0)->delete();
     }
 
-    public static function getCookieName($name = 'uid', $cookie = false)
+    public function getCookieName($name = 'uid', $cookie = false)
     {
-        $cookie = explode($name . '=', $cookie ? $cookie : Config::get("AliPay_Cookie"))[1];
+        $cookie = explode($name . '=', $cookie ? $cookie : $this->getConfig('AliPay_Cookie'))[1];
         if ($name == 'uid') return explode('"', $cookie)[0];
         else return explode(';', $cookie)[0];
     }
@@ -105,7 +113,7 @@ class AliPay
 //            'Connection' => 'keep-alive',
 //            'Content-Length' => '295',
 //            'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
-//            'Cookie' => Config::get("AliPay_Cookie"),
+//            'Cookie' => self::getConfig('AliPay_Cookie'),
 //            'Host' => 'mbillexprod.alipay.com',
 //            'Origin' => 'https://mbillexprod.alipay.com',
 //            'Referer' => 'https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm',
@@ -124,7 +132,7 @@ class AliPay
             'Connection' => 'keep-alive',
             'Content-Length' => '295',
             'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Cookie' => Config::get("AliPay_Cookie"),
+            'Cookie' => self::getConfig('AliPay_Cookie'),
             'Host' => 'mbillexprod.alipay.com',
             'Origin' => 'https://mbillexprod.alipay.com',
             'Referer' => 'https://mbillexprod.alipay.com/enterprise/fundAccountDetail.htm',
@@ -143,7 +151,7 @@ class AliPay
     {
         $client = new \GuzzleHttp\Client();
         $request = $client->createRequest('POST', "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxsync?sid=" .
-            static::getCookieName('wxsid', Config::get("WxPay_Cookie")) . "&skey=",
+            static::getCookieName('wxsid', self::getConfig('WxPay_Cookie')) . "&skey=",
             ['headers' => [
                 'Accept' => 'application/json, text/javascript',
                 'Accept-Encoding' => 'gzip, deflate, br',
@@ -151,13 +159,13 @@ class AliPay
                 'Connection' => 'keep-alive',
                 'Content-Length' => '295',
                 'Content-Type' => 'application/json;charset=UTF-8',
-                'Cookie' => Config::get("WxPay_Cookie"),
+                'Cookie' => self::getConfig('WxPay_Cookie'),
                 'Host' => 'wx.qq.com',
                 'Origin' => 'https://wx.qq.com',
                 'Referer' => 'https://wx.qq.com/',
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
-            ], 'body' => '{"BaseRequest":{"Uin":' . static::getCookieName('last_wxuin', Config::get("WxPay_Cookie")) .
-                ',"Sid":"' . static::getCookieName('wxsid', Config::get("WxPay_Cookie")) . '","Skey":' .
+            ], 'body' => '{"BaseRequest":{"Uin":' . static::getCookieName('last_wxuin', self::getConfig('WxPay_Cookie')) .
+                ',"Sid":"' . static::getCookieName('wxsid', self::getConfig('WxPay_Cookie')) . '","Skey":' .
                 '"","DeviceID":"e453731506754000"},"SyncKey":' .
                 '{"Count":7,"List":[{"Key":1,"Val":671505345},{"Key":2,"Val":671505396},{"Key":3,"Val":671505333}' .
                 ',{"Key":11,"Val":671504940},{"Key":201,"Val":1536840073},{"Key":1000,"Val":1536828842},' .
@@ -203,6 +211,18 @@ class AliPay
         return false;
     }
 
+    public function getConfig($name = false)
+    {
+        if ($name) return $this->config[$name];
+        else return $this->config;
+    }
+
+    public static function setConfig($name, $value)
+    {
+        \App\Models\Config::where('name', $name)->update(['value' => $value]);
+        return $value;
+    }
+
     public static function WxComparison($json, $fee, $time)
     {
         if (isset($json['AddMsgList'])) {
@@ -224,21 +244,21 @@ class AliPay
     public static function sendMail($type = 1)
     {
         $time = date('Y-m-d H:i:s');
-        if (!file_exists(static::$file) || !file_exists(static::$fileWx)) {
+        if (self::getConfig('AliPay_Status') == 1 || self::getConfig('WxPay_Status') == 1) {
             $name = '支付宝';
             if ($type == 2) {
                 $name = '微信';
-                file_put_contents(static::$fileWx, '1');
-            } else file_put_contents(static::$file, '1');
+                self::setConfig('AliPay_Status', 0);
+            } else self::setConfig('WxPay_Status', 0);
             Mail::getClient()->send(Config::get('AliPay_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题', "LOG提醒你，{$name}COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
         }
     }
 
-    public static function checkAliPayOne()
+    public function checkAliPayOne()
     {
         $json = static::getAliPay();
         if (!$json) self::sendMail(1);
-        else if (file_exists(static::$file)) unlink(static::$file);
+        else self::setConfig('AliPay_Status', 1);
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
             $order = static::AliComparison(json_decode($json, true), $item->total, $item->datetime);
@@ -248,11 +268,11 @@ class AliPay
         }
     }
 
-    public static function checkWxPayOne()
+    public function checkWxPayOne()
     {
         $json = json_decode(static::getWxPay(), true);
         if ($json['BaseResponse']['Ret'] > 0) self::sendMail(2);
-        else if (file_exists(static::$fileWx)) unlink(static::$file);
+        else self::setConfig('WxPay_Status', 1);
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
             $order = static::WxComparison($json, $item->total, $item->datetime);
@@ -262,11 +282,11 @@ class AliPay
         }
     }
 
-    public static function checkAliPay()
+    public function checkAliPay()
     {
         for ($i = 1; $i <= 2; $i++) {
-            self::checkAliPayOne();
-            self::checkWxPayOne();
+            $this->checkAliPayOne();
+            $this->checkWxPayOne();
             Paylist::where('status', 0)->where('datetime', '<', time())->delete();
             if ($i != 2) sleep(30);
         }

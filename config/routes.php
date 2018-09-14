@@ -197,6 +197,10 @@ $app->group('/password', function () {
 $app->group('/admin', function () {
     $this->get('', 'App\Controllers\AdminController:index');
     $this->get('/', 'App\Controllers\AdminController:index');
+    $this->get('/editConfig', 'App\Controllers\AdminController:editConfig');
+    $this->post('/saveConfig', 'App\Controllers\AdminController:saveConfig');
+
+
     $this->get('/trafficlog', 'App\Controllers\AdminController:trafficLog');
     $this->post('/trafficlog/ajax', 'App\Controllers\AdminController:ajax_trafficLog');
     // Node Mange
