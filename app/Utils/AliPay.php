@@ -19,8 +19,6 @@ use App\Services\Mail;
 
 class AliPay
 {
-    static $file = __DIR__ . '/../../storage/framework/smarty/cache/aliPayDie.ini';
-    static $fileWx = __DIR__ . '/../../storage/framework/smarty/cache/wxPayDie.ini';
     private $config = [];
 
     public function __construct()
