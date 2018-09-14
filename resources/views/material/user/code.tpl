@@ -1,16 +1,19 @@
 {include file='user/main.tpl'}
 <style>
+
     .btn-price {
         margin: 5px;
         background: #fff;
         padding: 8px 15px;
         border: 1px solid #000;
+        transition: .5s;
     }
 
     .btn-price.active {
         background: #1972f4;
         color: #fff;
         border: 1px solid #fff;
+        padding: 8px 20px;
     }
 </style>
 
