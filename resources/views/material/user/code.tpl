@@ -4,11 +4,13 @@
         margin: 5px;
         background: #fff;
         padding: 8px 15px;
+        border: 1px solid #000;
     }
 
     .btn-price.active {
         background: #1972f4;
         color: #fff;
+        border: 1px solid #fff;
     }
 </style>
 
