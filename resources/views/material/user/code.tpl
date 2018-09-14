@@ -165,8 +165,8 @@
                             <div class="modal-inner" style="text-align: center">
 
                                 <div class="text-center">
-                                    <p id="title" class="alipayShow">手机端点击二维码即可转跳app支付</p>
-                                    <p id="title" class="wxpayShow">请保存图片后到微信图库扫码支付</p>
+                                    <p id="title" class="alipayShow">手机端点击二维码即可转跳支付宝支付</p>
+                                    <p id="title" class="wxpayShow">手机端保存二维码后点击二维码到图库扫码支付</p>
                                     <p id="qrcode">
                                         <a class="alipayShow"
                                            href="alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode={$QRcodeUrl}">
