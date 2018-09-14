@@ -1,9 +1,9 @@
 {include file='user/main.tpl'}
 <style>
     .btn-price {
-        margin: 0 5px;
+        margin: 5px;
         background: #fff;
-        padding: 8px 20px;
+        padding: 8px 15px;
     }
 
     .btn-price.active {
