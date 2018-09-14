@@ -327,7 +327,7 @@
         }
 
 
-        var $zxing = 'http://qr.liantu.com/api.php?&w=200&text=',
+        var $zxing = 'http://mobile.qq.com/qrcode?url=',
             $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
             $wxpayApp = 'weixin://',
             $pay_type = 0;
