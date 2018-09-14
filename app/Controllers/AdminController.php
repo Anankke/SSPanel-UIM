@@ -39,11 +39,14 @@ class AdminController extends UserController
         $AliPay_Cookie = $request->getParam('AliPay_Cookie');
         $WxPay_QRcode = $request->getParam('WxPay_QRcode');
         $WxPay_Cookie = $request->getParam('WxPay_Cookie');
+        $WxPay_Url = $request->getParam('WxPay_Url');
         AliPay::setConfig('Notice_EMail', $Notice_EMail);
         AliPay::setConfig('AliPay_QRcode', $AliPay_QRcode);
         AliPay::setConfig('AliPay_Cookie', $AliPay_Cookie);
         AliPay::setConfig('WxPay_QRcode', $WxPay_QRcode);
         AliPay::setConfig('WxPay_Cookie', $WxPay_Cookie);
+        AliPay::setConfig('WxPay_Url', $WxPay_Url);
+        AliPay::setConfig('WxPay_SyncKey', '');
         return $response->getBody()->write(json_encode(['ret' => 1, 'msg' => '编辑成功！']));
     }
 

@@ -43,6 +43,10 @@
 								</div>
 
 								<div class="form-group form-group-label">
+									<label class="floating-label" for="number">微信登录地址</label>
+									<input class="form-control" id="WxPay_Url" type="text" value="{$payConfig['WxPay_Url']}">
+								</div>
+								<div class="form-group form-group-label">
 									<label class="floating-label" for="number">微信二维码</label>
 									<input class="form-control" id="WxPay_QRcode" type="text" value="{$payConfig['WxPay_QRcode']}">
 								</div>
@@ -107,6 +111,7 @@
                     Notice_EMail: $("#Notice_EMail").val(),
                     AliPay_QRcode: $("#AliPay_QRcode").val(),
                     AliPay_Cookie: $("#AliPay_Cookie").val(),
+                    WxPay_Url: $("#WxPay_Url").val(),
                     WxPay_QRcode: $("#WxPay_QRcode").val(),
                     WxPay_Cookie: $("#WxPay_Cookie").val()
                 },

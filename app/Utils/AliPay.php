@@ -144,11 +144,41 @@ class AliPay
         return iconv('GBK', 'UTF-8', $client->send($request)->getBody()->getContents());
     }
 
+    public function getWxSyncKey()
+    {
+        $client = new \GuzzleHttp\Client();
+        $request = $client->createRequest('POST', "https://" . $this->getConfig('WxPay_Url') . "/cgi-bin/mmwebwx-bin/webwxinit?r=695888609",
+            ['headers' => [
+                'Accept' => 'application/json, text/javascript',
+                'Accept-Encoding' => 'gzip, deflate, br',
+                'Accept-Language' => 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
+                'Connection' => 'keep-alive',
+                'Content-Length' => '295',
+                'Content-Type' => 'application/json;charset=UTF-8',
+                'Cookie' => $this->getConfig('WxPay_Cookie'),
+                'Host' => $this->getConfig('WxPay_Url'),
+                'Origin' => 'https://' . $this->getConfig('WxPay_Url'),
+                'Referer' => 'https://' . $this->getConfig('WxPay_Url') . '/',
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
+            ], 'body' => '{"BaseRequest":{"Uin":' . $this->getCookieName('wxuin', $this->getConfig('WxPay_Cookie')) .
+                ',"Sid":"' . $this->getCookieName('wxsid', $this->getConfig('WxPay_Cookie')) . '","Skey":' .
+                '"","DeviceID":"e453731506754000"}}'
+            ]);
+        $json = $client->send($request)->getBody()->getContents();
+        $data = json_decode($json, true);
+        return $data;
+    }
 
     public function getWxPay()
     {
         $client = new \GuzzleHttp\Client();
-        $request = $client->createRequest('POST', "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxsync?sid=" .
+        $skey = '@crypt_27d03f1b_932f0713a3dcb59ba8ff82f3b7f3c0d4';
+        if (!$this->getConfig('WxPay_SyncKey')) {
+            $syncJson = $this->getWxSyncKey();
+            if ($syncJson['BaseResponse']['Ret'] > 0) return $syncJson;
+            $sync = json_encode($syncJson['SyncKey']);
+        } else $sync = $this->getConfig('WxPay_SyncKey');
+        $request = $client->createRequest('POST', "https://" . $this->getConfig('WxPay_Url') . "/cgi-bin/mmwebwx-bin/webwxsync?sid=" .
             $this->getCookieName('wxsid', $this->getConfig('WxPay_Cookie')) . "&skey=",
             ['headers' => [
                 'Accept' => 'application/json, text/javascript',
@@ -158,18 +188,19 @@ class AliPay
                 'Content-Length' => '295',
                 'Content-Type' => 'application/json;charset=UTF-8',
                 'Cookie' => $this->getConfig('WxPay_Cookie'),
-                'Host' => 'wx.qq.com',
-                'Origin' => 'https://wx.qq.com',
-                'Referer' => 'https://wx.qq.com/',
+                'Host' => $this->getConfig('WxPay_Url'),
+                'Origin' => 'https://' . $this->getConfig('WxPay_Url'),
+                'Referer' => 'https://' . $this->getConfig('WxPay_Url') . '/',
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
-            ], 'body' => '{"BaseRequest":{"Uin":' . $this->getCookieName('last_wxuin', $this->getConfig('WxPay_Cookie')) .
-                ',"Sid":"' . $this->getCookieName('wxsid', $this->getConfig('WxPay_Cookie')) . '","Skey":' .
-                '"","DeviceID":"e453731506754000"},"SyncKey":' .
-                '{"Count":7,"List":[{"Key":1,"Val":671505345},{"Key":2,"Val":671505396},{"Key":3,"Val":671505333}' .
-                ',{"Key":11,"Val":671504940},{"Key":201,"Val":1536840073},{"Key":1000,"Val":1536828842},' .
-                '{"Key":1001,"Val":1536828914}]},"rr":757307905}'
+            ], 'body' => '{"BaseRequest":{"Uin":' . $this->getCookieName('wxuin', $this->getConfig('WxPay_Cookie')) .
+                ',"Sid":"' . $this->getCookieName('wxsid', $this->getConfig('WxPay_Cookie')) . '","Skey":"' .
+                '","DeviceID":"e453731506754000"},"SyncKey":' . $sync .
+                ',"rr":' . rand(100000000, 999999999) . '}'
             ]);
-        return $client->send($request)->getBody()->getContents();
+        $data = $client->send($request)->getBody()->getContents();
+        if (!$this->getConfig('WxPay_SyncKey'))
+            $this->setConfig('WxPay_SyncKey', json_encode(json_decode($data, true)['SyncKey']));
+        return $data;
     }
 
     public static function newOrder($user, $amount)

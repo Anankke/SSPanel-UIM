@@ -33,9 +33,11 @@ CREATE TABLE `config`  (
 INSERT INTO `config` VALUES ('AliPay_Cookie', NULL);
 INSERT INTO `config` VALUES ('AliPay_QRcode', NULL);
 INSERT INTO `config` VALUES ('AliPay_Status', '1');
-INSERT INTO `config` VALUES ('Notice_EMail', '');
+INSERT INTO `config` VALUES ('Notice_EMail', NULL);
 INSERT INTO `config` VALUES ('WxPay_Cookie', NULL);
 INSERT INTO `config` VALUES ('WxPay_QRcode', NULL);
 INSERT INTO `config` VALUES ('WxPay_Status', '1');
+INSERT INTO `config` VALUES ('WxPay_Url', 'wx.qq.com');
+INSERT INTO `config` VALUES ('WxPay_SyncKey', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
