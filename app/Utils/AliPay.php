@@ -34,10 +34,10 @@ class AliPay
     {
         $a = '';
         if ($this->getConfig('AliPay_Status') == 0)
-            $a .= '<a class="btn btn-flat waves-attach" href="javascript:;">&nbsp;暂停使用，稍后再试！</a>';
+            $a .= '<a class="btn btn-flat waves-attach" href="javascript:;">&nbsp;支付宝暂时无法使用！</a>';
         else $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay" type="1" ><span class="icon">check</span>&nbsp;支付宝充值</a>';
         if ($this->getConfig('WxPay_Status') == 0)
-            $a .= '<a class="btn btn-flat waves-attach" href="javascript:;">&nbsp;暂停使用，稍后再试！</a>';
+            $a .= '<a class="btn btn-flat waves-attach" href="javascript:;">&nbsp;微信暂时无法使用！</a>';
         else $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><span class="icon">check</span>&nbsp;微信充值</a>';
         return '
                         <div class="form-group pull-left">
