@@ -433,7 +433,7 @@ class UserController extends BaseController
 
     public function alitest($request, $response, $args)
     {
-        print_r(AliPay::getWxPay());
+        print_r((new AliPay)->checkWxPayOne());
     }
 
     public function codepost($request, $response, $args)

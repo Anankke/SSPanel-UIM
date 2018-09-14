@@ -103,7 +103,7 @@ class AliPay
         else return explode(';', $cookie)[0];
     }
 
-    public static function getAliPay()
+    public function getAliPay()
     {
         $client = new \GuzzleHttp\Client();
 //        $request = $client->createRequest('POST', "https://mbillexprod.alipay.com/enterprise/tradeListQuery.json", ['headers' => [
@@ -119,11 +119,11 @@ class AliPay
 //            'Referer' => 'https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm',
 //            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
 //            'X-Requested-With' => 'XMLHttpRequest'
-//        ], 'body' => 'queryEntrance=1&billUserId=' . static::getCookieName('uid') .
+//        ], 'body' => 'queryEntrance=1&billUserId=' . $this->getCookieName('uid') .
 //            '&status=SUCCESS&entityFilterType=0&activeTargetSearchItem=tradeNo&tradeFrom=ALL&' .
 //            'startTime=' . date('Y-m-d') . '+00%3A00%3A00&endTime=' . date('Y-m-d', strtotime('+1 day')) . '+00%3A00%3A00&' .
 //            'pageSize=20&pageNum=1&sortTarget=gmtCreate&order=descend&sortType=0&' .
-//            '_input_charset=gbk&ctoken=' . static::getCookieName('ctoken')]);
+//            '_input_charset=gbk&ctoken=' . $this->getCookieName('ctoken')]);
 
         $request = $client->createRequest('POST', "https://mbillexprod.alipay.com/enterprise/fundAccountDetail.json", ['headers' => [
             'Accept' => 'application/json, text/javascript',
@@ -132,26 +132,26 @@ class AliPay
             'Connection' => 'keep-alive',
             'Content-Length' => '295',
             'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
-            'Cookie' => self::getConfig('AliPay_Cookie'),
+            'Cookie' => $this->getConfig('AliPay_Cookie'),
             'Host' => 'mbillexprod.alipay.com',
             'Origin' => 'https://mbillexprod.alipay.com',
             'Referer' => 'https://mbillexprod.alipay.com/enterprise/fundAccountDetail.htm',
             'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
             'X-Requested-With' => 'XMLHttpRequest'
-        ], 'body' => 'queryEntrance=1&billUserId=' . static::getCookieName('uid') .
+        ], 'body' => 'queryEntrance=1&billUserId=' . $this->getCookieName('uid') .
             '&showType=1&type=&precisionQueryKey=tradeNo&' .
             'startDateInput=' . date('Y-m-d') . '+00%3A00%3A00&endDateInput=' . date('Y-m-d', strtotime('+1 day')) . '+00%3A00%3A00&' .
             'pageSize=20&pageNum=1&sortTarget=tradeTime&order=descend&sortType=0&' .
-            '_input_charset=gbk&ctoken=' . static::getCookieName('ctoken')]);
+            '_input_charset=gbk&ctoken=' . $this->getCookieName('ctoken')]);
         return iconv('GBK', 'UTF-8', $client->send($request)->getBody()->getContents());
     }
 
 
-    public static function getWxPay()
+    public function getWxPay()
     {
         $client = new \GuzzleHttp\Client();
         $request = $client->createRequest('POST', "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxsync?sid=" .
-            static::getCookieName('wxsid', self::getConfig('WxPay_Cookie')) . "&skey=",
+            $this->getCookieName('wxsid', $this->getConfig('WxPay_Cookie')) . "&skey=",
             ['headers' => [
                 'Accept' => 'application/json, text/javascript',
                 'Accept-Encoding' => 'gzip, deflate, br',
@@ -159,13 +159,13 @@ class AliPay
                 'Connection' => 'keep-alive',
                 'Content-Length' => '295',
                 'Content-Type' => 'application/json;charset=UTF-8',
-                'Cookie' => self::getConfig('WxPay_Cookie'),
+                'Cookie' => $this->getConfig('WxPay_Cookie'),
                 'Host' => 'wx.qq.com',
                 'Origin' => 'https://wx.qq.com',
                 'Referer' => 'https://wx.qq.com/',
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
-            ], 'body' => '{"BaseRequest":{"Uin":' . static::getCookieName('last_wxuin', self::getConfig('WxPay_Cookie')) .
-                ',"Sid":"' . static::getCookieName('wxsid', self::getConfig('WxPay_Cookie')) . '","Skey":' .
+            ], 'body' => '{"BaseRequest":{"Uin":' . $this->getCookieName('last_wxuin', $this->getConfig('WxPay_Cookie')) .
+                ',"Sid":"' . $this->getCookieName('wxsid', $this->getConfig('WxPay_Cookie')) . '","Skey":' .
                 '"","DeviceID":"e453731506754000"},"SyncKey":' .
                 '{"Count":7,"List":[{"Key":1,"Val":671505345},{"Key":2,"Val":671505396},{"Key":3,"Val":671505333}' .
                 ',{"Key":11,"Val":671504940},{"Key":201,"Val":1536840073},{"Key":1000,"Val":1536828842},' .
@@ -241,10 +241,10 @@ class AliPay
         return false;
     }
 
-    public static function sendMail($type = 1)
+    public function sendMail($type = 1)
     {
         $time = date('Y-m-d H:i:s');
-        if (self::getConfig('AliPay_Status') == 1 || self::getConfig('WxPay_Status') == 1) {
+        if ($this->getConfig('AliPay_Status') == 1 || $this->getConfig('WxPay_Status') == 1) {
             $name = '支付宝';
             if ($type == 2) {
                 $name = '微信';
@@ -256,8 +256,8 @@ class AliPay
 
     public function checkAliPayOne()
     {
-        $json = static::getAliPay();
-        if (!$json) self::sendMail(1);
+        $json = $this->getAliPay();
+        if (!$json) $this->sendMail(1);
         else self::setConfig('AliPay_Status', 1);
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
@@ -270,8 +270,8 @@ class AliPay
 
     public function checkWxPayOne()
     {
-        $json = json_decode(static::getWxPay(), true);
-        if ($json['BaseResponse']['Ret'] > 0) self::sendMail(2);
+        $json = json_decode($this->getWxPay(), true);
+        if ($json['BaseResponse']['Ret'] > 0) $this->sendMail(2);
         else self::setConfig('WxPay_Status', 1);
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
