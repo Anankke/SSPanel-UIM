@@ -3,7 +3,7 @@
     .btn-price {
         margin: 0 5px;
         background: #fff;
-        padding: 5px 10px;
+        padding: 8px 20px;
     }
 
     .btn-price.active {
