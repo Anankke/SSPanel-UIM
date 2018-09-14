@@ -327,8 +327,7 @@
         }
 
 
-        var $type = $(this).attr('type'),
-            $zxing = 'https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=',
+        var $zxing = 'https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=',
             $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
             $wxpayApp = 'weixin://',
             $pay_type = 0;
@@ -347,6 +346,7 @@
             $("#AliPayType").val($(this).text());
         });
         $("#urlChangeAliPay,#urlChangeAliPay2").click(function () {
+            var $type = $(this).attr('type')
             if ($type == 2) {
                 $('.pay').attr('href', $wxpayApp).children('img').attr('src', $zxing + $wxpayUrl[$pay_type]);
                 $('.textShow').html('手机端保存二维码后点击二维码到图库扫码支付');
