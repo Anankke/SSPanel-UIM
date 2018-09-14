@@ -31,12 +31,10 @@ class AliPay
     public function getHTML()
     {
         $a = '';
-        if ($this->getConfig('AliPay_Status') == 0)
-            $a .= '<a class="btn btn-flat waves-attach" href="javascript:;">&nbsp;支付宝暂时无法使用！</a>';
-        else $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay" type="1" ><span class="icon">check</span>&nbsp;支付宝充值</a>';
-        if ($this->getConfig('WxPay_Status') == 0)
-            $a .= '<a class="btn btn-flat waves-attach" href="javascript:;">&nbsp;微信暂时无法使用！</a>';
-        else $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><span class="icon">check</span>&nbsp;微信充值</a>';
+        if (!$this->getConfig('AliPay_Status') == 0)
+            $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay" type="1" ><img src="/images/alipay.jpg" width="45"></a>';
+        if (!$this->getConfig('WxPay_Status') == 0)
+            $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><img src="/images/weixin.jpg" width="45"></a>';
         return '
                         <div class="form-group pull-left">
                         <p class="modal-title" >本站支持支付宝/微信在线充值</p>
@@ -46,7 +44,7 @@ class AliPay
                         <input type="number" id="AliPayType" class="form-control" name="amount" />
                         </div>' . $a . '</div>
                         <div class="form-group pull-right">
-                        <img src="/images/qianbai-4.png" height="205" width="166" />
+                        <img src="/images/qianbai-2.png" height="205" />
                         </div>
 ';
     }
@@ -333,11 +331,11 @@ class AliPay
 
     public function checkAliPay()
     {
-        for ($i = 1; $i <= 2; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $this->checkAliPayOne();
             $this->checkWxPayOne();
-            Paylist::where('status', 0)->where('datetime', '<', time())->delete();
-            if ($i != 2) sleep(30);
+            if ($i != 5) sleep(10);
         }
+        Paylist::where('status', 0)->where('datetime', '<', time())->delete();
     }
 }
