@@ -33,7 +33,9 @@ class XCat
             case("install"):
                 return $this->install();
             case("alipay"):
-                return $this->alipay();
+                return (new AliPay)->checkAliPay();
+            case("wxpay"):
+                return (new AliPay)->checkWxPay();
             case("createAdmin"):
                 return $this->createAdmin();
             case("resetTraffic"):
@@ -142,11 +144,6 @@ class XCat
             echo '$origin_port='.$origin_port.'&$user->port='.$user->port."\n";
             $user->save();
         }
-    }
-
-    public function alipay()
-    {
-        (new AliPay)->checkAliPay();
     }
 
 	public function migrateConfig()

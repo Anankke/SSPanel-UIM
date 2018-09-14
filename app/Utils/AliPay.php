@@ -335,6 +335,14 @@ class AliPay
     {
         for ($i = 1; $i <= 5; $i++) {
             $this->checkAliPayOne();
+            if ($i != 5) sleep(10);
+        }
+        Paylist::where('status', 0)->where('datetime', '<', time())->delete();
+    }
+
+    public function checkWxPay()
+    {
+        for ($i = 1; $i <= 5; $i++) {
             $this->checkWxPayOne();
             if ($i != 5) sleep(10);
         }
