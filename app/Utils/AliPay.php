@@ -199,8 +199,7 @@ class AliPay
                 ',"rr":' . rand(100000000, 999999999) . '}'
             ]);
         $data = $client->send($request)->getBody()->getContents();
-        if (!$this->getConfig('WxPay_SyncKey'))
-            $this->setConfig('WxPay_SyncKey', json_encode(json_decode($data, true)['SyncKey']));
+        $this->setConfig('WxPay_SyncKey', json_encode(json_decode($data, true)['SyncKey']));
         return $data;
     }
 
