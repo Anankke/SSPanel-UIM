@@ -45,7 +45,7 @@
 								
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="number">支付宝COOKIE</label>
-									<input class="form-control" id="AliPay_Cookie" type="text" value="{$payConfig['AliPay_Cookie']}">
+									<input class="form-control" id="AliPay_Cookie" type="text" value='{$payConfig['AliPay_Cookie']}'>
 								</div>
 
 								<div class="form-group form-group-label">
