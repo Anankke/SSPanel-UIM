@@ -345,5 +345,6 @@ class AliPay
             if ($i != 5) sleep(10);
         }
         Paylist::where('status', 0)->where('datetime', '<', time())->delete();
+        if (date('i') == 1) self::setConfig('WxPay_SyncKey', '');
     }
 }
