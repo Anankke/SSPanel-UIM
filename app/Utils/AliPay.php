@@ -308,7 +308,7 @@ class AliPay
     public function checkAliPayOne()
     {
         $json = $this->getAliPay();
-        if (!$json) $this->sendMail(1);
+        if (!$json || isset($json['exception_marking'])) $this->sendMail(1);
         else $this->sendSunMail(1);
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
