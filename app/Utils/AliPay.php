@@ -246,9 +246,10 @@ class AliPay
         else return $this->config;
     }
 
-    public static function setConfig($name, $value)
+    public function setConfig($name, $value)
     {
         \App\Models\Config::where('name', $name)->update(['value' => $value]);
+        $this->config[$name] = $value;
         return $value;
     }
 
@@ -276,13 +277,13 @@ class AliPay
         $time = date('Y-m-d H:i:s');
         if ($this->getConfig('AliPay_Status') == 1 && $type == 1) {
             $name = '支付宝';
-            self::setConfig('AliPay_Status', 0);
+            $this->setConfig('AliPay_Status', 0);
             Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题',
                 "LOG提醒你，{$name}COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
         }
         if ($this->getConfig('WxPay_Status') == 1 && $type == 2) {
             $name = '微信';
-            self::setConfig('WxPay_Status', 0);
+            $this->setConfig('WxPay_Status', 0);
             Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题',
                 "LOG提醒你，{$name}COOKIE出现问题，请务必尽快更新COOKIE。<br>LOG记录时间：$time", []);
         }
@@ -293,13 +294,13 @@ class AliPay
         $time = date('Y-m-d H:i:s');
         if ($this->getConfig('AliPay_Status') == 0 && $type == 1) {
             $name = '支付宝';
-            self::setConfig('AliPay_Status', 1);
+            $this->setConfig('AliPay_Status', 1);
             Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE成功运行',
                 "LOG提醒你，{$name}COOKIE成功运行。<br>LOG记录时间：$time", []);
         }
         if ($this->getConfig('WxPay_Status') == 0 && $type == 2) {
             $name = '微信';
-            self::setConfig('WxPay_Status', 1);
+            $this->setConfig('WxPay_Status', 1);
             Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE成功运行',
                 "LOG提醒你，{$name}COOKIE成功运行。<br>LOG记录时间：$time", []);
         }
@@ -345,6 +346,5 @@ class AliPay
             if ($i != 5) sleep(10);
         }
         Paylist::where('status', 0)->where('datetime', '<', time())->delete();
-        if (date('i') == 1) self::setConfig('WxPay_SyncKey', '');
     }
 }

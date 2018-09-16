@@ -41,14 +41,15 @@ class AdminController extends UserController
         $WxPay_Cookie = $request->getParam('WxPay_Cookie');
         $WxPay_Url = $request->getParam('WxPay_Url');
         $Pay_Price = $request->getParam('Pay_Price');
-        AliPay::setConfig('Notice_EMail', $Notice_EMail);
-        AliPay::setConfig('AliPay_QRcode', $AliPay_QRcode);
-        AliPay::setConfig('AliPay_Cookie', $AliPay_Cookie);
-        AliPay::setConfig('WxPay_QRcode', $WxPay_QRcode);
-        AliPay::setConfig('WxPay_Cookie', $WxPay_Cookie);
-        AliPay::setConfig('WxPay_Url', $WxPay_Url);
-        AliPay::setConfig('WxPay_SyncKey', '');
-        AliPay::setConfig('Pay_Price', $Pay_Price);
+        $alipay = new AliPay();
+        $alipay->setConfig('Notice_EMail', $Notice_EMail);
+        $alipay->setConfig('AliPay_QRcode', $AliPay_QRcode);
+        $alipay->setConfig('AliPay_Cookie', $AliPay_Cookie);
+        $alipay->setConfig('WxPay_QRcode', $WxPay_QRcode);
+        $alipay->setConfig('WxPay_Cookie', $WxPay_Cookie);
+        $alipay->setConfig('WxPay_Url', $WxPay_Url);
+        $alipay->setConfig('WxPay_SyncKey', '');
+        $alipay->setConfig('Pay_Price', $Pay_Price);
         return $response->getBody()->write(json_encode(['ret' => 1, 'msg' => '编辑成功！']));
     }
 
