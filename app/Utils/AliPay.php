@@ -307,12 +307,12 @@ class AliPay
 
     public function checkAliPayOne()
     {
-        $json = $this->getAliPay();
+        $json = json_decode($this->getAliPay(), true);
         if (!$json || isset($json['exception_marking'])) $this->sendMail(1);
         else $this->sendSunMail(1);
         $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
         foreach ($tradeAll as $item) {
-            $order = static::AliComparison(json_decode($json, true), $item->total, $item->datetime);
+            $order = static::AliComparison($json, $item->total, $item->datetime);
             if ($order) static::AliPay_callback($item, $order);
         }
     }
