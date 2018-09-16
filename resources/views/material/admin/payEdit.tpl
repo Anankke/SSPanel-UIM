@@ -17,7 +17,7 @@
                         <div class="card-inner">
                             <div class="form-group form-group-label">
                                 <div class="checkbox switch">
-                                    <label for="is_admin">
+                                    <label for="AliPay_Status">
                                         <input {if $payConfig['AliPay_Status']==1}checked{/if} class="access-hide"
                                                id="AliPay_Status" type="checkbox">
                                         <span class="switch-toggle"></span>开启支付宝支付
@@ -27,7 +27,7 @@
 
                             <div class="form-group form-group-label">
                                 <div class="checkbox switch">
-                                    <label for="is_admin">
+                                    <label for="WxPay_Status">
                                         <input {if $payConfig['WxPay_Status']==1}checked{/if} class="access-hide"
                                                id="WxPay_Status" type="checkbox">
                                         <span class="switch-toggle"></span>开启微信支付
