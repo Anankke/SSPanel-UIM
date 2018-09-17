@@ -139,7 +139,7 @@ class AliPay
             'X-Requested-With' => 'XMLHttpRequest'
         ], 'body' => 'queryEntrance=1&billUserId=' . $this->getCookieName('uid') .
             '&showType=1&type=&precisionQueryKey=tradeNo&' .
-            'startDateInput=' . date('Y-m-d',strtotime('-1 day')) . '+00%3A00%3A00&endDateInput=' . date('Y-m-d') . '+23%3A59%3A59&' .
+            'startDateInput=' . date('Y-m-d', strtotime('-1 day')) . '+00%3A00%3A00&endDateInput=' . date('Y-m-d') . '+23%3A59%3A59&' .
             'pageSize=20&pageNum=1&sortTarget=tradeTime&order=descend&sortType=0&' .
             '_input_charset=gbk&ctoken=' . $this->getCookieName('ctoken')]);
         return iconv('GBK', 'UTF-8', $client->send($request)->getBody()->getContents());
@@ -173,7 +173,7 @@ class AliPay
     public function getWxPay()
     {
         $client = new \GuzzleHttp\Client();
-        if (!$this->getConfig('WxPay_SyncKey')) {
+        if (!$this->getConfig('WxPay_SyncKey') || preg_match('/"Count"\:0/', $this->getConfig('WxPay_SyncKey'))) {
             $syncJson = $this->getWxSyncKey();
             if ($syncJson['BaseResponse']['Ret'] > 0) return $syncJson;
             $sync = json_encode($syncJson['SyncKey']);
