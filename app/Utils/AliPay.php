@@ -175,7 +175,7 @@ class AliPay
         $client = new \GuzzleHttp\Client();
         if (!$this->getConfig('WxPay_SyncKey') || preg_match('/"Count"\:0/', $this->getConfig('WxPay_SyncKey'))) {
             $syncJson = $this->getWxSyncKey();
-            if ($syncJson['BaseResponse']['Ret'] > 0) return $syncJson;
+            if ($syncJson['BaseResponse']['Ret'] > 0) return json_encode($syncJson, true);
             $sync = json_encode($syncJson['SyncKey']);
         } else $sync = $this->getConfig('WxPay_SyncKey');
         $request = $client->createRequest('POST', "https://" . $this->getConfig('WxPay_Url') . "/cgi-bin/mmwebwx-bin/webwxsync?sid=" .
