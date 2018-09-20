@@ -32,7 +32,7 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - 面板**原作者**
 
-#####[hkserversolution](https://www.hkserversolution.com/cart.php)
+##### [hkserversolution](https://www.hkserversolution.com/cart.php)
 - Demo 演示站服务器赞助
 
 ##### [dumplin](https://github.com/dumplin233) 
@@ -67,12 +67,11 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - 添加 Telegram OAuth
 
-[**SoDa**](https://github.com/SoDa-GitHub)
+[**CGDF**](https://github.com/CGDF-GitHub)
 
 - 一键国旗
 - 财务报表
 - xcat一键update
-- 被墙检测
 - 适配SSD
 
 ##### 还有所有被引用过代码的同学，以及所有提交过issue的同学。
