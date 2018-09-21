@@ -439,7 +439,7 @@ class UserController extends BaseController
             $res['msg'] = "请输入Id";
             return $response->getBody()->write(json_encode($res));
         }
-        return $response->getBody()->write(json_encode(['res' => AliPay::orderDelete($id)]));
+        return $response->getBody()->write(json_encode(['res' => AliPay::orderDelete($id, $this->user->id)]));
     }
 
     public function alitest($request, $response, $args)

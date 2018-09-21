@@ -90,9 +90,9 @@ class AliPay
         }
     }
 
-    public static function orderDelete($id)
+    public static function orderDelete($id, $user)
     {
-        return Paylist::where("id", $id)->where('status', 0)->delete();
+        return Paylist::where("id", $id)->where('status', 0)->where('userid', $user)->delete();
     }
 
     public function getCookieName($name = 'uid', $cookie = false)
