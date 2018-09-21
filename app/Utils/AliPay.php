@@ -204,12 +204,19 @@ class AliPay
 
     public static function newOrder($user, $amount)
     {
-        $pl = new Paylist();
-        $pl->userid = $user->id;
-        $pl->total = $amount;
-        $pl->datetime = time() + 3 * 60;//有效时间
-        $pl->save();
-        $pl->ret = 1;
+        if (!Paylist::where('status', 0)->where('datetime', '>', time())->first()) {
+            $pl = new Paylist();
+            $pl->userid = $user->id;
+            $pl->total = $amount;
+            $pl->datetime = time() + 3 * 60;//有效时间
+            $pl->save();
+            $pl->ret = 1;
+        } else {
+            $pl = [
+                'msg' => '请稍等片刻！',
+                'ret' => 0
+            ];
+        }
         return $pl;
     }
 
