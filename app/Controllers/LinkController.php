@@ -403,7 +403,7 @@ class LinkController extends BaseController
                                             "server_port"=>$item['port'],
                                             "password"=>$item['passwd'],
                                             "method"=>$item['method'],
-                                            "plugin"=>($item['obfs']=='plain')?'':'obfs-local',
+                                            "plugin"=>"obfs-local",
                                             "plugin_opts"=>str_replace(',',';',URL::getSurgeObfs($item)),
                                             "remarks"=>$item['remark'],
                                             "timeout"=>5));
@@ -424,7 +424,12 @@ class LinkController extends BaseController
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',udp-relay=true,tfo=true'."\n";
+            if(URL::getSurgeObfs($item)==''){
+            	$surgeObfs='';
+            }else{
+            	$surgeObfs=','.URL::getSurgeObfs($item);
+            }
+            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module'.$surgeObfs.',udp-relay=true,tfo=true'."\n";
             $proxy_name .= ",".$item['remark'];
         }
 
