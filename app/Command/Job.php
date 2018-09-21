@@ -212,7 +212,7 @@ class Job
                 }
             }
 
-            if (Config::get('enable_notify_traffic_low')=='true'){
+            if (Config::get('notify_limit_mode') !='false'){
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 if (Config::get('notify_limit_mode') == 'per'){
                     if (($user_traffic_left / $user->transfer_enable * 100) < (int)Config::get('notify_limit_value')){
@@ -677,7 +677,6 @@ class Job
                 $rb->save();
                 Radius::Delete($user->email);
             }
-
 
             if (strtotime($user->expire_in) < time() && (((Config::get('enable_account_expire_reset')=='true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset')=='true' && ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true))) {
                 if (Config::get('enable_account_expire_reset')=='true') {

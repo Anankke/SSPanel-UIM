@@ -5,11 +5,11 @@
 //config迁移附注（由开发者填写本次config迁移后需要注意的地方，站长勿动）
 //如需换行，直接换行即可，无需换行符
 $System_Config['config_migrate_notice']=
-'daliy job不再包含自动备份，
-自动备份改用crontab进行，以实现每隔20分钟备份一次之类的操作,
-详情请看本wiki底部：
-https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/前端安装
-node_offline_warn被改名为enable_detect_offline';
+'node_offline_warn被改名为enable_detect_offline
+新增流量过低提醒
+增加注册功能开关
+新增机器人欢迎语
+Cloudflare Api支持，在添加节点的时候新建解析记录（使用前php composer.phar install）';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
 
@@ -28,12 +28,6 @@ $System_Config['db_password'] = 'sspanel';			//用户名对应的密码
 
 //邮件设置-----------------------------------------------------------------------
 $System_Config['mailDriver'] = 'mailgun';   // mailgun or smtp or sendgrid 选择发送邮件的方式
-
-# chenPay
-$System_Config['AliPay_EMail'] = ''; //失效通知email
-$System_Config['AliPay_QRcode'] = ''; //支付宝二维码
-$System_Config['AliPay_Cookie'] = ''; //支付宝cookie
-//https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm 的 https://mbillexprod.alipay.com/enterprise/tradeListQuery.json接口
 
 # mailgun
 $System_Config['mailgun_key'] = '';
@@ -60,6 +54,7 @@ $System_Config['auto_backup_passwd']='';	//备份的压缩密码
 
 
 //用户注册设置--------------------------------------------------------------------
+$System_Config['enable_register'] = 'true';					//是否开启注册功能
 $System_Config['defaultTraffic'] = '1';      				//用户初始流量 单位GB
 $System_Config['user_expire_in_default']='3650';        	//用户账户过期时间，在注册时设置。（天）
 $System_Config['user_class_default']='0';      				//用户注册等级，在注册时设置。
@@ -95,7 +90,6 @@ $System_Config['email_verify_iplimit']='10';      			//验证码有效期内，�
 
 //已注册用户设置------------------------------------------------------------------
 #基础
-$System_Config['enable_register'] = 'true';					//是否开启注册功能
 $System_Config['checkinMin'] = '1';       					//用户签到最少流量 单位MB
 $System_Config['checkinMax'] = '50';       					//用户签到最多流量
 $System_Config['enable_auto_clean_uncheck']='false';      	//没签到的0级用户自动清理开关
@@ -122,6 +116,7 @@ $System_Config['enable_kill']='true';      					//是否允许用户注销账户
 $System_Config['enable_notify_traffic_low'] = 'false';        //流量低提醒
 $System_Config['notify_limit_mode'] = 'per';                //per为按照百分比提醒，mb为按照固定剩余流量提醒
 $System_Config['notify_limit_value'] = '20';                //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
+
 
 
 //Telegram bot设置--------------------------------------------------------------
@@ -163,7 +158,7 @@ $System_Config['enable_geetest_checkin']='false';       //启用签到验证码
 
 
 //支付系统设置--------------------------------------------------------------------
-#取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay,chenAlipay
+#取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay
 $System_Config['payment_system']='none';
 
 #codepay码支付
@@ -224,16 +219,16 @@ $System_Config['zfbjk_key']='';
 $System_Config['zfbjk_qrcodeurl']='';
 
 
-//财务报告设置
+//财务报告设置-------------------------------------------------------------------------------------------
 $System_Config['finance_public']='false';    	//财务报告是否向Telegram群公开
 
 
-//国旗图标显示
+//国旗图标显示--------------------------------------------------------------------------------------------
 $System_Config['enable_flag']='false';    		//启用该项之前务必先仔细阅读教程
 $System_Config['flag_regex']='/.*?(?=\s)/';     //从站点全名中匹配国家/地区的正则表达式(php版)
 
 
-//节点检测
+//节点检测-----------------------------------------------------------------------------------------------
 #GFW检测
 $System_Config['enable_detect_gfw']='false';
 $System_Config['detect_gfw_interval']='3600';		//检测间隔，单位：秒，低于推荐值会爆炸
@@ -244,8 +239,13 @@ $System_Config['detect_gfw_count']='3';		//尝试次数
 #离线检测
 $System_Config['enable_detect_offline']='true';
 
+//V2Ray相关设置------------------------------------------------------------------------------------------
+$System_Config['v2ray_port']='443';   //V2Ray端口
+$System_Config['v2ray_protocol']='HTTP/2 + TLS';   //V2Ray协议
+$System_Config['v2ray_alter_id']='32';
+$System_Config['v2ray_level']='0';
 
-//以下所有均为高级设置（一般不用改，反正估计也看不懂-------------------------------------------------------------
+//以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
 #杂项
 $System_Config['enable_login_bind_ip']='false';     //是否将登陆线程和IP绑定
 $System_Config['authDriver'] = 'cookie';   			//不能更改此项
@@ -306,16 +306,17 @@ $System_Config['cloudxns_apikey']='';      			//自己去 cloudxns.net 申请
 $System_Config['cloudxns_apisecret']='';
 $System_Config['cloudxns_domain']='zhaoj.in';      	//你的域名
 
+#Cloudflare
+$System_Config['cloudflare_enable']='false';                                            //是否开启 Cloudflare 解析
+$System_Config['cloudflare_email']='user@example.com';                                  //Cloudflare 邮箱地址
+$System_Config['cloudflare_key']='c2547eb745079dac9320b638f5e225cf483cc5cfdda41';       //Cloudflare API Key
+$System_Config['cloudflare_name']='example.com';                                        //域名
+
 #不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转
 $System_Config['relay_insecure_mode']='false';		//强烈推荐不开启
 
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
 $System_Config['enable_analytics_code']='false';
-
-$System_Config['v2ray_port']='443';
-$System_Config['v2ray_protocol']='HTTP/2 + TLS';
-$System_Config['v2ray_alter_id']='32';
-$System_Config['v2ray_level']='0';
 
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
 
