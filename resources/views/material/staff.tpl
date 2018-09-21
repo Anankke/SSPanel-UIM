@@ -111,8 +111,8 @@ It will not impact the appearance and can give developers a lot of support :)
                 <!-- BG -->
 			<div id="bg"></div>
 	        	<!-- Scripts -->
-			<script src="/assets/js/jquery.min.js"></script>
-			<script src="/assets/js/skel.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
+			<script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
 			<script src="/assets/js/util.js"></script>
          <script src="/assets/js/main.js"></script>
 	</body>
