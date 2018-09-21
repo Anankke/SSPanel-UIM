@@ -255,7 +255,7 @@ class UserController extends BaseController
         $codes->setPath('/user/code');
         $config = new AliPay();
         return $this->view()->assign('codes', $codes)->assign('QRcodeUrl', $config->getConfig('AliPay_QRcode'))
-            ->assign('WxQRcodeUrl',$config->getConfig('WxPay_QRcode'))
+            ->assign('WxQRcodeUrl', $config->getConfig('WxPay_QRcode'))
             ->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
     }
 
@@ -429,6 +429,17 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
         return $response->getBody()->write(json_encode(AliPay::newOrder($this->user, $fee)));
+    }
+
+    public function AliPayDelete($request, $response, $args)
+    {
+        $id = $request->getQueryParams()["id"];
+        if ($id == "") {
+            $res['ret'] = 0;
+            $res['msg'] = "请输入Id";
+            return $response->getBody()->write(json_encode($res));
+        }
+        return $response->getBody()->write(json_encode(['res' => AliPay::orderDelete($id)]));
     }
 
     public function alitest($request, $response, $args)

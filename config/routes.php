@@ -92,6 +92,7 @@ $app->group('/user', function () {
     $this->get('/CheckAliPay', 'App\Controllers\UserController:CheckAliPay');
 //    $this->get('/alitest', 'App\Controllers\UserController:alitest');
     $this->get('/NewAliPay', 'App\Controllers\UserController:NewAliPay');
+    $this->get('/AliPayDelete', 'App\Controllers\UserController:AliPayDelete');
     $this->post('/checkin', 'App\Controllers\UserController:doCheckin');
     $this->get('/node', 'App\Controllers\UserController:node');
     $this->get('/announcement', 'App\Controllers\UserController:announcement');

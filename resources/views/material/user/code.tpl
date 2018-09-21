@@ -335,7 +335,8 @@
         var $zxing = 'http://mobile.qq.com/qrcode?url=',
             $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
             $wxpayApp = 'weixin://',
-            $pay_type = 0;
+            $pay_type = 0,
+            $order_id = 0;
         if ('{$QRcodeUrl}'.indexOf('|') > 0) {
             var $alipayUrl = '{$QRcodeUrl}'.split('|'),
                 $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
@@ -368,6 +369,7 @@
                 },
                 success: function (data) {
                     if (data.ret) {
+                        $order_id = data.id;
                         $("#AliPayReadyToPay").modal();
                         getCountdown();
                         $id = setInterval(function () {
@@ -406,10 +408,23 @@
                     checkPayTime(id)
                 }, 3000); //循环调用触发setTimeout
             }
+            function AliPayDelete(id){
+                $.ajax({
+                    type: "GET",
+                    url: "AliPayDelete",
+                    dataType: "json",
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                    }
+                });
+            }
 
             $('#AliPayReadyToPayClose').click(function () {
                 if (CheckPayTimeId) clearTimeout(CheckPayTimeId);
-                if ($id) clearInterval($id)
+                if ($id) clearInterval($id);
+                AliPayDelete($order_id);
             });
 
             function close($msg) {
