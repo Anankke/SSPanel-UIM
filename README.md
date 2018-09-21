@@ -74,6 +74,11 @@ Wiki已经启用，欢迎为此面板维护wiki
 - xcat一键update
 - 适配SSD
 
+[**chen**](https://github.com/ChenSee)
+
+- 为面板增加 chenPay 功能
+- 免签约支付宝与微信双支付程序自检测，无需第三方软件支持
+
 ##### 还有所有被引用过代码的同学，以及所有提交过issue的同学。
 
 #### 关于捐赠

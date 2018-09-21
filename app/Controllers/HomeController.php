@@ -66,12 +66,13 @@ class HomeController extends BaseController
     {
         return $this->view()->display('404.tpl');
     }
-    
+
+
     public function page405($request, $response, $args)
     {
         return $this->view()->display('405.tpl');
     }
-    
+
     public function page500($request, $response, $args)
     {
 		return $this->view()->display('500.tpl');

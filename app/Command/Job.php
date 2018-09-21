@@ -678,7 +678,6 @@ class Job
                 Radius::Delete($user->email);
             }
 
-
             if (strtotime($user->expire_in) < time() && (((Config::get('enable_account_expire_reset')=='true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset')=='true' && ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true))) {
                 if (Config::get('enable_account_expire_reset')=='true') {
                     $user->transfer_enable = Tools::toGB(Config::get('enable_account_expire_reset_traffic'));

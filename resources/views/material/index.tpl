@@ -4,6 +4,7 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+
 {if $config['appName'] == '跑路'}
 <script>window.location.href='{$config["baseUrl"]}/paolu.html';</script>
 {/if}
@@ -36,8 +37,8 @@
                                           {else}
                                              <code>免费</code>
                                               {/if}
-                                    过期时间：{if $user->class_expire!="1989-06-04 00:05:00"}
-											    <code>{$user->class_expire}</code>
+                                    过期时间：{if $user->expire_in!="1989-06-04 00:05:00"}
+											    <code>{$user->expire_in}</code>
                                           {else}
                                               <code>不过期</code>
                                               {/if}</p>
@@ -49,6 +50,9 @@
 					  	<nav>
 							<ul>
                                 <li><a href="#1">简介</a></li>
+								<li><a href="/user/code">充值</a></li>
+								<li><a href="/user/shop">续期</a></li>
+								<li><a href="/user/node">节点列表</a></li>
 					            <li><a href="/user">用户中心</a></li>
 								<li><a href="/user/logout">退出登录</a></li>
 								<li><a href="#5">下载</a></li>
@@ -162,5 +166,7 @@
 			<script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
 			<script src="/assets/js/util.js"></script>
          <script src="/assets/js/main.js"></script>
+
+			{if $config["enable_crisp"] == 'true'}{include file='crisp.tpl'}{/if}
 	</body>
 </html>
