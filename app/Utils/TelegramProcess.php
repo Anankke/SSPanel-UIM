@@ -30,7 +30,7 @@ class TelegramProcess
                     $bot->sendMessage($message->getChat()->getId(), "签到成功！获得了 ".$traffic." MB 流量！", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
 	    	case 'prpr':
-		    $prpr = array('⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄', '(≧ ﹏ ≦)', '(*/ω＼*)', 'ヽ(*。>Д<)o゜', '(つ ﹏ ⊂)', '( >  < )')
+		    $prpr = array('⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄', '(≧ ﹏ ≦)', '(*/ω＼*)', 'ヽ(*。>Д<)o゜', '(つ ﹏ ⊂)', '( >  < )');
                     $bot->sendMessage($message->getChat()->getId(), $prpr[mt_rand(0,5)], $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
                 default:
