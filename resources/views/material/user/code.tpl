@@ -351,7 +351,7 @@
             $(this).addClass('active');
             $("#AliPayType").val($(this).attr('price'));
         });
-        $("#urlChangeAliPay,#urlChangeAliPay2").click(function () {
+        $("#urlChangeAliPay,#urlChangeAliPay2").unbind('click').click(function () {
             var $type = $(this).attr('type')
             if ($type == 2) {
                 $('.pay').attr('href', $wxpayApp).children('img').attr('src', $zxing + $wxpayUrl[$pay_type]);
@@ -421,7 +421,7 @@
                 });
             }
 
-            $('#AliPayReadyToPayClose').click(function () {
+            $('#AliPayReadyToPayClose').unbind('click').click(function () {
                 if (CheckPayTimeId) clearTimeout(CheckPayTimeId);
                 if ($id) clearInterval($id);
                 AliPayDelete($order_id);
