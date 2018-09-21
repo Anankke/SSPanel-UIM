@@ -15,6 +15,7 @@ use App\Models\Bought;
 use App\Models\Ticket;
 use App\Services\Config;
 use App\Utils;
+use App\Utils\AliPay;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Utils\Radius;
@@ -252,12 +253,55 @@ class UserController extends BaseController
         }
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
-        return $this->view()->assign('codes', $codes)->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
+        $config = new AliPay();
+        return $this->view()->assign('codes', $codes)->assign('QRcodeUrl', $config->getConfig('AliPay_QRcode'))
+            ->assign('WxQRcodeUrl', $config->getConfig('WxPay_QRcode'))
+            ->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
+//        return $this->view()->assign('codes', $codes)->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
     }
 
+    public function CheckAliPay($request, $response, $args)
+    {
+        $id = $request->getQueryParams()["id"];
+        if ($id == "") {
+            $res['ret'] = 0;
+            $res['msg'] = "请输入Id";
+            return $response->getBody()->write(json_encode($res));
+        }
+        return $response->getBody()->write(json_encode(AliPay::checkOrder($id)));
+    }
 
+    public function NewAliPay($request, $response, $args)
+    {
+        $fee = $request->getQueryParams()["fee"];
+        $type = $request->getQueryParams()["type"];
+        $url = $request->getQueryParams()["url"];
+        if (!is_numeric($fee) || !is_numeric($type)) {
+            $res['ret'] = 0;
+            $res['msg'] = "请输入正确金额";
+            return $response->getBody()->write(json_encode($res));
+        } elseif ($fee <= 0) {
+            $res['ret'] = 0;
+            $res['msg'] = "请输入正确金额";
+            return $response->getBody()->write(json_encode($res));
+        }
+        return $response->getBody()->write(json_encode(AliPay::newOrder($this->user, $fee, $type, $url)));
+    }
 
+    public function AliPayDelete($request, $response, $args)
+    {
+        $id = $request->getQueryParams()["id"];
+        if ($id == "") {
+            $res['ret'] = 0;
+            $res['msg'] = "请输入Id";
+            return $response->getBody()->write(json_encode($res));
+        }
+        return $response->getBody()->write(json_encode(['res' => AliPay::orderDelete($id, $this->user->id)]));
+    }
 
+    public function AliPayTest($request, $response, $args){
+        print_r((new AliPay)->getWxPay());
+    }
     public function donate($request, $response, $args)
     {
         if (Config::get('enable_donate') != 'true') {

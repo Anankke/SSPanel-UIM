@@ -158,7 +158,7 @@ $System_Config['enable_geetest_checkin']='false';       //启用签到验证码
 
 
 //支付系统设置--------------------------------------------------------------------
-#取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay
+#取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay,chenAlipay
 $System_Config['payment_system']='none';
 
 #codepay码支付
