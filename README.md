@@ -30,7 +30,11 @@
 ### 运行
     # 数据库导入
     sql/config.sql
-
+    
+    # 修改 .config.php
+    # 取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay,chenAlipay
+    $System_Config['payment_system']='chenAlipay';
+    
     # crontab -e
     */1 * * * * php /你的目录/xcat alipay
     */1 * * * * php /你的目录/xcat wxpay
