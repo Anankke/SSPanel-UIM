@@ -52,6 +52,11 @@
 <img src="http://ww1.sinaimg.cn/large/006v0omggy1fv6sq3h0dfg308s0fnx6s.gif" width="250"/>
 <img src="http://ww1.sinaimg.cn/large/006v0omggy1fvgyx8bf97g304p08cb2a.gif" width="250"/>
 
+### 赞助我才能有更多的动力啊 哈哈
+<img src="http://ww1.sinaimg.cn/large/006v0omggy1fvgzvir0aij30q913t406.jpg" width="300"/>
+<img src="http://ww1.sinaimg.cn/large/006v0omggy1fvgzwth0dvj30u715fwgz.jpg" width="300"/>
+
+
 ### 原作者介绍
 
 **ss-panel-v3-mod**是一款专为shadowsocks设计的web前端面板，再次感谢ss-panel-v3-mod 的制作者，修改后的功能简介：
