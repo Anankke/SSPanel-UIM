@@ -394,7 +394,7 @@
                     }
                 } else {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $("#msg").html(data.msg + "  发生了错误。");
                 }
             }
         });
