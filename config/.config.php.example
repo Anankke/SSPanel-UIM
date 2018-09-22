@@ -219,16 +219,16 @@ $System_Config['zfbjk_key']='';
 $System_Config['zfbjk_qrcodeurl']='';
 
 
-//财务报告设置
+//财务报告设置-------------------------------------------------------------------------------------------
 $System_Config['finance_public']='false';    	//财务报告是否向Telegram群公开
 
 
-//国旗图标显示
+//国旗图标显示--------------------------------------------------------------------------------------------
 $System_Config['enable_flag']='false';    		//启用该项之前务必先仔细阅读教程
 $System_Config['flag_regex']='/.*?(?=\s)/';     //从站点全名中匹配国家/地区的正则表达式(php版)
 
 
-//节点检测
+//节点检测-----------------------------------------------------------------------------------------------
 #GFW检测
 $System_Config['enable_detect_gfw']='false';
 $System_Config['detect_gfw_interval']='3600';		//检测间隔，单位：秒，低于推荐值会爆炸
@@ -239,8 +239,13 @@ $System_Config['detect_gfw_count']='3';		//尝试次数
 #离线检测
 $System_Config['enable_detect_offline']='true';
 
+//V2Ray相关设置------------------------------------------------------------------------------------------
+$System_Config['v2ray_port']='443';   //V2Ray端口
+$System_Config['v2ray_protocol']='HTTP/2 + TLS';   //V2Ray协议
+$System_Config['v2ray_alter_id']='32';
+$System_Config['v2ray_level']='0';
 
-//以下所有均为高级设置（一般不用改，反正估计也看不懂-------------------------------------------------------------
+//以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
 #杂项
 $System_Config['enable_login_bind_ip']='false';     //是否将登陆线程和IP绑定
 $System_Config['authDriver'] = 'cookie';   			//不能更改此项
@@ -312,11 +317,6 @@ $System_Config['relay_insecure_mode']='false';		//强烈推荐不开启
 
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
 $System_Config['enable_analytics_code']='false';
-
-$System_Config['v2ray_port']='443';
-$System_Config['v2ray_protocol']='HTTP/2 + TLS';
-$System_Config['v2ray_alter_id']='32';
-$System_Config['v2ray_level']='0';
 
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
 
