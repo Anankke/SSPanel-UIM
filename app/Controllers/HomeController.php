@@ -9,6 +9,7 @@ use App\Models\Payback;
 use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Config;
+use App\Utils\AliPay;
 use App\Utils\Tools;
 use App\Utils\Telegram;
 use App\Utils\Tuling;
