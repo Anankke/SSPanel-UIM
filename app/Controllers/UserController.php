@@ -62,6 +62,8 @@ class UserController extends BaseController
 
         $ios_token = LinkController::GenerateIosCode("smart", 0, $this->user->id, 0, "smart");
 
+        $clash_token = LinkController::GenerateClashCode("smart", 0, $this->user->id, 0, "smart");
+
         $acl_token = LinkController::GenerateAclCode("smart", 0, $this->user->id, 0, "smart");
 
         $router_token = LinkController::GenerateRouterCode($this->user->id, 0);
@@ -82,7 +84,7 @@ class UserController extends BaseController
 
         return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
                 ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
-                ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
+                ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)->assign('clash_token',$clash_token)
                 ->assign('enable_duoshuo', Config::get('enable_duoshuo'))->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
                 ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
     }

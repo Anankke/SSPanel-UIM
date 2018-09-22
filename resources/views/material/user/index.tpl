@@ -346,6 +346,7 @@
 													</div>													
 													<div class="tab-pane fade" id="all_ssd_mac">
 														<p><a href="/ssr-download/ss-mac.zip">下载</a>，安装，然后下载<a href="/user/getpcconf?is_mu=0&is_ss=1">这个（普通端口）</a>或者<a href="/user/getpcconf?is_mu=1&is_ss=1">这个（单端口多用户）</a>，运行程序，小飞机上右键 服务器列表 子菜单 的 “导入服务器配置文件...” 导入这个文件，然后选择一个合适的服务器，更新一下PAC，然后开启系统代理即可上网。</p>
+														<p><a href="https://github.com/yichengchen/clashX/releases" target="blank">下载clashX</a>，然后下载<a href="/link/{clash_token}?is_mu=0&is_ss=1" target="blank">这个配置文件（普通端口）</a>者<a href="/link/{clash_token}?is_mu=1&is_ss=1">这个（单端口多用户）</a>，点状态栏的图标，选择 “config” 里的 “Open config Folder”，然后复制刚刚下载的配置文件到打开的文件夹，勾选“Set as system proxy”即可上网</p>
 													</div>
 													<div class="tab-pane fade" id="all_ssd_ios">
 														<p>推荐下载<a href="https://itunes.apple.com/cn/app/shadowrocket/id932747118?mt=8">Shadowrocket</a>，请在左侧菜单栏里提交工单申请已购买软件的美国商店Apple ID自行切换商店账号下载安装，为了您的隐私安全，请不要登录 iCloud 。下载完成后在 Safari 中点击<a href="{$ss_url_all}">这个（普通端口）</a>或者<a href="{$ss_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点。</p>
