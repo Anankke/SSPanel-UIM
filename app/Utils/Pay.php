@@ -13,6 +13,8 @@ class Pay
         switch ($driver) {
             case "doiampay":
                 return Pay::doiampay_html($user);
+            case "chenAlipay":
+                return (new AliPay)->getHTML();
             case "paymentwall":
                 return Pay::pmw_html($user);
             case 'spay':

@@ -9,6 +9,7 @@ use App\Models\Payback;
 use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Config;
+use App\Utils\AliPay;
 use App\Utils\Tools;
 use App\Utils\Telegram;
 use App\Utils\Tuling;
@@ -100,5 +101,29 @@ class HomeController extends BaseController
     public function codepay_pay_callback($request, $response, $args)
     {
         Pay::codepay_pay_callback($request);
+    }
+
+    public function getOrderList($request, $response, $args)
+    {
+        $key = $request->getParam('key');
+        if (!$key || $key != Config::get('key')) {
+            $res['ret'] = 0;
+            $res['msg'] = "错误";
+            return $response->getBody()->write(json_encode($res));
+        }
+        return $response->getBody()->write(json_encode(['data' => AliPay::getList()]));
+    }
+
+    public function setOrder($request, $response, $args)
+    {
+        $key = $request->getParam('key');
+        $sn = $request->getParam('sn');
+        $url = $request->getParam('url');
+        if (!$key || $key != Config::get('key')) {
+            $res['ret'] = 0;
+            $res['msg'] = "错误";
+            return $response->getBody()->write(json_encode($res));
+        }
+        return $response->getBody()->write(json_encode(['res' => AliPay::setOrder($sn, $url)]));
     }
 }
