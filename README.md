@@ -19,38 +19,57 @@
 - 添加手动开启支付开关（检测机制有可能在cookie失效情况下会直接关掉）
 - 添加固定金额支付模式（也可手动输入支付模式【未测试】）
 
-### 特别说明
-- 出现cookie失效有可能是服务器无法访问相关接口原因导致掉线
-- 打算弄个xposed hook来实时生成付款码可以解决多个人无法同时支付问题
-
 ### 相关截图
 <img src="http://ww1.sinaimg.cn/large/006v0omggy1fvgz36p0ckj30u02kck43.jpg" width="300"/>
 <img src="http://ww1.sinaimg.cn/large/006v0omggy1fvgzmfn25pj30u02xodt6.jpg" width="300"/>
 
-### 运行
-    # 数据库导入
-    sql/config.sql
-    
-    # 修改 .config.php
-    # 取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay,chenAlipay
-    $System_Config['payment_system']='chenAlipay';
-    
-    # crontab -e
-    */1 * * * * php /你的目录/xcat alipay
-    */1 * * * * php /你的目录/xcat wxpay
+### 使用步骤:
+#### 1. 设置配置文件
+在配置文件```/config/.config.php```中的```$System_Config['payment_system']```后插入以下内容:
+```
+//支付系统设置--------------------------------------------------------------------
+#取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay,chenAlipay
+$System_Config['payment_system']='chenAlipay';
+```
 
-### 支付宝获取COOKIE
-    https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm
-    访问后按F12查看
-    https://mbillexprod.alipay.com/enterprise/tradeListQuery.json
-    接口
-    
-### 微信获取COOKIE
-    https://wx.qq.com
-    访问后按F12查看
-    https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxinit
-    接口
-    设置中微信登录地址一定要登录的地址
+#### 2. 导入数据
+- 使用一般mysql工具导入sql/config.sql即可（不会影响数据）
+
+#### 3. 获取支付宝COOKIE
+- 浏览器访问：https://mbillexprod.alipay.com/enterprise/tradeListQuery.htm
+- 登录支付宝账号
+- 浏览器按f12再刷新一下
+- 可以看到tradeListQuery.json
+- 点击它找到Cookie: 后面就是cookie全部复制到后台配置框内
+
+#### 4. 获取微信COOKIE
+- 浏览器访问：https://wx.qq.com（此地址必须设置到后台支付设置里，登录完成后会有所变更）
+- 手机扫码登录微信账号
+- 浏览器按f12再刷新一下
+- 可以看到webwxinit?r=*******
+- 点击它找到Cookie: 后面有cookie了
+
+#### 5. 获取微信&支付宝付款码
+- 直接到支付点加号
+- 找到收付款
+- 点击二维码收款
+- 设置金额（如果你想多金额）
+- 保存收款码
+- 访问：https://cli.im/deqr 上传付款码二维码
+- 解析出来的地址复制到后台管理的二维码地址框
+
+#### 6. 添加定时任务
+```
+# crontab -e
+*/1 * * * * php /你的目录/xcat alipay
+*/1 * * * * php /你的目录/xcat wxpay
+```
+
+### 特别说明:
+- 出现cookie失效有可能是服务器无法访问相关接口原因导致掉线
+- eamil通知必须要设置其中的一个邮箱
+- 刷新频率为10秒一次
+- 打算弄个xposed hook来实时生成付款码可以解决多个人无法同时支付问题
 
 ### 大概流程
 <img src="http://ww1.sinaimg.cn/large/006v0omggy1fv6sq3h0dfg308s0fnx6s.gif" width="250"/>
