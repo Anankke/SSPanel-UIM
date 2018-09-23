@@ -6,7 +6,7 @@
 
 	<!-- js -->
 	<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.1"></script>
-	<script src="//cdn.jsdelivr.net/gh/jquery-validation/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0"></script>
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
 
 	<script src="/theme/material/js/base.min.js"></script>
