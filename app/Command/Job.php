@@ -844,9 +844,7 @@ class Job
 						file_exists(BASE_PATH."/storage/".$node->id."offline")==true){
 							continue;
 						}
-						$api_url=Config::get("detect_gfw_url");
-						$api_url=str_replace('{ip}',$node->node_ip,$api_url);
-						$api_url=str_replace('{port}',Config::get('detect_gfw_port'),$api_url);
+						$api_url=Config::get("detect_gfw_url")."/".$node->node_ip."/".Config::get('detect_gfw_port');
 						//因为考虑到有v2ray之类的节点，所以不得不使用ip作为参数
 						$result_tcping=false;
 						$detect_time=Config::get("detect_gfw_count");
