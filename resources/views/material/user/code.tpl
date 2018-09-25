@@ -402,7 +402,7 @@
         function checkPayTime(id) {
             $.ajax({
                 type: "GET",
-                url: "CheckAliPay",
+                url: "CheckAliPay?" + Math.random(),
                 dataType: "json",
                 data: {
                     id: id
