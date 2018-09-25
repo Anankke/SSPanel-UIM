@@ -603,7 +603,7 @@
 
 {include file='user/footer.tpl'}
 
-<script src="/theme/material/js/shake.js/shake.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/shake.js@1.2.2/shake.min.js"></script>
 
 <script>
 

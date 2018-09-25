@@ -229,7 +229,7 @@ class AliPay
             $pl->ret = 1;
         } else {
             $pl = [
-                'msg' => '请稍等片刻！',
+                'msg' => '正在排队中，请稍后再试！',
                 'ret' => 0
             ];
         }

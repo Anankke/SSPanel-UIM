@@ -359,13 +359,15 @@
         $("#AliPayType").val($(this).attr('price'));
     });
     $("#urlChangeAliPay,#urlChangeAliPay2").unbind('click').click(function () {
-        var $type = $(this).attr('type')
+        var $type = $(this).attr('type');
         if ($type == 2) {
             $('.textShow').html('手机端长按二维码保存到手机<br>点击二维码进入扫一扫选择图片支付');
-            var pay_url = $wxpayUrl[$pay_type];
+            if ('{$QRcodeUrl}'.indexOf('|') > 0) var pay_url = $wxpayUrl[$pay_type];
+            else var pay_url = $wxpayUrl;
         } else {
             $('.textShow').html('手机端点击二维码即可转跳支付宝支付');
-            var pay_url = $alipayUrl[$pay_type];
+            if ('{$QRcodeUrl}'.indexOf('|') > 0) var pay_url = $alipayUrl[$pay_type];
+            else var pay_url = $alipayUrl;
         }
         $.ajax({
             type: "GET",
@@ -394,7 +396,7 @@
                     }
                 } else {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "  发生了错误。");
+                    $("#msg").html(data.msg);
                 }
             }
         });
@@ -402,7 +404,7 @@
         function checkPayTime(id) {
             $.ajax({
                 type: "GET",
-                url: "CheckAliPay",
+                url: "CheckAliPay?" + Math.random(),
                 dataType: "json",
                 data: {
                     id: id
