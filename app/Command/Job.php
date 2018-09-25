@@ -852,7 +852,7 @@ class Job
 						$detect_time=Config::get("detect_gfw_count");
 						for ($i=1;$i<=$detect_time;$i++){
 							$json_tcping = json_decode(file_get_contents($api_url), true);
-							if($json_tcping['status']=="true"){
+							if(eval('return '.Config::get('detect_gfw_judge').';'){
 								$result_tcping=true;
 								break;
 							}
