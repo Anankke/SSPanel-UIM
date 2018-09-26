@@ -191,7 +191,6 @@ class Job
             $user->last_day_t=($user->u+$user->d);
             $user->save();
 
-
             if (date("d") == $user->auto_reset_day) {
                 $user->u = 0;
                 $user->d = 0;
@@ -214,35 +213,39 @@ class Job
 
             if (Config::get('notify_limit_mode') !='false'){
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
-                if (Config::get('notify_limit_mode') == 'per'){
-                    if (($user_traffic_left / $user->transfer_enable * 100) < (int)Config::get('notify_limit_value')){
-                        $subject = Config::get('appName')." - 您的流量不足";
-                        $to = $user->email;
-                        $text = "您好，系统发现您剩余流量流量已经小于 ".Config::get('notify_limit_value')."%。" ;
-                        try {
-                            Mail::send($to, $subject, 'news/warn.tpl', [
-                                "user" => $user,"text" => $text
-                            ], [
-                            ]);
-                        } catch (Exception $e) {
-                            echo $e->getMessage();
-                        }
-                    }
-                } else {
-                    if ($user_traffic_left / 1024 / 1024 < (int)Config::get('notify_limit_value')){
-                        $subject = Config::get('appName')." - 您的流量不足";
-                        $to = $user->email;
-                        $text = "您好，系统发现您剩余流量流量已经小于 ".Config::get('notify_limit_value')."MB。" ;
-                        try {
-                            Mail::send($to, $subject, 'news/warn.tpl', [
-                                "user" => $user,"text" => $text
-                            ], [
-                            ]);
-                        } catch (Exception $e) {
-                            echo $e->getMessage();
-                        }
+				$under_limit='false';
+				
+                if (Config::get('notify_limit_mode') == 'per'&&
+				$user_traffic_left / $user->transfer_enable * 100 < Config::get('notify_limit_value')){
+					$under_limit='true';
+					$unit_text='%';
+                } 
+				else if(Config::get('notify_limit_mode')=='mb'&&
+                $user_traffic_left / 1024 / 1024 < Config::get('notify_limit_value')){
+					$under_limit='true';
+					$unit_text='MB';
+				}
+
+				if($under_limit=='true' && !file_exists(BASE_PATH."/storage/traffic_notified/".$user->id.".userid")){
+                    $subject = Config::get('appName')." - 您的剩余流量过低";
+                    $to = $user->email;
+                    $text = '您好，系统发现您剩余流量已经低于 '.Config::get('notify_limit_value').$unit_text.' 。' ;
+                    try {
+                        Mail::send($to, $subject, 'news/warn.tpl', [
+                            "user" => $user,"text" => $text
+                        ], [
+                        ]);
+						$myfile = fopen(BASE_PATH."/storage/traffic_notified/".$user->id.".userid", "w+") or die("Unable to open file!");
+						$txt = "1";
+						fwrite($myfile, $txt);
+						fclose($myfile);
+                    } catch (Exception $e) {
+                        echo $e->getMessage();
                     }
                 }
+				else{
+					unlink(BASE_PATH."/storage/traffic_notified/".$user->id.".userid");
+				}
             }
         }
 
@@ -852,7 +855,7 @@ class Job
 						$detect_time=Config::get("detect_gfw_count");
 						for ($i=1;$i<=$detect_time;$i++){
 							$json_tcping = json_decode(file_get_contents($api_url), true);
-							if($json_tcping['status']=="true"){
+							if(eval('return '.Config::get('detect_gfw_judge').';')){
 								$result_tcping=true;
 								break;
 							}
