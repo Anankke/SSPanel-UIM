@@ -1510,13 +1510,7 @@ template,
  * material icons v2.2.0
  * http://google.github.io/material-design-icons/#icon-font-for-the-web
  */
-@font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: url("./fonts/MaterialIcons-Regular.eot?v=2.2.0");
-  src: local("Material Icons"), local("MaterialIcons-Regular"), url("./fonts/MaterialIcons-Regular.woff2?v=2.2.0") format("woff2"), url("./fonts/MaterialIcons-Regular.woff?v=2.2.0") format("woff"), url("./fonts/MaterialIcons-Regular.ttf?v=2.2.0") format("truetype");
-}
+
 .icon, .breadcrumb > li + li:before {
   display: inline-block;
   font-family: 'Material Icons';
