@@ -10,59 +10,19 @@ namespace App\Utils;
 
 use App\Services\View;
 use App\Services\Auth;
-use App\Models\Node;
-use App\Models\TrafficLog;
-use App\Models\InviteCode;
-use App\Models\CheckInLog;
-use App\Models\Ann;
-use App\Models\Speedtest;
-use App\Models\Shop;
-use App\Models\Coupon;
-use App\Models\Bought;
-use App\Models\Ticket;
 use App\Services\Config;
-use App\Utils\Hash;
-use App\Utils\Tools;
-use App\Utils\Radius;
-use App\Utils\Wecenter;
-use App\Models\RadiusBan;
-use App\Models\DetectLog;
-use App\Models\DetectRule;
-use voku\helper\AntiXSS;
 use App\Models\User;
 use App\Models\Code;
-use App\Models\Ip;
 use App\Models\Paylist;
-use App\Models\LoginIp;
-use App\Models\BlockIp;
-use App\Models\UnblockIp;
 use App\Models\Payback;
-use App\Models\Relay;
-use App\Utils\QQWry;
-use App\Utils\GA;
-use App\Utils\Geetest;
-use App\Utils\Telegram;
-use App\Utils\TelegramSessionManager;
-use App\Utils\Pay;
-use App\Utils\URL;
-use App\Services\Mail;
 
 class DoiAMPay{
 
-    public function smarty()
-    {
-        $this->smarty = View::getSmarty();
-        return $this->smarty;
-    }
-
-    public function view()
-    {
-        return $this->smarty();
-    }
 
     public static function render(){
         return View::getSmarty()->assign("enabled",Config::get("doiampay")['enabled'])->fetch("user/doiam.tpl");
     }
+
     public function handle($request, $response, $args){
         $type = $request->getParam('type');
         $price = $request->getParam('price');
