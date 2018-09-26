@@ -216,7 +216,7 @@ class Job
 				$under_limit='false';
 				
                 if (Config::get('notify_limit_mode') == 'per'&&
-				$user_traffic_left / $user->transfer_enable * 100) < Config::get('notify_limit_value')){
+				$user_traffic_left / $user->transfer_enable * 100 < Config::get('notify_limit_value')){
 					$under_limit='true';
 					$unit_text='%';
                 } 
