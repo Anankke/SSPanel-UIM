@@ -8,6 +8,7 @@ use App\Models\TrafficLog;
 use App\Models\Payback;
 use App\Models\Coupon;
 use App\Models\User;
+use App\Services\Gateway\ChenPay;
 use App\Utils\AliPay;
 use App\Utils\Tools;
 use App\Services\Analytics;
@@ -35,33 +36,12 @@ class AdminController extends UserController
 
     public function editConfig($request, $response, $args)
     {
-        $config = (new AliPay)->getConfig();
-        return $this->view()->assign('payConfig', $config)->display('admin/payEdit.tpl');
+        return (new ChenPay())->editConfig();
     }
 
     public function saveConfig($request, $response, $args)
     {
-        $Notice_EMail = $request->getParam('Notice_EMail');
-        $AliPay_QRcode = $request->getParam('AliPay_QRcode');
-        $AliPay_Status = $request->getParam('AliPay_Status');
-        $WxPay_Status = $request->getParam('WxPay_Status');
-        $AliPay_Cookie = $request->getParam('AliPay_Cookie');
-        $WxPay_QRcode = $request->getParam('WxPay_QRcode');
-        $WxPay_Cookie = $request->getParam('WxPay_Cookie');
-        $WxPay_Url = $request->getParam('WxPay_Url');
-        $Pay_Price = $request->getParam('Pay_Price');
-        $alipay = new AliPay();
-        $alipay->setConfig('Notice_EMail', $Notice_EMail);
-        $alipay->setConfig('AliPay_QRcode', $AliPay_QRcode);
-        $alipay->setConfig('AliPay_Cookie', $AliPay_Cookie);
-        $alipay->setConfig('WxPay_QRcode', $WxPay_QRcode);
-        $alipay->setConfig('WxPay_Cookie', $WxPay_Cookie);
-        $alipay->setConfig('WxPay_Url', $WxPay_Url);
-        $alipay->setConfig('WxPay_SyncKey', '');
-        $alipay->setConfig('Pay_Price', $Pay_Price);
-        $alipay->setConfig('AliPay_Status', $AliPay_Status);
-        $alipay->setConfig('WxPay_Status', $WxPay_Status);
-        return $response->getBody()->write(json_encode(['ret' => 1, 'msg' => '编辑成功！']));
+        return (new ChenPay())->saveConfig($request);
     }
 
     public function sys()
