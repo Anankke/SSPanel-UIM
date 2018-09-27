@@ -832,6 +832,8 @@ class Job
 
 	public static function detectGFW()
 		{
+		//临时修改PHP脚本执行最大时间
+		set_time_limit(0);
 		//节点被墙检测
 		if(Config::get("enable_detect_gfw")=="true"){
 			$last_time=file_get_contents(BASE_PATH."/storage/last_detect_gfw_time");
