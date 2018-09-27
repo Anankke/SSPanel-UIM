@@ -72,7 +72,7 @@ class ChenPay extends AbstractPayment
      * 注入HTML
      * @return mixed
      */
-    protected function getPurchaseHTML()
+    public function getPurchaseHTML()
     {
         return View::getSmarty()->assign("config", $this->config)
             ->assign('QRcodeUrl', $this->config->getConfig('AliPay_QRcode'))
@@ -87,7 +87,7 @@ class ChenPay extends AbstractPayment
      * @param $args
      * @return false|string
      */
-    protected function getStatus($request, $response, $args)
+    public function getStatus($request, $response, $args)
     {
         $id = $request->getParam('id');
         if (!$id) return json_encode(['ret' => 0, 'msg' => '请输入Id']);
@@ -103,7 +103,7 @@ class ChenPay extends AbstractPayment
      * @param $args
      * @return false|string
      */
-    protected function purchase($request, $response, $args)
+    public function purchase($request, $response, $args)
     {
         $type = $request->getParam('type');
         $amount = $request->getParam('fee');
@@ -437,31 +437,31 @@ class ChenPay extends AbstractPayment
         Paylist::where('status', 0)->where('datetime', '<', time())->delete();
     }
 
-    protected function getReturnHTML($request, $response, $args)
+    public function getReturnHTML($request, $response, $args)
     {
     }
 
-    protected function notify($request, $response, $args)
+    public function notify($request, $response, $args)
     {
     }
 
-    protected function sign()
+    public function sign()
     {
     }
 
-    protected function setMethod($method)
+    public function setMethod($method)
     {
     }
 
-    protected function setNotifyUrl()
+    public function setNotifyUrl()
     {
     }
 
-    protected function setReturnUrl()
+    public function setReturnUrl()
     {
     }
 
-    protected function init()
+    public function init()
     {
     }
 }
