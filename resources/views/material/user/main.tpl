@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
-	<meta name="theme-color" content="#ff9800">
+	<meta name="theme-color" content="#ff9800" >
 	<title>{$config["appName"]}</title>
 
 
@@ -12,7 +12,7 @@
 	<link href="/theme/material/css/base.min.css" rel="stylesheet">
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
-	<link href="https://fonts.loli.net/css?family=Material+Icons">
+	<link href="https://fonts.loli.net/css?family=Material+Icons" rel="stylesheet">
 
  <style>
     body {
