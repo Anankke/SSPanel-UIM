@@ -112,9 +112,7 @@ $System_Config['enable_account_expire_reset_traffic']='0';  //账户到期时重
 $System_Config['enable_account_expire_delete']='true';      //账户到期之后是否会删除账户
 $System_Config['enable_account_expire_delete_days']='7';    //账户到期几天之后会删除账户
 $System_Config['enable_kill']='true';      					//是否允许用户注销账户
-
-$System_Config['enable_notify_traffic_low'] = 'false';        //流量低提醒
-$System_Config['notify_limit_mode'] = 'per';                //per为按照百分比提醒，mb为按照固定剩余流量提醒
+$System_Config['notify_limit_mode'] = 'false';              //false为关闭per为按照百分比提醒，mb为按照固定剩余流量提醒
 $System_Config['notify_limit_value'] = '20';                //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
 
@@ -131,6 +129,7 @@ $System_Config['telegram_qrcode']='zxing_local';	//二维码解码方式，onlin
 $System_Config['telegram_request_token']='';      	//Telegram 机器人请求Key，随意设置，由大小写英文和数字组成
 													//复杂一些，用于校验请求，更新这个参数之后请 php xcat setTelegram
 $System_Config['enable_welcome_message']='true';    //机器人发送欢迎消息
+
 
 //沟通设置--------------------------------------------------------------------
 #客服系统设置，注册地址 https://crisp.chat/
@@ -239,11 +238,17 @@ $System_Config['detect_gfw_count']='3';		//尝试次数
 #离线检测
 $System_Config['enable_detect_offline']='true';
 
+
 //V2Ray相关设置------------------------------------------------------------------------------------------
 $System_Config['v2ray_port']='443';   //V2Ray端口
 $System_Config['v2ray_protocol']='HTTP/2 + TLS';   //V2Ray协议
 $System_Config['v2ray_alter_id']='32';
 $System_Config['v2ray_level']='0';
+
+
+//前端页面加载模式设置
+$System_Config['load_mode_js']='local';	//JS加载方式，local为从panel本地加载，jsdelivr为从CDN加载
+
 
 //以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
 #杂项
