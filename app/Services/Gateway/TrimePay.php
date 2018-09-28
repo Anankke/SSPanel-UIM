@@ -112,7 +112,7 @@ class TrimePay extends AbstractPayment
         $data['payType'] = 'ALIPAY_WEB';
         $data['merchantTradeNo'] = $pl->id;
         $data['totalFee'] = (int)$price * 100;
-        $data['notifyUrl'] = Config::get("baseUrl")."/user/payment/notify";
+        $data['notifyUrl'] = Config::get("baseUrl")."/payment/notify";
         $data['returnUrl'] = Config::get("baseUrl")."/user/payment/return";
         $params = self::prepareSign($data);
         $data['sign'] = self::sign($params);
@@ -128,7 +128,7 @@ class TrimePay extends AbstractPayment
         $data['payType']=$_REQUEST['payType'];
         $data['merchantTradeNo']=$_REQUEST['merchantTradeNo'];
 
-        //file_put_contents('./trimepay_notify.log', json_encode($data)."\r\n", FILE_APPEND);
+        file_put_contents('/storage/trimepay_notify.log', json_encode($data)."\r\n", FILE_APPEND);
         // 准备待签名数据
         $str_to_sign = self::prepareSign($data);
         // 验证签名

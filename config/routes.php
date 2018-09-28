@@ -175,10 +175,12 @@ $app->group('/user', function () {
 
     //Reconstructed Payment System
     $this->post('/payment/purchase', 'App\Services\Payment:purchase');
-    $this->post('/payment/notify', 'App\Services\Payment:notify');
     $this->get('/payment/return', 'App\Services\Payment:returnHTML');
 })->add(new Auth());
 
+$app->group('/payment', function () {
+    $this->post('/notify', 'App\Services\Payment:notify');
+});
 // Auth
 $app->group('/auth', function () {
     $this->get('/login', 'App\Controllers\AuthController:login');
