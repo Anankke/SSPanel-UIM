@@ -424,14 +424,11 @@ class LinkController extends BaseController
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            if(URL::getSurgeObfs($item)==''){
-            	$surgeObfs='';
-            }else{
-            	$surgeObfs=','.URL::getSurgeObfs($item);
+            if (URL::getSurgeObfs($item) != "") {
+                $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',udp-relay=true,tfo=true'."\n";
+            } else {
+                $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
             }
-            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module'.$surgeObfs.',udp-relay=true,tfo=true'."\n";
-            $proxy_name .= ",".$item['remark'];
-        }
 
         return '#!MANAGED-CONFIG '.Config::get('baseUrl').''.$_SERVER['REQUEST_URI'].'
 
@@ -468,8 +465,8 @@ PROXY = select,AUTO'.$proxy_name.'
 Domestic = select,DIRECT,PROXY
 Others = select,PROXY,DIRECT
 Apple = select,DIRECT,PROXY,AUTO
-Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
-AUTO = url-test'.$proxy_name.',url = http://www.gstatic.com/generate_204,interval = 1200
+Media = select,PROXY'.$proxy_name.'
+AUTO = url-test'.$proxy_name.',url = http://www.gstatic.com/generate_204,interval = 1200,tolerance = 300,timeout = 5
 
 [Rule]
 
