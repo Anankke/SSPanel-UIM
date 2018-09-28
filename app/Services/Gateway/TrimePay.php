@@ -128,13 +128,13 @@ class TrimePay extends AbstractPayment
         $data['payType']=$_REQUEST['payType'];
         $data['merchantTradeNo']=$_REQUEST['merchantTradeNo'];
 
-        file_put_contents('./trimepay_notify.log', json_encode($data)."\r\n", FILE_APPEND);
+        //file_put_contents('./trimepay_notify.log', json_encode($data)."\r\n", FILE_APPEND);
         // 准备待签名数据
         $str_to_sign = self::prepareSign($data);
         // 验证签名
         $resultVerify = self::verify($str_to_sign, $_REQUEST['sign']);
         if ($resultVerify) {
-            file_put_contents('./trimepay_notify_success.log', json_encode($data)."\r\n", FILE_APPEND);
+            //file_put_contents('./trimepay_notify_success.log', json_encode($data)."\r\n", FILE_APPEND);
             self::postPayment($data['merchantTradeNo'], "TrimePay 支付宝");
             echo 'SUCCESS';
         }else{
