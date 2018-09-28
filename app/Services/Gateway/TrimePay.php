@@ -10,7 +10,6 @@ namespace App\Services\Gateway;
 use App\Services\View;
 use App\Services\Auth;
 use App\Services\Config;
-
 use App\Models\Paylist;
 
 class TrimePay extends AbstractPayment
@@ -113,8 +112,8 @@ class TrimePay extends AbstractPayment
         $data['payType'] = 'ALIPAY_WEB';
         $data['merchantTradeNo'] = $pl->id;
         $data['totalFee'] = (int)$price * 100;
-        $data['notifyUrl'] = Config::get("baseUrl")."/payment/notify";
-        $data['returnUrl'] = Config::get("baseUrl")."/payment/return";
+        $data['notifyUrl'] = Config::get("baseUrl")."/user/payment/notify";
+        $data['returnUrl'] = Config::get("baseUrl")."/user/payment/return";
         $params = self::prepareSign($data);
         $data['sign'] = self::sign($params);
         return self::post($data);
@@ -151,8 +150,15 @@ class TrimePay extends AbstractPayment
 
     public function getReturnHTML($request, $response, $args)
     {
-        $amount = $request->getParam('amount');
-        return View::getSmarty()->assign('amount', $amount)->fetch("user/payment_success.tpl");
+        $pid = $_GET['merchantTradeNo'];
+        $p = Paylist::find($pid);
+        $money = $p->total;
+        if ($p->status == 1){
+            $success = 1;
+        } else {
+            $success = 0;
+        }
+        return View::getSmarty()->assign('money', $money)->assign('success', $success)->fetch('user/pay_success.tpl');
     }
 
     public function getStatus($request, $response, $args)
