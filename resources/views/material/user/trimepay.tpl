@@ -1,6 +1,5 @@
 <div class="card-inner">
     <p class="card-heading">TrimePay 支付宝充值</p>
-    您的余额:{$user->money}
     <div class="form-group form-group-label">
         <label class="floating-label" for="amount">金额</label>
         <input class="form-control" id="amount" type="text">
