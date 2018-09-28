@@ -112,7 +112,7 @@ class TrimePay extends AbstractPayment
         $data['appId'] = Config::get('trimepay_appid');
         $data['payType'] = 'ALIPAY_WEB';
         $data['merchantTradeNo'] = $pl->id;
-        $data['totalFee'] = $price * 100;
+        $data['totalFee'] = (int)$price * 100;
         $data['notifyUrl'] = Config::get("baseUrl")."/payment/notify";
         $data['returnUrl'] = Config::get("baseUrl")."/payment/return";
         $params = self::prepareSign($data);
