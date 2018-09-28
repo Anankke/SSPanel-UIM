@@ -19,7 +19,7 @@ class Pay
             case "chenAlipay":
                 return (new AliPay)->getHTML();
             case "paymentwall":
-                return Pay::pmw_html($user);
+                return Payment::purchaseHTML();
             case 'spay':
                 return Pay::spay_html($user);
             case 'zfbjk':
@@ -29,9 +29,11 @@ class Pay
 			case 'yftpay':
                 return Pay::yftpay_html($user);
             case 'codepay':
-                return Pay::codepay_html($user);
+                return Payment::purchaseHTML();
             case 'f2fpay_codepay':
                 return Pay::f2fpay_codepay_html($user);
+            case 'trimepay':
+                return Payment::purchaseHTML();
             default:
                 return "";
         }
@@ -96,23 +98,7 @@ class Pay
 						<img src="'.Config::get('zfbjk_qrcodeurl').'"/>
 ';
     }
-    private static function f2fpay_html($user)
-    {
-            return '
-                        <div class="form-group pull-left">
-                        <p class="modal-title" >本站支持支付宝在线充值</p>
-                        <p>输入充值金额：</p>
-                        <div class="form-group form-group-label">
-                        <label class="floating-label" for="price">充值金额</label>
-                        <input id="type" class="form-control" name="amount" />
-                        </div>
-                        <a class="btn btn-flat waves-attach" id="urlChange" ><span class="icon">check</span>&nbsp;充值</a>
-                        </div>
-                        <div class="form-group pull-right">
-                        <img src="/images/qianbai-4.png" height="205" width="166" />
-                        </div>
-';
-    }
+
 	private static function yftpay_html($user)
     {
         return '
@@ -135,20 +121,6 @@ class Pay
 ';
     }
 
-    private static function codepay_html($user)
-    {
-        return '
-                        <p class="card-heading">请输入充值金额</p>
-                        <form name="codepay" action="/user/code/codepay" method="get">
-                            <input class="form-control" id="price" name="price" placeholder="输入充值金额后，点击你要付款的应用图标即可" autofocus="autofocus" type="number" min="0.01" max="1000" step="0.01" required="required">
-                            <br>
-                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="1" ><img src="/images/alipay.jpg" width="50px" height="50px" /></button>
-                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="2" ><img src="/images/qqpay.jpg" width="50px" height="50px" /></button>
-                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="3" ><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
-
-                        </form>
-';
-    }
 
     private static function pmw_html($user)
     {
@@ -176,6 +148,7 @@ class Pay
         );
         return $widget->getHtmlCode(array("height"=>Config::get('pmw_height'),"width"=>"100%"));
     }
+
     private static function spay_gen($user, $amount)
     {
         /**************************请求参数**************************/
@@ -236,49 +209,7 @@ class Pay
     }
 
 
-    private static function f2fpay_gen($user, $amount)
-    {
-        //$qrPayResult = Pay::query_alipay_order(2017052112230123456);
-        //return ;
-        //生成二维码
-        $qrPayResult = Pay::alipay_get_qrcode($user, $amount, $qrPay);
 
-        //  根据状态值进行业务处理
-        switch ($qrPayResult->getTradeStatus()){
-            case "SUCCESS":
-                echo "支付金额: RMB ".$amount." 元";
-                echo "确认无误后请用支付宝App扫描二维码支付："."<br>---------------------------------------<br>";
-                $response = $qrPayResult->getResponse();
-                $qrcode = $qrPay->create_erweima($response->qr_code);
-                echo $qrcode."<br>";
-                break;
-            case "FAILED":
-                echo "支付宝创建订单二维码失败!!!"."<br>--------------------------<br>";
-                if(!empty($qrPayResult->getResponse())){
-                    print_r($qrPayResult->getResponse());
-                }
-                echo "请使用其他方式付款。";
-                break;
-            case "UNKNOWN":
-                echo "系统异常，状态未知!!!"."<br>--------------------------<br>";
-                if(!empty($qrPayResult->getResponse())){
-                    print_r($qrPayResult->getResponse());
-                }
-                echo "请使用其他方式付款。";
-                break;
-            default:
-                echo "创建订单二维码返回异常!!!"."<br>--------------------------<br>";
-                echo "请使用其他方式付款。";
-                break;
-        }
-
-        if ($qrPayResult->getTradeStatus()) {
-            sleep(1);
-            echo "轮询处理：";
-        }
-
-        return ;
-    }
     public static function getGen($user, $amount)
     {
         $driver = Config::get("payment_system");
@@ -679,67 +610,21 @@ class Pay
         return;
     }
 
-   private static function notify(){
-        //系统订单号
-        $trade_no = $_POST['pay_no'];
-        //交易用户
-        $trade_id = strtok($_POST['pay_id'], "@");
-        //金额
-        $trade_num = $_POST['price'];
-        $param = urldecode($_POST['param']);
-        $codeq=Code::where("code", "=", $trade_no)->first();
-        if($codeq!=null){
-            exit('success'); //说明数据已经处理完毕
-            return;
-        }
-        if($param!=Config::get('alipay')||$trade_no==''){ //鉴权失败
-            exit('fail');
-            return;
-        }
-
-        //更新用户账户
-        $user=User::find($trade_id);
-        $codeq=new Code();
-        $codeq->code=$trade_no;
-        $codeq->isused=1;
-        $codeq->type=-1;
-        $codeq->number=$_POST['price'];
-        $codeq->usedatetime=date("Y-m-d H:i:s");
-        $codeq->userid=$user->id;
-        $codeq->save();
-        $user->money=$user->money+$trade_num;
-        $user->save();
-        //更新返利
-        if ($user->ref_by!=""&&$user->ref_by!=0&&$user->ref_by!=null) {
-            $gift_user=User::where("id", "=", $user->ref_by)->first();
-            $gift_user->money=($gift_user->money+($codeq->number*(Config::get('code_payback')/100)));
-            $gift_user->save();
-
-            $Payback=new Payback();
-            $Payback->total=$trade_num;
-            $Payback->userid=$user->id;
-            $Payback->ref_by=$user->ref_by;
-            $Payback->ref_get=$codeq->number*(Config::get('code_payback')/100);
-            $Payback->datetime=time();
-            $Payback->save();
-        }
-        exit('success'); //返回成功 不要删除哦
-    }
 
     public static function callback($request)
     {
         $driver = Config::get("payment_system");
         switch ($driver) {
             case "paymentwall":
-                return Pay::pmw_callback();
+                return Payment::notify();
             case 'spay':
                 return Pay::spay_callback();
             case 'zfbjk':
                 return Pay::zfbjk_callback($request);
             case 'f2fpay':
-                return Pay::f2fpay_callback();
+                return Payment::notify();
             case 'codepay':
-                return Pay::codepay_callback();
+                return Payment::notify();
             default:
                 return "";
         }

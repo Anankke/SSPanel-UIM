@@ -445,7 +445,7 @@ class ChenPay extends AbstractPayment
     {
     }
 
-    public function sign()
+    public function sign($data)
     {
     }
 

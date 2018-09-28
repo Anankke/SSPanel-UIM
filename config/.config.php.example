@@ -9,7 +9,8 @@ $System_Config['config_migrate_notice']=
 新增流量过低提醒
 增加注册功能开关
 新增机器人欢迎语
-Cloudflare Api支持，在添加节点的时候新建解析记录（使用前php composer.phar install）';
+Cloudflare Api支持，在添加节点的时候新建解析记录（使用前php composer.phar install）
+对接TrimePay内测版';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
 
@@ -216,6 +217,9 @@ $System_Config['zfbjk_pid']='';
 $System_Config['zfbjk_key']='';
 $System_Config['zfbjk_qrcodeurl']='';
 
+#Trimepay
+$System_Config['trimepay_secret']='';           //AppSecret
+$System_Config['trimepay_appid']='';            //AppID
 
 //财务报告设置-------------------------------------------------------------------------------------------
 $System_Config['finance_public']='false';    	//财务报告是否向Telegram群公开

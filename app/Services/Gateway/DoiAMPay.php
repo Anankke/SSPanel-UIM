@@ -129,7 +129,7 @@ HTML;
         return json_encode(Paylist::find($_POST['pid']));
     }
 
-    public function sign()
+    public function sign($data)
     {
         // TODO: Implement sign() method.
     }

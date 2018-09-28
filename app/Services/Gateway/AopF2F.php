@@ -258,7 +258,7 @@ class AopF2F extends AbstractPayment
         }
     }
 
-    protected function sign()
+    protected function sign($data)
     {
         return 0;
     }

@@ -7,8 +7,14 @@
  */
 
 namespace App\Services;
+
+use App\Services\Config;
 use App\Services\Gateway\AopF2F;
+use App\Services\Gateway\Codepay;
 use App\Services\Gateway\DoiAMPay;
+use App\Services\Gateway\PaymentWall;
+use App\Services\Gateway\ChenPay;
+use App\Services\Gateway\TrimePay;
 
 class Payment
 {
@@ -16,11 +22,11 @@ class Payment
         $method = Config::get("payment_system");
         switch($method){
             case("codepay"):
-
+                return new Codepay();
             case("doiampay"):
                 return new DoiAMPay();
             case("paymentwall"):
-
+                return new PaymentWall();
             case("zfbjk"):
 
             case("spay"):
@@ -29,6 +35,10 @@ class Payment
                 return new AopF2F();
             case("yftpay"):
 
+            case("chenAlipay"):
+                return new ChenPay();
+            case("trimepay"):
+                return new TrimePay(Config::get('trimepay_secret'));
             default:
                 return 0;
         }

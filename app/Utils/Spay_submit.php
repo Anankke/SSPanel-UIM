@@ -12,7 +12,7 @@ class Spay_submit
     }
     public static function Spay_submit($alipay_config)
     {
-        $this->__construct($alipay_config);
+        self::__construct($alipay_config);
     }
     
     /**

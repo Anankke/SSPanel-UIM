@@ -11,7 +11,7 @@ class Spay_notify
     }
     public static function Spay_notify($alipay_config)
     {
-        $this->__construct($alipay_config);
+        self::__construct($alipay_config);
     }
     /**
      * 针对notify_url验证消息是否是支付宝发出的合法消息
