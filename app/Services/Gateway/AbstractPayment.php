@@ -17,14 +17,8 @@ use App\Services\Config;
 
 abstract class AbstractPayment
 {
-    public $method;
-    abstract protected function init();
-    abstract protected function setMethod($method);
-    abstract protected function setNotifyUrl();
-    abstract protected function setReturnUrl();
     abstract protected function purchase($request, $response, $args);
     abstract protected function notify($request, $response, $args);
-    abstract protected function sign($data);
     abstract protected function getPurchaseHTML();
     abstract protected function getReturnHTML($request, $response, $args);
     abstract protected function getStatus($request, $response, $args);

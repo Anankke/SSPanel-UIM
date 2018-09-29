@@ -17,27 +17,6 @@ use App\Services\Payment;
 
 class PaymentWall extends AbstractPayment
 {
-
-    public function init()
-    {
-        // TODO: Implement init() method.
-    }
-
-    public function setMethod($method)
-    {
-        // TODO: Implement setMethod() method.
-    }
-
-    public function setNotifyUrl()
-    {
-        // TODO: Implement setNotifyUrl() method.
-    }
-
-    public function setReturnUrl()
-    {
-        // TODO: Implement setReturnUrl() method.
-    }
-
     public function purchase($request, $response, $args)
     {
         // TODO: Implement purchase() method.
@@ -98,10 +77,6 @@ class PaymentWall extends AbstractPayment
         }
     }
 
-    public function sign($data)
-    {
-        // TODO: Implement sign() method.
-    }
 
     public function getPurchaseHTML()
     {

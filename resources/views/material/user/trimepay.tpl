@@ -12,10 +12,25 @@
 </div>
 <script>
     var pid = 0;
+    var isWap = 0;
+    var type = 'alipay';
+
+    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        isWap = 1;
+    } else {
+        isWap = 0;
+    }
+
+    if (type=='alipay' && isWap == 1){
+        type = 'ALIPAY_WAP';
+    } else {
+        type = 'ALIPAY_WEB';
+    }
+
     window.onload = function(){
         $("#submit").click(function() {
             var price = parseFloat($("#amount").val());
-            console.log("将要使用 TrimePay 方法充值" + price + "元")
+            console.log("将要使用 TrimePay 方法充值" + price + "元");
             if (isNaN(price)) {
                 $("#result").modal();
                 $("#msg").html("非法的金额!");
@@ -25,7 +40,8 @@
                 $.ajax({
                     'url': "/user/payment/purchase",
                     'data': {
-                        'price': price
+                        'price': price,
+                        'type': type,
                     },
                     'dataType': 'json',
                     'type': "POST",

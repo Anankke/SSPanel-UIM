@@ -33,25 +33,6 @@ class Codepay extends AbstractPayment
         return FALSE;
     }
 
-    public function init()
-    {
-        // TODO: Implement init() method.
-    }
-
-    public function setMethod($method)
-    {
-        // TODO: Implement setMethod() method.
-    }
-
-    public function setNotifyUrl()
-    {
-        // TODO: Implement setNotifyUrl() method.
-    }
-
-    public function setReturnUrl()
-    {
-        // TODO: Implement setReturnUrl() method.
-    }
 
     public function purchase($request, $response, $args)
     {
@@ -129,10 +110,6 @@ class Codepay extends AbstractPayment
         return;
     }
 
-    public function sign($data)
-    {
-        // TODO: Implement sign() method.
-    }
 
     public function getPurchaseHTML()
     {

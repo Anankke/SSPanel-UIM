@@ -140,25 +140,6 @@ class AopF2F extends AbstractPayment
         return $qrPayResult;
     }
 
-    function init()
-    {
-        // TODO: Implement init() method.
-    }
-
-    function setMethod($method)
-    {
-        // TODO: Implement setMethod() method.
-    }
-
-    function setNotifyUrl()
-    {
-        // TODO: Implement setNotifyUrl() method.
-    }
-
-    function setReturnUrl()
-    {
-        // TODO: Implement setReturnUrl() method.
-    }
 
     function purchase($request, $response, $args)
     {
@@ -258,10 +239,6 @@ class AopF2F extends AbstractPayment
         }
     }
 
-    protected function sign($data)
-    {
-        return 0;
-    }
 
     function getPurchaseHTML()
     {

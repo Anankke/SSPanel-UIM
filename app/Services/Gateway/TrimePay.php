@@ -26,6 +26,21 @@ class TrimePay extends AbstractPayment
         $this->gatewayUri = 'https://api.Trimepay.com/gateway/pay/go';
     }
 
+    function guid() {
+        mt_srand((double)microtime()*10000);
+        $charid = strtoupper(md5(uniqid(rand() + time(), true)));
+        $hyphen = chr(45);
+        $uuid   = chr(123)
+            .substr($charid, 0, 8).$hyphen
+            .substr($charid, 8, 4).$hyphen
+            .substr($charid,12, 4).$hyphen
+            .substr($charid,16, 4).$hyphen
+            .substr($charid,20,12)
+            .chr(125);
+        $uuid = str_replace(['}', '{', '-'],'',$uuid);
+        return $uuid;
+    }
+
     /**
      * @name	准备签名/验签字符串
      */
@@ -74,29 +89,11 @@ class TrimePay extends AbstractPayment
     }
 
 
-    public function init()
-    {
-        // TODO: Implement init() method.
-    }
-
-    public function setMethod($method)
-    {
-        // TODO: Implement setMethod() method.
-    }
-
-    public function setNotifyUrl()
-    {
-        // TODO: Implement setNotifyUrl() method.
-    }
-
-    public function setReturnUrl()
-    {
-        // TODO: Implement setReturnUrl() method.
-    }
 
     public function purchase($request, $response, $args)
     {
         $price = $request->getParam('price');
+        $type = $request->getParam('type');
 
 
         if($price <= 0){
@@ -106,11 +103,12 @@ class TrimePay extends AbstractPayment
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
+        $pl->tradeno = self::guid();
         $pl->save();
 
         $data['appId'] = Config::get('trimepay_appid');
-        $data['payType'] = 'ALIPAY_WEB';
-        $data['merchantTradeNo'] = $pl->id;
+        $data['payType'] = $type;
+        $data['merchantTradeNo'] = $pl->tradeno;
         $data['totalFee'] = (int)$price * 100;
         $data['notifyUrl'] = Config::get("baseUrl")."/payment/notify";
         $data['returnUrl'] = Config::get("baseUrl")."/user/payment/return";

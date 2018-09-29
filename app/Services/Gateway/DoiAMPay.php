@@ -27,12 +27,6 @@ use App\Models\Payback;
 
 class DoiAMPay extends AbstractPayment
 {
-    public $method;
-
-    public function init(){
-
-    }
-
     public function getPurchaseHTML()
     {
         return View::getSmarty()->assign("enabled",Config::get("doiampay")['enabled'])->fetch("user/doiam.tpl");
@@ -96,21 +90,6 @@ class DoiAMPay extends AbstractPayment
         return json_encode($result);
     }
 
-    public function setMethod($method)
-    {
-        // TODO: Implement setMethod() method.
-        self::$method = $method;
-    }
-
-    public function setNotifyUrl()
-    {
-        return 0;
-    }
-
-    public function setReturnUrl()
-    {
-        return 0;
-    }
 
     public function getReturnHTML($request, $response, $args)
     {
@@ -129,10 +108,6 @@ HTML;
         return json_encode(Paylist::find($_POST['pid']));
     }
 
-    public function sign($data)
-    {
-        // TODO: Implement sign() method.
-    }
 
 }
 
