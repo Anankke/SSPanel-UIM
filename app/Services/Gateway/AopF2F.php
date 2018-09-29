@@ -50,6 +50,7 @@ class AopF2F extends AbstractPayment
         //创建订单
         $pl = new Paylist();
         $pl->userid = $user->id;
+        $pl->tradeno = self::generateGuid();
         $pl->total = $amount;
         $pl->save();
 
@@ -60,7 +61,7 @@ class AopF2F extends AbstractPayment
         /**************************请求参数**************************/
         // (必填) 商户网站订单系统中唯一订单号，64个字符以内，只能包含字母、数字、下划线，
         // 需保证商户系统端不能重复，建议通过数据库sequence生成，
-        $outTradeNo = $pl->id."alipay".date('Ymdhis').mt_rand(100,1000);
+        $outTradeNo = $pl->tradeno;
 
         // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
         $subject = "￥".$pl->total." - ".Config::get("appName")." - {$user->user_name}({$user->email})";
@@ -211,7 +212,7 @@ class AopF2F extends AbstractPayment
                 exit("success");
             }
 
-            $trade = Paylist::where("id", '=', $out_trade_no)->where('status', 0)->where('total', $_POST['total_amount'])->first();
+            $trade = Paylist::where("tradeno", '=', $out_trade_no)->where('status', 0)->where('total', $_POST['total_amount'])->first();
             if ($trade == null) {//没有符合的订单，或订单已经处理
                 exit("success");
             }
@@ -228,7 +229,7 @@ class AopF2F extends AbstractPayment
                 //付款完成后，支付宝系统发送该交易状态通知
                 //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
 
-                self::postPayment($trade_no, "支付宝(当面付)");
+                self::postPayment($out_trade_no, "支付宝(当面付)");
 
                 //业务处理完毕，向支付宝系统返回成功
                 echo "success";     //请不要修改或删除

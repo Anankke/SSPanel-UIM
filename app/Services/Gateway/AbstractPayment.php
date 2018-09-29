@@ -24,10 +24,12 @@ abstract class AbstractPayment
     abstract protected function getStatus($request, $response, $args);
 
     public function postPayment($pid, $method){
-        $p=Paylist::find($pid);
+        $p = Paylist::where("tradeno", $pid)->first();
+
         if($p->status==1){
             return json_encode(['errcode'=>0]);
         }
+
         $p->status=1;
         $p->save();
         $user = User::find($p->userid);
@@ -65,5 +67,21 @@ abstract class AbstractPayment
         return 0;
 
     }
+
+    public static function generateGuid() {
+        mt_srand((double)microtime()*10000);
+        $charid = strtoupper(md5(uniqid(rand() + time(), true)));
+        $hyphen = chr(45);
+        $uuid   = chr(123)
+            .substr($charid, 0, 8).$hyphen
+            .substr($charid, 8, 4).$hyphen
+            .substr($charid,12, 4).$hyphen
+            .substr($charid,16, 4).$hyphen
+            .substr($charid,20,12)
+            .chr(125);
+        $uuid = str_replace(['}', '{', '-'],'',$uuid);
+        return $uuid;
+    }
+
 
 }

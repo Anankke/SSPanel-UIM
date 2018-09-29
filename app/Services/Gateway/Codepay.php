@@ -45,13 +45,14 @@ class Codepay extends AbstractPayment
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
+        $pl->tradeno = self::generateGuid();
         $pl->save();
 
 
         $url = (self::isHTTPS() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
         $data = array(
             "id" => $codepay_id,//你的码支付ID
-            "pay_id" => $pl->id, //唯一标识 可以是用户ID,用户名,session_id(),订单ID,ip 付款后返回
+            "pay_id" => $pl->tradeno, //唯一标识 可以是用户ID,用户名,session_id(),订单ID,ip 付款后返回
             "type" => $type,//1支付宝支付 2QQ钱包 3微信支付
             "price" => $price,//金额100元
             "param" => "",//自定义参数

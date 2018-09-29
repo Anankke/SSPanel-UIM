@@ -65,9 +65,10 @@ class DoiAMPay extends AbstractPayment
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
+        $pl->tradeno = self::generateGuid();
         $pl->save();
         $data = [
-            'trade' => $pl->id,
+            'trade' => $pl->tradeno,
             'price' => $price,
             'phone' => $settings['phone'],
             'mchid' => $settings['mchid'],
@@ -79,7 +80,7 @@ class DoiAMPay extends AbstractPayment
         $ret = DoiAM::post("https://api.daimiyun.cn/v2/".$type."/create",$data);
         $result = json_decode($ret,true);
         if($result and $result['errcode']==0){
-            $result['pid']=$pl->id;
+            $result['pid']=$pl->tradeno;
             return json_encode($result);
         } else {
             return json_encode([

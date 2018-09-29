@@ -26,20 +26,6 @@ class TrimePay extends AbstractPayment
         $this->gatewayUri = 'https://api.Trimepay.com/gateway/pay/go';
     }
 
-    function guid() {
-        mt_srand((double)microtime()*10000);
-        $charid = strtoupper(md5(uniqid(rand() + time(), true)));
-        $hyphen = chr(45);
-        $uuid   = chr(123)
-            .substr($charid, 0, 8).$hyphen
-            .substr($charid, 8, 4).$hyphen
-            .substr($charid,12, 4).$hyphen
-            .substr($charid,16, 4).$hyphen
-            .substr($charid,20,12)
-            .chr(125);
-        $uuid = str_replace(['}', '{', '-'],'',$uuid);
-        return $uuid;
-    }
 
     /**
      * @name	准备签名/验签字符串
@@ -103,7 +89,7 @@ class TrimePay extends AbstractPayment
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
-        $pl->tradeno = self::guid();
+        $pl->tradeno = self::generateGuid();
         $pl->save();
 
         $data['appId'] = Config::get('trimepay_appid');
@@ -126,7 +112,7 @@ class TrimePay extends AbstractPayment
         $data['payType']=$request->getParam('payType');
         $data['merchantTradeNo']=$request->getParam('merchantTradeNo');
 
-        // file_put_contents('/storage/trimepay_notify.log', json_encode($data)."\r\n", FILE_APPEND);
+        //file_put_contents(BASE_PATH.'/storage/trimepay_notify.log', json_encode($data)."\r\n", FILE_APPEND);
         // 准备待签名数据
         $str_to_sign = self::prepareSign($data);
         // 验证签名
@@ -149,7 +135,7 @@ class TrimePay extends AbstractPayment
     public function getReturnHTML($request, $response, $args)
     {
         $pid = $_GET['merchantTradeNo'];
-        $p = Paylist::find($pid);
+        $p = Paylist::where('tradeno','=',$pid)->first();
         $money = $p->total;
         if ($p->status == 1){
             $success = 1;
