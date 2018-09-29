@@ -44,7 +44,7 @@ abstract class AbstractPayment
         $codeq->userid=$user->id;
         $codeq->save();
 
-        if ($user->ref_by!="" && $user->ref_by!=0 && $user->ref_by!=null) {
+        if ($user->ref_by >= 1) {
             $gift_user=User::where("id", "=", $user->ref_by)->first();
             $gift_user->money=($gift_user->money+($codeq->number*(Config::get('code_payback')/100)));
             $gift_user->save();
