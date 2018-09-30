@@ -6,11 +6,7 @@
 //如需换行，直接换行即可，无需换行符
 $System_Config['config_migrate_notice']=
 'node_offline_warn被改名为enable_detect_offline
-新增流量过低提醒
-增加注册功能开关
-新增机器人欢迎语
-Cloudflare Api支持，在添加节点的时候新建解析记录（使用前php composer.phar install）
-对接TrimePay内测版';
+';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
 
