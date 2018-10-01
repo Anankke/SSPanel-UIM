@@ -97,17 +97,7 @@ class HomeController extends BaseController
         Pay::callback($request);
     }
 
-    //@todo: Will be abandoned in future.
-    public function f2fpay_pay_callback($request, $response, $args)
-    {
-        Payment::getClient()->notify($request, $response, $args);
-    }
 
-    //@todo: Will be abandoned in future.
-    public function codepay_pay_callback($request, $response, $args)
-    {
-        Pay::codepay_pay_callback($request);
-    }
 
     public function getOrderList($request, $response, $args)
     {

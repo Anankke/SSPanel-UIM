@@ -429,6 +429,7 @@ class LinkController extends BaseController
             } else {
                 $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
             }
+	}	
 
         return '#!MANAGED-CONFIG '.Config::get('baseUrl').''.$_SERVER['REQUEST_URI'].'
 
@@ -468,10 +469,8 @@ Apple = select,DIRECT,PROXY,AUTO
 Media = select,PROXY'.$proxy_name.'
 AUTO = url-test'.$proxy_name.',url = http://www.gstatic.com/generate_204,interval = 1200,tolerance = 300,timeout = 5
 
-'.$rules.'
-
-';
-    }
+'.$rules.'';
+ }
 
     private static function GetSurge($passwd, $method, $server, $port, $defined)
     {

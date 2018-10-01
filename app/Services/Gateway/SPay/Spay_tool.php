@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App\Services\Gateway;
 
 use App\Services\Config;
 
@@ -210,7 +210,7 @@ class Spay_tool
         $alipay_config['key'] = Config::get('alipay_key');
         
         // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-        $alipay_config['notify_url'] = Config::get('baseUrl')."/alipay_callback";
+        $alipay_config['notify_url'] = Config::get('baseUrl')."/purchase/notify";
         
         // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
         
