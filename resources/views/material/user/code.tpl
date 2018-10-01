@@ -179,6 +179,7 @@
 						 tabindex="-1">
 						<div class="modal-dialog modal-xs">
 							<div class="modal-content">
+							 	{if $config["payment_system"] != "trimepay"}
 								<div class="modal-heading">
 									<a class="modal-close" id="AliPayReadyToPayClose" data-dismiss="modal">×</a>
 									<h2 class="modal-title">扫码充值<span style="color: red;margin-left: 10px;"
@@ -200,6 +201,7 @@
 										<p id="info"></p>
 									</div>
 								</div>
+								{/if}
 							</div>
 						</div>
 					</div>
