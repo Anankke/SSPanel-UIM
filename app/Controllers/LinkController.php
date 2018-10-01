@@ -429,6 +429,7 @@ class LinkController extends BaseController
             } else {
                 $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
             }
+	}	
 
         return '#!MANAGED-CONFIG '.Config::get('baseUrl').''.$_SERVER['REQUEST_URI'].'
 
