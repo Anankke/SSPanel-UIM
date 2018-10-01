@@ -832,147 +832,144 @@ class Job
     }
 
 	public static function detectGFW()
-		{
+	{
 		//节点被墙检测
-		if(Config::get("enable_detect_gfw")=="true"){
-			$last_time=file_get_contents(BASE_PATH."/storage/last_detect_gfw_time");
-			for ($count=1;$count<=12;$count++){
-				if(time()-$last_time>=Config::get("detect_gfw_interval")){
-					$file_interval=fopen(BASE_PATH."/storage/last_detect_gfw_time","w");
-					fwrite($file_interval,time());
-					fclose($file_interval);
-					$nodes=Node::all();
-					$adminUser = User::where("is_admin", "=", "1")->get();
-					foreach ($nodes as $node){
-						if($node->node_ip==""||
-						$node->node_ip==null||
-						file_exists(BASE_PATH."/storage/".$node->id."offline")==true){
-							continue;
-						}
-						$api_url=Config::get("detect_gfw_url");
-						$api_url=str_replace('{ip}',$node->node_ip,$api_url);
-						$api_url=str_replace('{port}',Config::get('detect_gfw_port'),$api_url);
-						//因为考虑到有v2ray之类的节点，所以不得不使用ip作为参数
-						$result_tcping=false;
-						$detect_time=Config::get("detect_gfw_count");
-						for ($i=1;$i<=$detect_time;$i++){
-							$json_tcping = json_decode(file_get_contents($api_url), true);
-							if(eval('return '.Config::get('detect_gfw_judge').';')){
-								$result_tcping=true;
-								break;
-							}
-						}
-						if($result_tcping==false){
-							//被墙了
-							echo($node->id.":false".PHP_EOL);
-							//判断有没有发送过邮件
-							if(file_exists(BASE_PATH."/storage/".$node->id.".gfw")){
-								continue;
-							}
-							foreach ($adminUser as $user) {
-								echo "Send gfw mail to user: ".$user->id."-";
-								$subject = Config::get('appName')."-系统警告";
-								$to = $user->email;
-								$text = "管理员您好，系统发现节点 ".$node->name." 被墙了，请您及时处理。" ;
-								try {
-									Mail::send($to, $subject, 'news/warn.tpl', [
-																		"user" => $user,"text" => $text
-																	], [
-																	]);
-								}
-								catch (Exception $e) {
-									echo $e->getMessage();
-								}
-								if (Config::get('enable_cloudxns')=='true' && ($node->sort==0 || $node->sort==10)) {
-									$api=new Api();
-									$api->setApiKey(Config::get("cloudxns_apikey"));
-									//修改成自己API KEY
-									$api->setSecretKey(Config::get("cloudxns_apisecret"));
-									//修改成自己的SECERET KEY
-									$api->setProtocol(true);
-									$domain_json=json_decode($api->domain->domainList());
-									foreach ($domain_json->data as $domain) {
-										if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
-											$domain_id=$domain->id;
-										}
-									}
-									$record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
-									foreach ($record_json->data as $record) {
-										if (($record->host.".".Config::get('cloudxns_domain'))==$node->server) {
-											$record_id=$record->record_id;
-											$Temp_node=Node::where('node_class', '<=', $node->node_class)->where(
-													                                   function ($query) use ($node) {
-												$query->where("node_group", "=", $node->node_group)
-														                                           ->orWhere("node_group", "=", 0);
-											}
-											)->whereRaw('UNIX_TIMESTAMP()-`node_heartbeat`<300')->first();
-											if ($Temp_node!=null) {
-												$api->record->recordUpdate($domain_id, $record->host, $Temp_node->server, 'CNAME', 55, 60, 1, '', $record_id);
-											}
-											$notice_text = "喵喵喵~ ".$node->name." 节点被墙了喵~域名解析被切换到了 ".$Temp_node->name." 上了喵~";
-										}
-									}
-								} else {
-									$notice_text = "喵喵喵~ ".$node->name." 节点被墙了喵~";
-								}
-							}
-							Telegram::Send($notice_text);
-							$file_node = fopen(BASE_PATH."/storage/".$node->id.".gfw", "w+");
-							fclose($file_node);
-						} else{
-							//没有被墙
-							echo($node->id.":true".PHP_EOL);
-							if(file_exists(BASE_PATH."/storage/".$node->id.".gfw")==false){
-								continue;
-							}
-							foreach ($adminUser as $user) {
-								echo "Send gfw mail to user: ".$user->id."-";
-								$subject = Config::get('appName')."-系统提示";
-								$to = $user->email;
-								$text = "管理员您好，系统发现节点 ".$node->name." 溜出墙了。" ;
-								try {
-									Mail::send($to, $subject, 'news/warn.tpl', [
-									                                "user" => $user,"text" => $text
-									                            ], [
-									                            ]);
-								}
-								catch (Exception $e) {
-									echo $e->getMessage();
-								}
-								if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10)) {
-									$api=new Api();
-									$api->setApiKey(Config::get("cloudxns_apikey"));
-									//修改成自己API KEY
-									$api->setSecretKey(Config::get("cloudxns_apisecret"));
-									//修改成自己的SECERET KEY
-									$api->setProtocol(true);
-									$domain_json=json_decode($api->domain->domainList());
-									foreach ($domain_json->data as $domain) {
-										if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
-											$domain_id=$domain->id;
-										}
-									}
-									$record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
-									foreach ($record_json->data as $record) {
-										if (($record->host.".".Config::get('cloudxns_domain'))==$node->server) {
-											$record_id=$record->record_id;
-											$api->record->recordUpdate($domain_id, $record->host, $node->getNodeIp(), 'A', 55, 600, 1, '', $record_id);
-										}
-									}
-									$notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~域名解析被切换回来了喵~";
-								} else {
-									$notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~";
-								}
-							}
-							Telegram::Send($notice_text);
-							unlink(BASE_PATH."/storage/".$node->id.".gfw");
+		$last_time=file_get_contents(BASE_PATH."/storage/last_detect_gfw_time");
+		for ($count=1;$count<=12;$count++){
+			if(time()-$last_time>=Config::get("detect_gfw_interval")){
+				$file_interval=fopen(BASE_PATH."/storage/last_detect_gfw_time","w");
+				fwrite($file_interval,time());
+				fclose($file_interval);
+				$nodes=Node::all();
+				$adminUser = User::where("is_admin", "=", "1")->get();
+				foreach ($nodes as $node){
+					if($node->node_ip==""||
+					$node->node_ip==null||
+					file_exists(BASE_PATH."/storage/".$node->id."offline")==true){
+						continue;
+					}
+					$api_url=Config::get("detect_gfw_url");
+					$api_url=str_replace('{ip}',$node->node_ip,$api_url);
+					$api_url=str_replace('{port}',Config::get('detect_gfw_port'),$api_url);
+					//因为考虑到有v2ray之类的节点，所以不得不使用ip作为参数
+					$result_tcping=false;
+					$detect_time=Config::get("detect_gfw_count");
+					for ($i=1;$i<=$detect_time;$i++){
+						$json_tcping = json_decode(file_get_contents($api_url), true);
+						if(eval('return '.Config::get('detect_gfw_judge').';')){
+							$result_tcping=true;
+							break;
 						}
 					}
-					break;
-				} else{
-					echo($node->id."interval skip".PHP_EOL);
-					sleep(3);
+					if($result_tcping==false){
+						//被墙了
+						echo($node->id.":false".PHP_EOL);
+						//判断有没有发送过邮件
+						if(file_exists(BASE_PATH."/storage/".$node->id.".gfw")){
+							continue;
+						}
+						foreach ($adminUser as $user) {
+							echo "Send gfw mail to user: ".$user->id."-";
+							$subject = Config::get('appName')."-系统警告";
+							$to = $user->email;
+							$text = "管理员您好，系统发现节点 ".$node->name." 被墙了，请您及时处理。" ;
+							try {
+								Mail::send($to, $subject, 'news/warn.tpl', [
+									"user" => $user,"text" => $text
+									], [
+								]);
+							}
+							catch (Exception $e) {
+								echo $e->getMessage();
+							}
+							if (Config::get('enable_cloudxns')=='true' && ($node->sort==0 || $node->sort==10)) {
+								$api=new Api();
+								$api->setApiKey(Config::get("cloudxns_apikey"));
+								//修改成自己API KEY
+								$api->setSecretKey(Config::get("cloudxns_apisecret"));
+								//修改成自己的SECERET KEY
+								$api->setProtocol(true);
+								$domain_json=json_decode($api->domain->domainList());
+								foreach ($domain_json->data as $domain) {
+									if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
+										$domain_id=$domain->id;
+									}
+								}
+								$record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
+								foreach ($record_json->data as $record) {
+									if (($record->host.".".Config::get('cloudxns_domain'))==$node->server) {
+										$record_id=$record->record_id;
+										$Temp_node=Node::where('node_class', '<=', $node->node_class)->where(
+			                                function ($query) use ($node) {
+												$query->where("node_group", "=", $node->node_group)
+												->orWhere("node_group", "=", 0);
+										})->whereRaw('UNIX_TIMESTAMP()-`node_heartbeat`<300')->first();
+										if ($Temp_node!=null) {
+											$api->record->recordUpdate($domain_id, $record->host, $Temp_node->server, 'CNAME', 55, 60, 1, '', $record_id);
+										}
+										$notice_text = "喵喵喵~ ".$node->name." 节点被墙了喵~域名解析被切换到了 ".$Temp_node->name." 上了喵~";
+									}
+								}
+							} else {
+								$notice_text = "喵喵喵~ ".$node->name." 节点被墙了喵~";
+							}
+						}
+						Telegram::Send($notice_text);
+						$file_node = fopen(BASE_PATH."/storage/".$node->id.".gfw", "w+");
+						fclose($file_node);
+					} else{
+					//没有被墙
+						echo($node->id.":true".PHP_EOL);
+						if(file_exists(BASE_PATH."/storage/".$node->id.".gfw")==false){
+							continue;
+						}
+						foreach ($adminUser as $user) {
+							echo "Send gfw mail to user: ".$user->id."-";
+							$subject = Config::get('appName')."-系统提示";
+							$to = $user->email;
+							$text = "管理员您好，系统发现节点 ".$node->name." 溜出墙了。" ;
+							try {
+								Mail::send($to, $subject, 'news/warn.tpl', [
+				                   "user" => $user,"text" => $text
+				                      ], [
+				                         ]);
+							}
+							catch (Exception $e) {
+								echo $e->getMessage();
+							}
+							if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10)) {
+								$api=new Api();
+								$api->setApiKey(Config::get("cloudxns_apikey"));
+								//修改成自己API KEY
+								$api->setSecretKey(Config::get("cloudxns_apisecret"));
+								//修改成自己的SECERET KEY
+								$api->setProtocol(true);
+								$domain_json=json_decode($api->domain->domainList());
+								foreach ($domain_json->data as $domain) {
+									if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
+										$domain_id=$domain->id;
+									}
+								}
+								$record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
+								foreach ($record_json->data as $record) {
+									if (($record->host.".".Config::get('cloudxns_domain'))==$node->server) {
+										$record_id=$record->record_id;
+										$api->record->recordUpdate($domain_id, $record->host, $node->getNodeIp(), 'A', 55, 600, 1, '', $record_id);
+									}
+								}
+								$notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~域名解析被切换回来了喵~";
+							} else {
+								$notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~";
+							}
+						}
+						Telegram::Send($notice_text);
+						unlink(BASE_PATH."/storage/".$node->id.".gfw");
+					}
 				}
+				break;
+			} else{
+				echo($node->id."interval skip".PHP_EOL);
+				sleep(3);
 			}
 		}
 	}

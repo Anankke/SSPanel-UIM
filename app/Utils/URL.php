@@ -315,7 +315,7 @@ class URL
 		$array_all['traffic_used']=Tools::flowToGB($user->u+$user->d);
 		$array_all['traffic_total']=Tools::flowToGB($user->transfer_enable);
 		$array_all['expiry']=$user->class_expire;
-
+		$array_all['url']=Config::get('baseUrl').'/link/'.LinkController::GenerateSSRSubCode($user->id, 0).'?mu=3';
 		$array_server=array();
 		$nodes = Node::where("type","1")->where(function ($func){
 		$func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
