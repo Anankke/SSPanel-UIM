@@ -22,7 +22,8 @@
     "esdeathlove/datatables": "^1.6",
     "slim/twig-view": "1.2.0",
     "ramsey/uuid": "^3.0@dev",
-    "cloudflare/sdk": "1.1.1"
+    "cloudflare/sdk": "1.1.1",
+    "chen-see/chen-pay": "^1.0@dev"
   },
   "autoload": {
     "classmap": [

@@ -42,13 +42,13 @@ window.onload = function(){
 	});
 	$("#submit").click(function(){
 		var price = parseFloat($("#amount").val());
-		console.log("将要使用"+type+"方法充值"+price+"元")
+		console.log("将要使用"+type+"方法充值"+price+"元");
 		if(isNaN(price)){
 			$("#result").modal();
 			$("#msg").html("非法的金额!");
 		}
 		$.ajax({
-			'url':"/user/doiam",
+			'url':"/user/payment/purchase",
 			'data':{
 				'price':price,
 				'type':type,

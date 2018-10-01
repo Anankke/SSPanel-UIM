@@ -14,7 +14,7 @@ use App\Models\User;
 use App\Models\Code;
 use App\Models\Paylist;
 use App\Utils\Pay;
-
+use App\Services\View;
 
 class AopF2F extends AbstractPayment
 {
@@ -35,7 +35,7 @@ class AopF2F extends AbstractPayment
             //应用ID
             'app_id' => Config::get("f2fpay_app_id"),
             //异步通知地址,只有扫码支付预下单可用
-            'notify_url' => Config::get("baseUrl")."/pay_callback",
+            'notify_url' => Config::get("baseUrl")."/payment/notify",
             //最大查询重试次数
             'MaxQueryRetry' => "10",
             //查询间隔
@@ -145,12 +145,13 @@ class AopF2F extends AbstractPayment
     function purchase($request, $response, $args)
     {
         $amount = $request->getParam('amount');
+        $user = Auth::getUser();
         if ($amount == "") {
             $res['ret'] = 0;
             $res['msg'] = "订单金额错误：" . $amount;
             return $response->getBody()->write(json_encode($res));
         }
-        $user = Auth::getUser();
+
 
 
         //生成二维码
@@ -243,19 +244,7 @@ class AopF2F extends AbstractPayment
 
     function getPurchaseHTML()
     {
-        return '
-                        <div class="form-group pull-left">
-                        <p class="modal-title" >本站支持支付宝在线充值</p>
-                        <p>输入充值金额：</p>
-                        <div class="form-group form-group-label">
-                        <label class="floating-label" for="price">充值金额</label>
-                        <input id="type" class="form-control" name="amount" />
-                        </div>
-                        <a class="btn btn-flat waves-attach" id="urlChange" ><span class="icon">check</span>&nbsp;充值</a>
-                        </div>
-                        <div class="form-group pull-right">
-                        <img src="/images/qianbai-4.png" height="205" width="166" />
-                        </div>';
+        return View::getSmarty()->fetch("user/aopf2f.tpl");
     }
 
     function getReturnHTML($request, $response, $args)

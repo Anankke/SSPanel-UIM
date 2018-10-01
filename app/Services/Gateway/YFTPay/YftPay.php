@@ -6,7 +6,7 @@
  * Time: 21:08
  */
 
-namespace App\Controllers;
+namespace App\Services\Gateway;
 
 
 use App\Models\User;
@@ -14,8 +14,10 @@ use App\Models\YftOrder;
 use App\Services\Auth;
 use App\Utils\YftOrderNumUtil;
 use App\Services\Config;
+use App\Controllers\QuickPayFunction;
+use App\Controllers\PayConfig;
 
-class YftPay extends BaseController
+class YftPay
 {
     private $user;
 
@@ -190,5 +192,4 @@ class YftPay extends BaseController
 
         return $this->view()->assign('orderList', $orderList)->assign('countPage', $countPage)->assign('currentPage', $pageNum)->display('admin/yftOrder.tpl');
     }
-
 }

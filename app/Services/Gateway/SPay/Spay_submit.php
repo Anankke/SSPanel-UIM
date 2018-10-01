@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App\Services\Gateway;
 
 class Spay_submit
 {
@@ -76,13 +76,11 @@ class Spay_submit
     public function buildRequestForm($para_temp)
     {
         $para = $this->buildRequestPara($para_temp);
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$this->alipay_gateway_new."_input_charset=UTF-8' method='get'>";
+        $reqUrl = $this->alipay_gateway_new;
         while (list($key, $val) = each($para)) {
-            $sHtml.= "<input type='hidden' name='".$key."' value='".$val."'/>";
+            $reqUrl .= "&" . $key . "=" . $val;
         }
-        //submit按钮控件请不要含有name属性
-        $sHtml = $sHtml."<input type='submit' value='正在跳转支付中'></form>";
-        $sHtml = $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";
-        return $sHtml;
+
+        return $reqUrl;
     }
 }

@@ -71,11 +71,11 @@ $app->get('/', 'App\Controllers\HomeController:index');
 $app->get('/404', 'App\Controllers\HomeController:page404');
 $app->get('/405', 'App\Controllers\HomeController:page405');
 $app->get('/500', 'App\Controllers\HomeController:page500');
-$app->get('/pwm_pingback', 'App\Controllers\HomeController:pay_callback');
+$app->get('/pwm_pingback', 'App\Services\Payment:notify');
 $app->post('/notify', 'App\Controllers\HomeController:notify');
-$app->post('/alipay_callback', 'App\Controllers\HomeController:pay_callback');              // @todo: Will be replaced by Payment::notify
+$app->post('/alipay_callback', 'App\Services\Payment:notify');              // @todo: Will be replaced by Payment::notify
 $app->post('/pay_callback', 'App\Services\Payment:notify');
-$app->get('/pay_callback', 'App\Controllers\HomeController:pay_callback');                  // @todo: Will be replaced by Payment::notify
+$app->get('/pay_callback', 'App\Services\Payment:notify');                  // @todo: Will be replaced by Payment::notify
 $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
 $app->get('/gfwlistjs', 'App\Controllers\LinkController:GetGfwlistJs');
@@ -147,14 +147,13 @@ $app->group('/user', function () {
     $this->get('/backtoadmin', 'App\Controllers\UserController:backtoadmin');
     $this->get('/code', 'App\Controllers\UserController:code');
     //易付通路由定义 start
-    $this->post('/code/yft/pay', 'App\Controllers\YftPay:yftPay');
-    $this->get('/code/yft/pay/result', 'App\Controllers\YftPay:yftPayResult');
-    $this->post('/code/yft', 'App\Controllers\YftPay:yft');
-    $this->get('/yftOrder', 'App\Controllers\YftPay:yftOrder');
+    $this->post('/code/yft/pay', 'App\Services\Gateway\YFTPay:yftPay');
+    $this->get('/code/yft/pay/result', 'App\Services\Gateway\YFTPay:yftPayResult');
+    $this->post('/code/yft', 'App\Services\Gateway\YFTPay:yft');
+    $this->get('/yftOrder', 'App\Services\Gateway\YFTPay:yftOrder');
     //易付通路由定义 end
     $this->get('/alipay', 'App\Controllers\UserController:alipay');
     $this->post('/code/f2fpay', 'App\Services\Payment:purchase');
-    $this->get('/code/f2fpay', 'App\Controllers\UserController:f2fpayget');
     $this->get('/code/codepay', 'App\Services\Payment:purchase');
     $this->get('/code_check', 'App\Controllers\UserController:code_check');
     $this->post('/code', 'App\Controllers\UserController:codepost');
