@@ -14,6 +14,7 @@ use App\Models\Coupon;
 use App\Models\Bought;
 use App\Models\Ticket;
 use App\Services\Config;
+use App\Services\Payment;
 use App\Utils;
 use App\Utils\AliPay;
 use App\Utils\Hash;
@@ -257,8 +258,8 @@ class UserController extends BaseController
             $config = new AliPay();
             return $this->view()->assign('codes', $codes)->assign('QRcodeUrl', $config->getConfig('AliPay_QRcode'))
                 ->assign('WxQRcodeUrl', $config->getConfig('WxPay_QRcode'))
-                ->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
-        } else return $this->view()->assign('codes', $codes)->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
+                ->assign('pmw', Payment::purchaseHTML())->display('user/code.tpl');
+        } else return $this->view()->assign('codes', $codes)->assign('pmw', Payment::purchaseHTML())->display('user/code.tpl');
     }
 
     public function CheckAliPay($request, $response, $args)

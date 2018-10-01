@@ -16,6 +16,7 @@ class TrimePay extends AbstractPayment
 {
 
     private $appSecret;
+    private $gatewayUri;
     /**
      * 签名初始化
      * @param merKey	签名密钥
@@ -23,7 +24,7 @@ class TrimePay extends AbstractPayment
 
     public function __construct($appSecret) {
         $this->appSecret = $appSecret;
-        $this->gatewayUri = 'https://api.Trimepay.com/gateway/pay/go';
+        $this->gatewayUri = 'https://api.Trimepay.com/gateway/';
     }
 
 
@@ -60,7 +61,13 @@ class TrimePay extends AbstractPayment
         }
     }
 
-    public function post($data){
+    public function post($data, $type = "pay"){
+        if ($type == "pay"){
+            $this->gatewayUri .= "pay/go";
+        } else {
+            $this->gatewayUri .= "refund/go";
+        }
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $this->gatewayUri);
         curl_setopt($curl, CURLOPT_HEADER, 0);
@@ -124,6 +131,15 @@ class TrimePay extends AbstractPayment
         }else{
             echo 'FAIL';
         }
+    }
+
+    public function refund($merchantTradeNo){
+        $data['appId'] = Config::get('trimepay_appid');
+        $data['merchantTradeNo'] = $merchantTradeNo;
+        $params = self::prepareSign($data);
+        $data['sign'] = self::sign($params);
+
+        return self::post($data, "refund");
     }
 
 
