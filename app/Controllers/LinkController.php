@@ -469,10 +469,8 @@ Apple = select,DIRECT,PROXY,AUTO
 Media = select,PROXY'.$proxy_name.'
 AUTO = url-test'.$proxy_name.',url = http://www.gstatic.com/generate_204,interval = 1200,tolerance = 300,timeout = 5
 
-'.$rules.'
-
-';
-    }
+'.$rules.'';
+ }
 
     private static function GetSurge($passwd, $method, $server, $port, $defined)
     {
