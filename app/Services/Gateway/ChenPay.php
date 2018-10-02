@@ -98,7 +98,7 @@ class ChenPay extends AbstractPayment
         elseif ($amount <= 0) return json_encode(['ret' => 0, 'msg' => '请输入正确金额']);
 
         $user = Auth::getUser();
-        if (Paylist::where('status', 0)->where('datetime', '>', time())->first()) {
+        if (Paylist::where('status', 0)->where('type', $type)->where('total', $amount)->where('datetime', '>', time())->first()) {
             $newOrder = new Paylist();
             $newOrder->userid = $user->id;
             $newOrder->total = $amount;
@@ -197,12 +197,12 @@ class ChenPay extends AbstractPayment
         \ChenPay\Pay::Listen($this->listenInterval, function () use ($AliCookie) {
             try {
                 $run = (new \ChenPay\AliPay($AliCookie))->getData()->DataHandle();
-                $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
+                $tradeAll = Paylist::where('status', 0)->where('type', 1)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
                     if ($order) static::postPayment($item->id, 'chenPay支付' . $order);
                 }
-                Paylist::where('status', 0)->where('datetime', '<', time())->delete();
+                Paylist::where('status', 0)->where('type', 1)->where('datetime', '<', time())->delete();
                 echo $GLOBALS['AliSum'] . "次运行\n";
                 $this->sendSunMail(1);
                 $GLOBALS['AliSum']++;
@@ -226,12 +226,12 @@ class ChenPay extends AbstractPayment
             try {
                 $run = (new \ChenPay\WxPay($WxCookie))->getData($WxUrl, $GLOBALS['syncKey'])->DataHandle();
                 $GLOBALS['syncKey'] = $run->syncKey;
-                $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
+                $tradeAll = Paylist::where('status', 0)->where('type', 2)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
                     if ($order) static::postPayment($item->id, 'chenPay支付' . $order);
                 }
-                Paylist::where('status', 0)->where('datetime', '<', time())->delete();
+                Paylist::where('status', 0)->where('type', 2)->where('datetime', '<', time())->delete();
                 echo $GLOBALS['WxSum'] . "次运行\n";
                 $this->sendSunMail(2);
                 $GLOBALS['WxSum']++;
