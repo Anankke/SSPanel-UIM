@@ -163,8 +163,9 @@ class ChenPay extends AbstractPayment
         $time = date('Y-m-d H:i:s');
         $name = $type == 1 ? '支付宝' : '微信';
         $this->setConfig($type == 1 ? 'AliPay_Status' : 'WxPay_Status', 0);
-        Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题',
-            "LOG提醒你，{$name}COOKIE" . ($isError ? "出现问题，请务必尽快更新COOKIE" : "成功运行") . "。<br>LOG记录时间：$time", []);
+        Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题' .
+            ($isError ? "出现问题" : "成功运行"), "LOG提醒你，{$name}COOKIE" .
+            ($isError ? "出现问题，请务必尽快更新COOKIE" : "成功运行") . "。<br>LOG记录时间：$time", []);
     }
 
     /**
@@ -200,14 +201,14 @@ class ChenPay extends AbstractPayment
                 $tradeAll = Paylist::where('status', 0)->where('type', 1)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
-                    if ($order) static::postPayment($item->id, 'chenPay支付' . $order);
+                    if ($order) ChenPay::postPayment($item->id, 'chenPay支付' . $order);
                 }
                 Paylist::where('status', 0)->where('type', 1)->where('datetime', '<', time())->delete();
                 echo $GLOBALS['AliSum'] . "次运行\n";
-                $this->sendSunMail(1);
+                (new ChenPay())->sendSunMail(1);
                 $GLOBALS['AliSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
-                if ($e->getCode() == 445) $this->sendMail(1);
+                if ($e->getCode() == 445) (new ChenPay())->sendMail(1);
                 echo $e->getMessage() . "\n";
             }
         });
@@ -229,14 +230,14 @@ class ChenPay extends AbstractPayment
                 $tradeAll = Paylist::where('status', 0)->where('type', 2)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
-                    if ($order) static::postPayment($item->id, 'chenPay支付' . $order);
+                    if ($order) ChenPay::postPayment($item->id, 'chenPay支付' . $order);
                 }
                 Paylist::where('status', 0)->where('type', 2)->where('datetime', '<', time())->delete();
                 echo $GLOBALS['WxSum'] . "次运行\n";
-                $this->sendSunMail(2);
+                (new ChenPay())->sendSunMail(2);
                 $GLOBALS['WxSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
-                if ($e->getCode() == 445) $this->sendMail(2);
+                if ($e->getCode() == 445) (new ChenPay())->sendMail(2);
                 echo $e->getMessage() . "\n";
             }
         });
