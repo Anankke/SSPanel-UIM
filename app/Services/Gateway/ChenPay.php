@@ -61,8 +61,8 @@ class ChenPay extends AbstractPayment
     public function getPurchaseHTML()
     {
         return View::getSmarty()->assign("config", $this->config)
-            ->assign('QRcodeUrl', $this->config->getConfig('AliPay_QRcode'))
-            ->assign('WxQRcodeUrl', $this->config->getConfig('WxPay_QRcode'))
+            ->assign('QRcodeUrl', $this->getConfig('AliPay_QRcode'))
+            ->assign('WxQRcodeUrl', $this->getConfig('WxPay_QRcode'))
             ->fetch("user/chenPay.tpl");
     }
 
@@ -98,7 +98,7 @@ class ChenPay extends AbstractPayment
         elseif ($amount <= 0) return json_encode(['ret' => 0, 'msg' => '请输入正确金额']);
 
         $user = Auth::getUser();
-        if (Paylist::where('status', 0)->where('type', $type)->where('total', $amount)->where('datetime', '>', time())->first()) {
+        if (!Paylist::where('status', 0)->where('type', $type)->where('total', $amount)->where('datetime', '>', time())->first()) {
             $newOrder = new Paylist();
             $newOrder->userid = $user->id;
             $newOrder->total = $amount;
@@ -248,26 +248,6 @@ class ChenPay extends AbstractPayment
     }
 
     public function notify($request, $response, $args)
-    {
-    }
-
-    public function sign($data)
-    {
-    }
-
-    public function setMethod($method)
-    {
-    }
-
-    public function setNotifyUrl()
-    {
-    }
-
-    public function setReturnUrl()
-    {
-    }
-
-    public function init()
     {
     }
 }

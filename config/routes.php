@@ -83,17 +83,11 @@ $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
 $app->get('/yft/notify', 'App\Controllers\YFTPayCallBackController:yft_notify');            // @todo: Will be replaced by Payment::notify
 $app->get('/codepay_callback', 'App\Services\Payment:notify');
 $app->post('/codepay_callback', 'App\Services\Payment:notify');
-$app->get('/getOrderList', 'App\Controllers\HomeController:getOrderList');
-$app->get('/setOrder', 'App\Controllers\HomeController:setOrder');
 
 // User Center
 $app->group('/user', function () {
     $this->get('', 'App\Controllers\UserController:index');
     $this->get('/', 'App\Controllers\UserController:index');
-    $this->get('/CheckAliPay', 'App\Controllers\UserController:CheckAliPay');
-    $this->get('/NewAliPay', 'App\Controllers\UserController:NewAliPay');
-//    $this->get('/test', 'App\Controllers\UserController:AliPayTest');
-    $this->get('/AliPayDelete', 'App\Controllers\UserController:AliPayDelete');
     $this->post('/checkin', 'App\Controllers\UserController:doCheckin');
     $this->get('/node', 'App\Controllers\UserController:node');
     $this->get('/announcement', 'App\Controllers\UserController:announcement');
@@ -205,9 +199,6 @@ $app->group('/password', function () {
 $app->group('/admin', function () {
     $this->get('', 'App\Controllers\AdminController:index');
     $this->get('/', 'App\Controllers\AdminController:index');
-
-    $this->get('/editConfig', 'App\Controllers\AdminController:editConfig');
-    $this->post('/saveConfig', 'App\Controllers\AdminController:saveConfig');
 
     $this->get('/trafficlog', 'App\Controllers\AdminController:trafficLog');
     $this->post('/trafficlog/ajax', 'App\Controllers\AdminController:ajax_trafficLog');
@@ -380,7 +371,21 @@ $app->group("/doiam", function () {
     $this->post("/status", "App\Services\Payment:getStatus");
 });
 
-
+/**
+ * chenPay
+ */
+$app->group('/user', function () {
+    $this->get("/chenPay", "App\Services\Payment:purchase");
+    $this->get('/orderDelete', 'App\Controllers\UserController:AliPayDelete');
+})->add(new Auth());
+$app->group("/chenPay", function () {
+    $this->get("/status", "App\Services\Payment:getStatus");
+});
+$app->group('/admin', function () {
+    $this->get('/editConfig', 'App\Controllers\AdminController:editConfig');
+    $this->post('/saveConfig', 'App\Controllers\AdminController:saveConfig');
+})->add(new Admin());
+// chenPay end
 
 // Run Slim Routes for App
 $app->run();

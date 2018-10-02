@@ -254,40 +254,7 @@ class UserController extends BaseController
         }
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
-        if (Config::get('payment_system') == 'chenAlipay') {
-            $config = new AliPay();
-            return $this->view()->assign('codes', $codes)->assign('QRcodeUrl', $config->getConfig('AliPay_QRcode'))
-                ->assign('WxQRcodeUrl', $config->getConfig('WxPay_QRcode'))
-                ->assign('pmw', Payment::purchaseHTML())->display('user/code.tpl');
-        } else return $this->view()->assign('codes', $codes)->assign('pmw', Payment::purchaseHTML())->display('user/code.tpl');
-    }
-
-    public function CheckAliPay($request, $response, $args)
-    {
-        $id = $request->getQueryParams()["id"];
-        if ($id == "") {
-            $res['ret'] = 0;
-            $res['msg'] = "请输入Id";
-            return $response->getBody()->write(json_encode($res));
-        }
-        return $response->getBody()->write(json_encode(AliPay::checkOrder($id)));
-    }
-
-    public function NewAliPay($request, $response, $args)
-    {
-        $fee = $request->getQueryParams()["fee"];
-        $type = $request->getQueryParams()["type"];
-        $url = $request->getQueryParams()["url"];
-        if (!is_numeric($fee) || !is_numeric($type)) {
-            $res['ret'] = 0;
-            $res['msg'] = "请输入正确金额";
-            return $response->getBody()->write(json_encode($res));
-        } elseif ($fee <= 0) {
-            $res['ret'] = 0;
-            $res['msg'] = "请输入正确金额";
-            return $response->getBody()->write(json_encode($res));
-        }
-        return $response->getBody()->write(json_encode(AliPay::newOrder($this->user, $fee, $type, $url)));
+        return $this->view()->assign('codes', $codes)->assign('pmw', Payment::purchaseHTML())->display('user/code.tpl');
     }
 
     public function AliPayDelete($request, $response, $args)
@@ -299,11 +266,6 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
         return $response->getBody()->write(json_encode(['res' => AliPay::orderDelete($id, $this->user->id)]));
-    }
-
-    public function AliPayTest($request, $response, $args)
-    {
-        print_r((new AliPay)->getWxPay());
     }
 
     public function donate($request, $response, $args)
