@@ -14,6 +14,7 @@ use App\Models\Coupon;
 use App\Models\Bought;
 use App\Models\Ticket;
 use App\Services\Config;
+use App\Services\Gateway\ChenPay;
 use App\Services\Payment;
 use App\Utils;
 use App\Utils\AliPay;
@@ -257,15 +258,9 @@ class UserController extends BaseController
         return $this->view()->assign('codes', $codes)->assign('pmw', Payment::purchaseHTML())->display('user/code.tpl');
     }
 
-    public function AliPayDelete($request, $response, $args)
+    public function orderDelete($request, $response, $args)
     {
-        $id = $request->getQueryParams()["id"];
-        if ($id == "") {
-            $res['ret'] = 0;
-            $res['msg'] = "请输入Id";
-            return $response->getBody()->write(json_encode($res));
-        }
-        return $response->getBody()->write(json_encode(['res' => AliPay::orderDelete($id, $this->user->id)]));
+        return (new ChenPay())->orderDelete($request);
     }
 
     public function donate($request, $response, $args)

@@ -376,7 +376,7 @@ $app->group("/doiam", function () {
  */
 $app->group('/user', function () {
     $this->get("/chenPay", "App\Services\Payment:purchase");
-    $this->get('/orderDelete', 'App\Controllers\UserController:AliPayDelete');
+    $this->get('/orderDelete', 'App\Controllers\UserController:orderDelete');
 })->add(new Auth());
 $app->group("/chenPay", function () {
     $this->get("/status", "App\Services\Payment:getStatus");
