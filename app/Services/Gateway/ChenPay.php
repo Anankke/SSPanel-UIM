@@ -61,8 +61,8 @@ class ChenPay extends AbstractPayment
     public function getPurchaseHTML()
     {
         return View::getSmarty()->assign("config", $this->config)
-            ->assign('QRcodeUrl', $this->config->getConfig('AliPay_QRcode'))
-            ->assign('WxQRcodeUrl', $this->config->getConfig('WxPay_QRcode'))
+            ->assign('QRcodeUrl', $this->getConfig('AliPay_QRcode'))
+            ->assign('WxQRcodeUrl', $this->getConfig('WxPay_QRcode'))
             ->fetch("user/chenPay.tpl");
     }
 
@@ -98,12 +98,12 @@ class ChenPay extends AbstractPayment
         elseif ($amount <= 0) return json_encode(['ret' => 0, 'msg' => '请输入正确金额']);
 
         $user = Auth::getUser();
-        if (Paylist::where('status', 0)->where('datetime', '>', time())->first()) {
+        if (!Paylist::where('status', 0)->where('type', $type)->where('total', $amount)->where('datetime', '>', time())->first()) {
             $newOrder = new Paylist();
             $newOrder->userid = $user->id;
             $newOrder->total = $amount;
             $newOrder->datetime = time() + 3 * 60; // 有效时间
-            $newOrder->sys_sn = rand(100000, 999999) . $user->id . $newOrder->datetime;
+            $newOrder->tradeno = rand(100000, 999999) . $user->id . $newOrder->datetime;
             $newOrder->type = $type;
             $newOrder->url = $url;
             $newOrder->save();
@@ -163,8 +163,9 @@ class ChenPay extends AbstractPayment
         $time = date('Y-m-d H:i:s');
         $name = $type == 1 ? '支付宝' : '微信';
         $this->setConfig($type == 1 ? 'AliPay_Status' : 'WxPay_Status', 0);
-        Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题',
-            "LOG提醒你，{$name}COOKIE" . ($isError ? "出现问题，请务必尽快更新COOKIE" : "成功运行") . "。<br>LOG记录时间：$time", []);
+        Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题' .
+            ($isError ? "出现问题" : "成功运行"), "LOG提醒你，{$name}COOKIE" .
+            ($isError ? "出现问题，请务必尽快更新COOKIE" : "成功运行") . "。<br>LOG记录时间：$time", []);
     }
 
     /**
@@ -197,17 +198,17 @@ class ChenPay extends AbstractPayment
         \ChenPay\Pay::Listen($this->listenInterval, function () use ($AliCookie) {
             try {
                 $run = (new \ChenPay\AliPay($AliCookie))->getData()->DataHandle();
-                $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
+                $tradeAll = Paylist::where('status', 0)->where('type', 1)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
-                    if ($order) static::postPayment($item->id, 'chenPay支付' . $order);
+                    if ($order) ChenPay::postPayment($item->tradeno, 'chenPay支付' . $order);
                 }
-                Paylist::where('status', 0)->where('datetime', '<', time())->delete();
+                Paylist::where('status', 0)->where('type', 1)->where('datetime', '<', time())->delete();
                 echo $GLOBALS['AliSum'] . "次运行\n";
-                $this->sendSunMail(1);
+                (new ChenPay())->sendSunMail(1);
                 $GLOBALS['AliSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
-                if ($e->getCode() == 445) $this->sendMail(1);
+                if ($e->getCode() == 445) (new ChenPay())->sendMail(1);
                 echo $e->getMessage() . "\n";
             }
         });
@@ -226,17 +227,17 @@ class ChenPay extends AbstractPayment
             try {
                 $run = (new \ChenPay\WxPay($WxCookie))->getData($WxUrl, $GLOBALS['syncKey'])->DataHandle();
                 $GLOBALS['syncKey'] = $run->syncKey;
-                $tradeAll = Paylist::where('status', 0)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
+                $tradeAll = Paylist::where('status', 0)->where('type', 2)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
-                    if ($order) static::postPayment($item->id, 'chenPay支付' . $order);
+                    if ($order) ChenPay::postPayment($item->tradeno, 'chenPay支付' . $order);
                 }
-                Paylist::where('status', 0)->where('datetime', '<', time())->delete();
+                Paylist::where('status', 0)->where('type', 2)->where('datetime', '<', time())->delete();
                 echo $GLOBALS['WxSum'] . "次运行\n";
-                $this->sendSunMail(2);
+                (new ChenPay())->sendSunMail(2);
                 $GLOBALS['WxSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
-                if ($e->getCode() == 445) $this->sendMail(2);
+                if ($e->getCode() == 445) (new ChenPay())->sendMail(2);
                 echo $e->getMessage() . "\n";
             }
         });
@@ -247,26 +248,6 @@ class ChenPay extends AbstractPayment
     }
 
     public function notify($request, $response, $args)
-    {
-    }
-
-    public function sign($data)
-    {
-    }
-
-    public function setMethod($method)
-    {
-    }
-
-    public function setNotifyUrl()
-    {
-    }
-
-    public function setReturnUrl()
-    {
-    }
-
-    public function init()
     {
     }
 }

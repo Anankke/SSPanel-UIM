@@ -44,7 +44,6 @@ INSERT INTO `config` VALUES ('Pay_Xposed', '0');
 
 ALTER TABLE `paylist`
 ADD COLUMN `type` int(1) NULL DEFAULT 0 AFTER `datetime`,
-ADD COLUMN `url` varchar(255) NULL AFTER `type`,
-ADD COLUMN `sys_sn` varchar(255) NULL AFTER `url`;
+ADD COLUMN `url` varchar(255) NULL AFTER `type`;
 
 SET FOREIGN_KEY_CHECKS = 1;

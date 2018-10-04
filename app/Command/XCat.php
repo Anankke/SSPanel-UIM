@@ -9,7 +9,7 @@ namespace App\Command;
 
 use App\Models\User;
 use App\Models\Relay;
-use App\Utils\AliPay;
+use App\Services\Gateway\ChenPay;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Services\Config;
@@ -33,9 +33,9 @@ class XCat
             case("install"):
                 return $this->install();
             case("alipay"):
-                return (new AliPay)->checkAliPay();
+                return (new ChenPay())->AliPayListen();
             case("wxpay"):
-                return (new AliPay)->checkWxPay();
+                return (new ChenPay())->WxPayListen();
             case("createAdmin"):
                 return $this->createAdmin();
             case("resetTraffic"):
