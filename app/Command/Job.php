@@ -700,7 +700,7 @@ class Job
                         echo $e->getMessage();
                     }
                 }
-				else{
+				else if($under_limit=='false'){
 					unlink(BASE_PATH."/storage/traffic_notified/".$user->id.".userid");
 				}
             }
