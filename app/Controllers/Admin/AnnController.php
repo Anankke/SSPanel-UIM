@@ -47,6 +47,9 @@ class AnnController extends AdminController
                 if ($user->class >= $vip){
                     $subject = Config::get('appName')."-公告";
                     $to = $user->email;
+                    if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+                    	continue;
+                    }
                     $text = $ann->content;
                     try {
                         Mail::send($to, $subject, 'news/warn.tpl', [
@@ -54,7 +57,7 @@ class AnnController extends AdminController
                         ], [
                         ]);
                     } catch (Exception $e) {
-                        echo $e;
+                        continue;
                     }
                 }
             }
