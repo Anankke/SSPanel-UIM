@@ -203,7 +203,6 @@ class ChenPay extends AbstractPayment
                     $order = $run->DataContrast($item->total, $item->datetime);
                     if ($order) ChenPay::postPayment($item->tradeno, 'chenPay支付' . $order);
                 }
-                Paylist::where('status', 0)->where('type', 1)->where('datetime', '<', time())->delete();
                 echo $GLOBALS['AliSum'] . "次运行\n";
                 (new ChenPay())->sendSunMail(1);
                 $GLOBALS['AliSum']++;
@@ -232,7 +231,6 @@ class ChenPay extends AbstractPayment
                     $order = $run->DataContrast($item->total, $item->datetime);
                     if ($order) ChenPay::postPayment($item->tradeno, 'chenPay支付' . $order);
                 }
-                Paylist::where('status', 0)->where('type', 2)->where('datetime', '<', time())->delete();
                 echo $GLOBALS['WxSum'] . "次运行\n";
                 (new ChenPay())->sendSunMail(2);
                 $GLOBALS['WxSum']++;
