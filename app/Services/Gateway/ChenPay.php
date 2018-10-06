@@ -201,9 +201,9 @@ class ChenPay extends AbstractPayment
                 $tradeAll = Paylist::where('status', 0)->where('type', 1)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
-                    if ($order) ChenPay::postPayment($item->tradeno, 'chenPay支付' . $order);
+                    if ($order) ChenPay::postPayment($item->tradeno, 'chenPay支付宝支付' . $order);
                 }
-                echo $GLOBALS['AliSum'] . "次运行\n";
+                echo "支付宝监听第" . $GLOBALS['AliSum'] . "次运行\n";
                 $that->sendSunMail(1);
                 $GLOBALS['AliSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
@@ -228,9 +228,9 @@ class ChenPay extends AbstractPayment
                 $tradeAll = Paylist::where('status', 0)->where('type', 2)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
-                    if ($order) ChenPay::postPayment($item->tradeno, 'chenPay支付' . $order);
+                    if ($order) ChenPay::postPayment($item->tradeno, 'chenPay微信支付' . $order);
                 }
-                echo $GLOBALS['WxSum'] . "次运行\n";
+                echo "微信监听第" . $GLOBALS['WxSum'] . "次运行\n";
                 $that->sendSunMail(2);
                 $GLOBALS['WxSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
