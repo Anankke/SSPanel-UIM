@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.1"></script>
 <style>
     .btn-price {
         margin: 5px;
@@ -215,5 +216,8 @@
         });
     }
 
-    setTimeout("chenPayLoad()", 2000);
+    $(function () {
+        chenPayLoad();
+    });
+    // setTimeout("chenPayLoad()", 2000);
 </script>

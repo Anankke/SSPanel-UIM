@@ -203,7 +203,7 @@ class ChenPay extends AbstractPayment
                     $order = $run->DataContrast($item->total, $item->datetime);
                     if ($order) ChenPay::postPayment($item->tradeno, 'chenPay支付宝支付' . $order);
                 }
-                echo "支付宝监听第" . $GLOBALS['AliSum'] . "次运行\n";
+                echo "支付宝监听第" . $GLOBALS['AliSum'] . "次运行" . "[" . date('Y-m-d H:i:s') . "]\n";
                 $that->sendSunMail(1);
                 $GLOBALS['AliSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
@@ -230,7 +230,7 @@ class ChenPay extends AbstractPayment
                     $order = $run->DataContrast($item->total, $item->datetime);
                     if ($order) ChenPay::postPayment($item->tradeno, 'chenPay微信支付' . $order);
                 }
-                echo "微信监听第" . $GLOBALS['WxSum'] . "次运行\n";
+                echo "微信监听第" . $GLOBALS['WxSum'] . "次运行" . "[" . date('Y-m-d H:i:s') . "]\n";
                 $that->sendSunMail(2);
                 $GLOBALS['WxSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
