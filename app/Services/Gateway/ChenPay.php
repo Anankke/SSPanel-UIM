@@ -174,7 +174,7 @@ class ChenPay extends AbstractPayment
      */
     public function sendMail($type = 1)
     {
-        if ($this->getConfig('AliPay_Status') == 1 || $this->getConfig('WxPay_Status') == 1)
+        if (($this->getConfig('AliPay_Status') == 1 && $type == 1) || ($this->getConfig('WxPay_Status') == 1 && $type == 2))
             $this->mail($type, 1);
     }
 
@@ -184,7 +184,7 @@ class ChenPay extends AbstractPayment
      */
     public function sendSunMail($type = 1)
     {
-        if ($this->getConfig('AliPay_Status') == 0 || $this->getConfig('WxPay_Status') == 0)
+        if (($this->getConfig('AliPay_Status') == 0 && $type == 1) || ($this->getConfig('WxPay_Status') == 0 && $type == 2))
             $this->mail($type);
     }
 
