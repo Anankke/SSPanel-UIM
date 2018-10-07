@@ -41,7 +41,8 @@
 
 					{if $user->class!=0}
 
-					{if $user->invite_num!=-1}
+				<!--	{if $user->invite_num!=-1}  -->
+					{if $user->invite_num <0 } 
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
