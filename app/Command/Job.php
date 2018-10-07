@@ -669,7 +669,6 @@ class Job
 			//余量不足检测
 			if(!file_exists(BASE_PATH."/storage/traffic_notified/")){
 				mkdir(BASE_PATH."/storage/traffic_notified/");
-			}else{
 			}
 			if (Config::get('notify_limit_mode') !='false'){
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
