@@ -317,6 +317,19 @@ class URL
 		$array_all['traffic_total']=Tools::flowToGB($user->transfer_enable);
 		$array_all['expiry']=$user->class_expire;
 		$array_all['url']=Config::get('baseUrl').'/link/'.LinkController::GenerateSSRSubCode($user->id, 0).'?mu=3';
+		$plugin_options='';
+		if(strpos($user->obfs,'http')!=FALSE){
+			$plugin_options='obfs=http';
+		}
+		if(strpos($user->obfs,'tls')!=FALSE){
+			$plugin_options='obfs=tls';
+		}
+		if($plugin_options!=''){
+			$array_all['plugin']='obfs-local';
+			if($user->obfs_param!=''){
+				$array_all['plugin_options']=$plugin_options.';obfs-host='.$user->obfs_param;
+			}
+		}
 		$array_server=array();
 		$nodes = Node::where("type","1")->where(function ($func){
 		$func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
