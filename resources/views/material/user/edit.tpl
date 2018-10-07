@@ -184,6 +184,7 @@
 										<p>当前混淆方式：<code id="ajax-user-obfs">{$user->obfs}</code></p>
 										<p>注意1：如果需要兼容 SS/SSD 请选择带_compatible的兼容选项！</p>
 										<p>注意2：SS/SSD 和 SSR 支持的混淆类型有所不同，simple_obfs_* 为 SS/SSD 的混淆方式，其他为 SSR 的混淆方式！</p>
+										<p>注意3：如果使用 SS/SSD 作为客户端，请确保自己知道如何下载并使用混淆插件！</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="obfs">混淆方式</label>
 											<select id="obfs" class="form-control">
@@ -197,7 +198,6 @@
 
 									<div class="card-inner">
 										<p>当前混淆参数：<code id="ajax-user-obfs-param">{$user->obfs_param}</code></p>
-										<p>注意：如果需要兼容 SS/SSD 请留空！</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="obs-param">在这输入混淆参数</label>
 											<input class="form-control" id="obfs-param" type="text">

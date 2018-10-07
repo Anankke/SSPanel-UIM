@@ -47,7 +47,8 @@ class Config
 			"admin_contact2" => self::get("admin_contact2"),
 			"admin_contact3" => self::get("admin_contact3"),
 			"enable_register" => self::get("enable_register"),
-			"enable_flag" => self::get("enable_flag")
+			"enable_flag" => self::get("enable_flag"),
+			"load_mode_js" => self::get("load_mode_js")
          ];
     }
 

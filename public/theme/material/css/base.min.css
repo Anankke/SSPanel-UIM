@@ -70,7 +70,6 @@ body {
     background-color: rgba(245, 245, 245, 0.54);
     background-attachment: fixed;
     width: 100%;
-    height: 100vh;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -1458,13 +1457,7 @@ img {
 }/*!
  * material icons v2.2.0
  * http://google.github.io/material-design-icons/#icon-font-for-the-web
- */@font-face {
-	font-family: 'Material Icons';
-	font-style: normal;
-	font-weight: 400;
-	src: url(./fonts/MaterialIcons-Regular.eot?v=2.2.0);
-	src: local("Material Icons"),local("MaterialIcons-Regular"),url(./fonts/MaterialIcons-Regular.woff2?v=2.2.0) format("woff2"),url(./fonts/MaterialIcons-Regular.woff?v=2.2.0) format("woff"),url(./fonts/MaterialIcons-Regular.ttf?v=2.2.0) format("truetype")
-}
+ */
 
 .breadcrumb>li+li:before,.icon {
 	display: inline-block;

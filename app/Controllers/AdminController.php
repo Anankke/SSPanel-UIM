@@ -8,6 +8,8 @@ use App\Models\TrafficLog;
 use App\Models\Payback;
 use App\Models\Coupon;
 use App\Models\User;
+use App\Services\Gateway\ChenPay;
+use App\Utils\AliPay;
 use App\Utils\Tools;
 use App\Services\Analytics;
 
@@ -29,6 +31,17 @@ class AdminController extends UserController
     {
         $nodes = Node::all();
         return $this->view()->assign('nodes', $nodes)->display('admin/node.tpl');
+    }
+
+
+    public function editConfig($request, $response, $args)
+    {
+        return (new ChenPay())->editConfig();
+    }
+
+    public function saveConfig($request, $response, $args)
+    {
+        return (new ChenPay())->saveConfig($request);
     }
 
     public function sys()
