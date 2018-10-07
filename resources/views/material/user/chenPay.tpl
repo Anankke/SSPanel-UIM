@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.1"></script>
 <style>
     .btn-price {
         margin: 5px;
@@ -42,9 +43,9 @@
             <a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><img src="/images/weixin.jpg"
                                                                                      width="45"></a>
         {/if}
-        <div class="form-group pull-right">
-            <img src="/images/qianbai-2.png" height="205"/>
-        </div>
+    </div>
+    <div class="form-group pull-right">
+        <img src="/images/qianbai-2.png" height="205"/>
     </div>
 </div>
 <div aria-hidden="true" class="modal modal-va-middle fade" id="AliPayReadyToPay" role="dialog"
@@ -201,7 +202,7 @@
             var m = 2, s = 59, countdown = document.getElementById("countTime");
 
             function getCountdown() {
-                countdown.innerHTML = "<span>" + (m > 10 ? m : '0' + m) + "</span>:<span>" + (s > 10 ? s : '0' + s) + "</span>";
+                countdown.innerHTML = "<span>" + (m >= 10 ? m : '0' + m) + "</span>:<span>" + (s >= 10 ? s : '0' + s) + "</span>";
                 if (m == 0 && s == 0) {
                     close('倒计时结束了');
                 } else if (m >= 0) {
@@ -215,5 +216,8 @@
         });
     }
 
-    setTimeout("chenPayLoad()", 2000);
+    $(function () {
+        chenPayLoad();
+    });
+    // setTimeout("chenPayLoad()", 2000);
 </script>
