@@ -163,7 +163,7 @@ class ChenPay extends AbstractPayment
         $time = date('Y-m-d H:i:s');
         $name = $type == 1 ? '支付宝' : '微信';
         $this->setConfig($type == 1 ? 'AliPay_Status' : 'WxPay_Status', $isError ? 0 : 1);
-        Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE出现问题' .
+        Mail::getClient()->send($this->getConfig('Notice_EMail'), 'LOG报告监听' . $name . 'COOKIE' .
             ($isError ? "出现问题" : "成功运行"), "LOG提醒你，{$name}COOKIE" .
             ($isError ? "出现问题，请务必尽快更新COOKIE" : "成功运行") . "。<br>LOG记录时间：$time", []);
     }
