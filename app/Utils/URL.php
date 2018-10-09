@@ -325,15 +325,19 @@ class URL
 			$plugin_options='obfs=tls';
 		}
 		if($plugin_options!=''){
-			$array_all['plugin']='obfs-local';
-			if($user->obfs_param!=''){
+			$array_all['plugin']='obfs-local';//目前只支持这个
+			if($user->obfs_param==''){
+				$array_all['plugin_options']=$plugin_options;
+			}
+			else{
 				$array_all['plugin_options']=$plugin_options.';obfs-host='.$user->obfs_param;
 			}
 		}
 		$array_server=array();
 		$nodes = Node::where("type","1")->where(function ($func){
 		$func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
-		})->get();
+		})->orderBy('name')->get();
+		$server_index=1;
 		foreach($nodes as $node){
 			if($node->node_group!=0&&$node->node_group!=$user->group){
 				continue;
@@ -341,7 +345,8 @@ class URL
 			if($node->node_class>$user->class){
 				continue;
 			}
-			$server['id']=$node->id;
+			$server['id']=$server_index;
+			$server_index++;
 			$server['server']=$node->server;
 			//判断是否为中转节点
 			$relay_rule = Relay::where('source_node_id', $node->id)->where(
