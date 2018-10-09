@@ -38,9 +38,13 @@ class Job
         $nodes = Node::all();
         foreach ($nodes as $node) {
             $rule = preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/",$node->server);
-            if (!$rule && (!$node->sort || $node->sort == 10)) {
-                $ip=gethostbyname($node->server);
-                $node->node_ip=$ip;
+            if (!$rule && (!$node->sort || $node->sort == 10 || $node->sort == 11)) {
+                if ($node->sort == 11) {
+                    $server_list = explode(";", $request->getParam('server'));
+                    $node->node_ip = gethostbyname($server_list[0]);
+                } else {
+                    $node->node_ip = gethostbyname($request->getParam('server'));
+                }
                 $node->save();
             }
         }
