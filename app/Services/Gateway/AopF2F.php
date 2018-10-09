@@ -71,7 +71,8 @@ class AopF2F extends AbstractPayment
     {
         $gateway = self::createGateway();
         $aliRequest = $gateway->completePurchase();
-
+        $aliRequest->setParams($_POST);
+        
         try {
             /** @var \Omnipay\Alipay\Responses\AopCompletePurchaseResponse $response */
             $aliResponse = $aliRequest->send();
