@@ -99,6 +99,7 @@ class TrimePay extends AbstractPayment
         $pl->tradeno = self::generateGuid();
         $pl->save();
 
+
         $data['appId'] = Config::get('trimepay_appid');
         $data['payType'] = $type;
         $data['merchantTradeNo'] = $pl->tradeno;
@@ -126,7 +127,7 @@ class TrimePay extends AbstractPayment
         $resultVerify = self::verify($str_to_sign, $request->getParam('sign'));
         if ($resultVerify) {
             //file_put_contents('./trimepay_notify_success.log', json_encode($data)."\r\n", FILE_APPEND);
-            self::postPayment($data['merchantTradeNo'], "TrimePay 支付宝");
+            self::postPayment($data['merchantTradeNo'], "TrimePay");
             echo 'SUCCESS';
         }else{
             echo 'FAIL';
