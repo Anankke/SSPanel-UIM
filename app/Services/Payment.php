@@ -38,7 +38,7 @@ class Payment
     }
 
     public static function notify($request, $response, $args){
-        self::getClient()->notify($request, $response, $args);
+        return self::getClient()->notify($request, $response, $args);
     }
 
     public static function returnHTML($request, $response, $args){
