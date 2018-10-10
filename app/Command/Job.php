@@ -674,11 +674,13 @@ class Job
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
 				$under_limit='false';
 				
-                if (Config::get('notify_limit_mode') == 'per'&&
-				$user_traffic_left / $user->transfer_enable * 100 < Config::get('notify_limit_value')){
+                if($user->transfer_enable != 0){
+					if (Config::get('notify_limit_mode') == 'per'&&
+					$user_traffic_left / $user->transfer_enable * 100 < Config::get('notify_limit_value')){
 					$under_limit='true';
 					$unit_text='%';
-                } 
+					} 
+				}
 				else if(Config::get('notify_limit_mode')=='mb'&&
                 Tools::flowToMB($user_traffic_left) < Config::get('notify_limit_value')){
 					$under_limit='true';
@@ -703,7 +705,9 @@ class Job
                     }
                 }
 				else if($under_limit=='false'){
+					if(file_exists(BASE_PATH."/storage/traffic_notified/".$user->id.".userid")){
 					unlink(BASE_PATH."/storage/traffic_notified/".$user->id.".userid");
+					}
 				}
             }
 
