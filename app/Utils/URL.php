@@ -65,6 +65,20 @@ class URL
         }
     }
 
+    public static function parse_args($origin) {
+        // parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
+        $args_explode = explode('|', $origin);
+
+        $return_array = [];
+        foreach ($args_explode as $arg) {
+            $split_point = strpos($arg, '=');
+
+            $return_array[substr($arg, 0, $split_point)] = substr($arg, $split_point + 1);
+        }
+
+        return $return_array;
+    }
+
     public static function SSCanConnect($user, $mu_port = 0) {
         if($mu_port != 0) {
             $mu_user = User::where('port', '=', $mu_port)->where("is_multi_user", "<>", 0)->first();
@@ -271,18 +285,22 @@ class URL
         $item['add'] = $node_explode[0];
         $item['port'] = $node_explode[1];
         $item['id'] = $user->getUuid();
-        $item['aid'] = $node_explode[3];
-        if (count($node_explode) >= 6) {
-            $item['net'] = $node_explode[5];
+        $item['aid'] = $node_explode[2];
+        if (count($node_explode) >= 4) {
+            $item['net'] = $node_explode[3];
         } else {
             $item['net'] = "tcp";
         } 
 
-        if (count($node_explode) >= 7) {
-            $item['type'] = $node_explode[6];
+        if (count($node_explode) >= 5) {
+            $item['type'] = $node_explode[4];
         } else {
             $item['type'] = "none";
         } 
+
+        if (count($node_explode) >= 6) {
+            $item = array_merge($item, URL::parse_args($node_explode[5]));
+        }
 
         return "vmess://".base64_encode((json_encode($item, JSON_UNESCAPED_UNICODE)));
     }
