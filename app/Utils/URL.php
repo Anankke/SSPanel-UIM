@@ -288,6 +288,11 @@ class URL
         $item['aid'] = $node_explode[2];
         if (count($node_explode) >= 4) {
             $item['net'] = $node_explode[3];
+            if ($item['net'] == 'ws') {
+                $item['path'] = '/';
+            } else if ($item['net'] == 'tls') {
+                $item['tls'] = 'tls';
+            }
         } else {
             $item['net'] = "tcp";
         } 
