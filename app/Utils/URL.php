@@ -298,7 +298,11 @@ class URL
         } 
 
         if (count($node_explode) >= 5) {
-            $item['type'] = $node_explode[4];
+            if ($item['net'] == 'kcp' || $node_explode[4] == 'http') {
+                $item['type'] = $node_explode[4];
+            } else {
+                $item['type'] = "none";
+            }
         } else {
             $item['type'] = "none";
         } 
