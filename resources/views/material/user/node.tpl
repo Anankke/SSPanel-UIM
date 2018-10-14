@@ -285,10 +285,6 @@
 																					{$server_explode[1]}
 																				</span></p>
 
-																				<p>协议：<span class="label label-brand-accent">
-																					{$server_explode[2]}
-																				</span></p>
-
 																				<p>协议参数：<span class="label label-green">
 																					{$server_explode[0]}
 																				</span></p>
@@ -302,11 +298,7 @@
 																				</span></p>
 
 																				<p>AlterId：<span class="label label-green">
-																					{$server_explode[3]}
-																				</span></p>
-
-																				<p>Level：<span class="label label-brand">
-																					{$server_explode[4]}
+																					{$server_explode[2]}
 																				</span></p>
 
 																				<p>VMess链接：
