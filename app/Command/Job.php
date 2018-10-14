@@ -40,10 +40,10 @@ class Job
             $rule = preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/",$node->server);
             if (!$rule && (!$node->sort || $node->sort == 10 || $node->sort == 11)) {
                 if ($node->sort == 11) {
-                    $server_list = explode(";", $request->getParam('server'));
+                    $server_list = explode(";", $node->server);
                     $node->node_ip = gethostbyname($server_list[0]);
                 } else {
-                    $node->node_ip = gethostbyname($request->getParam('server'));
+                    $node->node_ip = gethostbyname($node->server);
                 }
                 $node->save();
             }
