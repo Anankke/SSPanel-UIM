@@ -194,22 +194,30 @@ class ChenPay extends AbstractPayment
     public function AliPayListen()
     {
         $GLOBALS['AliSum'] = 1;
+        $GLOBALS['AliType'] = true;
         \ChenPay\Pay::Listen($this->listenInterval, function () {
             $that = new ChenPay();
+            $log = "";
             try {
-                $run = (new \ChenPay\AliPay($that->getConfig('AliPay_Cookie')))->getData()->DataHandle();
+                $run = (new \ChenPay\AliPay($that->getConfig('AliPay_Cookie')))->getData($GLOBALS['AliType'])->DataHandle();
                 $tradeAll = Paylist::where('status', 0)->where('type', 1)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
-                    if ($order) ChenPay::postPayment($item->tradeno, 'chenPay支付宝支付' . $order);
+                    if ($order) {
+                        $log .= $order . "订单有效\n";
+                        ChenPay::postPayment($item->tradeno, 'chenPay支付宝支付' . $order);
+                    }
                 }
-                echo "支付宝监听第" . $GLOBALS['AliSum'] . "次运行" . "[" . date('Y-m-d H:i:s') . "]\n";
+                $log .= "支付宝监听第" . $GLOBALS['AliSum'] . "次运行" . "[" . date('Y-m-d H:i:s') . "]\n";
                 $that->sendSunMail(1);
+                $GLOBALS['AliType'] = !$GLOBALS['AliType'];
                 $GLOBALS['AliSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
                 if ($e->getCode() == 445) $that->sendMail(1);
-                echo $e->getMessage() . "\n";
+                $log .= "支付宝监听" . $e->getMessage() . "[" . date('Y-m-d H:i:s') . "]\n";
             }
+
+            file_put_contents(__DIR__ . "/../../../storage/logs/chenpay.log", $log, FILE_APPEND);
         });
     }
 
@@ -222,21 +230,27 @@ class ChenPay extends AbstractPayment
         $GLOBALS['syncKey'] = false;
         \ChenPay\Pay::Listen($this->listenInterval, function () {
             $that = new ChenPay();
+            $log = "";
             try {
                 $run = (new \ChenPay\WxPay($that->getConfig('WxPay_Cookie')))->getData($that->getConfig('WxPay_Url'), $GLOBALS['syncKey'])->DataHandle();
                 $GLOBALS['syncKey'] = $run->syncKey;
                 $tradeAll = Paylist::where('status', 0)->where('type', 2)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
                 foreach ($tradeAll as $item) {
                     $order = $run->DataContrast($item->total, $item->datetime);
-                    if ($order) ChenPay::postPayment($item->tradeno, 'chenPay微信支付' . $order);
+                    if ($order) {
+                        $log .= $order . "订单有效\n";
+                        ChenPay::postPayment($item->tradeno, 'chenPay微信支付' . $order);
+                    }
                 }
-                echo "微信监听第" . $GLOBALS['WxSum'] . "次运行" . "[" . date('Y-m-d H:i:s') . "]\n";
+                $log .= "微信监听第" . $GLOBALS['WxSum'] . "次运行" . "[" . date('Y-m-d H:i:s') . "]\n";
                 $that->sendSunMail(2);
                 $GLOBALS['WxSum']++;
             } catch (\ChenPay\PayException\PayException $e) {
                 if ($e->getCode() == 445) $that->sendMail(2);
-                echo $e->getMessage() . "\n";
+                $log .= "微信监听" . $e->getMessage() . "[" . date('Y-m-d H:i:s') . "]\n";
             }
+
+            file_put_contents(__DIR__ . "/../../../storage/logs/chenpay.log", $log, FILE_APPEND);
         });
     }
 

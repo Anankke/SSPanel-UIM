@@ -192,6 +192,7 @@
 
 <script>
     $(document).ready(function () {
+        $('body').append("<script src=\" \/assets\/public\/js\/jquery.qrcode.min.js \"><\/script>");
         $("#code-update").click(function () {
             $.ajax({
                 type: "POST",
@@ -233,7 +234,9 @@
                 success: function (data) {
                     $("#readytopay").modal('hide');
                     if (data.ret) {
-                        $("#qrcode").html(data.qrcode);
+                        $("#qrcode").qrcode({
+                            "text": data.qrcode
+                        });
                         $("#info").html("您的订单金额为："+data.amount+"元。");
                         $("#alipay").modal();
                         setTimeout(f, 1000);
@@ -243,9 +246,10 @@
                     }
                 },
                 error: function (jqXHR) {
+                    console.log(jqXHR);
                     $("#readytopay").modal('hide');
                     $("#result").modal();
-                    $("#msg").html(data.msg+"  发生了错误。");
+                    $("#msg").html(jqXHR+"  发生了错误。");
                 }
             })
         });
