@@ -19,12 +19,13 @@ class Update
         global $System_Config;
 	    $copy_result=copy(BASE_PATH."/config/.config.php",BASE_PATH."/config/.config.php.bak");
 		if($copy_result==true){
-			echo('备份成功！'.PHP_EOL);
+			echo('备份成功'.PHP_EOL);
 		}
 		else{
-			echo('备份失败！迁移终止'.PHP_EOL);
+			echo('备份失败，迁移终止'.PHP_EOL);
 			return false;
 		}
+
 		echo(PHP_EOL);
 
 		$config_old=file_get_contents(BASE_PATH."/config/.config.php");
@@ -115,7 +116,13 @@ class Update
 		echo(PHP_EOL);
 
 		file_put_contents(BASE_PATH."/config/.config.php",$config_new);
-		echo(PHP_EOL.'迁移完成！'.PHP_EOL);
+		echo(PHP_EOL.'迁移完成'.PHP_EOL);
+
+		echo(PHP_EOL);
+
+		echo('开始升级composer依赖...'.PHP_EOL);
+		system('composer update chen-see/chen-pay -d='.BASE_PATH);
+		echo('升级composer依赖结束，请自行根据上方输出确认是否升级成功'.PHP_EOL);
     }
 
 	public static function old_to_new($version_old)
