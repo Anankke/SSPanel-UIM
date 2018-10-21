@@ -80,7 +80,7 @@ $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
 $app->get('/gfwlistjs', 'App\Controllers\LinkController:GetGfwlistJs');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
-$app->get('/yft/notify', 'App\Controllers\YFTPayCallBackController:yft_notify');            // @todo: Will be replaced by Payment::notify
+$app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');            // @todo: Will be replaced by Payment::notify
 $app->get('/codepay_callback', 'App\Services\Payment:notify');
 $app->post('/codepay_callback', 'App\Services\Payment:notify');
 
@@ -141,10 +141,10 @@ $app->group('/user', function () {
     $this->get('/backtoadmin', 'App\Controllers\UserController:backtoadmin');
     $this->get('/code', 'App\Controllers\UserController:code');
     //易付通路由定义 start
-    $this->post('/code/yft/pay', 'App\Services\Gateway\YFTPay:yftPay');
-    $this->get('/code/yft/pay/result', 'App\Services\Gateway\YFTPay:yftPayResult');
-    $this->post('/code/yft', 'App\Services\Gateway\YFTPay:yft');
-    $this->get('/yftOrder', 'App\Services\Gateway\YFTPay:yftOrder');
+    $this->post('/code/yft/pay', 'App\Services\Gateway\YftPay:yftPay');
+    $this->get('/code/yft/pay/result', 'App\Services\Gateway\YftPay:notify');
+    $this->post('/code/yft', 'App\Services\Gateway\YftPay:yft');
+    $this->get('/yftOrder', 'App\Services\Gateway\YftPay:yftOrder');
     //易付通路由定义 end
     $this->get('/alipay', 'App\Controllers\UserController:alipay');
     $this->post('/code/f2fpay', 'App\Services\Payment:purchase');
