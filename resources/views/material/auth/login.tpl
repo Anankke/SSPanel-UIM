@@ -53,7 +53,7 @@
                                                 <div class="form-group form-group-label">
                                                     <div class="row">
                                                         <div class="col-md-10 col-md-push-1">
-                                                            <label class="floating-label" for="passwd">两步验证码（未设置请忽略）</label>
+                                                            <label class="floating-label" for="code">两步验证码（未设置请忽略）</label>
                                                             <input class="form-control" id="code" type="text" name="Code">
                                                             <a href="/password/reset" >忘记密码？点击这里</a>
                                                         </div>
