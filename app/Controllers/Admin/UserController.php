@@ -23,15 +23,15 @@ class UserController extends AdminController
         $table_config['total_column'] = array("op" => "操作", "id" => "ID", "user_name" => "用户名",
                             "remark" => "备注", "email" => "邮箱", "money" => "金钱",
                             "im_type" => "联络方式类型", "im_value" => "联络方式详情",
-                            "node_group" => "群组", "account_expire_in" => "账户过期时间",
+                            "node_group" => "群组", "expire_in" => "账户过期时间",
                             "class" => "等级", "class_expire" => "等级过期时间",
                             "passwd" => "连接密码","port" => "连接端口", "method" => "加密方式",
                             "protocol" => "连接协议", "obfs" => "连接混淆方式",
                             "online_ip_count" => "在线IP数", "last_ss_time" => "上次使用时间",
                             "used_traffic" => "已用流量/GB", "enable_traffic" => "总流量/GB",
                             "last_checkin_time" => "上次签到时间", "today_traffic" => "今日流量/MB",
-                            "is_enable" => "是否启用", "reg_date" => "注册时间",
-                            "reg_location" => "注册IP", "auto_reset_day" => "自动重置流量日",
+                            "enable" => "是否启用", "reg_date" => "注册时间",
+                            "reg_ip" => "注册IP", "auto_reset_day" => "自动重置流量日",
                             "auto_reset_bandwidth" => "自动重置流量/GB", "ref_by" => "邀请人ID", "ref_by_user_name" => "邀请人用户名");
         $table_config['default_show_column'] = array("op", "id", "user_name", "remark", "email");
         $table_config['ajax_url'] = 'user/ajax';
@@ -352,7 +352,7 @@ class UserController extends AdminController
 				$tempdata['im_value'] = '<a href="https://telegram.me/'.$user->im_value.'">'.$user->im_value.'</a>';
 			}
 			$tempdata['node_group']=$user->node_group;
-			$tempdata['account_expire_in']=$user->expire_in;
+			$tempdata['expire_in']=$user->expire_in;
 			$tempdata['class']=$user->class;
 			$tempdata['class_expire']=$user->class_expire;
 			$tempdata['passwd']=$user->passwd;
@@ -366,9 +366,9 @@ class UserController extends AdminController
 			$tempdata['enable_traffic']=Tools::flowToGB($user->transfer_enable);
 			$tempdata['last_checkin_time']=$user->lastCheckInTime();
 			$tempdata['today_traffic']=$tempdata['used_traffic']-$user->last_day_t;
-			$tempdata['is_enable']=$user->enable == 1 ? "可用" : "禁用";
+			$tempdata['enable']=$user->enable == 1 ? "可用" : "禁用";
 			$tempdata['reg_date']=$user->reg_date;
-			$tempdata['reg_location']=$user->reg_ip;
+			$tempdata['reg_ip']=$user->reg_ip;
 			$tempdata['auto_reset_day']=$user->auto_reset_day;
 			$tempdata['auto_reset_bandwidth']=$user->auto_reset_bandwidth;			
             $tempdata['ref_by']= $user->ref_by;

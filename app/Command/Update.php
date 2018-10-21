@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App\Command;
 
 use App\Services\Config;
 
