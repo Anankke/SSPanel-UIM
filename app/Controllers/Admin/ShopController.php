@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Models\Shop;
 use App\Models\Bought;
 use App\Controllers\AdminController;
+use App\Services\Config;
 
 use Ozdemir\Datatables\Datatables;
 use App\Utils\DatatablesHelper;
@@ -16,7 +17,7 @@ class ShopController extends AdminController
         $table_config['total_column'] = array("op" => "操作", "id" => "ID", "name" => "商品名称",
                         "price" => "价格", "content" => "商品内容",
                         "auto_renew" => "自动续费", "auto_reset_bandwidth" => "续费时是否重置流量",
-                        "status" => "状态");
+                        "status" => "状态", "period_sales" => "周期销量");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
@@ -248,9 +249,22 @@ class ShopController extends AdminController
         $datatables->edit('auto_reset_bandwidth', function ($data) {
             return $data['auto_reset_bandwidth'] == 0 ? '不自动重置' : '自动重置';
         });
-
+		
         $datatables->edit('status', function ($data) {
             return $data['status'] == 1 ? '上架' : '下架';
+        });
+
+        $datatables->edit('period_sales', function ($data) {
+			$shop = Shop::find($data['id']);
+			$period=Config::get('sales_period');
+
+			if($period=='expire'){
+				$period=json_decode($shop->content,true)['class_expire'];
+			}
+
+			$period=$period*24*60*60;
+			$sales = Bought::where('shopid',$shop->id)->where('datetime','>' ,time()-$period)->count();
+			return $sales;
         });
 
         $body = $response->getBody();
