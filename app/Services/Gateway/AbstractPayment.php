@@ -17,11 +17,11 @@ use App\Utils\Telegram;
 
 abstract class AbstractPayment
 {
-    abstract protected function purchase($request, $response, $args);
-    abstract protected function notify($request, $response, $args);
-    abstract protected function getPurchaseHTML();
-    abstract protected function getReturnHTML($request, $response, $args);
-    abstract protected function getStatus($request, $response, $args);
+    abstract public function purchase($request, $response, $args);
+    abstract public function notify($request, $response, $args);
+    abstract public function getPurchaseHTML();
+    abstract public function getReturnHTML($request, $response, $args);
+    abstract public function getStatus($request, $response, $args);
 
     public function postPayment($pid, $method){
         $p = Paylist::where("tradeno", $pid)->first();
