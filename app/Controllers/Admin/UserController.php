@@ -279,4 +279,119 @@ class UserController extends AdminController
         }
 		return $this->echoJson($response, $res);    
 	}
+
+	public function ajax_post($request, $response, $args)
+	{		
+        //得到排序的方式
+        $order = $request->getParam('order')[0]['dir'];
+        //得到排序字段的下标
+        $order_column = $request->getParam('order')[0]['column'];
+        //根据排序字段的下标得到排序字段
+        $order_field = $request->getParam('columns')[$order_column]['data'];
+        $limit_start = $request->getParam('start');
+        $limit_length = $request->getParam('length');
+        $search = $request->getParam('search')['value'];
+        
+		$users=array();
+		$count_filtered=0;
+
+        if ($search) {
+            $users = User::orderBy($order_field,$order)
+                    ->skip($limit_start)->limit($limit_length)
+                    ->where(
+                        function ($query) use ($search) {
+                            $query->where('id','LIKE',"%$search%")
+								->orwhere('user_name','LIKE',"%$search%")
+								->orwhere('email','LIKE',"%$search%")
+								->orwhere('im_value','LIKE',"%$search%")
+								->orwhere('port','LIKE',"%$search%");
+							}
+						)
+                    ->get();
+            $count_filtered = User::where(
+                        function ($query)use($search) {
+                            $query->where('id','LIKE',"%$search%")
+								->orwhere('user_name','LIKE',"%$search%")
+								->orwhere('email','LIKE',"%$search%")
+								->orwhere('im_value','LIKE',"%$search%")
+								->orwhere('port','LIKE',"%$search%");
+							}
+						)->count();
+		}
+		else{
+            $users = User::orderBy('id',$order)
+                ->skip($limit_start)->limit($limit_length)
+                ->get();
+            $count_filtered = User::count();
+        }
+		        
+		$data=array();
+		foreach ($users as $user) {
+			$tempdata=array();
+			$tempdata['op']='<a class="btn btn-brand" href="/admin/user/'.$user->id.'/edit">编辑</a>
+                    <a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\''.$user->id.'\')">删除</a>
+                    <a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\''.$user->id.'\')">切换为该用户</a>';;
+			$tempdata['id']=$user->id;
+			$tempdata['user_name']=$user->user_name;
+			$tempdata['remark']=$user->remark;
+			$tempdata['email']=$user->email;
+			$tempdata['money']=$user->money;
+			$tempdata['im_value']=$user->im_value;			
+			switch($user->im_type) {
+				case 1:
+				$tempdata['im_type'] = '微信';
+				break;
+            case 2:
+				$tempdata['im_type'] = 'QQ';
+				break;
+            case 3:
+				$tempdata['im_type'] = 'Google+';
+				break;
+            default:
+				$tempdata['im_type'] = 'Telegram';
+				$tempdata['im_value'] = '<a href="https://telegram.me/'.$user->im_value.'">'.$user->im_value.'</a>';
+			}
+			$tempdata['node_group']=$user->node_group;
+			$tempdata['account_expire_in']=$user->expire_in;
+			$tempdata['class']=$user->class;
+			$tempdata['class_expire']=$user->class_expire;
+			$tempdata['passwd']=$user->passwd;
+			$tempdata['port']=$user->port;
+			$tempdata['method']=$user->method;
+			$tempdata['protocol']=$user->protocol;
+			$tempdata['obfs']=$user->obfs;
+			$tempdata['online_ip_count']=$user->online_ip_count();
+			$tempdata['last_ss_time']=$user->lastSsTime();
+			$tempdata['used_traffic']=Tools::flowToGB($user->u + $user->d);
+			$tempdata['enable_traffic']=Tools::flowToGB($user->transfer_enable);
+			$tempdata['last_checkin_time']=$user->lastCheckInTime();
+			$tempdata['today_traffic']=$tempdata['used_traffic']-$user->last_day_t;
+			$tempdata['is_enable']=$user->enable == 1 ? "可用" : "禁用";
+			$tempdata['reg_date']=$user->reg_date;
+			$tempdata['reg_location']=$user->reg_ip;
+			$tempdata['auto_reset_day']=$user->auto_reset_day;
+			$tempdata['auto_reset_bandwidth']=$user->auto_reset_bandwidth;			
+            $tempdata['ref_by']= $user->ref_by;
+			if ($user->ref_by == 0) {
+				$tempdata['ref_by_user_name'] = "系统邀请";
+			}
+			else {
+				$ref_user = User::find($user->ref_by);
+				if ($ref_user == null) {
+					$tempdata['ref_by_user_name'] = "邀请人已经被删除";
+				}
+				else {
+					$tempdata['ref_by_user_name'] = $ref_user->user_name;
+				}
+			}
+			array_push($data,$tempdata);
+		}         
+        $info = [
+           'draw'=> $request->getParam('draw'), // ajax请求次数，作为标识符
+           'recordsTotal'=>User::count(),
+           'recordsFiltered'=>$count_filtered,
+           'data'=>$data,
+        ];
+        return json_encode($info,true);
+	}
 }

@@ -153,7 +153,7 @@ $System_Config['enable_geetest_checkin']='false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,none,f2fpay_codepay,chenAlipay
+#取值 none,codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,f2fpay_codepay,chenAlipay
 $System_Config['payment_system']='none';
 
 #codepay码支付
@@ -214,8 +214,8 @@ $System_Config['zfbjk_key']='';
 $System_Config['zfbjk_qrcodeurl']='';
 
 #Trimepay
-$System_Config['trimepay_secret']='';		//AppSecret
 $System_Config['trimepay_appid']='';		//AppID
+$System_Config['trimepay_secret']='';		//AppSecret
 
 
 //财务报告设置-------------------------------------------------------------------------------------------
@@ -244,11 +244,6 @@ $System_Config['v2ray_port']='443';					//V2Ray端口
 $System_Config['v2ray_protocol']='HTTP/2 + TLS';	//V2Ray协议
 $System_Config['v2ray_alter_id']='32';
 $System_Config['v2ray_level']='0';
-
-
-//前端页面加载模式设置-------------------------------------------------------------------------------------
-$System_Config['load_mode_js']='local';	//JS加载方式，local为从panel本地加载，jsdelivr为从CDN加载
-
 
 //以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
 #杂项

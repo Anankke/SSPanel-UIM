@@ -288,14 +288,13 @@ $app->group('/admin', function () {
     $this->post('/code/ajax', 'App\Controllers\Admin\CodeController:ajax_code');
 
     // User Mange
-    $this->get('/find', 'App\Controllers\AdminController:find');
-    $this->post('/finduser', 'App\Controllers\AdminController:finduser');
     $this->get('/user', 'App\Controllers\Admin\UserController:index');
     $this->get('/user/{id}/edit', 'App\Controllers\Admin\UserController:edit');
     $this->put('/user/{id}', 'App\Controllers\Admin\UserController:update');
     $this->delete('/user', 'App\Controllers\Admin\UserController:delete');
     $this->post('/user/changetouser', 'App\Controllers\Admin\UserController:changetouser');
     $this->get('/user/ajax', 'App\Controllers\Admin\UserController:ajax');
+    $this->post('/user/ajax', 'App\Controllers\Admin\UserController:ajax_post');
 
 
     $this->get('/coupon', 'App\Controllers\AdminController:coupon');
