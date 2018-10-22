@@ -365,7 +365,7 @@ class UserController extends AdminController
 			$tempdata['used_traffic']=Tools::flowToGB($user->u + $user->d);
 			$tempdata['enable_traffic']=Tools::flowToGB($user->transfer_enable);
 			$tempdata['last_checkin_time']=$user->lastCheckInTime();
-			$tempdata['today_traffic']=$tempdata['used_traffic']-$user->last_day_t;
+			$tempdata['today_traffic']=Tools::flowToMB($user->u + $user->d-$user->last_day_t);
 			$tempdata['enable']=$user->enable == 1 ? "可用" : "禁用";
 			$tempdata['reg_date']=$user->reg_date;
 			$tempdata['reg_ip']=$user->reg_ip;
