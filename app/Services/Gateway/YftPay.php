@@ -99,7 +99,7 @@ class YftPay extends AbstractPayment
         //加密验证字符串
         $sign = $request->getQueryParams()["sign"];//必填
 
-        $verifyNotify = $yftLib->md5Verify(floatval($total_fee), $trade_status, Config::get('yft_secret'), Config::get('yft_accesskey'), $sign);
+        $verifyNotify = $yftLib->md5Verify(floatval($total_fee), $ss_order_no, $yft_order_no, $trade_status, $sign);
         if ($verifyNotify) {//验证成功
             if ($trade_status == 'TRADE_SUCCESS') {
                 /*
