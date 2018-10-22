@@ -98,7 +98,7 @@
         },
         {
             "name": "chen-see/chen-pay",
-            "version": "v1.0.4",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChenSee/ChenPay.git",
