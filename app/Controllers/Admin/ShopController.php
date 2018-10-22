@@ -226,7 +226,7 @@ class ShopController extends AdminController
     public function ajax_shop($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select id as op,id,name,price,content,auto_renew,auto_reset_bandwidth,status from shop');
+        $datatables->query('Select id as op,id,name,price,content,auto_renew,auto_reset_bandwidth,status,id as period_sales from shop');
 
         $datatables->edit('op', function ($data) {
             return '<a class="btn btn-brand" href="/admin/shop/'.$data['id'].'/edit">编辑</a>

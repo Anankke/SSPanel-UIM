@@ -91,13 +91,14 @@ function changetouser_modal_show(id) {
 
 $(document).ready(function(){
  	table_1 = $('#table_1').DataTable({
+			order:[[1, 'asc' ]],
 			stateSave: true,
 			serverSide: true,
 			ajax: {
 				url :"/admin/user/ajax",
                 type: "POST",
-			},
-			"columns": [
+			},			
+			columns: [
 				{ "data": "op" ,"orderable":false},
 				{ "data": "id" },
 				{ "data": "user_name" },
