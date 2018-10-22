@@ -319,7 +319,7 @@ class UserController extends AdminController
 						)->count();
 		}
 		else{
-            $users = User::orderBy('id',$order)
+            $users = User::orderBy($order_field,$order)
                 ->skip($limit_start)->limit($limit_length)
                 ->get();
             $count_filtered = User::count();
