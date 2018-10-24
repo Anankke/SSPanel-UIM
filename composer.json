@@ -3,7 +3,7 @@
     "slim/slim": "~3.0",
     "slim/csrf": "*",
     "smarty/smarty": "3.*",
-    "mailgun/mailgun-php": "~1.7.2",
+    "mailgun/mailgun-php": "^2.6.0",
     "predis/predis": "~1.0",
     "phpmailer/phpmailer": "~5.2",
     "vlucas/phpdotenv": "~2.1",
