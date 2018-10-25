@@ -23,7 +23,7 @@
 									</h1>
 									</div>
 								</div>
-								{if $config['enable_register']!='false'}
+								{if $config['register_mode']!='close'}
 								<div class="card-inner">
 
 
@@ -104,7 +104,7 @@
 										</div>
 
 
-										{if $enable_invite_code == 'true'}
+										{if $config['register_mode'] == 'invite'}
 											<div class="form-group form-group-label">
 												<div class="row">
 													<div class="col-md-10 col-md-push-1">
@@ -205,12 +205,12 @@
 {include file='footer.tpl'}
 
 
-{if $config['enable_register']!='false'}
+{if $config['register_mode']!='close'}
 <script>
     $(document).ready(function(){
         function register(){
           code = $("#code").val();
-    	{if $enable_invite_code != 'true'}
+    	{if $config['register_mode'] != 'invite'}
            code = 0;
            if ((getCookie('code'))!=''){
            code = getCookie('code');
@@ -429,7 +429,7 @@ function time(o) {
 		window.location.href='/auth/register'; 
 	}
 
-    {if $enable_invite_code == 'true'}
+    {if $config['register_mode'] == 'invite'}
 	{*dumplin:读取cookie，自动填入邀请码框*}
 	if ((getCookie('code'))!=''){
 		$("#code").val(getCookie('code'));

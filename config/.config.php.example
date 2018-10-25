@@ -7,6 +7,7 @@
 //【新增/删除】config无需写入迁移附注
 $System_Config['config_migrate_notice']=
 'node_offline_warn被改名为enable_detect_offline
+enable_register和enable_invite_code合并为register_mode
 ';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
@@ -34,12 +35,11 @@ $System_Config['mailgun_sender'] = '';
 
 # smtp
 $System_Config['smtp_host'] = '';
-$System_Config['smtp_username'] = '';
 $System_Config['smtp_port'] = '';
-$System_Config['smtp_name'] = '';
 $System_Config['smtp_sender'] = '';
 $System_Config['smtp_passsword'] = '';
-$System_Config['smtp_ssl'] = 'true';
+$System_Config['smtp_ssl'] = 'false';
+$System_Config['smtp_tls'] = 'false';
 
 # sendgrid
 $System_Config['sendgrid_key'] = '';
@@ -52,7 +52,7 @@ $System_Config['auto_backup_passwd']='';	//备份的压缩密码
 
 
 //用户注册设置-----------------------------------------------------------------------------------------
-$System_Config['enable_register'] = 'true';					//是否开启注册功能
+$System_Config['register_mode'] = 'close';					//注册模式。close：关闭，open：开放，invite：仅限邀请码
 $System_Config['defaultTraffic'] = '1';						//用户初始流量 单位GB
 $System_Config['user_expire_in_default']='3650';			//用户账户过期时间，在注册时设置。（天）
 $System_Config['user_class_default']='0';					//用户注册等级，在注册时设置。
@@ -75,7 +75,6 @@ $System_Config['mu_suffix']='microsoft.com';				//单端口多用户混淆参数
 $System_Config['mu_regex']='%5m%id.%suffix';				//单端口多用户混淆参数表达式，%5m代表取用户特征 md5 的前五位，%id 代表用户id,%suffix 代表上面这个后缀。
 
 #邀请链接
-$System_Config['enable_invite_code']='false';		//是否强制开启邀请，为true则注册必须使用邀请链接，且邀请人等级为0时邀请链接不可用
 $System_Config['inviteNum'] = '10';					//注册后的邀请链接可用次数
 $System_Config['invite_get_money']='1';				//新用户通过私人邀请链接注册时，获得奖励金额（作为初始资金）
 $System_Config['invite_price']='-1';				//用户购买邀请码所需要的价格，价格小于0时视为不开放购买
