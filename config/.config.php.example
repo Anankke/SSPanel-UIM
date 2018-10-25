@@ -10,6 +10,8 @@ $System_Config['config_migrate_notice']=
 enable_register和enable_invite_code合并为register_mode
 enable_auto_clean_unused和enable_auto_clean_unused_days合并为auto_clean_unused_days
 enable_auto_clean_uncheck和enable_auto_clean_uncheck_days合并为auto_clean_uncheck_days
+enable_class_expire_reset_traffic重命名为class_expire_reset_traffic
+现在，用户账户过期时，流量会被强制重置为0
 ';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
@@ -102,10 +104,7 @@ $System_Config['port_price_specify']='-1';					//用户指明钦定端口所需�
 
 #高级
 $System_Config['enable_donate']='false';					//是否开启用户捐赠功能（所有收入将被公开）
-$System_Config['enable_class_expire_reset']='true';			//等级到期时是否重置流量
-$System_Config['enable_class_expire_reset_traffic']='0';	//等级到期时重置为的流量值，GB
-$System_Config['enable_account_expire_reset']='true';		//账户到期时是否重置流量
-$System_Config['enable_account_expire_reset_traffic']='0';	//账户到期时重置为的流量值，GB
+$System_Config['class_expire_reset_traffic']='0';			//等级到期时重置为的流量值，单位GB，最小为0
 $System_Config['enable_account_expire_delete']='true';		//账户到期之后是否会删除账户
 $System_Config['enable_account_expire_delete_days']='7';	//账户到期几天之后会删除账户
 $System_Config['enable_kill']='true';						//是否允许用户注销账户

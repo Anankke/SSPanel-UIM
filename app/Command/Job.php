@@ -649,24 +649,23 @@ class Job
             }
 
 
-            if (strtotime($user->expire_in) < time() && (((Config::get('enable_account_expire_reset')=='true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset')=='true' && ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true))) {
-                if (Config::get('enable_account_expire_reset')=='true') {
-                    $user->transfer_enable = Tools::toGB(Config::get('enable_account_expire_reset_traffic'));
-                    $user->u = 0;
-                    $user->d = 0;
-                    $user->last_day_t = 0;
-
-                    $subject = Config::get('appName')."-您的用户账户已经过期了";
-                    $to = $user->email;
-                    $text = "您好，系统发现您的账号已经过期了。流量已经被重置为".Config::get('enable_account_expire_reset_traffic').'GB' ;
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            "user" => $user,"text" => $text
-                        ], [
-                        ]);
-                    } catch (\Exception $e) {
-                        echo $e->getMessage();
-                    }
+            if (strtotime($user->expire_in) < time() &&  $user->transfer_enable > 0	) {
+                $user->transfer_enable = 0;
+                $user->transfer_enable = Tools::toGB(Config::get('enable_account_expire_reset_traffic'));
+                $user->u = 0;
+                $user->d = 0;
+                $user->last_day_t = 0;
+				
+				$subject = Config::get('appName')."-您的用户账户已经过期了";
+                $to = $user->email;
+                $text = "您好，系统发现您的账号已经过期了。";
+                try {
+                    Mail::send($to, $subject, 'news/warn.tpl', [
+                        "user" => $user,"text" => $text
+                    ], [
+                    ]);
+                } catch (\Exception $e) {
+                    echo $e->getMessage();
                 }
             }
 
@@ -778,24 +777,26 @@ class Job
                 continue;
             }
 
-            if ($user->class!=0 && (((Config::get('enable_account_expire_reset')=='true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset')=='true' && ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true)) && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600) {
-                if (Config::get('enable_class_expire_reset')=='true') {
-                    $user->transfer_enable = Tools::toGB(Config::get('enable_class_expire_reset_traffic'));
-                    $user->u = 0;
-                    $user->d = 0;
-                    $user->last_day_t = 0;
+            if ($user->class!=0 && 
+				strtotime($user->class_expire)<time() && 
+				strtotime($user->class_expire) > 1420041600
+			){
+				$reset_traffic=max(Config::get('class_expire_reset_traffic'),0);
+				$user->transfer_enable =Tools::toGB($reset_traffic);				
+                $user->u = 0;
+                $user->d = 0;
+                $user->last_day_t = 0;
 
-                    $subject = Config::get('appName')."-您的用户等级已经过期了";
-                    $to = $user->email;
-                    $text = "您好，系统发现您的账号等级已经过期了。流量已经被重置为".Config::get('enable_class_expire_reset_traffic').'GB' ;
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            "user" => $user,"text" => $text
-                        ], [
-                        ]);
-                    } catch (\Exception $e) {
-                        echo $e->getMessage();
-                    }
+                $subject = Config::get('appName')."-您的用户等级已经过期了";
+                $to = $user->email;
+                $text = "您好，系统发现您的账号等级已经过期了。流量已经被重置为".$reset_traffic.'GB' ;
+                try {
+                    Mail::send($to, $subject, 'news/warn.tpl', [
+                        "user" => $user,"text" => $text
+                    ], [
+                    ]);
+                } catch (\Exception $e) {
+                    echo $e->getMessage();
                 }
 
                 $user->class=0;
