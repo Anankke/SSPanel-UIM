@@ -733,8 +733,7 @@ class Job
                 continue;
             }
 
-
-
+			
             if (Config::get('auto_clean_uncheck_days')>0 && 
 				max($user->last_check_in_time, strtotime($user->reg_date)) + (Config::get('auto_clean_uncheck_days')*86400) < time() && 
 				$user->class == 0 && 
@@ -797,10 +796,6 @@ class Job
                     echo $e->getMessage();
                 }
 
-                $user->class=0;
-            }
-
-            if ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600) {
                 $user->class=0;
             }
 
