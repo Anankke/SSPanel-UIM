@@ -752,47 +752,30 @@ class Job
                     } catch (Exception $e) {
                         echo $e->getMessage();
                     }
-
-                    Radius::Delete($user->email);
-
-                    RadiusBan::where('userid', '=', $user->id)->delete();
-
-                    Wecenter::Delete($user->email);
-
-                    $user->delete();
-
-
+                    $user->kill_user();
                     continue;
                 }
             }
 
 
-            if ((int)Config::get('enable_auto_clean_unused_days')!=0 && max($user->t, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_unused_days')*86400) < time() && $user->class == 0 && $user->money <= Config::get('auto_clean_min_money')) {
-
-                if (Config::get('enable_auto_clean_unused')=='true') {
-                    $subject = Config::get('appName')."-您的用户账户已经被删除了";
-                    $to = $user->email;
-                    $text = "您好，系统发现您的账号已经 ".Config::get('enable_auto_clean_unused_days')." 天没使用了，帐号已经被删除。" ;
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            "user" => $user,"text" => $text
-                        ], [
-                        ]);
-                    } catch (Exception $e) {
-                        echo $e->getMessage();
-                    }
-
-                    Radius::Delete($user->email);
-
-                    RadiusBan::where('userid', '=', $user->id)->delete();
-
-                    Wecenter::Delete($user->email);
-
-                    $user->delete();
-
-
-                    continue;
+            if (Config::get('auto_clean_unused_days')>0 && 
+				max($user->t, strtotime($user->reg_date)) + (Config::get('auto_clean_unused_days')*86400) < time() && 
+				$user->class == 0 && 
+				$user->money <= Config::get('auto_clean_min_money')
+			) {
+				$subject = Config::get('appName')."-您的用户账户已经被删除了";
+                $to = $user->email;
+                $text = "您好，系统发现您的账号已经 ".Config::get('auto_clean_unused_days')." 天没使用了，帐号已经被删除。" ;
+                try {
+                    Mail::send($to, $subject, 'news/warn.tpl', [
+                        "user" => $user,"text" => $text
+                    ], [
+                    ]);
+                } catch (Exception $e) {
+                    echo $e->getMessage();
                 }
+                $user->kill_user();
+                continue;
             }
 
             if ($user->class!=0 && (((Config::get('enable_account_expire_reset')=='true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset')=='true' && ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true)) && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600) {
