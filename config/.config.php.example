@@ -6,11 +6,12 @@
 //如需换行，直接换行即可，无需换行符
 //【新增/删除】config无需写入迁移附注
 $System_Config['config_migrate_notice']=
-'node_offline_warn被改名为enable_detect_offline
-enable_register和enable_invite_code合并为register_mode
-enable_auto_clean_unused和enable_auto_clean_unused_days合并为auto_clean_unused_days
-enable_auto_clean_uncheck和enable_auto_clean_uncheck_days合并为auto_clean_uncheck_days
-enable_class_expire_reset_traffic重命名为class_expire_reset_traffic
+'node_offline_warn 被改名为 enable_detect_offline
+enable_register 和 enable_invite_code 合并为 register_mode
+enable_auto_clean_unused 和 enable_auto_clean_unused_days 合并为auto_clean_unused_days
+enable_auto_clean_uncheck 和 enable_auto_clean_uncheck_days 合并为 auto_clean_uncheck_days
+enable_account_expire_delete 和 enable_account_expire_delete_days 合并为account_expire_delete_days
+enable_class_expire_reset_traffic 重命名为 class_expire_reset_traffic
 现在，用户账户过期时，流量会被强制重置为0
 ';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
@@ -103,13 +104,12 @@ $System_Config['port_price']='-1';							//用户随机重置端口所需要的�
 $System_Config['port_price_specify']='-1';					//用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
 
 #高级
-$System_Config['enable_donate']='false';					//是否开启用户捐赠功能（所有收入将被公开）
-$System_Config['class_expire_reset_traffic']='0';			//等级到期时重置为的流量值，单位GB，最小为0
-$System_Config['enable_account_expire_delete']='true';		//账户到期之后是否会删除账户
-$System_Config['enable_account_expire_delete_days']='7';	//账户到期几天之后会删除账户
-$System_Config['enable_kill']='true';						//是否允许用户注销账户
-$System_Config['notify_limit_mode'] = 'false';				//false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
-$System_Config['notify_limit_value'] = '20';				//当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
+$System_Config['enable_donate']='false';				//是否开启用户捐赠功能（所有收入将被公开）
+$System_Config['class_expire_reset_traffic']='0';		//等级到期时重置为的流量值，单位GB，最小为0
+$System_Config['account_expire_delete_days']='-1';		//账户到期几天之后会删除账户，小于0时不删除
+$System_Config['enable_kill']='true';					//是否允许用户注销账户
+$System_Config['notify_limit_mode'] = 'false';			//false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
+$System_Config['notify_limit_value'] = '20';			//当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
 
 //Telegram bot设置------------------------------------------------------------------------------------

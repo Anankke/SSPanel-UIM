@@ -714,25 +714,23 @@ class Job
 				}
             }
 
-            if (strtotime($user->expire_in)+((int)Config::get('enable_account_expire_delete_days')*86400)<time()) {
-                if (Config::get('enable_account_expire_delete')=='true') {
-                    $subject = Config::get('appName')."-您的用户账户已经被删除了";
-                    $to = $user->email;
-                    $text = "您好，系统发现您的账号已经过期 ".Config::get('enable_account_expire_delete_days')." 天了，帐号已经被删除。" ;
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            "user" => $user,"text" => $text
-                        ], [
-                        ]);
-                    } catch (\Exception $e) {
-                        echo $e->getMessage();
-                    }
-
-                    $user->kill_user();
-
-
-                    continue;
+            if (Config::get('account_expire_delete_days')>=0&&
+				strtotime($user->expire_in)+Config::get('account_expire_delete_days')*86400<time()
+			) {
+                $subject = Config::get('appName')."-您的用户账户已经被删除了";
+                $to = $user->email;
+                $text = "您好，系统发现您的账号已经过期 ".Config::get('account_expire_delete_days')." 天了，帐号已经被删除。" ;
+                try {
+                    Mail::send($to, $subject, 'news/warn.tpl', [
+                        "user" => $user,"text" => $text
+                    ], [
+                    ]);
+                } catch (\Exception $e) {
+                    echo $e->getMessage();
                 }
+				
+				$user->kill_user();
+                continue;
             }
 
 
