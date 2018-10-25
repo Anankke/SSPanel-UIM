@@ -738,25 +738,25 @@ class Job
 
 
 
-            if ((int)Config::get('enable_auto_clean_uncheck_days')!=0 && max($user->last_check_in_time, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_uncheck_days')*86400) < time() && $user->class == 0 && $user->money <= Config::get('auto_clean_min_money')) {
-
-                if (Config::get('enable_auto_clean_uncheck')=='true') {
-                    $subject = Config::get('appName')."-您的用户账户已经被删除了";
-                    $to = $user->email;
-                    $text = "您好，系统发现您的账号已经 ".Config::get('enable_auto_clean_uncheck_days')." 天没签到了，帐号已经被删除。" ;
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            "user" => $user,"text" => $text
-                        ], [
-                        ]);
-                    } catch (Exception $e) {
-                        echo $e->getMessage();
-                    }
-                    $user->kill_user();
-                    continue;
+            if (Config::get('auto_clean_uncheck_days')>0 && 
+				max($user->last_check_in_time, strtotime($user->reg_date)) + (Config::get('auto_clean_uncheck_days')*86400) < time() && 
+				$user->class == 0 && 
+				$user->money <= Config::get('auto_clean_min_money')
+			) {
+                $subject = Config::get('appName')."-您的用户账户已经被删除了";
+                $to = $user->email;
+                $text = "您好，系统发现您的账号已经 ".Config::get('auto_clean_uncheck_days')." 天没签到了，帐号已经被删除。" ;
+                try {
+                    Mail::send($to, $subject, 'news/warn.tpl', [
+                        "user" => $user,"text" => $text
+                    ], [
+                    ]);
+                } catch (Exception $e) {
+                    echo $e->getMessage();
                 }
+                $user->kill_user();
+                continue;
             }
-
 
             if (Config::get('auto_clean_unused_days')>0 && 
 				max($user->t, strtotime($user->reg_date)) + (Config::get('auto_clean_unused_days')*86400) < time() && 

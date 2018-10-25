@@ -9,6 +9,7 @@ $System_Config['config_migrate_notice']=
 'node_offline_warn被改名为enable_detect_offline
 enable_register和enable_invite_code合并为register_mode
 enable_auto_clean_unused和enable_auto_clean_unused_days合并为auto_clean_unused_days
+enable_auto_clean_uncheck和enable_auto_clean_uncheck_days合并为auto_clean_uncheck_days
 ';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
@@ -90,10 +91,9 @@ $System_Config['email_verify_iplimit']='10';		//验证码有效期内，单IP可
 #基础
 $System_Config['checkinMin'] = '1';							//用户签到最少流量 单位MB
 $System_Config['checkinMax'] = '50';						//用户签到最多流量
-$System_Config['enable_auto_clean_uncheck']='false';		//没签到的0级用户自动清理开关
-$System_Config['enable_auto_clean_uncheck_days']='7';		//自动清理多少天没签到的0级用户
-$System_Config['auto_clean_min_money']='1';					//余额低于多少的0级用户可以被清理
+$System_Config['auto_clean_uncheck_days']='7';				//自动清理多少天没签到的0级用户，小于等于0时关闭
 $System_Config['auto_clean_unused_days']='30';				//自动清理多少天没使用的0级用户，小于等于0时关闭
+$System_Config['auto_clean_min_money']='1';					//余额低于多少的0级用户可以被清理
 $System_Config['code_payback']='20';						//充值返利百分比
 $System_Config['invite_gift']='2';							//邀请新用户获得流量奖励，单位G
 $System_Config['enable_bought_reset']='true';				//购买时是否重置流量
