@@ -81,7 +81,7 @@ class AopF2F extends AbstractPayment
                 self::postPayment($pid, "支付宝当面付");
                 die('success'); //The response should be 'success' only
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             die('fail');
         }
     }

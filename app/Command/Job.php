@@ -78,7 +78,7 @@ class Job
                 "text" => $text
             ], ["/tmp/ssmodbackup.zip"
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
         system("rm -rf /tmp/ssmodbackup", $ret);
@@ -180,7 +180,7 @@ class Job
                           "user" => $user,"text" => $text
                       ], [
                       ]);
-                  } catch (Exception $e) {
+                  } catch (\Exception $e) {
                       echo $e->getMessage();
                   }
                 }
@@ -210,7 +210,7 @@ class Job
                         "user" => $user,"text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
@@ -397,7 +397,7 @@ class Job
                         "user" => $user,"text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
 
@@ -414,7 +414,7 @@ class Job
                             "user" => $user,"text" => $text
                         ], [
                         ]);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         echo $e->getMessage();
                     }
                     $myfile = fopen(BASE_PATH."/storage/".$bought->id.".renew", "w+") or die("Unable to open file!");
@@ -454,7 +454,7 @@ class Job
                                 "user" => $user,"text" => $text
                             ], [
                             ]);
-                        } catch (Exception $e) {
+                        } catch (\Exception $e) {
                             echo $e->getMessage();
                         }
                     }
@@ -486,7 +486,7 @@ class Job
                                 "user" => $user,"text" => $text
                             ], [
                             ]);
-                        } catch (Exception $e) {
+                        } catch (\Exception $e) {
                             echo $e->getMessage();
                         }
 
@@ -552,7 +552,7 @@ class Job
                                 "user" => $user,"text" => $text
                             ], [
                             ]);
-                        } catch (Exception $e) {
+                        } catch (\Exception $e) {
                             echo $e->getMessage();
                         }
 
@@ -629,7 +629,7 @@ class Job
                                         "user" => $user,"text" => $text
                                     ], [
                                     ]);
-                                } catch (Exception $e) {
+                                } catch (\Exception $e) {
                                     echo $e->getMessage();
                                 }
                             }
@@ -664,7 +664,7 @@ class Job
                             "user" => $user,"text" => $text
                         ], [
                         ]);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         echo $e->getMessage();
                     }
                 }
@@ -704,7 +704,7 @@ class Job
 						$txt = "1";
 						fwrite($myfile, $txt);
 						fclose($myfile);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         echo $e->getMessage();
                     }
                 }
@@ -725,7 +725,7 @@ class Job
                             "user" => $user,"text" => $text
                         ], [
                         ]);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         echo $e->getMessage();
                     }
 
@@ -751,7 +751,7 @@ class Job
                         "user" => $user,"text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
                 $user->kill_user();
@@ -771,7 +771,7 @@ class Job
                         "user" => $user,"text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
                 $user->kill_user();
@@ -793,7 +793,7 @@ class Job
                             "user" => $user,"text" => $text
                         ], [
                         ]);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         echo $e->getMessage();
                     }
                 }
@@ -872,7 +872,7 @@ class Job
 									], [
 								]);
 							}
-							catch (Exception $e) {
+							catch (\Exception $e) {
 								echo $e->getMessage();
 							}
 							if (Config::get('enable_cloudxns')=='true' && ($node->sort==0 || $node->sort==10)) {
@@ -927,7 +927,7 @@ class Job
 				                      ], [
 				                         ]);
 							}
-							catch (Exception $e) {
+							catch (\Exception $e) {
 								echo $e->getMessage();
 							}
 							if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10)) {

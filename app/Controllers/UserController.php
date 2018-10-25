@@ -1391,7 +1391,7 @@ class UserController extends BaseController
                     "user" => $user, "text" => $text
                 ], [
                 ]);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo $e->getMessage();
             }
         }
@@ -1437,7 +1437,7 @@ class UserController extends BaseController
                         "user" => $user, "text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
@@ -1452,7 +1452,7 @@ class UserController extends BaseController
                         "user" => $user, "text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
