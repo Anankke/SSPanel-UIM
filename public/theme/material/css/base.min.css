@@ -6189,6 +6189,52 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 /* 卡片式商店样式 */
 
+.shop-display {
+	display: none;
+}
+
+.shop-switch {
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.switch-btn {
+	width: 50%;
+	box-sizing: border-box;
+}
+
+.shop-switch a {
+	color: #000;
+	display: inline-block;
+	padding: 0 10px;
+}
+
+.shop-switch div.switch-btn:first-of-type a {
+	border-radius: 0 15px 15px 0;
+}
+
+.shop-switch div.switch-btn:last-of-type a {
+	border-radius: 15px 0 0 15px;
+}
+
+.shop-switch a:hover {
+	color: white;
+	background: gray;
+}
+
+.shop-switch a i {
+	position: relative;
+	top: 3px;
+}
+
+.shop-switch .card {
+	margin: 0;
+}
+
+.shop-switch .card-inner {
+	margin: 0;
+}
+
 .shop-flex {
 	display: flex;
 	justify-content: space-between;

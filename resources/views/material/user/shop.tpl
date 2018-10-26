@@ -26,10 +26,22 @@
 								<p>商品不可叠加，新购商品会覆盖旧商品的效果。</p>
 								<p>购买新套餐时，如果未关闭旧套餐自动续费，则旧套餐的自动续费依然生效。</p>
 								<p>当前余额：<code>{$user->money}</code> 元</p>
+								
 							</div>
 						</div>
 					</div>
 
+					<div class="shop-switch">
+                         <div class="card">
+							 <div class="card-main">
+								 <div class="card-inner shop-switch">
+										<div class="switch-btn" id="switch-cards"><a href="#" onclick="return false"><i class="mdui-icon material-icons">apps</i></a></div>
+										<div class="switch-btn" id="switch-table"><a href="#" onclick="return false"><i class="mdui-icon material-icons">dehaze</i></a></div>
+								 </div>
+							 </div>
+						 </div>
+					</div>
+						
             <div class="shop-flex">
 				{$shops->render()}
 				{foreach $shops as $shop}
@@ -55,7 +67,7 @@
 			</div>
 
 
-					<!-- <div class="table-responsive">
+					<div class="table-responsive shop-display">
 						{$shops->render()}
 						<table class="table ">
                             <tr>
@@ -77,7 +89,7 @@
                             {/foreach}
                         </table>
 						{$shops->render()}
-					</div> -->
+					</div>
 					
 					
 					<div aria-hidden="true" class="modal modal-va-middle fade" id="coupon_modal" role="dialog" tabindex="-1">
@@ -170,6 +182,15 @@ function buy(id,auto) {
 	$("#coupon_modal").modal();
 }
 
+$("#switch-cards").click(function (){
+	$(".shop-flex").css("display","flex");
+	$(".shop-display").css("display","none");
+});
+
+$("#switch-table").click(function (){
+     $(".shop-flex").css("display","none");
+	 $(".shop-display").css("display","block");
+});
 
 $("#coupon_input").click(function () {
 		$.ajax({
