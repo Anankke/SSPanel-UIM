@@ -29,10 +29,33 @@
 							</div>
 						</div>
 					</div>
-                  
-                  
-					
-					<div class="table-responsive">
+
+            <div class="shop-flex">
+				{$shops->render()}
+				{foreach $shops as $shop}
+                  <div class="card">
+					  <div class="card-main">
+						  <div class="card-inner">
+								<div class="shop-name">{$shop->name}</div>
+								<div class="shop-price"><code>{$shop->price}</code> 元</div>
+								<div class="shop-content">
+									<div>添加流量 <code>{$shop->bandwidth()}</code> G</div>
+									<div>账号等级 <code>{$shop->user_class()}</code> 级</div>
+									<div>账号有效期 <code>{$shop->expire()}</code> 天</div>
+									<div>在 <code>{$shop->reset_exp()}</code> 天内，每 <code>{$shop->reset()}</code> 天重置流量为 <code>{$shop->reset_value()}</code> G</div>
+									<div>端口限速 <code>{$shop->speedlimit()}</code> Mbps</div>
+									<div>客户端限制 <code>{$shop->connector()}</code> 个</div>
+							    </div>
+								<a class="btn btn-brand-accent shop-btn" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
+						  </div>
+					  </div>
+				  </div>
+				{/foreach}
+				{$shops->render()}
+			</div>
+
+
+					<!-- <div class="table-responsive">
 						{$shops->render()}
 						<table class="table ">
                             <tr>
@@ -54,7 +77,7 @@
                             {/foreach}
                         </table>
 						{$shops->render()}
-					</div>
+					</div> -->
 					
 					
 					<div aria-hidden="true" class="modal modal-va-middle fade" id="coupon_modal" role="dialog" tabindex="-1">
