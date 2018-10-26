@@ -64,6 +64,8 @@
 				  </div>
 				{/foreach}
 				{$shops->render()}
+				<div class="flex-fix3"></div>
+				<div class="flex-fix4"></div>
 			</div>
 
 

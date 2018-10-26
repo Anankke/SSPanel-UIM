@@ -6263,8 +6263,18 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	padding: 10px 2em;
 }
 
+.flex-fix3,.flex-fix4 {
+    width: 24%;
+}
+
 @media screen and (max-width: 1600px) {
 	.shop-flex .card {
+		width: 32%;
+	}
+	.flex-fix4 {
+		display: none;
+	}
+	.flex-fix3 {
 		width: 32%;
 	}
 }
