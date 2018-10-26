@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7242159c91ae1f91da4fb59abeadac62",
-    "content-hash": "5146fe4462ec8f56f646c8aeaf404bef",
+    "hash": "63ce4e6208b2f7d83e7dff988efdf603",
+    "content-hash": "a11dc98f6e588364c7352ba85c539bc4",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.69.12",
+            "version": "3.69.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "12b2ab286eec13705e0465320cd8810365d4d0da"
+                "reference": "eda89d207e40f3abb0b5e2fb1fabcebe668116fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/12b2ab286eec13705e0465320cd8810365d4d0da",
-                "reference": "12b2ab286eec13705e0465320cd8810365d4d0da",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/eda89d207e40f3abb0b5e2fb1fabcebe668116fb",
+                "reference": "eda89d207e40f3abb0b5e2fb1fabcebe668116fb",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -94,7 +94,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-10-22 21:30:32"
+            "time": "2018-10-26 20:05:18"
         },
         {
             "name": "chen-see/chen-pay",
@@ -3431,12 +3431,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "e41e5a0e4064f9960bb9af9303f3d3377d9d1fa7"
+                "reference": "c2fb7a4ce10bf53237ee1314d7784d9a04054f1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/e41e5a0e4064f9960bb9af9303f3d3377d9d1fa7",
-                "reference": "e41e5a0e4064f9960bb9af9303f3d3377d9d1fa7",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/c2fb7a4ce10bf53237ee1314d7784d9a04054f1b",
+                "reference": "c2fb7a4ce10bf53237ee1314d7784d9a04054f1b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3483,7 +3483,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2018-10-10 11:12:11"
+            "time": "2018-10-24 12:06:04"
         },
         {
             "name": "symfony/polyfill",
