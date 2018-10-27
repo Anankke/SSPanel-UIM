@@ -1,14 +1,75 @@
-<div class="card-inner">
-<div class="form-group pull-left">
-    <p class="modal-title" >本站支持支付宝在线充值</p>
-    <p>输入充值金额：</p>
-    <div class="form-group form-group-label">
-        <label class="floating-label" for="price">充值金额</label>
-        <input id="type" class="form-control" name="amount" />
+ <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <p class="card-heading">支付宝在线充值</p>
+            <div class="form-group form-group-label">
+                <label class="floating-label" for="amount">金额</label>
+                <input class="form-control" id="amount" type="text" >
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="h5 margin-top-sm text-black-hint" id="qrarea"></div>
+        </div>
     </div>
-    <a class="btn btn-flat waves-attach" id="urlChange" ><span class="icon">check</span>&nbsp;充值</a>
-</div>
-<div class="form-group pull-right">
-    <img src="/images/qianbai-4.png" height="205" width="166" />
-</div>
-</div>
+    <a class="btn btn-flat waves-attach" id="pay" onclick="pay();" ><span class="icon">check</span>&nbsp;充值</a>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.2.2/build/qrcode.min.js"></script>
+<script>
+    function pay(){
+        $("#readytopay").modal();
+        $("#readytopay").on('shown.bs.modal', function () {
+            $.ajax({
+                type: "POST",
+                url: "/user/payment/purchase",
+                dataType: "json",
+                data: {
+                    amount: $("#amount").val()
+                },
+                success: function (data) {
+                    if (data.ret) {
+                        $("#qrarea").html('<div class="text-center"><p>请使用手机支付宝扫描二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码唤起支付宝</p><p>支付成功后请刷新网页</p></div>');
+                        $("#readytopay").modal('hide');
+                        new QRCode("qrcode", {
+                            render: "canvas",
+                            width: 200,
+                            height: 200,
+                            text: encodeURI(data.qrcode)
+                        });
+                        $('#qrcode').attr('href',data.qrcode);
+                        setTimeout(f, 1000);
+                    } else {
+                        $("#result").modal();
+                        $("#msg").html(data.msg);
+                    }
+                },
+                error: function (jqXHR) {
+                    console.log(jqXHR);
+                    $("#readytopay").modal('hide');
+                    $("#result").modal();
+                    $("#msg").html(jqXHR+"  发生了错误。");
+                }
+            })
+        });
+    }
+
+    function f(){
+        $.ajax({
+            type: "GET",
+            url: "code_check",
+            dataType: "json",
+            data: {
+                time: 10
+            },
+            success: function (data) {
+                if (data.ret) {
+                    clearTimeout(tid);
+                    $("#alipay").modal('hide');
+                    $("#result").modal();
+                    $("#msg").html("充值成功！");
+                    window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
+                }
+            }
+        });
+        tid = setTimeout(f, 1000); //循环调用触发setTimeout
+    }
+
+</script>

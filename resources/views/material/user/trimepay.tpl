@@ -20,10 +20,10 @@
         </div>
     </div>
 
+<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <script>
     var pid = 0;
-
-    $('body').append("<script src=\" \/assets\/public\/js\/jquery.qrcode.min.js \"><\/script>");
 
     function pay(type){
         if (type==='Alipay'){
@@ -53,21 +53,18 @@
                 'type': "POST",
                 success: function (data) {
                     if (data.code == 0) {
-                        $("#result").modal();
-                        $("#msg").html("正在跳转到支付宝...");
                         console.log(data);
-                        if(type == 'ALIPAY_WAP' || type =='ALIPAY_WEB'){
+                        if(type === 'ALIPAY_WAP' || type ==='ALIPAY_WEB'){
                             window.location.href = data.data;
                         } else {
+                            $("#qrarea").html('<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>');
                             $("#readytopay").modal('hide');
-                            $("#qrarea").html('<div class="text-center"><p>使用微信扫描二维码支付.</p><div id="qrcode" style="padding-top:  10px;"></div><p>充值完毕后会自动跳转</p></div>');
-                            $("#qrcode").qrcode({
+                            var qrcode = new QRCode("qrcode", {
                                 render: "canvas",
                                 width: 100,
                                 height: 100,
-                                "text": data.data
+                                text: encodeURI(data.data)
                             });
-
                         }
                     } else {
                         $("#result").modal();

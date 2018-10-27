@@ -352,7 +352,7 @@
 														<p>iOS 下载<a href="/link/{$ios_token}?is_ss=1">这个（普通端口）</a>或者<a href="/link/{$ios_token}?is_ss=1&is_mu=1">这个（单端口多用户）</a>，导入到 Surge 中，然后就可以随意切换服务器上网了。</p>
 													</div>
 													<div class="tab-pane fade" id="all_ssd_android">
-														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk"> 点击下载</a>，<b>因为包名相同，所以如果手机上如果已安装原版Shadowsocks，需先卸载</b></p>
+														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk"> 点击下载</a>。<b>因为与原版Shadowsocks包名相同，所以如果手机上如果已安装原版Shadowsocks，需先卸载</b></p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 安装后，在手机上点击 <a class="copy-text" data-clipboard-text="{$ss_url_all}"> 这个链接</a>复制到剪贴板</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 打开 ShadowsocksD 客户端，点击右上角的“加号”，选择“添加订阅”，将剪贴板中的内容粘贴进去，点击“OK”，稍等片刻即可看见订阅的节点</p>
 														<p><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝订阅地址</button><br></p>

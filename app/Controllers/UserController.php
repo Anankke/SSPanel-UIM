@@ -1391,7 +1391,7 @@ class UserController extends BaseController
                     "user" => $user, "text" => $text
                 ], [
                 ]);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo $e->getMessage();
             }
         }
@@ -1437,7 +1437,7 @@ class UserController extends BaseController
                         "user" => $user, "text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
@@ -1452,7 +1452,7 @@ class UserController extends BaseController
                         "user" => $user, "text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
@@ -1763,6 +1763,12 @@ class UserController extends BaseController
                 return $response->getBody()->write(json_encode($res));
             }
         }
+
+		if(strtotime($this->user->expire_in) < time()){
+		    $res['msg'] = "您的账户已过期，无法签到。";
+            $res['ret'] = 1;
+            return $response->getBody()->write(json_encode($res));
+		}
 
         if (!$this->user->isAbleToCheckin()) {
             $res['msg'] = "您似乎已经续命过了...";

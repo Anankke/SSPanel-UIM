@@ -35,7 +35,7 @@ class Payment
             case("trimepay"):
                 return new TrimePay(Config::get('trimepay_secret'));
             default:
-                return 0;
+                return NULL;
         }
     }
 
@@ -47,8 +47,12 @@ class Payment
         return self::getClient()->getReturnHTML($request, $response, $args);
     }
 
-    public static function purchaseHTML(){
-        return self::getClient()->getPurchaseHTML();
+	public static function purchaseHTML(){
+		if (self::getClient() != NULL) {
+			return self::getClient()->getPurchaseHTML();
+		} else {
+			return '';
+		}
     }
 
     public static function getStatus($request, $response, $args){

@@ -56,7 +56,7 @@ class AnnController extends AdminController
                             "user" => $user,"text" => $text
                         ], [
                         ]);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         continue;
                     }
                 }

@@ -34,7 +34,7 @@ class Password
             ], [
                 //BASE_PATH.'/public/assets/email/styles.css'
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
         return true;

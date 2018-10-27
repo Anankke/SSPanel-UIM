@@ -6,7 +6,13 @@
 //如需换行，直接换行即可，无需换行符
 //【新增/删除】config无需写入迁移附注
 $System_Config['config_migrate_notice']=
-'node_offline_warn被改名为enable_detect_offline
+'node_offline_warn 被改名为 enable_detect_offline
+enable_register 和 enable_invite_code 合并为 register_mode
+enable_auto_clean_unused 和 enable_auto_clean_unused_days 合并为auto_clean_unused_days
+enable_auto_clean_uncheck 和 enable_auto_clean_uncheck_days 合并为 auto_clean_uncheck_days
+enable_account_expire_delete 和 enable_account_expire_delete_days 合并为account_expire_delete_days
+enable_class_expire_reset_traffic 重命名为 class_expire_reset_traffic
+现在，用户账户过期时，流量会被强制重置为0
 ';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
@@ -34,12 +40,11 @@ $System_Config['mailgun_sender'] = '';
 
 # smtp
 $System_Config['smtp_host'] = '';
-$System_Config['smtp_username'] = '';
 $System_Config['smtp_port'] = '';
-$System_Config['smtp_name'] = '';
 $System_Config['smtp_sender'] = '';
 $System_Config['smtp_passsword'] = '';
-$System_Config['smtp_ssl'] = 'true';
+$System_Config['smtp_ssl'] = 'false';
+$System_Config['smtp_tls'] = 'false';
 
 # sendgrid
 $System_Config['sendgrid_key'] = '';
@@ -52,7 +57,7 @@ $System_Config['auto_backup_passwd']='';	//备份的压缩密码
 
 
 //用户注册设置-----------------------------------------------------------------------------------------
-$System_Config['enable_register'] = 'true';					//是否开启注册功能
+$System_Config['register_mode'] = 'close';					//注册模式。close：关闭，open：开放，invite：仅限邀请码
 $System_Config['defaultTraffic'] = '1';						//用户初始流量 单位GB
 $System_Config['user_expire_in_default']='3650';			//用户账户过期时间，在注册时设置。（天）
 $System_Config['user_class_default']='0';					//用户注册等级，在注册时设置。
@@ -75,10 +80,9 @@ $System_Config['mu_suffix']='microsoft.com';				//单端口多用户混淆参数
 $System_Config['mu_regex']='%5m%id.%suffix';				//单端口多用户混淆参数表达式，%5m代表取用户特征 md5 的前五位，%id 代表用户id,%suffix 代表上面这个后缀。
 
 #邀请链接
-$System_Config['enable_invite_code']='false';		//是否强制开启邀请，为true则注册必须使用邀请链接，且邀请人等级为0时邀请链接不可用
-$System_Config['inviteNum'] = '10';					//注册后的邀请链接可用次数
-$System_Config['invite_get_money']='1';				//新用户通过私人邀请链接注册时，获得奖励金额（作为初始资金）
-$System_Config['invite_price']='-1';				//用户购买邀请码所需要的价格，价格小于0时视为不开放购买
+$System_Config['inviteNum'] = '10';			//注册后的邀请链接可用次数
+$System_Config['invite_get_money']='1';		//新用户通过私人邀请链接注册时，获得奖励金额（作为初始资金）
+$System_Config['invite_price']='-1';		//用户购买邀请码所需要的价格，价格小于0时视为不开放购买
 
 #邮箱验证
 $System_Config['enable_email_verify']='false';		//是否启用注册邮箱验证码
@@ -88,30 +92,23 @@ $System_Config['email_verify_iplimit']='10';		//验证码有效期内，单IP可
 
 //已注册用户设置---------------------------------------------------------------------------------------
 #基础
-$System_Config['checkinMin'] = '1';							//用户签到最少流量 单位MB
-$System_Config['checkinMax'] = '50';						//用户签到最多流量
-$System_Config['enable_auto_clean_uncheck']='false';		//没签到的0级用户自动清理开关
-$System_Config['enable_auto_clean_uncheck_days']='7';		//自动清理多少天没签到的0级用户
-$System_Config['auto_clean_min_money']='1';					//自动清理时余额低于多少的0级用户
-$System_Config['enable_auto_clean_unused']='false';			//未使用的0级用户自动清理开关
-$System_Config['enable_auto_clean_unused_days']='30';		//自动清理多少天没使用的0级用户
-$System_Config['code_payback']='20';						//充值返利百分比
-$System_Config['invite_gift']='2';							//邀请新用户获得流量奖励，单位G
-$System_Config['enable_bought_reset']='true';				//购买时是否重置流量
-$System_Config['port_price']='-1';							//用户随机重置端口所需要的价格，价格小于0时视为不开放购买
-$System_Config['port_price_specify']='-1';					//用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
+$System_Config['checkinMin'] = '1';				//用户签到最少流量 单位MB
+$System_Config['checkinMax'] = '50';			//用户签到最多流量
+$System_Config['auto_clean_uncheck_days']='7';	//自动清理多少天没签到的0级用户，小于等于0时关闭
+$System_Config['auto_clean_unused_days']='30';	//自动清理多少天没使用的0级用户，小于等于0时关闭
+$System_Config['auto_clean_min_money']='1';		//余额低于多少的0级用户可以被清理
+$System_Config['code_payback']='20';			//充值返利百分比
+$System_Config['invite_gift']='2';				//邀请新用户获得流量奖励，单位G
+$System_Config['enable_bought_reset']='true';	//购买时是否重置流量
+$System_Config['port_price']='-1';				//用户随机重置端口所需要的价格，价格小于0时视为不开放购买
+$System_Config['port_price_specify']='-1';		//用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
 
 #高级
-$System_Config['enable_donate']='false';					//是否开启用户捐赠功能（所有收入将被公开）
-$System_Config['enable_class_expire_reset']='true';			//等级到期时是否重置流量
-$System_Config['enable_class_expire_reset_traffic']='0';	//等级到期时重置为的流量值，GB
-$System_Config['enable_account_expire_reset']='true';		//账户到期时是否重置流量
-$System_Config['enable_account_expire_reset_traffic']='0';	//账户到期时重置为的流量值，GB
-$System_Config['enable_account_expire_delete']='true';		//账户到期之后是否会删除账户
-$System_Config['enable_account_expire_delete_days']='7';	//账户到期几天之后会删除账户
-$System_Config['enable_kill']='true';						//是否允许用户注销账户
-$System_Config['notify_limit_mode'] = 'false';				//false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
-$System_Config['notify_limit_value'] = '20';				//当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
+$System_Config['class_expire_reset_traffic']='0';		//等级到期时重置为的流量值，单位GB，最小为0
+$System_Config['account_expire_delete_days']='-1';		//账户到期几天之后会删除账户，小于0时不删除
+$System_Config['enable_kill']='true';					//是否允许用户注销账户
+$System_Config['notify_limit_mode'] = 'false';			//false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
+$System_Config['notify_limit_value'] = '20';			//当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
 
 //Telegram bot设置------------------------------------------------------------------------------------
@@ -126,6 +123,7 @@ $System_Config['telegram_group_quiet']='false';		//Telegram 机器人在群组�
 $System_Config['telegram_qrcode']='zxing_local';	//二维码解码方式，online，phpzbar，zxing_online，zxing_local
 $System_Config['telegram_request_token']='';		//Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat setTelegram
 $System_Config['enable_welcome_message']='true';	//机器人发送欢迎消息
+$System_Config['finance_public']='false';			//财务报告是否向Telegram群公开
 
 
 //沟通设置--------------------------------------------------------------------------------------------
@@ -218,16 +216,16 @@ $System_Config['trimepay_appid']='';		//AppID
 $System_Config['trimepay_secret']='';		//AppSecret
 
 
-//管理面板设置------------------------------------------------------------------------------------------
+//其他面板显示设置------------------------------------------------------------------------------------------
+#后台商品列表 销量统计
 $System_Config['sales_period']='30';	//统计指定周期内的销量，值为【expire/任意大于0的整数】
 
-//财务报告设置-------------------------------------------------------------------------------------------
-$System_Config['finance_public']='false';	//财务报告是否向Telegram群公开
-
-
-//国旗图标显示--------------------------------------------------------------------------------------------
+#国旗
 $System_Config['enable_flag']='false';			//启用该项之前务必先仔细阅读教程
 $System_Config['flag_regex']='/.*?(?=\s)/';		//从站点全名中匹配【国家/地区】的正则表达式(php版)
+
+#捐赠
+$System_Config['enable_donate']='false';	//是否显示用户捐赠（所有收入将被公开）
 
 
 //节点检测-----------------------------------------------------------------------------------------------

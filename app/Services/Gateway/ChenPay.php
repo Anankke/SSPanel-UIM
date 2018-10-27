@@ -195,9 +195,16 @@ class ChenPay extends AbstractPayment
     {
         $GLOBALS['AliSum'] = 1;
         $GLOBALS['AliType'] = true;
+        $GLOBALS['AliStatus'] = time();
         \ChenPay\Pay::Listen($this->listenInterval, function () {
             $that = new ChenPay();
             $log = "";
+            $tradeCount = Paylist::where('status', 0)->where('type', 1)->where('datetime', '>', time())->count();
+            if ($GLOBALS['AliStatus'] > time() && $tradeCount == 0) {
+                $log .= "支付宝监听暂停中[" . date('Y-m-d H:i:s') . "]\n";
+                file_put_contents(__DIR__ . "/../../../storage/logs/chenpay.log", $log, FILE_APPEND);
+                return;
+            }
             try {
                 $run = (new \ChenPay\AliPay($that->getConfig('AliPay_Cookie')))->getData($GLOBALS['AliType'])->DataHandle();
                 $tradeAll = Paylist::where('status', 0)->where('type', 1)->where('datetime', '>', time())->orderBy('id', 'desc')->get();
@@ -212,6 +219,7 @@ class ChenPay extends AbstractPayment
                 $that->sendSunMail(1);
                 $GLOBALS['AliType'] = !$GLOBALS['AliType'];
                 $GLOBALS['AliSum']++;
+                $GLOBALS['AliStatus'] = time() + 2 * 60;
             } catch (\ChenPay\PayException\PayException $e) {
                 if ($e->getCode() == 445) $that->sendMail(1);
                 $log .= "支付宝监听" . $e->getMessage() . "[" . date('Y-m-d H:i:s') . "]\n";
