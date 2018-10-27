@@ -101,7 +101,7 @@
 
 					{/if}
 					<div class="col-lg-12 col-md-12">
-					<div class="table-responsive">
+					<div class="table-responsive bgc-fix">
 						{$paybacks->render()}
 						<table class="table ">
 							<tr>

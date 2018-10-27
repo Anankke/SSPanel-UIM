@@ -6298,3 +6298,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	color: #ff0022;
 	cursor: unset;
 }
+
+.bgc-fix {
+    background: white;
+}
