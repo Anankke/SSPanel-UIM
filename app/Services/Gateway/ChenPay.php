@@ -202,7 +202,7 @@ class ChenPay extends AbstractPayment
             $tradeCount = Paylist::where('status', 0)->where('type', 1)->where('datetime', '>', time())->count();
             if ($GLOBALS['AliStatus'] > time() && $tradeCount == 0) {
                 $log .= "支付宝监听暂停中[" . date('Y-m-d H:i:s') . "]\n";
-                file_put_contents(__DIR__ . "/../../storage/logs/chenpay.log", $log, FILE_APPEND);
+                file_put_contents(__DIR__ . "/../../../storage/logs/chenpay.log", $log, FILE_APPEND);
                 return;
             }
             try {
