@@ -6294,3 +6294,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	}
 }
 
+.cust-link.form-control {
+	color: #ff0022;
+	cursor: unset;
+}
