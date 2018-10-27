@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use app\Utils\YftOrderNumUtil;
-
 class QuickPayFunction{
     public function md5Verify($p1, $p2,$p3,$p4,$sign) {
         $preStr = $p1 . $p2 . $p3 . $p4 . "yft";
