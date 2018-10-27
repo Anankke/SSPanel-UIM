@@ -6227,11 +6227,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	top: 3px;
 }
 
-.shop-switch .card {
-	margin: 0;
-}
-
-.shop-switch .card-inner {
+.shop-switch .card,.shop-switch .card-inner {
 	margin: 0;
 }
 
@@ -6267,15 +6263,16 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
     width: 24%;
 }
 
+.page-course img {
+	width: 60%;
+}
+
 @media screen and (max-width: 1600px) {
-	.shop-flex .card {
+	.shop-flex .card,.flex-fix3 {
 		width: 32%;
 	}
 	.flex-fix4 {
 		display: none;
-	}
-	.flex-fix3 {
-		width: 32%;
 	}
 }
 
@@ -6283,10 +6280,17 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	.shop-flex .card {
 		width: 48%;
 	}
+	.page-course img {
+		width: 80%;
+	}
 }
 
 @media screen and (max-width: 715px) {
 	.shop-flex .card {
 		width: 100%;
 	}
+	.page-course img {
+		width: 100%;
+	}
 }
+
