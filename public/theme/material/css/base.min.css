@@ -2347,7 +2347,7 @@ img {
 }
 /*示例颜色：工单处添加按钮*/
 .btn-brand {
-	background-color: #4caf50;
+	background-color: #5e72e4;
 	color: #fff!important
 }
 /*示例颜色：工单处添加并关闭按钮*/
@@ -5594,7 +5594,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 }
 
 .content-heading {
-	font-weight: 300
+	font-weight: 300;
 }
 
 .content-inner {
