@@ -54,9 +54,24 @@
 									<div>添加流量 <code>{$shop->bandwidth()}</code> G</div>
 									<div>账号等级 <code>{$shop->user_class()}</code> 级</div>
 									<div>账号有效期 <code>{$shop->expire()}</code> 天</div>
+									{if {$shop->reset()} === '0' }
+									<div>无流量周期重置</div>
+									{/if}
+									{if {$shop->reset()} !== '0' }
 									<div>在 <code>{$shop->reset_exp()}</code> 天内，每 <code>{$shop->reset()}</code> 天重置流量为 <code>{$shop->reset_value()}</code> G</div>
+									{/if}
+									{if {$shop->speedlimit()} === '0' }
+									<div>端口速率 <code>无限制</code></div>
+									{/if}
+									{if {$shop->speedlimit()} !== '0' }
 									<div>端口限速 <code>{$shop->speedlimit()}</code> Mbps</div>
+									{/if}
+									{if {$shop->connector()} === '0' }
+									<div>客户端数量 <code>无限制</code></div>
+									{/if}
+									{if {$shop->connector()} !== '0' }
 									<div>客户端限制 <code>{$shop->connector()}</code> 个</div>
+									{/if}
 							    </div>
 								<a class="btn btn-brand-accent shop-btn" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
 						  </div>
