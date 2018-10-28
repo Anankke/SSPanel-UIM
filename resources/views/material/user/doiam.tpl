@@ -69,6 +69,7 @@ window.onload = function(){
 						$("#dmy").qrcode({
 							"text": data.code
 						});
+                        setTimeout(f, 2000);
 					}else if(type=="alipay"){
 						$("#result").modal();
 						$("#msg").html("正在跳转到支付宝..."+data.code);
@@ -78,30 +79,35 @@ window.onload = function(){
 						$("#dmy").qrcode({
 							"text": data.code
 						});
+                        setTimeout(f, 2000);
 					}
 				}
 			}
 		});
-		function f(){
-			$.ajax({
-				type: "POST",
-				url: "/doiam/status",
-				dataType: "json",
-				data: {
-					pid:pid
-				},
-				success: function (data) {
-					if (data.status) {
-						clearTimeout(tid);
-						$("#result").modal();
-						$("#msg").html("充值成功！");
-						window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
-					}
-				}
-			});
-			tid = setTimeout(f, 1000);
-		}
-		setTimeout(f, 2000);
+        function f(){
+            $.ajax({
+                type: "POST",
+                url: "/payment/status",
+                dataType: "json",
+                data: {
+                    pid:pid
+                },
+                success: function (data) {
+                    if (data.result) {
+                        console.log(data);
+                        $("#alipay").modal('hide');
+                        $("#result").modal();
+                        $("#msg").html("充值成功！");
+                        window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
+                    }
+                },
+                error: function (jqXHR) {
+                    console.log(jqXHR);
+                }
+            });
+            tid = setTimeout(f, 1000); //循环调用触发setTimeout
+        }
+
 	});
 }
 </script>

@@ -63,6 +63,7 @@ class AopF2F extends AbstractPayment
         $return['ret'] = 1;
         $return['qrcode'] = $qrCodeContent;
         $return['amount'] = $pl->total;
+        $return['pid'] = $pl->tradeno;
 
         return json_encode($return);
     }
@@ -99,14 +100,9 @@ class AopF2F extends AbstractPayment
 
     function getStatus($request, $response, $args)
     {
-        $time = $request->getQueryParams()["time"];
-        $codes = Code::where('userid', '=', $this->user->id)->where('usedatetime', '>', date('Y-m-d H:i:s', $time))->first();
-        if ($codes != null && strpos($codes->code, "充值") !== false) {
-            $res['ret'] = 1;
-            return $response->getBody()->write(json_encode($res));
-        } else {
-            $res['ret'] = 0;
-            return $response->getBody()->write(json_encode($res));
-        }
+        $p = Paylist::where("tradeno", $_POST['pid'])->first();
+        $return['ret'] = 1;
+        $return['result'] = $p->status;
+        return json_encode($return);
     }
 }

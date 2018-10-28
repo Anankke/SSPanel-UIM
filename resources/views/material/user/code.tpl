@@ -151,7 +151,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 {include file='dialog.tpl'}
             </div>
         </section>

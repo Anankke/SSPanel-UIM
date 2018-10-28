@@ -14,6 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.2.2/build/qrcode.min.js"></script>
 <script>
+    var pid = 0;
     function pay(){
         $("#readytopay").modal();
         $("#readytopay").on('shown.bs.modal', function () {
@@ -26,6 +27,8 @@
                 },
                 success: function (data) {
                     if (data.ret) {
+                        console.log(data);
+                        pid = data.pid;
                         $("#qrarea").html('<div class="text-center"><p>使用支付宝二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码付款</p></div>');
                         $("#readytopay").modal('hide');
                         new QRCode("qrcode", {
@@ -53,20 +56,23 @@
 
     function f(){
         $.ajax({
-            type: "GET",
-            url: "code_check",
+            type: "POST",
+            url: "/payment/status",
             dataType: "json",
             data: {
-                time: 10
+                pid:pid
             },
             success: function (data) {
-                if (data.ret) {
-                    clearTimeout(tid);
+                if (data.result) {
+                    console.log(data);
                     $("#alipay").modal('hide');
                     $("#result").modal();
                     $("#msg").html("充值成功！");
                     window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                 }
+            },
+            error: function (jqXHR) {
+                console.log(jqXHR);
             }
         });
         tid = setTimeout(f, 1000); //循环调用触发setTimeout
