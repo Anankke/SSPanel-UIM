@@ -6189,10 +6189,6 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 /* 卡片式商店样式 */
 
-.shop-display {
-	display: none;
-}
-
 .shop-switch {
 	display: flex;
 	flex-direction: row-reverse;
@@ -6229,12 +6225,6 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 .shop-switch .card,.shop-switch .card-inner {
 	margin: 0;
-}
-
-.shop-flex {
-	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
 }
 
 .shop-flex .card {

@@ -286,6 +286,16 @@
 			font-weight: 300;
 			color: #fff;
 		}
+
+		.shop-flex {
+	        display: flex;
+	        justify-content: space-between;
+	        flex-wrap: wrap;
+		}
+		
+		.shop-display {
+	        display: none;
+        }
 	</style>
 
 
