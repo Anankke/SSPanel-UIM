@@ -42,7 +42,7 @@
 						 </div>
 					</div>
 						
-            <div class="shop-flex">
+            <div class="shop-flex" {if $config["enable_shop_uiswitch"]=='1'}style="display: flex{else}style="display: none{/if}">
 				{$shops->render()}
 				{foreach $shops as $shop}
                   <div class="card">
@@ -81,7 +81,7 @@
 			</div>
 
 
-					<div class="table-responsive shop-display">
+					<div class="table-responsive shop-display" {if $config["enable_shop_uiswitch"]=='1'}style="display: none{else}style="display: block{/if}">
 						{$shops->render()}
 						<table class="table ">
                             <tr>

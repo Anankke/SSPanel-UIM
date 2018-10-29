@@ -47,7 +47,8 @@ class Config
 			"admin_contact2" => self::get("admin_contact2"),
 			"admin_contact3" => self::get("admin_contact3"),
 			"register_mode" => self::get("register_mode"),
-			"enable_flag" => self::get("enable_flag")
+            "enable_flag" => self::get("enable_flag"),
+            "enable_shop_uiswitch" => self::get("enable_shop_uiswitch")
          ];
     }
 
