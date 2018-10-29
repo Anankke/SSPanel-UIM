@@ -124,6 +124,7 @@ class Update
 		system('php '.BASE_PATH.'/composer.phar selfupdate');
 		system('php '.BASE_PATH.'/composer.phar install -d '.BASE_PATH);
 		echo('升级composer依赖结束，请自行根据上方输出确认是否升级成功'.PHP_EOL);
+		system('rm -rf '.BASE_PATH.'/storage/framework/smarty/compile/');
     }
 
 	public static function old_to_new($version_old)
