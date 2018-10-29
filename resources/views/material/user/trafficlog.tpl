@@ -36,7 +36,7 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<div id="log_chart" style="height: 300px; width: 100%;"></div>
                                       
 										<script src="/assets/js/canvasjs.min.js"> </script>

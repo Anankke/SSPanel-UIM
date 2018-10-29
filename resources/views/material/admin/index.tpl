@@ -33,7 +33,7 @@
 						
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="check_chart" style="height: 300px; width: 100%;"></div>
 										
@@ -87,7 +87,7 @@
 							
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="alive_chart" style="height: 300px; width: 100%;"></div>
 										
@@ -153,7 +153,7 @@
 						
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="node_chart" style="height: 300px; width: 100%;"></div>
 										
@@ -206,7 +206,7 @@
 							
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="traffic_chart" style="height: 300px; width: 100%;"></div>
 										
