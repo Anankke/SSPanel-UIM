@@ -173,8 +173,10 @@ $app->group('/user', function () {
 
 $app->group('/payment', function () {
     $this->post('/notify', 'App\Services\Payment:notify');
+    $this->post('/notify/{type}', 'App\Services\Payment:notify');
     $this->post('/status', 'App\Services\Payment:getStatus');
 });
+
 // Auth
 $app->group('/auth', function () {
     $this->get('/login', 'App\Controllers\AuthController:login');
