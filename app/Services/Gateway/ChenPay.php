@@ -37,7 +37,7 @@ class ChenPay extends AbstractPayment
      */
     public function getConfig($name = false)
     {
-        if ($name) return @$this->config[$name];
+        if ($name) return isset($this->config[$name]) ? $this->config[$name] : false;
         else return $this->config;
     }
 
@@ -50,13 +50,13 @@ class ChenPay extends AbstractPayment
     public function setConfig($name, $value)
     {
         $newObj = \App\Models\Config::where('name', $name)->first();
-        if ($newObj) $newObj->value = $value;
+        if ($newObj) \App\Models\Config::where('name', $name)->update(['value' => $value]);
         else {
             $newObj = new \App\Models\Config;
             $newObj->value = $value;
             $newObj->name = $name;
+            $newObj->save();
         }
-        $newObj->save();
         $this->config[$name] = $value;
         return $value;
     }
