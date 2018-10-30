@@ -162,7 +162,7 @@
 											var chart = new CanvasJS.Chart("node_chart",
 											{
 												title:{
-													text: "节点在线情况(节点数 {$sts->getTotalSSNode()}个)",
+													text: "节点在线情况(节点数 {$sts->getTotalNodes()}个)",
 													fontFamily: "Impact",
 													fontWeight: "normal"
 												},
@@ -182,12 +182,12 @@
 													type: "doughnut",
 													showInLegend: true,
 													dataPoints: [
-														{if $sts->getTotalSSNode()!=0}
+														{if $sts->getTotalNodes()!=0}
 															{
-																y: {(1-($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100}, legendText:"离线节点 {number_format((1-($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100,2)}% {$sts->getTotalSSNode()-$sts->getAliveSSNode()}个", indexLabel: "离线节点 {number_format((1-($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100,2)}% {$sts->getTotalSSNode()-$sts->getAliveSSNode()}个"
+																y: {(1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100}, legendText:"离线节点 {number_format((1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getTotalNodes()-$sts->getAliveNodes()}个", indexLabel: "离线节点 {number_format((1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getTotalNodes()-$sts->getAliveNodes()}个"
 															},
 															{
-																y: {(($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100}, legendText:"在线节点 {number_format((($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100,2)}% {$sts->getAliveSSNode()}个", indexLabel: "在线节点 {number_format((($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100,2)}% {$sts->getAliveSSNode()}个"
+																y: {(($sts->getAliveNodes()/$sts->getTotalNodes()))*100}, legendText:"在线节点 {number_format((($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getAliveNodes()}个", indexLabel: "在线节点 {number_format((($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getAliveNodes()}个"
 															}
 														{/if}
 													]
