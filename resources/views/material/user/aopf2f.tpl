@@ -29,12 +29,12 @@
                     if (data.ret) {
                         console.log(data);
                         pid = data.pid;
-                        $("#qrarea").html('<div class="text-center"><p>使用支付宝二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码付款</p></div>');
+                        $("#qrarea").html('<div class="text-center"><p>请使用手机支付宝扫描二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码唤起支付宝支付</p></div>');
                         $("#readytopay").modal('hide');
                         new QRCode("qrcode", {
                             render: "canvas",
-                            width: 100,
-                            height: 100,
+                            width: 200,
+                            height: 200,
                             text: encodeURI(data.qrcode)
                         });
                         $('#qrcode').attr('href',data.qrcode);
