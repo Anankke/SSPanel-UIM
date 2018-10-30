@@ -48,7 +48,8 @@ class Config
 			"admin_contact3" => self::get("admin_contact3"),
 			"register_mode" => self::get("register_mode"),
             "enable_flag" => self::get("enable_flag"),
-            "enable_shop_uiswitch" => self::get("enable_shop_uiswitch")
+            "enable_shop_uiswitch" => self::get("enable_shop_uiswitch"),
+            "number_viplevel" => self::get("number_viplevel")
          ];
     }
 
