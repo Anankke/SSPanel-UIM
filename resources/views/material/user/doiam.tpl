@@ -40,6 +40,7 @@ window.onload = function(){
 	$(".type").click(function(){
 		type = $(this).data("pay");
 	});
+    type= 'alipay'
 	$("#submit").click(function(){
 		var price = parseFloat($("#amount").val());
 		console.log("将要使用"+type+"方法充值"+price+"元");
@@ -84,30 +85,6 @@ window.onload = function(){
 				}
 			}
 		});
-        function f(){
-            $.ajax({
-                type: "POST",
-                url: "/payment/status",
-                dataType: "json",
-                data: {
-                    pid:pid
-                },
-                success: function (data) {
-                    if (data.result) {
-                        console.log(data);
-                        $("#alipay").modal('hide');
-                        $("#result").modal();
-                        $("#msg").html("充值成功！");
-                        window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
-                    }
-                },
-                error: function (jqXHR) {
-                    console.log(jqXHR);
-                }
-            });
-            tid = setTimeout(f, 1000); //循环调用触发setTimeout
-        }
-
 	});
 }
 </script>
