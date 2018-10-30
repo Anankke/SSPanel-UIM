@@ -300,6 +300,34 @@
 		.reset-invitelink {
 			margin-left: 1em;
 		}
+
+		.enable-flag {
+			color: #383838;
+		}
+
+		.node-icon {
+			color: #ff9000;
+		}
+
+		.node-alive {
+			color: #474747;
+		}
+
+		.node-load,.node-mothed {
+			color: #828282;
+		}
+
+		.node-band {
+			color: #aaaaaa;
+		}
+
+		.node-tr {
+			color: #a5a5a5;
+		}
+
+		.node-status {
+			color: #c4c4c4;
+		}
 	</style>
 
 
