@@ -80,6 +80,7 @@ abstract class AbstractPayment
             .substr($charid,20,12)
             .chr(125);
         $uuid = str_replace(['}', '{', '-'],'',$uuid);
+        $uuid = substr($uuid, 0, 8);
         return $uuid;
     }
 
