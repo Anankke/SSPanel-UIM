@@ -58,6 +58,11 @@ class UserController extends BaseController
         $this->user = Auth::getUser();
     }
 
+    public function shopUIswitch()
+    {
+        $this->user = Auth::getUser();
+    }
+
     public function index($request, $response, $args)
     {
 
@@ -1859,12 +1864,20 @@ class UserController extends BaseController
         $newResponse = $response->withStatus(302)->withHeader('Location', '/user/edit');
         return $newResponse;
     }
-
+    
     public function resetURL($request, $response, $args)
     {
         $user = $this->user;
         $user->clean_link();
         $newResponse = $response->withStatus(302)->withHeader('Location', '/user');
+        return $newResponse;
+    }
+
+    public function resetInviteURL($request, $response, $args)
+    {
+        $user = $this->user;
+        $user->clear_inviteCodes();
+        $newResponse = $response->withStatus(302)->withHeader('Location', '/user/invite');
         return $newResponse;
     }
 

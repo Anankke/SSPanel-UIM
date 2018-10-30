@@ -296,6 +296,10 @@
 		.shop-display {
 	        display: none;
         }
+		
+		.reset-invitelink {
+			margin-left: 1em;
+		}
 	</style>
 
 
@@ -358,7 +362,6 @@
 								</a>
 							</li>
 
-
 							<li>
 								<a href="/user/profile">
 									<i class="icon icon-lg">account_box</i>&nbsp;账户信息
@@ -371,26 +374,20 @@
 								</a>
 							</li>
 
-
 							{if $config['enable_ticket']=='true'}
-                          <li>
+                            <li>
 								<a href="/user/ticket">
 									<i class="icon icon-lg">question_answer</i>&nbsp;工单系统
 								</a>
 							</li>
-
 							{/if}
-                               <li>
+
+                            <li>
 								<a href="/user/invite">
 									<i class="icon icon-lg">loyalty</i>&nbsp;邀请链接
 								</a>
 							</li>
 							
-
-
-
-
-
 						</ul>
 
 
