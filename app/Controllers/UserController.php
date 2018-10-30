@@ -58,11 +58,6 @@ class UserController extends BaseController
         $this->user = Auth::getUser();
     }
 
-    public function shopUIswitch()
-    {
-        $this->user = Auth::getUser();
-    }
-
     public function index($request, $response, $args)
     {
 
