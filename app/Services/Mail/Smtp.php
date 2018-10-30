@@ -51,7 +51,7 @@ class Smtp extends Base
             "username" => Config::get('smtp_sender'),
             "port" => Config::get('smtp_port'),
             "sender" => Config::get('smtp_sender'),
-            "name" => Config::get('smtp_sender'),
+            "name" => Config::get('appName'),
             "passsword" => Config::get('smtp_passsword')
         ];
     }
