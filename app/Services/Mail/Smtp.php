@@ -48,7 +48,7 @@ class Smtp extends Base
     {
         return [
             "host" => Config::get('smtp_host'),
-            "username" => Config::get('smtp_sender'),
+            "username" => Config::get('smtp_username'),
             "port" => Config::get('smtp_port'),
             "sender" => Config::get('smtp_sender'),
             "name" => Config::get('smtp_sender'),
