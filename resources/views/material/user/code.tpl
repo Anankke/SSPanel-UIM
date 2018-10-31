@@ -159,7 +159,35 @@
         </section>
     </div>
 </main>
-
+<script>
+	$(document).ready(function () {
+		$("#code-update").click(function () {
+			$.ajax({
+				type: "POST",
+				url: "code",
+				dataType: "json",
+				data: {
+					code: $("#code").val()
+				},
+				success: function (data) {
+					if (data.ret) {
+						$("#result").modal();
+						$("#msg").html(data.msg);
+						window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
+					} else {
+						$("#result").modal();
+						$("#msg").html(data.msg);
+						window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
+					}
+				},
+				error: function (jqXHR) {
+					$("#result").modal();
+					$("#msg").html("发生错误：" + jqXHR.status);
+				}
+			})
+		})
+})
+</script>
 
 
 
