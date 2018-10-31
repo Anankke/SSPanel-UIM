@@ -100,7 +100,7 @@
 														{$ssr_url_all = URL::getAllUrl($pre_user, 0, 0)}
 														{$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0)}
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssr-win.7z"> 点击下载，解压至任意磁盘并运行</a></p>
-														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSR服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSR服务器订阅（绕过代理）。</p>
+														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSR服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSR服务器订阅（绕过代理）</p>
 														<p> <span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
 														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：点击<a class="copy-text" data-clipboard-text="{$ssr_url_all}">这里（普通端口）</a>或者<a class="copy-text" data-clipboard-text="{$ssr_url_all_mu}">这个(单端口多用户）</a>，然后右键小飞机->从剪贴板复制地址</p>
 														<p><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br></p>
@@ -122,7 +122,7 @@
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
                                                         <p><span class="icon icon-lg text-white">filter_1</span> 切换至非国区App Store账号，商店搜索<code>Shadowrocket</code>下载安装</p>
-														<p><span class="icon icon-lg text-white">filter_2</span> 在 Safari 中点击<a href="{$ssr_url_all}">这个（普通端口）</a>或者<a href="{$ssr_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点。</p>
+														<p><span class="icon icon-lg text-white">filter_2</span> 在 Safari 中点击<a href="{$ssr_url_all}">这个（普通端口）</a>或者<a href="{$ssr_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点</p>
                                                       <p><span class="icon icon-lg text-white">filter_3</span> 注意：第一次连接可能不能用，导入后程序退出并重新打开程序后连接即可！</p>
 													  <p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：打开Shadowrocket，点击右上角<span class="icon icon-lg text-white">add</span>，添加类型为<code>Subscribe</code>，URL填写以下地址即可自动更新节点</p>
 														<p><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br></p>
@@ -148,7 +148,7 @@
 														<code>wget -O- {$baseUrl}/link/{$router_token}?is_ss=0 | bash && echo -e "\n0 */3 * * * wget -O- {$baseUrl}/link/{$router_token}?is_ss=0 | bash\n">> /etc/storage/cron/crontabs/admin && killall crond && crond </code><br>
 														这个单端口多用户的<br>
 														<code>wget -O- {$baseUrl}/link/{$router_token_without_mu}?is_ss=0 | bash && echo -e "\n0 */3 * * * wget -O- {$baseUrl}/link/{$router_token_without_mu}?is_ss=0 | bash\n">> /etc/storage/cron/crontabs/admin && killall crond && crond </code><br>
-														执行完毕以后就可以到路由器的设置面板里随意选择 Shadowsocks 服务器进行连接了。</p>
+														执行完毕以后就可以到路由器的设置面板里随意选择 Shadowsocks 服务器进行连接了</p>
 													</div>
                                                     <div class="tab-pane fade" id="all_ssr_game">
 														 <p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/SSTap.7z">点击下载</a>，并安装</p>
@@ -186,11 +186,11 @@
 															<dd>{$user->obfs_param}</dd></p>
 														</dl>
 														{else}
-															<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
+															<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处</p>
 
 															<p>同时, ShadowsocksR 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
 
-															<p>请注意，在当前状态下您的 SSR 订阅链接已经失效，您无法通过此种方式导入节点。</p>
+															<p>请注意，在当前状态下您的 SSR 订阅链接已经失效，您无法通过此种方式导入节点</p>
 														{/if}
 													</div>
 
@@ -247,25 +247,25 @@
 															<dd>{$user->obfs_param}</dd></p>
 														</dl>
 														{else}
-															<p>您好，您目前的 加密方式，混淆，或者协议设置在 SS 客户端下无法连接。请您选用 SSR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
+															<p>您好，您目前的 加密方式，混淆，或者协议设置在 SS 客户端下无法连接。请您选用 SSR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处</p>
 															<p>同时, Shadowsocks 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
 														{/if}
 													</div>
 													<div class="tab-pane fade" id="all_ss_windows">
 													{$ssd_url_all =URL::getAllSSDUrl($user,true)}
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-win.7z"> 点击下载 SSD</a>，解压至任意磁盘并运行</p>
-														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅。</p>
-														<p><span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网。</p>
+														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅</p>
+														<p><span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
 														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：点击<a class="copy-text" data-clipboard-text='{$ssd_url_all}'>这里</a>，然后右键小飞机->从剪贴板复制地址</p>
 														<p><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝订阅地址</button><br></p>
                                                        <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_mac">
-														<p><a href="/ssr-download/ss-mac.zip">下载</a>，安装，然后下载<a href="/user/getpcconf?is_mu=0&is_ss=1">这个（普通端口）</a>或者<a href="/user/getpcconf?is_mu=1&is_ss=1">这个（单端口多用户）</a>，运行程序，小飞机上右键 服务器列表 子菜单 的 “导入服务器配置文件...” 导入这个文件，然后选择一个合适的服务器，更新一下PAC，然后开启系统代理即可上网。</p>
+														<p><a href="/ssr-download/ss-mac.zip">下载</a>，安装，然后下载<a href="/user/getpcconf?is_mu=0&is_ss=1">这个（普通端口）</a>或者<a href="/user/getpcconf?is_mu=1&is_ss=1">这个（单端口多用户）</a>，运行程序，小飞机上右键 服务器列表 子菜单 的 “导入服务器配置文件...” 导入这个文件，然后选择一个合适的服务器，更新一下PAC，然后开启系统代理即可上网</p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_ios">
-														<p>推荐下载<a href="https://itunes.apple.com/cn/app/shadowrocket/id932747118?mt=8">Shadowrocket</a>，请在左侧菜单栏里提交工单申请已购买软件的美国商店Apple ID自行切换商店账号下载安装，为了您的隐私安全，请不要登录 iCloud 。下载完成后在 Safari 中点击<a href="{$ss_url_all}">这个（普通端口）</a>或者<a href="{$ss_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点。</p>
-														<p>iOS 下载<a href="/link/{$ios_token}?is_ss=1">这个（普通端口）</a>或者<a href="/link/{$ios_token}?is_ss=1&is_mu=1">这个（单端口多用户）</a>，导入到 Surge 中，然后就可以随意切换服务器上网了。</p>
+														<p>推荐下载<a href="https://itunes.apple.com/cn/app/shadowrocket/id932747118?mt=8">Shadowrocket</a>，请在左侧菜单栏里提交工单申请已购买软件的美国商店Apple ID自行切换商店账号下载安装，为了您的隐私安全，请不要登录 iCloud 。下载完成后在 Safari 中点击<a href="{$ss_url_all}">这个（普通端口）</a>或者<a href="{$ss_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点</p>
+														<p>iOS 下载<a href="/link/{$ios_token}?is_ss=1">这个（普通端口）</a>或者<a href="/link/{$ios_token}?is_ss=1&is_mu=1">这个（单端口多用户）</a>，导入到 Surge 中，然后就可以随意切换服务器上网了</p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_android">
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk"> 点击下载 SSD</a>。<b>因为与原版Shadowsocks包名相同，所以如果手机上如果已安装原版Shadowsocks，需先卸载</b></p>
