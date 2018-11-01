@@ -497,9 +497,9 @@
 								<div class="card-main">
 									<div class="card-inner">
 
-										<div id="traffic_chart" style="height: 300px; width: 100%;"></div>
+										{*<div id="traffic_chart" style="height: 300px; width: 100%;"></div>
 
-                                      <script src="/assets/js/canvasjs.min.js"> </script>
+                                       <script src="/assets/js/canvasjs.min.js"> </script>
 										<script type="text/javascript">
 											var chart = new CanvasJS.Chart("traffic_chart",
 
@@ -547,7 +547,30 @@
 											});
 
 											chart.render();
-										</script>
+										</script> *}
+
+										<div class="progressbar">
+	                                         <div class="before"></div>
+	                                         <div class="bar tuse color3" style="width:calc({($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}% - 44px);)"><span></span></div>
+											 <div class="label-flex">
+												<div class="label la-top"><div class="bar ard color3"><span></span></div>今日已用 {$user->TodayusedTraffic()}</div>
+											 </div>
+										</div>
+										<div class="progressbar">
+										    <div class="before"></div>
+										    <div class="bar ard color2" style="width:calc({$user->last_day_t/$user->transfer_enable*100}% - 44px);)"><span></span></div>
+										    <div class="label-flex">
+										       <div class="label la-top"><div class="bar ard color2"><span></span></div>过去已用 {$user->LastusedTraffic()}</div>
+										    </div>
+								        </div>
+										<div class="progressbar">
+											<div class="before"></div>
+											<div class="bar remain color" style="width:calc({($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}% - 44px);)"><span></span></div>
+											<div class="label-flex">
+											   <div class="label la-top"><div class="bar ard color"><span></span></div>剩余流量 {$user->unusedTraffic()}</div>
+											</div>
+									   </div>
+									   
 
 									</div>
 
@@ -607,6 +630,8 @@
 {include file='user/footer.tpl'}
 
 <script src="https://cdn.jsdelivr.net/npm/shake.js@1.2.2/shake.min.js"></script>
+
+
 
 <script>
 
@@ -800,6 +825,7 @@ initGeetest({
 
 
 {/if}
+
 
 
 </script>

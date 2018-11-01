@@ -5290,7 +5290,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 }
 
 .tile,.tile-action,.tile-footer {
-	min-height: 48px
+	min-height: 48px;
 }
 
 .card-table>.table-responsive {
@@ -6306,4 +6306,22 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	box-shadow: 2px 3px 5px #e0e0e0;
 	border-radius: 5px;
 	min-width: unset;
+}
+
+@-webkit-keyframes sparkle {
+	from {background-position:0 0;} to {background-position:0 -64px;}
+}
+
+@-moz-keyframes sparkle {
+	from {background-position:0 0;} to {background-position:0 -64px;}
+}
+@-o-keyframes sparkle {
+	from {background-position:0 0;} to {background-position:0 -64px;}
+}
+@keyframes sparkle {
+	from {background-position:0 0;} to {background-position:0 -64px;}
+}
+
+.progressbar,.progressbar:after,.progressbar:before,.progressbar * {
+	box-sizing: content-box;
 }
