@@ -3041,7 +3041,7 @@ height: 36px;
 line-height: 20px;
 padding: 7px 0 8px 1em;
 }
-.maxwidth-edit {
+.maxwidth-edit,.maxwidth-auth {
 	width: 100%;
 }
 

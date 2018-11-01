@@ -5,7 +5,7 @@
 <main class="content">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-4 col-lg-push-4 col-sm-6 col-sm-push-3">
+				<div class="col-xx-4 col-xx-push-4 col-lg-5 col-lg-push-3 col-md-8 col-md-push-2 col-xs-12 col-xs-push-0">
 					<section class="content-inner">
 						<div class="card">
 							<div class="card-main">
@@ -27,7 +27,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="password">密码</label>
-													<input class="form-control" id="password" type="password">
+													<input class="form-control maxwidth-auth" id="password" type="password">
 												</div>
 											</div>
 										</div>
@@ -36,7 +36,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="repasswd">重复密码</label>
-													<input class="form-control" id="repasswd" type="password">
+													<input class="form-control maxwidth-auth" id="repasswd" type="password">
 												</div>
 											</div>
 										</div>
