@@ -77,6 +77,31 @@
 											});
 
 											chart.render();
+
+											function chartRender(chart){
+                                                                   chart.render();
+                                                                   chart.ctx.shadowBlur = 8;
+                                                                   chart.ctx.shadowOffsetX = 4;
+                                                                   chart.ctx.shadowColor = "black";
+
+                                                                   for (var i = 0; i < chart.plotInfo.plotTypes.length; i++) {
+                                                                         var plotType = chart.plotInfo.plotTypes[i];
+                                                                         for (var j = 0; j < plotType.plotUnits.length; j++) {
+                                                                           var plotUnit = plotType.plotUnits[j];
+                                                                           //For Column Chart
+                                                                           if (plotUnit.type === "doughnut"){
+                                                                             chart.renderDoughnut(plotUnit);
+                                                                           }
+                                                                           //For Bar Chart
+                                                                           else if (plotUnit.type === "bar"){
+                                                                             chart.renderBar(plotUnit);
+                                                                           }
+                                                                         }
+                                                                   }
+                                                                   chart.ctx.shadowBlur = 0;
+                                                                   chart.ctx.shadowOffsetX = 0;
+                                                                   chart.ctx.shadowColor = "transparent";
+                                                                 }
 										</script>
 										
 									</div>
