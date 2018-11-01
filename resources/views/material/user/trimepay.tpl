@@ -38,8 +38,10 @@
 
         console.log("将要使用 "+ type + " 充值" + price + "元");
         if (isNaN(price)) {
+            $("#readytopay").modal('hide');
             $("#result").modal();
             $("#msg").html("非法的金额!");
+            return;
         }
         $('#readytopay').modal();
         $("#readytopay").on('shown.bs.modal', function () {
@@ -54,11 +56,11 @@
                 success: function (data) {
                     if (data.code == 0) {
                         console.log(data);
+                        $("#readytopay").modal('hide');
                         if(type === 'ALIPAY_WAP' || type ==='ALIPAY_WEB'){
                             window.location.href = data.data;
                         } else {
                             $("#qrarea").html('<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>');
-                            $("#readytopay").modal('hide');
                             var qrcode = new QRCode("qrcode", {
                                 render: "canvas",
                                 width: 100,

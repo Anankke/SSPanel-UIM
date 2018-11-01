@@ -42,6 +42,7 @@ $System_Config['mailgun_sender'] = '';
 $System_Config['smtp_host'] = '';
 $System_Config['smtp_port'] = '';
 $System_Config['smtp_sender'] = '';
+$System_Config['smtp_username'] = '';
 $System_Config['smtp_passsword'] = '';
 $System_Config['smtp_ssl'] = 'false';
 $System_Config['smtp_tls'] = 'false';
