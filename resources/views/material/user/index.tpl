@@ -16,7 +16,7 @@
 			<section class="content-inner margin-top-no">
 				<div class="ui-card-wrap">
 
-						<div class="col-lg-6 col-md-6">
+						<div class="col-xs-12 col-xx-8">
 
 							<div class="card">
 								<div class="card-main">
@@ -103,8 +103,14 @@
 														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSR服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSR服务器订阅（绕过代理）</p>
 														<p> <span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
 														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：点击<a class="copy-text" data-clipboard-text="{$ssr_url_all}">这里（普通端口）</a>或者<a class="copy-text" data-clipboard-text="{$ssr_url_all_mu}">这个(单端口多用户）</a>，然后右键小飞机->从剪贴板复制地址</p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br></p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击拷贝订阅地址</button><br></p>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击复制</button><br>
+														</div>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击复制</button><br></p>
+														</div>
                                                        <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_mac">
@@ -113,20 +119,32 @@
                                                       		<p><span class="icon icon-lg text-white">filter_3</span> 打开Launchapad里的ShadowsocksX</p>
                                                       		<p><span class="icon icon-lg text-white">filter_4</span> 菜单栏的纸飞机图标-服务器-服务器订阅填入以下订阅地址，更新后出现您的节点</p>
                                                       <p><span class="icon icon-lg text-white">filter_5</span> 菜单栏的纸飞机图标-打开shadowsocks</p>
-                                        				<p><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br></p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击拷贝订阅地址</button><br></p>
+													    <div><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击复制</button><br></p>
+														</div>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击复制</button><br></p>
+														</div>
                                                       <p><a href="/user/announcement">点击这里查看Mac傻瓜式教程</a></p>
 													</div>
                                                   <div class="tab-pane fade" id="all_ssr_linux">
                                                       <p><a href="/user/announcement">点击这里查看Linux傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
-                                                        <p><span class="icon icon-lg text-white">filter_1</span> 切换至非国区App Store账号，商店搜索<code>Shadowrocket</code>下载安装</p>
-														<p><span class="icon icon-lg text-white">filter_2</span> 在 Safari 中点击<a href="{$ssr_url_all}">这个（普通端口）</a>或者<a href="{$ssr_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点</p>
+                                                        <span class="icon icon-lg text-white">filter_1</span> 切换至非国区App Store账号，商店搜索<code>Shadowrocket</code>下载安装</p>
+														<span class="icon icon-lg text-white">filter_2</span> 在 Safari 中点击<a href="{$ssr_url_all}">这个（普通端口）</a>或者<a href="{$ssr_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点</p>
                                                       <p><span class="icon icon-lg text-white">filter_3</span> 注意：第一次连接可能不能用，导入后程序退出并重新打开程序后连接即可！</p>
 													  <p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：打开Shadowrocket，点击右上角<span class="icon icon-lg text-white">add</span>，添加类型为<code>Subscribe</code>，URL填写以下地址即可自动更新节点</p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br></p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击拷贝订阅地址</button><br></p>
+													    <div><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击复制</button><br></p>
+														</div>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击复制</button><br></p>
+														</div>
                                                       <p><a href="/user/announcement">点击这里查看iOS傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_android">
@@ -139,8 +157,14 @@
                                                       <p><span class="icon icon-lg text-white">filter_7</span> 点击选择任意节点， 路由选择：略过区域网路以及中国大陆</p>
                                                         <p><span class="icon icon-lg text-white">filter_8</span> 点击右上角的纸飞机图标即可连接</p>
 														<p><span class="icon icon-lg text-white">filter_9</span> 备用导入节点方法：在手机上默认浏览器中点击<a href="{$ssr_url_all}">这个链接（普通端口）</a>或者<a href="{$ssr_url_all_mu}">这个链接（单端口多用户）</a>，然后点击确定</p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br></p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击拷贝订阅地址</button><br></p>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击复制</button><br></p>
+														</div>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击复制</button><br></p>
+														</div>
                                                       <p><a href="/user/announcement">点击这里查看Android傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_router">
@@ -156,8 +180,14 @@
                                                        <p><span class="icon icon-lg text-white">filter_3</span> 打开桌面程序SSTap</p>
                                                        <p><span class="icon icon-lg text-white">filter_4</span> 齿轮图标-SSR订阅-SSR订阅管理添加以下订阅链接即可</p>
                                                        <p><span class="icon icon-lg text-white">filter_5</span> 更新后选择其中一个节点闪电图标测试节点-测试UDP转发...通过!（UDP通过即可连接并开始游戏），如测试不通过，点击齿轮图标设置DNS，推荐谷歌DNS</p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝订阅地址</button><br></p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击拷贝订阅地址</button><br></p>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=0">点击复制</button><br></p>
+														</div>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击复制</button><br></p>
+														</div>
                                                       <p><a href="/user/announcement">点击这里查看游戏客户端傻瓜式教程</a></p>
 													</div>
                                                   <div class="tab-pane fade" id="all_ssr_info">
@@ -257,7 +287,10 @@
 														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
 														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：点击<a class="copy-text" data-clipboard-text='{$ssd_url_all}'>这里</a>，然后右键小飞机->从剪贴板复制地址</p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝订阅地址</button><br></p>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击复制</button><br></p>
+														</div>
                                                        <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_mac">
@@ -271,7 +304,10 @@
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk"> 点击下载 SSD</a>。<b>因为与原版Shadowsocks包名相同，所以如果手机上如果已安装原版Shadowsocks，需先卸载</b></p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 安装后，在手机上点击 <a class="copy-text" data-clipboard-text="{$ss_url_all}"> 这个链接</a>复制到剪贴板</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 打开 ShadowsocksD 客户端，点击右上角的“加号”，选择“添加订阅”，将剪贴板中的内容粘贴进去，点击“OK”，稍等片刻即可看见订阅的节点</p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝订阅地址</button><br></p>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击复制</button><br></p>
+														</div>
 													</div>
 													<div class="tab-pane fade" id="all_ss_router">
 														<p>路由器 刷入<a href="http://www.right.com.cn/forum/thread-161324-1-1.html">这个固件</a>，然后 SSH 登陆路由器，执行以下命令（导入普通端口）<br>
@@ -294,15 +330,15 @@
 														{$v2_url_all = URL::getAllVMessUrl($user)}
 
 														<a class="copy-text" data-clipboard-text="{$v2_url_all}">点击这里复制全部 VMess 链接</a>
-														<p>
-														<span class="icon icon-lg text-white">flash_auto</span> 
-														单端口节点订阅地址：
-														<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=2" readonly="true" />
-														<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=2">
-															点击拷贝订阅地址
-														</button>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
+														<div class="float-clear">
+															<input type="text" class="input form-control form-control-monospace cust-link col-xs-12 col-xx-9" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=2" readonly="true" />
+															<button class="copy-text btn btn-subscription col-xs-12 col-xx-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=2">
+																点击复制
+															</button>
+														</div>
 														<br>
-														</p>
+														
                                                       
 
 													</div>
@@ -321,7 +357,7 @@
 
 						</div>
 
-						<div class="col-lg-6 col-md-6">
+						<div class="col-xs-12 col-xx-4">
 
 							<div class="card">
 								<div class="card-main">
@@ -469,21 +505,21 @@
 	                                         <div class="before"></div>
 	                                         <div class="bar tuse color3" style="width:calc({($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}% - 44px);)"><span></span></div>
 											 <div class="label-flex">
-												<div class="label la-top"><div class="bar ard color3"><span></span></div>今日已用 {$user->TodayusedTraffic()}</div>
+												<div class="label la-top"><div class="bar ard color3"><span></span></div>今日已用 <code>{$user->TodayusedTraffic()}</code></div>
 											 </div>
 										</div>
 										<div class="progressbar">
 										    <div class="before"></div>
 										    <div class="bar ard color2" style="width:calc({$user->last_day_t/$user->transfer_enable*100}% - 44px);)"><span></span></div>
 										    <div class="label-flex">
-										       <div class="label la-top"><div class="bar ard color2"><span></span></div>过去已用 {$user->LastusedTraffic()}</div>
+										       <div class="label la-top"><div class="bar ard color2"><span></span></div>过去已用 <code>{$user->LastusedTraffic()}</code></div>
 										    </div>
 								        </div>
 										<div class="progressbar">
 											<div class="before"></div>
 											<div class="bar remain color" style="width:calc({($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}% - 44px);)"><span></span></div>
 											<div class="label-flex">
-											   <div class="label la-top"><div class="bar ard color"><span></span></div>剩余流量 {$user->unusedTraffic()}</div>
+											   <div class="label la-top"><div class="bar ard color"><span></span></div>剩余流量 <code>{$user->unusedTraffic()}</code></div>
 											</div>
 									   </div>
 									   
