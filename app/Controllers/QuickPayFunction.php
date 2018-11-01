@@ -2,16 +2,13 @@
 
 namespace App\Controllers;
 
-use app\Utils\YftOrderNumUtil;
-
 class QuickPayFunction{
     public function md5Verify($p1, $p2,$p3,$p4,$sign) {
-        $preStr = $p1.$p2.$p3.$p4;
+        $preStr = $p1 . $p2 . $p3 . $p4 . "yft";
         $mySign = md5($preStr);
-//        echo $mySign;
-        if($mySign == $sign) {
+        if ($mySign == $sign) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

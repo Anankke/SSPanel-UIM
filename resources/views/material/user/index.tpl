@@ -55,7 +55,7 @@
 												<li {if !$ssr_prefer}class="active"{/if}>
 													<a class="waves-attach" data-toggle="tab" href="#all_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;SS/SSD</a>
 												</li>
-												
+							
 												<li>
 													<a class="waves-attach" data-toggle="tab" href="#all_v2ray"><i class="icon icon-lg">flight_land</i>&nbsp;V2RAY</a>
 												</li>
@@ -252,23 +252,23 @@
 														{/if}
 													</div>
 													<div class="tab-pane fade" id="all_ss_windows">
-														{$ssd_url_all =URL::getAllSSDUrl($user,true)}
+													{$ssd_url_all =URL::getAllSSDUrl($user,true)}
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-win.7z"> 点击下载 SSD</a>，解压至任意磁盘并运行</p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
 														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：点击<a class="copy-text" data-clipboard-text='{$ssd_url_all}'>这里</a>，然后右键小飞机->从剪贴板复制地址</p>
-														<p><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝订阅地址</button><br></p>
+														<p><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：<input type="text" class="input form-control form-control-monospace" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝订阅地址</button><br></p>
                                                        <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p>
-													</div>													
+													</div>
 													<div class="tab-pane fade" id="all_ss_mac">
 														<p><a href="/ssr-download/ss-mac.zip">下载</a>，安装，然后下载<a href="/user/getpcconf?is_mu=0&is_ss=1">这个（普通端口）</a>或者<a href="/user/getpcconf?is_mu=1&is_ss=1">这个（单端口多用户）</a>，运行程序，小飞机上右键 服务器列表 子菜单 的 “导入服务器配置文件...” 导入这个文件，然后选择一个合适的服务器，更新一下PAC，然后开启系统代理即可上网</p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_ios">
-														<p>推荐下载<a href="https://itunes.apple.com/cn/app/shadowrocket/id932747118?mt=8">Shadowrocket</a>，请在左侧菜单栏里提交工单申请已购买软件的美国商店Apple ID自行切换商店账号下载安装，为了您的隐私安全，请不要登录 iCloud 。下载完成后在 Safari 中点击<a href="{$ss_url_all}">这个（普通端口）</a>或者<a href="{$ss_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点。</p>
+														<p>推荐下载<a href="https://itunes.apple.com/cn/app/shadowrocket/id932747118?mt=8">Shadowrocket</a>，请在左侧菜单栏里提交工单申请已购买软件的美国商店Apple ID自行切换商店账号下载安装，为了您的隐私安全，请不要登录 iCloud 。下载完成后在 Safari 中点击<a href="{$ss_url_all}">这个（普通端口）</a>或者<a href="{$ss_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点</p>
 														<p>iOS 下载<a href="/link/{$ios_token}?is_ss=1">这个（普通端口）</a>或者<a href="/link/{$ios_token}?is_ss=1&is_mu=1">这个（单端口多用户）</a>，导入到 Surge 中，然后就可以随意切换服务器上网了</p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_android">
-														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk"> 点击下载</a>。<b>因为与原版Shadowsocks包名相同，所以如果手机上如果已安装原版Shadowsocks，需先卸载</b></p>
+														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk"> 点击下载 SSD</a>。<b>因为与原版Shadowsocks包名相同，所以如果手机上如果已安装原版Shadowsocks，需先卸载</b></p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 安装后，在手机上点击 <a class="copy-text" data-clipboard-text="{$ss_url_all}"> 这个链接</a>复制到剪贴板</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 打开 ShadowsocksD 客户端，点击右上角的“加号”，选择“添加订阅”，将剪贴板中的内容粘贴进去，点击“OK”，稍等片刻即可看见订阅的节点</p>
 														<p><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝订阅地址</button><br></p>
@@ -280,7 +280,7 @@
 														<code>wget -O- {$baseUrl}/link/{$router_token_without_mu}?is_ss=1 | bash && echo -e "\n0 */3 * * * wget -O- {$baseUrl}/link/{$router_token_without_mu}?is_ss=1 | bash\n">> /etc/storage/cron/crontabs/admin && killall crond && crond </code><br>
 														执行完毕以后就可以到路由器的设置面板里随意选择 Shadowsocks 服务器进行连接了。</p>
 													</div>
-												</div>
+												</div>											
 
 												<div class="tab-pane fade" id="all_v2ray">
 													<nav class="tab-nav margin-top-no">

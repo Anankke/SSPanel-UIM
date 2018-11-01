@@ -20,7 +20,6 @@ use App\Services\Auth;
 use App\Services\Config;
 
 use App\Models\Paylist;
-use App\Models\Payback;
 
 
 
@@ -106,7 +105,10 @@ HTML;
 
     public function getStatus($request, $response, $args)
     {
-        return json_encode(Paylist::find($_POST['pid']));
+        $p = Paylist::where("tradeno", $_POST['pid'])->first();
+        $return['ret'] = 1;
+        $return['result'] = $p->status;
+        return json_encode($return);
     }
 
 
