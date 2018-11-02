@@ -108,7 +108,9 @@ class TrimePay extends AbstractPayment
         $data['returnUrl'] = Config::get("baseUrl")."/user/payment/return";
         $params = self::prepareSign($data);
         $data['sign'] = self::sign($params);
-        return self::post($data);
+        $result = json_decode(self::post($data), TRUE);
+        $result['pid'] = $pl->tradeno;
+        return json_encode($result);
     }
 
     public function notify($request, $response, $args)
@@ -164,7 +166,10 @@ class TrimePay extends AbstractPayment
 
     public function getStatus($request, $response, $args)
     {
-        // TODO: Implement getStatus() method.
+        $p = Paylist::where("tradeno", $_POST['pid'])->first();
+        $return['ret'] = 1;
+        $return['result'] = $p->status;
+        return json_encode($return);
     }
 }
 
