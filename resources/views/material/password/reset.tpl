@@ -5,7 +5,7 @@
 <main class="content">
 		<div class="container">
 			<div class="row">
-				<div class="col-xx-4 col-xx-push-4 col-lg-5 col-lg-push-3 col-md-8 col-md-push-2 col-xs-12 col-xs-push-0">
+				<div class="col-lg-4 col-lg-push-4 col-sm-6 col-sm-push-3">
 					<section class="content-inner">
 						<div class="card">
 							<div class="card-main">

@@ -15,7 +15,7 @@
 		<div class="container">
 			<section class="content-inner margin-top-no">
 				<div class="row">
-					<div class="col-xx-12 col-sm-12">
+					<div class="col-xx-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -28,7 +28,7 @@
 				<div class="ui-card-wrap">
 					<div class="row">
 					
-						<div class="col-xx-6 col-sm-6">
+						<div class="col-xx-12 col-sm-6">
 						
 						
 							<div class="card">
@@ -173,7 +173,7 @@
 						</div>
 						
 						
-						<div class="col-xx-6 col-sm-6">
+						<div class="col-xx-12 col-sm-6">
 						
 						
 							<div class="card">

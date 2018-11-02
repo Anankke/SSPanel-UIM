@@ -14,7 +14,7 @@
              
 
 
-					<div class="col-xx-6 col-sm-6">
+					<div class="col-xx-12 col-sm-6">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -236,7 +236,7 @@
 					</div>  
 
 
-					<div class="col-xx-6 col-sm-6">
+					<div class="col-xx-12 col-sm-6">
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">

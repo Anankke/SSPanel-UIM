@@ -50,9 +50,11 @@
 										<p class="card-heading">邀请链接</p>
 										<p>剩余可邀请次数：{if $user->invite_num<0}无限{else}<code>{$user->invite_num}</code>{/if}</p>
 										<p>邀请链接请给认识的需要的人，邀请他人注册时，请将以下链接发给被邀请者</p>
-										<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly="" value="{$config["baseUrl"]}/auth/register?code={$code->code}">
-										<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击拷贝邀请链接</button>
-										<button class="reset-invitelink btn btn-subscription" type="button"><span class="icon">autorenew</span>&nbsp;重置邀请链接</button>
+										<div class="invite-link">
+											<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly="" value="{$config["baseUrl"]}/auth/register?code={$code->code}">
+											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击复制</button>
+											<button class="reset-invitelink btn btn-subscription" type="button"><span class="icon">autorenew</span>&nbsp;重置邀请链接</button>
+										</div>
 									</div>
 								</div>
 							</div>

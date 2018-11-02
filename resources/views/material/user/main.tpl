@@ -329,6 +329,11 @@
 			color: #c4c4c4;
 		}
 
+		.usercheck {
+			text-align: center;
+			width: 100%;
+		}
+
 	</style>
 
     <style>
