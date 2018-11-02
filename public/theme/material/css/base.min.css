@@ -3038,7 +3038,7 @@ margin-bottom: 24px
 }
 
 .form-control,.picker__select--month,.picker__select--year {
-background-color: #00000008;
+background-color: #f0f0f0;
 background-image: none;
 border: 1px solid rgba(0,0,0,.12);
 border-radius: 20px;
@@ -6287,7 +6287,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 }
 .cardbtn-edit .btn-flat {
 	border-radius: 50%;
-	background: #555555b3;
+	background: #999999;
 	width: 50px;
 	height: 50px;
 	color: white;
@@ -6297,6 +6297,14 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	position: relative;
 	font-size: 21px;
 	top: 1px;
+}
+
+ .cardbtn-edit .account-flex .btn-flat {
+	margin-left: 1em;
+	background: #ff4343;
+}
+ .cardbtn-edit .account-flex .btn-flat span {
+    top: 6px;
 }
 .cardbtn-edit a.btn-flat.btn-brand-accent {
 	color: white !important;
@@ -6332,6 +6340,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 .invite-link .cust-link {
 	flex-basis: 100%;
 	margin: 0;
+    width: 100%;
 }
 .invite-link .btn-subscription {
 	margin: 1em 0 1em 1em;
@@ -6341,6 +6350,12 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	position: relative;
 	top: 4px;
 	left: 1px;
+}
+
+.account-flex {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
 }
 
 @media screen and (max-width:430px) {
