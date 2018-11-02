@@ -21,7 +21,7 @@
 									<div class="card-inner">
 									<div class="cardbtn-edit">
 										<div class="card-heading">账号登录密码修改</div>
-										<button class="btn btn-flat waves-attach" id="pwd-update">提交</button>
+										<button class="btn btn-flat waves-attach" id="pwd-update"><span class="icon">check</span>&nbsp;</button>
 									</div>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="oldpwd">当前密码</label>
@@ -49,7 +49,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">节点连接密码修改</div>
-												<button class="btn btn-flat waves-attach" id="ss-pwd-update">提交</button>
+												<button class="btn btn-flat waves-attach" id="ss-pwd-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
 										
 										<p>当前连接密码：<code id="ajax-user-passwd">{$user->passwd}</code><button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">点击拷贝</button></p>
@@ -72,7 +72,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">加密方式修改</div>
-												<button class="btn btn-flat waves-attach" id="method-update">提交</button>
+												<button class="btn btn-flat waves-attach" id="method-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
 										<p>注意：SS/SSD/SSR 支持的加密方式有所不同，请根据实际情况来进行选择</p>
 										<p>当前加密方式：<code>{$user->method}</code></p>
@@ -96,7 +96,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">联络方式修改</div>
-												<button class="btn btn-flat waves-attach" id="wechat-update">提交</button>
+												<button class="btn btn-flat waves-attach" id="wechat-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
 										<p>当前联络方式：
 										<code id="ajax-im">
@@ -146,7 +146,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">协议&混淆设置</div>
-												<button class="btn btn-flat waves-attach" id="ssr-update">提交</button>
+												<button class="btn btn-flat waves-attach" id="ssr-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
 										<p>当前协议：<code id="ajax-user-protocol">{$user->protocol}</code></p>
 										<p>注意1：如果需要兼容 SS/SSD 请设置为 origin 或选择带_compatible的兼容选项</p>
@@ -187,11 +187,6 @@
 										</div>
 									</div>
 
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>  
@@ -208,7 +203,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">主题修改</div>
-												<button class="btn btn-flat waves-attach" id="theme-update">提交</button>
+												<button class="btn btn-flat waves-attach" id="theme-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
 										<p>当前主题：{$user->theme}</p>
 										<div class="form-group form-group-label">
@@ -234,7 +229,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">IP解封</div>
-												<button class="btn btn-flat waves-attach" id="unblock">解封</button>
+												<button class="btn btn-flat waves-attach" id="unblock"><span class="icon">not_interested</span>&nbsp;</button>
 										</div>
 										<p>当前状态：<code id="ajax-block">{$Block}</code></p>
 
@@ -251,7 +246,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">每日邮件接收设置</div>
-												<button class="btn btn-flat waves-attach" id="mail-update">提交</button>
+												<button class="btn btn-flat waves-attach" id="mail-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
 										<p class="card-heading"></p>
 										<p>当前设置：<code id="ajax-mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}</code></p>
@@ -322,7 +317,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">重置端口</div>
-												<button class="btn btn-flat waves-attach" id="portreset">摇号</button>
+												<button class="btn btn-flat waves-attach" id="portreset"><span class="icon">call_made</span>&nbsp;</button>
 										</div>
 										<p>对号码不满意？来摇号吧～！</p>
 										<p>随机更换一个端口使用，价格：<code>{$config['port_price']}</code>元/次</p>
@@ -335,7 +330,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">钦定端口</div>
-												<button class="btn btn-flat waves-attach" id="portspecify">钦定</button>
+												<button class="btn btn-flat waves-attach" id="portspecify"><span class="icon">call_made</span>&nbsp;</button>
 										</div>
 										<p>不想摇号？来钦定端口吧～！</p>
 										<p>价格：<code>{$config['port_price_specify']}</code>元/次</p>
@@ -358,7 +353,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">自定义ACL/PAC/Surge</div>
-												<button class="btn btn-flat waves-attach" id="setpac">设置</button>
+												<button class="btn btn-flat waves-attach" id="setpac"><span class="icon">settings</span>&nbsp;</button>
 										</div>
 										<p>格式参看<a href="https://adblockplus.org/zh_CN/filters">https://adblockplus.org/zh_CN/filters</a></p>
 										<p>IP 段请使用 |127.0.0.0/8 类似格式表示</p>
@@ -380,7 +375,7 @@
 									<div class="card-inner">
 										<div class="cardbtn-edit">
 												<div class="card-heading">Telegram 绑定</div>
-												<div><a class="btn btn-flat btn-brand-accent waves-attach" href="/user/telegram_reset"><span>解绑</span></a></div>
+												<div><a class="btn btn-flat btn-brand-accent waves-attach" href="/user/telegram_reset"><span class="icon">not_interested</span>&nbsp;</a></div>
 										</div>
 										<p>Telegram 添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。</p>
 										<div class="form-group form-group-label">

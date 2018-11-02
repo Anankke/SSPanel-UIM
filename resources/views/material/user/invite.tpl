@@ -67,22 +67,17 @@
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
-
 									<div class="card-inner">
-										<p class="card-heading">购买邀请次数</p>
+									<div class="cardbtn-edit">
+											<div class="card-heading">购买邀请次数</div>
+											<button class="btn btn-flat waves-attach" id="buy-invite"><span class="material-icons">shopping_cart</span></button>
+									</div>		
 										<p>邀请次数价格：<code>{$config['invite_price']}</code>元/个</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="buy-invite-num">在这输入购买次数</label>
-											<input class="form-control" id="buy-invite-num" type="num">
+											<input class="form-control maxwidth-edit" id="buy-invite-num" type="num">
 										</div>
 									</div>
-
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="buy-invite" ><span class="icon">check</span>&nbsp;购买</button>
-										</div>
-									</div>
-
 								</div>
 							</div>
 						</div>

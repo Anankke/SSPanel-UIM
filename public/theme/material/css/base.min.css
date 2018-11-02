@@ -5203,7 +5203,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 	font-size: 14px;
 	line-height: 20px;
 	padding: 13px 16px 14px;
-	vertical-align: top
+	vertical-align: middle;
 }
 
 .table td.nowrap,.table th.nowrap {
@@ -6278,17 +6278,25 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
+.invite-link {
+	justify-content: flex-end;
+}
 .cardbtn-edit .card-heading {
 	margin-bottom: 0;
 	margin-top: 15px;
 }
 .cardbtn-edit .btn-flat {
 	border-radius: 50%;
-	background: #5e72e4;
-	width: 60px;
-	height: 60px;
+	background: #555555b3;
+	width: 50px;
+	height: 50px;
 	color: white;
 	box-shadow: 1px 2px 3px rgba(0,0,0,.15), 1px 2px 3px 1px rgba(0,0,0,.15);
+}
+.cardbtn-edit .btn-flat span {
+	position: relative;
+	font-size: 21px;
+	top: 1px;
 }
 .cardbtn-edit a.btn-flat.btn-brand-accent {
 	color: white !important;
@@ -6297,7 +6305,28 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 .cardbtn-edit a.btn-flat.btn-brand-accent span {
 	position: relative;
-	top: 12px;
+	top: 7px;
+}
+
+.cardbtn-edit a.btn-flat.btn-brand-accent.reset-link i {
+	font-size: 30px;
+	position: relative;
+	top: 2px;
+	right: 4px;
+}
+
+.cardbtn-edit a.btn-flat.btn-brand-accent.reset-link {
+	margin-left: 1em;
+	margin-right: 1em;
+	display: inline-block;
+	background: #ff4343;
+}
+
+
+.cardbtn-edit a.btn-flat.btn-brand-accent.reset-link:hover,.cardbtn-edit .btn-flat:hover {
+	border-radius: 10px;
+	
+	transition-duration: 0.4s;
 }
 
 .invite-link .cust-link {
@@ -6305,12 +6334,23 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	margin: 0;
 }
 .invite-link .btn-subscription {
-	margin: 1em 0;
-	flex-basis: 40%;
+	margin: 1em 0 1em 1em;
+	flex-basis: 20%;
+}
+#buy-invite span {
+	position: relative;
+	top: 4px;
+	left: 1px;
 }
 
-
-
+@media screen and (max-width:430px) {
+    .reset-flex {
+		display: flex;
+		justify-content: flex-end;
+		flex-basis: 100%;
+		align-items: center;
+	}
+}
 
 @media screen and (min-width:1440px) {
 	.hidden-lg {
