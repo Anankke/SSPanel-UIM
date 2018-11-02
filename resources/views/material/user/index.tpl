@@ -46,7 +46,10 @@
 							<div class="card">
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
-										<p class="card-heading"><i class="icon icon-md">phonelink</i> 快速添加节点</p>
+									<div class="cardbtn-edit">
+											<div class="card-heading"><i class="icon icon-md">phonelink</i> 快速添加节点</div>
+											<div class="reset-flex"><span>重置订阅链接</span><a class="reset-link btn btn-brand-accent btn-flat waves-attach" ><i class="icon">autorenew</i>&nbsp;</a></div>				
+									</div>	
 										<nav class="tab-nav margin-top-no">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
@@ -319,11 +322,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-action">
-											<div class="card-action-btn pull-left">
-												<p><a class="reset-link btn btn-brand btn-flat waves-attach" ><span class="icon">autorenew</span>&nbsp;重置订阅链接</a></p>
-											</div>
-										</div>
+										
 									</div>
 
 								</div>
