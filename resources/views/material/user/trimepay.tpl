@@ -60,11 +60,11 @@
                         if(type === 'ALIPAY_WAP' || type ==='ALIPAY_WEB'){
                             window.location.href = data.data;
                         } else {
-                            $("#qrarea").html('<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>');
+                            $("#qrarea").html('<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后请刷新网页</p></div>');
                             var qrcode = new QRCode("qrcode", {
                                 render: "canvas",
-                                width: 100,
-                                height: 100,
+                                width: 200,
+                                height: 200,
                                 text: encodeURI(data.data)
                             });
                         }
