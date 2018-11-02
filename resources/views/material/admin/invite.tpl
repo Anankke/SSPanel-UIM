@@ -30,12 +30,12 @@
 					
 						<div class="form-group form-group-label">
 							<label class="floating-label" for="uid">需要增加邀请链接数量的用户（填写用户的ID，或者用户的完整邮箱)</label>
-							<input class="form-control" id="uid" type="text">
+							<input class="form-control maxwidth-edit" id="uid" type="text">
 						</div>
 
 						<div class="form-group form-group-label">
 							<label class="floating-label" for="prefix">邀请链接数量</label>
-							<input class="form-control" id="num" type="number">
+							<input class="form-control maxwidth-edit" id="num" type="number">
 						</div>
 
 

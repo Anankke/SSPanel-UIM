@@ -355,8 +355,8 @@
     left:20px;
     border-radius:20px;
     background:#fff;
-    box-shadow:inset 0px 0px 6px 0px rgba(78, 78, 78, 78.85);
-	border:1px solid rgba(222,222,222,222.8);
+    box-shadow: 0px 0px 2px 0px rgba(180, 180, 180, .85);
+	border:1px solid rgba(222,222,222,.8);
 }
 .progressbar .bar {
 	position:absolute;

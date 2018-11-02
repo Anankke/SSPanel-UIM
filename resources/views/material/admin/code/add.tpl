@@ -27,13 +27,13 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="amount">数目</label>
-									<input class="form-control" id="amount" type="text" value="1">
+									<input class="form-control maxwidth-edit" id="amount" type="text" value="1">
 								</div>
 								
 								
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="number">金额</label>
-									<input class="form-control" id="number" type="text" >
+									<input class="form-control maxwidth-edit" id="number" type="text" >
 								</div>
 
 								

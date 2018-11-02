@@ -28,27 +28,27 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="prefix">优惠码前缀</label>
-									<input class="form-control" id="prefix" type="text">
+									<input class="form-control maxwidth-edit" id="prefix" type="text">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="credit">优惠码额度(百分比，九折就填 10 )</label>
-									<input class="form-control" id="credit" type="text">
+									<input class="form-control maxwidth-edit" id="credit" type="text">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="expire">优惠码有效期(h)</label>
-									<input class="form-control" id="expire" type="number" value="1">
+									<input class="form-control maxwidth-edit" id="expire" type="number" value="1">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="shop">优惠码可用商品ID，不填即为所有商品可用，多个的话用英文半角逗号分割</label>
-									<input class="form-control" id="shop" type="text">
+									<input class="form-control maxwidth-edit" id="shop" type="text">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="shop">优惠码每个用户可用次数</label>
-									<input class="form-control" id="count" type="number" value="1">
+									<input class="form-control maxwidth-edit" id="count" type="number" value="1">
 								</div>
 
 								<div class="form-group form-group-label">

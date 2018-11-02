@@ -116,7 +116,7 @@
 								<div class="modal-inner">
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="coupon">有的话，请在这里输入。没有的话，直接确定吧</label>
-										<input class="form-control" id="coupon" type="text">
+										<input class="form-control maxwidth-edit" id="coupon" type="text">
 									</div>
 								</div>
 								<div class="modal-footer">

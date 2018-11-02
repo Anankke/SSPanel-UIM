@@ -22,28 +22,28 @@
 								<div class="card-inner">
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="name">节点名称</label>
-										<input class="form-control" id="name" type="text" name="name">
+										<input class="form-control maxwidth-edit" id="name" type="text" name="name">
 									</div>
 
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="server">节点地址</label>
-										<input class="form-control" id="server" type="text" name="server">
+										<input class="form-control maxwidth-edit" id="server" type="text" name="server">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="server">节点IP(不填则自动获取，填写请按照 <a href="https://github.com/esdeathlove/ss-panel-v3-mod/wiki/%E8%8A%82%E7%82%B9IP%E5%A1%AB%E5%86%99%E8%A7%84%E5%88%99">这里</a> 的规则进行填写)</label>
-										<input class="form-control" id="node_ip" name="node_ip" type="text">
+										<input class="form-control maxwidth-edit" id="node_ip" name="node_ip" type="text">
 									</div>
 
 									<div class="form-group form-group-label" hidden="hidden">
 										<label class="floating-label" for="method">加密方式</label>
-										<input class="form-control" id="method" type="text" name="method" value="aes-256-cfb">
+										<input class="form-control maxwidth-edit" id="method" type="text" name="method" value="aes-256-cfb">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="rate">流量比例</label>
-										<input class="form-control" id="rate" type="text" name="rate" value="1">
+										<input class="form-control maxwidth-edit" id="rate" type="text" name="rate" value="1">
 									</div>
 
 									<div class="form-group form-group-label" hidden="hidden">
@@ -65,7 +65,7 @@
 									<div class="form-group form-group-label">
 										<label for="mu_only">
 											<label class="floating-label" for="sort">单端口多用户启用</label>
-											<select id="mu_only" class="form-control" name="is_multi_user">
+											<select id="mu_only" class="form-control maxwidth-edit" name="is_multi_user">
 												<option value="-1">只启用普通端口</option>
 													<option value="0">单端口多用户与普通端口并存</option>
 													<option value="1">只启用单端口多用户</option>
@@ -92,13 +92,13 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="status">节点状态</label>
-										<input class="form-control" id="status" type="text" name="status" value="可用">
+										<input class="form-control maxwidth-edit" id="status" type="text" name="status" value="可用">
 									</div>
 
 									<div class="form-group form-group-label">
 										<div class="form-group form-group-label">
 												<label class="floating-label" for="sort">节点类型</label>
-												<select id="sort" class="form-control" name="sort">
+												<select id="sort" class="form-control maxwidth-edit" name="sort">
 													<option value="0">Shadowsocks</option>
 													<option value="1">VPN/Radius基础</option>
 													<option value="2">SSH</option>
@@ -117,34 +117,34 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="info">节点描述</label>
-										<input class="form-control" id="info" type="text" name="info" value="无描述">
+										<input class="form-control maxwidth-edit" id="info" type="text" name="info" value="无描述">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="class">节点等级（不分级请填0，分级为数字）</label>
-										<input class="form-control" id="class" type="text" value="0" name="class">
+										<input class="form-control maxwidth-edit" id="class" type="text" value="0" name="class">
 									</div>
 
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="group">节点群组（分组为数字，不分组请填0）</label>
-										<input class="form-control" id="group" type="text" value="0" name="group">
+										<input class="form-control maxwidth-edit" id="group" type="text" value="0" name="group">
 									</div>
 
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="node_bandwidth_limit">节点流量上限（不使用的话请填0）（GB）</label>
-										<input class="form-control" id="node_bandwidth_limit" type="text" value="0" name="node_bandwidth_limit">
+										<input class="form-control maxwidth-edit" id="node_bandwidth_limit" type="text" value="0" name="node_bandwidth_limit">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="bandwidthlimit_resetday">节点流量上限清空日</label>
-										<input class="form-control" id="bandwidthlimit_resetday" type="text" value="1" name="bandwidthlimit_resetday">
+										<input class="form-control maxwidth-edit" id="bandwidthlimit_resetday" type="text" value="1" name="bandwidthlimit_resetday">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="node_speedlimit">节点限速(对于每个用户端口)（Mbps）</label>
-										<input class="form-control" id="node_speedlimit" type="text" value="0" name="node_speedlimit">
+										<input class="form-control maxwidth-edit" id="node_speedlimit" type="text" value="0" name="node_speedlimit">
 									</div>
 								</div>
 							</div>

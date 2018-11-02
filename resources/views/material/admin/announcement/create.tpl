@@ -48,7 +48,7 @@
 										<div class="col-md-10 col-md-push-1">
                                          <div class="form-group form-group-label">
                                           	<label class="floating-label" for="vip">VIP等级（发送给高于这个等级的用户 0为不分级）</label>
-											<input class="form-control" id="vip" type="text" name="vip">
+											<input class="form-control maxwidth-edit" id="vip" type="text" name="vip">
                                            <div class="checkbox switch">
 											<label for="issend">
 												<input class="access-hide" id="issend" type="checkbox" name="issend"><span class="switch-toggle"></span>是否发送邮件

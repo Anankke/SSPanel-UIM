@@ -64,7 +64,7 @@
                                     <p class="card-heading">充值码</p>
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="code">充值码</label>
-                                        <input class="form-control" id="code" type="text">
+                                        <input class="form-control maxwidth-edit" id="code" type="text">
                                     </div>
                                 </div>
                                 <div class="card-action">
