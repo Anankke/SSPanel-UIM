@@ -3059,6 +3059,7 @@ border-color: #ff0022;
 border-radius: 5px;
 transition-duration:0.4s;
 outline: 0;
+opacity: 1;
 padding-bottom: 7px
 }
 
@@ -6346,7 +6347,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 }
 .invite-link .btn-subscription {
 	margin: 1em 0 1em 1em;
-	flex-basis: 20%;
+	flex-basis: 16%;
 }
 #buy-invite span {
 	position: relative;
@@ -6373,6 +6374,10 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	}
 	.nav .a, .nav a {
 		padding: 0 10px;
+	}
+	.invite-link .btn-subscription {
+		flex-basis: 100%;
+		margin: 1em 0 0 0;
 	}
 }
 
