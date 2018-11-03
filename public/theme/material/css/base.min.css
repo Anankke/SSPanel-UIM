@@ -6272,6 +6272,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	cursor: unset;
 	padding-bottom: 2px;
 	margin-right: 1em;
+	background-color: #f3f3f3;
 }
 
 .invite-link,.cardbtn-edit {
@@ -6365,6 +6366,13 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 		justify-content: flex-end;
 		flex-basis: 100%;
 		align-items: center;
+		margin: 1em 0;
+	}
+	.tab-nav {
+		font-size: 13px;
+	}
+	.nav .a, .nav a {
+		padding: 0 10px;
 	}
 }
 

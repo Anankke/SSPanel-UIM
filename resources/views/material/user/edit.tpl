@@ -352,9 +352,10 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<div class="cardbtn-edit">
-												<div class="card-heading">自定义ACL/PAC/Surge</div>
+												<div class="card-heading">自定义规则</div>
 												<button class="btn btn-flat waves-attach" id="setpac"><span class="icon">settings</span>&nbsp;</button>
 										</div>
+										<p>适用于ACL/PAC/Surge</p>
 										<p>格式参看<a href="https://adblockplus.org/zh_CN/filters">撰写 Adblock Plus 过滤规则</a></p>
 										<p>IP 段请使用 |127.0.0.0/8 类似格式表示</p>
 										<div class="form-group form-group-label">
