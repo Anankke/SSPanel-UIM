@@ -420,7 +420,7 @@ class LinkController extends BaseController
         $proxy_name="";
         $proxy_group="";
 
-        $rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+        $rules = file_get_contents("https://raw.githubusercontent.com/wewall/black-hole/master/Rule.conf");
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
