@@ -152,7 +152,7 @@ $System_Config['enable_geetest_checkin']='false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none,codepay,doiampay,paymentwall,zfbjk,spay,f2fpay,yftpay,f2fpay_codepay,chenAlipay
+#取值 none | codepay | doiampay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay | f2fpay_codepay 
 $System_Config['payment_system']='none';
 
 #codepay码支付
@@ -212,7 +212,7 @@ $System_Config['zfbjk_pid']='';
 $System_Config['zfbjk_key']='';
 $System_Config['zfbjk_qrcodeurl']='';
 
-#Trimepay
+#Trimepay https://portal.trimepay.com
 $System_Config['trimepay_appid']='';		//AppID
 $System_Config['trimepay_secret']='';		//AppSecret
 
