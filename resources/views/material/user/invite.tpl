@@ -50,8 +50,11 @@
 										<p class="card-heading">邀请链接</p>
 										<p>剩余可邀请次数：{if $user->invite_num<0}无限{else}<code>{$user->invite_num}</code>{/if}</p>
 										<p>邀请链接请给认识的需要的人，邀请他人注册时，请将以下链接发给被邀请者</p>
-										<p><a>{$config["baseUrl"]}/auth/register?code={$code->code}</a></p>
-										<p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击拷贝邀请链接</button></p>
+										<div class="invite-link">
+											<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly="" value="{$config["baseUrl"]}/auth/register?code={$code->code}">
+											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击复制</button>
+											<button class="reset-invitelink btn btn-subscription" type="button"><span class="icon">autorenew</span>&nbsp;重置邀请链接</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -64,22 +67,17 @@
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
-
 									<div class="card-inner">
-										<p class="card-heading">购买邀请次数</p>
+									<div class="cardbtn-edit">
+											<div class="card-heading">购买邀请次数</div>
+											<button class="btn btn-flat waves-attach" id="buy-invite"><span class="material-icons">shopping_cart</span></button>
+									</div>		
 										<p>邀请次数价格：<code>{$config['invite_price']}</code>元/个</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="buy-invite-num">在这输入购买次数</label>
-											<input class="form-control" id="buy-invite-num" type="num">
+											<input class="form-control maxwidth-edit" id="buy-invite-num" type="num">
 										</div>
 									</div>
-
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="buy-invite" ><span class="icon">check</span>&nbsp;购买</button>
-										</div>
-									</div>
-
 								</div>
 							</div>
 						</div>
@@ -101,7 +99,7 @@
 
 					{/if}
 					<div class="col-lg-12 col-md-12">
-					<div class="table-responsive">
+					<div class="table-responsive bgc-fix">
 						{$paybacks->render()}
 						<table class="table ">
 							<tr>
@@ -193,6 +191,16 @@ $("#buy-invite").click(function () {
 
 $(document).ready(function(){
  	{include file='table/js_2.tpl'}
+});
+
+</script>
+
+<script>
+
+$(".reset-invitelink").click(function () {
+	$("#result").modal();
+	$("#msg").html("已重置您的邀请链接，复制您的邀请链接发送给其他人！");
+	window.setTimeout("location.href='/user/inviteurl_reset'", {$config['jump_delay']});
 });
 
 </script>

@@ -34,7 +34,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="ip">要解封的IP</label>
-									<input class="form-control" id="ip" type="text">
+									<input class="form-control maxwidth-edit" id="ip" type="text">
 								</div>
 
 

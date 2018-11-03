@@ -3,16 +3,6 @@
 
 {include file='user/main.tpl'}
 
-<style>.kaobei {
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-}
-
-.kaobei:hover {
-    background-color: #ff7ffe; /* prink */
-    color: white;
-}</style>
-
 	<main class="content">
 		<div class="content-header ui-content-header">
 			<div class="container">
@@ -24,32 +14,31 @@
              
 
 
-					<div class="col-lg-6 col-md-6">
+					<div class="col-xx-12 col-sm-6">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">账号登录密码修改</p>
+									<div class="cardbtn-edit">
+										<div class="card-heading">账号登录密码修改</div>
+										<button class="btn btn-flat waves-attach" id="pwd-update"><span class="icon">check</span>&nbsp;</button>
+									</div>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="oldpwd">当前密码</label>
-											<input class="form-control" id="oldpwd" type="password">
+											<input class="form-control maxwidth-edit" id="oldpwd" type="password">
 										</div>
 
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="pwd">新密码</label>
-											<input class="form-control" id="pwd" type="password">
+											<input class="form-control maxwidth-edit" id="pwd" type="password">
 										</div>
 
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="repwd">确认新密码</label>
-											<input class="form-control" id="repwd" type="password">
+											<input class="form-control maxwidth-edit" id="repwd" type="password">
 										</div>
 									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="pwd-update" ><span class="icon">check</span>&nbsp;提交</button>
-										</div>
-									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -58,17 +47,15 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">节点连接密码修改</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">节点连接密码修改</div>
+												<button class="btn btn-flat waves-attach" id="ss-pwd-update"><span class="icon">check</span>&nbsp;</button>
+										</div>
+										
 										<p>当前连接密码：<code id="ajax-user-passwd">{$user->passwd}</code><button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">点击拷贝</button></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="sspwd">新连接密码</label>
-											<input class="form-control" id="sspwd" type="text">
-										</div>
-
-									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="ss-pwd-update" ><span class="icon">check</span>&nbsp;提交</button>
+											<input class="form-control maxwidth-edit" id="sspwd" type="text">
 										</div>
 									</div>
 								</div>
@@ -83,23 +70,20 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">加密方式修改</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">加密方式修改</div>
+												<button class="btn btn-flat waves-attach" id="method-update"><span class="icon">check</span>&nbsp;</button>
+										</div>
 										<p>注意：SS/SSD/SSR 支持的加密方式有所不同，请根据实际情况来进行选择</p>
 										<p>当前加密方式：<code>{$user->method}</code></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="method">加密方式</label>
-											<select id="method" class="form-control">
+											<select id="method" class="form-control maxwidth-edit">
 												{$method_list = $config_service->getSupportParam('method')}
 												{foreach $method_list as $method}
 													<option value="{$method}" {if $user->method == $method}selected="selected"{/if}>[{if URL::CanMethodConnect($method) == 2}SS/SSD{else}SS/SSR{/if} 可连接] {$method}</option>
 												{/foreach}
 											</select>
-										</div>
-
-									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="method-update" ><span class="icon">check</span>&nbsp;提交</button>
 										</div>
 									</div>
 								</div>
@@ -110,7 +94,10 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">联络方式修改</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">联络方式修改</div>
+												<button class="btn btn-flat waves-attach" id="wechat-update"><span class="icon">check</span>&nbsp;</button>
+										</div>
 										<p>当前联络方式：
 										<code id="ajax-im">
 										{if $user->im_type==1}
@@ -133,7 +120,7 @@
 										</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="imtype">选择您的联络方式</label>
-											<select class="form-control" id="imtype">
+											<select class="form-control maxwidth-edit" id="imtype">
 												<option></option>
 												<option value="1">微信</option>
 												<option value="2">QQ</option>
@@ -144,13 +131,7 @@
 
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="wechat">在这输入联络方式账号</label>
-											<input class="form-control" id="wechat" type="text">
-										</div>
-
-									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="wechat-update" ><span class="icon">check</span>&nbsp;提交</button>
+											<input class="form-control maxwidth-edit" id="wechat" type="text">
 										</div>
 									</div>
 								</div>
@@ -163,13 +144,16 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">协议&混淆设置</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">协议&混淆设置</div>
+												<button class="btn btn-flat waves-attach" id="ssr-update"><span class="icon">check</span>&nbsp;</button>
+										</div>
 										<p>当前协议：<code id="ajax-user-protocol">{$user->protocol}</code></p>
 										<p>注意1：如果需要兼容 SS/SSD 请设置为 origin 或选择带_compatible的兼容选项</p>
 										<p>注意3：auth_chain 系为实验性协议，可能造成不稳定或无法使用，开启前请询问是否支持</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="protocol">协议</label>
-											<select id="protocol" class="form-control">
+											<select id="protocol" class="form-control maxwidth-edit">
 												{$protocol_list = $config_service->getSupportParam('protocol')}
 												{foreach $protocol_list as $protocol}
 													<option value="{$protocol}" {if $user->protocol == $protocol}selected="selected"{/if}>[{if URL::CanProtocolConnect($protocol) == 3}SS/SSD/SSR{else}SSR{/if} 可连接] {$protocol}</option>
@@ -186,7 +170,7 @@
 										<p>注意3：如果使用 SS/SSD 作为客户端，请确保自己知道如何下载并使用混淆插件</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="obfs">混淆方式</label>
-											<select id="obfs" class="form-control">
+											<select id="obfs" class="form-control maxwidth-edit">
 												{$obfs_list = $config_service->getSupportParam('obfs')}
 												{foreach $obfs_list as $obfs}
 													<option value="{$obfs}" {if $user->obfs == $obfs}selected="selected"{/if}>[{if URL::CanObfsConnect($obfs) >= 3}SS/SSD/SSR{else}{if URL::CanObfsConnect($obfs) == 1}SSR{else}SS/SSD{/if}{/if} 可连接] {$obfs}</option>
@@ -199,15 +183,10 @@
 										<p>当前混淆参数：<code id="ajax-user-obfs-param">{$user->obfs_param}</code></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="obs-param">在这输入混淆参数</label>
-											<input class="form-control" id="obfs-param" type="text">
+											<input class="form-control maxwidth-edit" id="obfs-param" type="text">
 										</div>
 									</div>
 
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="ssr-update" ><span class="icon">check</span>&nbsp;提交</button>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>  
@@ -222,44 +201,38 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">主题修改</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">主题修改</div>
+												<button class="btn btn-flat waves-attach" id="theme-update"><span class="icon">check</span>&nbsp;</button>
+										</div>
 										<p>当前主题：{$user->theme}</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="theme">主题</label>
-											<select id="theme" class="form-control">
+											<select id="theme" class="form-control maxwidth-edit">
 												{foreach $themes as $theme}
 													<option value="{$theme}">{$theme}</option>
 												{/foreach}
 											</select>
 										</div>
-
-									
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="theme-update" ><span class="icon">check</span>&nbsp;提交</button>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div> 
-</div>
-					</div>  
+                    </div>
+				</div>  
 
 
-					<div class="col-lg-6 col-md-6">
+					<div class="col-xx-12 col-sm-6">
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">IP解封</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">IP解封</div>
+												<button class="btn btn-flat waves-attach" id="unblock"><span class="icon">not_interested</span>&nbsp;</button>
+										</div>
 										<p>当前状态：<code id="ajax-block">{$Block}</code></p>
 
-									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="unblock" ><span class="icon">check</span>&nbsp;解封</button>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -271,19 +244,18 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">每日邮件接收设置</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">每日邮件接收设置</div>
+												<button class="btn btn-flat waves-attach" id="mail-update"><span class="icon">check</span>&nbsp;</button>
+										</div>
+										<p class="card-heading"></p>
 										<p>当前设置：<code id="ajax-mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}</code></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="mail">发送设置</label>
-											<select id="mail" class="form-control">
+											<select id="mail" class="form-control maxwidth-edit">
 												<option value="1">发送</option>
 												<option value="0">不发送</option>
 											</select>
-										</div>
-									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="mail-update" ><span class="icon">check</span>&nbsp;提交</button>
 										</div>
 									</div>
 								</div>
@@ -305,7 +277,7 @@
 										<p>当前服务器时间：{date("Y-m-d H:i:s")}</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="ga-enable">验证设置</label>
-											<select id="ga-enable" class="form-control">
+											<select id="ga-enable" class="form-control maxwidth-edit">
 												<option value="0">不要求</option>
 												<option value="1">要求验证</option>
 											</select>
@@ -322,13 +294,13 @@
 
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="code">测试一下</label>
-											<input type="text" id="code" placeholder="输入验证器生成的数字来测试" class="form-control">
+											<input type="text" id="code" placeholder="输入验证器生成的数字来测试" class="form-control maxwidth-edit">
 										</div>
 
 									</div>
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
-											<a class="btn btn-brand-accent btn-flat waves-attach" href="/user/gareset" ><span class="icon">format_color_reset</span>&nbsp;重置</a>
+											<a class="btn btn-brand-accent btn-flat waves-attach" href="/user/gareset"><span class="icon">format_color_reset</span>&nbsp;重置</a>
 											<button class="btn btn-flat waves-attach" id="ga-test" ><span class="icon">extension</span>&nbsp;测试</button>
 											<button class="btn btn-brand btn-flat waves-attach" id="ga-set" ><span class="icon">perm_data_setting</span>&nbsp;设置</button>
 										</div>
@@ -343,35 +315,32 @@
 								<div class="card-inner">
 									{if $config['port_price']>=0}
 									<div class="card-inner">
-										<p class="card-heading">重置端口</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">重置端口</div>
+												<button class="btn btn-flat waves-attach" id="portreset"><span class="icon">autorenew</span>&nbsp;</button>
+										</div>
 										<p>对号码不满意？来摇号吧～！</p>
 										<p>随机更换一个端口使用，价格：<code>{$config['port_price']}</code>元/次</p>
 										<p>重置后1分钟内生效</p>
 										<p>当前端口：<code id="ajax-user-port">{$user->port}</code></p>
 									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="portreset" ><span class="icon">check</span>&nbsp;摇号</button>
-										</div>
-									</div>
 									{/if}
 
 									{if $config['port_price_specify']>=0}
 									<div class="card-inner">
-										<p class="card-heading">钦定端口</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">钦定端口</div>
+												<button class="btn btn-flat waves-attach" id="portspecify"><span class="icon">call_made</span>&nbsp;</button>
+										</div>
 										<p>不想摇号？来钦定端口吧～！</p>
 										<p>价格：<code>{$config['port_price_specify']}</code>元/次</p>
 										<p>端口范围：<code>{$config['min_port']}～{$config['max_port']}</code></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="port-specify">在这输入想钦定的号</label>
-											<input class="form-control" id="port-specify" type="num">
+											<input class="form-control maxwidth-edit" id="port-specify" type="num">
 										</div>
 									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="portspecify" ><span class="icon">check</span>&nbsp;钦定</button>
-										</div>
-									</div>
+									
 									{/if}
 								</div>
 							</div>
@@ -382,21 +351,20 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">自定义ACL/PAC/Surge</p>
-										<p>您可以在此处追加 Gfwlist 规则。</p>
-										<p>格式参看<a href="https://adblockplus.org/zh_CN/filters">https://adblockplus.org/zh_CN/filters</a></p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">自定义规则</div>
+												<button class="btn btn-flat waves-attach" id="setpac"><span class="icon">settings</span>&nbsp;</button>
+										</div>
+										<p>适用于ACL/PAC/Surge</p>
+										<p>格式参看<a href="https://adblockplus.org/zh_CN/filters">撰写 Adblock Plus 过滤规则</a></p>
 										<p>IP 段请使用 |127.0.0.0/8 类似格式表示</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="pac">规则书写区</label>
-											<textarea class="form-control" id="pac" rows="8">{$user->pac}</textarea>
+											<textarea class="form-control maxwidth-edit" id="pac" rows="8">{$user->pac}</textarea>
 										</div>
 
 									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="setpac" ><span class="icon">check</span>&nbsp;设置</button>
-										</div>
-									</div>
+					
 								</div>
 							</div>
 						</div>
@@ -406,7 +374,10 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">Telegram 绑定</p>
+										<div class="cardbtn-edit">
+												<div class="card-heading">Telegram 绑定</div>
+												<div><a class="btn btn-flat btn-brand-accent waves-attach" href="/user/telegram_reset"><span class="icon">not_interested</span>&nbsp;</a></div>
+										</div>
 										<p>Telegram 添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。</p>
 										<div class="form-group form-group-label">
 											<div class="text-center">
@@ -415,11 +386,6 @@
 											</div>
 										</div>
 
-									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<a class="btn btn-brand-accent btn-flat waves-attach" href="/user/telegram_reset" ><span class="icon">format_color_reset</span>&nbsp;解绑</a>
-										</div>
 									</div>
 								</div>
 							</div>

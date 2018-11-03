@@ -15,7 +15,7 @@
 		<div class="container">
 			<section class="content-inner margin-top-no">
 				<div class="row">
-					<div class="col-lg-12 col-md-12">
+					<div class="col-xx-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -28,12 +28,12 @@
 				<div class="ui-card-wrap">
 					<div class="row">
 					
-						<div class="col-lg-6 col-sm-6">
+						<div class="col-xx-12 col-sm-6">
 						
 						
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="check_chart" style="height: 300px; width: 100%;"></div>
 										
@@ -77,6 +77,31 @@
 											});
 
 											chart.render();
+
+											function chartRender(chart){
+                                                                   chart.render();
+                                                                   chart.ctx.shadowBlur = 8;
+                                                                   chart.ctx.shadowOffsetX = 4;
+                                                                   chart.ctx.shadowColor = "black";
+
+                                                                   for (var i = 0; i < chart.plotInfo.plotTypes.length; i++) {
+                                                                         var plotType = chart.plotInfo.plotTypes[i];
+                                                                         for (var j = 0; j < plotType.plotUnits.length; j++) {
+                                                                           var plotUnit = plotType.plotUnits[j];
+                                                                           //For Column Chart
+                                                                           if (plotUnit.type === "doughnut"){
+                                                                             chart.renderDoughnut(plotUnit);
+                                                                           }
+                                                                           //For Bar Chart
+                                                                           else if (plotUnit.type === "bar"){
+                                                                             chart.renderBar(plotUnit);
+                                                                           }
+                                                                         }
+                                                                   }
+                                                                   chart.ctx.shadowBlur = 0;
+                                                                   chart.ctx.shadowOffsetX = 0;
+                                                                   chart.ctx.shadowColor = "transparent";
+                                                                 }
 										</script>
 										
 									</div>
@@ -87,7 +112,7 @@
 							
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="alive_chart" style="height: 300px; width: 100%;"></div>
 										
@@ -148,12 +173,12 @@
 						</div>
 						
 						
-						<div class="col-lg-6 col-sm-6">
+						<div class="col-xx-12 col-sm-6">
 						
 						
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="node_chart" style="height: 300px; width: 100%;"></div>
 										
@@ -206,7 +231,7 @@
 							
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="traffic_chart" style="height: 300px; width: 100%;"></div>
 										

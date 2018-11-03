@@ -22,18 +22,18 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="name">名称</label>
-									<input class="form-control" id="name" type="text" >
+									<input class="form-control maxwidth-edit" id="name" type="text" >
 								</div>
 
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="price">价格</label>
-									<input class="form-control" id="price" type="text" >
+									<input class="form-control maxwidth-edit" id="price" type="text" >
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="auto_renew">自动续订天数（0为不允许自动续订，其他为到了那么多天之后就会自动从用户的账户上划钱抵扣）</label>
-									<input class="form-control" id="auto_renew" type="text" value="0">
+									<input class="form-control maxwidth-edit" id="auto_renew" type="text" value="0">
 								</div>
 
 
@@ -47,7 +47,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="bandwidth">流量（GB）</label>
-									<input class="form-control" id="bandwidth" type="text">
+									<input class="form-control maxwidth-edit" id="bandwidth" type="text">
 								</div>
 
 								<div class="form-group form-group-label">
@@ -69,7 +69,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="expire">账户有效期天数</label>
-									<input class="form-control" id="expire" type="text" value="0">
+									<input class="form-control maxwidth-edit" id="expire" type="text" value="0">
 								</div>
 							</div>
 						</div>
@@ -81,12 +81,12 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class">等级</label>
-									<input class="form-control" id="class" type="text" value="0">
+									<input class="form-control maxwidth-edit" id="class" type="text" value="0">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class_expire">等级有效期天数</label>
-									<input class="form-control" id="class_expire" type="text" value="0">
+									<input class="form-control maxwidth-edit" id="class_expire" type="text" value="0">
 								</div>
 							</div>
 						</div>
@@ -97,18 +97,18 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="reset_exp">多少天内</label>
-									<input class="form-control" id="reset_exp" type="number" value="0">
+									<input class="form-control maxwidth-edit" id="reset_exp" type="number" value="0">
 								</div>
 
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="reset">每多少天</label>
-									<input class="form-control" id="reset" type="number" value="0">
+									<input class="form-control maxwidth-edit" id="reset" type="number" value="0">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="reset_value">重置流量为多少G</label>
-									<input class="form-control" id="reset_value" type="number" value="0">
+									<input class="form-control maxwidth-edit" id="reset_value" type="number" value="0">
 								</div>
 							</div>
 						</div>
@@ -120,13 +120,13 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="speedlimit">端口限速</label>
-									<input class="form-control" id="speedlimit" type="number" value="0">
+									<input class="form-control maxwidth-edit" id="speedlimit" type="number" value="0">
 								</div>
 
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="connector">IP限制</label>
-									<input class="form-control" id="connector" type="number" value="0">
+									<input class="form-control maxwidth-edit" id="connector" type="number" value="0">
 								</div>
 							</div>
 						</div>

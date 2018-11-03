@@ -150,6 +150,11 @@ $System_Config['enable_geetest_reg']='false';		//启用注册验证码
 $System_Config['enable_geetest_login']='false';		//启用登录验证码
 $System_Config['enable_geetest_checkin']='false';	//启用签到验证码
 
+//界面设置
+
+$System_Config['enable_shop_uiswitch'] = '1'; //默认启用卡片式商店或列表商店，1为卡片式，0为列表
+$System_Config['number_viplevel'] = '1'; //节点自动化显示，输入要显示的最高节点等级
+
 
 //支付系统设置----------------------------------------------------------------------------------------
 #取值 none | codepay | doiampay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay | f2fpay_codepay 

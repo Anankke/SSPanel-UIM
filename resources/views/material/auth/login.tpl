@@ -37,7 +37,7 @@
                                                     <div class="row">
                                                         <div class="col-md-10 col-md-push-1">
                                                             <label class="floating-label" for="email">邮箱</label>
-                                                            <input class="form-control" id="email" type="text"
+                                                            <input class="form-control maxwidth-auth" id="email" type="text"
                                                                    name="Email">
                                                         </div>
                                                     </div>
@@ -46,7 +46,7 @@
                                                     <div class="row">
                                                         <div class="col-md-10 col-md-push-1">
                                                             <label class="floating-label" for="passwd">密码</label>
-                                                            <input class="form-control" id="passwd" type="password" name="Password">
+                                                            <input class="form-control maxwidth-auth" id="passwd" type="password" name="Password">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -54,7 +54,7 @@
                                                     <div class="row">
                                                         <div class="col-md-10 col-md-push-1">
                                                             <label class="floating-label" for="code">两步验证码（未设置请忽略）</label>
-                                                            <input class="form-control" id="code" type="text" name="Code">
+                                                            <input class="form-control maxwidth-auth" id="code" type="text" name="Code">
                                                             <a href="/password/reset" >忘记密码？点击这里</a>
                                                         </div>
                                                     </div>

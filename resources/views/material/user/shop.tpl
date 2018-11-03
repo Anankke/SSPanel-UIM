@@ -26,13 +26,62 @@
 								<p>商品不可叠加，新购商品会覆盖旧商品的效果。</p>
 								<p>购买新套餐时，如果未关闭旧套餐自动续费，则旧套餐的自动续费依然生效。</p>
 								<p>当前余额：<code>{$user->money}</code> 元</p>
+								
 							</div>
 						</div>
 					</div>
-                  
-                  
-					
-					<div class="table-responsive">
+
+					<div class="shop-switch">
+                         <div class="card">
+							 <div class="card-main">
+								 <div class="card-inner shop-switch">
+										<div class="switch-btn" id="switch-cards"><a href="#" onclick="return false"><i class="mdui-icon material-icons">apps</i></a></div>
+										<div class="switch-btn" id="switch-table"><a href="#" onclick="return false"><i class="mdui-icon material-icons">dehaze</i></a></div>
+								 </div>
+							 </div>
+						 </div>
+					</div>
+						
+            <div class="shop-flex" {if $config["enable_shop_uiswitch"]=='1'}style="display: flex{else}style="display: none{/if}">
+				{$shops->render()}
+				{foreach $shops as $shop}
+                  <div class="card">
+					  <div class="card-main">
+						  <div class="card-inner">
+								<div class="shop-name">{$shop->name}</div>
+								<div class="shop-price"><code>{$shop->price}</code> 元</div>
+								<div class="shop-content">
+									<div>添加流量 <code>{$shop->bandwidth()}</code> G</div>
+									<div>账号等级 <code>{$shop->user_class()}</code> 级</div>
+									<div>账号有效期 <code>{$shop->expire()}</code> 天</div>
+									{if {$shop->reset()} == '0' }
+									<div>无流量周期重置</div>
+									{else}
+									<div>在 <code>{$shop->reset_exp()}</code> 天内，每 <code>{$shop->reset()}</code> 天重置流量为 <code>{$shop->reset_value()}</code> G</div>
+									{/if}
+									{if {$shop->speedlimit()} == '0' }
+									<div>端口速率 <code>无限制</code></div>
+									{else}
+									<div>端口限速 <code>{$shop->speedlimit()}</code> Mbps</div>
+									{/if}
+									{if {$shop->connector()} == '0' }
+									<div>客户端数量 <code>无限制</code></div>
+									{else}
+									<div>客户端限制 <code>{$shop->connector()}</code> 个</div>
+									{/if}
+							    </div>
+								<a class="btn btn-brand-accent shop-btn" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
+						  </div>
+					  </div>
+				  </div>
+				{/foreach}
+				{$shops->render()}
+				<div class="flex-fix3"></div>
+				<div class="flex-fix4"></div>
+			</div>
+
+
+					<div class="table-responsive shop-display" {if $config["enable_shop_uiswitch"]=='1'}style="display: none{else}style="display: block{/if}">
 						{$shops->render()}
 						<table class="table ">
                             <tr>
@@ -67,7 +116,7 @@
 								<div class="modal-inner">
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="coupon">有的话，请在这里输入。没有的话，直接确定吧</label>
-										<input class="form-control" id="coupon" type="text">
+										<input class="form-control maxwidth-edit" id="coupon" type="text">
 									</div>
 								</div>
 								<div class="modal-footer">
@@ -147,6 +196,15 @@ function buy(id,auto) {
 	$("#coupon_modal").modal();
 }
 
+$("#switch-cards").click(function (){
+	$(".shop-flex").css("display","flex");
+	$(".shop-display").css("display","none");
+});
+
+$("#switch-table").click(function (){
+     $(".shop-flex").css("display","none");
+	 $(".shop-display").css("display","block");
+});
 
 $("#coupon_input").click(function () {
 		$.ajax({

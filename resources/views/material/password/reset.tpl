@@ -25,7 +25,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="email">邮箱</label>
-													<input class="form-control" id="email" type="text">
+													<input class="form-control maxwidth-auth" id="email" type="text">
 												</div>
 											</div>
 										</div>

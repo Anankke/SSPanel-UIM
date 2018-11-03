@@ -25,7 +25,7 @@
 								<div class="card-inner">
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="source_node">起源节点</label>
-										<select id="source_node" class="form-control" name="source_node">
+										<select id="source_node" class="form-control maxwidth-edit" name="source_node">
 											<option value="0">请选择起源节点</option>
 											{foreach $source_nodes as $source_node}
 												<option value="{$source_node->id}" {if $rule->source_node_id == $source_node->id}selected{/if}>{$source_node->name}</option>
@@ -36,7 +36,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="dist_node">目标节点</label>
-										<select id="dist_node" class="form-control" name="dist_node">
+										<select id="dist_node" class="form-control maxwidth-edit" name="dist_node">
 											<option value="-1">不进行中转</option>
 											{foreach $dist_nodes as $dist_node}
 												<option value="{$dist_node->id}" {if $rule->dist_node_id == $dist_node->id}selected{/if}>{$dist_node->name}</option>
@@ -46,17 +46,17 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="port">端口</label>
-										<input class="form-control" id="port" name="port" type="text" value="{$rule->port}">
+										<input class="form-control maxwidth-edit" id="port" name="port" type="text" value="{$rule->port}">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="priority">优先级</label>
-										<input class="form-control" id="priority" name="priority" type="text" value="{$rule->priority}">
+										<input class="form-control maxwidth-edit" id="priority" name="priority" type="text" value="{$rule->priority}">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="user_id">用户ID</label>
-										<input class="form-control" id="user_id" name="user_id" type="text" value="{$rule->user_id}">
+										<input class="form-control maxwidth-edit" id="user_id" name="user_id" type="text" value="{$rule->user_id}">
 									</div>
 
 								</div>

@@ -23,18 +23,16 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">我的帐号</p>
+									    <div class="cardbtn-edit">
+												<div class="card-heading">我的帐号</div>
+											    <div class="account-flex"><span>注销账号</span><a class="btn btn-flat waves-attach" href="kill"><span class="icon">not_interested</span>&nbsp;</a></div>
+										</div>
 										<dl class="dl-horizontal">
 											<dt>用户名</dt>
 											<dd>{$user->user_name}</dd>
 											<dt>邮箱</dt>
 											<dd>{$user->email}</dd>
 										</dl>
-									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<a class="btn btn-flat waves-attach" href="kill"><span class="icon">check</span>&nbsp;删除我的账户</a>
-										</div>
 									</div>
 								</div>
 							</div>

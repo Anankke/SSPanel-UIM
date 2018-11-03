@@ -24,18 +24,18 @@
 								<div class="card-inner">
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="name">规则名称</label>
-										<input class="form-control" id="name" name="name" type="text" value="{$rule->name}">
+										<input class="form-control maxwidth-edit" id="name" name="name" type="text" value="{$rule->name}">
 									</div>
 									
 									
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="text">规则描述</label>
-										<input class="form-control" id="text" name="text" type="text" value="{$rule->text}">
+										<input class="form-control maxwidth-edit" id="text" name="text" type="text" value="{$rule->text}">
 									</div>
 									
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="regex">规则正则表达式</label>
-										<input class="form-control" id="regex" name="regex" type="text"  value="{$rule->regex}">
+										<input class="form-control maxwidth-edit" id="regex" name="regex" type="text"  value="{$rule->regex}">
 									</div>
 									
 									
@@ -43,7 +43,7 @@
 									<div class="form-group form-group-label">
 										<div class="form-group form-group-label">
 												<label class="floating-label" for="type">规则类型</label>
-												<select id="type" class="form-control" name="type">
+												<select id="type" class="form-control maxwidth-edit" name="type">
 													<option value="1" {if $rule->type == 1}selected{/if}>数据包明文匹配</option>
 													<option value="2" {if $rule->type == 2}selected{/if}>数据包 hex 匹配</option>
 												</select>

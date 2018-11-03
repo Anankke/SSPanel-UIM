@@ -166,6 +166,8 @@ $app->group('/user', function () {
 
     $this->get('/url_reset', 'App\Controllers\UserController:resetURL');
 
+    $this->get('/inviteurl_reset', 'App\Controllers\UserController:resetInviteURL');
+
     //Reconstructed Payment System
     $this->post('/payment/purchase', 'App\Services\Payment:purchase');
     $this->get('/payment/return', 'App\Services\Payment:returnHTML');

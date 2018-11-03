@@ -35,7 +35,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="search"> 输入用户 ID 进行搜索链路搜索 </label>
-									<input class="form-control" id="search" type="text">
+									<input class="form-control maxwidth-edit" id="search" type="text">
 								</div>
 							</div>
 							<div class="card-action">

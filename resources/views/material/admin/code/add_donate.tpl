@@ -28,7 +28,7 @@
 							
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="number">类型</label>
-									<select id="type" class="form-control" name="type">
+									<select id="type" class="form-control maxwidth-edit" name="type">
 										<option value="-1">捐赠</option>
 										<option value="-2">支出</option>
 									</select>
@@ -36,11 +36,11 @@
 								
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="number">备注</label>
-									<input class="form-control" id="code" type="text" >
+									<input class="form-control maxwidth-edit" id="code" type="text" >
 								</div>
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="amount">金额</label>
-									<input class="form-control" id="amount" type="text" >
+									<input class="form-control maxwidth-edit" id="amount" type="text" >
 								</div>
 								
 								
