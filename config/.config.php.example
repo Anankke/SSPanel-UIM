@@ -58,7 +58,7 @@ $System_Config['auto_backup_passwd']='';	//备份的压缩密码
 
 
 //用户注册设置-----------------------------------------------------------------------------------------
-$System_Config['register_mode'] = 'close';					//注册模式。close：关闭，open：开放，invite：仅限邀请码
+$System_Config['register_mode'] = 'open';					//注册模式。close：关闭，open：开放，invite：仅限邀请码
 $System_Config['defaultTraffic'] = '1';						//用户初始流量 单位GB
 $System_Config['user_expire_in_default']='3650';			//用户账户过期时间，在注册时设置。（天）
 $System_Config['user_class_default']='0';					//用户注册等级，在注册时设置。
