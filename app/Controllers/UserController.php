@@ -478,8 +478,17 @@ class UserController extends BaseController
         return $this->view()->assign('point_node', $point_node)->assign('prefix', $prefix[0])->assign('id', $id)->display('user/nodeajax.tpl');
     }
 
+	public function node($request, $response, $args)
+    {
+        $user = Auth::getUser();
+        $nodes = Node::where('type', 1)->orderBy('node_class')->orderBy('name')->get();
+        $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
+		$nodes=(array)$nodes;
+		return $this->view()->assign('nodes', $nodes)->assign('tools', new Tools())->assign('user', $user)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
+	}
 
-    public function node($request, $response, $args)
+
+    public function node_old($request, $response, $args)
     {
         $user = Auth::getUser();
         $nodes = Node::where('type', 1)->orderBy('name')->get();

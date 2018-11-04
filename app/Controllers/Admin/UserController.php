@@ -305,64 +305,44 @@ class UserController extends AdminController
 		        
 		$data=array();
 		foreach ($users as $user) {
-			$tempdata=array();
-			$tempdata['op']='<a class="btn btn-brand" href="/admin/user/'.$user->id.'/edit">编辑</a>
+			$array_user=(array)$user;
+			$array_user['op']='<a class="btn btn-brand" href="/admin/user/'.$user->id.'/edit">编辑</a>
                     <a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\''.$user->id.'\')">删除</a>
-                    <a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\''.$user->id.'\')">切换为该用户</a>';;
-			$tempdata['id']=$user->id;
-			$tempdata['user_name']=$user->user_name;
-			$tempdata['remark']=$user->remark;
-			$tempdata['email']=$user->email;
-			$tempdata['money']=$user->money;
-			$tempdata['im_value']=$user->im_value;			
+                    <a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\''.$user->id.'\')">切换为该用户</a>';;			
 			switch($user->im_type) {
 				case 1:
-				$tempdata['im_type'] = '微信';
+				$array_user['im_type'] = '微信';
 				break;
             case 2:
-				$tempdata['im_type'] = 'QQ';
+				$array_user['im_type'] = 'QQ';
 				break;
             case 3:
-				$tempdata['im_type'] = 'Google+';
+				$array_user['im_type'] = 'Google+';
 				break;
             default:
-				$tempdata['im_type'] = 'Telegram';
-				$tempdata['im_value'] = '<a href="https://telegram.me/'.$user->im_value.'">'.$user->im_value.'</a>';
+				$array_user['im_type'] = 'Telegram';
+				$array_user['im_value'] = '<a href="https://telegram.me/'.$user->im_value.'">'.$user->im_value.'</a>';
 			}
-			$tempdata['node_group']=$user->node_group;
-			$tempdata['expire_in']=$user->expire_in;
-			$tempdata['class']=$user->class;
-			$tempdata['class_expire']=$user->class_expire;
-			$tempdata['passwd']=$user->passwd;
-			$tempdata['port']=$user->port;
-			$tempdata['method']=$user->method;
-			$tempdata['protocol']=$user->protocol;
-			$tempdata['obfs']=$user->obfs;
-			$tempdata['online_ip_count']=$user->online_ip_count();
-			$tempdata['last_ss_time']=$user->lastSsTime();
-			$tempdata['used_traffic']=Tools::flowToGB($user->u + $user->d);
-			$tempdata['enable_traffic']=Tools::flowToGB($user->transfer_enable);
-			$tempdata['last_checkin_time']=$user->lastCheckInTime();
-			$tempdata['today_traffic']=Tools::flowToMB($user->u + $user->d-$user->last_day_t);
-			$tempdata['enable']=$user->enable == 1 ? "可用" : "禁用";
-			$tempdata['reg_date']=$user->reg_date;
-			$tempdata['reg_ip']=$user->reg_ip;
-			$tempdata['auto_reset_day']=$user->auto_reset_day;
-			$tempdata['auto_reset_bandwidth']=$user->auto_reset_bandwidth;			
-            $tempdata['ref_by']= $user->ref_by;
+			$array_user['online_ip_count']=$user->online_ip_count();
+			$array_user['last_ss_time']=$user->lastSsTime();
+			$array_user['used_traffic']=Tools::flowToGB($user->u + $user->d);
+			$array_user['enable_traffic']=Tools::flowToGB($user->transfer_enable);
+			$array_user['last_checkin_time']=$user->lastCheckInTime();
+			$array_user['today_traffic']=Tools::flowToMB($user->u + $user->d-$user->last_day_t);
+			$array_user['enable']=$user->enable == 1 ? "可用" : "禁用";
 			if ($user->ref_by == 0) {
-				$tempdata['ref_by_user_name'] = "系统邀请";
+				$array_user['ref_by_user_name'] = "系统邀请";
 			}
 			else {
 				$ref_user = User::find($user->ref_by);
 				if ($ref_user == null) {
-					$tempdata['ref_by_user_name'] = "邀请人已经被删除";
+					$array_user['ref_by_user_name'] = "邀请人已经被删除";
 				}
 				else {
-					$tempdata['ref_by_user_name'] = $ref_user->user_name;
+					$array_user['ref_by_user_name'] = $ref_user->user_name;
 				}
 			}
-			array_push($data,$tempdata);
+			array_push($data,$array_user);
 		}         
         $info = [
            'draw'=> $request->getParam('draw'), // ajax请求次数，作为标识符
