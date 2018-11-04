@@ -37,10 +37,13 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
-										<p class="card-heading">三网延迟检测</p>
+									<div class="card-inner">
+									<div class="card-doubleinner">
+											<p class="card-heading">三网延迟检测</p>
+									</div>
+										
 										<div class="card-table">
-											<div class="table-responsive">
+											<div class="table-responsive table-user">
 												<table class="table">
 													<tr>
 														<th>节点</th>

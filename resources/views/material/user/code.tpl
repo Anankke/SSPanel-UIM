@@ -81,9 +81,9 @@
                     <div class="card margin-bottom-no">
                         <div class="card-main">
                             <div class="card-inner">
-                                <div class="card-inner">
+                               
                                     <div class="card-table">
-                                        <div class="table-responsive">
+                                        <div class="table-responsive table-user">
                                             {$codes->render()}
                                             <table class="table table-hover">
                                                 <tr>
@@ -131,7 +131,7 @@
                                             {$codes->render()}
                                         </div>
                                     </div>
-                                </div>
+                                
 
                             </div>
                         </div>

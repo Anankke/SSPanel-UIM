@@ -24,7 +24,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="title">标题</label>
-									<input class="form-control" id="title" type="text" >
+									<input class="form-control maxwidth-edit" id="title" type="text" >
 								</div>
 								
 								

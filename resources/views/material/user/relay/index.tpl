@@ -48,7 +48,7 @@
 										<div class="tab-pane fade active in" id="rule_table">
 											<div class="table-responsive">
 												{$rules->render()}
-												<table class="table">
+												<table class="table table-user">
 											    <tr>
 													
 												<!--	<th>ID</th>   -->
