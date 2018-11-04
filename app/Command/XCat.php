@@ -91,8 +91,6 @@ class XCat
                 return $this->resetPort();
 	        case("resetAllPort"):
                 return $this->resetAllPort();
-			case("migrateConfig"):
-			    return $this->migrateConfig();
 			case("update"):
 			    return Update::update();
 			default:
@@ -145,11 +143,6 @@ class XCat
         }
     }
 
-	public function migrateConfig()
-	{
-		echo("此命令已过时，请使用update命令。".PHP_EOL);
-	}
-
     public function cleanRelayRule()
     {
         $rules = Relay::all();
@@ -183,15 +176,13 @@ class XCat
 
     public function createAdmin()
     {
-        $this->initQQWry();
-        $this->initdownload();
         echo "add admin/ 创建管理员帐号.....";
         // ask for input
         fwrite(STDOUT, "Enter your email/输入管理员邮箱: ");
         // get input
         $email = trim(fgets(STDIN));
         // write input back
-        fwrite(STDOUT, "Enter password for: $email / 为 $email 添加密码 ");
+        fwrite(STDOUT, "Enter password for: $email / 为 $email 添加密码: ");
         $passwd = trim(fgets(STDIN));
         echo "Email: $email, Password: $passwd! ";
         fwrite(STDOUT, "Press [Y] to create admin..... 按下[Y]确认来确认创建管理员账户..... \n");
