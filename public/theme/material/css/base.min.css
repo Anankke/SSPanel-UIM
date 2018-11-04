@@ -2878,7 +2878,7 @@ padding: 0
 
 pre {
 border: 1px solid #dadada;
-border-radius: 2px;
+border-radius: 15px;
 color: #212121;
 display: block;
 font-size: 12px;
@@ -6359,6 +6359,14 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
+}
+
+code.form-control {
+	min-height: 200px;
+}
+
+.codepay button {
+	padding-left: 0;
 }
 
 @media screen and (max-width:430px) {

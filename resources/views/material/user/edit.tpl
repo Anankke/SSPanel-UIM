@@ -360,7 +360,7 @@
 										<p>IP 段请使用 |127.0.0.0/8 类似格式表示</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="pac">规则书写区</label>
-											<textarea class="form-control maxwidth-edit" id="pac" rows="8">{$user->pac}</textarea>
+											<code contenteditable="true" class="form-control maxwidth-edit" id="pac">{$user->pac}</code>
 										</div>
 
 									</div>

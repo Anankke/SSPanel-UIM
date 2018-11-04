@@ -49,7 +49,8 @@ class Config
 			"register_mode" => self::get("register_mode"),
             "enable_flag" => self::get("enable_flag"),
             "enable_shop_uiswitch" => self::get("enable_shop_uiswitch"),
-            "number_viplevel" => self::get("number_viplevel")
+            "number_viplevel" => self::get("number_viplevel"),
+            "enable_kill" => self::get("enable_kill")
          ];
     }
 

@@ -173,13 +173,13 @@ class YftPay extends AbstractPayment
                     <div class="card-main">
                         <div class="card-inner">
                             <form action="/user/code/yft" method="post" target="_blank">
-                                <div class="card-inner">
+                                
                                     <p class="card-heading">在线充值</p>
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="price">充值金额</label>
                                         <input class="form-control" id="price" name="price" type="text">
                                     </div>
-                                </div>
+                                
                                 <div class="card-action">
                                     <div class="card-action-btn pull-left">
                                         <button type="submit" class="btn btn-flat waves-attach" id="yftCoin" ><span class="icon">check</span>&nbsp;充值</button>
