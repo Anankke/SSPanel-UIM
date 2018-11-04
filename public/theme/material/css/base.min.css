@@ -2288,7 +2288,7 @@ img {
 		  margin: 0;
 	  }
 }
-.copy-text.btn-subscription:hover {
+.copy-text.btn-subscription:hover,.reset-invitelink:hover {
     color: white;
 }
 .kaobei {
@@ -2383,7 +2383,10 @@ img {
 .fbtn:active,.fbtn:focus,.fbtn:hover {
 	color: #212121;
 	outline: 0;
-	text-decoration: none
+	text-decoration: none;
+	transition-duration: 0.4s;
+	border-radius: 10px;
+	transition-property: all;
 }
 
 .fbtn:after {
@@ -6154,9 +6157,17 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 .shop-switch div.switch-btn:first-of-type a {
 	border-radius: 0 15px 15px 0;
 }
+.shop-switch div.switch-btn:first-of-type a:hover {
+	border-radius: 0 5px 5px 0;
+	transition-duration: 0.4s;	
+}
 
 .shop-switch div.switch-btn:last-of-type a {
 	border-radius: 15px 0 0 15px;
+}
+.shop-switch div.switch-btn:last-of-type a:hover {
+	border-radius: 5px 0 0 5px;
+	transition-duration: 0.4s;	
 }
 
 .shop-switch a:hover {
