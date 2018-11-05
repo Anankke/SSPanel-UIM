@@ -483,10 +483,23 @@ class UserController extends BaseController
         $user = Auth::getUser();
         $nodes = Node::where('type', 1)->orderBy('node_class')->orderBy('name')->get();
         $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
-		
+		if (!Tools::is_protocol_relay($user)) {
+            $relay_rules = array();
+        }
+
 		$array_nodes=array();
+		$nodes_muport = array();
 
 		foreach($nodes as $node){
+			if($user->node_group != $node->node_group){
+				continue;
+			}
+			if ($node->sort == 9) {
+                $mu_user = User::where('port', '=', $node->server)->first();
+                $mu_user->obfs_param = $this->user->getMuMd5();
+                array_push($nodes_muport, array('server' => $node, 'user' => $mu_user));
+                continue;
+            }
 			$array_node=array();
 
 			$array_node['id']=$node->id;
@@ -524,10 +537,10 @@ class UserController extends BaseController
 
 			$nodeLoad = $node->getNodeLoad();
             if (isset($nodeLoad[0]['load'])) {
-                $array_node['load'] = ((explode(" ", $nodeLoad[0]['load']))[0]) * 100;
+                $array_node['latest_load'] = ((explode(" ", $nodeLoad[0]['load']))[0]) * 100;
             }
 			else {
-                $array_node['load'] = -1;
+                $array_node['latest_load'] = -1;
             }
 			
             $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);           
@@ -547,7 +560,7 @@ class UserController extends BaseController
 			
 			array_push($array_nodes,$array_node);
 		}
-		return $this->view()->assign('nodes', $nodes)->assign('tools', new Tools())->assign('user', $user)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
+		return $this->view()->assign('nodes', $array_nodes)->assign('nodes_muport', $nodes_muport)->assign('relay_rules', $relay_rules)->assign('tools', new Tools())->assign('user', $user)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
 	}
 
 
