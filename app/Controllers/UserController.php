@@ -489,6 +489,8 @@ class UserController extends BaseController
 		foreach($nodes as $node){
 			$array_node=array();
 
+			$array_node['id']=$node->id;
+
 			$array_node['class']=$node->class;
 
 			$regex = Config::get('flag_regex');
@@ -529,13 +531,19 @@ class UserController extends BaseController
             }
 			
             $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);           
-            $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit);        
-			if($node->node_speed_limit>=1024.00){
+            $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit); 
+			if($node->node_speed_limit==0.0){
+				$array_node['bandwidth']=0;
+			}
+			else if($node->node_speed_limit>=1024.00){
 				$array_node['bandwidth']=round($node->node_speed_limit/1024.00,1).'Gbps';
 			}
 			else{
 				$array_node['bandwidth']=$node->node_speed_limit.'Mbps';
 			}		
+			
+			$array_node['traffic_rate']=$node->traffic_rate;
+			$array_node['status']=$node->status;
 			
 			array_push($array_nodes,$array_node);
 		}
