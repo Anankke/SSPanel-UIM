@@ -32,7 +32,7 @@ $System_Config['db_password'] = 'sspanel';			//用户名对应的密码
 
 //邮件设置--------------------------------------------------------------------------------------------
 $System_Config['mailDriver'] = 'mailgun';	// mailgun or smtp or sendgrid 选择发送邮件的方式
-
+$System_Config['sendPageLimit']= 50;      //发信分页 解决大站发公告超时问题
 # mailgun
 $System_Config['mailgun_key'] = '';
 $System_Config['mailgun_domain'] = '';
@@ -157,7 +157,7 @@ $System_Config['number_viplevel'] = '1'; //节点自动化显示，输入要显�
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | doiampay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay | f2fpay_codepay 
+#取值 none | codepay | doiampay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay | f2fpay_codepay
 $System_Config['payment_system']='none';
 
 #codepay码支付
