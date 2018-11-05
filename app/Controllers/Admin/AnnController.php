@@ -32,12 +32,13 @@ class AnnController extends AdminController
     {
         $issend = $request->getParam('issend');
         $vip = $request->getParam('vip');
+        $content = $request->getParam('content');
         $beginSend = $request->getParam('page') * Config::get('sendPageLimit');
         $users = User::where('class', ">=", $vip)->skip($beginSend)->limit(Config::get('sendPageLimit'))->get();
         if($request->getParam('page') == 1){
             $ann = new Ann();
             $ann->date =  date("Y-m-d H:i:s");
-            $ann->content =  $request->getParam('content');
+            $ann->content =  $content;
             $ann->markdown =  $request->getParam('markdown');
 
             if (!$ann->save()) {
@@ -53,7 +54,7 @@ class AnnController extends AdminController
                 if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
                 	continue;
                 }
-                $text = $ann->content;
+                $text = $content;
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         "user" => $user,"text" => $text
