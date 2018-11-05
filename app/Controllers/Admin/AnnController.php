@@ -33,7 +33,7 @@ class AnnController extends AdminController
         $issend = $request->getParam('issend');
         $vip = $request->getParam('vip');
         $content = $request->getParam('content');
-        $beginSend = $request->getParam('page') * Config::get('sendPageLimit');
+        $beginSend = (int)($request->getParam('page') - 1) * Config::get('sendPageLimit');
         $users = User::where('class', ">=", $vip)->skip($beginSend)->limit(Config::get('sendPageLimit'))->get();
         if($request->getParam('page') == 1){
             $ann = new Ann();
