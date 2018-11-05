@@ -487,7 +487,6 @@ class UserController extends BaseController
 		$array_nodes=array();
 
 		foreach($nodes as $node){
-		return $response->getBody()->write(json_encode($node));
 			$array_node=array();
 
 			$array_node['class']=$node->class;
@@ -531,7 +530,7 @@ class UserController extends BaseController
 			
             $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);           
             $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit);        
-			if($array_node['node_speed_limit']>=1024.00){
+			if($node->node_speed_limit>=1024.00){
 				$array_node['bandwidth']=round($node->node_speed_limit/1024.00,1).'Gbps';
 			}
 			else{
