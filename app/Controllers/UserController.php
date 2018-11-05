@@ -503,8 +503,8 @@ class UserController extends BaseController
 			$array_node=array();
 
 			$array_node['id']=$node->id;
-
 			$array_node['class']=$node->class;
+			$array_node['name']=$node->name;
 
 			$regex = Config::get('flag_regex');
             $matches = array();
