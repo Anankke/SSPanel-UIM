@@ -31,9 +31,9 @@
 					</div>
 					<div class="card">
 						<div class="card-main">
-							<div class="card-inner">
+							<div class="card-relayinner">
 								{if $is_relay_able}
-								<nav class="tab-nav margin-top-no">
+								<nav class="tab-nav">
 									<ul class="nav nav-justified">
 										<li class="active">
 											<a class="waves-attach" data-toggle="tab" href="#rule_table">规则表</a>
@@ -43,12 +43,12 @@
 										</li>
 									</ul>
 								</nav>
-								<div class="card-inner">
+							</div>
 									<div class="tab-content">
 										<div class="tab-pane fade active in" id="rule_table">
-											<div class="table-responsive">
+											<div class="table-responsive table-user">
 												{$rules->render()}
-												<table class="table">
+												<table class="table table-user">
 											    <tr>
 													
 												<!--	<th>ID</th>   -->
@@ -86,7 +86,7 @@
 											</div>
 										</div>
 										<div class="tab-pane fade" id="link_table">
-											<div class="table-responsive">
+											<div class="table-responsive table-user">
 												<table class="table">
 											    <tr>
 													<th>端口</th>
@@ -109,9 +109,9 @@
 											</div>
 										</div>
 									</div>
-								</div>
+				
 								{/if}
-							</div>
+							
 						</div>
 					</div>
 

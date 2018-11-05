@@ -47,7 +47,6 @@
 				{foreach $shops as $shop}
                   <div class="card">
 					  <div class="card-main">
-						  <div class="card-inner">
 								<div class="shop-name">{$shop->name}</div>
 								<div class="shop-price"><code>{$shop->price}</code> 元</div>
 								<div class="shop-content">
@@ -71,7 +70,6 @@
 									{/if}
 							    </div>
 								<a class="btn btn-brand-accent shop-btn" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
-						  </div>
 					  </div>
 				  </div>
 				{/foreach}

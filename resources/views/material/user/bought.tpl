@@ -29,7 +29,7 @@
 					
 					<div class="table-responsive">
 						{$shops->render()}
-						<table class="table ">
+						<table class="table table-user">
                             <tr>
 								
                              <!--   <th>ID</th> -->

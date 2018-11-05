@@ -29,7 +29,7 @@
 					
 					<div class="table-responsive">
 						{$tickets->render()}
-                        <table class="table">
+                        <table class="table table-user">
                             <tr>
 								
                               <!--  <th>ID</th>   -->
