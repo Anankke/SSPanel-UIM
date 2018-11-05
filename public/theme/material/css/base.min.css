@@ -2776,6 +2776,12 @@ margin: 24px 16px
 .card-doubleinner {
 	margin: 24px 16px 0 16px; 
 }
+.card-relayinner {
+	margin: 24px 0 0 0;
+}
+.card-relayinner>.tab-nav {
+	margin-bottom: 0;
+}
 
 .card-header .card-inner {
 -webkit-box-flex: 1;
@@ -5186,6 +5192,8 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 
 .table-responsive.table-user {
 	border-radius: 0;
+	box-shadow: none;
+	margin-top: 0;
 }
 
 .table-responsive.table-user th,.table.table-user th {
