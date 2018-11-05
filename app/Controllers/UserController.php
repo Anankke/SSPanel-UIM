@@ -483,7 +483,54 @@ class UserController extends BaseController
         $user = Auth::getUser();
         $nodes = Node::where('type', 1)->orderBy('node_class')->orderBy('name')->get();
         $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
-		$nodes=(array)$nodes;
+		foreach($nodes as $node){
+			$node=(array)$node;
+			$regex = Config::get('flag_regex');
+            $matches = array();
+            preg_match($regex, $node['name'], $matches);
+            if (isset($matches[0])) {
+				$node['flag'] = $matches[0].'.png';
+            }
+			else {
+                $node['flag'] = 'unknown.png';
+            }
+
+			$node_online=$node->isNodeOnline();
+			if($node_online===null){
+				$node['online']=0;
+			}
+			else if($node_online===true){
+				$node['online']=1;
+			}
+			else if($node_online===false){
+				$node['online']=-1;
+			}
+
+			if ($node->sort == 0 ||$node->sort == 7 || $node->sort == 8 || 
+				$node->sort == 10 || $node->sort == 11){
+				$node['online_user']=$node->getOnlineUserCount();
+			}
+			else{
+				$node['online_user']=-1;
+			}
+
+			$nodeLoad = $node->getNodeLoad();
+            if (isset($nodeLoad[0]['load'])) {
+                $node['load'] = ((explode(" ", $nodeLoad[0]['load']))[0]) * 100;
+            }
+			else {
+                $node['load'] = -1;
+            }
+			
+            $node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);           
+            $node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit);        
+			if($node['node_speed_limit']>=1024.00){
+				$node['bandwidth']=round($node['node_speed_limit']/1024.00,1).'Gbps';
+			}
+			else{
+				$node['bandwidth']=$node['node_speed_limit'].'Mbps';
+			}			
+		}
 		return $this->view()->assign('nodes', $nodes)->assign('tools', new Tools())->assign('user', $user)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
 	}
 
