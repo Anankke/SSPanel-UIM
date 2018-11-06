@@ -28,7 +28,7 @@
 										{foreach $nodes as $node}
                                        
 										{if $node['class']!=$class}
-											<p>{if $class == -1}普通{else}VIP {$node['class']} {/if}用户节点</p>
+											<p class="card-heading">{if $class == -1}普通{else}VIP {$node['class']} {/if}用户节点</p>
 											{$class=$class+1}
 										{/if}
 
@@ -59,9 +59,9 @@
 														<span class="node-icon"><i class="icon icon-lg">flight_takeoff</i></span>
 														  {else}
 														  {/if} 
-														  <strong><b><span class="node-alive">{$node['online_user']}</span></b></strong> 
+														  <strong><b><span class="node-alive">{if $node['online_user'] == -1}N/A{else}{$node['online_user']}{/if}</span></b></strong> 
 											            | <span class="node-icon"><i class="icon icon-lg">cloud</i></span>
-														<span class="node-load">负载：{$node['latest_load']}%</span> 
+														<span class="node-load">负载：{if $node['latest_load'] == -1}N/A{else}{$node['latest_load']}%{/if}</span> 
 														| <span class="node-icon"><i class="icon icon-lg">import_export</i></span>
 														<span class="node-mothed">{$node['bandwidth']}</span> 
 														| <span class="node-icon"><i class="icon icon-lg">equalizer</i></span>
@@ -197,7 +197,7 @@
                                                     {/if}
 
 												{/if}
-												
+
 												{if isset($point_node)}
 												{if $point_node!=null}
 		
