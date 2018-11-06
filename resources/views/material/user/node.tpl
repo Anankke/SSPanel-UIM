@@ -32,8 +32,7 @@
                         {$class=-1}
 						{foreach $nodes as $node}
 						{if $node['class']!=$class}
-							{$class=$node['class']}
-							
+						    {$class=$node['class']}
 							<div class="nodetitle">
 								<div>
 								    <span>{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</span>	
@@ -331,13 +330,12 @@
 	$("#switch-cards").click(function (){
 	    $(".node-card").css("display","flex");
 	    $(".node-table").css("display","none");
-		$(".ui-switch.node-switch").css({"right":"1em","top":"3.6em"});
+		
     });
 
     $("#switch-table").click(function (){
          $(".node-card").css("display","none");
 	     $(".node-table").css("display","flex");
-		 $(".ui-switch.node-switch").css({"right":"2.5em","top":"1.5em"});
     });
 	{/literal}
 </script>

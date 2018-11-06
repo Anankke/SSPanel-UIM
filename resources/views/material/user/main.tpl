@@ -378,13 +378,7 @@
 	top:12px;
 	left:22px;
 	background:rgb(126,234,25);
-	background:-moz-linear-gradient(top,  rgba(126,234,25,1) 0%, rgba(83,173,0,1) 100%);
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(126,234,25,1)), color-stop(100%,rgba(83,173,0,1)));
-	background:-webkit-linear-gradient(top,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
-	background:-o-linear-gradient(top,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
-	background:-ms-linear-gradient(top,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
-	background:linear-gradient(to bottom,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#7eea19', endColorstr='#53ad00',GradientType=0 );
+	
 	border-radius:16px;
 	box-shadow:0px 0px 12px 0px rgba(126, 234, 25, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
 	overflow:hidden;
@@ -412,35 +406,17 @@
 }
 .progressbar .bar.color2 {
 	background:rgb(229,195,25);
-	background:-moz-linear-gradient(top,  rgba(229,195,25,1) 0%, rgba(168,140,0,1) 100%);
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(229,195,25,1)), color-stop(100%,rgba(168,140,0,1)));
-	background:-webkit-linear-gradient(top,  rgba(229,195,25,1) 0%,rgba(168,140,0,1) 100%);
-	background:-o-linear-gradient(top,  rgba(229,195,25,1) 0%,rgba(168,140,0,1) 100%);
-	background:-ms-linear-gradient(top,  rgba(229,195,25,1) 0%,rgba(168,140,0,1) 100%);
-	background:linear-gradient(to bottom,  rgba(229,195,25,1) 0%,rgba(168,140,0,1) 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5c319', endColorstr='#a88c00',GradientType=0 );
+	
 	box-shadow:0px 0px 12px 0px rgba(229, 195, 25, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
 }
 .progressbar .bar.color3 {
-	background:rgb(232,25,87);
-	background:-moz-linear-gradient(top,  rgba(232,25,87,1) 0%, rgba(170,0,51,1) 100%);
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(232,25,87,1)), color-stop(100%,rgba(170,0,51,1)));
-	background:-webkit-linear-gradient(top,  rgba(232,25,87,1) 0%,rgba(170,0,51,1) 100%);
-	background:-o-linear-gradient(top,  rgba(232,25,87,1) 0%,rgba(170,0,51,1) 100%);
-	background:-ms-linear-gradient(top,  rgba(232,25,87,1) 0%,rgba(170,0,51,1) 100%);
-	background:linear-gradient(to bottom,  rgba(232,25,87,1) 0%,rgba(170,0,51,1) 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#e81957', endColorstr='#aa0033',GradientType=0 );
-	box-shadow:0px 0px 12px 0px rgba(232, 25, 87, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
+	background:rgb(255, 104, 149);
+	
+	box-shadow:0px 0px 7px 0px rgba(232, 25, 87, 1), 0px 1px 0px 0px rgba(255, 255, 255, 0.45), 1px 0px 0px 0px rgba(255, 255, 255, 0.25), -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
 }
 .progressbar .bar.color4 {
 	background:rgb(24,109,226);
-	background:-moz-linear-gradient(top,  rgba(24,109,226,1) 0%, rgba(0,69,165,1) 100%);
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(24,109,226,1)), color-stop(100%,rgba(0,69,165,1)));
-	background:-webkit-linear-gradient(top,  rgba(24,109,226,1) 0%,rgba(0,69,165,1) 100%);
-	background:-o-linear-gradient(top,  rgba(24,109,226,1) 0%,rgba(0,69,165,1) 100%);
-	background:-ms-linear-gradient(top,  rgba(24,109,226,1) 0%,rgba(0,69,165,1) 100%);
-	background:linear-gradient(to bottom,  rgba(24,109,226,1) 0%,rgba(0,69,165,1) 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#186de2', endColorstr='#0045a5',GradientType=0 );
+	
 	box-shadow:0px 0px 12px 0px rgba(24, 109, 226, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
 }
 .progressbar .bar:before {
@@ -451,12 +427,12 @@
 	height:150%;
 	top:-25%;
 	left:-25px;
-	background:-moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100%);
+	/* background:-moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100%);
 	background:-webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,0.35)), color-stop(50%,rgba(255,255,255,0.01)), color-stop(51%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0)));
 	background:-webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.01) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%);
 	background:-o-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.01) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%);
 	background:-ms-radial-gradient(center, ellipse cover,  rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.01) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%);
-	background:radial-gradient(ellipse at center,  rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.01) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%);
+	background:radial-gradient(ellipse at center,  rgba(255,255,255,0.35) 0%,rgba(255,255,255,0.01) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,0) 100%); */
 	filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#59ffffff', endColorstr='#00ffffff',GradientType=1 );
 }
 .progressbar .bar:after {
@@ -468,12 +444,12 @@
 	right:0;
 	top:0;
 	border-radius:0px 16px 16px 0px;
-	background:-moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 98%, rgba(255,255,255,0) 100%);
+	/* background:-moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 98%, rgba(255,255,255,0) 100%);
 	background:-webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(98%,rgba(255,255,255,0.6)), color-stop(100%,rgba(255,255,255,0)));
 	background:-webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 98%,rgba(255,255,255,0) 100%);
 	background:-o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 98%,rgba(255,255,255,0) 100%);
 	background:-ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 98%,rgba(255,255,255,0) 100%);
-	background:linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 98%,rgba(255,255,255,0) 100%);
+	background:linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.6) 98%,rgba(255,255,255,0) 100%); */
 	filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
 }
 .progressbar .bar span {
@@ -490,7 +466,7 @@
     -moz-animation:sparkle 1500ms linear infinite;
     -o-animation:sparkle 1500ms linear infinite;
     animation:sparkle 1500ms linear infinite;
-	opacity:0.2;
+	opacity:0.4;
 }
 .progressbar .label {
 	font-family:'Aldrich', sans-serif;

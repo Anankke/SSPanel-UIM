@@ -280,18 +280,7 @@
 													<div class="tab-pane fade" id="all_ss_ios">
 														<p>推荐下载<a href="https://itunes.apple.com/cn/app/shadowrocket/id932747118?mt=8">Shadowrocket</a>，请在左侧菜单栏里提交工单申请已购买软件的美国商店Apple ID自行切换商店账号下载安装，为了您的隐私安全，请不要登录 iCloud 。下载完成后在 Safari 中点击<a href="{$ss_url_all}">这个（普通端口）</a>或者<a href="{$ss_url_all_mu}">这个（单端口多用户）</a>，然后点击确定，就可以批量添加节点</p>
 														<p>iOS 下载<a href="/link/{$ios_token}?is_ss=1">这个（普通端口）</a>或者<a href="/link/{$ios_token}?is_ss=1&is_mu=1">这个（单端口多用户）</a>，导入到 Surge 中，然后就可以随意切换服务器上网了</p>
-													    <p><a href="/link/{$ios_token}?is_mu=0&surge=2&mitm=0" id="surgedlmu0">普通端口规则</a></p>	
-														<p><a href="/link/{$ios_token}?is_mu=1&surge=2&mitm=0" id="surgedlmu1">单端口规则</a></p>
-														<p>surge切换</p>
-														<select id="surge-switch" class="form-control maxwidth-edit">
-															<option value="1">surge2</option>
-															<option value="0">surge3</option>
-														</select>
-														<p>mitm切换</p>
-														<select id="mitm-switch" class="form-control maxwidth-edit">
-															<option value="1">mitm0</option>
-															<option value="0">mitm1</option>
-														</select>
+													    
 													</div>
 													<div class="tab-pane fade" id="all_ss_android">
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk"> 点击下载 SSD</a>。<b>因为与原版Shadowsocks包名相同，所以如果手机上如果已安装原版Shadowsocks，需先卸载</b></p>
@@ -495,21 +484,21 @@
 
 										<div class="progressbar">
 	                                         <div class="before"></div>
-	                                         <div class="bar tuse color3" style="width:calc({($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}% - 44px);)"><span></span></div>
+	                                         <div class="bar tuse color3" style="width:calc({($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}% - 44px);"><span></span></div>
 											 <div class="label-flex">
 												<div class="label la-top"><div class="bar ard color3"><span></span></div>今日已用 <code>{$user->TodayusedTraffic()}</code></div>
 											 </div>
 										</div>
 										<div class="progressbar">
 										    <div class="before"></div>
-										    <div class="bar ard color2" style="width:calc({$user->last_day_t/$user->transfer_enable*100}% - 44px);)"><span></span></div>
+										    <div class="bar ard color2" style="width:calc({$user->last_day_t/$user->transfer_enable*100}% - 44px);"><span></span></div>
 										    <div class="label-flex">
 										       <div class="label la-top"><div class="bar ard color2"><span></span></div>过去已用 <code>{$user->LastusedTraffic()}</code></div>
 										    </div>
 								        </div>
 										<div class="progressbar">
 											<div class="before"></div>
-											<div class="bar remain color" style="width:calc({($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}% - 44px);)"><span></span></div>
+											<div class="bar remain color" style="width:calc({($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}% - 44px);"><span></span></div>
 											<div class="label-flex">
 											   <div class="label la-top"><div class="bar ard color"><span></span></div>剩余流量 <code>{$user->unusedTraffic()}</code></div>
 											</div>
@@ -616,33 +605,7 @@ function CountDown() {
     }
 }
 </script>
-{literal}
-<script>
-		$('#surge-switch,#mitm-switch').change(function(){
-			var surgerule = $('#surge-switch').val();
-		    var surgerule2 = $('#mitm-switch').val();
-			var surgernm = '';
-			var surgernm2 = '';
-			var link = $('#surgedlmu0').attr('href');
-			var link2 = $('#surgedlmu1').attr('href');
-			var strnm = link.indexOf('&surge');
-			if (surgerule==1) {
-				surgernm = '2';
-			} else {
-				surgernm = '3';
-			}
-			if (surgerule2==1) {
-				surgernm2 = '0';
-			} else {
-				surgernm2 = '1';
-			}
-			link = link.slice(0,strnm) + '&surge' + surgernm + '&mitm=' + surgernm2;
-			link2 = link2.slice(0,strnm) + '&surge' + surgernm +'&mitm=' + surgernm2;
-			$('#surgedlmu0').attr('href',link);
-			$('#surgedlmu1').attr('href',link2);
-		});
-</script>
-{/literal}
+
 <script>
 
 $(function(){
