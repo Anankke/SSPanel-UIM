@@ -538,6 +538,10 @@ class UserController extends BaseController
 			else{
 				$array_node['online_user']=-1;
 			}
+			
+			if ($node->sort == 11) {
+				$array_node['v2ray_server']=$node->server;
+			}
 
 			$nodeLoad = $node->getNodeLoad();
             if (isset($nodeLoad[0]['load'])) {
