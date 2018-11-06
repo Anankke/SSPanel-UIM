@@ -426,8 +426,10 @@ class LinkController extends BaseController
         foreach($items as $item) {
             if (URL::getSurgeObfs($item) != "") {
                 $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs=http,udp-relay=true,tfo=true'."\n";
+				$proxy_name .= ",".$item['remark'];
             } else {
                 $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
+				$proxy_name .= ",".$item['remark'];
             }
 	}	
 
