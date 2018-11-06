@@ -203,7 +203,7 @@
 		
 												<div class="card">
 													<div class="card-main">
-														<div class="card-inner" id="info{$id}">
+														<div class="card-inner" id="info{$node@index}">
 		
 														</div>
 													</div>
