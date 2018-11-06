@@ -14,6 +14,10 @@
         /*border: 1px solid #fff;*/
         padding: 8px 20px;
     }
+
+    #qrcode img {
+        display: initial!important;
+    }
 </style>
 <div class="card-inner">
     <div class="form-group pull-left">
@@ -65,8 +69,9 @@
                     <p id="qrcode">
                         <a class="pay"
                            href="">
-                            <img src="/images/loading.gif"
-                                 width="300px"/>
+                            {*<img src="/images/loading.gif"*}
+                            {*width="300px"/>*}
+                            <div id="qrcode" style="text-align: center"></div>
                         </a>
                     </p>
                     <p id="title">支付成功后大约一分钟内提示</p>
@@ -79,11 +84,11 @@
 
 <script>
     function chenPayLoad() {
-        var $zxing = 'http://mobile.qq.com/qrcode?url=',
-            $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
+        var $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
             $wxpayApp = 'weixin://',
             $pay_type = 0,
-            $order_id = 0;
+            $order_id = 0,
+            qrcode = new QRCode(document.getElementById("qrcode"));
         if ('{$QRcodeUrl}'.indexOf('|') > 0) {
             var $alipayUrl = '{$QRcodeUrl}'.split('|'),
                 $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
@@ -131,8 +136,10 @@
                         }, 1000);
                         if (data.url) {
                             if ($type == 2)
-                                $('.pay').attr('href', $wxpayApp).children('img').attr('src', $zxing + data.url);
-                            else $('.pay').attr('href', $alipay + data.url).children('img').attr('src', $zxing + data.url);
+                                $('.pay').attr('href', $wxpayApp);
+                            else $('.pay').attr('href', $alipay + data.url);
+                            qrcode.clear();
+                            qrcode.makeCode(data.url);
                         }
                     } else {
                         $("#result").modal();
