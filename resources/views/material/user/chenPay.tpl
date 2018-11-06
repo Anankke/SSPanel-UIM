@@ -158,11 +158,6 @@
                     },
                     success: function (data) {
                         if (data.ret) {
-                            if (data.url) {
-                                if ($type == 2)
-                                    $('.pay').attr('href', $wxpayApp).children('img').attr('src', $zxing + data.url);
-                                else $('.pay').attr('href', $alipay + data.url).children('img').attr('src', $zxing + data.url);
-                            }
                             if (data.status == 1) {
                                 close('充值成功！');
                                 setTimeout(function () {
