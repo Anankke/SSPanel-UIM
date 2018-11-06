@@ -507,6 +507,8 @@ class UserController extends BaseController
 			$array_node['name']=$node->name;
 			$array_node['sort']=$node->sort;
 			$array_node['info']=$node->info;
+			$array_node['mu_only']=$node->mu_only;
+
 
 			$regex = Config::get('flag_regex');
             $matches = array();
