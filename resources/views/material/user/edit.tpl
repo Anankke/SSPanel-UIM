@@ -374,18 +374,23 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<div class="cardbtn-edit">
-												<div class="card-heading">Telegram 绑定</div>
-												<div><a class="btn btn-flat btn-brand-accent waves-attach" href="/user/telegram_reset"><span class="icon">not_interested</span>&nbsp;</a></div>
-										</div>
+										<p class="card-heading">Telegram 绑定</p>
+                                      {if $user->telegram_id == 0}
 										<p>Telegram 添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。</p>
 										<div class="form-group form-group-label">
 											<div class="text-center">
 												<div id="telegram-qr"></div>
-												{if $user->telegram_id != 0}当前绑定：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>{/if}
+                                              <div class="card-action">
+												{elseif $user->telegram_id != 0}当前绑定Telegram账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
+                                              <div class="card-action">
+										<div class="card-action-btn pull-left">
+											<a class="btn btn-brand-accent btn-flat waves-attach" href="/user/telegram_reset" ><span class="icon">format_color_reset</span>&nbsp;解绑</a>
+										</div>{/if}
 											</div>
 										</div>
 
+									</div>
+									
 									</div>
 								</div>
 							</div>
