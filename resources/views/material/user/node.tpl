@@ -23,10 +23,14 @@
 								<div class="card-inner margin-bottom-no">
 									<div class="tile-wrap">
 
-
-										{$id=1000}
-										{$id=$id+1}
+                                        {$class=-1}
+									
 										{foreach $nodes as $node}
+                                       
+										{if $node['class']!=$class}
+											<p>{if $class == -1}普通{else}VIP {$node['class']} {/if}用户节点</p>
+											{$class=$class+1}
+										{/if}
 
 										<div class="tile tile-collapse">
 											<div data-toggle="tile" data-target="#heading{$node['id']}">
@@ -95,7 +99,7 @@
 													{$relay_rule = $tools->pick_out_relay_rule($node->id, $user->port, $relay_rules)}
 													{/if}
 
-													{if $node->mu_only != 1}
+													{if $node['mu_only'] != 1}
 													<div class="card">
 														<div class="card-main">
 															<div class="card-inner">
@@ -158,7 +162,7 @@
 													{/if}
 
 
-													{if ($node['sort'] == 0 || $node['sort'] == 10) && $node->custom_rss == 1 && $node->mu_only != -1}
+													{if ($node['sort'] == 0 || $node['sort'] == 10) && $node->custom_rss == 1 && $node['mu_only'] != -1}
 													{foreach $nodes_muport as $single_muport}
 
 													{if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
@@ -193,36 +197,39 @@
                                                     {/if}
 
 												{/if}
-
+												
+												{if isset($point_node)}
+												{if $point_node!=null}
+		
+												<div class="card">
+													<div class="card-main">
+														<div class="card-inner" id="info{$id}">
+		
+														</div>
+													</div>
+												</div>
+		
+												<script>
+													$().ready(function () {
+														$('#heading{$node['id']}').on("shown.bs.tile", function () {
+															$("#info{$node@index}").load("/user/node/{$point_node->id}/ajax");
+														});
+													});
+												</script>
+												{/if}
+												{/if}
 												
                                                 </div>
 											</div>
+
+										
+
+										{$point_node=null}
 											
 										</div>
 										{/foreach}
 										
-										{if isset($point_node)}
-										{if $point_node!=null}
-
-										<div class="card">
-											<div class="card-main">
-												<div class="card-inner" id="info{$id}">
-
-												</div>
-											</div>
-										</div>
-
-										<script>
-											$().ready(function () {
-												$('#heading{$node['order']}').on("shown.bs.tile", function () {
-													$("#info{$id}").load("/user/node/{$point_node->id}/ajax");
-												});
-											});
-										</script>
-										{/if}
-										{/if}
-
-										{$point_node=null}
+										
 
 									</div>
 								</div>
