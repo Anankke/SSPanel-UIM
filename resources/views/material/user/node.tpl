@@ -15,21 +15,68 @@
 		<section class="content-inner margin-top-no">
 			<div class="ui-card-wrap">
 				<div class="row">
-					<div class="col-lg-12 col-sm-12">
-						<div class="card">
+					<div class="col-lg-12 col-sm-12 nodelist">
+							
+							<div class="ui-switch node-switch">
+								<div class="card">
+									<div class="card-main">
+										<div class="card-inner ui-switch">
+											<div class="switch-btn" id="switch-cards"><a href="#" onclick="return false"><i class="mdui-icon material-icons">apps</i></a></div>
+											<div class="switch-btn" id="switch-table"><a href="#" onclick="return false"><i class="mdui-icon material-icons">dehaze</i></a></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						
+                    <div class="card-row node-card">
+                        {$class=-1}
+						{foreach $nodes as $node}
+						{if $node['class']!=$class}
+							{$class=$node['class']}
+							
+							<div class="nodetitle">
+								<div>
+								    <span>{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</span>	
+								</div>
+							</div>	
+						{/if}
+						<div class="card-node node-flex">
+                            <div class="nodemain">
+                                <div class="nodehead node-flex">
+                                    {if $config['enable_flag']=='true'}<div class="flag"><img src="/images/prefix/{$node['flag']}" alt=""></div>{/if}
+                                    <div class="nodename">{$node['name']}</div>
+                                </div>
+                                <div class="nodemiddle node-flex">
+                                    <div class="onlinemember node-flex"><i class="material-icons">flight_takeoff</i><span>{if $node['online_user'] == -1}N/A{else}{$node['online_user']}{/if}</span></div>
+                                    <div class="nodetype">{$node['info']}</div>
+                                </div>
+                                <div class="nodeinfo node-flex">
+                                    <div class="nodetraffic node-flex"><i class="material-icons">equalizer</i><span>{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}{else}N/A{/if}</span></div>
+                                    <div class="nodecheck node-flex">
+                                        <i class="material-icons">network_check</i><span>{$node['traffic_rate']} 倍率</span>
+                                    </div>
+                                    <div class="nodeband node-flex"><i class="material-icons">flash_on</i><span>{$node['bandwidth']}</span></div>
+                                </div>
+                            </div>
+                            <div class="nodestatus">
+                                <div class="{if $node['online']=="1"}nodeonline{elseif $node['online']=='0'}nodeunset{else}nodeoffline{/if}">
+                                    <i class="material-icons">{if $node['online']=="1"}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</i>
+                                </div>
+                            </div>
+                        </div>
+						{/foreach}
+					</div>
 
+						<div class="card node-table">
 							<div class="card-main">
-
 								<div class="card-inner margin-bottom-no">
-									<div class="tile-wrap">
-
-                                        {$class=-1}
-									
+									<div class="tile-wrap">                                       									
 										{foreach $nodes as $node}
                                        
 										{if $node['class']!=$class}
-											<p class="card-heading">{if $class == -1}普通{else}VIP {$node['class']} {/if}用户节点</p>
-											{$class=$class+1}
+											{$class=$node['class']}
+											
+											<p class="card-heading">{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</p>	
 										{/if}
 
 										<div class="tile tile-collapse">
@@ -233,7 +280,6 @@
 
 									</div>
 								</div>
-
 							</div>
 						</div>
 					</div>
@@ -281,4 +327,17 @@
 		$("#result").modal();
 		$("#msg").html("已复制，请进入软件添加。");
 	});
+	{literal}
+	$("#switch-cards").click(function (){
+	    $(".node-card").css("display","flex");
+	    $(".node-table").css("display","none");
+		$(".ui-switch.node-switch").css({"right":"1em","top":"3.6em"});
+    });
+
+    $("#switch-table").click(function (){
+         $(".node-card").css("display","none");
+	     $(".node-table").css("display","flex");
+		 $(".ui-switch.node-switch").css({"right":"2.5em","top":"1.5em"});
+    });
+	{/literal}
 </script>

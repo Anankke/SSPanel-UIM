@@ -293,13 +293,20 @@
 	        flex-wrap: wrap;
 		}
 		
-		.shop-display {
+		.shop-table {
 	        display: none;
         }
 		
 		.reset-invitelink {
 			margin-left: 1em;
 		}
+
+		.node-card {
+            display: none;
+			position: relative;
+		}
+
+		
 
 		.enable-flag {
 			color: #383838;
