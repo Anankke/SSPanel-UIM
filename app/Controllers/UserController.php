@@ -539,6 +539,32 @@ class UserController extends BaseController
 				$array_node['online_user']=-1;
 			}
 
+			
+			if ($node->sort == 11) {
+				$node_explode = explode(";", $node->server);
+				$array_node['address'] = $node_explode[0];
+				$array_node['port'] = $node_explode[1];
+				$array_node['alter_id'] = $node_explode[2];
+				if (count($node_explode) >= 4) {
+					$array_node['net'] = $node_explode[3];
+				} else {
+					$array_node['net'] = "tcp";
+				}
+				if (count($node_explode) >= 5) {
+					if ($array_node['net'] == 'kcp' || $node_explode[4] == 'http') {
+						$array_node['type'] = $node_explode[4];
+					} else {
+						$array_node['type'] = "none";
+					}
+				} else {
+					$array_node['type'] = "none";
+				}
+				if (count($node_explode) >= 6) {
+					$array_node['extra'] = $node_explode[5];
+				}
+			}
+			 
+
 			$nodeLoad = $node->getNodeLoad();
             if (isset($nodeLoad[0]['load'])) {
                 $array_node['latest_load'] = ((explode(" ", $nodeLoad[0]['load']))[0]) * 100;

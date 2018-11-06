@@ -274,41 +274,29 @@ class URL
         }
     }
     public static function getV2Url($user, $node){
-        $node_explode = explode(';', $node->server);
         $item = [
             'v'=>'2', 
             'host'=>'', 
             'path'=>'', 
             'tls'=>''
         ];
-        $item['ps'] = $node->name;
-        $item['add'] = $node_explode[0];
-        $item['port'] = $node_explode[1];
+        $item['ps'] = $node['name'];
+        $item['add'] = $node['address'];
+        $item['port'] = $node['port'];
         $item['id'] = $user->getUuid();
-        $item['aid'] = $node_explode[2];
-        if (count($node_explode) >= 4) {
-            $item['net'] = $node_explode[3];
-            if ($item['net'] == 'ws') {
-                $item['path'] = '/';
-            } else if ($item['net'] == 'tls') {
-                $item['tls'] = 'tls';
-            }
-        } else {
-            $item['net'] = "tcp";
-        } 
+        $item['aid'] = $node['alter_id'];
+        $item['net'] = $node['net'];
+	$item['type'] = $node['type'];
 
-        if (count($node_explode) >= 5) {
-            if ($item['net'] == 'kcp' || $node_explode[4] == 'http') {
-                $item['type'] = $node_explode[4];
-            } else {
-                $item['type'] = "none";
-            }
-        } else {
-            $item['type'] = "none";
-        } 
+        if ($item['net'] == 'ws') {
+	    $item['path'] = '/';
+        } else if ($item['net'] == 'tls') {
+            $item['tls'] = 'tls';
+        }
 
-        if (count($node_explode) >= 6) {
-            $item = array_merge($item, URL::parse_args($node_explode[5]));
+
+        if (in_array('extra', (array)$node)) {
+            $item = array_merge($item, URL::parse_args($node['extra']));
         }
 
         return "vmess://".base64_encode((json_encode($item, JSON_UNESCAPED_UNICODE)));

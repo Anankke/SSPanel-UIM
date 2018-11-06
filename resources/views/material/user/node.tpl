@@ -165,7 +165,6 @@
 													{/if}
 
 													{if $node['sort'] == 11}
-													{assign var=server_explode value=";"|explode:$node->server}
 													<div class="card">
 														<div class="card-main">
 															<div class="card-inner">
@@ -174,15 +173,15 @@
 																</p>
 
 																<p>地址：<span class="label label-brand-accent">
-																		{$server_explode[0]}
+																		{$node['address']}
 																	</span></p>
 
 																<p>端口：<span class="label label-brand-red">
-																		{$server_explode[1]}
+																		{$node['port']}
 																	</span></p>
 
 																<p>协议参数：<span class="label label-green">
-																		{$server_explode[0]}
+																		{$node['address']}
 																	</span></p>
 
 																<p>用户 UUID：<span class="label label-brand">
@@ -190,11 +189,11 @@
 																	</span></p>
 
 																<p>流量比例：<span class="label label-red">
-																		{$node->traffic_rate}
+																		{$node['traffic_rate']}
 																	</span></p>
 
 																<p>AlterId：<span class="label label-green">
-																		{$server_explode[2]}
+																		{$node['alter_id']}
 																	</span></p>
 
 																<p>VMess链接：
