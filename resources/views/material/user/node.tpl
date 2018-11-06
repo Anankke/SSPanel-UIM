@@ -212,7 +212,7 @@
 												<script>
 													$().ready(function () {
 														$('#heading{$node['id']}').on("shown.bs.tile", function () {
-															$("#info{$node@index}").load("/user/node/{$point_node->id}/ajax");
+															$("#info{$node@index}").load("/user/node/{$point_node['id']}/ajax");
 														});
 													});
 												</script>
