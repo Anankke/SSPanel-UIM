@@ -41,7 +41,7 @@ class Mod_Mu
         $node = Node::where("node_ip", "LIKE", $_SERVER["REMOTE_ADDR"].'%')->first();
         if ($node==null && $_SERVER["REMOTE_ADDR"] != '127.0.0.1') {
             $res['ret'] = 0;
-            $res['data'] = "token or source is invalid";
+            $res['data'] = "token or source is invalid, Your ip address is ". $_SERVER["REMOTE_ADDR"];
             $response->getBody()->write(json_encode($res));
             return $response;
         }
