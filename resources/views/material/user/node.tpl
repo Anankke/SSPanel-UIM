@@ -75,7 +75,7 @@
 									{$relay_rule = null}
 
                                     {if $node['sort'] == 10 && $node['sort'] != 11}
-										{$relay_rule = $tools->pick_out_relay_rule($node->id, $user->port, $relay_rules)}
+										{$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
 									{/if}
 
 									{if $node['mu_only'] != 1}
@@ -91,7 +91,7 @@
 									{/if}
 
 									{if $node['sort'] == 11}
-									{assign var=server_explode value=";"|explode:$node->server}
+									{assign var=server_explode value=";"|explode:$node['server']}
 									    <p class="card-heading">
 											<a href="javascript:void(0);">{$node['name']}</a>
 										</p>
@@ -113,7 +113,7 @@
 											</span></p>
 
 										<p>流量比例：<span class="label label-red">
-												{$node->traffic_rate}
+												{$node['traffic_rate']}
 											</span></p>
 
 										<p>AlterId：<span class="label label-green">
@@ -139,7 +139,7 @@
 										{$relay_rule = null}
 
 										{if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
-											{$relay_rule = $tools->pick_out_relay_rule($node->id, $single_muport['server']->server, $relay_rules)}
+											{$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
 										{/if}
 										<p class="card-heading">
 												<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
@@ -231,7 +231,7 @@
 													<!-- 用户等级不小于节点等级 -->
 
                                                     {if $node['sort'] == 10 && $node['sort'] != 11}
-													{$relay_rule = $tools->pick_out_relay_rule($node->id, $user->port, $relay_rules)}
+													{$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
 													{/if}
 
 													{if $node['mu_only'] != 1}
@@ -254,7 +254,7 @@
 													{/if}
 
 													{if $node['sort'] == 11}
-													{assign var=server_explode value=";"|explode:$node->server}
+													{assign var=server_explode value=";"|explode:$node['server']}
 													<div class="card">
 														<div class="card-main">
 															<div class="card-inner">
@@ -279,7 +279,7 @@
 																	</span></p>
 
 																<p>流量比例：<span class="label label-red">
-																		{$node->traffic_rate}
+																		{$node['traffic_rate']}
 																	</span></p>
 
 																<p>AlterId：<span class="label label-green">
@@ -311,7 +311,7 @@
 													{$relay_rule = null}
 
 													{if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
-														{$relay_rule = $tools->pick_out_relay_rule($node->id, $single_muport['server']->server, $relay_rules)}
+														{$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
 													{/if}
 
 														<div class="card">
