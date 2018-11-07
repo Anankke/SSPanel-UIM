@@ -6626,7 +6626,7 @@ div.nodetitle:first-of-type>div {
 	right: 0;
 	max-width: 350px;
 	background: white;
-	z-index: 2;
+	z-index: -1;
 	padding: 20px;
 	border-radius: 20px;
 	opacity: 0;
@@ -6640,6 +6640,7 @@ div.nodetitle:first-of-type>div {
 	transition-duration: .5s;
 	transition-property: all;
 	transition-timing-function: ease-out;
+	z-index: 3;
 }
 .tiphidden {
 	position: fixed;
