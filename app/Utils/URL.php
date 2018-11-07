@@ -273,15 +273,15 @@ class URL
             return $ssurl;
         }
     }
-    public static function getV2Url($user, $node){
-        $node_explode = explode(';', $node->server);
+    public static function getV2Url($user, $v2ray_name, $v2ray_server){
+        $node_explode = explode(';', $v2ray_server);
         $item = [
             'v'=>'2', 
             'host'=>'', 
             'path'=>'', 
             'tls'=>''
         ];
-        $item['ps'] = $node->name;
+        $item['ps'] = $v2ray_name;
         $item['add'] = $node_explode[0];
         $item['port'] = $node_explode[1];
         $item['id'] = $user->getUuid();
@@ -325,7 +325,7 @@ class URL
         $result = "";
 
         foreach ($nodes as $node) {
-            $result .= (URL::getV2Url($user, $node) . "\n");
+            $result .= (URL::getV2Url($user, $node->name, $node->server) . "\n");
         }
 
         return $result;
