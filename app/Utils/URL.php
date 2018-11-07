@@ -331,7 +331,7 @@ class URL
         return $result;
     }
 
-	public static function getAllSSDUrl($user,$base64=false){
+	public static function getAllSSDUrl($user){
 		if (!URL::SSCanConnect($user)){
 			return null;
 		}
@@ -355,7 +355,7 @@ class URL
 			$array_all['plugin']='simple-obfs';//目前只支持这个
 			$array_all['plugin_options']=$plugin_options;
 			if($user->obfs_param！=''){
-				$array_all['plugin_options'].=$plugin_options.';obfs-host='.$user->obfs_param;
+				$array_all['plugin_options'].=';obfs-host='.$user->obfs_param;
 			}
 		}
 
@@ -366,7 +366,7 @@ class URL
 				$func->where('sort', '=', 0)
 					->orwhere('sort', '=', 10);
 			})
-			->where(function ($func){
+			->where(function ($func) use ($user){
 				$func->where('node_group', '=', $user->group)
 					->orwhere('node_group', '=', 0);
 			})->orderBy('name')->get();
@@ -386,7 +386,9 @@ class URL
 			if ($relay_rule != null) {
 				//是中转起源节点
 				$server['remarks']=$node->name.' => '.$relay_rule->dist_node()->name;
-				$server['ratio']=$node->traffic_rate+$relay_rule->dist_node()->traffic_rate;
+				$server['ratio']=$node->traffic_rate+$relay_rule->dist_node()->traffic_rate;				
+				array_push($array_server,$server);
+				continue;
 			}
 			else{
 				//不是中转起源节点
@@ -426,23 +428,18 @@ class URL
 						if(strpos($muport_user->obfs,'tls')!=FALSE){
 							$plugin_options='obfs=tls';
 						}
-						$server['plugin_options'].=$plugin_options.';obfs-host='.$muport_user->getMuMd5();				
+						$server['plugin_options']=$plugin_options.';obfs-host='.$user->getMuMd5();				
 						array_push($array_server,$server);
 						$server_index++;
 					}				
 				}
 			}
-			array_push($array_server,$server);
 		}
 
 		$array_all['servers']=$array_server;
 		$json_all=json_encode($array_all);	
-		if($base64){
-			return "ssd://".base64_encode($json_all);
-		}
-		else{
-			return $json_all;
-		}
+		
+		return 'ssd://'.Tools::base64_url_encode($json_all);
 	}
 
     public static function getJsonObfs($item) {

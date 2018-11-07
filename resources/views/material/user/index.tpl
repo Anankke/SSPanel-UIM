@@ -265,7 +265,7 @@
 														{/if}
 													</div>
 													<div class="tab-pane fade" id="all_ss_windows">
-													{$ssd_url_all =URL::getAllSSDUrl($user,true)}
+													{$ssd_url_all =URL::getAllSSDUrl($user)}
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-win.7z"> 点击下载 SSD</a>，解压至任意磁盘并运行</p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
