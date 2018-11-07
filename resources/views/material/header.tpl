@@ -87,11 +87,6 @@
 				     <a  href="/password/reset"><i class="icon icon-lg">security</i>&nbsp;重置密码</a>
 					</li>
 
-                  <li>
-                    <div class="divcss5">
-    					<img  src="/images/Ambassador-menu.png" width="230" height="310"/>
-                      </div>
-					</li>
 					{/if}
 				</ul>
 			</div>
