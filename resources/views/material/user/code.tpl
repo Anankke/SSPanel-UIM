@@ -159,6 +159,8 @@
         </section>
     </div>
 </main>
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/qrcode.min.js"></script>
 <script>
 	$(document).ready(function () {
 		$("#code-update").click(function () {
