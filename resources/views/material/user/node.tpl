@@ -4,6 +4,8 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1"></script>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 
+<div class="tiphidden"></div>
+
 <main class="content">
 	<div class="content-header ui-content-header">
 		<div class="container">
@@ -28,7 +30,7 @@
 								</div>
 							</div>
 						
-                    <div class="card-row node-card">
+                    <div class="card-row node-cardgroup" style="display:{if $config['enable_node_uiswitch'] == 1}grid{else}none{/if}">
                         {$class=-1}
 						{foreach $nodes as $node}
 						{if $node['class']!=$class}
@@ -39,7 +41,7 @@
 								</div>
 							</div>	
 						{/if}
-						<div class="card-node node-flex">
+						<div class="node-card node-flex" cardindex="{$node@index}">
                             <div class="nodemain">
                                 <div class="nodehead node-flex">
                                     {if $config['enable_flag']=='true'}<div class="flag"><img src="/images/prefix/{$node['flag']}" alt=""></div>{/if}
@@ -61,12 +63,99 @@
                                 <div class="{if $node['online']=="1"}nodeonline{elseif $node['online']=='0'}nodeunset{else}nodeoffline{/if}">
                                     <i class="material-icons">{if $node['online']=="1"}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</i>
                                 </div>
-                            </div>
-                        </div>
+							</div>
+							
+						</div>
+						<div class="node-tip" tipindex="{$node@index}">
+								{if $node['class'] > $user->class}
+									<p class="card-heading" align="center"><b> <i class="icon icon-lg">visibility_off</i>
+										{$user->user_name}，您无查看当前等级VIP节点的权限，如需购买VIP请<a href="/user/shop">点击这里</a>。</b></p>
+								{else}
+
+									{$relay_rule = null}
+
+                                    {if $node['sort'] == 10 && $node['sort'] != 11}
+										{$relay_rule = $tools->pick_out_relay_rule($node->id, $user->port, $relay_rules)}
+									{/if}
+
+									{if $node['mu_only'] != 1}
+									<p class="card-heading">
+											<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
+												{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
+											<span class="label label-brand-accent">←点击节点查看配置信息</span>
+										</p>
+									{/if}
+
+									{if $node['sort'] == 0 || $node['sort'] == 10}
+										{$point_node=$node}
+									{/if}
+
+									{if $node['sort'] == 11}
+									{assign var=server_explode value=";"|explode:$node->server}
+									    <p class="card-heading">
+											<a href="javascript:void(0);">{$node['name']}</a>
+										</p>
+
+										<p>地址：<span class="label label-brand-accent">
+												{$server_explode[0]}
+											</span></p>
+
+										<p>端口：<span class="label label-brand-red">
+												{$server_explode[1]}
+											</span></p>
+
+										<p>协议参数：<span class="label label-green">
+												{$server_explode[0]}
+											</span></p>
+
+										<p>用户 UUID：<span class="label label-brand">
+												{$user->getUuid()}
+											</span></p>
+
+										<p>流量比例：<span class="label label-red">
+												{$node->traffic_rate}
+											</span></p>
+
+										<p>AlterId：<span class="label label-green">
+												{$server_explode[2]}
+											</span></p>
+
+										<p>VMess链接：
+											<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
+										</p>
+									{/if}
+
+									{if ($node['sort'] == 0 || $node['sort'] == 10) && $node['mu_only'] != -1}
+										{foreach $nodes_muport as $single_muport}
+
+										{if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
+											{continue}
+										{/if}
+
+										{if !($single_muport['user']->class >= $node['class'] && ($node->node_group == 0 || $single_muport['user']->node_group == $node->node_group))}
+											{continue}
+										{/if}
+
+										{$relay_rule = null}
+
+										{if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
+											{$relay_rule = $tools->pick_out_relay_rule($node->id, $single_muport['server']->server, $relay_rules)}
+										{/if}
+										<p class="card-heading">
+												<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
+													{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口 Shadowsocks -
+													{$single_muport['server']->server} 端口</a>
+												<span class="label label-brand-accent">{$node['status']}</span>
+											</p>
+										{/foreach}
+									{/if}
+								{/if}
+							</div>
+						{$point_node=null}
 						{/foreach}
 					</div>
 
-						<div class="card node-table">
+						<div class="card node-table" style="display:{if $config['enable_node_uiswitch'] == 0}flex{else}none{/if}">
 							<div class="card-main">
 								<div class="card-inner margin-bottom-no">
 									<div class="tile-wrap">                                       									
@@ -305,6 +394,7 @@
 
 
 <script>
+
 	function urlChange(id, is_mu, rule_id) {
 		var site = './node/' + id + '?ismu=' + is_mu + '&relay_rule=' + rule_id;
 		if (id == 'guide') {
@@ -328,14 +418,42 @@
 	});
 	{literal}
 	$("#switch-cards").click(function (){
-	    $(".node-card").css("display","flex");
+	    $(".node-cardgroup").css("display","grid");
 	    $(".node-table").css("display","none");
 		
     });
 
     $("#switch-table").click(function (){
-         $(".node-card").css("display","none");
+         $(".node-cardgroup").css("display","none");
 	     $(".node-table").css("display","flex");
     });
+
+	
+	$(".node-card").click(function (){
+		var windowWidth = $(window).width();
+		var cardSize = $(this).css("grid-column-end");
+		// if (cardSize == "auto" && windowWidth >= 1440) {
+		// 	$(this).css({"grid-column-end":"span 3","height":"240px"});
+		// } else if (cardSize == "auto" && windowWidth <= 1439 && windowWidth >= 768) {
+		// 	$(this).css({"grid-column-end":"span 2","height":"240px"});
+		// } else if (cardSize == "auto" && windowWidth <= 767) {
+        //     $(this).css({"grid-column-end":"span 1","height":"240px"});
+		// } else {
+		// 	$(this).css({"grid-column-end":"unset","height":"120px"});
+		// }
+		var tipID = $(this).attr("cardindex");
+        $(".node-tip[tipindex=" + tipID + "]").addClass("tip-down");
+		$(".tiphidden").css({"height":"100vh","width":"100vw"});
+    });
+
+	$(".tiphidden").click(function(){
+        $(".tiphidden").css({"height":"0","width":"0"});
+		$(".node-tip.tip-down").removeClass("tip-down");
+	});
 	{/literal}
+
+ 
+   
+
+	
 </script>
