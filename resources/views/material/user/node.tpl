@@ -165,7 +165,7 @@
 													{/if}
 
 													{if $node['sort'] == 11}
-													{assign var=server_explode value=";"|explode:$node->server}
+													{assign var=server_explode value=";"|explode:$node['v2ray_server']}
 													<div class="card">
 														<div class="card-main">
 															<div class="card-inner">
@@ -190,7 +190,7 @@
 																	</span></p>
 
 																<p>流量比例：<span class="label label-red">
-																		{$node->traffic_rate}
+																		{$node['traffic_rate']}
 																	</span></p>
 
 																<p>AlterId：<span class="label label-green">
@@ -198,7 +198,7 @@
 																	</span></p>
 
 																<p>VMess链接：
-																	<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
+																	<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node['name'], $node['v2ray_server'])}">点击复制</a>
 																</p>
 
 																<p>{$node['info']}</p>
