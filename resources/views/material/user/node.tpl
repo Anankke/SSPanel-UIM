@@ -132,7 +132,7 @@
 											{continue}
 										{/if}
 
-										{if !($single_muport['user']->class >= $node['class'] && ($node->node_group == 0 || $single_muport['user']->node_group == $node->node_group))}
+										{if !($single_muport['user']->class >= $node['class'] && ($node['group'] == 0 || $single_muport['user']->node_group == $node['group']))}
 											{continue}
 										{/if}
 
@@ -304,7 +304,7 @@
 														{continue}
 													{/if}
 
-													{if !($single_muport['user']->class >= $node['class'] && ($node->node_group == 0 || $single_muport['user']->node_group == $node->node_group))}
+													{if !($single_muport['user']->class >= $node['class'] && ($node['group'] == 0 || $single_muport['user']->node_group == $node['group']))}
 														{continue}
 													{/if}
 
