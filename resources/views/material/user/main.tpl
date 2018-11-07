@@ -301,7 +301,7 @@
 			margin-left: 1em;
 		}
 
-		.node-card {
+		.node-cardgroup {
             display: none;
 			position: relative;
 		}
