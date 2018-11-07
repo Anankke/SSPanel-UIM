@@ -40,12 +40,12 @@ $System_Config['mailgun_sender'] = '';
 
 # smtp
 $System_Config['smtp_host'] = '';
-$System_Config['smtp_port'] = '';
-$System_Config['smtp_sender'] = '';
 $System_Config['smtp_username'] = '';
+$System_Config['smtp_port'] = '465';
+$System_Config['smtp_name'] = '';
+$System_Config['smtp_sender'] = '';
 $System_Config['smtp_passsword'] = '';
-$System_Config['smtp_ssl'] = 'false';
-$System_Config['smtp_tls'] = 'false';
+$System_Config['smtp_ssl'] = 'true';
 
 # sendgrid
 $System_Config['sendgrid_key'] = '';
@@ -95,8 +95,8 @@ $System_Config['email_verify_iplimit']='10';		//验证码有效期内，单IP可
 #基础
 $System_Config['checkinMin'] = '1';				//用户签到最少流量 单位MB
 $System_Config['checkinMax'] = '50';			//用户签到最多流量
-$System_Config['auto_clean_uncheck_days']='7';	//自动清理多少天没签到的0级用户，小于等于0时关闭
-$System_Config['auto_clean_unused_days']='30';	//自动清理多少天没使用的0级用户，小于等于0时关闭
+$System_Config['auto_clean_uncheck_days']='-1';	//自动清理多少天没签到的0级用户，小于等于0时关闭
+$System_Config['auto_clean_unused_days']='-1';	//自动清理多少天没使用的0级用户，小于等于0时关闭
 $System_Config['auto_clean_min_money']='1';		//余额低于多少的0级用户可以被清理
 $System_Config['code_payback']='20';			//充值返利百分比
 $System_Config['invite_gift']='2';				//邀请新用户获得流量奖励，单位G
