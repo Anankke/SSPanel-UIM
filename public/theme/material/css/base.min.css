@@ -6742,6 +6742,10 @@ div.nodetitle:first-of-type>div {
 	}
 }
 
+i {
+	user-select: none;
+}
+
 
 
 
