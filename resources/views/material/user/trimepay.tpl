@@ -20,8 +20,6 @@
         </div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<script src="/assets/js/qrcode.min.js"></script>
 <script>
     var pid = 0;
 
