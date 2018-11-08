@@ -500,9 +500,10 @@
 	tipHidden.click(function(){
         tipHidden.css({"height":"0","width":"0"});
 		$(".node-tip.tip-down").removeClass("tip-down");
-		setTimeout(function(){
+		var hiddenOver = setTimeout(function(){
 			$(".node-tip").css("z-index","-1");
 		},520);
+		clearTimeout(hiddenOver);
 	});
 
     })();
