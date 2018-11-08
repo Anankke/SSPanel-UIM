@@ -158,7 +158,8 @@
 						<div class="card node-table" style="display:{if $config['enable_node_uiswitch'] == 0}flex{else}none{/if}">
 							<div class="card-main">
 								<div class="card-inner margin-bottom-no">
-									<div class="tile-wrap">                                       									
+									<div class="tile-wrap">        
+										{$class=-1}
 										{foreach $nodes as $node}
                                        
 										{if $node['class']!=$class}
