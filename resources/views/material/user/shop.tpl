@@ -213,10 +213,10 @@ function buy(id,auto) {
 		setTimeout(function(){
 		      elShopCard.css("display","flex");
               elShopTable.css("display","none");
-		},350);	
+		},250);	
 		setTimeout(function(){
 		      elShopCard.removeClass("node-fade");
-		},370);
+		},270);
 		var defaultUI = {
 			"cardFade":"",
 			"cardDisplay":"flex",
@@ -232,10 +232,10 @@ function buy(id,auto) {
 		 setTimeout(function(){
 			elShopTable.css("display","block");
             elShopCard.css("display","none");
-		},350);	
+		},250);	
 		 setTimeout(function(){
 			  elShopTable.removeClass("node-fade");
-	    },370);
+	    },270);
 		var defaultUI = {
 			"cardFade":"node-fade",
 			"cardDisplay":"none",

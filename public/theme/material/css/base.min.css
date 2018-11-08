@@ -6222,8 +6222,11 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	opacity: 1;
 }
 
-.shop-table {
+.shop-table,.shop-flex {
 	opacity: 1;
+	display: none;
+	/* display:flex;原本的display方式 */
+	/* display:block; */
 }
 
 .shop-flex .card {
@@ -6233,12 +6236,18 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 }
 
 .shop-name,.shop-price {
-    padding: 1em 0;
+    padding: .8em 0;
 }
 .shop-price {
 	border-top: 1px solid #a7a7a7;
 	border-bottom: 1px solid #a7a7a7;
 	background: #f6f9fc;
+	font-size: 13px;
+}
+.shop-price code {
+	font-size: 24px;
+	background: none;
+	font-style: italic;
 }
 .shop-content div {
 	margin-bottom: .5em; 
@@ -6251,7 +6260,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 .shop-name {
 	margin-top: .3em;
-	font-size: 20px;
+	font-size: 24px;
 }
 
 .shop-btn {
@@ -6466,7 +6475,8 @@ code.form-control {
 	position: relative;
 } */
 .card-row {
-	display: grid;
+	/* display: grid; */
+	display: none;
 	grid-template-columns: 100%;
 	justify-content: space-between;
 	position: relative;
@@ -6496,6 +6506,8 @@ code.form-control {
 }
 .node-table {
 	opacity: 1;
+	display: none;
+	/* display:flex; */
 }
 .node-card:hover {
     transition-duration: .1s;
