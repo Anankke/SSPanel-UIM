@@ -41,7 +41,7 @@
 						 </div>
 					</div>
 						
-            <div class="shop-flex" {if $config["enable_shop_uiswitch"]=='1'}style="display: flex{else}style="display: none{/if}">
+            <div class="shop-flex">
 				{$shops->render()}
 				{foreach $shops as $shop}
                   <div class="card">
@@ -78,7 +78,7 @@
 			</div>
 
 
-					<div class="table-responsive shop-table" {if $config["enable_shop_uiswitch"]=='1'}style="display: none{else}style="display: block{/if}">
+					<div class="table-responsive shop-table">
 						{$shops->render()}
 						<table class="table ">
                             <tr>
@@ -193,15 +193,60 @@ function buy(id,auto) {
 	$("#coupon_modal").modal();
 }
 
-$("#switch-cards").click(function (){
-	$(".shop-flex").css("display","flex");
-	$(".shop-table").css("display","none");
-});
+;(function(){
+    var nodeDefaultUI = localStorage.getItem("tempUIshop");
+	var elShopCard = $(".shop-flex");
+	var elShopTable = $(".shop-table");
+	nodeDefaultUI = JSON.parse(nodeDefaultUI);
+	if (!nodeDefaultUI) {
+		elShopCard.css("display","flex");
+	} else {
+		elShopCard.css("display",nodeDefaultUI["cardDisplay"]);
+	    elShopCard.removeClass("node-fade").addClass(nodeDefaultUI["cardFade"]);
+	    elShopTable.css("display",nodeDefaultUI["tableDisplay"]);
+	    elShopTable.removeClass("node-fade").addClass(nodeDefaultUI["tableFade"]);
+	}
+	
 
-$("#switch-table").click(function (){
-     $(".shop-flex").css("display","none");
-	 $(".shop-table").css("display","block");
-});
+	$("#switch-cards").click(function (){
+        elShopTable.addClass("node-fade");
+		setTimeout(function(){
+		      elShopCard.css("display","flex");
+              elShopTable.css("display","none");
+		},350);	
+		setTimeout(function(){
+		      elShopCard.removeClass("node-fade");
+		},370);
+		var defaultUI = {
+			"cardFade":"",
+			"cardDisplay":"flex",
+			"tableFade":"node-fade",
+			"tableDisplay":"none"
+		};
+		defaultUI = JSON.stringify(defaultUI);
+		localStorage.setItem("tempUIshop",defaultUI);
+    });
+
+    $("#switch-table").click(function (){
+         elShopCard.addClass("node-fade");
+		 setTimeout(function(){
+			elShopTable.css("display","block");
+            elShopCard.css("display","none");
+		},350);	
+		 setTimeout(function(){
+			  elShopTable.removeClass("node-fade");
+	    },370);
+		var defaultUI = {
+			"cardFade":"node-fade",
+			"cardDisplay":"none",
+			"tableFade":"",
+			"tableDisplay":"block"
+		};
+		defaultUI = JSON.stringify(defaultUI);
+		localStorage.setItem("tempUIshop",defaultUI);
+    });
+})();
+    
 
 $("#coupon_input").click(function () {
 		$.ajax({

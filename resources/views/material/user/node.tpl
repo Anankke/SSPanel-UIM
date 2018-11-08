@@ -30,7 +30,7 @@
 								</div>
 							</div>
 						
-                    <div class="card-row {if $config['enable_node_uiswitch'] == 1}{else}node-fade{/if}">
+                    <div class="card-row">
                         {$class=-1}
 						{foreach $nodes as $node}
 						{if $node['class']!=$class}
@@ -155,7 +155,7 @@
 						{/foreach}
 					</div>
 
-						<div class="card node-table {if $config['enable_node_uiswitch'] == 0}{else}node-fade{/if}">
+						<div class="card node-table">
 							<div class="card-main">
 								<div class="card-inner margin-bottom-no">
 									<div class="tile-wrap">        
@@ -418,24 +418,60 @@
 		$("#msg").html("已复制，请进入软件添加。");
 	});
 	{literal}
+
+    ;(function(){
+		'use strict'
+
+	var nodeDefaultUI = localStorage.getItem("tempUInode");
+	var elNodeCard = $(".card-row");
+	var elNodeTable = $(".node-table");
+	nodeDefaultUI = JSON.parse(nodeDefaultUI);
+	if (!nodeDefaultUI) {
+		elNodeTable.css("display","flex");
+	} else {
+		elNodeCard.css("display",nodeDefaultUI["cardDisplay"]);
+	    elNodeCard.removeClass("node-fade").addClass(nodeDefaultUI["cardFade"]);
+	    elNodeTable.css("display",nodeDefaultUI["tableDisplay"]);
+	    elNodeTable.removeClass("node-fade").addClass(nodeDefaultUI["tableFade"]);
+	}
+	
+
 	$("#switch-cards").click(function (){
-        $(".node-table").addClass("node-fade");
+        elNodeTable.addClass("node-fade");
 		setTimeout(function(){
-		      $(".card-row").css("display","grid");
-              $(".node-table").css("display","none");
-		},200);	
+		      elNodeCard.css("display","grid");
+              elNodeTable.css("display","none");
+		},250);	
 		setTimeout(function(){
-		      $(".card-row").removeClass("node-fade");
-		},220);	
+		      elNodeCard.removeClass("node-fade");
+		},270);
+		var defaultUI = {
+			"cardFade":"",
+			"cardDisplay":"grid",
+			"tableFade":"node-fade",
+			"tableDisplay":"none"
+		};
+		defaultUI = JSON.stringify(defaultUI);
+		localStorage.setItem("tempUInode",defaultUI);
     });
 
     $("#switch-table").click(function (){
-		$(".node-table").css("display","flex");
-         $(".card-row").addClass("node-fade");
+         elNodeCard.addClass("node-fade");
 		 setTimeout(function(){
-              $(".card-row").css("display","none");	  
-			  $(".node-table").removeClass("node-fade");
-		},200);
+			elNodeTable.css("display","flex");
+              elNodeCard.css("display","none");
+		},250);	
+		 setTimeout(function(){
+			  elNodeTable.removeClass("node-fade");
+	    },270);
+		var defaultUI = {
+			"cardFade":"node-fade",
+			"cardDisplay":"none",
+			"tableFade":"",
+			"tableDisplay":"flex"
+		};
+		defaultUI = JSON.stringify(defaultUI);
+		localStorage.setItem("tempUInode",defaultUI);
     });
 
 	
@@ -460,6 +496,8 @@
         $(".tiphidden").css({"height":"0","width":"0"});
 		$(".node-tip.tip-down").removeClass("tip-down");
 	});
+
+    })();
 	{/literal}
  
    

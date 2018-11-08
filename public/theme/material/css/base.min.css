@@ -6215,6 +6215,17 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	margin: 0;
 }
 
+.shop-flex,.label-flex {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	opacity: 1;
+}
+
+.shop-table {
+	opacity: 1;
+}
+
 .shop-flex .card {
 	width: 24%;
 	text-align: center;
@@ -6462,7 +6473,7 @@ code.form-control {
 	opacity: 1;
 }
 
-.card-row,.node-table,.node-fade {
+.card-row,.node-table,.node-fade,.shop-flex,.shop-table {
 	transition-duration: .2s;
 	transition-property: all;
 }
@@ -6477,7 +6488,7 @@ code.form-control {
     border-radius: 10px;
 	box-shadow: 2px 2px 7px 1px rgb(189, 189, 189);
 	margin-top: 1em;
-	transition-duration: .2s;
+	transition-duration: .1s;
 	transition-property: all;
 	justify-content: space-between;
 	padding: 0 1em;

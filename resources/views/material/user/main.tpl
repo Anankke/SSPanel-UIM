@@ -286,16 +286,6 @@
 			font-weight: 300;
 			color: #fff;
 		}
-
-		.shop-flex,.label-flex {
-	        display: flex;
-	        justify-content: space-between;
-	        flex-wrap: wrap;
-		}
-		
-		.shop-table {
-	        display: none;
-        }
 		
 		.reset-invitelink {
 			margin-left: 1em;
