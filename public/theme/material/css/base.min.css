@@ -6627,7 +6627,7 @@ code.form-control {
 }
 
 .nodename {
-	font-size: 18px;
+	font-size: 16px;
 }
 
 
@@ -6678,13 +6678,34 @@ div.nodetitle:first-of-type>div {
 	transition-duration: .5s;
 	transition-property: all;
 }
+.nodetip-table {
+	flex-wrap: wrap;
+}
+.nodetip-table>.card-main {
+    flex-basis: 100%;
+}
+.nodeload {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.tiptitle {
+	margin: 0 0 10px 0;
+}
+.tiptitle a {
+	font-size: 18px;
+	display: block;
+}
+.tipmiddle {
+	margin-bottom: 10px
+}
 .tip-down {
 	opacity: 1;
 	top: 70px;
 	transition-duration: .5s;
 	transition-property: all;
 	transition-timing-function: ease-out;
-	z-index: 3;
+	/* z-index: 3; */
 }
 .tiphidden {
 	position: fixed;
