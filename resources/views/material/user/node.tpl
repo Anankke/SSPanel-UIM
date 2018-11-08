@@ -158,8 +158,8 @@
 						<div class="card node-table {if $config['enable_node_uiswitch'] == 0}{else}node-fade{/if}">
 							<div class="card-main">
 								<div class="card-inner margin-bottom-no">
-									<div class="tile-wrap"> 
-									    {$class=-1}                                      									
+									<div class="tile-wrap">        
+										{$class=-1}
 										{foreach $nodes as $node}
                                         
 										{if $node['class']!=$class}

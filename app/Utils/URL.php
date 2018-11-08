@@ -374,7 +374,6 @@ class URL
 		foreach($nodes as $node){
 			$server=array();
 			$server['id']=$server_index;
-			$server_index++;
 			$server['server']=$node->server;
 			//判断是否是中转起源节点
 			$relay_rule = Relay::where('source_node_id', $node->id)->where(
@@ -384,55 +383,54 @@ class URL
 				}
 			)->orderBy('priority','DESC')->orderBy('id')->first();
 			if ($relay_rule != null) {
-				//是中转起源节点
+				//是中转起源节点		
 				$server['remarks']=$node->name.' => '.$relay_rule->dist_node()->name;
 				$server['ratio']=$node->traffic_rate+$relay_rule->dist_node()->traffic_rate;				
 				array_push($array_server,$server);
+				$server_index++;
 				continue;
 			}
-			else{
-				//不是中转起源节点
-				$server['ratio']=$node->traffic_rate;
+			
+			//不是中转起源节点
 
-				//单多
-				if($node->mu_only==0||$node->mu_only==-1){
-				$server['remarks']=$node->name;
+			$server['ratio']=$node->traffic_rate;
+			//单多
+			if($node->mu_only==0||$node->mu_only==-1){
+			$server['remarks']=$node->name;				
+				array_push($array_server,$server);
+				$server_index++;
+			}
+			//普通
+			if($node->mu_only==0||$node->mu_only==1){
+				$nodes_muport=Node::where('type','1')->where('sort', '=', 9)
+					->where(function ($query) use ($user) {
+						$query->Where('node_group', '=', $user->group)
+							->orWhere('node_group', '=', 0);
+					})
+					->where('node_class', '<=', $user->class)
+					->orderBy('server')->get();
+				foreach($nodes_muport as $node_muport){
+					$muport_user=User::where('port','=',$node_muport->server)->first();
+					if(!URL::SSCanConnect($muport_user)){
+						continue;
+					}
+					$server['id']=$server_index;
+					$server['remarks']=$node->name.' - 单多'.$node_muport->server.'端口';
+					$server['port']=$node_muport->server;
+					$server['encryption']=$muport_user->method;
+					$server['password']=$muport_user->passwd;						
+					$server['plugin']='simple-obfs';//目前只支持这个
+					$plugin_options='';
+					if(strpos($muport_user->obfs,'http')!=FALSE){
+						$plugin_options='obfs=http';
+					}
+					if(strpos($muport_user->obfs,'tls')!=FALSE){
+						$plugin_options='obfs=tls';
+					}
+					$server['plugin_options']=$plugin_options.';obfs-host='.$user->getMuMd5();				
 					array_push($array_server,$server);
 					$server_index++;
-				}
-
-				//普通
-				if($node->mu_only==0||$node->mu_only==1){
-					$nodes_muport=Node::where('type','1')->where('sort', '=', 9)
-						->where(function ($query) use ($user) {
-							$query->Where('node_group', '=', $user->group)
-								->orWhere('node_group', '=', 0);
-						})
-						->where('node_class', '<=', $user->class)
-						->orderBy('server')->get();
-					foreach($nodes_muport as $node_muport){
-						$muport_user=User::where('port','=',$node_muport->server)->first();
-						if(!URL::SSCanConnect($muport_user)){
-							continue;
-						}
-						$server['id']=$server_index;
-						$server['remarks']=$node->name.' - 单多'.$node_muport->server.'端口';
-						$server['port']=$node_muport->server;
-						$server['encryption']=$muport_user->method;
-						$server['password']=$muport_user->passwd;						
-						$server['plugin']='simple-obfs';//目前只支持这个
-						$plugin_options='';
-						if(strpos($muport_user->obfs,'http')!=FALSE){
-							$plugin_options='obfs=http';
-						}
-						if(strpos($muport_user->obfs,'tls')!=FALSE){
-							$plugin_options='obfs=tls';
-						}
-						$server['plugin_options']=$plugin_options.';obfs-host='.$user->getMuMd5();				
-						array_push($array_server,$server);
-						$server_index++;
-					}				
-				}
+				}					
 			}
 		}
 
