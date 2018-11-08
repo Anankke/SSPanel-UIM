@@ -30,7 +30,7 @@
 								</div>
 							</div>
 						
-                    <div class="card-row node-cardgroup" style="display:{if $config['enable_node_uiswitch'] == 1}grid{else}none{/if}">
+                    <div class="card-row {if $config['enable_node_uiswitch'] == 1}{else}node-fade{/if}">
                         {$class=-1}
 						{foreach $nodes as $node}
 						{if $node['class']!=$class}
@@ -54,7 +54,7 @@
                                 <div class="nodeinfo node-flex">
                                     <div class="nodetraffic node-flex"><i class="material-icons">equalizer</i><span>{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}{else}N/A{/if}</span></div>
                                     <div class="nodecheck node-flex">
-                                        <i class="material-icons">network_check</i><span>{$node['traffic_rate']} 倍率</span>
+                                        <i class="material-icons">network_check</i><span>x{$node['traffic_rate']}</span>
                                     </div>
                                     <div class="nodeband node-flex"><i class="material-icons">flash_on</i><span>{$node['bandwidth']}</span></div>
                                 </div>
@@ -155,7 +155,7 @@
 						{/foreach}
 					</div>
 
-						<div class="card node-table" style="display:{if $config['enable_node_uiswitch'] == 0}flex{else}none{/if}">
+						<div class="card node-table {if $config['enable_node_uiswitch'] == 0}{else}node-fade{/if}">
 							<div class="card-main">
 								<div class="card-inner margin-bottom-no">
 									<div class="tile-wrap">                                       									
@@ -418,14 +418,14 @@
 	});
 	{literal}
 	$("#switch-cards").click(function (){
-	    $(".node-cardgroup").css("display","grid");
-	    $(".node-table").css("display","none");
+	    $(".card-row").removeClass("node-fade");
+	    $(".node-table").addClass("node-fade");
 		
     });
 
     $("#switch-table").click(function (){
-         $(".node-cardgroup").css("display","none");
-	     $(".node-table").css("display","flex");
+         $(".card-row").addClass("node-fade");
+	     $(".node-table").removeClass("node-fade");
     });
 
 	

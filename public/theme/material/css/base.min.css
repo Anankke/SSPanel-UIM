@@ -6459,6 +6459,12 @@ code.form-control {
 	grid-template-columns: 100%;
 	justify-content: space-between;
 	position: relative;
+	opacity: 1;
+}
+
+.card-row,.node-table,.node-fade {
+	transition-duration: 1s;
+	transition-property: all;
 }
 
 .node-card {
@@ -6477,11 +6483,19 @@ code.form-control {
 	padding: 0 1em;
 	cursor: pointer;
 }
+.node-table {
+	opacity: 1;
+	transition-delay: 1s;
+}
 .node-card:hover {
     transition-duration: .1s;
     transition-property: all;
     left: -3px;
 	top: -3px;
+	box-shadow: 3px 3px 7px 3px rgb(189, 189, 189);
+}
+.node-fade {
+	opacity: 0;
 }
 .nodetitle {
 	/* flex-basis: 100%; */
@@ -6553,7 +6567,11 @@ code.form-control {
 }
 
 .nodehead>div,.nodemiddle>div,.nodeinfo>div {
-    margin-right: 10px;
+    margin-right: 9px;
+}
+
+.nodeinfo i {
+	font-size: 22px;
 }
 
 .nodestatus i {
@@ -6586,6 +6604,10 @@ code.form-control {
 	height: 23.5px;
 }
 
+.nodename {
+	font-size: 18px;
+}
+
 
 div.nodetitle:first-of-type>div {
 	margin-top: 0;
@@ -6614,7 +6636,7 @@ div.nodetitle:first-of-type>div {
 
 .onlinemember span,.nodetraffic span,.nodecheck span,.nodeband span {
     margin-left: 5px;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .node-tip {

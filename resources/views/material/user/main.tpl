@@ -301,13 +301,6 @@
 			margin-left: 1em;
 		}
 
-		.node-cardgroup {
-            display: none;
-			position: relative;
-		}
-
-		
-
 		.enable-flag {
 			color: #383838;
 		}
