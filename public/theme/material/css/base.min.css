@@ -6463,7 +6463,7 @@ code.form-control {
 }
 
 .card-row,.node-table,.node-fade {
-	transition-duration: 1s;
+	transition-duration: .2s;
 	transition-property: all;
 }
 
@@ -6477,7 +6477,7 @@ code.form-control {
     border-radius: 10px;
 	box-shadow: 2px 2px 7px 1px rgb(189, 189, 189);
 	margin-top: 1em;
-	transition-duration: .1s;
+	transition-duration: .2s;
 	transition-property: all;
 	justify-content: space-between;
 	padding: 0 1em;
@@ -6485,7 +6485,6 @@ code.form-control {
 }
 .node-table {
 	opacity: 1;
-	transition-delay: 1s;
 }
 .node-card:hover {
     transition-duration: .1s;

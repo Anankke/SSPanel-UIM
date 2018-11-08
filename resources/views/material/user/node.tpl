@@ -158,9 +158,10 @@
 						<div class="card node-table {if $config['enable_node_uiswitch'] == 0}{else}node-fade{/if}">
 							<div class="card-main">
 								<div class="card-inner margin-bottom-no">
-									<div class="tile-wrap">                                       									
+									<div class="tile-wrap"> 
+									    {$class=-1}                                      									
 										{foreach $nodes as $node}
-                                       
+                                        
 										{if $node['class']!=$class}
 											{$class=$node['class']}
 											
@@ -418,14 +419,23 @@
 	});
 	{literal}
 	$("#switch-cards").click(function (){
-	    $(".card-row").removeClass("node-fade");
-	    $(".node-table").addClass("node-fade");
-		
+        $(".node-table").addClass("node-fade");
+		setTimeout(function(){
+		      $(".card-row").css("display","grid");
+              $(".node-table").css("display","none");
+		},200);	
+		setTimeout(function(){
+		      $(".card-row").removeClass("node-fade");
+		},220);	
     });
 
     $("#switch-table").click(function (){
+		$(".node-table").css("display","flex");
          $(".card-row").addClass("node-fade");
-	     $(".node-table").removeClass("node-fade");
+		 setTimeout(function(){
+              $(".card-row").css("display","none");	  
+			  $(".node-table").removeClass("node-fade");
+		},200);
     });
 
 	
