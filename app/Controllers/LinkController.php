@@ -1503,7 +1503,7 @@ FINAL,Proxy';
             return Tools::base64_url_encode(URL::getAllVMessUrl($user));
         }
 		elseif ($mu==3) {
-			return Tools::base64_url_encode(URL::getAllSSDUrl($user));
+			return URL::getAllSSDUrl($user);
 		}
     }
 }

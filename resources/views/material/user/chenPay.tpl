@@ -48,9 +48,6 @@
                                                                                      width="45"></a>
         {/if}
     </div>
-    <div class="form-group pull-right">
-        <img src="/images/qianbai-2.png" height="205"/>
-    </div>
 </div>
 <div aria-hidden="true" class="modal modal-va-middle fade" id="AliPayReadyToPay" role="dialog"
      tabindex="-1">

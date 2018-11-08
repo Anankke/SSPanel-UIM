@@ -75,7 +75,7 @@
 												<button class="btn btn-flat waves-attach" id="method-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
 										<p>注意：SS/SSD/SSR 支持的加密方式有所不同，请根据实际情况来进行选择</p>
-										<p>当前加密方式：<code>{$user->method}</code></p>
+										<p>当前加密方式：<code id="ajax-user-method">{$user->method}</code></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="method">加密方式</label>
 											<select id="method" class="form-control maxwidth-edit">
@@ -749,10 +749,10 @@ $(".copy-text").click(function () {
                     if (data.ret) {
                         $("#result").modal();
 						$("#ajax-user-passwd").html($("#sspwd").val());
-						$("#msg").html("成功了");
+						$("#msg").html("修改成功");
                     } else {
                         $("#result").modal();
-						$("#msg").html("失败了");
+						$("#msg").html("修改失败");
                     }
                 },
                 error: function (jqXHR) {
@@ -836,9 +836,10 @@ $(".copy-text").click(function () {
                     method: $("#method").val()
                 },
                 success: function (data) {
+					$("#ajax-user-method").html($("#method").val());
                     if (data.ret) {
                         $("#result").modal();
-						$("#msg").html("成功了");
+						$("#msg").html("修改成功");
                     } else {
                         $("#result").modal();
 						$("#msg").html(data.msg);
