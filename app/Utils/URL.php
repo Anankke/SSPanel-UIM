@@ -303,17 +303,25 @@ class URL
         return $return_array;
     }
     public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
-        $items = URL::getAllItems($user, $is_mu, $is_ss);
         $return_url = '';
-      	if ($user->transfer_enable >0&&$is_mu==0){
-      		$return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
-      		$return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
-      	}
+        if ($user->transfer_enable >0){
+            $return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
+            $return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
+        }
+        $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
             $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
         }
+        if(Config::getPublicConfig('mergeSub')){
+            $is_mu = $is_mu==0?1:0;
+            $items = URL::getAllItems($user, $is_mu, $is_ss);
+            foreach($items as $item) {
+                $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
+            }
+        }
         return $return_url;
     }
+
     public static function getItemUrl($item, $is_ss) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
         if(!$is_ss) {
@@ -347,9 +355,9 @@ class URL
     public static function getV2Url($user, $node){
         $node_explode = explode(';', $node->server);
         $item = [
-            'v'=>'2', 
-            'host'=>'', 
-            'path'=>'', 
+            'v'=>'2',
+            'host'=>'',
+            'path'=>'',
             'tls'=>''
         ];
         $item['ps'] = $node->name;
@@ -366,7 +374,7 @@ class URL
             }
         } else {
             $item['net'] = "tcp";
-        } 
+        }
 
         if (count($node_explode) >= 5) {
             if ($item['net'] == 'kcp' || $node_explode[4] == 'http') {
@@ -376,7 +384,7 @@ class URL
             }
         } else {
             $item['type'] = "none";
-        } 
+        }
 
         if (count($node_explode) >= 6) {
             $item = array_merge($item, URL::parse_args($node_explode[5]));
@@ -454,20 +462,20 @@ class URL
 				}
 			)->orderBy('priority','DESC')->orderBy('id')->first();
 			if ($relay_rule != null) {
-				//是中转起源节点		
+				//是中转起源节点
 				$server['remarks']=$node->name.' => '.$relay_rule->dist_node()->name;
-				$server['ratio']=$node->traffic_rate+$relay_rule->dist_node()->traffic_rate;				
+				$server['ratio']=$node->traffic_rate+$relay_rule->dist_node()->traffic_rate;
 				array_push($array_server,$server);
 				$server_index++;
 				continue;
 			}
-			
+
 			//不是中转起源节点
 
 			$server['ratio']=$node->traffic_rate;
 			//单多
 			if($node->mu_only==0||$node->mu_only==-1){
-			$server['remarks']=$node->name;				
+			$server['remarks']=$node->name;
 				array_push($array_server,$server);
 				$server_index++;
 			}
@@ -489,7 +497,7 @@ class URL
 					$server['remarks']=$node->name.' - 单多'.$node_muport->server.'端口';
 					$server['port']=$node_muport->server;
 					$server['encryption']=$muport_user->method;
-					$server['password']=$muport_user->passwd;						
+					$server['password']=$muport_user->passwd;
 					$server['plugin']='simple-obfs';//目前只支持这个
 					$plugin_options='';
 					if(strpos($muport_user->obfs,'http')!=FALSE){
@@ -498,16 +506,16 @@ class URL
 					if(strpos($muport_user->obfs,'tls')!=FALSE){
 						$plugin_options='obfs=tls';
 					}
-					$server['plugin_options']=$plugin_options.';obfs-host='.$user->getMuMd5();				
+					$server['plugin_options']=$plugin_options.';obfs-host='.$user->getMuMd5();
 					array_push($array_server,$server);
 					$server_index++;
-				}					
+				}
 			}
 		}
 
 		$array_all['servers']=$array_server;
-		$json_all=json_encode($array_all);	
-		
+		$json_all=json_encode($array_all);
+
 		return 'ssd://'.Tools::base64_url_encode($json_all);
 	}
 
@@ -569,7 +577,8 @@ class URL
         if ($relay_rule != null) {
             $node_name .= " - ".$relay_rule->dist_node()->name;
         }
-        if($mu_port != 0) {
+        if($mu_port != 0 && !Config::getPublicConfig('mergeSub')) {
+
             $mu_user = User::where('port', '=', $mu_port)->where("is_multi_user", "<>", 0)->first();
             if ($mu_user == null) {
                 return;
@@ -600,7 +609,7 @@ class URL
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
         $return_array['group'] = Config::get('appName');
-        if($mu_port != 0) {
+        if($mu_port != 0 && !Config::getPublicConfig('mergeSub')) {
             $return_array['group'] .= ' - 单端口';
         }
         return $return_array;
@@ -609,7 +618,7 @@ class URL
         $new_user = clone $user;
         return $new_user;
     }
-	
+
 	public static function getUserTraffic($user){
 		if($user->class !=0){
 			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode(Config::get('appName'));
@@ -618,7 +627,7 @@ class URL
 		}
       	return "ssr://".Tools::base64_url_encode($ssurl);
 	}
-  
+
     public static function getUserClassExpiration($user){
 		if($user->class !=0){
 			$ssurl = "www.google.com:2:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
