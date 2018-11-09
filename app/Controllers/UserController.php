@@ -511,7 +511,7 @@ class UserController extends BaseController
 			$array_node['mu_only']=$node->mu_only;
 			$array_node['group']=$node->node_group;
 
-
+            $array_node['raw_node'] = $node;
 			$regex = Config::get('flag_regex');
             $matches = array();
             preg_match($regex, $node->name, $matches);

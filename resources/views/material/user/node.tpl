@@ -64,7 +64,7 @@
                                     <i class="material-icons">{if $node['online']=="1"}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</i>
                                 </div>
 							</div>
-							
+
 						</div>
 						<div class="node-tip" tipindex="{$node@index}">
 								{if $node['class'] > $user->class}
@@ -81,7 +81,7 @@
 									{if $node['mu_only'] != 1}
 									    <div class="tiptitle">
 											<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-												{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a> 
+												{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
 												<div class="nodeload">
 													<div class="label label-brand-accent"> ↑点击节点查看配置信息</div>
 												<div>
@@ -122,7 +122,7 @@
 									<div class="tipmiddle">
 										<div><span class="node-icon"><i class="icon icon-lg">chat</i> </span>{$node['info']}</div>
 									</div>
-									
+
 
 									{if $node['sort'] == 11}
 									{assign var=server_explode value=";"|explode:$node['server']}
@@ -159,7 +159,7 @@
 										</p>
 									{/if}
 
-									
+
 								{/if}
 							</div>
 						{$point_node=null}
@@ -336,7 +336,7 @@
 																	</span></p>
 
 																<p>VMess链接：
-																	<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
+																	<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node['raw_node'])}">点击复制</a>
 																</p>
 
 															<!-- </div>
