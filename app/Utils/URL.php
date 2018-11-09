@@ -109,6 +109,44 @@ class URL
         }
     }
 
+    public static function getClashInfo($user) {
+        $result = [];
+        $v2ray_nodes = Node::query()->where("sort", '=', 11)->get();
+
+        foreach ($v2ray_nodes as $v2ray_node) {
+            $node_explode = explode(';', $v2ray_node->server);
+            $docs = [
+                "name" => $v2ray_node->name,
+                "type" => "vmess",
+                "server" => $node_explode[0],
+                "port" => $node_explode[1],
+                "uuid" => $user->getUuid(),
+                "alterId" => $node_explode[2],
+                "cipher" => "auto",
+            ];
+
+            if (count($node_explode) >= 4) {
+                if ($node_explode[3] == 'ws') {
+                    $docs['network'] = 'ws';
+                } else if ($node_explode[3] == 'tls') {
+                    $docs['tls'] = true;
+                }
+            }
+
+            if (count($node_explode) >= 5) {
+                if ($node_explode[4] == "ws") {
+                    $docs['network'] = 'ws';
+                }
+            }
+
+            $result[] = $docs;
+        }
+
+        // @todo: add shadowsocks config
+
+        return $result;
+    }
+
     public static function getSSConnectInfo($user) {
         $new_user = clone $user;
         if(URL::CanObfsConnect($new_user->obfs) == 5) {
