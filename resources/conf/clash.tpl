@@ -34,130 +34,129 @@ Rule:
 
 
 ## Bilibili
-- DOMAIN-KEYWORD,bilibili,China_media
-- DOMAIN-SUFFIX,acgvideo.com,China_media
-- DOMAIN-SUFFIX,hdslb.com,China_media
+- DOMAIN-KEYWORD,bilibili,Proxy
+- DOMAIN-SUFFIX,acgvideo.com,Proxy
+- DOMAIN-SUFFIX,hdslb.com,Proxy
 
 ## IQIYI
-- DOMAIN-KEYWORD,qiyi,China_media
-- DOMAIN-SUFFIX,qy.net,China_media
-- IP-CIDR,101.227.0.0/16,China_media,no-resolve
-- IP-CIDR,101.224.0.0/13,China_media,no-resolve
-- IP-CIDR,119.176.0.0/12,China_media,no-resolve
+- DOMAIN-KEYWORD,qiyi,Proxy
+- DOMAIN-SUFFIX,qy.net,Proxy
+- IP-CIDR,101.227.0.0/16,Proxy,no-resolve
+- IP-CIDR,101.224.0.0/13,Proxy,no-resolve
+- IP-CIDR,119.176.0.0/12,Proxy,no-resolve
 
 ## letv
-- DOMAIN-SUFFIX,api.mob.app.letv.com,China_media
+- DOMAIN-SUFFIX,api.mob.app.letv.com,Proxy
 
 ## MytvSUPER
-- DOMAIN-KEYWORD,nowtv100,China_media
-- DOMAIN-KEYWORD,rthklive,China_media
-- DOMAIN-SUFFIX,mytvsuper.com,China_media
-- DOMAIN-SUFFIX,tvb.com,China_media
+- DOMAIN-KEYWORD,nowtv100,Proxy
+- DOMAIN-KEYWORD,rthklive,Proxy
+- DOMAIN-SUFFIX,mytvsuper.com,Proxy
+- DOMAIN-SUFFIX,tvb.com,Proxy
 
 ## NeteaseMusic
-- DOMAIN-SUFFIX,music.126.net,China_media
-- DOMAIN-SUFFIX,music.163.com,China_media
+- DOMAIN-SUFFIX,music.126.net,Proxy
+- DOMAIN-SUFFIX,music.163.com,Proxy
 
 ## Tencent Video
-- DOMAIN-SUFFIX,vv.video.qq.com,China_media
+- DOMAIN-SUFFIX,vv.video.qq.com,Proxy
 
 ## Youku
-- IP-CIDR,106.11.0.0/16,China_media,no-resolve
+- IP-CIDR,106.11.0.0/16,Proxy,no-resolve
 
 
 
 ## ABC
-- DOMAIN-SUFFIX,edgedatg.com,Global_media
-- DOMAIN-SUFFIX,go.com,Global_media
+- DOMAIN-SUFFIX,edgedatg.com,Proxy
+- DOMAIN-SUFFIX,go.com,Proxy
 
 ## AbemaTV
-- DOMAIN,linear-abematv.akamaized.net,Global_media
-- DOMAIN-SUFFIX,abema.io,Global_media
-- DOMAIN-SUFFIX,abema.tv,Global_media
-- DOMAIN-SUFFIX,akamaized.net,Global_media
-- DOMAIN-SUFFIX,ameba.jp,Global_media
-- DOMAIN-SUFFIX,hayabusa.io,Global_media
+- DOMAIN,linear-abematv.akamaized.net,Proxy
+- DOMAIN-SUFFIX,abema.io,Proxy
+- DOMAIN-SUFFIX,abema.tv,Proxy
+- DOMAIN-SUFFIX,akamaized.net,Proxy
+- DOMAIN-SUFFIX,ameba.jp,Proxy
+- DOMAIN-SUFFIX,hayabusa.io,Proxy
 
 ## Amazon
-- DOMAIN-SUFFIX,amazonaws.com,Global_media
+- DOMAIN-SUFFIX,amazonaws.com,Proxy
 
 ## Bahamut
-- DOMAIN-SUFFIX,bahamut.com.tw,Global_media
-- DOMAIN-SUFFIX,gamer.com.tw,Global_media
-- DOMAIN-SUFFIX,hinet.net,Global_media
+- DOMAIN-SUFFIX,bahamut.com.tw,Proxy
+- DOMAIN-SUFFIX,gamer.com.tw,Proxy
+- DOMAIN-SUFFIX,hinet.net,Proxy
 
 ## BBC
-- DOMAIN-KEYWORD,bbcfmt,Global_media
-- DOMAIN-KEYWORD,co.uk,Global_media
-- DOMAIN-KEYWORD,uk-live,Global_media
-- DOMAIN-SUFFIX,bbc.co,Global_media
-- DOMAIN-SUFFIX,bbc.co.uk,Global_media
-- DOMAIN-SUFFIX,bbc.com,Global_media
-- DOMAIN-SUFFIX,bbci.co,Global_media
-- DOMAIN-SUFFIX,bbci.co.uk,Global_media
+- DOMAIN-KEYWORD,bbcfmt,Proxy
+- DOMAIN-KEYWORD,co.uk,Proxy
+- DOMAIN-KEYWORD,uk-live,Proxy
+- DOMAIN-SUFFIX,bbc.co,Proxy
+- DOMAIN-SUFFIX,bbc.co.uk,Proxy
+- DOMAIN-SUFFIX,bbc.com,Proxy
+- DOMAIN-SUFFIX,bbci.co,Proxy
+- DOMAIN-SUFFIX,bbci.co.uk,Proxy
 
 ## CHOCO TV
-- DOMAIN-SUFFIX,chocotv.com.tw,Global_media
+- DOMAIN-SUFFIX,chocotv.com.tw,Proxy
 
 ## Epicgames
-- DOMAIN-KEYWORD,epicgames,Global_media
-- DOMAIN-SUFFIX,helpshift.com,Global_media
+- DOMAIN-KEYWORD,epicgames,Proxy
+- DOMAIN-SUFFIX,helpshift.com,Proxy
 
 ## Fox+
-- DOMAIN-KEYWORD,foxplus,Global_media
-- DOMAIN-SUFFIX,config.fox.com,Global_media
-- DOMAIN-SUFFIX,emome.net,Global_media
-- DOMAIN-SUFFIX,fox.com,Global_media
-- DOMAIN-SUFFIX,foxdcg.com,Global_media
-- DOMAIN-SUFFIX,foxnow.com,Global_media
-- DOMAIN-SUFFIX,foxplus.com,Global_media
-- DOMAIN-SUFFIX,foxplay.com,Global_media
-- DOMAIN-SUFFIX,ipinfo.io,Global_media
-- DOMAIN-SUFFIX,mstage.io,Global_media
-- DOMAIN-SUFFIX,now.com,Global_media
-- DOMAIN-SUFFIX,theplatform.com,Global_media
+- DOMAIN-KEYWORD,foxplus,Proxy
+- DOMAIN-SUFFIX,config.fox.com,Proxy
+- DOMAIN-SUFFIX,emome.net,Proxy
+- DOMAIN-SUFFIX,fox.com,Proxy
+- DOMAIN-SUFFIX,foxdcg.com,Proxy
+- DOMAIN-SUFFIX,foxnow.com,Proxy
+- DOMAIN-SUFFIX,foxplus.com,Proxy
+- DOMAIN-SUFFIX,foxplay.com,Proxy
+- DOMAIN-SUFFIX,ipinfo.io,Proxy
+- DOMAIN-SUFFIX,mstage.io,Proxy
+- DOMAIN-SUFFIX,now.com,Proxy
+- DOMAIN-SUFFIX,theplatform.com,Proxy
 
 ## HBO
-- DOMAIN-SUFFIX,hbo.com,Global_media
-- DOMAIN-SUFFIX,hbogo.com,Global_media
+- DOMAIN-SUFFIX,hbo.com,Proxy
+- DOMAIN-SUFFIX,hbogo.com,Proxy
 
 ## HBO Go
-- DOMAIN-SUFFIX,hbogoasia.hk,Global_media
+- DOMAIN-SUFFIX,hbogoasia.hk,Proxy
 
 ## Hulu
-- DOMAIN-SUFFIX,happyon.jp,Global_media
-- DOMAIN-SUFFIX,hulu.com,Global_media
-- DOMAIN-SUFFIX,huluim.com,Global_media
+- DOMAIN-SUFFIX,happyon.jp,Proxy
+- DOMAIN-SUFFIX,hulu.com,Proxy
+- DOMAIN-SUFFIX,huluim.com,Proxy
 
 ## Imkan
-- DOMAIN-SUFFIX,imkan.tv,Global_media
+- DOMAIN-SUFFIX,imkan.tv,Proxy
 
 ## JOOX
-- DOMAIN-SUFFIX,joox.com,Global_media
+- DOMAIN-SUFFIX,joox.com,Proxy
 
 ## Netflix
-- DOMAIN-SUFFIX,netflix.com,Global_media
-- DOMAIN-SUFFIX,netflix.net,Global_media
-- DOMAIN-SUFFIX,nflxext.com,Global_media
-- DOMAIN-SUFFIX,nflximg.com,Global_media
-- DOMAIN-SUFFIX,nflximg.net,Global_media
-- DOMAIN-SUFFIX,nflxso.net,Global_media
-- DOMAIN-SUFFIX,nflxvideo.net,Global_media
+- DOMAIN-SUFFIX,netflix.com,Proxy
+- DOMAIN-SUFFIX,netflix.net,Proxy
+- DOMAIN-SUFFIX,nflxext.com,Proxy
+- DOMAIN-SUFFIX,nflximg.com,Proxy
+- DOMAIN-SUFFIX,nflximg.net,Proxy
+- DOMAIN-SUFFIX,nflxso.net,Proxy
+- DOMAIN-SUFFIX,nflxvideo.net,Proxy
 
 ## Spotify
-- DOMAIN-KEYWORD,spotify,Global_media
-- DOMAIN-SUFFIX,scdn.co,Global_media
-- DOMAIN-SUFFIX,spoti.fi,Global_media
+- DOMAIN-KEYWORD,spotify,Proxy
+- DOMAIN-SUFFIX,scdn.co,Proxy
+- DOMAIN-SUFFIX,spoti.fi,Proxy
 
 ## viuTV
-- DOMAIN-SUFFIX,viu.tv,Global_media
+- DOMAIN-SUFFIX,viu.tv,Proxy
 
 ## Youtube
-- DOMAIN-KEYWORD,youtube,Global_media
-- DOMAIN-SUFFIX,googlevideo.com,Global_media
-- DOMAIN-SUFFIX,gvt2.com,Global_media
-- DOMAIN-SUFFIX,youtu.be,Global_media
-
+- DOMAIN-KEYWORD,youtube,Proxy
+- DOMAIN-SUFFIX,googlevideo.com,Proxy
+- DOMAIN-SUFFIX,gvt2.com,Proxy
+- DOMAIN-SUFFIX,youtu.be,Proxy
 
 
 # 国内网站
