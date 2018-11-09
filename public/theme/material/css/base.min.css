@@ -6678,7 +6678,7 @@ div.nodetitle:first-of-type>div {
 	transition-duration: .5s;
 	transition-property: all;
 }
-.nodetip-table,.node-tip-table {
+.nodetip-table {
 	flex-wrap: wrap;
 }
 .nodetip-table>.card-main {

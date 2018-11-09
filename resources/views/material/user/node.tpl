@@ -166,10 +166,10 @@
 						{/foreach}
 					</div>
 
-						<div class="card node-table">
+					<div class="card node-table">
 							<div class="card-main">
-								<div class="card-inner">
-									<div>        
+								<div class="card-inner margin-bottom-no">
+									<div class="tile-wrap">        
 										{$class=-1}
 										{foreach $nodes as $node}
                                         
@@ -227,18 +227,16 @@
 
 										    <div class="collapsible-region collapse" id="heading{$node['id']}">
 												<div class="tile-sub">
-													<br> 
-													<div class="card nodetip-table">
-													{if $node['class'] > $user->class}
-													
-													
+													<br>
+                                                {if $node['class'] > $user->class}
+													<div class="card">
 														<div class="card-main">
 															<div class="card-inner">
 																<p class="card-heading" align="center"><b> <i class="icon icon-lg">visibility_off</i>
 																		{$user->user_name}，您无查看当前等级VIP节点的权限，如需购买VIP请<a href="/user/shop">点击这里</a>。</b></p>
 															</div>
 														</div>
-													
+													</div>
 													{else}
 
 													{$relay_rule = null}
@@ -247,19 +245,21 @@
                                                     {if $node['sort'] == 10 && $node['sort'] != 11}
 													{$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
 													{/if}
-
-													{if $node['mu_only'] != 1}
-													
+                                                 <div class="card nodetip-table">
 														<div class="card-main">
-															<div class="card-inner">
+																<div class="card-inner">
+													{if $node['mu_only'] != 1}
+													<!-- <div class="card"> -->
+														<!-- <div class="card-main">
+															<div class="card-inner"> -->
 																<p class="card-heading">
 																	<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
 																		{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
 																	<span class="label label-brand-accent">←点击节点查看配置信息</span>
 																</p>
-															</div>
-														
-													
+															<!-- </div>
+														</div> -->
+													<!-- </div> -->
 												    {/if}
 
                                                     {if $node['sort'] == 0 || $node['sort'] == 10}
@@ -283,31 +283,30 @@
 														{$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
 													{/if}
 
-													
-															<div class="card-main">
-																<div class="card-inner">
+														<!-- <div class="card"> -->
+															<!-- <div class="card-main">
+																<div class="card-inner"> -->
 																	<p class="card-heading">
 																		<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
 																			{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口 Shadowsocks -
 																			{$single_muport['server']->server} 端口</a>
+																		<span class="label label-brand-accent">{$node['status']}</span>
 																	</p>
-																</div>
-															</div>
-															
+																	
+																<!-- </div>
+															</div> -->
+														<!-- </div> -->
 
 													{/foreach}
 													{/if}
-													<div class="card-main">
-														<div class="card-inner">
-													        <p><i class="icon icon-lg node-icon">chat</i> {$node['info']}</p>
-												        </div>
-													</div>
-												</div>
+													
+													<div><i class="icon icon-lg node-icon">chat</i>{$node['info']}</div>
+
 													{if $node['sort'] == 11}
 													{assign var=server_explode value=";"|explode:$node['server']}
-												
-														<div class="card-main">
-															<div class="card-inner">
+													<!-- <div class="card"> -->
+														<!-- <div class="card-main">
+															<div class="card-inner"> -->
 																<p class="card-heading">
 																	<a href="javascript:void(0);">{$node['name']}</a>
 																</p>
@@ -340,27 +339,25 @@
 																	<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
 																</p>
 
-																<p>{$node['info']}</p>
-															</div>
-														</div>
-											
+															<!-- </div>
+														</div> -->
+													<!-- </div> -->
 													{/if}
-
-
-													
-												</div>
 												{/if}
-									
+											    </div>
+										      </div>
+
+											</div>
 												{if isset($point_node)}
 												{if $point_node!=null}
 		
-												
+												<div class="card">
 													<div class="card-main">
 														<div class="card-inner" id="info{$node@index}">
 		
 														</div>
 													</div>
-											
+												</div>
 		
 												<script>
 													$().ready(function () {
@@ -371,14 +368,14 @@
 												</script>
 												{/if}
 												{/if}
-												
+											
                                                 </div>
 											</div>
 
 										
 
 										{$point_node=null}
-											
+								
 										</div>
 										{/foreach}
 										
