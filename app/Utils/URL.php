@@ -111,7 +111,16 @@ class URL
 
     public static function getClashInfo($user) {
         $result = [];
-        $v2ray_nodes = Node::query()->where("sort", '=', 11)->get();
+        $v2ray_nodes = $nodes=Node::where(
+            function ($query) {
+                $query->where('sort', 11);
+            }
+        )->where(
+            function ($query) use ($user){
+                $query->where("node_group", "=", $user->node_group)
+                    ->orWhere("node_group", "=", 0);
+            }
+        )->where("type", "1")->where("node_class", "<=", $user->class)->orderBy("name")->get();
 
         foreach ($v2ray_nodes as $v2ray_node) {
             $node_explode = explode(';', $v2ray_node->server);
@@ -142,7 +151,31 @@ class URL
             $result[] = $docs;
         }
 
-        // @todo: add shadowsocks config
+        if (self::SSCanConnect($user, 0)) {
+            $shadowsocks_nodes = Node::where(
+                function ($query) {
+                    $query->where('sort', 0)
+                        ->orwhere('sort', 10);
+                }
+            )->where(
+                function ($query) use ($user){
+                    $query->where("node_group", "=", $user->node_group)
+                        ->orWhere("node_group", "=", 0);
+                }
+            )->where("type", "1")->where("node_class", "<=", $user->class)->orderBy("name")->get();
+
+            foreach ($shadowsocks_nodes as $node) {
+                $result[] = [
+                    "name" => $node->name,
+                    "type" => "ss",
+                    "server" => $node->server,
+                    "port" => $user->port,
+                    // TODO: method mapper
+                    "cipher" => $user->method,
+                    "password" => $user->passwd,
+                ];
+            }
+        }
 
         return $result;
     }
