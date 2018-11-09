@@ -85,6 +85,7 @@ class UserController extends BaseController
         return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
             ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
             ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
+            ->assign('mergeSub', Config::get('mergeSub'))
             ->assign('enable_duoshuo', Config::get('enable_duoshuo'))->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
             ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
     }
@@ -533,7 +534,7 @@ class UserController extends BaseController
 				$array_node['online']=-1;
 			}
 
-			if ($node->sort == 0 ||$node->sort == 7 || $node->sort == 8 || 
+			if ($node->sort == 0 ||$node->sort == 7 || $node->sort == 8 ||
 				$node->sort == 10 || $node->sort == 11){
 				$array_node['online_user']=$node->getOnlineUserCount();
 			}
@@ -548,9 +549,9 @@ class UserController extends BaseController
 			else {
                 $array_node['latest_load'] = -1;
             }
-			
-            $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);           
-            $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit); 
+
+            $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);
+            $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit);
 			if($node->node_speedlimit==0.0){
 				$array_node['bandwidth']=0;
 			}
@@ -559,11 +560,11 @@ class UserController extends BaseController
 			}
 			else{
 				$array_node['bandwidth']=$node->node_speedlimit.'Mbps';
-			}		
-			
+			}
+
 			$array_node['traffic_rate']=$node->traffic_rate;
 			$array_node['status']=$node->status;
-			
+
 			array_push($array_nodes,$array_node);
 		}
 		return $this->view()->assign('nodes', $array_nodes)->assign('nodes_muport', $nodes_muport)->assign('relay_rules', $relay_rules)->assign('tools', new Tools())->assign('user', $user)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
@@ -1775,17 +1776,17 @@ class UserController extends BaseController
             $res['msg'] = " 密码错误";
             return $this->echoJson($response, $res);
         }
-		        
+
         if (Config::get('enable_kill') == 'true') {
             Auth::logout();
             $user->kill_user();
             $res['ret'] = 1;
             $res['msg'] = "您的帐号已经从我们的系统中删除。欢迎下次光临!";
-        } 
+        }
 		else {
             $res['ret'] = 0;
             $res['msg'] = "管理员不允许删除，如需删除请联系管理员。";
-        }          
+        }
         return $this->echoJson($response, $res);
     }
 
@@ -1831,7 +1832,7 @@ class UserController extends BaseController
         $newResponse = $response->withStatus(302)->withHeader('Location', '/user/edit');
         return $newResponse;
     }
-    
+
     public function resetURL($request, $response, $args)
     {
         $user = $this->user;

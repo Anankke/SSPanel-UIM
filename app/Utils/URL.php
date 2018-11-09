@@ -312,7 +312,7 @@ class URL
         foreach($items as $item) {
             $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
         }
-        if(Config::getPublicConfig('mergeSub')){
+        if(Config::get('mergeSub')){
             $is_mu = $is_mu==0?1:0;
             $items = URL::getAllItems($user, $is_mu, $is_ss);
             foreach($items as $item) {
