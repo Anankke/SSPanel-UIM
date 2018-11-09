@@ -6678,7 +6678,7 @@ div.nodetitle:first-of-type>div {
 	transition-duration: .5s;
 	transition-property: all;
 }
-.nodetip-table {
+.nodetip-table,.node-tip-table {
 	flex-wrap: wrap;
 }
 .nodetip-table>.card-main {
@@ -6695,6 +6695,7 @@ div.nodetitle:first-of-type>div {
 .tiptitle a {
 	font-size: 18px;
 	display: block;
+	margin-bottom: .5em
 }
 .tipmiddle {
 	margin-bottom: 10px

@@ -551,14 +551,14 @@ class UserController extends BaseController
 			
             $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);           
             $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit); 
-			if($node->node_speed_limit==0.0){
+			if($node->node_speedlimit==0.0){
 				$array_node['bandwidth']=0;
 			}
-			else if($node->node_speed_limit>=1024.00){
-				$array_node['bandwidth']=round($node->node_speed_limit/1024.00,1).'Gbps';
+			else if($node->node_speedlimit>=1024.00){
+				$array_node['bandwidth']=round($node->node_speedlimit/1024.00,1).'Gbps';
 			}
 			else{
-				$array_node['bandwidth']=$node->node_speed_limit.'Mbps';
+				$array_node['bandwidth']=$node->node_speedlimit.'Mbps';
 			}		
 			
 			$array_node['traffic_rate']=$node->traffic_rate;

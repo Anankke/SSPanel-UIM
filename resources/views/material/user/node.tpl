@@ -168,8 +168,8 @@
 
 						<div class="card node-table">
 							<div class="card-main">
-								<div class="card-inner margin-bottom-no">
-									<div class="tile-wrap">        
+								<div class="card-inner">
+									<div>        
 										{$class=-1}
 										{foreach $nodes as $node}
                                         
@@ -227,16 +227,18 @@
 
 										    <div class="collapsible-region collapse" id="heading{$node['id']}">
 												<div class="tile-sub">
-													<br>
-                                                {if $node['class'] > $user->class}
-													<div class="card">
+													<br> 
+													<div class="card nodetip-table">
+													{if $node['class'] > $user->class}
+													
+													
 														<div class="card-main">
 															<div class="card-inner">
 																<p class="card-heading" align="center"><b> <i class="icon icon-lg">visibility_off</i>
 																		{$user->user_name}，您无查看当前等级VIP节点的权限，如需购买VIP请<a href="/user/shop">点击这里</a>。</b></p>
 															</div>
 														</div>
-													</div>
+													
 													{else}
 
 													{$relay_rule = null}
@@ -247,7 +249,7 @@
 													{/if}
 
 													{if $node['mu_only'] != 1}
-													<div class="card nodetip-table">
+													
 														<div class="card-main">
 															<div class="card-inner">
 																<p class="card-heading">
@@ -256,7 +258,7 @@
 																	<span class="label label-brand-accent">←点击节点查看配置信息</span>
 																</p>
 															</div>
-														</div>
+														
 													
 												    {/if}
 
@@ -291,7 +293,7 @@
 																	</p>
 																</div>
 															</div>
-											
+															
 
 													{/foreach}
 													{/if}
@@ -299,10 +301,11 @@
 														<div class="card-inner">
 													        <p><i class="icon icon-lg node-icon">chat</i> {$node['info']}</p>
 												        </div>
-											        </div>
+													</div>
+												</div>
 													{if $node['sort'] == 11}
 													{assign var=server_explode value=";"|explode:$node['server']}
-													
+												
 														<div class="card-main">
 															<div class="card-inner">
 																<p class="card-heading">
@@ -347,17 +350,17 @@
 													
 												</div>
 												{/if}
-
+									
 												{if isset($point_node)}
 												{if $point_node!=null}
 		
-												<div class="card">
+												
 													<div class="card-main">
 														<div class="card-inner" id="info{$node@index}">
 		
 														</div>
 													</div>
-												</div>
+											
 		
 												<script>
 													$().ready(function () {
