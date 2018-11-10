@@ -433,7 +433,7 @@ class URL
 		if($plugin_options!=''){
 			$array_all['plugin']='simple-obfs';//目前只支持这个
 			$array_all['plugin_options']=$plugin_options;
-			if($user->obfs_param！=''){
+			if($user->obfs_param!=''){
 				$array_all['plugin_options'].=';obfs-host='.$user->obfs_param;
 			}
 		}
@@ -473,13 +473,13 @@ class URL
 			//不是中转起源节点
 
 			$server['ratio']=$node->traffic_rate;
-			//单多
+			//包含普通
 			if($node->mu_only==0||$node->mu_only==-1){
 			$server['remarks']=$node->name;
 				array_push($array_server,$server);
 				$server_index++;
 			}
-			//普通
+			//包含单多
 			if($node->mu_only==0||$node->mu_only==1){
 				$nodes_muport=Node::where('type','1')->where('sort', '=', 9)
 					->where(function ($query) use ($user) {
