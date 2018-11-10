@@ -16,13 +16,13 @@
 			</div>
 		</div>
 		<div class="container">
-			<section class="content-inner margin-top-no">
+			<section class="content-inner">
 				<div class="ui-card-wrap">
 					<div class="row">
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">注意！</p>
 										<p>配置文件以及二维码请勿泄露！</p>
 									</div>
@@ -35,11 +35,11 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">配置信息</p>
 										<div class="tab-content">
 
-											<nav class="tab-nav margin-top-no">
+											<nav class="tab-nav">
 												<ul class="nav nav-list">
 													<li {if $ssr_prefer}class="active"{/if}>
 														<a class="waves-attach" data-toggle="tab" href="#ssr_info"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
@@ -89,11 +89,11 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">客户端下载</p>
 
 
-										<nav class="tab-nav margin-top-no">
+										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
 													<a class="waves-attach" data-toggle="tab" href="#ssr_download"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
@@ -136,10 +136,10 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">配置Json</p>
 
-										<nav class="tab-nav margin-top-no">
+										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
 													<a class="waves-attach" data-toggle="tab" href="#ssr_json"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
@@ -151,7 +151,8 @@
 										</nav>
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_json">
 											{if URL::SSRCanConnect($user, $mu)}
-												<textarea class="form-control" rows="6">
+												
+												<pre>
 {
     "server": "{$ssr_item['address']}",
     "local_address": "127.0.0.1",
@@ -166,14 +167,15 @@
     "protocol": "{$ssr_item['protocol']}",
     "protocol_param": "{$ssr_item['protocol_param']}"
 }
-												</textarea>
+                                               </pre>
+												
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_json">
 											{if URL::SSCanConnect($user, $mu)}
-											<textarea class="form-control" rows="6">
+											<pre>
 {
 		"server": "{$ss_item['address']}",
 		"local_address": "127.0.0.1",
@@ -185,7 +187,7 @@
 		"method": "{$ss_item['method']}",
 		"plugin": "{URL::getJsonObfs($ss_item)}"
 }
-											</textarea>
+</pre>
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
@@ -200,10 +202,10 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">配置链接</p>
 
-										<nav class="tab-nav margin-top-no">
+										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
 													<a class="waves-attach" data-toggle="tab" href="#ssr_url"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
@@ -238,11 +240,11 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">配置二维码</p>
 
 
-										<nav class="tab-nav margin-top-no">
+										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
 													<a class="waves-attach" data-toggle="tab" href="#ssr_qrcode"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
@@ -263,7 +265,7 @@
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_qrcode">
 											{if URL::SSCanConnect($user, $mu)}
-												<nav class="tab-nav margin-top-no">
+												<nav class="tab-nav">
 													<ul class="nav nav-list">
 														<li class="active">
 															<a class="waves-attach" data-toggle="tab" href="#ss_qrcode_normal"><i class="icon icon-lg">android</i>&nbsp;其他平台</a>

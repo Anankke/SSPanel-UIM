@@ -49,7 +49,7 @@
 										<p>当前设置：{if $user->is_hide==1} 匿名 {else} 不匿名 {/if}</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="hide">匿名设置</label>
-											<select id="hide" class="form-control">
+											<select id="hide" class="form-control maxwidth-edit">
 												<option value="1">匿名</option>
 												<option value="0">不匿名</option>
 											</select>
@@ -71,9 +71,9 @@
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
-									<div class="card-inner">
+								
 										<div class="card-table">
-											<div class="table-responsive">
+											<div class="table-responsive table-user">
 												{$codes->render()}
 												<table class="table table-hover">
 													<tr>
@@ -113,7 +113,7 @@
 												{$codes->render()}
 											</div>
 										</div>
-									</div>
+							
 									
 								</div>
 							</div>

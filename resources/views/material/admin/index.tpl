@@ -15,7 +15,7 @@
 		<div class="container">
 			<section class="content-inner margin-top-no">
 				<div class="row">
-					<div class="col-lg-12 col-md-12">
+					<div class="col-xx-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -28,12 +28,12 @@
 				<div class="ui-card-wrap">
 					<div class="row">
 					
-						<div class="col-lg-6 col-sm-6">
+						<div class="col-xx-12 col-sm-6">
 						
 						
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="check_chart" style="height: 300px; width: 100%;"></div>
 										
@@ -77,6 +77,31 @@
 											});
 
 											chart.render();
+
+											function chartRender(chart){
+                                                                   chart.render();
+                                                                   chart.ctx.shadowBlur = 8;
+                                                                   chart.ctx.shadowOffsetX = 4;
+                                                                   chart.ctx.shadowColor = "black";
+
+                                                                   for (var i = 0; i < chart.plotInfo.plotTypes.length; i++) {
+                                                                         var plotType = chart.plotInfo.plotTypes[i];
+                                                                         for (var j = 0; j < plotType.plotUnits.length; j++) {
+                                                                           var plotUnit = plotType.plotUnits[j];
+                                                                           //For Column Chart
+                                                                           if (plotUnit.type === "doughnut"){
+                                                                             chart.renderDoughnut(plotUnit);
+                                                                           }
+                                                                           //For Bar Chart
+                                                                           else if (plotUnit.type === "bar"){
+                                                                             chart.renderBar(plotUnit);
+                                                                           }
+                                                                         }
+                                                                   }
+                                                                   chart.ctx.shadowBlur = 0;
+                                                                   chart.ctx.shadowOffsetX = 0;
+                                                                   chart.ctx.shadowColor = "transparent";
+                                                                 }
 										</script>
 										
 									</div>
@@ -87,7 +112,7 @@
 							
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="alive_chart" style="height: 300px; width: 100%;"></div>
 										
@@ -148,12 +173,12 @@
 						</div>
 						
 						
-						<div class="col-lg-6 col-sm-6">
+						<div class="col-xx-12 col-sm-6">
 						
 						
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="node_chart" style="height: 300px; width: 100%;"></div>
 										
@@ -162,7 +187,7 @@
 											var chart = new CanvasJS.Chart("node_chart",
 											{
 												title:{
-													text: "节点在线情况(节点数 {$sts->getTotalSSNode()}个)",
+													text: "节点在线情况(节点数 {$sts->getTotalNodes()}个)",
 													fontFamily: "Impact",
 													fontWeight: "normal"
 												},
@@ -182,12 +207,12 @@
 													type: "doughnut",
 													showInLegend: true,
 													dataPoints: [
-														{if $sts->getTotalSSNode()!=0}
+														{if $sts->getTotalNodes()!=0}
 															{
-																y: {(1-($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100}, legendText:"离线节点 {number_format((1-($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100,2)}% {$sts->getTotalSSNode()-$sts->getAliveSSNode()}个", indexLabel: "离线节点 {number_format((1-($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100,2)}% {$sts->getTotalSSNode()-$sts->getAliveSSNode()}个"
+																y: {(1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100}, legendText:"离线节点 {number_format((1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getTotalNodes()-$sts->getAliveNodes()}个", indexLabel: "离线节点 {number_format((1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getTotalNodes()-$sts->getAliveNodes()}个"
 															},
 															{
-																y: {(($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100}, legendText:"在线节点 {number_format((($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100,2)}% {$sts->getAliveSSNode()}个", indexLabel: "在线节点 {number_format((($sts->getAliveSSNode()/$sts->getTotalSSNode()))*100,2)}% {$sts->getAliveSSNode()}个"
+																y: {(($sts->getAliveNodes()/$sts->getTotalNodes()))*100}, legendText:"在线节点 {number_format((($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getAliveNodes()}个", indexLabel: "在线节点 {number_format((($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getAliveNodes()}个"
 															}
 														{/if}
 													]
@@ -206,7 +231,7 @@
 							
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 									
 										<div id="traffic_chart" style="height: 300px; width: 100%;"></div>
 										

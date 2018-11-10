@@ -104,7 +104,7 @@ input[type="datetime-local"],
 input[type="month"],
 input[type="time"] {
   line-height: 20px;
-  line-height: 1 \0;
+  line-height: 1\9;
 }
 
 input[type="file"] {
@@ -229,10 +229,6 @@ a:focus, a:hover {
 abbr[title] {
   border-bottom: 1px dashed rgba(0, 0, 0, 0.12);
   cursor: help;
-}
-
-b {
-  font-weight: 500;
 }
 
 dfn {

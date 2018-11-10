@@ -27,7 +27,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="password">密码</label>
-													<input class="form-control" id="password" type="text">
+													<input class="form-control maxwidth-auth" id="password" type="password">
 												</div>
 											</div>
 										</div>
@@ -36,7 +36,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="repasswd">重复密码</label>
-													<input class="form-control" id="repasswd" type="text">
+													<input class="form-control maxwidth-auth" id="repasswd" type="password">
 												</div>
 											</div>
 										</div>

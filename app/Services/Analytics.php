@@ -96,22 +96,24 @@ class Analytics
         return Node::count();
     }
     
-    public function getTotalSSNode()
+    public function getTotalNodes()
     {
         return Node::where('node_heartbeat', '>', 0)->where(
                     function ($query) {
                         $query->Where('sort', '=', 0)
-                            ->orWhere('sort', '=', 10);
+                            ->orWhere('sort', '=', 10)
+                            ->orWhere('sort', '=', 11);
                     }
                 )->count();
     }
     
-    public function getAliveSSNode()
+    public function getAliveNodes()
     {
         return Node::where(
             function ($query) {
                 $query->Where('sort', '=', 0)
-                    ->orWhere('sort', '=', 10);
+                    ->orWhere('sort', '=', 10)
+                ->orWhere('sort', '=', 11);
             }
         )->where('node_heartbeat', '>', time()-90)->count();
     }

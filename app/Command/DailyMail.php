@@ -42,7 +42,7 @@ class DailyMail
                         "user" => $user,"text" => $text,"lastday"=>$lastday
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
                 $text="";

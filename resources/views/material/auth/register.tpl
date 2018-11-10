@@ -23,7 +23,7 @@
 									</h1>
 									</div>
 								</div>
-								{if $config['enable_register']!='false'}
+								{if $config['register_mode']!='close'}
 								<div class="card-inner">
 
 
@@ -31,7 +31,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="name">昵称</label>
-													<input class="form-control" id="name" type="text">
+													<input class="form-control maxwidth-auth" id="name" type="text">
 												</div>
 											</div>
 										</div>
@@ -40,7 +40,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="email">邮箱(唯一凭证请认真对待)</label>
-													<input class="form-control" id="email" type="text">
+													<input class="form-control maxwidth-auth" id="email" type="text">
 												</div>
 											</div>
 										</div>
@@ -49,7 +49,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="email_code">邮箱验证码</label>
-													<input class="form-control" id="email_code" type="text" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;">
+													<input class="form-control maxwidth-auth" id="email_code" type="text" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;">
 													<button id="email_verify" class="btn btn-block btn-brand-accent waves-attach waves-light">点击获取验证码</button>
 													<a href="" onclick="return false;" data-toggle='modal' data-target='#email_nrcy_modal'>收不到验证码？点击这里</a>
 												</div>
@@ -63,7 +63,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="passwd">密码</label>
-													<input class="form-control" id="passwd" type="password">
+													<input class="form-control maxwidth-auth" id="passwd" type="password">
 												</div>
 											</div>
 										</div>
@@ -72,7 +72,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="repasswd">重复密码</label>
-													<input class="form-control" id="repasswd" type="password">
+													<input class="form-control maxwidth-auth" id="repasswd" type="password">
 												</div>
 											</div>
 										</div>
@@ -82,7 +82,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="imtype">选择您的联络方式</label>
-													<select class="form-control" id="imtype">
+													<select class="form-control maxwidth-auth" id="imtype">
 														<option></option>
 														<option value="1">微信</option>
 														<option value="2">QQ</option>
@@ -98,18 +98,18 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="wechat">在这输入联络方式账号</label>
-													<input class="form-control" id="wechat" type="text">
+													<input class="form-control maxwidth-auth" id="wechat" type="text">
 												</div>
 											</div>
 										</div>
 
 
-										{if $enable_invite_code == 'true'}
+										{if $config['register_mode'] == 'invite'}
 											<div class="form-group form-group-label">
 												<div class="row">
 													<div class="col-md-10 col-md-push-1">
 														<label class="floating-label" for="code">邀请码(必填)</label>
-														<input class="form-control" id="code" type="text">
+														<input class="form-control maxwidth-auth" id="code" type="text">
 													</div>
 												</div>
 											</div>
@@ -205,12 +205,12 @@
 {include file='footer.tpl'}
 
 
-{if $config['enable_register']!='false'}
+{if $config['register_mode']!='close'}
 <script>
     $(document).ready(function(){
         function register(){
           code = $("#code").val();
-    	{if $enable_invite_code != 'true'}
+    	{if $config['register_mode'] != 'invite'}
            code = 0;
            if ((getCookie('code'))!=''){
            code = getCookie('code');
@@ -429,7 +429,7 @@ function time(o) {
 		window.location.href='/auth/register'; 
 	}
 
-    {if $enable_invite_code == 'true'}
+    {if $config['register_mode'] == 'invite'}
 	{*dumplin:读取cookie，自动填入邀请码框*}
 	if ((getCookie('code'))!=''){
 		$("#code").val(getCookie('code'));

@@ -223,6 +223,12 @@ class User extends Model
         $uid = $this->attributes['id'];
         Link::where('userid', $uid)->delete();
     }
+    
+    public function clear_inviteCodes()
+    {
+        $uid = $this->attributes['id'];
+        InviteCode::where('user_id', $uid)->delete();
+    }
 
     public function online_ip_count()
     {

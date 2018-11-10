@@ -91,11 +91,49 @@ function changetouser_modal_show(id) {
 
 $(document).ready(function(){
  	table_1 = $('#table_1').DataTable({
-			"stateSave": true,
+			order:[[1, 'asc' ]],
+			stateSave: true,
+			serverSide: true,
+			ajax: {
+				url :"/admin/user/ajax",
+                type: "POST",
+			},			
+			columns: [
+				{ "data": "op" ,"orderable":false},
+				{ "data": "id" },
+				{ "data": "user_name" },
+				{ "data": "remark" },
+				{ "data": "email" },
+				{ "data": "money" },
+				{ "data": "im_type" },
+				{ "data": "im_value" },
+				{ "data": "node_group" },
+				{ "data": "expire_in" },
+				{ "data": "class" },
+				{ "data": "class_expire" },
+				{ "data": "passwd" },
+				{ "data": "port" },
+				{ "data": "method" },
+				{ "data": "protocol" },
+				{ "data": "obfs" },
+				{ "data": "online_ip_count" ,"orderable":false},
+				{ "data": "last_ss_time" ,"orderable":false},
+				{ "data": "used_traffic" ,"orderable":false},
+				{ "data": "enable_traffic" ,"orderable":false},
+				{ "data": "last_checkin_time" ,"orderable":false},
+				{ "data": "today_traffic" ,"orderable":false},
+				{ "data": "enable" },
+				{ "data": "reg_date" },
+				{ "data": "reg_ip" },
+				{ "data": "auto_reset_day" },
+				{ "data": "auto_reset_bandwidth" },
+				{ "data": "ref_by" },
+				{ "data": "ref_by_user_name" ,"orderable":false}
+			],
 			"columnDefs": [
 				{
-						targets: [ '_all' ],
-						className: 'mdl-data-table__cell--non-numeric'
+					targets: [ '_all' ],
+					className: 'mdl-data-table__cell--non-numeric'
 				}
 			],
 			{include file='table/lang_chinese.tpl'}
@@ -153,30 +191,7 @@ $(document).ready(function(){
 		{
 			search();
 		}
-	});
-
-	$.ajaxSettings.async = false;
-	page = 1;
-	while (1) {
-			next = 1;
-			$.getJSON("user/ajax?page=" + page, function( data ) {
-					if (data.next == 0) {
-						next = 0;
-					}
-					for ( var i=0, ien=data.data.length ; i<ien ; i++ ) {
-						data.data[i][0] = '<a class="btn btn-brand" href="/admin/user/' + data.data[i][0] + '/edit">编辑</a>' +
-						'<a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' + data.data[i][0] + '\')">删除</a>'+
-						'<a class="btn btn-brand-accent" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\'' + data.data[i][0] + '\')">切换为此用户</a>';
-					}
-					table_1.rows.add(data.data).draw();
-			});
-
-			if (next == 0) break;
-
-			page++;
-	}
-	$.ajaxSettings.async = true;
-	
+	});	
 	
 	function changetouser_id(){
 		$.ajax({
@@ -211,4 +226,3 @@ $(document).ready(function(){
 
 
 </script>
-s

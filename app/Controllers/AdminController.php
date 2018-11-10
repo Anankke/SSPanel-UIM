@@ -8,6 +8,7 @@ use App\Models\TrafficLog;
 use App\Models\Payback;
 use App\Models\Coupon;
 use App\Models\User;
+use App\Services\Gateway\ChenPay;
 use App\Utils\AliPay;
 use App\Utils\Tools;
 use App\Services\Analytics;
@@ -35,33 +36,12 @@ class AdminController extends UserController
 
     public function editConfig($request, $response, $args)
     {
-        $config = (new AliPay)->getConfig();
-        return $this->view()->assign('payConfig', $config)->display('admin/payEdit.tpl');
+        return (new ChenPay())->editConfig();
     }
 
     public function saveConfig($request, $response, $args)
     {
-        $Notice_EMail = $request->getParam('Notice_EMail');
-        $AliPay_QRcode = $request->getParam('AliPay_QRcode');
-        $AliPay_Status = $request->getParam('AliPay_Status');
-        $WxPay_Status = $request->getParam('WxPay_Status');
-        $AliPay_Cookie = $request->getParam('AliPay_Cookie');
-        $WxPay_QRcode = $request->getParam('WxPay_QRcode');
-        $WxPay_Cookie = $request->getParam('WxPay_Cookie');
-        $WxPay_Url = $request->getParam('WxPay_Url');
-        $Pay_Price = $request->getParam('Pay_Price');
-        $alipay = new AliPay();
-        $alipay->setConfig('Notice_EMail', $Notice_EMail);
-        $alipay->setConfig('AliPay_QRcode', $AliPay_QRcode);
-        $alipay->setConfig('AliPay_Cookie', $AliPay_Cookie);
-        $alipay->setConfig('WxPay_QRcode', $WxPay_QRcode);
-        $alipay->setConfig('WxPay_Cookie', $WxPay_Cookie);
-        $alipay->setConfig('WxPay_Url', $WxPay_Url);
-        $alipay->setConfig('WxPay_SyncKey', '');
-        $alipay->setConfig('Pay_Price', $Pay_Price);
-        $alipay->setConfig('AliPay_Status', $AliPay_Status);
-        $alipay->setConfig('WxPay_Status', $WxPay_Status);
-        return $response->getBody()->write(json_encode(['ret' => 1, 'msg' => '编辑成功！']));
+        return (new ChenPay())->saveConfig($request);
     }
 
     public function sys()
@@ -84,55 +64,6 @@ class AdminController extends UserController
         return $this->view()->assign('table_config', $table_config)->display('admin/invite.tpl');
     }
 	
-    public function find($request, $response, $args)
-    {
-		$id =  $request->getParam('id');
-		$view=0;
-		if ($id) {
-		$view=1;
-		$userf=User::where("id", "=", $id)->first();
-		}
-	    	else {
-		$view=0;
-		$userf=User::where("id", "=", 0)->first();
-		}
-		
-        return $this->view()->assign('view', $view)->assign('userf', $userf)->display('admin/find.tpl');
-    }
-    public function finduser($request, $response, $args)
-    {
-        $username = $request->getParam('username');
-        $email = $request->getParam('email');
-		$port = $request->getParam('port');
-		if (!$username && !$email && !$port)
-		{
-			 $res['ret'] = 0;
-             $res['msg'] = "没输入呀";
-             return $response->getBody()->write(json_encode($res));
-		}
-		if($username) {
-				$user=User::where("user_name", "=", $username)->first();
-		$id=$user->id;
-		}
-		if($email) {
-				$user=User::where("email", "=", $email)->first();
-		$id=$user->id;
-		}
-		if($port) {
-				$user=User::where("port", "=", $port)->first();
-		$id=$user->id;
-		}
-		if (!$id) {
-			 $res['ret'] = 0;
-             $res['msg'] = "查无此人";
-             return $response->getBody()->write(json_encode($res));
-		
-		}
-		$res['id']=$id;
-        $res['ret'] = 1;
-        $res['msg'] = "稍等一下，正在查询";
-        return $response->getBody()->write(json_encode($res));
-    }
     public function addInvite($request, $response, $args)
     {
         $num = $request->getParam('num');

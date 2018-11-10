@@ -9,6 +9,7 @@ use App\Models\Payback;
 use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Config;
+use App\Services\Payment;
 use App\Utils\AliPay;
 use App\Utils\Tools;
 use App\Utils\Telegram;
@@ -77,7 +78,8 @@ class HomeController extends BaseController
     {
 		return $this->view()->display('500.tpl');
     }
-    
+
+    //@todo: Will be abandoned in future.
     public function codepay_callback($request, $response, $args)
     {
         echo '
@@ -87,21 +89,15 @@ class HomeController extends BaseController
             ';
         return;
     }
-  
+
+
+    //@todo: Will be abandoned in future.
     public function pay_callback($request, $response, $args)
     {
         Pay::callback($request);
     }
-  
-    public function f2fpay_pay_callback($request, $response, $args)
-    {
-        Pay::f2fpay_pay_callback($request);
-    }
-  
-    public function codepay_pay_callback($request, $response, $args)
-    {
-        Pay::codepay_pay_callback($request);
-    }
+
+
 
     public function getOrderList($request, $response, $args)
     {

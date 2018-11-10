@@ -16,14 +16,19 @@
 			</div>
 		</div>
 		<div class="container">
-			<section class="content-inner margin-top-no">
+			<section class="content-inner">
 				<div class="row">
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">我的帐号</p>
+									{if $config['enable_kill']=="true"}
+									    <div class="cardbtn-edit">
+												<div class="card-heading">我的帐号</div>
+											    <div class="account-flex"><span>注销账号</span><a class="btn btn-flat waves-attach" href="kill"><span class="icon">not_interested</span>&nbsp;</a></div>
+										</div>
+									{/if}
 										<dl class="dl-horizontal">
 											<dt>用户名</dt>
 											<dd>{$user->user_name}</dd>
@@ -31,22 +36,19 @@
 											<dd>{$user->email}</dd>
 										</dl>
 									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<a class="btn btn-flat waves-attach" href="kill"><span class="icon">check</span>&nbsp;删除我的账户</a>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
 
 						<div class="card">
 							<div class="card-main">
-								<div class="card-inner margin-bottom-no">
-									<p class="card-heading">最近五分钟使用IP</p>
-									<p>请确认都为自己的IP，如有异常请及时修改连接密码。</p>
+								<div class="card-inner">
+									<div class="card-doubleinner">
+											<p class="card-heading">最近五分钟使用IP</p>
+											<p>请确认都为自己的IP，如有异常请及时修改连接密码。</p>
+									</div>
 									<div class="card-table">
-										<div class="table-responsive">
+										<div class="table-responsive table-user">
 											<table class="table">
 												<tr>
 
@@ -70,11 +72,13 @@
 
 						<div class="card">
 							<div class="card-main">
-								<div class="card-inner margin-bottom-no">
-									<p class="card-heading">最近十次登录IP</p>
-									<p>请确认都为自己的IP，如有异常请及时修改密码。</p>
+								<div class="card-inner">
+									<div class="card-doubleinner">
+											<p class="card-heading">最近十次登录IP</p>
+											<p>请确认都为自己的IP，如有异常请及时修改密码。</p>
+									</div>
 									<div class="card-table">
-										<div class="table-responsive">
+										<div class="table-responsive table-user">
 											<table class="table">
 												<tr>
 
@@ -98,13 +102,15 @@
 
 
 
-						<div class="card margin-bottom-no">
+						<div class="card">
 							<div class="card-main">
 								<div class="card-inner">
-									<div class="card-inner">
-										<p class="card-heading">返利记录</p>
+                                        <div class="card-doubleinner">
+												<p class="card-heading">返利记录</p>
+										</div>
+										
 										<div class="card-table">
-											<div class="table-responsive">
+											<div class="table-responsive table-user">
 											{$paybacks->render()}
 												<table class="table">
 													<thead>
@@ -135,8 +141,6 @@
 											</div>
 										</div>
 									</div>
-
-								</div>
 							</div>
 						</div>
 					</div>

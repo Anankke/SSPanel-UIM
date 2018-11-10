@@ -24,7 +24,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="content">命令</label>
-									<textarea class="form-control" id="content" rows="15"></textarea>
+									<textarea class="form-control maxwidth-edit" id="content" rows="15"></textarea>
 								</div>
 								
 								
@@ -40,7 +40,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="sign">GPG签名</label>
-									<textarea class="form-control" id="sign" rows="15"></textarea>
+									<textarea class="form-control maxwidth-edit" id="sign" rows="15"></textarea>
 								</div>
 								
 								

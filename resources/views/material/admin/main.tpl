@@ -14,7 +14,7 @@
 	<link href="/theme/material/css/base.min.css" rel="stylesheet">
 	<link href="/theme/material/css/project.css" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
-	<link href="https://fonts.loli.net/css?family=Material+Icons">
+	<link href="https://fonts.loli.net/css?family=Material+Icons" rel="stylesheet">
 	<link href="/theme/material/css/material.min.css" rel="stylesheet">
 	<link href="/theme/material/css/dataTables.material.min.css" rel="stylesheet">
 
@@ -88,7 +88,6 @@
 
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_user">用户</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_user">
-						        <li><a href="/admin/find"><i class="icon icon-lg">search</i>&nbsp;查找用户</a></li>
 							<li><a href="/admin/user"><i class="icon icon-lg">supervisor_account</i>&nbsp;用户列表</a></li>
 							<li><a href="/admin/relay"><i class="icon icon-lg">compare_arrows</i>&nbsp;中转规则</a></li>
 							<li><a href="/admin/invite"><i class="icon icon-lg">loyalty</i>&nbsp;邀请与返利</a></li>

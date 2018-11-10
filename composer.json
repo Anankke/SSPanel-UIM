@@ -3,7 +3,7 @@
     "slim/slim": "~3.0",
     "slim/csrf": "*",
     "smarty/smarty": "3.*",
-    "mailgun/mailgun-php": "~1.7.2",
+    "mailgun/mailgun-php": "^2.6.0",
     "predis/predis": "~1.0",
     "phpmailer/phpmailer": "~5.2",
     "vlucas/phpdotenv": "~2.1",
@@ -22,7 +22,10 @@
     "esdeathlove/datatables": "^1.6",
     "slim/twig-view": "1.2.0",
     "ramsey/uuid": "^3.0@dev",
-    "cloudflare/sdk": "1.1.1"
+    "cloudflare/sdk": "1.1.1",
+    "chen-see/chen-pay": "^1.0@dev",
+    "league/omnipay": "^3",
+    "lokielse/omnipay-alipay": "*"
   },
   "autoload": {
     "classmap": [

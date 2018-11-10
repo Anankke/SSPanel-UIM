@@ -30,7 +30,7 @@
 					
 					<div class="table-responsive">
 						{$logs->render()}
-						<table class="table">
+						<table class="table table-user">
 						    <tr>
 						        <th>ID</th>
 						        <th>节点ID</th>

@@ -30,7 +30,7 @@
 					
 					<div class="table-responsive">
 						{$rules->render()}
-						<table class="table">
+						<table class="table table-user">
 						    <tr>
 						        <th>ID</th>
 						        <th>名称</th>

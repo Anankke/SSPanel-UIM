@@ -14,6 +14,8 @@ use App\Models\Coupon;
 use App\Models\Bought;
 use App\Models\Ticket;
 use App\Services\Config;
+use App\Services\Gateway\ChenPay;
+use App\Services\Payment;
 use App\Utils;
 use App\Utils\AliPay;
 use App\Utils\Hash;
@@ -83,6 +85,7 @@ class UserController extends BaseController
         return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
             ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
             ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
+            ->assign('mergeSub', Config::get('mergeSub'))
             ->assign('enable_duoshuo', Config::get('enable_duoshuo'))->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
             ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
     }
@@ -126,125 +129,6 @@ class UserController extends BaseController
         return $this->view()->assign('speedtest', $Speedtest)->assign('hour', Config::get('Speedtest_duration'))->display('user/lookingglass.tpl');
     }
 
-
-    public function node_admin($request, $response, $args)
-    {
-        $user = Auth::getUser();
-        if ($user->is_admin) {
-            $nodes = Node::where('type', 1)->orderBy('name')->get();
-        } else {
-            $nodes = Node::where(
-                function ($query) {
-                    $query->Where("node_group", "=", $this->user->node_group)
-                        ->orWhere("node_group", "=", 0);
-                }
-            )->where('type', 1)->where("node_class", "<=", $this->user->class)->orderBy('name')->get();
-        }
-
-        $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
-
-        if (!Tools::is_protocol_relay($user)) {
-            $relay_rules = array();
-        }
-
-        $node_prefix = array();
-        $node_method = array();
-        $a = 0;//命名的什么JB变量
-        $node_order = array();
-        $node_alive = array();
-        $node_prealive = array();
-        $node_heartbeat = array();
-        $node_bandwidth = array();
-        $node_muport = array();
-        $node_isv6 = array();
-        if ($user->is_admin) {
-            $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();
-        } else {
-            $ports_count = Node::where(
-                function ($query) use ($user) {
-                    $query->Where("node_group", "=", $user->node_group)
-                        ->orWhere("node_group", "=", 0);
-                }
-            )->where('type', 1)->where('sort', 9)->where("node_class", "<=", $user->class)->orderBy('name')->count();
-        }
-
-        $ports_count += 1;
-
-        foreach ($nodes as $node) {
-            if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && (!$node->isNodeTrafficOut())) {
-                if ($node->sort == 9) {
-                    $mu_user = User::where('port', '=', $node->server)->first();
-                    $mu_user->obfs_param = $this->user->getMuMd5();
-                    array_push($node_muport, array('server' => $node, 'user' => $mu_user));
-                    continue;
-                }
-
-                $temp = explode(" - ", $node->name);
-
-                $node_isv6[$temp[0]] = $node->isv6;
-
-
-                if (!isset($node_prefix[$temp[0]])) {
-                    $node_prefix[$temp[0]] = array();
-                    $node_order[$temp[0]] = $a;
-                    $node_alive[$temp[0]] = 0;
-
-                    if (isset($temp[1])) {
-                        $node_method[$temp[0]] = $temp[1];
-                    } else {
-                        $node_method[$temp[0]] = "";
-                    }
-
-                    $a++;
-                }
-
-
-                if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11) {
-                    $node_tempalive = $node->getOnlineUserCount();
-                    $node_prealive[$node->id] = $node_tempalive;
-                    if ($node->isNodeOnline() !== null) {
-                        if ($node->isNodeOnline() === false) {
-                            $node_heartbeat[$temp[0]] = "离线";
-                        } else {
-                            $node_heartbeat[$temp[0]] = "在线";
-                        }
-                    } else {
-                        if (!isset($node_heartbeat[$temp[0]])) {
-                            $node_heartbeat[$temp[0]] = "暂无数据";
-                        }
-                    }
-
-                    if ($node->node_bandwidth_limit == 0) {
-                        $node_bandwidth[$temp[0]] = (int)($node->node_bandwidth / 1024 / 1024 / 1024) . " GB / 不限";
-                    } else {
-                        $node_bandwidth[$temp[0]] = (int)($node->node_bandwidth / 1024 / 1024 / 1024) . " GB / " . (int)($node->node_bandwidth_limit / 1024 / 1024 / 1024) . " GB - " . $node->bandwidthlimit_resetday . " 日重置";
-                    }
-
-                    if ($node_tempalive != "暂无数据") {
-                        $node_alive[$temp[0]] = $node_alive[$temp[0]] + $node_tempalive;
-                    }
-                } else {
-                    $node_prealive[$node->id] = "暂无数据";
-                    if (!isset($node_heartbeat[$temp[0]])) {
-                        $node_heartbeat[$temp[0]] = "暂无数据";
-                    }
-                }
-
-                if (isset($temp[1])) {
-                    if (strpos($node_method[$temp[0]], $temp[1]) === false) {
-                        $node_method[$temp[0]] = $node_method[$temp[0]] . " " . $temp[1];
-                    }
-                }
-
-                array_push($node_prefix[$temp[0]], $node);
-            }
-        }
-        $node_prefix = (object)$node_prefix;
-        $node_order = (object)$node_order;
-        $tools = new Tools();
-        return $this->view()->assign('relay_rules', $relay_rules)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->display('user/node_admin.tpl');
-    }
-
     public function code($request, $response, $args)
     {
         $pageNum = 1;
@@ -253,56 +137,12 @@ class UserController extends BaseController
         }
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
-        if (Config::get('payment_system') == 'chenAlipay') {
-            $config = new AliPay();
-            return $this->view()->assign('codes', $codes)->assign('QRcodeUrl', $config->getConfig('AliPay_QRcode'))
-                ->assign('WxQRcodeUrl', $config->getConfig('WxPay_QRcode'))
-                ->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
-        } else return $this->view()->assign('codes', $codes)->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
+        return $this->view()->assign('codes', $codes)->assign('pmw', Payment::purchaseHTML())->display('user/code.tpl');
     }
 
-    public function CheckAliPay($request, $response, $args)
+    public function orderDelete($request, $response, $args)
     {
-        $id = $request->getQueryParams()["id"];
-        if ($id == "") {
-            $res['ret'] = 0;
-            $res['msg'] = "请输入Id";
-            return $response->getBody()->write(json_encode($res));
-        }
-        return $response->getBody()->write(json_encode(AliPay::checkOrder($id)));
-    }
-
-    public function NewAliPay($request, $response, $args)
-    {
-        $fee = $request->getQueryParams()["fee"];
-        $type = $request->getQueryParams()["type"];
-        $url = $request->getQueryParams()["url"];
-        if (!is_numeric($fee) || !is_numeric($type)) {
-            $res['ret'] = 0;
-            $res['msg'] = "请输入正确金额";
-            return $response->getBody()->write(json_encode($res));
-        } elseif ($fee <= 0) {
-            $res['ret'] = 0;
-            $res['msg'] = "请输入正确金额";
-            return $response->getBody()->write(json_encode($res));
-        }
-        return $response->getBody()->write(json_encode(AliPay::newOrder($this->user, $fee, $type, $url)));
-    }
-
-    public function AliPayDelete($request, $response, $args)
-    {
-        $id = $request->getQueryParams()["id"];
-        if ($id == "") {
-            $res['ret'] = 0;
-            $res['msg'] = "请输入Id";
-            return $response->getBody()->write(json_encode($res));
-        }
-        return $response->getBody()->write(json_encode(['res' => AliPay::orderDelete($id, $this->user->id)]));
-    }
-
-    public function AliPayTest($request, $response, $args)
-    {
-        print_r((new AliPay)->getWxPay());
+        return (new ChenPay())->orderDelete($request);
     }
 
     public function donate($request, $response, $args)
@@ -341,46 +181,6 @@ class UserController extends BaseController
         return FALSE;
     }
 
-    public function codepay($request, $response, $args)
-    {
-        $codepay_id = Config::get('codepay_id');//这里改成码支付ID
-        $codepay_key = Config::get('codepay_key'); //这是您的通讯密钥
-        $uid = $this->user->id;
-        $price = $request->getParam('price');
-        $type = $request->getParam('type');
-        $url = (UserController::isHTTPS() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
-        $data = array(
-            "id" => $codepay_id,//你的码支付ID
-            "pay_id" => $uid, //唯一标识 可以是用户ID,用户名,session_id(),订单ID,ip 付款后返回
-            "type" => $type,//1支付宝支付 2QQ钱包 3微信支付
-            "price" => $price,//金额100元
-            "param" => "",//自定义参数
-            "notify_url" => $url . '/codepay_callback',//通知地址
-            "return_url" => $url . '/codepay_callback',//跳转地址
-        ); //构造需要传递的参数
-
-        ksort($data); //重新排序$data数组
-        reset($data); //内部指针指向数组中的第一个元素
-
-        $sign = ''; //初始化需要签名的字符为空
-        $urls = ''; //初始化URL参数为空
-
-        foreach ($data AS $key => $val) { //遍历需要传递的参数
-            if ($val == '' || $key == 'sign') continue; //跳过这些不参数签名
-            if ($sign != '') { //后面追加&拼接URL
-                $sign .= "&";
-                $urls .= "&";
-            }
-            $sign .= "$key=$val"; //拼接为url参数形式
-            $urls .= "$key=" . urlencode($val); //拼接为url参数形式并URL编码参数值
-
-        }
-        $query = $urls . '&sign=' . md5($sign . $codepay_key); //创建订单所需的参数
-        $url = "https://codepay.fateqq.com:51888/creat_order/?" . $query; //支付页面
-
-
-        header("Location:" . $url);
-    }
 
 
     public function code_check($request, $response, $args)
@@ -427,17 +227,17 @@ class UserController extends BaseController
                 break;
             case "FAILED":
                 $res['ret'] = 0;
-                $res['msg'] = "支付宝创建订单二维码失败!!! 请使用其他方式付款。";
+                $res['msg'] = "支付宝创建订单二维码失败! 请使用其他方式付款。";
 
                 break;
             case "UNKNOWN":
                 $res['ret'] = 0;
-                $res['msg'] = "系统异常，状态未知!!!!!! 请使用其他方式付款。";
+                $res['msg'] = "系统异常，状态未知! 请使用其他方式付款。";
 
                 break;
             default:
                 $res['ret'] = 0;
-                $res['msg'] = "创建订单二维码返回异常!!!!!! 请使用其他方式付款。";
+                $res['msg'] = "创建订单二维码返回异常! 请使用其他方式付款。";
 
                 break;
         }
@@ -460,7 +260,7 @@ class UserController extends BaseController
 
         if ($code == "") {
             $res['ret'] = 0;
-            $res['msg'] = "请填好充值码";
+            $res['msg'] = "非法输入";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -589,7 +389,7 @@ class UserController extends BaseController
 
         if ($user->money < $price) {
             $res['ret'] = 0;
-            $res['msg'] = "余额不足。";
+            $res['msg'] = "余额不足";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -619,7 +419,7 @@ class UserController extends BaseController
 
         if ($user->money < $price) {
             $res['ret'] = 0;
-            $res['msg'] = "余额不足。";
+            $res['msg'] = "余额不足";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -627,7 +427,7 @@ class UserController extends BaseController
 
         if ($port < Config::get('min_port') || $port > Config::get('max_port') || Tools::isInt($port) == false) {
             $res['ret'] = 0;
-            $res['msg'] = "端口不在要求范围内。";
+            $res['msg'] = "端口不在要求范围内";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -635,7 +435,7 @@ class UserController extends BaseController
 
         if (in_array($port, $port_occupied) == true) {
             $res['ret'] = 0;
-            $res['msg'] = "端口已被占用。";
+            $res['msg'] = "端口已被占用";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -679,8 +479,99 @@ class UserController extends BaseController
         return $this->view()->assign('point_node', $point_node)->assign('prefix', $prefix[0])->assign('id', $id)->display('user/nodeajax.tpl');
     }
 
+	public function node($request, $response, $args)
+    {
+        $user = Auth::getUser();
+        $nodes = Node::where('type', 1)->orderBy('node_class')->orderBy('name')->get();
+        $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
+		if (!Tools::is_protocol_relay($user)) {
+            $relay_rules = array();
+        }
 
-    public function node($request, $response, $args)
+		$array_nodes=array();
+		$nodes_muport = array();
+
+		foreach($nodes as $node){
+			if($user->node_group != $node->node_group){
+				continue;
+			}
+			if ($node->sort == 9) {
+                $mu_user = User::where('port', '=', $node->server)->first();
+                $mu_user->obfs_param = $this->user->getMuMd5();
+                array_push($nodes_muport, array('server' => $node, 'user' => $mu_user));
+                continue;
+            }
+			$array_node=array();
+
+			$array_node['id']=$node->id;
+			$array_node['class']=$node->node_class;
+			$array_node['name']=$node->name;
+			$array_node['server']=$node->server;
+			$array_node['sort']=$node->sort;
+			$array_node['info']=$node->info;
+			$array_node['mu_only']=$node->mu_only;
+			$array_node['group']=$node->node_group;
+
+            $array_node['raw_node'] = $node;
+			$regex = Config::get('flag_regex');
+            $matches = array();
+            preg_match($regex, $node->name, $matches);
+            if (isset($matches[0])) {
+				$array_node['flag'] = $matches[0].'.png';
+            }
+			else {
+                $array_node['flag'] = 'unknown.png';
+            }
+
+			$node_online=$node->isNodeOnline();
+			if($node_online===null){
+				$array_node['online']=0;
+			}
+			else if($node_online===true){
+				$array_node['online']=1;
+			}
+			else if($node_online===false){
+				$array_node['online']=-1;
+			}
+
+			if ($node->sort == 0 ||$node->sort == 7 || $node->sort == 8 ||
+				$node->sort == 10 || $node->sort == 11){
+				$array_node['online_user']=$node->getOnlineUserCount();
+			}
+			else{
+				$array_node['online_user']=-1;
+			}
+
+			$nodeLoad = $node->getNodeLoad();
+            if (isset($nodeLoad[0]['load'])) {
+                $array_node['latest_load'] = ((explode(" ", $nodeLoad[0]['load']))[0]) * 100;
+            }
+			else {
+                $array_node['latest_load'] = -1;
+            }
+
+            $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);
+            $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit);
+			if($node->node_speedlimit==0.0){
+				$array_node['bandwidth']=0;
+			}
+			else if($node->node_speedlimit>=1024.00){
+				$array_node['bandwidth']=round($node->node_speedlimit/1024.00,1).'Gbps';
+			}
+			else{
+				$array_node['bandwidth']=$node->node_speedlimit.'Mbps';
+			}
+
+			$array_node['traffic_rate']=$node->traffic_rate;
+			$array_node['status']=$node->status;
+
+			array_push($array_nodes,$array_node);
+		}
+		return $this->view()->assign('nodes', $array_nodes)->assign('nodes_muport', $nodes_muport)->assign('relay_rules', $relay_rules)->assign('tools', new Tools())->assign('user', $user)->registerClass("URL", "App\Utils\URL")->display('user/node.tpl');
+	}
+
+
+    public function node_old($request, $response, $args)
     {
         $user = Auth::getUser();
         $nodes = Node::where('type', 1)->orderBy('name')->get();
@@ -1113,7 +1004,7 @@ class UserController extends BaseController
         $this->user->invite_num = 0;
         $this->user->save();
         $res['ret'] = 1;
-        $res['msg'] = "生成成功。";
+        $res['msg'] = "生成成功";
         return $this->echoJson($response, $res);
     }
 
@@ -1141,7 +1032,7 @@ class UserController extends BaseController
         $user->money -= $amount;
         $user->save();
         $res['ret'] = 1;
-        $res['msg'] = "邀请次数添加成功。";
+        $res['msg'] = "邀请次数添加成功";
         return $response->getBody()->write(json_encode($res));
     }
 
@@ -1441,13 +1332,13 @@ class UserController extends BaseController
 
         if ($title == "" || $content == "") {
             $res['ret'] = 0;
-            $res['msg'] = "请填全";
+            $res['msg'] = "非法输入";
             return $this->echoJson($response, $res);
         }
 
         if (strpos($content, "admin") != false || strpos($content, "user") != false) {
             $res['ret'] = 0;
-            $res['msg'] = "请求中有不正当的词语。";
+            $res['msg'] = "请求中有不当词语";
             return $this->echoJson($response, $res);
         }
 
@@ -1467,13 +1358,13 @@ class UserController extends BaseController
         foreach ($adminUser as $user) {
             $subject = Config::get('appName') . "-新工单被开启";
             $to = $user->email;
-            $text = "管理员您好，有人开启了新的工单，请您及时处理。。";
+            $text = "管理员您好，有人开启了新的工单，请您及时处理。";
             try {
                 Mail::send($to, $subject, 'news/warn.tpl', [
                     "user" => $user, "text" => $text
                 ], [
                 ]);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo $e->getMessage();
             }
         }
@@ -1491,13 +1382,13 @@ class UserController extends BaseController
 
         if ($content == "" || $status == "") {
             $res['ret'] = 0;
-            $res['msg'] = "请填全";
+            $res['msg'] = "非法输入";
             return $this->echoJson($response, $res);
         }
 
         if (strpos($content, "admin") != false || strpos($content, "user") != false) {
             $res['ret'] = 0;
-            $res['msg'] = "请求中有不正当的词语。";
+            $res['msg'] = "请求中有不当词语";
             return $this->echoJson($response, $res);
         }
 
@@ -1519,7 +1410,7 @@ class UserController extends BaseController
                         "user" => $user, "text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
@@ -1534,7 +1425,7 @@ class UserController extends BaseController
                         "user" => $user, "text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
@@ -1598,14 +1489,14 @@ class UserController extends BaseController
 
         if ($wechat == "" || $type == "") {
             $res['ret'] = 0;
-            $res['msg'] = "请填好";
+            $res['msg'] = "非法输入";
             return $response->getBody()->write(json_encode($res));
         }
 
         $user1 = User::where('im_value', $wechat)->where('im_type', $type)->first();
         if ($user1 != null) {
             $res['ret'] = 0;
-            $res['msg'] = "此联络方式已经被注册了";
+            $res['msg'] = "此联络方式已经被注册";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1631,7 +1522,7 @@ class UserController extends BaseController
 
         if ($obfs == "" || $protocol == "") {
             $res['ret'] = 0;
-            $res['msg'] = "请填好";
+            $res['msg'] = "非法输入";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1692,7 +1583,7 @@ class UserController extends BaseController
 
         if ($theme == "") {
             $res['ret'] = 0;
-            $res['msg'] = "???";
+            $res['msg'] = "非法输入";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1701,7 +1592,7 @@ class UserController extends BaseController
         $user->save();
 
         $res['ret'] = 1;
-        $res['msg'] = "ok";
+        $res['msg'] = "设置成功";
         return $this->echoJson($response, $res);
     }
 
@@ -1723,7 +1614,7 @@ class UserController extends BaseController
         $user->save();
 
         $res['ret'] = 1;
-        $res['msg'] = "ok";
+        $res['msg'] = "修改成功";
         return $this->echoJson($response, $res);
     }
 
@@ -1744,7 +1635,7 @@ class UserController extends BaseController
         $user->save();
 
         $res['ret'] = 1;
-        $res['msg'] = "ok";
+        $res['msg'] = "修改成功";
         return $this->echoJson($response, $res);
     }
 
@@ -1846,6 +1737,12 @@ class UserController extends BaseController
             }
         }
 
+		if(strtotime($this->user->expire_in) < time()){
+		    $res['msg'] = "您的账户已过期，无法签到。";
+            $res['ret'] = 1;
+            return $response->getBody()->write(json_encode($res));
+		}
+
         if (!$this->user->isAbleToCheckin()) {
             $res['msg'] = "您似乎已经续命过了...";
             $res['ret'] = 1;
@@ -1880,25 +1777,15 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-        if ($user->money > 1) {
+        if (Config::get('enable_kill') == 'true') {
+            Auth::logout();
+            $user->kill_user();
+            $res['ret'] = 1;
+            $res['msg'] = "您的帐号已经从我们的系统中删除。欢迎下次光临!";
+        }
+		else {
             $res['ret'] = 0;
-            $res['msg'] = "不可删除,您当前的余额 [" . $user->money . "]元 大于 [1.00]元.";
-        } else {
-            if ($user->class != '0') {
-                $res['ret'] = 0;
-                $res['msg'] = "不可删除,您的会员还未失效.";
-            } else {
-                if (Config::get('enable_kill') == 'true') {
-                    Auth::logout();
-                    $user->kill_user();
-                    $res['ret'] = 1;
-                    $res['msg'] = "GG!您的帐号已经从我们的系统中删除.欢迎下次光临!";
-                } else {
-                    $res['ret'] = 0;
-                    $res['msg'] = "管理员不允许删除,如需删除请联系管理员.";
-                }
-            }
-
+            $res['msg'] = "管理员不允许删除，如需删除请联系管理员。";
         }
         return $this->echoJson($response, $res);
     }
@@ -1951,6 +1838,14 @@ class UserController extends BaseController
         $user = $this->user;
         $user->clean_link();
         $newResponse = $response->withStatus(302)->withHeader('Location', '/user');
+        return $newResponse;
+    }
+
+    public function resetInviteURL($request, $response, $args)
+    {
+        $user = $this->user;
+        $user->clear_inviteCodes();
+        $newResponse = $response->withStatus(302)->withHeader('Location', '/user/invite');
         return $newResponse;
     }
 
