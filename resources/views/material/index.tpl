@@ -62,7 +62,7 @@
 								如果想自定义文本请删除下面这段script代码,格式为
 								<p>自定义文本</p>
 								-->
-								<script type="text/javascript" src="https://api.lwl12.com/hitokoto/main/get?encode=js&charset=utf-8"></script><div id="lwlhitokoto"><script>lwlhitokoto()</script></div>
+								<script src="https://api.lwl12.com/hitokoto/main/get?encode=js&charset=utf-8"></script><div id="lwlhitokoto"><script>lwlhitokoto()</script></div>
                           </div>
                       </div>	
                               <nav>
@@ -151,7 +151,7 @@
                               </div>
                      <!-- 版权底部 -->
                       <footer id="footer">
-                   <p class="copyright">&copy;2015-{date("Y")} {$config["appName"]}</p>
+                   <p class="copyright">&copy;{$config["appStartTime"]}-{date("Y")} {$config["appName"]}</p>
                       </footer>
               <!-- 版权结束 -->
 			 </div>

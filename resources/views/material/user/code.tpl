@@ -157,7 +157,7 @@
     </div>
 </main>
 <script src="/assets/js/jquery.min.js"></script>
-<script src="/assets/js/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
 <script>
 	$(document).ready(function () {
 		$("#code-update").click(function () {

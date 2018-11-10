@@ -206,12 +206,11 @@
 </div>
 <footer class="section section-footer">
 <div id="copyright" class="grid-footer container grid-lg">©
-<span year="">2017 - {date("Y")}</span>
+<span year="">{$config["appStartTime"]} - {date("Y")}</span>
 <a href="{$config["baseUrl"]}" target="_blank">{$config["appName"]}</a>
 </div>
 </footer>
 </div>
 </div>
-<script>var copyrightNow = (new Date).getFullYear(), textContent = document.querySelector("span[year]"); copyrightSince = 2017, textContent.textContent = copyrightSince === copyrightNow ? copyrightNow : copyrightSince + " - " + copyrightNow;</script>
 </body>
 </html>
