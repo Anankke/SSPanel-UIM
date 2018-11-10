@@ -6161,6 +6161,26 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	}
 }
 
+/* 菜单 */
+/* .md-menu-left {
+	width: 31%;
+	border-radius: 0 20px 20px 0;
+	box-shadow: 0 0 5px 1px #cacaca;
+}
+.md-menu-left a {
+	border-radius: 0 20px 20px 0;
+	min-height: 30px;
+}
+
+.md-menu-right {
+	border-radius: 20px 0 0 20px;
+	box-shadow: 0 0 5px 1px #cacaca;
+	margin: 10px 0 10px 40px;
+}
+.md-menu-right a {
+	min-height: 30px;
+} */
+
 /* 卡片式商店样式 */
 
 .ui-switch {
@@ -6524,6 +6544,11 @@ code.form-control {
 	grid-column-end: 2;
 	grid-column-start: 1;
 }
+@media screen and (max-width:400px) {
+	.nodemain {
+		max-width: 240px;
+	}
+}
 
 @media screen and (min-width:480px) {
 	
@@ -6656,9 +6681,15 @@ div.nodetitle:first-of-type>div {
     align-items: center;
 }
 
-.onlinemember span,.nodetraffic span,.nodecheck span,.nodeband span {
+.nodetraffic span,.nodecheck span,.nodeband span {
     margin-left: 5px;
-    font-size: 14px;
+	font-size: 14px;
+	color: #646464;
+}
+.onlinemember span {
+	font-size: 15px;
+	font-weight: bold;
+	margin-left: 5px;
 }
 
 .node-tip {
@@ -6690,7 +6721,7 @@ div.nodetitle:first-of-type>div {
 	align-items: center;
 }
 .tiptitle {
-	margin: 0 0 10px 0;
+	margin: 10px 0 10px 0;
 }
 .tiptitle a {
 	font-size: 18px;
