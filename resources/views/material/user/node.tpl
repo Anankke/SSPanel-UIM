@@ -457,8 +457,12 @@
 		var windowWidth = $(window).width();
 		var cardSize = $(this).css("grid-column-end");
 		var tipID = $(this).attr("cardindex");
-        $(".node-tip[tipindex=" + tipID + "]").addClass("tip-down").css("z-index","3");
+		var tip = $(".node-tip[tipindex=" + tipID + "]");
 		tipHidden.css({"height":"100vh","width":"100vw"});
+		tip.css("z-index","3");
+		setTimeout(function() {
+           tip.addClass("tip-down");
+		},200);
     });
 
 	tipHidden.click(function(){
