@@ -15,8 +15,8 @@
 	<link href="https://fonts.loli.net/css?family=Material+Icons" rel="stylesheet">
 
 	<!-- jquery -->
-	<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+	<script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/js/qrcode.min.js"></script>
  <style>
     body {
         background: #eee;
@@ -378,7 +378,7 @@
 									<i class="icon icon-lg">loyalty</i>&nbsp;邀请链接
 								</a>
 							</li>
-							
+
 
 
 
