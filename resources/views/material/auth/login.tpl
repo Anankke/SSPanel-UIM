@@ -244,12 +244,12 @@
 </script>
 
 {if $config['enable_telegram'] == 'true'}
-    <script src=" /assets/public/js/jquery.qrcode.min.js "></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
     <script>
         var telegram_qrcode = 'mod://login/{$login_token}';
-        jQuery('#telegram-qr').qrcode({
-            "text": telegram_qrcode
-        });
+        var qrcode = new QRCode(document.getElementById("telegram-qr"));
+        qrcode.clear();
+        qrcode.makeCode(telegram_qrcode);
     </script>
     <script>
         $(document).ready(function () {

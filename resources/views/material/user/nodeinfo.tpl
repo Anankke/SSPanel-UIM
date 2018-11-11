@@ -312,25 +312,26 @@
 {include file='user/footer.tpl'}
 
 
-<script src="/assets/public/js/jquery.qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
 <script>
 	{if URL::SSCanConnect($user, $mu)}
-	var text_qrcode = '{URL::getItemUrl($ss_item, 1)}';
-	jQuery('#ss-qr').qrcode({
-		"text": text_qrcode
-	});
+    var text_qrcode = '{URL::getItemUrl($ss_item, 1)}',
+        text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';
 
-	var text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';
-	jQuery('#ss-qr-win').qrcode({
-		"text": text_qrcode_win
-	});
+    var qrcode1 = new QRCode(document.getElementById("ss-qr")),
+        qrcode2 = new QRCode(document.getElementById("ss-qr"));
+
+    qrcode1.clear();
+    qrcode1.makeCode(text_qrcode);
+    qrcode2.clear();
+    qrcode2.makeCode(text_qrcode_win);
 	{/if}
 
 	{if URL::SSRCanConnect($user, $mu)}
-	var text_qrcode2 = '{URL::getItemUrl($ssr_item, 0)}';
-	jQuery('#ss-qr-n').qrcode({
-		"text": text_qrcode2
-	});
+    var text_qrcode2 = '{URL::getItemUrl($ssr_item, 0)}';
+    var qrcode3 = new QRCode(document.getElementById("ss-qr-n"));
+    qrcode3.clear();
+    qrcode3.makeCode(text_qrcode2);
 	{/if}
 
 
