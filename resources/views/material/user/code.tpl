@@ -43,7 +43,8 @@
                     </div>
                 </div>
 
-
+		<script src="/assets/js/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
                 {if $pmw!=''}
                     <div class="col-lg-12 col-md-12">
                         <div class="card margin-bottom-no">
@@ -156,8 +157,6 @@
         </section>
     </div>
 </main>
-<script src="/assets/js/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
 <script>
 	$(document).ready(function () {
 		$("#code-update").click(function () {
