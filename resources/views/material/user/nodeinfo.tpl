@@ -257,7 +257,7 @@
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_qrcode">
 											{if URL::SSRCanConnect($user, $mu)}
 												<div class="text-center">
-													<div id="ss-qr-n"></div>
+													<div id="ss-qr-n" class="qr-center"></div>
 												</div>
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
@@ -277,12 +277,12 @@
 												</nav>
 												<div class="tab-pane fade active in" id="ss_qrcode_normal">
 													<div class="text-center">
-														<div id="ss-qr"></div>
+														<div id="ss-qr" class="qr-center"></div>
 													</div>
 												</div>
 												<div class="tab-pane fade" id="ss_qrcode_win">
 													<div class="text-center">
-														<div id="ss-qr-win"></div>
+														<div id="ss-qr-win" class="qr-center"></div>
 													</div>
 												</div>
 											{else}

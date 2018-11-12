@@ -6268,6 +6268,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	font-size: 24px;
 	background: none;
 	font-style: italic;
+	color: #ffa100;
 }
 .shop-content div {
 	margin-bottom: .5em; 
@@ -6748,6 +6749,10 @@ div.nodetitle:first-of-type>div {
 	z-index: 2;
 }
 
+.qr-center img {
+	margin-left:auto;
+	margin-right: auto;
+}
 
 @media screen and (min-width:1440px) {
 	.hidden-lg {
