@@ -252,17 +252,13 @@
 														<div class="card-main">
 																<div class="card-inner">
 													{if $node['mu_only'] != 1}
-													<!-- <div class="card"> -->
-														<!-- <div class="card-main">
-															<div class="card-inner"> -->
+													
 																<p class="card-heading">
 																	<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
 																		{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
 																	<span class="label label-brand-accent">←点击节点查看配置信息</span>
 																</p>
-															<!-- </div>
-														</div> -->
-													<!-- </div> -->
+														
 												    {/if}
 
                                                     {if $node['sort'] == 0 || $node['sort'] == 10}
@@ -286,18 +282,14 @@
 														{$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
 													{/if}
 
-														<!-- <div class="card"> -->
-															<!-- <div class="card-main">
-																<div class="card-inner"> -->
+														
 																	<p class="card-heading">
 																		<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
 																			{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口 Shadowsocks -
 																			{$single_muport['server']->server} 端口</a><span class="label label-brand-accent">←点击节点查看配置信息</span>
 																	</p>
 																	
-																<!-- </div>
-															</div> -->
-														<!-- </div> -->
+												
 
 													{/foreach}
 													{/if}
@@ -307,11 +299,12 @@
 													{if $node['sort'] == 11}
 														{displayV2rayNode node=$node}
 													{/if}
-												{/if}
-											    </div>
-										      </div>
+												</div>
+											  </div>
 
-											</div>
+										    </div>
+											{/if}
+											   
 												{if isset($point_node)}
 												{if $point_node!=null}
 		
