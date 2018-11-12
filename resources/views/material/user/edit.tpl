@@ -550,6 +550,7 @@ $(".copy-text").click(function () {
         qrcode2 = new QRCode(document.getElementById("telegram-qr"));
     qrcode2.clear();
     qrcode2.makeCode(telegram_qrcode);
+	{/if}
 </script>
 
 
