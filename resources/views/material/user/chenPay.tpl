@@ -1,4 +1,3 @@
-
 <style>
     .btn-price {
         margin: 5px;
@@ -16,7 +15,7 @@
     }
 
     #qrcode img {
-        display: initial!important;
+        display: initial !important;
     }
 </style>
 <div class="card-inner">
@@ -190,7 +189,7 @@
                 });
             }
 
-            $('#AliPayReadyToPayClose').unbind('click').click(function () {
+            $('#AliPayReadyToPay').unbind('hide.bs.modal').on('hide.bs.modal', function () {
                 if (CheckPayTimeId) clearTimeout(CheckPayTimeId);
                 if ($id) clearInterval($id);
                 AliPayDelete($order_id);
