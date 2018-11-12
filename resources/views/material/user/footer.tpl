@@ -6,8 +6,9 @@
 
 	<!-- js -->
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0"></script>
+    {if $geetest_html != null}
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
-
+    {/if}
 	<script src="/theme/material/js/base.min.js"></script>
 	<script src="/theme/material/js/project.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/clipboard@1.5.16/dist/clipboard.min.js"></script>
