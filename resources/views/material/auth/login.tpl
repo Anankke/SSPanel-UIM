@@ -244,12 +244,12 @@
 </script>
 
 {if $config['enable_telegram'] == 'true'}
-    <script src=" /assets/public/js/jquery.qrcode.min.js "></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
     <script>
         var telegram_qrcode = 'mod://login/{$login_token}';
-        jQuery('#telegram-qr').qrcode({
-            "text": telegram_qrcode
-        });
+        var qrcode = new QRCode(document.getElementById("telegram-qr"));
+        qrcode.clear();
+        qrcode.makeCode(telegram_qrcode);
     </script>
     <script>
         $(document).ready(function () {
@@ -289,8 +289,8 @@
 
                         } else {
                             if (data.ret == -1) {
-                                jQuery('#telegram-qr').replaceWith('此二维码已经过期，请刷新页面后重试。');
-                                jQuery('#code_number').replaceWith('<code id="code_number">此数字已经过期，请刷新页面后重试。</code>');
+                                $('#telegram-qr').replaceWith('此二维码已经过期，请刷新页面后重试。');
+                                $('#code_number').replaceWith('<code id="code_number">此数字已经过期，请刷新页面后重试。</code>');
                             }
                         }
                     },
