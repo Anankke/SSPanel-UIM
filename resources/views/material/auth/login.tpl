@@ -289,8 +289,8 @@
 
                         } else {
                             if (data.ret == -1) {
-                                jQuery('#telegram-qr').replaceWith('此二维码已经过期，请刷新页面后重试。');
-                                jQuery('#code_number').replaceWith('<code id="code_number">此数字已经过期，请刷新页面后重试。</code>');
+                                $('#telegram-qr').replaceWith('此二维码已经过期，请刷新页面后重试。');
+                                $('#code_number').replaceWith('<code id="code_number">此数字已经过期，请刷新页面后重试。</code>');
                             }
                         }
                     },
