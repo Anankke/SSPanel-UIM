@@ -577,8 +577,7 @@ class URL
         if ($relay_rule != null) {
             $node_name .= " - ".$relay_rule->dist_node()->name;
         }
-        if($mu_port != 0 && !Config::getPublicConfig('mergeSub')) {
-
+        if($mu_port != 0) {
             $mu_user = User::where('port', '=', $mu_port)->where("is_multi_user", "<>", 0)->first();
             if ($mu_user == null) {
                 return;
@@ -586,7 +585,9 @@ class URL
             $mu_user->obfs_param = $user->getMuMd5();
             $mu_user->protocol_param = $user->id.":".$user->passwd;
             $user = $mu_user;
-            $node_name .= " - ".$mu_port." 单端口";
+            if(!Config::get('mergeSub')){
+                $node_name .= " - ".$mu_port." 单端口";
+            }
         }
         if($is_ss) {
             if(!URL::SSCanConnect($user)) {
@@ -609,7 +610,7 @@ class URL
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
         $return_array['group'] = Config::get('appName');
-        if($mu_port != 0 && !Config::getPublicConfig('mergeSub')) {
+        if($mu_port != 0 && !Config::get('mergeSub')) {
             $return_array['group'] .= ' - 单端口';
         }
         return $return_array;
