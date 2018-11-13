@@ -6362,12 +6362,12 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	min-width: unset;
 }
 
-#widget_login .tgme_widget_login.large button.tgme_widget_login_button {
+.tgme_widget_login.large button.tgme_widget_login_button {
     max-width: 80%;
 }
 
 @media screen and (min-width:400px) {
-	#widget_login .tgme_widget_login.large button.tgme_widget_login_button {
+	.tgme_widget_login.large button.tgme_widget_login_button {
 		max-width: 100%;
 	}
 }
