@@ -6362,6 +6362,16 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	min-width: unset;
 }
 
+#widget_login .tgme_widget_login.large button.tgme_widget_login_button {
+    max-width: 80%;
+}
+
+@media screen and (min-width:400px) {
+	#widget_login .tgme_widget_login.large button.tgme_widget_login_button {
+		max-width: 100%;
+	}
+}
+
 @-webkit-keyframes sparkle {
 	from {background-position:0 0;} to {background-position:0 -64px;}
 }
@@ -6571,6 +6581,7 @@ code.form-control {
 
 @media screen and (min-width:480px) {
 	
+		
 }
 
 @media screen and (min-width:768px) {

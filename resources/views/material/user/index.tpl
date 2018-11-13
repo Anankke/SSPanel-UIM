@@ -654,7 +654,7 @@ window.onload = function() {
 
 {if $geetest_html == null}
 
-
+var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">check</span>&nbsp;已签到</a></p>';
 window.onload = function() {
     var myShakeEvent = new Shake({
         threshold: 15
@@ -676,7 +676,7 @@ window.onload = function() {
                 dataType: "json",
                 success: function (data) {
                     $("#checkin-msg").html(data.msg);
-                    $("#checkin-btn").html('<div><span class="icon">check</span>&nbsp;已签到</div>');
+                    $("#checkin-btn").html(checkedmsgGE);
 					$("#result").modal();
                     $("#msg").html(data.msg);
                 },
@@ -697,7 +697,7 @@ $(document).ready(function () {
 			dataType: "json",
 			success: function (data) {
 				$("#checkin-msg").html(data.msg);
-				$("#checkin-btn").html('<div><span class="icon">check</span>&nbsp;已签到</div>');
+				$("#checkin-btn").html(checkedmsgGE);
 				$("#result").modal();
 				$("#msg").html(data.msg);
 			},
@@ -749,7 +749,7 @@ var handlerPopup = function (captchaObj) {
 			},
 			success: function (data) {
 				$("#checkin-msg").html(data.msg);
-				$("#checkin-btn").html('<div><span class="icon">check</span>&nbsp;已签到</div>');
+				$("#checkin-btn").html(checkedmsgGE);
 				$("#result").modal();
 				$("#msg").html(data.msg);
 			},
