@@ -78,30 +78,38 @@
 				<div class="flex-fix4"></div>
 			</div>
 
-
-					<div class="table-responsive shop-table">
-						{$shops->render()}
-						<table class="table ">
-                            <tr>
-                                <th>套餐</th>
-								<th>价格</th>
-								<th>套餐详情</th>
-                              <th>操作</th>
-                                
-                            </tr>
-                            {foreach $shops as $shop}
-                            <tr>
-                                <td>{$shop->name}</td>
-								<td>{$shop->price} 元</td>
-                                <td>{$shop->content()}</td>
-                                <td>
-                                    <a class="btn btn-brand-accent" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
-                                </td>
-                            </tr>
-                            {/foreach}
-                        </table>
-						{$shops->render()}
-					</div>
+            <div class="card shop-table">
+	            <div class="card-main">
+		            <div class="card-inner">
+			            <div class="card-table">
+							<div class="table-responsive table-user">
+								{$shops->render()}
+								<table class="table">
+									<tr>
+										<th>套餐</th>
+										<th>价格</th>
+										<th>套餐详情</th>
+									  <th>操作</th>
+										
+									</tr>
+									{foreach $shops as $shop}
+									<tr>
+										<td>{$shop->name}</td>
+										<td>{$shop->price} 元</td>
+										<td>{$shop->content()}</td>
+										<td>
+											<a class="btn btn-brand-accent" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
+										</td>
+									</tr>
+									{/foreach}
+								</table>
+								{$shops->render()}
+							</div>	
+			            </div>
+		            </div>
+	            </div>
+            </div>
+					
 					
 					
 					<div aria-hidden="true" class="modal modal-va-middle fade" id="coupon_modal" role="dialog" tabindex="-1">
@@ -231,7 +239,7 @@ function buy(id,auto) {
     $("#switch-table").click(function (){
          elShopCard.addClass("node-fade");
 		 setTimeout(function(){
-			elShopTable.css("display","block");
+			elShopTable.css("display","flex");
             elShopCard.css("display","none");
 		},250);	
 		 setTimeout(function(){
@@ -241,7 +249,7 @@ function buy(id,auto) {
 			"cardFade":"node-fade",
 			"cardDisplay":"none",
 			"tableFade":"",
-			"tableDisplay":"block"
+			"tableDisplay":"flex"
 		};
 		defaultUI = JSON.stringify(defaultUI);
 		localStorage.setItem("tempUIshop",defaultUI);
