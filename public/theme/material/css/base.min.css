@@ -6349,12 +6349,12 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 /* geetest */
 
-#embed-captcha .geetest_holder.geetest_wind {
+#embed-captcha .geetest_holder.geetest_wind,#popup-captcha .geetest_holder.geetest_wind {
 	width: 100% !important;
 	min-width: unset;
 }
 
-#embed-captcha .geetest_holder.geetest_wind .geetest_radar_btn {
+#embed-captcha .geetest_holder.geetest_wind .geetest_radar_btn,#popup-captcha .geetest_holder.geetest_wind .geetest_radar_btn {
 	background: white;
 	background-image: unset;
 	box-shadow: 2px 3px 5px #e0e0e0;
@@ -6770,6 +6770,7 @@ div.nodetitle:first-of-type>div {
 .qr-center img {
 	margin-left:auto;
 	margin-right: auto;
+	max-width: 100%;
 }
 
 @media screen and (min-width:1440px) {
