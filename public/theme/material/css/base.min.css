@@ -4282,6 +4282,9 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 	margin: 0 8px;
 	table-layout: fixed
 }
+ table.table-fixed {
+	table-layout: fixed;
+} 
 
 .picker__table td,.picker__table th {
 	border: 0;
@@ -5194,6 +5197,13 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 	border-radius: 0;
 	box-shadow: none;
 	margin-top: 0;
+}
+.table-user .table tr:last-of-type td {
+	border-bottom: 1px solid #dadada;
+}
+.table-user .table>tbody:first-child>tr:first-child th,.table-user .table>thead:first-child>tr:first-child th {
+	border-top: 1px solid #dadada;
+	border-bottom: 1px solid #dadada;
 }
 
 .table-responsive.table-user th,.table.table-user th {
@@ -6246,7 +6256,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	opacity: 1;
 	display: none;
 	/* display:flex;原本的display方式 */
-	/* display:block; */
+	/* display:flex; */
 }
 
 .shop-flex .card {

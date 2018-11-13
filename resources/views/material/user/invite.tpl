@@ -99,29 +99,38 @@
 
 					{/if}
 					<div class="col-lg-12 col-md-12">
-					<div class="table-responsive bgc-fix">
-						{$paybacks->render()}
-						<table class="table table-user">
-							<tr>
-
-                             <!--   <th>ID</th> -->
-                                <th>ID</th>
-								<th>被邀请用户ID</th>
-								<th>获得返利</th>
-                            </tr>
-                            {foreach $paybacks as $payback}
-                            <tr>
-
-                          <!--       <td>#{$payback->id}</td> -->
-                                <td>{$payback->id}</td>
-								<td>{$payback->userid}</td>
-								<td>{$payback->ref_get} 元</td>
-
-                            </tr>
-                            {/foreach}
-                        </table>
-						{$paybacks->render()}
-					</div>
+                        <div class="card">
+	                        <div class="card-main">
+		                        <div class="card-inner">
+			                        <div class="card-table">
+										<div class="table-responsive bgc-fix table-user">
+											{$paybacks->render()}
+											<table class="table">
+												<tr>
+					
+												 <!--   <th>ID</th> -->
+													<th>ID</th>
+													<th>被邀请用户ID</th>
+													<th>获得返利</th>
+												</tr>
+												{foreach $paybacks as $payback}
+												<tr>
+					
+											  <!--       <td>#{$payback->id}</td> -->
+													<td>{$payback->id}</td>
+													<td>{$payback->userid}</td>
+													<td>{$payback->ref_get} 元</td>
+					
+												</tr>
+												{/foreach}
+											</table>
+											{$paybacks->render()}
+										</div>
+			                        </div>
+		                        </div>
+	                        </div>
+                        </div>
+					
 					</div>
 
 					{include file='dialog.tpl'}

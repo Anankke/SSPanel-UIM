@@ -49,7 +49,7 @@
 									</div>
 									<div class="card-table">
 										<div class="table-responsive table-user">
-											<table class="table">
+											<table class="table table-fixed">
 												<tr>
 
 													<th>IP</th>
@@ -79,7 +79,7 @@
 									</div>
 									<div class="card-table">
 										<div class="table-responsive table-user">
-											<table class="table">
+											<table class="table table-fixed">
 												<tr>
 
 													<th>IP</th>
