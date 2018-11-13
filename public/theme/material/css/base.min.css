@@ -6254,6 +6254,9 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	text-align: center;
 	min-height: 380px;
 }
+.shop-flex .card-main {
+	position: relative;
+}
 
 .shop-name,.shop-price {
     padding: .8em 0;
@@ -6271,8 +6274,12 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	color: #ffa100;
 }
 .shop-content div {
-	margin-bottom: .5em; 
+	margin: 0 15px .7em 15px; 
 }
+.shop-content-div:before,.shop-content-div:after {
+	content: " - ";
+}
+
 
 .shop-content {
 	margin-top: 1.5em;
@@ -6288,6 +6295,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	margin-top: 1em;
 	padding: 10px 2em;
 	width: 70%;
+	margin-bottom: 2em;
 }
 
 .flex-fix3,.flex-fix4 {
