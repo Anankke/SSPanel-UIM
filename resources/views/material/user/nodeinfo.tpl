@@ -319,7 +319,8 @@
         text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';
 
     var qrcode1 = new QRCode(document.getElementById("ss-qr")),
-        qrcode2 = new QRCode(document.getElementById("ss-qr"));
+        qrcode2 = new QRCode(document.getElementById("ss-qr-win"));
+	
 
     qrcode1.clear();
     qrcode1.makeCode(text_qrcode);
