@@ -6784,6 +6784,12 @@ div.nodetitle:first-of-type>div {
 	max-width: 100%;
 }
 
+@media screen and (max-width:320px) {
+	.card-heading {
+		font-size: 18px;
+	}
+}
+
 @media screen and (min-width:1440px) {
 	.hidden-lg {
 		display: none!important
