@@ -244,6 +244,7 @@
                         </div>
                     </div>
                     <div class="card-inner">
+                        {if $config['enable_telegram'] == 'true'}
                         <div class="text-center">
                             <p>一键登陆</p>
                         </div>
@@ -254,6 +255,9 @@
                         <div class="text-center">
                             <h2><code id="code_number">{$login_number}</code></h2>
                         </div>
+                        {else}
+                        <div>唉，没开TG机器人啊，这功能没法用</div>
+                        {/if}
                     </div>
                 </div>
                 <div class="tab-pane fade" id="qrcode_login">
@@ -263,6 +267,7 @@
                         </div>
                     </div>
                     <div class="card-inner">
+                        {if $config['enable_telegram'] == 'true'}
                         <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。
                         </p>
                         <div class="form-group form-group-label">
@@ -270,6 +275,9 @@
                                 <div id="telegram-qr"></div>
                             </div>
                         </div>
+                        {else}
+                        <div>唉，没开TG机器人啊，这功能没法用</div>
+                        {/if}
                     </div>
                 </div>
             </div>
