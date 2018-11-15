@@ -1,7 +1,7 @@
 
 {include file='header.tpl'}
 
-<main class="content">
+{* <main class="content">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 col-lg-push-4 col-sm-6 col-sm-push-3">
@@ -200,9 +200,206 @@
 				</div>
 			</div>
 		</div>
-	</main>
+	</main> *}
+
+
+
+	<!-- 新的 -->
+	<div class="authpage auth-reg">
+			<div class="container">
+				<section class="content-inner">
+					<div class="auth-main auth-row">
+						<div class="auth-top auth-row">
+							<div class="backtohome">
+								<a href="/">
+									<div>返回首页</div>
+									<div><i class="icon icon-lg">donut_small</i></div>
+								</a>
+							</div>
+							<a href="/auth/login" class="boardtop-right">
+								<div>登 录</div>
+								<div>Login</div>
+							</a>
+						</div>
+						{if $config['register_mode']!='close'}
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group-label auth-row">
+									<label class="floating-label" for="name">昵称</label>
+									<input class="form-control maxwidth-auth" id="name" type="text">
+								</div>
+							</div>
+						</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group-label auth-row">
+									<label class="floating-label" for="email">邮箱(唯一凭证请认真对待)</label>
+									<input class="form-control maxwidth-auth" id="email" type="text">
+								</div>
+							</div>
+						</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group-label auth-row">
+									<label class="floating-label" for="passwd">密码</label>
+									<input class="form-control maxwidth-auth" id="passwd" type="password">
+								</div>
+							</div>
+						</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="repasswd">重复密码</label>
+									<input class="form-control maxwidth-auth" id="repasswd" type="password">
+								</div>
+							</div>
+						</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="imtype">选择您的联络方式</label>
+									<select class="form-control maxwidth-auth" id="imtype">
+										<option></option>
+										<option value="1">微信</option>
+										<option value="2">QQ</option>
+										<option value="3">Facebook</option>
+										<option value="4">Telegram</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="wechat">在这输入联络方式账号</label>
+									<input class="form-control maxwidth-auth" id="wechat" type="text">
+								</div>
+							</div>
+						</div>
+						{if $config['register_mode'] == 'invite'}
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="code">邀请码(必填)</label>
+									<input class="form-control maxwidth-auth" id="code" type="text">
+								</div>
+							</div>
+						</div>
+						{/if}
+						{if $enable_email_verify == 'true'}
+						<div class="rowtocol">
+							<div class="rowtocol">
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="email_code">邮箱验证码</label>
+									<input class="form-control maxwidth-auth" id="email_code" type="text" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;">
+								</div>
+							</div>
+							<div class="rowtocol">
+								<div class="form-group form-group-label">
+									<button id="email_verify" class="btn-reg btn btn-block btn-brand-accent waves-attach waves-light">获取验证码</button>
+									<a href="" onclick="return false;" data-toggle='modal' data-target='#email_nrcy_modal'
+										class="auth-help-reg">收不到验证码？</a>
+								</div>
+							</div>
+						</div>
+						{/if}
+		
+						{if $geetest_html != null}
+						<div class="rowtocol">
+							<div class="form-group form-group-label">
+								<div id="embed-captcha"></div>
+							</div>
+						</div>
+						{/if}
+						<div class="rowtocol">
+							<div class="btn-auth auth-row">
+								<button id="tos" type="submit" class="btn-reg btn btn-block btn-brand waves-attach waves-light">确认注册</button>
+							</div>
+						</div>
+		
+						{else}
+						<div class="form-group">
+							<p>{$config["appName"]} 已停止新用户注册，请联系网站管理员</p>
+						</div>
+						{/if}
+						<div class="auth-bottom auth-row auth-reg">
+							<div class="tgauth">
+		
+								<p>注册即代表同意<a href="/tos">服务条款</a>，以及保证所录入信息的真实性，如有不实信息会导致账号被删除。</p>
+		
+								<!-- <span>Telegram</span><button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button><span>快捷登录</span> -->
+							</div>
+						</div>
+					</div>
+				</section>
+				<div class="card auth-tg">
+					<div class="card-main">
+		
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div aria-hidden="true" class="modal modal-va-middle fade" id="tos_modal" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-heading">
+						<h2 class="modal-title">注册 TOS</h2>
+					</div>
+					<div class="modal-inner">
+						{include file='reg_tos.tpl'}
+					</div>
+					<div class="modal-footer">
+						<p class="text-right"><button class="btn btn-flat btn-brand-accent waves-attach waves-effect"
+								data-dismiss="modal" type="button" id="cancel">我不同意</button>
+							<button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" id="reg"
+								type="button">我同意</button>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div aria-hidden="true" class="modal modal-va-middle fade" id="email_nrcy_modal" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-heading">
+						<h2 class="modal-title">收不到验证码？</h2>
+					</div>
+					<div class="modal-inner">
+						{include file='email_nrcy.tpl'}
+					</div>
+					<div class="modal-footer">
+						<p class="text-right">
+							<button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">我知道了</button>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<div class="tiphidden"></div>
+
+{include file='dialog.tpl'}
 
 {include file='footer.tpl'}
+
+{literal}
+<script>
+$(document).ready(function(){
+    var tgboard = $('.auth-tg');
+    var tgHidden = $(".tiphidden");
+    $('#calltgauth').click(function(){
+        tgHidden.css({"height":"100vh","width":"100vw"});
+        tgboard.addClass("tg-down");
+    });
+    tgHidden.click(function(){
+        tgHidden.css({"height":"0","width":"0"});
+		tgboard.removeClass("tg-down");
+	});
+});
+</script>
+{/literal}
 
 
 {if $config['register_mode']!='close'}

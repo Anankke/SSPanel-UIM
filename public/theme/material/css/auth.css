@@ -181,7 +181,22 @@ a.boardtop-right {
 	margin-top: 22px;
 }
 
+.auth-help-reg {
+	position: absolute;
+}
 
+.auth-bottom p {
+	color: white;
+	font-size: 13px;
+	padding: 0 50px;
+	text-align: center;
+	position: relative;
+	top: 7px;
+}
+
+.auth-reg.auth-bottom {
+	margin-top: 36px;
+}
 
 @media screen and (min-width:321px) {
 	.auth-main {
@@ -213,6 +228,10 @@ a.boardtop-right {
 	.authpage {
 		margin-top: 120px;
 	}
+	.auth-reg.authpage {
+		margin-top: 80px;
+	}
+	
 }
 
 @media screen and (min-width:992px) {
@@ -222,8 +241,16 @@ a.boardtop-right {
 	.auth-col-one.auth-main {
 		width: 56%;
 	}
+	.auth-reg.auth-bottom {
+		margin-top: 60px;
+	}
 	
 	.rowtocol {
+		flex-basis: 48%;
+		flex-wrap: wrap;
+		display: flex;
+	}
+	.rowtocol .rowtocol {
 		flex-basis: 50%;
 	}
 	
@@ -273,10 +300,21 @@ a.boardtop-right {
 	.auth-help {
 		margin-top: 20px;
 	}
-	#login {
+	.auth-help-reg {
+		left: 18px;
+		width: 200px;
+	}
+	#login,.btn-reg {
 		font-size: 16px;
 		padding: 10px;
 		margin-top: 10px;
+	}
+	#tos {
+		height: 40px;
+		margin-top: 13px;
+	}
+	.btn-reg {
+		margin-top: 0;
 	}
 	 .auth-row.row-login {
 		flex-basis: 40%;
@@ -310,5 +348,7 @@ a.boardtop-right {
 	.auth-col-one.auth-main {
 		width: 38%;
 	}
-	
+	.auth-help-reg {
+		left: 30px;
+	}
 }
