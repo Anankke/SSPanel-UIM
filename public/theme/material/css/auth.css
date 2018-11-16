@@ -157,6 +157,9 @@ a.boardtop-right {
 .auth-help-table {
 	justify-content: space-around;
 }
+.auth-help-table.auth-reset {
+	justify-content: center;
+}
 
 .btn-auth {
 	margin-left: 2em;
@@ -268,7 +271,7 @@ a.boardtop-right {
 	.backtohome a div:first-of-type {
 		padding: 15px 30px;
 	}
-	#login {
+	#login,#reset {
 		flex-basis: 74%;
 	}
 	.auth-col-one.auth-main div#embed-captcha {
@@ -304,7 +307,7 @@ a.boardtop-right {
 		left: 18px;
 		width: 200px;
 	}
-	#login,.btn-reg {
+	#login,#reset,.btn-reg {
 		font-size: 16px;
 		padding: 10px;
 		margin-top: 10px;
@@ -316,7 +319,7 @@ a.boardtop-right {
 	.btn-reg {
 		margin-top: 0;
 	}
-	 .auth-row.row-login {
+	.auth-row.row-login {
 		flex-basis: 40%;
 	}
 	.auth-col-one.auth-main .auth-row.row-login {

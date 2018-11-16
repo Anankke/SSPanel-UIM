@@ -1,49 +1,52 @@
 {include file='header.tpl'}
 
 
-
-<main class="content">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-4 col-lg-push-4 col-sm-6 col-sm-push-3">
-					<section class="content-inner">
-						<div class="card">
-							<div class="card-main">
-								<div class="card-header">
-									<div class="card-inner">
-										<h1 class="card-heading">重置密码</h1>
-									</div>
+			<!-- 新的 -->
+			<div class="authpage">
+				<div class="container">
+					
+						<div class="auth-main auth-row auth-col-one">
+							<div class="auth-top auth-row">
+								<div class="backtohome">
+									<a href="/">
+										<div>返回首页</div>
+										<div><i class="icon icon-lg">donut_small</i></div>
+									</a>
 								</div>
-								<div class="card-inner">
-									<p class="text-center">
-
-									</p>
-									
-										
-										
-										<div class="form-group form-group-label">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="email">邮箱</label>
-													<input class="form-control maxwidth-auth" id="email" type="text">
-												</div>
-											</div>
-										</div>
-										
-										<div class="form-group">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<button id="reset" type="submit" class="btn btn-block btn-brand waves-attach waves-light">重置密码</button>
-													<a href="" onclick="return false;" data-toggle='modal' data-target='#email_nrcy_modal'>收不到验证码？点击这里</a>
-												</div>
-											</div>
-										</div>
-										
-										
-									
+								<a href="/auth/login" class="boardtop-right">
+									<div>登 录</div>
+									<div>Login</div>
+								</a>
+							</div>
+							<div class="auth-row">
+								<div class="form-group-label auth-row row-login">
+									<label class="floating-label" for="email">邮箱</label>
+									<input class="form-control maxwidth-auth" id="email" type="text">
 								</div>
 							</div>
-						</div>				
+							
+							<div class="btn-auth auth-row">
+								<button id="reset" type="submit" class="btn btn-block btn-brand waves-attach waves-light">重置密码</button>
+							</div>
+							<div class="auth-help auth-row">
+								<div class="auth-help-table auth-row auth-reset">
+									<a href="" onclick="return false;" data-toggle='modal' data-target='#email_nrcy_modal'>收不到验证码？点击这里</a>
+								</div>
+							</div>
+							<div class="auth-bottom auth-row auth-reset">
+								<div class="tgauth">
+								<p>请妥善保管好自己的登录密码</p>	
+								</div>
+							</div>
+						</div>
+				
+					<div class="card auth-tg">
+						<div class="card-main">
+							
+						</div>
+					</div>
+				</div>
+			</div>
 										
 								
 						{include file='dialog.tpl'}
@@ -66,11 +69,7 @@
 							</div>
 						</div>
 						
-					</section>
-				</div>
-			</div>
-		</div>
-	</main>
+					
 	
 {include file='footer.tpl'}
 

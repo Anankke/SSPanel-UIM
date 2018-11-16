@@ -21,7 +21,7 @@
 .divcss5{ position:fixed; bottom:0;}
 </style>
 <body class="page-brand">
-	<header class="header header-transparent header-waterfall ui-header">
+	{* <header class="header header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
 			<li>
 				<a data-toggle="menu" href="#ui_menu">
@@ -92,6 +92,6 @@
 				</ul>
 			</div>
 		</div>
-	</nav>
+	</nav> *}
 
 {if $config["enable_crisp"] == 'true'}{include file='crisp.tpl'}{/if}

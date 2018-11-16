@@ -339,7 +339,7 @@
 														</div>
 													</div>
 													<div class="tab-pane fade" id="all_v2ray_windows">
-														<a href="/ssr-download/clashX.7z" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 ClashX</a>
+														<a href="/ssr-download/Clash-Windows.7z" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 ClashX</a>
 													</div>
 												</div>
 											</div>
