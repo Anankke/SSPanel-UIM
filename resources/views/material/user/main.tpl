@@ -348,7 +348,7 @@
     display:block;
     content:"";
     width:calc(100% - 42px);
-    height:18px;
+    height:20px;
     top:10px;
     left:20px;
     border-radius:20px;

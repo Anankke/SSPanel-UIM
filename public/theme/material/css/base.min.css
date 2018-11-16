@@ -6386,10 +6386,6 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	from {background-position:0 0;} to {background-position:0 -64px;}
 }
 
-.progressbar,.progressbar:after,.progressbar:before,.progressbar * {
-	box-sizing: content-box;
-}
-
 .cust-link.form-control {
 	color: #ff0022;
 	cursor: unset;

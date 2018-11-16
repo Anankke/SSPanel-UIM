@@ -503,21 +503,21 @@
 
 										<div class="progressbar">
 	                                         <div class="before"></div>
-	                                         <div class="bar tuse color3" style="width:calc({($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}% - 44px);"><span></span></div>
+	                                         <div class="bar tuse color3" style="width:calc({($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}% - 46px);"><span></span></div>
 											 <div class="label-flex">
 												<div class="label la-top"><div class="bar ard color3"><span></span></div>今日已用 <code>{$user->TodayusedTraffic()}</code></div>
 											 </div>
 										</div>
 										<div class="progressbar">
 										    <div class="before"></div>
-										    <div class="bar ard color2" style="width:calc({$user->last_day_t/$user->transfer_enable*100}% - 44px);"><span></span></div>
+										    <div class="bar ard color2" style="width:calc({$user->last_day_t/$user->transfer_enable*100}% - 46px);"><span></span></div>
 										    <div class="label-flex">
 										       <div class="label la-top"><div class="bar ard color2"><span></span></div>过去已用 <code>{$user->LastusedTraffic()}</code></div>
 										    </div>
 								        </div>
 										<div class="progressbar">
 											<div class="before"></div>
-											<div class="bar remain color" style="width:calc({($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}% - 44px);"><span></span></div>
+											<div class="bar remain color" style="width:calc({($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}% - 46px);"><span></span></div>
 											<div class="label-flex">
 											   <div class="label la-top"><div class="bar ard color"><span></span></div>剩余流量 <code>{$user->unusedTraffic()}</code></div>
 											</div>
