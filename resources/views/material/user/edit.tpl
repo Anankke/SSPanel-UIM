@@ -206,13 +206,18 @@
 												<button class="btn btn-flat waves-attach" id="theme-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
 										<p>当前主题：{$user->theme}</p>
-										<div class="form-group form-group-label">
+										<div class="form-group form-group-label dropdown">
 											<label class="floating-label" for="theme">主题</label>
-											<select id="theme" class="form-control maxwidth-edit">
-												{foreach $themes as $theme}
+											<button id="theme" type="button" val="" class="form-control maxwidth-edit" data-toggle="dropdown">
+												{* {foreach $themes as $theme}
 													<option value="{$theme}">{$theme}</option>
-												{/foreach}
-											</select>
+												{/foreach} *}
+											</button>
+											<ul class="dropdown-menu" aria-labelledby="mail">
+													{foreach $themes as $theme}
+													<li><a href="#" class="dropdown-option" onclick="return false;" val="{$theme}" data="theme">{$theme}</a> </li>
+													{/foreach}
+												</ul>
 										</div>
 								</div>
 							</div>
@@ -250,12 +255,16 @@
 										</div>
 										<p class="card-heading"></p>
 										<p>当前设置：<code id="ajax-mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}</code></p>
-										<div class="form-group form-group-label">
+										<div class="form-group form-group-label dropdown">
 											<label class="floating-label" for="mail">发送设置</label>
-											<select id="mail" class="form-control maxwidth-edit">
-												<option value="1">发送</option>
-												<option value="0">不发送</option>
-											</select>
+											<button type="button" id="mail" val="" class="form-control maxwidth-edit" data-toggle="dropdown">
+												{* <option value="1">发送</option>
+												<option value="0">不发送</option> *}
+											</button>
+											<ul class="dropdown-menu" aria-labelledby="mail">
+												<li><a href="#" class="dropdown-option" onclick="return false;" val="1" data="mail">发送</a> </li>
+												<li><a href="#" class="dropdown-option" onclick="return false;" val="0" data="mail">不发送</a></li>
+											</ul>
 										</div>
 									</div>
 								</div>
@@ -275,12 +284,16 @@
 										<p>在没有测试完成绑定成功之前请不要启用。</p>
 										<p>当前设置：{if $user->ga_enable==1} 登录时要求验证 {else} 不要求 {/if}</p>
 										<p>当前服务器时间：{date("Y-m-d H:i:s")}</p>
-										<div class="form-group form-group-label">
+										<div class="form-group form-group-label dropdown">
 											<label class="floating-label" for="ga-enable">验证设置</label>
-											<select id="ga-enable" class="form-control maxwidth-edit">
-												<option value="0">不要求</option>
-												<option value="1">要求验证</option>
-											</select>
+											<button type="button" id="ga-enable" val="" class="form-control maxwidth-edit" data-toggle="dropdown">
+												{* <option value="0">不要求</option>
+												<option value="1">要求验证</option> *}
+											</button>
+											<ul class="dropdown-menu" aria-labelledby="ga-enable">
+													<li><a href="#" class="dropdown-option" onclick="return false;" val="0" data="ga-enable">不要求</a> </li>
+													<li><a href="#" class="dropdown-option" onclick="return false;" val="1" data="ga-enable">要求验证</a></li>
+												</ul>
 										</div>
 
 
@@ -415,6 +428,16 @@
 
 <script>
 $(function(){
+    $('.dropdown-option').click(function(){
+        var dropdownID = $(this).attr('data');
+		$('#' + dropdownID).text($(this).text());
+		$('#' + dropdownID).attr('val',$(this).attr('val'));
+	}); 
+});
+</script>
+
+<script>
+$(function(){
 	new Clipboard('.copy-text');
 });
 
@@ -422,6 +445,8 @@ $(".copy-text").click(function () {
 	$("#result").modal();
 	$("#msg").html("已复制到您的剪贴板。");
 });
+
+
 </script>
 
 <script>
@@ -713,7 +738,7 @@ $(".copy-text").click(function () {
                 url: "gaset",
                 dataType: "json",
                 data: {
-                    enable: $("#ga-enable").val()
+                    enable: $("#ga-enable").attr('val')
                 },
                 success: function (data) {
                     if (data.ret) {
@@ -767,17 +792,18 @@ $(".copy-text").click(function () {
 <script>
     $(document).ready(function () {
         $("#mail-update").click(function () {
+			console.log($("#mail").attr('val'));
             $.ajax({
                 type: "POST",
                 url: "mail",
                 dataType: "json",
                 data: {
-                    mail: $("#mail").val()
+                    mail: $("#mail").attr('val')
                 },
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
-						$("#ajax-mail").html($("#mail").val()=="1"?"发送":"不发送");
+						$("#ajax-mail").html($("#mail").attr('val')=="1"?"发送":"不发送");
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();
@@ -801,7 +827,7 @@ $(".copy-text").click(function () {
                 url: "theme",
                 dataType: "json",
                 data: {
-                    theme: $("#theme").val()
+                    theme: $("#theme").sttr('val')
                 },
                 success: function (data) {
                     if (data.ret) {
