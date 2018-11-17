@@ -361,41 +361,7 @@
 		.copy-text {
 			cursor: pointer;
 		}
-		button[data-toggle=dropdown] {
-			text-align: left;
-		}
-		.form-group-label.control-highlight-custom .floating-label {
-			-webkit-transform: scale(.85714,.85714) translateY(-30px);
-	        transform: scale(.85714,.85714) translateY(-30px)
-		}
 		
-		.control-highlight-custom.dropdown {
-			z-index: unset;
-		}
-		.dropdown.open .dropdown-menu {
-			z-index: 2;
-		}
-		ul.dropdown-menu {
-			top: 110%;
-			border-radius: 5px;
-		}
-		.dropdown-menu .a, .dropdown-menu a {
-			text-decoration: none;
-			padding: 7px 10px;
-			font-size: 14px;
-			text-overflow: unset;
-			white-space: normal;
-			transition: .3s all;
-		}
-		.dropdown-menu a:hover {
-			transition: .3s all;
-		}
-		.form-control, .picker__select--month, .picker__select--year {
-			height: unset;
-		}
-		.dropdown-menu.dropdown-menu-right {
-			min-width: 120px;
-		}
 
 	</style>
 

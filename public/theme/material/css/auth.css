@@ -332,10 +332,7 @@ a.boardtop-right {
 		font-size: 15px;
 		top: 13px;
 	}
-	.auth-main .form-group-label.control-focus .floating-label,.auth-main .form-group-label.control-highlight .floating-label {
-		-webkit-transform: scale(.85714,.85714) translateY(-34px);
-	    transform: scale(.85714,.85714) translateY(-34px)
-	}
+	
 	.auth-main .form-group-label {
 		margin-top: 46px;
 	}

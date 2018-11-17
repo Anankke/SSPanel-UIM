@@ -132,11 +132,10 @@
 												<option value="4">Telegram</option> *}
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="imtype">
-												<li><a href="#" class="dropdown-option" onclick="return false;" val="其他" data="imtype">其他</a></li>
-                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="微信" data="imtype">微信</a></li>
-                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="QQ" data="imtype">QQ</a></li>
-                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="Google+" data="imtype">Google+</a></li>
-                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="Telegram" data="imtype">Telegram</a></li>
+                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="1" data="imtype">微信</a></li>
+                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="2" data="imtype">QQ</a></li>
+                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="3" data="imtype">Facebook</a></li>
+                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="4" data="imtype">Telegram</a></li>
 											</ul>
 										</div>
 
@@ -453,6 +452,10 @@ $(function(){
 		dropdownvalarr[i].append(dropdownval);
 	}
 
+	$('button[data-toggle=dropdown]').click(function(){
+        $(this).parent().addClass('control-highlight-custom');
+	});
+
     $('.dropdown-option').click(function(){
         var dropdownID = $(this).attr('data');
 		$('#' + dropdownID).text($(this).text());
@@ -460,6 +463,9 @@ $(function(){
 		console.log($('#' + dropdownID).val());
 		// $('#' + dropdownID).attr('val',$(this).attr('val'));
 	}); 
+
+	// var dropdownoffset = $('.dropdown.open').offset().top;
+	// console.log(dropdownoffset);
 });
 </script>
 

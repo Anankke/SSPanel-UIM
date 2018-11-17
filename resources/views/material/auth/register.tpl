@@ -256,15 +256,17 @@
 						</div>
 						<div class="rowtocol">
 							<div class="auth-row">
-								<div class="form-group form-group-label">
+								<div class="form-group form-group-label dropdown">
 									<label class="floating-label" for="imtype">选择您的联络方式</label>
-									<select class="form-control maxwidth-auth" id="imtype">
-										<option></option>
-										<option value="1">微信</option>
-										<option value="2">QQ</option>
-										<option value="3">Facebook</option>
-										<option value="4">Telegram</option>
-									</select>
+									<button class="form-control maxwidth-auth" id="imtype" data-toggle="dropdown">
+										
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="imtype">
+										<li><a href="#" class="dropdown-option" onclick="return false;" val="1" data="imtype">微信</a></li>
+										<li><a href="#" class="dropdown-option" onclick="return false;" val="2" data="imtype">QQ</a></li>
+										<li><a href="#" class="dropdown-option" onclick="return false;" val="3" data="imtype">Facebook</a></li>
+										<li><a href="#" class="dropdown-option" onclick="return false;" val="4" data="imtype">Telegram</a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -385,6 +387,32 @@
 {include file='footer.tpl'}
 
 {literal}
+<script>
+		$(function(){
+			var dropdownvalarr = $("button[data-toggle=dropdown]");
+			for (var i=0;i<dropdownvalarr.length;i++) {
+				var dropdownval = $("code[data-default=" + dropdownvalarr[i].id + "]").text();
+				dropdownvalarr[i].append(dropdownval);
+			}
+
+			$('button[data-toggle=dropdown]').click(function(){
+                $(this).parent().addClass('control-highlight-custom');
+			});
+	
+			$('.dropdown-option').click(function(){
+				var dropdownID = $(this).attr('data');
+				$('#' + dropdownID).text($(this).text());
+				$('#' + dropdownID).val($(this).attr('val'));
+				
+				console.log($('#' + dropdownID).val());
+				// $('#' + dropdownID).attr('val',$(this).attr('val'));
+			}); 
+		
+			// var dropdownoffset = $('.dropdown.open').offset().top;
+			// console.log(dropdownoffset);
+		});
+		</script>
+
 <script>
 $(document).ready(function(){
     var tgboard = $('.auth-tg');
