@@ -2214,7 +2214,7 @@ img {
 }
 
 .btn:after,.card,.fbtn-text {
-	border-radius: 20px
+	border-radius: 10px;
 }
 
 .fbtn,.picker {
