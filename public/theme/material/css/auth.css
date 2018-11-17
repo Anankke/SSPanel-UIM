@@ -34,7 +34,7 @@
 	position: fixed;
 	margin-left: auto;
 	margin-right: auto;
-	top: -90vh;
+	top: -800px;
 	left: 0;
 	right: 0;
 	z-index: 10;
@@ -105,8 +105,12 @@ a.boardtop-right {
 	text-align: center;
 	box-shadow: -1px 1px 5px 1px #969696;
 	text-decoration: none;
+	transition: .4s all;
 }
-
+a.boardtop-right:hover {
+	padding: 1.2em 2.2em;
+	transition: .4s all;
+}
 
 .backtohome a {
 	color: white;
@@ -195,6 +199,14 @@ a.boardtop-right {
 	text-align: center;
 	position: relative;
 	top: 7px;
+}
+.auth-bottom .btn:hover {
+	border-radius: 5px;
+	transition: .4s all;
+}
+.auth-i-rotate {
+	transition: 1s all;
+	transform: rotate(1080deg);
 }
 
 .auth-reg.auth-bottom {
