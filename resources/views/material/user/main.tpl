@@ -361,6 +361,20 @@
 		.copy-text {
 			cursor: pointer;
 		}
+		button[data-toggle=dropdown] {
+			text-align: left;
+		}
+		.form-group-label.control-highlight-custom .floating-label {
+			-webkit-transform: scale(.85714,.85714) translateY(-30px);
+	        transform: scale(.85714,.85714) translateY(-30px)
+		}
+		
+		.control-highlight-custom.dropdown {
+			z-index: unset;
+		}
+		.dropdown.open .dropdown-menu {
+			z-index: 2;
+		}
 
 	</style>
 
