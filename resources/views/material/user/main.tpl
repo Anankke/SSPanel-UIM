@@ -375,6 +375,24 @@
 		.dropdown.open .dropdown-menu {
 			z-index: 2;
 		}
+		ul.dropdown-menu {
+			top: 110%;
+			border-radius: 5px;
+		}
+		.dropdown-menu .a, .dropdown-menu a {
+			text-decoration: none;
+			padding: 7px 10px;
+			font-size: 14px;
+			text-overflow: unset;
+			white-space: normal;
+			transition: .3s all;
+		}
+		.dropdown-menu a:hover {
+			transition: .3s all;
+		}
+		.form-control, .picker__select--month, .picker__select--year {
+			height: unset;
+		}
 
 	</style>
 

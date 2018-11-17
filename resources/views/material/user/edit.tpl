@@ -132,7 +132,7 @@
 												<option value="4">Telegram</option> *}
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="imtype">
-												<li><a href="#" class="dropdown-option" onclick="return false;" val="" data="imtype"></a></li>
+												<li><a href="#" class="dropdown-option" onclick="return false;" val="其他" data="imtype">其他</a></li>
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="微信" data="imtype">微信</a></li>
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="QQ" data="imtype">QQ</a></li>
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="Google+" data="imtype">Google+</a></li>
