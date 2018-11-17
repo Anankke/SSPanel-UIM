@@ -446,31 +446,6 @@
 
 <script>
 $(function(){
-	var dropdownvalarr = $("button[data-toggle=dropdown]");
-	for (var i=0;i<dropdownvalarr.length;i++) {
-		var dropdownval = $("code[data-default=" + dropdownvalarr[i].id + "]").text();
-		dropdownvalarr[i].append(dropdownval);
-	}
-
-	$('button[data-toggle=dropdown]').click(function(){
-        $(this).parent().addClass('control-highlight-custom');
-	});
-
-    $('.dropdown-option').click(function(){
-        var dropdownID = $(this).attr('data');
-		$('#' + dropdownID).text($(this).text());
-		$('#' + dropdownID).val($(this).attr('val'));
-		console.log($('#' + dropdownID).val());
-		// $('#' + dropdownID).attr('val',$(this).attr('val'));
-	}); 
-
-	// var dropdownoffset = $('.dropdown.open').offset().top;
-	// console.log(dropdownoffset);
-});
-</script>
-
-<script>
-$(function(){
 	new Clipboard('.copy-text');
 });
 
