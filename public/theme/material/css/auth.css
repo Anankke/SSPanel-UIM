@@ -207,6 +207,7 @@ a.boardtop-right:hover {
 .auth-i-rotate {
 	transition: 1s all;
 	transform: rotate(1080deg);
+	transform-origin: 50% 50%;
 }
 
 .auth-reg.auth-bottom {
@@ -280,6 +281,9 @@ a.boardtop-right:hover {
 	}
 	a.boardtop-right {
 		padding: 1.4em 2em;
+	}
+	a.boardtop-right:hover {
+		padding: 1.4em 2.5em;
 	}
 	.backtohome a div:first-of-type {
 		padding: 15px 30px;
