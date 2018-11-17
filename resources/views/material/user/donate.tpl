@@ -49,7 +49,7 @@
 										<p>当前设置：<code data-default="hide">{if $user->is_hide==1} 匿名 {else} 不匿名 {/if}</code></p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="hide">匿名设置</label>
-											<button id="hide" class="form-control maxwidth-edit" data-toggle="dropdown">
+											<button id="hide" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->is_hide}">
 												
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="hide">

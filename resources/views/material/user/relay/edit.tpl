@@ -23,7 +23,7 @@
 								<div class="card-inner">
 									<div class="form-group form-group-label control-highlight-custom dropdown">
 										<label class="floating-label" for="source_node">起源节点</label>
-										<button id="source_node" class="form-control maxwidth-edit" name="source_node" data-toggle="dropdown">
+										<button id="source_node" class="form-control maxwidth-edit" name="source_node" data-toggle="dropdown" value="{$rule->source_node_id}">
 											{foreach $source_nodes as $source_node}
 											{if $rule->source_node_id == $source_node->id}{$source_node->name}{/if}
 											{/foreach}
@@ -38,7 +38,7 @@
 
 									<div class="form-group form-group-label control-highlight-custom dropdown">
 										<label class="floating-label" for="dist_node">目标节点</label>
-										<button id="dist_node" class="form-control maxwidth-edit" name="dist_node" data-toggle="dropdown">
+										<button id="dist_node" class="form-control maxwidth-edit" name="dist_node" data-toggle="dropdown" value="{$rule->dist_node_id}">
 											{foreach $dist_nodes as $dist_node}
 												{if $rule->dist_node_id == $dist_node->id}{$dist_node->name}{/if}
 											{/foreach}	
@@ -53,7 +53,7 @@
 
 									<div class="form-group form-group-label control-highlight-custom dropdown">
 										<label class="floating-label" for="port">端口</label>
-										<button id="port" class="form-control maxwidth-edit" name="port" data-toggle="dropdown">
+										<button id="port" class="form-control maxwidth-edit" name="port" data-toggle="dropdown" value="{$rule->port}">
 											{foreach $ports as $port}
 											{if $rule->port == $port}{$rule->port}{/if}
 											{/foreach}

@@ -78,9 +78,8 @@
 										<p>当前加密方式：<code id="ajax-user-method" data-default="method">{$user->method}</code></p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="method">加密方式</label>
-											<button id="method" class="form-control maxwidth-edit" data-toggle="dropdown">
+											<button id="method" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->method}">
 												[{if URL::CanMethodConnect($method) == 2}SS/SSD{else}SS/SSR{/if} 可连接]
-												{* <option value="{$method}" {if $user->method == $method}selected="selected"{/if}>[{if URL::CanMethodConnect($method) == 2}SS/SSD{else}SS/SSR{/if} 可连接] {$method}</option> *}
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="method">
 												{$method_list = $config_service->getSupportParam('method')}
@@ -124,7 +123,7 @@
 										</p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="imtype">选择您的联络方式</label>
-											<button class="form-control maxwidth-edit" id="imtype" data-toggle="dropdown">
+											<button class="form-control maxwidth-edit" id="imtype" data-toggle="dropdown" value="{$user->im_type}">
 												{* <option></option>
 												<option value="1">微信</option>
 												<option value="2">QQ</option>
@@ -163,9 +162,8 @@
 										<p>注意3：auth_chain 系为实验性协议，可能造成不稳定或无法使用，开启前请询问是否支持</p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="protocol">协议</label>
-											<button id="protocol" class="form-control maxwidth-edit" data-toggle="dropdown">
+											<button id="protocol" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->protocol}">
 												[{if URL::CanProtocolConnect($protocol) == 3}SS/SSD/SSR{else}SSR{/if} 可连接]
-													{* <option value="{$protocol}" {if $user->protocol == $protocol}selected="selected"{/if}>[{if URL::CanProtocolConnect($protocol) == 3}SS/SSD/SSR{else}SSR{/if} 可连接] {$protocol}</option> *}
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="protocol">
 												{$protocol_list = $config_service->getSupportParam('protocol')}
@@ -184,9 +182,8 @@
 										<p>注意3：如果使用 SS/SSD 作为客户端，请确保自己知道如何下载并使用混淆插件</p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="obfs">混淆方式</label>
-											<button id="obfs" class="form-control maxwidth-edit" data-toggle="dropdown">
+											<button id="obfs" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->obfs}">
 												[{if URL::CanObfsConnect($obfs) >= 3}SS/SSD/SSR{else}{if URL::CanObfsConnect($obfs) == 1}SSR{else}SS/SSD{/if}{/if} 可连接]
-												{* <option value="{$obfs}" {if $user->obfs == $obfs}selected="selected"{/if}>[{if URL::CanObfsConnect($obfs) >= 3}SS/SSD/SSR{else}{if URL::CanObfsConnect($obfs) == 1}SSR{else}SS/SSD{/if}{/if} 可连接] {$obfs}</option> *}
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="obfs">
 											{$obfs_list = $config_service->getSupportParam('obfs')}
@@ -226,10 +223,8 @@
 										<p>当前主题：<code data-default="theme">{$user->theme}</code></p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="theme">主题</label>
-											<button id="theme" type="button" class="form-control maxwidth-edit" data-toggle="dropdown">
-												{* {foreach $themes as $theme}
-													<option value="{$theme}">{$theme}</option>
-												{/foreach} *}
+											<button id="theme" type="button" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->theme}">
+												
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="mail">
 												{foreach $themes as $theme}
@@ -275,9 +270,8 @@
 										<p>当前设置：<code id="ajax-mail" data-default="mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}</code></p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="mail">发送设置</label>
-											<button type="button" id="mail" class="form-control maxwidth-edit" data-toggle="dropdown">
-												{* <option value="1">发送</option>
-												<option value="0">不发送</option> *}
+											<button type="button" id="mail" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->sendDailyMail}">
+												
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="mail">
 												<li><a href="#" class="dropdown-option" onclick="return false;" val="1" data="mail">发送</a> </li>
@@ -304,7 +298,7 @@
 										<p>当前服务器时间：{date("Y-m-d H:i:s")}</p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="ga-enable">验证设置</label>
-											<button type="button" id="ga-enable" class="form-control maxwidth-edit" data-toggle="dropdown">
+											<button type="button" id="ga-enable" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->ga_enable}">
 												{* <option value="0">不要求</option>
 												<option value="1">要求验证</option> *}
 											</button>

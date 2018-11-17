@@ -284,10 +284,10 @@ ul.dropdown-menu {
     transition: .3s all;
 }
 .form-control, .picker__select--month, .picker__select--year {
-    height: unset;
+    min-height: 36px;
 }
 .dropdown-menu.dropdown-menu-right {
-    min-width: 120px;
+    min-width: 130px;
 }
 
 @media only screen and (min-width:768px) {
