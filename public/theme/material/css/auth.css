@@ -46,7 +46,7 @@
 	transition-duration: .7s;
 }
 .tg-down {
-	top: 65px;
+	top: 2em;
 }
 .tip-fade {
 	opacity: 0;
@@ -78,7 +78,9 @@
 .tgauth span:last-of-type {
 	margin-right: 0;
 	margin-left: 6px;
-	
+}
+.tgauth p {
+	margin: 6px 0 12px;
 }
 
 .auth-bottom .btn {
@@ -214,6 +216,10 @@ a.boardtop-right:hover {
 	margin-top: 36px;
 }
 
+#telegram-qr img {
+	max-width: 200px;
+}
+
 @media screen and (min-width:321px) {
 	.auth-main {
 		width: 300px;
@@ -311,7 +317,8 @@ a.boardtop-right:hover {
 		padding: 10px;
 	}
 	.auth-bottom .btn i {
-		font-size: 35px;
+		font-size: 30px;
+		top: 1px;
 	}
 	.tgauth span {
 		font-size: 15px;
