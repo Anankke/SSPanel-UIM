@@ -86,7 +86,7 @@
                                     <div class="nodetype">{$node['status']}</div>
                                 </div>
                                 <div class="nodeinfo node-flex">
-                                    <div class="nodetraffic node-flex"><i class="material-icons node-icon">equalizer</i><span>{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}GB{else}N/A{/if}</span></div>
+                                    <div class="nodetraffic node-flex"><i class="material-icons node-icon">equalizer</i><span>{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}GB{else}{$node['traffic_used']}GB{/if}</span></div>
                                     <div class="nodecheck node-flex">
                                         <i class="material-icons node-icon">network_check</i><span>x{$node['traffic_rate']}</span>
                                     </div>
@@ -218,7 +218,7 @@
 														{if $node['traffic_limit']>0}
 															<span class="node-band">{$node['traffic_used']}/{$node['traffic_limit']}</span>
 														{else}
-															N/A
+															{$node['traffic_used']}GB
 														{/if}
 														| <span class="node-icon"><i class="icon icon-lg">network_check</i></span>
 														<span class="node-tr">{$node['traffic_rate']} 倍率</span> 
