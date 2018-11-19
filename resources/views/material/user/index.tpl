@@ -15,7 +15,126 @@
 		<div class="container">
 			<section class="content-inner margin-top-no">
 				<div class="ui-card-wrap">
-
+		
+						<div class="col-xx-12 col-xs-6 col-lg-3">
+								<div class="card user-info">
+									<div class="user-info-main">
+										<div class="nodemain">
+											<div class="nodehead node-flex">
+												<div class="nodename">帐号等级</div>
+												<a href="/user/shop" class="card-tag tag-orange">升级</a>
+											</div>
+											<div class="nodemiddle node-flex">
+												<div class="nodetype">
+													{if $user->class!=0}
+													<dd>VIP{$user->class}</dd>
+													{else}
+													<dd>免费</dd>
+													{/if}
+												</div>
+											</div>
+										</div>
+										<div class="nodestatus">
+											<div class="infocolor-red">
+												<i class="icon icon-md t4-text">stars</i>
+											</div>
+										</div>
+									</div>
+									<div class="user-info-bottom">
+										<div class="nodeinfo node-flex">
+											<span><i class="icon icon-md">add_circle</i>到期流量清空</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xx-12 col-xs-6 col-lg-3">
+								<div class="card user-info">
+									<div class="user-info-main">
+										<div class="nodemain">
+											<div class="nodehead node-flex">
+												<div class="nodename">余额</div>
+												<a href="/user/code" class="card-tag tag-green">充值</a>
+											</div>
+											<div class="nodemiddle node-flex">
+												<div class="nodetype">
+													{$user->money} CNY
+												</div>
+											</div>
+										</div>
+										<div class="nodestatus">
+											<div class="infocolor-green">
+												<i class="icon icon-md">account_balance_wallet</i>
+											</div>
+										</div>
+									</div>
+									<div class="user-info-bottom">
+										<div class="nodeinfo node-flex">
+											<span href="/user/shop"><i class="icon icon-md">attach_money</i>账户内可用余额</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xx-12 col-xs-6 col-lg-3">
+								<div class="card user-info">
+									<div class="user-info-main">
+										<div class="nodemain">
+											<div class="nodehead node-flex">
+												<div class="nodename">在线设备数</div>
+											</div>
+											<div class="nodemiddle node-flex">
+												<div class="nodetype">
+													{if $user->node_connector!=0}
+													<dd>{$user->online_ip_count()} / {$user->node_connector}</dd>
+													{else}
+													<dd>{$user->online_ip_count()} / 不限制 </dd>
+													{/if}
+												</div>
+											</div>
+										</div>
+										<div class="nodestatus">
+											<div class="infocolor-yellow">
+												<i class="icon icon-md">phonelink</i>
+											</div>
+										</div>
+									</div>
+									<div class="user-info-bottom">
+										<div class="nodeinfo node-flex">
+											<span><i class="icon icon-md">donut_large</i>在线设备/设备限制数</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xx-12 col-xs-6 col-lg-3">
+								<div class="card user-info">
+									<div class="user-info-main">
+										<div class="nodemain">
+											<div class="nodehead node-flex">
+												<div class="nodename">端口速率</div>
+											</div>
+											<div class="nodemiddle node-flex">
+												<div class="nodetype">
+													{if $user->node_speedlimit!=0}
+													<dd><code>{$user->node_speedlimit}</code>Mbps</dd>
+													{else}
+													<dd>无限制</dd>
+													{/if}
+												</div>
+											</div>
+										</div>
+										<div class="nodestatus">
+											<div class="infocolor-blue">
+												<i class="icon icon-md">settings_input_component</i>
+											</div>
+										</div>
+									</div>
+									<div class="user-info-bottom">
+										<div class="nodeinfo node-flex">
+											<span><i class="icon icon-md">signal_cellular_alt</i>账户最高下行网速</span>
+										</div>
+									</div>
+								</div>
+							</div>
+			
 						<div class="col-xx-12 col-sm-8">
 
 							<div class="card">
@@ -123,12 +242,12 @@
                                                       		<p><span class="icon icon-lg text-white">filter_4</span> 菜单栏的纸飞机图标-服务器-服务器订阅填入以下订阅地址，更新后出现您的节点</p>
                                                     			<p><span class="icon icon-lg text-white">filter_5</span> 菜单栏的纸飞机图标-打开shadowsocks</p>
 
-																													<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
-																													<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
-																													{if !$mergeSub}
-																													<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
-																													<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击复制</button><br></div>
-																													{/if}
+															<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
+															<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
+															{if !$mergeSub}
+															<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
+															<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8" name="input1" readonly value="{$baseUrl}/link/{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3" type="button" data-clipboard-text="{$baseUrl}/link/{$ssr_sub_token}?mu=1">点击复制</button><br></div>
+															{/if}
                                                       <p><a href="/user/announcement">点击这里查看Mac傻瓜式教程</a></p>
 													</div>
                                                   <div class="tab-pane fade" id="all_ssr_linux">
@@ -359,18 +478,12 @@
 									<div class="card-inner margin-bottom-no">
 										<p class="card-heading"><i class="icon icon-md">account_circle</i>账号使用情况</p>
 										<dl class="dl-horizontal">
-											<p><dt>帐号等级</dt>
-                                              {if $user->class!=0}
-											<dd><i class="icon icon-md t4-text">stars</i>&nbsp;<code>VIP{$user->class}</code></dd>
-                                          {else}
-                                              <dd><i class="icon icon-md t4-text">stars</i>&nbsp;免费</dd>
-                                              {/if}
-                                          </p>
+											
 
 											<p><dt>等级过期时间</dt>
                                               {if $user->class_expire!="1989-06-04 00:05:00"}
 											<dd><i class="icon icon-md">event</i>&nbsp;{$user->class_expire}</dd>
-                                          {else}
+                                              {else}
                                               <dd><i class="icon icon-md">event</i>&nbsp;不过期</dd>
                                               {/if}
 											</p>
@@ -390,29 +503,14 @@
 											  <code><span id="days-account-expire"></span></code>
 											  <span class="label-account-expire">天</span>
                                            </p>
-
-											<p><dt>速度限制</dt>
-											{if $user->node_speedlimit!=0}
-											<dd><i class="icon icon-md">settings_input_component</i>&nbsp;<code>{$user->node_speedlimit}</code>Mbps</dd>
-											{else}
-											<dd><i class="icon icon-md">settings_input_component</i>&nbsp;不限速</dd>
-											{/if}</p>
-                                           <p><dt>在线设备数</dt>
-										    {if $user->node_connector!=0}
-											<dd><i class="icon icon-md">phonelink</i>&nbsp;{$user->online_ip_count()} / {$user->node_connector}</dd>
-											{else}
-                                            <dd><i class="icon icon-md">phonelink</i>&nbsp;{$user->online_ip_count()} / 不限制 </dd>
-											{/if}
-											</p>
-											<p><dt>余额</dt>
-											<dd><i class="icon icon-md">attach_money</i>&nbsp;<code>{$user->money}</code> CNY</dd></p>
+                                            				
 											<p><dt>上次使用</dt>
                                               {if $user->lastSsTime()!="从未使用喵"}
 											<dd><i class="icon icon-md">event</i>&nbsp;{$user->lastSsTime()}</dd>
-                                          {else}
-                                          <dd><i class="icon icon-md">event</i>&nbsp;从未使用</dd>
-                                          {/if}</p>
-                                          <p><dt>上次签到时间：</dt>
+                                              {else}
+                                              <dd><i class="icon icon-md">event</i>&nbsp;从未使用</dd>
+                                              {/if}</p>
+                                            <p><dt>上次签到时间：</dt>
                                             <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastCheckInTime()}</dd></p>
 
 
