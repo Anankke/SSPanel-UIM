@@ -6465,7 +6465,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 }
 .invite-link .btn-subscription {
 	margin: 1em 0 1em 1em;
-	flex-basis: 16%;
+	flex-basis: 20%;
 }
 #buy-invite span {
 	position: relative;

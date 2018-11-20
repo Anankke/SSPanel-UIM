@@ -21,7 +21,7 @@
 			<section class="content-inner margin-top-no">
 				<div class="row">
 
-					<div class="col-lg-12 col-md-12">
+					<div class="col-xx-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -31,7 +31,7 @@
 										<p>您会获得<code>{$config["invite_gift"]} G</code>流量奖励。</p>
 										<p>对方将获得<code>{$config["invite_get_money"]}</code>元奖励作为初始资金。</p>
 										<p>对方充值时您还会获得对方充值金额的 <code>{$config["code_payback"]} %</code> 的返利。</p>
-										<p class="card-heading">已获得返利：<code>{$paybacks_sum}</code> 元</p>
+										
 									</div>
 
 								</div>
@@ -42,8 +42,8 @@
 					{if $user->class!=0}
 
 					{if $user->invite_num!=-1}
-					<div class="col-lg-12 col-md-12">
-						<div class="card margin-bottom-no">
+					<div class="col-xx-12 col-lg-7">
+						<div class="card margin-bottom-no card-invite">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
@@ -63,8 +63,8 @@
 					{/if}
 
 					{if $config['invite_price']>=0}
-					<div class="col-lg-12 col-md-12">
-						<div class="card margin-bottom-no">
+					<div class="col-xx-12 col-lg-5">
+						<div class="card margin-bottom-no card-invite">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
@@ -77,6 +77,7 @@
 											<label class="floating-label" for="buy-invite-num">在这输入购买次数</label>
 											<input class="form-control maxwidth-edit" id="buy-invite-num" type="num">
 										</div>
+										<p class="card-heading">已获得返利：<code>{$paybacks_sum}</code> 元</p>
 									</div>
 								</div>
 							</div>
@@ -86,7 +87,7 @@
 
                    	{else}
 
-                  	<div class="col-lg-12 col-md-12">
+                  	<div class="col-xx-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -98,7 +99,7 @@
 					</div>
 
 					{/if}
-					<div class="col-lg-12 col-md-12">
+					<div class="col-xx-12">
                         <div class="card">
 	                        <div class="card-main">
 		                        <div class="card-inner">

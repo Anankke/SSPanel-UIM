@@ -602,6 +602,10 @@ a.tag-green {
     border-color: #b7eb8f;
 }
 
+.card-invite .form-group-label {
+    margin-bottom: 16px;
+}
+
 @media screen and (max-width:400px) {
 	.nodemain {
 		max-width: 240px;
@@ -672,5 +676,8 @@ a.tag-green {
 	.nodetitle {
 		grid-column-end: 4;
 		grid-column-start: 1;
-	}
+    }
+    .card-invite {
+        min-height: 266px;
+    }
 }
