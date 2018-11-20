@@ -302,16 +302,17 @@ ul.dropdown-menu {
 	flex-wrap: wrap;
 	position: relative;
 } */
-.card-row {
-	/* display: grid; */
-	display: none;
+.card-row,.node-cardgroup {
+	display: grid;
 	grid-template-columns: 100%;
 	justify-content: space-between;
 	position: relative;
 	opacity: 1;
 }
-
-.card-row,.node-table,.node-fade,.shop-flex,.shop-table {
+.node-cardgroup {
+    display: none;
+}
+.card-row,.node-table,.node-fade,.shop-flex,.shop-table,.node-cardgroup {
 	transition-duration: .2s;
 	transition-property: all;
 }
@@ -344,6 +345,14 @@ ul.dropdown-menu {
 	top: -3px;
 	box-shadow: 3px 3px 7px 3px rgb(189, 189, 189);
 }
+/* 追加伸缩 */
+.card-row.collapse.in {
+    display: grid;
+}
+.collapse.card-row {
+    display: none;
+}
+/* */
 .node-fade {
 	opacity: 0;
 }
@@ -432,11 +441,12 @@ ul.dropdown-menu {
 div.nodetitle:first-of-type>div {
 	margin-top: 0;
 }
-.nodetitle div {
-	position: relative;
+.nodetitle>div {
     left: 0;
     top: 0;
+    position: relative;
     background: white;
+    transition: .3s all;
     width: 210px;
     height: 50px;
     border-radius: 30px 10px 10px 10px;
@@ -444,10 +454,21 @@ div.nodetitle:first-of-type>div {
 	margin-top: 2em;
 	text-align: center;
 }
+
 .nodetitle div span {
 	font-size: 20px;
 	position: relative;
-	top: .8em;
+    top: .8em;
+    color: black
+}
+a.nodetitle.collapsed>div,a.nodetitle.collapsed .waves-wrap {
+    border-radius: 10px;
+}
+.nodetitle .waves-wrap {
+    border-radius: 30px 10px 10px 10px;
+}
+a.nodetitle {
+    text-decoration: none;
 }
 
 .onlinemember,.nodetraffic,.nodecheck,.nodehead,.nodeband {
@@ -520,6 +541,8 @@ div.nodetitle:first-of-type>div {
 	height: 0;
 	z-index: 2;
 }
+
+/* index顶部4栏 */
 
 .user-info {
     flex-wrap: wrap;
@@ -619,7 +642,7 @@ a.tag-green {
     .nodemain {
 		max-width: 200px;
     }
-    .nodetitle div {
+    .nodetitle>div {
         width: 160px;
     }
     .nodetitle div span {

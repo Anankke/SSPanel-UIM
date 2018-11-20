@@ -64,16 +64,18 @@
 								</div>
 							</div>
 						
-                    <div class="card-row">
+                    <div class="node-cardgroup">
                         {$class=-1}
 						{foreach $nodes as $node}
 						{if $node['class']!=$class}
-						    {$class=$node['class']}
-							<div class="nodetitle">
-								<div>
+							{$class=$node['class']}
+							{if $class !=0}</div>{/if}
+							<a class="nodetitle" data-toggle="collapse" href="#cardgroup{$class}" aria-expanded="true" aria-controls="cardgroup{$class}">
+								<div class="waves-effect waves-button">
 								    <span>{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</span>	
 								</div>
-							</div>	
+							</a>
+							<div class="card-row collapse in" id="cardgroup{$class}">
 						{/if}
 						<div class="node-card node-flex" cardindex="{$node@index}">
                             <div class="nodemain">
@@ -166,6 +168,7 @@
 								{/if}
 							</div>
 						{$point_node=null}
+						{if $node@last}</div>{/if}
 						{/foreach}
 					</div>
 
@@ -394,7 +397,7 @@
 		'use strict'
 
 	var nodeDefaultUI = localStorage.getItem("tempUInode");
-	var elNodeCard = $(".card-row");
+	var elNodeCard = $(".node-cardgroup");
 	var elNodeTable = $(".node-table");
 	nodeDefaultUI = JSON.parse(nodeDefaultUI);
 	if (!nodeDefaultUI) {
