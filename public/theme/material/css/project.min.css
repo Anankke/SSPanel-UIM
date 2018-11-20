@@ -438,37 +438,51 @@ ul.dropdown-menu {
 }
 
 
-div.nodetitle:first-of-type>div {
+div.nodetitle:first-of-type>a {
 	margin-top: 0;
 }
-.nodetitle>div {
+.nodetitle>a {
     left: 0;
     top: 0;
     position: relative;
     background: white;
-    transition: .3s all;
     width: 210px;
     height: 50px;
     border-radius: 30px 10px 10px 10px;
 	box-shadow: 2px 2px 7px 1px rgb(189, 189, 189);
 	margin-top: 2em;
-	text-align: center;
+    text-align: center;
+    display: inline-block;
+}
+.nodetitle>a,.nodetitle a i,.arrow-rotate {
+    transition: .3s all;
 }
 
-.nodetitle div span {
+.nodetitle a span {
 	font-size: 20px;
 	position: relative;
-    top: .8em;
-    color: black
+    top: .75em;
+    color: black;
+    right: .4em;
 }
-a.nodetitle.collapsed>div,a.nodetitle.collapsed .waves-wrap {
+.nodetitle a i {
+    position: absolute;
+    top: .6em;
+    right: .5em;
+    color: black;
+    transform: rotate(0deg);
+}
+.nodetitle>a.collapsed,.nodetitle>.collapsed .waves-wrap {
     border-radius: 10px;
 }
 .nodetitle .waves-wrap {
     border-radius: 30px 10px 10px 10px;
 }
-a.nodetitle {
+.nodetitle>a {
     text-decoration: none;
+}
+.nodetitle a i.arrow-rotate {
+    transform: rotate(180deg);
 }
 
 .onlinemember,.nodetraffic,.nodecheck,.nodehead,.nodeband {
@@ -642,10 +656,10 @@ a.tag-green {
     .nodemain {
 		max-width: 200px;
     }
-    .nodetitle>div {
+    .nodetitle>a {
         width: 160px;
     }
-    .nodetitle div span {
+    .nodetitle a span {
         font-size: 18px;
         top: .9em;
     }

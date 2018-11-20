@@ -70,11 +70,11 @@
 						{if $node['class']!=$class}
 							{$class=$node['class']}
 							{if $class !=0}</div>{/if}
-							<a class="nodetitle" data-toggle="collapse" href="#cardgroup{$class}" aria-expanded="true" aria-controls="cardgroup{$class}">
-								<div class="waves-effect waves-button">
-								    <span>{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</span>	
-								</div>
-							</a>
+							<div class="nodetitle">
+								<a class="waves-effect waves-button" data-toggle="collapse" href="#cardgroup{$class}" aria-expanded="true" aria-controls="cardgroup{$class}">
+								    <span>{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</span><i class="material-icons">expand_more</i>
+								</a>
+							</div>
 							<div class="card-row collapse in" id="cardgroup{$class}">
 						{/if}
 						<div class="node-card node-flex" cardindex="{$node@index}">
@@ -395,6 +395,15 @@
 
     ;(function(){
 		'use strict'
+	
+	$('a[href^="#cardgroup"]').click(function(){
+		var rotatearrow = $(this).find('i');
+		if (!rotatearrow.hasClass('arrow-rotate')) {
+			rotatearrow.addClass('arrow-rotate');
+		} else {		
+			rotatearrow.removeClass('arrow-rotate');
+		}
+	});
 
 	var nodeDefaultUI = localStorage.getItem("tempUInode");
 	var elNodeCard = $(".node-cardgroup");
