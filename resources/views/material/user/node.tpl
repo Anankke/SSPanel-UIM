@@ -69,7 +69,7 @@
 						{foreach $nodes as $node}
 						{if $node['class']!=$class}
 							{$class=$node['class']}
-							{if $class !=0}</div>{/if}
+							{if !$node@first}</div>{/if}
 							<div class="nodetitle">
 								<a class="waves-effect waves-button" data-toggle="collapse" href="#cardgroup{$class}" aria-expanded="true" aria-controls="cardgroup{$class}">
 								    <span>{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</span><i class="material-icons">expand_more</i>
