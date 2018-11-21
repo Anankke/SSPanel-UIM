@@ -492,7 +492,7 @@ class UserController extends BaseController
 		$nodes_muport = array();
 
 		foreach($nodes as $node){
-			if($user->node_group != $node->node_group){
+			if($node->node_group!=$user->node_group && $node->node_group!=0){
 				continue;
 			}
 			if ($node->sort == 9) {
