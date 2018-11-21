@@ -501,21 +501,13 @@ div.nodetitle:first-of-type>a {
 }
 
 .node-tip {
-	position: fixed;
-	top: -20vh;
-	margin-left: auto;
-	margin-right: auto;
-	left: 0;
-	right: 0;
 	max-width: 350px;
-	background: white;
-	z-index: -1;
 	padding: 20px;
 	border-radius: 20px;
-	opacity: 0;
 	box-shadow: 0 0 7px 0 gray;
-	transition-duration: .5s;
-	transition-property: all;
+}
+.node-tip.cust-modelin {
+    top:70px;
 }
 .nodetip-table {
 	flex-wrap: wrap;
@@ -539,14 +531,7 @@ div.nodetitle:first-of-type>a {
 .tipmiddle {
 	margin-bottom: 10px
 }
-.tip-down {
-	opacity: 1;
-	top: 70px;
-	transition-duration: .5s;
-	transition-property: all;
-	transition-timing-function: ease-out;
-	/* z-index: 3; */
-}
+
 .tiphidden {
 	position: fixed;
 	background: gray;
@@ -643,6 +628,39 @@ a.tag-green {
     margin-bottom: 16px;
 }
 
+/* 弹出层插件 */
+.cust-mask {
+    background: black;
+    opacity: 0;
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: .3s all;
+}
+.cust-model {
+    display: none;
+    position: fixed;
+    top: -10em;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    transition: .3s all;
+    background: white;
+    z-index: 6;
+}
+.cust-maskfade {
+    opacity: 0.4;
+}
+.cust-modelin {
+    opacity: 1;
+    top: 2em;
+}
+/*  */
 @media screen and (max-width:400px) {
 	.nodemain {
 		max-width: 240px;

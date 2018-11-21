@@ -4,7 +4,6 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1"></script>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 
-<div class="tiphidden"></div>
 {function displayV2rayNode node=null}
 	{assign var=server_explode value=";"|explode:$node['server']}
 	<div class="tiptitle">
@@ -102,7 +101,7 @@
 							</div>
 
 						</div>
-						<div class="node-tip" tipindex="{$node@index}">
+						<div class="node-tip cust-model" tipindex="{$node@index}">
 								{if $node['class'] > $user->class}
 									<p class="card-heading" align="center"><b> <i class="icon icon-lg">visibility_off</i>
 										{$user->user_name}，您无查看当前等级VIP节点的权限，如需购买VIP请<a href="/user/shop">点击这里</a>。</b></p>
@@ -391,8 +390,8 @@
 		$("#result").modal();
 		$("#msg").html("已复制，请进入软件添加。");
 	});
-	{literal}
 
+	{literal}
     ;(function(){
 		'use strict'
 	
@@ -455,34 +454,37 @@
 		};
 		defaultUI = JSON.stringify(defaultUI);
 		localStorage.setItem("tempUInode",defaultUI);
-    });
-
-	var tipHidden = $(".tiphidden");
-	$(".node-card").click(function (){
-		var windowWidth = $(window).width();
-		var cardSize = $(this).css("grid-column-end");
-		var tipID = $(this).attr("cardindex");
-		var tip = $(".node-tip[tipindex=" + tipID + "]");
-		tipHidden.css({"height":"100vh","width":"100vw"});
-		tip.css("z-index","3");
-		setTimeout(function() {
-           tip.addClass("tip-down");
-		},200);
-    });
-
-	tipHidden.click(function(){
-        tipHidden.css({"height":"0","width":"0"});
-		$(".node-tip.tip-down").removeClass("tip-down");
-		var hiddenOver = setTimeout(function(){
-			$(".node-tip").css("z-index","-1");
-		},520);
-		clearTimeout(hiddenOver);
 	});
+	
+	let buttongroup = document.querySelectorAll('.node-card');
+	let modelgroup = document.querySelectorAll('.node-tip');
+	for (let i=0;i<buttongroup.length;i++) {
+		custModel(buttongroup[i],modelgroup[i]);
+	}
+
+	// var tipHidden = $(".tiphidden");
+	// $(".node-card").click(function (){
+	// 	var windowWidth = $(window).width();
+	// 	var cardSize = $(this).css("grid-column-end");
+	// 	var tipID = $(this).attr("cardindex");
+	// 	var tip = $(".node-tip[tipindex=" + tipID + "]");
+	// 	tipHidden.css({"height":"100vh","width":"100vw"});
+	// 	tip.css("z-index","3");
+	// 	setTimeout(function() {
+    //        tip.addClass("tip-down");
+	// 	},200);
+    // });
+
+	// tipHidden.click(function(){
+    //     tipHidden.css({"height":"0","width":"0"});
+	// 	$(".node-tip.tip-down").removeClass("tip-down");
+	// 	var hiddenOver = setTimeout(function(){
+	// 		$(".node-tip").css("z-index","-1");
+	// 	},520);
+	// 	clearTimeout(hiddenOver);
+	// });
 
     })();
 	{/literal}
  
-   
-
-	
 </script>

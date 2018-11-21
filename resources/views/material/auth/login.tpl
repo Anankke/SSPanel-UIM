@@ -231,7 +231,7 @@
                 </div>
             </div>
         </form>
-        <div class="card auth-tg">
+        <div class="card auth-tg cust-model">
             <div class="card-main">
                 <nav class="tab-nav margin-top-no margin-bottom-no">
                     <ul class="nav nav-justified">
@@ -286,7 +286,6 @@
         </div>
     </div>
 </div>
-<div class="tiphidden"></div>
             
 
 
@@ -297,18 +296,9 @@
 </div>
 {literal}
 <script>
-$(document).ready(function(){
-    var tgboard = $('.auth-tg');
-    var tgHidden = $(".tiphidden");
-    $('#calltgauth').click(function(){
-        tgHidden.css({"height":"100vh","width":"100vw"});
-        tgboard.addClass("tg-down");
-    });
-    tgHidden.click(function(){
-        tgHidden.css({"height":"0","width":"0"});
-		tgboard.removeClass("tg-down");
-	});
-});
+    let calltgbtn = document.querySelector('#calltgauth');
+    let tgboard = document.querySelector('.card.auth-tg.cust-model');
+    custModel(calltgbtn,tgboard);
 </script>
 {/literal}
 <script>
