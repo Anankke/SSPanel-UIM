@@ -3788,62 +3788,6 @@
       "time": "2018-10-12T14:15:08+00:00"
     },
     {
-      "name": "vlucas/phpdotenv",
-      "version": "dev-master",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/vlucas/phpdotenv.git",
-        "reference": "54d599d414f8cf3f6129e287acaf44b610486aa1"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/54d599d414f8cf3f6129e287acaf44b610486aa1",
-        "reference": "54d599d414f8cf3f6129e287acaf44b610486aa1",
-        "shasum": "",
-        "mirrors": [
-          {
-            "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-            "preferred": true
-          }
-        ]
-      },
-      "require": {
-        "php": ">=5.3.9"
-      },
-      "require-dev": {
-        "phpunit/phpunit": "^4.8.35 || ^5.0"
-      },
-      "type": "library",
-      "extra": {
-        "branch-alias": {
-          "dev-master": "2.5-dev"
-        }
-      },
-      "autoload": {
-        "psr-4": {
-          "Dotenv\\": "src/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "BSD-3-Clause"
-      ],
-      "authors": [
-        {
-          "name": "Vance Lucas",
-          "email": "vance@vancelucas.com",
-          "homepage": "http://www.vancelucas.com"
-        }
-      ],
-      "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
-      "keywords": [
-        "dotenv",
-        "env",
-        "environment"
-      ],
-      "time": "2018-08-22T19:34:05+00:00"
-    },
-    {
       "name": "voku/anti-xss",
       "version": "1.2.14",
       "source": {
