@@ -459,7 +459,7 @@
 	let buttongroup = document.querySelectorAll('.node-card');
 	let modelgroup = document.querySelectorAll('.node-tip');
 	for (let i=0;i<buttongroup.length;i++) {
-		custModel(buttongroup[i],modelgroup[i]);
+		custModal(buttongroup[i],modelgroup[i]);
 	}
 
 	// var tipHidden = $(".tiphidden");

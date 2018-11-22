@@ -660,6 +660,9 @@ a.tag-green {
     opacity: 1;
     top: 2em;
 }
+.fade-delay {
+    transition-delay: .3s
+}
 /*  */
 @media screen and (max-width:400px) {
 	.nodemain {

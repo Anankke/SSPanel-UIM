@@ -298,7 +298,7 @@
 <script>
     let calltgbtn = document.querySelector('#calltgauth');
     let tgboard = document.querySelector('.card.auth-tg.cust-model');
-    custModel(calltgbtn,tgboard);
+    custModal(calltgbtn,tgboard);
 </script>
 {/literal}
 <script>
