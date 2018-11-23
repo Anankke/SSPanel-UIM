@@ -253,7 +253,9 @@ class AuthController extends BaseController
                     //BASE_PATH.'/public/assets/email/styles.css'
                 ]);
             } catch (\Exception $e) {
-                return false;
+                $res['ret'] = 1;
+                $res['msg'] = "邮件发送失败，请联系网站管理员。";
+                return $response->getBody()->write(json_encode($res));
             }
 
             $res['ret'] = 1;
