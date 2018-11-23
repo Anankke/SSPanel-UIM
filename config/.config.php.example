@@ -22,6 +22,7 @@ $System_Config['key'] = '1145141919810';			//!!! 瞎 jb 修改此key为随机字
 $System_Config['debug'] =  'false';					//正式环境请确保为 false
 $System_Config['appName'] = 'sspanel';				//站点名称
 $System_Config['baseUrl'] = 'http://url.com';		//站点地址
+$System_Config['subUrl'] = $System_Config['baseUrl'].'/link/';		//订阅地址
 $System_Config['appStartTime'] = '2018';			//站点成立时间，显示在页脚 copyright 部分
 $System_Config['muKey'] = 'NimaQu';					//用于校验ss-go mu的请求，可以随意修改，但请保持前后端一致
 $System_Config['db_driver'] = 'mysql';				//数据库程序

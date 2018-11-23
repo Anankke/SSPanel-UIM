@@ -85,7 +85,7 @@ class UserController extends BaseController
         return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
             ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
             ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
-            ->assign('mergeSub', Config::get('mergeSub'))
+            ->assign('mergeSub', Config::get('mergeSub'))->assign('subUrl', Config::get('subUrl'))
             ->assign('enable_duoshuo', Config::get('enable_duoshuo'))->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
             ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
     }
