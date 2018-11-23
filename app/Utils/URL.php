@@ -633,14 +633,9 @@ class URL
 	}
 
     public static function getUserClassExpiration($user, $is_mu = 0){
-		if(!Config::get('mergeSub')){
-			if($is_mu == 1){
-				$group_name = Config::get('appName').' - 单端口';
-			}else{
-				$group_name = Config::get('appName');
-			}
-		}else{
-			$group_name = Config::get('appName');
+        $group_name = Config::get('appName');
+		if(!Config::get('mergeSub') and $is_mu == 1){
+			$group_name .= ' - 单端口';
 		}
 
 		if($user->class !=0){
