@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Boot
