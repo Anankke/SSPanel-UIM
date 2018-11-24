@@ -27,7 +27,7 @@
 						<div class="card-main">
 							<div class="card-inner">
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="prefix">优惠码前缀</label>
+									<label class="floating-label" for="prefix">优惠码(生成随机优惠码不填)</label>
 									<input class="form-control maxwidth-edit" id="prefix" type="text">
 								</div>
 
@@ -60,13 +60,24 @@
 								</div>
 
 
-								<div class="form-group">
+                                <div class="form-group">
 									<div class="row">
 										<div class="col-md-10 col-md-push-1">
-											<button id="coupon" type="submit" class="btn btn-block btn-brand waves-attach waves-light">生成</button>
+                                            <button id="coupon" type="submit" class="btn btn-block btn-brand waves-attach waves-light">生成指定字符的优惠码</button>
 										</div>
 									</div>
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-push-1">
+                                            <button id="coupon-random" type="submit" class="btn btn-block waves-attach waves-light">生成随机字符优惠码</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-push-1">
+                                            <button id="coupon-prefix-random" type="submit" class="btn btn-block waves-attach waves-light">生成指定前缀+随机字符的优惠码</button>
+                                        </div>
+                                    </div>
 								</div>
+
 							</div>
 						</div>
 					</div>
@@ -114,36 +125,72 @@
 
 
 <script>
+/*
+** randomWord 产生任意长度随机字母数字组合
+** randomFlag-是否任意长度 min-任意长度最小位[固定位数] max-任意长度最大位
+** xuanfeng 2014-08-28
+*/
+function randomWord(randomFlag, min, max) {
+    var str = "",
+        range = min,
+        arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+    if (randomFlag) {
+        range = Math.round(Math.random() * (max-min)) + min;
+    }
+    for (var i=0; i<range; i++) {
+        pos = Math.round( Math.random() * (arr.length - 1) );
+        str += arr[pos];
+    }
+    return str;
+}
 
 {include file='table/js_1.tpl'}
+
+function submitCoupon(code) {
+    $.ajax({
+        type: "POST",
+        url: "/admin/coupon",
+        dataType: "json",
+        data: {
+            // prefix: $("#prefix").val(),
+            prefix: code,
+            credit: $("#credit").val(),
+            shop: $("#shop").val(),
+            onetime: $("#count").val(),
+            expire: $("#expire").val()
+        },
+        success: function (data) {
+            if (data.ret) {
+                $("#result").modal();
+                $("#msg").html(data.msg);
+                window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
+            }
+            // window.location.reload();
+        },
+        error: function (jqXHR) {
+            alert("发生错误：" + jqXHR.status);
+        }
+    })
+}
 
 $(document).ready(function () {
 		{include file='table/js_2.tpl'}
 
-		$("#coupon").click(function () {
-				$.ajax({
-						type: "POST",
-						url: "/admin/coupon",
-						dataType: "json",
-						data: {
-								prefix: $("#prefix").val(),
-								credit: $("#credit").val(),
-								shop: $("#shop").val(),
-								onetime: $("#count").val(),
-								expire: $("#expire").val()
-						},
-						success: function (data) {
-								if (data.ret) {
-										$("#result").modal();
-										$("#msg").html(data.msg);
-										window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
-								}
-								// window.location.reload();
-						},
-						error: function (jqXHR) {
-								alert("发生错误：" + jqXHR.status);
-						}
-				})
+        $("#coupon").click(function () {
+            var couponCode = $("#prefix").val();
+            submitCoupon(couponCode);
 		})
+
+        $("#coupon-random").click(function () {
+            var couponCode = randomWord(false, 12);
+            submitCoupon(couponCode);
+        })
+
+        $("#coupon-prefix-random").click(function () {
+            var couponCode = $("#prefix").val().concat(randomWord(false, 8));
+            submitCoupon(couponCode);
+        })
+
 })
 </script>
