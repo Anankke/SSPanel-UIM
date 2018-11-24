@@ -231,6 +231,11 @@ $System_Config['flag_regex']='/.*?(?=\s)/';		//从站点全名中匹配【国家
 #捐赠
 $System_Config['enable_donate']='false';	//是否显示用户捐赠（所有收入将被公开）
 
+#iOS账户显示
+$System_Config['display_ios_class']='-1';	//至少等级为多少的用户可以看见，小于0时关闭此功能
+$System_Config['ios_account']='';			//iOS账户
+$System_Config['ios_password']='';			//iOS密码
+
 
 //节点检测-----------------------------------------------------------------------------------------------
 #GFW检测，请通过crontab进行【开启/关闭】
@@ -288,11 +293,6 @@ $System_Config['radius_db_database']='';
 $System_Config['radius_db_user']='';
 $System_Config['radius_db_password']='';
 $System_Config['radius_secret']='';			//Radius连接密钥
-
-#多说设置
-$System_Config['enable_duoshuo']='false';	//是否开启多说
-$System_Config['duoshuo_shortname']="";
-$System_Config['duoshuo_apptoken']="";
 
 #Wecenter设置
 $System_Config['enable_wecenter']='false';			//是否开启Wecenter

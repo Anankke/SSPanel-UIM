@@ -84,55 +84,6 @@
 							</div>
 						</div>
 
-
-
-						<div class="col-lg-12 col-sm-12">
-							<div class="card">
-								<div class="card-main">
-									<div class="card-inner">
-										<p class="card-heading">客户端下载</p>
-
-
-										<nav class="tab-nav">
-											<ul class="nav nav-list">
-												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ssr_download"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
-												</li>
-												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ss_download"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
-												</li>
-											</ul>
-										</nav>
-										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_download">
-											{if URL::SSRCanConnect($user, $mu)}
-												<p><i class="icon icon-lg">desktop_windows</i>&nbsp;<a href="/ssr-download/ssr-win.7z">Windows</a></p>
-												<p><i class="icon icon-lg">laptop_mac</i>&nbsp;<a href="/ssr-download/ssr-mac.dmg">Mac OS X</a></p>
-												<p><i class="icon icon-lg">laptop_windows</i>&nbsp;<a href="https://github.com/breakwa11/shadowsocks-rss/wiki/Python-client">Linux</a></p>
-												<p><i class="icon icon-lg">android</i>&nbsp;<a href="/ssr-download/ssr-android.apk">Android</a></p>
-												<p><i class="icon icon-lg">phone_iphone</i>&nbsp;<a href="https://itunes.apple.com/us/app/shadowrocket/id932747118">iOS</a></p>
-											{else}
-												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
-											{/if}
-										</div>
-										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_download">
-											{if URL::SSCanConnect($user, $mu)}
-												<p><i class="icon icon-lg">desktop_windows</i>&nbsp;<a href="/ssr-download/ss-win.7z">Windows</a></p>
-												<p><i class="icon icon-lg">laptop_mac</i>&nbsp;<a href="/ssr-download/ss-mac.zip">Mac OS X</a></p>
-												<p><i class="icon icon-lg">laptop_windows</i>&nbsp;<a href="https://shadowsocks.org/en/download/clients.html">Linux</a></p>
-												<p><i class="icon icon-lg">android</i>&nbsp;<a href="/ssr-download/ss-android.apk">Android</a></p>
-												<p><i class="icon icon-lg">android</i>&nbsp;<a href="/ssr-download/ss-android-obfs.apk">Android Obfs插件</a></p>
-												<p><i class="icon icon-lg">phone_iphone</i>&nbsp;<a href="https://itunes.apple.com/us/app/shadowrocket/id932747118">iOS</a></p>
-											{else}
-												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
-											{/if}
-										</div>
-
-									</div>
-
-								</div>
-							</div>
-						</div>
-
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">

@@ -75,8 +75,6 @@ class XCat
                 return Job::DailyJob();
             case("checkjob"):
                 return Job::CheckJob();
-            case("syncduoshuo"):
-                return Job::SyncDuoshuo();
             case("userga"):
                 return Job::UserGa();
             case("backup"):

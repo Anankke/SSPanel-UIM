@@ -161,7 +161,6 @@
 										{/if}
 										{/if}
 									</div>
-
 								</div>
 							</div>
 
@@ -258,18 +257,33 @@
                                                       <p><a href="/user/announcement">点击这里查看Linux傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
-                                                        <p><span class="icon icon-lg text-white">filter_1</span> 切换至非国区App Store账号，商店搜索<code>Shadowrocket</code>下载安装</p>
-														<p><span class="icon icon-lg text-white">filter_2</span> 在 Safari 中点击复制<a href="{$ssr_url_all}" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>普通端口链接</a>或者<a href="{$ssr_url_all_mu}" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>单端口多用户链接</a>，然后点击确定，就可以批量添加节点</p>
-                                                      <p><span class="icon icon-lg text-white">filter_3</span> 注意：第一次连接可能不能用，导入后程序退出并重新打开程序后连接即可！</p>
-													  <p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：打开Shadowrocket，点击右上角<span class="icon icon-lg text-white">add</span>，添加类型为<code>Subscribe</code>，URL填写以下地址即可自动更新节点</p>
-
+													{if $display_ios_class>=0}
+														<div><span class="icon icon-lg text-white">account_box</span> 公共iOS账户：</div>
+														{if $user->class>=$display_ios_account}
+															<div class="float-clear">
+																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
+																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_account}">点击复制</button><br>
+															</div>
+															<div><span class="icon icon-lg text-white">lock</span> 公共iOS密码：</div>
+															<div class="float-clear">
+																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_password}" readonly="true">
+																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_password}">点击复制</button><br>
+															</div>
+														{else}
+															<p class="card-heading" align="center"><b> 
+																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_account}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐。
+															</b></p>
+														{/if}
+													{/if}
+                                                        <p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中点击<a href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist">这里</a>安装 Potatso Lite</p>
+														<p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso Lite，点击添加代理，点击右上角的 + 号，选择“订阅”，名字任意填写，开启自动更新，URL填写以下地址并保存即可</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
 														{if !$mergeSub}
 														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
-                                                      <p><a href="/user/announcement">点击这里查看iOS傻瓜式教程</a></p>
+                                                      <!-- <p><a href="/user/announcement">点击这里查看iOS傻瓜式教程</a></p> -->
 													</div>
 													<div class="tab-pane fade" id="all_ssr_android">
 														<p><span class="icon icon-lg text-white">filter_1</span>点击下载<a href="/ssr-download/ssr-android.apk" class="btn-dl"><i class="material-icons">save_alt</i> SSR </a> 或 <a href="/ssr-download/ssrr-android.apk" class="btn-dl"><i class="material-icons">save_alt</i> SSRR </a> 并安装</p>
@@ -347,8 +361,6 @@
 															<p>请注意，在当前状态下您的 SSR 订阅链接已经失效，您无法通过此种方式导入节点</p>
 														{/if}
 													</div>
-
-
 												</div>
 
 												<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ss">
@@ -418,10 +430,27 @@
 													<div class="tab-pane fade" id="all_ss_mac">
 														<p><a href="/ssr-download/ss-mac.zip" class="btn-dl"><i class="material-icons">save_alt</i> 下载客户端</a>，安装，然后下载<a href="/user/getpcconf?is_mu=0&is_ss=1" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>普通端口链接</a>或者<a href="/user/getpcconf?is_mu=1&is_ss=1" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>单端口多用户链接</a>，运行程序，小飞机上右键 服务器列表 子菜单 的 “导入服务器配置文件...” 导入这个文件，然后选择一个合适的服务器，更新一下PAC，然后开启系统代理即可上网</p>
 													</div>
-													<div class="tab-pane fade" id="all_ss_ios">
-														<p>推荐下载<a href="https://itunes.apple.com/cn/app/shadowrocket/id932747118?mt=8" class="btn-dl"><i class="material-icons">save_alt</i> Shadowrocket</a>，请转到非国区国App商店下载安装。下载完成后在 Safari 中点击<a href="{$ss_url_all}" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>普通端口链接</a>或者<a href="{$ss_url_all_mu}" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>单端口多用户链接</a>，然后点击确定，就可以批量添加节点</p>
-														<p>iOS 下载<a href="/link/{$ios_token}?is_ss=1" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>普通端口链接</a>或者<a href="/link/{$ios_token}?is_ss=1&is_mu=1" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>单端口多用户链接</a>，导入到 Surge 中，然后就可以随意切换服务器上网了</p>
-
+													<div class="tab-pane fade" id="all_ss_ios">													
+													{if $display_ios_class>=0}
+														<div><span class="icon icon-lg text-white">account_box</span> 公共iOS账户：</div>
+														{if $user->class>=$display_ios_account}
+															<div class="float-clear">
+																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
+																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_account}">点击复制</button><br>
+															</div>
+															<div><span class="icon icon-lg text-white">lock</span> 公共iOS密码：</div>
+															<div class="float-clear">
+																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_password}" readonly="true">
+																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_password}">点击复制</button><br>
+															</div>
+														{else}
+															<p class="card-heading" align="center"><b> 
+																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_account}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐。
+															</b></p>
+														{/if}
+													{/if}
+                                                        <p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中点击<a href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist">这里</a>安装 Potatso Lite</p>
+														<p><span class="icon icon-lg text-white">filter_2</span> 打开<a href="/user/node">节点列表</a>，点开自己需要的节点详情，自行导入节点</p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_android">
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 SSD</a>。<b>因为与原版Shadowsocks包名相同，所以如果手机上如果已安装原版Shadowsocks，需先卸载</b></p>
@@ -636,38 +665,6 @@
 
 								</div>
 							</div>
-
-
-						{if $enable_duoshuo=='true'}
-
-							<div class="card">
-								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
-										<p class="card-heading">讨论区</p>
-											<div class="ds-thread" data-thread-key="0" data-title="index" data-url="{$baseUrl}/user/"></div>
-											<script type="text/javascript">
-											var duoshuoQuery = {
-
-											short_name:"{$duoshuo_shortname}"
-
-
-											};
-												(function() {
-													var ds = document.createElement('script');
-													ds.type = 'text/javascript';ds.async = true;
-													ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-													ds.charset = 'UTF-8';
-													(document.getElementsByTagName('head')[0]
-													 || document.getElementsByTagName('body')[0]).appendChild(ds);
-												})();
-											</script>
-									</div>
-
-								</div>
-							</div>
-
-						{/if}
-
 						{include file='dialog.tpl'}
 
 					</div>

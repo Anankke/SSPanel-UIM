@@ -104,7 +104,7 @@
 						<div class="node-tip cust-model" tipindex="{$node@index}">
 								{if $node['class'] > $user->class}
 									<p class="card-heading" align="center"><b> <i class="icon icon-lg">visibility_off</i>
-										{$user->user_name}，您无查看当前等级VIP节点的权限，如需购买VIP请<a href="/user/shop">点击这里</a>。</b></p>
+										您当前等级不足以使用该节点，如需升级请<a href="/user/shop">点击这里</a>升级套餐</b></p>
 								{else}
 
 									{$relay_rule = null}
@@ -238,7 +238,7 @@
 														<div class="card-main">
 															<div class="card-inner">
 																<p class="card-heading" align="center"><b> <i class="icon icon-lg">visibility_off</i>
-																		{$user->user_name}，您无查看当前等级VIP节点的权限，如需购买VIP请<a href="/user/shop">点击这里</a>。</b></p>
+																		您当前等级不足以使用该节点，如需升级请<a href="/user/shop">点击这里</a>升级套餐</b></p>
 															</div>
 														</div>
 													</div>

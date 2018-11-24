@@ -18,7 +18,6 @@ use App\Services\Mail;
 use App\Models\User;
 use App\Models\LoginIp;
 use App\Models\EmailVerify;
-use App\Utils\Duoshuo;
 use App\Utils\GA;
 use App\Utils\Wecenter;
 use App\Utils\Geetest;
@@ -444,7 +443,6 @@ class AuthController extends BaseController
         if ($user->save()) {
             $res['ret'] = 1;
             $res['msg'] = "注册成功！正在进入登录界面";
-            Duoshuo::add($user);
             Radius::Add($user, $user->passwd);
             return $response->getBody()->write(json_encode($res));
         }

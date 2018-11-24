@@ -24,7 +24,6 @@ use App\Utils\Wecenter;
 use App\Utils\Tools;
 use App\Services\Mail;
 use App\Utils\QQWry;
-use App\Utils\Duoshuo;
 use App\Utils\GA;
 use App\Utils\Telegram;
 use CloudXNS\Api;
@@ -85,15 +84,6 @@ class Job
         system("rm /tmp/ssmodbackup.zip", $ret);
 
         Telegram::Send("备份完毕了喵~今天又是安全祥和的一天呢。");
-    }
-
-    public static function SyncDuoshuo()
-    {
-        $users = User::all();
-        foreach ($users as $user) {
-            Duoshuo::add($user);
-        }
-        echo "ok";
     }
 
     public static function UserGa()
