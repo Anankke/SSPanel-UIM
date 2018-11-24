@@ -1,4 +1,4 @@
- {include file='header.tpl'} 
+ {include file='header.tpl'}
 
 {* <main class="content">
     <div class="container">
@@ -142,7 +142,7 @@
 												<p id="telegram-alert">正在载入 Telegram，如果长时间未显示请刷新页面或检查代理</p>
 												<div class="text-center" id="telegram-login-box"></div>
                                                 <p>或者添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的数字给它。
-                                                </p>		
+                                                </p>
 												<div class="text-center">
                                                         <h2><code id="code_number">{$login_number}</code></h2>
                                                 </div>
@@ -250,7 +250,7 @@
                         </div>
                     </div>
                     <div class="card-inner">
-                    
+
                         <div class="text-center">
                             <p>一键登陆</p>
                         </div>
@@ -261,7 +261,7 @@
                         <div class="text-center">
                             <h2><code id="code_number">{$login_number}</code></h2>
                         </div>
-                       
+
                     </div>
                 </div>
                 <div class="tab-pane fade" id="qrcode_login">
@@ -271,7 +271,7 @@
                         </div>
                     </div>
                     <div class="card-inner">
-                  
+
                         <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。
                         </p>
                         <div class="form-group form-group-label">
@@ -279,14 +279,14 @@
                                 <div id="telegram-qr"></div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-            
+
 
 
 
@@ -389,6 +389,11 @@
     </script>
     <script>
         $(document).ready(function () {
+            $("#calltgauth").click(
+                function(){
+                    f();
+                }
+            );
             function f() {
                 $.ajax({
                     type: "GET",
@@ -437,10 +442,10 @@
                         }
                     }
                 });
-                tid = setTimeout(f, 1000); //循环调用触发setTimeout
+                tid = setTimeout(f, 2500); //循环调用触发setTimeout
             }
 
-            setTimeout(f, 1000);
+
         })
     </script>
 {/if}
