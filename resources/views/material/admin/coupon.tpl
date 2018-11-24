@@ -66,11 +66,13 @@
                                             <button id="coupon" type="submit" class="btn btn-block btn-brand waves-attach waves-light">生成指定字符的优惠码</button>
 										</div>
 									</div>
+                                    <br>
                                     <div class="row">
                                         <div class="col-md-10 col-md-push-1">
-                                            <button id="coupon-random" type="submit" class="btn btn-block waves-attach waves-light">生成随机字符优惠码</button>
+                                            <button id="coupon-random" type="submit" class="btn btn-block waves-attach waves-light">生成仅包含随机字符的优惠码</button>
                                         </div>
                                     </div>
+                                    <br>
                                     <div class="row">
                                         <div class="col-md-10 col-md-push-1">
                                             <button id="coupon-prefix-random" type="submit" class="btn btn-block waves-attach waves-light">生成指定前缀+随机字符的优惠码</button>
