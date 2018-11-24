@@ -614,16 +614,10 @@ class URL
     }
 
 	public static function getUserTraffic($user, $is_mu = 0){
-		if(!Config::get('mergeSub')){
-			if($is_mu == 1){
-				$group_name = Config::get('appName').' - 单端口';
-			}else{
-				$group_name = Config::get('appName');
-			}
-		}else{
-			$group_name = Config::get('appName');
+        $group_name = Config::get('appName');
+		if(!Config::get('mergeSub') and $is_mu == 1){
+			$group_name .= ' - 单端口';
 		}
-
 		if($user->class !=0){
 			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode($group_name);
 		}else{
@@ -637,7 +631,6 @@ class URL
 		if(!Config::get('mergeSub') and $is_mu == 1){
 			$group_name .= ' - 单端口';
 		}
-
 		if($user->class !=0){
 			$ssurl = "www.google.com:2:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->class_expire)."&group=".Tools::base64_url_encode($group_name);
 		}else{

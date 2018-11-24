@@ -1,3 +1,246 @@
+/* 卡片式商店样式 */
+
+.ui-switch {
+	display: flex;
+	flex-direction: row-reverse;
+}
+.ui-switch.node-switch {
+	position: absolute;
+	right: 2.5em;
+	top: 1.5em;
+	z-index: 1;
+}
+
+.switch-btn {
+	width: 50%;
+	box-sizing: border-box;
+}
+
+.ui-switch a {
+	color: #000;
+	display: inline-block;
+	padding: 0 10px;
+}
+
+.ui-switch div.switch-btn:first-of-type a {
+	border-radius: 0 15px 15px 0;
+}
+.ui-switch div.switch-btn:first-of-type a:hover {
+	border-radius: 0 5px 5px 0;
+	transition-duration: 0.4s;	
+}
+
+.ui-switch div.switch-btn:last-of-type a {
+	border-radius: 15px 0 0 15px;
+}
+.ui-switch div.switch-btn:last-of-type a:hover {
+	border-radius: 5px 0 0 5px;
+	transition-duration: 0.4s;	
+}
+
+.ui-switch a:hover {
+	color: white;
+	background: gray;
+}
+
+.ui-switch a i {
+	position: relative;
+	top: 3px;
+}
+
+.ui-switch .card,.ui-switch .card-inner {
+	margin: 0;
+}
+
+.shop-flex,.label-flex,.shop-drop {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	opacity: 1;
+}
+
+.shop-table,.shop-flex {
+	opacity: 1;
+	display: none;
+	/* display:flex;原本的display方式 */
+	/* display:flex; */
+}
+
+.shop-table {
+    margin-top: 14px;
+    position: relative;
+}
+.shop-table .card {
+    width: 100%;
+    margin: 10px 0 0 0;
+    padding: 1em 1em;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    grid-area: main;
+}
+.shop-table .shop-btn {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-radius: 0 0 10px 10px;
+    padding: 8px 2em;
+    grid-area: button;
+}
+.shop-drop {
+    grid-area: drop;
+    background: white;
+    padding: 1em 1.5em;
+    box-shadow: 0 0px 0 #e5e5e5, 0 2px 5px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.05);
+}
+
+.shop-table .shop-name {
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+}
+.shop-table,.shop-table .card {
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.shop-table .card-tag {
+    margin-right: 8px;
+}
+
+.shop-table .card>div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 80%;
+    align-items: center;
+}
+.shop-table .card>div:last-of-type {
+    flex-basis: 10%;
+}
+
+.shop-table span {
+    font-size: 18px;
+    margin: 2px 8px 0 8px;
+}
+
+.shop-gridarea {
+    display: grid;
+    width: 100%;
+    position: relative;
+    transition: .3s all;
+    grid-template-columns: 100%;
+    grid-template-rows: auto 0px auto;
+    grid-template-areas: 
+    "main"
+    "drop"
+    "button"
+}
+.shop-drop .card-tag {
+    flex-basis: 49%;
+    margin: 5px 0 0 0;
+    text-align: center;
+}
+.shop-flex .card {
+	width: 24%;
+	text-align: center;
+	min-height: 380px;
+}
+.shop-flex .card-main {
+	position: relative;
+}
+
+.shop-name,.shop-price {
+    padding: .8em 0;
+}
+.shop-price {
+	border-top: 1px solid #a7a7a7;
+	border-bottom: 1px solid #a7a7a7;
+	background: #f6f9fc;
+	font-size: 13px;
+}
+.shop-price code {
+	font-size: 24px;
+	background: none;
+	font-style: italic;
+	color: #ffa100;
+}
+.shop-content div {
+	margin: 0 15px .7em 15px; 
+}
+.shop-content-div:before,.shop-content-div:after {
+	content: " - ";
+}
+
+
+.shop-content {
+	margin-top: 1.5em;
+	font-size: 13px;
+}
+
+.shop-name {
+	margin-top: .3em;
+	font-size: 24px;
+}
+
+.shop-btn {
+	margin-top: 1em;
+	padding: 10px 2em;
+	width: 70%;
+	margin-bottom: 2em;
+}
+
+.flex-fix3,.flex-fix4 {
+    width: 24%;
+}
+
+.page-course img {
+	width: 60%;
+}
+
+@media screen and (max-width: 1600px) {
+	.shop-flex .card,.flex-fix3 {
+		width: 32%;
+	}
+	.flex-fix4 {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 1440px) {
+	.shop-flex .card {
+		width: 48%;
+	}
+	.page-course img {
+		width: 80%;
+	}
+}
+
+@media screen and (max-width: 715px) {
+	.shop-flex .card {
+		width: 100%;
+	}
+	.page-course img {
+		width: 100%;
+	}
+}
+
+@media screen and (max-width:400px) {
+	.nodemain {
+		max-width: 240px;
+    }
+    .shop-table .card-tag,.shop-table span {
+        flex-basis: 40%;
+        text-align: center;
+        margin: 5px 8px 0 0; 
+    }
+    .shop-table .shop-name {
+        flex-basis: 100%;
+    }
+    .shop-drop .card-tag {
+    flex-basis: 49%;
+    margin: 5px 0;
+}
+}
+
+/* 面板原样式 */
 .ui-card-wrap:after,.ui-picker-lib:after {
     clear: both
 }
@@ -288,6 +531,10 @@ ul.dropdown-menu {
 }
 .dropdown-menu.dropdown-menu-right {
     min-width: 130px;
+}
+
+.modal-inner p {
+    word-break: break-word;
 }
 
 /* 卡片节点 */
@@ -606,22 +853,37 @@ div.nodetitle:first-of-type>a {
     position: relative;
     top: 1px;
 }
-a.card-tag {
+/* 仿iview标签 */
+a.card-tag,.card-tag {
     font-size: 12px;
     text-decoration: none;
     padding: 1px 6px 0;
     border-radius: 3px;
     border: 1px solid;
+    height: 23px;
 }
-a.tag-orange {
+.card-tag:hover {
+    opacity: .85;
+}
+a.tag-orange,.tag-orange {
     background: #fff2e8;
     color: #fa541c;
     border-color: #ffd591;
 }
-a.tag-green {
+a.tag-green,.tag-green {
     background: #f6ffed;
     color: #52c41a;
     border-color: #b7eb8f;
+}
+a.tag-black,.tag-black {
+    background: #f7f7f7;
+    color: #515a6e;
+    border-color: #a6a7a9;
+}
+a.tag-gold,.tag-gold {
+    background: #fffbe6;
+    color: #faad14;
+    border-color: #ffe58f;
 }
 
 .card-invite .form-group-label {
@@ -663,12 +925,23 @@ a.tag-green {
 .fade-delay {
     transition-delay: .3s
 }
-/*  */
-@media screen and (max-width:400px) {
-	.nodemain {
-		max-width: 240px;
-	}
+/* 下拉菜单插件 */
+/* .dropdown-hide {
+    display: none;
+} */
+.dropdown-area {
+    height: 0;
+    opacity: 0;
+    transform: scale(1,0);
+    transition: .3s all;
+    transform-origin: top;
 }
+.dropdown-area.dropdown-active {
+    transform: scale(1,1);
+    opacity: 1;
+    height: auto;
+}
+
 
 @media screen and (max-width:320px) {
 	.card-heading {
@@ -697,6 +970,40 @@ a.tag-green {
     }
 }
 
+@media only screen and (min-width:480px) {
+    .shop-table .card {
+        flex-basis: 80%;
+        border-radius: 10px 0 0 10px;
+    }
+    .shop-table .shop-btn {
+        border-radius: 0 30px 30px 0;
+        flex-basis: 20%;
+        margin-top: 10px;
+        padding: 16px 2em 16px 1.5em;
+    }
+    .shop-table .shop-btn:hover {
+        border-radius: 0 10px 10px 0;
+    }
+    .shop-table .card>div:last-of-type {
+        flex-basis: 2%;
+    }
+   
+    .shop-gridarea {
+        width: 100%;
+        grid-template-columns: 80% 20%;
+        grid-template-rows: auto 0px;
+        grid-template-areas: 
+        "main button"
+        "drop block"
+    }
+    .shop-drop {
+        border-radius: 10px;
+        padding: 1em 1.5em;
+        margin: 5px 0 1em 0;
+        box-shadow: 0 0px 0 #e5e5e5, 0 0 15px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.05);
+    }
+}
+
 @media only screen and (min-width:768px) {
     .ui-card-pre {
         min-height: 189px
@@ -711,7 +1018,7 @@ a.tag-green {
 	.nodetitle {
 		grid-column-end: 3;
 		grid-column-start: 1;
-	}
+    }
 }
 
 @media only screen and (min-width:992px) {
@@ -737,5 +1044,9 @@ a.tag-green {
     }
     .card-invite {
         min-height: 266px;
+    }
+    .shop-gridarea {
+        width: 100%;
+        grid-template-columns: 87% 13%;
     }
 }
