@@ -268,16 +268,24 @@ function buy(id,auto) {
 	let dropDownGridArea = document.querySelectorAll('.shop-gridarea');
 	let dropDownButton = document.querySelectorAll('.shop-table .card');
 	let dropDownArea = document.querySelectorAll('.dropdown-area');
-	let buyButton = document.querySelectorAll('.btn.shop-btn');
 	for (let i=0;i<dropDownButton.length;i++) {
 		dropDownButton[i].addEventListener('click',()=>{
-		if (window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows == dropDownButton[i].offsetHeight + 10 + 'px 0px 36px') {
-			dropDownGridArea[i].style.gridTemplateRows = 'auto auto';
-		} else if (window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows == dropDownButton[i].offsetHeight + 10 + 'px 0px') {
-			dropDownGridArea[i].style.gridTemplateRows = 'auto auto';
-		} else {
-			dropDownGridArea[i].style.gridTemplateRows = 'auto 0px';
-		}
+			let buttonMarginTop = parseInt(window.getComputedStyle(dropDownButton[i]).marginTop);
+			let buttonHeight = dropDownButton[i].offsetHeight + buttonMarginTop;
+			let buyHeight = dropDownGridArea[i].offsetHeight - buttonHeight;
+		    if (window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows == buttonHeight + 'px 0px ' + buyHeight + 'px') {
+				dropDownGridArea[i].style.gridTemplateRows = 'auto auto auto';
+		    } else if (window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows == buttonHeight + 'px 0px') {
+			    dropDownGridArea[i].style.gridTemplateRows = 'auto auto';
+		    } else {
+				let loop = setInterval(()=>{
+					dropDownGridArea[i].style.gridTemplateRows = 'auto ' + (parseInt(window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows.split(' ')[1]) - 13) + 'px';//没有办法只能这么算了
+					if (parseInt(window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows.split(' ')[1]) < 15) {
+						clearInterval(loop);
+						dropDownGridArea[i].style.gridTemplateRows = 'auto 0px';
+					}
+				},10);
+			}
 		});
 		custDropdown(dropDownButton[i], dropDownArea[i]);
 	}

@@ -135,7 +135,7 @@
 }
 .shop-drop .card-tag {
     flex-basis: 49%;
-    margin: 5px 0 0 0;
+    margin: 3px 0 3px 0;
     text-align: center;
 }
 .shop-flex .card {
@@ -939,7 +939,6 @@ a.tag-gold,.tag-gold {
 .dropdown-area.dropdown-active {
     transform: scale(1,1);
     opacity: 1;
-    height: auto;
 }
 
 
