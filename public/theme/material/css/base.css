@@ -1527,6 +1527,10 @@ template,
   word-wrap: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -moz-user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
 }
 
 .icon-2x {
