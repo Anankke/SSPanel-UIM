@@ -376,6 +376,9 @@
 	margin:40px auto;
 	margin-top: 60px;
 }
+.progressbar:first-of-type {
+	margin-top: 70px;
+}
 
 .progressbar .before{
     position:absolute;
@@ -487,11 +490,15 @@
     animation:sparkle 1500ms linear infinite;
 	opacity:0.4;
 }
+
+.label.la-top code,.progressbar .label {
+    display:flex;
+    align-items: center;
+}
 .progressbar .label {
 	font-family:'Aldrich', sans-serif;
 	position:relative;
-	display:block;
-	width:30%;
+	width: 100%;
 	height:30px;
 	line-height:30px;
 	bottom:40px;
@@ -503,7 +510,14 @@
 	color:#252525;
     filter:dropshadow(color=#000000, offx=0, offy=-1);
 }
-
+.label.la-top code {
+    position: absolute;
+	right: 0;
+	top: 6px;
+}
+.traffic-info {
+	margin-top: 6px;
+}
 
 	</style>
 

@@ -79,7 +79,7 @@
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="method">加密方式</label>
 											<button id="method" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->method}">
-												[{if URL::CanMethodConnect($method) == 2}SS/SSD{else}SS/SSR{/if} 可连接]
+												[{if URL::CanMethodConnect($user->method) == 2}SS/SSD{else}SS/SSR{/if} 可连接]
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="method">
 												{$method_list = $config_service->getSupportParam('method')}
@@ -124,11 +124,7 @@
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="imtype">选择您的联络方式</label>
 											<button class="form-control maxwidth-edit" id="imtype" data-toggle="dropdown" value="{$user->im_type}">
-												{* <option></option>
-												<option value="1">微信</option>
-												<option value="2">QQ</option>
-												<option value="3">Google+</option>
-												<option value="4">Telegram</option> *}
+
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="imtype">
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="1" data="imtype">微信</a></li>
@@ -163,7 +159,7 @@
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="protocol">协议</label>
 											<button id="protocol" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->protocol}">
-												[{if URL::CanProtocolConnect($protocol) == 3}SS/SSD/SSR{else}SSR{/if} 可连接]
+												[{if URL::CanProtocolConnect($user->protocol) == 3}SS/SSD/SSR{else}SSR{/if} 可连接]
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="protocol">
 												{$protocol_list = $config_service->getSupportParam('protocol')}
@@ -183,7 +179,7 @@
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="obfs">混淆方式</label>
 											<button id="obfs" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->obfs}">
-												[{if URL::CanObfsConnect($obfs) >= 3}SS/SSD/SSR{else}{if URL::CanObfsConnect($obfs) == 1}SSR{else}SS/SSD{/if}{/if} 可连接]
+												[{if URL::CanObfsConnect($user->obfs) >= 3}SS/SSD/SSR{elseif URL::CanObfsConnect($user->obfs) == 1}SSR{else}SS/SSD{/if} 可连接]
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="obfs">
 											{$obfs_list = $config_service->getSupportParam('obfs')}
@@ -299,8 +295,7 @@
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="ga-enable">验证设置</label>
 											<button type="button" id="ga-enable" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->ga_enable}">
-												{* <option value="0">不要求</option>
-												<option value="1">要求验证</option> *}
+
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="ga-enable">
 												<li><a href="#" class="dropdown-option" onclick="return false;" val="0" data="ga-enable">不要求</a> </li>

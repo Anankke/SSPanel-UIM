@@ -885,6 +885,11 @@ a.tag-gold,.tag-gold {
     color: #faad14;
     border-color: #ffe58f;
 }
+a.tag-red,.tag-red {
+    background: #fff1f0;
+    color: #f5222d;
+    border-color: #ffa39e;
+}
 
 .card-invite .form-group-label {
     margin-bottom: 16px;
