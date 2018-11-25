@@ -259,7 +259,7 @@
 													<div class="tab-pane fade" id="all_ssr_ios">
 													{if $display_ios_class>=0}
 														<div><span class="icon icon-lg text-white">account_box</span> 公共iOS账户：</div>
-														{if $user->class>=$display_ios_account}
+														{if $user->class>=$display_ios_class}
 															<div class="float-clear">
 																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
 																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_account}">点击复制</button><br>
@@ -271,7 +271,7 @@
 															</div>
 														{else}
 															<p class="card-heading" align="center"><b> 
-																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_account}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐。
+																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_class}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐。
 															</b></p>
 														{/if}
 													{/if}
@@ -433,7 +433,7 @@
 													<div class="tab-pane fade" id="all_ss_ios">													
 													{if $display_ios_class>=0}
 														<div><span class="icon icon-lg text-white">account_box</span> 公共iOS账户：</div>
-														{if $user->class>=$display_ios_account}
+														{if $user->class>=$display_ios_class}
 															<div class="float-clear">
 																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
 																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_account}">点击复制</button><br>
@@ -445,7 +445,7 @@
 															</div>
 														{else}
 															<p class="card-heading" align="center"><b> 
-																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_account}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐。
+																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_class}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐。
 															</b></p>
 														{/if}
 													{/if}
