@@ -211,7 +211,6 @@ class AuthController extends BaseController
                 return $response->getBody()->write(json_encode($res));
             }
 
-
             $user = User::where('email', '=', $email)->first();
             if ($user != null) {
                 $res['ret'] = 0;

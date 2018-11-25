@@ -234,7 +234,7 @@
 							<div class="auth-row">
 								<div class="form-group-label auth-row">
 									<label class="floating-label" for="email">邮箱(唯一凭证请认真对待)</label>
-									<input class="form-control maxwidth-auth" id="email" type="text">
+									<input class="form-control maxwidth-auth" id="email" type="text" maxlength="32">
 								</div>
 							</div>
 						</div>
