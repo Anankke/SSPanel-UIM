@@ -1752,6 +1752,7 @@ class UserController extends BaseController
         $this->user->last_check_in_time = time();
         $this->user->save();
         $res['msg'] = sprintf("获得了 %d MB流量.", $traffic);
+        $res['traffic'] = $traffic;
         $res['ret'] = 1;
         return $this->echoJson($response, $res);
     }

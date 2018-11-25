@@ -275,7 +275,7 @@
 															</b></p>
 														{/if}
 													{/if}
-                                                        <p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中点击<a href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist">这里</a>安装 Potatso Lite</p>
+                                                        <p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a class="btn-dl" href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i class="material-icons">save_alt</i> 点击安装 Potatso Lite</a></p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso Lite，点击添加代理，点击右上角的 + 号，选择“订阅”，名字任意填写，开启自动更新，URL填写以下地址并保存即可</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
@@ -556,7 +556,7 @@
 
 									<div class="card-action">
 										<div class="usercheck pull-left">
-											{if $user->isAbleToCheckin() }
+											{*{if $user->isAbleToCheckin() }*}
 
 												<div id="checkin-btn">
 													<button id="checkin" class="btn btn-brand btn-flat waves-attach"><span class="icon">check</span>&nbsp;点我签到&nbsp;
@@ -565,12 +565,12 @@
 												</div>
 
 
-											{else}
+											{*{else}
 
 												<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">check</span>&nbsp;今日已签到</a></p>
 
 
-											{/if}
+											{/if}*}
 										</div>
 									</div>
 										</dl>
@@ -637,23 +637,23 @@
 
 										<div class="progressbar">
 	                                         <div class="before"></div>
-	                                         <div class="bar tuse color3" style="width:calc({($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}% - 46px);"><span></span></div>
+	                                         <div class="bar tuse color3" style="width:calc({($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}%);"><span></span></div>
 											 <div class="label-flex">
 												<div class="label la-top"><div class="bar ard color3"><span></span></div>今日已用 <code>{$user->TodayusedTraffic()}</code></div>
 											 </div>
 										</div>
 										<div class="progressbar">
 										    <div class="before"></div>
-										    <div class="bar ard color2" style="width:calc({$user->last_day_t/$user->transfer_enable*100}% - 46px);"><span></span></div>
+										    <div class="bar ard color2" style="width:calc({$user->last_day_t/$user->transfer_enable*100}%);"><span></span></div>
 										    <div class="label-flex">
 										       <div class="label la-top"><div class="bar ard color2"><span></span></div>过去已用 <code>{$user->LastusedTraffic()}</code></div>
 										    </div>
 								        </div>
 										<div class="progressbar">
 											<div class="before"></div>
-											<div class="bar remain color" style="width:calc({($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}% - 46px);"><span></span></div>
+											<div class="bar remain color" style="width:calc({($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}%);"><span></span></div>
 											<div class="label-flex">
-											   <div class="label la-top"><div class="bar ard color"><span></span></div>剩余流量 <code>{$user->unusedTraffic()}</code></div>
+											   <div class="label la-top"><div class="bar ard color"><span></span></div>剩余流量 <code id="remain">{$user->unusedTraffic()}</code></div>
 											</div>
 									   </div>
 
@@ -747,6 +747,24 @@ $(".reset-link").click(function () {
 	window.setTimeout("location.href='/user/url_reset'", {$config['jump_delay']});
 });
 
+//传签到值进去算剩余流量
+function adjustRemain(checkinTraffic) {
+
+	let remain = document.querySelector('#remain');
+	let toFix = checkinTraffic / 1024;
+
+    if (remain.innerText.indexOf('GB')==-1) {
+        remain.innerText = parseInt(remain.innerText) + checkinTraffic + 'MB';
+	} else {
+		remain.innerText = parseInt(remain.innerText) + toFix.toFixed(2) + 'GB';
+	}
+	if (remain.innerText.indexOf('GB') == -1 && parseFloat(remain.innerText) > 1024) {
+		toFix = parseInt(remain.innerText) / 1024;
+        remain.innerText = toFix.toFixed(2) + 'GB';
+	}
+
+}
+
  {if $user->transfer_enable-($user->u+$user->d) == 0}
 window.onload = function() {
     $("#result").modal();
@@ -781,6 +799,7 @@ window.onload = function() {
                     $("#checkin-btn").html(checkedmsgGE);
 					$("#result").modal();
                     $("#msg").html(data.msg);
+					adjustRemain(data.traffic);
                 },
                 error: function (jqXHR) {
 					$("#result").modal();
@@ -802,6 +821,7 @@ $(document).ready(function () {
 				$("#checkin-btn").html(checkedmsgGE);
 				$("#result").modal();
 				$("#msg").html(data.msg);
+				adjustRemain(data.traffic);
 			},
 			error: function (jqXHR) {
 				$("#result").modal();
@@ -854,6 +874,7 @@ var handlerPopup = function (captchaObj) {
 				$("#checkin-btn").html(checkedmsgGE);
 				$("#result").modal();
 				$("#msg").html(data.msg);
+				adjustRemain(data.traffic);
 			},
 			error: function (jqXHR) {
 				$("#result").modal();

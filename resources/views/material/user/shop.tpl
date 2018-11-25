@@ -213,9 +213,12 @@ function buy(id,auto) {
 }
 
 ;(function(){
+
     var nodeDefaultUI = localStorage.getItem("tempUIshop");
 	var elShopCard = $(".shop-flex");
 	var elShopTable = $(".shop-table");
+
+	//进入页面时读取本地存储决定哪种UI
 	nodeDefaultUI = JSON.parse(nodeDefaultUI);
 	if (!nodeDefaultUI) {
 		elShopCard.css("display","flex");
@@ -226,7 +229,7 @@ function buy(id,auto) {
 	    elShopTable.removeClass("node-fade").addClass(nodeDefaultUI["tableFade"]);
 	}
 	
-
+    
 	$("#switch-cards").click(function (){
         elShopTable.addClass("node-fade");
 		setTimeout(function(){
@@ -236,6 +239,7 @@ function buy(id,auto) {
 		setTimeout(function(){
 		      elShopCard.removeClass("node-fade");
 		},270);
+		//切换布局后存状态到本地存储
 		var defaultUI = {
 			"cardFade":"",
 			"cardDisplay":"flex",
@@ -264,15 +268,22 @@ function buy(id,auto) {
 		defaultUI = JSON.stringify(defaultUI);
 		localStorage.setItem("tempUIshop",defaultUI);
 	});
-	
+
+	//计算高度要用到的东西
 	let dropDownGridArea = document.querySelectorAll('.shop-gridarea');
 	let dropDownButton = document.querySelectorAll('.shop-table .card');
 	let dropDownArea = document.querySelectorAll('.dropdown-area');
+
 	for (let i=0;i<dropDownButton.length;i++) {
+
 		dropDownButton[i].addEventListener('click',()=>{
+
+        //也不知道为什么取不到购买按钮的高度，只能用减法算出来
 			let buttonMarginTop = parseInt(window.getComputedStyle(dropDownButton[i]).marginTop);
 			let buttonHeight = dropDownButton[i].offsetHeight + buttonMarginTop;
 			let buyHeight = dropDownGridArea[i].offsetHeight - buttonHeight;
+
+        //grid layout后产生的问题，需要改第二行的高度
 		    if (window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows == buttonHeight + 'px 0px ' + buyHeight + 'px') {
 				dropDownGridArea[i].style.gridTemplateRows = 'auto auto auto';
 		    } else if (window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows == buttonHeight + 'px 0px') {
@@ -287,6 +298,7 @@ function buy(id,auto) {
 				},10);
 			}
 		});
+
 		custDropdown(dropDownButton[i], dropDownArea[i]);
 	}
 

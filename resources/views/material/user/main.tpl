@@ -371,7 +371,6 @@
 	display:block;
     width:90%;
     height:20px;
-    padding:10px 20px;
     border-bottom:1px solid rgba(255,255,255,0.25);
     border-radius:16px;
 	margin:40px auto;
@@ -382,10 +381,10 @@
     position:absolute;
     display:block;
     content:"";
-    width:calc(100% - 42px);
+    width:calc(100% + 4px);
     height:20px;
-    top:10px;
-    left:20px;
+    left:-2px;
+	right: 1px;
     border-radius:20px;
     background:#fff;
     box-shadow: 0px 0px 2px 0px rgba(180, 180, 180, .85);
@@ -396,10 +395,9 @@
 	display:block;
 	width:0px;
 	height:16px;
-	top:12px;
-	left:22px;
+	top:2px;
+	left:0px;
 	background:rgb(126,234,25);
-	
 	border-radius:16px;
 	box-shadow:0px 0px 12px 0px rgba(126, 234, 25, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
 	overflow:hidden;
