@@ -747,29 +747,6 @@ $(".reset-link").click(function () {
 	window.setTimeout("location.href='/user/url_reset'", {$config['jump_delay']});
 });
 
-//传签到值进去算剩余流量
-function adjustRemain(checkinTraffic) {
-
-	let remain = document.querySelector('#remain');
-	let toFix = checkinTraffic / 1024;
-
-    if (checkinTraffic==undefined) {
-		return;
-	}
-	
-    if (remain.innerText.indexOf('GB')==-1) {
-        remain.innerText = parseInt(remain.innerText) + checkinTraffic + 'MB';
-	} else {
-		remain.innerText = parseInt(remain.innerText) + toFix.toFixed(2) + 'GB';
-	}
-
-	if (remain.innerText.indexOf('GB') == -1 && parseFloat(remain.innerText) > 1024) {
-		toFix = parseInt(remain.innerText) / 1024;
-        remain.innerText = toFix.toFixed(2) + 'GB';
-	}
-
-}
-
  {if $user->transfer_enable-($user->u+$user->d) == 0}
 window.onload = function() {
     $("#result").modal();
@@ -804,7 +781,8 @@ window.onload = function() {
                     $("#checkin-btn").html(checkedmsgGE);
 					$("#result").modal();
                     $("#msg").html(data.msg);
-					adjustRemain(data.traffic);
+					$('#remain').html(data.traffic);
+				    $('.bar.remain.color').css('width',(data.unflowtraffic-({$user->u}+{$user->d}))/data.unflowtraffic*100+'%');
                 },
                 error: function (jqXHR) {
 					$("#result").modal();
@@ -826,7 +804,8 @@ $(document).ready(function () {
 				$("#checkin-btn").html(checkedmsgGE);
 				$("#result").modal();
 				$("#msg").html(data.msg);
-				adjustRemain(data.traffic);
+				$('#remain').html(data.traffic);
+				$('.bar.remain.color').css('width',(data.unflowtraffic-({$user->u}+{$user->d}))/data.unflowtraffic*100+'%');
 			},
 			error: function (jqXHR) {
 				$("#result").modal();
@@ -879,7 +858,8 @@ var handlerPopup = function (captchaObj) {
 				$("#checkin-btn").html(checkedmsgGE);
 				$("#result").modal();
 				$("#msg").html(data.msg);
-				adjustRemain(data.traffic);
+				$('#remain').html(data.traffic);
+				$('.bar.remain.color').css('width',(data.unflowtraffic-({$user->u}+{$user->d}))/data.unflowtraffic*100+'%');
 			},
 			error: function (jqXHR) {
 				$("#result").modal();
