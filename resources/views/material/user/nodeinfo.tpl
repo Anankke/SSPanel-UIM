@@ -269,8 +269,8 @@
     var text_qrcode = '{URL::getItemUrl($ss_item, 1)}',
         text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';
 
-    var qrcode1 = new QRCode(document.getElementById("ss-qr")),
-        qrcode2 = new QRCode(document.getElementById("ss-qr-win"));
+    var qrcode1 = new QRCode(document.getElementById("ss-qr"),{ correctLevel: 3 }),
+        qrcode2 = new QRCode(document.getElementById("ss-qr-win"),{ correctLevel: 3 });
 	
 
     qrcode1.clear();
@@ -281,7 +281,7 @@
 
 	{if URL::SSRCanConnect($user, $mu)}
     var text_qrcode2 = '{URL::getItemUrl($ssr_item, 0)}';
-    var qrcode3 = new QRCode(document.getElementById("ss-qr-n"));
+    var qrcode3 = new QRCode(document.getElementById("ss-qr-n"),{ correctLevel: 3 });
     qrcode3.clear();
     qrcode3.makeCode(text_qrcode2);
 	{/if}
