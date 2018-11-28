@@ -113,22 +113,17 @@ class Node extends Model
 
     public function isNodeOnline()
     {
-        $node_heartbeat = $this->attributes['node_heartbeat'];
+        $result = false;
+        $id = $this->attributes['id'];
         $sort = $this->attributes['sort'];
-
-        if (!($sort == 0 || $sort == 7 || $sort == 8 || $sort==10 || $sort==11)) {
-            return null;
+        $node_heartbeat = $this->attributes['node_heartbeat'];
+        $log = NodeOnlineLog::where('node_id', $id)->where("log_time",">",time()-300)->orderBy('id', 'desc')->first();
+        if(!($sort == 0 || $sort == 7 || $sort == 8 || $sort==10 || $sort==11) || $node_heartbeat == 0){
+            $result = null;
+        }else if ($log != null && $log->log_time + 300 > time()) {
+            $result = true;
         }
-
-        if ($node_heartbeat == 0) {
-            return null;
-        }
-
-        if (time() - $node_heartbeat > 300) {
-            return false;
-        } else {
-            return true;
-        }
+        return $result;
     }
 
     public function isNodeTrafficOut()
