@@ -273,7 +273,9 @@ function buy(id,auto) {
 	let dropDownGridArea = document.querySelectorAll('.shop-gridarea');
 	let dropDownButton = document.querySelectorAll('.shop-table .card');
 	let dropDownArea = document.querySelectorAll('.dropdown-area');
-
+	let arrows = document.querySelectorAll('.shop-table .card i');
+	console.log(arrows);
+	
 	for (let i=0;i<dropDownButton.length;i++) {
 
 		dropDownButton[i].addEventListener('click',()=>{
@@ -298,7 +300,8 @@ function buy(id,auto) {
 				},10);
 			}
 		});
-
+		
+		rotatrArrow(dropDownButton[i],arrows[i]);
 		custDropdown(dropDownButton[i], dropDownArea[i]);
 	}
 

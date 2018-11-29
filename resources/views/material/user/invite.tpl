@@ -1,4 +1,3 @@
-
 {include file='user/main.tpl'}
 
 	<main class="content">
@@ -32,7 +31,7 @@
 					{if $user->class!=0}
 
 					{if $user->invite_num!=-1}
-					<div class="col-xx-12 col-lg-7">
+					<div class="col-xx-12 {if $config['invite_price']>=0}col-lg-7{/if}">
 						<div class="card margin-bottom-no card-invite">
 							<div class="card-main">
 								<div class="card-inner">

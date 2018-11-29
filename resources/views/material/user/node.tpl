@@ -394,16 +394,14 @@
 	{literal}
     ;(function(){
 		'use strict'
+	//箭头旋转
+    let rotateTrigger = document.querySelectorAll('a[href^="#cardgroup"]');
+	let arrows = document.querySelectorAll('a[href^="#cardgroup"] i')
+	for (let i=0;i<rotateTrigger.length;i++) {
+		rotatrArrow(rotateTrigger[i],arrows[i]);
+	}
 	
-	$('a[href^="#cardgroup"]').click(function(){
-		var rotatearrow = $(this).find('i');
-		if (!rotatearrow.hasClass('arrow-rotate')) {
-			rotatearrow.addClass('arrow-rotate');
-		} else {		
-			rotatearrow.removeClass('arrow-rotate');
-		}
-	});
-
+	//UI切换
 	var nodeDefaultUI = localStorage.getItem("tempUInode");
 	var elNodeCard = $(".node-cardgroup");
 	var elNodeTable = $(".node-table");
@@ -461,28 +459,6 @@
 	for (let i=0;i<buttongroup.length;i++) {
 		custModal(buttongroup[i],modelgroup[i]);
 	}
-
-	// var tipHidden = $(".tiphidden");
-	// $(".node-card").click(function (){
-	// 	var windowWidth = $(window).width();
-	// 	var cardSize = $(this).css("grid-column-end");
-	// 	var tipID = $(this).attr("cardindex");
-	// 	var tip = $(".node-tip[tipindex=" + tipID + "]");
-	// 	tipHidden.css({"height":"100vh","width":"100vw"});
-	// 	tip.css("z-index","3");
-	// 	setTimeout(function() {
-    //        tip.addClass("tip-down");
-	// 	},200);
-    // });
-
-	// tipHidden.click(function(){
-    //     tipHidden.css({"height":"0","width":"0"});
-	// 	$(".node-tip.tip-down").removeClass("tip-down");
-	// 	var hiddenOver = setTimeout(function(){
-	// 		$(".node-tip").css("z-index","-1");
-	// 	},520);
-	// 	clearTimeout(hiddenOver);
-	// });
 
     })();
 	{/literal}

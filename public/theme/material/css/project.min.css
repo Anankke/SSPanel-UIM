@@ -168,7 +168,12 @@
 .shop-content-div:before,.shop-content-div:after {
 	content: " - ";
 }
-
+.shop-table .card i {
+    transform: rotate(0deg);
+}
+.shop-table .card i.arrow-rotate {
+    transform: rotate(180deg);
+}
 
 .shop-content {
 	margin-top: 1.5em;
@@ -701,7 +706,7 @@ div.nodetitle:first-of-type>a {
     text-align: center;
     display: inline-block;
 }
-.nodetitle>a,.nodetitle a i,.arrow-rotate {
+.nodetitle>a,.nodetitle a i,.arrow-rotate,.shop-table .card i {
     transition: .3s all;
 }
 
@@ -1005,6 +1010,11 @@ a.tag-red,.tag-red {
         padding: 1em 1.5em;
         margin: 5px 0 1em 0;
         box-shadow: 0 0px 0 #e5e5e5, 0 0 15px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.05);
+    }
+    .shop-drop .card-tag {
+        font-size: 16px;
+        height: 26px;
+        padding: 3px 6px 0;
     }
 }
 
