@@ -974,29 +974,6 @@ class UserController extends BaseController
         return $this->view()->assign('code', $code)->assign('paybacks', $paybacks)->assign('paybacks_sum', $paybacks_sum)->display('user/invite.tpl');
     }
 
-    //此函数已废弃
-    public function doInvite($request, $response, $args)
-    {
-        $n = $this->user->invite_num;
-        if ($n < 1) {
-            $res['ret'] = 0;
-            $res['msg'] = "失败";
-            return $response->getBody()->write(json_encode($res));
-        }
-        for ($i = 0; $i < $n; $i++) {
-            $char = Tools::genRandomChar(32);
-            $code = new InviteCode();
-            $code->code = $char;
-            $code->user_id = $this->user->id;
-            $code->save();
-        }
-        $this->user->invite_num = 0;
-        $this->user->save();
-        $res['ret'] = 1;
-        $res['msg'] = "生成成功";
-        return $this->echoJson($response, $res);
-    }
-
     public function buyInvite($request, $response, $args)
     {
         $price = Config::get('invite_price');

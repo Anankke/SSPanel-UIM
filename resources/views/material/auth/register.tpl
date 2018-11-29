@@ -11,7 +11,7 @@
 								<div class="card-header">
 									<div class="card-inner">
 									<!-- 这里可以取消掉注释换logo图。
-									<h1 class="card-heading"><img src="/images/register.jpg" height=100% width=100% /></h1>
+									<h1 class="card-heading"><img src="/images/logo.jpg" height=100% width=100% /></h1>
 									-->
 									<h1 class="card-heading">
 										<div class="text" style=" text-align:center;">

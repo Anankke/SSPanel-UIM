@@ -122,7 +122,6 @@ $app->group('/user', function () {
     $this->get('/ticket/{id}/view', 'App\Controllers\UserController:ticket_view');
     $this->put('/ticket/{id}', 'App\Controllers\UserController:ticket_update');
 	
-    $this->post('/invite', 'App\Controllers\UserController:doInvite');
     $this->post('/buy_invite', 'App\Controllers\UserController:buyInvite');
     $this->get('/edit', 'App\Controllers\UserController:edit');
     $this->post('/password', 'App\Controllers\UserController:updatePassword');
