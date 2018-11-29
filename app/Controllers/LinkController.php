@@ -37,24 +37,6 @@ class LinkController extends BaseController
         return "couldn't alloc token";
     }
 
-    public static function GenerateCode($type, $address, $port, $ios, $userid)
-    {
-        $Elink = Link::where("type", "=", $type)->where("address", "=", $address)->where("port", "=", $port)->where("ios", "=", $ios)->where("userid", "=", $userid)->first();
-        if ($Elink != null) {
-            return $Elink->token;
-        }
-        $NLink = new Link();
-        $NLink->type = $type;
-        $NLink->address = $address;
-        $NLink->port = $port;
-        $NLink->ios = $ios;
-        $NLink->userid = $userid;
-        $NLink->token = LinkController::GenerateRandomLink();
-        $NLink->save();
-
-        return $NLink->token;
-    }
-
     public static function GenerateAclCode($address, $port, $userid, $geo, $method)
     {
         $Elink = Link::where("type", "=", 9)->where("address", "=", $address)->where("port", "=", $port)->where("userid", "=", $userid)->where("geo", "=", $geo)->where("method", "=", $method)->first();
@@ -126,19 +108,6 @@ class LinkController extends BaseController
         }
 
         switch ($Elink->type) {
-            case 3:
-                $type = "PROXY";
-                break;
-            case 7:
-                $type = "PROXY";
-                break;
-            case 8:
-                if ($Elink->ios==0) {
-                    $type = "SOCKS5";
-                } else {
-                    $type = "SOCKS";
-                }
-                break;
             case 9:
                 $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.acl');//->getBody()->write($builder->output());
                 $newResponse->getBody()->write(LinkController::GetAcl(User::where("id", "=", $Elink->userid)->first()));

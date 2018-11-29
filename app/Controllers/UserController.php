@@ -721,17 +721,6 @@ class UserController extends BaseController
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfossh.tpl');
                 }
                 break;
-            case 3:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $exp = explode(":", $node->server);
-                    $token = LinkController::GenerateCode(3, $exp[0], $exp[1], 0, $this->user->id);
-                    $json_show = "PAC 信息<br>地址：" . Config::get('baseUrl') . "/link/" . $token . "<br>" . "用户名：" . $email . "<br>密码：" . $this->user->passwd . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopac.tpl');
-                }
-                break;
             case 5:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
@@ -740,26 +729,6 @@ class UserController extends BaseController
                     $json_show = "Anyconnect 信息<br>地址：" . $node->server . "<br>" . "用户名：" . $email . "<br>密码：" . $this->user->passwd . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
 
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoanyconnect.tpl');
-                }
-                break;
-            case 7:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $token = LinkController::GenerateCode(7, $node->server, ($this->user->port - 20000), 0, $this->user->id);
-                    $json_show = "PAC Plus 信息<br>PAC 地址：" . Config::get('baseUrl') . "/link/" . $token . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopacplus.tpl');
-                }
-                break;
-            case 8:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $token = LinkController::GenerateCode(8, $node->server, ($this->user->port - 20000), 0, $this->user->id);
-                    $token_ios = LinkController::GenerateCode(8, $node->server, ($this->user->port - 20000), 1, $this->user->id);
-                    $json_show = "PAC Plus Plus信息<br>PAC 一般地址：" . Config::get('baseUrl') . "/link/" . $token . "<br>PAC iOS 地址：" . Config::get('baseUrl') . "/link/" . $token_ios . "<br>" . "备注：" . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopacpp.tpl');
                 }
                 break;
             case 10:
