@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Services\Gateway;
 
-class PayConfig{
+class YftPayConfig{
 
     public $pay_config;
 
     public function init()
     {
         $this->pay_config = [
-            "notify_url" => "/yft/notify",
+            "notify_url" => "/notify",
             "return_url" => "/user/code",
             "type" => "aliPay"
         ];

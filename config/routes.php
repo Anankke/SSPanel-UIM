@@ -71,18 +71,10 @@ $app->get('/', 'App\Controllers\HomeController:index');
 $app->get('/404', 'App\Controllers\HomeController:page404');
 $app->get('/405', 'App\Controllers\HomeController:page405');
 $app->get('/500', 'App\Controllers\HomeController:page500');
-$app->get('/pwm_pingback', 'App\Services\Payment:notify');
 $app->post('/notify', 'App\Controllers\HomeController:notify');
-$app->post('/alipay_callback', 'App\Services\Payment:notify');              // @todo: Will be replaced by Payment::notify
-$app->post('/pay_callback', 'App\Services\Payment:notify');
-$app->get('/pay_callback', 'App\Services\Payment:notify');                  // @todo: Will be replaced by Payment::notify
 $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
-$app->get('/gfwlistjs', 'App\Controllers\LinkController:GetGfwlistJs');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
-$app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');            // @todo: Will be replaced by Payment::notify
-$app->get('/codepay_callback', 'App\Services\Payment:notify');
-$app->post('/codepay_callback', 'App\Services\Payment:notify');
 
 // User Center
 $app->group('/user', function () {

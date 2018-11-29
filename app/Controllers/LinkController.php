@@ -153,15 +153,6 @@ class LinkController extends BaseController
         return $newResponse;
     }
 
-
-    public static function GetGfwlistJs($request, $response, $args)
-    {
-        $newResponse = $response->withHeader('Content-type', ' application/x-ns-proxy-autoconfig; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=gfwlist.js');
-        ;//->getBody()->write($builder->output());
-        $newResponse->getBody()->write(LinkController::GetMacPac());
-        return $newResponse;
-    }
-
     public static function GetPcConf($user, $is_mu = 0, $is_ss = 0)
     {
     if ($is_ss==0) {
@@ -289,13 +280,6 @@ class LinkController extends BaseController
         header('Content-type: application/x-ns-proxy-autoconfig; charset=utf-8');
         return LinkController::get_pac($type, $address, $port, true, $defined);
     }
-
-    private static function GetMacPac()
-    {
-        header('Content-type: application/x-ns-proxy-autoconfig; charset=utf-8');
-        return LinkController::get_mac_pac();
-    }
-
 
     private static function GetAcl($user)
     {
@@ -500,9 +484,7 @@ class LinkController extends BaseController
         $acl_content .= $find_function_content."\n".$proxy_list."\n".$bypass_list."\n".$outbound_block_list;
         return $acl_content;
     }
-
-
-
+	   
     /**
      * This is a php implementation of autoproxy2pac
      */
@@ -533,53 +515,6 @@ class LinkController extends BaseController
         $count = 0;
         $pac_content = '';
         $find_function_content = 'function FindProxyForURL(url, host) { var PROXY = "'.$proxy_type.' '.$proxy_host.':'.$proxy_port.'; DIRECT"; var DEFAULT = "DIRECT";'."\n";
-        foreach ($gfwlist as $index=>$rule) {
-            if (empty($rule)) {
-                continue;
-            } elseif (substr($rule, 0, 1) == '!' || substr($rule, 0, 1) == '[') {
-                continue;
-            }
-            $return_proxy = 'PROXY';
-        // @@开头表示默认是直接访问
-        if (substr($rule, 0, 2) == '@@') {
-            $rule = substr($rule, 2);
-            $return_proxy = "DEFAULT";
-        }
-
-        // ||开头表示前面还有路径
-        if (substr($rule, 0, 2) =='||') {
-            $rule_reg = "^[\\w\\-]+:\\/+(?!\\/)(?:[^\\/]+\\.)?".LinkController::reg_encode(substr($rule, 2));
-        // !开头相当于正则表达式^
-        } elseif (substr($rule, 0, 1) == '|') {
-            $rule_reg = "^" . LinkController::reg_encode(substr($rule, 1));
-        // 前后匹配的/表示精确匹配
-        } elseif (substr($rule, 0, 1) == '/' && substr($rule, -1) == '/') {
-            $rule_reg = substr($rule, 1, strlen($rule) - 2);
-        } else {
-            $rule_reg = LinkController::reg_encode($rule);
-        }
-        // 以|结尾，替换为$结尾
-        if (preg_match("/\|$/i", $rule_reg)) {
-            $rule_reg = substr($rule_reg, 0, strlen($rule_reg) - 1)."$";
-        }
-            $find_function_content.='if (/' . $rule_reg . '/i.test(url)) return '.$return_proxy.';'."\n";
-            $count = $count + 1;
-        }
-        $find_function_content.='return DEFAULT;'."}";
-        $pac_content.=$find_function_content;
-        return $pac_content;
-    }
-
-
-    private static function get_mac_pac()
-    {
-        $rulelist = base64_decode(file_get_contents("https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt"));
-        $gfwlist = explode("\n", $rulelist);
-        $gfwlist[] = ".google.com";
-
-        $count = 0;
-        $pac_content = '';
-        $find_function_content = 'function FindProxyForURL(url, host) { var PROXY = "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080; DIRECT;"; var DEFAULT = "DIRECT";'."\n";
         foreach ($gfwlist as $index=>$rule) {
             if (empty($rule)) {
                 continue;

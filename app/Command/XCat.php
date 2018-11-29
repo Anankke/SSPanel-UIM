@@ -29,8 +29,6 @@ class XCat
     public function boot()
     {
         switch ($this->argv[1]) {
-            case("install"):
-                return $this->install();
             case("alipay"):
                 return (new ChenPay())->AliPayListen();
             case("wxpay"):
@@ -159,11 +157,6 @@ class XCat
                 $rule->delete();
             }
         }
-    }
-
-    public function install()
-    {
-        echo "x cat will install ss-panel v3...../n";
     }
 
     public function initdownload()
