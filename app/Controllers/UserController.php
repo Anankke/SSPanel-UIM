@@ -62,14 +62,9 @@ class UserController extends BaseController
     {
 
         $user = $this->user;
-
-        $ios_token = LinkController::GenerateIosCode("smart", 0, $this->user->id, 0, "smart");
-
         $acl_token = LinkController::GenerateAclCode("smart", 0, $this->user->id, 0, "smart");
-
         $router_token = LinkController::GenerateRouterCode($this->user->id, 0);
         $router_token_without_mu = LinkController::GenerateRouterCode($this->user->id, 1);
-
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
         $uid = time() . rand(1, 10000);
@@ -85,7 +80,7 @@ class UserController extends BaseController
         return $this->view()->assign('ssr_sub_token', $ssr_sub_token)->assign('router_token', $router_token)
             ->assign('router_token_without_mu', $router_token_without_mu)->assign('acl_token', $acl_token)
 			->assign('display_ios_class',Config::get('display_ios_class'))->assign('ios_account',Config::get('ios_account'))->assign('ios_password',Config::get('ios_password'))
-            ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
+            ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)
             ->assign('mergeSub', Config::get('mergeSub'))->assign('subUrl', Config::get('subUrl'))
             ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
     }
@@ -95,14 +90,9 @@ class UserController extends BaseController
     {
 
         $user = $this->user;
-
-        $ios_token = LinkController::GenerateIosCode("smart", 0, $this->user->id, 0, "smart");
-
         $acl_token = LinkController::GenerateAclCode("smart", 0, $this->user->id, 0, "smart");
-
         $router_token = LinkController::GenerateRouterCode($this->user->id, 0);
         $router_token_without_mu = LinkController::GenerateRouterCode($this->user->id, 1);
-
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
         $uid = time() . rand(1, 10000);
@@ -117,7 +107,7 @@ class UserController extends BaseController
 
         return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
             ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
-            ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
+            ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)
             ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/panel.tpl');
     }
 
