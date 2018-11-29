@@ -1,15 +1,5 @@
 
-
-
-
-
 {include file='user/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -172,7 +162,6 @@
 </script>
 
 <script>
-{include file='table/js_1.tpl'}
 
 $("#buy-invite").click(function () {
     $.ajax({
@@ -197,10 +186,6 @@ $("#buy-invite").click(function () {
         	$("#msg").html(data.msg+"     出现了一些错误。");
         }
     })
-});
-
-$(document).ready(function(){
- 	{include file='table/js_2.tpl'}
 });
 
 </script>
