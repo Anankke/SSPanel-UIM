@@ -32,6 +32,10 @@ class Update
 		Job::updatedownload();
 		echo('升级ssrdownload结束'.PHP_EOL);
 
+		echo('开始升级QQWry...'.PHP_EOL);
+		XCat::initQQWry();
+		echo('升级QQWry结束'.PHP_EOL);
+
 		echo(PHP_EOL);
 
 		$config_old=file_get_contents(BASE_PATH."/config/.config.php");
