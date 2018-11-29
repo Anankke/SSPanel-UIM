@@ -55,25 +55,6 @@ class LinkController extends BaseController
         return $NLink->token;
     }
 
-    public static function GenerateApnCode($isp, $address, $port, $userid)
-    {
-        $Elink = Link::where("type", "=", 6)->where("address", "=", $address)->where("port", "=", $port)->where("userid", "=", $userid)->where("isp", "=", $isp)->first();
-        if ($Elink != null) {
-            return $Elink->token;
-        }
-        $NLink = new Link();
-        $NLink->type = 6;
-        $NLink->address = $address;
-        $NLink->port = $port;
-        $NLink->ios = 1;
-        $NLink->isp = $isp;
-        $NLink->userid = $userid;
-        $NLink->token = LinkController::GenerateRandomLink();
-        $NLink->save();
-
-        return $NLink->token;
-    }
-
     public static function GenerateAclCode($address, $port, $userid, $geo, $method)
     {
         $Elink = Link::where("type", "=", 9)->where("address", "=", $address)->where("port", "=", $port)->where("userid", "=", $userid)->where("geo", "=", $geo)->where("method", "=", $method)->first();
@@ -151,10 +132,6 @@ class LinkController extends BaseController
             case 7:
                 $type = "PROXY";
                 break;
-            case 6:
-                $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.mobileconfig');//->getBody()->write($builder->output());
-                $newResponse->getBody()->write(LinkController::GetApn($Elink->isp, $Elink->address, $Elink->port, User::where("id", "=", $Elink->userid)->first()->pac));
-                return $newResponse;
             case 8:
                 if ($Elink->ios==0) {
                     $type = "SOCKS5";
@@ -337,75 +314,6 @@ class LinkController extends BaseController
         $json["configs"]=$temparray;
         return json_encode($json, JSON_PRETTY_PRINT);
     }
-
-    private static function GetApn($apn, $server, $port)
-    {
-        return '
-        <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-        <plist version="1.0">
-        <dict>
-            <key>PayloadContent</key>
-            <array>
-                <dict>
-                    <key>PayloadContent</key>
-                    <array>
-                        <dict>
-                            <key>DefaultsData</key>
-                            <dict>
-                                <key>apns</key>
-                                <array>
-                                    <dict>
-                                        <key>apn</key>
-                                        <string>'.$apn.'</string>
-                                        <key>proxy</key>
-                                        <string>'.$server.'</string>
-                                        <key>proxyPort</key>
-                                        <integer>'.$port.'</integer>
-                                    </dict>
-                                </array>
-                            </dict>
-                            <key>DefaultsDomainName</key>
-                            <string>com.apple.managedCarrier</string>
-                        </dict>
-                    </array>
-                    <key>PayloadDescription</key>
-                    <string>提供对营运商“接入点名称”的自定义。</string>
-                    <key>PayloadDisplayName</key>
-                    <string>APN</string>
-                    <key>PayloadIdentifier</key>
-                    <string>com.tony.APNUNI'.$server.'.</string>
-                    <key>PayloadOrganization</key>
-                    <string>Tony</string>
-                    <key>PayloadType</key>
-                    <string>com.apple.apn.managed</string>
-                    <key>PayloadUUID</key>
-                    <string>7AC1FC00-7670-41CA-9EE1-4A5882DBD'.rand(100, 999).'D</string>
-                    <key>PayloadVersion</key>
-                    <integer>1</integer>
-                </dict>
-            </array>
-            <key>PayloadDescription</key>
-            <string>APN配置文件</string>
-            <key>PayloadDisplayName</key>
-            <string>APN快速配置 - '.$server.' ('.$apn.')</string>
-            <key>PayloadIdentifier</key>
-            <string>com.tony.APNUNI'.$server.'</string>
-            <key>PayloadOrganization</key>
-            <string>Tony</string>
-            <key>PayloadRemovalDisallowed</key>
-            <false/>
-            <key>PayloadType</key>
-            <string>Configuration</string>
-            <key>PayloadUUID</key>
-            <string>4C355D66-E72E-4DC8-864F-62C416015'.rand(100, 999).'D</string>
-            <key>PayloadVersion</key>
-            <integer>1</integer>
-        </dict>
-        </plist>
-        ';
-    }
-
 
     private static function GetPac($type, $address, $port, $defined)
     {

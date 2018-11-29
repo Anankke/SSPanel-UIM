@@ -272,14 +272,8 @@ class NodeController extends AdminController
                 case 3:
                   $sort = 'PAC';
                   break;
-                case 4:
-                  $sort = 'APN文件外链';
-                  break;
                 case 5:
                   $sort = 'Anyconnect';
-                  break;
-                case 6:
-                  $sort = 'APN';
                   break;
                 case 7:
                   $sort = 'PAC PLUS(Socks 代理生成 PAC文件)';

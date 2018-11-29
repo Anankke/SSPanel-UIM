@@ -698,13 +698,11 @@ class UserController extends BaseController
 
 
         switch ($node->sort) {
-
             case 0:
                 if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
                     return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
                 }
                 break;
-
             case 1:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
@@ -714,7 +712,6 @@ class UserController extends BaseController
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfovpn.tpl');
                 }
                 break;
-
             case 2:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
@@ -723,10 +720,7 @@ class UserController extends BaseController
 
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfossh.tpl');
                 }
-
                 break;
-
-
             case 3:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
@@ -737,20 +731,7 @@ class UserController extends BaseController
 
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopac.tpl');
                 }
-
                 break;
-
-            case 4:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $json_show = "APN 信息<br>下载地址：" . $node->server . "<br>" . "用户名：" . $email . "<br>密码：" . $this->user->passwd . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoapn.tpl');
-                }
-
-                break;
-
             case 5:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
@@ -760,42 +741,16 @@ class UserController extends BaseController
 
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoanyconnect.tpl');
                 }
-
-
                 break;
-
-            case 6:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $exp = explode(":", $node->server);
-
-                    $token_cmcc = LinkController::GenerateApnCode("cmnet", $exp[0], $exp[1], $this->user->id);
-                    $token_cnunc = LinkController::GenerateApnCode("3gnet", $exp[0], $exp[1], $this->user->id);
-                    $token_ctnet = LinkController::GenerateApnCode("ctnet", $exp[0], $exp[1], $this->user->id);
-
-                    $json_show = "APN 文件<br>移动地址：" . Config::get('baseUrl') . "/link/" . $token_cmcc . "<br>联通地址：" . Config::get('baseUrl') . "/link/" . $token_cnunc . "<br>电信地址：" . Config::get('baseUrl') . "/link/" . $token_ctnet . "<br>" . "用户名：" . $email . "<br>密码：" . $this->user->passwd . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoapndownload.tpl');
-                }
-
-
-                break;
-
             case 7:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
                     $email = Radius::GetUserName($email);
                     $token = LinkController::GenerateCode(7, $node->server, ($this->user->port - 20000), 0, $this->user->id);
                     $json_show = "PAC Plus 信息<br>PAC 地址：" . Config::get('baseUrl') . "/link/" . $token . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
-
-
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopacplus.tpl');
                 }
-
-
                 break;
-
             case 8:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
@@ -806,11 +761,7 @@ class UserController extends BaseController
 
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopacpp.tpl');
                 }
-
-
                 break;
-
-
             case 10:
                 if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
                     return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
