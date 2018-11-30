@@ -51,13 +51,14 @@
 							</div>
 						</div>
 					</div>
+					{if $config['custom_invite_price']>=0}
 					<div class="col-xx-12 {if $config['invite_price']>=0}col-lg-6{/if}">
 							<div class="card margin-bottom-no">
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
 										<div class="card-inner margin-bottom-no">
 												<div class="cardbtn-edit">
-													<div class="card-heading">定制链接后缀 <code class="card-tag tag-green">{$config['custom_invite_price']}RMB/次</code></div>
+													<div class="card-heading">定制链接后缀 <code class="card-tag tag-green">{$config['custom_invite_price']} RMB/次</code></div>
 													<button class="btn btn-flat waves-attach" id="custom-invite-confirm"><span class="icon">check</span>&nbsp;</button>
 												</div>
 											<p>例:输入<code>vip</code>则链接变为<code>{$config["baseUrl"]}/auth/register?code=vip</code></p>
@@ -70,16 +71,17 @@
 								</div>
 							</div>
 						</div>
+						{/if}
 					{/if}
 
 					{if $config['invite_price']>=0}
-					<div class="col-xx-12 col-lg-6">
+					<div class="col-xx-12 {if $config['custom_invite_price']>=0}col-lg-6{/if}">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
 									<div class="cardbtn-edit">
-											<div class="card-heading">购买邀请次数 <code class="card-tag tag-green">{$config['invite_price']}RMB/个</code></div>
+											<div class="card-heading">购买邀请次数 <code class="card-tag tag-green">{$config['invite_price']} RMB/个</code></div>
 											<button class="btn btn-flat waves-attach" id="buy-invite"><span class="material-icons">shopping_cart</span></button>
 									</div>		
 										<p>在下方输入需要购买的邀请次数</p>

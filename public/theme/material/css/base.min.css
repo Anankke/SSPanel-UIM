@@ -6246,10 +6246,10 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 .invite-link,.cardbtn-edit {
 	display: flex;
 	justify-content: space-between;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 }
 .invite-link {
-	justify-content: flex-end;
+	justify-content: flex-start;
 }
 .cardbtn-edit .card-heading {
 	margin-bottom: 0;
@@ -6314,8 +6314,8 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
     width: 100%;
 }
 .invite-link .btn-subscription {
-	margin: 1em 0 1em 1em;
-	flex-basis: 20%;
+	margin: 0 0 2em 1em;
+	flex-basis: 12%;
 }
 #buy-invite span {
 	position: relative;
@@ -6353,7 +6353,10 @@ code.form-control {
 	}
 	.invite-link .btn-subscription {
 		flex-basis: 100%;
-		margin: 1em 0 0 0;
+		margin: 1em 0 2em 0;
+	}
+	.invite-link {
+		flex-wrap: wrap;
 	}
 }
 
