@@ -866,15 +866,10 @@ class UserController extends BaseController
 
     public function invite($request, $response, $args)
     {
-        /*$pageNum = 1;
-        if (isset($request->getQueryParams()["page"])) {
-            $pageNum = $request->getQueryParams()["page"];
-        }
-        $codes=InviteCode::where('user_id', $this->user->id)->orderBy("created_at", "desc")->paginate(15, ['*'], 'page', $pageNum);
-        $codes->setPath('/user/invite');*/
         $code = InviteCode::where('user_id', $this->user->id)->first();
         if ($code == null) {
             $this->user->addInviteCode();
+			$code = InviteCode::where('user_id', $this->user->id)->first();
         }
 
         $pageNum = 1;
