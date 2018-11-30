@@ -874,11 +874,7 @@ class UserController extends BaseController
         $codes->setPath('/user/invite');*/
         $code = InviteCode::where('user_id', $this->user->id)->first();
         if ($code == null) {
-            $char = Tools::genRandomChar(32);
-            $code = new InviteCode();
-            $code->code = $char;
-            $code->user_id = $this->user->id;
-            $code->save();
+            $this->user->addInviteCode();
         }
 
         $pageNum = 1;
