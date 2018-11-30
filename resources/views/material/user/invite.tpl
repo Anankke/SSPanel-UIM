@@ -20,7 +20,7 @@
 										<p>您会获得<code>{$config["invite_gift"]} G</code>流量奖励。</p>
 										<p>对方将获得<code>{$config["invite_get_money"]}</code>元奖励作为初始资金。</p>
 										<p>对方充值时您还会获得对方充值金额的 <code>{$config["code_payback"]} %</code> 的返利。</p>
-										
+										<p class="card-heading">已获得返利：<code>{$paybacks_sum}</code> 元</p>
 									</div>
 
 								</div>
@@ -31,29 +31,50 @@
 					{if $user->class!=0}
 
 					{if $user->invite_num!=-1}
-					<div class="col-xx-12 {if $config['invite_price']>=0}col-lg-7{/if}">
-						<div class="card margin-bottom-no card-invite">
+					<div class="col-xx-12">
+						<div class="card margin-bottom-no">
 							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-										<p class="card-heading">邀请链接</p>
+								<div class="card-inner margin-bottom-no">
+									<div class="card-inner margin-bottom-no">
+											<div class="cardbtn-edit">
+													<div class="card-heading">邀请链接</div>
+													<div class="reset-flex"><span>重置链接</span><a class="reset-link btn btn-brand-accent btn-flat waves-attach" ><i class="icon">autorenew</i>&nbsp;</a></div>
+											</div>
 										<p>剩余可邀请次数：{if $user->invite_num<0}无限{else}<code>{$user->invite_num}</code>{/if}</p>
-										<p>邀请链接请给认识的需要的人，邀请他人注册时，请将以下链接发给被邀请者</p>
+										<p>发送邀请链接给有需要的人，邀请他人注册时，请将以下链接发给被邀请者</p>
 										<div class="invite-link">
 											<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly="" value="{$config["baseUrl"]}/auth/register?code={$code->code}">
-											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击复制</button>
-											<button class="reset-invitelink btn btn-subscription" type="button"><span class="icon">autorenew</span>&nbsp;重置邀请链接</button>
+											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击复制</button>				
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<div class="col-xx-12 {if $config['invite_price']>=0}col-lg-6{/if}">
+							<div class="card margin-bottom-no">
+								<div class="card-main">
+									<div class="card-inner margin-bottom-no">
+										<div class="card-inner margin-bottom-no">
+												<div class="cardbtn-edit">
+													<div class="card-heading">定制链接后缀</div>
+													<button class="btn btn-flat waves-attach" id="custom-invite-confirm"><span class="icon">check</span>&nbsp;</button>
+												</div>
+											<p>在下方输入自定义的链接后缀，定制个性邀请链接~</p>
+											<div class="form-group form-group-label">
+												<label class="floating-label" for="custom-invite-link">输入链接后缀</label>
+												<input class="form-control maxwidth-edit" id="custom-invite-link" type="num">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					{/if}
 
 					{if $config['invite_price']>=0}
-					<div class="col-xx-12 col-lg-5">
-						<div class="card margin-bottom-no card-invite">
+					<div class="col-xx-12 col-lg-6">
+						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
@@ -66,7 +87,6 @@
 											<label class="floating-label" for="buy-invite-num">在这输入购买次数</label>
 											<input class="form-control maxwidth-edit" id="buy-invite-num" type="num">
 										</div>
-										<p class="card-heading">已获得返利：<code>{$paybacks_sum}</code> 元</p>
 									</div>
 								</div>
 							</div>
@@ -187,11 +207,36 @@ $("#buy-invite").click(function () {
     })
 });
 
+$("#custom-invite-confirm").click(function () {
+    $.ajax({
+        type: "POST",
+        url: "/user/custom_invite",
+        dataType: "json",
+        data: {
+            text: $("#custom-invite-link").val(),
+        },
+        success: function (data) {
+             if (data.ret) {
+     			$("#result").modal();
+				$("#msg").html(data.msg);
+				window.setTimeout("location.href='/user/invite'", {$config['jump_delay']});
+	        } else {
+                $("#result").modal();
+			    $("#msg").html(data.msg);
+            }
+	    },
+        error: function (jqXHR) {
+            $("#result").modal();
+        	$("#msg").html(data.msg+"     出现了一些错误。");
+        }
+    })
+});
+
 </script>
 
 <script>
 
-$(".reset-invitelink").click(function () {
+$(".reset-link").click(function () {
 	$("#result").modal();
 	$("#msg").html("已重置您的邀请链接，复制您的邀请链接发送给其他人！");
 	window.setTimeout("location.href='/user/inviteurl_reset'", {$config['jump_delay']});

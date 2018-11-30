@@ -6239,6 +6239,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	cursor: unset;
 	padding-bottom: 2px;
 	margin-right: 1em;
+	padding-right: 1em;
 	background-color: #f3f3f3;
 }
 
@@ -6294,7 +6295,6 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 .cardbtn-edit a.btn-flat.btn-brand-accent.reset-link {
 	margin-left: 1em;
-	margin-right: 1em;
 	display: inline-block;
 	background: #ff4343;
 }
@@ -6302,8 +6302,10 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 .cardbtn-edit a.btn-flat.btn-brand-accent.reset-link:hover,.cardbtn-edit .btn-flat:hover {
 	border-radius: 10px;
-	
 	transition-duration: 0.4s;
+}
+.quickadd .reset-link {
+	margin-right: .5em;
 }
 
 .invite-link .cust-link {
@@ -6341,7 +6343,7 @@ code.form-control {
 		justify-content: flex-end;
 		flex-basis: 100%;
 		align-items: center;
-		margin: 1em 0;
+		margin:1em 0;
 	}
 	.tab-nav {
 		font-size: 13px;

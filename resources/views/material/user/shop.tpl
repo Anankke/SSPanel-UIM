@@ -274,7 +274,6 @@ function buy(id,auto) {
 	let dropDownButton = document.querySelectorAll('.shop-table .card');
 	let dropDownArea = document.querySelectorAll('.dropdown-area');
 	let arrows = document.querySelectorAll('.shop-table .card i');
-	console.log(arrows);
 	
 	for (let i=0;i<dropDownButton.length;i++) {
 

@@ -896,7 +896,7 @@ a.tag-red,.tag-red {
     border-color: #ffa39e;
 }
 
-.card-invite .form-group-label {
+.form-group-label {
     margin-bottom: 16px;
 }
 
@@ -977,6 +977,10 @@ a.tag-red,.tag-red {
     .card-inner {
         margin: 24px 13px;
     }
+    .card-table>.table-responsive {
+        margin-left: -13px;
+        margin-right: -13px;
+    }
 }
 
 @media only screen and (min-width:480px) {
@@ -1055,9 +1059,6 @@ a.tag-red,.tag-red {
 	.nodetitle {
 		grid-column-end: 4;
 		grid-column-start: 1;
-    }
-    .card-invite {
-        min-height: 266px;
     }
     .shop-gridarea {
         width: 100%;
