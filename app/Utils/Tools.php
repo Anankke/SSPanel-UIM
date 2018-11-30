@@ -180,10 +180,7 @@ class Tools
     public static function is_validate($str)
     {
         $pattern = "/[^A-Za-z0-9\-_\.]/";
-        if (preg_match($pattern, $str)) {
-            return false;
-        }
-        return true;
+        return !preg_match($pattern, $str);
     }
 
     public static function is_relay_rule_avaliable($rule, $ruleset, $node_id)

@@ -115,6 +115,7 @@ $app->group('/user', function () {
     $this->put('/ticket/{id}', 'App\Controllers\UserController:ticket_update');
 	
     $this->post('/buy_invite', 'App\Controllers\UserController:buyInvite');
+    $this->post('/custom_invite', 'App\Controllers\UserController:customInvite');
     $this->get('/edit', 'App\Controllers\UserController:edit');
     $this->post('/password', 'App\Controllers\UserController:updatePassword');
     $this->post('/wechat', 'App\Controllers\UserController:updateWechat');

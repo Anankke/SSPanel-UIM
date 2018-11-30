@@ -57,10 +57,10 @@
 									<div class="card-inner margin-bottom-no">
 										<div class="card-inner margin-bottom-no">
 												<div class="cardbtn-edit">
-													<div class="card-heading">定制链接后缀</div>
+													<div class="card-heading">定制链接后缀 <code class="card-tag tag-green">{$config['custom_invite_price']}RMB/次</code></div>
 													<button class="btn btn-flat waves-attach" id="custom-invite-confirm"><span class="icon">check</span>&nbsp;</button>
 												</div>
-											<p>在下方输入自定义的链接后缀，定制个性邀请链接~</p>
+											<p>例:输入<code>vip</code>则链接变为<code>{$config["baseUrl"]}/auth/register?code=vip</code></p>
 											<div class="form-group form-group-label">
 												<label class="floating-label" for="custom-invite-link">输入链接后缀</label>
 												<input class="form-control maxwidth-edit" id="custom-invite-link" type="num">
@@ -79,12 +79,12 @@
 								<div class="card-inner">
 									<div class="card-inner">
 									<div class="cardbtn-edit">
-											<div class="card-heading">购买邀请次数</div>
+											<div class="card-heading">购买邀请次数 <code class="card-tag tag-green">{$config['invite_price']}RMB/个</code></div>
 											<button class="btn btn-flat waves-attach" id="buy-invite"><span class="material-icons">shopping_cart</span></button>
 									</div>		
-										<p>邀请次数价格：<code>{$config['invite_price']}</code>元/个</p>
+										<p>在下方输入需要购买的邀请次数</p>
 										<div class="form-group form-group-label">
-											<label class="floating-label" for="buy-invite-num">在这输入购买次数</label>
+											<label class="floating-label" for="buy-invite-num">输入购买次数</label>
 											<input class="form-control maxwidth-edit" id="buy-invite-num" type="num">
 										</div>
 									</div>
@@ -213,7 +213,7 @@ $("#custom-invite-confirm").click(function () {
         url: "/user/custom_invite",
         dataType: "json",
         data: {
-            text: $("#custom-invite-link").val(),
+            customcode: $("#custom-invite-link").val(),
         },
         success: function (data) {
              if (data.ret) {

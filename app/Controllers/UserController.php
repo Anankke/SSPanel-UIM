@@ -891,7 +891,7 @@ class UserController extends BaseController
         $num = $request->getParam('num');
         $num = trim($num);
 
-        if (Tools::isInt($num) == false || $price < 0 || $num <= 0) {
+        if (!Tools::isInt($num) || $price < 0 || $num <= 0) {
             $res['ret'] = 0;
             $res['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($res));
@@ -910,6 +910,40 @@ class UserController extends BaseController
         $user->save();
         $res['ret'] = 1;
         $res['msg'] = "邀请次数添加成功";
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function customInvite($request, $response, $args)
+    {
+        $price = Config::get('custom_invite_price');
+        $customcode = $request->getParam('customcode');
+        $customcode = trim($customcode);
+
+        if (!Tools::is_validate($customcode) || $price < 0 || strlen($customcode)<1 || strlen($customcode)>32) {
+            $res['ret'] = 0;
+            $res['msg'] = "非法请求,邀请链接后缀不能包含特殊符号且长度不能大于32字符";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if (InviteCode::where('code', $customcode)->count()!=0) {
+            $res['ret'] = 0;
+            $res['msg'] = "此后缀名被抢注了";
+            return $response->getBody()->write(json_encode($res));
+        } 
+
+        $user = $this->user;
+        if ($user->money < $price) {
+            $res['ret'] = 0;
+            $res['msg'] = "余额不足，总价为" . $price . "元。";
+            return $response->getBody()->write(json_encode($res));
+        }
+        $code = InviteCode::where('user_id', $user->id)->first();
+        $code->code = $customcode;
+        $user->money -= $price;
+        $user->save();
+        $code->save();
+        $res['ret'] = 1;
+        $res['msg'] = "定制成功";
         return $response->getBody()->write(json_encode($res));
     }
 
