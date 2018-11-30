@@ -49,7 +49,8 @@ class Config
 			"admin_contact3" => self::get("admin_contact3"),
 			"register_mode" => self::get("register_mode"),
             "enable_flag" => self::get("enable_flag"),
-            "enable_kill" => self::get("enable_kill")
+            "enable_kill" => self::get("enable_kill"),
+            "custom_invite_price" => self::get("custom_invite_price")
          ];
     }
 
