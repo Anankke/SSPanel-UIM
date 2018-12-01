@@ -6,6 +6,10 @@
 .authpage .tab-nav li {
 	width: 50%;
 }
+
+.authpage a{
+    text-decoration: none;
+}
  
 .rowtocol,.auth-main .form-group-label,.auth-top,.auth-bottom,.auth-row,.authpage .tab-nav {
 	flex-basis: 100%;
@@ -172,6 +176,7 @@ a.boardtop-left:hover {
 	border-radius: 50%;
 	margin: 1em 0 1em 0;
 	box-shadow: 0 0 5px 0 #afafaf;
+	user-select: none;
 }
 
 .auth-help-reg {
