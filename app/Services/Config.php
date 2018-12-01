@@ -50,7 +50,8 @@ class Config
 			"register_mode" => self::get("register_mode"),
             "enable_flag" => self::get("enable_flag"),
             "enable_kill" => self::get("enable_kill"),
-            "custom_invite_price" => self::get("custom_invite_price")
+            "custom_invite_price" => self::get("custom_invite_price"),
+            "telegram_grouplink" => self::get("telegram_grouplink")
          ];
     }
 

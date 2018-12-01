@@ -130,6 +130,7 @@ $System_Config['telegram_qrcode']='zxing_local';	//二维码解码方式，onlin
 $System_Config['telegram_request_token']='';		//Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat setTelegram
 $System_Config['enable_welcome_message']='true';	//机器人发送欢迎消息
 $System_Config['finance_public']='false';			//财务报告是否向Telegram群公开
+$System_Config['telegram_grouplink']='';           //telegram群邀请链接
 
 
 //沟通设置--------------------------------------------------------------------------------------------

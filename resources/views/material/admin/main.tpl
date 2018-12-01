@@ -25,6 +25,9 @@
 	body {
 		position: relative;
 	}
+	.table-responsive {
+		background: white;
+	}
 	</style>
 </head>
 

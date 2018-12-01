@@ -249,6 +249,9 @@
 .ui-card-wrap:after,.ui-picker-lib:after {
     clear: both
 }
+.menu-content .nav ul .a, .menu-content .nav ul a {
+    transition: .3s all;
+}
 
 body {
     padding-bottom: 69px
