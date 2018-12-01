@@ -963,8 +963,12 @@ a.tag-red,.tag-red {
         width: 160px;
     }
     .nodetitle a span {
-        font-size: 18px;
-        top: .9em;
+        font-size: 16px;
+        top: 1em;
+    }
+    .nodetitle a i {
+        font-size: 22px;
+        top: .7em;
     }
     .nodename {
         font-size: 14px;

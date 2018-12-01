@@ -8,15 +8,14 @@
 			
 				<div class="auth-main auth-row auth-col-one">
 					<div class="auth-top auth-row">
-						<div class="backtohome">
-							<a href="/">
-								<div>返回首页</div>
-								<div><i class="icon icon-lg">donut_small</i></div>
-							</a>
+						<a class="boardtop-left" href="/">
+							<div>首 页</div>
+						</a>
+						<div class="auth-logo">
+							<img src="/images/authlogo.jpg" alt="">
 						</div>
 						<a href="/auth/login" class="boardtop-right">
 							<div>登 录</div>
-							<div>Login</div>
 						</a>
 					</div>
 					<div class="auth-row">
