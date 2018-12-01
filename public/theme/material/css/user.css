@@ -448,7 +448,7 @@ a.btn-dl:focus,a.btn-dl:visited {
 	border-radius:16px;
 	top:0;
 	left:0;
-	background:url(./theme/material/images/users/trafficbar.png) 0 0;
+	background:url(/theme/material/images/users/trafficbar.png) 0 0;
 	-webkit-animation:sparkle 1500ms linear infinite;
     -moz-animation:sparkle 1500ms linear infinite;
     -o-animation:sparkle 1500ms linear infinite;
