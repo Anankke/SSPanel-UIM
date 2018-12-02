@@ -40,7 +40,7 @@
                     <div id="embed-captcha"></div>
                 </div>
                 {/if}
-                {if $recaptcha_secret != null}
+                {if $recaptcha_sitekey != null}
                     <div class="form-group-label labelgeetest auth-row">
                         <div class="row">
                             <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
