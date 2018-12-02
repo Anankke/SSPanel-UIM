@@ -21,7 +21,6 @@ use App\Utils\AliPay;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Utils\Radius;
-use App\Utils\Wecenter;
 use App\Models\RadiusBan;
 use App\Models\DetectLog;
 use App\Models\DetectRule;

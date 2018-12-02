@@ -33,10 +33,6 @@ class Boot
         if (Config::get('enable_radius')=='true') {
             $capsule->addConnection(Config::getRadiusDbConfig(), 'radius');
         }
-
-        if (Config::get('enable_wecenter')=='true') {
-            $capsule->addConnection(Config::getWecenterDbConfig(), 'wecenter');
-        }
         $capsule->bootEloquent();
     }
 }

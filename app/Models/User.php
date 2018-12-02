@@ -13,7 +13,6 @@ use App\Services\Config;
 use App\Utils\GA;
 use App\Utils\QQWry;
 use App\Models\Link;
-use App\Utils\Wecenter;
 use App\Utils\Radius;
 use Ramsey\Uuid\Uuid;
 
@@ -271,8 +270,6 @@ class User extends Model
         TrafficLog::where('user_id', '=', $uid)->delete();
         Token::where('user_id', '=', $uid)->delete();
         PasswordReset::where('email', '=', $email)->delete();
-
-        Wecenter::Delete($email);
 
         $this->delete();
 

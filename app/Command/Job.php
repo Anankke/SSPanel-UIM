@@ -20,7 +20,6 @@ use App\Models\TelegramSession;
 use App\Models\EmailVerify;
 use App\Services\Config;
 use App\Utils\Radius;
-use App\Utils\Wecenter;
 use App\Utils\Tools;
 use App\Services\Mail;
 use App\Utils\QQWry;
@@ -62,10 +61,6 @@ class Job
         if (Config::get('enable_radius')=='true') {
             $db_address_array = explode(':', Config::get('radius_db_host'));
             system('mysqldump --user='.Config::get('radius_db_user').' --password='.Config::get('radius_db_password').' --host='.$db_address_array[0].' '.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').''.Config::get('radius_db_database').'> /tmp/ssmodbackup/radius.sql', $ret);
-        }
-        if (Config::get('enable_wecenter')=='true') {
-            $db_address_array = explode(':', Config::get('wecenter_db_host'));
-            system('mysqldump --user='.Config::get('wecenter_db_user').' --password='.Config::get('wecenter_db_password').' --host='.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').' '.Config::get('wecenter_db_database').'> /tmp/ssmodbackup/wecenter.sql', $ret);
         }
         system("cp ".BASE_PATH."/config/.config.php /tmp/ssmodbackup/configbak.php", $ret);
         echo $ret;

@@ -307,17 +307,6 @@ $System_Config['radius_db_user']='';
 $System_Config['radius_db_password']='';
 $System_Config['radius_secret']='';			//Radius连接密钥
 
-#Wecenter设置
-$System_Config['enable_wecenter']='false';			//是否开启Wecenter
-$System_Config['wecenter_db_host']='localhost';		//以下4项为Wecenter数据库设置
-$System_Config['wecenter_db_database']='';
-$System_Config['wecenter_db_user']='';
-$System_Config['wecenter_db_password']='';
-$System_Config['wecenter_system_main_domain']='';	//系统根域名 zhaoj.in 这样
-$System_Config['wecenter_cookie_prefix']='mmg_';	//G_COOKIE_PREFIX
-$System_Config['wecenter_cookie_key']='';			//G_COOKIE_HASH_KEY
-$System_Config['wecenter_url']='';					//访问路径，不开启这个功能的话就清空这个设置项吧
-													//可从安装好的 wecenter 目录下的 system/config.inc.php 得到
 #Cloudxns
 $System_Config['enable_cloudxns']='false';		//是否开启Cloudxns
 $System_Config['cloudxns_apikey']='';			//自己去 cloudxns.net 申请
