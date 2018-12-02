@@ -16,7 +16,6 @@ use App\Services\View;
 use App\Utils\Telegram;
 use App\Services\Config;
 use App\Controllers\QuickPayFunction;
-use App\Controllers\YftPayConfig;
 
 class YftPay extends AbstractPayment
 {
