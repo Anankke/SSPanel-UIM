@@ -898,6 +898,41 @@ a.tag-red,.tag-red {
     color: #f5222d;
     border-color: #ffa39e;
 }
+a.tag-blue,.tag-blue {
+    background: #e6f7ff;
+    color: #1890ff;
+    border-color: #91d5ff;
+}
+a.tag-geekblue,.tag-geekblue {
+    background: #f0f5ff;
+    color: #2f54eb;
+    border-color: #adc6ff;
+}
+a.tag-cyan,.tag-cyan {
+    background: #e6fffb;
+    color: #13c2c2;
+    border-color: #87e8de;
+}
+a.tag-purple,.tag-purple {
+    background: #f9f0ff;
+    color: #722ed1;
+    border-color: #d3adf7;
+}
+a.tag-volcano,.tag-volcano {
+    background: #fff2e8;
+    color: #fa541c;
+    border-color: #ffbb96;
+}
+a.tag-lime,.tag-lime {
+    background: #fcffe6;
+    color: #a0d911;
+    border-color: #eaff8f;
+}
+a.tag-magenta,.tag-magenta {
+    background: #fff0f6;
+    color: #eb2f96;
+    border-color: #ffadd2;
+}
 
 .form-group-label {
     margin-bottom: 16px;

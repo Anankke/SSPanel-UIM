@@ -181,7 +181,7 @@
 
 						{if $config['enable_telegram']=='true' && $config['telegram_grouplink']!='' }
 						<li>
-							<a href="{$config['telegram_grouplink']}"><span class="icon icon-lg">near_me</span> Telegram群组</a>
+							<a href="{$config['telegram_grouplink']}" target="_blank"><span class="icon icon-lg">near_me</span> Telegram群组</a>
 						</li>
 						{/if}
 

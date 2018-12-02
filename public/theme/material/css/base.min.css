@@ -239,12 +239,12 @@ th {
 
 a {
 	background-color: transparent;
-	color: #ff0022;
+	color: #13c2c2;
 	text-decoration: none
 }
 
 a:focus,a:hover {
-	color: #f50057;
+	color: #13c2c2;
 	outline: 0;
 	text-decoration: underline
 }
@@ -2278,7 +2278,7 @@ img {
 }
 /*示例颜色：訂閱按鈕顏色*/
 .btn-subscription {
-  background-color: #ffa100;
+  background-color: #54aff9;
 	color: #fff;
 	margin: 1em 0;
 }
@@ -2873,7 +2873,7 @@ padding: 2px 10px
 code {
 border: 0px solid #dadada;
 border-radius: 4px;
-color: #ff0022;
+color: #13c2c2;
 line-height: 1
 }
 
@@ -6235,7 +6235,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 }
 
 .cust-link.form-control {
-	color: #ff0022;
+	color: #399AF2;
 	cursor: unset;
 	padding-bottom: 2px;
 	margin-right: 1em;
