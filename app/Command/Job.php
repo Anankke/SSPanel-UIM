@@ -427,7 +427,7 @@ class Job
             $nodes = Node::all();
 
             foreach ($nodes as $node) {
-                if ($node->isNodeOnline() === false && time() - $node->node_heartbeat <= 360) {
+                if ($node->isNodeOnline() === false && !file_exists(BASE_PATH."/storage/".$node->id.".offline")) {
                     foreach ($adminUser as $user) {
                         echo "Send offline mail to user: ".$user->id;
                         $subject = Config::get('appName')."-系统警告";
@@ -489,53 +489,47 @@ class Job
                     fwrite($myfile, $txt);
                     fclose($myfile);
                 }
-            }
 
+				elseif ($node->isNodeOnline() === true && file_exists(BASE_PATH."/storage/".$node->id.".offline")) {
+				foreach ($adminUser as $user) {
+                    echo "Send offline mail to user: ".$user->id;
+                    $subject = Config::get('appName')."-系统提示";
+                    $to = $user->email;
+                    $text = "管理员您好，系统发现节点 ".$node->name." 恢复上线了。" ;
+                    try {
+                        Mail::send($to, $subject, 'news/warn.tpl', [
+                            "user" => $user,"text" => $text
+							], [
+                        ]);
+                    } catch (\Exception $e) {
+                        echo $e->getMessage();
+                    }
 
-            foreach ($nodes as $node) {
-                if (time()-$node->node_heartbeat<60&&file_exists(BASE_PATH."/storage/".$node->id.".offline")&&$node->node_heartbeat!=0&&($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10)) {
-                    foreach ($adminUser as $user) {
-                        echo "Send offline mail to user: ".$user->id;
-                        $subject = Config::get('appName')."-系统提示";
-                        $to = $user->email;
-                        $text = "管理员您好，系统发现节点 ".$node->name." 恢复上线了。" ;
-                        try {
-                            Mail::send($to, $subject, 'news/warn.tpl', [
-                                "user" => $user,"text" => $text
-                            ], [
-                            ]);
-                        } catch (\Exception $e) {
-                            echo $e->getMessage();
+                    if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10)) {
+                        $api=new Api();
+                        $api->setApiKey(Config::get("cloudxns_apikey"));//修改成自己API KEY
+                        $api->setSecretKey(Config::get("cloudxns_apisecret"));//修改成自己的SECERET KEY
+						$api->setProtocol(true);
+
+                        $domain_json=json_decode($api->domain->domainList());
+						
+						foreach ($domain_json->data as $domain) {
+							if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
+                                $domain_id=$domain->id;
+                            }
                         }
 
+                        $record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
 
-                        if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10)) {
-                            $api=new Api();
-                            $api->setApiKey(Config::get("cloudxns_apikey"));//修改成自己API KEY
-                            $api->setSecretKey(Config::get("cloudxns_apisecret"));//修改成自己的SECERET KEY
+                        foreach ($record_json->data as $record) {
+                            if (($record->host.".".Config::get('cloudxns_domain'))==$node->server) {
+                                $record_id=$record->record_id;
 
-                            $api->setProtocol(true);
-
-                            $domain_json=json_decode($api->domain->domainList());
-
-                            foreach ($domain_json->data as $domain) {
-                                if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
-                                    $domain_id=$domain->id;
-                                }
+                                $api->record->recordUpdate($domain_id, $record->host, $node->getNodeIp(), 'A', 55, 600, 1, '', $record_id);
                             }
-
-                            $record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
-
-                            foreach ($record_json->data as $record) {
-                                if (($record->host.".".Config::get('cloudxns_domain'))==$node->server) {
-                                    $record_id=$record->record_id;
-
-                                    $api->record->recordUpdate($domain_id, $record->host, $node->getNodeIp(), 'A', 55, 600, 1, '', $record_id);
-                                }
-                            }
-
-
-                            $notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~域名解析被切换回来了喵~";
+                        }
+						
+                        $notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~域名解析被切换回来了喵~";
                         } else {
                             $notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~";
                         }
@@ -544,7 +538,6 @@ class Job
                     Telegram::Send($notice_text);
 
                     unlink(BASE_PATH."/storage/".$node->id.".offline");
-					
 				}
             }
         }

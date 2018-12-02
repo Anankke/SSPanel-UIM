@@ -151,20 +151,14 @@ $System_Config['admin_contact3'] = '微信～123456';		//没有格式要求，�
 
 
 //验证码设置------------------------------------------------------------------------------------------
-# 验证服务 可选: geetest,recaptcha
-$System_Config['captcha_provider'] = '';
-# reCAPTCHA(全球可用) https://www.google.com/recaptcha
+$System_Config['captcha_provider'] = 'geetest';		//recaptcha:[https://www.google.com/recaptcha], geetest:[https://www.geetest.com]
 $System_Config['recaptcha_secret'] = '';
 $System_Config['recaptcha_sitekey'] = '';
-# 极验 https://www.geetest.com/
 $System_Config['geetest_id'] = '';
 $System_Config['geetest_key'] = '';
-# 启用注册验证码
-$System_Config['enable_reg_captcha'] = 'false';
-# 启用登录验证码
-$System_Config['enable_login_captcha'] = 'false';
-# 启用签到验证码
-$System_Config['enable_checkin_captcha'] = 'false';
+$System_Config['enable_reg_captcha'] = 'false';		//启用注册验证码
+$System_Config['enable_login_captcha'] = 'false';	//启用登录验证码
+$System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
