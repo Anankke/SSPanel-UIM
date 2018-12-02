@@ -552,7 +552,7 @@
 											{if $geetest_html != null}
 												<div id="popup-captcha"></div>
 											{/if}
-											{if recaptcha_secret != null && $user->isAbleToCheckin()}
+											{if $recaptcha_sitekey != null && $user->isAbleToCheckin()}
                                                 <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
                                             {/if}
 

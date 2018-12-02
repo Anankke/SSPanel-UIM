@@ -67,34 +67,6 @@ class UserController extends BaseController
         $router_token_without_mu = LinkController::GenerateRouterCode($this->user->id, 1);
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
-        $uid = time() . rand(1, 10000);
-        if (Config::get('enable_geetest_checkin') == 'true') {
-            $GtSdk = Geetest::get($uid);
-        } else {
-            $GtSdk = null;
-        }
-
-        $Ann = Ann::orderBy('date', 'desc')->first();
-
-
-        return $this->view()->assign('ssr_sub_token', $ssr_sub_token)->assign('router_token', $router_token)
-            ->assign('router_token_without_mu', $router_token_without_mu)->assign('acl_token', $acl_token)
-			->assign('display_ios_class',Config::get('display_ios_class'))->assign('ios_account',Config::get('ios_account'))->assign('ios_password',Config::get('ios_password'))
-            ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)
-            ->assign('mergeSub', Config::get('mergeSub'))->assign('subUrl', Config::get('subUrl'))
-            ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
-    }
-
-
-    public function panel($request, $response, $args)
-    {
-
-        $user = $this->user;
-        $acl_token = LinkController::GenerateAclCode("smart", 0, $this->user->id, 0, "smart");
-        $router_token = LinkController::GenerateRouterCode($this->user->id, 0);
-        $router_token_without_mu = LinkController::GenerateRouterCode($this->user->id, 1);
-        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
-
         $GtSdk = null;
         $recaptcha_sitekey = null;
         if (Config::get('enable_checkin_captcha') == 'true'){
@@ -114,16 +86,22 @@ class UserController extends BaseController
 
 
         return $this->view()
-            ->assign("ssr_sub_token", $ssr_sub_token)
-            ->assign("router_token", $router_token)
-            ->assign("router_token_without_mu", $router_token_without_mu)
-            ->assign("acl_token", $acl_token)
-            ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)
+            ->assign('ssr_sub_token', $ssr_sub_token)
+            ->assign('router_token', $router_token)
+            ->assign('router_token_without_mu', $router_token_without_mu)
+            ->assign('acl_token', $acl_token)
+            ->assign('display_ios_class',Config::get('display_ios_class'))
+            ->assign('ios_account',Config::get('ios_account'))
+            ->assign('ios_password',Config::get('ios_password'))
+            ->assign('ann', $Ann)
+            ->assign('geetest_html', $GtSdk)
+            ->assign('mergeSub', Config::get('mergeSub'))
+            ->assign('subUrl', Config::get('subUrl'))
             ->assign("user", $this->user)
             ->registerClass("URL", "App\Utils\URL")
             ->assign('baseUrl', Config::get('baseUrl'))
             ->assign('recaptcha_sitekey', $recaptcha_sitekey)
-            ->display('user/panel.tpl');
+            ->display('user/index.tpl');
     }
 
     public function lookingglass($request, $response, $args)

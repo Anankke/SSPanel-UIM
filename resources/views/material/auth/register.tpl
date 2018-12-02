@@ -126,13 +126,6 @@
 											</div>
 										{/if}
 
-										{if recaptcha_secret != null}
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
-                                                </div>
-                                            </div>
-                                        {/if}
 
 										<div class="form-group">
 											<div class="row">
@@ -320,6 +313,14 @@
 							</div>
 						</div>
 						{/if}
+						{if $recaptcha_secret != null}
+                            <div class="form-group form-group-label">
+                                <div class="row">
+                                    <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+                                </div>
+                            </div>
+                        {/if}
+
 						<div class="rowtocol">
 							<div class="btn-auth auth-row">
 								<button id="tos" type="submit" class="btn-reg btn btn-block btn-brand waves-attach waves-light">确认注册</button>
