@@ -95,24 +95,24 @@
 						<a class="btn btn-brand-accent shop-btn" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
 						
 						<div class="shop-drop dropdown-area">
-							<div class="card-tag tag-black">添加流量</div> <div class="card-tag tag-green">{$shop->bandwidth()} G</div>
-							<div class="card-tag tag-black">等级有效期</div> <div class="card-tag tag-green">{$shop->class_expire()} 天</div>
-							<div class="card-tag tag-black">账号有效期</div> <div class="card-tag tag-green">{$shop->expire()} 天</div>
+							<div class="card-tag tag-black">添加流量</div> <div class="card-tag tag-blue">{$shop->bandwidth()} G</div>
+							<div class="card-tag tag-black">等级有效期</div> <div class="card-tag tag-blue">{$shop->class_expire()} 天</div>
+							<div class="card-tag tag-black">账号有效期</div> <div class="card-tag tag-blue">{$shop->expire()} 天</div>
 							{if {$shop->reset()} == '0' }
-							<div class="card-tag tag-black">重置周期</div> <div class="card-tag tag-green">N/A</div>
+							<div class="card-tag tag-black">重置周期</div> <div class="card-tag tag-blue">N/A</div>
 							{else}
-							<div class="card-tag tag-black">重置周期</div> <div class="card-tag tag-green">{$shop->reset_exp()} 天</div>
-							<div class="card-tag tag-black">重置频率</div><div class="card-tag tag-green">{$shop->reset_value()}G/{$shop->reset()}天</div>
+							<div class="card-tag tag-black">重置周期</div> <div class="card-tag tag-blue">{$shop->reset_exp()} 天</div>
+							<div class="card-tag tag-black">重置频率</div><div class="card-tag tag-blue">{$shop->reset_value()}G/{$shop->reset()}天</div>
 							{/if}
 								{if {$shop->speedlimit()} == '0' }
-								<div class="card-tag tag-black">端口速率</div> <div class="card-tag tag-green">无限制</div>
+								<div class="card-tag tag-black">端口速率</div> <div class="card-tag tag-blue">无限制</div>
 								{else}
-								<div class="card-tag tag-black">端口限速</div> <div class="card-tag tag-green">{$shop->speedlimit()} Mbps</div>
+								<div class="card-tag tag-black">端口限速</div> <div class="card-tag tag-blue">{$shop->speedlimit()} Mbps</div>
 								{/if}
 								{if {$shop->connector()} == '0' }
-								<div class="card-tag tag-black">客户端数量</div> <div class="card-tag tag-green">无限制</div>
+								<div class="card-tag tag-black">客户端数量</div> <div class="card-tag tag-blue">无限制</div>
 								{else}
-								<div class="card-tag tag-black">客户端限制</div> <div class="card-tag tag-green">{$shop->connector()} 个</div>
+								<div class="card-tag tag-black">客户端限制</div> <div class="card-tag tag-blue">{$shop->connector()} 个</div>
 								{/if}
 						</div>
 					</div>

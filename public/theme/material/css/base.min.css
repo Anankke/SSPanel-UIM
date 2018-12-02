@@ -2,7 +2,7 @@
  * normalize.css v3.0.3
  * github.com/necolas/normalize.css
  */body,legend {
-	color: #212121;
+	color: #515a6e;
 	padding: 0
 }
 
@@ -73,7 +73,7 @@ a,body {
 }
 
 body {
-    background-color: rgba(245, 245, 245, 0.54);
+    background-color: #f8f9fe;
     background-attachment: fixed;
     width: 100%;
     background-repeat: no-repeat;
@@ -2298,7 +2298,7 @@ img {
 }
 
 .kaobei:hover {
-    background-color: #ff7ffe; /* prink */
+    background-color: #13c2c2; /* prink */
     color: white;
 }
 .btn-green,.btn-orange {
@@ -2339,11 +2339,11 @@ img {
 }
 
 .btn-flat.btn-brand {
-	color: #24292e!important
+	color: #525252!important
 }
 
 .btn-flat.btn-brand-accent {
-	color: #24292e!important
+	color: #525252!important
 }
 
 .btn-flat.btn-green {
@@ -2351,7 +2351,7 @@ img {
 }
 
 .btn-flat.btn-orange {
-	color: #24292e!important
+	color: #525252!important
 }
 
 .btn-flat.btn-red {
@@ -2719,7 +2719,8 @@ display: block;
 font-size: 20px;
 line-height: 28px;
 margin-top: 24px;
-margin-bottom: 24px
+margin-bottom: 24px;
+color: #314e7d;
 }
 
 .card-header .card-heading {
@@ -3067,7 +3068,7 @@ opacity: 0.5;
 }
 
 .form-control:focus,.picker__select--month:focus,.picker__select--year:focus {
-border-color: #ff0022;
+border-color: #399AF2;
 border-radius: 5px;
 transition-duration:0.4s;
 outline: 0;
@@ -3486,7 +3487,7 @@ input[type=checkbox]:checked~.checkbox-circle-icon {
 }
 
 .form-group-label.control-focus .floating-label {
-	color: #ff0022
+	color: #399AF2;
 }
 
 .form-group-label {
@@ -3676,7 +3677,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 }
 /*弹出框颜色*/
 .modal-content,.picker__wrap {
-	box-shadow: 0 1px 50px rgba(245,124,0,.5);
+	box-shadow: 0 1px 50px #a2beff;
 	outline: 0
 }
 
@@ -5101,7 +5102,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 }
 /*按钮下面颜色*/
 .tab-nav .nav>li>.a:after,.tab-nav .nav>li>a:after {
-	border-bottom: 2px solid #f57c00;
+	border-bottom: 2px solid #399AF2;
 	content: "";
 	display: block;
 	opacity: 0;
@@ -5131,7 +5132,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 }
 
 .tab-nav-indicator.animate {
-	background-color: #f57c00;
+	background-color: #399AF2;
 	-webkit-transition: left 225ms cubic-bezier(.4,0,.2,1) 225ms,right .45s cubic-bezier(.4,0,.2,1);
 	transition: left 225ms cubic-bezier(.4,0,.2,1) 225ms,right .45s cubic-bezier(.4,0,.2,1);
 	will-change: left,right
@@ -5207,7 +5208,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 }
 
 .table-responsive.table-user th,.table.table-user th {
-	background: #f6f9fc;
+	background: #f0faff;
 	border-radius: 0;
 }
 
@@ -5903,7 +5904,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 }
 
 .menu-content .nav .a,.menu-content .nav a {
-	color: #212121;
+	color: #515a6e;
 	font-weight: 500
 }
 
@@ -5968,7 +5969,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	-ms-flex-align: center;
 	align-items: center;
 	border-bottom: 1px solid #dadada;
-	color: #212121;
+	color: #314e7d;
 	display: flex;
 	font-size: 20px;
 	font-weight: 300;

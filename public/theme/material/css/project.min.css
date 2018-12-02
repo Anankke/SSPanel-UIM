@@ -833,7 +833,7 @@ div.nodetitle:first-of-type>a {
 }
 .user-info .nodetype {
     font-size: 1.25rem;
-    color: black;
+    color: #525252;
 }
 .user-info .nodestatus>div {
     width: 54px;
@@ -853,7 +853,7 @@ div.nodetitle:first-of-type>a {
     display: block;
     text-decoration: none;
     font-size: 14px;
-    color: #383838;
+    color: #525252;
     padding: 1px 0;
 }
 .user-info .nodeinfo i {

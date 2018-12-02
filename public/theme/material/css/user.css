@@ -1,6 +1,3 @@
-body {
-    background: #eee;
-}
 
 @keyframes mysnow {
     0% {
@@ -472,7 +469,7 @@ a.btn-dl:focus,a.btn-dl:visited {
 	filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#262626',GradientType=0 );
 	font-weight:bold;
 	font-size:12px;
-	color:#252525;
+	color:#515a6e;
     filter:dropshadow(color=#000000, offx=0, offy=-1);
 }
 .label.la-top code {
