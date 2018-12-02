@@ -13,6 +13,8 @@ enable_auto_clean_uncheck 和 enable_auto_clean_uncheck_days 合并为 auto_clea
 enable_account_expire_delete 和 enable_account_expire_delete_days 合并为account_expire_delete_days
 enable_class_expire_reset_traffic 重命名为 class_expire_reset_traffic
 现在，用户账户过期时，流量会被强制重置为0
+enable_geetest_* 已变更为 enable_*_captcha
+
 ';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
@@ -149,12 +151,20 @@ $System_Config['admin_contact3'] = '微信～123456';		//没有格式要求，�
 
 
 //验证码设置------------------------------------------------------------------------------------------
-#自己去 Geetest.com 申请
-$System_Config['geetest_id']='';
-$System_Config['geetest_key']='';
-$System_Config['enable_geetest_reg']='false';		//启用注册验证码
-$System_Config['enable_geetest_login']='false';		//启用登录验证码
-$System_Config['enable_geetest_checkin']='false';	//启用签到验证码
+# 验证服务 可选: geetest,recaptcha
+$System_Config['captcha_provider'] = '';
+# reCAPTCHA(全球可用) https://www.google.com/recaptcha
+$System_Config['recaptcha_secret'] = '';
+$System_Config['recaptcha_sitekey'] = '';
+# 极验 https://www.geetest.com/
+$System_Config['geetest_id'] = '';
+$System_Config['geetest_key'] = '';
+# 启用注册验证码
+$System_Config['enable_reg_captcha'] = 'false';
+# 启用登录验证码
+$System_Config['enable_login_captcha'] = 'false';
+# 启用签到验证码
+$System_Config['enable_checkin_captcha'] = 'false';
 
 
 //支付系统设置----------------------------------------------------------------------------------------
