@@ -95,20 +95,35 @@ class UserController extends BaseController
         $router_token_without_mu = LinkController::GenerateRouterCode($this->user->id, 1);
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
-        $uid = time() . rand(1, 10000);
-        if (Config::get('enable_geetest_checkin') == 'true') {
-            $GtSdk = Geetest::get($uid);
-        } else {
-            $GtSdk = null;
+        $GtSdk = null;
+        $recaptcha_sitekey = null;
+        if (Config::get('enable_checkin_captcha')){
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    break;
+                case 'geetest':
+                    $uid = time().rand(1, 10000) ;
+                    $GtSdk = Geetest::get($uid);
+                    break;
+            }
         }
 
         $Ann = Ann::orderBy('date', 'desc')->first();
 
 
-        return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
-            ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
+        return $this->view()
+            ->assign("ssr_sub_token", $ssr_sub_token)
+            ->assign("router_token", $router_token)
+            ->assign("router_token_without_mu", $router_token_without_mu)
+            ->assign("acl_token", $acl_token)
             ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)
-            ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/panel.tpl');
+            ->assign("user", $this->user)
+            ->registerClass("URL", "App\Utils\URL")
+            ->assign('baseUrl', Config::get('baseUrl'))
+            ->assign('recaptcha_sitekey', $recaptcha_sitekey)
+            ->display('user/panel.tpl');
     }
 
     public function lookingglass($request, $response, $args)
@@ -1639,8 +1654,22 @@ class UserController extends BaseController
 
     public function doCheckIn($request, $response, $args)
     {
-        if (Config::get('enable_geetest_checkin') == 'true') {
-            $ret = Geetest::verify($request->getParam('geetest_challenge'), $request->getParam('geetest_validate'), $request->getParam('geetest_seccode'));
+        if (Config::get('enable_checkin_captcha')) {
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha = $request->getParam('recaptcha');
+                    if ($recaptcha == ''){
+                        $ret = false;
+                    }else{
+                        $json = file_get_contents("https://recaptcha.net/recaptcha/api/siteverify?secret=".Config::get('recaptcha_secret')."&response=".$recaptcha);
+                        $ret = json_decode($json)->success;
+                    }
+                    break;
+                case 'geetest':
+                    $ret = Geetest::verify($request->getParam('geetest_challenge'), $request->getParam('geetest_validate'), $request->getParam('geetest_seccode'));
+                    break;
+            }
             if (!$ret) {
                 $res['ret'] = 0;
                 $res['msg'] = "系统无法接受您的验证结果，请刷新页面后重试。";

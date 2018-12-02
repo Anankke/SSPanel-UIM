@@ -30,11 +30,19 @@ class AuthController extends BaseController
 {
     public function login()
     {
-        $uid = time() . rand(1, 10000);
-        if (Config::get('enable_geetest_login') == 'true') {
-            $GtSdk = Geetest::get($uid);
-        } else {
-            $GtSdk = null;
+        $GtSdk = null;
+        $recaptcha_sitekey = null;
+        if (Config::get('enable_login_captcha')){
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    break;
+                case 'geetest':
+                    $uid = time().rand(1, 10000) ;
+                    $GtSdk = Geetest::get($uid);
+                    break;
+            }
         }
 
         if (Config::get('enable_telegram') == 'true') {
@@ -53,6 +61,7 @@ class AuthController extends BaseController
             ->assign('login_number', $login_number)
             ->assign('telegram_bot', Config::get('telegram_bot'))
             ->assign('base_url', Config::get('baseUrl'))
+            ->assign('recaptcha_sitekey', $recaptcha_sitekey)
             ->display('auth/login.tpl');
     }
 
@@ -66,8 +75,22 @@ class AuthController extends BaseController
         $code = $request->getParam('code');
         $rememberMe = $request->getParam('remember_me');
 
-        if (Config::get('enable_geetest_login') == 'true') {
-            $ret = Geetest::verify($request->getParam('geetest_challenge'), $request->getParam('geetest_validate'), $request->getParam('geetest_seccode'));
+        if (Config::get('enable_login_captcha')) {
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha = $request->getParam('recaptcha');
+                    if ($recaptcha == ''){
+                        $ret = false;
+                    }else{
+                        $json = file_get_contents("https://recaptcha.net/recaptcha/api/siteverify?secret=".Config::get('recaptcha_secret')."&response=".$recaptcha);
+                        $ret = json_decode($json)->success;
+                    }
+                    break;
+                case 'geetest':
+                    $ret = Geetest::verify($request->getParam('geetest_challenge'), $request->getParam('geetest_validate'), $request->getParam('geetest_seccode'));
+                    break;
+            }
             if (!$ret) {
                 $res['ret'] = 0;
                 $res['msg'] = "系统无法接受您的验证结果，请刷新页面后重试。";
@@ -179,16 +202,28 @@ class AuthController extends BaseController
             $code = $antiXss->xss_clean($ary['code']);
         }
 
-        $uid = time() . rand(1, 10000);
-
-        if (Config::get('enable_geetest_reg') == 'true') {
-            $GtSdk = Geetest::get($uid);
-        } else {
-            $GtSdk = null;
+        $GtSdk = null;
+        $recaptcha_sitekey = null;
+        if (Config::get('enable_reg_captcha')){
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    break;
+                case 'geetest':
+                    $uid = time().rand(1, 10000) ;
+                    $GtSdk = Geetest::get($uid);
+                    break;
+            }
         }
 
 
-        return $this->view()->assign('geetest_html', $GtSdk)->assign('enable_email_verify', Config::get('enable_email_verify'))->assign('code', $code)->display('auth/register.tpl');
+        return $this->view()
+            ->assign('geetest_html', $GtSdk)
+            ->assign('enable_email_verify', Config::get('enable_email_verify'))
+            ->assign('code', $code)
+            ->assign('recaptcha_sitekey', $recaptcha_sitekey)
+            ->display('auth/register.tpl');
     }
 
 
@@ -285,8 +320,22 @@ class AuthController extends BaseController
         // check code
 
 
-        if (Config::get('enable_geetest_reg') == 'true') {
-            $ret = Geetest::verify($request->getParam('geetest_challenge'), $request->getParam('geetest_validate'), $request->getParam('geetest_seccode'));
+        if (Config::get('enable_reg_captcha')) {
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha = $request->getParam('recaptcha');
+                    if ($recaptcha == ''){
+                        $ret = false;
+                    }else{
+                        $json = file_get_contents("https://recaptcha.net/recaptcha/api/siteverify?secret=".Config::get('recaptcha_secret')."&response=".$recaptcha);
+                        $ret = json_decode($json)->success;
+                    }
+                    break;
+                case 'geetest':
+                    $ret = Geetest::verify($request->getParam('geetest_challenge'), $request->getParam('geetest_validate'), $request->getParam('geetest_seccode'));
+                    break;
+            }
             if (!$ret) {
                 $res['ret'] = 0;
                 $res['msg'] = "系统无法接受您的验证结果，请刷新页面后重试。";
@@ -427,10 +476,9 @@ class AuthController extends BaseController
         $user->plan = 'A';
         $user->theme = Config::get('theme');
 
-        $group = Config::get('ramdom_group');
-        $Garray = explode(",", $group);
+        $groups=explode(",", Config::get('ramdom_group'));
 
-        $user->node_group = $Garray[rand(0, count($Garray) - 1)];
+        $user->node_group=$groups[array_rand($groups)];
 
         $ga = new GA();
         $secret = $ga->createSecret();
