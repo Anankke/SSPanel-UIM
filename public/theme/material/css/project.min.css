@@ -59,6 +59,14 @@
 	opacity: 1;
 }
 
+.shop-flex .shop-price::before {
+    content: '¥';
+    font-size: 1.5rem;
+    position: relative;
+    bottom: .4rem;
+    right: .1rem;
+}
+
 .shop-table,.shop-flex {
 	opacity: 1;
 	display: none;
@@ -144,17 +152,16 @@
 	min-height: 380px;
 }
 .shop-flex .card-main {
-	position: relative;
+    position: relative;
+    padding-top: 1em;
 }
 
 .shop-name,.shop-price {
-    padding: .8em 0;
+    padding: .4em 0;
 }
 .shop-price {
-	border-top: 1px solid #a7a7a7;
-	border-bottom: 1px solid #a7a7a7;
-	background: #f6f9fc;
-	font-size: 13px;
+	color: #3b5473;
+	font-size: 2.75rem;
 }
 .shop-price code {
 	font-size: 24px;
@@ -162,12 +169,12 @@
 	font-style: italic;
 	color: #ffa100;
 }
-.shop-content div {
-	margin: 0 15px .7em 15px; 
+ 
+.shop-content>div {
+    margin-top: .6em;
+    flex-basis: 49%;
 }
-.shop-content-div:before,.shop-content-div:after {
-	content: " - ";
-}
+
 .shop-table .card i {
     transform: rotate(0deg);
 }
@@ -176,20 +183,82 @@
 }
 
 .shop-content {
-	margin-top: 1.5em;
-	font-size: 13px;
+	margin-top: 2em;
+    font-size: 13px;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+.shop-content-left {
+    text-align: left;
+    padding-left: 4.5em;
+    color: #3b5473;
+    font-size: 1rem;
+}
+.shop-content-right {
+    text-align: left;
+    padding-left: .5em;
+    font-size: 1.25rem;
+    color: #95aac9;
+}
+.shop-content span {
+    font-size: .8rem;
+    color: #3b5473;
+    margin-left: .2rem;
 }
 
-.shop-name {
+.shop-cube {
+    margin-top: 2em;
+}
+.shop-name,.shop-tat {
 	margin-top: .3em;
-	font-size: 24px;
+    font-size: 1.2rem;
+    color: #95aac9;
+    font-weight: bolder;
+}
+.shop-tat {
+    margin: 0;
+}
+.shop-tat span:first-of-type:after {
+    content: ' G';
+}
+.shop-tat span:last-of-type:after {
+    content: ' 天';
+}
+.shop-tat span:after {
+    font-size: .85rem;
+}
+.shop-cube,.shop-content {
+    display: flex;
+    justify-content: space-around;
+}
+.shop-cube>div{
+    flex-basis: 33.333333333%;
+}
+.cube-title {
+    color: #95aac9;
+    font-size: .5rem;
+}
+.cube-detail {
+    font-size: 1.25rem;
+}
+.cube-detail span {
+    font-size: .75rem;
+}
+
+.shop-content-extra {
+    margin-top: 1.5em;
+    font-size: 1.1rem;
+}
+.shop-content-extra div {
+    margin-top: .4em;
+    letter-spacing: 2px;
 }
 
 .shop-btn {
-	margin-top: 1em;
+	margin-top: 3em;
 	padding: 10px 2em;
 	width: 70%;
-	margin-bottom: 2em;
+	margin-bottom: 2.5em;
 }
 
 .flex-fix3,.flex-fix4 {
@@ -242,7 +311,13 @@
     .shop-drop .card-tag {
     flex-basis: 49%;
     margin: 5px 0;
-}
+    }
+    .shop-content-left {
+        padding-left: 2.5em;
+    }
+    .shop-content span {
+        margin-left: 0;
+    }
 }
 
 /* 面板原样式 */
