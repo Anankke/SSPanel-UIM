@@ -16,9 +16,8 @@ before_install:
   - sudo apt update
   - sudo apt upgrade
 install:
-  - chown -R root:root *
-  - chmod -R 755 *
-  - chown -R www:www storage
+  - sudo chown -R root:root *
+  - sudo chmod -R 755 *
   - echo "==========================================================="
   - echo "Comoposer install"
   - echo "==========================================================="
