@@ -80,8 +80,8 @@
 								</div>
 								<div class="shop-content">
 									<div class="shop-content-left">账号有效期:</div><div class="shop-content-right">{$shop->expire()}<span>天</span></div>
-									<div class="shop-content-left">重置周期:</div><div class="shop-content-right">{if {$shop->reset()} == '0' }N/A{else}{$shop->reset_exp()}<span>天</span>{/if}</div>
-									{if {$shop->reset()} != '0' }<div class="shop-content-left">重置频率:</div><div class="shop-content-right">{$shop->reset_value()}<span>G</span> / {$shop->reset()}<span>天</span></div>{/if}
+									<div class="shop-content-left">重置周期:</div><div class="shop-content-right">{if {$shop->reset()} == '0' }N / A{else}{$shop->reset_exp()}<span>天</span>{/if}</div>
+									<div class="shop-content-left">重置频率:</div><div class="shop-content-right">{if {$shop->reset()} == '0' }N / A{else}{$shop->reset_value()}<span>G</span> / {$shop->reset()}<span>天</span>{/if}</div>
 								</div>
 								<div class="shop-content-extra">
 									<div><span class="icon">check</span> 全球节点分布</div>
