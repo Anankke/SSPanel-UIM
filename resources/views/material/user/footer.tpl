@@ -6,7 +6,7 @@
 
 	<!-- js -->
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0"></script>
-    {if $geetest_html != null}
+    {if isset($geetest_html)}
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
     {/if}
 	<script src="/theme/material/js/base.min.js"></script>

@@ -36,7 +36,7 @@
                                         {/if}
                                     {/if}
                                     <br/>
-                                    <p><i class="icon icon-lg">attach_money</i>当前余额：<font color="red" size="5">{$user->money}</font> 元</p>
+                                    <p><i class="icon icon-lg">attach_money</i>当前余额：<font color="#399AF2" size="5">{$user->money}</font> 元</p>
                                 </div>
                             </div>
                         </div>
@@ -61,15 +61,13 @@
                         <div class="card-main">
                             <div class="card-inner">
                                 <div class="card-inner">
-                                    <p class="card-heading">充值码</p>
+                                    <div class="cardbtn-edit">
+											<div class="card-heading">充值码</div>
+											<button class="btn btn-flat waves-attach" id="code-update" ><span class="icon">favorite_border</span></button>
+									</div>
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="code">充值码</label>
                                         <input class="form-control maxwidth-edit" id="code" type="text">
-                                    </div>
-                                </div>
-                                <div class="card-action">
-                                    <div class="card-action-btn pull-left">
-                                        <button class="btn btn-flat waves-attach" id="code-update" ><span class="icon">check</span>&nbsp;充值</button>
                                     </div>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@
  * normalize.css v3.0.3
  * github.com/necolas/normalize.css
  */body,legend {
-	color: #212121;
+	color: #515a6e;
 	padding: 0
 }
 
@@ -73,7 +73,7 @@ a,body {
 }
 
 body {
-    background-color: rgba(245, 245, 245, 0.54);
+    background-color: #f8f9fe;
     background-attachment: fixed;
     width: 100%;
     background-repeat: no-repeat;
@@ -239,12 +239,12 @@ th {
 
 a {
 	background-color: transparent;
-	color: #ff0022;
+	color: #399AF2;
 	text-decoration: none
 }
 
 a:focus,a:hover {
-	color: #f50057;
+	color: #13c2c2;
 	outline: 0;
 	text-decoration: underline
 }
@@ -2278,7 +2278,7 @@ img {
 }
 /*示例颜色：訂閱按鈕顏色*/
 .btn-subscription {
-  background-color: #ffa100;
+  background-color: #54aff9;
 	color: #fff;
 	margin: 1em 0;
 }
@@ -2298,7 +2298,7 @@ img {
 }
 
 .kaobei:hover {
-    background-color: #ff7ffe; /* prink */
+    background-color: #13c2c2; /* prink */
     color: white;
 }
 .btn-green,.btn-orange {
@@ -2339,11 +2339,11 @@ img {
 }
 
 .btn-flat.btn-brand {
-	color: #24292e!important
+	color: #525252!important
 }
 
 .btn-flat.btn-brand-accent {
-	color: #24292e!important
+	color: #525252!important
 }
 
 .btn-flat.btn-green {
@@ -2351,7 +2351,7 @@ img {
 }
 
 .btn-flat.btn-orange {
-	color: #24292e!important
+	color: #525252!important
 }
 
 .btn-flat.btn-red {
@@ -2719,7 +2719,8 @@ display: block;
 font-size: 20px;
 line-height: 28px;
 margin-top: 24px;
-margin-bottom: 24px
+margin-bottom: 24px;
+color: #314e7d;
 }
 
 .card-header .card-heading {
@@ -2873,7 +2874,7 @@ padding: 2px 10px
 code {
 border: 0px solid #dadada;
 border-radius: 4px;
-color: #ff0022;
+color: #399AF2;
 line-height: 1
 }
 
@@ -3067,7 +3068,7 @@ opacity: 0.5;
 }
 
 .form-control:focus,.picker__select--month:focus,.picker__select--year:focus {
-border-color: #ff0022;
+border-color: #399AF2;
 border-radius: 5px;
 transition-duration:0.4s;
 outline: 0;
@@ -3486,7 +3487,7 @@ input[type=checkbox]:checked~.checkbox-circle-icon {
 }
 
 .form-group-label.control-focus .floating-label {
-	color: #ff0022
+	color: #399AF2;
 }
 
 .form-group-label {
@@ -3676,7 +3677,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 }
 /*弹出框颜色*/
 .modal-content,.picker__wrap {
-	box-shadow: 0 1px 50px rgba(245,124,0,.5);
+	box-shadow: 0 1px 50px #a2beff;
 	outline: 0
 }
 
@@ -5101,7 +5102,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 }
 /*按钮下面颜色*/
 .tab-nav .nav>li>.a:after,.tab-nav .nav>li>a:after {
-	border-bottom: 2px solid #f57c00;
+	border-bottom: 2px solid #399AF2;
 	content: "";
 	display: block;
 	opacity: 0;
@@ -5131,7 +5132,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 }
 
 .tab-nav-indicator.animate {
-	background-color: #f57c00;
+	background-color: #399AF2;
 	-webkit-transition: left 225ms cubic-bezier(.4,0,.2,1) 225ms,right .45s cubic-bezier(.4,0,.2,1);
 	transition: left 225ms cubic-bezier(.4,0,.2,1) 225ms,right .45s cubic-bezier(.4,0,.2,1);
 	will-change: left,right
@@ -5207,7 +5208,7 @@ input[type=checkbox]:checked+.switch-toggle-red:active:after,input[type=radio]:c
 }
 
 .table-responsive.table-user th,.table.table-user th {
-	background: #f6f9fc;
+	background: #f0faff;
 	border-radius: 0;
 }
 
@@ -5903,7 +5904,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 }
 
 .menu-content .nav .a,.menu-content .nav a {
-	color: #212121;
+	color: #515a6e;
 	font-weight: 500
 }
 
@@ -5968,7 +5969,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	-ms-flex-align: center;
 	align-items: center;
 	border-bottom: 1px solid #dadada;
-	color: #212121;
+	color: #314e7d;
 	display: flex;
 	font-size: 20px;
 	font-weight: 300;
@@ -6235,20 +6236,21 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 }
 
 .cust-link.form-control {
-	color: #ff0022;
+	color: #399AF2;
 	cursor: unset;
 	padding-bottom: 2px;
 	margin-right: 1em;
+	padding-right: 1em;
 	background-color: #f3f3f3;
 }
 
 .invite-link,.cardbtn-edit {
 	display: flex;
 	justify-content: space-between;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 }
 .invite-link {
-	justify-content: flex-end;
+	justify-content: flex-start;
 }
 .cardbtn-edit .card-heading {
 	margin-bottom: 0;
@@ -6294,7 +6296,6 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 .cardbtn-edit a.btn-flat.btn-brand-accent.reset-link {
 	margin-left: 1em;
-	margin-right: 1em;
 	display: inline-block;
 	background: #ff4343;
 }
@@ -6302,8 +6303,10 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 .cardbtn-edit a.btn-flat.btn-brand-accent.reset-link:hover,.cardbtn-edit .btn-flat:hover {
 	border-radius: 10px;
-	
 	transition-duration: 0.4s;
+}
+.quickadd .reset-link {
+	margin-right: .5em;
 }
 
 .invite-link .cust-link {
@@ -6312,8 +6315,8 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
     width: 100%;
 }
 .invite-link .btn-subscription {
-	margin: 1em 0 1em 1em;
-	flex-basis: 20%;
+	margin: 0 0 2em 1em;
+	flex-basis: 12%;
 }
 #buy-invite span {
 	position: relative;
@@ -6341,7 +6344,7 @@ code.form-control {
 		justify-content: flex-end;
 		flex-basis: 100%;
 		align-items: center;
-		margin: 1em 0;
+		margin:1em 0;
 	}
 	.tab-nav {
 		font-size: 13px;
@@ -6351,7 +6354,10 @@ code.form-control {
 	}
 	.invite-link .btn-subscription {
 		flex-basis: 100%;
-		margin: 1em 0 0 0;
+		margin: 1em 0 2em 0;
+	}
+	.invite-link {
+		flex-wrap: wrap;
 	}
 }
 
@@ -6453,6 +6459,9 @@ code.form-control {
 
 i {
 	user-select: none;
+	-moz-user-select:none; 
+    -webkit-user-select:none; 
+    -ms-user-select:none; 
 }
 
 

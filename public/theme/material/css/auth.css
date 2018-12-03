@@ -6,6 +6,10 @@
 .authpage .tab-nav li {
 	width: 50%;
 }
+
+.authpage a{
+    text-decoration: none;
+}
  
 .rowtocol,.auth-main .form-group-label,.auth-top,.auth-bottom,.auth-row,.authpage .tab-nav {
 	flex-basis: 100%;
@@ -55,7 +59,7 @@
 
 .auth-bottom {
 	margin-top: 20px;
-	background: #666;
+	background: #7ea8bd;
 	border-radius: 50% 50% 15px 15px;
 }
 .tgauth {
@@ -84,7 +88,7 @@
 	border-radius: 50%;
 	padding: 10px;
 	color: white;
-	background: #ffa100;
+	background: #54aff9;
 }
 .auth-bottom .btn i {
 	position: relative;
@@ -93,47 +97,37 @@
 }
 .auth-top {
 	justify-content: space-between;
-	border-radius: 15px 15px 0 0;
 	align-items: flex-end;
+	background: #bbdefb;
+	border-radius: 15px 15px 0 0;
 }
+
 a.boardtop-right {
 	color: white;
-	padding: 1.2em 1.7em;
-	background: #5e72e4;
-	border-radius: 0 15px 0 15px;
+	background: #54aff9;
+	padding: 3px 1.5em 2px 1.5em;
+	border-radius: 10px 0 0 0px;
+	box-shadow: 0 0 5px 0px #969696;
+	position: relative;
 	text-align: center;
-	box-shadow: -1px 1px 5px 1px #969696;
-	text-decoration: none;
-	transition: .4s all;
 }
 a.boardtop-right:hover {
-	padding: 1.2em 2.2em;
 	transition: .4s all;
+	text-decoration: none;
 }
 
-.backtohome a {
+a.boardtop-left {
 	color: white;
+	background: #54aff9;
+	padding: 3px 1.5em 2px 1.5em;
+	border-radius: 0 10px 0 0;
+	box-shadow: 0 0 5px 0px #969696;
+	position: relative;
+}
+a.boardtop-left:hover {
+	text-decoration: none;
 }
 
-.backtohome a div:last-of-type {
-	background: #ffa100;
-	color: white;
-	padding: 8px;
-	border-radius: 0 10px 10px 0;
-	box-shadow: 1px 1px 5px 1px #969696;
-	position: relative;
-	right: 114px;
-	top: 6px;
-}
-.backtohome a div:first-of-type {
-	background: #ffa100;
-	padding: 10px 25px;
-	border-radius: 0 25px 25px 0;
-	margin-bottom: 15px;
-	box-shadow: 1px 1px 5px 1px #969696;
-	position: relative;
-	left: 40px;
-}
 .backtohome div {
 	display: inline-block;
 }
@@ -170,21 +164,19 @@ a.boardtop-right:hover {
 	margin-top: 36px;
 	justify-content: center;
 }
-
-.auth-logo {
-	left: 0;
-	right: unset;
-	bottom: unset;
-	top: -26px;
-	color: white;
-	background: #ffa100;
-	border-radius: 0 50px 50px 0;
-	text-align: right;
-	padding-right: 3em;
+.btn-auth button {
+	background: #54aff9;
 }
-.auth-logo div:first-of-type {
-	font-size: 24px;
-	margin-top: 22px;
+.auth-logo {
+	background: #bbdefb;
+	border-radius: 10px 10px 0 0;
+}
+.auth-logo img {
+	max-width: 100px;
+	border-radius: 50%;
+	margin: 1em 0 1em 0;
+	box-shadow: 0 0 5px 0 #afafaf;
+	user-select: none;
 }
 
 .auth-help-reg {
@@ -279,17 +271,17 @@ a.boardtop-right:hover {
 		justify-content: space-between;
 		margin-bottom: 20px;
 	}
-	a.boardtop-right,.backtohome a div:first-of-type {
+	a.boardtop-right,a.boardtop-left,.backtohome a div:first-of-type {
 		font-size: 20px;
 	}
 	a.boardtop-right {
-		padding: 1.4em 2em;
+		padding: 5px 2em 3px 2em;
 	}
-	a.boardtop-right:hover {
-		padding: 1.4em 2.5em;
+	a.boardtop-left {
+		padding: 5px 2em 3px 2em;
 	}
-	.backtohome a div:first-of-type {
-		padding: 15px 30px;
+	.auth-top a div:last-of-type {
+		font-size: 16px;
 	}
 	#login,#reset {
 		flex-basis: 74%;
@@ -297,25 +289,13 @@ a.boardtop-right:hover {
 	.auth-col-one.auth-main div#embed-captcha {
 		flex-basis: 74%;
 	}
-	.backtohome i {
-		font-size: 56px;
-	}
-	.backtohome a div:first-of-type {
-		left: 60px;
-		bottom: 4px;
-	}
-	.backtohome a div:last-of-type {
-		right: 145px;
-	}
-	.backtohome {
-		margin-top: 9px;
-	}
+	
 	.auth-bottom .btn {
 		padding: 10px;
 	}
 	.auth-bottom .btn i {
 		font-size: 30px;
-		top: 1px;
+		left: .5px;
 	}
 	.tgauth span {
 		font-size: 15px;
@@ -359,6 +339,9 @@ a.boardtop-right:hover {
 	}
 	.auth-top {
 		margin-bottom: 10px;
+	}
+	.auth-logo img {
+		max-width: 130px;
 	}
 }
 

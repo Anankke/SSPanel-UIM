@@ -20,11 +20,9 @@ use App\Models\TelegramSession;
 use App\Models\EmailVerify;
 use App\Services\Config;
 use App\Utils\Radius;
-use App\Utils\Wecenter;
 use App\Utils\Tools;
 use App\Services\Mail;
 use App\Utils\QQWry;
-use App\Utils\Duoshuo;
 use App\Utils\GA;
 use App\Utils\Telegram;
 use CloudXNS\Api;
@@ -64,10 +62,6 @@ class Job
             $db_address_array = explode(':', Config::get('radius_db_host'));
             system('mysqldump --user='.Config::get('radius_db_user').' --password='.Config::get('radius_db_password').' --host='.$db_address_array[0].' '.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').''.Config::get('radius_db_database').'> /tmp/ssmodbackup/radius.sql', $ret);
         }
-        if (Config::get('enable_wecenter')=='true') {
-            $db_address_array = explode(':', Config::get('wecenter_db_host'));
-            system('mysqldump --user='.Config::get('wecenter_db_user').' --password='.Config::get('wecenter_db_password').' --host='.(isset($db_address_array[1])?'-P '.$db_address_array[1]:'').' '.Config::get('wecenter_db_database').'> /tmp/ssmodbackup/wecenter.sql', $ret);
-        }
         system("cp ".BASE_PATH."/config/.config.php /tmp/ssmodbackup/configbak.php", $ret);
         echo $ret;
         system("zip -r /tmp/ssmodbackup.zip /tmp/ssmodbackup/* -P ".Config::get('auto_backup_passwd'), $ret);
@@ -85,15 +79,6 @@ class Job
         system("rm /tmp/ssmodbackup.zip", $ret);
 
         Telegram::Send("备份完毕了喵~今天又是安全祥和的一天呢。");
-    }
-
-    public static function SyncDuoshuo()
-    {
-        $users = User::all();
-        foreach ($users as $user) {
-            Duoshuo::add($user);
-        }
-        echo "ok";
     }
 
     public static function UserGa()
@@ -435,52 +420,14 @@ class Job
         BlockIp::where("datetime", "<", time()-86400)->delete();
         TelegramSession::where("datetime", "<", time()-900)->delete();
 
-
         $adminUser = User::where("is_admin", "=", "1")->get();
-
-        $latest_content = file_get_contents("https://raw.githubusercontent.com/NimaQu/ss-panel-v3-mod_uim/master/bootstrap.php");
-        $newmd5 = md5($latest_content);
-        $oldmd5 = md5(file_get_contents(BASE_PATH."/bootstrap.php"));
-
-        if ($latest_content!="") {
-            if ($newmd5 == $oldmd5) {
-                if (file_exists(BASE_PATH."/storage/update.md5")) {
-                    unlink(BASE_PATH."/storage/update.md5");
-                }
-            } else {
-                if (!file_exists(BASE_PATH."/storage/update.md5")) {
-                    foreach ($adminUser as $user) {
-                        echo "Send mail to user: ".$user->id;
-                        $subject = Config::get('appName')."-系统提示";
-                        $to = $user->email;
-                        $text = "管理员您好，系统发现有了新版本，您可以到 <a href=\"https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC\">https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC</a> 按照步骤进行升级。" ;
-                        try {
-                            Mail::send($to, $subject, 'news/warn.tpl', [
-                                "user" => $user,"text" => $text
-                            ], [
-                            ]);
-                        } catch (\Exception $e) {
-                            echo $e->getMessage();
-                        }
-                    }
-
-                    Telegram::Send("姐姐姐姐，面板程序有更新了呢~看看你的邮箱吧~");
-
-                    $myfile = fopen(BASE_PATH."/storage/update.md5", "w+") or die("Unable to open file!");
-                    $txt = "1";
-                    fwrite($myfile, $txt);
-                    fclose($myfile);
-                }
-            }
-        }
-
 
         //节点掉线检测
         if (Config::get("enable_detect_offline")=="true") {
             $nodes = Node::all();
 
             foreach ($nodes as $node) {
-                if ($node->isNodeOnline() === false && time() - $node->node_heartbeat <= 360) {
+                if ($node->isNodeOnline() === false && !file_exists(BASE_PATH."/storage/".$node->id.".offline")) {
                     foreach ($adminUser as $user) {
                         echo "Send offline mail to user: ".$user->id;
                         $subject = Config::get('appName')."-系统警告";
@@ -542,53 +489,47 @@ class Job
                     fwrite($myfile, $txt);
                     fclose($myfile);
                 }
-            }
 
+				elseif ($node->isNodeOnline() === true && file_exists(BASE_PATH."/storage/".$node->id.".offline")) {
+				foreach ($adminUser as $user) {
+                    echo "Send offline mail to user: ".$user->id;
+                    $subject = Config::get('appName')."-系统提示";
+                    $to = $user->email;
+                    $text = "管理员您好，系统发现节点 ".$node->name." 恢复上线了。" ;
+                    try {
+                        Mail::send($to, $subject, 'news/warn.tpl', [
+                            "user" => $user,"text" => $text
+							], [
+                        ]);
+                    } catch (\Exception $e) {
+                        echo $e->getMessage();
+                    }
 
-            foreach ($nodes as $node) {
-                if (time()-$node->node_heartbeat<60&&file_exists(BASE_PATH."/storage/".$node->id.".offline")&&$node->node_heartbeat!=0&&($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10)) {
-                    foreach ($adminUser as $user) {
-                        echo "Send offline mail to user: ".$user->id;
-                        $subject = Config::get('appName')."-系统提示";
-                        $to = $user->email;
-                        $text = "管理员您好，系统发现节点 ".$node->name." 恢复上线了。" ;
-                        try {
-                            Mail::send($to, $subject, 'news/warn.tpl', [
-                                "user" => $user,"text" => $text
-                            ], [
-                            ]);
-                        } catch (\Exception $e) {
-                            echo $e->getMessage();
+                    if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10)) {
+                        $api=new Api();
+                        $api->setApiKey(Config::get("cloudxns_apikey"));//修改成自己API KEY
+                        $api->setSecretKey(Config::get("cloudxns_apisecret"));//修改成自己的SECERET KEY
+						$api->setProtocol(true);
+
+                        $domain_json=json_decode($api->domain->domainList());
+						
+						foreach ($domain_json->data as $domain) {
+							if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
+                                $domain_id=$domain->id;
+                            }
                         }
 
+                        $record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
 
-                        if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10)) {
-                            $api=new Api();
-                            $api->setApiKey(Config::get("cloudxns_apikey"));//修改成自己API KEY
-                            $api->setSecretKey(Config::get("cloudxns_apisecret"));//修改成自己的SECERET KEY
+                        foreach ($record_json->data as $record) {
+                            if (($record->host.".".Config::get('cloudxns_domain'))==$node->server) {
+                                $record_id=$record->record_id;
 
-                            $api->setProtocol(true);
-
-                            $domain_json=json_decode($api->domain->domainList());
-
-                            foreach ($domain_json->data as $domain) {
-                                if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
-                                    $domain_id=$domain->id;
-                                }
+                                $api->record->recordUpdate($domain_id, $record->host, $node->getNodeIp(), 'A', 55, 600, 1, '', $record_id);
                             }
-
-                            $record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
-
-                            foreach ($record_json->data as $record) {
-                                if (($record->host.".".Config::get('cloudxns_domain'))==$node->server) {
-                                    $record_id=$record->record_id;
-
-                                    $api->record->recordUpdate($domain_id, $record->host, $node->getNodeIp(), 'A', 55, 600, 1, '', $record_id);
-                                }
-                            }
-
-
-                            $notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~域名解析被切换回来了喵~";
+                        }
+						
+                        $notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~域名解析被切换回来了喵~";
                         } else {
                             $notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~";
                         }
@@ -597,7 +538,6 @@ class Job
                     Telegram::Send($notice_text);
 
                     unlink(BASE_PATH."/storage/".$node->id.".offline");
-					
 				}
             }
         }

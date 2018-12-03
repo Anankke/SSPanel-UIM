@@ -1,7 +1,7 @@
 
 
     <div class="card-inner">
-            <p class="card-heading">TrimePay 充值</p>
+            <p class="card-heading">输入充值金额后，点击下方的图标进行充值</p>
             <div class="form-group form-group-label">
                 <label class="floating-label" for="amount">金额</label>
                 <input class="form-control" id="amount" type="text" >

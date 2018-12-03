@@ -21,7 +21,6 @@ use App\Utils\AliPay;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Utils\Radius;
-use App\Utils\Wecenter;
 use App\Models\RadiusBan;
 use App\Models\DetectLog;
 use App\Models\DetectRule;
@@ -62,64 +61,46 @@ class UserController extends BaseController
     {
 
         $user = $this->user;
-
-        $ios_token = LinkController::GenerateIosCode("smart", 0, $this->user->id, 0, "smart");
-
         $acl_token = LinkController::GenerateAclCode("smart", 0, $this->user->id, 0, "smart");
-
         $router_token = LinkController::GenerateRouterCode($this->user->id, 0);
         $router_token_without_mu = LinkController::GenerateRouterCode($this->user->id, 1);
-
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
-        $uid = time() . rand(1, 10000);
-        if (Config::get('enable_geetest_checkin') == 'true') {
-            $GtSdk = Geetest::get($uid);
-        } else {
-            $GtSdk = null;
+        $GtSdk = null;
+        $recaptcha_sitekey = null;
+        if (Config::get('enable_checkin_captcha') == 'true'){
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    break;
+                case 'geetest':
+                    $uid = time().rand(1, 10000) ;
+                    $GtSdk = Geetest::get($uid);
+                    break;
+            }
         }
 
         $Ann = Ann::orderBy('date', 'desc')->first();
 
 
-        return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
-            ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
-            ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
-            ->assign('mergeSub', Config::get('mergeSub'))->assign('subUrl', Config::get('subUrl'))
-            ->assign('enable_duoshuo', Config::get('enable_duoshuo'))->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
-            ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
-    }
-
-
-    public function panel($request, $response, $args)
-    {
-
-        $user = $this->user;
-
-        $ios_token = LinkController::GenerateIosCode("smart", 0, $this->user->id, 0, "smart");
-
-        $acl_token = LinkController::GenerateAclCode("smart", 0, $this->user->id, 0, "smart");
-
-        $router_token = LinkController::GenerateRouterCode($this->user->id, 0);
-        $router_token_without_mu = LinkController::GenerateRouterCode($this->user->id, 1);
-
-        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
-
-        $uid = time() . rand(1, 10000);
-        if (Config::get('enable_geetest_checkin') == 'true') {
-            $GtSdk = Geetest::get($uid);
-        } else {
-            $GtSdk = null;
-        }
-
-        $Ann = Ann::orderBy('date', 'desc')->first();
-
-
-        return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
-            ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
-            ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
-            ->assign('enable_duoshuo', Config::get('enable_duoshuo'))->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
-            ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/panel.tpl');
+        return $this->view()
+            ->assign('ssr_sub_token', $ssr_sub_token)
+            ->assign('router_token', $router_token)
+            ->assign('router_token_without_mu', $router_token_without_mu)
+            ->assign('acl_token', $acl_token)
+            ->assign('display_ios_class',Config::get('display_ios_class'))
+            ->assign('ios_account',Config::get('ios_account'))
+            ->assign('ios_password',Config::get('ios_password'))
+            ->assign('ann', $Ann)
+            ->assign('geetest_html', $GtSdk)
+            ->assign('mergeSub', Config::get('mergeSub'))
+            ->assign('subUrl', Config::get('subUrl'))
+            ->assign("user", $this->user)
+            ->registerClass("URL", "App\Utils\URL")
+            ->assign('baseUrl', Config::get('baseUrl'))
+            ->assign('recaptcha_sitekey', $recaptcha_sitekey)
+            ->display('user/index.tpl');
     }
 
     public function lookingglass($request, $response, $args)
@@ -709,13 +690,11 @@ class UserController extends BaseController
 
 
         switch ($node->sort) {
-
             case 0:
                 if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
                     return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
                 }
                 break;
-
             case 1:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
@@ -725,7 +704,6 @@ class UserController extends BaseController
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfovpn.tpl');
                 }
                 break;
-
             case 2:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
@@ -734,34 +712,7 @@ class UserController extends BaseController
 
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfossh.tpl');
                 }
-
                 break;
-
-
-            case 3:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $exp = explode(":", $node->server);
-                    $token = LinkController::GenerateCode(3, $exp[0], $exp[1], 0, $this->user->id);
-                    $json_show = "PAC 信息<br>地址：" . Config::get('baseUrl') . "/link/" . $token . "<br>" . "用户名：" . $email . "<br>密码：" . $this->user->passwd . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopac.tpl');
-                }
-
-                break;
-
-            case 4:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $json_show = "APN 信息<br>下载地址：" . $node->server . "<br>" . "用户名：" . $email . "<br>密码：" . $this->user->passwd . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoapn.tpl');
-                }
-
-                break;
-
             case 5:
                 if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
                     $email = $this->user->email;
@@ -771,57 +722,7 @@ class UserController extends BaseController
 
                     return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoanyconnect.tpl');
                 }
-
-
                 break;
-
-            case 6:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $exp = explode(":", $node->server);
-
-                    $token_cmcc = LinkController::GenerateApnCode("cmnet", $exp[0], $exp[1], $this->user->id);
-                    $token_cnunc = LinkController::GenerateApnCode("3gnet", $exp[0], $exp[1], $this->user->id);
-                    $token_ctnet = LinkController::GenerateApnCode("ctnet", $exp[0], $exp[1], $this->user->id);
-
-                    $json_show = "APN 文件<br>移动地址：" . Config::get('baseUrl') . "/link/" . $token_cmcc . "<br>联通地址：" . Config::get('baseUrl') . "/link/" . $token_cnunc . "<br>电信地址：" . Config::get('baseUrl') . "/link/" . $token_ctnet . "<br>" . "用户名：" . $email . "<br>密码：" . $this->user->passwd . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoapndownload.tpl');
-                }
-
-
-                break;
-
-            case 7:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $token = LinkController::GenerateCode(7, $node->server, ($this->user->port - 20000), 0, $this->user->id);
-                    $json_show = "PAC Plus 信息<br>PAC 地址：" . Config::get('baseUrl') . "/link/" . $token . "<br>支持方式：" . $node->method . "<br>备注：" . $node->info;
-
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopacplus.tpl');
-                }
-
-
-                break;
-
-            case 8:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $token = LinkController::GenerateCode(8, $node->server, ($this->user->port - 20000), 0, $this->user->id);
-                    $token_ios = LinkController::GenerateCode(8, $node->server, ($this->user->port - 20000), 1, $this->user->id);
-                    $json_show = "PAC Plus Plus信息<br>PAC 一般地址：" . Config::get('baseUrl') . "/link/" . $token . "<br>PAC iOS 地址：" . Config::get('baseUrl') . "/link/" . $token_ios . "<br>" . "备注：" . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopacpp.tpl');
-                }
-
-
-                break;
-
-
             case 10:
                 if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
                     return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
@@ -957,19 +858,10 @@ class UserController extends BaseController
 
     public function invite($request, $response, $args)
     {
-        /*$pageNum = 1;
-        if (isset($request->getQueryParams()["page"])) {
-            $pageNum = $request->getQueryParams()["page"];
-        }
-        $codes=InviteCode::where('user_id', $this->user->id)->orderBy("created_at", "desc")->paginate(15, ['*'], 'page', $pageNum);
-        $codes->setPath('/user/invite');*/
         $code = InviteCode::where('user_id', $this->user->id)->first();
         if ($code == null) {
-            $char = Tools::genRandomChar(32);
-            $code = new InviteCode();
-            $code->code = $char;
-            $code->user_id = $this->user->id;
-            $code->save();
+            $this->user->addInviteCode();
+			$code = InviteCode::where('user_id', $this->user->id)->first();
         }
 
         $pageNum = 1;
@@ -985,36 +877,13 @@ class UserController extends BaseController
         return $this->view()->assign('code', $code)->assign('paybacks', $paybacks)->assign('paybacks_sum', $paybacks_sum)->display('user/invite.tpl');
     }
 
-    //此函数已废弃
-    public function doInvite($request, $response, $args)
-    {
-        $n = $this->user->invite_num;
-        if ($n < 1) {
-            $res['ret'] = 0;
-            $res['msg'] = "失败";
-            return $response->getBody()->write(json_encode($res));
-        }
-        for ($i = 0; $i < $n; $i++) {
-            $char = Tools::genRandomChar(32);
-            $code = new InviteCode();
-            $code->code = $char;
-            $code->user_id = $this->user->id;
-            $code->save();
-        }
-        $this->user->invite_num = 0;
-        $this->user->save();
-        $res['ret'] = 1;
-        $res['msg'] = "生成成功";
-        return $this->echoJson($response, $res);
-    }
-
     public function buyInvite($request, $response, $args)
     {
         $price = Config::get('invite_price');
         $num = $request->getParam('num');
         $num = trim($num);
 
-        if (Tools::isInt($num) == false || $price < 0 || $num <= 0) {
+        if (!Tools::isInt($num) || $price < 0 || $num <= 0) {
             $res['ret'] = 0;
             $res['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($res));
@@ -1033,6 +902,40 @@ class UserController extends BaseController
         $user->save();
         $res['ret'] = 1;
         $res['msg'] = "邀请次数添加成功";
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function customInvite($request, $response, $args)
+    {
+        $price = Config::get('custom_invite_price');
+        $customcode = $request->getParam('customcode');
+        $customcode = trim($customcode);
+
+        if (!Tools::is_validate($customcode) || $price < 0 || strlen($customcode)<1 || strlen($customcode)>32) {
+            $res['ret'] = 0;
+            $res['msg'] = "非法请求,邀请链接后缀不能包含特殊符号且长度不能大于32字符";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if (InviteCode::where('code', $customcode)->count()!=0) {
+            $res['ret'] = 0;
+            $res['msg'] = "此后缀名被抢注了";
+            return $response->getBody()->write(json_encode($res));
+        } 
+
+        $user = $this->user;
+        if ($user->money < $price) {
+            $res['ret'] = 0;
+            $res['msg'] = "余额不足，总价为" . $price . "元。";
+            return $response->getBody()->write(json_encode($res));
+        }
+        $code = InviteCode::where('user_id', $user->id)->first();
+        $code->code = $customcode;
+        $user->money -= $price;
+        $user->save();
+        $code->save();
+        $res['ret'] = 1;
+        $res['msg'] = "定制成功";
         return $response->getBody()->write(json_encode($res));
     }
 
@@ -1728,8 +1631,22 @@ class UserController extends BaseController
 
     public function doCheckIn($request, $response, $args)
     {
-        if (Config::get('enable_geetest_checkin') == 'true') {
-            $ret = Geetest::verify($request->getParam('geetest_challenge'), $request->getParam('geetest_validate'), $request->getParam('geetest_seccode'));
+        if (Config::get('enable_checkin_captcha') == 'true') {
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha = $request->getParam('recaptcha');
+                    if ($recaptcha == ''){
+                        $ret = false;
+                    }else{
+                        $json = file_get_contents("https://recaptcha.net/recaptcha/api/siteverify?secret=".Config::get('recaptcha_secret')."&response=".$recaptcha);
+                        $ret = json_decode($json)->success;
+                    }
+                    break;
+                case 'geetest':
+                    $ret = Geetest::verify($request->getParam('geetest_challenge'), $request->getParam('geetest_validate'), $request->getParam('geetest_seccode'));
+                    break;
+            }
             if (!$ret) {
                 $res['ret'] = 0;
                 $res['msg'] = "系统无法接受您的验证结果，请刷新页面后重试。";
@@ -1753,6 +1670,8 @@ class UserController extends BaseController
         $this->user->last_check_in_time = time();
         $this->user->save();
         $res['msg'] = sprintf("获得了 %d MB流量.", $traffic);
+        $res['unflowtraffic'] = $this->user->transfer_enable;
+        $res['traffic'] = Tools::flowAutoShow($this->user->transfer_enable);
         $res['ret'] = 1;
         return $this->echoJson($response, $res);
     }

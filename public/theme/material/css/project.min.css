@@ -135,7 +135,7 @@
 }
 .shop-drop .card-tag {
     flex-basis: 49%;
-    margin: 5px 0 0 0;
+    margin: 3px 0 3px 0;
     text-align: center;
 }
 .shop-flex .card {
@@ -168,7 +168,12 @@
 .shop-content-div:before,.shop-content-div:after {
 	content: " - ";
 }
-
+.shop-table .card i {
+    transform: rotate(0deg);
+}
+.shop-table .card i.arrow-rotate {
+    transform: rotate(180deg);
+}
 
 .shop-content {
 	margin-top: 1.5em;
@@ -243,6 +248,9 @@
 /* 面板原样式 */
 .ui-card-wrap:after,.ui-picker-lib:after {
     clear: both
+}
+.menu-content .nav ul .a, .menu-content .nav ul a {
+    transition: .3s all;
 }
 
 body {
@@ -701,7 +709,7 @@ div.nodetitle:first-of-type>a {
     text-align: center;
     display: inline-block;
 }
-.nodetitle>a,.nodetitle a i,.arrow-rotate {
+.nodetitle>a,.nodetitle a i,.arrow-rotate,.shop-table .card i {
     transition: .3s all;
 }
 
@@ -825,7 +833,7 @@ div.nodetitle:first-of-type>a {
 }
 .user-info .nodetype {
     font-size: 1.25rem;
-    color: black;
+    color: #525252;
 }
 .user-info .nodestatus>div {
     width: 54px;
@@ -845,7 +853,7 @@ div.nodetitle:first-of-type>a {
     display: block;
     text-decoration: none;
     font-size: 14px;
-    color: #383838;
+    color: #525252;
     padding: 1px 0;
 }
 .user-info .nodeinfo i {
@@ -885,8 +893,48 @@ a.tag-gold,.tag-gold {
     color: #faad14;
     border-color: #ffe58f;
 }
+a.tag-red,.tag-red {
+    background: #fff1f0;
+    color: #f5222d;
+    border-color: #ffa39e;
+}
+a.tag-blue,.tag-blue {
+    background: #e6f7ff;
+    color: #1890ff;
+    border-color: #91d5ff;
+}
+a.tag-geekblue,.tag-geekblue {
+    background: #f0f5ff;
+    color: #2f54eb;
+    border-color: #adc6ff;
+}
+a.tag-cyan,.tag-cyan {
+    background: #e6fffb;
+    color: #13c2c2;
+    border-color: #87e8de;
+}
+a.tag-purple,.tag-purple {
+    background: #f9f0ff;
+    color: #722ed1;
+    border-color: #d3adf7;
+}
+a.tag-volcano,.tag-volcano {
+    background: #fff2e8;
+    color: #fa541c;
+    border-color: #ffbb96;
+}
+a.tag-lime,.tag-lime {
+    background: #fcffe6;
+    color: #a0d911;
+    border-color: #eaff8f;
+}
+a.tag-magenta,.tag-magenta {
+    background: #fff0f6;
+    color: #eb2f96;
+    border-color: #ffadd2;
+}
 
-.card-invite .form-group-label {
+.form-group-label {
     margin-bottom: 16px;
 }
 
@@ -939,7 +987,6 @@ a.tag-gold,.tag-gold {
 .dropdown-area.dropdown-active {
     transform: scale(1,1);
     opacity: 1;
-    height: auto;
 }
 
 
@@ -954,8 +1001,12 @@ a.tag-gold,.tag-gold {
         width: 160px;
     }
     .nodetitle a span {
-        font-size: 18px;
-        top: .9em;
+        font-size: 16px;
+        top: 1em;
+    }
+    .nodetitle a i {
+        font-size: 22px;
+        top: .7em;
     }
     .nodename {
         font-size: 14px;
@@ -967,6 +1018,10 @@ a.tag-gold,.tag-gold {
     }
     .card-inner {
         margin: 24px 13px;
+    }
+    .card-table>.table-responsive {
+        margin-left: -13px;
+        margin-right: -13px;
     }
 }
 
@@ -1001,6 +1056,11 @@ a.tag-gold,.tag-gold {
         padding: 1em 1.5em;
         margin: 5px 0 1em 0;
         box-shadow: 0 0px 0 #e5e5e5, 0 0 15px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.05);
+    }
+    .shop-drop .card-tag {
+        font-size: 16px;
+        height: 26px;
+        padding: 3px 6px 0;
     }
 }
 
@@ -1041,9 +1101,6 @@ a.tag-gold,.tag-gold {
 	.nodetitle {
 		grid-column-end: 4;
 		grid-column-start: 1;
-    }
-    .card-invite {
-        min-height: 266px;
     }
     .shop-gridarea {
         width: 100%;

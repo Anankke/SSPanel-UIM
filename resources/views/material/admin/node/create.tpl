@@ -102,12 +102,7 @@
 													<option value="0">Shadowsocks</option>
 													<option value="1">VPN/Radius基础</option>
 													<option value="2">SSH</option>
-													<option value="3">PAC</option>
-													<option value="4">APN文件外链</option>
 													<option value="5">Anyconnect</option>
-													<option value="6">APN</option>
-													<option value="7">PAC PLUS(Socks 代理生成 PAC文件)</option>
-													<option value="8">PAC PLUS PLUS(HTTPS 代理生成 PAC文件)</option>
 													<option value="9">Shadowsocks 单端口多用户</option>
 													<option value="10">Shadowsocks 中转</option>
 													<option value="11">V2Ray</option>

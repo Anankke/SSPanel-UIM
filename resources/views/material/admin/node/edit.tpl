@@ -104,12 +104,7 @@
 													<option value="0" {if $node->sort==0}selected{/if}>Shadowsocks</option>
 													<option value="1" {if $node->sort==1}selected{/if}>VPN/Radius基础</option>
 													<option value="2" {if $node->sort==2}selected{/if}>SSH</option>
-													<option value="3" {if $node->sort==3}selected{/if}>PAC</option>
-													<option value="4" {if $node->sort==4}selected{/if}>APN文件外链</option>
 													<option value="5" {if $node->sort==5}selected{/if}>Anyconnect</option>
-													<option value="6" {if $node->sort==6}selected{/if}>APN</option>
-													<option value="7" {if $node->sort==7}selected{/if}>PAC PLUS(Socks 代理生成 PAC文件)</option>
-													<option value="8" {if $node->sort==8}selected{/if}>PAC PLUS PLUS(HTTPS 代理生成 PAC文件)</option>
 													<option value="9" {if $node->sort==9}selected{/if}>Shadowsocks 单端口多用户</option>
 													<option value="10" {if $node->sort==10}selected{/if}>Shadowsocks 中转</option>
 													<option value="11" {if $node->sort==11}selected{/if}>V2Ray</option>
