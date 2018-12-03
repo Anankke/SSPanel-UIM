@@ -84,9 +84,9 @@
 									<div class="shop-content-left">重置频率:</div><div class="shop-content-right">{if {$shop->reset()} == '0' }N / A{else}{$shop->reset_value()}<span>G</span> / {$shop->reset()}<span>天</span>{/if}</div>
 								</div>
 								<div class="shop-content-extra">
-									<div><span class="icon">check</span> 全球节点分布</div>
-									<div><span class="icon">check</span> 快速技术支持</div>
-									<div><span class="icon">check</span> 全平台客户端</div>
+									{foreach $shop->content_extra() as $service}
+									<div><span class="icon">{$service[0]}</span>{$service[1]}</div>
+									{/foreach}
 								</div>
 								<a class="btn btn-brand-accent shop-btn" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
 					  </div>

@@ -153,7 +153,13 @@
 }
 .shop-flex .card-main {
     position: relative;
-    padding-top: 1em;
+    padding-top: 1.3em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.shop-flex .card-main>div {
+    flex-basis: 100%;
 }
 
 .shop-name,.shop-price {
@@ -190,13 +196,12 @@
 }
 .shop-content-left {
     text-align: left;
-    padding-left: 4.5em;
+    padding-left: 3.5em;
     color: #3b5473;
     font-size: 1rem;
 }
 .shop-content-right {
-    text-align: left;
-    padding-left: .5em;
+    text-align: center;
     font-size: 1.25rem;
     color: #95aac9;
 }
@@ -249,16 +254,20 @@
     margin-top: 1.5em;
     font-size: 1.1rem;
 }
-.shop-content-extra div {
+.shop-content-extra>div {
     margin-top: .4em;
     letter-spacing: 2px;
+    position: relative;
+    right: .3em;
+    min-height: 20px;
 }
 
 .shop-btn {
 	margin-top: 3em;
 	padding: 10px 2em;
-	width: 70%;
-	margin-bottom: 2.5em;
+	flex-basis: 70%;
+    margin-bottom: 2.5em;
+    align-self: flex-end;
 }
 
 .flex-fix3,.flex-fix4 {
@@ -618,6 +627,11 @@ ul.dropdown-menu {
 
 .modal-inner p {
     word-break: break-word;
+}
+
+.form-control-guide {
+    margin-left: 1em;
+    margin-top: .5em;
 }
 
 /* 卡片节点 */
