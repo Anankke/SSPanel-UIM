@@ -117,6 +117,9 @@ class Shop extends Model
             $content_extra = explode(';',$content_extra);
             $content_extra_new = array();
             foreach ($content_extra as $innerContent) {
+                if (!strstr($innerContent,'-')) {
+                    $innerContent = 'check-' . $innerContent;
+                }
                 $innerContent = explode('-',$innerContent);
                 array_push($content_extra_new,$innerContent);
             }
