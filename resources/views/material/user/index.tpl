@@ -24,7 +24,7 @@
 											<div class="nodemiddle node-flex">
 												<div class="nodetype">
 													{if $user->class!=0}
-													<dd>VIP{$user->class}</dd>
+													<dd>VIP {$user->class}</dd>
 													{else}
 													<dd>普通用户</dd>
 													{/if}
@@ -272,13 +272,14 @@
 															</b></p>
 														{/if}
 													{/if}
-                                                        <p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a class="btn-dl" href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i class="material-icons">save_alt</i> 点击安装 Potatso Lite</a></p>
+                                                        <p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a class="btn-dl" href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i class="material-icons">save_alt</i> 点击安装 Potatso Lite</a> 或在非国区AppStore (切勿登陆iCloud,后果自负) 中搜索<code>Shadowrocket</code>下载安装 </p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso Lite，点击添加代理，点击右上角的 + 号，选择“订阅”，名字任意填写，开启自动更新，URL填写以下地址并保存即可</p>
+														<p>如果使用shadowrocket,打开 Shadowrocket，点击右上角的 + 号，类型选择“Subscribe”，URL填写以下地址并点击右上角完成即可。或使用<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub0"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键{if !$mergeSub}普通{/if}端口订阅</a> {if !$mergeSub}<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub1"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键单端口订阅</a>{/if}</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
-														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" id="sub0" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
 														{if !$mergeSub}
 														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
-														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" id="sub1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
                                                       <!-- <p><a href="/user/announcement">点击这里查看iOS傻瓜式教程</a></p> -->
 													</div>
@@ -685,7 +686,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/shake.js@1.2.2/shake.min.js"></script>
 
+<script>
+;(function(){
+	'use strict'
 
+	let onekeysubBTN = document.querySelectorAll('[data-onekeyfor]');
+	for (let i=0;i<onekeysubBTN.length;i++) {
+		onekeysubBTN[i].addEventListener('click',()=>{
+			let onekeyId = onekeysubBTN[i].dataset.onekeyfor;
+			AddSub(onekeyId);
+		});
+	}
+
+	function AddSub(id){
+		let url = document.getElementById(id).value;
+		let tmp = window.btoa(url);
+		tmp = tmp.substring(0,tmp.length);
+		url = "sub://" + tmp + "#";
+		window.location.href = url;
+	}
+})();
+</script>
 
 <script>
 
