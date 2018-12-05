@@ -2206,7 +2206,8 @@ img {
 	max-width: 100%;
 	padding: 8px 15px;
 	text-transform: uppercase;
-	user-select: none
+	user-select: none;
+	transition: .3s all;
 }
 .btn:hover {
 	border-radius: 5px;
@@ -6303,7 +6304,7 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 
 .cardbtn-edit a.btn-flat.btn-brand-accent.reset-link:hover,.cardbtn-edit .btn-flat:hover {
 	border-radius: 10px;
-	transition-duration: 0.4s;
+	transition-duration: 0.3s;
 }
 .quickadd .reset-link {
 	margin-right: .5em;
