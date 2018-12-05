@@ -1,14 +1,5 @@
 
-
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -18,8 +9,7 @@
 		</div>
 		<div class="container">
 			<div class="col-lg-12 col-md-12">
-				<section class="content-inner margin-top-no">
-					
+				<section class="content-inner margin-top-no">				
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
@@ -29,16 +19,10 @@
 									<div id="editormd">
 										<textarea style="display:none;" id="content">{$ann->markdown}</textarea>
 									</div>
-								</div>
-								
-								
-								
-								
+								</div>							
 							</div>
 						</div>
-					</div>
-					
-					
+					</div>			
 					
 					<div class="card">
 						<div class="card-main">
@@ -57,23 +41,10 @@
 					
 					{include file='dialog.tpl'}
 
-			</div>
-			
-			
-			
+			</div>			
 		</div>
 	</main>
-
 	
-	
-	
-	
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
