@@ -23,7 +23,7 @@ install:
   - echo "==========================================================="
   - php composer.phar install
 before_script:
-  - composer global require overtrue/phplint -vvv
+  - composer require overtrue/phplint --dev -vvv
 script:
   - sudo cp config/.config.php.example config/.config.php
-  - phplint ./app
+  - ./vendor/bin/phplint ./app
