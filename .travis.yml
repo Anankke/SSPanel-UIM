@@ -29,3 +29,6 @@ before_script:
 script:
   - sudo cp config/.config.php.example config/.config.php
   - phplint '**/*.php' '!vendor/**'
+  - sudo php xcat update
+  - sudo php xcat initQQWry
+  - sudo php xcat initdownload
