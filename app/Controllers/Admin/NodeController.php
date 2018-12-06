@@ -54,18 +54,20 @@ class NodeController extends AdminController
         $node->status = $request->getParam('status');
         $node->sort = $request->getParam('sort');
 		$req_node_ip = trim($request->getParam('node_ip'));
-
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
-            if ($req_node_ip != '') {
-                $node->node_ip = $req_node_ip;
-            } else {
-                if ($node->sort == 11) {
-                    $server_list = explode(";", $request->getParam('server'));
-                    $node->node_ip = gethostbyname($server_list[0]);
-                } else {
-                    $node->node_ip = gethostbyname($request->getParam('server'));
-                }
-            }
+                  
+        if ($node->sort == 11) {
+            $server_list = explode(";", $node->server);
+			if(!Tools::is_ip($server_list[0])){
+				$node->node_ip = gethostbyname($server_list[0]);
+			}else{
+				$node->node_ip = $req_node_ip;
+			}
+        } else if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
+			if(!Tools::is_ip($node->server)){
+				$node->node_ip = gethostbyname($node->server);
+			}else{
+				$node->node_ip = $req_node_ip;
+			}                        
         } else {
             $node->node_ip="";
         }
