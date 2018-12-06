@@ -1119,7 +1119,7 @@ class UserController extends BaseController
         $price = $shop->price * ((100 - $credit) / 100);
         $user = $this->user;
 
-        if ($user->money < $price) {
+        if (bccomp($user->money , $price)==-1) {
             $res['ret'] = 0;
             $res['msg'] = '喵喵喵~ 当前余额不足，总价为' . $price . '元。</br><a href="/user/code">点击进入充值界面</a>';
             return $response->getBody()->write(json_encode($res));
