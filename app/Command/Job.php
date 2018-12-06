@@ -35,16 +35,16 @@ class Job
     {
         $nodes = Node::all();
         foreach ($nodes as $node) {
-            $rule = preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/",$node->server);
-            if (!$rule && (!$node->sort || $node->sort == 10 || $node->sort == 11)) {
-                if ($node->sort == 11) {
-                    $server_list = explode(";", $node->server);
-                    $node->node_ip = gethostbyname($server_list[0]);
-                } else {
-                    $node->node_ip = gethostbyname($node->server);
-                }
-                $node->save();
-            }
+            if ($node->sort == 11) {
+				$server_list = explode(";", $node->server);
+				if(!Tools::is_ip($server_list[0])){
+					$node->node_ip = gethostbyname($server_list[0]);
+				}
+			} else if($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
+				if(!Tools::is_ip($node->server)){
+					$node->node_ip = gethostbyname($node->server);
+				}
+			}
         }
     }
 
@@ -422,22 +422,11 @@ class Job
 
         $adminUser = User::where("is_admin", "=", "1")->get();
 		        
-		$nodes = Node::all();
-        foreach ($nodes as $node) {
-			//更新IP地址
-			if ($node->sort == 11) {
-				$server_list = explode(";", $node->server);
-				if(!Tools::is_ip($server_list[0])){
-					$node->node_ip = gethostbyname($server_list[0]);
-				}
-			} else if($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
-				if(!Tools::is_ip($node->server)){
-					$node->node_ip = gethostbyname($node->server);
-				}
-			}
+		//节点掉线检测
+		if (Config::get("enable_detect_offline")=="true") {
+            $nodes = Node::all();
 
-			//节点掉线检测
-			if (Config::get("enable_detect_offline")=="true") {
+            foreach ($nodes as $node) {
                 if ($node->isNodeOnline() === false && !file_exists(BASE_PATH."/storage/".$node->id.".offline")) {
                     foreach ($adminUser as $user) {
                         echo "Send offline mail to user: ".$user->id;
