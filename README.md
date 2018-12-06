@@ -10,7 +10,7 @@
 - **优化**：css和js等置入本地提升加载速度
 - 增加**v2Ray** 功能，详情请看 [wiki](https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/v2ray-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)
 
-Telegtam 频道 ：https://t.me/sspanel_Uim 
+Telegram 频道 ：https://t.me/sspanel_Uim 
 
 演示站: [demo.nimaqu.com](https://demo.nimaqu.com) 账号和密码都是 admin  对接节点的 mukey=NimaQu
 
