@@ -596,7 +596,6 @@ class Job
 
             if (strtotime($user->expire_in) < time() &&  $user->transfer_enable > 0	) {
                 $user->transfer_enable = 0;
-                $user->transfer_enable = Tools::toGB(Config::get('enable_account_expire_reset_traffic'));
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;
@@ -723,8 +722,10 @@ class Job
 				strtotime($user->class_expire)<time() && 
 				strtotime($user->class_expire) > 1420041600
 			){
-				$reset_traffic=max(Config::get('class_expire_reset_traffic'),0);
-				$user->transfer_enable =Tools::toGB($reset_traffic);				
+				$reset_traffic=Config::get('class_expire_reset_traffic');
+				if($reset_traffic>=0){
+					$user->transfer_enable =Tools::toGB($reset_traffic);		
+				}
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;
