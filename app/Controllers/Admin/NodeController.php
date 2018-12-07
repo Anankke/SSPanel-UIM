@@ -76,7 +76,7 @@ class NodeController extends AdminController
             $node->node_ip="";
         }
 
-		if($node->node_ip=""&&($node->sort == 11||$node->sort == 0 || $node->sort == 1 || $node->sort == 10)){
+		if($node->node_ip==""&&($node->sort == 11||$node->sort == 0 || $node->sort == 1 || $node->sort == 10)){
 			$rs['ret'] = 0;
             $rs['msg'] = "获取节点IP失败，请检查您输入的节点地址是否正确！";
             return $response->getBody()->write(json_encode($rs));
