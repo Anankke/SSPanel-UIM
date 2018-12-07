@@ -23,7 +23,7 @@
 		<ul class="nav nav-list pull-left">
 			<div>
 				<a data-toggle="menu" href="#ui_menu">
-					<span class="icon icon-lg text-white">format_align_justify</span>
+					<span class="icon icon-lg text-white">menu</span>
 				</a>
 			</div>
 		</ul>

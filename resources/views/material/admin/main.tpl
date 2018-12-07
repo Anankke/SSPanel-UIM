@@ -31,6 +31,9 @@
 	.dropdown-menu.dropdown-menu-right a {
         color: #212121;
 	}
+	a[href='#ui_menu'] {
+		color: #212121;
+	}
 	</style>
 </head>
 
