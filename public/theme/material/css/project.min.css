@@ -276,7 +276,7 @@
 }
 
 .page-course img {
-	width: 60%;
+	max-width: 60%;
 }
 
 @media screen and (max-width: 1600px) {
@@ -293,7 +293,7 @@
 		width: 48%;
 	}
 	.page-course img {
-		width: 80%;
+		max-width: 80%;
 	}
 }
 
@@ -302,7 +302,7 @@
 		width: 100%;
 	}
 	.page-course img {
-		width: 100%;
+		max-width: 100%;
 	}
 }
 
