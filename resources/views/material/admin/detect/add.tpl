@@ -1,13 +1,5 @@
 
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -26,8 +18,7 @@
 										<label class="floating-label" for="name">规则名称</label>
 										<input class="form-control maxwidth-edit" id="name" name="name" type="text">
 									</div>
-									
-									
+
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="text">规则描述</label>
 										<input class="form-control maxwidth-edit" id="text" name="text" type="text">
@@ -37,9 +28,7 @@
 										<label class="floating-label" for="regex">规则正则表达式</label>
 										<input class="form-control maxwidth-edit" id="regex" name="regex" type="text">
 									</div>
-									
-									
-									
+
 									<div class="form-group form-group-label">
 										<div class="form-group form-group-label">
 												<label class="floating-label" for="type">规则类型</label>
@@ -49,13 +38,11 @@
 												</select>
 											</div>
 									</div>
-									
-									
+
 								</div>
 							</div>
 						</div>
-						
-						
+
 						<div class="card">
 							<div class="card-main">
 								<div class="card-inner">
@@ -74,72 +61,58 @@
 					{include file='dialog.tpl'}
 
 			</div>
-			
-			
-			
+
 		</div>
 	</main>
-
-	
-	
-	
-	
-
-
-
-
-
 
 {include file='admin/footer.tpl'}
 
 
 {literal}
 <script>
-
+    var document = $$;
+    var $$getValue = (elementId) => $$.getElementById(elementId).value;
 	$('#main_form').validate({
 		rules: {
-		  name: {required: true},
-		  text: {required: true},
-		  regex: {required: true}
+            name: {required: true},
+            text: {required: true},
+            regex: {required: true}
 		},
 
 
 		submitHandler: function() {
-			
-			
-			
-		$.ajax({
 
-				type: "POST",
-				url: "/admin/detect",
-				dataType: "json",
-				{/literal}
-				data: {
-					    name: $("#name").val(),
-					    text: $("#text").val(),
-					    regex: $("#regex").val(),
-					    type: $("#type").val()
-				{literal}
-					},
-					success: function (data) {
-					    if (data.ret) {
-						$("#result").modal();
-						$("#msg").html(data.msg);
-									{/literal}
-						window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-									{literal}
-					    } else {
-						$("#result").modal();
-						$("#msg").html(data.msg);
-					    }
-					},
-					error: function (jqXHR) {
-					    $("#result").modal();
-					    $("#msg").html(data.msg+"  发生错误了。");
-					}
-					});
-				}
-		});
+		$.ajax({
+            type: "POST",
+            url: "/admin/detect",
+            dataType: "json",
+{/literal}
+            data: {
+                name: $$getValue("#name"),
+                text: $$getValue("#text"),
+                regex: $$getValue("#regex"),
+                type: $$getValue("#type")
+{literal}
+            },
+            success: data => {
+                if (data.ret) {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+{/literal}
+					window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
+{literal}
+                } else {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                }
+            },
+            error: jqXHR => {
+                $("#result").modal();
+                $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+            }
+        });
+    }
+    });
 
 </script>
 
