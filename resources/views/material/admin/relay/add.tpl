@@ -1,13 +1,5 @@
 
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -89,21 +81,13 @@
 		</div>
 	</main>
 
-
-
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 
 {literal}
 <script>
+    var document = $$;
+    var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
 	$('#main_form').validate({
 		rules: {
@@ -113,43 +97,40 @@
 		},
 
 
-		submitHandler: function() {
+        submitHandler: () => {
 
-
-
-		$.ajax({
-
+            $.ajax({
 				type: "POST",
 				url: "/admin/relay",
 				dataType: "json",
 				{/literal}
 				data: {
-						source_node: $("#source_node").val(),
-						dist_node: $("#dist_node").val(),
-						port: $("#port").val(),
-						user_id: $("#user_id").val(),
-						priority: $("#priority").val()
-				{literal}
-					},
-					success: function (data) {
-						if (data.ret) {
-						$("#result").modal();
-						$("#msg").html(data.msg);
-									{/literal}
+                    source_node: $$getValue('source_node'),
+                    dist_node: $$getValue('dist_node'),
+                    port: $$getValue('port'),
+                    user_id: $$getValue('user_id'),
+                    priority: $$getValue('priority')
+                    {literal}
+				},
+				success: data => {
+                    if (data.ret) {
+					    $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+					{/literal}
 						window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-									{literal}
-						} else {
+					{literal}
+					} else {
 						$("#result").modal();
-						$("#msg").html(data.msg);
-						}
-					},
-					error: function (jqXHR) {
-						$("#result").modal();
-						$("#msg").html(data.msg+"  发生错误了。");
+                        $$.getElementById('msg').innerHTML = data.msg;
 					}
-					});
+				},
+				error: jqXHR => {
+					$("#result").modal();
+                    $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
 				}
-		});
+			});
+        }
+    });
 
 </script>
 

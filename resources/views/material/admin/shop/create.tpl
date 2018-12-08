@@ -1,12 +1,6 @@
 
 {include file='admin/main.tpl'}
 
-
-
-
-
-
-
 	<main class="content">
 		<div class="content-header ui-content-header">
 			<div class="container">
@@ -165,8 +159,6 @@
 					{include file='dialog.tpl'}
 
 
-
-
 			</div>
 
 
@@ -174,34 +166,23 @@
 		</div>
 	</main>
 
-
-
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 
-
 <script>
-    $(document).ready(function () {
+    var document = $$;
+    var $$getValue = (elementId) => $$.getElementById(elementId).value;
+
+    window.addEventListener('load', () => {
         function submit() {
-			if(document.getElementById('auto_reset_bandwidth').checked)
-			{
-				var auto_reset_bandwidth=1;
-			}
-			else
-			{
-				var auto_reset_bandwidth=0;
-			}
+            if ($$('auto_reset_bandwidth').checked) {
+                var auto_reset_bandwidth = 1;
+            } else {
+                var auto_reset_bandwidth = 0;
+            }
             
-			let contentExtra = $("#content_extra").val();
-			if (contentExtra=='') {
+			let contentExtra = $$.getElementById('content_extra').value;
+			if (contentExtra === '') {
                 contentExtra = 'check-全球节点分布;check-快速客服响应;check-全平台客户端';
 			}
 
@@ -210,45 +191,42 @@
                 url: "/admin/shop",
                 dataType: "json",
                 data: {
-                    name: $("#name").val(),
-										auto_reset_bandwidth: auto_reset_bandwidth,
-                    price: $("#price").val(),
-                    auto_renew: $("#auto_renew").val(),
-                    bandwidth: $("#bandwidth").val(),
-                    speedlimit: $("#speedlimit").val(),
-                    connector: $("#connector").val(),
-                    expire: $("#expire").val(),
-                    class: $("#class").val(),
-					class_expire: $("#class_expire").val(),
-					reset: $("#reset").val(),
-					reset_value: $("#reset_value").val(),
-					reset_exp: $("#reset_exp").val(),
-					content_extra: contentExtra,
+                    name: $$getValue('name'),
+                    auto_reset_bandwidth,
+                    price: $$getValue('price'),
+                    auto_renew: $$getValue('auto_renew'),
+                    bandwidth: $$getValue('bandwidth'),
+                    speedlimit: $$getValue('speedlimit'),
+                    connector: $$getValue('connector'),
+                    expire: $$getValue('expire'),
+                    class: $$getValue('class'),
+					class_expire: $$getValue('class_expire'),
+					reset: $$getValue('reset'),
+					reset_value: $$getValue('reset_value'),
+					reset_exp: $$getValue('reset_exp'),
+					content_extra,
                 },
-                success: function (data) {
+                success: data => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: jqXHR => {
                     $("#result").modal();
-                        $("#msg").html(data.msg+"  发生错误了。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
                 }
             });
         }
 
-        $("html").keydown(function (event) {
-            if (event.keyCode == 13) {
-                login();
-            }
+        $("html").keydown(event => {
+            if (event.keyCode == 13) login();
         });
-        $("#submit").click(function () {
-            submit();
-        });
+
+        $$.getElementById('submit').addEventListener('click', submit);
     })
 </script>
