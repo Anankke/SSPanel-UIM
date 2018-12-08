@@ -722,17 +722,17 @@ class Job
 				strtotime($user->class_expire)<time() && 
 				strtotime($user->class_expire) > 1420041600
 			){
+				$text = '您好，系统发现您的账号等级已经过期了。;'
 				$reset_traffic=Config::get('class_expire_reset_traffic');
 				if($reset_traffic>=0){
-					$user->transfer_enable =Tools::toGB($reset_traffic);		
+					$user->transfer_enable =Tools::toGB($reset_traffic);
+					$user->u = 0;
+					$user->d = 0;
+					$user->last_day_t = 0;
+					$text.='流量已经被重置为'.$reset_traffic.'GB' ;
 				}
-                $user->u = 0;
-                $user->d = 0;
-                $user->last_day_t = 0;
-
-                $subject = Config::get('appName')."-您的用户等级已经过期了";
-                $to = $user->email;
-                $text = "您好，系统发现您的账号等级已经过期了。流量已经被重置为".$reset_traffic.'GB' ;
+                $subject = Config::get('appName')."-您的账户等级已经过期了";
+                $to = $user->email;              
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         "user" => $user,"text" => $text
