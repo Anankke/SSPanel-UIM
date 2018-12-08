@@ -259,108 +259,90 @@
 	</main>
 
 
-
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 
 <script>
+    var $$ = document;
 	//document.getElementById("class_expire").value="{$edit_user->class_expire}";
-    $(document).ready(function () {
-        function submit() {
-			if(document.getElementById('is_admin').checked)
-			{
-				var is_admin=1;
-			}
-			else
-			{
-				var is_admin=0;
-			}
-
-			if(document.getElementById('enable').checked)
-			{
-				var enable=1;
-			}
-			else
-			{
-				var enable=0;
-			}
-          
-			if(document.getElementById('ga_enable').checked)
-			{
-				var ga_enable=1;
-			}
-			else
-			{
-				var ga_enable=0;
-			}
-
-            $.ajax({
-                type: "PUT",
-                url: "/admin/user/{$edit_user->id}",
-                dataType: "json",
-                data: {
-                    email: $("#email").val(),
-                    pass: $("#pass").val(),
-										auto_reset_day: $("#auto_reset_day").val(),
-                    auto_reset_bandwidth: $("#auto_reset_bandwidth").val(),
-                    is_multi_user: $("#is_multi_user").val(),
-                    port: $("#port").val(),
-										group: $("#group").val(),
-                    passwd: $("#passwd").val(),
-                    transfer_enable: $("#transfer_enable").val(),
-                    invite_num: $("#invite_num").val(),
-										node_speedlimit: $("#node_speedlimit").val(),
-                    method: $("#method").val(),
-										remark: $("#remark").val(),
-										money: $("#money").val(),
-                    enable: enable,
-                    is_admin: is_admin,
-                    ga_enable: ga_enable,
-                    ref_by: $("#ref_by").val(),
-                    forbidden_ip: $("#forbidden_ip").val(),
-                    forbidden_port: $("#forbidden_port").val(),
-										class: $("#class").val(),
-										class_expire: $("#class_expire").val(),
-										expire_in: $("#expire_in").val(),
-										node_connector: $("#node_connector").val(),
-										protocol: $("#protocol").val(),
-										protocol_param: $("#protocol_param").val(),
-										obfs: $("#obfs").val(),
-										obfs_param: $("#obfs_param").val(),
-                },
-                success: function (data) {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                        window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-                    } else {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                    }
-                },
-                error: function (jqXHR) {
-					$("#result").modal();
-                    $("#msg").html(data.msg+"  发生了错误。");
-                }
-            });
+    window.addEventListener('load', () => {
+    function submit() {
+        if (document.getElementById('is_admin').checked) {
+            var is_admin = 1;
+        } else {
+            var is_admin = 0;
         }
 
-        $("html").keydown(function (event) {
-            if (event.keyCode == 13) {
-                login();
+        if (document.getElementById('enable').checked) {
+            var enable = 1;
+        } else {
+            var enable = 0;
+        }
+
+        if (document.getElementById('ga_enable').checked) {
+            var ga_enable = 1;
+        } else {
+            var ga_enable=0;
+        }
+
+        $.ajax({
+            type: "PUT",
+            url: "/admin/user/{$edit_user->id}",
+            dataType: "json",
+            data: {
+                email: $$.getElementById('email').value,
+                pass: $$.getElementById('pass').value,
+                auto_reset_day: $$.getElementById('auto_reset_day').value,
+                auto_reset_bandwidth: $$.getElementById('auto_reset_bandwidth').value,
+                is_multi_user: $$.getElementById('is_multi_user').value,
+                port: $$.getElementById('port').value,
+                group: $$.getElementById('group').value,
+                passwd: $$.getElementById('passwd').value,
+                transfer_enable: $$.getElementById('transfer_enable').value,
+                invite_num: $$.getElementById('invite_num').value,
+                node_speedlimit: $$.getElementById('node_speedlimit').value,
+                method: $$.getElementById('method').value,
+                remark: $$.getElementById('remark').value,
+                money: $$.getElementById('money').value,
+                enable,
+                is_admin,
+                ga_enable,
+                ref_by: $$.getElementById('ref_by').value,
+                forbidden_ip: $$.getElementById('forbidden_ip').value,
+                forbidden_port: $$.getElementById('forbidden_port').value,
+                class: $$.getElementById('class').value,
+                class_expire: $$.getElementById('class_expire').value,
+                expire_in: $$.getElementById('expire_in').value,
+                node_connector: $$.getElementById('node_connector').value,
+                protocol: $$.getElementById('protocol').value,
+                protocol_param: $$.getElementById('protocol_param').value,
+                obfs: $$.getElementById('obfs').value,
+                obfs_param: $$.getElementById('obfs_param').value,
+            },
+            success: data => {
+                if (data.ret) {
+                    $("result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
+                } else {
+                    $("result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                }
+            },
+            error: jqXHR => {
+				$("result").modal();
+                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误。`;
             }
         });
-        $("#submit").click(function () {
-            submit();
-        });
+    }
 
-    })
+    $("html").keydown(event => {
+        if (event.keyCode == 13) {
+            login();
+        }
+    });
+
+    $$.getElementById('submit').addEventListener('click', submit);
+
+})
 </script>
