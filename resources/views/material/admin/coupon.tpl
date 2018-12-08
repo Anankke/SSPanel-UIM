@@ -131,7 +131,7 @@ let submitCoupon = code => {
             // window.location.reload();
         },
         error: jqXHR => {
-            alert("发生错误：" + jqXHR.status);
+            alert(`发生错误：${jqXHR.status}`);
         }
     })
 }
