@@ -801,12 +801,17 @@ window.onload = function() {
                     recaptcha: grecaptcha.getResponse()
                 },{/if}
                 success: function (data) {
-                    $("#checkin-msg").html(data.msg);
-                    $("#checkin-btn").html(checkedmsgGE);
+                    if (data.ret) {
+					$("#checkin-msg").html(data.msg);
+					$("#checkin-btn").html(checkedmsgGE);
 					$("#result").modal();
-                    $("#msg").html(data.msg);
+					$("#msg").html(data.msg);
 					$('#remain').html(data.traffic);
-				    $('.bar.remain.color').css('width',(data.unflowtraffic-({$user->u}+{$user->d}))/data.unflowtraffic*100+'%');
+					$('.bar.remain.color').css('width',(data.unflowtraffic-({$user->u}+{$user->d}))/data.unflowtraffic*100+'%');
+				} else {
+					$("#result").modal();
+					$("#msg").html(data.msg);
+				}
                 },
                 error: function (jqXHR) {
 					$("#result").modal();
@@ -827,12 +832,17 @@ $(document).ready(function () {
                 recaptcha: grecaptcha.getResponse()
             },{/if}
 			success: function (data) {
-				$("#checkin-msg").html(data.msg);
-				$("#checkin-btn").html(checkedmsgGE);
-				$("#result").modal();
-				$("#msg").html(data.msg);
-				$('#remain').html(data.traffic);
-				$('.bar.remain.color').css('width',(data.unflowtraffic-({$user->u}+{$user->d}))/data.unflowtraffic*100+'%');
+				if (data.ret) {
+					$("#checkin-msg").html(data.msg);
+					$("#checkin-btn").html(checkedmsgGE);
+					$("#result").modal();
+					$("#msg").html(data.msg);
+					$('#remain').html(data.traffic);
+					$('.bar.remain.color').css('width',(data.unflowtraffic-({$user->u}+{$user->d}))/data.unflowtraffic*100+'%');
+				} else {
+					$("#result").modal();
+					$("#msg").html(data.msg);
+				}
 			},
 			error: function (jqXHR) {
 				$("#result").modal();
@@ -881,12 +891,17 @@ var handlerPopup = function (captchaObj) {
 				geetest_seccode: validate.geetest_seccode
 			},
 			success: function (data) {
-				$("#checkin-msg").html(data.msg);
-				$("#checkin-btn").html(checkedmsgGE);
-				$("#result").modal();
-				$("#msg").html(data.msg);
-				$('#remain').html(data.traffic);
-				$('.bar.remain.color').css('width',(data.unflowtraffic-({$user->u}+{$user->d}))/data.unflowtraffic*100+'%');
+				if (data.ret) {
+					$("#checkin-msg").html(data.msg);
+					$("#checkin-btn").html(checkedmsgGE);
+					$("#result").modal();
+					$("#msg").html(data.msg);
+					$('#remain').html(data.traffic);
+					$('.bar.remain.color').css('width',(data.unflowtraffic-({$user->u}+{$user->d}))/data.unflowtraffic*100+'%');
+				} else {
+					$("#result").modal();
+					$("#msg").html(data.msg);
+				}
 			},
 			error: function (jqXHR) {
 				$("#result").modal();
