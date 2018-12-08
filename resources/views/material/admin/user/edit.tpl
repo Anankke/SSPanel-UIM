@@ -264,7 +264,9 @@
 
 <script>
     var $$ = document;
+    var $$getValue = (elementId) => $$.getElementById(elementId).value;
 	//document.getElementById("class_expire").value="{$edit_user->class_expire}";
+
     window.addEventListener('load', () => {
     function submit() {
         if (document.getElementById('is_admin').checked) {
@@ -290,34 +292,34 @@
             url: "/admin/user/{$edit_user->id}",
             dataType: "json",
             data: {
-                email: $$.getElementById('email').value,
-                pass: $$.getElementById('pass').value,
-                auto_reset_day: $$.getElementById('auto_reset_day').value,
-                auto_reset_bandwidth: $$.getElementById('auto_reset_bandwidth').value,
-                is_multi_user: $$.getElementById('is_multi_user').value,
-                port: $$.getElementById('port').value,
-                group: $$.getElementById('group').value,
-                passwd: $$.getElementById('passwd').value,
-                transfer_enable: $$.getElementById('transfer_enable').value,
-                invite_num: $$.getElementById('invite_num').value,
-                node_speedlimit: $$.getElementById('node_speedlimit').value,
-                method: $$.getElementById('method').value,
-                remark: $$.getElementById('remark').value,
-                money: $$.getElementById('money').value,
+                email: $$getValue('email'),
+                pass: $$getValue('pass'),
+                auto_reset_day: $$getValue('auto_reset_day'),
+                auto_reset_bandwidth: $$getValue('auto_reset_bandwidth'),
+                is_multi_user: $$getValue('is_multi_user'),
+                port: $$getValue('port'),
+                group: $$getValue('group'),
+                passwd: $$getValue('passwd'),
+                transfer_enable: $$getValue('transfer_enable'),
+                invite_num: $$getValue('invite_num'),
+                node_speedlimit: $$getValue('node_speedlimit'),
+                method: $$getValue('method'),
+                remark: $$getValue('remark'),
+                money: $$getValue('money'),
                 enable,
                 is_admin,
                 ga_enable,
-                ref_by: $$.getElementById('ref_by').value,
-                forbidden_ip: $$.getElementById('forbidden_ip').value,
-                forbidden_port: $$.getElementById('forbidden_port').value,
-                class: $$.getElementById('class').value,
-                class_expire: $$.getElementById('class_expire').value,
-                expire_in: $$.getElementById('expire_in').value,
-                node_connector: $$.getElementById('node_connector').value,
-                protocol: $$.getElementById('protocol').value,
-                protocol_param: $$.getElementById('protocol_param').value,
-                obfs: $$.getElementById('obfs').value,
-                obfs_param: $$.getElementById('obfs_param').value,
+                ref_by: $$getValue('ref_by'),
+                forbidden_ip: $$getValue('forbidden_ip'),
+                forbidden_port: $$getValue('forbidden_port'),
+                class: $$getValue('class'),
+                class_expire: $$getValue('class_expire'),
+                expire_in: $$getValue('expire_in'),
+                node_connector: $$getValue('node_connector'),
+                protocol: $$getValue('protocol'),
+                protocol_param: $$getValue('protocol_param'),
+                obfs: $$getValue('obfs'),
+                obfs_param: $$getValue('obfs_param'),
             },
             success: data => {
                 if (data.ret) {

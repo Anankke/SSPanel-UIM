@@ -103,6 +103,7 @@
 
 <script>
 var $$ = document;
+var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
 let randomWord = () => Math.random().toString(36).substr(2);
 
@@ -116,10 +117,10 @@ let submitCoupon = code => {
         data: {
             // prefix: $("#prefix").val(),
             prefix: code,
-            credit: $$.getElementById('credit').value,
-            shop: $$.getElementById('shop').value,
-            onetime: $$.getElementById('count').value,
-            expire: $$.getElementById('expire').value,
+            credit: $$getValue('credit'),
+            shop: $$getValue('shop'),
+            onetime: $$getValue('count'),
+            expire: $$getValue('expire'),
         },
         success: data => {
             if (data.ret) {
