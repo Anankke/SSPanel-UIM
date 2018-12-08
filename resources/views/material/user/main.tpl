@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
-	<meta name="theme-color" content="#ff9800">
+	<meta name="theme-color" content="#4285f4">
 	<title>{$config["appName"]}</title>
 
 
@@ -23,7 +23,7 @@
 		<ul class="nav nav-list pull-left">
 			<div>
 				<a data-toggle="menu" href="#ui_menu">
-					<span class="icon icon-lg text-white">format_align_justify</span>
+					<span class="icon icon-lg text-white">menu</span>
 				</a>
 			</div>
 		</ul>

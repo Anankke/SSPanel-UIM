@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
-	<meta name="theme-color" content="#f44336">
+	<meta name="theme-color" content="#4285f4">
 	<title>{$config["appName"]}</title>
 
 
@@ -27,6 +27,12 @@
 	}
 	.table-responsive {
 		background: white;
+	}
+	.dropdown-menu.dropdown-menu-right a {
+        color: #212121;
+	}
+	a[href='#ui_menu'] {
+		color: #212121;
 	}
 	</style>
 </head>
@@ -50,10 +56,10 @@
 					</a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li>
-						<a class="padding-right-lg waves-attach" href="/user/"><span class="icon icon-lg margin-right">account_box</span>用户中心</a>
+						<a class="waves-attach" href="/user/"><span class="icon icon-lg margin-right">account_box</span>用户中心</a>
 					</li>
 					<li>
-						<a class="padding-right-lg waves-attach" href="/user/logout"><span class="icon icon-lg margin-right">exit_to_app</span>登出</a>
+						<a class="waves-attach" href="/user/logout"><span class="icon icon-lg margin-right">exit_to_app</span>登出</a>
 					</li>
 				</ul>
 				{else}
@@ -62,10 +68,10 @@
 				</a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li>
-						<a class="padding-right-lg waves-attach" href="/auth/login"><span class="icon icon-lg margin-right">account_box</span>登录</a>
+						<a class="waves-attach" href="/auth/login"><span class="icon icon-lg margin-right">account_box</span>登录</a>
 					</li>
 					<li>
-						<a class="padding-right-lg waves-attach" href="/auth/register"><span class="icon icon-lg margin-right">pregnant_woman</span>注册</a>
+						<a class="waves-attach" href="/auth/register"><span class="icon icon-lg margin-right">pregnant_woman</span>注册</a>
 					</li>
 				</ul>
 				{/if}

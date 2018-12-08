@@ -42,51 +42,70 @@
 					</div>
 						
             <div class="shop-flex">
-				{$shops->render()}
+				
 				{foreach $shops as $shop}
                   <div class="card">
 					  <div class="card-main">
 								<div class="shop-name">{$shop->name}</div>
-								<div class="shop-price"><code>{$shop->price}</code> 元</div>
+								<div class="shop-price">{$shop->price}</div>
+								<div class="shop-tat">
+									<span>{$shop->bandwidth()}</span> / <span>{$shop->class_expire()}</span>
+								</div>
+								<div class="shop-cube">
+									<div>
+										<div class="cube-detail">
+											<span>Lv.</span>{$shop->user_class()}
+										</div>
+										<div class="cube-title">
+											VIP
+										</div>
+									</div>
+									<div>
+										<div class="cube-detail">
+											{if {$shop->connector()} == '0' }无限制{else}{$shop->connector()}<span> 个</span>{/if}
+										</div>
+										<div class="cube-title">
+											客户端数量
+										</div>
+									</div>
+									<div>
+										<div class="cube-detail">
+											{if {$shop->speedlimit()} == '0' }无限制{else}{$shop->speedlimit()}<span> Mbps</span>{/if}
+										</div>
+										<div class="cube-title">
+											端口速率
+										</div>
+									</div>
+
+								</div>
 								<div class="shop-content">
-									<div class="shop-content-div"><span>添加流量</span> <code>{$shop->bandwidth()}</code> G</div>
-									<div class="shop-content-div">账号等级 <code>{$shop->user_class()}</code> 级</div>
-									<div class="shop-content-div">等级有效期 <code>{$shop->class_expire()}</code> 天</div>
-									<div class="shop-content-div">账号有效期 <code>{$shop->expire()}</code> 天</div>
-									{if {$shop->reset()} == '0' }
-									<div>- 在购买套餐周期内 <div>无流量重置 -</div> </div>
-									{else}
-									<div>- 在 <code>{$shop->reset_exp()}</code> 天内，每 <code>{$shop->reset()}</code> 天 <div class="div-inline">重置流量为 <code>{$shop->reset_value()}</code> G -</div></div>
-									{/if}
-									{if {$shop->speedlimit()} == '0' }
-									<div class="shop-content-div">端口速率 <code>无限制</code></div>
-									{else}
-									<div class="shop-content-div">端口限速 <code>{$shop->speedlimit()}</code> Mbps</div>
-									{/if}
-									{if {$shop->connector()} == '0' }
-									<div class="shop-content-div">客户端数量 <code>无限制</code></div>
-									{else}
-									<div class="shop-content-div">客户端限制 <code>{$shop->connector()}</code> 个</div>
-									{/if}
-							    </div>
+									<div class="shop-content-left">账号有效期:</div><div class="shop-content-right">{$shop->expire()}<span>天</span></div>
+									<div class="shop-content-left">重置周期:</div><div class="shop-content-right">{if {$shop->reset()} == '0' }N / A{else}{$shop->reset_exp()}<span>天</span>{/if}</div>
+									<div class="shop-content-left">重置频率:</div><div class="shop-content-right">{if {$shop->reset()} == '0' }N / A{else}{$shop->reset_value()}<span>G</span> / {$shop->reset()}<span>天</span>{/if}</div>
+								</div>
+								<div class="shop-content-extra">
+									{foreach $shop->content_extra() as $service}
+									<div><span class="icon">{$service[0]}</span> {$service[1]}</div>
+									{/foreach}
+								</div>
 								<a class="btn btn-brand-accent shop-btn" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
 					  </div>
 				  </div>
 				{/foreach}
-				{$shops->render()}
+				
 				<div class="flex-fix3"></div>
 				<div class="flex-fix4"></div>
 			</div>
 
             <div class="shop-table">
-				{$shops->render()}
+				
 					{foreach $shops as $shop}
 					<div class="shop-gridarea">
                         <div class="card">
 								<div>
 									<div class="shop-name"> <span>{$shop->name}</span></div>
 									<div class="card-tag tag-gold">VIP {$shop->user_class()}</div>
-									<div class="card-tag tag-orange">{$shop->price} 元</div>
+									<div class="card-tag tag-orange">¥ {$shop->price}</div>
 								</div>
 								<div>
 								<i class="material-icons">expand_more</i>
@@ -117,7 +136,7 @@
 						</div>
 					</div>
 					{/foreach}
-				{$shops->render()}
+				
             </div>
 					
 					

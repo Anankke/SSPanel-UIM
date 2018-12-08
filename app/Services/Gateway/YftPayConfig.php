@@ -9,7 +9,7 @@ class YftPayConfig{
     public function init()
     {
         $this->pay_config = [
-            "notify_url" => "/notify",
+            "notify_url" => "/yft/notify",
             "return_url" => "/user/code",
             "type" => "aliPay"
         ];

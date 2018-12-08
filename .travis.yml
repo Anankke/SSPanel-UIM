@@ -1,0 +1,34 @@
+language: php
+php:
+  # - '5.4'
+  # - '5.6'
+  - '7.1'
+sudo: enabled
+dist: xenial
+before_install:
+  - echo "==========================================================="
+  - echo "Upgrade linux packages"
+  - echo "==========================================================="
+  - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+  - sudo sed -i 's|http://us-east-1.ec2.archive.ubuntu.com|https://mirrors.speedtests.ml|g' /etc/apt/sources.list
+  - sudo sed -i 's|http://security.ubuntu.com|https://mirrors.speedtests.ml|g' /etc/apt/sources.list
+  - sudo sed -i 's|http://us-central1.gce.archive.ubuntu.com|https://mirrors.speedtests.ml|g' /etc/apt/sources.list
+  - sudo sed -i 's|http://ppa.launchpad.net|https://launchpad.speedtests.ml|g' /etc/apt/sources.list.d/*.list
+  - sudo apt update
+  - sudo apt upgrade
+  - sudo apt install -y nodejs
+install:
+  - sudo chown -R root:root *
+  - sudo chmod -R 755 *
+  - echo "==========================================================="
+  - echo "Comoposer install"
+  - echo "==========================================================="
+  - php composer.phar install
+before_script:
+  - npm i -g phplint
+script:
+  - sudo cp config/.config.php.example config/.config.php
+  - phplint '**/*.php' '!vendor/**'
+  - sudo php xcat update
+  - sudo php xcat initQQWry
+  - sudo php xcat initdownload

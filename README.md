@@ -3,16 +3,14 @@
 
 **ss-panel-v3-mod**是一款专为shadowsocks设计的web前端面板，再次感谢ss-panel-v3-mod 的制作者，修改后的功能简介：
 
-- **支付系统集成**：集成 支付宝当面付 黛米付 易付通 码支付等多种支付系统，使用方法见项目[wiki](https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/)
+- **支付系统集成**：集成 支付宝当面付  易付通 码支付 TrimePay 等多种支付系统，使用方法见项目[wiki](https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/)
 - **UI** ：修改为 ~~援交~~ 圆角、并自定义了几个图标的显示，节点列表等級0可见等級1节点但无法看见节点详情，增加了国家图标显示
 - **商店**：商品增加同时连接设备数，用户限速属性
 - 从肥羊那里**抄**来的：新用户注册现金奖励|高等级节点体验|设备数量限制
 - **优化**：css和js等置入本地提升加载速度
 - 增加**v2Ray** 功能，详情请看 [wiki](https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/v2ray-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)
 
-telegram水群：https://t.me/joinchat/GQehSEV7LEVuh5FxmdqA8Q 参考91yun管理，除非是 bug ，各种疑难杂症提问请先带价（抱歉我们跟你不熟不会帮你免费解决）不然请自行离开
-
-telegtam 频道 ：https://t.me/sspanel_Uim 
+Telegram 频道 ：https://t.me/sspanel_Uim 
 
 演示站: [demo.nimaqu.com](https://demo.nimaqu.com) 账号和密码都是 admin  对接节点的 mukey=NimaQu
 
@@ -59,7 +57,7 @@ Wiki已经启用，欢迎为此面板维护wiki
 - 节点负载情况显示&用户账户过期在首页弹窗提醒
 - 增加返利列表
 
-[**indexyz**](https://github.com/Indexyz)
+[**Indexyz**](https://github.com/Indexyz)
 
 - 为面板增加 v2Ray 功能
 
@@ -95,11 +93,6 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - [码支付-微信收款功能开通](https://codepay.fateqq.com/i/39756)
 
-
-##### NimaQu
-
-
-- [魔方云 - 低成本极速高效 专属您的私有云](https://www.cubecloud.net/aff.php?aff=796)
 
 
 ##### galaxychuck

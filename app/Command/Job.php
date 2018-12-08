@@ -35,16 +35,16 @@ class Job
     {
         $nodes = Node::all();
         foreach ($nodes as $node) {
-            $rule = preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/",$node->server);
-            if (!$rule && (!$node->sort || $node->sort == 10 || $node->sort == 11)) {
-                if ($node->sort == 11) {
-                    $server_list = explode(";", $node->server);
-                    $node->node_ip = gethostbyname($server_list[0]);
-                } else {
-                    $node->node_ip = gethostbyname($node->server);
-                }
-                $node->save();
-            }
+            if ($node->sort == 11) {
+				$server_list = explode(";", $node->server);
+				if(!Tools::is_ip($server_list[0])){
+					$node->changeNodeIp($server_list[0]);
+				}
+			} else if($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
+				if(!Tools::is_ip($node->server)){
+					$node->changeNodeIp($node->server);
+				}
+			}
         }
     }
 
@@ -421,9 +421,9 @@ class Job
         TelegramSession::where("datetime", "<", time()-900)->delete();
 
         $adminUser = User::where("is_admin", "=", "1")->get();
-
-        //节点掉线检测
-        if (Config::get("enable_detect_offline")=="true") {
+		        
+		//节点掉线检测
+		if (Config::get("enable_detect_offline")=="true") {
             $nodes = Node::all();
 
             foreach ($nodes as $node) {
@@ -596,7 +596,6 @@ class Job
 
             if (strtotime($user->expire_in) < time() &&  $user->transfer_enable > 0	) {
                 $user->transfer_enable = 0;
-                $user->transfer_enable = Tools::toGB(Config::get('enable_account_expire_reset_traffic'));
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;
@@ -723,8 +722,10 @@ class Job
 				strtotime($user->class_expire)<time() && 
 				strtotime($user->class_expire) > 1420041600
 			){
-				$reset_traffic=max(Config::get('class_expire_reset_traffic'),0);
-				$user->transfer_enable =Tools::toGB($reset_traffic);				
+				$reset_traffic=Config::get('class_expire_reset_traffic');
+				if($reset_traffic>=0){
+					$user->transfer_enable =Tools::toGB($reset_traffic);		
+				}
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;

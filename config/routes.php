@@ -72,6 +72,7 @@ $app->get('/404', 'App\Controllers\HomeController:page404');
 $app->get('/405', 'App\Controllers\HomeController:page405');
 $app->get('/500', 'App\Controllers\HomeController:page500');
 $app->post('/notify', 'App\Controllers\HomeController:notify');
+$app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');//yft uses GET
 $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');

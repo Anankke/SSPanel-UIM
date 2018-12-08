@@ -76,6 +76,10 @@ class ShopController extends AdminController
             $content["connector"]=$request->getParam('connector');
         //}
 
+        if ($request->getParam('content_extra')!='') {
+            $content["content_extra"]=$request->getParam('content_extra');
+        }
+
         $shop->content=json_encode($content);
 
 
@@ -155,6 +159,10 @@ class ShopController extends AdminController
         //if ($request->getParam('connector')!=0) {
             $content["connector"]=$request->getParam('connector');
         //}
+
+        if ($request->getParam('content_extra')!='') {
+            $content["content_extra"]=$request->getParam('content_extra');
+        }
 
         $shop->content=json_encode($content);
 

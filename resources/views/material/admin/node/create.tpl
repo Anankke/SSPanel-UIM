@@ -1,12 +1,6 @@
 
 {include file='admin/main.tpl'}
 
-
-
-
-
-
-
 	<main class="content">
 		<div class="content-header ui-content-header">
 			<div class="container">
@@ -27,12 +21,12 @@
 
 
 									<div class="form-group form-group-label">
-										<label class="floating-label" for="server">节点地址</label>
+										<label class="floating-label" for="server">节点地址（如果填写为域名，“节点IP”会自动设置为解析的IP）</label>
 										<input class="form-control maxwidth-edit" id="server" type="text" name="server">
 									</div>
 
 									<div class="form-group form-group-label">
-										<label class="floating-label" for="server">节点IP(不填则自动获取，填写请按照 <a href="https://github.com/esdeathlove/ss-panel-v3-mod/wiki/%E8%8A%82%E7%82%B9IP%E5%A1%AB%E5%86%99%E8%A7%84%E5%88%99">这里</a> 的规则进行填写)</label>
+										<label class="floating-label" for="server">节点IP(如果“节点地址”填写为域名，则此处的值会被忽视)</label>
 										<input class="form-control maxwidth-edit" id="node_ip" name="node_ip" type="text">
 									</div>
 
