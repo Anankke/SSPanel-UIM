@@ -1,13 +1,5 @@
 
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -74,35 +66,24 @@
 		</div>
 	</main>
 
-
-
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
-    $(document).ready(function () {
+    var document = $$;
+    var $$getValue = (elementId) => $$.getElementById(elementId).value;
+    window.addEventListener('load', () => {
         function submit(page = -1) {
 
-          	if(document.getElementById('issend').checked)
-			{
+            if ($$.getElementById('issend').checked) {
 				var issend=1;
-			}
-			else
-			{
+            } else {
 				var issend=0;
 			}
-			if(page == -1){
-					sedPage = 1;
-			}else {
-					sedPage = page;
+            if (page === -1) {
+                sedPage = 1;
+            } else {
+                sedPage = page;
 			}
             $.ajax({
                 type: "POST",
@@ -110,37 +91,35 @@
                 dataType: "json",
                 data: {
                     content: editor.getHTML(),
-										markdown: editor.getMarkdown(),
-                  	vip: $("#vip").val(),
-                  	issend: issend,
-										page:sedPage
+					markdown: editor.getMarkdown(),
+                  	vip: $$getValue('vip'),
+                  	issend,
+					page: sedPage
                 },
-                success: function (data) {
-                    if (data.ret == 1) {
+                success: data => {
+                    if (data.ret === 1) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-                    } else if (data.ret == 2){
-												submit(data.msg);
-										}else {
+                    } else if (data.ret === 2) {
+                        submit(data.msg);
+                    } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: jqXHR => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             });
         }
 
-        $("#submit").click(function () {
-            submit();
-        });
+        $$.getElementById('submit').addEventListener('click', submit);
     });
 
-    $(function() {
+    (() => {
         editor = editormd("editormd", {
              path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
 			height: 720,
@@ -154,5 +133,5 @@
             path : "../lib/"
         });
         */
-    });
+    })();
 </script>

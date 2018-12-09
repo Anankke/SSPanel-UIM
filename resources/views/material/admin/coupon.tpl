@@ -1,16 +1,4 @@
-
-
-
-
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -110,30 +98,18 @@
 	</main>
 
 
-
-
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 
-
-
-
 <script>
-function randomWord() {
-    return Math.random().toString(36).substr(2);
-}
+var $$ = document;
+var $$getValue = (elementId) => $$.getElementById(elementId).value;
+
+let randomWord = () => Math.random().toString(36).substr(2);
 
 {include file='table/js_1.tpl'}
 
-function submitCoupon(code) {
+let submitCoupon = code => {
     $.ajax({
         type: "POST",
         url: "/admin/coupon",
@@ -141,40 +117,40 @@ function submitCoupon(code) {
         data: {
             // prefix: $("#prefix").val(),
             prefix: code,
-            credit: $("#credit").val(),
-            shop: $("#shop").val(),
-            onetime: $("#count").val(),
-            expire: $("#expire").val()
+            credit: $$getValue('credit'),
+            shop: $$getValue('shop'),
+            onetime: $$getValue('count'),
+            expire: $$getValue('expire'),
         },
-        success: function (data) {
+        success: data => {
             if (data.ret) {
                 $("#result").modal();
-                $("#msg").html(data.msg);
+                $$.getElementById('msg').innerHTML = data.msg;
                 window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
             }
             // window.location.reload();
         },
-        error: function (jqXHR) {
-            alert("发生错误：" + jqXHR.status);
+        error: jqXHR => {
+            alert(`发生错误：${jqXHR.status}`);
         }
     })
 }
 
-$(document).ready(function () {
+window.addEventListener('load', () => {
 		{include file='table/js_2.tpl'}
 
-        $("#coupon").click(function () {
-            var couponCode = $("#prefix").val();
-            submitCoupon(couponCode);
-		})
-
-        $("#coupon-random").click(function () {
-            var couponCode = randomWord();
+        $$.getElementById('coupon').addEventListener('click', () => {
+            let couponCode = $$.getElementById('prefix').value;
             submitCoupon(couponCode);
         })
 
-        $("#coupon-prefix-random").click(function () {
-            var couponCode = $("#prefix").val().concat(randomWord());
+        $$.getElementById('coupon-random').addEventListener('click', () => {
+            let couponCode = randomWord();
+            submitCoupon(couponCode);
+        })
+
+        $$.getElementById('coupon-random').addEventListener('click', () => {
+            let couponCode = $$.getElementById('prefix').value.concat(randomWord());
             submitCoupon(couponCode);
         })
 
