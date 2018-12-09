@@ -116,7 +116,7 @@ window.addEventListener('load', () => {
 			},
 			error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 			}
 		});
 	}
@@ -124,7 +124,7 @@ window.addEventListener('load', () => {
     $$.getElementById('delete_input').addEventListener('click', delete_id);
 
     let search = () => {
-        window.location = `/admin/relay/path_search/${$$.getElementById('search').value}`;
+        window.location = `/admin/relay/path_search/${ldelim}$$.getElementById('search').value{rdelim}`;
     }
 
     $$.getElementById('search_button').addEventListener('click', () => {

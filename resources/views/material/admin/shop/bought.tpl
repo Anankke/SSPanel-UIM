@@ -79,7 +79,7 @@ window.addEventListener('load', () => {
 				if (data.ret) {
 					$("#result").modal();
                     $$.getElementById('msg').innerHTML = data.msg;
-                    $$.getElementById(`row_delete_${deleteid}`).setAttribute('disabled', 'true')
+                    $$.getElementById(`row_delete_${ldelim}deleteid{rdelim}`).setAttribute('disabled', 'true')
 				} else {
 					$("#result").modal();
                     $$.getElementById('msg').innerHTML = data.msg;
@@ -87,7 +87,7 @@ window.addEventListener('load', () => {
 			},
 			error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了`;
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了`;
 			}
 		});
 	}

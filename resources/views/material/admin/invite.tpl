@@ -73,7 +73,7 @@
 {include file='admin/footer.tpl'}
 
 <script>
-var document = $$;
+var $$ = document;
 
 {include file='table/js_1.tpl'}
 
@@ -100,7 +100,7 @@ $$.getElementById('invite').addEventListener('click', () => {
             // window.location.reload();
         },
         error: jqXHR => {
-            alert(`发生错误：${jqXHR.status}`);
+            alert(`发生错误：${ldelim}jqXHR.status{rdelim}`);
         }
     })
 })

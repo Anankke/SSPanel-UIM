@@ -74,7 +74,7 @@ function delete_modal_show(id) {
 window.addEventListener('load', () => {
 
   {include file='table/js_2.tpl'}
-
+{literal}
 	function delete_id(){
 		$.ajax({
 			type:"DELETE",
@@ -102,5 +102,5 @@ window.addEventListener('load', () => {
 
     $$.getElementById('delete_input').addEventListener('click', delete_id);
 })
-
+{/literal}
 </script>

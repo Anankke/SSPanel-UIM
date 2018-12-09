@@ -139,10 +139,10 @@ window.addEventListener('load', () => {
         {include file='table/lang_chinese.tpl'}
     });
 
-	var has_init = JSON.parse(localStorage.getItem(`${window.location.href}-hasinit`));
+	var has_init = JSON.parse(localStorage.getItem(`${ldelim}window.location.href{rdelim}-hasinit`));
 
 	if (has_init !== true) {
-	    localStorage.setItem(`${window.location.href}-hasinit`, true);
+	    localStorage.setItem(`${ldelim}window.location.href{rdelim}-hasinit`, true);
 	} else {
 	    {foreach $table_config['total_column'] as $key => $value}
 	        var checked = JSON.parse(localStorage.getItem(window.location.href + '-haschecked-checkbox_{$key}'));
@@ -178,7 +178,7 @@ window.addEventListener('load', () => {
 			},
             error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
 			}
 		});
 	}
@@ -213,7 +213,7 @@ window.addEventListener('load', () => {
 			},
 			error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
 			}
 		});
 	}

@@ -72,7 +72,7 @@
 {include file='admin/footer.tpl'}
 
 <script>
-    var document = $$;
+    var $$ = document;
     var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
 function delete_modal_show(id) {
@@ -104,13 +104,13 @@ window.addEventListener('load', () => {
 	})
 
 
-	var has_init = JSON.parse(localStorage.getItem(`${window.location.href}-hasinit`));
+	var has_init = JSON.parse(localStorage.getItem(`${ldelim}window.location.href{rdelim}-hasinit`));
 	if (has_init !== true) {
-		localStorage.setItem(`${window.location.href}-hasinit`, true);
+		localStorage.setItem(`${ldelim}window.location.href{rdelim}-hasinit`, true);
 	}
 	else {
 		{foreach $table_config['total_column'] as $key => $value}
-			var checked = JSON.parse(localStorage.getItem(`${window.location.href}-haschecked-checkbox_{$key}`));
+			var checked = JSON.parse(localStorage.getItem(`${ldelim}window.location.href{rdelim}-haschecked-checkbox_{$key}`));
 			if (checked == true) {
                 $$.getElementById('checkbox_{$key}').checked = true;
             } else {
@@ -136,7 +136,7 @@ window.addEventListener('load', () => {
                 if (data.ret) {
 					$("#result").modal();
                     $$.getElementById('msg').innerHTML = data.msg;
-                    $$.getElementById(`row_delete_${deleteid}`).setAttribute('disabled', 'true')
+                    $$.getElementById(`row_delete_${ldelim}deleteid{rdelim}`).setAttribute('disabled', 'true')
                 } else {
 					$("#result").modal();
                     $$.getElementById('msg').innerHTML = data.msg;
@@ -144,7 +144,7 @@ window.addEventListener('load', () => {
 			},
             error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
 			}
 		});
 	}

@@ -91,7 +91,7 @@ window.addEventListener('load', () => {
 			},
 			error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 			}
 		});
 	}
