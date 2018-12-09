@@ -49,6 +49,23 @@
 
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
+	(() => {
+        editor = editormd("editormd", {
+             path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
+			height: 720,
+			saveHTMLToTextarea : true,
+			emoji : true
+        });
+
+        /*
+        // or
+        var editor = editormd({
+            id   : "editormd",
+            path : "../lib/"
+        });
+        */
+    })();
+
     window.addEventListener('load', () => {
         function submit() {
             $.ajax({
@@ -66,13 +83,12 @@
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
+                        document.getElementById('msg').innerHTML = data.msg;
                     }
                 },
                 error: jqXHR => {
-                    $("#msg-error").hide(10);
-                    $("#msg-error").show(100);
-                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
         }
@@ -80,21 +96,5 @@
         $$.getElementById('submit').addEventListener('click', submit);
 
     });
-
-    (() => {
-        editor = editormd("editormd", {
-             path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
-			height: 720,
-			saveHTMLToTextarea : true,
-			emoji : true
-        });
-
-        /*
-        // or
-        var editor = editormd({
-            id   : "editormd",
-            path : "../lib/"
-        });
-        */
-    })();
+    
 </script>

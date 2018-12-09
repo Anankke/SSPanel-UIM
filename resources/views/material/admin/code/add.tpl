@@ -58,7 +58,6 @@
 
 
 <script>
-    var document = $$;
     var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
     window.addEventListener('load', () => {
@@ -79,12 +78,12 @@
                     } else {
                         $("#msg-error").hide(10);
                         $("#msg-error").show(100);
-                        $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+                        $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
                     }
                 },
                 error: jqXHR => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
         }

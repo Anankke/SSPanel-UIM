@@ -263,7 +263,6 @@
 
 
 <script>
-    var $$ = document;
     var $$getValue = (elementId) => $$.getElementById(elementId).value;
 	//document.getElementById("class_expire").value="{$edit_user->class_expire}";
 
@@ -333,7 +332,7 @@
             },
             error: jqXHR => {
 				$("result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误。`;
+                $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
             }
         });
     }

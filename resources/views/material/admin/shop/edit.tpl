@@ -176,7 +176,6 @@
 
 
 <script>
-    var document = $$;
     var $$getValue = (elementId) => $$.getElementById(elementId).value;
     window.addEventListener('load', () => {
         function submit() {
@@ -223,7 +222,7 @@
                 },
                 error: jqXHR => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
         }

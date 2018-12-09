@@ -75,7 +75,6 @@
 {include file='admin/footer.tpl'}
 
 <script>
-var $$ = document;
 
 function delete_modal_show(id) {
     deleteid = id;
@@ -186,9 +185,9 @@ window.addEventListener('load', () => {
 
     $$.getElementById('delete_input').addEventListener('click', delete_id);
 
-    $$.getElementById('search_button').addEventListener('click', () => {
-        if ($$.getElementById('search') !== '') search();
-    });
+    // $$.getElementById('search_button').addEventListener('click', () => {
+    //     if ($$.getElementById('search') !== '') search();
+    // });
 
 	
 	function changetouser_id(){

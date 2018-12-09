@@ -70,7 +70,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
-    var document = $$;
     var $$getValue = (elementId) => $$.getElementById(elementId).value;
     window.addEventListener('load', () => {
         function submit(page = -1) {
@@ -109,14 +108,15 @@
                     }
                 },
                 error: jqXHR => {
-                    $("#msg-error").hide(10);
-                    $("#msg-error").show(100);
-                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
         }
 
-        $$.getElementById('submit').addEventListener('click', submit);
+        $$.getElementById('submit').addEventListener('click', ()=>{
+			submit();
+		});
     });
 
     (() => {

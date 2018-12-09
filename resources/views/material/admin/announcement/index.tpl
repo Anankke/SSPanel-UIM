@@ -74,7 +74,7 @@ function delete_modal_show(id) {
 window.addEventListener('load', () => {
 
   {include file='table/js_2.tpl'}
-{literal}
+
 	function delete_id(){
 		$.ajax({
 			type:"DELETE",
@@ -95,12 +95,12 @@ window.addEventListener('load', () => {
 			},
 			error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 			}
 		});
 	}
 
     $$.getElementById('delete_input').addEventListener('click', delete_id);
 })
-{/literal}
+
 </script>

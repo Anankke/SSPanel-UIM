@@ -170,8 +170,7 @@
 
 {literal}
 <script>
-    var document = $$;
-    var $$getValue = (elementId) => $$.getElementById(elementId).value;
+	var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
 	$('#main_form').validate({
 		rules: {
@@ -241,7 +240,7 @@
                         $$.getElementById('msg').innerHTML = data.msg;
 {/literal}
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-{literal}
+
                     } else {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
@@ -249,7 +248,7 @@
                 },
                 error: jqXHR => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
 		}
@@ -257,4 +256,3 @@
 
 </script>
 
-{/literal}
