@@ -97,7 +97,6 @@
                 dataType: "json",
                 data: {
                     content: editor.getHTML(),
-                    title: $$.getElementById('title').value,
                     status
                 },
                 success: data => {
@@ -112,7 +111,7 @@
                 },
                 error: jqXHR => {
                     $("#result").modal();
-					$$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
+					$$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
         }
@@ -149,12 +148,16 @@
 			},
             error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
+                $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
 			}
 		});
 	}
 
-    $$.getElementById('changetouser_input').addEventListener('click', changetouser_id);
+    $$.getElementById('changetouser_input').addEventListener('click', ()=>{
+		changetouser_id();
+	});
+
+	});
 
     (() => {
         editor = editormd("editormd", {
