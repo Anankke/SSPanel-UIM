@@ -176,7 +176,6 @@
 
 
 <script>
-    var $$getValue = (elementId) => $$.getElementById(elementId).value;
     window.addEventListener('load', () => {
         function submit() {
             if ($$.getElementById('auto_reset_bandwidth').checked) {

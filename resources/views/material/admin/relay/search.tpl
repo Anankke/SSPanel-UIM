@@ -82,8 +82,6 @@
 
 
 <script>
-var document = $$;
-var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
 window.addEventListener('load', () => {
  	table = $('#table_1').DataTable({

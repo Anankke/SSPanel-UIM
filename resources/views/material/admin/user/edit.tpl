@@ -263,7 +263,6 @@
 
 
 <script>
-    var $$getValue = (elementId) => $$.getElementById(elementId).value;
 	//document.getElementById("class_expire").value="{$edit_user->class_expire}";
 
     window.addEventListener('load', () => {

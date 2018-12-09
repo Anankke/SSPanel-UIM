@@ -70,7 +70,22 @@
 
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
-    var $$getValue = (elementId) => $$.getElementById(elementId).value;
+	(() => {
+        editor = editormd("editormd", {
+             path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
+			height: 720,
+			saveHTMLToTextarea : true
+        });
+
+        /*
+        // or
+        var editor = editormd({
+            id   : "editormd",
+            path : "../lib/"
+        });
+        */
+    })();
+
     window.addEventListener('load', () => {
         function submit(page = -1) {
 
@@ -119,19 +134,5 @@
 		});
     });
 
-    (() => {
-        editor = editormd("editormd", {
-             path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
-			height: 720,
-			saveHTMLToTextarea : true
-        });
-
-        /*
-        // or
-        var editor = editormd({
-            id   : "editormd",
-            path : "../lib/"
-        });
-        */
-    })();
+    
 </script>

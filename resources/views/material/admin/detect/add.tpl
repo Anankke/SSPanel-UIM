@@ -68,39 +68,32 @@
 {include file='admin/footer.tpl'}
 
 
-{literal}
 <script>
-    var document = $$;
-    var $$getValue = (elementId) => $$.getElementById(elementId).value;
+{literal}
 	$('#main_form').validate({
 		rules: {
             name: {required: true},
             text: {required: true},
             regex: {required: true}
 		},
-
-
+{/literal}
 		submitHandler: function() {
 
 		$.ajax({
             type: "POST",
             url: "/admin/detect",
             dataType: "json",
-{/literal}
             data: {
                 name: $$getValue("#name"),
                 text: $$getValue("#text"),
                 regex: $$getValue("#regex"),
                 type: $$getValue("#type")
-{literal}
             },
             success: data => {
                 if (data.ret) {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = data.msg;
-{/literal}
 					window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-{literal}
                 } else {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = data.msg;
@@ -108,13 +101,11 @@
             },
             error: jqXHR => {
                 $("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
             }
         });
     }
     });
 
 </script>
-
-{/literal}
 

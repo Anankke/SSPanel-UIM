@@ -172,11 +172,9 @@
 {include file='admin/footer.tpl'}
 
 
-{literal}
-<script>
-    var document = $$;
-    var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
+<script>
+{literal}
 	$('#main_form').validate({
 		rules: {
             name: {required: true},

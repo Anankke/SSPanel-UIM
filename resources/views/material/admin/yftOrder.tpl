@@ -58,7 +58,6 @@
 </main>
 {include file='admin/footer.tpl'}
 <script>
-    var $$ = document;
     function goto(type) {
         var countPage = $$.getElementById('countPage').value,
             currentPage = $$.getElementById('currentPage').value;

@@ -81,8 +81,6 @@
 {include file='admin/footer.tpl'}
 
 <script>
-var document = $$;
-var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
 function delete_modal_show(id) {
 	deleteid = id;

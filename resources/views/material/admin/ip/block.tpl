@@ -60,8 +60,6 @@
 
 
 <script>
-var document = $$;
-var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
 {include file='table/js_1.tpl'}
 

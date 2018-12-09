@@ -73,8 +73,6 @@
 {include file='admin/footer.tpl'}
 
 <script>
-var $$ = document;
-
 {include file='table/js_1.tpl'}
 
 

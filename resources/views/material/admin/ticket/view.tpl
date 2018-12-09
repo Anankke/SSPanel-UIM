@@ -84,7 +84,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
-    var document = $$;
     function changetouser_modal_show() {
         $("#changetouser_modal").modal();
     }
@@ -112,9 +111,8 @@
                     }
                 },
                 error: jqXHR => {
-                    $("#msg-error").hide(10);
-                    $("#msg-error").show(100);
-                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
+                    $("#result").modal();
+					$$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
                 }
             });
         }
@@ -151,7 +149,7 @@
 			},
             error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
 			}
 		});
 	}

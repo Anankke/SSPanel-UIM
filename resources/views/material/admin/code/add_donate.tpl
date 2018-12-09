@@ -64,8 +64,6 @@
 
 
 <script>
-    var $$getValue = (elementId) => $$.getElementById(elementId).value;
-
     window.addEventListener('load', () => {
         let submit = () => {
             $.ajax({

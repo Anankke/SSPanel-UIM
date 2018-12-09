@@ -102,9 +102,6 @@
 
 
 <script>
-var $$ = document;
-var $$getValue = (elementId) => $$.getElementById(elementId).value;
-
 let randomWord = () => Math.random().toString(36).substr(2);
 
 {include file='table/js_1.tpl'}

@@ -170,7 +170,6 @@
 
 {literal}
 <script>
-	var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
 	$('#main_form').validate({
 		rules: {

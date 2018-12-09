@@ -84,41 +84,34 @@
 {include file='admin/footer.tpl'}
 
 
-{literal}
-<script>
-    var document = $$;
-    var $$getValue = (elementId) => $$.getElementById(elementId).value;
 
+<script>
+{literal}
 	$('#main_form').validate({
 		rules: {
 			priority: {required: true},
 			port: {required: true},
 			user_id: {required: true}
 		},
-
-
+{/literal}
         submitHandler: () => {
 
             $.ajax({
 				type: "POST",
 				url: "/admin/relay",
 				dataType: "json",
-				{/literal}
 				data: {
                     source_node: $$getValue('source_node'),
                     dist_node: $$getValue('dist_node'),
                     port: $$getValue('port'),
                     user_id: $$getValue('user_id'),
                     priority: $$getValue('priority')
-                    {literal}
 				},
 				success: data => {
                     if (data.ret) {
 					    $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-					{/literal}
 						window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-					{literal}
 					} else {
 						$("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
@@ -126,7 +119,7 @@
 				},
 				error: jqXHR => {
 					$("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了。`;
+                    $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 				}
 			});
         }
@@ -134,4 +127,4 @@
 
 </script>
 
-{/literal}
+
