@@ -172,7 +172,7 @@
 <script>
     window.addEventListener('load', () => {
         function submit() {
-            if ($('#auto_reset_bandwidth').is(':checked')) {
+            if (document.getElementById('auto_reset_bandwidth').checked) {
                 var auto_reset_bandwidth = 1;
             } else {
                 var auto_reset_bandwidth = 0;
@@ -201,7 +201,7 @@
 					reset: $$getValue('reset'),
 					reset_value: $$getValue('reset_value'),
 					reset_exp: $$getValue('reset_exp'),
-					content_extra: $$getValue('content_extra'),,
+					content_extra: contentExtra,
                 },
                 success: data => {
                     if (data.ret) {
