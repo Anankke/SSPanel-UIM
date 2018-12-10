@@ -23,8 +23,9 @@
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
-								<p>所有商品可以叠加购买，VIP时间会叠加</p>
-								<p>当前余额：{$user->money} 元</p>
+								<p>商品不可叠加，新购商品会覆盖旧商品的效果。</p>
+								<p>购买新套餐时，如果未关闭旧套餐自动续费，则旧套餐的自动续费依然生效。</p>
+								<p>当前余额：<code>{$user->money}</code> 元</p>
 							</div>
 						</div>
 					</div>
@@ -35,36 +36,19 @@
 						{$shops->render()}
 						<table class="table ">
                             <tr>
-								
-                            <!--    <th>ID</th>    -->
                                 <th>套餐</th>
 								<th>价格</th>
 								<th>套餐详情</th>
-                           <!--       <th>自动续费天数</th>
-								<th>续费时重置流量</th>     -->
                               <th>操作</th>
                                 
                             </tr>
                             {foreach $shops as $shop}
                             <tr>
-								
-                            <!--     <td>#{$shop->id}</td>    -->
                                 <td>{$shop->name}</td>
 								<td>{$shop->price} 元</td>
                                 <td>{$shop->content()}</td>
-							  <!--	{if $shop->auto_renew==0}
-                                <td>不能自动续费</td>
-								{else}
-								<td>可选 在 {$shop->auto_renew} 天后自动续费</td>
-								{/if}
-								
-								{if $shop->auto_reset_bandwidth==0}
-                                <td>不自动重置</td>
-								{else}
-								<td>自动重置</td>
-								{/if}  -->
                                 <td>
-                                    <a class="btn btn-brand-accent" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew},{$shop->auto_reset_bandwidth})">购买</a>
+                                    <a class="btn btn-brand-accent" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
                                 </td>
                             </tr>
                             {/foreach}
@@ -105,11 +89,18 @@
 									<p id="name">商品名称：</p>
 									<p id="credit">优惠额度：</p>
 									<p id="total">总金额：</p>
-									<p id="auto_reset">在到期时自动续费</p>
-									
+
+									<div class="checkbox switch">
+										<label for="disableothers">
+											<input checked class="access-hide" id="disableothers" type="checkbox">
+											<span class="switch-toggle"></span>关闭旧套餐自动续费
+										</label>
+									</div>
+									<br/>
 									<div class="checkbox switch" id="autor">
 										<label for="autorenew">
-											<input checked class="access-hide" id="autorenew" type="checkbox"><span class="switch-toggle"></span>自动续费
+											<input checked class="access-hide" id="autorenew" type="checkbox">
+											<span class="switch-toggle"></span>到期时自动续费
 										</label>
 									</div>
 									
@@ -143,8 +134,7 @@
 
 
 <script>
-function buy(id,auto,auto_reset) {
-	auto_renew=auto;
+function buy(id,auto) {
 	if(auto==0)
 	{
 		document.getElementById('autor').style.display="none";
@@ -153,16 +143,6 @@ function buy(id,auto,auto_reset) {
 	{
 		document.getElementById('autor').style.display="";
 	}
-	
-	if(auto_reset==0)
-	{
-		document.getElementById('auto_reset').style.display="none";
-	}
-	else
-	{
-		document.getElementById('auto_reset').style.display="";
-	}
-	
 	shop=id;
 	$("#coupon_modal").modal();
 }
@@ -205,6 +185,13 @@ $("#order_input").click(function () {
 		{
 			var autorenew=0;
 		}
+
+		if(document.getElementById('disableothers').checked){
+			var disableothers=1;
+		}
+		else{
+			var disableothers=0;
+		}
 			
 		$.ajax({
 			type: "POST",
@@ -213,7 +200,8 @@ $("#order_input").click(function () {
 			data: {
 				coupon: $("#coupon").val(),
 				shop: shop,
-				autorenew: autorenew
+				autorenew: autorenew,
+				disableothers:disableothers
 			},
 			success: function (data) {
 				if (data.ret) {

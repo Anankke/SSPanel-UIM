@@ -11,8 +11,12 @@
 	<!-- css -->
 	<link href="/theme/material/css/base.min.css" rel="stylesheet">
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
-	<link href="/theme/material/css/icon.css" rel="stylesheet">
+	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
+	<link href="https://fonts.loli.net/css?family=Material+Icons" rel="stylesheet">
 
+	<!-- jquery -->
+	<script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/js/qrcode.min.js"></script>
  <style>
     body {
         background: #eee;
@@ -307,7 +311,6 @@
 				{if $user->isLogin}
 					<span class="access-hide">{$user->user_name}</span>
               	    <span class="icon icon-cd margin-right">account_circle</span>
-				<!--	<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="{$user->gravatar}"></span>  -->
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
@@ -321,8 +324,6 @@
 				{else}
 					<span class="access-hide">未登录</span>
              		 <span class="icon icon-lg margin-right">account_circle</span>
-					<!-- <span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="/theme/material/images/users/avatar-001.jpg"></span>  -->
-
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li>
 							<a class="padding-right-lg waves-attach" href="/auth/login"><span class="icon icon-lg margin-right">account_box</span>登录</a>
@@ -364,16 +365,20 @@
 							</li>
 
 
+							{if $config['enable_ticket']=='true'}
                           <li>
 								<a href="/user/ticket">
 									<i class="icon icon-lg">question_answer</i>&nbsp;工单系统
 								</a>
 							</li>
+
+							{/if}
                                <li>
 								<a href="/user/invite">
-									<i class="icon icon-lg">loyalty</i>&nbsp;邀请码
+									<i class="icon icon-lg">loyalty</i>&nbsp;邀请链接
 								</a>
 							</li>
+
 
 
 
@@ -412,25 +417,22 @@
 							</li>
 						</ul>
 
-					<!--	<a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
+						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_detect">
 							<li><a href="/user/detect"><i class="icon icon-lg">account_balance</i>&nbsp;审计规则</a></li>
 							<li><a href="/user/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a></li>
 						</ul>
 
+						{if $config['enable_wecenter']=='true'}
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_trade">帮助</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_trade">
-							{if $config['enable_wecenter']=='true'}
 							<li>
 								<a href="{$config["wecenter_url"]}" target="_blank">
 									<i class="icon icon-lg">help</i>&nbsp;问答系统
 								</a>
 							</li>
-							{/if}-->
-
-
-
-
+						</ul>
+						{/if}
 
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_help">商店</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_help">
@@ -469,7 +471,11 @@
 								</a>
 							</li>
 						{/if}
-
+                                          	{if $can_backtoadmin}
+                                         	    <li>
+                                <a class="padding-right-cd waves-attach" href="/user/backtoadmin"><span class="icon icon-lg margin-right">backtoadmin</span>返回管理员身份</a>
+                                                    <li>
+                                                {/if}
 
 
 					</li>

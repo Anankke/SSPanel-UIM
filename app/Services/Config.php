@@ -22,10 +22,17 @@ class Config
             "appName" => self::get("appName"),
             "version" => VERSION,
             "baseUrl" => self::get("baseUrl"),
+			"min_port" => self::get("min_port"),
+			"max_port" => self::get("max_port"),
             "checkinMin" => self::get("checkinMin"),
-            "code_payback" => self::get("code_payback"),
             "checkinMax" => self::get("checkinMax"),
+			"invite_price"=>self::get("invite_price"),
+			"invite_get_money"=>self::get("invite_get_money"),
+            "code_payback" => self::get("code_payback"),
+			"invite_gift"=>self::get("invite_gift"),
             "wecenter_url" => self::get("wecenter_url"),
+			"port_price" => self::get("port_price"),
+			"port_price_specify" => self::get("port_price_specify"),
             "enable_wecenter" => self::get("enable_wecenter"),
             "jump_delay" => self::get("jump_delay"),
             "enable_analytics_code" => self::get("enable_analytics_code"),
@@ -33,7 +40,14 @@ class Config
             "enable_telegram" => self::get("enable_telegram"),
             "payment_system" => self::get("payment_system"),
           	"enable_crisp" => self::get("enable_crisp"),
-          	"crisp_id" => self::get("crisp_id")
+          	"crisp_id" => self::get("crisp_id"),
+          	"enable_ticket"=> self::get("enable_ticket"),
+			"enable_admin_contact" => self::get("enable_admin_contact"),
+			"admin_contact1" => self::get("admin_contact1"),
+			"admin_contact2" => self::get("admin_contact2"),
+			"admin_contact3" => self::get("admin_contact3"),
+			"register_mode" => self::get("register_mode"),
+			"enable_flag" => self::get("enable_flag")
          ];
     }
 
@@ -87,13 +101,13 @@ class Config
                 return $list;
             case 'protocol':
                 $list = array('origin', 'verify_deflate',
-                            'auth_sha1_v4', 'auth_sha1_v4_compatible', 'auth_aes128_sha1', 'auth_aes128_md5', 'auth_chain_a', 'auth_chain_b');
+                            'auth_sha1_v4', 'auth_sha1_v4_compatible', 'auth_aes128_sha1', 'auth_aes128_md5', 'auth_chain_a', 'auth_chain_b','auth_chain_c','auth_chain_d','auth_chain_e','auth_chain_f');
                 return $list;
             case 'allow_none_protocol':
-                $list = array('auth_chain_a', 'auth_chain_b');
+                $list = array('auth_chain_a', 'auth_chain_b','auth_chain_c','auth_chain_d','auth_chain_e','auth_chain_f');
                 return $list;
             case 'relay_able_protocol':
-                $list = array('auth_aes128_md5', 'auth_aes128_sha1', 'auth_chain_a', 'auth_chain_b');
+                $list = array('auth_aes128_md5', 'auth_aes128_sha1', 'auth_chain_a', 'auth_chain_b','auth_chain_c','auth_chain_d','auth_chain_e','auth_chain_f');
                 return $list;
             case 'ss_aead_method':
                 $list = array('aes-128-gcm', 'aes-192-gcm',
@@ -106,7 +120,7 @@ class Config
                 $list = array('rc4-md5', 'rc4-md5-6', 'aes-128-cfb', 'aes-192-cfb', 'aes-256-cfb',
                             'aes-128-ctr', 'aes-192-ctr', 'aes-256-ctr', 'camellia-128-cfb', 'camellia-192-cfb', 'camellia-256-cfb',
                             'bf-cfb', 'cast5-cfb', 'des-cfb', 'des-ede3-cfb', 'idea-cfb',
-                            'rc2-cfb', 'seed-cfb', 'salsa20', 'chacha20', 'chacha20-ietf', 'none', 'aes-128-gcm', 'aes-192-gcm',
+                            'rc2-cfb', 'seed-cfb', 'salsa20', 'chacha20', 'xsalsa20', 'chacha20-ietf', 'aes-128-gcm', 'aes-192-gcm', 'none',
                             'aes-256-gcm', 'chacha20-ietf-poly1305', 'xchacha20-ietf-poly1305');
                 return $list;
         }

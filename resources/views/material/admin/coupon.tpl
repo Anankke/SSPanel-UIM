@@ -47,6 +47,11 @@
 								</div>
 
 								<div class="form-group form-group-label">
+									<label class="floating-label" for="shop">优惠码每个用户可用次数</label>
+									<input class="form-control" id="count" type="number" value="1">
+								</div>
+
+								<div class="form-group form-group-label">
 									<div class="checkbox switch">
 										<label for="onetime">
 											<input class="access-hide" id="onetime" type="checkbox"><span class="switch-toggle"></span>一次性的,只在用户当次购买时有效
@@ -116,39 +121,29 @@ $(document).ready(function () {
 		{include file='table/js_2.tpl'}
 
 		$("#coupon").click(function () {
-
-				if(document.getElementById('onetime').checked)
-				{
-						var onetime=1;
-				}
-				else
-				{
-						var onetime=0;
-				}
-
-	      $.ajax({
-		          type: "POST",
-		          url: "/admin/coupon",
-		          dataType: "json",
-		          data: {
-		          prefix: $("#prefix").val(),
-		          credit: $("#credit").val(),
-							shop: $("#shop").val(),
-							onetime: onetime,
-		          expire: $("#expire").val()
-		          },
-		          success: function (data) {
-		              if (data.ret) {
-		                  $("#result").modal();
-		                  $("#msg").html(data.msg);
-		                  window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
-		              }
-		              // window.location.reload();
-		          },
-		          error: function (jqXHR) {
-		              alert("发生错误：" + jqXHR.status);
-		          }
-	      })
+				$.ajax({
+						type: "POST",
+						url: "/admin/coupon",
+						dataType: "json",
+						data: {
+								prefix: $("#prefix").val(),
+								credit: $("#credit").val(),
+								shop: $("#shop").val(),
+								onetime: $("#count").val(),
+								expire: $("#expire").val()
+						},
+						success: function (data) {
+								if (data.ret) {
+										$("#result").modal();
+										$("#msg").html(data.msg);
+										window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
+								}
+								// window.location.reload();
+						},
+						error: function (jqXHR) {
+								alert("发生错误：" + jqXHR.status);
+						}
+				})
 		})
 })
 </script>

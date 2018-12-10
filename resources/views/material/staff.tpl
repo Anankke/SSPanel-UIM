@@ -8,9 +8,9 @@
         <link rel="shortcut icon" href="/favicon.ico"/>
         <link rel="bookmark" href="/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-		<link rel="stylesheet" href="assets/css/main.css"/>
+		<link rel="stylesheet" href="/assets/css/main.css"/>
         <link href="/bootstrap" type="text/html" rel="stylesheet">
-        <noscript><link rel="stylesheet" href="./assets/css/noscript.css" /></noscript>   
+        <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>   
   </head>
   
        <body>
@@ -111,9 +111,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 <!-- BG -->
 			<div id="bg"></div>
 	        	<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-         <script src="assets/js/main.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
+			<script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+         <script src="/assets/js/main.js"></script>
 	</body>
 </html>

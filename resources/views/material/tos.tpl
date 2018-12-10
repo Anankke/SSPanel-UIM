@@ -8,9 +8,9 @@
         <link rel="shortcut icon" href="/favicon.ico"/>
         <link rel="bookmark" href="/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-		<link rel="stylesheet" href="assets/css/main.css"/>
+		<link rel="stylesheet" href="/assets/css/main.css"/>
         <link href="/bootstrap" type="text/html" rel="stylesheet">
-        <noscript><link rel="stylesheet" href="./assets/css/noscript.css" /></noscript>   
+        <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>   
   </head>
   
        <body>
@@ -32,7 +32,7 @@
 													
 												</tr>
 												<tr>
-													<td>手机号为本站服务的唯一凭证，请自行保管。</td>
+													<td>邮箱为本站服务的唯一凭证，请自行保管。</td>
 													
 												</tr>
 												<tr>
@@ -65,7 +65,7 @@
 													
 												</tr>
 												<tr>
-													<td>任何违法使用条款的用户，我们将会删除违规账户并没收使用本站服务的权利。</td>
+													<td>任何违反使用条款的用户，我们将会删除违规账户并收回使用本站服务的权利。</td>
 													
 												</tr>
                                               
@@ -88,16 +88,16 @@
                               </div>
                      <!-- 版权底部 -->
                       <footer id="footer">
-                   <p class="copyright">&copy;2015-2017 {$config["appName"]}</p>
+                   <p class="copyright">&copy;2015-{date("Y")} {$config["appName"]}</p>
                       </footer>
               <!-- 版权结束 -->
 			 </div>
                 <!-- BG -->
 			<div id="bg"></div>
 	        	<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-         <script src="assets/js/main.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
+			<script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+         <script src="/assets/js/main.js"></script>
 	</body>
 </html>

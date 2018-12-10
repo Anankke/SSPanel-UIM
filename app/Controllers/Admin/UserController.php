@@ -7,6 +7,9 @@ use App\Models\Ip;
 use App\Models\RadiusBan;
 use App\Models\Relay;
 use App\Controllers\AdminController;
+use App\Services\Config;
+use App\Services\Auth;
+use App\Utils;
 use App\Utils\Hash;
 use App\Utils\Radius;
 use App\Utils\QQWry;
@@ -20,15 +23,15 @@ class UserController extends AdminController
         $table_config['total_column'] = array("op" => "操作", "id" => "ID", "user_name" => "用户名",
                             "remark" => "备注", "email" => "邮箱", "money" => "金钱",
                             "im_type" => "联络方式类型", "im_value" => "联络方式详情",
-                            "node_group" => "群组", "account_expire_in" => "账户过期时间",
+                            "node_group" => "群组", "expire_in" => "账户过期时间",
                             "class" => "等级", "class_expire" => "等级过期时间",
                             "passwd" => "连接密码","port" => "连接端口", "method" => "加密方式",
                             "protocol" => "连接协议", "obfs" => "连接混淆方式",
                             "online_ip_count" => "在线IP数", "last_ss_time" => "上次使用时间",
                             "used_traffic" => "已用流量/GB", "enable_traffic" => "总流量/GB",
                             "last_checkin_time" => "上次签到时间", "today_traffic" => "今日流量/MB",
-                            "is_enable" => "是否启用", "reg_date" => "注册时间",
-                            "reg_location" => "注册IP", "auto_reset_day" => "自动重置流量日",
+                            "enable" => "是否启用", "reg_date" => "注册时间",
+                            "reg_ip" => "注册IP", "auto_reset_day" => "自动重置流量日",
                             "auto_reset_bandwidth" => "自动重置流量/GB", "ref_by" => "邀请人ID", "ref_by_user_name" => "邀请人用户名");
         $table_config['default_show_column'] = array("op", "id", "user_name", "remark", "email");
         $table_config['ajax_url'] = 'user/ajax';
@@ -184,6 +187,7 @@ class UserController extends AdminController
         $user->node_connector = $request->getParam('node_connector');
         $user->enable = $request->getParam('enable');
         $user->is_admin = $request->getParam('is_admin');
+        $user->ga_enable = $request->getParam('ga_enable');
         $user->node_group = $request->getParam('group');
         $user->ref_by = $request->getParam('ref_by');
         $user->remark = $request->getParam('remark');
@@ -221,27 +225,151 @@ class UserController extends AdminController
         $rs['msg'] = "删除成功";
         return $response->getBody()->write(json_encode($rs));
     }
-
-    public function ajax($request, $response, $args)
+    
+    public function changetouser($request, $response, $args)
     {
-        $pageNum = 1;
-        if (isset($request->getQueryParams()["page"])) {
-            $pageNum = $request->getQueryParams()["page"];
+        $userid = $request->getParam('userid');
+        $adminid = $request->getParam('adminid');
+        $user = User::find($userid);
+        $admin = User::find($adminid);
+        $expire_in = time()+60*60;
+      
+        if (!$admin->is_admin || !$user || !Auth::getUser()->isLogin) {
+            $rs['ret'] = 0;
+            $rs['msg'] = "非法请求";
+            return $response->getBody()->write(json_encode($rs));
         }
-
-        $users = User::skip(($pageNum - 1) * 100)->limit(100)->get();
-        $total_conut = User::count();
-        if($total_conut < $pageNum * 100) {
-            $res['next'] = 0;
-        } else {
-            $res['next'] = 1;
-        }
-
-        $res['data'] = array();
-        foreach ($users as $user) {
-            array_push($res['data'], $user->get_table_json_array());
-        }
-
-        return $this->echoJson($response, $res);
+        
+        Utils\Cookie::set([
+            "uid" => $user->id,
+            "email" => $user->email,
+            "key" => Hash::cookieHash($user->pass),
+            "ip" => md5($_SERVER["REMOTE_ADDR"].Config::get('key').$user.$expire_in),
+            "expire_in" =>  $expire_in,
+            "old_uid" => Utils\Cookie::get('uid'),
+            "old_email" => Utils\Cookie::get('email'),
+            "old_key" => Utils\Cookie::get('key'),
+            "old_ip" => Utils\Cookie::get('ip'),
+            "old_expire_in" => Utils\Cookie::get('expire_in'),
+            "old_local" =>  $request->getParam('local')
+        ],  $expire_in);
+        $rs['ret'] = 1;
+        $rs['msg'] = "切换成功";
+        return $response->getBody()->write(json_encode($rs));
     }
+
+	public function ajax($request, $response, $args)
+	{		
+        //得到排序的方式
+        $order = $request->getParam('order')[0]['dir'];
+        //得到排序字段的下标
+        $order_column = $request->getParam('order')[0]['column'];
+        //根据排序字段的下标得到排序字段
+        $order_field = $request->getParam('columns')[$order_column]['data'];
+        $limit_start = $request->getParam('start');
+        $limit_length = $request->getParam('length');
+        $search = $request->getParam('search')['value'];
+        
+		$users=array();
+		$count_filtered=0;
+
+        if ($search) {
+            $users = User::orderBy($order_field,$order)
+                    ->skip($limit_start)->limit($limit_length)
+                    ->where(
+                        function ($query) use ($search) {
+                            $query->where('id','LIKE',"%$search%")
+								->orwhere('user_name','LIKE',"%$search%")
+								->orwhere('email','LIKE',"%$search%")
+								->orwhere('im_value','LIKE',"%$search%")
+								->orwhere('port','LIKE',"%$search%");
+							}
+						)
+                    ->get();
+            $count_filtered = User::where(
+                        function ($query)use($search) {
+                            $query->where('id','LIKE',"%$search%")
+								->orwhere('user_name','LIKE',"%$search%")
+								->orwhere('email','LIKE',"%$search%")
+								->orwhere('im_value','LIKE',"%$search%")
+								->orwhere('port','LIKE',"%$search%");
+							}
+						)->count();
+		}
+		else{
+            $users = User::orderBy($order_field,$order)
+                ->skip($limit_start)->limit($limit_length)
+                ->get();
+            $count_filtered = User::count();
+        }
+		        
+		$data=array();
+		foreach ($users as $user) {
+			$tempdata=array();
+			$tempdata['op']='<a class="btn btn-brand" href="/admin/user/'.$user->id.'/edit">编辑</a>
+                    <a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\''.$user->id.'\')">删除</a>
+                    <a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\''.$user->id.'\')">切换为该用户</a>';;
+			$tempdata['id']=$user->id;
+			$tempdata['user_name']=$user->user_name;
+			$tempdata['remark']=$user->remark;
+			$tempdata['email']=$user->email;
+			$tempdata['money']=$user->money;
+			$tempdata['im_value']=$user->im_value;			
+			switch($user->im_type) {
+				case 1:
+				$tempdata['im_type'] = '微信';
+				break;
+            case 2:
+				$tempdata['im_type'] = 'QQ';
+				break;
+            case 3:
+				$tempdata['im_type'] = 'Google+';
+				break;
+            default:
+				$tempdata['im_type'] = 'Telegram';
+				$tempdata['im_value'] = '<a href="https://telegram.me/'.$user->im_value.'">'.$user->im_value.'</a>';
+			}
+			$tempdata['node_group']=$user->node_group;
+			$tempdata['expire_in']=$user->expire_in;
+			$tempdata['class']=$user->class;
+			$tempdata['class_expire']=$user->class_expire;
+			$tempdata['passwd']=$user->passwd;
+			$tempdata['port']=$user->port;
+			$tempdata['method']=$user->method;
+			$tempdata['protocol']=$user->protocol;
+			$tempdata['obfs']=$user->obfs;
+			$tempdata['online_ip_count']=$user->online_ip_count();
+			$tempdata['last_ss_time']=$user->lastSsTime();
+			$tempdata['used_traffic']=Tools::flowToGB($user->u + $user->d);
+			$tempdata['enable_traffic']=Tools::flowToGB($user->transfer_enable);
+			$tempdata['last_checkin_time']=$user->lastCheckInTime();
+			$tempdata['today_traffic']=Tools::flowToMB($user->u + $user->d-$user->last_day_t);
+			$tempdata['enable']=$user->enable == 1 ? "可用" : "禁用";
+			$tempdata['reg_date']=$user->reg_date;
+			$tempdata['reg_ip']=$user->reg_ip;
+			$tempdata['auto_reset_day']=$user->auto_reset_day;
+			$tempdata['auto_reset_bandwidth']=$user->auto_reset_bandwidth;			
+            $tempdata['ref_by']= $user->ref_by;
+			if ($user->ref_by == 0) {
+				$tempdata['ref_by_user_name'] = "系统邀请";
+			}
+			else {
+				$ref_user = User::find($user->ref_by);
+				if ($ref_user == null) {
+					$tempdata['ref_by_user_name'] = "邀请人已经被删除";
+				}
+				else {
+					$tempdata['ref_by_user_name'] = $ref_user->user_name;
+				}
+			}
+			array_push($data,$tempdata);
+		}         
+        $info = [
+           'draw'=> $request->getParam('draw'), // ajax请求次数，作为标识符
+           'recordsTotal'=>User::count(),
+           'recordsFiltered'=>$count_filtered,
+           'data'=>$data,
+        ];
+        return json_encode($info,true);
+	}
 }

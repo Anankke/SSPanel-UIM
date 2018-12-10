@@ -24,7 +24,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="content">内容</label>
-									<link rel="stylesheet" href="/theme/material/editor/css/editormd.min.css" />
+									<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css" />
 									<div id="editormd">
 										<textarea style="display:none;" id="content"></textarea>
 									</div>
@@ -37,7 +37,22 @@
 						</div>
 					</div>
 					
-					
+				<div aria-hidden="true" class="modal modal-va-middle fade" id="changetouser_modal" role="dialog" tabindex="-1">
+					<div class="modal-dialog modal-xs">
+						<div class="modal-content">
+							<div class="modal-heading">
+								<a class="modal-close" data-dismiss="modal">×</a>
+								<h2 class="modal-title">确认要切换为该用户？</h2>
+							</div>
+							<div class="modal-inner">
+								<p>请您确认。</p>
+							</div>
+							<div class="modal-footer">
+								<p class="text-right"><button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">取消</button><button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal" id="changetouser_input" type="button">确定</button></p>
+							</div>
+						</div>
+					</div>
+				</div>
 					
 					<div class="card">
 						<div class="card-main">
@@ -47,6 +62,7 @@
 									<div class="row">
 										<div class="col-md-10 col-md-push-1">
 											<button id="submit" type="submit" class="btn btn-block btn-brand waves-attach waves-light">添加</button><button id="close" type="submit" class="btn btn-block btn-brand-accent waves-attach waves-light">添加并关闭</button>
+											<a class="btn btn-block btn-brand waves-attach waves-light" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show()">切换为该用户</a>
 										</div>
 									</div>
 								</div>
@@ -91,8 +107,11 @@
 
 
 
-<script src="/theme/material/editor/editormd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
+  function changetouser_modal_show() {
+	$("#changetouser_modal").modal();
+}
     $(document).ready(function () {
         function submit() {
 			$("#result").modal();
@@ -133,13 +152,44 @@
 			status=0;
             submit();
         });
+	
+	function changetouser_id(){
+		$.ajax({
+			type:"POST",
+			url:"/admin/user/changetouser",
+			dataType:"json",
+			data:{
+              userid: {$ticket->User()->id},
+              adminid: {$user->id},
+              local: '/admin/ticket/'+{$ticket->id}+'/view'
+			},
+			success:function(data){
+				if(data.ret){
+					$("#result").modal();
+					$("#msg").html(data.msg);
+                    window.setTimeout("location.href='/user'", {$config['jump_delay']});
+				}else{
+					$("#result").modal();
+					$("#msg").html(data.msg);
+				}
+			},
+			error:function(jqXHR){
+				$("#result").modal();
+				$("#msg").html(data.msg+"  发生错误了。");
+			}
+		});
+	}
+  	$("#changetouser_input").click(function(){
+		changetouser_id();
+	});
     });
 	
     $(function() {
         editor = editormd("editormd", {
-            path : "/theme/material/editor/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
+             path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
 			height: 450,
-			saveHTMLToTextarea : true
+			saveHTMLToTextarea : true,
+			emoji : true
         });
 
         /*

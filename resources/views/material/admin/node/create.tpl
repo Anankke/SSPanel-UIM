@@ -43,7 +43,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="rate">流量比例</label>
-										<input class="form-control" id="rate" type="text" name="rate">
+										<input class="form-control" id="rate" type="text" name="rate" value="1">
 									</div>
 
 									<div class="form-group form-group-label" hidden="hidden">
@@ -66,9 +66,9 @@
 										<label for="mu_only">
 											<label class="floating-label" for="sort">单端口多用户启用</label>
 											<select id="mu_only" class="form-control" name="is_multi_user">
-												<option value="0">单端口多用户与普通端口并存</option>
 												<option value="-1">只启用普通端口</option>
-												<option value="1">只启用单端口多用户</option>
+													<option value="0">单端口多用户与普通端口并存</option>
+													<option value="1">只启用单端口多用户</option>
 											</select>
 										</label>
 									</div>
@@ -92,7 +92,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="status">节点状态</label>
-										<input class="form-control" id="status" type="text" name="status">
+										<input class="form-control" id="status" type="text" name="status" value="可用">
 									</div>
 
 									<div class="form-group form-group-label">
@@ -110,13 +110,14 @@
 													<option value="8">PAC PLUS PLUS(HTTPS 代理生成 PAC文件)</option>
 													<option value="9">Shadowsocks 单端口多用户</option>
 													<option value="10">Shadowsocks 中转</option>
+													<option value="11">V2Ray</option>
 												</select>
 											</div>
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="info">节点描述</label>
-										<input class="form-control" id="info" type="text" name="info">
+										<input class="form-control" id="info" type="text" name="info" value="无描述">
 									</div>
 
 									<div class="form-group form-group-label">
@@ -138,7 +139,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="bandwidthlimit_resetday">节点流量上限清空日</label>
-										<input class="form-control" id="bandwidthlimit_resetday" type="text" value="0" name="bandwidthlimit_resetday">
+										<input class="form-control" id="bandwidthlimit_resetday" type="text" value="1" name="bandwidthlimit_resetday">
 									</div>
 
 									<div class="form-group form-group-label">

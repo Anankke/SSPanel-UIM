@@ -29,6 +29,10 @@ class TelegramProcess
                     $user->save();
                     $bot->sendMessage($message->getChat()->getId(), "签到成功！获得了 ".$traffic." MB 流量！", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
+	    	case 'prpr':
+		    $prpr = array('⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄', '(≧ ﹏ ≦)', '(*/ω＼*)', 'ヽ(*。>Д<)o゜', '(つ ﹏ ⊂)', '( >  < )');
+                    $bot->sendMessage($message->getChat()->getId(), $prpr[mt_rand(0,5)], $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+                    break;
                 default:
                     $bot->sendMessage($message->getChat()->getId(), "???", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
             }
@@ -44,8 +48,10 @@ class TelegramProcess
 
         if ($message->getChat()->getId() > 0) {
             //个人
-            $bot->sendChatAction($message->getChat()->getId(), 'typing');
-
+            $commands = array("ping", "chat", "traffic", "checkin", "help");
+            if(in_array($command, $commands)){
+                $bot->sendChatAction($message->getChat()->getId(), 'typing');
+            }
             switch ($command) {
                 case 'ping':
                     $bot->sendMessage($message->getChat()->getId(), 'Pong!这个群组的 ID 是 '.$message->getChat()->getId().'!');
@@ -57,6 +63,9 @@ class TelegramProcess
                     TelegramProcess::needbind_method($bot, $message, $command, $user);
                     break;
                 case 'checkin':
+                    TelegramProcess::needbind_method($bot, $message, $command, $user, $message->getMessageId());
+                    break;
+	    	case 'prpr':
                     TelegramProcess::needbind_method($bot, $message, $command, $user, $message->getMessageId());
                     break;
                 case 'help':
@@ -165,9 +174,10 @@ class TelegramProcess
             if (Config::get('telegram_group_quiet') == 'true') {
                 return;
             }
-
-            $bot->sendChatAction($message->getChat()->getId(), 'typing');
-
+            $commands = array("ping", "chat", "traffic", "checkin", "help");
+            if(in_array($command, $commands)){
+                $bot->sendChatAction($message->getChat()->getId(), 'typing');
+            }
             switch ($command) {
                 case 'ping':
                     $bot->sendMessage($message->getChat()->getId(), 'Pong!这个群组的 ID 是 '.$message->getChat()->getId().'!', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
@@ -183,6 +193,9 @@ class TelegramProcess
                     TelegramProcess::needbind_method($bot, $message, $command, $user, $message->getMessageId());
                     break;
                 case 'checkin':
+                    TelegramProcess::needbind_method($bot, $message, $command, $user, $message->getMessageId());
+                    break;
+	    	case 'prpr':
                     TelegramProcess::needbind_method($bot, $message, $command, $user, $message->getMessageId());
                     break;
                 case 'help':
@@ -204,6 +217,9 @@ class TelegramProcess
                             $bot->sendMessage($message->getChat()->getId(), '不约，叔叔我们不约。', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
                         }
                     }
+                    if ($message->getNewChatMember() != null && Config::get('enable_welcome_message') == 'true') {
+                        $bot->sendMessage($message->getChat()->getId(), "欢迎 ".$message->getNewChatMember()->getFirstName()." ".$message->getNewChatMember()->getLastName(), $parseMode = null, $disablePreview = false);
+                    }
             }
         }
 
@@ -217,7 +233,7 @@ class TelegramProcess
             // or initialize with botan.io tracker api key
             // $bot = new \TelegramBot\Api\Client('YOUR_BOT_API_TOKEN', 'YOUR_BOTAN_TRACKER_API_KEY');
 
-            $command_list = array("ping", "chat" ,"traffic", "help", "checkin");
+            $command_list = array("ping", "chat" ,"traffic", "help", "prpr", "checkin");
             foreach ($command_list as $command) {
                 $bot->command($command, function ($message) use ($bot, $command) {
                     TelegramProcess::telegram_process($bot, $message, $command);

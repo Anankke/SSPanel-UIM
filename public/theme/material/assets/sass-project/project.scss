@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 
 @import "../sass/mixin/grid";
 @import "../sass/mixin/responsive";
@@ -28,7 +28,7 @@
 		text-align: center;
 		padding-top: $margin-sm;
 		padding-bottom: $margin-sm;
-		position: absolute;
+		position: fixed;
 			bottom: 0;
 			right: 0;
 			left: 0;

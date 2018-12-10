@@ -4,6 +4,9 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+{if $config['appName'] == '跑路'}
+<script>window.location.href='{$config["baseUrl"]}/paolu.html';</script>
+{/if}
 <html>
 	<head>
 		<title>{$config["appName"]}</title>
@@ -13,8 +16,8 @@
         <link rel="shortcut icon" href="/favicon.ico"/>
         <link rel="bookmark" href="/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-		<link rel="stylesheet" href="assets/css/main.css"/>
-        <noscript><link rel="stylesheet" href="./assets/css/noscript.css" /></noscript>   
+		<link rel="stylesheet" href="/assets/css/main.css"/>
+        <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>   
   </head>
   
        <body>
@@ -47,6 +50,7 @@
 							<ul>
                                 <li><a href="#1">简介</a></li>
 					            <li><a href="/user">用户中心</a></li>
+								<li><a href="/user/logout">退出登录</a></li>
 								<li><a href="#5">下载</a></li>
                         </ul>
 						</nav>
@@ -66,8 +70,7 @@
                                <li><a href="#1">简介</a></li>
 								<li><a href="/auth/login">登录</a></li>
 								<li><a href="/auth/register">注册</a></li>
-                              	<li><a href="#4">联系</a></li>
-								<li><a href="#5">下載</a></li>
+                              	<li><a href="#5">下载</a></li>
                               
                            </ul>
 						</nav>
@@ -79,7 +82,7 @@
                       <!--标签1开始-->
                       <article id="1">
                       <h2 class="major">简介</h2>
-                      <p>这里是示范文字</p><p> 请到站点文件夹</p><p>resources/views/material/index.tpl</p><p>第79行进行修改</p></article>
+                      <p>「ホワイトアルバムの季節」が、また、やってきた。</p></article>
 					  <!--
 					  简介修改示例: 
 					  <p> 123</p>
@@ -100,7 +103,7 @@
                                   </article>
                       <!--标签5开始-->
 	                        <article id="5">
-							<h2 class="major">软件下載</h2>
+							<h2 class="major">软件下载</h2>
 							<ul>
 							  <li><a href="/ssr-download/ssr-win.7z" class="icon fa-windows"><span class="label"></span> Windows</a></li>
 							  <li><a href="/ssr-download/ssr-mac.dmg" class="icon fa-apple"><span class="label">Mac</span> Mac</a></li>
@@ -148,16 +151,27 @@
                               </div>
                      <!-- 版权底部 -->
                       <footer id="footer">
-                   <p class="copyright">&copy;2015-2017 {$config["appName"]}</p>
+                   <p class="copyright">&copy;2015-{date("Y")} {$config["appName"]}</p>
                       </footer>
               <!-- 版权结束 -->
 			 </div>
                 <!-- BG -->
 			<div id="bg"></div>
 	        	<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-         <script src="assets/js/main.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
+			<script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+         <script src="/assets/js/main.js"></script>
+	     <script language="javascript">
+try{
+	if(window.console&&window.console.log){
+        
+		console.log("%c{$config["appName"]}"," text-shadow: 0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);font-size:5em");
+		console.log("%chttps://github.com/NimaQu/ss-panel-v3-mod_Uim","background: rgba(252,234,187,1);background: -moz-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%,rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);background: -webkit-gradient(left top, right top, color-stop(0%, rgba(252,234,187,1)), color-stop(12%, rgba(175,250,77,1)), color-stop(28%, rgba(0,247,49,1)), color-stop(39%, rgba(0,210,247,1)), color-stop(51%, rgba(0,189,247,1)), color-stop(64%, rgba(133,108,217,1)), color-stop(78%, rgba(177,0,247,1)), color-stop(87%, rgba(247,0,189,1)), color-stop(100%, rgba(245,22,52,1)));background: -webkit-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%, rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);background: -o-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%, rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);background: -ms-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%, rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);background: linear-gradient(to right, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%, rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#f51634', GradientType=1 );font-size:3em");
+	}
+}catch(e){
+};
+ 
+</script>
 	</body>
 </html>

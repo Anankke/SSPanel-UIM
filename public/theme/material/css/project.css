@@ -1,4 +1,4 @@
-@import url(/theme/material/css/roboto.css);
+
 body {
   padding-bottom: 69px;
 }
@@ -18,14 +18,16 @@ body {
 }
 
 .ui-footer {
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-  text-align: center;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
+    background-color: rgba(255,255,255,0.5);
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    right: 0;
+    left: 0;
 }
 
 .ui-header .dropdown.open .dropdown-toggle {

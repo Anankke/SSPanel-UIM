@@ -20,7 +20,6 @@
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
-								<p>可填单个或者多个参数，多个参数时会自动组合成套餐</p>
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="name">名称</label>
 									<input class="form-control" id="name" type="text" >
@@ -48,7 +47,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="bandwidth">流量（GB）</label>
-									<input class="form-control" id="bandwidth" type="text" value="0">
+									<input class="form-control" id="bandwidth" type="text">
 								</div>
 
 								<div class="form-group form-group-label">

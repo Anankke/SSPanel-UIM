@@ -7,7 +7,8 @@ use App\Utils\Radius;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use App\Controllers\AdminController;
-
+use App\Utils\CloudflareDriver;
+use App\Services\Config;
 use Ozdemir\Datatables\Datatables;
 use App\Utils\DatatablesHelper;
 
@@ -40,7 +41,7 @@ class NodeController extends AdminController
     {
         $node = new Node();
         $node->name =  $request->getParam('name');
-        $node->server =  $request->getParam('server');
+        $node->server =  trim($request->getParam('server'));
         $node->method =  $request->getParam('method');
         $node->custom_method =  $request->getParam('custom_method');
         $node->custom_rss =  $request->getParam('custom_rss');
@@ -52,11 +53,18 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->status = $request->getParam('status');
         $node->sort = $request->getParam('sort');
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10) {
-            if ($request->getParam('node_ip') != '') {
-                $node->node_ip = $request->getParam('node_ip');
+		$req_node_ip = trim($request->getParam('node_ip'));
+
+        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
+            if ($req_node_ip != '') {
+                $node->node_ip = $req_node_ip;
             } else {
-                $node->node_ip = gethostbyname($request->getParam('server'));
+                if ($node->sort == 11) {
+                    $server_list = explode(";", $request->getParam('server'));
+                    $node->node_ip = gethostbyname($server_list[0]);
+                } else {
+                    $node->node_ip = gethostbyname($request->getParam('server'));
+                }
             }
         } else {
             $node->node_ip="";
@@ -73,6 +81,12 @@ class NodeController extends AdminController
             $rs['ret'] = 0;
             $rs['msg'] = "添加失败";
             return $response->getBody()->write(json_encode($rs));
+        }
+
+
+        $domain_name = explode('.'.Config::get('cloudflare_name'), $node->server);
+        if (Config::get('cloudflare_enable') == 'true') {
+            CloudflareDriver::updateRecord($domain_name[0], $node->node_ip);
         }
 
         Telegram::Send("新节点添加~".$request->getParam('name'));
@@ -98,7 +112,7 @@ class NodeController extends AdminController
 
         $node->name =  $request->getParam('name');
         $node->node_group =  $request->getParam('group');
-        $node->server =  $request->getParam('server');
+        $node->server =  trim($request->getParam('server'));
         $node->method =  $request->getParam('method');
         $node->custom_method =  $request->getParam('custom_method');
         $node->custom_rss =  $request->getParam('custom_rss');
@@ -108,20 +122,41 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->type = $request->getParam('type');
         $node->sort = $request->getParam('sort');
+		$req_node_ip=trim($request->getParam('node_ip'));
 
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10) {
-            if ($request->getParam('node_ip') != '') {
-                $node->node_ip = $request->getParam('node_ip');
-            } else {
+        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
+            if ($req_node_ip != '') {
+                $node->node_ip = $req_node_ip;
+            } 
+			else {
                 if ($node->isNodeOnline()) {
-                    if (!$node->changeNodeIp($request->getParam('server'))) {
+                    $succ = false;
+                    if ($node->sort == 11) {
+                        $server_list = explode(";", $request->getParam('server'));
+                        $succ = $node->changeNodeIp($server_list[0]);
+                    } 
+					else {
+                        $succ = $node->changeNodeIp($request->getParam('server'));
+                    }
+
+                    if (!$succ) {
                         $rs['ret'] = 0;
                         $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
                         return $response->getBody()->write(json_encode($rs));
                     }
                 }
+				else{
+					if ($node->sort == 11) {
+						$server_list = explode(";", $request->getParam('server'));
+						$node->node_ip = gethostbyname($server_list[0]);
+					} 
+					else {
+						$node->node_ip = gethostbyname($request->getParam('server'));
+					}
+				}
             }
-        } else {
+        } 
+		else {
             $node->node_ip="";
         }
 
@@ -135,7 +170,8 @@ class NodeController extends AdminController
                 if (time()-$SS_Node->node_heartbeat<300||$SS_Node->node_heartbeat==0) {
                     Radius::AddNas(gethostbyname($request->getParam('server')), $request->getParam('server'));
                 }
-            } else {
+            } 
+			else {
                 Radius::AddNas(gethostbyname($request->getParam('server')), $request->getParam('server'));
             }
         }
@@ -256,6 +292,9 @@ class NodeController extends AdminController
                   break;
                 case 10:
                   $sort = 'Shadowsocks - 中转';
+                  break;
+                case 11:
+                  $sort = 'V2Ray 节点';
                   break;
                 default:
                   $sort = '系统保留';

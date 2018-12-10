@@ -1,4 +1,3 @@
-@import url(/theme/material/css/roboto.css);
 /*!
  * normalize.css v3.0.3
  * github.com/necolas/normalize.css
@@ -105,7 +104,7 @@ input[type="datetime-local"],
 input[type="month"],
 input[type="time"] {
   line-height: 20px;
-  line-height: 1 \0;
+  line-height: 1\9;
 }
 
 input[type="file"] {
@@ -230,11 +229,6 @@ a:focus, a:hover {
 abbr[title] {
   border-bottom: 1px dashed rgba(0, 0, 0, 0.12);
   cursor: help;
-}
-
-b,
-strong {
-  font-weight: 500;
 }
 
 dfn {
@@ -1512,13 +1506,7 @@ template,
  * material icons v2.2.0
  * http://google.github.io/material-design-icons/#icon-font-for-the-web
  */
-@font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: url("./fonts/MaterialIcons-Regular.eot?v=2.2.0");
-  src: local("Material Icons"), local("MaterialIcons-Regular"), url("./fonts/MaterialIcons-Regular.woff2?v=2.2.0") format("woff2"), url("./fonts/MaterialIcons-Regular.woff?v=2.2.0") format("woff"), url("./fonts/MaterialIcons-Regular.ttf?v=2.2.0") format("truetype");
-}
+
 .icon, .breadcrumb > li + li:before {
   display: inline-block;
   font-family: 'Material Icons';

@@ -1,4 +1,4 @@
-@import url(/theme/material/css/roboto.css);/*!
+/*!
  * normalize.css v3.0.3
  * github.com/necolas/normalize.css
  */body,legend {
@@ -67,14 +67,19 @@ a,body {
 }
 
 body {
-	background-color: rgba(245, 245, 245, 0.54);
-	font-family: "Helvetica Neue","Helvetica","Arial","PingFang SC","Hiragino Sans GB", "Microsoft YaHei","WenQuanYi Micro Hei", sans-serif;
-	font-size: 15px;
-	font-weight: 400;
-	line-height: 20px;
-	margin: 0;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: subpixel-antialiased
+    background-color: rgba(245, 245, 245, 0.54);
+    background-attachment: fixed;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    font-family: "Helvetica Neue","Helvetica","Arial","PingFang SC","Hiragino Sans GB", "Microsoft YaHei","WenQuanYi Micro Hei", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: subpixel-antialiased
 }
 
 html {
@@ -193,7 +198,7 @@ legend {
 	width: 100%
 }
 
-.btn,.fbtn,b,dt,kbd kbd,optgroup,strong {
+.btn,.fbtn,dt,kbd kbd,optgroup {
 	font-weight: 500
 }
 
@@ -1452,13 +1457,7 @@ img {
 }/*!
  * material icons v2.2.0
  * http://google.github.io/material-design-icons/#icon-font-for-the-web
- */@font-face {
-	font-family: 'Material Icons';
-	font-style: normal;
-	font-weight: 400;
-	src: url(./fonts/MaterialIcons-Regular.eot?v=2.2.0);
-	src: local("Material Icons"),local("MaterialIcons-Regular"),url(./fonts/MaterialIcons-Regular.woff2?v=2.2.0) format("woff2"),url(./fonts/MaterialIcons-Regular.woff?v=2.2.0) format("woff"),url(./fonts/MaterialIcons-Regular.ttf?v=2.2.0) format("truetype")
-}
+ */
 
 .breadcrumb>li+li:before,.icon {
 	display: inline-block;

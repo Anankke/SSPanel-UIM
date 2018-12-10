@@ -36,12 +36,14 @@ class Tools
         }
     }
 
+	//虽然名字是toMB，但是实际上功能是from MB to B
     public static function toMB($traffic)
     {
         $mb = 1048576;
         return $traffic * $mb;
     }
 
+	//虽然名字是toGB，但是实际上功能是from GB to B
     public static function toGB($traffic)
     {
         $gb = 1048576 * 1024;
@@ -70,6 +72,18 @@ class Tools
     }
 
     //获取随机字符串
+		
+		public static function genRandomNum($length = 8)
+		{
+				// 来自Miku的 6位随机数 注册验证码 生成方案
+				$chars = '0123456789';
+				$char = '';
+				for ($i = 0; $i < $length; $i++) {
+						$char .= $chars[mt_rand(0, strlen($chars) - 1)];
+				}
+				return $char;
+		}
+		
     public static function genRandomChar($length = 8)
     {
         // 密码字符集，可任意添加你需要的字符
@@ -131,13 +145,10 @@ class Tools
     {
         //检索User数据表现有port
         $det = User::pluck('port')->toArray();
-
         $port = array_diff(range(Config::get('min_port'), Config::get('max_port')), $det);
         shuffle($port);
-
         return $port[0];
     }
-
 
     public static function base64_url_encode($input)
     {
@@ -430,4 +441,13 @@ class Tools
     {
         return str_replace("::ffff:", "", $rawIp);
     }
+
+	public static function isInt($str)
+	{
+		if($str[0]=='-'){
+			$str=substr($str,1);
+		}
+
+		return ctype_digit($str);
+	}
 }

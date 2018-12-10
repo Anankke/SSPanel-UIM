@@ -9,6 +9,8 @@ use App\Models\Payback;
 use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Config;
+use App\Services\Payment;
+use App\Utils\AliPay;
 use App\Utils\Tools;
 use App\Utils\Telegram;
 use App\Utils\Tuling;
@@ -64,47 +66,20 @@ class HomeController extends BaseController
     
     public function page404($request, $response, $args)
     {
-        $pics=scandir(BASE_PATH."/public/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/404/");
-        
-        if (count($pics)>2) {
-            $pic=$pics[rand(2, count($pics)-1)];
-        } else {
-            $pic="4041.png";
-        }
-        
-        $newResponse = $response->withStatus(404);
-        $newResponse->getBody()->write($this->view()->assign("pic", "/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/404/".$pic)->display('404.tpl'));
-        return $newResponse;
+        return $this->view()->display('404.tpl');
     }
     
     public function page405($request, $response, $args)
     {
-        $pics=scandir(BASE_PATH."/public/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/405/");
-        if (count($pics)>2) {
-            $pic=$pics[rand(2, count($pics)-1)];
-        } else {
-            $pic="4051.png";
-        }
-        
-        $newResponse = $response->withStatus(405);
-        $newResponse->getBody()->write($this->view()->assign("pic", "/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/405/".$pic)->display('405.tpl'));
-        return $newResponse;
+        return $this->view()->display('405.tpl');
     }
     
     public function page500($request, $response, $args)
     {
-        $pics=scandir(BASE_PATH."/public/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/500/");
-        if (count($pics)>2) {
-            $pic=$pics[rand(2, count($pics)-1)];
-        } else {
-            $pic="5001.png";
-        }
-        
-        $newResponse = $response->withStatus(500);
-        $newResponse->getBody()->write($this->view()->assign("pic", "/theme/".(Auth::getUser()->isLogin==false?Config::get("theme"):Auth::getUser()->theme)."/images/error/500/".$pic)->display('500.tpl'));
-        return $newResponse;
+		return $this->view()->display('500.tpl');
     }
-    
+
+    //@todo: Will be abandoned in future.
     public function codepay_callback($request, $response, $args)
     {
         echo '
@@ -114,9 +89,37 @@ class HomeController extends BaseController
             ';
         return;
     }
-  
+
+
+    //@todo: Will be abandoned in future.
     public function pay_callback($request, $response, $args)
     {
         Pay::callback($request);
+    }
+
+
+
+    public function getOrderList($request, $response, $args)
+    {
+        $key = $request->getParam('key');
+        if (!$key || $key != Config::get('key')) {
+            $res['ret'] = 0;
+            $res['msg'] = "错误";
+            return $response->getBody()->write(json_encode($res));
+        }
+        return $response->getBody()->write(json_encode(['data' => AliPay::getList()]));
+    }
+
+    public function setOrder($request, $response, $args)
+    {
+        $key = $request->getParam('key');
+        $sn = $request->getParam('sn');
+        $url = $request->getParam('url');
+        if (!$key || $key != Config::get('key')) {
+            $res['ret'] = 0;
+            $res['msg'] = "错误";
+            return $response->getBody()->write(json_encode($res));
+        }
+        return $response->getBody()->write(json_encode(['res' => AliPay::setOrder($sn, $url)]));
     }
 }
