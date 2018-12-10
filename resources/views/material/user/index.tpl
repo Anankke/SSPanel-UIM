@@ -181,6 +181,9 @@
 												<li>
 													<a class="waves-attach" data-toggle="tab" href="#all_v2ray"><i class="icon icon-lg">flight_land</i>&nbsp;V2RAY</a>
 												</li>
+												<li>
+													<a class="waves-attach" data-toggle="tab" href="#all_clash"><i class="icon icon-lg">flight</i>&nbsp;CLASH</a>
+												</li>
 											</ul>
 										</nav>
 										<div class="card-inner">
@@ -490,6 +493,36 @@
 													</div>
 													<div class="tab-pane fade" id="all_v2ray_windows">
 														<a href="/ssr-download/Clash-Windows.7z" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 ClashX</a>
+													</div>
+												</div>
+												<div class="tab-pane fade" id="all_clash">
+													<nav class="tab-nav margin-top-no">
+														<ul class="nav nav-list">
+															<li class="active">
+																<a class="waves-attach" data-toggle="tab" href="#all_clash_info"><i class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
+															</li>
+															<li>
+																<a class="waves-attach" data-toggle="tab" href="#all_clash_windows"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
+															</li>
+															<li>
+																<a class="waves-attach" data-toggle="tab" href="#all_clash_mac"><i class="icon icon-lg">laptop_mac</i>&nbsp;Mac</a>
+															</li>
+														</ul>
+													</nav>
+													<div class="tab-pane fade active in" id="all_clash_info">
+														<div><span class="icon icon-lg text-white">flash_auto</span> CLASH配置文件订阅地址：</div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=4" readonly="true" />
+															<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=4">
+																点击复制
+															</button>
+															<br>
+														</div>
+													</div>
+													<div class="tab-pane fade" id="all_clash_windows">
+														<a href="/ssr-download/Clash-Windows.7z" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 Clash for Windows</a>
+													</div>
+													<div class="tab-pane fade" id="all_clash_mac">
+														<a href="/ssr-download/ClashX.dmg" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 ClashX</a>
 													</div>
 												</div>
 											</div>

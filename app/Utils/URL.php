@@ -148,6 +148,13 @@ class URL
                 }
             }
 
+            if (count($node_explode) >= 6) {
+                $docs = array_merge($docs, URL::parse_args($node_explode[5]));
+            }
+            if (array_key_exists('path',$docs)){
+                $docs['ws-path'] = $docs['path'];
+                unset($docs['path']);
+            }
             $result[] = $docs;
         }
 
