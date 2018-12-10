@@ -143,7 +143,13 @@ class UserController extends BaseController
             }
         )->where("isused", 1)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/donate');
-        return $this->view()->assign('codes', $codes)->assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))->assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))->display('user/donate.tpl');
+        return $this->view()->assign('codes', $codes)->
+        assign('today_in', Code::where('isused', 1)->where('type', -1)->where('usedatetime', '>', date('Y-m-d H:i:s', mktime(0,0,0,date('m'),date('d'),date('Y')) ))->where('usedatetime', '<', date('Y-m-d H:i:s', mktime(0,0,0,date('m'),date('d') + 1,date('Y')) - 1 ))->sum('number'))->
+        assign('week_in', Code::where('isused', 1)->where('type', -1)->where('usedatetime', '>', date('Y-m-d H:i:s', mktime(0,0,0,date('m'),date('d') - date('w') + 1,date('Y')) ))->where('usedatetime', '<', date('Y-m-d H:i:s', mktime(23,59,59,date('m'),date('d') - date('w') + 7,date('Y')) ))->sum('number'))->
+        assign('month_in', Code::where('isused', 1)->where('type', -1)->where('usedatetime', '>', date('Y-m-d H:i:s', mktime(0,0,0,date('m'),1,date('Y')) ))->where('usedatetime', '<', date('Y-m-d H:i:s', mktime(23,59,59,date('m'),date('t'),date('Y')) ))->sum('number'))->
+        assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))->
+        assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))->
+        display('user/donate.tpl');
     }
 
     function isHTTPS()
