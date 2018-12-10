@@ -43,9 +43,9 @@ Rule:
 ## IQIYI
 - DOMAIN-KEYWORD,qiyi,{config::get("appName")}
 - DOMAIN-SUFFIX,qy.net,{config::get("appName")}
-- IP-CIDR,101.227.0.0/16,{config::get("appName")},no-resolve
-- IP-CIDR,101.224.0.0/13,{config::get("appName")},no-resolve
-- IP-CIDR,119.176.0.0/12,{config::get("appName")},no-resolve
+- IP-CIDR,101.227.0.0/16,{config::get("appName")}
+- IP-CIDR,101.224.0.0/13,{config::get("appName")}
+- IP-CIDR,119.176.0.0/12,{config::get("appName")}
 
 ## letv
 - DOMAIN-SUFFIX,api.mob.app.letv.com,{config::get("appName")}
@@ -64,7 +64,7 @@ Rule:
 - DOMAIN-SUFFIX,vv.video.qq.com,{config::get("appName")}
 
 ## Youku
-- IP-CIDR,106.11.0.0/16,{config::get("appName")},no-resolve
+- IP-CIDR,106.11.0.0/16,{config::get("appName")}
 
 
 
