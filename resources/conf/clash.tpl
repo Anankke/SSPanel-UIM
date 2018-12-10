@@ -8,7 +8,9 @@ external-controller: '0.0.0.0:9090'
 secret: ''
 Proxy:
 {foreach $confs as $conf}
-  - {$conf|json_encode}
+
+    - {json_encode($conf,JSON_UNESCAPED_SLASHES)}
+
 {/foreach}
 
 'Proxy Group':
