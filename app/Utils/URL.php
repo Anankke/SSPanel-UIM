@@ -375,8 +375,13 @@ class URL
                 $item['tls'] = 'tls';
             }
         }
-        if (count($node_explode) >= 5 and in_array($item['net'], array("kcp", "http"))) {
-            $item['type'] = $node_explode[4];
+        if (count($node_explode) >= 5 ) {
+            if (in_array($item['net'], array("kcp", "http"))){
+
+                $item['type'] = $node_explode[4];
+            } else if ($node_explode[4]=='ws'){
+                $item['net'] = 'ws';
+            }
         }
 
         if (count($node_explode) >= 6) {
