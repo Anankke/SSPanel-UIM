@@ -69,6 +69,7 @@
 
 
 <script>
+	
 {literal}
 	$('#main_form').validate({
 		rules: {
@@ -78,17 +79,18 @@
 		},
 {/literal}
 		submitHandler: function() {
-
+{literal}
 		$.ajax({
             type: "POST",
             url: "/admin/detect",
             dataType: "json",
             data: {
-                name: $$getValue("#name"),
-                text: $$getValue("#text"),
-                regex: $$getValue("#regex"),
-                type: $$getValue("#type")
-            },
+                name: $$getValue("name"),
+                text: $$getValue("text"),
+                regex: $$getValue("regex"),
+                type: $$getValue("type")
+			},
+{/literal}
             success: data => {
                 if (data.ret) {
                     $("#result").modal();

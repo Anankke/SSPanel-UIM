@@ -111,10 +111,10 @@
 				dataType: "json",
 				
 				data: {
-					name: $$getValue("#name"),
-					text: $$getValue("#text"),
-					regex: $$getValue("#regex"),
-					type: $$getValue("#type")
+					name: $$getValue("name"),
+					text: $$getValue("text"),
+					regex: $$getValue("regex"),
+					type: $$getValue("type")
 					},
 					success: data => {
 					    if (data.ret) {
