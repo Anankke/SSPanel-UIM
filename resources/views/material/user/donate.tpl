@@ -32,7 +32,10 @@
 								<div class="card-inner">
 									<p>感谢各位捐赠来支撑服务器的日常支出！您可以在<a href="/user/code">充值界面</a>进行充值，这样就等同于捐赠了。</p>
 									{if $user->isAdmin()}
-									<p>总收入：{$total_in} 元</p>
+										<p>所有收入：{if {$total_in} == ""}0{else}{$total_in}{/if} 元</p>
+										<p>本月收入：{if {$month_in} == ""}0{else}{$month_in}{/if} 元</p>
+										<p>本周收入：{if {$week_in} == ""}0{else}{$week_in}{/if} 元</p>
+										<p>今日收入：{if {$today_in} == ""}0{else}{$today_in}{/if} 元</p>
 									{/if}
 								
 								</div>
