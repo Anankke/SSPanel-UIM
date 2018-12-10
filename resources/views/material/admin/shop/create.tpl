@@ -197,11 +197,11 @@
                     connector: $$getValue('connector'),
                     expire: $$getValue('expire'),
                     class: $$getValue('class'),
-		    class_expire: $$getValue('class_expire'),
-		    reset: $$getValue('reset'),
-		    reset_value: $$getValue('reset_value'),
-		    reset_exp: $$getValue('reset_exp'),
-		    content_extra: contentExtra,
+					class_expire: $$getValue('class_expire'),
+					reset: $$getValue('reset'),
+					reset_value: $$getValue('reset_value'),
+					reset_exp: $$getValue('reset_exp'),
+					content_extra: contentExtra,
                 },
                 success: data => {
                     if (data.ret) {

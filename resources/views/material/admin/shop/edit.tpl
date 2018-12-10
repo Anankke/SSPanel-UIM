@@ -185,7 +185,7 @@
 			}
 
             let contentExtra = $$getValue('content_extra');
-			if (contentExtra === '' && contentExtra === '-') {
+			if (contentExtra === '' || contentExtra === '-') {
                 contentExtra = 'check-全球节点分布;check-快速客服响应;check-全平台客户端';
 			}
 
