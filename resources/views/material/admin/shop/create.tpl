@@ -172,7 +172,7 @@
 <script>
     window.addEventListener('load', () => {
         function submit() {
-            if ($$('auto_reset_bandwidth').checked) {
+            if ($$.getElementById('auto_reset_bandwidth').checked) {
                 var auto_reset_bandwidth = 1;
             } else {
                 var auto_reset_bandwidth = 0;
@@ -197,11 +197,11 @@
                     connector: $$getValue('connector'),
                     expire: $$getValue('expire'),
                     class: $$getValue('class'),
-					class_expire: $$getValue('class_expire'),
-					reset: $$getValue('reset'),
-					reset_value: $$getValue('reset_value'),
-					reset_exp: $$getValue('reset_exp'),
-					content_extra,
+		    class_expire: $$getValue('class_expire'),
+		    reset: $$getValue('reset'),
+		    reset_value: $$getValue('reset_value'),
+		    reset_exp: $$getValue('reset_exp'),
+		    content_extra: contentExtra,
                 },
                 success: data => {
                     if (data.ret) {
