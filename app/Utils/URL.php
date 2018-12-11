@@ -304,10 +304,11 @@ class URL
     }
     public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
         $return_url = '';
-        if ($user->transfer_enable >0){
-            $return_url .= URL::getUserTraffic($user, $is_mu).($enter == 0 ? ' ' : "\n");
-            $return_url .= URL::getUserClassExpiration($user, $is_mu).($enter == 0 ? ' ' : "\n");
-        }
+        $return_url .= URL::getUserTraffic($user, $is_mu).($enter == 0 ? ' ' : "\n");
+        $return_url .= URL::getUserClassExpiration($user, $is_mu).($enter == 0 ? ' ' : "\n");
+        if(strtotime($user->expire_in)<time()){
+			return $return_url;
+		}
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
             $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
