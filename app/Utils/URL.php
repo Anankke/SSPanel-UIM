@@ -155,7 +155,9 @@ class URL
                 if (array_key_exists('path', $temp_docs)) {
                     $docs['ws-path'] = $temp_docs['path'];
                     unset($docs['path']);
-
+                }
+                if (array_key_exists("server",$temp_docs)){
+                    $docs['server']=$temp_docs['server'];
                 }
 
             }
