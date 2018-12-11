@@ -594,7 +594,7 @@ class Job
             }
 
 
-            if (strtotime($user->expire_in) < time() &&  $user->transfer_enable > 0	) {
+            if (strtotime($user->expire_in) < time()) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
