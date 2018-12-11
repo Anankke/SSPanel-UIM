@@ -145,15 +145,19 @@ class URL
             if (count($node_explode) >= 5) {
                 if ($node_explode[4] == "ws") {
                     $docs['network'] = 'ws';
+                    $docs['ws-path'] = "/";
                 }
             }
 
             if (count($node_explode) >= 6) {
-                $docs = array_merge($docs, URL::parse_args($node_explode[5]));
-            }
-            if (array_key_exists('path',$docs)){
-                $docs['ws-path'] = $docs['path'];
-                unset($docs['path']);
+                $temp_docs = URL::parse_args($node_explode[5]);
+
+                if (array_key_exists('path', $temp_docs)) {
+                    $docs['ws-path'] = $temp_docs['path'];
+                    unset($docs['path']);
+
+                }
+
             }
             $result[] = $docs;
         }
