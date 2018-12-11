@@ -593,7 +593,7 @@ class Job
                 Radius::Delete($user->email);
             }
 
-            if (strtotime($user->expire_in) < time()&&!file_exists(BASE_PATH."/storage/".$node->id.".expire_in")) {
+            if (strtotime($user->expire_in) < time()&&!file_exists(BASE_PATH."/storage/".$user->id.".expire_in")) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
@@ -610,13 +610,13 @@ class Job
                 } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
-				$myfile = fopen(BASE_PATH."/storage/".$node->id.".expire_in", "w+") or die("Unable to open file!");
+				$myfile = fopen(BASE_PATH."/storage/".$user->id.".expire_in", "w+") or die("Unable to open file!");
 				$txt = "1";
                 fwrite($myfile, $txt);
                 fclose($myfile);
             }
-			elseif (strtotime($user->expire_in) > time()&&file_exists(BASE_PATH."/storage/".$node->id.".expire_in")) {
-				unlink(BASE_PATH."/storage/".$node->id.".expire_in");
+			elseif (strtotime($user->expire_in) > time()&&file_exists(BASE_PATH."/storage/".$user->id.".expire_in")) {
+				unlink(BASE_PATH."/storage/".$user->id.".expire_in");
 			}
 
 
