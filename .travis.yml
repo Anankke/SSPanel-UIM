@@ -27,6 +27,6 @@ before_script:
 script:
   - cp config/.config.php.example config/.config.php
   - phplint '**/*.php' '!vendor/**'
-  - php xcat update
-  - php xcat initQQWry
   - php xcat initdownload
+  - php xcat initQQWry
+  - php xcat update
