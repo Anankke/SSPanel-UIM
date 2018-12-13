@@ -115,6 +115,8 @@ $app->group('/user', function () {
     $this->get('/ticket/{id}/view', 'App\Controllers\UserController:ticket_view');
     $this->put('/ticket/{id}', 'App\Controllers\UserController:ticket_update');
 	
+    $this->post('/pbtomoney', 'App\Controllers\UserController:pb_to_money');
+    $this->post('/pbtocash', 'App\Controllers\UserController:pb_to_cash');
     $this->post('/buy_invite', 'App\Controllers\UserController:buyInvite');
     $this->post('/custom_invite', 'App\Controllers\UserController:customInvite');
     $this->get('/edit', 'App\Controllers\UserController:edit');
