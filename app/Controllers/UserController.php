@@ -268,9 +268,9 @@ class UserController extends BaseController
             $user->save();
 
             if ($user->ref_by != "" && $user->ref_by != 0 && $user->ref_by != null) {
-                $gift_user = User::where("id", "=", $user->ref_by)->first();
+                /*$gift_user = User::where("id", "=", $user->ref_by)->first();
                 $gift_user->money = ($gift_user->money + ($codeq->number * (Config::get('code_payback') / 100)));
-                $gift_user->save();
+                $gift_user->save();*/
 
                 $Payback = new Payback();
                 $Payback->total = $codeq->number;
@@ -883,6 +883,93 @@ class UserController extends BaseController
         return $this->view()->assign('code', $code)->assign('paybacks', $paybacks)->assign('paybacks_sum', $paybacks_sum)->display('user/invite.tpl');
     }
 
+    public function pb_to_money($request, $response, $args)
+    {
+        $user = $this->user;
+
+        $price = Config::get('min_paybackToMoney');
+        $num = $request->getParam('num');
+        $num = trim($num);
+
+        if($num == "" || $num == null || $num <= 0) {
+            $res['ret'] = 0;
+            $res['msg'] = "非法请求";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if (!$paybacks_sum = Payback::where("ref_by", $user->id)->sum('ref_get')) {
+            $paybacks_sum = 0;
+
+            $res['ret'] = 0;
+            $res['msg'] = "返利余额不足";
+            return $response->getBody()->write(json_encode($res));
+        }else {
+            $paybacks_sum = Payback::where("ref_by", $user->id)->sum('ref_get');
+
+            if($paybacks_sum >= $price && $paybacks_sum >= $num) {
+                $Payback = new Payback();
+                $Payback->total = 0;
+                $Payback->userid = $user->id;
+                $Payback->ref_by = $user->id;
+                $Payback->ref_get = 0 - $num;
+                $Payback->datetime = time();
+                $Payback->save();
+
+                $user->money = $user->money + $num;
+                $user->save();
+
+                $res['ret'] = 1;
+                $res['msg'] = "转余额成功";
+                return $response->getBody()->write(json_encode($res));
+            }else {
+                $res['ret'] = 0;
+                $res['msg'] = "返利余额不足";
+                return $response->getBody()->write(json_encode($res));
+            }
+        }
+    }public function pb_to_cash($request, $response, $args)
+    {
+        $user = $this->user;
+
+        $price = Config::get('min_paybackToCash');
+        $num = $request->getParam('num');
+        $num = trim($num);
+
+        if($num == "" || $num == null || $num <= 0) {
+            $res['ret'] = 0;
+            $res['msg'] = "非法请求";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if (!$paybacks_sum = Payback::where("ref_by", $user->id)->sum('ref_get')) {
+            $paybacks_sum = 0;
+
+            $res['ret'] = 0;
+            $res['msg'] = "返利余额不足";
+            return $response->getBody()->write(json_encode($res));
+        }else {
+            $paybacks_sum = Payback::where("ref_by", $user->id)->sum('ref_get');
+
+            if($paybacks_sum >= $price && $paybacks_sum >= $num) {
+                $Payback = new Payback();
+                $Payback->total = 0;
+                $Payback->userid = $user->id;
+                $Payback->ref_by = $user->id;
+                $Payback->ref_get = 0 - $num;
+                $Payback->datetime = time();
+                $Payback->save();
+
+                $res['ret'] = 1;
+                $res['msg'] = "提交后请耐心等待,未到账请联系...";
+                return $response->getBody()->write(json_encode($res));
+            }else {
+                $res['ret'] = 0;
+                $res['msg'] = "返利余额不足";
+                return $response->getBody()->write(json_encode($res));
+            }
+        }
+    }
+
     public function buyInvite($request, $response, $args)
     {
         $price = Config::get('invite_price');
@@ -1017,7 +1104,7 @@ class UserController extends BaseController
 
     public function shop($request, $response, $args)
     {
-        $shops = Shop::where("status", 1)->orderBy("name")->get();
+        $shops = Shop::where("status", 1)->orderBy("id")->get();
         return $this->view()->assign('shops', $shops)->display('user/shop.tpl');
     }
 
@@ -1125,13 +1212,13 @@ class UserController extends BaseController
         $price = $shop->price * ((100 - $credit) / 100);
         $user = $this->user;
 
-        if (bccomp($user->money , $price,2)==-1) {
+        if ($user->money < $price) {
             $res['ret'] = 0;
             $res['msg'] = '喵喵喵~ 当前余额不足，总价为' . $price . '元。</br><a href="/user/code">点击进入充值界面</a>';
             return $response->getBody()->write(json_encode($res));
         }
 
-        $user->money =bcsub($user->money , $price,2);
+        $user->money = $user->money - $price;
         $user->save();
 
         if ($disableothers == 1) {
