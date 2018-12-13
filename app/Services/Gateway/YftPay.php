@@ -131,9 +131,9 @@ class YftPay extends AbstractPayment
                     $orderInfo->save();
                     //充值返利处理 start
                     if ($userInfo->ref_by != "" && $userInfo->ref_by != 0 && $userInfo->ref_by != null && Config::get('code_payback') != 0 && Config::get('code_payback') != null) {
-                        $gift_user = User::where("id", "=", $userInfo->ref_by)->first();
+                        /*$gift_user = User::where("id", "=", $userInfo->ref_by)->first();
                         $gift_user->money = ($gift_user->money + ($total_fee * (Config::get('code_payback') / 100)));
-                        $gift_user->save();
+                        $gift_user->save();*/
 
                         $Payback = new Payback();
                         $Payback->total = $total_fee;
