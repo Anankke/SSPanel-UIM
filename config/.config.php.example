@@ -104,11 +104,16 @@ $System_Config['checkinMax'] = '50';			//用户签到最多流量
 $System_Config['auto_clean_uncheck_days']='-1';	//自动清理多少天没签到的0级用户，小于等于0时关闭
 $System_Config['auto_clean_unused_days']='-1';	//自动清理多少天没使用的0级用户，小于等于0时关闭
 $System_Config['auto_clean_min_money']='1';		//余额低于多少的0级用户可以被清理
-$System_Config['code_payback']='20';			//充值返利百分比
-$System_Config['invite_gift']='2';				//邀请新用户获得流量奖励，单位G
 $System_Config['enable_bought_reset']='true';	//购买时是否重置流量
 $System_Config['port_price']='-1';				//用户随机重置端口所需要的价格，价格小于0时视为不开放购买
 $System_Config['port_price_specify']='-1';		//用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
+
+#返利设置
+$System_Config['code_payback']='20';			//充值返利百分比
+$System_Config['invite_gift']='2';				//邀请新用户获得流量奖励，单位G
+$System_Config['min_paybackToMoney']='-1';		//用户最小转余额值,-1不开启
+$System_Config['min_paybackToCash']='-1';		//用户最小转余额值,-1不开启
+$System_Config['serverChan']='';				//serverChan地址,去http://sc.ftqq.com/自己申请一个sckey
 
 #高级
 $System_Config['class_expire_reset_traffic']='0';		//等级到期时重置为的流量值，单位GB，小于0时不重置
