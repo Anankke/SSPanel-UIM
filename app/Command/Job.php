@@ -593,8 +593,7 @@ class Job
                 Radius::Delete($user->email);
             }
 
-
-            if (strtotime($user->expire_in) < time() &&  $user->transfer_enable > 0	) {
+            if (strtotime($user->expire_in) < time()&&!file_exists(BASE_PATH."/storage/".$user->id.".expire_in")) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
@@ -611,7 +610,15 @@ class Job
                 } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
+				$myfile = fopen(BASE_PATH."/storage/".$user->id.".expire_in", "w+") or die("Unable to open file!");
+				$txt = "1";
+                fwrite($myfile, $txt);
+                fclose($myfile);
             }
+			elseif (strtotime($user->expire_in) > time()&&file_exists(BASE_PATH."/storage/".$user->id.".expire_in")) {
+				unlink(BASE_PATH."/storage/".$user->id.".expire_in");
+			}
+
 
 			//余量不足检测
 			if(!file_exists(BASE_PATH."/storage/traffic_notified/")){
@@ -663,7 +670,7 @@ class Job
 			) {
                 $subject = Config::get('appName')."-您的用户账户已经被删除了";
                 $to = $user->email;
-                $text = "您好，系统发现您的账号已经过期 ".Config::get('account_expire_delete_days')." 天了，帐号已经被删除。" ;
+                $text = "您好，系统发现您的账户已经过期 ".Config::get('account_expire_delete_days')." 天了，帐号已经被删除。" ;
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         "user" => $user,"text" => $text

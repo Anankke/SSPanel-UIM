@@ -1,11 +1,5 @@
 {include file='admin/main.tpl'}
 
-
-
-
-
-
-
 	<main class="content">
 		<div class="content-header ui-content-header">
 			<div class="container">
@@ -38,7 +32,7 @@
 										<div id="check_chart" style="height: 300px; width: 100%;"></div>
 										
 										<script src="//cdn.jsdelivr.net/gh/YihanH/canvasjs.js@v2.2/canvasjs.min.js"></script>
-										<script type="text/javascript">
+                                        <script>
 											var chart = new CanvasJS.Chart("check_chart",
 											{
 												title:{
@@ -79,29 +73,28 @@
 											chart.render();
 
 											function chartRender(chart){
-                                                                   chart.render();
-                                                                   chart.ctx.shadowBlur = 8;
-                                                                   chart.ctx.shadowOffsetX = 4;
-                                                                   chart.ctx.shadowColor = "black";
+                                                chart.render();
+                                                chart.ctx.shadowBlur = 8;
+                                                chart.ctx.shadowOffsetX = 4;
+                                                chart.ctx.shadowColor = "black";
 
-                                                                   for (var i = 0; i < chart.plotInfo.plotTypes.length; i++) {
-                                                                         var plotType = chart.plotInfo.plotTypes[i];
-                                                                         for (var j = 0; j < plotType.plotUnits.length; j++) {
-                                                                           var plotUnit = plotType.plotUnits[j];
-                                                                           //For Column Chart
-                                                                           if (plotUnit.type === "doughnut"){
-                                                                             chart.renderDoughnut(plotUnit);
-                                                                           }
-                                                                           //For Bar Chart
-                                                                           else if (plotUnit.type === "bar"){
-                                                                             chart.renderBar(plotUnit);
-                                                                           }
-                                                                         }
-                                                                   }
-                                                                   chart.ctx.shadowBlur = 0;
-                                                                   chart.ctx.shadowOffsetX = 0;
-                                                                   chart.ctx.shadowColor = "transparent";
-                                                                 }
+                                                for (let i in chart.plotInfo.plotTypes) {
+                                                    let plotType = chart.plotInfo.plotTypes[i];
+                                                    for (let j in plotType.plotUnits) {
+                                                        let plotUnit = plotType.plotUnits[j];
+                                                        if (plotUnit.type === "doughnut") {
+                                                            // For Column Chart
+                                                            chart.renderDoughnut(plotUnit);
+                                                        } else if (plotUnit.type === "bar") {
+                                                            // For Bar Chart
+                                                            chart.renderBar(plotUnit);
+                                                        }
+                                                    }
+                                                }
+                                                chart.ctx.shadowBlur = 0;
+                                                chart.ctx.shadowOffsetX = 0;
+                                                chart.ctx.shadowColor = "transparent";
+                                            }
 										</script>
 										
 									</div>
@@ -292,17 +285,6 @@
 			</section>
 		</div>
 	</main>
-
-
-
-
-
-
-
-
-
-
-
 
 
 

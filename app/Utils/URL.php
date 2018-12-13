@@ -304,10 +304,11 @@ class URL
     }
     public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
         $return_url = '';
-        if ($user->transfer_enable >0){
-            $return_url .= URL::getUserTraffic($user, $is_mu).($enter == 0 ? ' ' : "\n");
-            $return_url .= URL::getUserClassExpiration($user, $is_mu).($enter == 0 ? ' ' : "\n");
-        }
+        $return_url .= URL::getUserTraffic($user, $is_mu).($enter == 0 ? ' ' : "\n");
+        $return_url .= URL::getUserClassExpiration($user, $is_mu).($enter == 0 ? ' ' : "\n");
+        if(strtotime($user->expire_in)<time()){
+			return $return_url;
+		}
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
             $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
@@ -375,8 +376,13 @@ class URL
                 $item['tls'] = 'tls';
             }
         }
-        if (count($node_explode) >= 5 and in_array($item['net'], array("kcp", "http"))) {
-            $item['type'] = $node_explode[4];
+        if (count($node_explode) >= 5 ) {
+            if (in_array($item['net'], array("kcp", "http"))){
+
+                $item['type'] = $node_explode[4];
+            } else if ($node_explode[4]=='ws'){
+                $item['net'] = 'ws';
+            }
         }
 
         if (count($node_explode) >= 6) {
@@ -618,7 +624,7 @@ class URL
 		if(!Config::get('mergeSub') and $is_mu == 1){
 			$group_name .= ' - 单端口';
 		}
-		if($user->class !=0){
+		if(strtotime($user->expire_in)>time()){
 			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode($group_name);
 		}else{
 			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode($group_name);
@@ -631,7 +637,7 @@ class URL
 		if(!Config::get('mergeSub') and $is_mu == 1){
 			$group_name .= ' - 单端口';
 		}
-		if($user->class !=0){
+		if(strtotime($user->expire_in)>time()){
 			$ssurl = "www.google.com:2:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->class_expire)."&group=".Tools::base64_url_encode($group_name);
 		}else{
 			$ssurl = "www.google.com:2:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode($group_name);

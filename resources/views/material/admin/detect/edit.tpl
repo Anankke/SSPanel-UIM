@@ -93,55 +93,46 @@
 {include file='admin/footer.tpl'}
 
 
-{literal}
-<script>
 
+<script>
 	$('#main_form').validate({
+{literal}
 		rules: {
 		  name: {required: true},
 		  text: {required: true},
 		  regex: {required: true}
 		},
-
-
+{/literal}	
 		submitHandler: function() {
-		{/literal}	
-			
-			
+		
 		$.ajax({
-
 				type: "PUT",
 				url: "/admin/detect/{$rule->id}",
 				dataType: "json",
 				
 				data: {
-					    name: $("#name").val(),
-					    text: $("#text").val(),
-					    regex: $("#regex").val(),
-					    type: $("#type").val()
-				{literal}
+					name: $$getValue("name"),
+					text: $$getValue("text"),
+					regex: $$getValue("regex"),
+					type: $$getValue("type")
 					},
-					success: function (data) {
+					success: data => {
 					    if (data.ret) {
-						$("#result").modal();
-						$("#msg").html(data.msg);
-									{/literal}
-						window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-									{literal}
+							$("#result").modal();
+							$$.getElementById('msg').innerHTML = data.msg;
+							window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
 					    } else {
-						$("#result").modal();
-						$("#msg").html(data.msg);
+							$("#result").modal();
+							$$.getElementById('msg').innerHTML = data.msg;
 					    }
 					},
-					error: function (jqXHR) {
+					error: jqXHR => {
 					    $("#result").modal();
-					    $("#msg").html(data.msg+"  发生错误了。");
+					    $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 					}
 					});
 				}
 		});
 
 </script>
-
-{/literal}
 

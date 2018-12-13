@@ -49,41 +49,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
-    $(document).ready(function () {
-        function submit() {
-            $.ajax({
-                type: "PUT",
-                url: "/admin/announcement/{$ann->id}",
-                dataType: "json",
-                data: {
-                    content: editor.getHTML(),
-					markdown: editor.getMarkdown()
-                },
-                success: function (data) {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                        window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-                    } else {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                    }
-                },
-                error: function (jqXHR) {
-                    $("#msg-error").hide(10);
-                    $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
-                }
-            });
-        }
-
-        $("#submit").click(function () {
-            submit();
-        });
-
-    });
-	
-    $(function() {
+	(() => {
         editor = editormd("editormd", {
              path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
 			height: 720,
@@ -98,5 +64,37 @@
             path : "../lib/"
         });
         */
+    })();
+
+    window.addEventListener('load', () => {
+        function submit() {
+            $.ajax({
+                type: "PUT",
+                url: "/admin/announcement/{$ann->id}",
+                dataType: "json",
+                data: {
+                    content: editor.getHTML(),
+					markdown: editor.getMarkdown()
+                },
+                success: data => {
+                    if (data.ret) {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
+                    } else {
+                        $("#result").modal();
+                        document.getElementById('msg').innerHTML = data.msg;
+                    }
+                },
+                error: jqXHR => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
+                }
+            });
+        }
+
+        $$.getElementById('submit').addEventListener('click', submit);
+
     });
+    
 </script>

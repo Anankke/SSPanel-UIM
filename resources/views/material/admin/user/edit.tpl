@@ -259,108 +259,88 @@
 	</main>
 
 
-
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 
 <script>
 	//document.getElementById("class_expire").value="{$edit_user->class_expire}";
-    $(document).ready(function () {
-        function submit() {
-			if(document.getElementById('is_admin').checked)
-			{
-				var is_admin=1;
-			}
-			else
-			{
-				var is_admin=0;
-			}
 
-			if(document.getElementById('enable').checked)
-			{
-				var enable=1;
-			}
-			else
-			{
-				var enable=0;
-			}
-          
-			if(document.getElementById('ga_enable').checked)
-			{
-				var ga_enable=1;
-			}
-			else
-			{
-				var ga_enable=0;
-			}
-
-            $.ajax({
-                type: "PUT",
-                url: "/admin/user/{$edit_user->id}",
-                dataType: "json",
-                data: {
-                    email: $("#email").val(),
-                    pass: $("#pass").val(),
-										auto_reset_day: $("#auto_reset_day").val(),
-                    auto_reset_bandwidth: $("#auto_reset_bandwidth").val(),
-                    is_multi_user: $("#is_multi_user").val(),
-                    port: $("#port").val(),
-										group: $("#group").val(),
-                    passwd: $("#passwd").val(),
-                    transfer_enable: $("#transfer_enable").val(),
-                    invite_num: $("#invite_num").val(),
-										node_speedlimit: $("#node_speedlimit").val(),
-                    method: $("#method").val(),
-										remark: $("#remark").val(),
-										money: $("#money").val(),
-                    enable: enable,
-                    is_admin: is_admin,
-                    ga_enable: ga_enable,
-                    ref_by: $("#ref_by").val(),
-                    forbidden_ip: $("#forbidden_ip").val(),
-                    forbidden_port: $("#forbidden_port").val(),
-										class: $("#class").val(),
-										class_expire: $("#class_expire").val(),
-										expire_in: $("#expire_in").val(),
-										node_connector: $("#node_connector").val(),
-										protocol: $("#protocol").val(),
-										protocol_param: $("#protocol_param").val(),
-										obfs: $("#obfs").val(),
-										obfs_param: $("#obfs_param").val(),
-                },
-                success: function (data) {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                        window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-                    } else {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                    }
-                },
-                error: function (jqXHR) {
-					$("#result").modal();
-                    $("#msg").html(data.msg+"  发生了错误。");
-                }
-            });
+    window.addEventListener('load', () => {
+    function submit() {
+        if (document.getElementById('is_admin').checked) {
+            var is_admin = 1;
+        } else {
+            var is_admin = 0;
         }
 
-        $("html").keydown(function (event) {
-            if (event.keyCode == 13) {
-                login();
+        if (document.getElementById('enable').checked) {
+            var enable = 1;
+        } else {
+            var enable = 0;
+        }
+
+        if (document.getElementById('ga_enable').checked) {
+            var ga_enable = 1;
+        } else {
+            var ga_enable=0;
+        }
+
+        $.ajax({
+            type: "PUT",
+            url: "/admin/user/{$edit_user->id}",
+            dataType: "json",
+            data: {
+                email: $$getValue('email'),
+                pass: $$getValue('pass'),
+                auto_reset_day: $$getValue('auto_reset_day'),
+                auto_reset_bandwidth: $$getValue('auto_reset_bandwidth'),
+                is_multi_user: $$getValue('is_multi_user'),
+                port: $$getValue('port'),
+                group: $$getValue('group'),
+                passwd: $$getValue('passwd'),
+                transfer_enable: $$getValue('transfer_enable'),
+                invite_num: $$getValue('invite_num'),
+                node_speedlimit: $$getValue('node_speedlimit'),
+                method: $$getValue('method'),
+                remark: $$getValue('remark'),
+                money: $$getValue('money'),
+                enable,
+                is_admin,
+                ga_enable,
+                ref_by: $$getValue('ref_by'),
+                forbidden_ip: $$getValue('forbidden_ip'),
+                forbidden_port: $$getValue('forbidden_port'),
+                class: $$getValue('class'),
+                class_expire: $$getValue('class_expire'),
+                expire_in: $$getValue('expire_in'),
+                node_connector: $$getValue('node_connector'),
+                protocol: $$getValue('protocol'),
+                protocol_param: $$getValue('protocol_param'),
+                obfs: $$getValue('obfs'),
+                obfs_param: $$getValue('obfs_param'),
+            },
+            success: data => {
+                if (data.ret) {
+                    $("result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
+                } else {
+                    $("result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                }
+            },
+            error: jqXHR => {
+				$("result").modal();
+                $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
             }
         });
-        $("#submit").click(function () {
-            submit();
-        });
+    }
 
-    })
+    $("html").keydown(event => {
+        if (event.keyCode == 13) login();
+    });
+
+    $$.getElementById('submit').addEventListener('click', submit);
+
+})
 </script>

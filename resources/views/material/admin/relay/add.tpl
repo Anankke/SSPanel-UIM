@@ -1,13 +1,5 @@
 
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -89,68 +81,50 @@
 		</div>
 	</main>
 
-
-
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 
-{literal}
-<script>
 
+<script>
+{literal}
 	$('#main_form').validate({
 		rules: {
 			priority: {required: true},
 			port: {required: true},
 			user_id: {required: true}
 		},
+{/literal}
+        submitHandler: () => {
 
-
-		submitHandler: function() {
-
-
-
-		$.ajax({
-
+            $.ajax({
 				type: "POST",
 				url: "/admin/relay",
 				dataType: "json",
-				{/literal}
 				data: {
-						source_node: $("#source_node").val(),
-						dist_node: $("#dist_node").val(),
-						port: $("#port").val(),
-						user_id: $("#user_id").val(),
-						priority: $("#priority").val()
-				{literal}
-					},
-					success: function (data) {
-						if (data.ret) {
-						$("#result").modal();
-						$("#msg").html(data.msg);
-									{/literal}
+                    source_node: $$getValue('source_node'),
+                    dist_node: $$getValue('dist_node'),
+                    port: $$getValue('port'),
+                    user_id: $$getValue('user_id'),
+                    priority: $$getValue('priority')
+				},
+				success: data => {
+                    if (data.ret) {
+					    $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
 						window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-									{literal}
-						} else {
+					} else {
 						$("#result").modal();
-						$("#msg").html(data.msg);
-						}
-					},
-					error: function (jqXHR) {
-						$("#result").modal();
-						$("#msg").html(data.msg+"  发生错误了。");
+                        $$.getElementById('msg').innerHTML = data.msg;
 					}
-					});
+				},
+				error: jqXHR => {
+					$("#result").modal();
+                    $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 				}
-		});
+			});
+        }
+    });
 
 </script>
 
-{/literal}
+

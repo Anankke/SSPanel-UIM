@@ -1,10 +1,4 @@
- {include file='admin/main.tpl'}
-
-
-
-
-
-
+{include file='admin/main.tpl'}
 
 <main class="content">
 	<div class="content-header ui-content-header">
@@ -66,52 +60,46 @@
 </main>
 
 
-
-
-
-
 {include file='admin/footer.tpl'}
 
 <script>
+
 function delete_modal_show(id) {
-	deleteid=id;
+    deleteid = id;
 	$("#delete_modal").modal();
 }
 
 {include file='table/js_1.tpl'}
 
-$(document).ready(function(){
+window.addEventListener('load', () => {
  	{include file='table/js_2.tpl'}
 
 
 	function delete_id(){
 		$.ajax({
-			type:"DELETE",
-			url:"/admin/node",
-			dataType:"json",
+            type: "DELETE",
+            url: "/admin/node",
+            dataType: "json",
 			data:{
 				id: deleteid
 			},
-			success:function(data){
-				if(data.ret){
+			success: data => {
+				if (data.ret){
 					$("#result").modal();
-					$("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
 					{include file='table/js_delete.tpl'}
-				}else{
+				} else {
 					$("#result").modal();
-					$("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
 				}
 			},
-			error:function(jqXHR){
+			error: jqXHR => {
 				$("#result").modal();
-				$("#msg").html(data.msg+"  发生错误了。");
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 			}
 		});
 	}
 
-	$("#delete_input").click(function(){
-		delete_id();
-	});
-
+    $$.getElementById('delete_input').addEventListener('click', delete_id);
 })
 </script>

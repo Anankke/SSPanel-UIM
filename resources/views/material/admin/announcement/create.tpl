@@ -1,13 +1,5 @@
 
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -74,73 +66,11 @@
 		</div>
 	</main>
 
-
-
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
-    $(document).ready(function () {
-        function submit(page = -1) {
-
-          	if(document.getElementById('issend').checked)
-			{
-				var issend=1;
-			}
-			else
-			{
-				var issend=0;
-			}
-			if(page == -1){
-					sedPage = 1;
-			}else {
-					sedPage = page;
-			}
-            $.ajax({
-                type: "POST",
-                url: "/admin/announcement",
-                dataType: "json",
-                data: {
-                    content: editor.getHTML(),
-										markdown: editor.getMarkdown(),
-                  	vip: $("#vip").val(),
-                  	issend: issend,
-										page:sedPage
-                },
-                success: function (data) {
-                    if (data.ret == 1) {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                        window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-                    } else if (data.ret == 2){
-												submit(data.msg);
-										}else {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                    }
-                },
-                error: function (jqXHR) {
-                    $("#msg-error").hide(10);
-                    $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
-                }
-            });
-        }
-
-        $("#submit").click(function () {
-            submit();
-        });
-    });
-
-    $(function() {
+	(() => {
         editor = editormd("editormd", {
              path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
 			height: 720,
@@ -154,5 +84,55 @@
             path : "../lib/"
         });
         */
+    })();
+
+    window.addEventListener('load', () => {
+        function submit(page = -1) {
+
+            if ($$.getElementById('issend').checked) {
+				var issend=1;
+            } else {
+				var issend=0;
+			}
+            if (page === -1) {
+                sedPage = 1;
+            } else {
+                sedPage = page;
+			}
+            $.ajax({
+                type: "POST",
+                url: "/admin/announcement",
+                dataType: "json",
+                data: {
+                    content: editor.getHTML(),
+					markdown: editor.getMarkdown(),
+                  	vip: $$getValue('vip'),
+                  	issend,
+					page: sedPage
+                },
+                success: data => {
+                    if (data.ret === 1) {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
+                    } else if (data.ret === 2) {
+                        submit(data.msg);
+                    } else {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                    }
+                },
+                error: jqXHR => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
+                }
+            });
+        }
+
+        $$.getElementById('submit').addEventListener('click', ()=>{
+			submit();
+		});
     });
+
+    
 </script>

@@ -165,16 +165,6 @@
 		</div>
 	</main>
 
-
-
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 
@@ -183,91 +173,81 @@
 
 	$('#main_form').validate({
 		rules: {
-		  name: {required: true},
-		  server: {required: true},
-		  method: {required: true},
-		  rate: {required: true},
-		  info: {required: true},
-		  group: {required: true},
-		  status: {required: true},
-		  node_speedlimit: {required: true},
-		  sort: {required: true},
-		  node_bandwidth_limit: {required: true},
-		  bandwidthlimit_resetday: {required: true}
+            name: {required: true},
+            server: {required: true},
+            method: {required: true},
+            rate: {required: true},
+            info: {required: true},
+            group: {required: true},
+            status: {required: true},
+            node_speedlimit: {required: true},
+            sort: {required: true},
+            node_bandwidth_limit: {required: true},
+            bandwidthlimit_resetday: {required: true}
 		},
 
 
-		submitHandler: function() {
-			if(document.getElementById('custom_method').checked)
-			{
-				var custom_method=1;
-			}
-			else
-			{
-				var custom_method=0;
+        submitHandler: () => {
+            if ($$.getElementById('custom_method').checked) {
+                var custom_method = 1;
+            } else {
+                var custom_method = 0;
 			}
 
-			if(document.getElementById('type').checked)
-			{
-				var type=1;
+            if ($$.getElementById('type').checked) {
+                var type = 1;
+            } else {
+                var type = 0;
 			}
-			else
-			{
-				var type=0;
+{/literal}
+            if ($$.getElementById('custom_rss').checked) {
+                var custom_rss = 1;
+            } else {
+                var custom_rss = 0;
 			}
-			{/literal}
-			if(document.getElementById('custom_rss').checked)
-			{
-				var custom_rss=1;
-			}
-			else
-			{
-				var custom_rss=0;
-			}
-
-
 
             $.ajax({
 
 				type: "PUT",
                 url: "/admin/node/{$node->id}",
                 dataType: "json",
-				{literal}
+{literal}
                 data: {
-                    name: $("#name").val(),
-                    server: $("#server").val(),
-										node_ip: $("#node_ip").val(),
-                    method: $("#method").val(),
-                    custom_method: custom_method,
-                    rate: $("#rate").val(),
-                    info: $("#info").val(),
-                    type: type,
-										group: $("#group").val(),
-                    status: $("#status").val(),
-                    sort: $("#sort").val(),
-										node_speedlimit: $("#node_speedlimit").val(),
-										class: $("#class").val(),
-										node_bandwidth_limit: $("#node_bandwidth_limit").val(),
-										bandwidthlimit_resetday: $("#bandwidthlimit_resetday").val(){/literal},
-										custom_rss: custom_rss,
-										mu_only: $("#mu_only").val()
-					{literal}
+                    name: $$getValue('name'),
+                    server: $$getValue('server'),
+                    node_ip: $$getValue('node_ip'),
+                    method: $$getValue('method'),
+                    custom_method,
+                    rate: $$getValue('rate'),
+                    info: $$getValue('info'),
+                    type,
+                    group: $$getValue('group'),
+                    status: $$getValue('status'),
+                    sort: $$getValue('sort'),
+                    node_speedlimit: $$getValue('node_speedlimit'),
+                    class: $$getValue('class'),
+                    node_bandwidth_limit: $$getValue('node_bandwidth_limit'),
+                    bandwidthlimit_resetday: $$getValue('bandwidthlimit_resetday')
+{/literal},
+                    custom_rss: custom_rss,
+                    mu_only: $$getValue('mu_only')
+{literal}
                 },
-                success: function (data) {
+                success: data => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
-						{/literal}
+                        $$.getElementById('msg').innerHTML = data.msg;
+{/literal}
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-						{literal}
+
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: jqXHR => {
                     $("#result").modal();
-                    $("#msg").html(data.msg+"  发生错误了。");
+                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
 		}
@@ -275,4 +255,3 @@
 
 </script>
 
-{/literal}

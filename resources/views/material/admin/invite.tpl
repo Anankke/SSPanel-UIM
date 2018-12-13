@@ -1,10 +1,4 @@
- {include file='admin/main.tpl'}
-
-
-
-
-
-
+{include file='admin/main.tpl'}
 
 <main class="content">
 	<div class="content-header ui-content-header">
@@ -76,50 +70,40 @@
 </main>
 
 
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 <script>
 {include file='table/js_1.tpl'}
 
-$("#invite").click(function () {
+
+$$.getElementById('invite').addEventListener('click', () => {
     $.ajax({
         type: "POST",
         url: "/admin/invite",
         dataType: "json",
         data: {
-            prefix: $("#prefix").val(),
-            uid: $("#uid").val(),
-            num: $("#num").val()
+            prefix: $$.getElementById('invite').value,
+            uid: $$.getElementById('uid').value,
+            num: $$.getElementById('num').value,
         },
-        success: function (data) {
+        success: data => {
             if (data.ret) {
                 $("#result").modal();
-                $("#msg").html(data.msg);
-                window.setTimeout("location.href='/admin/invite'", {$config['jump_delay']});
-						}
-            else
-						{
-							$("#result").modal();
-	                        $("#msg").html(data.msg+"。");
-						}
-
+                $$.getElementById('msg').innerHTML = data.msg;
+                window.setTimeout("location.href='/admin/invite'", {$config['jump_delay']} );
+            } else {
+                $("#result").modal();
+                $$.getElementById('msg').innerHTML = data.msg;
+            }
             // window.location.reload();
         },
-        error: function (jqXHR) {
-            alert("发生错误：" + jqXHR.status);
+        error: jqXHR => {
+            alert(`发生错误：${ldelim}jqXHR.status{rdelim}`);
         }
     })
-});
+})
 
-$(document).ready(function(){
+window.addEventListener('load', () => {
  	{include file='table/js_2.tpl'}
 });
 </script>

@@ -1,10 +1,4 @@
- {include file='admin/main.tpl'}
-
-
-
-
-
-
+{include file='admin/main.tpl'}
 
 <main class="content">
 	<div class="content-header ui-content-header">
@@ -41,14 +35,6 @@
 </main>
 
 
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 <script>
@@ -56,7 +42,7 @@
 {include file='table/js_1.tpl'}
 
 
-$(document).ready(function(){
+window.addEventListener('load', () => {
  	{include file='table/js_2.tpl'}
 });
 </script>

@@ -72,14 +72,15 @@
 {include file='admin/footer.tpl'}
 
 <script>
+
 function delete_modal_show(id) {
-	deleteid=id;
+    deleteid = id;
 	$("#delete_modal").modal();
 }
 
 {include file='table/js_1.tpl'}
 
-$(document).ready(function(){
+window.addEventListener('load', () => {
 	table_1 = $('#table_1').DataTable({
 		ajax: {
 			url: '{$table_config['ajax_url']}',
@@ -101,18 +102,17 @@ $(document).ready(function(){
 	})
 
 
-	var has_init = JSON.parse(localStorage.getItem(window.location.href + '-hasinit'));
-	if (has_init != true) {
-		localStorage.setItem(window.location.href + '-hasinit', true);
+	var has_init = JSON.parse(localStorage.getItem(`${ldelim}window.location.href{rdelim}-hasinit`));
+	if (has_init !== true) {
+		localStorage.setItem(`${ldelim}window.location.href{rdelim}-hasinit`, true);
 	}
 	else {
 		{foreach $table_config['total_column'] as $key => $value}
-			var checked = JSON.parse(localStorage.getItem(window.location.href + '-haschecked-checkbox_{$key}'));
+			var checked = JSON.parse(localStorage.getItem(`${ldelim}window.location.href{rdelim}-haschecked-checkbox_{$key}`));
 			if (checked == true) {
-				document.getElementById('checkbox_{$key}').checked = true;
-			}
-			else {
-				document.getElementById('checkbox_{$key}').checked = false;
+                $$.getElementById('checkbox_{$key}').checked = true;
+            } else {
+                $$.getElementById('checkbox_{$key}').checked = false;
 			}
 		{/foreach}
 	}
@@ -130,25 +130,24 @@ $(document).ready(function(){
 			data:{
 				id: deleteid
 			},
-			success:function(data){
-				if(data.ret){
+            success: data =>{
+                if (data.ret) {
 					$("#result").modal();
-					$("#msg").html(data.msg);
-					$("#row_delete_"+deleteid).attr("disabled","true");
-				}else{
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    $$.getElementById(`row_delete_${ldelim}deleteid{rdelim}`).setAttribute('disabled', 'true')
+                } else {
 					$("#result").modal();
-					$("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
 				}
 			},
-			error:function(jqXHR){
+            error: jqXHR => {
 				$("#result").modal();
-				$("#msg").html(data.msg+"  发生错误了。");
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
 			}
 		});
 	}
-	$("#delete_input").click(function(){
-		delete_id();
-	});
+
+    $$.getElementById('delete_input').addEventListener('click', delete_id);
 })
 
 </script>
