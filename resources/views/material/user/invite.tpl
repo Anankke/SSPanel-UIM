@@ -28,6 +28,64 @@
 						</div>
 					</div>
 
+					{if $config['min_paybackToMoney']>=0 || $config['min_paybackToCash']>=0}
+					<div class="col-xx-12">
+						<div class="card margin-bottom-no">
+							<div class="card-main">
+								<div class="card-inner">
+									<div class="card-inner">
+										<p class="card-heading">返利余额操作</p>
+										{if $config['min_paybackToMoney']>=0}
+										<p>返利达到<code>{$config['min_paybackToMoney']} 元</code>可转入余额</p>
+										{/if}
+										{if $config['min_paybackToCash']>=0}
+										<p>返利达到<code>{$config['min_paybackToCash']} 元</code>可申请提现</p>
+										{/if}
+										<div>
+											{if $config['min_paybackToMoney']>=0}
+												<a class="btn btn-brand-accent" id="pbtomoney">返利转余额</a>
+											{/if}
+
+											{if $config['min_paybackToCash']>=0}
+												<a class="btn btn-brand-accent" id="pbtocash">返利提现</a>
+												<p id="serverChan" hidden="hidden">{$config['serverChan']}</p>
+											{/if}
+
+											<div class="form-group form-group-label" id="pbtomoney_input" style="display: none;">
+
+												<p>
+													<label class="floating-label" for="pbtomoney_num">必须大于{$config['min_paybackToMoney']}</label>
+													<input class="form-control maxwidth-edit" type="num" id="pbtomoney_num"></input>
+												</p>
+
+												<button id="pbtomoney_submit" type="submit" class="btn btn-brand">提交</button>
+											</div>
+
+											<div id="pbtocash_input" style="display: none;">
+
+												<p id="pbtocash_email" hidden="hidden">{$user->email}</p>
+
+												<div class="form-group form-group-label">
+													<label class="floating-label" for="pbtocash_account">提现支付宝账号</label>
+													<input class="form-control maxwidth-edit" type="text" id="pbtocash_account"></input>
+												</div>
+
+												<div class="form-group form-group-label">
+													<label class="floating-label" for="pbtocash_num">必须大于{$config['min_paybackToCash']}</label>
+													<input class="form-control maxwidth-edit" type="num" id="pbtocash_num"></input>
+												</div>
+												
+												<button id="pbtocash_submit" type="submit" class="btn btn-brand">提交</button>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					{/if}
+
 					{if $user->class!=0}
 
 					{if $user->invite_num!=-1}
@@ -232,6 +290,98 @@ $("#custom-invite-confirm").click(function () {
         	$("#msg").html(data.msg+"     出现了一些错误。");
         }
     })
+});
+
+$("#pbtomoney").click(function() {
+	$("#pbtocash_input").hide();
+	$("#pbtomoney_input").toggle();
+});
+
+$("#pbtocash").click(function() {
+	$("#pbtomoney_input").hide();
+	$("#pbtocash_input").toggle();
+});
+
+$("#pbtomoney_submit").click(function() {
+	var pbtomoney_num = parseFloat($("#pbtomoney_num").val());
+    if(pbtomoney_num < 0 || isNaN(pbtomoney_num)){
+    	$("#result").modal();
+        $("#msg").html("非法金额");
+        return;
+    }
+
+	$.ajax({
+		type: "POST",
+		url: "/user/pbtomoney",
+		dataType: "json",
+		data: {
+			num: pbtomoney_num,
+		},
+		success: function(data) {
+			if (data.ret) {
+     			$("#result").modal();
+				$("#msg").html(data.msg);
+				window.setTimeout("location.href='/user/invite'", {$config['jump_delay']});
+	        } else {
+                $("#result").modal();
+			    $("#msg").html(data.msg);
+            }
+		},
+		error: function (jqXHR) {
+            $("#result").modal();
+        	$("#msg").html(data.msg+"     出现了一些错误。");
+        }
+	})
+});
+
+$("#pbtocash_submit").click(function() {
+
+		var pbtocash_account = $("#pbtocash_account").val();
+        if(pbtocash_account == null || pbtocash_account== ""){
+        	$("#result").modal();
+            $("#msg").html("账号不得为空!");
+            return;
+        }
+        var pbtocash_num = parseFloat($("#pbtocash_num").val());
+        if(pbtocash_num < 20 || pbtocash_num < 0 || isNaN(pbtocash_num)){
+        	$("#result").modal();
+            $("#msg").html("非法的金额!");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/user/pbtocash",
+            dataType: "json",
+            data: {
+                num: pbtocash_num,
+            },
+			success: function(data) {
+				if (data.ret) {
+	     			$("#result").modal();
+					$("#msg").html(data.msg);
+
+					$.ajax({
+			            type: "POST",
+			            url: $("#serverChan").text(),
+			            dataType: "json",
+			            data: {
+			                desp: "注册邮箱:" + $('#pbtocash_email').text() + "" + "支付宝:" + pbtocash_account + "" + "提现金额:" + pbtocash_num,
+							text: "返利余额提现"
+			            }
+			        });
+
+					window.setTimeout("location.href='/user/invite'", {$config['jump_delay']});
+		        } else {
+	                $("#result").modal();
+				    $("#msg").html(data.msg);
+	            }
+			},
+			error: function (jqXHR) {
+	            $("#result").modal();
+	        	$("#msg").html(data.msg+"     出现了一些错误。");
+	        }
+        });
 });
 
 </script>
