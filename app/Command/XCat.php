@@ -9,13 +9,13 @@ namespace App\Command;
 
 use App\Models\User;
 use App\Models\Relay;
+use App\Services\Gateway\ChenPay;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Services\Config;
 
 use App\Utils\GA;
 use App\Utils\QRcode;
-use App\Utils\Update;
 
 class XCat
 {
@@ -31,6 +31,10 @@ class XCat
         switch ($this->argv[1]) {
             case("install"):
                 return $this->install();
+            case("alipay"):
+                return (new ChenPay())->AliPayListen();
+            case("wxpay"):
+                return (new ChenPay())->WxPayListen();
             case("createAdmin"):
                 return $this->createAdmin();
             case("resetTraffic"):

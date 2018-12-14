@@ -23,7 +23,7 @@ class ExtMail
                     "user" => $user,"text" => $text
                 ], [
                 ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
@@ -44,7 +44,7 @@ class ExtMail
                         "user" => $user,"text" => $text
                     ], [
                     ]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }

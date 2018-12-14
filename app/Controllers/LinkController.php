@@ -403,7 +403,7 @@ class LinkController extends BaseController
                                             "server_port"=>$item['port'],
                                             "password"=>$item['passwd'],
                                             "method"=>$item['method'],
-                                            "plugin"=>($item['obfs']=='plain')?'':'obfs-local',
+                                            "plugin"=>"obfs-local",
                                             "plugin_opts"=>str_replace(',',';',URL::getSurgeObfs($item)),
                                             "remarks"=>$item['remark'],
                                             "timeout"=>5));
@@ -420,13 +420,16 @@ class LinkController extends BaseController
         $proxy_name="";
         $proxy_group="";
 
-        $rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+        $rules = file_get_contents("https://raw.githubusercontent.com/wewall/black-hole/master/Rule.conf");
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',udp-relay=true,tfo=true'."\n";
-            $proxy_name .= ",".$item['remark'];
-        }
+            if (URL::getSurgeObfs($item) != "") {
+                $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs=http,udp-relay=true,tfo=true'."\n";
+            } else {
+                $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',http://omgib13x8.bkt.clouddn.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
+            }
+	}	
 
         return '#!MANAGED-CONFIG '.Config::get('baseUrl').''.$_SERVER['REQUEST_URI'].'
 
@@ -463,15 +466,11 @@ PROXY = select,AUTO'.$proxy_name.'
 Domestic = select,DIRECT,PROXY
 Others = select,PROXY,DIRECT
 Apple = select,DIRECT,PROXY,AUTO
-Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
-AUTO = url-test'.$proxy_name.',url = http://www.gstatic.com/generate_204,interval = 1200
+Media = select,PROXY'.$proxy_name.'
+AUTO = url-test'.$proxy_name.',url = http://www.gstatic.com/generate_204,interval = 1200,tolerance = 300,timeout = 5
 
-[Rule]
-
-'.$rules.'
-
-';
-    }
+'.$rules.'';
+ }
 
     private static function GetSurge($passwd, $method, $server, $port, $defined)
     {

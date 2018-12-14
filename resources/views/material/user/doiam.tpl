@@ -40,15 +40,16 @@ window.onload = function(){
 	$(".type").click(function(){
 		type = $(this).data("pay");
 	});
+    type= 'alipay'
 	$("#submit").click(function(){
 		var price = parseFloat($("#amount").val());
-		console.log("将要使用"+type+"方法充值"+price+"元")
+		console.log("将要使用"+type+"方法充值"+price+"元");
 		if(isNaN(price)){
 			$("#result").modal();
 			$("#msg").html("非法的金额!");
 		}
 		$.ajax({
-			'url':"/user/doiam",
+			'url':"/user/payment/purchase",
 			'data':{
 				'price':price,
 				'type':type,
@@ -69,6 +70,7 @@ window.onload = function(){
 						$("#dmy").qrcode({
 							"text": data.code
 						});
+                        setTimeout(f, 2000);
 					}else if(type=="alipay"){
 						$("#result").modal();
 						$("#msg").html("正在跳转到支付宝..."+data.code);
@@ -78,30 +80,11 @@ window.onload = function(){
 						$("#dmy").qrcode({
 							"text": data.code
 						});
+                        setTimeout(f, 2000);
 					}
 				}
 			}
 		});
-		function f(){
-			$.ajax({
-				type: "POST",
-				url: "/doiam/status",
-				dataType: "json",
-				data: {
-					pid:pid
-				},
-				success: function (data) {
-					if (data.status) {
-						clearTimeout(tid);
-						$("#result").modal();
-						$("#msg").html("充值成功！");
-						window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
-					}
-				}
-			});
-			tid = setTimeout(f, 1000);
-		}
-		setTimeout(f, 2000);
 	});
 }
 </script>

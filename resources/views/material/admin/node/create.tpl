@@ -139,7 +139,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="bandwidthlimit_resetday">节点流量上限清空日</label>
-										<input class="form-control" id="bandwidthlimit_resetday" type="text" value="0" name="bandwidthlimit_resetday">
+										<input class="form-control" id="bandwidthlimit_resetday" type="text" value="1" name="bandwidthlimit_resetday">
 									</div>
 
 									<div class="form-group form-group-label">

@@ -12,8 +12,11 @@
 	<link href="/theme/material/css/base.min.css" rel="stylesheet">
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
-	<link href="https://fonts.loli.net/css?family=Material+Icons">
+	<link href="https://fonts.loli.net/css?family=Material+Icons" rel="stylesheet">
 
+	<!-- jquery -->
+	<script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/js/qrcode.min.js"></script>
  <style>
     body {
         background: #eee;
@@ -375,7 +378,7 @@
 									<i class="icon icon-lg">loyalty</i>&nbsp;邀请链接
 								</a>
 							</li>
-							
+
 
 
 

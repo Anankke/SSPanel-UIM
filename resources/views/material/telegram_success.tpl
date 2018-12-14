@@ -199,8 +199,8 @@
 <body>
 <div class="empty valign" style="height:100vh">
 <div class="centered">
-<p class="empty-title h1">登陆成功</p>
-<p class="empty-title h4">正在跳转{$config["appName"]}用户中心</p>
+<p class="empty-title h1">{$title}</p>
+<p class="empty-title h4">{$message}</p>
 <div class="divider"></div>
 <div class="empty-action">
 </div>

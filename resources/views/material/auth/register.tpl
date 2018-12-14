@@ -23,6 +23,7 @@
 									</h1>
 									</div>
 								</div>
+								{if $config['register_mode']!='close'}
 								<div class="card-inner">
 
 
@@ -43,27 +44,6 @@
 												</div>
 											</div>
 										</div>
-										{*
-
-
-
-                                  			<!--<div class="form-group form-group-label">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-											<label class="floating-label" for="theme">主题</label>
-											<select id="theme" class="form-control">
-
-													<option value="{$theme}">{$theme}</option>
-
-													</select>
-												</div>
-											</div>
-										</div>-->
-
-
-
-
-                                  *}
 										{if $enable_email_verify == 'true'}
 										<div class="form-group form-group-label">
 											<div class="row">
@@ -76,7 +56,7 @@
 											</div>
 										</div>
 
-                                  {/if}
+										{/if}
 
 
 										<div class="form-group form-group-label">
@@ -124,7 +104,7 @@
 										</div>
 
 
-										{if $enable_invite_code == 'true'}
+										{if $config['register_mode'] == 'invite'}
 											<div class="form-group form-group-label">
 												<div class="row">
 													<div class="col-md-10 col-md-push-1">
@@ -161,7 +141,18 @@
 												</div>
 											</div>
 										</div>
-
+									{else}
+										<div class="form-group">
+											<div class="row">
+												<div class="col-md-10 col-md-push-1">
+													<p>{$config["appName"]} 已停止新用户注册，请联系网站管理员</p>
+												</div>
+											</div>
+										</div>
+									{/if}
+									<div class="clearfix">
+										<p class="margin-no-top pull-left"><a class="btn btn-flat btn-brand waves-attach" href="/auth/login">已经注册？点我登录</a></p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -214,12 +205,12 @@
 {include file='footer.tpl'}
 
 
-
+{if $config['register_mode']!='close'}
 <script>
     $(document).ready(function(){
         function register(){
           code = $("#code").val();
-    	{if $enable_invite_code != 'true'}
+    	{if $config['register_mode'] != 'invite'}
            code = 0;
            if ((getCookie('code'))!=''){
            code = getCookie('code');
@@ -315,7 +306,7 @@
         });
     })
 </script>
-
+{/if}
 
 {if $enable_email_verify == 'true'}
 <script>
@@ -438,7 +429,7 @@ function time(o) {
 		window.location.href='/auth/register'; 
 	}
 
-    {if $enable_invite_code == 'true'}
+    {if $config['register_mode'] == 'invite'}
 	{*dumplin:读取cookie，自动填入邀请码框*}
 	if ((getCookie('code'))!=''){
 		$("#code").val(getCookie('code'));

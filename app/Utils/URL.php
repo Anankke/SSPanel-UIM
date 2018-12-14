@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Models\Node;
 use App\Models\Relay;
 use App\Services\Config;
+use App\Controllers\LinkController;
 
 class URL
 {
@@ -62,6 +63,20 @@ class URL
         }else{
             return 3;
         }
+    }
+
+    public static function parse_args($origin) {
+        // parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
+        $args_explode = explode('|', $origin);
+
+        $return_array = [];
+        foreach ($args_explode as $arg) {
+            $split_point = strpos($arg, '=');
+
+            $return_array[substr($arg, 0, $split_point)] = substr($arg, $split_point + 1);
+        }
+
+        return $return_array;
     }
 
     public static function SSCanConnect($user, $mu_port = 0) {
@@ -219,7 +234,7 @@ class URL
     public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         $return_url = '';
-      	if ($user->transfer_enable >0){
+      	if ($user->transfer_enable >0&&$is_mu==0){
       		$return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
       		$return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
       	}
@@ -270,18 +285,31 @@ class URL
         $item['add'] = $node_explode[0];
         $item['port'] = $node_explode[1];
         $item['id'] = $user->getUuid();
-        $item['aid'] = $node_explode[3];
-        if (count($node_explode) >= 6) {
-            $item['net'] = $node_explode[5];
+        $item['aid'] = $node_explode[2];
+        if (count($node_explode) >= 4) {
+            $item['net'] = $node_explode[3];
+            if ($item['net'] == 'ws') {
+                $item['path'] = '/';
+            } else if ($item['net'] == 'tls') {
+                $item['tls'] = 'tls';
+            }
         } else {
             $item['net'] = "tcp";
         } 
 
-        if (count($node_explode) >= 7) {
-            $item['type'] = $node_explode[6];
+        if (count($node_explode) >= 5) {
+            if ($item['net'] == 'kcp' || $node_explode[4] == 'http') {
+                $item['type'] = $node_explode[4];
+            } else {
+                $item['type'] = "none";
+            }
         } else {
             $item['type'] = "none";
         } 
+
+        if (count($node_explode) >= 6) {
+            $item = array_merge($item, URL::parse_args($node_explode[5]));
+        }
 
         return "vmess://".base64_encode((json_encode($item, JSON_UNESCAPED_UNICODE)));
     }
@@ -315,10 +343,28 @@ class URL
 		$array_all['traffic_used']=Tools::flowToGB($user->u+$user->d);
 		$array_all['traffic_total']=Tools::flowToGB($user->transfer_enable);
 		$array_all['expiry']=$user->class_expire;
+		$array_all['url']=Config::get('baseUrl').'/link/'.LinkController::GenerateSSRSubCode($user->id, 0).'?mu=3';
+		$plugin_options='';
+		if(strpos($user->obfs,'http')!=FALSE){
+			$plugin_options='obfs=http';
+		}
+		if(strpos($user->obfs,'tls')!=FALSE){
+			$plugin_options='obfs=tls';
+		}
+		if($plugin_options!=''){
+			$array_all['plugin']='simple-obfs';//目前只支持这个
+			if($user->obfs_param==''){
+				$array_all['plugin_options']=$plugin_options;
+			}
+			else{
+				$array_all['plugin_options']=$plugin_options.';obfs-host='.$user->obfs_param;
+			}
+		}
 		$array_server=array();
 		$nodes = Node::where("type","1")->where(function ($func){
 		$func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
-		})->get();
+		})->orderBy('name')->get();
+		$server_index=1;
 		foreach($nodes as $node){
 			if($node->node_group!=0&&$node->node_group!=$user->group){
 				continue;
@@ -326,12 +372,27 @@ class URL
 			if($node->node_class>$user->class){
 				continue;
 			}
-			$server['id']=$node->id;
+			$server['id']=$server_index;
+			$server_index++;
 			$server['server']=$node->server;
-			$server['remarks']=$node->name;
-			$server['ratio']=$node->traffic_rate;
+			//判断是否为中转节点
+			$relay_rule = Relay::where('source_node_id', $node->id)->where(
+				function ($query) use ($user) {
+					$query->Where("user_id", "=", $user->id)
+						->orWhere("user_id", "=", 0);
+				}
+			)->orderBy('priority','DESC')->orderBy('id')->first();
+			if ($relay_rule != null) {
+				$server['remarks']=$node->name.' => '.$relay_rule->dist_node()->name;
+				$server['ratio']=$node->traffic_rate+$relay_rule->dist_node()->traffic_rate;
+			}
+			else{
+				$server['remarks']=$node->name;
+				$server['ratio']=$node->traffic_rate;
+			}
 			array_push($array_server,$server);
 		}
+
 		$array_all['servers']=$array_server;
 		$json_all=json_encode($array_all);	
 		if($base64){
@@ -395,7 +456,7 @@ class URL
                 $query->Where("user_id", "=", $user->id)
                     ->orWhere("user_id", "=", 0);
             }
-        )->first();
+        )->orderBy('priority','DESC')->orderBy('id')->first();
         $node_name = $node->name;
         if ($relay_rule != null) {
             $node_name .= " - ".$relay_rule->dist_node()->name;
@@ -452,9 +513,9 @@ class URL
   
     public static function getUserClassExpiration($user){
 		if($user->class !=0){
-			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
+			$ssurl = "www.google.com:2:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("过期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
 		}else{
-			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
+			$ssurl = "www.google.com:2:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
 		}
 	return "ssr://".Tools::base64_url_encode($ssurl);
   }
