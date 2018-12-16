@@ -321,16 +321,16 @@
             },
             success: data => {
                 if (data.ret) {
-                    $("result").modal();
+                    $("#result").modal();
                     $$.getElementById('msg').innerHTML = data.msg;
                     window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
                 } else {
-                    $("result").modal();
+                    $("#result").modal();
                     $$.getElementById('msg').innerHTML = data.msg;
                 }
             },
             error: jqXHR => {
-				$("result").modal();
+				$("#result").modal();
                 $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
             }
         });
