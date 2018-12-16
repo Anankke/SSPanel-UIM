@@ -75,7 +75,7 @@
 												<button class="btn btn-flat waves-attach" id="method-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
 										<p>注意：SS/SSD/SSR 支持的加密方式有所不同，请根据实际情况来进行选择</p>
-										<p>当前加密方式：<code id="ajax-user-method" data-default="method">{$user->method}</code></p>
+										<p>当前加密方式：<code id="ajax-user-method" data-default="method">[{if URL::CanMethodConnect($user->method) == 2}SS{else}SS/SSR{/if} 可连接] {$method} {$user->method}</code></p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="method">加密方式</label>
 											<button id="method" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->method}">
@@ -153,7 +153,7 @@
 												<div class="card-heading">协议&混淆设置</div>
 												<button class="btn btn-flat waves-attach" id="ssr-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
-										<p>当前协议：<code id="ajax-user-protocol" data-default="protocol">{$user->protocol}</code></p>
+										<p>当前协议：<code id="ajax-user-protocol" data-default="protocol">[{if URL::CanProtocolConnect($user->protocol) == 3}SS/SSR{else}SSR{/if} 可连接] {$protocol} {$user->protocol}</code></p>
 										<p>注意1：如果需要兼容 SS/SSD 请设置为 origin 或选择带_compatible的兼容选项</p>
 										<p>注意3：auth_chain 系为实验性协议，可能造成不稳定或无法使用，开启前请询问是否支持</p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
@@ -172,7 +172,7 @@
 									</div>
 
 									<div class="card-inner">
-										<p>当前混淆方式：<code id="ajax-user-obfs" data-default="obfs">{$user->obfs}</code></p>
+										<p>当前混淆方式：<code id="ajax-user-obfs" data-default="obfs">[{if URL::CanObfsConnect($user->obfs) >= 3}SS/SSR{else}{if URL::CanObfsConnect($user->obfs) == 1}SSR{else}SS{/if}{/if} 可连接] {$obfs} {$user->obfs}</code></p>
 										<p>注意1：如果需要兼容 SS/SSD 请设置为 plain 或选择带_compatible的兼容选项</p>
 										<p>注意2：SS/SSD 和 SSR 支持的混淆类型有所不同，simple_obfs_* 为 SS/SSD 的混淆方式，其他为 SSR 的混淆方式</p>
 										<p>注意3：如果使用 SS/SSD 作为客户端，请确保自己知道如何下载并使用混淆插件</p>
