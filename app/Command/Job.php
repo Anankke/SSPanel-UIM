@@ -38,11 +38,15 @@ class Job
             if ($node->sort == 11) {
 				$server_list = explode(";", $node->server);
 				if(!Tools::is_ip($server_list[0])){
-					$node->changeNodeIp($server_list[0]);
+					if($node->changeNodeIp($server_list[0])){
+						$node->save();
+					}					
 				}
 			} else if($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
 				if(!Tools::is_ip($node->server)){
-					$node->changeNodeIp($node->server);
+					if($node->changeNodeIp($node->server)){
+						$node->save();
+					}					
 				}
 			}
         }
