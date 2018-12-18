@@ -16,6 +16,7 @@ before_install:
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt upgrade
   - sudo apt install -y nodejs
+  - composer config -g repos.packagist composer https://packagist.noc.one
 install:
   - sudo chmod -R 755 *
   - echo "==========================================================="
