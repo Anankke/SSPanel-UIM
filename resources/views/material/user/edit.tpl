@@ -557,15 +557,21 @@ $(".copy-text").click(function () {
 
 <script>
 	var ga_qrcode = '{$user->getGAurl()}',
-        qrcode1 = new QRCode(document.getElementById("ga-qr"));
+	
+	qrcode1 = new QRCode(document.getElementById("ga-qr"));
     qrcode1.clear();
     qrcode1.makeCode(ga_qrcode);
 
 	{if $config['enable_telegram'] == 'true'}
+
 	var telegram_qrcode = 'mod://bind/{$bind_token}',
-        qrcode2 = new QRCode(document.getElementById("telegram-qr"));
-    qrcode2.clear();
-    qrcode2.makeCode(telegram_qrcode);
+
+	if ($$.getElementById("telegram-qr")) {
+		qrcode2 = new QRCode(document.getElementById("telegram-qr"));
+		qrcode2.clear();
+		qrcode2.makeCode(telegram_qrcode);
+	}
+
 	{/if}
 </script>
 

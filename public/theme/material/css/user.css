@@ -210,21 +210,6 @@
   color: #000;
 }
 
-
-.pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover {
-    color: #fff;
-    background-color: #000;
-    border-color: #000;
-}
-
-.pagination>.active>span {
-  background-color: #f50057;
-  color: #fff;
-  border-color: #fff;
-}
-
-
-
 .pagination > .disabled > span {
   border-color: #fff;
 }

@@ -643,6 +643,18 @@ ul.dropdown-menu {
     margin-top: .5em;
 }
 
+.pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover {
+    color: #fff;
+    background-color: #13c2c2;
+    border-color: #13c2c2;
+}
+
+.pagination>.active>span {
+  background-color: #54aff9;
+  color: #fff;
+  border-color: #54aff9;
+}
+
 /* 卡片节点 */
 
 .nodelist {
