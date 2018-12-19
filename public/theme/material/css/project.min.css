@@ -643,18 +643,6 @@ ul.dropdown-menu {
     margin-top: .5em;
 }
 
-.pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover {
-    color: #fff;
-    background-color: #13c2c2;
-    border-color: #13c2c2;
-}
-
-.pagination>.active>span {
-  background-color: #54aff9;
-  color: #fff;
-  border-color: #54aff9;
-}
-
 /* 卡片节点 */
 
 .nodelist {
@@ -680,6 +668,10 @@ ul.dropdown-menu {
 .card-row,.node-table,.node-fade,.shop-flex,.shop-table,.node-cardgroup {
 	transition-duration: .2s;
 	transition-property: all;
+}
+
+.card.node-table {
+    min-height: 75px;
 }
 
 .node-card {
