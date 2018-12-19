@@ -45,7 +45,8 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-md-10 col-md-push-1">
-											<button id="submit" type="submit" class="btn btn-block btn-brand waves-attach waves-light">添加</button><button id="close" type="submit" class="btn btn-block btn-brand-accent waves-attach waves-light">添加并关闭</button>
+											<button id="submit" type="submit" class="btn btn-block btn-brand">添加</button>
+											<button id="close" type="submit" class="btn btn-block btn-brand-accent">添加并关闭</button>
 										</div>
 									</div>
 								</div>

@@ -38,7 +38,7 @@
 									<div class="card-inner margin-bottom-no">
 											<div class="cardbtn-edit">
 													<div class="card-heading">邀请链接</div>
-													<div class="reset-flex"><span>重置链接</span><a class="reset-link btn btn-brand-accent btn-flat waves-attach" ><i class="icon">autorenew</i>&nbsp;</a></div>
+													<div class="reset-flex"><span>重置链接</span><a class="reset-link btn btn-brand-accent btn-flat" ><i class="icon">autorenew</i>&nbsp;</a></div>
 											</div>
 										<p>剩余可邀请次数：{if $user->invite_num<0}无限{else}<code>{$user->invite_num}</code>{/if}</p>
 										<p>发送邀请链接给有需要的人，邀请他人注册时，请将以下链接发给被邀请者</p>
@@ -59,7 +59,7 @@
 										<div class="card-inner margin-bottom-no">
 												<div class="cardbtn-edit">
 													<div class="card-heading">定制链接后缀 <code class="card-tag tag-green">{$config['custom_invite_price']} RMB/次</code></div>
-													<button class="btn btn-flat waves-attach" id="custom-invite-confirm"><span class="icon">check</span>&nbsp;</button>
+													<button class="btn btn-flat" id="custom-invite-confirm"><span class="icon">check</span>&nbsp;</button>
 												</div>
 											<p>例:输入<code>vip</code>则链接变为<code>{$config["baseUrl"]}/auth/register?code=vip</code></p>
 											<div class="form-group form-group-label">
@@ -82,7 +82,7 @@
 									<div class="card-inner">
 									<div class="cardbtn-edit">
 											<div class="card-heading">购买邀请次数 <code class="card-tag tag-green">{$config['invite_price']} RMB/个</code></div>
-											<button class="btn btn-flat waves-attach" id="buy-invite"><span class="material-icons">shopping_cart</span></button>
+											<button class="btn btn-flat" id="buy-invite"><span class="material-icons">shopping_cart</span></button>
 									</div>		
 										<p>在下方输入需要购买的邀请次数</p>
 										<div class="form-group form-group-label">

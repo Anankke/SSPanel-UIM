@@ -2229,20 +2229,7 @@ img {
 	text-decoration: none
 }
 
-
-.btn:after {
-	box-shadow: 0 3px 9px rgba(0,0,0,.3);
-	display: block;
-	height: 100%;
-	opacity: 0;
-	position: absolute;
-	top: 0;
-	left: 0;
-	transition: opacity .3s cubic-bezier(.4,0,.2,1);
-	width: 100%
-}
-
-.fbtn,.fbtn:after {
+.fbtn {
 	border-radius: 50%
 }
 

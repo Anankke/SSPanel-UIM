@@ -63,7 +63,7 @@
                                 <div class="card-inner">
                                     <div class="cardbtn-edit">
 											<div class="card-heading">充值码</div>
-											<button class="btn btn-flat waves-attach" id="code-update" ><span class="icon">favorite_border</span></button>
+											<button class="btn btn-flat" id="code-update" ><span class="icon">favorite_border</span></button>
 									</div>
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="code">充值码</label>

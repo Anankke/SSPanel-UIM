@@ -626,14 +626,12 @@ ul.dropdown-menu {
     min-width: 130px;
 }
 
-.btn.btn-flat.waves-attach.waves-effect .waves-wrap,.cardbtn-edit .btn-flat .waves-wrap,.cardbtn-edit .btn-flat:after {
-    border-radius: 50%;
-}
-.cardbtn-edit .btn-flat:after {
-    background-color: rgba(97, 97, 97, 0.36);
-}
-.waves-attach.waves-circle.waves-light.waves-effect .waves-wrap,.fbtn:after {
+.waves-attach.waves-circle.waves-light.waves-effect .waves-wrap {
     border-radius: 10px;
+}
+
+.btn:active,.fbtn:active {
+    transform: translate(3px,3px);
 }
 
 .modal-inner p {
