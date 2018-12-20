@@ -106,6 +106,8 @@
 									<div class="shop-name"> <span>{$shop->name}</span></div>
 									<div class="card-tag tag-gold">VIP {$shop->user_class()}</div>
 									<div class="card-tag tag-orange">¥ {$shop->price}</div>
+									<div class="card-tag tag-cyan">{$shop->bandwidth()} G</div>
+									<div class="card-tag tag-blue">{$shop->class_expire()} 天</div>
 								</div>
 								<div>
 								<i class="material-icons">expand_more</i>
@@ -114,8 +116,6 @@
 						<a class="btn btn-brand-accent shop-btn" href="javascript:void(0);" onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
 						
 						<div class="shop-drop dropdown-area">
-							<div class="card-tag tag-black">添加流量</div> <div class="card-tag tag-blue">{$shop->bandwidth()} G</div>
-							<div class="card-tag tag-black">等级有效期</div> <div class="card-tag tag-blue">{$shop->class_expire()} 天</div>
 							<div class="card-tag tag-black">账号有效期</div> <div class="card-tag tag-blue">{$shop->expire()} 天</div>
 							{if {$shop->reset()} == '0' }
 							<div class="card-tag tag-black">重置周期</div> <div class="card-tag tag-blue">N/A</div>
@@ -288,37 +288,11 @@ function buy(id,auto) {
 		localStorage.setItem("tempUIshop",defaultUI);
 	});
 
-	//计算高度要用到的东西
-	let dropDownGridArea = document.querySelectorAll('.shop-gridarea');
 	let dropDownButton = document.querySelectorAll('.shop-table .card');
 	let dropDownArea = document.querySelectorAll('.dropdown-area');
 	let arrows = document.querySelectorAll('.shop-table .card i');
 	
 	for (let i=0;i<dropDownButton.length;i++) {
-
-		dropDownButton[i].addEventListener('click',()=>{
-
-        //也不知道为什么取不到购买按钮的高度，只能用减法算出来
-			let buttonMarginTop = parseInt(window.getComputedStyle(dropDownButton[i]).marginTop);
-			let buttonHeight = dropDownButton[i].offsetHeight + buttonMarginTop;
-			let buyHeight = dropDownGridArea[i].offsetHeight - buttonHeight;
-
-        //grid layout后产生的问题，需要改第二行的高度
-		    if (window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows == buttonHeight + 'px 0px ' + buyHeight + 'px') {
-				dropDownGridArea[i].style.gridTemplateRows = 'auto auto auto';
-		    } else if (window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows == buttonHeight + 'px 0px') {
-			    dropDownGridArea[i].style.gridTemplateRows = 'auto auto';
-		    } else {
-				let loop = setInterval(()=>{
-					dropDownGridArea[i].style.gridTemplateRows = 'auto ' + (parseInt(window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows.split(' ')[1]) - 13) + 'px';//没有办法只能这么算了
-					if (parseInt(window.getComputedStyle(dropDownGridArea[i]).gridTemplateRows.split(' ')[1]) < 15) {
-						clearInterval(loop);
-						dropDownGridArea[i].style.gridTemplateRows = 'auto 0px';
-					}
-				},10);
-			}
-		});
-		
 		rotatrArrow(dropDownButton[i],arrows[i]);
 		custDropdown(dropDownButton[i], dropDownArea[i]);
 	}
