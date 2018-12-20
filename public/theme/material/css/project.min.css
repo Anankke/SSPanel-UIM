@@ -864,7 +864,7 @@ div.nodetitle:first-of-type>a {
 	box-shadow: 0 0 7px 0 gray;
 }
 .node-tip.cust-modelin {
-    top:70px;
+    transform: translate3d(0,14rem,0);
 }
 .nodetip-table {
 	flex-wrap: wrap;
@@ -1070,7 +1070,7 @@ a.tag-magenta,.tag-magenta {
 }
 .cust-modelin {
     opacity: 1;
-    top: 2em;
+    transform: translate3d(0,2em,0);
 }
 .fade-delay {
     transition-delay: .3s
@@ -1163,6 +1163,9 @@ a.tag-magenta,.tag-magenta {
         font-size: 16px;
         height: 26px;
         padding: 3px 6px 0;
+    }
+    .node-tip.cust-modelin {
+        transform: translate3d(0,15rem,0);
     }
 }
 
