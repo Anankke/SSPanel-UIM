@@ -232,62 +232,21 @@ function buy(id,auto) {
 }
 
 ;(function(){
-
-    var nodeDefaultUI = localStorage.getItem("tempUIshop");
-	var elShopCard = $(".shop-flex");
-	var elShopTable = $(".shop-table");
-
-	//进入页面时读取本地存储决定哪种UI
-	nodeDefaultUI = JSON.parse(nodeDefaultUI);
-	if (!nodeDefaultUI) {
-		elShopCard.css("display","flex");
-	} else {
-		elShopCard.css("display",nodeDefaultUI["cardDisplay"]);
-	    elShopCard.removeClass("node-fade").addClass(nodeDefaultUI["cardFade"]);
-	    elShopTable.css("display",nodeDefaultUI["tableDisplay"]);
-	    elShopTable.removeClass("node-fade").addClass(nodeDefaultUI["tableFade"]);
-	}
 	
+	//UI切换
+	let elShopCard = $$.querySelector(".shop-flex");
+	let elShopTable = $$.querySelector(".shop-table");
+	
+	let switchToCard = new UIswitch('switch-cards',elShopTable,elShopCard,'flex','tempshop');
+	switchToCard.listenSwitch();
     
-	$("#switch-cards").click(function (){
-        elShopTable.addClass("node-fade");
-		setTimeout(function(){
-		      elShopCard.css("display","flex");
-              elShopTable.css("display","none");
-		},250);	
-		setTimeout(function(){
-		      elShopCard.removeClass("node-fade");
-		},270);
-		//切换布局后存状态到本地存储
-		var defaultUI = {
-			"cardFade":"",
-			"cardDisplay":"flex",
-			"tableFade":"node-fade",
-			"tableDisplay":"none"
-		};
-		defaultUI = JSON.stringify(defaultUI);
-		localStorage.setItem("tempUIshop",defaultUI);
-    });
+	let switchToTable = new UIswitch('switch-table',elShopCard,elShopTable,'flex','tempshop');
+	switchToTable.listenSwitch();
 
-    $("#switch-table").click(function (){
-         elShopCard.addClass("node-fade");
-		 setTimeout(function(){
-			elShopTable.css("display","flex");
-            elShopCard.css("display","none");
-		},250);	
-		 setTimeout(function(){
-			  elShopTable.removeClass("node-fade");
-	    },270);
-		var defaultUI = {
-			"cardFade":"node-fade",
-			"cardDisplay":"none",
-			"tableFade":"",
-			"tableDisplay":"flex"
-		};
-		defaultUI = JSON.stringify(defaultUI);
-		localStorage.setItem("tempUIshop",defaultUI);
-	});
-
+	switchToCard.setDefault();
+	switchToTable.setDefault();
+	
+	//手风琴
 	let dropDownButton = document.querySelectorAll('.shop-table .card');
 	let dropDownArea = document.querySelectorAll('.dropdown-area');
 	let arrows = document.querySelectorAll('.shop-table .card i');

@@ -1086,8 +1086,12 @@ a.tag-magenta,.tag-magenta {
     opacity: 0;
     transform: scale3d(1,0,1);
     padding: 0 1.5em;
-    transition: .1s all;
+    transition: .3s all;
     transform-origin: top;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 .dropdown-area.dropdown-active {
     transform: scale3d(1,1,1);

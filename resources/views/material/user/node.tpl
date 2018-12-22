@@ -397,65 +397,28 @@
 	//箭头旋转
     let rotateTrigger = document.querySelectorAll('a[href^="#cardgroup"]');
 	let arrows = document.querySelectorAll('a[href^="#cardgroup"] i')
+
 	for (let i=0;i<rotateTrigger.length;i++) {
 		rotatrArrow(rotateTrigger[i],arrows[i]);
 	}
 	
 	//UI切换
-	var nodeDefaultUI = localStorage.getItem("tempUInode");
-	var elNodeCard = $(".node-cardgroup");
-	var elNodeTable = $(".node-table");
-	nodeDefaultUI = JSON.parse(nodeDefaultUI);
-	if (!nodeDefaultUI) {
-		elNodeTable.css("display","flex");
-	} else {
-		elNodeCard.css("display",nodeDefaultUI["cardDisplay"]);
-	    elNodeCard.removeClass("node-fade").addClass(nodeDefaultUI["cardFade"]);
-	    elNodeTable.css("display",nodeDefaultUI["tableDisplay"]);
-	    elNodeTable.removeClass("node-fade").addClass(nodeDefaultUI["tableFade"]);
-	}
-	
+	let elNodeCard = $$.querySelector(".node-cardgroup");
+	let elNodeTable = $$.querySelector(".node-table");
 
-	$("#switch-cards").click(function (){
-        elNodeTable.addClass("node-fade");
-		setTimeout(function(){
-		      elNodeCard.css("display","grid");
-              elNodeTable.css("display","none");
-		},250);	
-		setTimeout(function(){
-		      elNodeCard.removeClass("node-fade");
-		},270);
-		var defaultUI = {
-			"cardFade":"",
-			"cardDisplay":"grid",
-			"tableFade":"node-fade",
-			"tableDisplay":"none"
-		};
-		defaultUI = JSON.stringify(defaultUI);
-		localStorage.setItem("tempUInode",defaultUI);
-    });
-
-    $("#switch-table").click(function (){
-         elNodeCard.addClass("node-fade");
-		 setTimeout(function(){
-			elNodeTable.css("display","flex");
-              elNodeCard.css("display","none");
-		},250);	
-		 setTimeout(function(){
-			  elNodeTable.removeClass("node-fade");
-	    },270);
-		var defaultUI = {
-			"cardFade":"node-fade",
-			"cardDisplay":"none",
-			"tableFade":"",
-			"tableDisplay":"flex"
-		};
-		defaultUI = JSON.stringify(defaultUI);
-		localStorage.setItem("tempUInode",defaultUI);
-	});
+	let switchToCard = new UIswitch('switch-cards',elNodeTable,elNodeCard,'grid','tempnode');
+	switchToCard.listenSwitch();
 	
+	let switchToTable = new UIswitch('switch-table',elNodeCard,elNodeTable,'flex','tempnode');
+	switchToTable.listenSwitch();
+
+	switchToCard.setDefault();
+	switchToTable.setDefault();
+	
+	//遮罩
 	let buttongroup = document.querySelectorAll('.node-card');
 	let modelgroup = document.querySelectorAll('.node-tip');
+
 	for (let i=0;i<buttongroup.length;i++) {
 		custModal(buttongroup[i],modelgroup[i]);
 	}
