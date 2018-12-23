@@ -678,6 +678,16 @@ ul.dropdown-menu {
     min-height: 75px;
 }
 
+.node-table .avatar.avatar-sm {
+    color: white;
+    position: relative;
+}
+.node-table .avatar.avatar-sm span {
+    top: .4rem;
+    position: relative;
+    font-size: 20px;
+}
+
 .node-card {
     position: relative;
     left: 0;
