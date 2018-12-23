@@ -678,14 +678,17 @@ ul.dropdown-menu {
     min-height: 75px;
 }
 
-.node-table .avatar.avatar-sm {
-    color: white;
-    position: relative;
-}
 .node-table .avatar.avatar-sm span {
-    top: .3rem;
+    top: .4rem;
     position: relative;
     font-size: 20px;
+    color: white;
+}
+.node-table .avatar.avatar-sm.nodeonline span {
+    top: .25rem;
+}
+.node-table .avatar.avatar-sm.nodeoffline span {
+    left: .05rem
 }
 
 .node-card {
