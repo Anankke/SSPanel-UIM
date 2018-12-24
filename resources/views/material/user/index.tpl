@@ -346,27 +346,20 @@
                                                           <p><dt><code>优先导入普通端口，如果普通端口无法使用再导入单端口</code></dt></p>
 															<p><dt>端口</dt>
 															<dd>{$user->port}</dd></p>
-
 															<p><dt>密码</dt>
 															<dd>{$user->passwd}</dd></p>
-
 															<p><dt>自定义加密</dt>
 															<dd>{$user->method}</dd></p>
-
 															<p><dt>自定义协议</dt>
 															<dd>{$user->protocol}</dd></p>
-
 															<p><dt>自定义混淆</dt>
 															<dd>{$user->obfs}</dd></p>
-
 															<p><dt>自定义混淆参数</dt>
 															<dd>{$user->obfs_param}</dd></p>
 														</dl>
 														{else}
 															<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处</p>
-
 															<p>同时, ShadowsocksR 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
-
 															<p>请注意，在当前状态下您的 SSR 订阅链接已经失效，您无法通过此种方式导入节点</p>
 														{/if}
 													</div>
@@ -405,20 +398,14 @@
 														{if URL::SSCanConnect($user)}
 														<dl class="dl-horizontal">
 															<p>各个节点的地址请到节点列表查看！</p>
-
-
 															<p><dt>端口</dt>
 															<dd>{$user->port}</dd></p>
-
 															<p><dt>密码</dt>
 															<dd>{$user->passwd}</dd></p>
-
 															<p><dt>自定义加密</dt>
 															<dd>{$user->method}</dd></p>
-
 															<p><dt>自定义混淆</dt>
 															<dd>{$user->obfs}</dd></p>
-
 															<p><dt>自定义混淆参数</dt>
 															<dd>{$user->obfs_param}</dd></p>
 														</dl>
@@ -434,7 +421,6 @@
 														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：<a class="copy-text btn-dl" data-clipboard-text='{$ssd_url_all}'><i class="material-icons icon-sm">how_to_vote</i>复制链接</a>，然后右键小飞机->从剪贴板复制地址</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=3">点击复制</button><br></div>
-                                                       <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_mac">
 														<p><a href="/ssr-download/ss-mac.zip" class="btn-dl"><i class="material-icons">save_alt</i> 下载客户端</a>，安装，然后下载<a href="/user/getpcconf?is_mu=0&is_ss=1" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>普通端口链接</a>或者<a href="/user/getpcconf?is_mu=1&is_ss=1" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>单端口多用户链接</a>，运行程序，小飞机上右键 服务器列表 子菜单 的 “导入服务器配置文件...” 导入这个文件，然后选择一个合适的服务器，更新一下PAC，然后开启系统代理即可上网</p>
@@ -484,9 +470,6 @@
 													<nav class="tab-nav margin-top-no">
 														<ul class="nav nav-list">
 															<li class="active">
-																<a class="" data-toggle="tab" href="#all_v2ray_info"><i class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
-															</li>
-															<li>
 																<a class="" data-toggle="tab" href="#all_v2ray_windows"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
 															</li>
 															<li>
@@ -495,20 +478,12 @@
 															<li>
 																<a class="" data-toggle="tab" href="#all_v2ray_android"><i class="icon icon-lg">android</i>&nbsp;Android</a>
 															</li>
+															<li>
+																<a class="" data-toggle="tab" href="#all_v2ray_info"><i class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
+															</li>
 														</ul>
 													</nav>
-													<div class="tab-pane fade active in" id="all_v2ray_info">
-														{$v2_url_all = URL::getAllVMessUrl($user)}
-														<p><a class="copy-text btn-dl" data-clipboard-text="{$v2_url_all}"><i class="material-icons icon-sm">how_to_vote</i>点击这里复制全部 VMess 链接</a></p>
-														<div><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：</div>
-														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=2" readonly="true" />
-														<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">
-															点击复制
-														</button>
-														<br>
-														</div>
-													</div>
-													<div class="tab-pane fade" id="all_v2ray_windows">
+													<div class="tab-pane fade active in" id="all_v2ray_windows">
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/v2rayn.zip" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 V2RayN</a>，解压至任意磁盘并运行</p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 双击任务栏右下角V2RayN图标->订阅->订阅设置->添加->填入下方的地址，点击确定</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 再次点击订阅->更新订阅，右击任务栏右下角V2RayN图标->启动Http代理</p>
@@ -530,6 +505,17 @@
 														<p><span class="icon icon-lg text-white">filter_4</span> 选择一个节点，点击右下角按钮订阅</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=3">点击复制</button><br></div>
+													</div>
+													<div class="tab-pane fade" id="all_v2ray_info">
+														{$v2_url_all = URL::getAllVMessUrl($user)}
+														<p><a class="copy-text btn-dl" data-clipboard-text="{$v2_url_all}"><i class="material-icons icon-sm">how_to_vote</i>点击这里复制全部 VMess 链接</a></p>
+														<div><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：</div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=2" readonly="true" />
+														<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">
+															点击复制
+														</button>
+														<br>
+														</div>
 													</div>
 												</div>
 											</div>
