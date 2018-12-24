@@ -35,7 +35,7 @@
 			</nav>
 		</header>
 		<footer id="footer">
-			<p class="copyright">&copy;{$config["appStartTime"]}-{date("Y")} {$config["appName"]} </p>
+			<p class="copyright">&copy;{date("Y")} {$config["appName"]} </p>
 		</footer>
 	</div>
 	<div id="bg"></div>
