@@ -142,8 +142,8 @@ $System_Config['crisp_id']='null';			//客服系统ID ID查看路径：crisp.cha
 #工单系统设置
 $System_Config['enable_ticket']='true';		//是否开启工单系统
 
-#站长联系方式设置
-$System_Config['enable_admin_contact']='false';			//是否开启站长联系方式
+#管理员联系方式设置
+$System_Config['enable_admin_contact']='false';			//是否开启管理员联系方式
 $System_Config['admin_contact1'] = 'QQ：1233456';		//QQ、邮箱、微信仅用于举例
 $System_Config['admin_contact2'] = '邮箱123456@qq.com';	//也可以写电话、tg等其他联系方式
 $System_Config['admin_contact3'] = '微信～123456';		//没有格式要求，想怎么写就怎么写，可留空

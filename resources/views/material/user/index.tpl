@@ -146,7 +146,7 @@
 										<p>{$ann->content}</p>
 										{/if}
 										{if $config["enable_admin_contact"] == 'true'}
-										<p class="card-heading">站长联系方式</p>
+										<p class="card-heading">管理员联系方式</p>
 										{if $config["admin_contact1"]!=null}
 										<p>{$config["admin_contact1"]}</p>
 										{/if}
