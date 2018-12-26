@@ -16,6 +16,9 @@ class Hash
             case 'sha256':
                 return self::sha256WithSalt($str);
                 break;
+            case 'argon2i':
+                return self::argon2iWithSalt($str);
+                break;
             default:
                 return self::md5WithSalt($str);
         }
@@ -38,7 +41,11 @@ class Hash
         $salt = Config::get('salt');
         return hash('sha256', $pwd.$salt);
     }
-
+    public static function argon2iWithSalt($pwd)
+    {
+        $salt = Config::get('salt');
+        return password_hash($pwd.$salt, PASSWORD_ARGON2I);
+    }
     // @TODO
     public static function checkPassword($hashedPassword, $password)
     {
