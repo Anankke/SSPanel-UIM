@@ -46,6 +46,7 @@
 								<h2 class="modal-title">确认要下架？</h2>
 							</div>
 							<div class="modal-inner">
+								<p>提示：下架会关闭所有购买过的此套餐的自动续费！</p>
 								<p>请您确认。</p>
 							</div>
 							<div class="modal-footer">
