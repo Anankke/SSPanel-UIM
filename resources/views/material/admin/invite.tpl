@@ -23,8 +23,9 @@
 					<div class="card-inner">
 					
 						<div class="form-group form-group-label">
-							<label class="floating-label" for="uid">需要增加邀请链接数量的用户（填写用户的ID，或者用户的完整邮箱)</label>
+							<label class="floating-label" for="uid">需要增加邀请链接数量的用户</label>
 							<input class="form-control maxwidth-edit" id="uid" type="text">
+							<p class="form-control-guide"><i class="material-icons">info</i>填写用户的ID，或者用户的完整邮箱</p>
 						</div>
 
 						<div class="form-group form-group-label">

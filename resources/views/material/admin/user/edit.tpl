@@ -175,25 +175,29 @@
 						<div class="card-main">
 							<div class="card-inner">
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="group">用户群组（用户只能访问到组别等于这个数字或0的节点）</label>
+									<label class="floating-label" for="group">用户群组</label>
 									<input class="form-control maxwidth-edit" id="group" type="number" value="{$edit_user->node_group}">
+									<p class="form-control-guide"><i class="material-icons">info</i>用户只能访问到组别等于这个数字或0的节点</p>
 								</div>
 
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="class">用户级别（用户只能访问到等级小于等于这个数字的节点）</label>
+									<label class="floating-label" for="class">用户级别</label>
 									<input class="form-control maxwidth-edit" id="class" type="number" value="{$edit_user->class}">
+									<p class="form-control-guide"><i class="material-icons">info</i>用户只能访问到等级小于等于这个数字的节点</p>
 								</div>
 
 
 
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="class_expire">用户等级过期时间(不过期就请不要动)</label>
+									<label class="floating-label" for="class_expire">用户等级过期时间</label>
 									<input class="form-control maxwidth-edit" id="class_expire" type="text" value="{$edit_user->class_expire}">
+									<p class="form-control-guide"><i class="material-icons">info</i>不过期就请不要动</p>
 								</div>
 
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="expire_in">用户账户过期时间(不过期就请不要动)</label>
+									<label class="floating-label" for="expire_in">用户账户过期时间</label>
 									<input class="form-control maxwidth-edit" id="expire_in" type="text" value="{$edit_user->expire_in}">
+									<p class="form-control-guide"><i class="material-icons">info</i>不过期就请不要动</p>
 								</div>
 
 							</div>
@@ -205,13 +209,15 @@
 							<div class="card-inner">
 
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="node_speedlimit">用户限速，用户在每个节点所享受到的速度(0 为不限制)(Mbps)</label>
+									<label class="floating-label" for="node_speedlimit">用户限速，用户在每个节点所享受到的速度(Mbps)</label>
 									<input class="form-control maxwidth-edit" id="node_speedlimit" type="text" value="{$edit_user->node_speedlimit}">
+									<p class="form-control-guide"><i class="material-icons">info</i>0 为不限制</p>
 								</div>
 
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="node_connector">用户同时连接 IP 数(0 为不限制)</label>
+									<label class="floating-label" for="node_connector">用户同时连接 IP 数</label>
 									<input class="form-control maxwidth-edit" id="node_connector" type="text" value="{$edit_user->node_connector}">
+									<p class="form-control-guide"><i class="material-icons">info</i>0 为不限制</p>
 								</div>
 							</div>
 						</div>

@@ -643,8 +643,13 @@ ul.dropdown-menu {
 }
 
 .form-control-guide {
-    margin-left: 1em;
-    margin-top: .5em;
+    margin: .3em 0 0 0;
+}
+.form-control-guide i {
+    font-size: 22px;
+    position: relative;
+    top: .25em;
+    margin-right: .2em;
 }
 
 /* 卡片节点 */
