@@ -28,7 +28,7 @@
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="auto_renew">自动续订天数</label>
 									<input class="form-control maxwidth-edit" id="auto_renew" type="text" value="0">
-									<p class="form-control-guide">0为不允许自动续订，其他为到了那么多天之后就会自动从用户的账户上划钱抵扣</p>
+									<p class="form-control-guide"><i class="material-icons">info</i>0为不允许自动续订，其他为到了那么多天之后就会自动从用户的账户上划钱抵扣</p>
 								</div>
 
 
@@ -133,7 +133,7 @@
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="content_extra">服务支持</label>
 									<input class="form-control maxwidth-edit" id="content_extra" type="text" value="">
-									<p class="form-control-guide">例：<code>check-全球节点分布;clear-快速客服响应</code>，减号左边为icon代号右边为文字,以;隔开</p>
+									<p class="form-control-guide"><i class="material-icons">info</i>例：<code>check-全球节点分布;clear-快速客服响应</code>，减号左边为icon代号右边为文字,以;隔开</p>
 									<p class="form-control-guide">icon代号参阅：<a href="https://material.io/tools/icons/?icon=clear&style=baseline">Material-icon</a></p>
 								</div>
 							</div>

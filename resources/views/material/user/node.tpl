@@ -6,37 +6,28 @@
 
 {function displayV2rayNode node=null}
 	{assign var=server_explode value=";"|explode:$node['server']}
-	<div class="tiptitle">
-		<a href="javascript:void(0);">{$node['name']}</a>
-	</div>
 
-	<p>地址：<span class="label label-brand-accent">
-												{$server_explode[0]}
-											</span></p>
+	<p>地址：<span class="card-tag tag-blue">{$server_explode[0]}</span></p>
 
-	<p>端口：<span class="label label-brand-red">
-												{$server_explode[1]}
-											</span></p>
+	<p>端口：<span class="card-tag tag-volcano">{$server_explode[1]}</span></p>
 
-	<p>协议参数：<span class="label label-green">
-												{$server_explode[0]}
-											</span></p>
+	<p>协议参数：<span class="card-tag tag-green">{$server_explode[0]}</span></p>
 
-	<p>用户 UUID：<span class="label label-brand">
-												{$user->getUuid()}
-											</span></p>
+	<p>用户 UUID：<span class="card-tag tag-geekblue">{$user->getUuid()}</span></p>
 
-	<p>流量比例：<span class="label label-red">
-												{$node['traffic_rate']}
-											</span></p>
+	<p>流量比例：<span class="card-tag tag-red">{$node['traffic_rate']}</span></p>
 
-	<p>AlterId：<span class="label label-green">
-												{$server_explode[2]}
-											</span></p>
+	<p>AlterId：<span class="card-tag tag-purple">{$server_explode[2]}</span></p>
 
 	<p>VMess链接：
 		<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node['raw_node'])}">点击复制</a>
 	</p>
+{/function}
+
+{function displayNodeLinkV2 node=null}
+	<div class="tiptitle">
+		<a href="javascript:void(0);">{$node['name']}</a>
+	</div>
 {/function}
 
 <main class="content">
@@ -113,10 +104,11 @@
 										{$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
 									{/if}
 
-									{if $node['mu_only'] != 1}
+									{if $node['mu_only'] != 1 && $node['sort'] != 11}
 									    <div class="tiptitle">
-											<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-												{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
+											<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">
+												{$node['name']}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}
+											</a>
 												<div class="nodeload">
 													<div class="label label-brand-accent"> ↑点击节点查看配置信息</div>
 												<div>
@@ -125,6 +117,8 @@
 												</div>
 											</div>
 										</div>
+									{elseif $node['sort'] == 11}
+										{displayNodeLinkV2 node=$node}
 									{/if}
 
 									{if $node['sort'] == 0 || $node['sort'] == 10}
@@ -147,17 +141,17 @@
 										{if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
 											{$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
 										{/if}
-										<div class="tiptitle">
+											<div class="tiptitle">
 												<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-													{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口 Shadowsocks -
-													{$single_muport['server']->server} 端口</a>
-												</div>
+													{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口 Shadowsocks - {$single_muport['server']->server} 端口
+												</a>
+											</div>
 										{/foreach}
 									{/if}
+
 									<div class="tipmiddle">
 										<div><span class="node-icon"><i class="icon icon-lg">chat</i> </span>{$node['info']}</div>
 									</div>
-
 
 									{if $node['sort'] == 11}
 										{displayV2rayNode node=$node}
@@ -187,16 +181,8 @@
 										<div class="tile tile-collapse">
 											<div data-toggle="tile" data-target="#heading{$node['id']}">
 												<div class="tile-side pull-left" data-ignore="tile">
-													<div class="avatar avatar-sm">
-														<span class="icon {if $node['online']=='1'}text-green
-																			 {elseif $node['online']=='0'}text-orange
-																			    {else}text-red
-																				    {/if}">
-															{if $node['online']=="1"}backup
-																{elseif $node['online']=='0'}report
-																	{else}warning
-																	    {/if}
-														</span>
+													<div class="avatar avatar-sm {if $node['online']=="1"}nodeonline{elseif $node['online']=='0'}nodeunset{else}nodeoffline{/if}">
+														<span class="material-icons">{if $node['online']=="1"}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</span>
 													</div>
 												</div>
 												<div class="tile-inner">
@@ -207,10 +193,8 @@
 															{/if}
 															   {$node['name']}
 														</span>
-														| {if $user->class!=0}
+														|
 														<span class="node-icon"><i class="icon icon-lg">flight_takeoff</i></span>
-														  {else}
-														  {/if} 
 														  <strong><b><span class="node-alive">{if $node['online_user'] == -1}N/A{else}{$node['online_user']}{/if}</span></b></strong> 
 											            | <span class="node-icon"><i class="icon icon-lg">cloud</i></span>
 														<span class="node-load">负载：{if $node['latest_load'] == -1}N/A{else}{$node['latest_load']}%{/if}</span> 
@@ -248,50 +232,49 @@
 													<!-- 用户等级不小于节点等级 -->
 
                                                     {if $node['sort'] == 10 && $node['sort'] != 11}
-													{$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
+														{$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
 													{/if}
                                                  <div class="card nodetip-table">
 														<div class="card-main">
 																<div class="card-inner">
-													{if $node['mu_only'] != 1}
+													{if $node['mu_only'] != 1 && $node['sort'] != 11}
 													
 																<p class="card-heading">
 																	<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
 																		{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
 																	<span class="label label-brand-accent">←点击节点查看配置信息</span>
 																</p>
-														
+
+													{elseif $node['sort'] == 11}
+														{displayNodeLinkV2 node=$node}
 												    {/if}
 
                                                     {if $node['sort'] == 0 || $node['sort'] == 10}
-													{$point_node=$node}
+														{$point_node=$node}
 													{/if}
 
 													{if ($node['sort'] == 0 || $node['sort'] == 10) && $node['mu_only'] != -1}
 													{foreach $nodes_muport as $single_muport}
 
-													{if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
-														{continue}
-													{/if}
+														{if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
+															{continue}
+														{/if}
 
-													{if !($single_muport['user']->class >= $node['class'] && ($node['group'] == 0 || $single_muport['user']->node_group == $node['group']))}
-														{continue}
-													{/if}
+														{if !($single_muport['user']->class >= $node['class'] && ($node['group'] == 0 || $single_muport['user']->node_group == $node['group']))}
+															{continue}
+														{/if}
 
-													{$relay_rule = null}
+														{$relay_rule = null}
 
-													{if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
-														{$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
-													{/if}
+														{if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
+															{$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
+														{/if}
 
-														
-																	<p class="card-heading">
-																		<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-																			{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口 Shadowsocks -
-																			{$single_muport['server']->server} 端口</a><span class="label label-brand-accent">←点击节点查看配置信息</span>
-																	</p>
-																	
-												
+															<p class="card-heading">
+																<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
+																	{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口 Shadowsocks -
+																	{$single_muport['server']->server} 端口</a><span class="label label-brand-accent">←点击节点查看配置信息</span>
+															</p>
 
 													{/foreach}
 													{/if}
@@ -397,65 +380,28 @@
 	//箭头旋转
     let rotateTrigger = document.querySelectorAll('a[href^="#cardgroup"]');
 	let arrows = document.querySelectorAll('a[href^="#cardgroup"] i')
+
 	for (let i=0;i<rotateTrigger.length;i++) {
 		rotatrArrow(rotateTrigger[i],arrows[i]);
 	}
 	
 	//UI切换
-	var nodeDefaultUI = localStorage.getItem("tempUInode");
-	var elNodeCard = $(".node-cardgroup");
-	var elNodeTable = $(".node-table");
-	nodeDefaultUI = JSON.parse(nodeDefaultUI);
-	if (!nodeDefaultUI) {
-		elNodeTable.css("display","flex");
-	} else {
-		elNodeCard.css("display",nodeDefaultUI["cardDisplay"]);
-	    elNodeCard.removeClass("node-fade").addClass(nodeDefaultUI["cardFade"]);
-	    elNodeTable.css("display",nodeDefaultUI["tableDisplay"]);
-	    elNodeTable.removeClass("node-fade").addClass(nodeDefaultUI["tableFade"]);
-	}
-	
+	let elNodeCard = $$.querySelector(".node-cardgroup");
+	let elNodeTable = $$.querySelector(".node-table");
 
-	$("#switch-cards").click(function (){
-        elNodeTable.addClass("node-fade");
-		setTimeout(function(){
-		      elNodeCard.css("display","grid");
-              elNodeTable.css("display","none");
-		},250);	
-		setTimeout(function(){
-		      elNodeCard.removeClass("node-fade");
-		},270);
-		var defaultUI = {
-			"cardFade":"",
-			"cardDisplay":"grid",
-			"tableFade":"node-fade",
-			"tableDisplay":"none"
-		};
-		defaultUI = JSON.stringify(defaultUI);
-		localStorage.setItem("tempUInode",defaultUI);
-    });
-
-    $("#switch-table").click(function (){
-         elNodeCard.addClass("node-fade");
-		 setTimeout(function(){
-			elNodeTable.css("display","flex");
-              elNodeCard.css("display","none");
-		},250);	
-		 setTimeout(function(){
-			  elNodeTable.removeClass("node-fade");
-	    },270);
-		var defaultUI = {
-			"cardFade":"node-fade",
-			"cardDisplay":"none",
-			"tableFade":"",
-			"tableDisplay":"flex"
-		};
-		defaultUI = JSON.stringify(defaultUI);
-		localStorage.setItem("tempUInode",defaultUI);
-	});
+	let switchToCard = new UIswitch('switch-cards',elNodeTable,elNodeCard,'grid','tempnode');
+	switchToCard.listenSwitch();
 	
+	let switchToTable = new UIswitch('switch-table',elNodeCard,elNodeTable,'flex','tempnode');
+	switchToTable.listenSwitch();
+
+	switchToCard.setDefault();
+	switchToTable.setDefault();
+	
+	//遮罩
 	let buttongroup = document.querySelectorAll('.node-card');
 	let modelgroup = document.querySelectorAll('.node-tip');
+
 	for (let i=0;i<buttongroup.length;i++) {
 		custModal(buttongroup[i],modelgroup[i]);
 	}

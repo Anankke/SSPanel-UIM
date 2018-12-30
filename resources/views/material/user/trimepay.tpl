@@ -9,7 +9,7 @@
         </div>
         <div id="qrarea">
             <button class="btn btn-flat waves-attach" id="btnSubmit" name="type" onclick="pay('Alipay')"><img src="/images/alipay.jpg" width="50px" height="50px" /></button>
-            <button class="btn btn-flat waves-attach" id="btnSubmit" name="type" onclick="pay('WEPAY_QR')"><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
+            <button class="btn btn-flat waves-attach" id="btnSubmit" name="type" onclick="pay('WEPAY_JSAPI')"><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
         </div>
             
       

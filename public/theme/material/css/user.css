@@ -201,7 +201,7 @@
   border: 1px solid white;
 }
 .pagination>li.active>a {
-  background: #f50057;
+  background: #13c2c2;
   color: #fff;
 }
 
@@ -210,23 +210,14 @@
   color: #000;
 }
 
+.pagination > .disabled > span {
+  border-color: #fff;
+}
 
 .pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover {
     color: #fff;
-    background-color: #000;
-    border-color: #000;
-}
-
-.pagination>.active>span {
-  background-color: #f50057;
-  color: #fff;
-  border-color: #fff;
-}
-
-
-
-.pagination > .disabled > span {
-  border-color: #fff;
+    background-color: #54aff9;
+    border-color: #54aff9;
 }
 
 

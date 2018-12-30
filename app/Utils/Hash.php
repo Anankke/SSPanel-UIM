@@ -16,6 +16,9 @@ class Hash
             case 'sha256':
                 return self::sha256WithSalt($str);
                 break;
+            case 'argon2i':
+                return self::argon2iWithSalt($str);
+                break;
             default:
                 return self::md5WithSalt($str);
         }
@@ -38,7 +41,12 @@ class Hash
         $salt = Config::get('salt');
         return hash('sha256', $pwd.$salt);
     }
-
+    public static function argon2iWithSalt($pwd)
+    {
+        $salt = Config::get('salt');
+        return hash('sha256',password_hash($pwd.$salt, PASSWORD_ARGON2I));
+        //由于直接Argon2字符超过64位数据库装不下，懒得去改数据库了，所有再套一层sha256在外面缩短下长度
+    }
     // @TODO
     public static function checkPassword($hashedPassword, $password)
     {

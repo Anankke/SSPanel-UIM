@@ -24,7 +24,7 @@
                                     <p class="card-heading">注意!</p>
                                     <p>充值完成后需刷新网页以查看余额，通常一分钟内到账。</p>
                                     {if $config["enable_admin_contact"] == 'true'}
-                                        <p class="card-heading">如果没有到账请立刻联系站长：</p>
+                                        <p class="card-heading">如果没有到账请立刻联系管理员：</p>
                                         {if $config["admin_contact1"]!=null}
                                             <li>{$config["admin_contact1"]}</li>
                                         {/if}
@@ -63,7 +63,7 @@
                                 <div class="card-inner">
                                     <div class="cardbtn-edit">
 											<div class="card-heading">充值码</div>
-											<button class="btn btn-flat waves-attach" id="code-update" ><span class="icon">favorite_border</span></button>
+											<button class="btn btn-flat" id="code-update" ><span class="icon">favorite_border</span></button>
 									</div>
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="code">充值码</label>

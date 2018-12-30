@@ -42,10 +42,10 @@
 											<nav class="tab-nav">
 												<ul class="nav nav-list">
 													<li {if $ssr_prefer}class="active"{/if}>
-														<a class="waves-attach" data-toggle="tab" href="#ssr_info"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+														<a class="" data-toggle="tab" href="#ssr_info"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
 													</li>
 													<li {if !$ssr_prefer}class="active"{/if}>
-														<a class="waves-attach" data-toggle="tab" href="#ss_info"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+														<a class="" data-toggle="tab" href="#ss_info"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
 													</li>
 												</ul>
 											</nav>
@@ -93,10 +93,10 @@
 										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ssr_json"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+													<a class="" data-toggle="tab" href="#ssr_json"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
 												</li>
 												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ss_json"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+													<a class="" data-toggle="tab" href="#ss_json"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
 												</li>
 											</ul>
 										</nav>
@@ -159,10 +159,10 @@
 										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ssr_url"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+													<a class="" data-toggle="tab" href="#ssr_url"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
 												</li>
 												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ss_url"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+													<a class="" data-toggle="tab" href="#ss_url"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
 												</li>
 											</ul>
 										</nav>
@@ -198,10 +198,10 @@
 										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ssr_qrcode"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+													<a class="" data-toggle="tab" href="#ssr_qrcode"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
 												</li>
 												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ss_qrcode"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+													<a class="" data-toggle="tab" href="#ss_qrcode"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
 												</li>
 											</ul>
 										</nav>
@@ -219,10 +219,10 @@
 												<nav class="tab-nav">
 													<ul class="nav nav-list">
 														<li class="active">
-															<a class="waves-attach" data-toggle="tab" href="#ss_qrcode_normal"><i class="icon icon-lg">android</i>&nbsp;其他平台</a>
+															<a class="" data-toggle="tab" href="#ss_qrcode_normal"><i class="icon icon-lg">android</i>&nbsp;其他平台</a>
 														</li>
 														<li>
-															<a class="waves-attach" data-toggle="tab" href="#ss_qrcode_win"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
+															<a class="" data-toggle="tab" href="#ss_qrcode_win"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
 														</li>
 													</ul>
 												</nav>

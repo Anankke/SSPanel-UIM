@@ -20,7 +20,6 @@ class Config
     {
         return [
             "appName" => self::get("appName"),
-            "appStartTime" => self::get("appStartTime"),
             "version" => VERSION,
             "baseUrl" => self::get("baseUrl"),
 			"min_port" => self::get("min_port"),

@@ -1,6 +1,6 @@
 	<footer class="ui-footer">
 		<div class="container">
-			<marquee>&copy; {$config["appName"]}  <a href="/staff">STAFF</a><amarquee>{if $config["enable_analytics_code"] == 'true'}{include file='analytics.tpl'}{/if}
+			<marquee>&copy;{date("Y")} {$config["appName"]} | Powered by <a href="/staff">SSPANEL</a></marquee>{if $config["enable_analytics_code"] == 'true'}{include file='analytics.tpl'}{/if}
 		</div>
 	</footer>
 
@@ -14,6 +14,6 @@
     {/if}
 	<script src="/theme/material/js/base.min.js"></script>
 	<script src="/theme/material/js/project.min.js"></script>
-	<script color="217,113,24" opacity="0.8" count="99" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1"></script>
+	<script color="0,217,255" opacity="0.5" count="49" src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1"></script>
 </body>
 </html>

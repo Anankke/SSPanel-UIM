@@ -69,7 +69,7 @@
 					
 					<div class="fbtn-container">
 						<div class="fbtn-inner">
-							<a class="fbtn fbtn-lg fbtn-brand-accent waves-attach waves-circle waves-light" href="/user/ticket/create">+</a>
+							<a class="fbtn fbtn-lg fbtn-brand-accent" href="/user/ticket/create">+</a>
 							
 						</div>
 					</div>

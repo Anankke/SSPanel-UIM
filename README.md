@@ -100,3 +100,9 @@ Wiki已经启用，欢迎为此面板维护wiki
 - [黛米付-支付接入](https://www.daimiyun.cn/register.php?aff=624)
 - [冲上云霄云主机](http://console.soar-clouds.com/aff.php?aff=94)
 - [Vultr](https://www.vultr.com/?ref=7205737)
+
+
+
+# 免责声明
+
+本程序由 MIT License 授权。**不提供任何担保**。使用本程序即表明，您知情并同意：程序开发者不对此程序导致的任何服务中断、数据损失或任何少见未列出的事故负责。

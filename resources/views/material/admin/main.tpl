@@ -119,7 +119,7 @@
 
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_trade">交易</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_trade">
-							<li><a href="/admin/code"><i class="icon icon-lg">code</i>&nbsp;充值码{if $config['enable_donate']=='true'}与捐赠{/if}</a></li>
+							<li><a href="/admin/code"><i class="icon icon-lg">code</i>&nbsp;充值{if $config['enable_donate']=='true'}与捐赠{/if}记录</a></li>
 							<li><a href="/admin/shop"><i class="icon icon-lg">shop</i>&nbsp;商品</a></li>
 							<li><a href="/admin/coupon"><i class="icon icon-lg">card_giftcard</i>&nbsp;优惠码</a></li>
 							<li><a href="/admin/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>

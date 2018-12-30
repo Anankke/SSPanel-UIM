@@ -189,26 +189,6 @@
 
 {include file='footer.tpl'}
 
-{literal}
-
-
-<script>
-$(document).ready(function(){
-    var tgboard = $('.auth-tg');
-    var tgHidden = $(".tiphidden");
-    $('#calltgauth').click(function(){
-        tgHidden.css({"height":"100vh","width":"100vw"});
-        tgboard.addClass("tg-down");
-    });
-    tgHidden.click(function(){
-        tgHidden.css({"height":"0","width":"0"});
-		tgboard.removeClass("tg-down");
-	});
-});
-</script>
-{/literal}
-
-
 {if $config['register_mode']!='close'}
 <script>
     $(document).ready(function(){

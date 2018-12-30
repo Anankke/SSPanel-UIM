@@ -40,11 +40,11 @@
 	max-width: 94%;
 }
 .auth-tg.cust-modelin {
-	top: 2em;
+	transform: translate3d(0,10rem,0);
 }
 .auth-tg,.tip-fade {
 	transition-property: all;
-	transition-duration: .7s;
+	transition-duration: .5s;
 }
 .tg-down {
 	top: 2em;
@@ -233,6 +233,9 @@ a.boardtop-left:hover {
 	}
 	#login {
 		margin-top: 5px;
+	}
+	.auth-tg.cust-modelin {
+		transform: translate3d(0,15rem,0);
 	}
 }
 

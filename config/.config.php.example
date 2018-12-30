@@ -25,7 +25,6 @@ $System_Config['debug'] =  'false';								//正式环境请确保为 false
 $System_Config['appName'] = 'sspanel';							//站点名称
 $System_Config['baseUrl'] = 'http://url.com';					//站点地址
 $System_Config['subUrl'] = $System_Config['baseUrl'].'/link/';	//订阅地址，如需和站点名称相同，请不要修改
-$System_Config['appStartTime'] = '2018';						//站点成立时间，显示在页脚 copyright 部分
 $System_Config['muKey'] = 'NimaQu';								//用于校验ss-go mu的请求，可以随意修改，但请保持前后端一致
 $System_Config['db_driver'] = 'mysql';							//数据库程序
 $System_Config['db_host'] = 'localhost';						//数据库地址
@@ -143,8 +142,8 @@ $System_Config['crisp_id']='null';			//客服系统ID ID查看路径：crisp.cha
 #工单系统设置
 $System_Config['enable_ticket']='true';		//是否开启工单系统
 
-#站长联系方式设置
-$System_Config['enable_admin_contact']='false';			//是否开启站长联系方式
+#管理员联系方式设置
+$System_Config['enable_admin_contact']='false';			//是否开启管理员联系方式
 $System_Config['admin_contact1'] = 'QQ：1233456';		//QQ、邮箱、微信仅用于举例
 $System_Config['admin_contact2'] = '邮箱123456@qq.com';	//也可以写电话、tg等其他联系方式
 $System_Config['admin_contact3'] = '微信～123456';		//没有格式要求，想怎么写就怎么写，可留空
@@ -255,7 +254,7 @@ $System_Config['pacpp_offset']='-20000';
 $System_Config['Speedtest_duration']='6';			//显示多长时间的测速记录
 $System_Config['login_warn']='false';				//异地登陆提示
 $System_Config['timeZone'] = 'PRC';					//PRC 天朝时间  UTC 格林时间
-$System_Config['pwdMethod'] = 'sha256';				//密码加密   可选 md5,sha256
+$System_Config['pwdMethod'] = 'sha256';				//密码加密   可选 md5,sha256，argon2i（argon2i需要至少php7.2）
 $System_Config['db_charset'] = 'utf8';
 $System_Config['db_collation'] = 'utf8_general_ci';
 $System_Config['db_prefix'] = '';

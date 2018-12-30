@@ -36,10 +36,10 @@
 								<nav class="tab-nav">
 									<ul class="nav nav-justified">
 										<li class="active">
-											<a class="waves-attach" data-toggle="tab" href="#rule_table">规则表</a>
+											<a class="" data-toggle="tab" href="#rule_table">规则表</a>
 										</li>
 										<li>
-											<a class="waves-attach" data-toggle="tab" href="#link_table">链路表</a>
+											<a class="" data-toggle="tab" href="#link_table">链路表</a>
 										</li>
 									</ul>
 								</nav>
@@ -117,7 +117,7 @@
 
 					<div class="fbtn-container">
 						<div class="fbtn-inner">
-							<a class="fbtn fbtn-lg fbtn-brand-accent waves-attach waves-circle waves-light" href="/user/relay/create">+</a>
+							<a class="fbtn fbtn-lg fbtn-brand-accent" href="/user/relay/create">+</a>
 
 						</div>
 					</div>

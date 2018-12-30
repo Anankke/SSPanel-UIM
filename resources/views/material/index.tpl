@@ -51,7 +51,6 @@
                                 <li><a href="#1">简介</a></li>
 					            <li><a href="/user">用户中心</a></li>
 								<li><a href="/user/logout">退出登录</a></li>
-								<li><a href="#5">下载</a></li>
                         </ul>
 						</nav>
                               {else}
@@ -70,7 +69,6 @@
                                <li><a href="#1">简介</a></li>
 								<li><a href="/auth/login">登录</a></li>
 								<li><a href="/auth/register">注册</a></li>
-                              	<li><a href="#5">下载</a></li>
                               
                            </ul>
 						</nav>
@@ -101,19 +99,6 @@
                                     </li>
                                   </ul>
                                   </article>
-                      <!--标签5开始-->
-	                        <article id="5">
-							<h2 class="major">软件下载</h2>
-							<ul>
-							  <li><a href="/ssr-download/ssr-win.7z" class="icon fa-windows"><span class="label"></span> Windows</a></li>
-							  <li><a href="/ssr-download/ssr-mac.dmg" class="icon fa-apple"><span class="label">Mac</span> Mac</a></li>
-							  <li><a href="/ssr-download/ssr-android.apk" class="icon fa-android"><span class="label">Android</span> Android</a></li>
-							  <li><a href="#ios" class="icon fa-apple"><span class="label">iOS</span> iOS</a></li>
-                              <li><a href="/ssr-download/SSTap.7z" class="icon fa-gamepad"><span class="label">Win游戏专用</span> Win游戏专用</a></li>
-                            
-	                         </ul>
-                             </article>
-                            <!--标签5开始-->
                       	<article id="login">  
 		
 								<h2 class="major">登录</h2>
@@ -151,7 +136,7 @@
                               </div>
                      <!-- 版权底部 -->
                       <footer id="footer">
-                   <p class="copyright">&copy;{$config["appStartTime"]}-{date("Y")} {$config["appName"]}</p>
+                   <p class="copyright">&copy;{date("Y")} {$config["appName"]}</p>
                       </footer>
               <!-- 版权结束 -->
 			 </div>

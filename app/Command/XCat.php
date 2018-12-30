@@ -88,7 +88,7 @@ class XCat
 	        case("resetAllPort"):
                 return $this->resetAllPort();
 			case("update"):
-			    return Update::update();
+			    return Update::update($this);
 			default:
                 return $this->defaultAction();
         }
@@ -205,14 +205,10 @@ class XCat
             $user->node_speedlimit=0;
             $user->theme=Config::get('theme');
 
-
-
             $ga = new GA();
             $secret = $ga->createSecret();
             $user->ga_token=$secret;
             $user->ga_enable=0;
-
-
 
             if ($user->save()) {
                 echo "Successful/添加成功!\n";
