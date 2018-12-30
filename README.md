@@ -101,7 +101,7 @@ Wiki已经启用，欢迎为此面板维护wiki
 - [冲上云霄云主机](http://console.soar-clouds.com/aff.php?aff=94)
 - [Vultr](https://www.vultr.com/?ref=7205737)
 
-
+[Nymph 的前端课程报名](t.me/kinokonominoco)
 
 # 免责声明
 
