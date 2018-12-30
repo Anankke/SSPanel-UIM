@@ -10,7 +10,6 @@ use App\Models\Ip;
 use App\Models\DetectLog;
 use App\Controllers\BaseController;
 use App\Utils\Tools;
-use Ramsey\Uuid\Uuid;
 
 class UserController extends BaseController
 {

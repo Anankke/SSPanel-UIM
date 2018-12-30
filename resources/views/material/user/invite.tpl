@@ -1,15 +1,4 @@
-
-
-
-
-
 {include file='user/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -21,7 +10,7 @@
 			<section class="content-inner margin-top-no">
 				<div class="row">
 
-					<div class="col-lg-12 col-md-12">
+					<div class="col-xx-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -42,44 +31,65 @@
 					{if $user->class!=0}
 
 					{if $user->invite_num!=-1}
-					<div class="col-lg-12 col-md-12">
+					<div class="col-xx-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-										<p class="card-heading">邀请链接</p>
+								<div class="card-inner margin-bottom-no">
+									<div class="card-inner margin-bottom-no">
+											<div class="cardbtn-edit">
+													<div class="card-heading">邀请链接</div>
+													<div class="reset-flex"><span>重置链接</span><a class="reset-link btn btn-brand-accent btn-flat" ><i class="icon">autorenew</i>&nbsp;</a></div>
+											</div>
 										<p>剩余可邀请次数：{if $user->invite_num<0}无限{else}<code>{$user->invite_num}</code>{/if}</p>
-										<p>邀请链接请给认识的需要的人，邀请他人注册时，请将以下链接发给被邀请者</p>
-										<p><a>{$config["baseUrl"]}/auth/register?code={$code->code}</a></p>
-										<p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击拷贝邀请链接</button></p>
+										<p>发送邀请链接给有需要的人，邀请他人注册时，请将以下链接发给被邀请者</p>
+										<div class="invite-link">
+											<input type="text" class="input form-control form-control-monospace cust-link" name="input1" readonly="" value="{$config["baseUrl"]}/auth/register?code={$code->code}">
+											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">点击复制</button>				
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					{if $config['custom_invite_price']>=0}
+					<div class="col-xx-12 {if $config['invite_price']>=0}col-lg-6{/if}">
+							<div class="card margin-bottom-no">
+								<div class="card-main">
+									<div class="card-inner margin-bottom-no">
+										<div class="card-inner margin-bottom-no">
+												<div class="cardbtn-edit">
+													<div class="card-heading">定制链接后缀 <code class="card-tag tag-green">{$config['custom_invite_price']} RMB/次</code></div>
+													<button class="btn btn-flat" id="custom-invite-confirm"><span class="icon">check</span>&nbsp;</button>
+												</div>
+											<p>例:输入<code>vip</code>则链接变为<code>{$config["baseUrl"]}/auth/register?code=vip</code></p>
+											<div class="form-group form-group-label">
+												<label class="floating-label" for="custom-invite-link">输入链接后缀</label>
+												<input class="form-control maxwidth-edit" id="custom-invite-link" type="num">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{/if}
 					{/if}
 
 					{if $config['invite_price']>=0}
-					<div class="col-lg-12 col-md-12">
+					<div class="col-xx-12 {if $config['custom_invite_price']>=0}col-lg-6{/if}">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
-
 									<div class="card-inner">
-										<p class="card-heading">购买邀请次数</p>
-										<p>邀请次数价格：<code>{$config['invite_price']}</code>元/个</p>
+									<div class="cardbtn-edit">
+											<div class="card-heading">购买邀请次数 <code class="card-tag tag-green">{$config['invite_price']} RMB/个</code></div>
+											<button class="btn btn-flat" id="buy-invite"><span class="material-icons">shopping_cart</span></button>
+									</div>		
+										<p>在下方输入需要购买的邀请次数</p>
 										<div class="form-group form-group-label">
-											<label class="floating-label" for="buy-invite-num">在这输入购买次数</label>
-											<input class="form-control" id="buy-invite-num" type="num">
+											<label class="floating-label" for="buy-invite-num">输入购买次数</label>
+											<input class="form-control maxwidth-edit" id="buy-invite-num" type="num">
 										</div>
 									</div>
-
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="buy-invite" ><span class="icon">check</span>&nbsp;购买</button>
-										</div>
-									</div>
-
 								</div>
 							</div>
 						</div>
@@ -88,7 +98,7 @@
 
                    	{else}
 
-                  	<div class="col-lg-12 col-md-12">
+                  	<div class="col-xx-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -100,30 +110,39 @@
 					</div>
 
 					{/if}
-					<div class="col-lg-12 col-md-12">
-					<div class="table-responsive">
-						{$paybacks->render()}
-						<table class="table ">
-							<tr>
-
-                             <!--   <th>ID</th> -->
-                                <th>ID</th>
-								<th>被邀请用户ID</th>
-								<th>获得返利</th>
-                            </tr>
-                            {foreach $paybacks as $payback}
-                            <tr>
-
-                          <!--       <td>#{$payback->id}</td> -->
-                                <td>{$payback->id}</td>
-								<td>{$payback->userid}</td>
-								<td>{$payback->ref_get} 元</td>
-
-                            </tr>
-                            {/foreach}
-                        </table>
-						{$paybacks->render()}
-					</div>
+					<div class="col-xx-12">
+                        <div class="card">
+	                        <div class="card-main">
+		                        <div class="card-inner">
+			                        <div class="card-table">
+										<div class="table-responsive bgc-fix table-user">
+											{$paybacks->render()}
+											<table class="table">
+												<tr>
+					
+												 <!--   <th>ID</th> -->
+													<th>ID</th>
+													<th>被邀请用户ID</th>
+													<th>获得返利</th>
+												</tr>
+												{foreach $paybacks as $payback}
+												<tr>
+					
+											  <!--       <td>#{$payback->id}</td> -->
+													<td>{$payback->id}</td>
+													<td>{$payback->userid}</td>
+													<td>{$payback->ref_get} 元</td>
+					
+												</tr>
+												{/foreach}
+											</table>
+											{$paybacks->render()}
+										</div>
+			                        </div>
+		                        </div>
+	                        </div>
+                        </div>
+					
 					</div>
 
 					{include file='dialog.tpl'}
@@ -164,7 +183,6 @@
 </script>
 
 <script>
-{include file='table/js_1.tpl'}
 
 $("#buy-invite").click(function () {
     $.ajax({
@@ -191,8 +209,39 @@ $("#buy-invite").click(function () {
     })
 });
 
-$(document).ready(function(){
- 	{include file='table/js_2.tpl'}
+$("#custom-invite-confirm").click(function () {
+    $.ajax({
+        type: "POST",
+        url: "/user/custom_invite",
+        dataType: "json",
+        data: {
+            customcode: $("#custom-invite-link").val(),
+        },
+        success: function (data) {
+             if (data.ret) {
+     			$("#result").modal();
+				$("#msg").html(data.msg);
+				window.setTimeout("location.href='/user/invite'", {$config['jump_delay']});
+	        } else {
+                $("#result").modal();
+			    $("#msg").html(data.msg);
+            }
+	    },
+        error: function (jqXHR) {
+            $("#result").modal();
+        	$("#msg").html(data.msg+"     出现了一些错误。");
+        }
+    })
+});
+
+</script>
+
+<script>
+
+$(".reset-link").click(function () {
+	$("#result").modal();
+	$("#msg").html("已重置您的邀请链接，复制您的邀请链接发送给其他人！");
+	window.setTimeout("location.href='/user/inviteurl_reset'", {$config['jump_delay']});
 });
 
 </script>

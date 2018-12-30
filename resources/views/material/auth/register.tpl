@@ -1,209 +1,193 @@
 
 {include file='header.tpl'}
 
-<main class="content">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-4 col-lg-push-4 col-sm-6 col-sm-push-3">
-					<section class="content-inner">
-						<div class="card">
-							<div class="card-main">
-								<div class="card-header">
-									<div class="card-inner">
-									<!-- 这里可以取消掉注释换logo图。
-									<h1 class="card-heading"><img src="/images/register.jpg" height=100% width=100% /></h1>
-									-->
-									<h1 class="card-heading">
-										<div class="text" style=" text-align:center;">
-											欢迎来到
-										</div>
-										<div class="text" style=" text-align:center;font-weight: bold;">
-											{$config["appName"]}
-										</div>
-									</h1>
-									</div>
+	<div class="authpage auth-reg">
+			<div class="container">
+				<section class="content-inner">
+					<div class="auth-main auth-row">
+							<div class="auth-top auth-row">
+								<a class="boardtop-left" href="/">
+									<div>首 页</div>
+								</a>
+								<div class="auth-logo">
+									<img src="/images/authlogo.jpg" alt="">
 								</div>
-								{if $config['register_mode']!='close'}
-								<div class="card-inner">
-
-
-										<div class="form-group form-group-label">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="name">昵称</label>
-													<input class="form-control" id="name" type="text">
-												</div>
-											</div>
-										</div>
-
-										<div class="form-group form-group-label">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="email">邮箱(唯一凭证请认真对待)</label>
-													<input class="form-control" id="email" type="text">
-												</div>
-											</div>
-										</div>
-										{if $enable_email_verify == 'true'}
-										<div class="form-group form-group-label">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="email_code">邮箱验证码</label>
-													<input class="form-control" id="email_code" type="text" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;">
-													<button id="email_verify" class="btn btn-block btn-brand-accent waves-attach waves-light">点击获取验证码</button>
-													<a href="" onclick="return false;" data-toggle='modal' data-target='#email_nrcy_modal'>收不到验证码？点击这里</a>
-												</div>
-											</div>
-										</div>
-
-										{/if}
-
-
-										<div class="form-group form-group-label">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="passwd">密码</label>
-													<input class="form-control" id="passwd" type="password">
-												</div>
-											</div>
-										</div>
-
-										<div class="form-group form-group-label">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="repasswd">重复密码</label>
-													<input class="form-control" id="repasswd" type="password">
-												</div>
-											</div>
-										</div>
-
-
-										<div class="form-group form-group-label">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="imtype">选择您的联络方式</label>
-													<select class="form-control" id="imtype">
-														<option></option>
-														<option value="1">微信</option>
-														<option value="2">QQ</option>
-														<option value="3">Facebook</option>
-														<option value="4">Telegram</option>
-													</select>
-												</div>
-											</div>
-										</div>
-
-
-										<div class="form-group form-group-label">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="wechat">在这输入联络方式账号</label>
-													<input class="form-control" id="wechat" type="text">
-												</div>
-											</div>
-										</div>
-
-
-										{if $config['register_mode'] == 'invite'}
-											<div class="form-group form-group-label">
-												<div class="row">
-													<div class="col-md-10 col-md-push-1">
-														<label class="floating-label" for="code">邀请码(必填)</label>
-														<input class="form-control" id="code" type="text">
-													</div>
-												</div>
-											</div>
-										{/if}
-
-
-										{if $geetest_html != null}
-											<div class="form-group form-group-label">
-												<div class="row">
-													<div class="col-md-10 col-md-push-1">
-														<div id="embed-captcha"></div>
-													</div>
-												</div>
-											</div>
-										{/if}
-
-										<div class="form-group">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<button id="tos" type="submit" class="btn btn-block btn-brand waves-attach waves-light">注册</button>
-												</div>
-											</div>
-										</div>
-
-										<div class="form-group">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<p>注册即代表同意<a href="/tos">服务条款</a>，以及保证所录入信息的真实性，如有不实信息会导致账号被删除。</p>
-												</div>
-											</div>
-										</div>
-									{else}
-										<div class="form-group">
-											<div class="row">
-												<div class="col-md-10 col-md-push-1">
-													<p>{$config["appName"]} 已停止新用户注册，请联系网站管理员</p>
-												</div>
-											</div>
-										</div>
-									{/if}
-									<div class="clearfix">
-										<p class="margin-no-top pull-left"><a class="btn btn-flat btn-brand waves-attach" href="/auth/login">已经注册？点我登录</a></p>
-									</div>
+								<a href="/auth/login" class="boardtop-right">
+									<div>登 录</div>
+								</a>
+							</div>
+						{if $config['register_mode']!='close'}
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group-label auth-row">
+									<label class="floating-label" for="name">昵称</label>
+									<input class="form-control maxwidth-auth" id="name" type="text">
 								</div>
 							</div>
 						</div>
-
-						{include file='dialog.tpl'}
-
-
-						<div aria-hidden="true" class="modal modal-va-middle fade" id="tos_modal" role="dialog" tabindex="-1">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-heading">
-										<h2 class="modal-title">注册 TOS</h2>
-									</div>
-									<div class="modal-inner">
-										{include file='reg_tos.tpl'}
-									</div>
-									<div class="modal-footer">
-										<p class="text-right"><button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button" id="cancel">我不同意</button>
-                                          <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" id="reg" type="button">我同意</button>
-                                      </p>
-									</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group-label auth-row">
+									<label class="floating-label" for="email">邮箱(唯一凭证请认真对待)</label>
+									<input class="form-control maxwidth-auth" id="email" type="text" maxlength="32">
 								</div>
 							</div>
 						</div>
-
-						<div aria-hidden="true" class="modal modal-va-middle fade" id="email_nrcy_modal" role="dialog" tabindex="-1">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-heading">
-										<h2 class="modal-title">收不到验证码？</h2>
-									</div>
-									<div class="modal-inner">
-										{include file='email_nrcy.tpl'}
-									</div>
-									<div class="modal-footer">
-										<p class="text-right">
-										<button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">我知道了</button>
-                                      </p>
-									</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group-label auth-row">
+									<label class="floating-label" for="passwd">密码</label>
+									<input class="form-control maxwidth-auth" id="passwd" type="password">
 								</div>
 							</div>
 						</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="repasswd">重复密码</label>
+									<input class="form-control maxwidth-auth" id="repasswd" type="password">
+								</div>
+							</div>
+						</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group form-group-label dropdown">
+									<label class="floating-label" for="imtype">选择您的联络方式</label>
+									<button class="form-control maxwidth-auth" id="imtype" data-toggle="dropdown">
+										
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="imtype">
+										<li><a href="#" class="dropdown-option" onclick="return false;" val="1" data="imtype">微信</a></li>
+										<li><a href="#" class="dropdown-option" onclick="return false;" val="2" data="imtype">QQ</a></li>
+										<li><a href="#" class="dropdown-option" onclick="return false;" val="3" data="imtype">Facebook</a></li>
+										<li><a href="#" class="dropdown-option" onclick="return false;" val="4" data="imtype">Telegram</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="wechat">在这输入联络方式账号</label>
+									<input class="form-control maxwidth-auth" id="wechat" type="text">
+								</div>
+							</div>
+						</div>
+						{if $config['register_mode'] == 'invite'}
+						<div class="rowtocol">
+							<div class="auth-row">
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="code">邀请码(必填)</label>
+									<input class="form-control maxwidth-auth" id="code" type="text">
+								</div>
+							</div>
+						</div>
+						{/if}
+						{if $enable_email_verify == 'true'}
+						<div class="rowtocol">
+							<div class="rowtocol">
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="email_code">邮箱验证码</label>
+									<input class="form-control maxwidth-auth" id="email_code" type="text" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;">
+								</div>
+							</div>
+							<div class="rowtocol">
+								<div class="form-group form-group-label">
+									<button id="email_verify" class="btn-reg btn btn-block btn-brand-accent waves-attach waves-light">获取验证码</button>
+									<a href="" onclick="return false;" data-toggle='modal' data-target='#email_nrcy_modal'
+										class="auth-help-reg">收不到验证码？</a>
+								</div>
+							</div>
+						</div>
+						{/if}
+		
+						{if $geetest_html != null}
+						<div class="rowtocol">
+							<div class="form-group form-group-label">
+								<div id="embed-captcha"></div>
+							</div>
+						</div>
+						{/if}
+						{if $recaptcha_sitekey != null}
+                            <div class="form-group form-group-label">
+                                <div class="row">
+                                    <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+                                </div>
+                            </div>
+                        {/if}
 
-					</section>
+						<div class="rowtocol">
+							<div class="btn-auth auth-row">
+								<button id="tos" type="submit" class="btn-reg btn btn-block btn-brand waves-attach waves-light">确认注册</button>
+							</div>
+						</div>
+		
+						{else}
+						<div class="form-group">
+							<p>{$config["appName"]} 已停止新用户注册，请联系网站管理员</p>
+						</div>
+						{/if}
+						<div class="auth-bottom auth-row auth-reg">
+							<div class="tgauth">
+		
+								<p>注册即代表同意<a href="/tos">服务条款</a>，以及保证所录入信息的真实性，如有不实信息会导致账号被删除。</p>
+		
+								<!-- <span>Telegram</span><button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button><span>快捷登录</span> -->
+							</div>
+						</div>
+					</div>
+				</section>
+				<div class="card auth-tg">
+					<div class="card-main">
+		
+					</div>
 				</div>
 			</div>
 		</div>
-	</main>
+		
+		<div aria-hidden="true" class="modal modal-va-middle fade" id="tos_modal" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-heading">
+						<h2 class="modal-title">注册 TOS</h2>
+					</div>
+					<div class="modal-inner">
+						{include file='reg_tos.tpl'}
+					</div>
+					<div class="modal-footer">
+						<p class="text-right"><button class="btn btn-flat btn-brand-accent waves-attach waves-effect"
+								data-dismiss="modal" type="button" id="cancel">我不同意</button>
+							<button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" id="reg"
+								type="button">我同意</button>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div aria-hidden="true" class="modal modal-va-middle fade" id="email_nrcy_modal" role="dialog" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-heading">
+						<h2 class="modal-title">收不到验证码？</h2>
+					</div>
+					<div class="modal-inner">
+						{include file='email_nrcy.tpl'}
+					</div>
+					<div class="modal-footer">
+						<p class="text-right">
+							<button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">我知道了</button>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<div class="tiphidden"></div>
+
+{include file='dialog.tpl'}
 
 {include file='footer.tpl'}
-
 
 {if $config['register_mode']!='close'}
 <script>
@@ -227,7 +211,8 @@
                     name: $("#name").val(),
                     passwd: $("#passwd").val(),
                     repasswd: $("#repasswd").val(),
-					wechat: $("#wechat").val(),
+					wechat: $("#wechat").val(),{if $recaptcha_sitekey != null}
+                    recaptcha: grecaptcha.getResponse(),{/if}
 					imtype: $("#imtype").val(),
 					code:code{if $enable_email_verify == 'true'},
 					emailcode: $("#email_code").val(){/if}{if $geetest_html != null},
@@ -438,3 +423,4 @@ function time(o) {
 
 
 </script>
+{if $recaptcha_sitekey != null}<script src="https://recaptcha.net/recaptcha/api.js" async defer></script>{/if}

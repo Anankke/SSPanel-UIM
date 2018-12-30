@@ -71,18 +71,11 @@ $app->get('/', 'App\Controllers\HomeController:index');
 $app->get('/404', 'App\Controllers\HomeController:page404');
 $app->get('/405', 'App\Controllers\HomeController:page405');
 $app->get('/500', 'App\Controllers\HomeController:page500');
-$app->get('/pwm_pingback', 'App\Services\Payment:notify');
 $app->post('/notify', 'App\Controllers\HomeController:notify');
-$app->post('/alipay_callback', 'App\Services\Payment:notify');              // @todo: Will be replaced by Payment::notify
-$app->post('/pay_callback', 'App\Services\Payment:notify');
-$app->get('/pay_callback', 'App\Services\Payment:notify');                  // @todo: Will be replaced by Payment::notify
+$app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');//yft uses GET
 $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
-$app->get('/gfwlistjs', 'App\Controllers\LinkController:GetGfwlistJs');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
-$app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');            // @todo: Will be replaced by Payment::notify
-$app->get('/codepay_callback', 'App\Services\Payment:notify');
-$app->post('/codepay_callback', 'App\Services\Payment:notify');
 
 // User Center
 $app->group('/user', function () {
@@ -122,8 +115,8 @@ $app->group('/user', function () {
     $this->get('/ticket/{id}/view', 'App\Controllers\UserController:ticket_view');
     $this->put('/ticket/{id}', 'App\Controllers\UserController:ticket_update');
 	
-    $this->post('/invite', 'App\Controllers\UserController:doInvite');
     $this->post('/buy_invite', 'App\Controllers\UserController:buyInvite');
+    $this->post('/custom_invite', 'App\Controllers\UserController:customInvite');
     $this->get('/edit', 'App\Controllers\UserController:edit');
     $this->post('/password', 'App\Controllers\UserController:updatePassword');
     $this->post('/wechat', 'App\Controllers\UserController:updateWechat');
@@ -165,6 +158,8 @@ $app->group('/user', function () {
     $this->delete('/bought', 'App\Controllers\UserController:deleteBoughtGet');
 
     $this->get('/url_reset', 'App\Controllers\UserController:resetURL');
+
+    $this->get('/inviteurl_reset', 'App\Controllers\UserController:resetInviteURL');
 
     //Reconstructed Payment System
     $this->post('/payment/purchase', 'App\Services\Payment:purchase');

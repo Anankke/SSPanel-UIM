@@ -81,7 +81,7 @@ function delete_modal_show(id) {
 }
 
 
-$(document).ready(function(){
+window.addEventListener('load', () => {
 	{include file='table/js_2.tpl'}
 
 	function delete_id(){
@@ -92,25 +92,27 @@ $(document).ready(function(){
 			data:{
 				id: deleteid
 			},
-			success:function(data){
+			success: data => {
 				if(data.ret){
 					$("#result").modal();
-					$("#msg").html(data.msg);
+					$$.getElementById('msg').innerHTML = data.msg;
 					{include file='table/js_delete.tpl'}
 				}else{
 					$("#result").modal();
-					$("#msg").html(data.msg);
+					$$.getElementById('msg').innerHTML = data.msg;
 				}
 			},
-			error:function(jqXHR){
+			error: jqXHR => {
 				$("#result").modal();
-				$("#msg").html(data.msg+"  发生错误了。");
+				$$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 			}
 		});
 	}
-	$("#delete_input").click(function(){
+	
+	$$.getElementById('delete_input').addEventListener('click',()=>{
 		delete_id();
 	});
-})
+	
+});
 
 </script>

@@ -53,22 +53,34 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->status = $request->getParam('status');
         $node->sort = $request->getParam('sort');
-		$req_node_ip = trim($request->getParam('node_ip'));
 
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
-            if ($req_node_ip != '') {
-                $node->node_ip = $req_node_ip;
-            } else {
-                if ($node->sort == 11) {
-                    $server_list = explode(";", $request->getParam('server'));
-                    $node->node_ip = gethostbyname($server_list[0]);
-                } else {
-                    $node->node_ip = gethostbyname($request->getParam('server'));
-                }
-            }
+		$req_node_ip = trim($request->getParam('node_ip'));
+		if($req_node_ip==""){
+			$req_node_ip=$node->server;
+		}
+                  
+        if ($node->sort == 11) {
+            $server_list = explode(";", $node->server);
+			if(!Tools::is_ip($server_list[0])){
+				$node->node_ip = gethostbyname($server_list[0]);
+			}else{
+				$node->node_ip = $req_node_ip;
+			}
+        } else if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
+			if(!Tools::is_ip($node->server)){
+				$node->node_ip = gethostbyname($node->server);
+			}else{
+				$node->node_ip = $req_node_ip;
+			}                        
         } else {
             $node->node_ip="";
         }
+
+		if($node->node_ip==""&&($node->sort == 11||$node->sort == 0 || $node->sort == 1 || $node->sort == 10)){
+			$rs['ret'] = 0;
+            $rs['msg'] = "获取节点IP失败，请检查您输入的节点地址是否正确！";
+            return $response->getBody()->write(json_encode($rs));
+		}
 
         if ($node->sort==1) {
             Radius::AddNas($node->node_ip, $request->getParam('server'));
@@ -77,12 +89,7 @@ class NodeController extends AdminController
         $node->node_bandwidth_limit=$request->getParam('node_bandwidth_limit')*1024*1024*1024;
         $node->bandwidthlimit_resetday=$request->getParam('bandwidthlimit_resetday');
 
-        if (!$node->save()) {
-            $rs['ret'] = 0;
-            $rs['msg'] = "添加失败";
-            return $response->getBody()->write(json_encode($rs));
-        }
-
+        $node->save();
 
         $domain_name = explode('.'.Config::get('cloudflare_name'), $node->server);
         if (Config::get('cloudflare_enable') == 'true') {
@@ -122,47 +129,35 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->type = $request->getParam('type');
         $node->sort = $request->getParam('sort');
+
 		$req_node_ip=trim($request->getParam('node_ip'));
+		if($req_node_ip==""){
+			$req_node_ip=$node->server;
+		}
 
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
-            if ($req_node_ip != '') {
-                $node->node_ip = $req_node_ip;
-            } 
-			else {
-                if ($node->isNodeOnline()) {
-                    $succ = false;
-                    if ($node->sort == 11) {
-                        $server_list = explode(";", $request->getParam('server'));
-                        $succ = $node->changeNodeIp($server_list[0]);
-                    } 
-					else {
-                        $succ = $node->changeNodeIp($request->getParam('server'));
-                    }
-
-                    if (!$succ) {
-                        $rs['ret'] = 0;
-                        $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
-                        return $response->getBody()->write(json_encode($rs));
-                    }
-                }
-				else{
-					if ($node->sort == 11) {
-						$server_list = explode(";", $request->getParam('server'));
-						$node->node_ip = gethostbyname($server_list[0]);
-					} 
-					else {
-						$node->node_ip = gethostbyname($request->getParam('server'));
-					}
-				}
-            }
-        } 
-		else {
+		$success=true;
+		if ($node->sort == 11) {
+            $server_list = explode(";", $node->server);
+			if(!Tools::is_ip($server_list[0])){
+				$success=$node->changeNodeIp($server_list[0]);
+			}else{
+				$success=$node->changeNodeIp($req_node_ip);
+			}
+        } else if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
+			if(!Tools::is_ip($node->server)){
+				$success=$node->changeNodeIp($node->server);
+			}else{
+				$success=$node->changeNodeIp($req_node_ip);
+			}                        
+        } else {
             $node->node_ip="";
         }
 
-        if ($node->sort == 0 || $node->sort == 10) {
-            Tools::updateRelayRuleIp($node);
-        }
+		if (!$success) {
+			$rs['ret'] = 0;
+            $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
+            return $response->getBody()->write(json_encode($rs));
+        }      
 
         if ($node->sort==1) {
             $SS_Node=Node::where('sort', '=', 0)->where('server', '=', $request->getParam('server'))->first();
@@ -181,11 +176,7 @@ class NodeController extends AdminController
         $node->node_bandwidth_limit=$request->getParam('node_bandwidth_limit')*1024*1024*1024;
         $node->bandwidthlimit_resetday=$request->getParam('bandwidthlimit_resetday');
 
-        if (!$node->save()) {
-            $rs['ret'] = 0;
-            $rs['msg'] = "修改失败";
-            return $response->getBody()->write(json_encode($rs));
-        }
+        $node->save();
 
         Telegram::Send("节点信息被修改~".$request->getParam('name'));
 
@@ -269,23 +260,8 @@ class NodeController extends AdminController
                 case 2:
                   $sort = 'SSH';
                   break;
-                case 3:
-                  $sort = 'PAC';
-                  break;
-                case 4:
-                  $sort = 'APN文件外链';
-                  break;
                 case 5:
                   $sort = 'Anyconnect';
-                  break;
-                case 6:
-                  $sort = 'APN';
-                  break;
-                case 7:
-                  $sort = 'PAC PLUS(Socks 代理生成 PAC文件)';
-                  break;
-                case 8:
-                  $sort = 'PAC PLUS PLUS(HTTPS 代理生成 PAC文件)';
                   break;
                 case 9:
                   $sort = 'Shadowsocks - 单端口多用户';

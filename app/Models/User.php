@@ -13,7 +13,6 @@ use App\Services\Config;
 use App\Utils\GA;
 use App\Utils\QQWry;
 use App\Models\Link;
-use App\Utils\Wecenter;
 use App\Utils\Radius;
 use Ramsey\Uuid\Uuid;
 
@@ -118,20 +117,19 @@ class User extends Model
     {
         $uid = $this->attributes['id'];
         $code = new InviteCode();
-        $code->code = Tools::genRandomChar(32);
-        $code->user = $uid;
+		while(true){
+			$temp_code=Tools::genRandomChar(4);
+			if(InviteCode::where('user_id', $uid)->count()==0){
+				break;
+			}
+		}
+        $code->code = $temp_code;
+        $code->user_id = $uid;
         $code->save();
     }
 
     public function getUuid() {
         return Uuid::uuid3(Uuid::NAMESPACE_DNS, $this->attributes['id']. '|' .$this->attributes['passwd'])->toString();
-    }
-
-    public function addManyInviteCodes($num)
-    {
-        for ($i = 0; $i < $num; $i++) {
-            $this->addInviteCode();
-        }
     }
 
     public function trafficUsagePercent()
@@ -223,6 +221,12 @@ class User extends Model
         $uid = $this->attributes['id'];
         Link::where('userid', $uid)->delete();
     }
+    
+    public function clear_inviteCodes()
+    {
+        $uid = $this->attributes['id'];
+        InviteCode::where('user_id', $uid)->delete();
+    }
 
     public function online_ip_count()
     {
@@ -266,8 +270,6 @@ class User extends Model
         TrafficLog::where('user_id', '=', $uid)->delete();
         Token::where('user_id', '=', $uid)->delete();
         PasswordReset::where('email', '=', $email)->delete();
-
-        Wecenter::Delete($email);
 
         $this->delete();
 

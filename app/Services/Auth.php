@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Utils\Wecenter;
-
 class Auth
 {
     protected $driver;
@@ -30,6 +28,5 @@ class Auth
     public static function logout()
     {
         self::getDriver()->logout();
-        Wecenter::Loginout();
     }
 }

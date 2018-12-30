@@ -79,26 +79,6 @@ class HomeController extends BaseController
 		return $this->view()->display('500.tpl');
     }
 
-    //@todo: Will be abandoned in future.
-    public function codepay_callback($request, $response, $args)
-    {
-        echo '
-            <script>
-               window.location.href="/user/code";
-            </script>
-            ';
-        return;
-    }
-
-
-    //@todo: Will be abandoned in future.
-    public function pay_callback($request, $response, $args)
-    {
-        Pay::callback($request);
-    }
-
-
-
     public function getOrderList($request, $response, $args)
     {
         $key = $request->getParam('key');

@@ -14,8 +14,11 @@ class Telegram
     {
         if (Config::get('enable_telegram') == 'true') {
             $bot = new \TelegramBot\Api\BotApi(Config::get('telegram_token'));
-
-            $bot->sendMessage(Config::get('telegram_chatid'), $messageText);
+			try{
+				$bot->sendMessage(Config::get('telegram_chatid'), $messageText);
+			} catch (\Exception $e) {
+                echo $e->getMessage();
+            }
         }
     }
     
@@ -24,8 +27,11 @@ class Telegram
     {
         if (Config::get('enable_telegram') == 'true') {
             $bot = new \TelegramBot\Api\BotApi(Config::get('telegram_token'));
-
-            $bot->sendMessage(Config::get('telegram_chatid'), $messageText, "Markdown");
+			try{
+				$bot->sendMessage(Config::get('telegram_chatid'), $messageText, "Markdown");
+			} catch (\Exception $e) {
+                echo $e->getMessage();
+            }
         }
     }
 }

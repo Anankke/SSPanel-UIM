@@ -35,12 +35,12 @@
 <script>
 	var type = "wepay";
 	var pid = 0;
-window.onload = function(){
-	$('body').append("<script src=\" \/assets\/public\/js\/jquery.qrcode.min.js \"><\/script>");
+window.onload = function() {
+    var qrcode = new QRCode(document.getElementById("dmy"));
 	$(".type").click(function(){
 		type = $(this).data("pay");
 	});
-    type= 'alipay'
+    type = 'alipay';
 	$("#submit").click(function(){
 		var price = parseFloat($("#amount").val());
 		console.log("将要使用"+type+"方法充值"+price+"元");
@@ -67,9 +67,8 @@ window.onload = function(){
 					if(type=="wepay"){
 						$("#result").modal();
 						$("#msg").html('<div class="text-center">使用微信扫描二维码支付.<div id="dmy" style="padding-top:  10px;"></div></div>');
-						$("#dmy").qrcode({
-							"text": data.code
-						});
+                        qrcode.clear();
+                        qrcode.makeCode(data.code);
                         setTimeout(f, 2000);
 					}else if(type=="alipay"){
 						$("#result").modal();
@@ -77,9 +76,8 @@ window.onload = function(){
 					}else if(type=="qqpay"){
 						$("#result").modal();
 						$("#msg").html('<div class="text-center">使用QQ扫描二维码支付.<div id="dmy"></div></div>');
-						$("#dmy").qrcode({
-							"text": data.code
-						});
+                        qrcode.clear();
+                        qrcode.makeCode(data.code);
                         setTimeout(f, 2000);
 					}
 				}

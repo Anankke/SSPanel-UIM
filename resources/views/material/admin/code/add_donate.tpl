@@ -1,13 +1,5 @@
 
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -18,17 +10,14 @@
 		<div class="container">
 			<div class="col-lg-12 col-md-12">
 				<section class="content-inner margin-top-no">
-					
-					
-					
-					
+
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
 							
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="number">类型</label>
-									<select id="type" class="form-control" name="type">
+									<select id="type" class="form-control maxwidth-edit" name="type">
 										<option value="-1">捐赠</option>
 										<option value="-2">支出</option>
 									</select>
@@ -36,26 +25,18 @@
 								
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="number">备注</label>
-									<input class="form-control" id="code" type="text" >
+									<input class="form-control maxwidth-edit" id="code" type="text" >
 								</div>
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="amount">金额</label>
-									<input class="form-control" id="amount" type="text" >
+									<input class="form-control maxwidth-edit" id="amount" type="text" >
 								</div>
-								
-								
-								
 
-								
-								
 							</div>
 						</div>
 					</div>
 
-					
-					
-					
-					
+
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
@@ -74,63 +55,51 @@
 					{include file='dialog.tpl'}
 
 			</div>
-			
-			
-			
+
 		</div>
 	</main>
-
-	
-	
-	
-	
-
-
-
-
 
 
 {include file='admin/footer.tpl'}
 
 
 <script>
-    $(document).ready(function () {
-        function submit() {
+    window.addEventListener('load', () => {
+        let submit = () => {
             $.ajax({
                 type: "POST",
                 url: "/admin/donate",
                 dataType: "json",
                 data: {
-                    amount: $("#amount").val(),
-                    code: $("#code").val(),
-                    type: $("#type").val()
+                    amount: $$getValue("amount"),
+                    code: $$getValue("code"),
+                    type: $$getValue("type")
                 },
-                success: function (data) {
+                success: data => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
                     } else {
                         $("#msg-error").hide(10);
                         $("#msg-error").show(100);
-                        $("#msg-error-p").html(data.msg);
+                        $$.getElementById('msg-error-p').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: jqXHR => {
                     $("#result").modal();
-                        $("#msg").html(data.msg+"  发生错误了。");
+                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
         }
 
-        $("html").keydown(function (event) {
-            if (event.keyCode == 13) {
+        $("html").keydown(event => {
+            if (event.keyCode === 13) {
                 login();
             }
         });
-        $("#submit").click(function () {
-            submit();
-        });
+
+        $$.getElementById('submit').addEventListener('click', submit);
        
     })
 </script>
