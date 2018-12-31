@@ -136,7 +136,10 @@
 		"server_port": {$ss_item['port']},
 		"password": "{$ss_item['passwd']}",
 		"method": "{$ss_item['method']}",
-		"plugin": "{URL::getJsonObfs($ss_item)}"
+{if $ss_item['obfs'] != "plain"}
+		"plugin": "obfs-local",
+		"plugin-opts": "{URL::getJsonObfs($ss_item)}"
+{/if}
 }
 </pre>
 											{else}
