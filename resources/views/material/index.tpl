@@ -162,18 +162,21 @@ try{
 </script>
 <!-- 進度條 -->
 <script>
-         $(function() {
-    　　NProgress.start();
+       $(function() {
+       $(window).load(function(){
+	   NProgress.done();
+		});
        NProgress.set(0.0);
-       NProgress.configure({ minimum: 0.2 });
-       NProgress.configure({ easing: 'ease', speed: 2200 });
+       NProgress.configure({ showSpinner: false });
+       NProgress.configure({ minimum: 0.4 });
+       NProgress.configure({ easing: 'ease', speed: 1200 });
        NProgress.configure({ trickleSpeed: 200 });
-       NProgress.configure({ trickleRate: 0.2, trickleSpeed: 2200 });
+       NProgress.configure({ trickleRate: 0.2, trickleSpeed: 1200 });
        NProgress.inc();
-       $(window).load(function() {
-       NProgress.done();
-    });
-           })
+       $(window).ready(function(){
+	   NProgress.start();
+		});
+})
 </script>
 </body>
 </html>
