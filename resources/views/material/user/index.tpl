@@ -664,21 +664,21 @@
 
 										<div class="progressbar">
 	                                         <div class="before"></div>
-	                                         <div class="bar tuse color3" style="width:calc({($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}%);"><span></span></div>
+	                                         <div class="bar tuse color3" style="width:calc({($user->transfer_enable==0)?0:($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}%);"><span></span></div>
 											 <div class="label-flex">
 												<div class="label la-top"><div class="bar ard color3"><span></span></div><span class="traffic-info">今日已用</span><code class="card-tag tag-red">{$user->TodayusedTraffic()}</code></div>
 											 </div>
 										</div>
 										<div class="progressbar">
 										    <div class="before"></div>
-										    <div class="bar ard color2" style="width:calc({$user->last_day_t/$user->transfer_enable*100}%);"><span></span></div>
+										    <div class="bar ard color2" style="width:calc({($user->transfer_enable==0)?0:$user->last_day_t/$user->transfer_enable*100}%);"><span></span></div>
 										    <div class="label-flex">
 										       <div class="label la-top"><div class="bar ard color2"><span></span></div><span class="traffic-info">过去已用</span><code class="card-tag tag-orange">{$user->LastusedTraffic()}</code></div>
 										    </div>
 								        </div>
 										<div class="progressbar">
 											<div class="before"></div>
-											<div class="bar remain color" style="width:calc({($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}%);"><span></span></div>
+											<div class="bar remain color" style="width:calc({($user->transfer_enable==0)?0:($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}%);"><span></span></div>
 											<div class="label-flex">
 											   <div class="label la-top"><div class="bar ard color"><span></span></div><span class="traffic-info">剩余流量</span><code class="card-tag tag-green" id="remain">{$user->unusedTraffic()}</code></div>
 											</div>
