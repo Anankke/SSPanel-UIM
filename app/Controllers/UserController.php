@@ -323,7 +323,7 @@ class UserController extends BaseController
 
         if ($code == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "二维码不能为空";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -347,10 +347,9 @@ class UserController extends BaseController
         $enable = $request->getParam('enable');
         $user = $this->user;
 
-
         if ($enable == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "选项无效";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1255,7 +1254,7 @@ class UserController extends BaseController
         foreach ($adminUser as $user) {
             $subject = Config::get('appName') . "-新工单被开启";
             $to = $user->email;
-            $text = "管理员您好，有人开启了新的工单，请您及时处理。";
+            $text = "管理员，有人开启了新的工单，请您及时处理。";
             try {
                 Mail::send($to, $subject, 'news/warn.tpl', [
                     "user" => $user, "text" => $text
@@ -1301,7 +1300,7 @@ class UserController extends BaseController
             foreach ($adminUser as $user) {
                 $subject = Config::get('appName') . "-工单被重新开启";
                 $to = $user->email;
-                $text = "管理员您好，有人重新开启了<a href=\"" . Config::get('baseUrl') . "/admin/ticket/" . $ticket_main->id . "/view\">工单</a>，请您及时处理。";
+                $text = "管理员，有人重新开启了<a href=\"" . Config::get('baseUrl') . "/admin/ticket/" . $ticket_main->id . "/view\">工单</a>，请您及时处理。";
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         "user" => $user, "text" => $text
@@ -1316,7 +1315,7 @@ class UserController extends BaseController
             foreach ($adminUser as $user) {
                 $subject = Config::get('appName') . "-工单被回复";
                 $to = $user->email;
-                $text = "管理员您好，有人回复了<a href=\"" . Config::get('baseUrl') . "/admin/ticket/" . $ticket_main->id . "/view\">工单</a>，请您及时处理。";
+                $text = "管理员，有人回复了<a href=\"" . Config::get('baseUrl') . "/admin/ticket/" . $ticket_main->id . "/view\">工单</a>，请您及时处理。";
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         "user" => $user, "text" => $text
@@ -1425,13 +1424,13 @@ class UserController extends BaseController
 
         if (!Tools::is_param_validate('obfs', $obfs)) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "混淆无效";
             return $response->getBody()->write(json_encode($res));
         }
 
         if (!Tools::is_param_validate('protocol', $protocol)) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "协议无效";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1443,7 +1442,7 @@ class UserController extends BaseController
 
         if (!Tools::checkNoneProtocol($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "您好，系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议<br>" . implode(',', Config::getSupportParam('allow_none_protocol')) . '<br>之内，请您先修改您的加密方式，再来修改此处设置。';
+            $res['msg'] = "系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议<br>" . implode(',', Config::getSupportParam('allow_none_protocol')) . '<br>之内，请您先修改您的加密方式，再来修改此处设置。';
             return $this->echoJson($response, $res);
         }
 
@@ -1502,7 +1501,7 @@ class UserController extends BaseController
 
         if (!($mail == "1" || $mail == "0")) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "非法输入";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1523,7 +1522,7 @@ class UserController extends BaseController
 
         if ($pac == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "输入不能为空";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1545,13 +1544,13 @@ class UserController extends BaseController
 
         if ($pwd == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "密码不能为空";
             return $response->getBody()->write(json_encode($res));
         }
 
         if (!Tools::is_validate($pwd)) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "密码无效";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1573,13 +1572,13 @@ class UserController extends BaseController
 
         if ($method == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "非法输入";
             return $response->getBody()->write(json_encode($res));
         }
 
         if (!Tools::is_param_validate('method', $method)) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "加密无效";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1587,7 +1586,7 @@ class UserController extends BaseController
 
         if (!Tools::checkNoneProtocol($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "您好，系统检测到您将要设置的加密方式为 none ，但您的协议并不在以下协议<br>" . implode(',', Config::getSupportParam('allow_none_protocol')) . '<br>之内，请您先修改您的协议，再来修改此处设置。';
+            $res['msg'] = "系统检测到您将要设置的加密方式为 none ，但您的协议并不在以下协议<br>" . implode(',', Config::getSupportParam('allow_none_protocol')) . '<br>之内，请您先修改您的协议，再来修改此处设置。';
             return $this->echoJson($response, $res);
         }
 
