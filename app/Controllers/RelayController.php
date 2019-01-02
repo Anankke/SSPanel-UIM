@@ -170,7 +170,7 @@ class RelayController extends UserController
         )->where('type', 1)->where('sort', 10)->where("node_class", "<=", $user->class)->first();
         if ($source_node == null) {
             $rs['ret'] = 0;
-            $rs['msg'] = "美国的华莱士";
+            $rs['msg'] = "起源节点错误";
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -195,7 +195,7 @@ class RelayController extends UserController
 
         if ($dist_node == null) {
             $rs['ret'] = 0;
-            $rs['msg'] = "不知道比你们高到哪里去了";
+            $rs['msg'] = "目标节点错误";
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -207,7 +207,7 @@ class RelayController extends UserController
         )->where('type', 1)->where('sort', 9)->where("node_class", "<=", $user->class)->first();
         if ($port_raw == null && $port != $user->port) {
             $rs['ret'] = 0;
-            $rs['msg'] = "我和他谈笑风生";
+            $rs['msg'] = "端口错误";
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -324,7 +324,7 @@ class RelayController extends UserController
         )->where('type', 1)->where('sort', 10)->where("node_class", "<=", $user->class)->first();
         if ($source_node == null) {
             $rs['ret'] = 0;
-            $rs['msg'] = "我告诉你们我是身经百战了";
+            $rs['msg'] = "起源节点错误";
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -349,7 +349,7 @@ class RelayController extends UserController
 
         if ($dist_node == null) {
             $rs['ret'] = 0;
-            $rs['msg'] = "见得多了";
+            $rs['msg'] = "目标节点错误";
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -361,7 +361,7 @@ class RelayController extends UserController
         )->where('type', 1)->where('sort', 9)->where("node_class", "<=", $user->class)->first();
         if ($port_raw == null && $port != $user->port) {
             $rs['ret'] = 0;
-            $rs['msg'] = "西方的哪个国家我没去过";
+            $rs['msg'] = "端口错误";
             return $response->getBody()->write(json_encode($rs));
         }
 
