@@ -162,32 +162,18 @@ try{
 </script>
 <!-- 進度條 -->
 <script>
-    NProgress.set(0.0);
-    img = [];
-    flag = 1;
-    mulitImg = [];
-    moutiple = document.getElementsByTagName('img');
-    console.log(moutiple);
-    for (value in moutiple) {
-        if (moutiple[value].src != undefined)
-            mulitImg.push(moutiple[value].src);
-    }
- 
-    var imgTotal = mulitImg.length;
-    for (var i = 0; i < imgTotal; i++) {
-        img[i] = new Image();
-        img[i].src = mulitImg[i];
- 
-        img[i].onload = img[i].onreadystatechange = function () {
-            if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
-                NProgress.set(flag / imgTotal);
-                flag++;
-                if (flag == imgTotal) {
-                    NProgress.done();
-                }
-            }
-        };
-    }
+         $(function() {
+    　　NProgress.start();
+       NProgress.set(0.0);
+       NProgress.configure({ minimum: 0.2 });
+       NProgress.configure({ easing: 'ease', speed: 2200 });
+       NProgress.configure({ trickleSpeed: 200 });
+       NProgress.configure({ trickleRate: 0.2, trickleSpeed: 2200 });
+       NProgress.inc();
+       $(window).load(function() {
+       NProgress.done();
+    });
+           })
 </script>
 </body>
 </html>
