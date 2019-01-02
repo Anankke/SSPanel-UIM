@@ -16,8 +16,10 @@
         <link rel="shortcut icon" href="/favicon.ico"/>
         <link rel="bookmark" href="/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-		<link rel="stylesheet" href="/assets/css/main.css"/>
-        <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>   
+	<link rel="stylesheet" href="/assets/css/main.css"/>
+        <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
+	<link href="//unpkg.com/nprogress@0.2.0/nprogress.css" rel="stylesheet" />
+    <script src="//unpkg.com/nprogress@0.2.0/nprogress.js"></script>
   </head>
   
        <body>
@@ -158,5 +160,34 @@ try{
 };
  
 </script>
-	</body>
+<!-- 進度條 -->
+<script>
+    NProgress.set(0.0);
+    img = [];
+    flag = 1;
+    mulitImg = [];
+    moutiple = document.getElementsByTagName('img');
+    console.log(moutiple);
+    for (value in moutiple) {
+        if (moutiple[value].src != undefined)
+            mulitImg.push(moutiple[value].src);
+    }
+ 
+    var imgTotal = mulitImg.length;
+    for (var i = 0; i < imgTotal; i++) {
+        img[i] = new Image();
+        img[i].src = mulitImg[i];
+ 
+        img[i].onload = img[i].onreadystatechange = function () {
+            if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
+                NProgress.set(flag / imgTotal);
+                flag++;
+                if (flag == imgTotal) {
+                    NProgress.done();
+                }
+            }
+        };
+    }
+</script>
+</body>
 </html>
