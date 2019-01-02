@@ -61,9 +61,6 @@ class UserController extends BaseController
     {
 
         $user = $this->user;
-        $acl_token = LinkController::GenerateAclCode("smart", 0, $this->user->id, 0, "smart");
-        $router_token = LinkController::GenerateRouterCode($this->user->id, 0);
-        $router_token_without_mu = LinkController::GenerateRouterCode($this->user->id, 1);
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
         $GtSdk = null;
@@ -86,9 +83,6 @@ class UserController extends BaseController
 
         return $this->view()
             ->assign('ssr_sub_token', $ssr_sub_token)
-            ->assign('router_token', $router_token)
-            ->assign('router_token_without_mu', $router_token_without_mu)
-            ->assign('acl_token', $acl_token)
             ->assign('display_ios_class',Config::get('display_ios_class'))
             ->assign('ios_account',Config::get('ios_account'))
             ->assign('ios_password',Config::get('ios_password'))
