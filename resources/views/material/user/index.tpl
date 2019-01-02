@@ -236,11 +236,10 @@
                                                        <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_mac">
-															<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssr-mac.dmg" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载客户端</a>，并打开</p>
-                                                     	    <p><span class="icon icon-lg text-white">filter_2</span> 把ShadowsocksX拖入到Finder的应用程序列表(Applications)</p>
-                                                      		<p><span class="icon icon-lg text-white">filter_3</span> 打开Launchapad里的ShadowsocksX</p>
-                                                      		<p><span class="icon icon-lg text-white">filter_4</span> 菜单栏的纸飞机图标-服务器-服务器订阅填入以下订阅地址，更新后出现您的节点</p>
-                                                    			<p><span class="icon icon-lg text-white">filter_5</span> 菜单栏的纸飞机图标-打开shadowsocks</p>
+															<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssr-mac.dmg" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载ShadowsocksX</a>，安装并启动</p>                                
+                                                      		<p><span class="icon icon-lg text-white">filter_2</span> 右击托盘纸飞机图标->服务器->服务器订阅，填入以下订阅地址</p>
+															<p><span class="icon icon-lg text-white">filter_3</span >更新订阅成功后服务器列表即可出现节点，选择一个节点</p>
+                                                    		<p><span class="icon icon-lg text-white">filter_4</span> 再次右击托盘纸飞机图标，如果shadowsocks还未打开，则需要点击打开</p>
 
 															<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
 															<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
@@ -390,9 +389,8 @@
 													</nav>
 													<div class="tab-pane fade" id="all_ss_info">
 														{$user = URL::getSSConnectInfo($pre_user)}
-														{$ss_url_all = URL::getAllUrl($pre_user, 0, 1)}
 														{$ss_url_all_mu = URL::getAllUrl($pre_user, 1, 1)}
-														{$ss_url_all_win = URL::getAllUrl($pre_user, 0, 2)}														
+														{$ss_url_all = URL::getAllUrl($pre_user, 0, 2)}														
 														{$ssd_url_all =URL::getAllSSDUrl($user)}
 
 														{if URL::SSCanConnect($user)}
@@ -418,12 +416,14 @@
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-win.7z" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 SSD</a>，解压至任意磁盘并运行</p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
-														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：<a class="copy-text btn-dl" data-clipboard-text='{$ssd_url_all}'><i class="material-icons icon-sm">how_to_vote</i>复制链接</a>，然后右键小飞机->从剪贴板复制地址</p>
+														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：<a class="copy-text btn-dl" data-clipboard-text='{$ssd_url_all}'><i class="material-icons icon-sm">how_to_vote</i>点我复制链接</a>，然后右键小飞机->从剪贴板复制地址</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=3">点击复制</button><br></div>
 													</div>
 													<div class="tab-pane fade" id="all_ss_mac">
-														<p><a href="/ssr-download/ss-mac.zip" class="btn-dl"><i class="material-icons">save_alt</i> 下载客户端</a>，安装，然后下载<a href="/user/getpcconf?is_mu=0&is_ss=1" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>普通端口链接</a>或者<a href="/user/getpcconf?is_mu=1&is_ss=1" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>单端口多用户链接</a>，运行程序，小飞机上右键 服务器列表 子菜单 的 “导入服务器配置文件...” 导入这个文件，然后选择一个合适的服务器，更新一下PAC，然后开启系统代理即可上网</p>
+														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ss-mac.zip" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 ShadowsocksX-NG</a>，并安装</p>
+														<p><span class="icon icon-lg text-white">filter_2</span> <a class="copy-text btn-dl" data-clipboard-text='{$ss_url_all}'><i class="material-icons icon-sm">how_to_vote</i>点我复制链接</a>，然后右击托盘小飞机图标->从剪贴板导入服务器配置链接</p>
+														<p><span class="icon icon-lg text-white">filter_3</span> 再次右击托盘小飞机图标->服务器，选择一个服务器即可上网</p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_ios">													
 													{if $display_ios_class>=0}
@@ -449,7 +449,7 @@
 													</div>
 													<div class="tab-pane fade" id="all_ss_android">
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 SSD</a>，<a href="/ssr-download/ss-android-obfs.apk" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 SS 混淆插件</a></p>
-														<p><span class="icon icon-lg text-white">filter_2</span> 安装后，在手机上点击 <a class="copy-text btn-dl" data-clipboard-text="{$ss_url_all}"><i class="material-icons icon-sm">how_to_vote</i>复制链接</a></p>
+														<p><span class="icon icon-lg text-white">filter_2</span> 安装后，在手机上点击复制下方的订阅链接</a></p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 打开 ShadowsocksD 客户端，点击右上角的“加号”，选择“添加订阅”，将剪贴板中的内容粘贴进去，点击“OK”，稍等片刻即可看见订阅的节点</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=3" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=3">点击复制</button><br></div>

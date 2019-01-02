@@ -151,7 +151,6 @@ $app->group('/user', function () {
     $this->post('/resetport', 'App\Controllers\UserController:ResetPort');
     $this->post('/specifyport', 'App\Controllers\UserController:SpecifyPort');
     $this->post('/pacset', 'App\Controllers\UserController:PacSet');
-    $this->get('/getpcconf', 'App\Controllers\UserController:GetPcConf');
     $this->get('/getiosconf', 'App\Controllers\UserController:GetIosConf');
     $this->post('/unblock', 'App\Controllers\UserController:Unblock');
     $this->get('/bought', 'App\Controllers\UserController:bought');

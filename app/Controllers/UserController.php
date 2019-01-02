@@ -727,17 +727,6 @@ class UserController extends BaseController
         }
     }
 
-    public function GetPcConf($request, $response, $args)
-    {
-        $is_mu = $request->getQueryParams()["is_mu"];
-        $is_ss = $request->getQueryParams()["is_ss"];
-
-        $newResponse = $response->withHeader('Content-type', ' application/octet-stream')->withHeader('Content-Disposition', ' attachment; filename=gui-config.json');//->getBody()->write($builder->output());
-        $newResponse->getBody()->write(LinkController::GetPcConf($this->user, $is_mu, $is_ss));
-
-        return $newResponse;
-    }
-
     public function GetIosConf($request, $response, $args)
     {
         $newResponse = $response->withHeader('Content-type', ' application/octet-stream')->withHeader('Content-Disposition', ' attachment; filename=allinone.conf');//->getBody()->write($builder->output());
