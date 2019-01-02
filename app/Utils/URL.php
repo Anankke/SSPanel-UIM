@@ -303,22 +303,24 @@ class URL
         }
         return $return_array;
     }
-    public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
+    public static function getAllUrl($user, $is_mu, $is_ss = 0) {
         $return_url = '';
-        $return_url .= URL::getUserTraffic($user, $is_mu).($enter == 0 ? ' ' : '\n\r');
-        $return_url .= URL::getUserClassExpiration($user, $is_mu).($enter == 0 ? ' ' : '\n\r');
+		if(!$is_ss){
+			$return_url .= URL::getUserTraffic($user, $is_mu).PHP_EOL;
+			$return_url .= URL::getUserClassExpiration($user, $is_mu).PHP_EOL;
+		}
         if(strtotime($user->expire_in)<time()){
 			return $return_url;
 		}
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : '\n\r');
+            $return_url .= URL::getItemUrl($item, $is_ss).PHP_EOL;
         }
         if(Config::get('mergeSub') and in_array($is_mu, array(0, 1))){
             $is_mu = $is_mu==0?1:0;
             $items = URL::getAllItems($user, $is_mu, $is_ss);
             foreach($items as $item) {
-                $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : '\n\r');
+                $return_url .= URL::getItemUrl($item, $is_ss).PHP_EOL);
             }
         }
         return $return_url;

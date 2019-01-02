@@ -93,7 +93,7 @@ class LinkController extends BaseController
     public static function GetSSRSub($user, $mu = 0)
     {
         if ($mu==0||$mu==1) {
-            return Tools::base64_url_encode(URL::getAllUrl($user, $mu, 0, 1));
+            return Tools::base64_url_encode(URL::getAllUrl($user, $mu, 0));
         } 
 		elseif ($mu == LinkController::V2RYA_MU){
             return Tools::base64_url_encode(URL::getAllVMessUrl($user));
