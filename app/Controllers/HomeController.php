@@ -30,6 +30,11 @@ class HomeController extends BaseController
         return $this->view()->display('index.tpl');
     }
 
+    public function indexold()
+    {
+        return $this->view()->display('indexold.tpl');
+    }
+
     public function code()
     {
         $codes = InviteCode::where('user_id', '=', '0')->take(10)->get();

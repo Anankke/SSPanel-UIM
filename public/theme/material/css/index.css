@@ -1,0 +1,163 @@
+body {
+    background-color: #1D1D1D;
+    color: white;
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+#index {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nav,.main,.footer {
+    flex-basis: 100%;
+}
+
+.logo-sm,.auth-sm {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1rem;
+}
+
+.auth-sm {
+    text-align: right;
+    justify-content: flex-end;
+}
+
+.logo-sm .logo {
+    height: 48px;
+}
+
+.logo {
+    border-radius: 50%;
+}
+
+.logo-sm>a {
+    display: flex;
+    align-items: center;
+}
+
+.logo-sm .logo {
+    margin-right: .5rem;
+}
+
+.logo-bg .logo {
+    height: 160px;
+    display: none;
+}
+
+.sign {
+    font-size: .5rem;
+    margin-top: 2px;
+    color: #858585;
+}
+
+.main {
+    text-align: center;
+    min-height: 80vh;
+}
+
+.title,.auth {
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    width: 60%;
+}
+
+.title-left {
+    text-align: center;
+}
+
+.title-left a {
+    margin-right: .5rem;
+    margin-bottom: .5rem;
+}
+
+.title h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    display: inline-block;
+    border-bottom: 2px solid currentColor;
+}
+
+.title span {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 2rem;
+}
+
+.button-index {
+    font-size: 1rem;
+    padding: .5rem 1.5rem;
+    display: inline-block;
+    border: 2px solid currentColor;
+    min-width: 120px;
+    text-align: center;
+}
+
+.footer {
+    padding: 0 3rem;
+}
+
+.staff,.time {
+    text-align: center;
+}
+
+.staff {
+    color: rgba(120, 120, 120, 1);
+}
+
+.staff a {
+    color: #D1335B;
+}
+
+@media screen and (min-width:35.5em) {
+    .footer {
+        margin-top: 3rem;
+    }
+    .title-left a {
+        margin-bottom: 0;
+    }
+    .logo-sm,.auth-sm {
+        padding: 1rem 3rem;
+        margin-top: .8rem;
+    }
+    .title h1 {
+        font-size: 4rem;
+    }
+    .staff {
+        text-align: left;
+    }
+    .time {
+        text-align: right;
+    }
+}
+
+@media screen and (min-width:48em) {
+    .title h1 {
+        font-size: 5rem;
+    }
+}
+
+@media screen and (min-width:64em) {
+    
+}
+
+@media screen and (min-width:80em) {
+    .title h1 {
+        padding-right: 4rem;
+    }
+    .title-left {
+        text-align: left;
+    }
+    .logo-bg .logo {
+        display: unset;
+        margin-left: 10rem;
+    }
+}
