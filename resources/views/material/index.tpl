@@ -63,7 +63,7 @@
 								如果想自定义文本请删除下面这段script代码,格式为
 								<p>自定义文本</p>
 								-->
-								<script type="text/javascript" src="https://api.lwl12.com/hitokoto/v1?encode=js&charset=utf-8"></script><div id="lwlhitokoto"><script>lwlhitokoto()</script></div>
+								<div id="lwlhitokoto"></div>
                           </div>
                       </div>	
                               <nav>
@@ -162,7 +162,7 @@ try{
 </script>
 <!-- 進度條 -->
 <script>
-       $(function() {
+	$(function() {
        $(window).load(function(){
 	   NProgress.done();
 		});
@@ -176,7 +176,26 @@ try{
        $(window).ready(function(){
 	   NProgress.start();
 		});
-})
+	})
+
+	window.addEventListener('load',()=>{
+		fetch('https://api.lwl12.com/hitokoto/v1?encode=realjson',{
+			method: 'GET',
+		}).then((response)=>{
+			return response.json();
+		}).then((r)=>{
+			insertHitokoto(r);
+		})
+	});
+
+	function insertHitokoto(data) {
+		let hitokoto = document.getElementById('lwlhitokoto');
+		if (data.author || data.source) {
+			hitokoto.innerHTML = `${ldelim}data.text{rdelim} —— ${ldelim}data.author{rdelim} ${ldelim}data.source{rdelim}`;
+		} else {
+			hitokoto.innerHTML = `${ldelim}data.text{rdelim}`;
+		}
+	}
 </script>
 </body>
 </html>
