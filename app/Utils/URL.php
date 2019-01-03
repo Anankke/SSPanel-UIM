@@ -320,7 +320,7 @@ class URL
             $is_mu = $is_mu==0?1:0;
             $items = URL::getAllItems($user, $is_mu, $is_ss);
             foreach($items as $item) {
-                $return_url .= URL::getItemUrl($item, $is_ss).PHP_EOL);
+                $return_url .= URL::getItemUrl($item, $is_ss).PHP_EOL;
             }
         }
         return $return_url;
