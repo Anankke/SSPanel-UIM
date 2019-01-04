@@ -89,11 +89,14 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 您对我们的帮助将是支持我们做下去的动力，只需您在购买部分产品或向他人推荐产品时从我们的返利链接购买，这就是对我们很大的支持了。~~没有钱了，肯定要做啊，不做没有钱用啊，打工是不可能打工的，这辈子不可能打工的~~
 
+**NimaQu**
+
+- [TrimePay 签约](https://portal.trimepay.com/#/auth/register/134)
+- [Scorpioud - 圣何塞大带宽/波特兰高防 VPS](https://www.scorpioud.com) 
+
 ##### dumplin
 
 - [码支付-微信收款功能开通](https://codepay.fateqq.com/i/39756)
-
-
 
 ##### galaxychuck
 
@@ -103,6 +106,8 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 [Nymph 的前端课程报名](t.me/kinokonominoco)
 
-# 免责声明
+
+
+## 免责声明
 
 本程序由 MIT License 授权。**不提供任何担保**。使用本程序即表明，您知情并同意：程序开发者不对此程序导致的任何服务中断、数据损失或任何少见未列出的事故负责。
