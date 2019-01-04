@@ -37,7 +37,12 @@ class TelegramProcess
                 case "rss":
                     $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id, 0);
                     $subUrl = Config::get('subUrl');
-                    $reply_message = "SSR普通订阅: ". $subUrl.$ssr_sub_token."?mu=0\n"."SSR单端口订阅: ". $subUrl.$ssr_sub_token."?mu=1\n"."SS/SSD订阅: ".$subUrl.$ssr_sub_token."?mu=3\n"."V2ray订阅: ".$subUrl.$ssr_sub_token."?mu=2\n";
+                    $reply_message = "SSR普通订阅: ". $subUrl.$ssr_sub_token."?mu=0\n".
+                        "SSR单端口订阅: ". $subUrl.$ssr_sub_token."?mu=1\n".
+                        "SS/SSD订阅: ".$subUrl.$ssr_sub_token."?mu=3\n".
+                        "V2ray订阅: ".$subUrl.$ssr_sub_token."?mu=2\n".
+                        "Clash订阅: ".$subUrl.$ssr_sub_token."?mu=4\n"
+                    ;
                     $bot->sendMessage($message->getChat()->getId(), $reply_message , $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
                 default:
