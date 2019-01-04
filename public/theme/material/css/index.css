@@ -14,11 +14,14 @@ a {
     flex-wrap: wrap;
 }
 
-.nav,.main,.footer {
+.nav,
+.main,
+.footer {
     flex-basis: 100%;
 }
 
-.logo-sm,.auth-sm {
+.logo-sm,
+.auth-sm {
     display: flex;
     align-items: center;
     padding: 1rem 1rem;
@@ -62,7 +65,8 @@ a {
     min-height: 80vh;
 }
 
-.title,.auth {
+.title,
+.auth {
     margin-right: auto;
     margin-left: auto;
     display: flex;
@@ -106,7 +110,8 @@ a {
     padding: 0 3rem;
 }
 
-.staff,.time {
+.staff,
+.time {
     text-align: center;
 }
 
@@ -131,25 +136,73 @@ a {
     background: white;
     outline: none;
     border: 1px solid transparent;
+    min-height: 46px;
+    margin-top: 1rem;
+    width: 32%;
+}
+
+.auth {
+    width: 100%;
+}
+
+.auth h1 {
+    font-size: 3.5rem;
+}
+
+.page-login {
+    text-align: center;
+}
+
+.input-control {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-control>label,
+.input-control>input {
+    flex-basis: 80%;
+    text-align: left;
+}
+
+.input-control>input {
+    margin-bottom: 1rem;
+}
+
+.button-round {
+    display: block;
+}
+
+input[name] {
+    height: 46px;
 }
 
 @media screen and (min-width:35.5em) {
     .footer {
         margin-top: 3rem;
     }
+
     .title-left a {
         margin-bottom: 0;
     }
-    .logo-sm,.auth-sm {
+
+    .logo-sm,
+    .auth-sm {
         padding: 1rem 3rem;
         margin-top: .8rem;
     }
+
     .title h1 {
         font-size: 4rem;
     }
+
     .staff {
         text-align: left;
     }
+
     .time {
         text-align: right;
     }
@@ -161,17 +214,17 @@ a {
     }
 }
 
-@media screen and (min-width:64em) {
-    
-}
+@media screen and (min-width:64em) {}
 
 @media screen and (min-width:80em) {
     .title h1 {
         padding-right: 4rem;
     }
+
     .title-left {
         text-align: left;
     }
+
     .logo-bg .logo {
         display: unset;
         margin-left: 10rem;

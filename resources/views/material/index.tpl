@@ -57,7 +57,7 @@
             // 将验证码加到id为captcha的元素里
 
             captchaObj.onSuccess(function () {
-                validate = captchaObj.getValidate();
+                 validate = captchaObj.getValidate();
             });
 
             captchaObj.appendTo("#embed-captcha");
@@ -78,11 +78,7 @@ var store = {
             recaptchaSiteKey: '{$recaptcha_sitekey}',
             jumpDelay: '{$config["jump_delay"]}',
         },
-        Gecaptcha: {},
     },
-    setSysConfig(key,newValue) {
-        store.state[key] = newValue;
-    }
 }
 
 const Root = {
@@ -107,6 +103,10 @@ const Auth = {
     delimiters: ['$[',']'],
     template: /*html*/ `
     <div class="auth pure-g">
+        <div class="pure-u-5-24">
+            <router-link class="button-round" to="/auth/login">登录</router-link>
+            <router-link class="button-round" to="/auth/register">注册</router-link>
+        </div>
         <router-view></router-view>
     </div>
     `,
@@ -116,17 +116,21 @@ const Auth = {
 const Login = {
     delimiters: ['$[',']'],
     template: /*html*/ `
-    <div class="page-login">
+    <div class="page-login pure-g pure-u-19-24">
         <h1>登录</h1>
         <div class="input-control">
+            <label for="Email">邮箱</label>
             <input v-model="email" type="text" name="Email">        
         </div>
         <div class="input-control">
+            <label for="Password">密码</label>
             <input v-model="passwd" type="password" name="Password">        
         </div>
-        <div v-if="shareState.sysConfig.captchaProvider === 'geetest'" id="embed-captcha"></div>        
-        <div v-if="shareState.sysConfig.recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
-        <button @click="login" class="auth-submit" id="login" type="submit">
+        <div class="input-control">
+            <div v-if="shareState.sysConfig.captchaProvider === 'geetest'" id="embed-captcha"></div>        
+            <div v-if="shareState.sysConfig.recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+        </div>
+        <button @click="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
             确认登录
         </button>
     </div>
@@ -135,10 +139,14 @@ const Login = {
         return {
             email: '',
             passwd: '',
-            shareState: store.state
+            shareState: store.state,
+            isDisabled: false,
         }
     },
     created() {
+        if (parseInt(this.shareState.sysConfig.isLogin)) {
+            return;
+        }
         if (this.shareState.sysConfig.recaptchaSiteKey !== '') {
             this.$nextTick(function(){
                 grecaptcha.render('g-recaptcha');
@@ -163,8 +171,16 @@ const Login = {
         }
          
     },
+    mounted() {
+        if (parseInt(this.shareState.sysConfig.isLogin)) {
+            this.$router.replace('/');
+        }
+    },
     methods: {
         login() {
+
+            this.isDisabled = true;
+
             let ajaxCon = {
                 email: this.email,
                 passwd: this.passwd,
@@ -172,7 +188,7 @@ const Login = {
             if (this.shareState.sysConfig.recaptchaSiteKey !== '') {
                 ajaxCon.recaptcha = grecaptcha.getResponse();
             }
-            if (this.shareState.sysConfig.captchaProvider === 'geetest') {
+            if (this.shareState.sysConfig.captchaProvider === 'geetest' && captcha.getValidate()) {
                 ajaxCon.geetest_challenge = validate.geetest_challenge;
                 ajaxCon.geetest_validate = validate.geetest_validate;
                 ajaxCon.geetest_seccode = validate.geetest_seccode;
@@ -186,6 +202,7 @@ const Login = {
                     console.log(r.data.ret);
                     window.setTimeout("location.href='/user'", this.shareState.sysConfig.jumpDelay);
                 } else {
+                    this.isDisabled = false
                     console.log(r.data.ret);
                 }
             })
@@ -196,8 +213,20 @@ const Login = {
 const Register = {
     delimiters: ['$[',']'],
     template: /*html*/ `
-    <div>注册</div>
+    <div class="page-login pure-g pure-u-19-24">
+        <h1>账号注册</h1>
+    </div>
     `,
+    data: function () {
+        return {
+            shareState: store.state,
+        }
+    },
+    mounted() {
+        if (parseInt(this.shareState.sysConfig.isLogin)) {
+            this.$router.replace('/');
+        }
+    },
 };
 
 const vueRoutes = [
@@ -268,8 +297,10 @@ const indexPage = new Vue({
     },
     mounted() {
         this.routeJudge();
-        // let captcha = getGeetest();
-        // store.setSysConfig('Gecaptcha',captcha);
+
+        if (parseInt(this.shareState.sysConfig.isLogin)) {
+            this.$router.replace('/');
+        }
     },
     
 });
