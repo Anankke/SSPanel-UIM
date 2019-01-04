@@ -215,6 +215,7 @@ class TelegramProcess
 						/traffic 查询流量
 						/checkin 签到续命
 						/help 获取帮助信息
+						/rss 获取节点订阅
 
 						您可以在面板里点击 资料编辑 ，滑到页面最下方，就可以看到 Telegram 绑定指示了，绑定您的账号，更多精彩功能等着您去发掘。
 					";
