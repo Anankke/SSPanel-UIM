@@ -64,6 +64,28 @@ class AuthController extends BaseController
             ->display('auth/login.tpl');
     }
 
+    public function getCaptcha($request, $response, $args) {
+        $GtSdk = null;
+        $recaptcha_sitekey = null;
+        if (Config::get('enable_login_captcha') == 'true'){
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $res['recaptchaKey'] = $recaptcha_sitekey;
+                    break;
+                case 'geetest':
+                    $uid = time().rand(1, 10000) ;
+                    $GtSdk = Geetest::get($uid);
+                    $res['GtSdk'] = $GtSdk;
+                    break;
+            }
+        }
+
+        $res['respon'] = 1;
+        return $response->getBody()->write(json_encode($res));
+    }
+
     public function loginHandle($request, $response, $args)
     {
         // $data = $request->post('sdf');

@@ -183,6 +183,7 @@ $app->group('/auth', function () {
     $this->post('/send', 'App\Controllers\AuthController:sendVerify');
     $this->get('/logout', 'App\Controllers\AuthController:logout');
     $this->get('/telegram_oauth', 'App\Controllers\AuthController:telegram_oauth');
+    $this->get('/login_getCaptcha', 'App\Controllers\AuthController:getCaptcha');
 })->add(new Guest());
 
 // Password

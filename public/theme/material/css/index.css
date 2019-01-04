@@ -68,6 +68,7 @@ a {
     display: flex;
     align-items: center;
     width: 60%;
+    justify-content: center;
 }
 
 .title-left {
@@ -115,6 +116,21 @@ a {
 
 .staff a {
     color: #D1335B;
+}
+
+.input-control input {
+    border: none;
+    border-bottom: 2px solid white;
+    background: none;
+    outline: none;
+}
+
+.auth-submit {
+    border-radius: 3px;
+    color: #D1335B;
+    background: white;
+    outline: none;
+    border: 1px solid transparent;
 }
 
 @media screen and (min-width:35.5em) {
