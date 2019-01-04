@@ -77,6 +77,7 @@ var store = {
             captchaProvider: '{$config["captcha_provider"]}',
             recaptchaSiteKey: '{$recaptcha_sitekey}',
             jumpDelay: '{$config["jump_delay"]}',
+            isGetestSuccess: '{$geetest_html->success}',
         },
     },
 }
@@ -152,6 +153,8 @@ const Login = {
                 grecaptcha.render('g-recaptcha');
             })
         }
+
+        console.log(this.shareState.sysConfig.isGetestSuccess);
         
         if (this.shareState.sysConfig.captchaProvider === 'geetest') {
             this.$nextTick(function(){
@@ -160,12 +163,17 @@ const Login = {
                     url: '/auth/login_getCaptcha',
                     responseType: 'json',
                 }).then((r)=>{
-                    initGeetest({
+                    let GeConfig = {
                         gt: r.data.GtSdk.gt,
                         challenge: r.data.GtSdk.challenge,
                         product: "embed",
-                        offline: {if $geetest_html->success}0{else}1{/if}
-                    }, handlerEmbed);
+                    }
+                    if (this.shareState.sysConfig.isGetestSuccess) {
+                        GeConfig.offline = 0;
+                    } else {
+                        GeConfig.offline = 1;
+                    }
+                    initGeetest(GeConfig, handlerEmbed);
                 });
             });
         }
