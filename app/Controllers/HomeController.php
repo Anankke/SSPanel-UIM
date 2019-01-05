@@ -19,6 +19,7 @@ use App\Utils\QRcode;
 use App\Utils\Pay;
 use App\Utils\TelegramProcess;
 use App\Utils\Spay_tool;
+use App\Utils\Geetest;
 
 /**
  *  HomeController
@@ -27,7 +28,39 @@ class HomeController extends BaseController
 {
     public function index()
     {
-        return $this->view()->display('index.tpl');
+        $GtSdk = null;
+        $recaptcha_sitekey = null;
+        if (Config::get('enable_login_captcha') == 'true'){
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    break;
+                case 'geetest':
+                    $uid = time().rand(1, 10000) ;
+                    $GtSdk = Geetest::get($uid);
+                    break;
+            }
+        }
+
+        if (Config::get('enable_telegram') == 'true') {
+            $login_text = TelegramSessionManager::add_login_session();
+            $login = explode("|", $login_text);
+            $login_token = $login[0];
+            $login_number = $login[1];
+        } else {
+            $login_token = '';
+            $login_number = '';
+        }
+
+        return $this->view()
+            ->assign('geetest_html', $GtSdk)
+            ->assign('login_token', $login_token)
+            ->assign('login_number', $login_number)
+            ->assign('telegram_bot', Config::get('telegram_bot'))
+            ->assign('base_url', Config::get('baseUrl'))
+            ->assign('recaptcha_sitekey', $recaptcha_sitekey)
+            ->display('index.tpl');
     }
 
     public function indexold()

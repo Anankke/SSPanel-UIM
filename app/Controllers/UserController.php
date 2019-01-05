@@ -1601,7 +1601,7 @@ class UserController extends BaseController
     public function logout($request, $response, $args)
     {
         Auth::logout();
-        $newResponse = $response->withStatus(302)->withHeader('Location', '/auth/login');
+        $newResponse = $response->withStatus(302)->withHeader('Location', '/');
         return $newResponse;
     }
 
