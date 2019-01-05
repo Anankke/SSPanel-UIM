@@ -196,7 +196,7 @@ const Login = {
         <div class="input-control">
             <div v-if="captchaProvider === 'geetest'" id="embed-captcha"></div>
             <form action="?" method="POST">    
-            <div v-if="recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+            <div v-if="recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" :data-sitekey="recaptchaSiteKey"></div>
             </form>
         </div>
         <button @click="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
@@ -297,7 +297,7 @@ const Register = {
         <div class="input-control">
             <div v-if="captchaProvider === 'geetest'" id="embed-captcha"></div>
             <form action="?" method="POST">    
-            <div v-if="recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+            <div v-if="recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" :data-sitekey="recaptchaSiteKey"></div>
             </form>
         </div>
         <button @click="register" class="auth-submit" id="register" type="submit" :disabled="isDisabled">
@@ -331,10 +331,10 @@ const Register = {
                     code: this.code,
                 };
 
-            if (registMode !== 'invite') {
+            if (this.registMode !== 'invite') {
                 ajaxCon.code = 0;
-                if ((getCookie('code'))!='') {
-                    ajaxCon.code = getCookie('code');
+                if ((this.getCookie('code'))!='') {
+                    ajaxCon.code = this.getCookie('code');
                 }
             }
 
@@ -363,6 +363,49 @@ const Register = {
                     console.log(r.data.ret);
                 }
             });
+        },
+        //dumplin：轮子1.js读取url参数
+        getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                        var pair = vars[i].split("=");
+                        if(pair[0] == variable){
+                            return pair[1];
+                        }
+            }
+            return "";
+        },
+        //dumplin:轮子2.js写入cookie
+        setCookie(cname,cvalue,exdays) {
+            var d = new Date();
+            d.setTime(d.getTime()+(exdays*24*60*60*1000));
+            var expires = "expires="+d.toGMTString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        },
+        //dumplin:轮子3.js读取cookie
+        getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) 
+            {
+                var c = ca[i].trim();
+                if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+            }
+            return "";
+        },
+        mounted() {
+            //dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码
+            if (this.getQueryVariable('code')!=''){
+                this.setCookie('code',this.getQueryVariable('code'),30);
+                window.location.href='#/auth/register'; 
+            }
+            //dumplin:读取cookie，自动填入邀请码框
+            if (this.registMode == 'invite') {
+                if ((this.getCookie('code'))!=''){
+                    this.code = this.getCookie('code');
+                }
+            }
         }
     }
 };

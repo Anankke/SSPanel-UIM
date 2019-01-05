@@ -180,6 +180,10 @@ input[name] {
     height: 46px;
 }
 
+select {
+    color: black;
+}
+
 @media screen and (min-width:35.5em) {
     .footer {
         margin-top: 3rem;
