@@ -167,6 +167,7 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 //支付系统设置----------------------------------------------------------------------------------------
 #取值 none | codepay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay
 $System_Config['payment_system']='none';
+$System_Config['notifyUrl'] = 'http://url.com';//支付回调用的URL，如果不知道填什么，就填你主站域名。用这个可以在启动CF五秒盾的情况下，仍然正常回调。暂时只支持trimepay
 
 #codepay码支付
 #wiki地址:https://goo.gl/dRwRDi  http://t.cn/RnsWjtB
