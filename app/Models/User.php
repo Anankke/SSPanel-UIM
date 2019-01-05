@@ -341,4 +341,8 @@ class User extends Model
                               $ref_user_id, $ref_user_name);
         return $return_array;
     }
+    public function get_telegram_id()
+    {
+        return $this->attributes['telegram_id'];
+    }
 }
