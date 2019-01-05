@@ -285,7 +285,7 @@ class XCat
                 $bot->sendMessage($user->get_user_attributes("telegram_id"), $reply_message , $parseMode = null, $disablePreview = false, $replyToMessageId = null);
 
             } catch (\TelegramBot\Api\HttpException $e){
-                echo 'Message: 用户ID: '.$user->get_user_attributes("user_name")." 删除了账号或者屏蔽了宝宝";
+                echo 'Message: 用户: '.$user->get_user_attributes("user_name")." 删除了账号或者屏蔽了宝宝";
             }
         }
     }
