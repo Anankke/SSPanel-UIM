@@ -281,7 +281,12 @@ class XCat
 今日之前已使用 " . $user->LastusedTraffic() . " " . number_format($user->last_day_t / $user->transfer_enable * 100, 2) . "%
 未使用 " . $user->unusedTraffic() . " " . number_format(($user->transfer_enable - ($user->u + $user->d)) / $user->transfer_enable * 100, 2) . "%
 					                        ";
-            $bot->sendMessage($user->get_telegram_id(), $reply_message , $parseMode = null, $disablePreview = false, $replyToMessageId = null);
+            try{
+                $bot->sendMessage($user->get_user_attributes("telegram_id"), $reply_message , $parseMode = null, $disablePreview = false, $replyToMessageId = null);
+
+            } catch (\TelegramBot\Api\HttpException $e){
+                echo 'Message: 用户: '.$user->get_user_attributes("user_name")." 删除了账号或者屏蔽了宝宝";
+            }
         }
     }
 }
