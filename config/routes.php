@@ -100,6 +100,7 @@ $app->group('/user', function () {
     $this->get('/shop', 'App\Controllers\UserController:shop');
     $this->post('/coupon_check', 'App\Controllers\UserController:CouponCheck');
     $this->post('/buy', 'App\Controllers\UserController:buy');
+    $this->get('/getuserinfo', 'App\Controllers\UserController:getUserinfo');
 
 
     // Relay Mange

@@ -491,6 +491,12 @@ const Panel = {
     </div>
     `,
     props: ['routermsg'],
+    mounted() {
+        axios.get('/user/getuserinfo')
+            .then((r)=>{
+                console.log(r);
+            });
+    },
     beforeRouteLeave (to, from, next) {
         next(false);
     }

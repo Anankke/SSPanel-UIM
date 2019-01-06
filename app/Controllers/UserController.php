@@ -97,6 +97,50 @@ class UserController extends BaseController
             ->display('user/index.tpl');
     }
 
+    public function getUserinfo($request, $response, $args) {
+        $user = $this->user;
+        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
+        $GtSdk = null;
+        $recaptcha_sitekey = null;
+        if (Config::get('captcha_provider') != ''){
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    break;
+                case 'geetest':
+                    $uid = time().rand(1, 10000) ;
+                    $GtSdk = Geetest::get($uid);
+                    break;
+            }
+        }
+        $Ann = Ann::orderBy('date', 'desc')->first();
+        $display_ios_class = Config::get('display_ios_class');
+        $ios_account = Config::get('ios_account');
+        $ios_password = Config::get('ios_password');
+        $mergeSub = Config::get('mergeSub');
+        $subUrl = Config::get('subUrl');
+        $baseUrl = Config::get('baseUrl');
+
+        $res['info'] = array(
+            "user" => $user,
+            "ssrSubToken" => $ssr_sub_token,
+            "displayIosClass" => $display_ios_class,
+            "iosAccount" => $ios_account,
+            "iosPassword" => $ios_password,
+            "mergeSub" => $mergeSub,
+            "subUrl" => $subUrl,
+            "baseUrl" => $baseUrl,
+            "ann" => $Ann,
+            "recaptchaSitekey" => $recaptcha_sitekey,
+            "GtSdk" => $GtSdk,
+        );
+
+        $res['ret'] = 1;
+
+        return $response->getBody()->write(json_encode($res));
+    }
+
     public function lookingglass($request, $response, $args)
     {
         $Speedtest = Speedtest::where("datetime", ">", time() - Config::get('Speedtest_duration') * 3600)->orderBy('datetime', 'desc')->get();
