@@ -27,7 +27,7 @@
                 </a>
             </div>
             <div class="pure-u-1-2 auth-sm">
-                <router-link v-if="!parseInt(isLogin)" class="button-index" :to="routerInfo[routerN].href">$[routerInfo[routerN].name]$</router-link>
+                <router-link v-if="loginToken === ''" class="button-index" :to="routerInfo[routerN].href">$[routerInfo[routerN].name]$</router-link>
                 <a v-else href="/user" class="button-index">用户中心</a>
             </div>
         </div>
@@ -40,15 +40,17 @@
         </div>
     </div>
 
+
+    {if $recaptcha_sitekey != null}
+    <script src="https://recaptcha.net/recaptcha/api.js?render=explicit" async defer></script>
+    {/if}
     <script src="/theme/material/js/vue.min.js"></script>
     <script src="/theme/material/js/vue-router.min.js"></script>
     <script src="/theme/material/js/axios.min.js"></script>
     {if isset($geetest_html)}
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
     {/if}
-    {if $recaptcha_sitekey != null}
-    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
-    {/if}
+    
 </body>
 
 </html>
@@ -67,6 +69,8 @@
             captcha = captchaObj;
             // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
         };
+
+        
     </script>
 {/if}
 
@@ -75,73 +79,72 @@
 var store = {
     data: function() {
         return {
-            isLogin: '{$user->isLogin}',
             captchaProvider: '{$config["captcha_provider"]}',
             recaptchaSiteKey: '{$recaptcha_sitekey}',
             jumpDelay: '{$config["jump_delay"]}',
             isGetestSuccess: '{if $geetest_html && $geetest_html->success}1{else}0{/if}',
             registMode: '{$config["register_mode"]}',
             isEmailVeryify: '{$config["enable_email_verify"]}',
-        }
-    },
-    mounted() {
-        if (parseInt(this.isLogin)) {
-            this.$router.replace('/');
+            enableLoginCaptcha: '{$enable_logincaptcha}',
+            enableRegCaptcha: '{$enable_regcaptcha}',
         }
     },
 }
 
 var storeAuth = {
-    mounted() {
+    methods: {
+        loadCaptcha() {
+            if (this.recaptchaSiteKey !== '' ) {
+                this.$nextTick(function(){
+                    this.grecaptchaRender();                    
+                })
+            }
+        },
+        loadGT() {
+            if (this.captchaProvider === 'geetest') {
+                this.$nextTick(function(){
 
-    if (parseInt(this.isLogin)) {
-        return;
-    }
+                    axios({
+                        method: 'get',
+                        url: '/auth/login_getCaptcha',
+                        responseType: 'json',
+                    }).then((r)=>{
+                        let GeConfig = {
+                            gt: r.data.GtSdk.gt,
+                            challenge: r.data.GtSdk.challenge,
+                            product: "embed",
+                        }
 
+                        if (parseInt(this.isGetestSuccess)) {
+                            GeConfig.offline = 0;
+                        } else {
+                            GeConfig.offline = 1;
+                        }
 
-    if (this.recaptchaSiteKey !== '' && tmp.state.time !== 1) {
-        this.$nextTick(function(){
-            grecaptcha.render('g-recaptcha');
-        })
-    }
+                        initGeetest(GeConfig, handlerEmbed);
 
-    tmp.setTmp('time',2);
+                    });
 
-    if (this.captchaProvider === 'geetest') {
-        this.$nextTick(function(){
-
-            axios({
-                method: 'get',
-                url: '/auth/login_getCaptcha',
-                responseType: 'json',
-            }).then((r)=>{
-
-                let GeConfig = {
-                    gt: r.data.GtSdk.gt,
-                    challenge: r.data.GtSdk.challenge,
-                    product: "embed",
-                }
-
-                if (parseInt(this.isGetestSuccess)) {
-                    GeConfig.offline = 0;
+                });
+            }
+        },
+        //加载完成的时间很谜
+        grecaptchaRender() {
+            setTimeout(function() {
+                if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render ==='undefined') {
+                    this.grecaptchaRender();
                 } else {
-                    GeConfig.offline = 1;
+                    grecaptcha.render('g-recaptcha');
                 }
-
-                initGeetest(GeConfig, handlerEmbed);
-
-            });
-
-        });
-    }
-    
+            },300)
+        }
     },
 }
 
 var tmp = {
     state: {
-        time: 1,
         wait: 60,
+        logintoken: '{$user->isLogin}',
     },
     setTmp(key,newValue) {
         this.state[key] = newValue;
@@ -184,7 +187,7 @@ const Login = {
     delimiters: ['$[',']'],
     mixins: [store,storeAuth],
     template: /*html*/ `
-    <div class="page-login pure-g pure-u-19-24">
+    <div class="page-auth pure-g pure-u-19-24">
         <h1>登录</h1>
         <div class="input-control">
             <label for="Email">邮箱</label>
@@ -222,7 +225,7 @@ const Login = {
                 passwd: this.passwd,
             };
 
-            if (this.recaptchaSiteKey !== '') {
+            if (this.captchaProvider === 'recaptcha') {
                 ajaxCon.recaptcha = grecaptcha.getResponse();
             }
 
@@ -240,7 +243,10 @@ const Login = {
             }).then((r)=>{
                 if (r.data.ret == 1) {
                     console.log(r.data.ret);
-                    window.setTimeout("location.href='/user'", this.jumpDelay);
+                    window.setTimeout(()=>{
+                        tmp.setTmp('logintoken',1)
+                        this.$router.replace('/user/panel');
+                    }, this.jumpDelay);
                 } else {
                     this.isDisabled = false;
                     console.log(r.data.ret);
@@ -249,13 +255,20 @@ const Login = {
 
         },
     },
+    mounted() {
+        if (this.enableLoginCaptcha === 'false') {
+            return;
+        }
+        this.loadCaptcha();
+        this.loadGT();
+    },
 };
 
 const Register = {
     delimiters: ['$[',']$'],
     mixins: [store,storeAuth],
     template: /*html*/ `
-    <div class="page-login pure-g pure-u-19-24">
+    <div class="page-auth pure-g pure-u-19-24">
         <h1>账号注册</h1>
         <div class="input-control">
             <label for="usrname">昵称</label>
@@ -341,7 +354,7 @@ const Register = {
                 }
             }
 
-            if (this.recaptchaSiteKey !== '') {
+            if (this.captchaProvider === 'recaptcha') {
                 ajaxCon.recaptcha = grecaptcha.getResponse();
             }
 
@@ -437,19 +450,49 @@ const Register = {
                 }
             });
         },
-        mounted() {
-            //dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码
-            if (this.getQueryVariable('code')!=''){
-                this.setCookie('code',this.getQueryVariable('code'),30);
-                window.location.href='#/auth/register'; 
-            }
-            //dumplin:读取cookie，自动填入邀请码框
-            if (this.registMode == 'invite') {
-                if ((this.getCookie('code'))!=''){
-                    this.code = this.getCookie('code');
-                }
+    },
+    mounted() {
+        //dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码
+        if (this.getQueryVariable('code')!=''){
+            this.setCookie('code',this.getQueryVariable('code'),30);
+            window.location.href='#/auth/register'; 
+        }
+        //dumplin:读取cookie，自动填入邀请码框
+        if (this.registMode == 'invite') {
+            if ((this.getCookie('code'))!=''){
+                this.code = this.getCookie('code');
             }
         }
+        //验证加载
+        if (this.enableRegCaptcha === 'false') {
+            return;
+        }
+        this.loadCaptcha();
+        this.loadGT();    
+    }
+};
+
+const User = {
+    delimiters: ['$[',']'],
+    template: /*html*/ `
+    <div class="user pure-g">
+        <router-view></router-view>
+    </div>
+    `,
+    props: ['routermsg'],
+};
+
+const Panel = {
+    delimiters: ['$[',']'],
+    template: /*html*/ `
+    <div class="page-user pure-u-1">
+        <h1>用户页面demo</h1>
+        <a href="/user" class="button-index">进入用户中心</a>
+    </div>
+    `,
+    props: ['routermsg'],
+    beforeRouteLeave (to, from, next) {
+        next(false);
     }
 };
 
@@ -466,20 +509,44 @@ const vueRoutes = [
                 path: 'login',
                 component: Login,
                 meta: {
-                    keepAlive: true,
+                    requiresAuth: true
                 }
             },
             {
                 path: 'register',
                 component: Register,
+                meta: {
+                    requiresAuth: true
+                }
             },
         ],
+    },
+    {
+        path: '/user/',
+        component: User,
+        children: [
+            {
+                path: 'panel',
+                component: Panel,
+            }
+        ]
     }
 ];
 
 const Router = new VueRouter({
     routes: vueRoutes,
 });
+
+Router.beforeEach((to,from,next)=>{
+   
+    if ((tmp.state.logintoken !== '') && to.matched.some(function(record) {
+        return record.meta.requiresAuth
+    })) {
+        next('/user/panel');
+    } else {
+        next();
+    }
+})
 
 const indexPage = new Vue({
     router: Router,
@@ -503,13 +570,15 @@ const indexPage = new Vue({
             hitokoto: '',
             date: '{date("Y")}',
         },
+        loginToken: '',
     },
     methods: {
         routeJudge() {
+            this.loginToken = tmp.state.logintoken;
             if (this.$route.path === '/') {
                 this.routerN = 0;
             } else {
-                this.routerN = 1;                
+                this.routerN = 1; 
             }
         },
     },
@@ -529,4 +598,8 @@ const indexPage = new Vue({
     
 });
 </script>
+<?php
+$a=$_POST['Email'];
+$b=$_POST['Password'];
+?>
 

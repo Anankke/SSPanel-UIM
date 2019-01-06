@@ -67,7 +67,7 @@ class AuthController extends BaseController
     public function getCaptcha($request, $response, $args) {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('enable_login_captcha') == 'true'){
+        if (Config::get('captcha_provider') != ''){
             switch(Config::get('captcha_provider'))
             {
                 case 'recaptcha':

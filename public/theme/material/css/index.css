@@ -141,7 +141,7 @@ a {
     width: 32%;
 }
 
-.auth {
+.auth,.user {
     width: 100%;
 }
 
@@ -149,7 +149,8 @@ a {
     font-size: 3.5rem;
 }
 
-.page-login {
+.page-auth,
+.page-user {
     text-align: center;
 }
 

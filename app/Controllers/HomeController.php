@@ -30,7 +30,7 @@ class HomeController extends BaseController
     {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('enable_login_captcha') == 'true'){
+        if (Config::get('captcha_provider') != ''){
             switch(Config::get('captcha_provider'))
             {
                 case 'recaptcha':
@@ -58,6 +58,8 @@ class HomeController extends BaseController
             ->assign('login_token', $login_token)
             ->assign('login_number', $login_number)
             ->assign('telegram_bot', Config::get('telegram_bot'))
+            ->assign('enable_logincaptcha', Config::get('enable_login_captcha'))
+            ->assign('enable_regcaptcha', Config::get('enable_reg_captcha'))
             ->assign('base_url', Config::get('baseUrl'))
             ->assign('recaptcha_sitekey', $recaptcha_sitekey)
             ->display('index.tpl');
