@@ -141,6 +141,7 @@ var storeAuth = {
 var tmp = {
     state: {
         time: 1,
+        wait: 60,
     },
     setTmp(key,newValue) {
         this.state[key] = newValue;
@@ -251,7 +252,7 @@ const Login = {
 };
 
 const Register = {
-    delimiters: ['$[',']'],
+    delimiters: ['$[',']$'],
     mixins: [store,storeAuth],
     template: /*html*/ `
     <div class="page-login pure-g pure-u-19-24">
@@ -292,7 +293,7 @@ const Register = {
         <div v-if="isEmailVeryify === 'true'" class="input-control">
             <label for="email_code">邮箱验证码</label>
             <input v-model="email_code" type="text" name="email_code">
-            <button class="auth-submit">获取邮箱验证码</button>    
+            <button class="auth-submit" @click="sendVerifyMail" :disabled="isVmDisabled">$[vmText]$</button>    
         </div>
         <div class="input-control">
             <div v-if="captchaProvider === 'geetest'" id="embed-captcha"></div>
@@ -316,6 +317,8 @@ const Register = {
             imtype: '',
             email_code: '',
             isDisabled: false,
+            vmText: '获取邮箱验证码',
+            isVmDisabled: false,
         }
     },
     methods: {
@@ -393,6 +396,46 @@ const Register = {
                 if (c.indexOf(name)==0) return c.substring(name.length,c.length);
             }
             return "";
+        },
+        time(time) {
+            console.log(time);
+            console.log(this.vmText);
+            if (time == 0) {
+                this.isVmDisabled = false;
+                this.vmText = "获取验证码";
+                time = 60;
+            } else {
+                this.isVmDisabled = true;
+                this.vmText = '重新发送(' +  time + ')';
+                time = time -1;
+                setTimeout(()=> {
+                    this.time(time);
+                },
+                1000);
+            }
+        },
+        sendVerifyMail() {
+            let time = tmp.state.wait;            
+            this.time(time);
+
+            let ajaxCon = {
+                    email: this.email,
+                }
+
+            axios({
+                method: 'post',
+                url: 'auth/send',
+                responseType: 'json',
+                data: ajaxCon,
+            }).then((r)=>{
+                if (r.data.ret) {
+                    console.log(r.data.ret);
+                    console.log(r.data.msg);
+                } else {
+                    console.log(r.data.ret);
+                    console.log(r.data.msg);
+                }
+            });
         },
         mounted() {
             //dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码
