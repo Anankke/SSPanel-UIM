@@ -98,8 +98,8 @@ class FinanceMail
 	{
 		$datatables = new Datatables(new DatatablesHelper());
         $datatables->query(
-		'select code.number from code
-		where yearweek(date_format(code.usedatetime,\'%Y-%m-%d\')) = yearweek(now())-1 and code.isused= 1');
+		'SELECT code.number FROM code
+		WHERE DATEDIFF(NOW(),code.usedatetime) <=7 AND DATEDIFF(NOW(),code.usedatetime) >=1 AND code.isused = 1');
 		//每周的第一天是周日，因此统计周日～周六的七天
 		$text_json=$datatables->generate();
         $text_array=json_decode($text_json,true);
