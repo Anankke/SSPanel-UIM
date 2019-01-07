@@ -448,7 +448,7 @@ class URL
 					->orwhere('sort', '=', 10);
 			})
 			->where(function ($func) use ($user){
-				$func->where('node_group', '=', $user->group)
+				$func->where('node_group', '=', $user->node_group)
 					->orwhere('node_group', '=', 0);
 			})->orderBy('name')->get();
 		$server_index=1;
