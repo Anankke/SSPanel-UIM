@@ -75,7 +75,7 @@ class TelegramProcess
 
             }
         } else {
-            $bot->sendMessage($message->getChat()->getId(), "您未绑定本站账号。".$message->getFrom()->getId(), $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+            $bot->sendMessage($message->getChat()->getId(), "您未绑定本站账号。", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
         }
     }
 
@@ -295,6 +295,8 @@ class TelegramProcess
                 $message->setFrom($callback->getFrom());
                 TelegramProcess::callback_bind_method($bot,$message,$callback->getData());
             }, function($update){
+                $callback = $update->getCallbackQuery();
+                if (is_null($callback) || !strlen($callback->getData())){return false; }
                 return true;
             });
 
