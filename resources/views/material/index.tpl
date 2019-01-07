@@ -38,13 +38,18 @@
             <div class="pure-u-1 pure-u-sm-1-2 staff">POWERED BY <a href="./staff">SSPANEL-UIM</a></div>
             <div class="pure-u-1 pure-u-sm-1-2 time">&copy;$[indexMsg.date]$ $[indexMsg.appname]$</div>
         </div>
-    </div>
 
+        <uim-messager v-show="msgrCon.isShow">
+            <i slot="icon" :class="msgrCon.icon"></i>
+            <span slot="msg">$[msgrCon.msg]$</span>
+        </uim-messager>
+    </div>
 
     {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js?render=explicit" async defer></script>
     {/if}
     <script src="/theme/material/js/vue.min.js"></script>
+    <script src="/theme/material/js/vuex.min.js"></script>
     <script src="/theme/material/js/vue-router.min.js"></script>
     <script src="/theme/material/js/axios.min.js"></script>
     {if isset($geetest_html)}
@@ -141,15 +146,38 @@ var storeAuth = {
     },
 }
 
-var tmp = {
+const tmp = new Vuex.Store({
     state: {
         wait: 60,
         logintoken: '{$user->isLogin}',
+        msgrCon: {
+            msg: '操作成功',
+            icon: ['fa','fa-check-square-o'],
+            isShow: false,
+        },
     },
-    setTmp(key,newValue) {
-        this.state[key] = newValue;
+    mutations: {
+        SET_LOGINTOKEN (state,n) {
+            state.logintoken = n;
+        },
+        SET_MSGRCON (state,config) {
+            state.msgrCon.msg = config.msg;
+            state.msgrCon.icon[1] = config.icon;
+        },
+        ISSHOW_MSGR (state,boolean) {
+            state.msgrCon.isShow = boolean;
+        }
+    },
+    actions: {
+        CALL_MSGR ({ commit,state },config) {
+            commit('SET_MSGRCON',config);
+            commit('ISSHOW_MSGR',true);
+            window.setTimeout(function() {
+                commit('ISSHOW_MSGR',false);
+            },2500)
+        }
     }
-}
+});
 
 const Root = {
     delimiters: ['$[',']$'],
@@ -170,7 +198,7 @@ const Root = {
 };
 
 const Auth = {
-    delimiters: ['$[',']'],
+    delimiters: ['$[',']$'],
     template: /*html*/ `
     <div class="auth pure-g">
         <div class="pure-u-5-24">
@@ -184,7 +212,7 @@ const Auth = {
 };
 
 const Login = {
-    delimiters: ['$[',']'],
+    delimiters: ['$[',']$'],
     mixins: [store,storeAuth],
     template: /*html*/ `
     <div class="page-auth pure-g pure-u-19-24">
@@ -217,7 +245,7 @@ const Login = {
     },
     methods: {
         login() {
-
+           
             this.isDisabled = true;
 
             let ajaxCon = {
@@ -242,14 +270,24 @@ const Login = {
                 data: ajaxCon,
             }).then((r)=>{
                 if (r.data.ret == 1) {
-                    console.log(r.data.ret);
+                    let callConfig = {
+                            msg: '登录成功Kira~',
+                            icon: 'fa-check-square-o',
+                        };
+                    tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
-                        tmp.setTmp('logintoken',1)
+                        tmp.commit('SET_LOGINTOKEN',1);
                         this.$router.replace('/user/panel');
                     }, this.jumpDelay);
                 } else {
-                    this.isDisabled = false;
-                    console.log(r.data.ret);
+                    let callConfig = {
+                            msg: '登录失败Boommm',
+                            icon: 'fa-times-circle-o',
+                        };
+                    tmp.dispatch('CALL_MSGR',callConfig);
+                    window.setTimeout(()=>{
+                        this.isDisabled = false;
+                    },3000)
                 }
             });
 
@@ -337,6 +375,8 @@ const Register = {
     methods: {
         register() {
 
+            this.isDisabled = true;
+
             let ajaxCon = {
                     email: this.email,
                     name: this.usrname,
@@ -372,11 +412,23 @@ const Register = {
                 data: ajaxCon,
             }).then((r)=>{
                 if (r.data.ret == 1) {
-                    console.log(r.data.ret);
-                    window.setTimeout("location.href='#/auth/login'", this.jumpDelay);
+                    let callConfig = {
+                            msg: '注册成功meow~',
+                            icon: 'fa-check-square-o',
+                        };
+                    tmp.dispatch('CALL_MSGR',callConfig);
+                    window.setTimeout(()=>{
+                        this.$router.replace('/auth/login');
+                    }, this.jumpDelay);
                 } else {
-                    this.isDisabled = false;
-                    console.log(r.data.ret);
+                    let callConfig = {
+                            msg: 'WTF……注册失败',
+                            icon: 'fa-times-circle-o',
+                        };
+                    tmp.dispatch('CALL_MSGR',callConfig);
+                    window.setTimeout(()=>{
+                        this.isDisabled = false;
+                    },3000)
                 }
             });
         },
@@ -411,8 +463,6 @@ const Register = {
             return "";
         },
         time(time) {
-            console.log(time);
-            console.log(this.vmText);
             if (time == 0) {
                 this.isVmDisabled = false;
                 this.vmText = "获取验证码";
@@ -442,11 +492,17 @@ const Register = {
                 data: ajaxCon,
             }).then((r)=>{
                 if (r.data.ret) {
-                    console.log(r.data.ret);
-                    console.log(r.data.msg);
+                    let callConfig = {
+                            msg: 'biu~邮件发送成功',
+                            icon: 'fa-check-square-o',
+                        };
+                    tmp.dispatch('CALL_MSGR',callConfig);
                 } else {
-                    console.log(r.data.ret);
-                    console.log(r.data.msg);
+                    let callConfig = {
+                            msg: 'emm……邮件发送失败',
+                            icon: 'fa-times-circle-o',
+                        };
+                    tmp.dispatch('CALL_MSGR',callConfig);
                 }
             });
         },
@@ -473,7 +529,7 @@ const Register = {
 };
 
 const User = {
-    delimiters: ['$[',']'],
+    delimiters: ['$[',']$'],
     template: /*html*/ `
     <div class="user pure-g">
         <router-view></router-view>
@@ -483,7 +539,7 @@ const User = {
 };
 
 const Panel = {
-    delimiters: ['$[',']'],
+    delimiters: ['$[',']$'],
     template: /*html*/ `
     <div class="page-user pure-u-1">
         <h1>用户页面demo</h1>
@@ -494,7 +550,9 @@ const Panel = {
     mounted() {
         axios.get('/user/getuserinfo')
             .then((r)=>{
-                console.log(r);
+                if (r.data.ret === 1) {
+                    console.log(r.data.info);
+                }
             });
     },
     beforeRouteLeave (to, from, next) {
@@ -505,7 +563,9 @@ const Panel = {
 const vueRoutes = [
     {
         path: '/',
-        component: Root,
+        components: {
+            default: Root,
+        }
     },
     {
         path: '/auth/',
@@ -554,11 +614,21 @@ Router.beforeEach((to,from,next)=>{
     }
 })
 
+Vue.component('uim-messager',{
+    delimiters: ['$[',']$'],
+    template: /*html*/ `
+    <div class="uim-messager">
+        <div><slot name="icon"></slot><slot name="msg"></slot></div>
+    </div>
+    `,
+})
+
 const indexPage = new Vue({
     router: Router,
     el: '#index',
     delimiters: ['$[',']$'],
     mixins: [store],
+    store: tmp,
     data: {
         routerInfo: [
             {
@@ -578,6 +648,9 @@ const indexPage = new Vue({
         },
         loginToken: '',
     },
+    computed: Vuex.mapState({
+        msgrCon: 'msgrCon',
+    }),
     methods: {
         routeJudge() {
             this.loginToken = tmp.state.logintoken;
@@ -599,7 +672,6 @@ const indexPage = new Vue({
     },
     mounted() {
         this.routeJudge();
-        tmp.setTmp('time',2);
     },
     
 });
