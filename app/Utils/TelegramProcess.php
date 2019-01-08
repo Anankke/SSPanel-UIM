@@ -8,6 +8,30 @@ use App\Controllers\LinkController;
 
 class TelegramProcess
 {
+    private static $all_rss = [ "?mu=0" => "SSR普通订阅" ,
+        "?mu=1" => "SSR单端口订阅",
+        "?mu=3"=> "SS/SSD订阅",
+        "?mu=2" => "V2ray订阅",
+        "?mu=4"=> "Clash订阅"];
+
+    private static function callback_bind_method($bot,$message,$command){
+
+        $reply_to = $message->getMessageId();
+        $user = User::where('telegram_id', $message->getFrom()->getId())->first();
+        if ($user != null) {
+            switch (true){
+                case (strpos($command,"mu")):
+                    $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id, 0);
+                    $subUrl = Config::get('subUrl');
+                    $reply_message = self::$all_rss[$command].": ".$subUrl.$ssr_sub_token.$command.PHP_EOL;
+                    $bot->sendMessage($message->getChat()->getId(), $reply_message , $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+                    break;
+                default:
+                    $bot->sendMessage($message->getChat()->getId(), "???", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+
+            }
+        }
+}
     private static function needbind_method($bot, $message, $command, $user, $reply_to = null)
     {
         if ($user != null) {
@@ -35,18 +59,20 @@ class TelegramProcess
                     $bot->sendMessage($message->getChat()->getId(), $prpr[mt_rand(0, 5)], $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
                 case "rss":
-                    $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id, 0);
-                    $subUrl = Config::get('subUrl');
-                    $reply_message = "SSR普通订阅: ". $subUrl.$ssr_sub_token."?mu=0\n".
-                        "SSR单端口订阅: ". $subUrl.$ssr_sub_token."?mu=1\n".
-                        "SS/SSD订阅: ".$subUrl.$ssr_sub_token."?mu=3\n".
-                        "V2ray订阅: ".$subUrl.$ssr_sub_token."?mu=2\n".
-                        "Clash订阅: ".$subUrl.$ssr_sub_token."?mu=4\n"
-                    ;
-                    $bot->sendMessage($message->getChat()->getId(), $reply_message , $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+                    $reply_message = "点击以下按钮获取对应订阅: ";
+                    $keys = [];
+                    foreach (self::$all_rss as $key => $value){
+                        $keys[] = [["text" => $value, "callback_data" => $key]];
+                    }
+                    $keyboard = new \TelegramBot\Api\Types\Inline\InlineKeyboardMarkup(
+                        $keys
+                    );
+                    $bot->sendMessage($message->getChat()->getId(), $reply_message , $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to,$replyMarkup=$keyboard);
                     break;
                 default:
+
                     $bot->sendMessage($message->getChat()->getId(), "???", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+
             }
         } else {
             $bot->sendMessage($message->getChat()->getId(), "您未绑定本站账号。", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
@@ -260,6 +286,17 @@ class TelegramProcess
             $bot->on($bot->getEvent(function ($message) use ($bot) {
                 TelegramProcess::telegram_process($bot, $message, '');
             }), function () {
+                return true;
+            });
+            $bot->on(function($update) use ($bot){
+                $callback = $update->getCallbackQuery();
+                //Answer to Telegram, you make answer in the end, or in the beginning.
+                $message =  $callback->getMessage();
+                $message->setFrom($callback->getFrom());
+                TelegramProcess::callback_bind_method($bot,$message,$callback->getData());
+            }, function($update){
+                $callback = $update->getCallbackQuery();
+                if (is_null($callback) || !strlen($callback->getData())){return false; }
                 return true;
             });
 
