@@ -23,7 +23,7 @@ class TelegramProcess
                 case (strpos($command,"mu")):
                     $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id, 0);
                     $subUrl = Config::get('subUrl');
-                    $reply_message = self::$all_rss[$command].": ".$subUrl.$ssr_sub_token.$command."\n";
+                    $reply_message = self::$all_rss[$command].": ".$subUrl.$ssr_sub_token.$command.PHP_EOL;
                     $bot->sendMessage($message->getChat()->getId(), $reply_message , $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
                 default:
