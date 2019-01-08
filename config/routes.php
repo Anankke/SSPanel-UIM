@@ -77,6 +77,7 @@ $app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');//yft uses GET
 $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
+$app->get('/globalconfig', 'App\Controllers\VueController:getGlobalConfig');
 
 // User Center
 $app->group('/user', function () {

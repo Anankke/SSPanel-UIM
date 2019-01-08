@@ -21,22 +21,22 @@
                 <a href="/indexold">
                     <img class="logo" src="/images/logo_white.png" alt="logo">
                     <div class="info">
-                        <div class="name">$[indexMsg.appname]$</div>
+                        <div class="name">$[globalConfig.indexMsg.appname]$</div>
                         <div class="sign">世界加钱可及</div>
                     </div>
                 </a>
             </div>
             <div class="pure-u-1-2 auth-sm">
-                <router-link v-if="loginToken === ''" class="button-index" :to="routerInfo[routerN].href">$[routerInfo[routerN].name]$</router-link>
+                <router-link v-if="logintoken == false" class="button-index" :to="routerInfo[routerN].href">$[routerInfo[routerN].name]$</router-link>
                 <a v-else href="/user" class="button-index">用户中心</a>
             </div>
         </div>
         <div class="main pure-g">
-            <router-view :routermsg="indexMsg"></router-view>
+            <router-view :routermsg="globalConfig.indexMsg"></router-view>
         </div>
         <div class="footer pure-g">
             <div class="pure-u-1 pure-u-sm-1-2 staff">POWERED BY <a href="./staff">SSPANEL-UIM</a></div>
-            <div class="pure-u-1 pure-u-sm-1-2 time">&copy;$[indexMsg.date]$ $[indexMsg.appname]$</div>
+            <div class="pure-u-1 pure-u-sm-1-2 time">&copy;$[globalConfig.indexMsg.date]$ $[globalConfig.indexMsg.appname]$</div>
         </div>
 
         <uim-messager v-show="msgrCon.isShow">
@@ -80,33 +80,86 @@
 {/if}
 
 <script>
+let globalConfig;
 
-var store = {
-    data: function() {
-        return {
-            captchaProvider: '{$config["captcha_provider"]}',
-            recaptchaSiteKey: '{$recaptcha_sitekey}',
-            jumpDelay: '{$config["jump_delay"]}',
-            isGetestSuccess: '{if $geetest_html && $geetest_html->success}1{else}0{/if}',
-            registMode: '{$config["register_mode"]}',
-            isEmailVeryify: '{$config["enable_email_verify"]}',
-            enableLoginCaptcha: '{$enable_logincaptcha}',
-            enableRegCaptcha: '{$enable_regcaptcha}',
+const tmp = new Vuex.Store({
+    state: {
+        wait: 60,
+        logintoken: false,
+        msgrCon: {
+            msg: '操作成功',
+            icon: ['fa','fa-check-square-o'],
+            isShow: false,
+        },
+        globalConfig: {
+            captchaProvider: '',
+            recaptchaSiteKey: '',
+            jumpDelay: '',
+            isGetestSuccess: '',
+            registMode: '',
+            isEmailVeryify: '',
+            enableLoginCaptcha: '',
+            enableRegCaptcha: '',
+            indexMsg: {
+                appname: '',
+                hitokoto: '',
+                date: '',
+            },
+        },   
+    },
+    mutations: {
+        SET_LOGINTOKEN (state,n) {
+            state.logintoken = n;
+        },
+        SET_MSGRCON (state,config) {
+            state.msgrCon.msg = config.msg;
+            state.msgrCon.icon[1] = config.icon;
+        },
+        ISSHOW_MSGR (state,boolean) {
+            state.msgrCon.isShow = boolean;
+        },
+        SET_GLOBALCONFIG (state,config) {
+            state.logintoken = config.isLogin
+            state.globalConfig.captchaProvider = config.captcha_provider;
+            state.globalConfig.recaptchaSiteKey = config.recaptcha_sitekey;
+            state.globalConfig.jumpDelay = config.jump_delay;
+            state.globalConfig.isGetestSuccess = config.isGetestSuccess;
+            state.globalConfig.registMode = config.register_mode;
+            state.globalConfig.isEmailVeryify = config.enable_email_verify;
+            state.globalConfig.enableLoginCaptcha = config.enable_logincaptcha;
+            state.globalConfig.enableRegCaptcha = config.enable_regcaptcha;
+            state.globalConfig.indexMsg.appname = config.appName;
+            state.globalConfig.indexMsg.date = config.dateY;
         }
     },
-}
+    actions: {
+        CALL_MSGR ({ commit,state },config) {
+            commit('SET_MSGRCON',config);
+            commit('ISSHOW_MSGR',true);
+            window.setTimeout(function() {
+                commit('ISSHOW_MSGR',false);
+            },2500)
+        }
+    }
+});
 
 var storeAuth = {
+    store: tmp,
+    computed: Vuex.mapState({
+        msgrCon: 'msgrCon',
+        globalConfig: 'globalConfig',
+        logintoken: 'logintoken',
+    }),
     methods: {
         loadCaptcha() {
-            if (this.recaptchaSiteKey !== '' ) {
+            if (this.globalConfig.recaptchaSiteKey !== null ) {
                 this.$nextTick(function(){
                     this.grecaptchaRender();                    
                 })
             }
         },
         loadGT() {
-            if (this.captchaProvider === 'geetest') {
+            if (this.globalConfig.captchaProvider === 'geetest') {
                 this.$nextTick(function(){
 
                     axios({
@@ -120,7 +173,7 @@ var storeAuth = {
                             product: "embed",
                         }
 
-                        if (parseInt(this.isGetestSuccess)) {
+                        if (parseInt(this.globalConfig.isGetestSuccess)) {
                             GeConfig.offline = 0;
                         } else {
                             GeConfig.offline = 1;
@@ -145,39 +198,6 @@ var storeAuth = {
         }
     },
 }
-
-const tmp = new Vuex.Store({
-    state: {
-        wait: 60,
-        logintoken: '{$user->isLogin}',
-        msgrCon: {
-            msg: '操作成功',
-            icon: ['fa','fa-check-square-o'],
-            isShow: false,
-        },
-    },
-    mutations: {
-        SET_LOGINTOKEN (state,n) {
-            state.logintoken = n;
-        },
-        SET_MSGRCON (state,config) {
-            state.msgrCon.msg = config.msg;
-            state.msgrCon.icon[1] = config.icon;
-        },
-        ISSHOW_MSGR (state,boolean) {
-            state.msgrCon.isShow = boolean;
-        }
-    },
-    actions: {
-        CALL_MSGR ({ commit,state },config) {
-            commit('SET_MSGRCON',config);
-            commit('ISSHOW_MSGR',true);
-            window.setTimeout(function() {
-                commit('ISSHOW_MSGR',false);
-            },2500)
-        }
-    }
-});
 
 const Root = {
     delimiters: ['$[',']$'],
@@ -213,7 +233,7 @@ const Auth = {
 
 const Login = {
     delimiters: ['$[',']$'],
-    mixins: [store,storeAuth],
+    mixins: [storeAuth],
     template: /*html*/ `
     <div class="page-auth pure-g pure-u-19-24">
         <h1>登录</h1>
@@ -226,9 +246,9 @@ const Login = {
             <input v-model="passwd" type="password" name="Password">        
         </div>
         <div class="input-control">
-            <div v-if="captchaProvider === 'geetest'" id="embed-captcha"></div>
+            <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha"></div>
             <form action="?" method="POST">    
-            <div v-if="recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" :data-sitekey="recaptchaSiteKey"></div>
+            <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
             </form>
         </div>
         <button @click="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
@@ -253,11 +273,11 @@ const Login = {
                 passwd: this.passwd,
             };
 
-            if (this.captchaProvider === 'recaptcha') {
+            if (this.globalConfig.captchaProvider === 'recaptcha') {
                 ajaxCon.recaptcha = grecaptcha.getResponse();
             }
 
-            if (this.captchaProvider === 'geetest' && captcha.getValidate()) {
+            if (this.globalConfig.captchaProvider === 'geetest' && captcha.getValidate()) {
                 let validate = captcha.getValidate();
                 ajaxCon.geetest_challenge = validate.geetest_challenge;
                 ajaxCon.geetest_validate = validate.geetest_validate;
@@ -278,7 +298,7 @@ const Login = {
                     window.setTimeout(()=>{
                         tmp.commit('SET_LOGINTOKEN',1);
                         this.$router.replace('/user/panel');
-                    }, this.jumpDelay);
+                    }, this.globalConfig.jumpDelay);
                 } else {
                     let callConfig = {
                             msg: '登录失败Boommm',
@@ -294,7 +314,7 @@ const Login = {
         },
     },
     mounted() {
-        if (this.enableLoginCaptcha === 'false') {
+        if (this.globalConfig.enableLoginCaptcha === 'false') {
             return;
         }
         this.loadCaptcha();
@@ -304,7 +324,7 @@ const Login = {
 
 const Register = {
     delimiters: ['$[',']$'],
-    mixins: [store,storeAuth],
+    mixins: [storeAuth],
     template: /*html*/ `
     <div class="page-auth pure-g pure-u-19-24">
         <h1>账号注册</h1>
@@ -337,19 +357,19 @@ const Register = {
             <label for="contect">联络方式账号</label>
             <input v-model="contect" type="text" name="contect">        
         </div>
-        <div v-if="registMode === 'invite'" class="input-control">
+        <div v-if="globalConfig.registMode === 'invite'" class="input-control">
             <label for="code">邀请码(必填)</label>
             <input v-model="code" type="text" name="code">        
         </div>
-        <div v-if="isEmailVeryify === 'true'" class="input-control">
+        <div v-if="globalConfig.isEmailVeryify === 'true'" class="input-control">
             <label for="email_code">邮箱验证码</label>
             <input v-model="email_code" type="text" name="email_code">
             <button class="auth-submit" @click="sendVerifyMail" :disabled="isVmDisabled">$[vmText]$</button>    
         </div>
         <div class="input-control">
-            <div v-if="captchaProvider === 'geetest'" id="embed-captcha"></div>
+            <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha"></div>
             <form action="?" method="POST">    
-            <div v-if="recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" :data-sitekey="recaptchaSiteKey"></div>
+            <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
             </form>
         </div>
         <button @click="register" class="auth-submit" id="register" type="submit" :disabled="isDisabled">
@@ -387,18 +407,18 @@ const Register = {
                     code: this.code,
                 };
 
-            if (this.registMode !== 'invite') {
+            if (this.globalConfig.registMode !== 'invite') {
                 ajaxCon.code = 0;
                 if ((this.getCookie('code'))!='') {
                     ajaxCon.code = this.getCookie('code');
                 }
             }
 
-            if (this.captchaProvider === 'recaptcha') {
+            if (this.globalConfig.captchaProvider === 'recaptcha') {
                 ajaxCon.recaptcha = grecaptcha.getResponse();
             }
 
-            if (this.captchaProvider === 'geetest' && captcha.getValidate()) {
+            if (this.globalConfig.captchaProvider === 'geetest' && captcha.getValidate()) {
                 let validate = captcha.getValidate();
                 ajaxCon.geetest_challenge = validate.geetest_challenge;
                 ajaxCon.geetest_validate = validate.geetest_validate;
@@ -419,7 +439,7 @@ const Register = {
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
                         this.$router.replace('/auth/login');
-                    }, this.jumpDelay);
+                    }, this.globalConfig.jumpDelay);
                 } else {
                     let callConfig = {
                             msg: 'WTF……注册失败',
@@ -514,13 +534,13 @@ const Register = {
             window.location.href='#/auth/register'; 
         }
         //dumplin:读取cookie，自动填入邀请码框
-        if (this.registMode == 'invite') {
+        if (this.globalConfig.registMode == 'invite') {
             if ((this.getCookie('code'))!=''){
                 this.code = this.getCookie('code');
             }
         }
         //验证加载
-        if (this.enableRegCaptcha === 'false') {
+        if (this.globalConfig.enableRegCaptcha === 'false') {
             return;
         }
         this.loadCaptcha();
@@ -604,14 +624,38 @@ const Router = new VueRouter({
 });
 
 Router.beforeEach((to,from,next)=>{
-   
-    if ((tmp.state.logintoken !== '') && to.matched.some(function(record) {
-        return record.meta.requiresAuth
-    })) {
-        next('/user/panel');
+    if (!globalConfig) {
+        axios.get('/globalconfig')
+        .then((r)=>{
+            if (r.data.ret == 1) {
+                    globalConfig = r.data.globalConfig;
+                    if (globalConfig.geetest_html && globalConfig.geetest_html.success) {
+                        globalConfig.isGetestSuccess = '1';
+                        tmp.commit('SET_GLOBALCONFIG',globalConfig);
+                    } else {
+                        globalConfig.isGetestSuccess = '0';
+                        tmp.commit('SET_GLOBALCONFIG',globalConfig);                        
+                    }
+                }
+        }).then((r)=>{
+            navGuardsForEach();
+        });
     } else {
-        next();
+        navGuardsForEach()
     }
+    
+    function navGuardsForEach() {
+        if ((tmp.state.logintoken != false) && to.matched.some(function(record) {
+            return record.meta.requiresAuth
+        })) {
+            next('/user/panel');
+        } else if (to.path === '/auth' || to.path === '/user') {
+            next('/auth/login');
+        } else {
+            next();
+        }
+    }
+    
 })
 
 Vue.component('uim-messager',{
@@ -627,7 +671,6 @@ const indexPage = new Vue({
     router: Router,
     el: '#index',
     delimiters: ['$[',']$'],
-    mixins: [store],
     store: tmp,
     data: {
         routerInfo: [
@@ -641,19 +684,14 @@ const indexPage = new Vue({
             },
         ],
         routerN: 0,
-        indexMsg: {
-            appname: '{$config["appName"]}',
-            hitokoto: '',
-            date: '{date("Y")}',
-        },
-        loginToken: '',
     },
     computed: Vuex.mapState({
         msgrCon: 'msgrCon',
+        globalConfig: 'globalConfig',
+        logintoken: 'logintoken',
     }),
     methods: {
         routeJudge() {
-            this.loginToken = tmp.state.logintoken;
             if (this.$route.path === '/') {
                 this.routerN = 0;
             } else {
@@ -667,7 +705,7 @@ const indexPage = new Vue({
     beforeMount() {
         axios.get('https://api.lwl12.com/hitokoto/v1')
         .then((r)=>{
-            this.indexMsg.hitokoto = r.data;
+            this.globalConfig.indexMsg.hitokoto = r.data;
         })
     },
     mounted() {
