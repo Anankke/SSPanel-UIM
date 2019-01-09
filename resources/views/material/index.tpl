@@ -300,9 +300,11 @@ const Login = {
                         ajaxCon.recaptcha = grecaptcha.getResponse();
                         break;
                     case 'geetest':
-                        ajaxCon.geetest_challenge = validate.geetest_challenge;
-                        ajaxCon.geetest_validate = validate.geetest_validate;
-                        ajaxCon.geetest_seccode = validate.geetest_seccode;
+                        if (validate) {
+                            ajaxCon.geetest_challenge = validate.geetest_challenge;
+                            ajaxCon.geetest_validate = validate.geetest_validate;
+                            ajaxCon.geetest_seccode = validate.geetest_seccode;
+                        } 
                         break;
                 }
             }
@@ -449,9 +451,11 @@ const Register = {
                         ajaxCon.recaptcha = grecaptcha.getResponse();
                         break;
                     case 'geetest':
-                        ajaxCon.geetest_challenge = validate.geetest_challenge;
-                        ajaxCon.geetest_validate = validate.geetest_validate;
-                        ajaxCon.geetest_seccode = validate.geetest_seccode;
+                        if (validate) {
+                            ajaxCon.geetest_challenge = validate.geetest_challenge;
+                            ajaxCon.geetest_validate = validate.geetest_validate;
+                            ajaxCon.geetest_seccode = validate.geetest_seccode;
+                        }               
                         break;
                 }
             }      
