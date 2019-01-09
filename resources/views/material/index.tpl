@@ -14,11 +14,24 @@
     <link rel="stylesheet" href="/theme/material/css/index.css">
 </head>
 
+<style>
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+</style>
+
 <body>
-    <div id="index">
+    <div id="index" class="flex wrap">
         <div class="nav pure-g">
-            <div class="pure-u-1-2 logo-sm">
-                <a href="/indexold">
+            <div class="pure-u-1-2 logo-sm flex align-center">
+                <a href="/indexold" class="flex align-center">
                     <img class="logo" src="/images/logo_white.png" alt="logo">
                     <div class="info">
                         <div class="name">$[globalConfig.indexMsg.appname]$</div>
@@ -26,13 +39,22 @@
                     </div>
                 </a>
             </div>
-            <div class="pure-u-1-2 auth-sm">
-                <router-link v-if="logintoken == false" class="button-index" :to="routerInfo[routerN].href">$[routerInfo[routerN].name]$</router-link>
-                <a v-else href="/user" class="button-index">用户中心</a>
+            <div class="pure-u-1-2 auth-sm flex align-center">
+                <transition name="slide-fade" mode="out-in">
+                <router-link v-if="logintoken == false" class="button-index" :to="routerInfo[routerN].href" key="auth">
+                    <transition name="slide-fade" mode="out-in">
+                    <span v-if="routerN == 0" key="toauth">$[routerInfo[routerN].name]$</span>
+                    <span v-else key="toindex">$[routerInfo[routerN].name]$</span>
+                    </transition>
+                </router-link>
+                <a v-else href="/user" class="button-index" key="user">用户中心</a>
+                </transition>
             </div>
         </div>
         <div class="main pure-g">
+            <transition name="slide-fade" mode="out-in">
             <router-view :routermsg="globalConfig.indexMsg"></router-view>
+            </transition>
         </div>
         <div class="footer pure-g">
             <div class="pure-u-1 pure-u-sm-1-2 staff">POWERED BY <a href="./staff">SSPANEL-UIM</a></div>
@@ -60,26 +82,13 @@
 
 </html>
 
+<script>
 {if $geetest_html != null}
-    <script>
-        var handlerEmbed = function(captchaObj) {
-            // 将验证码加到id为captcha的元素里
+    
+    let validate,captcha;
 
-            // captchaObj.onSuccess(function () {
-            //      validate = captchaObj.getValidate();
-            // });
-
-            captchaObj.appendTo("#embed-captcha");
-
-            captcha = captchaObj;
-            // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
-        };
-
-        
-    </script>
 {/if}
 
-<script>
 let globalConfig;
 
 const tmp = new Vuex.Store({
@@ -151,14 +160,14 @@ var storeAuth = {
         logintoken: 'logintoken',
     }),
     methods: {
-        loadCaptcha() {
+        loadCaptcha(id) {
             if (this.globalConfig.recaptchaSiteKey !== null ) {
                 this.$nextTick(function(){
-                    this.grecaptchaRender();                    
+                    this.grecaptchaRender(id);                    
                 })
             }
         },
-        loadGT() {
+        loadGT(id) {
             if (this.globalConfig.captchaProvider === 'geetest') {
                 this.$nextTick(function(){
 
@@ -178,8 +187,14 @@ var storeAuth = {
                         } else {
                             GeConfig.offline = 1;
                         }
-
-                        initGeetest(GeConfig, handlerEmbed);
+                        
+                        initGeetest(GeConfig, function(captchaObj) {
+                            captchaObj.appendTo(id);
+                            captchaObj.onSuccess(function () {
+                                validate = captchaObj.getValidate();
+                            });
+                            captcha = captchaObj;
+                        });
 
                     });
 
@@ -187,12 +202,12 @@ var storeAuth = {
             }
         },
         //加载完成的时间很谜
-        grecaptchaRender() {
+        grecaptchaRender(id) {
             setTimeout(function() {
                 if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render ==='undefined') {
                     this.grecaptchaRender();
                 } else {
-                    grecaptcha.render('g-recaptcha');
+                    grecaptcha.render(id);
                 }
             },300)
         }
@@ -220,12 +235,14 @@ const Root = {
 const Auth = {
     delimiters: ['$[',']$'],
     template: /*html*/ `
-    <div class="auth pure-g">
-        <div class="pure-u-5-24">
-            <router-link class="button-round" to="/auth/login">登录</router-link>
-            <router-link class="button-round" to="/auth/register">注册</router-link>
+    <div class="auth pure-g align-center">
+        <div class="pure-u-1 pure-u-sm-5-24 flex warp space-around auth-links">
+            <router-link class="button-round flex align-center" to="/auth/login"><span class="icon-round"><i class="fa fa-pencil"></i></span> 登录</router-link>
+            <router-link class="button-round flex align-center" to="/auth/register"><span class="icon-round"><i class="fa fa-plus"></i></span> 注册</router-link>
         </div>
+        <transition name="slide-fade" mode="out-in">
         <router-view></router-view>
+        </transition>
     </div>
     `,
     props: ['routermsg'],
@@ -235,20 +252,20 @@ const Login = {
     delimiters: ['$[',']$'],
     mixins: [storeAuth],
     template: /*html*/ `
-    <div class="page-auth pure-g pure-u-19-24">
+    <div class="page-auth pure-g pure-u-1 pure-u-sm-19-24">
         <h1>登录</h1>
-        <div class="input-control">
+        <div class="input-control flex wrap">
             <label for="Email">邮箱</label>
             <input v-model="email" type="text" name="Email">        
         </div>
-        <div class="input-control">
+        <div class="input-control flex wrap">
             <label for="Password">密码</label>
             <input v-model="passwd" type="password" name="Password">        
         </div>
-        <div class="input-control">
-            <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha"></div>
+        <div class="input-control flex wrap">
+            <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-login"></div>
             <form action="?" method="POST">    
-            <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
+            <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-login" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
             </form>
         </div>
         <button @click="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
@@ -277,8 +294,7 @@ const Login = {
                 ajaxCon.recaptcha = grecaptcha.getResponse();
             }
 
-            if (this.globalConfig.captchaProvider === 'geetest' && captcha.getValidate()) {
-                let validate = captcha.getValidate();
+            if (this.globalConfig.captchaProvider === 'geetest') {
                 ajaxCon.geetest_challenge = validate.geetest_challenge;
                 ajaxCon.geetest_validate = validate.geetest_validate;
                 ajaxCon.geetest_seccode = validate.geetest_seccode;
@@ -317,8 +333,8 @@ const Login = {
         if (this.globalConfig.enableLoginCaptcha === 'false') {
             return;
         }
-        this.loadCaptcha();
-        this.loadGT();
+        this.loadCaptcha('g-recaptcha-login');
+        this.loadGT('#embed-captcha-login');
     },
 };
 
@@ -328,50 +344,56 @@ const Register = {
     template: /*html*/ `
     <div class="page-auth pure-g pure-u-19-24">
         <h1>账号注册</h1>
-        <div class="input-control">
-            <label for="usrname">昵称</label>
-            <input v-model="usrname" type="text" name="usrname">        
+        <div class="flex space-around reg">
+            <div class="input-control flex wrap">
+                <label for="usrname">昵称</label>
+                <input v-model="usrname" type="text" name="usrname">        
+            </div>
+            <div class="input-control flex wrap">
+                <label for="email">邮箱(唯一凭证请认真对待)</label>
+                <input v-model="email" type="text" name="email">        
+            </div>
+            <div class="input-control flex wrap">
+                <label for="password">密码</label>
+                <input v-model="passwd" type="password" name="password">        
+            </div>
+            <div class="input-control flex wrap">
+                <label for="repasswd">重复密码</label>
+                <input v-model="repasswd" type="password" name="repasswd">        
+            </div>
+            <div class="input-control flex wrap">
+                <label for="imtype">选择您的联络方式</label>
+                <select v-model="imtype" name="imtype" id="imtype">
+                    <option value="1">微信</option>
+                    <option value="2">QQ</option>
+                    <option value="3">Facebook</option>
+                    <option value="4">Telegram</option>
+                </select>        
+            </div>
+            <div class="input-control flex wrap">
+                <label for="contect">联络方式账号</label>
+                <input v-model="contect" type="text" name="contect">        
+            </div>
+            <div v-if="globalConfig.registMode === 'invite'" class="input-control flex">
+                <label for="code">邀请码(必填)</label>
+                <input v-model="code" type="text" name="code">        
+            </div>
+            <div v-if="globalConfig.isEmailVeryify === 'true'" class="input-control flex twin">
+                <div class="input-control-inner flex">
+                    <label for="email_code">邮箱验证码</label>
+                    <input v-model="email_code" type="text" name="email_code"></input>
+                </div>
+                
+                <button class="auth-submit" @click="sendVerifyMail" :disabled="isVmDisabled">$[vmText]$</button>    
+            </div>
+            <div class="input-control wrap flex align-center">
+            <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-reg"></div>
+                <form action="?" method="POST">    
+                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-reg" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
+                </form>
+            </div>
         </div>
-        <div class="input-control">
-            <label for="email">邮箱(唯一凭证请认真对待)</label>
-            <input v-model="email" type="text" name="email">        
-        </div>
-        <div class="input-control">
-            <label for="password">密码</label>
-            <input v-model="passwd" type="password" name="password">        
-        </div>
-        <div class="input-control">
-            <label for="repasswd">重复密码</label>
-            <input v-model="repasswd" type="password" name="repasswd">        
-        </div>
-        <div class="input-control">
-            <label for="imtype">选择您的联络方式</label>
-            <select v-model="imtype" name="imtype" id="imtype">
-                <option value="1">微信</option>
-                <option value="2">QQ</option>
-                <option value="3">Facebook</option>
-                <option value="4">Telegram</option>
-            </select>        
-        </div>
-        <div class="input-control">
-            <label for="contect">联络方式账号</label>
-            <input v-model="contect" type="text" name="contect">        
-        </div>
-        <div v-if="globalConfig.registMode === 'invite'" class="input-control">
-            <label for="code">邀请码(必填)</label>
-            <input v-model="code" type="text" name="code">        
-        </div>
-        <div v-if="globalConfig.isEmailVeryify === 'true'" class="input-control">
-            <label for="email_code">邮箱验证码</label>
-            <input v-model="email_code" type="text" name="email_code">
-            <button class="auth-submit" @click="sendVerifyMail" :disabled="isVmDisabled">$[vmText]$</button>    
-        </div>
-        <div class="input-control">
-            <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha"></div>
-            <form action="?" method="POST">    
-            <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
-            </form>
-        </div>
+        
         <button @click="register" class="auth-submit" id="register" type="submit" :disabled="isDisabled">
             确认注册
         </button>
@@ -418,8 +440,7 @@ const Register = {
                 ajaxCon.recaptcha = grecaptcha.getResponse();
             }
 
-            if (this.globalConfig.captchaProvider === 'geetest' && captcha.getValidate()) {
-                let validate = captcha.getValidate();
+            if (this.globalConfig.captchaProvider === 'geetest') {
                 ajaxCon.geetest_challenge = validate.geetest_challenge;
                 ajaxCon.geetest_validate = validate.geetest_validate;
                 ajaxCon.geetest_seccode = validate.geetest_seccode;
@@ -543,8 +564,8 @@ const Register = {
         if (this.globalConfig.enableRegCaptcha === 'false') {
             return;
         }
-        this.loadCaptcha();
-        this.loadGT();    
+        this.loadCaptcha('g-recaptcha-reg');
+        this.loadGT('#embed-captcha-reg');    
     }
 };
 

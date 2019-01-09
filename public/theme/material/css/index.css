@@ -12,7 +12,22 @@ a {
 }
 
 #index {
+    flex-wrap: wrap;
+}
+
+.flex {
     display: flex;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.warp {
     flex-wrap: wrap;
 }
 
@@ -24,14 +39,16 @@ a {
 
 .logo-sm,
 .auth-sm {
-    display: flex;
-    align-items: center;
     padding: 1rem 1rem;
 }
 
 .auth-sm {
     text-align: right;
     justify-content: flex-end;
+}
+
+.auth>div:first-of-type {
+    padding: 0 2rem;
 }
 
 .logo-sm .logo {
@@ -43,7 +60,6 @@ a {
 }
 
 .logo-sm>a {
-    display: flex;
     align-items: center;
 }
 
@@ -157,7 +173,6 @@ a {
 }
 
 .input-control {
-    display: flex;
     justify-content: center;
     flex-wrap: wrap;
     width: 40%;
@@ -165,18 +180,43 @@ a {
     margin-right: auto;
 }
 
+.input-control-inner {
+    flex-wrap: wrap;
+    text-align: left;
+}
+
 .input-control>label,
-.input-control>input {
+.input-control>input,
+.input-control>select {
     flex-basis: 80%;
     text-align: left;
+}
+
+.input-control-inner>label,
+.input-control-inner>input {
+    flex-basis: 100%;
+}
+
+.twin {
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 0;
+}
+
+.twin>* {
+    flex-basis: 100%%;
 }
 
 .input-control>input {
     margin-bottom: 1rem;
 }
 
-.button-round {
-    display: block;
+.reg {
+    flex-wrap: wrap;
+}
+
+.reg .input-control {
+    flex-basis: 100%;
 }
 
 input[name] {
@@ -185,6 +225,37 @@ input[name] {
 
 select {
     color: black;
+    height: 36px;
+}
+
+.button-round {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.icon-round {
+    background: white;
+    color: black;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    margin-right: .75rem;
+}
+
+.fa {
+    position: relative;
+}
+
+.icon-round .fa-pencil {
+    top: .25rem;
+    left: .05rem
+}
+
+.icon-round .fa-plus {
+    top: .35rem;
+    left: .05rem
 }
 
 @media screen and (min-width:35.5em) {
@@ -213,11 +284,32 @@ select {
     .time {
         text-align: right;
     }
+    .auth-links {
+        padding: 0;
+    }
+    .auth-links a {
+        flex-basis: 100%;
+    }
 }
 
 @media screen and (min-width:48em) {
     .title h1 {
         font-size: 5rem;
+    }
+    #register {
+        margin-top: 2rem;
+    }
+    .twin {
+        justify-content: space-around;
+        align-items: flex-end;
+        padding: 0 2.5%;
+    }
+    
+    .twin>* {
+        flex-basis: 39%;
+    }
+    .reg .input-control {
+        flex-basis: 48%;
     }
 }
 
