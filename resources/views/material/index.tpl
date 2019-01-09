@@ -16,14 +16,18 @@
 
 <style>
 .slide-fade-enter-active {
-  transition: all .3s ease;
+    transition: all .3s ease;
 }
 .slide-fade-leave-active {
-  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
-.slide-fade-enter, .slide-fade-leave-to {
-  transform: translateY(-20px);
-  opacity: 0;
+.slide-fade-enter {
+    transform: translateY(-20px);
+    opacity: 0;
+}
+.slide-fade-leave-to {
+    transform: translateY(20px);
+    opacity: 0;
 }
 </style>
 
@@ -290,14 +294,17 @@ const Login = {
                 passwd: this.passwd,
             };
 
-            if (this.globalConfig.captchaProvider === 'recaptcha') {
-                ajaxCon.recaptcha = grecaptcha.getResponse();
-            }
-
-            if (this.globalConfig.captchaProvider === 'geetest') {
-                ajaxCon.geetest_challenge = validate.geetest_challenge;
-                ajaxCon.geetest_validate = validate.geetest_validate;
-                ajaxCon.geetest_seccode = validate.geetest_seccode;
+            if (this.globalConfig.enableLoginCaptcha !== 'false') {
+                switch(this.globalConfig.captchaProvider) {
+                    case 'recaptcha':
+                        ajaxCon.recaptcha = grecaptcha.getResponse();
+                        break;
+                    case 'geetest':
+                        ajaxCon.geetest_challenge = validate.geetest_challenge;
+                        ajaxCon.geetest_validate = validate.geetest_validate;
+                        ajaxCon.geetest_seccode = validate.geetest_seccode;
+                        break;
+                }
             }
 
             axios({
@@ -436,15 +443,18 @@ const Register = {
                 }
             }
 
-            if (this.globalConfig.captchaProvider === 'recaptcha') {
-                ajaxCon.recaptcha = grecaptcha.getResponse();
-            }
-
-            if (this.globalConfig.captchaProvider === 'geetest') {
-                ajaxCon.geetest_challenge = validate.geetest_challenge;
-                ajaxCon.geetest_validate = validate.geetest_validate;
-                ajaxCon.geetest_seccode = validate.geetest_seccode;
-            }
+            if (this.globalConfig.enableRegCaptcha !== 'false') {
+                switch(this.globalConfig.captchaProvider) {
+                    case 'recaptcha':
+                        ajaxCon.recaptcha = grecaptcha.getResponse();
+                        break;
+                    case 'geetest':
+                        ajaxCon.geetest_challenge = validate.geetest_challenge;
+                        ajaxCon.geetest_validate = validate.geetest_validate;
+                        ajaxCon.geetest_seccode = validate.geetest_seccode;
+                        break;
+                }
+            }      
 
             axios({
                 method: 'post',
