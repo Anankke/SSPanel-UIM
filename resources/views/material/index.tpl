@@ -513,9 +513,9 @@ const Register = {
                 }
             });
         },
-        //dumplin：轮子1.js读取url参数
+        //dumplin：轮子1.js读取url参数//nymph: 重拼字符串
         getQueryVariable(variable) {
-            var query = window.location.search.substring(1);
+            var query = window.location.hash.substring(1).split("?")[1];
             var vars = query.split("&");
             for (var i=0;i<vars.length;i++) {
                         var pair = vars[i].split("=");
@@ -592,7 +592,7 @@ const Register = {
         //dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码
         if (this.getQueryVariable('code')!=''){
             this.setCookie('code',this.getQueryVariable('code'),30);
-            window.location.href='#/auth/register'; 
+            this.$router.replace('/auth/register');
         }
         //dumplin:读取cookie，自动填入邀请码框
         if (this.globalConfig.registMode == 'invite') {
