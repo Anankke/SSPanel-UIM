@@ -645,7 +645,7 @@ const Panel = {
     },
     beforeRouteLeave (to, from, next) {
         if (to.matched.some(function(record) {
-            return record.meta.requiresAuth
+            return record.meta.alreadyAuth
         })) {
             next(false);
         } else {
