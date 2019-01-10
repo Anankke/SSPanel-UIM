@@ -516,6 +516,9 @@ const Register = {
         //dumplin：轮子1.js读取url参数//nymph: 重拼字符串
         getQueryVariable(variable) {
             var query = window.location.hash.substring(1).split("?")[1];
+            if (typeof query === 'undefined') {
+                return "";
+            }
             var vars = query.split("&");
             for (var i=0;i<vars.length;i++) {
                         var pair = vars[i].split("=");
