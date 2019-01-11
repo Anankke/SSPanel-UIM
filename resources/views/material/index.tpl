@@ -15,11 +15,15 @@
 </head>
 
 <style>
-.slide-fade-enter-active,.fade-enter-active {
+.slide-fade-enter-active,.fade-enter-active,.loading-fade-enter-active {
     transition: all .3s ease;
 }
 .slide-fade-leave-active,.fade-leave-active {
     transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.loading-fade-enter {
+    transform: scaleY(.75);
+    opacity: 0;
 }
 .slide-fade-enter {
     transform: translateY(-20px);
@@ -36,7 +40,7 @@
 
 <body>
     <div id="index" >
-        <transition name="fade">
+        <transition name="loading-fade" mode="out-in">
             <div class="loading flex align-center" v-if="isLoading === 'loading'" key="loading">
                 <div class="spinner"></div>
             </div>
@@ -55,12 +59,12 @@
                     <div class="pure-u-1-2 auth-sm flex align-center">
                         <transition name="fade" mode="out-in">
                         <router-link v-if="routerN === 'index'" class="button-index" to="/" key="index">
-                            <span key="toindex">首页</span>
+                            <span key="toindex"><i class="fa fa-home"></i> <span class="hide-sm">回到首页</span></span>
                         </router-link>
                         <router-link v-else-if="routerN === 'auth'" class="button-index" to="/auth/login" key="auth">
-                            <span key="toindex">登录/注册</span>
+                            <span key="toindex"><i class="fa fa-key"></i> <span class="hide-sm">登录/注册</span></span>
                         </router-link>
-                        <router-link v-else to="/user/panel" class="button-index" key="user">用户中心</router-link>
+                        <router-link v-else to="/user/panel" class="button-index" key="user"><i class="fa fa-user"></i> <span class="hide-sm">用户中心</span></router-link>
                         </transition>
                     </div>
                 </div>
@@ -74,7 +78,7 @@
                     <div class="pure-u-1 pure-u-sm-1-2 time">&copy;$[globalConfig.indexMsg.date]$ $[globalConfig.indexMsg.appname]$</div>
                 </div>
                 
-                <transition name="fade" mode="out-in">
+                <transition name="slide-fade" mode="out-in">
                     <uim-messager v-show="msgrCon.isShow">
                         <i slot="icon" :class="msgrCon.icon"></i>
                         <span slot="msg">$[msgrCon.msg]$</span>
@@ -265,9 +269,10 @@ const Auth = {
     delimiters: ['$[',']$'],
     template: /*html*/ `
     <div class="auth pure-g align-center">
-        <div class="pure-u-1 pure-u-sm-5-24 flex wrap space-around auth-links">
-            <router-link class="button-round flex align-center" to="/auth/login"><span class="icon-round"><i class="fa fa-pencil"></i></span> 登录</router-link>
-            <router-link class="button-round flex align-center" to="/auth/register"><span class="icon-round"><i class="fa fa-plus"></i></span> 注册</router-link>
+        <div class="pure-u-1 pure-u-sm-4-24 flex wrap space-around auth-links">
+            <router-link v-for="(links,key) in routerLinks" @click.native="setButtonState" :class="{ active:links.isActive }" class="button-round flex align-center" :to="links.href" :key="links.id">
+                <span class="icon-round"><i :class="links.icon"></i></span> $[links.content]$
+            </router-link>
         </div>
         <transition name="slide-fade" mode="out-in">
         <router-view></router-view>
@@ -275,13 +280,54 @@ const Auth = {
     </div>
     `,
     props: ['routermsg'],
+    data: function() {
+        return {
+            routerLinks: {
+                login: {
+                    id: 'R_AUTH_0',
+                    href: '/auth/login',
+                    content: '登录',
+                    icon: ['fa','fa-pencil'],
+                    isActive: false,
+                },
+                register: {
+                    id: 'R_AUTH_1',
+                    href: '/auth/register',
+                    content: '注册',
+                    icon: ['fa','fa-plus'],
+                    isActive: false,
+                },
+            }
+        }
+    },
+    methods: {
+        setButtonState() {
+            for (let key in this.routerLinks) {
+                if (this.$route.path == this.routerLinks[key].href) {
+                    this.routerLinks[key].isActive = true;
+                } else {
+                    this.routerLinks[key].isActive = false;
+                }
+            }
+        }
+    },
+    beforeRouteEnter (to,from,next) {
+        next(vm=>{
+            vm.setButtonState();
+        });
+    },
+    beforeRouteLeave (to,from,next) {
+        this.setButtonState();
+        next();
+    }
 };
 
 const Login = {
     delimiters: ['$[',']$'],
     mixins: [storeAuth],
     template: /*html*/ `
-    <div class="page-auth pure-g pure-u-1 pure-u-sm-19-24">
+    <div class="page-auth pure-g pure-u-1 pure-u-sm-20-24">
+        <div class="title-back flex align-center">LOGIN</div>
         <h1>登录</h1>
         <div class="input-control flex wrap">
             <label for="Email">邮箱</label>
@@ -385,7 +431,8 @@ const Register = {
     delimiters: ['$[',']$'],
     mixins: [storeAuth],
     template: /*html*/ `
-    <div class="page-auth pure-g pure-u-19-24">
+    <div class="page-auth pure-g pure-u-20-24">
+        <div class="title-back flex align-center">REGISTER</div>
         <h1>账号注册</h1>
         <div class="flex space-around reg">
             <div class="input-control flex wrap">

@@ -46,6 +46,10 @@ a {
     font-size: 4rem;
 }
 
+.button-round.active {
+    opacity: 1;
+}
+
 .logo-sm,
 .auth-sm {
     padding: 1rem 1rem;
@@ -54,6 +58,10 @@ a {
 .auth-sm {
     text-align: right;
     justify-content: flex-end;
+}
+
+.auth-sm a {
+    min-width: 80px;
 }
 
 .auth>div:first-of-type {
@@ -98,7 +106,7 @@ a {
     margin-left: auto;
     display: flex;
     align-items: center;
-    width: 60%;
+    width: 80%;
     justify-content: center;
 }
 
@@ -133,6 +141,12 @@ a {
     text-align: center;
 }
 
+.button-index:hover,
+.button-index:focus {
+    color: rgb(142, 142, 142);
+    border: 2px solid currentColor;
+}
+
 .footer {
     padding: 0 3rem;
 }
@@ -150,11 +164,28 @@ a {
     color: #D1335B;
 }
 
+.staff a,
+.input-control input,
+.auth-submit,
+.button-round,
+.button-index {
+    transition: all .3s;
+}
+
+.staff a:hover,
+.staff a:focus {
+    color: #13c2c2
+}
+
 .input-control input {
     border: none;
     border-bottom: 2px solid white;
     background: none;
     outline: none;
+}
+
+.input-control input:focus {
+    border-color: #adadad;
 }
 
 .auth-submit {
@@ -166,6 +197,12 @@ a {
     min-height: 46px;
     margin-top: 1rem;
     width: 32%;
+}
+
+.auth-submit:hover,
+.auth-submit:focus {
+    background-color: #d6d6d6;
+    border-color: #d6d6d6;
 }
 
 .auth,
@@ -180,12 +217,12 @@ a {
 .page-auth,
 .page-user {
     text-align: center;
+    position: relative;
 }
 
 .input-control {
     justify-content: center;
     flex-wrap: wrap;
-    width: 40%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -242,6 +279,13 @@ select {
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
+    color: white;
+    opacity: .5;
+}
+
+.button-round:hover,
+.button-round:focus {
+    opacity: 1;
 }
 
 .icon-round {
@@ -264,15 +308,30 @@ select {
 }
 
 .icon-round .fa-plus {
-    top: .35rem;
-    left: .05rem
+    top: .35em;
 }
 
 #embed-captcha-reg {
-    margin-top: 1rem;
+    margin-top: 1em;
+}
+
+.title-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: 5rem;
+    user-select: none;
+    z-index: -1;
+    color: #2e2e2e;
+    justify-content: center;
+    font-weight: bolder;
 }
 
 @media screen and (min-width:35.5em) {
+    .auth-sm a {
+        min-width: 120px;
+    }
+
     .footer {
         margin-top: 3rem;
     }
@@ -306,6 +365,10 @@ select {
     .auth-links a {
         flex-basis: 100%;
     }
+
+    .title-back {
+        font-size: 8.5rem;
+    }
 }
 
 @media screen and (min-width:48em) {
@@ -327,12 +390,31 @@ select {
         flex-basis: 39%;
     }
 
+    .input-control {
+        width: 41%;
+    }
+
     .reg .input-control {
         flex-basis: 48%;
     }
 }
 
-@media screen and (min-width:64em) {}
+@media screen and (min-width:64em) {
+
+    .title {
+        width: 75%;
+        padding-left: 5%;
+    }
+
+    .auth {
+        width: 90%;
+    }
+
+    .title-back {
+        font-size: 12rem;
+    }
+
+}
 
 @media screen and (min-width:80em) {
     .title h1 {
@@ -349,10 +431,17 @@ select {
     }
 }
 
+@media screen and (max-width:35.5em) {
+    .hide-sm {
+        display: none !important;
+    }
+}
+
+
 /* 组件 */
 
 .uim-messager {
-    position: absolute;
+    position: fixed;
     top: 6rem;
     left: 0;
     right: 0;
@@ -367,6 +456,7 @@ select {
     background: white;
     width: 200px;
     min-height: 36px;
+    box-shadow: 0px 0px 5px 1px gray; 
 }
 
 .uim-messager span {
