@@ -8,7 +8,9 @@ use App\Controllers\LinkController;
 
 class TelegramProcess
 {
-    private static $all_rss = [ "?mu=0" => "SSR普通订阅" ,
+    private static $all_rss = [
+        "clean_link"=>"重置订阅",
+        "?mu=0" => "SSR普通订阅" ,
         "?mu=1" => "SSR单端口订阅",
         "?mu=3"=> "SS/SSD订阅",
         "?mu=2" => "V2ray订阅",
@@ -25,6 +27,10 @@ class TelegramProcess
                     $subUrl = Config::get('subUrl');
                     $reply_message = self::$all_rss[$command].": ".$subUrl.$ssr_sub_token.$command.PHP_EOL;
                     $bot->sendMessage($message->getChat()->getId(), $reply_message , $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+                    break;
+                case ($command=="clean_link"):
+                    $user->clean_link();
+                    $bot->sendMessage($message->getChat()->getId(), "链接重置成功" , $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
                     break;
                 default:
                     $bot->sendMessage($message->getChat()->getId(), "???", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
