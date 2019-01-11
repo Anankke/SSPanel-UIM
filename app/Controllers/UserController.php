@@ -861,7 +861,7 @@ class UserController extends BaseController
 
     public function tutorial($request, $response, $args)
     {
-        return $this->view()->->display('user/tutorial.tpl');
+        return $this->view()->display('user/tutorial.tpl');
     }
 
 

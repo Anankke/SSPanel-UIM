@@ -3,7 +3,7 @@
 	<main class="content">
 		<div class="content-header ui-content-header">
 			<div class="container">
-				<h1 class="content-heading">公告</h1>
+				<h1 class="content-heading">鍏憡</h1>
 			</div>
 		</div>
 		<div class="container">
@@ -14,14 +14,14 @@
 							<div class="card">
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
-										<p class="card-heading">公告</p>
+										<p class="card-heading">鍏憡</p>
 										<div class="card-table">
 											<div class="table-responsive">
 												<table class="table">
 													<tr>
 														<th>ID</th>
-														<th>日期</th>
-														<th>内容</th>
+														<th>鏃ユ湡</th>
+														<th>鍐呭</th>
 													</tr>
 													{foreach $anns as $ann}
 														<tr>
