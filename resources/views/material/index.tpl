@@ -15,10 +15,10 @@
 </head>
 
 <style>
-.slide-fade-enter-active,.fade-enter-active,.loading-fade-enter-active {
+.slide-fade-enter-active,.fade-enter-active,.loading-fade-enter-active,.rotate-fade-enter-active {
     transition: all .3s ease;
 }
-.slide-fade-leave-active,.fade-leave-active {
+.slide-fade-leave-active,.fade-leave-active,.loading-fade-leave-active,.rotate-fade-leave-active {
     transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .loading-fade-enter {
@@ -29,8 +29,18 @@
     transform: translateY(-20px);
     opacity: 0;
 }
+.rotate-fade-enter {
+    transform: rotateY(90deg);
+    -webkit-transform: rotateY(90deg);
+    opacity: 0;
+}
 .slide-fade-leave-to {
     transform: translateY(20px);
+    opacity: 0;
+}
+.rotate-fade-leave-to {
+    transform: rotateY(90deg);
+    -webkit-transform: rotateY(90deg);
     opacity: 0;
 }
 .fade-enter,.fade-leave-to {
@@ -69,7 +79,7 @@
                     </div>
                 </div>
                 <div class="main pure-g">
-                    <transition name="slide-fade" mode="out-in">
+                    <transition :name="transType" mode="out-in">
                     <router-view :routermsg="globalConfig.indexMsg"></router-view>
                     </transition>
                 </div>
@@ -244,7 +254,7 @@ var storeAuth = {
             },300)
         }
     },
-}
+};
 
 const Root = {
     delimiters: ['$[',']$'],
@@ -297,7 +307,14 @@ const Auth = {
                     icon: ['fa','fa-plus'],
                     isActive: false,
                 },
-            }
+                reset: {
+                    id: 'R_PW_0',
+                    href: '/password/reset',
+                    content: '密码重置',
+                    icon: ['fa','fa-gear'],
+                    isActive: false,
+                },
+            },
         }
     },
     methods: {
@@ -309,7 +326,7 @@ const Auth = {
                     this.routerLinks[key].isActive = false;
                 }
             }
-        }
+        },
     },
     beforeRouteEnter (to,from,next) {
         next(vm=>{
@@ -338,12 +355,17 @@ const Login = {
             <input v-model="passwd" type="password" name="Password">        
         </div>
         <div class="input-control flex wrap">
+            <uim-checkbox v-model="remember_me">
+                <span slot="content">记住我</span>
+            </uim-checkbox>
+        </div>
+        <div class="input-control flex wrap">
             <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-login"></div>
             <form action="?" method="POST">    
             <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-login" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
             </form>
         </div>
-        <button @click="login" @keyup.13.native="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
+        <button @click.prevent="login" @keyup.13.native="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
             确认登录
         </button>
     </div>
@@ -352,6 +374,7 @@ const Login = {
         return {
             email: '',
             passwd: '',
+            remember_me: false,
             isDisabled: false,
         }
     },
@@ -363,6 +386,7 @@ const Login = {
             let ajaxCon = {
                 email: this.email,
                 passwd: this.passwd,
+                remember_me: this.remember_me,
             };
 
             let callConfig = {
@@ -677,6 +701,24 @@ const Register = {
     }
 };
 
+const Password = {
+    delimiters: ['$[',']$'],
+    template: /*html*/ `
+    <div class="pw pure-g">
+        <router-view></router-view>
+    </div>
+    `,
+}
+
+const Reset = {
+    delimiters: ['$[',']$'],
+    template: /*html*/ `
+    <div class="page-pw pure-u-1">
+        <h1>密码重置页demo</h1>
+    </div>
+    `,
+}
+
 const User = {
     delimiters: ['$[',']$'],
     template: /*html*/ `
@@ -737,6 +779,20 @@ const vueRoutes = [
             {
                 path: 'register',
                 component: Register,
+            },
+        ],
+    },
+    {
+        path: '/password/',
+        component: Password,
+        redirect: '/password/reset',
+        meta: {
+            alreadyAuth: true
+        },
+        children: [
+            {
+                path: 'reset',
+                component: Reset,
             },
         ],
     },
@@ -806,6 +862,38 @@ Vue.component('uim-messager',{
     `,
 })
 
+Vue.component('uim-checkbox',{
+    delimiters: ['$[',']$'],
+    model: {
+        prop: 'isChecked',
+        event: 'change',
+    },
+    props: ['isChecked'],
+    template: /*html*/ `
+    <label for="remember_me" class="flex align-center">
+        <span class="uim-check" :class="{ uimchecked:boxChecked }">
+        <i class="fa fa-check uim-checkbox-icon"></i>
+        <input :checked="isChecked" @click="setClass" @change="$emit('change',$event.target.checked)"  class="uim-checkbox" type="checkbox">                
+        </span>
+        <span class="uim-check-content"><slot name="content"></slot></span> 
+    </label>
+    `,
+    data: function() {
+        return {
+            boxChecked: false,
+        } 
+    },
+    methods: {
+        setClass() {
+            if (this.boxChecked == false) {
+                this.boxChecked = true;
+            } else {
+                this.boxChecked = false;
+            }
+        },
+    },
+})
+
 const indexPage = new Vue({
     router: Router,
     el: '#index',
@@ -813,6 +901,7 @@ const indexPage = new Vue({
     store: tmp,
     data: {
         routerN: 'auth',
+        transType: 'slide-fade'
     },
     computed: Vuex.mapState({
         msgrCon: 'msgrCon',
@@ -833,10 +922,17 @@ const indexPage = new Vue({
                 default:
                     this.routerN = 'index';
             }
-        },
+            },
     },
     watch: {
-        $route: 'routeJudge',
+        '$route' (to,from) {
+            this.routeJudge();
+            if (to.path === '/password/reset' || from.path === '/password/reset') {
+                this.transType = 'rotate-fade';
+            } else {
+                this.transType = 'slide-fade';
+            }
+        }
     },
     beforeMount() {
         axios.get('https://api.lwl12.com/hitokoto/v1')
