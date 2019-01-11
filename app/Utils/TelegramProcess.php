@@ -119,7 +119,7 @@ class TelegramProcess
                     $help_list = "命令列表：
 						/ping  获取群组ID
 						/traffic 查询流量
-						/checkin 签到续命
+						/checkin 签到
 						/help 获取帮助信息
 						/rss 获取节点订阅
 
@@ -250,7 +250,7 @@ class TelegramProcess
                     $help_list_group = "命令列表：
 						/ping  获取群组ID
 						/traffic 查询流量
-						/checkin 签到续命
+						/checkin 签到
 						/help 获取帮助信息
 						/rss 获取节点订阅
 

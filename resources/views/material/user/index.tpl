@@ -144,6 +144,8 @@
                                     <p class="card-heading"> <i class="icon icon-md">notifications_active</i>公告栏</p>
 										{if $ann != null}
 										<p>{$ann->content}</p>
+										<br/>
+										<strong>查看所有公告请<a href="/user/announcement">点击这里</a></strong>
 										{/if}
 										{if $config["enable_admin_contact"] == 'true'}
 										<p class="card-heading">管理员联系方式</p>
@@ -233,7 +235,7 @@
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
 
-                                                       <p><a href="/user/announcement">点击这里查看Windows傻瓜式教程</a></p>
+                                                       <p><a href="/user/tutorial">点击这里查看Windows教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_mac">
 															<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssr-mac.dmg" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载ShadowsocksX</a>，安装并启动</p>                                
@@ -247,10 +249,10 @@
 															<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
 															<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 															{/if}
-                                                      <p><a href="/user/announcement">点击这里查看Mac傻瓜式教程</a></p>
+                                                      <p><a href="/user/tutorial">点击这里查看Mac教程</a></p>
 													</div>
                                                   <div class="tab-pane fade" id="all_ssr_linux">
-                                                      <p><a href="/user/announcement">点击这里查看Linux傻瓜式教程</a></p>
+                                                      <p><a href="/user/tutorial">点击这里查看Linux教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
 													{if $display_ios_class>=0}
@@ -280,7 +282,7 @@
 														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" id="sub1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
-                                                      <!-- <p><a href="/user/announcement">点击这里查看iOS傻瓜式教程</a></p> -->
+                                                      <!-- <p><a href="/user/tutorial">点击这里查看iOS教程</a></p> -->
 													</div>
 													<div class="tab-pane fade" id="all_ssr_android">
 														<p><span class="icon icon-lg text-white">filter_1</span>点击下载<a href="/ssr-download/ssr-android.apk" class="btn-dl"><i class="material-icons">save_alt</i> SSR </a> 或 <a href="/ssr-download/ssrr-android.apk" class="btn-dl"><i class="material-icons">save_alt</i> SSRR </a> 并安装</p>
@@ -300,7 +302,7 @@
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
 
-                                                      <p><a href="/user/announcement">点击这里查看Android傻瓜式教程</a></p>
+                                                      <p><a href="/user/tutorial">点击这里查看Android教程</a></p>
 													</div>
 													<div class="tab-pane fade" id="all_ssr_router">
 													<p>梅林：</p>
@@ -334,7 +336,7 @@
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
 
-                                                      <p><a href="/user/announcement">点击这里查看游戏客户端傻瓜式教程</a></p>
+                                                      <p><a href="/user/tutorial">点击这里查看游戏客户端教程</a></p>
 													</div>
                                                   <div class="tab-pane fade" id="all_ssr_info">
 														{$user = URL::getSSRConnectInfo($pre_user)}

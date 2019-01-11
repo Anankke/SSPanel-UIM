@@ -859,6 +859,11 @@ class UserController extends BaseController
         return $this->view()->assign("anns", $Anns)->display('user/announcement.tpl');
     }
 
+    public function tutorial($request, $response, $args)
+    {
+        return $this->view()->display('user/tutorial.tpl');
+    }
+
 
     public function edit($request, $response, $args)
     {

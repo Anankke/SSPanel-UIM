@@ -350,7 +350,7 @@
 										<p>价格：<code>{$config['port_price_specify']}</code>元/次</p>
 										<p>端口范围：<code>{$config['min_port']}～{$config['max_port']}</code></p>
 										<div class="form-group form-group-label">
-											<label class="floating-label" for="port-specify">在这输入想钦定的号</label>
+											<label class="floating-label" for="port-specify">在这输入想钦定的端口号</label>
 											<input class="form-control maxwidth-edit" id="port-specify" type="num">
 										</div>
 									</div>
