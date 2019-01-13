@@ -210,6 +210,10 @@ input.checkbox {
 
 .auth h1 {
     font-size: 3.5rem;
+    margin-top: 0;
+}
+.auth h3 {
+    margin: 0;
 }
 
 .page-auth,
@@ -328,6 +332,14 @@ select {
     color: #2e2e2e;
     justify-content: center;
     font-weight: bolder;
+}
+
+.basis-max .input-control {
+    width: 100%;
+}
+
+.basis-max .auth-submit {
+    width: 80%;
 }
 
 @media screen and (min-width:35.5em) {

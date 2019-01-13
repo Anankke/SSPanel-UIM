@@ -108,7 +108,9 @@
     {if isset($geetest_html)}
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
     {/if}
-    
+    {if $config['enable_telegram'] == 'true'}
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
+    {/if}
 </body>
 
 </html>
@@ -135,7 +137,12 @@ const tmp = new Vuex.Store({
             jumpDelay: '',
             isGetestSuccess: '',
             registMode: '',
+            base_url: '',
             isEmailVeryify: '',
+            login_token: '',
+            login_number: '',
+            telegram_bot: '',
+            enable_telegram: '',
             enableLoginCaptcha: '',
             enableRegCaptcha: '',
             indexMsg: {
@@ -162,6 +169,7 @@ const tmp = new Vuex.Store({
         },
         SET_GLOBALCONFIG (state,config) {
             state.logintoken = config.isLogin
+            state.globalConfig.base_url = config.base_url;
             state.globalConfig.captchaProvider = config.captcha_provider;
             state.globalConfig.recaptchaSiteKey = config.recaptcha_sitekey;
             state.globalConfig.jumpDelay = config.jump_delay;
@@ -173,6 +181,7 @@ const tmp = new Vuex.Store({
             state.globalConfig.login_token = config.login_token;
             state.globalConfig.login_number = config.login_number;
             state.globalConfig.telegram_bot = config.telegram_bot;
+            state.globalConfig.enable_telegram = config.enable_telegram;
             state.globalConfig.indexMsg.appname = config.appName;
             state.globalConfig.indexMsg.date = config.dateY;
         },
@@ -181,6 +190,9 @@ const tmp = new Vuex.Store({
         },
         SET_JINRISHICI (state,content) {
             state.globalConfig.indexMsg.jinrishici = content;
+        },
+        SET_TGAUTHNUMBER (state,content) {
+            Vue.set(state.globalConfig,'login_number',content);
         }
     },
     actions: {
@@ -342,32 +354,59 @@ const Auth = {
 const Login = {
     delimiters: ['$[',']$'],
     mixins: [storeAuth],
+    computed: Vuex.mapState({
+        msgrCon: 'msgrCon',
+        globalConfig: 'globalConfig',
+        logintoken: 'logintoken',
+        isLoading: 'isLoading',
+        telegramHref: function() {
+            return 'https://t.me/' + this.globalConfig.telegram_bot;
+        },
+        isTgEnabled: function() {
+            return this.globalConfig.enable_telegram === 'true';
+        }
+    }),
     template: /*html*/ `
-    <div class="page-auth pure-g pure-u-1 pure-u-sm-20-24">
+    <div class="page-auth pure-g pure-u-1 pure-u-sm-20-24 wrap">
         <div class="title-back flex align-center">LOGIN</div>
         <h1>登录</h1>
-        <div class="input-control flex wrap">
-            <label for="Email">邮箱</label>
-            <input v-model="email" type="text" name="Email">        
+        <div class="pure-u-1 basis-max" :class="[ isTgEnabled ? 'pure-u-sm-11-24' : 'pure-u-sm-1-2' ]">
+            <div class="input-control flex wrap">
+                <label for="Email">邮箱</label>
+                <input v-model="email" type="text" name="Email">        
+            </div>
+            <div class="input-control flex wrap">
+                <label for="Password">密码</label>
+                <input v-model="passwd" type="password" name="Password">        
+            </div>
+            <div class="input-control flex wrap">
+                <uim-checkbox v-model="remember_me">
+                    <span slot="content">记住我</span>
+                </uim-checkbox>
+            </div>
+            <div class="input-control flex wrap">
+                <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-login"></div>
+                <form action="?" method="POST">    
+                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-login" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
+                </form>
+            </div>
+            <button @click.prevent="login" @keyup.13.native="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
+                确认登录
+            </button>
         </div>
-        <div class="input-control flex wrap">
-            <label for="Password">密码</label>
-            <input v-model="passwd" type="password" name="Password">        
-        </div>
-        <div class="input-control flex wrap">
-            <uim-checkbox v-model="remember_me">
-                <span slot="content">记住我</span>
-            </uim-checkbox>
-        </div>
-        <div class="input-control flex wrap">
-            <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-login"></div>
-            <form action="?" method="POST">    
-            <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-login" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
-            </form>
-        </div>
-        <button @click.prevent="login" @keyup.13.native="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
-            确认登录
-        </button>
+        <div v-if="globalConfig.enable_telegram === 'true'" class="pure-u-1 pure-u-sm-11-24">
+            <h3>Telegram登录</h3>
+            <div>
+                <p>Telegram OAuth一键登陆</p>
+            </div>
+            <p id="telegram-alert">正在载入 Telegram，如果长时间未显示请刷新页面或检查代理</p>
+            <div class="text-center" id="telegram-login-box"></div>
+            <p>或者添加机器人账号 <a :href="telegramHref">@$[globalConfig.telegram_bot]$</a>，发送下面的数字验证码给它
+            </p>
+            <div>
+                <h2><code id="code_number">$[globalConfig.login_number]$</code></h2>
+            </div>
+        </div>  
     </div>
     `,
     data: function () {
@@ -435,6 +474,52 @@ const Login = {
             });
 
         },
+        telegramRender() {
+            let el = document.createElement('script');
+            document.getElementById('telegram-login-box').append(el);
+            el.onload = function () {
+                document.getElementById('telegram-alert').outerHTML = '';
+            }
+            el.src = 'https://telegram.org/js/telegram-widget.js?4';
+            el.setAttribute('data-size', 'large');
+            el.setAttribute('data-telegram-login', this.globalConfig.telegram_bot);
+            el.setAttribute('data-auth-url', this.globalConfig.base_url + '/auth/telegram_oauth');
+            el.setAttribute('data-request-access', 'write');
+        },
+        tgAuthTrigger(tid) {
+            let callConfig = {
+                msg: '',
+                icon: '',
+            };
+            axios.post('/auth/qrcode_check',{
+                token: this.globalConfig.login_token,
+                number: this.globalConfig.login_number,
+            }).then(r=>{
+                if(r.data.ret > 0) {
+                    clearTimeout(tid);
+                    
+                    axios.post('/auth/qrcode_login',{
+                        token: this.globalConfig.login_token,
+                        number: this.globalConfig.login_number,
+                    }).then(r=>{
+                        if (r.data.ret) {
+                            callConfig.msg += '登录成功Kira~';
+                            callConfig.icon += 'fa-check-square-o';
+                            tmp.dispatch('CALL_MSGR',callConfig);
+                            window.setTimeout(()=>{
+                                tmp.commit('SET_LOGINTOKEN',1);
+                                this.$router.replace('/user/panel');
+                            }, this.globalConfig.jumpDelay);
+                        }
+                    })
+                } else if (r.data.ret == -1) {
+                    tmp.commit('SET_TGAUTHNUMBER','此数字已经过期，请刷新页面后重试');
+                }
+            })
+            tid = setTimeout(()=>{
+                this.tgAuthTrigger(tid);
+            }, 2500);
+        }
     },
     mounted() {
         document.addEventListener('keyup',(e)=>{
@@ -442,6 +527,13 @@ const Login = {
                 this.login();
             }
         });
+
+        if (this.globalConfig.enable_telegram === 'true') {
+            this.telegramRender();
+            let tid = setTimeout(()=>{
+                this.tgAuthTrigger(tid);
+            }, 2500);
+        }
 
         if (this.globalConfig.enableLoginCaptcha === 'false') {
             return;
