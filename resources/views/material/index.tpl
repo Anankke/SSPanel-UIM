@@ -191,9 +191,6 @@ const tmp = new Vuex.Store({
         SET_JINRISHICI (state,content) {
             state.globalConfig.indexMsg.jinrishici = content;
         },
-        SET_TGAUTHNUMBER (state,content) {
-            Vue.set(state.globalConfig,'login_number',content);
-        }
     },
     actions: {
         CALL_MSGR ({ commit,state },config) {
@@ -394,18 +391,28 @@ const Login = {
                 确认登录
             </button>
         </div>
-        <div v-if="globalConfig.enable_telegram === 'true'" class="pure-u-1 pure-u-sm-11-24">
+        <div v-if="globalConfig.enable_telegram === 'true'" class="pure-u-1 pure-u-sm-11-24 pure-g">
             <h3>Telegram登录</h3>
             <div>
                 <p>Telegram OAuth一键登陆</p>
             </div>
             <p id="telegram-alert">正在载入 Telegram，如果长时间未显示请刷新页面或检查代理</p>
             <div class="text-center" id="telegram-login-box"></div>
-            <p>或者添加机器人账号 <a :href="telegramHref">@$[globalConfig.telegram_bot]$</a>，发送下面的数字验证码给它
+            <p>或者添加机器人账号 <a :href="telegramHref">@$[globalConfig.telegram_bot]$</a>，发送下面的数字/二维码验证码给它
             </p>
-            <div>
-                <h2><code id="code_number">$[globalConfig.login_number]$</code></h2>
+            <transition name="fade" mode="out-in">
+            <div v-if="!isTgtimeout" class="pure-g pure-u-20-24" key="notTimeout">
+                <div class="text-center qr-center pure-u-11-24">
+                    <div id="telegram-qr" class="flex space-around"></div>
+                </div>
+                <div class="pure-u-11-24">
+                    <div class="auth-submit" id="code_number">$[globalConfig.login_number]$</div>
+                </div>
             </div>
+            <div v-else class="pure-g space-around" key="timeout">
+                <div class="auth-submit pure-u-18-24 tg-timeout">验证方式已过期，请刷新页面后重试</div>
+            </div>
+            </transition>
         </div>  
     </div>
     `,
@@ -415,6 +422,7 @@ const Login = {
             passwd: '',
             remember_me: false,
             isDisabled: false,
+            isTgtimeout: false,
         }
     },
     methods: {
@@ -485,6 +493,11 @@ const Login = {
             el.setAttribute('data-telegram-login', this.globalConfig.telegram_bot);
             el.setAttribute('data-auth-url', this.globalConfig.base_url + '/auth/telegram_oauth');
             el.setAttribute('data-request-access', 'write');
+
+            let telegram_qrcode = 'mod://login/' + this.globalConfig.login_token;
+            let qrcode = new QRCode(document.getElementById("telegram-qr"));
+            qrcode.clear();
+            qrcode.makeCode(telegram_qrcode);
         },
         tgAuthTrigger(tid) {
             let callConfig = {
@@ -513,7 +526,7 @@ const Login = {
                         }
                     })
                 } else if (r.data.ret == -1) {
-                    tmp.commit('SET_TGAUTHNUMBER','此数字已经过期，请刷新页面后重试');
+                    this.isTgtimeout = true;
                 }
             })
             tid = setTimeout(()=>{

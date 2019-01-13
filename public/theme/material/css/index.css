@@ -342,6 +342,23 @@ select {
     width: 80%;
 }
 
+#code_number,
+.tg-timeout {
+    padding: .6rem 1rem;
+    width: 100%;
+    font-size: 1.3em;
+}
+
+.tg-timeout {
+    width: 80%;
+}
+
+.qr-center img {
+    width: 70%;
+    height: 70%;
+    text-align: center;
+}
+
 @media screen and (min-width:35.5em) {
     .auth-sm a {
         min-width: 120px;
