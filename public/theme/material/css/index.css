@@ -19,6 +19,10 @@ a {
     justify-content: space-around;
 }
 
+.space-between {
+    justify-content: space-between;
+}
+
 .align-center {
     align-items: center;
 }
@@ -94,6 +98,7 @@ a {
 .main {
     text-align: center;
     min-height: 80vh;
+    padding: 1.5rem 0 2.5rem 0;
 }
 
 .title,
@@ -193,7 +198,7 @@ input.checkbox {
     border: 1px solid transparent;
     min-height: 46px;
     margin-top: 1rem;
-    width: 32%;
+    width: 81%;
 }
 
 .auth-submit:hover,
@@ -212,6 +217,7 @@ input.checkbox {
     font-size: 3.5rem;
     margin-top: 0;
 }
+
 .auth h3 {
     margin: 0;
 }
@@ -282,8 +288,15 @@ select {
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 1rem;
-    color: white;
     opacity: .5;
+}
+
+.button-round .fa-inverse {
+    color: black;
+}
+
+.button-round .fa-stack {
+    margin-right: .4rem;
 }
 
 .button-round:hover,
@@ -299,23 +312,8 @@ select {
     height: 2rem;
     display: inline-block;
     margin-right: .75rem;
-}
-
-.fa {
-    position: relative;
-}
-
-.icon-round .fa-pencil {
-    top: .25rem;
-    left: .05rem
-}
-
-.icon-round .fa-plus {
-    top: .35em;
-}
-
-.icon-round .fa-gear {
-    top: .3rem;
+    line-height: 2rem;
+    padding-left: .1rem;
 }
 
 #embed-captcha-reg {
@@ -349,7 +347,7 @@ select {
     font-size: 1.3em;
 }
 
-.tg-timeout {
+.auth-submit.tg-timeout {
     width: 80%;
 }
 
@@ -359,7 +357,30 @@ select {
     text-align: center;
 }
 
+#register {
+    margin-top: 2rem;
+}
+
+#embed-captcha-reg .geetest_btn {
+    margin-left: auto;
+    margin-right: auto;
+    width: 87%;
+}
+
+.auth-tg {
+    margin-top: 2rem;
+}
+.auth-tg p {
+    padding: 0 2rem;
+}
+.auth-tg p a {
+    color: #D1335B;
+}
+
 @media screen and (min-width:35.5em) {
+    .auth-tg {
+        margin-top: 0;
+    }
     .auth-sm a {
         min-width: 120px;
     }
@@ -390,6 +411,10 @@ select {
         text-align: right;
     }
 
+    .auth-submit {
+        width: 32%;
+    }
+
     .auth-links {
         padding: 0;
     }
@@ -410,10 +435,6 @@ select {
 @media screen and (min-width:48em) {
     .title h1 {
         font-size: 5rem;
-    }
-
-    #register {
-        margin-top: 2rem;
     }
 
     .twin {

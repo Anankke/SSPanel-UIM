@@ -99,7 +99,7 @@
 												<div class="card-heading">联络方式修改</div>
 												<button class="btn btn-flat" id="wechat-update"><span class="icon">check</span>&nbsp;</button>
 										</div>
-										<p>当前联络方式:
+										<p>当前联络方式：
 										<code id="ajax-im" data-default="imtype">
 										{if $user->im_type==1}
 										微信
@@ -118,7 +118,7 @@
 										{/if}
 										</code>
 										</p>
-										<p>当前联络方式账号:
+										<p>当前联络方式账号：
 										<code>{$user->im_value}</code>
 										</p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">

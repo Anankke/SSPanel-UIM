@@ -203,13 +203,17 @@ const tmp = new Vuex.Store({
     }
 });
 
-var storeAuth = {
+var storeMap = {
     store: tmp,
     computed: Vuex.mapState({
         msgrCon: 'msgrCon',
         globalConfig: 'globalConfig',
         logintoken: 'logintoken',
+        isLoading: 'isLoading',
     }),
+}
+
+var storeAuth = {
     methods: {
         loadCaptcha(id) {
             if (this.globalConfig.recaptchaSiteKey !== null ) {
@@ -290,7 +294,7 @@ const Auth = {
     <div class="auth pure-g align-center">
         <div class="pure-u-1 pure-u-sm-4-24 flex wrap space-around auth-links">
             <router-link v-for="(links,key) in routerLinks" @click.native="setButtonState" :class="{ active:links.isActive }" class="button-round flex align-center" :to="links.href" :key="links.id">
-                <span class="icon-round"><i :class="links.icon"></i></span> $[links.content]$
+                <span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i :class="links.icon"></i></span><span>$[links.content]$</span> 
             </router-link>
         </div>
         <transition name="slide-fade" mode="out-in">
@@ -306,21 +310,21 @@ const Auth = {
                     id: 'R_AUTH_0',
                     href: '/auth/login',
                     content: '登录',
-                    icon: ['fa','fa-pencil'],
+                    icon: ['fa','fa-sign-in','fa-stack-1x','fa-inverse'],
                     isActive: false,
                 },
                 register: {
                     id: 'R_AUTH_1',
                     href: '/auth/register',
                     content: '注册',
-                    icon: ['fa','fa-plus'],
+                    icon: ['fa','fa-user-plus','fa-stack-1x','fa-inverse'],
                     isActive: false,
                 },
                 reset: {
                     id: 'R_PW_0',
                     href: '/password/reset',
                     content: '密码重置',
-                    icon: ['fa','fa-gear'],
+                    icon: ['fa','fa-unlock-alt','fa-stack-1x','fa-inverse'],
                     isActive: false,
                 },
             },
@@ -337,6 +341,9 @@ const Auth = {
             }
         },
     },
+    watch: {
+        $route: 'setButtonState',
+    },
     beforeRouteEnter (to,from,next) {
         next(vm=>{
             vm.setButtonState();
@@ -350,12 +357,8 @@ const Auth = {
 
 const Login = {
     delimiters: ['$[',']$'],
-    mixins: [storeAuth],
+    mixins: [storeMap,storeAuth],
     computed: Vuex.mapState({
-        msgrCon: 'msgrCon',
-        globalConfig: 'globalConfig',
-        logintoken: 'logintoken',
-        isLoading: 'isLoading',
         telegramHref: function() {
             return 'https://t.me/' + this.globalConfig.telegram_bot;
         },
@@ -391,7 +394,7 @@ const Login = {
                 确认登录
             </button>
         </div>
-        <div v-if="globalConfig.enable_telegram === 'true'" class="pure-u-1 pure-u-sm-11-24 pure-g">
+        <div v-if="globalConfig.enable_telegram === 'true'" class="pure-u-1 pure-u-sm-11-24 pure-g auth-tg">
             <h3>Telegram登录</h3>
             <div>
                 <p>Telegram OAuth一键登陆</p>
@@ -558,9 +561,9 @@ const Login = {
 
 const Register = {
     delimiters: ['$[',']$'],
-    mixins: [storeAuth],
+    mixins: [storeMap,storeAuth],
     template: /*html*/ `
-    <div class="page-auth pure-g pure-u-20-24">
+    <div class="page-auth pure-g pure-u-1 pure-u-sm-20-24">
         <div class="title-back flex align-center">REGISTER</div>
         <h1>账号注册</h1>
         <div class="flex space-around reg">
@@ -813,15 +816,64 @@ const Password = {
         <router-view></router-view>
     </div>
     `,
+    props: ['routermsg'],
 }
 
 const Reset = {
     delimiters: ['$[',']$'],
+    mixins: [storeMap],
     template: /*html*/ `
-    <div class="page-pw pure-u-1">
-        <h1>密码重置页demo</h1>
+    <div class="page-pw pure-u-1 pure-g flex align-center space-around wrap">
+        <div class="title-back flex align-center">PASSWORD</div>
+        <div class="pure-u-1 pure-u-sm-10-24 flex space-around wrap basis-max">
+            <h1>密码重置</h1>
+            <div class="input-control flex wrap">
+                <label for="Email" class="flex space-between align-center">
+                    <span>邮箱</span>
+                    <span class="button-index"><router-link to="/auth/login"><i class="fa fa-mail-forward"></i> 返回登录页</router-link></span>
+                </label>
+                <input v-model="email" type="text" name="Email">        
+            </div>
+            <button @click.prevent="reset" @keyup.13.native="reset" class="auth-submit" id="reset" type="submit" :disabled="isDisabled">
+                    重置密码
+            </button>
+        </div>
     </div>
     `,
+    data: function() {
+        return {
+            email: '',
+            isDisabled: false,
+        }
+    },
+    methods: {
+        reset() {
+            let callConfig = {
+                msg: '',
+                icon: '',
+            };
+
+            axios.post('/password/reset',{
+                email: this.email,
+            }).then(r=>{
+                if (r.data.ret == 1) {
+                    callConfig.msg += '邮件发送成功kira~';
+                    callConfig.icon += 'fa-check-square-o';
+                    tmp.dispatch('CALL_MSGR',callConfig);
+                    window.setTimeout(()=>{
+                        this.$router.push('/auth/login');
+                    }, this.globalConfig.jumpDelay);
+                } else {
+                    callConfig.msg += 'WTF……邮件发送失败，请检查邮箱地址';
+                    callConfig.icon += 'fa-times-circle-o';
+                    tmp.dispatch('CALL_MSGR',callConfig);
+                    window.setTimeout(()=>{
+                        this.isDisabled = false;
+                    },3000)
+                }
+            })
+        }
+    },
 }
 
 const User = {
@@ -1003,17 +1055,11 @@ const indexPage = new Vue({
     router: Router,
     el: '#index',
     delimiters: ['$[',']$'],
-    store: tmp,
+    mixins: [storeMap],
     data: {
         routerN: 'auth',
         transType: 'slide-fade'
     },
-    computed: Vuex.mapState({
-        msgrCon: 'msgrCon',
-        globalConfig: 'globalConfig',
-        logintoken: 'logintoken',
-        isLoading: 'isLoading',
-    }),
     methods: {
         routeJudge() {
             switch(this.$route.path) {
