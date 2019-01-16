@@ -101,10 +101,10 @@
     {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js?render=explicit" async defer></script>
     {/if}
-    <script src="/theme/material/js/vue.min.js"></script>
-    <script src="/theme/material/js/vuex.min.js"></script>
-    <script src="/theme/material/js/vue-router.min.js"></script>
-    <script src="/theme/material/js/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.19.0-beta.1/dist/axios.min.js"></script>
     {if isset($geetest_html)}
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
     {/if}
