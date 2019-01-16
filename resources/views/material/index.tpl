@@ -12,6 +12,15 @@
     <title>Document</title>
     <link rel="stylesheet" href="/theme/material/css/index_base.css">
     <link rel="stylesheet" href="/theme/material/css/index.css">
+    {if $config["enable_crisp"] == 'true'}
+    <literal><script type="text/javascript"> 
+    window.$crisp=[];
+    window.CRISP_WEBSITE_ID="{$config["crisp_id"]}";
+    $crisp.push(["set", "user:email", "{$user->email}"]);
+    $crisp.push(["config", "color:theme", "grey"]);
+    (function(){ d=document;s=d.createElement("script"); s.src="https://client.crisp.chat/l.js"; s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+    </script></literal>
+    {/if}
 </head>
 
 <style>
@@ -89,7 +98,7 @@
                 </div>
                 <div class="footer pure-g">
                     <div class="pure-u-1 pure-u-sm-1-2 staff">POWERED BY <a href="./staff">SSPANEL-UIM</a></div>
-                    <div class="pure-u-1 pure-u-sm-1-2 time">&copy;$[globalConfig.indexMsg.date]$ $[globalConfig.indexMsg.appname]$</div>
+                    <div class="pure-u-1 pure-u-sm-1-2 time" :class="{ enableCrisp:globalConfig.crisp === 'true' }">&copy;$[globalConfig.indexMsg.date]$ $[globalConfig.indexMsg.appname]$</div>
                 </div>
                 
                 <transition name="slide-fade" mode="out-in">
@@ -141,6 +150,7 @@ const tmp = new Vuex.Store({
             jumpDelay: '',
             isGetestSuccess: '',
             registMode: '',
+            crisp: '',
             base_url: '',
             isEmailVeryify: '',
             login_token: '',
@@ -185,6 +195,7 @@ const tmp = new Vuex.Store({
             state.globalConfig.login_token = config.login_token;
             state.globalConfig.login_number = config.login_number;
             state.globalConfig.telegram_bot = config.telegram_bot;
+            state.globalConfig.crisp = config.enable_crisp;
             state.globalConfig.enable_telegram = config.enable_telegram;
             state.globalConfig.indexMsg.appname = config.appName;
             state.globalConfig.indexMsg.date = config.dateY;
@@ -1136,7 +1147,7 @@ const indexPage = new Vue({
         this.routeJudge();
         setTimeout(()=>{
             tmp.commit('SET_LOADSTATE');
-        },1000)
+        },1000);
     },
     
 });

@@ -445,6 +445,10 @@ select {
     .usrcenter {
         padding: 0 5rem;
     }
+
+    .enableCrisp {
+        padding-right: 3rem;
+    }
 }
 
 @media screen and (min-width:48em) {
