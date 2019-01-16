@@ -129,7 +129,7 @@
 </html>
 
 <script>
-/**
+{*/**
  * A wrapper of window.Fetch API
  * @author Sukka (https://skk.moe)
 
@@ -140,7 +140,7 @@
  * @param {string} body
  * @param {string} method
  * @returns {function} - A Promise Object
- */
+ */*}
 const _request = (url, body, method) =>
     fetch(url, {
         method: method,
@@ -160,22 +160,20 @@ const _request = (url, body, method) =>
         throw error;
     });
 
-/**
+{*/**
  * A Wrapper of Fetch GET Method
  * @function _get
  * @param {string} url
  * @returns {function} - A Promise Object
  * @example
  * get('https://example.com').then(resp => { console.log(resp) })
- */
-const _get = (url) =>
+ */*}
+const _get = (url,credentials) =>
     fetch(url, {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(resp => Promise.all([resp.ok, resp.status, resp.json(), resp.headers])
-    ).then(([ok, status, json, headers]) => {
+        credentials,
+    }).then(resp => Promise.all([resp.ok, resp.status, resp.json(), resp.headers]))
+    .then(([ok, status, json, headers]) => {
         if (ok) {
             return json;
         } else {
@@ -185,7 +183,7 @@ const _get = (url) =>
         throw error;
     });
 
-/**
+{*/**
  * A Wrapper of Fetch POST Method
  * @function _post
  * @param {string} url
@@ -193,7 +191,7 @@ const _get = (url) =>
  * @returns {function} - A Promise Object
  * @example
  * _post('https://example.com', JSON.stringify(data)).then(resp => { console.log(resp) })
- */
+ */*}
 
 const _post = (url, body) => _request(url, body, 'POST');
 
@@ -344,7 +342,7 @@ var storeAuth = {
            Sukka. 2019-01-06
          */
         grecaptchaRender(id) {
-            setTimeout(function() {
+            setTimeout(() => {
                 if (!grecaptcha || !grecaptcha.render) {
                     this.grecaptchaRender(id);
                 } else {
@@ -593,14 +591,14 @@ const Login = {
                 token: this.globalConfig.login_token,
                 number: this.globalConfig.login_number,
             })).then((r) => {
-                if(r.data.ret > 0) {
+                if(r.ret > 0) {
                     clearTimeout(tid);
                     
-                    .post('/auth/qrcode_login',{
+                    _post('/auth/qrcode_login',{
                         token: this.globalConfig.login_token,
                         number: this.globalConfig.login_number,
                     }).then(r=>{
-                        if (r.data.ret) {
+                        if (r.ret) {
                             callConfig.msg += '登录成功Kira~';
                             callConfig.icon += 'fa-check-square-o';
                             tmp.dispatch('CALL_MSGR',callConfig);
@@ -610,7 +608,7 @@ const Login = {
                             }, this.globalConfig.jumpDelay);
                         }
                     })
-                } else if (r.data.ret == -1) {
+                } else if (r.ret == -1) {
                     this.isTgtimeout = true;
                 }
             })
@@ -767,7 +765,7 @@ const Register = {
             }
 
             _post('/auth/register', ajaxCon).then((r)=>{
-                if (r.data.ret == 1) {
+                if (r.ret == 1) {
                     callConfig.msg += '注册成功meow~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
@@ -841,7 +839,7 @@ const Register = {
                 }
 
             _post('auth/send', ajaxCon).then((r)=>{
-                if (r.data.ret) {
+                if (r.ret) {
                     let callConfig = {
                             msg: 'biu~邮件发送成功',
                             icon: 'fa-check-square-o',
@@ -932,7 +930,7 @@ const Reset = {
             _post('/password/reset', JSON.stringify({
                 email: this.email,
             })).then(r => {
-                if (r.data.ret == 1) {
+                if (r.ret == 1) {
                     callConfig.msg += '邮件发送成功kira~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
@@ -995,9 +993,9 @@ const Panel = {
         let self = this;
         this.userLoadState = 'loading';                        
          _get('/user/getuserinfo').then((r) => {
-            if (r.data.ret === 1) {
-                console.log(r.data.info);
-                this.userCon = r.data.info.user;
+            if (r.ret === 1) {
+                console.log(r.info);
+                this.userCon = r.info.user;
                 console.log(this.userCon);
             }
         }).then(r=>{
@@ -1094,8 +1092,8 @@ const Router = new VueRouter({
 Router.beforeEach((to,from,next)=>{
     if (!globalConfig) {
         _get('/globalconfig').then((r)=>{
-            if (r.data.ret == 1) {
-                    globalConfig = r.data.globalConfig;
+            if (r.ret == 1) {
+                    globalConfig = r.globalConfig;
                     if (globalConfig.geetest_html && globalConfig.geetest_html.success) {
                         globalConfig.isGetestSuccess = '1';
                         tmp.commit('SET_GLOBALCONFIG',globalConfig);
@@ -1204,11 +1202,17 @@ const indexPage = new Vue({
         }
     },
     beforeMount() {
-        _get('https://api.lwl12.com/hitokoto/v1').then((r) => {
-            tmp.commit('SET_HITOKOTO',r.data);
+        _get('https://api.lwl12.com/hitokoto/v1?encode=realjson').then((r) => {
+            let hitokoto
+            if (r.author === '' && r.source === '') {
+                hitokoto = r.text;
+            } else {
+                hitokoto = r.text + ' —— ' + r.author + r.source; 
+            }
+            tmp.commit('SET_HITOKOTO',hitokoto);
         })
-        _get('https://v2.jinrishici.com/one.json').then((r) => {
-            tmp.commit('SET_JINRISHICI',r.data.data.content);
+        _get('https://v2.jinrishici.com/one.json','include').then((r) => {
+            tmp.commit('SET_JINRISHICI',r.data.content);
         })
     },
     mounted() {
