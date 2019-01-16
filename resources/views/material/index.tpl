@@ -307,10 +307,10 @@ var storeAuth = {
                 this.$nextTick(function(){
 
                 _get('/auth/login_getCaptcha')
-                    .then((resp) => {
+                    .then((r) => {
                         let GeConfig = {
-                            gt: resp.data.GtSdk.gt,
-                            challenge: resp.data.GtSdk.challenge,
+                            gt: r.GtSdk.gt,
+                            challenge: r.GtSdk.challenge,
                             product: "embed",
                         }
 
@@ -545,8 +545,8 @@ const Login = {
                 }
             }
 
-            _post('/auth/login', ajaxCon).then((resp) => {
-                if (resp.data.ret === 1) {
+            _post('/auth/login', JSON.stringify(ajaxCon)).then((r) => {
+                if (r.ret === 1) {
                     callConfig.msg += '登录成功Kira~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
@@ -583,6 +583,9 @@ const Login = {
             qrcode.makeCode(telegram_qrcode);
         },
         tgAuthTrigger(tid) {
+            if (this.logintoken == true) {
+                return;
+            }
             let callConfig = {
                 msg: '',
                 icon: '',
@@ -594,10 +597,10 @@ const Login = {
                 if(r.ret > 0) {
                     clearTimeout(tid);
                     
-                    _post('/auth/qrcode_login',{
+                    _post('/auth/qrcode_login',JSON.stringify({
                         token: this.globalConfig.login_token,
                         number: this.globalConfig.login_number,
-                    }).then(r=>{
+                    })).then(r=>{
                         if (r.ret) {
                             callConfig.msg += '登录成功Kira~';
                             callConfig.icon += 'fa-check-square-o';
@@ -611,7 +614,7 @@ const Login = {
                 } else if (r.ret == -1) {
                     this.isTgtimeout = true;
                 }
-            })
+            });
             tid = setTimeout(()=>{
                 this.tgAuthTrigger(tid);
             }, 2500);
@@ -764,7 +767,7 @@ const Register = {
                 }
             }
 
-            _post('/auth/register', ajaxCon).then((r)=>{
+            _post('/auth/register', JSON.stringify(ajaxCon)).then((r)=>{
                 if (r.ret == 1) {
                     callConfig.msg += '注册成功meow~';
                     callConfig.icon += 'fa-check-square-o';
@@ -838,7 +841,7 @@ const Register = {
                     email: this.email,
                 }
 
-            _post('auth/send', ajaxCon).then((r)=>{
+            _post('auth/send', JSON.stringify(ajaxCon)).then((r)=>{
                 if (r.ret) {
                     let callConfig = {
                             msg: 'biu~邮件发送成功',
