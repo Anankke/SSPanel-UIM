@@ -12,17 +12,30 @@
     <title>Document</title>
     <link rel="stylesheet" href="/theme/material/css/index_base.css">
     <link rel="stylesheet" href="/theme/material/css/index.css">
+    {if $config["enable_crisp"] == 'true'}
+    <literal><script type="text/javascript"> 
+    window.$crisp=[];
+    window.CRISP_WEBSITE_ID="{$config["crisp_id"]}";
+    $crisp.push(["set", "user:email", "{$user->email}"]);
+    $crisp.push(["config", "color:theme", "grey"]);
+    (function(){ d=document;s=d.createElement("script"); s.src="https://client.crisp.chat/l.js"; s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+    </script></literal>
+    {/if}
 </head>
 
 <style>
-.slide-fade-enter-active,.fade-enter-active,.loading-fade-enter-active,.rotate-fade-enter-active {
+.slide-fade-enter-active,.fade-enter-active,.loading-fade-enter-active,.rotate-fade-enter-active,.loading-fadex-enter-active {
     transition: all .3s ease;
 }
-.slide-fade-leave-active,.fade-leave-active,.loading-fade-leave-active,.rotate-fade-leave-active {
+.slide-fade-leave-active,.fade-leave-active,.loading-fade-leave-active,.rotate-fade-leave-active,.loading-fadex-leave-active {
     transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .loading-fade-enter {
     transform: scaleY(.75);
+    opacity: 0;
+}
+.loading-fadex-enter {
+    transform: scaleX(.75);
     opacity: 0;
 }
 .slide-fade-enter {
@@ -43,7 +56,7 @@
     -webkit-transform: rotateY(90deg);
     opacity: 0;
 }
-.fade-enter,.fade-leave-to {
+.fade-enter,.fade-leave-to,.loading-fade-leave-to,.loading-fadex-leave-to {
     opacity: 0;
 }
 </style>
@@ -85,7 +98,7 @@
                 </div>
                 <div class="footer pure-g">
                     <div class="pure-u-1 pure-u-sm-1-2 staff">POWERED BY <a href="./staff">SSPANEL-UIM</a></div>
-                    <div class="pure-u-1 pure-u-sm-1-2 time">&copy;$[globalConfig.indexMsg.date]$ $[globalConfig.indexMsg.appname]$</div>
+                    <div class="pure-u-1 pure-u-sm-1-2 time" :class="{ enableCrisp:globalConfig.crisp === 'true' }">&copy;$[globalConfig.indexMsg.date]$ $[globalConfig.indexMsg.appname]$</div>
                 </div>
                 
                 <transition name="slide-fade" mode="out-in">
@@ -204,6 +217,7 @@ const tmp = new Vuex.Store({
             jumpDelay: '',
             isGetestSuccess: '',
             registMode: '',
+            crisp: '',
             base_url: '',
             isEmailVeryify: '',
             login_token: '',
@@ -248,6 +262,7 @@ const tmp = new Vuex.Store({
             state.globalConfig.login_token = config.login_token;
             state.globalConfig.login_number = config.login_number;
             state.globalConfig.telegram_bot = config.telegram_bot;
+            state.globalConfig.crisp = config.enable_crisp;
             state.globalConfig.enable_telegram = config.enable_telegram;
             state.globalConfig.indexMsg.appname = config.appName;
             state.globalConfig.indexMsg.date = config.dateY;
@@ -723,6 +738,10 @@ const Register = {
                 icon: '',
             };
 
+            if (this.globalConfig.isEmailVeryify === 'true') {
+                ajaxCon.emailcode = this.email_code;
+            }
+
             if (this.globalConfig.registMode !== 'invite') {
                 ajaxCon.code = 0;
                 if ((this.getCookie('code')) !== '') {
@@ -887,7 +906,7 @@ const Reset = {
             <div class="input-control flex wrap">
                 <label for="Email" class="flex space-between align-center">
                     <span>邮箱</span>
-                    <span class="button-index"><router-link to="/auth/login"><i class="fa fa-mail-forward"></i> 返回登录页</router-link></span>
+                    <span><router-link class="button-index" to="/auth/login"><i class="fa fa-mail-forward"></i> 返回登录页</router-link></span>
                 </label>
                 <input v-model="email" type="text" name="Email">        
             </div>
@@ -947,18 +966,45 @@ const Panel = {
     delimiters: ['$[',']$'],
     template: /*html*/ `
     <div class="page-user pure-u-1">
-        <h1>用户页面demo</h1>
-        <a href="/user" class="button-index">进入用户中心</a>
+        <div class="title-back flex align-center">USERCENTER</div>
+        <transition name="loading-fadex" mode="out-in">
+            <div class="loading flex align-center" v-if="userLoadState === 'beforeload'">USERCENTER</div>
+
+            <div class="loading flex align-center" v-else-if="userLoadState === 'loading'" key="loading">
+                <div class="spinnercube">
+                    <div class="cube1"></div>
+                    <div class="cube2"></div>
+                </div>
+            </div>
+
+            <div class="usrcenter text-left" v-else-if="userLoadState === 'loaded'">
+                <h1>用户中心</h1>
+                <a href="/user" class="button-index">进入管理面板</a>
+            </div>
+        </transition>
     </div>
     `,
     props: ['routermsg'],
+    data: function() {
+        return {
+            userLoadState: 'beforeload',
+            userCon: '',
+        }
+    },
     mounted() {
-        _get('/user/getuserinfo')
-            .then((r)=>{
-                if (r.data.ret === 1) {
-                    console.log(r.data.info);
-                }
-            });
+        let self = this;
+        this.userLoadState = 'loading';                        
+         _get('/user/getuserinfo').then((r) => {
+            if (r.data.ret === 1) {
+                console.log(r.data.info);
+                this.userCon = r.data.info.user;
+                console.log(this.userCon);
+            }
+        }).then(r=>{
+            setTimeout(()=>{
+                self.userLoadState = 'loaded';
+            },1000)
+        });
     },
     beforeRouteLeave (to, from, next) {
         if (to.matched.some(function(record) {
@@ -1153,7 +1199,7 @@ const indexPage = new Vue({
         this.routeJudge();
         setTimeout(()=>{
             tmp.commit('SET_LOADSTATE');
-        },1000)
+        },1000);
     },
     
 });
