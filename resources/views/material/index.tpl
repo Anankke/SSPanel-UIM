@@ -104,7 +104,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.19.0-beta.1/dist/axios.min.js"></script>
+
     {if isset($geetest_html)}
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
     {/if}
@@ -116,7 +116,74 @@
 </html>
 
 <script>
-    
+/**
+ * A wrapper of window.Fetch API
+ * @author Sukka (https://skk.moe)
+
+/**
+ * A Request Helper of Fetch
+ * @function _delete
+ * @param {string} url
+ * @param {string} body
+ * @param {string} method
+ * @returns {function} - A Promise Object
+ */
+const _request = (url, body, method) =>
+    fetch(url, {
+        method: method,
+        body: body,
+        headers: {
+            'content-type': 'application/json'
+        }
+    }).then(resp => {
+        return Promise.all([resp.ok, resp.status, resp.json()]);
+    }).then(([ok, status, json]) => {
+        if (ok) {
+            return json;
+        } else {
+            throw new Error(JSON.stringify(json.error));
+        }
+    }).catch(error => {
+        throw error;
+    });
+
+/**
+ * A Wrapper of Fetch GET Method
+ * @function _get
+ * @param {string} url
+ * @returns {function} - A Promise Object
+ * @example
+ * get('https://example.com').then(resp => { console.log(resp) })
+ */
+const _get = (url) =>
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(resp => Promise.all([resp.ok, resp.status, resp.json(), resp.headers])
+    ).then(([ok, status, json, headers]) => {
+        if (ok) {
+            return json;
+        } else {
+            throw new Error(JSON.stringify(json.error));
+        }
+    }).catch(error => {
+        throw error;
+    });
+
+/**
+ * A Wrapper of Fetch POST Method
+ * @function _post
+ * @param {string} url
+ * @param {string} json - The POST Body in JSON Format
+ * @returns {function} - A Promise Object
+ * @example
+ * _post('https://example.com', JSON.stringify(data)).then(resp => { console.log(resp) })
+ */
+
+const _post = (url, body) => _request(url, body, 'POST');
+
 let validate,captcha;
 
 let globalConfig;
@@ -226,14 +293,11 @@ var storeAuth = {
             if (this.globalConfig.captchaProvider === 'geetest') {
                 this.$nextTick(function(){
 
-                    axios({
-                        method: 'get',
-                        url: '/auth/login_getCaptcha',
-                        responseType: 'json',
-                    }).then((r)=>{
+                _get('/auth/login_getCaptcha')
+                    .then((resp) => {
                         let GeConfig = {
-                            gt: r.data.GtSdk.gt,
-                            challenge: r.data.GtSdk.challenge,
+                            gt: resp.data.GtSdk.gt,
+                            challenge: resp.data.GtSdk.challenge,
                             product: "embed",
                         }
 
@@ -257,14 +321,21 @@ var storeAuth = {
             }
         },
         //加载完成的时间很谜
+
+        /* 当然很迷了。
+           你的 reCAPTCHA 的 container 是在注册页面才渲染的
+           所以你应该把的 reCAPTCHA 渲染绑定在注册页面渲染事件上。
+
+           Sukka. 2019-01-06
+         */
         grecaptchaRender(id) {
             setTimeout(function() {
-                if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render ==='undefined') {
-                    this.grecaptchaRender();
-                } else {
+                if (grecaptcha && grecaptcha.render) {
                     grecaptcha.render(id);
+                } else {
+                    this.grecaptchaRender();
                 }
-            },300)
+            }, 300)
         }
     },
 };
@@ -461,16 +532,12 @@ const Login = {
                 }
             }
 
-            axios({
-                method: 'post',
-                url: '/auth/login',
-                data: ajaxCon,
-            }).then((r)=>{
-                if (r.data.ret == 1) {
+            _post('/auth/login', ajaxCon).then((resp) => {
+                if (resp.data.ret === 1) {
                     callConfig.msg += '登录成功Kira~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
-                    window.setTimeout(()=>{
+                    window.setTimeout(() => {
                         tmp.commit('SET_LOGINTOKEN',1);
                         this.$router.replace('/user/panel');
                     }, this.globalConfig.jumpDelay);
@@ -480,7 +547,7 @@ const Login = {
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
                         this.isDisabled = false;
-                    },3000)
+                    }, 3000)
                 }
             });
 
@@ -507,14 +574,14 @@ const Login = {
                 msg: '',
                 icon: '',
             };
-            axios.post('/auth/qrcode_check',{
+            _post('/auth/qrcode_check', JSON.stringify({
                 token: this.globalConfig.login_token,
                 number: this.globalConfig.login_number,
-            }).then(r=>{
+            })).then((r) => {
                 if(r.data.ret > 0) {
                     clearTimeout(tid);
                     
-                    axios.post('/auth/qrcode_login',{
+                    .post('/auth/qrcode_login',{
                         token: this.globalConfig.login_token,
                         number: this.globalConfig.login_number,
                     }).then(r=>{
@@ -546,7 +613,7 @@ const Login = {
 
         if (this.globalConfig.enable_telegram === 'true') {
             this.telegramRender();
-            let tid = setTimeout(()=>{
+            let tid = setTimeout(() => {
                 this.tgAuthTrigger(tid);
             }, 2500);
         }
@@ -658,7 +725,7 @@ const Register = {
 
             if (this.globalConfig.registMode !== 'invite') {
                 ajaxCon.code = 0;
-                if ((this.getCookie('code'))!='') {
+                if ((this.getCookie('code')) !== '') {
                     ajaxCon.code = this.getCookie('code');
                 }
             }
@@ -678,14 +745,9 @@ const Register = {
                         }      
                         break;
                 }
-            }      
+            }
 
-            axios({
-                method: 'post',
-                url: '/auth/register',
-                responseType: 'json',
-                data: ajaxCon,
-            }).then((r)=>{
+            _post('/auth/register', ajaxCon).then((r)=>{
                 if (r.data.ret == 1) {
                     callConfig.msg += '注册成功meow~';
                     callConfig.icon += 'fa-check-square-o';
@@ -759,12 +821,7 @@ const Register = {
                     email: this.email,
                 }
 
-            axios({
-                method: 'post',
-                url: 'auth/send',
-                responseType: 'json',
-                data: ajaxCon,
-            }).then((r)=>{
+            _post('auth/send', ajaxCon).then((r)=>{
                 if (r.data.ret) {
                     let callConfig = {
                             msg: 'biu~邮件发送成功',
@@ -794,7 +851,7 @@ const Register = {
             }
         }
         
-        document.addEventListener('keyup',(e)=>{
+        document.addEventListener('keyup', (e) => {
             if (e.keyCode == 13) {
                 this.register();
             }
@@ -853,14 +910,14 @@ const Reset = {
                 icon: '',
             };
 
-            axios.post('/password/reset',{
+            _post('/password/reset', JSON.stringify({
                 email: this.email,
-            }).then(r=>{
+            })).then(r => {
                 if (r.data.ret == 1) {
                     callConfig.msg += '邮件发送成功kira~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
-                    window.setTimeout(()=>{
+                    window.setTimeout(() => {
                         this.$router.push('/auth/login');
                     }, this.globalConfig.jumpDelay);
                 } else {
@@ -869,7 +926,7 @@ const Reset = {
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
                         this.isDisabled = false;
-                    },3000)
+                    }, 3000)
                 }
             })
         }
@@ -896,7 +953,7 @@ const Panel = {
     `,
     props: ['routermsg'],
     mounted() {
-        axios.get('/user/getuserinfo')
+        _get('/user/getuserinfo')
             .then((r)=>{
                 if (r.data.ret === 1) {
                     console.log(r.data.info);
@@ -975,8 +1032,7 @@ const Router = new VueRouter({
 
 Router.beforeEach((to,from,next)=>{
     if (!globalConfig) {
-        axios.get('/globalconfig')
-        .then((r)=>{
+        _get('/globalconfig').then((r)=>{
             if (r.data.ret == 1) {
                     globalConfig = r.data.globalConfig;
                     if (globalConfig.geetest_html && globalConfig.geetest_html.success) {
@@ -1086,13 +1142,10 @@ const indexPage = new Vue({
         }
     },
     beforeMount() {
-        axios.get('https://api.lwl12.com/hitokoto/v1')
-        .then((r)=>{
+        _get('https://api.lwl12.com/hitokoto/v1').then((r) => {
             tmp.commit('SET_HITOKOTO',r.data);
         })
-        axios.get('https://v2.jinrishici.com/one.json',{
-            withCredentials: true,
-        }).then((r)=>{
+        _get('https://v2.jinrishici.com/one.json').then((r) => {
             tmp.commit('SET_JINRISHICI',r.data.data.content);
         })
     },
