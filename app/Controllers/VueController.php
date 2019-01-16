@@ -21,6 +21,8 @@ use App\Utils\TelegramProcess;
 use App\Utils\Spay_tool;
 use App\Utils\Geetest;
 
+use voku\helper\AntiXSS;
+
 class VueController extends BaseController {
 
     private $user;

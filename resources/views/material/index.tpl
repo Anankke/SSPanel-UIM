@@ -15,14 +15,18 @@
 </head>
 
 <style>
-.slide-fade-enter-active,.fade-enter-active,.loading-fade-enter-active,.rotate-fade-enter-active {
+.slide-fade-enter-active,.fade-enter-active,.loading-fade-enter-active,.rotate-fade-enter-active,.loading-fadex-enter-active {
     transition: all .3s ease;
 }
-.slide-fade-leave-active,.fade-leave-active,.loading-fade-leave-active,.rotate-fade-leave-active {
+.slide-fade-leave-active,.fade-leave-active,.loading-fade-leave-active,.rotate-fade-leave-active,.loading-fadex-leave-active {
     transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .loading-fade-enter {
     transform: scaleY(.75);
+    opacity: 0;
+}
+.loading-fadex-enter {
+    transform: scaleX(.75);
     opacity: 0;
 }
 .slide-fade-enter {
@@ -43,7 +47,7 @@
     -webkit-transform: rotateY(90deg);
     opacity: 0;
 }
-.fade-enter,.fade-leave-to {
+.fade-enter,.fade-leave-to,.loading-fade-leave-to,.loading-fadex-leave-to {
     opacity: 0;
 }
 </style>
@@ -656,6 +660,10 @@ const Register = {
                 icon: '',
             };
 
+            if (this.globalConfig.isEmailVeryify === 'true') {
+                ajaxCon.emailcode = this.email_code;
+            }
+
             if (this.globalConfig.registMode !== 'invite') {
                 ajaxCon.code = 0;
                 if ((this.getCookie('code'))!='') {
@@ -830,7 +838,7 @@ const Reset = {
             <div class="input-control flex wrap">
                 <label for="Email" class="flex space-between align-center">
                     <span>邮箱</span>
-                    <span class="button-index"><router-link to="/auth/login"><i class="fa fa-mail-forward"></i> 返回登录页</router-link></span>
+                    <span><router-link class="button-index" to="/auth/login"><i class="fa fa-mail-forward"></i> 返回登录页</router-link></span>
                 </label>
                 <input v-model="email" type="text" name="Email">        
             </div>
@@ -890,18 +898,46 @@ const Panel = {
     delimiters: ['$[',']$'],
     template: /*html*/ `
     <div class="page-user pure-u-1">
-        <h1>用户页面demo</h1>
-        <a href="/user" class="button-index">进入用户中心</a>
+        <div class="title-back flex align-center">USERCENTER</div>
+        <transition name="loading-fadex" mode="out-in">
+            <div class="loading flex align-center" v-if="userLoadState === 'beforeload'">USERCENTER</div>
+
+            <div class="loading flex align-center" v-else-if="userLoadState === 'loading'" key="loading">
+                <div class="spinnercube">
+                    <div class="cube1"></div>
+                    <div class="cube2"></div>
+                </div>
+            </div>
+
+            <div class="usrcenter text-left" v-else-if="userLoadState === 'loaded'">
+                <h1>用户中心</h1>
+                <a href="/user" class="button-index">进入管理面板</a>
+            </div>
+        </transition>
     </div>
     `,
     props: ['routermsg'],
+    data: function() {
+        return {
+            userLoadState: 'beforeload',
+            userCon: '',
+        }
+    },
     mounted() {
+        let self = this;
+        this.userLoadState = 'loading';                        
         axios.get('/user/getuserinfo')
-            .then((r)=>{
-                if (r.data.ret === 1) {
-                    console.log(r.data.info);
-                }
-            });
+        .then((r)=>{
+            if (r.data.ret === 1) {
+                console.log(r.data.info);
+                this.userCon = r.data.info.user;
+                console.log(this.userCon);
+            }
+        }).then(r=>{
+            setTimeout(()=>{
+                self.userLoadState = 'loaded';
+            },1000)
+        });
     },
     beforeRouteLeave (to, from, next) {
         if (to.matched.some(function(record) {
