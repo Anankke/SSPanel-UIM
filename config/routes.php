@@ -68,6 +68,7 @@ $app->add(new WhoopsMiddleware);
 
 // Home
 $app->get('/', 'App\Controllers\HomeController:index');
+$app->get('/indexold', 'App\Controllers\HomeController:indexold');
 $app->get('/404', 'App\Controllers\HomeController:page404');
 $app->get('/405', 'App\Controllers\HomeController:page405');
 $app->get('/500', 'App\Controllers\HomeController:page500');
@@ -76,6 +77,7 @@ $app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');//yft uses GET
 $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
+$app->get('/globalconfig', 'App\Controllers\VueController:getGlobalConfig');
 
 // User Center
 $app->group('/user', function () {
@@ -83,6 +85,7 @@ $app->group('/user', function () {
     $this->get('/', 'App\Controllers\UserController:index');
     $this->post('/checkin', 'App\Controllers\UserController:doCheckin');
     $this->get('/node', 'App\Controllers\UserController:node');
+    $this->get('/tutorial', 'App\Controllers\UserController:tutorial');
     $this->get('/announcement', 'App\Controllers\UserController:announcement');
     $this->get('/donate', 'App\Controllers\UserController:donate');
     $this->get('/lookingglass', 'App\Controllers\UserController:lookingglass');
@@ -99,6 +102,7 @@ $app->group('/user', function () {
     $this->get('/shop', 'App\Controllers\UserController:shop');
     $this->post('/coupon_check', 'App\Controllers\UserController:CouponCheck');
     $this->post('/buy', 'App\Controllers\UserController:buy');
+    $this->get('/getuserinfo', 'App\Controllers\UserController:getUserinfo');
 
 
     // Relay Mange
@@ -151,7 +155,6 @@ $app->group('/user', function () {
     $this->post('/resetport', 'App\Controllers\UserController:ResetPort');
     $this->post('/specifyport', 'App\Controllers\UserController:SpecifyPort');
     $this->post('/pacset', 'App\Controllers\UserController:PacSet');
-    $this->get('/getpcconf', 'App\Controllers\UserController:GetPcConf');
     $this->get('/getiosconf', 'App\Controllers\UserController:GetIosConf');
     $this->post('/unblock', 'App\Controllers\UserController:Unblock');
     $this->get('/bought', 'App\Controllers\UserController:bought');
@@ -175,7 +178,7 @@ $app->group('/payment', function () {
 // Auth
 $app->group('/auth', function () {
     $this->get('/login', 'App\Controllers\AuthController:login');
-    $this->get('/qrcode_check', 'App\Controllers\AuthController:qrcode_check');
+    $this->post('/qrcode_check', 'App\Controllers\AuthController:qrcode_check');
     $this->post('/login', 'App\Controllers\AuthController:loginHandle');
     $this->post('/qrcode_login', 'App\Controllers\AuthController:qrcode_loginHandle');
     $this->get('/register', 'App\Controllers\AuthController:register');
@@ -183,6 +186,7 @@ $app->group('/auth', function () {
     $this->post('/send', 'App\Controllers\AuthController:sendVerify');
     $this->get('/logout', 'App\Controllers\AuthController:logout');
     $this->get('/telegram_oauth', 'App\Controllers\AuthController:telegram_oauth');
+    $this->get('/login_getCaptcha', 'App\Controllers\AuthController:getCaptcha');
 })->add(new Guest());
 
 // Password
