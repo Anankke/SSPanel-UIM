@@ -135,7 +135,7 @@
 
 /**
  * A Request Helper of Fetch
- * @function _delete
+ * @function _request
  * @param {string} url
  * @param {string} body
  * @param {string} method
