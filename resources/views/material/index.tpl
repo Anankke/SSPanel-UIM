@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
+    <title>{$config["appName"]}</title>
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="bookmark" href="/favicon.ico"/>
-    <title>Document</title>
     <link rel="stylesheet" href="/theme/material/css/index_base.css">
     <link rel="stylesheet" href="/theme/material/css/index.css">
     {if $config["enable_crisp"] == 'true'}
@@ -274,8 +274,8 @@ var storeAuth = {
         //加载完成的时间很谜
         grecaptchaRender(id) {
             setTimeout(function() {
-                if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render ==='undefined') {
-                    this.grecaptchaRender();
+                if (!grecaptcha || !grecaptcha.render) {
+                    this.grecaptchaRender(id);
                 } else {
                     grecaptcha.render(id);
                 }
@@ -966,6 +966,9 @@ const vueRoutes = [
         path: '/',
         components: {
             default: Root,
+        },
+        meta: {
+            title: 'Index',
         }
     },
     {
@@ -973,16 +976,22 @@ const vueRoutes = [
         component: Auth,
         redirect: '/auth/login',
         meta: {
-            alreadyAuth: true
+            alreadyAuth: true,
         },
         children: [
             {
-                path: 'login',
+                path: 'Login',
                 component: Login,
+                meta: {
+                    title: 'login',
+                }
             },
             {
                 path: 'register',
                 component: Register,
+                meta: {
+                    title: 'Register',
+                }
             },
         ],
     },
@@ -997,6 +1006,9 @@ const vueRoutes = [
             {
                 path: 'reset',
                 component: Reset,
+                meta: {
+                    title: 'Reset',
+                }
             },
         ],
     },
@@ -1011,6 +1023,9 @@ const vueRoutes = [
             {
                 path: 'panel',
                 component: Panel,
+                meta: {
+                    title: 'Usercenter',
+                }
             }
         ]
     }
@@ -1051,6 +1066,7 @@ Router.beforeEach((to,from,next)=>{
         })) {
             next('/auth/login');
         } else {
+            document.title = tmp.state.globalConfig.indexMsg.appname + ' - ' + to.meta.title;
             next();
         }
     }
