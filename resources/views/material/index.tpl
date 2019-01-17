@@ -172,7 +172,9 @@ const _get = (url,credentials) =>
     fetch(url, {
         method: 'GET',
         credentials,
-    }).then(resp => Promise.all([resp.ok, resp.status, resp.json(), resp.headers]))
+    }).then(resp => {
+        return Promise.all([resp.ok, resp.status, resp.json(), resp.headers])
+    })
     .then(([ok, status, json, headers]) => {
         if (ok) {
             return json;
@@ -334,13 +336,6 @@ var storeAuth = {
             }
         },
         //加载完成的时间很谜
-
-        /* 当然很迷了。
-           你的 reCAPTCHA 的 container 是在注册页面才渲染的
-           所以你应该把的 reCAPTCHA 渲染绑定在注册页面渲染事件上。
-
-           Sukka. 2019-01-06
-         */
         grecaptchaRender(id) {
             setTimeout(() => {
                 if (!grecaptcha || !grecaptcha.render) {
@@ -471,7 +466,7 @@ const Login = {
             <div class="input-control flex wrap">
                 <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-login"></div>
                 <form action="?" method="POST">    
-                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-login" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
+                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-login" class="g-recaptcha" data-theme="dark" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
                 </form>
             </div>
             <button @click.prevent="login" @keyup.13.native="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
@@ -583,7 +578,7 @@ const Login = {
             qrcode.makeCode(telegram_qrcode);
         },
         tgAuthTrigger(tid) {
-            if (this.logintoken == true) {
+            if (this.logintoken === 1) {
                 return;
             }
             let callConfig = {
@@ -694,7 +689,7 @@ const Register = {
             <div class="input-control wrap flex align-center">
             <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-reg"></div>
                 <form action="?" method="POST">    
-                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-reg" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
+                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-reg" class="g-recaptcha" data-theme="dark" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
                 </form>
             </div>
         </div>
@@ -965,6 +960,7 @@ const User = {
 
 const Panel = {
     delimiters: ['$[',']$'],
+    mixins: [storeMap],
     template: /*html*/ `
     <div class="page-user pure-u-1">
         <div class="title-back flex align-center">USERCENTER</div>
@@ -978,9 +974,39 @@ const Panel = {
                 </div>
             </div>
 
-            <div class="usrcenter text-left" v-else-if="userLoadState === 'loaded'">
-                <h1>用户中心</h1>
-                <a href="/user" class="button-index">进入管理面板</a>
+            <div class="usrcenter text-left pure-g space-between" v-else-if="userLoadState === 'loaded'">
+                <div class="pure-u-1 pure-u-sm-6-24">
+                    <div class="card account-base">
+                        <div class="card-title">账户明细</div>
+                        <div class="card-body">
+                            <p>用户名</p>
+                            <p>$[this.userCon.user_name]$</p>
+                            <p>邮箱</p>
+                            <p>$[this.userCon.email]$</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">导航菜单</div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+                <div class="pure-u-1 pure-u-sm-17-24">
+                    <div class="card">
+                        <div class="card-title">连接信息</div>
+                        <div class="card-body"></div>
+                    </div>
+                    <div class="user-btngroup pure-g">
+                        <div class="pure-u-16-24"></div>
+                        <div class="pure-u-8-24 text-right">
+                            <a href="/user" class="btn-user">进入管理面板</a>
+                            <button @click="logout" class="btn-user">登出</button>                            
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">公告栏</div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
             </div>
         </transition>
     </div>
@@ -991,6 +1017,25 @@ const Panel = {
             userLoadState: 'beforeload',
             userCon: '',
         }
+    },
+    methods: {
+        logout() {
+            let callConfig = {
+                msg: '',
+                icon: '',
+            };
+            _get('/logout').then((r)=>{
+                if (r.ret === 1) {
+                    callConfig.msg += '账户成功登出Kira~';
+                    callConfig.icon += 'fa-check-square-o';
+                    tmp.dispatch('CALL_MSGR',callConfig);
+                    window.setTimeout(() => {
+                        tmp.commit('SET_LOGINTOKEN',0);
+                        this.$router.replace('/');
+                    }, this.globalConfig.jumpDelay);
+                }
+            });
+        },
     },
     mounted() {
         let self = this;
@@ -1205,14 +1250,10 @@ const indexPage = new Vue({
         }
     },
     beforeMount() {
-        _get('https://api.lwl12.com/hitokoto/v1?encode=realjson').then((r) => {
-            let hitokoto
-            if (r.author === '' && r.source === '') {
-                hitokoto = r.text;
-            } else {
-                hitokoto = r.text + ' —— ' + r.author + r.source; 
-            }
-            tmp.commit('SET_HITOKOTO',hitokoto);
+        fetch('https://api.lwl12.com/hitokoto/v1').then((r)=>{
+            return r.text();
+        }).then((r)=>{
+            tmp.commit('SET_HITOKOTO',r);            
         })
         _get('https://v2.jinrishici.com/one.json','include').then((r) => {
             tmp.commit('SET_JINRISHICI',r.data.content);

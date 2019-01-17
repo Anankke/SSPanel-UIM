@@ -371,6 +371,10 @@ $app->group("/doiam", function () {
     $this->post("/status", "App\Services\Payment:getStatus");
 });
 
+// Vue
+
+$app->get('/logout', 'App\Controllers\VueController:vuelogout');
+
 /**
  * chenPay
  */

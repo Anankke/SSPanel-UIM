@@ -84,4 +84,11 @@ class VueController extends BaseController {
         return $response->getBody()->write(json_encode($res));
     }
 
+    public function vuelogout($request, $response, $args)
+    {
+        Auth::logout();
+        $res['ret'] = 1;
+        return $response->getBody()->write(json_encode($res));
+    }
+
 }

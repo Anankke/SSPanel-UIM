@@ -35,6 +35,10 @@ a {
     text-align: left;
 }
 
+.text-right {
+    text-align: right;
+}
+
 [v-cloak] {
     display: none;
 }
@@ -153,6 +157,25 @@ a {
     border: 2px solid currentColor;
 }
 
+a.btn-user,
+button.btn-user {
+    font-size: 1rem;
+    padding: .5rem 1.5rem;
+    display: inline-block;
+    border: 1px solid #434857;
+    min-width: 80px;
+    text-align: center;
+    transition: all .3s;
+    background: inherit;
+    outline: none;
+}
+
+a.btn-user:hover,
+button.btn-user:hover {
+    border: 1px solid white;
+    box-shadow: 0 0 5px 1px gray;
+}
+
 .footer {
     padding: 0 3rem;
 }
@@ -269,11 +292,13 @@ input.checkbox {
 }
 
 .twin>* {
-    flex-basis: 100%%;
+    flex-basis: 100%;
 }
 
-.input-control>input {
-    margin-bottom: 1rem;
+.input-control>input,
+.input-control-inner>input,
+.input-control>button {
+    margin-bottom: 1.5rem;
 }
 
 .reg {
@@ -388,6 +413,34 @@ select {
     color: #D1335B;
 }
 
+.card {
+    border: 1px solid #434857;
+    margin-bottom: 1.5rem;
+    transition: all .3s;
+}
+
+.user-btngroup {
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    border: 1px solid white;
+    box-shadow: 0 0 5px 1px gray;
+}
+
+.card-title {
+    font-size: 18px;
+}
+
+.card-body,
+.card-title {
+    padding: 1rem;
+}
+
+.card-body {
+    padding-top: 0;
+}
+
 @media screen and (min-width:35.5em) {
     .auth-tg {
         margin-top: 0;
@@ -443,7 +496,7 @@ select {
     }
 
     .usrcenter {
-        padding: 0 5rem;
+        padding: 0 10%;
     }
 
     .enableCrisp {
