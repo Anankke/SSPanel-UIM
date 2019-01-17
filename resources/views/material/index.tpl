@@ -979,10 +979,20 @@ const Panel = {
                     <div class="card account-base">
                         <div class="card-title">账户明细</div>
                         <div class="card-body">
-                            <p>用户名</p>
-                            <p>$[this.userCon.user_name]$</p>
-                            <p>邮箱</p>
-                            <p>$[this.userCon.email]$</p>
+                            <div class="pure-g">
+                                <div class="pure-u-1-2">
+                                    <p class="tips tips-blue">用户名</p>
+                                    <p class="font-light">$[userCon.user_name]$</p>
+                                    <p class="tips tips-blue">邮箱</p>
+                                    <p class="font-light">$[userCon.email]$</p>
+                                </div>
+                                <div class="pure-u-1-2">
+                                    <p class="tips tips-blue">VIP等级</p>
+                                    <p class="font-light">Lv. $[userCon.class]$</p>
+                                    <p class="tips tips-blue">余额</p>
+                                    <p class="font-light">$[userCon.money]$</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card">
@@ -993,7 +1003,14 @@ const Panel = {
                 <div class="pure-u-1 pure-u-sm-17-24">
                     <div class="card">
                         <div class="card-title">连接信息</div>
-                        <div class="card-body"></div>
+                        <div class="card-body">
+                            <div class="pure-g">
+                                <div v-for="tip in tipsLink" class="pure-u-lg-4-24" :key="tip.name">
+                                    <p class="tips tips-blue">$[tip.name]$</p>
+                                    <p class="font-light">$[tip.content]$</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="user-btngroup pure-g">
                         <div class="pure-u-16-24"></div>
@@ -1002,9 +1019,11 @@ const Panel = {
                             <button @click="logout" class="btn-user">登出</button>                            
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card margin-nobottom">
                         <div class="card-title">公告栏</div>
-                        <div class="card-body"></div>
+                        <div class="card-body">
+                            <div class="ann" v-html="ann.content"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1016,6 +1035,33 @@ const Panel = {
         return {
             userLoadState: 'beforeload',
             userCon: '',
+            ann: '',
+            tipsLink: [
+                {
+                    name: '端口',
+                    content: '',
+                },
+                {
+                    name: '密码',
+                    content: '',
+                },
+                {
+                    name: '加密',
+                    content: '',
+                },
+                {
+                    name: '协议',
+                    content: '',
+                },
+                {
+                    name: '混淆',
+                    content: '',
+                },
+                {
+                    name: '混淆参数',
+                    content: '',
+                },
+            ],
         }
     },
     methods: {
@@ -1044,6 +1090,13 @@ const Panel = {
             if (r.ret === 1) {
                 console.log(r.info);
                 this.userCon = r.info.user;
+                this.ann = r.info.ann;
+                this.tipsLink[0].content = this.userCon.port;
+                this.tipsLink[1].content = this.userCon.passwd;
+                this.tipsLink[2].content = this.userCon.method;
+                this.tipsLink[3].content = this.userCon.protocol;
+                this.tipsLink[4].content = this.userCon.obfs;
+                this.tipsLink[5].content = this.userCon.obfs_param;
                 console.log(this.userCon);
             }
         }).then(r=>{

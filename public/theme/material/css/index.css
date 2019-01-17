@@ -39,6 +39,10 @@ a {
     text-align: right;
 }
 
+.margin-nobottom {
+    margin-bottom: 0 !important;
+}
+
 [v-cloak] {
     display: none;
 }
@@ -430,6 +434,7 @@ select {
 
 .card-title {
     font-size: 18px;
+    margin-bottom: .5rem;
 }
 
 .card-body,
@@ -439,6 +444,45 @@ select {
 
 .card-body {
     padding-top: 0;
+}
+
+.font-light {
+    padding-right: 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #b1b3bb;
+    margin: .75rem 0;
+    transition: all .3s;
+}
+
+.font-light:hover {
+    color: white;
+}
+
+.tips {
+    display: inline-block;
+    margin: 0;
+    padding: .2rem .7rem;
+    border: 1px solid;
+    font-size: 14px;
+    border-radius: 3px;
+    transition: all .3s;
+}
+
+.tips-blue {
+    color: #1997c6;
+    border-color: #1997c6;
+}
+
+.tips-blue:hover {
+    color: white;
+    background: #1997c6;
+}
+
+.ann {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 5px;
+    padding: .1rem 1rem;
 }
 
 @media screen and (min-width:35.5em) {
@@ -501,6 +545,11 @@ select {
 
     .enableCrisp {
         padding-right: 3rem;
+    }
+
+    .ann {
+        max-height: 385px;
+        overflow: auto;
     }
 }
 
