@@ -162,7 +162,8 @@ a {
 }
 
 a.btn-user,
-button.btn-user {
+button.btn-user,
+.uim-dropdown-btn {
     font-size: 1rem;
     padding: .5rem 1.5rem;
     display: inline-block;
@@ -175,7 +176,8 @@ button.btn-user {
 }
 
 a.btn-user:hover,
-button.btn-user:hover {
+button.btn-user:hover,
+.uim-dropdown-btn:hover {
     border: 1px solid white;
     box-shadow: 0 0 5px 1px gray;
 }
@@ -676,6 +678,55 @@ input[type=checkbox].uim-checkbox {
 .uimchecked {
     background: #D1335B;
     box-shadow: 0 0 5px 1px gray;
+}
+
+/* dropdown */
+
+.uim-dropdown {
+    position: relative;
+}
+
+.uim-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    min-width: 120px;
+    cursor: pointer;
+    background: #1d1d1d;
+}
+
+.uim-dropdown-menu ul {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    border: 1px solid #1997c6;
+    box-shadow: 0 0 5px 1px gray; 
+}
+
+.uim-dropdown-menu li {
+    list-style: none;
+    width: 100%;
+    padding: .2rem 0;
+    transition: all .3s;
+}
+
+.uim-dropdown-menu li:hover {
+    background: #1997c6;
+    transition: all .3s;
+}
+
+.uim-dropdown-btn {
+    min-width: 120px;
+}
+
+.dropdown-fade-enter-active,.dropdown-fade-leave-active {
+    transition: all .1s ease;
+}
+
+.dropdown-fade-enter,.dropdown-fade-leave-to {
+    transform-origin: top;
+    transform: scaleY(0);
+    opacity: 0;
 }
 
 /* loading 动画 */
