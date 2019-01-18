@@ -979,11 +979,22 @@ const UserInvite = {
         </div>
     </div>
     `,
-}
+};
 
 const UserShop = {
-    template: `
+    template: /*html*/ `
     <div >
+        <div class="card-title">套餐购买</div>
+        <div class="card-body">
+            <div class="shop"></div>
+        </div>
+    </div>
+    `,
+};
+
+const UserAgentDl = {
+    template: /*html*/ `
+    <div>
         <div class="card-title">套餐购买</div>
         <div class="card-body">
             <div class="shop"></div>
@@ -999,6 +1010,7 @@ const Panel = {
         'user-announcement': UserAnnouncement,
         'user-invite': UserInvite,
         'user-shop': UserShop,
+        'user-agentdl': UserAgentDl,
     },
     template: /*html*/ `
     <div class="page-user pure-u-1">
@@ -1034,9 +1046,39 @@ const Panel = {
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-title">导航菜单</div>
-                        <div class="card-body"></div>
+                    <div class="card margin-nobottom">
+                        <div class="card-title">快速配置</div>
+                        <div class="card-body">
+                            <div class="pure-g">
+                                <button v-for="dl in downloads" class="pure-u-1-3 btn-user dl-type" :key="dl.type">$[dl.type]$</button>
+                                <h5 class="pure-u-1">平台选择/客户端下载</h5>
+                                <div v-if="currentDlType === 'SSR'" class="dl-link">
+                                    <uim-dropdown v-for="(value,key) in downloads[0].agent" class="pure-u-1-3 btn-user" :key="key">
+                                        <span slot="dpbtn-content">$[key]$</span>
+                                        <ul slot="dp-menu">
+                                            <li v-for="agent in value" :key="agent.id"><a :href="agent.href">$[agent.agentName]$</a></li>
+                                        </ul>
+                                    </uim-dropdown>                                
+                                </div>
+                                <div v-else-if="currentDlType === 'SS/SSD'" class="dl-link">
+                                    <uim-dropdown v-for="(value,key) in downloads[1].agent" class="pure-u-1-3 btn-user" :key="key">
+                                        <span slot="dpbtn-content">$[key]$</span>
+                                        <ul slot="dp-menu">
+                                            <li v-for="agent in value" :key="agent.id"><a :href="agent.href">$[agent.agentName]$</a></li>
+                                        </ul>
+                                    </uim-dropdown>                                
+                                </div>
+                                <div v-else-if="currentDlType === 'v2ray'" class="dl-link">
+                                    <uim-dropdown v-for="(value,key) in downloads[2].agent" class="pure-u-1-3 btn-user" :key="key">
+                                        <span slot="dpbtn-content">$[key]$</span>
+                                        <ul slot="dp-menu">
+                                            <li v-for="agent in value" :key="agent.id"><a :href="agent.href">$[agent.agentName]$</a></li>
+                                        </ul>
+                                    </uim-dropdown>                                
+                                </div>
+                                <h5 class="pure-u-1">订阅链接</h5>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pure-u-1 pure-u-sm-17-24">
@@ -1054,7 +1096,7 @@ const Panel = {
                     <div class="user-btngroup pure-g">
                         <div class="pure-u-16-24">
                             <uim-dropdown>
-                                <span slot="dpbtn-content">栏目选择</span>
+                                <span slot="dpbtn-content">栏目导航</span>
                                 <ul slot="dp-menu">
                                     <li @click="componentChange" v-for="menu in menuOptions" :data-component="menu.id" :key="menu.id">$[menu.name]$</li>
                                 </ul>
@@ -1125,6 +1167,160 @@ const Panel = {
                 },
             ],
             currentCardComponent: 'user-announcement',
+            downloads: [
+                {
+                    type: 'SSR',
+                    agent: {
+                        Windows: [
+                            {
+                                agentName: 'SSR',
+                                href: '/ssr-download/ssr-win.7z',
+                                id: 'AGENT_1_1_1',
+                            },
+                            {
+                                agentName: 'SSTAP',
+                                href: '/ssr-download/SSTap.7z',
+                                id: 'AGENT_1_1_1',
+                            },
+                        ],
+                        Macos: [
+                            {
+                                agentName: 'SSX',
+                                href: '/ssr-download/ssr-mac.dmg',
+                                id: 'AGENT_1_2_1',
+                            },
+                        ],
+                        Linux: [
+                            {
+                                agentName: 'SS-qt5',
+                                href: '#',
+                                id: 'AGENT_1_3_!',
+                            },
+                        ],
+                        Ios: [
+                            {
+                                agentName: 'Potatso Lite',
+                                href: '#',
+                                id: 'AGENT_1_4_1',
+                            },
+                        ],
+                        Android: [
+                            {
+                                agentName: 'SSR',
+                                href: '/ssr-download/ssr-android.apk',
+                                id: 'AGENT_1_5_1',
+                            },
+                            {
+                                agentName: 'SSRR',
+                                href: '/ssr-download/ssrr-android.apk',
+                                id: 'AGENT_1_5_1',
+                            },
+                        ],
+                        Router: [
+                            {
+                                agentName: 'FancySS',
+                                href: 'https://github.com/hq450/fancyss_history_package',
+                                id: 'AGENT_1_6_1',
+                            },
+                        ],
+                    },
+                },
+                {
+                    type: 'SS/SSD',
+                    agent: {
+                        Windows: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_2_1_1',
+                            },
+                        ],
+                        Macos: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_2_2_1',
+                            },
+                        ],
+                        Linux: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_2_3_1',
+                            },
+                        ],
+                        Ios: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_2_4_1',
+                            },
+                        ],
+                        Android: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_2_5_1',
+                            },
+                        ],
+                        Router: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_2_6_1',
+                            },
+                        ],
+                    },
+                },
+                {
+                    type: 'V2RAY',
+                    agent: {
+                        Windows: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_3_1_1',
+                            },
+                        ],
+                        Macos: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_3_2_1',
+                            },
+                        ],
+                        Linux: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_3_3_1',
+                            },
+                        ],
+                        Ios: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_3_4_1',
+                            },
+                        ],
+                        Android: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_3_5_1',
+                            },
+                        ],
+                        Router: [
+                            {
+                                agentName: '',
+                                href: '',
+                                id: 'AGENT_3_6_1',
+                            },
+                        ],
+                    },
+                },
+            ],
+            currentDlType: 'SSR',
         }
     },
     methods: {
