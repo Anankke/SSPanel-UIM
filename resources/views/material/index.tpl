@@ -117,7 +117,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.2"></script>
-
     {if isset($geetest_html)}
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
     {/if}
@@ -126,7 +125,7 @@
     {/if}
     <script>
         ;(function(){
-            if (!window.Vuex) {
+            if (!window.Vuex || !window.promise) {
                 window.location = '/indexold';
             }
         })();      
