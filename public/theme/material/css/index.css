@@ -476,10 +476,18 @@ select {
     color: #1997c6;
     border-color: #1997c6;
 }
+.tips-gold {
+    color: #faad14;
+    border-color: #faad14;
+}
 
 .tips-blue:hover {
     color: white;
     background: #1997c6;
+}
+.tips-gold:hover {
+    color: white;
+    background-color: #faad14;
 }
 
 .ann {
@@ -499,7 +507,7 @@ select {
 
 .input-copy input {
     height: unset;
-    background: #1D1D1D;
+    background: rgba(255,255,255,0);
     cursor: pointer;
 }
 
@@ -510,6 +518,28 @@ select {
 
 .input-copy div input {
     margin-bottom: 0;
+}
+
+.user-invite input,
+.btn-inline {
+    background: rgba(255,255,255,0);
+}
+
+.btn-inline {
+    border: 1px solid #D1335B;
+    color: #D1335B;
+    border-radius: 3px;
+    font-size: 14px;
+    padding: .3rem .8rem;
+    transition: all .3s;
+}
+.btn-inline:hover {
+    background: #D1335B;
+    color: white;
+}
+
+.invite-number {
+    font-size: 14px;
 }
 
 @media screen and (min-width:35.5em) {

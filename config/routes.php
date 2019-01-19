@@ -372,7 +372,9 @@ $app->group("/doiam", function () {
 
 $app->get('/logout', 'App\Controllers\VueController:vuelogout');
 $app->get('/globalconfig', 'App\Controllers\VueController:getGlobalConfig');
-$app->get('/getuserinfo', 'App\Controllers\VueController:getuserinfo');
+$app->get('/getuserinfo', 'App\Controllers\VueController:getUserInfo');
+$app->get('/getuserinviteinfo', 'App\Controllers\VueController:getUserInviteInfo');
+
 /**
  * chenPay
  */

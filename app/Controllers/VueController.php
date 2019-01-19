@@ -92,7 +92,7 @@ class VueController extends BaseController {
         return $response->getBody()->write(json_encode($res));
     }
 
-    public function getuserinfo($request, $response, $args) {
+    public function getUserInfo($request, $response, $args) {
         $user = $this->user;
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
         $GtSdk = null;
@@ -129,6 +129,36 @@ class VueController extends BaseController {
             "ann" => $Ann,
             "recaptchaSitekey" => $recaptcha_sitekey,
             "GtSdk" => $GtSdk,
+        );
+
+        $res['ret'] = 1;
+
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function getUserInviteInfo($request, $response, $args)
+    {
+        $code = InviteCode::where('user_id', $this->user->id)->first();
+        if ($code == null) {
+            $this->user->addInviteCode();
+			$code = InviteCode::where('user_id', $this->user->id)->first();
+        }
+
+        $pageNum = 1;
+        if (isset($request->getQueryParams()["page"])) {
+            $pageNum = $request->getQueryParams()["page"];
+        }
+        $paybacks = Payback::where("ref_by", $this->user->id)->orderBy("id", "desc")->paginate(15, ['*'], 'page', $pageNum);
+        if (!$paybacks_sum = Payback::where("ref_by", $this->user->id)->sum('ref_get')) {
+            $paybacks_sum = 0;
+        }
+        $paybacks->setPath('/user/invite');
+
+        $res['inviteInfo'] = array(
+            "code" => $code,
+            "paybacks" => $paybacks,
+            "paybacks_sum" => $paybacks_sum,
+            "invitePrice" => Config::get('invite_price'),
         );
 
         $res['ret'] = 1;

@@ -635,9 +635,9 @@ const Login = {
 
         if (this.globalConfig.enable_telegram === 'true') {
             this.telegramRender();
-            // let tid = setTimeout(() => {
-            //     this.tgAuthTrigger(tid);
-            // }, 2500);
+            let tid = setTimeout(() => {
+                this.tgAuthTrigger(tid);
+            }, 2500);
         }
 
         if (this.globalConfig.enableLoginCaptcha === 'false') {
@@ -969,7 +969,12 @@ const User = {
     props: ['routermsg'],
 };
 
+const userMixin = {
+    props: ['annC','thisuser','baseURL'],
+}
+
 const UserAnnouncement = {
+    mixins: [userMixin],
     template: `
     <div>
         <div class="card-title">公告栏</div>
@@ -978,21 +983,48 @@ const UserAnnouncement = {
         </div>
     </div>
     `,
-    props: ['annC'],
 };
 
 const UserInvite = {
+    delimiters: ['$[',']$'],
+    mixins: [userMixin],
     template: /*html*/ `
     <div>
         <div class="card-title">邀请链接</div>
         <div class="card-body">
-            <div class="invite"></div>
+            <div class="user-invite">
+                <div v-if="thisuser.class !== 0">
+                    <input type="button" class="tips tips-blue" :value="inviteLink">
+                    <h5>邀请链接剩余次数： <span class="invite-number tips tips-gold">$[thisuser.invite_num]$次</span></h5>       
+                </div>
+                <div v-else>
+                    <h3>$[thisuser.user_name]$，您不是VIP暂时无法使用邀请链接，<slot name='inviteToShop'></slot></h3>
+                </div>
+            </div>
         </div>
     </div>
     `,
+    computed: {
+        inviteLink: function() {
+            return this.baseURL + '/#/auth/register?code=' + this.code;
+        }
+    },
+    data: function() {
+        return {
+            code: '',
+        }
+    },
+    mounted() {
+        _get('getuserinviteinfo').then((r)=>{
+            console.log(r);
+            this.code = r.inviteInfo.code.code;
+            console.log(this.thisuser);
+        })
+    }
 };
 
 const UserShop = {
+    mixins: [userMixin],
     template: /*html*/ `
     <div >
         <div class="card-title">套餐购买</div>
@@ -1004,6 +1036,7 @@ const UserShop = {
 };
 
 const UserGuide = {
+    mixins: [userMixin],
     template: /*html*/ `
     <div>
         <div class="card-title">配置指南</div>
@@ -1097,7 +1130,7 @@ const Panel = {
                                     <div class="pure-g align-center">
                                         <span class="pure-u-6-24">普通端口:</span><input class="tips tips-blue pure-u-18-24" type="text" name="" id="" :value="suburlMu0" readonly>                                
                                     </div>
-                                    <div class="pure-g align-center">
+                                    <div v-if="mergeSub !== 'true'" class="pure-g align-center">
                                         <span class="pure-u-6-24">单端口:</span><input class="tips tips-blue pure-u-18-24" type="text" name="" id="" :value="suburlMu1" readonly>                                                                  
                                     </div>
                                 </div>
@@ -1139,7 +1172,9 @@ const Panel = {
                         </div>
                     </div>
                     <transition name="fade" mode="out-in">
-                    <component :is="currentCardComponent" :annC="ann" class="card margin-nobottom"></component>
+                    <component :is="currentCardComponent" :baseURL="baseUrl" :thisuser="userCon" :annC="ann" class="card margin-nobottom">
+                        <button @click="componentChange" class="btn-inline" :data-component="menuOptions[3].id" slot="inviteToShop">成为VIP请点击这里</button>
+                    </component>
                     </transition>
                 </div>
             </div>
@@ -1174,8 +1209,10 @@ const Panel = {
                 id: '',
                 markdown: '',
             },
+            baseUrl: '',
             subUrl: '',
             ssrSubToken: '',
+            mergeSub: 'false',
             tipsLink: [
                 {
                     name: '端口',
@@ -1428,8 +1465,10 @@ const Panel = {
                 if (r.info.ann) {
                     this.ann = r.info.ann;
                 }
+                this.baseUrl = r.info.baseUrl;
                 this.subUrl = r.info.subUrl;
                 this.ssrSubToken = r.info.ssrSubToken;
+                this.mergeSub = r.info.mergeSub;
                 this.tipsLink[0].content = this.userCon.port;
                 this.tipsLink[1].content = this.userCon.passwd;
                 this.tipsLink[2].content = this.userCon.method;
