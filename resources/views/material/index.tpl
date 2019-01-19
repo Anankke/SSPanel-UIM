@@ -110,7 +110,7 @@
             </div>
         </transition>
     </div>
-
+       
     {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js?render=explicit" async defer></script>
     {/if}
@@ -124,6 +124,13 @@
     {if $config['enable_telegram'] == 'true'}
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
     {/if}
+    <script>
+        ;(function(){
+            if (!window.Vuex) {
+                window.location = '/indexold';
+            }
+        })();      
+    </script> 
 </body>
 
 </html>
