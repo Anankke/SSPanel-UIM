@@ -992,12 +992,12 @@ const UserShop = {
     `,
 };
 
-const UserAgentDl = {
+const UserGuide = {
     template: /*html*/ `
     <div>
-        <div class="card-title">套餐购买</div>
+        <div class="card-title">配置指南</div>
         <div class="card-body">
-            <div class="shop"></div>
+            <div class="user-guide"></div>
         </div>
     </div>
     `,
@@ -1010,7 +1010,7 @@ const Panel = {
         'user-announcement': UserAnnouncement,
         'user-invite': UserInvite,
         'user-shop': UserShop,
-        'user-agentdl': UserAgentDl,
+        'user-guide': UserGuide,
     },
     template: /*html*/ `
     <div class="page-user pure-u-1">
@@ -1050,9 +1050,12 @@ const Panel = {
                         <div class="card-title">快速配置</div>
                         <div class="card-body">
                             <div class="pure-g">
-                                <button v-for="dl in downloads" class="pure-u-1-3 btn-user dl-type" :key="dl.type">$[dl.type]$</button>
+                                <button @click="changeAgentType" v-for="dl in downloads" :data-type="dl.type" :class="{ 'index-btn-active':currentDlType === dl.type }" class="pure-u-1-3 btn-user dl-type" :key="dl.type">
+                                    $[dl.type]$
+                                </button>
                                 <h5 class="pure-u-1">平台选择/客户端下载</h5>
-                                <div v-if="currentDlType === 'SSR'" class="dl-link">
+                                <transition name="rotate-fade" mode="out-in">
+                                <div v-if="currentDlType === 'SSR'" class="dl-link" key="ssr">
                                     <uim-dropdown v-for="(value,key) in downloads[0].agent" class="pure-u-1-3 btn-user" :key="key">
                                         <span slot="dpbtn-content">$[key]$</span>
                                         <ul slot="dp-menu">
@@ -1060,7 +1063,7 @@ const Panel = {
                                         </ul>
                                     </uim-dropdown>                                
                                 </div>
-                                <div v-else-if="currentDlType === 'SS/SSD'" class="dl-link">
+                                <div v-else-if="currentDlType === 'SS/SSD'" class="dl-link" key="ss">
                                     <uim-dropdown v-for="(value,key) in downloads[1].agent" class="pure-u-1-3 btn-user" :key="key">
                                         <span slot="dpbtn-content">$[key]$</span>
                                         <ul slot="dp-menu">
@@ -1068,7 +1071,7 @@ const Panel = {
                                         </ul>
                                     </uim-dropdown>                                
                                 </div>
-                                <div v-else-if="currentDlType === 'v2ray'" class="dl-link">
+                                <div v-else-if="currentDlType === 'V2RAY'" class="dl-link" key="v2ray">
                                     <uim-dropdown v-for="(value,key) in downloads[2].agent" class="pure-u-1-3 btn-user" :key="key">
                                         <span slot="dpbtn-content">$[key]$</span>
                                         <ul slot="dp-menu">
@@ -1076,7 +1079,24 @@ const Panel = {
                                         </ul>
                                     </uim-dropdown>                                
                                 </div>
+                                </transition>
                                 <h5 class="pure-u-1">订阅链接</h5>
+                                <transition name="rotate-fade" mode="out-in">
+                                <div class="input-copy" v-if="currentDlType === 'SSR'" key="ssrsub">
+                                    <div class="pure-g align-center">
+                                        <span class="pure-u-6-24">普通端口:</span><input class="tips tips-blue pure-u-18-24" type="text" name="" id="" :value="suburlMu0" readonly>                                
+                                    </div>
+                                    <div class="pure-g align-center">
+                                        <span class="pure-u-6-24">单端口:</span><input class="tips tips-blue pure-u-18-24" type="text" name="" id="" :value="suburlMu1" readonly>                                                                  
+                                    </div>
+                                </div>
+                                <div class="input-copy" v-else-if="currentDlType === 'V2RAY'" key="sssub">
+                                    <input class="tips tips-blue" type="text" name="" id="" :value="suburlMu2" readonly>
+                                </div>
+                                <div class="input-copy" v-else-if="currentDlType === 'SS/SSD'" key="v2sub">
+                                    <input class="tips tips-blue" type="text" name="" id="" :value="suburlMu3" readonly>
+                                </div>
+                                </transition>
                             </div>
                         </div>
                     </div>
@@ -1116,6 +1136,23 @@ const Panel = {
     </div>
     `,
     props: ['routermsg'],
+    computed: {
+        suburlBase: function() {
+            return this.subUrl + this.ssrSubToken;
+        },
+        suburlMu0: function() {
+            return this.suburlBase + '?mu=0';
+        },
+        suburlMu1: function() {
+            return this.suburlBase + '?mu=1';
+        },
+        suburlMu3: function() {
+            return this.suburlBase + '?mu=3';
+        },
+        suburlMu2: function() {
+            return this.suburlBase + '?mu=2';
+        },
+    },
     data: function() {
         return {
             userLoadState: 'beforeload',
@@ -1126,6 +1163,8 @@ const Panel = {
                 id: '',
                 markdown: '',
             },
+            subUrl: '',
+            ssrSubToken: '',
             tipsLink: [
                 {
                     name: '端口',
@@ -1158,6 +1197,10 @@ const Panel = {
                     id: 'user-announcement',
                 },
                 {
+                    name: '配置指南',
+                    id: 'user-guide',
+                },
+                {
                     name: '邀请链接',
                     id: 'user-invite',
                 },
@@ -1180,7 +1223,7 @@ const Panel = {
                             {
                                 agentName: 'SSTAP',
                                 href: '/ssr-download/SSTap.7z',
-                                id: 'AGENT_1_1_1',
+                                id: 'AGENT_1_1_2',
                             },
                         ],
                         Macos: [
@@ -1194,7 +1237,7 @@ const Panel = {
                             {
                                 agentName: 'SS-qt5',
                                 href: '#',
-                                id: 'AGENT_1_3_!',
+                                id: 'AGENT_1_3_1',
                             },
                         ],
                         Ios: [
@@ -1202,6 +1245,11 @@ const Panel = {
                                 agentName: 'Potatso Lite',
                                 href: '#',
                                 id: 'AGENT_1_4_1',
+                            },
+                            {
+                                agentName: 'Shadowrocket',
+                                href: '#',
+                                id: 'AGENT_1_4_2',
                             },
                         ],
                         Android: [
@@ -1213,7 +1261,7 @@ const Panel = {
                             {
                                 agentName: 'SSRR',
                                 href: '/ssr-download/ssrr-android.apk',
-                                id: 'AGENT_1_5_1',
+                                id: 'AGENT_1_5_2',
                             },
                         ],
                         Router: [
@@ -1230,43 +1278,53 @@ const Panel = {
                     agent: {
                         Windows: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: 'SSD',
+                                href: '/ssr-download/ssd-win.7z',
                                 id: 'AGENT_2_1_1',
                             },
                         ],
                         Macos: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: 'SSXG',
+                                href: '/ssr-download/ss-mac.zip',
                                 id: 'AGENT_2_2_1',
                             },
                         ],
                         Linux: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: '/',
+                                href: '#',
                                 id: 'AGENT_2_3_1',
                             },
                         ],
                         Ios: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: 'Potatso Lite',
+                                href: '#',
                                 id: 'AGENT_2_4_1',
+                            },
+                            {
+                                agentName: 'Shadowrocket',
+                                href: '#',
+                                id: 'AGENT_2_4_2',
                             },
                         ],
                         Android: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: 'SSD',
+                                href: '/ssr-download/ssd-android.apk',
                                 id: 'AGENT_2_5_1',
+                            },
+                            {
+                                agentName: '混淆插件',
+                                href: '/ssr-download/ss-android-obfs.apk',
+                                id: 'AGENT_2_5_2',
                             },
                         ],
                         Router: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: 'FancySS',
+                                href: 'https://github.com/hq450/fancyss_history_package',
                                 id: 'AGENT_2_6_1',
                             },
                         ],
@@ -1277,43 +1335,43 @@ const Panel = {
                     agent: {
                         Windows: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: 'V2RayN',
+                                href: '/ssr-download/v2rayn.zip',
                                 id: 'AGENT_3_1_1',
                             },
                         ],
                         Macos: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: '/',
+                                href: '#',
                                 id: 'AGENT_3_2_1',
                             },
                         ],
                         Linux: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: '/',
+                                href: '#',
                                 id: 'AGENT_3_3_1',
                             },
                         ],
                         Ios: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: 'Shadowrocket',
+                                href: '#',
                                 id: 'AGENT_3_4_1',
                             },
                         ],
                         Android: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: 'V2RayN',
+                                href: '/ssr-download/v2rayng.apk',
                                 id: 'AGENT_3_5_1',
                             },
                         ],
                         Router: [
                             {
-                                agentName: '',
-                                href: '',
+                                agentName: 'FancySS',
+                                href: 'https://github.com/hq450/fancyss_history_package',
                                 id: 'AGENT_3_6_1',
                             },
                         ],
@@ -1343,6 +1401,9 @@ const Panel = {
         },
         componentChange(e) {
             this.currentCardComponent = e.target.dataset.component;
+        },
+        changeAgentType(e) {
+            this.currentDlType = e.target.dataset.type;
         }
     },
     mounted() {
@@ -1355,6 +1416,8 @@ const Panel = {
                 if (r.info.ann) {
                     this.ann = r.info.ann;
                 }
+                this.subUrl = r.info.subUrl;
+                this.ssrSubToken = r.info.ssrSubToken;
                 this.tipsLink[0].content = this.userCon.port;
                 this.tipsLink[1].content = this.userCon.passwd;
                 this.tipsLink[2].content = this.userCon.method;

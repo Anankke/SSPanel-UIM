@@ -177,7 +177,8 @@ button.btn-user,
 
 a.btn-user:hover,
 button.btn-user:hover,
-.uim-dropdown-btn:hover {
+.uim-dropdown-btn:hover,
+button.btn-user.index-btn-active {
     border: 1px solid white;
     box-shadow: 0 0 5px 1px gray;
 }
@@ -491,6 +492,26 @@ select {
     font-size: 14px;
 }
 
+.input-copy,
+.input-copy>input {
+    width: 100%;
+}
+
+.input-copy input {
+    height: unset;
+    background: #1D1D1D;
+    cursor: pointer;
+}
+
+.input-copy>div,
+.input-copy input {
+    margin-bottom: .7rem;
+}
+
+.input-copy div input {
+    margin-bottom: 0;
+}
+
 @media screen and (min-width:35.5em) {
     .auth-tg {
         margin-top: 0;
@@ -731,13 +752,19 @@ input[type=checkbox].uim-checkbox {
 }
 
 .dropdown-fade-enter-active,.dropdown-fade-leave-active {
-    transition: all .1s ease;
+    transition: all .2s ease;
 }
 
 .dropdown-fade-enter,.dropdown-fade-leave-to {
     transform-origin: top;
     transform: scaleY(0);
     opacity: 0;
+}
+
+.dl-link .uim-dropdown-btn,
+.dl-link .uim-dropdown-menu {
+    min-width: unset;
+    width: 100%;
 }
 
 /* loading 动画 */
