@@ -125,7 +125,7 @@
     {/if}
     <script>
         ;(function(){
-            if (!window.Vuex || !window.promise) {
+            if (!window.Vuex) {
                 window.location = '/indexold';
             }
         })();      
@@ -147,7 +147,7 @@
  * @param {string} method
  * @returns {function} - A Promise Object
  */*}
-const _request = (url, body, method) =>
+const _request = (url, body, method) => 
     fetch(url, {
         method: method,
         body: body,
@@ -166,6 +166,8 @@ const _request = (url, body, method) =>
         throw error;
     });
 
+    
+
 {*/**
  * A Wrapper of Fetch GET Method
  * @function _get
@@ -174,7 +176,7 @@ const _request = (url, body, method) =>
  * @example
  * get('https://example.com').then(resp => { console.log(resp) })
  */*}
-const _get = (url,credentials) =>
+const _get = (url,credentials) => 
     fetch(url, {
         method: 'GET',
         credentials,
@@ -188,9 +190,11 @@ const _get = (url,credentials) =>
             throw new Error(JSON.stringify(json.error));
         }
     }).catch(error => {
+        console.log(error);
         throw error;
     });
 
+    
 {*/**
  * A Wrapper of Fetch POST Method
  * @function _post
@@ -548,6 +552,7 @@ const Login = {
 
             _post('/auth/login', JSON.stringify(ajaxCon)).then((r) => {
                 if (r.ret === 1) {
+                    console.log(JSON.stringify(ajaxCon));
                     callConfig.msg += '登录成功Kira~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
@@ -630,9 +635,9 @@ const Login = {
 
         if (this.globalConfig.enable_telegram === 'true') {
             this.telegramRender();
-            let tid = setTimeout(() => {
-                this.tgAuthTrigger(tid);
-            }, 2500);
+            // let tid = setTimeout(() => {
+            //     this.tgAuthTrigger(tid);
+            // }, 2500);
         }
 
         if (this.globalConfig.enableLoginCaptcha === 'false') {
@@ -1414,8 +1419,9 @@ const Panel = {
     },
     mounted() {
         let self = this;
-        this.userLoadState = 'loading';                        
-         _get('/user/getuserinfo').then((r) => {
+        this.userLoadState = 'loading';
+              
+         _get('/getuserinfo').then((r) => {
             if (r.ret === 1) {
                 console.log(r.info);
                 this.userCon = r.info.user;
@@ -1432,7 +1438,7 @@ const Panel = {
                 this.tipsLink[5].content = this.userCon.obfs_param;
                 console.log(this.userCon);
             }
-        }).then(r=>{
+        }).then((r)=>{
             setTimeout(()=>{
                 self.userLoadState = 'loaded';
             },1000)
