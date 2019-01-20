@@ -107,6 +107,7 @@
                         <span slot="msg">$[msgrCon.msg]$</span>
                     </uim-messager>
                 </transition>
+
             </div>
         </transition>
     </div>
@@ -222,6 +223,12 @@ const tmp = new Vuex.Store({
             icon: ['fa','fa-check-square-o'],
             isShow: false,
         },
+        modalCon: {
+            isMaskShow: false,
+            isCardShow: false,
+            title: '订单确认',
+            bodyContent: '',
+        },
         globalConfig: {
             captchaProvider: '',
             recaptchaSiteKey: '',
@@ -259,6 +266,12 @@ const tmp = new Vuex.Store({
         ISSHOW_MSGR (state,boolean) {
             state.msgrCon.isShow = boolean;
         },
+        ISSHOW_MODAL_MASK (state,boolean) {
+            state.modalCon.isMaskShow = boolean;
+        },
+        ISSHOW_MODAL_CARD (state,boolean) {
+            state.modalCon.isCardShow = boolean;
+        },
         SET_GLOBALCONFIG (state,config) {
             state.logintoken = config.isLogin
             state.globalConfig.base_url = config.base_url;
@@ -292,7 +305,20 @@ const tmp = new Vuex.Store({
             window.setTimeout(function() {
                 commit('ISSHOW_MSGR',false);
             },config.time)
-        }
+        },
+        CALL_MODAL ({ commit,state },config) {
+            if (state.modalCon.isMaskShow === false) {
+                commit('ISSHOW_MODAL_MASK',true);
+                window.setTimeout(() => {
+                    commit('ISSHOW_MODAL_CARD',true)
+                }, 300);
+            } else {
+                commit('ISSHOW_MODAL_CARD',false);
+                window.setTimeout(() => {
+                    commit('ISSHOW_MODAL_MASK',false)
+                }, 300);
+            }
+        },
     }
 });
 
@@ -300,6 +326,7 @@ var storeMap = {
     store: tmp,
     computed: Vuex.mapState({
         msgrCon: 'msgrCon',
+        modalCon: 'modalCon',
         globalConfig: 'globalConfig',
         logintoken: 'logintoken',
         isLoading: 'isLoading',
@@ -1030,7 +1057,7 @@ const UserInvite = {
 };
 
 const UserShop = {
-    mixins: [userMixin],
+    mixins: [userMixin,storeMap],
     template: /*html*/ `
     <div>
         <div class="pure-g">
@@ -1055,10 +1082,23 @@ const UserShop = {
                         <span class="tips tips-cyan">$[shop.details.bandwidth]$G<span v-if="shop.details.reset !== '0'">+$[shop.details.reset_value]$G/($[shop.details.reset]$天/$[shop.details.reset_exp]$天)</span></span>
                         <span class="tips tips-blue">$[shop.details.class_expire]$天</span>
                     </div>
-                    <div class="pure-u-4-24 text-right"><button :disabled="isDisabled" class="buy-submit" @click="buy(shop.id,shop.auto_renew)">购买</button></div>
+                    <div class="pure-u-4-24 text-right"><button :disabled="isDisabled" class="buy-submit" @click="buy(shop)">购买</button></div>
                 </div>
             </div>
         </div>
+
+        <transition name="fade" mode="out-in">
+        <uim-modal v-on:closeModal="callOrderChecker" v-on:callOrderChecker="orderCheck" :bindMask="isMaskShow" :bindCard="isCardShow" v-if="isMaskShow">
+            <h3 slot="uim-modal-title">$[modalCon.title]$</h3>
+            <div class="flex align-center justify-center wrap" slot="uim-modal-body">
+                <div class="order-checker-content">商品名称：<span>$[orderCheckerContent.name]$</span></div>
+                <div class="order-checker-content">优惠额度：<span>$[orderCheckerContent.credit]$</span></div>
+                <div class="order-checker-content">总金额：<span>$[orderCheckerContent.total]$</span></div>
+            </div>
+            <div slot="uim-modal-footer"><uim-switch></uim-switch></div>
+        </uim-modal>
+        </transition>
+
     </div>
     `,
     data: function() {
@@ -1071,10 +1111,17 @@ const UserShop = {
                 shop: '',
                 autorenew: '',
             },
+            isMaskShow: false,
+            isCardShow: false,
+            orderCheckerContent: {
+                name: '',
+                credit: '',
+                total: '',
+            },
         }
     },
     methods: {
-        buy(id,autoRenew) {
+        buy(shop) {
             this.isDisabled = true;
             this.isCheckerShow = true;
             let callConfig = {
@@ -1083,9 +1130,22 @@ const UserShop = {
                 time: 3000,
             };
             tmp.dispatch('CALL_MSGR',callConfig);
-            id = (id).toString();
+            let id = (shop.id).toString();
             Vue.set(this.ajaxBody,'shop',id);
-            Vue.set(this.ajaxBody,'autorenew',autoRenew);
+            Vue.set(this.ajaxBody,'autorenew',shop.autoRenew);
+        },
+        callOrderChecker() {
+            if (this.isMaskShow === false) {
+                this.isMaskShow = true;
+                setTimeout(() => {
+                    this.isCardShow = true
+                }, 300);
+            } else {
+                this.isCardShow = false;
+                setTimeout(() => {
+                    this.isMaskShow = false
+                }, 300);
+            }
         },
         couponCheck() {
             let ajaxCon = {
@@ -1096,13 +1156,25 @@ const UserShop = {
                 if (r.ret) {
                     console.log(r);
                     this.isCheckerShow = false;
+                    this.orderCheckerContent.name = r.name;
+                    this.orderCheckerContent.credit = r.credit;
+                    this.orderCheckerContent.total = r.total;
+                    this.callOrderChecker();
                 } else {
                     console.log(r);
                 }
             });
         },
         orderCheck() {
+            let ajaxCon = {
+                coupon: this.coupon,
+                shop: this.ajaxBody.shop,
+                autorenew: this.ajaxBody.autorenew,
+                disableothers: this.disableothers,
+            };
+            _post('/user/buy',JSON.stringify(ajaxCon),'include').then((r)=>{
 
+            });
         },
         hideChecker() {
             this.isCheckerShow = false;
@@ -1766,6 +1838,41 @@ Vue.component('uim-dropdown',{
             this.hide();
         })
     }
+})
+
+Vue.component('uim-modal',{
+    delimiters: ['$[',']$'],
+    mixins: [storeMap],
+    template:/*html*/ `
+    <div class="uim-modal">
+        <transition name="fade" mode="out-in">
+        <div v-show="bindMask" class="uim-modal-mask"></div>
+        </transition>
+        <transition name="slide-fade" mode="out-in">
+        <div v-show="bindCard" class="uim-modal-card">
+            <div @click="$emit('closeModal')" class="uim-modal-close"><span class="fa fa-close"></span></div>
+            <div class="uim-modal-title"><slot name="uim-modal-title"></slot></div>
+            <div class="uim-modal-body"><slot name="uim-modal-body"></slot></div>
+            <div class="uim-modal-footer">
+                <div><slot name="uim-modal-footer"></slot></div>
+                <div><button @click="$emit('callOrderChecker')" class="uim-modal-confirm">确认</button></div>
+            </div>
+        </div>
+        </transition>
+    </div>
+    `,
+    props: ['bindMask','bindCard'],
+})
+
+Vue.component('uim-switch',{
+    delimiters: ['$[',']$'],
+    template:/*html*/ `
+    <div>
+        <span>
+            <input type="text">
+        </span>
+    </div>
+    `
 })
 
 const indexPage = new Vue({
