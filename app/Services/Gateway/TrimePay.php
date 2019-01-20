@@ -111,7 +111,7 @@ class TrimePay extends AbstractPayment
         switch ($type) {
             case('WEPAY_JSAPI'):
                 $result['code'] = 0;
-                $result['data'] = "http://cashier.hlxpay.com/#/wepay/jsapi?payData=".base64_encode(json_encode($data));
+                $result['data'] = "http://cashier.hlxpay.com/jsapi.html?payData=".base64_encode(json_encode($data));
                 $result['pid'] = $pl->tradeno;
                 return json_encode($result);
             default:

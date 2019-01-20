@@ -115,7 +115,7 @@ $System_Config['account_expire_delete_days']='-1';		//账户到期几天之后�
 $System_Config['enable_kill']='true';					//是否允许用户注销账户
 $System_Config['notify_limit_mode'] = 'false';			//false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
 $System_Config['notify_limit_value'] = '20';			//当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
-$System_Config['mergeSub'] = false;						//合并订阅设置 可选项 false / true
+$System_Config['mergeSub'] = 'false';						//合并订阅设置 可选项 false / true
 
 
 //Telegram bot设置------------------------------------------------------------------------------------

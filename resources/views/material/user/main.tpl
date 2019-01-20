@@ -86,6 +86,12 @@
 								</a>
 							</li>
 
+							<li>
+								<a href="/user/trafficlog">
+									<i class="icon icon-lg">hourglass_empty</i>&nbsp;流量记录
+								</a>
+							</li>
+
 							{if $config['enable_ticket']=='true'}
                             <li>
 								<a href="/user/ticket">
@@ -118,16 +124,19 @@
 							</li>
 
 							<li>
-								<a href="/user/trafficlog">
-									<i class="icon icon-lg">hourglass_empty</i>&nbsp;流量记录
+								<a href="/user/lookingglass">
+									<i class="icon icon-lg">visibility</i>&nbsp;延迟检测
 								</a>
 							</li>
 
 							<li>
-								<a href="/user/lookingglass">
-									<i class="icon icon-lg">visibility</i>&nbsp;延迟检测
-								</a>
 								<a href="/user/announcement">
+									<i class="icon icon-lg">announcement</i>&nbsp;网站公告
+								</a>
+							</li>
+
+							<li>
+								<a href="/user/tutorial">
 									<i class="icon icon-lg">start</i>&nbsp;使用教程
 								</a>
 							</li>

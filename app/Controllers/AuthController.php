@@ -526,8 +526,13 @@ class AuthController extends BaseController
 
     public function qrcode_check($request, $response, $args)
     {
-        $token = $request->getQueryParams()["token"];
-        $number = $request->getQueryParams()["number"];
+        $token = $request->getParam('token');
+        $number = $request->getParam('number');
+        $user = Auth::getUser();
+        if ($user->isLogin) {
+            $res['ret'] = 0;
+            return $response->getBody()->write(json_encode($res));
+        }
 
         if (Config::get('enable_telegram') == 'true') {
             $ret = TelegramSessionManager::check_login_session($token, $number);
