@@ -8,6 +8,7 @@ use App\Models\Code;
 use App\Models\Payback;
 use App\Models\Paylist;
 use App\Models\Ann;
+use App\Models\Shop;
 use App\Services\Auth;
 use App\Services\Config;
 use App\Services\Payment;
@@ -152,7 +153,7 @@ class VueController extends BaseController {
         if (!$paybacks_sum = Payback::where("ref_by", $this->user->id)->sum('ref_get')) {
             $paybacks_sum = 0;
         }
-        $paybacks->setPath('/user/invite');
+        $paybacks->setPath('/#/user/panel');
 
         $res['inviteInfo'] = array(
             "code" => $code,
@@ -161,6 +162,18 @@ class VueController extends BaseController {
             "invitePrice" => Config::get('invite_price'),
         );
 
+        $res['ret'] = 1;
+
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function getUserShops($request, $response, $args)
+    {
+        $shops = Shop::where("status", 1)->orderBy("name")->get();
+        
+        $res['arr'] = array(
+            'shops' => $shops,
+        );
         $res['ret'] = 1;
 
         return $response->getBody()->write(json_encode($res));

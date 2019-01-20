@@ -718,12 +718,6 @@
 ;(function(){
 	'use strict'
 
-fetch('/getuserinfo').then((r)=>{
-	return r.json();
-}).then((r)=>{
-	console.log(r);
-})
-
 	let onekeysubBTN = document.querySelectorAll('[data-onekeyfor]');
 	for (let i=0;i<onekeysubBTN.length;i++) {
 		onekeysubBTN[i].addEventListener('click',()=>{
