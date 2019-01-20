@@ -19,8 +19,8 @@
 	<link rel="stylesheet" href="/assets/css/main.css"/>
         <script src="/assets/js/fuck.js"></script>
         <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
-	<link href="//unpkg.com/nprogress@0.2.0/nprogress.css" rel="stylesheet" />
-    <script src="//unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
   </head>
   
        <body>
