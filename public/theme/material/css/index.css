@@ -1,5 +1,11 @@
 @import url(https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css);
 
+.pure-g {
+    align-content: unset;
+    -webkit-align-content: unset;
+    -ms-flex-line-pack: unset;
+}
+
 body {
     background-color: #1D1D1D;
     color: white;
@@ -371,6 +377,7 @@ select {
     color: #2e2e2e;
     justify-content: center;
     font-weight: bolder;
+    word-break: break-all;
 }
 
 .basis-max .input-control {

@@ -552,7 +552,6 @@ const Login = {
 
             _post('/auth/login', JSON.stringify(ajaxCon)).then((r) => {
                 if (r.ret === 1) {
-                    console.log(JSON.stringify(ajaxCon));
                     callConfig.msg += '登录成功Kira~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
@@ -1457,8 +1456,8 @@ const Panel = {
     mounted() {
         let self = this;
         this.userLoadState = 'loading';
-              
-         _get('/getuserinfo').then((r) => {
+   
+         _get('/getuserinfo','include').then((r) => {
             if (r.ret === 1) {
                 console.log(r.info);
                 this.userCon = r.info.user;

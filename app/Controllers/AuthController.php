@@ -528,7 +528,7 @@ class AuthController extends BaseController
     {
         $token = $request->getParam('token');
         $number = $request->getParam('number');
-        $user = AuthService::getUser();
+        $user = Auth::getUser();
         if ($user->isLogin) {
             $res['ret'] = 0;
             return $response->getBody()->write(json_encode($res));
