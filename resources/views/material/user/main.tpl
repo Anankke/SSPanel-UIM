@@ -12,13 +12,13 @@
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
     <link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic|Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/theme/material/css/user.css">
-    <script src="/assets/js/fuck.js"></script>
 	<!-- jquery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1"></script>
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
 
 </head>
 <body class="page-orange">
+    <script src="/assets/js/fuck.js"></script>
 	<header class="header header-orange header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
 			<div>

@@ -12,7 +12,6 @@
     <link rel="bookmark" href="/favicon.ico"/>
     <link rel="stylesheet" href="/theme/material/css/index_base.css">
     <link rel="stylesheet" href="/theme/material/css/index.css">
-    <script src="/assets/js/fuck.js"></script>
     {if $config["enable_crisp"] == 'true'}
     <literal><script type="text/javascript"> 
     window.$crisp=[];
@@ -63,6 +62,7 @@
 </style>
 
 <body>
+    <script src="/assets/js/fuck.js"></script>
     <div id="index" >
         <transition name="loading-fade" mode="out-in">
             <div class="loading flex align-center" v-if="isLoading === 'loading'" key="loading">
