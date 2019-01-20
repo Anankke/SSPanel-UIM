@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Code;
 use App\Models\Payback;
 use App\Models\Paylist;
+use App\Models\Ann;
 use App\Services\Auth;
 use App\Services\Config;
 use App\Services\Payment;
@@ -20,6 +21,8 @@ use App\Utils\Pay;
 use App\Utils\TelegramProcess;
 use App\Utils\Spay_tool;
 use App\Utils\Geetest;
+
+use voku\helper\AntiXSS;
 
 class VueController extends BaseController {
 
@@ -74,6 +77,88 @@ class VueController extends BaseController {
             "dateY" => date("Y"),
             "isLogin" => $user->isLogin,
             "enable_telegram" => Config::get('enable_telegram'),
+            "enable_crisp" => Config::get('enable_crisp'),
+        );
+
+        $res['ret'] = 1;
+
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function vuelogout($request, $response, $args)
+    {
+        Auth::logout();
+        $res['ret'] = 1;
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function getUserInfo($request, $response, $args) {
+        $user = $this->user;
+        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
+        $GtSdk = null;
+        $recaptcha_sitekey = null;
+        if (Config::get('captcha_provider') != ''){
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    break;
+                case 'geetest':
+                    $uid = time().rand(1, 10000) ;
+                    $GtSdk = Geetest::get($uid);
+                    break;
+            }
+        }
+        $Ann = Ann::orderBy('date', 'desc')->first();
+        $display_ios_class = Config::get('display_ios_class');
+        $ios_account = Config::get('ios_account');
+        $ios_password = Config::get('ios_password');
+        $mergeSub = Config::get('mergeSub');
+        $subUrl = Config::get('subUrl');
+        $baseUrl = Config::get('baseUrl');
+
+        $res['info'] = array(
+            "user" => $user,
+            "ssrSubToken" => $ssr_sub_token,
+            "displayIosClass" => $display_ios_class,
+            "iosAccount" => $ios_account,
+            "iosPassword" => $ios_password,
+            "mergeSub" => $mergeSub,
+            "subUrl" => $subUrl,
+            "baseUrl" => $baseUrl,
+            "ann" => $Ann,
+            "recaptchaSitekey" => $recaptcha_sitekey,
+            "GtSdk" => $GtSdk,
+        );
+
+        $res['ret'] = 1;
+
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function getUserInviteInfo($request, $response, $args)
+    {
+        $code = InviteCode::where('user_id', $this->user->id)->first();
+        if ($code == null) {
+            $this->user->addInviteCode();
+			$code = InviteCode::where('user_id', $this->user->id)->first();
+        }
+
+        $pageNum = 1;
+        if (isset($request->getQueryParams()["page"])) {
+            $pageNum = $request->getQueryParams()["page"];
+        }
+        $paybacks = Payback::where("ref_by", $this->user->id)->orderBy("id", "desc")->paginate(15, ['*'], 'page', $pageNum);
+        if (!$paybacks_sum = Payback::where("ref_by", $this->user->id)->sum('ref_get')) {
+            $paybacks_sum = 0;
+        }
+        $paybacks->setPath('/user/invite');
+
+        $res['inviteInfo'] = array(
+            "code" => $code,
+            "paybacks" => $paybacks,
+            "paybacks_sum" => $paybacks_sum,
+            "invitePrice" => Config::get('invite_price'),
         );
 
         $res['ret'] = 1;

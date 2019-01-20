@@ -7,22 +7,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
+    <title>{$config["appName"]}</title>
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="bookmark" href="/favicon.ico"/>
-    <title>Document</title>
     <link rel="stylesheet" href="/theme/material/css/index_base.css">
     <link rel="stylesheet" href="/theme/material/css/index.css">
+    {if $config["enable_crisp"] == 'true'}
+    <literal><script type="text/javascript"> 
+    window.$crisp=[];
+    window.CRISP_WEBSITE_ID="{$config["crisp_id"]}";
+    $crisp.push(["set", "user:email", "{$user->email}"]);
+    $crisp.push(["config", "color:theme", "grey"]);
+    (function(){ d=document;s=d.createElement("script"); s.src="https://client.crisp.chat/l.js"; s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+    </script></literal>
+    {/if}
 </head>
 
 <style>
-.slide-fade-enter-active,.fade-enter-active,.loading-fade-enter-active,.rotate-fade-enter-active {
+.slide-fade-enter-active,.fade-enter-active,.loading-fade-enter-active,.rotate-fade-enter-active,.loading-fadex-enter-active {
     transition: all .3s ease;
 }
-.slide-fade-leave-active,.fade-leave-active,.loading-fade-leave-active,.rotate-fade-leave-active {
+.slide-fade-leave-active,.fade-leave-active,.loading-fade-leave-active,.rotate-fade-leave-active,.loading-fadex-leave-active {
     transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .loading-fade-enter {
     transform: scaleY(.75);
+    opacity: 0;
+}
+.loading-fadex-enter {
+    transform: scaleX(.75);
     opacity: 0;
 }
 .slide-fade-enter {
@@ -43,7 +56,7 @@
     -webkit-transform: rotateY(90deg);
     opacity: 0;
 }
-.fade-enter,.fade-leave-to {
+.fade-enter,.fade-leave-to,.loading-fade-leave-to,.loading-fadex-leave-to {
     opacity: 0;
 }
 </style>
@@ -85,7 +98,7 @@
                 </div>
                 <div class="footer pure-g">
                     <div class="pure-u-1 pure-u-sm-1-2 staff">POWERED BY <a href="./staff">SSPANEL-UIM</a></div>
-                    <div class="pure-u-1 pure-u-sm-1-2 time">&copy;$[globalConfig.indexMsg.date]$ $[globalConfig.indexMsg.appname]$</div>
+                    <div class="pure-u-1 pure-u-sm-1-2 time" :class="{ enableCrisp:globalConfig.crisp === 'true' }">&copy;$[globalConfig.indexMsg.date]$ $[globalConfig.indexMsg.appname]$</div>
                 </div>
                 
                 <transition name="slide-fade" mode="out-in">
@@ -97,26 +110,103 @@
             </div>
         </transition>
     </div>
-
+       
     {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js?render=explicit" async defer></script>
     {/if}
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.19.0-beta.1/dist/axios.min.js"></script>
     {if isset($geetest_html)}
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
     {/if}
     {if $config['enable_telegram'] == 'true'}
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
     {/if}
+    <script>
+        ;(function(){
+            if (!window.Vuex) {
+                window.location = '/indexold';
+            }
+        })();      
+    </script> 
 </body>
 
 </html>
 
 <script>
+{*/**
+ * A wrapper of window.Fetch API
+ * @author Sukka (https://skk.moe)
+
+/**
+ * A Request Helper of Fetch
+ * @function _request
+ * @param {string} url
+ * @param {string} body
+ * @param {string} method
+ * @returns {function} - A Promise Object
+ */*}
+const _request = (url, body, method) => 
+    fetch(url, {
+        method: method,
+        body: body,
+        headers: {
+            'content-type': 'application/json'
+        }
+    }).then(resp => {
+        return Promise.all([resp.ok, resp.status, resp.json()]);
+    }).then(([ok, status, json]) => {
+        if (ok) {
+            return json;
+        } else {
+            throw new Error(JSON.stringify(json.error));
+        }
+    }).catch(error => {
+        throw error;
+    });
+
     
+
+{*/**
+ * A Wrapper of Fetch GET Method
+ * @function _get
+ * @param {string} url
+ * @returns {function} - A Promise Object
+ * @example
+ * get('https://example.com').then(resp => { console.log(resp) })
+ */*}
+const _get = (url,credentials) => 
+    fetch(url, {
+        method: 'GET',
+        credentials,
+    }).then(resp => {
+        return Promise.all([resp.ok, resp.status, resp.json(), resp.headers])
+    })
+    .then(([ok, status, json, headers]) => {
+        if (ok) {
+            return json;
+        } else {
+            throw new Error(JSON.stringify(json.error));
+        }
+    }).catch(error => {
+        console.log(error);
+        throw error;
+    });
+
+    
+{*/**
+ * A Wrapper of Fetch POST Method
+ * @function _post
+ * @param {string} url
+ * @param {string} json - The POST Body in JSON Format
+ * @returns {function} - A Promise Object
+ * @example
+ * _post('https://example.com', JSON.stringify(data)).then(resp => { console.log(resp) })
+ */*}
+
+const _post = (url, body) => _request(url, body, 'POST');
+
 let validate,captcha;
 
 let globalConfig;
@@ -137,6 +227,7 @@ const tmp = new Vuex.Store({
             jumpDelay: '',
             isGetestSuccess: '',
             registMode: '',
+            crisp: '',
             base_url: '',
             isEmailVeryify: '',
             login_token: '',
@@ -181,6 +272,7 @@ const tmp = new Vuex.Store({
             state.globalConfig.login_token = config.login_token;
             state.globalConfig.login_number = config.login_number;
             state.globalConfig.telegram_bot = config.telegram_bot;
+            state.globalConfig.crisp = config.enable_crisp;
             state.globalConfig.enable_telegram = config.enable_telegram;
             state.globalConfig.indexMsg.appname = config.appName;
             state.globalConfig.indexMsg.date = config.dateY;
@@ -226,14 +318,11 @@ var storeAuth = {
             if (this.globalConfig.captchaProvider === 'geetest') {
                 this.$nextTick(function(){
 
-                    axios({
-                        method: 'get',
-                        url: '/auth/login_getCaptcha',
-                        responseType: 'json',
-                    }).then((r)=>{
+                _get('/auth/login_getCaptcha')
+                    .then((r) => {
                         let GeConfig = {
-                            gt: r.data.GtSdk.gt,
-                            challenge: r.data.GtSdk.challenge,
+                            gt: r.GtSdk.gt,
+                            challenge: r.GtSdk.challenge,
                             product: "embed",
                         }
 
@@ -258,13 +347,13 @@ var storeAuth = {
         },
         //加载完成的时间很谜
         grecaptchaRender(id) {
-            setTimeout(function() {
-                if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render ==='undefined') {
-                    this.grecaptchaRender();
+            setTimeout(() => {
+                if (!grecaptcha || !grecaptcha.render) {
+                    this.grecaptchaRender(id);
                 } else {
                     grecaptcha.render(id);
                 }
-            },300)
+            }, 300)
         }
     },
 };
@@ -387,7 +476,7 @@ const Login = {
             <div class="input-control flex wrap">
                 <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-login"></div>
                 <form action="?" method="POST">    
-                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-login" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
+                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-login" class="g-recaptcha" data-theme="dark" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
                 </form>
             </div>
             <button @click.prevent="login" @keyup.13.native="login" class="auth-submit" id="login" type="submit" :disabled="isDisabled">
@@ -461,16 +550,12 @@ const Login = {
                 }
             }
 
-            axios({
-                method: 'post',
-                url: '/auth/login',
-                data: ajaxCon,
-            }).then((r)=>{
-                if (r.data.ret == 1) {
+            _post('/auth/login', JSON.stringify(ajaxCon)).then((r) => {
+                if (r.ret === 1) {
                     callConfig.msg += '登录成功Kira~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
-                    window.setTimeout(()=>{
+                    window.setTimeout(() => {
                         tmp.commit('SET_LOGINTOKEN',1);
                         this.$router.replace('/user/panel');
                     }, this.globalConfig.jumpDelay);
@@ -480,7 +565,7 @@ const Login = {
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
                         this.isDisabled = false;
-                    },3000)
+                    }, 3000)
                 }
             });
 
@@ -503,22 +588,25 @@ const Login = {
             qrcode.makeCode(telegram_qrcode);
         },
         tgAuthTrigger(tid) {
+            if (this.logintoken === 1) {
+                return;
+            }
             let callConfig = {
                 msg: '',
                 icon: '',
             };
-            axios.post('/auth/qrcode_check',{
+            _post('/auth/qrcode_check', JSON.stringify({
                 token: this.globalConfig.login_token,
                 number: this.globalConfig.login_number,
-            }).then(r=>{
-                if(r.data.ret > 0) {
+            })).then((r) => {
+                if(r.ret > 0) {
                     clearTimeout(tid);
                     
-                    axios.post('/auth/qrcode_login',{
+                    _post('/auth/qrcode_login',JSON.stringify({
                         token: this.globalConfig.login_token,
                         number: this.globalConfig.login_number,
-                    }).then(r=>{
-                        if (r.data.ret) {
+                    })).then(r=>{
+                        if (r.ret) {
                             callConfig.msg += '登录成功Kira~';
                             callConfig.icon += 'fa-check-square-o';
                             tmp.dispatch('CALL_MSGR',callConfig);
@@ -528,10 +616,10 @@ const Login = {
                             }, this.globalConfig.jumpDelay);
                         }
                     })
-                } else if (r.data.ret == -1) {
+                } else if (r.ret == -1) {
                     this.isTgtimeout = true;
                 }
-            })
+            });
             tid = setTimeout(()=>{
                 this.tgAuthTrigger(tid);
             }, 2500);
@@ -546,7 +634,7 @@ const Login = {
 
         if (this.globalConfig.enable_telegram === 'true') {
             this.telegramRender();
-            let tid = setTimeout(()=>{
+            let tid = setTimeout(() => {
                 this.tgAuthTrigger(tid);
             }, 2500);
         }
@@ -611,7 +699,7 @@ const Register = {
             <div class="input-control wrap flex align-center">
             <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-reg"></div>
                 <form action="?" method="POST">    
-                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-reg" class="g-recaptcha" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
+                <div v-if="globalConfig.recaptchaSiteKey" id="g-recaptcha-reg" class="g-recaptcha" data-theme="dark" :data-sitekey="globalConfig.recaptchaSiteKey"></div>
                 </form>
             </div>
         </div>
@@ -656,9 +744,13 @@ const Register = {
                 icon: '',
             };
 
+            if (this.globalConfig.isEmailVeryify === 'true') {
+                ajaxCon.emailcode = this.email_code;
+            }
+
             if (this.globalConfig.registMode !== 'invite') {
                 ajaxCon.code = 0;
-                if ((this.getCookie('code'))!='') {
+                if ((this.getCookie('code')) !== '') {
                     ajaxCon.code = this.getCookie('code');
                 }
             }
@@ -678,15 +770,10 @@ const Register = {
                         }      
                         break;
                 }
-            }      
+            }
 
-            axios({
-                method: 'post',
-                url: '/auth/register',
-                responseType: 'json',
-                data: ajaxCon,
-            }).then((r)=>{
-                if (r.data.ret == 1) {
+            _post('/auth/register', JSON.stringify(ajaxCon)).then((r)=>{
+                if (r.ret == 1) {
                     callConfig.msg += '注册成功meow~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
@@ -759,13 +846,8 @@ const Register = {
                     email: this.email,
                 }
 
-            axios({
-                method: 'post',
-                url: 'auth/send',
-                responseType: 'json',
-                data: ajaxCon,
-            }).then((r)=>{
-                if (r.data.ret) {
+            _post('auth/send', JSON.stringify(ajaxCon)).then((r)=>{
+                if (r.ret) {
                     let callConfig = {
                             msg: 'biu~邮件发送成功',
                             icon: 'fa-check-square-o',
@@ -794,7 +876,7 @@ const Register = {
             }
         }
         
-        document.addEventListener('keyup',(e)=>{
+        document.addEventListener('keyup', (e) => {
             if (e.keyCode == 13) {
                 this.register();
             }
@@ -830,7 +912,7 @@ const Reset = {
             <div class="input-control flex wrap">
                 <label for="Email" class="flex space-between align-center">
                     <span>邮箱</span>
-                    <span class="button-index"><router-link to="/auth/login"><i class="fa fa-mail-forward"></i> 返回登录页</router-link></span>
+                    <span><router-link class="button-index" to="/auth/login"><i class="fa fa-mail-forward"></i> 返回登录页</router-link></span>
                 </label>
                 <input v-model="email" type="text" name="Email">        
             </div>
@@ -853,14 +935,14 @@ const Reset = {
                 icon: '',
             };
 
-            axios.post('/password/reset',{
+            _post('/password/reset', JSON.stringify({
                 email: this.email,
-            }).then(r=>{
-                if (r.data.ret == 1) {
+            })).then(r => {
+                if (r.ret == 1) {
                     callConfig.msg += '邮件发送成功kira~';
                     callConfig.icon += 'fa-check-square-o';
                     tmp.dispatch('CALL_MSGR',callConfig);
-                    window.setTimeout(()=>{
+                    window.setTimeout(() => {
                         this.$router.push('/auth/login');
                     }, this.globalConfig.jumpDelay);
                 } else {
@@ -869,7 +951,7 @@ const Reset = {
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
                         this.isDisabled = false;
-                    },3000)
+                    }, 3000)
                 }
             })
         }
@@ -886,22 +968,519 @@ const User = {
     props: ['routermsg'],
 };
 
+const userMixin = {
+    props: ['annC','thisuser','baseURL'],
+}
+
+const UserAnnouncement = {
+    mixins: [userMixin],
+    template: `
+    <div>
+        <div class="card-title">公告栏</div>
+        <div class="card-body">
+            <div class="ann" v-html="annC.content"></div>
+        </div>
+    </div>
+    `,
+};
+
+const UserInvite = {
+    delimiters: ['$[',']$'],
+    mixins: [userMixin],
+    template: /*html*/ `
+    <div>
+        <div class="card-title">邀请链接</div>
+        <div class="card-body">
+            <div class="user-invite">
+                <div v-if="thisuser.class !== 0">
+                    <input type="button" class="tips tips-blue" :value="inviteLink">
+                    <h5>邀请链接剩余次数： <span class="invite-number tips tips-gold">$[thisuser.invite_num]$次</span></h5>       
+                </div>
+                <div v-else>
+                    <h3>$[thisuser.user_name]$，您不是VIP暂时无法使用邀请链接，<slot name='inviteToShop'></slot></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    `,
+    computed: {
+        inviteLink: function() {
+            return this.baseURL + '/#/auth/register?code=' + this.code;
+        }
+    },
+    data: function() {
+        return {
+            code: '',
+        }
+    },
+    mounted() {
+        _get('getuserinviteinfo').then((r)=>{
+            console.log(r);
+            this.code = r.inviteInfo.code.code;
+            console.log(this.thisuser);
+        })
+    }
+};
+
+const UserShop = {
+    mixins: [userMixin],
+    template: /*html*/ `
+    <div >
+        <div class="card-title">套餐购买</div>
+        <div class="card-body">
+            <div class="shop"></div>
+        </div>
+    </div>
+    `,
+};
+
+const UserGuide = {
+    mixins: [userMixin],
+    template: /*html*/ `
+    <div>
+        <div class="card-title">配置指南</div>
+        <div class="card-body">
+            <div class="user-guide"></div>
+        </div>
+    </div>
+    `,
+}
+
 const Panel = {
     delimiters: ['$[',']$'],
+    mixins: [storeMap],
+    components: {
+        'user-announcement': UserAnnouncement,
+        'user-invite': UserInvite,
+        'user-shop': UserShop,
+        'user-guide': UserGuide,
+    },
     template: /*html*/ `
     <div class="page-user pure-u-1">
-        <h1>用户页面demo</h1>
-        <a href="/user" class="button-index">进入用户中心</a>
+        <div class="title-back flex align-center">USERCENTER</div>
+        <transition name="loading-fadex" mode="out-in">
+            <div class="loading flex align-center" v-if="userLoadState === 'beforeload'">USERCENTER</div>
+
+            <div class="loading flex align-center" v-else-if="userLoadState === 'loading'" key="loading">
+                <div class="spinnercube">
+                    <div class="cube1"></div>
+                    <div class="cube2"></div>
+                </div>
+            </div>
+
+            <div class="usrcenter text-left pure-g space-between" v-else-if="userLoadState === 'loaded'">
+                <div class="pure-u-1 pure-u-sm-6-24">
+                    <div class="card account-base">
+                        <div class="card-title">账户明细</div>
+                        <div class="card-body">
+                            <div class="pure-g">
+                                <div class="pure-u-1-2">
+                                    <p class="tips tips-blue">用户名</p>
+                                    <p class="font-light">$[userCon.user_name]$</p>
+                                    <p class="tips tips-blue">邮箱</p>
+                                    <p class="font-light">$[userCon.email]$</p>
+                                </div>
+                                <div class="pure-u-1-2">
+                                    <p class="tips tips-blue">VIP等级</p>
+                                    <p class="font-light">Lv. $[userCon.class]$</p>
+                                    <p class="tips tips-blue">余额</p>
+                                    <p class="font-light">$[userCon.money]$</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card margin-nobottom">
+                        <div class="card-title">快速配置</div>
+                        <div class="card-body">
+                            <div class="pure-g">
+                                <button @click="changeAgentType" v-for="dl in downloads" :data-type="dl.type" :class="{ 'index-btn-active':currentDlType === dl.type }" class="pure-u-1-3 btn-user dl-type" :key="dl.type">
+                                    $[dl.type]$
+                                </button>
+                                <h5 class="pure-u-1">平台选择/客户端下载</h5>
+                                <transition name="rotate-fade" mode="out-in">
+                                <div v-if="currentDlType === 'SSR'" class="dl-link" key="ssr">
+                                    <uim-dropdown v-for="(value,key) in downloads[0].agent" class="pure-u-1-3 btn-user" :key="key">
+                                        <span slot="dpbtn-content">$[key]$</span>
+                                        <ul slot="dp-menu">
+                                            <li v-for="agent in value" :key="agent.id"><a :href="agent.href">$[agent.agentName]$</a></li>
+                                        </ul>
+                                    </uim-dropdown>                                
+                                </div>
+                                <div v-else-if="currentDlType === 'SS/SSD'" class="dl-link" key="ss">
+                                    <uim-dropdown v-for="(value,key) in downloads[1].agent" class="pure-u-1-3 btn-user" :key="key">
+                                        <span slot="dpbtn-content">$[key]$</span>
+                                        <ul slot="dp-menu">
+                                            <li v-for="agent in value" :key="agent.id"><a :href="agent.href">$[agent.agentName]$</a></li>
+                                        </ul>
+                                    </uim-dropdown>                                
+                                </div>
+                                <div v-else-if="currentDlType === 'V2RAY'" class="dl-link" key="v2ray">
+                                    <uim-dropdown v-for="(value,key) in downloads[2].agent" class="pure-u-1-3 btn-user" :key="key">
+                                        <span slot="dpbtn-content">$[key]$</span>
+                                        <ul slot="dp-menu">
+                                            <li v-for="agent in value" :key="agent.id"><a :href="agent.href">$[agent.agentName]$</a></li>
+                                        </ul>
+                                    </uim-dropdown>                                
+                                </div>
+                                </transition>
+                                <h5 class="pure-u-1">订阅链接</h5>
+                                <transition name="rotate-fade" mode="out-in">
+                                <div class="input-copy" v-if="currentDlType === 'SSR'" key="ssrsub">
+                                    <div class="pure-g align-center">
+                                        <span class="pure-u-6-24">普通端口:</span><input class="tips tips-blue pure-u-18-24" type="text" name="" id="" :value="suburlMu0" readonly>                                
+                                    </div>
+                                    <div v-if="mergeSub !== 'true'" class="pure-g align-center">
+                                        <span class="pure-u-6-24">单端口:</span><input class="tips tips-blue pure-u-18-24" type="text" name="" id="" :value="suburlMu1" readonly>                                                                  
+                                    </div>
+                                </div>
+                                <div class="input-copy" v-else-if="currentDlType === 'V2RAY'" key="sssub">
+                                    <input class="tips tips-blue" type="text" name="" id="" :value="suburlMu2" readonly>
+                                </div>
+                                <div class="input-copy" v-else-if="currentDlType === 'SS/SSD'" key="v2sub">
+                                    <input class="tips tips-blue" type="text" name="" id="" :value="suburlMu3" readonly>
+                                </div>
+                                </transition>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pure-u-1 pure-u-sm-17-24">
+                    <div class="card">
+                        <div class="card-title">连接信息</div>
+                        <div class="card-body">
+                            <div class="pure-g">
+                                <div v-for="tip in tipsLink" class="pure-u-lg-4-24" :key="tip.name">
+                                    <p class="tips tips-blue">$[tip.name]$</p>
+                                    <p class="font-light">$[tip.content]$</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-btngroup pure-g">
+                        <div class="pure-u-16-24">
+                            <uim-dropdown>
+                                <span slot="dpbtn-content">栏目导航</span>
+                                <ul slot="dp-menu">
+                                    <li @click="componentChange" v-for="menu in menuOptions" :data-component="menu.id" :key="menu.id">$[menu.name]$</li>
+                                </ul>
+                            </uim-dropdown>
+                        </div>
+                        <div class="pure-u-8-24 text-right">
+                            <a href="/user" class="btn-user">进入管理面板</a>
+                            <button @click="logout" class="btn-user">登出</button>                            
+                        </div>
+                    </div>
+                    <transition name="fade" mode="out-in">
+                    <component :is="currentCardComponent" :baseURL="baseUrl" :thisuser="userCon" :annC="ann" class="card margin-nobottom">
+                        <button @click="componentChange" class="btn-inline" :data-component="menuOptions[3].id" slot="inviteToShop">成为VIP请点击这里</button>
+                    </component>
+                    </transition>
+                </div>
+            </div>
+        </transition>
     </div>
     `,
     props: ['routermsg'],
-    mounted() {
-        axios.get('/user/getuserinfo')
-            .then((r)=>{
-                if (r.data.ret === 1) {
-                    console.log(r.data.info);
+    computed: {
+        suburlBase: function() {
+            return this.subUrl + this.ssrSubToken;
+        },
+        suburlMu0: function() {
+            return this.suburlBase + '?mu=0';
+        },
+        suburlMu1: function() {
+            return this.suburlBase + '?mu=1';
+        },
+        suburlMu3: function() {
+            return this.suburlBase + '?mu=3';
+        },
+        suburlMu2: function() {
+            return this.suburlBase + '?mu=2';
+        },
+    },
+    data: function() {
+        return {
+            userLoadState: 'beforeload',
+            userCon: '',
+            ann: {
+                content: '',
+                date: '',
+                id: '',
+                markdown: '',
+            },
+            baseUrl: '',
+            subUrl: '',
+            ssrSubToken: '',
+            mergeSub: 'false',
+            tipsLink: [
+                {
+                    name: '端口',
+                    content: '',
+                },
+                {
+                    name: '密码',
+                    content: '',
+                },
+                {
+                    name: '加密',
+                    content: '',
+                },
+                {
+                    name: '协议',
+                    content: '',
+                },
+                {
+                    name: '混淆',
+                    content: '',
+                },
+                {
+                    name: '混淆参数',
+                    content: '',
+                },
+            ],
+            menuOptions: [
+                {
+                    name: '公告栏',
+                    id: 'user-announcement',
+                },
+                {
+                    name: '配置指南',
+                    id: 'user-guide',
+                },
+                {
+                    name: '邀请链接',
+                    id: 'user-invite',
+                },
+                {
+                    name: '套餐购买',
+                    id: 'user-shop',
+                },
+            ],
+            currentCardComponent: 'user-announcement',
+            downloads: [
+                {
+                    type: 'SSR',
+                    agent: {
+                        Windows: [
+                            {
+                                agentName: 'SSR',
+                                href: '/ssr-download/ssr-win.7z',
+                                id: 'AGENT_1_1_1',
+                            },
+                            {
+                                agentName: 'SSTAP',
+                                href: '/ssr-download/SSTap.7z',
+                                id: 'AGENT_1_1_2',
+                            },
+                        ],
+                        Macos: [
+                            {
+                                agentName: 'SSX',
+                                href: '/ssr-download/ssr-mac.dmg',
+                                id: 'AGENT_1_2_1',
+                            },
+                        ],
+                        Linux: [
+                            {
+                                agentName: 'SS-qt5',
+                                href: '#',
+                                id: 'AGENT_1_3_1',
+                            },
+                        ],
+                        Ios: [
+                            {
+                                agentName: 'Potatso Lite',
+                                href: '#',
+                                id: 'AGENT_1_4_1',
+                            },
+                            {
+                                agentName: 'Shadowrocket',
+                                href: '#',
+                                id: 'AGENT_1_4_2',
+                            },
+                        ],
+                        Android: [
+                            {
+                                agentName: 'SSR',
+                                href: '/ssr-download/ssr-android.apk',
+                                id: 'AGENT_1_5_1',
+                            },
+                            {
+                                agentName: 'SSRR',
+                                href: '/ssr-download/ssrr-android.apk',
+                                id: 'AGENT_1_5_2',
+                            },
+                        ],
+                        Router: [
+                            {
+                                agentName: 'FancySS',
+                                href: 'https://github.com/hq450/fancyss_history_package',
+                                id: 'AGENT_1_6_1',
+                            },
+                        ],
+                    },
+                },
+                {
+                    type: 'SS/SSD',
+                    agent: {
+                        Windows: [
+                            {
+                                agentName: 'SSD',
+                                href: '/ssr-download/ssd-win.7z',
+                                id: 'AGENT_2_1_1',
+                            },
+                        ],
+                        Macos: [
+                            {
+                                agentName: 'SSXG',
+                                href: '/ssr-download/ss-mac.zip',
+                                id: 'AGENT_2_2_1',
+                            },
+                        ],
+                        Linux: [
+                            {
+                                agentName: '/',
+                                href: '#',
+                                id: 'AGENT_2_3_1',
+                            },
+                        ],
+                        Ios: [
+                            {
+                                agentName: 'Potatso Lite',
+                                href: '#',
+                                id: 'AGENT_2_4_1',
+                            },
+                            {
+                                agentName: 'Shadowrocket',
+                                href: '#',
+                                id: 'AGENT_2_4_2',
+                            },
+                        ],
+                        Android: [
+                            {
+                                agentName: 'SSD',
+                                href: '/ssr-download/ssd-android.apk',
+                                id: 'AGENT_2_5_1',
+                            },
+                            {
+                                agentName: '混淆插件',
+                                href: '/ssr-download/ss-android-obfs.apk',
+                                id: 'AGENT_2_5_2',
+                            },
+                        ],
+                        Router: [
+                            {
+                                agentName: 'FancySS',
+                                href: 'https://github.com/hq450/fancyss_history_package',
+                                id: 'AGENT_2_6_1',
+                            },
+                        ],
+                    },
+                },
+                {
+                    type: 'V2RAY',
+                    agent: {
+                        Windows: [
+                            {
+                                agentName: 'V2RayN',
+                                href: '/ssr-download/v2rayn.zip',
+                                id: 'AGENT_3_1_1',
+                            },
+                        ],
+                        Macos: [
+                            {
+                                agentName: '/',
+                                href: '#',
+                                id: 'AGENT_3_2_1',
+                            },
+                        ],
+                        Linux: [
+                            {
+                                agentName: '/',
+                                href: '#',
+                                id: 'AGENT_3_3_1',
+                            },
+                        ],
+                        Ios: [
+                            {
+                                agentName: 'Shadowrocket',
+                                href: '#',
+                                id: 'AGENT_3_4_1',
+                            },
+                        ],
+                        Android: [
+                            {
+                                agentName: 'V2RayN',
+                                href: '/ssr-download/v2rayng.apk',
+                                id: 'AGENT_3_5_1',
+                            },
+                        ],
+                        Router: [
+                            {
+                                agentName: 'FancySS',
+                                href: 'https://github.com/hq450/fancyss_history_package',
+                                id: 'AGENT_3_6_1',
+                            },
+                        ],
+                    },
+                },
+            ],
+            currentDlType: 'SSR',
+        }
+    },
+    methods: {
+        logout() {
+            let callConfig = {
+                msg: '',
+                icon: '',
+            };
+            _get('/logout').then((r)=>{
+                if (r.ret === 1) {
+                    callConfig.msg += '账户成功登出Kira~';
+                    callConfig.icon += 'fa-check-square-o';
+                    tmp.dispatch('CALL_MSGR',callConfig);
+                    window.setTimeout(() => {
+                        tmp.commit('SET_LOGINTOKEN',0);
+                        this.$router.replace('/');
+                    }, this.globalConfig.jumpDelay);
                 }
             });
+        },
+        componentChange(e) {
+            this.currentCardComponent = e.target.dataset.component;
+        },
+        changeAgentType(e) {
+            this.currentDlType = e.target.dataset.type;
+        }
+    },
+    mounted() {
+        let self = this;
+        this.userLoadState = 'loading';
+   
+         _get('/getuserinfo','include').then((r) => {
+            if (r.ret === 1) {
+                console.log(r.info);
+                this.userCon = r.info.user;
+                if (r.info.ann) {
+                    this.ann = r.info.ann;
+                }
+                this.baseUrl = r.info.baseUrl;
+                this.subUrl = r.info.subUrl;
+                this.ssrSubToken = r.info.ssrSubToken;
+                this.mergeSub = r.info.mergeSub;
+                this.tipsLink[0].content = this.userCon.port;
+                this.tipsLink[1].content = this.userCon.passwd;
+                this.tipsLink[2].content = this.userCon.method;
+                this.tipsLink[3].content = this.userCon.protocol;
+                this.tipsLink[4].content = this.userCon.obfs;
+                this.tipsLink[5].content = this.userCon.obfs_param;
+                console.log(this.userCon);
+            }
+        }).then((r)=>{
+            setTimeout(()=>{
+                self.userLoadState = 'loaded';
+            },1000)
+        });
     },
     beforeRouteLeave (to, from, next) {
         if (to.matched.some(function(record) {
@@ -919,6 +1498,9 @@ const vueRoutes = [
         path: '/',
         components: {
             default: Root,
+        },
+        meta: {
+            title: 'Index',
         }
     },
     {
@@ -926,16 +1508,22 @@ const vueRoutes = [
         component: Auth,
         redirect: '/auth/login',
         meta: {
-            alreadyAuth: true
+            alreadyAuth: true,
         },
         children: [
             {
-                path: 'login',
+                path: 'Login',
                 component: Login,
+                meta: {
+                    title: 'login',
+                }
             },
             {
                 path: 'register',
                 component: Register,
+                meta: {
+                    title: 'Register',
+                }
             },
         ],
     },
@@ -950,6 +1538,9 @@ const vueRoutes = [
             {
                 path: 'reset',
                 component: Reset,
+                meta: {
+                    title: 'Reset',
+                }
             },
         ],
     },
@@ -964,6 +1555,9 @@ const vueRoutes = [
             {
                 path: 'panel',
                 component: Panel,
+                meta: {
+                    title: 'Usercenter',
+                }
             }
         ]
     }
@@ -975,10 +1569,9 @@ const Router = new VueRouter({
 
 Router.beforeEach((to,from,next)=>{
     if (!globalConfig) {
-        axios.get('/globalconfig')
-        .then((r)=>{
-            if (r.data.ret == 1) {
-                    globalConfig = r.data.globalConfig;
+        _get('/globalconfig').then((r)=>{
+            if (r.ret == 1) {
+                    globalConfig = r.globalConfig;
                     if (globalConfig.geetest_html && globalConfig.geetest_html.success) {
                         globalConfig.isGetestSuccess = '1';
                         tmp.commit('SET_GLOBALCONFIG',globalConfig);
@@ -1004,6 +1597,7 @@ Router.beforeEach((to,from,next)=>{
         })) {
             next('/auth/login');
         } else {
+            document.title = tmp.state.globalConfig.indexMsg.appname + ' - ' + to.meta.title;
             next();
         }
     }
@@ -1051,6 +1645,42 @@ Vue.component('uim-checkbox',{
     },
 })
 
+Vue.component('uim-dropdown',{
+    delimiters: ['$[',']$'],
+    template: /*html*/ `
+    <div class="uim-dropdown">
+        <button @click.stop="show" class="uim-dropdown-btn"><slot name="dpbtn-content"></slot></button>
+        <transition name="dropdown-fade" mode="out-in">
+        <div v-show="isDropdown" @click.stop="hide" class="uim-dropdown-menu"><slot name="dp-menu"></slot></div>
+        </transition>
+    </div>
+    `,
+    data: function() {
+        return {
+            isDropdown: false,
+        }
+    },
+    methods: {
+        show() {
+            if (this.isDropdown === false) {
+                this.isDropdown = true;
+            } else {
+                this.isDropdown = false;
+            }
+        },
+        hide() {
+            if (this.isDropdown === true) {
+                this.isDropdown = false;
+            } 
+        }
+    },
+    mounted() {
+        document.addEventListener('click',()=>{
+            this.hide();
+        })
+    }
+})
+
 const indexPage = new Vue({
     router: Router,
     el: '#index',
@@ -1086,21 +1716,20 @@ const indexPage = new Vue({
         }
     },
     beforeMount() {
-        axios.get('https://api.lwl12.com/hitokoto/v1')
-        .then((r)=>{
-            tmp.commit('SET_HITOKOTO',r.data);
-        })
-        axios.get('https://v2.jinrishici.com/one.json',{
-            withCredentials: true,
+        fetch('https://api.lwl12.com/hitokoto/v1').then((r)=>{
+            return r.text();
         }).then((r)=>{
-            tmp.commit('SET_JINRISHICI',r.data.data.content);
+            tmp.commit('SET_HITOKOTO',r);            
+        })
+        _get('https://v2.jinrishici.com/one.json','include').then((r) => {
+            tmp.commit('SET_JINRISHICI',r.data.content);
         })
     },
     mounted() {
         this.routeJudge();
         setTimeout(()=>{
             tmp.commit('SET_LOADSTATE');
-        },1000)
+        },1000);
     },
     
 });

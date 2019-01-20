@@ -228,9 +228,9 @@
 														<p> <span class="icon icon-lg text-white">filter_3</span> 然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
 														<p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：点击复制<a class="copy-text btn-dl" data-clipboard-text="{$ssr_url_all}"><i class="material-icons icon-sm">how_to_vote</i>普通端口链接</a>或者<a class="copy-text btn-dl" data-clipboard-text="{$ssr_url_all_mu}"><i class="material-icons icon-sm">how_to_vote</i>单端口多用户链接</a>，然后右键小飞机->从剪贴板复制地址</p>
 
-														<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
-														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=0">点击复制</button><br></div>
-														{if !$mergeSub}
+														<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=0" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=0">点击复制</button><br></div>
+														{if $mergeSub!='true'}
 														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
@@ -243,9 +243,9 @@
 															<p><span class="icon icon-lg text-white">filter_3</span >更新订阅成功后服务器列表即可出现节点，选择一个节点</p>
                                                     		<p><span class="icon icon-lg text-white">filter_4</span> 再次右击托盘纸飞机图标，如果shadowsocks还未打开，则需要点击打开</p>
 
-															<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
-															<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
-															{if !$mergeSub}
+															<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
+															<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">点击复制</button><br></div>
+															{if $mergeSub!='true'}
 															<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
 															<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 															{/if}
@@ -275,10 +275,10 @@
 													{/if}
 													<p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a class="btn-dl" href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i class="material-icons">save_alt</i> 点击安装 Potatso Lite</a> 或在非国区AppStore中搜索<code>Shadowrocket</code>下载安装 </p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso Lite，点击添加代理，点击右上角的 + 号，选择“订阅”，名字任意填写，开启自动更新，URL填写以下地址并保存即可</p>
-														<p>如果使用shadowrocket,打开 Shadowrocket，点击右上角的 + 号，类型选择“Subscribe”，URL填写以下地址并点击右上角完成即可。或使用<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub0"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键{if !$mergeSub}普通{/if}端口订阅</a> {if !$mergeSub}<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub1"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键单端口订阅</a>{/if}</p>
-														<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
-														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" id="sub0" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
-														{if !$mergeSub}
+														<p>如果使用shadowrocket,打开 Shadowrocket，点击右上角的 + 号，类型选择“Subscribe”，URL填写以下地址并点击右上角完成即可。或使用<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub0"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键{if $mergeSub!='true'}普通{/if}端口订阅</a> {if $mergeSub!='true'}<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub1"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键单端口订阅</a>{/if}</p>
+														<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" id="sub0" readonly value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">点击复制</button><br></div>
+														{if $mergeSub!='true'}
 														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" id="sub1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
@@ -295,9 +295,9 @@
                                                         <p><span class="icon icon-lg text-white">filter_8</span> 点击右上角的纸飞机图标即可连接</p>
 														<p><span class="icon icon-lg text-white">filter_9</span> 备用导入节点方法：在手机上默认浏览器中点击<a href="{$ssr_url_all}" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>普通端口链接</a>或者<a href="{$ssr_url_all_mu}" class="btn-dl"><i class="material-icons icon-sm">how_to_vote</i>单端口多用户链接</a>，然后点击确定</p>
 
-														<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
-														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
-														{if !$mergeSub}
+														<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">点击复制</button><br></div>
+														{if $mergeSub!='true'}
 														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
@@ -315,9 +315,9 @@
                                                       <p><span class="icon icon-lg text-white">filter_1</span> 进入路由器管理页面->扩展功能->Shadowsocks</p>
                                                         <p><span class="icon icon-lg text-white">filter_2</span> 将下方的订阅地址填入“ssr服务器订阅”，点击“更新”</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 选择需要的节点（右方勾选）->应用主SS->打开上方的开关</p>
-														<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
-														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
-														{if !$mergeSub}
+														<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">点击复制</button><br></div>
+														{if $mergeSub!='true'}
 														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
@@ -329,9 +329,9 @@
                                                        <p><span class="icon icon-lg text-white">filter_4</span> 齿轮图标-SSR订阅-SSR订阅管理添加以下订阅链接即可</p>
                                                        <p><span class="icon icon-lg text-white">filter_5</span> 更新后选择其中一个节点闪电图标测试节点-测试UDP转发...通过!（UDP通过即可连接并开始游戏），如测试不通过，点击齿轮图标设置DNS，推荐谷歌DNS</p>
 
-														<div><span class="icon icon-lg text-white">flash_auto</span> {if !$mergeSub}普通节点{/if}订阅地址：</div>
-														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if !$mergeSub}?mu=0{/if}">点击复制</button><br></div>
-														{if !$mergeSub}
+														<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">点击复制</button><br></div>
+														{if $mergeSub!='true'}
 														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
 														{/if}
@@ -717,6 +717,12 @@
 <script>
 ;(function(){
 	'use strict'
+
+fetch('/getuserinfo').then((r)=>{
+	return r.json();
+}).then((r)=>{
+	console.log(r);
+})
 
 	let onekeysubBTN = document.querySelectorAll('[data-onekeyfor]');
 	for (let i=0;i<onekeysubBTN.length;i++) {
