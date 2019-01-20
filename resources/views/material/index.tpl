@@ -147,13 +147,14 @@
  * @param {string} method
  * @returns {function} - A Promise Object
  */*}
-const _request = (url, body, method) => 
+const _request = (url, body, method,credentials) => 
     fetch(url, {
         method: method,
         body: body,
         headers: {
             'content-type': 'application/json'
-        }
+        },
+        credentials: credentials,
     }).then(resp => {
         return Promise.all([resp.ok, resp.status, resp.json()]);
     }).then(([ok, status, json]) => {
@@ -205,7 +206,7 @@ const _get = (url,credentials) =>
  * _post('https://example.com', JSON.stringify(data)).then(resp => { console.log(resp) })
  */*}
 
-const _post = (url, body) => _request(url, body, 'POST');
+const _post = (url, body, credentials) => _request(url, body, 'POST', credentials);
 
 let validate,captcha;
 
@@ -290,7 +291,7 @@ const tmp = new Vuex.Store({
             commit('ISSHOW_MSGR',true);
             window.setTimeout(function() {
                 commit('ISSHOW_MSGR',false);
-            },1000)
+            },config.time)
         }
     }
 });
@@ -318,7 +319,7 @@ var storeAuth = {
             if (this.globalConfig.captchaProvider === 'geetest') {
                 this.$nextTick(function(){
 
-                _get('/auth/login_getCaptcha')
+                _get('/auth/login_getCaptcha','include')
                     .then((r) => {
                         let GeConfig = {
                             gt: r.GtSdk.gt,
@@ -531,6 +532,7 @@ const Login = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
 
             if (this.globalConfig.enableLoginCaptcha !== 'false') {
@@ -550,7 +552,7 @@ const Login = {
                 }
             }
 
-            _post('/auth/login', JSON.stringify(ajaxCon)).then((r) => {
+            _post('/auth/login', JSON.stringify(ajaxCon),'include').then((r) => {
                 if (r.ret === 1) {
                     callConfig.msg += '登录成功Kira~';
                     callConfig.icon += 'fa-check-square-o';
@@ -594,18 +596,19 @@ const Login = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
             _post('/auth/qrcode_check', JSON.stringify({
                 token: this.globalConfig.login_token,
                 number: this.globalConfig.login_number,
-            })).then((r) => {
+            }),'include').then((r) => {
                 if(r.ret > 0) {
                     clearTimeout(tid);
                     
                     _post('/auth/qrcode_login',JSON.stringify({
                         token: this.globalConfig.login_token,
                         number: this.globalConfig.login_number,
-                    })).then(r=>{
+                    }),'include').then(r=>{
                         if (r.ret) {
                             callConfig.msg += '登录成功Kira~';
                             callConfig.icon += 'fa-check-square-o';
@@ -742,6 +745,7 @@ const Register = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
 
             if (this.globalConfig.isEmailVeryify === 'true') {
@@ -772,7 +776,7 @@ const Register = {
                 }
             }
 
-            _post('/auth/register', JSON.stringify(ajaxCon)).then((r)=>{
+            _post('/auth/register', JSON.stringify(ajaxCon),'omit').then((r)=>{
                 if (r.ret == 1) {
                     callConfig.msg += '注册成功meow~';
                     callConfig.icon += 'fa-check-square-o';
@@ -846,17 +850,19 @@ const Register = {
                     email: this.email,
                 }
 
-            _post('auth/send', JSON.stringify(ajaxCon)).then((r)=>{
+            _post('auth/send', JSON.stringify(ajaxCon),'omit').then((r)=>{
                 if (r.ret) {
                     let callConfig = {
                             msg: 'biu~邮件发送成功',
                             icon: 'fa-check-square-o',
+                            time: 1000,
                         };
                     tmp.dispatch('CALL_MSGR',callConfig);
                 } else {
                     let callConfig = {
                             msg: 'emm……邮件发送失败',
                             icon: 'fa-times-circle-o',
+                            time: 1000,
                         };
                     tmp.dispatch('CALL_MSGR',callConfig);
                 }
@@ -933,11 +939,12 @@ const Reset = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
 
             _post('/password/reset', JSON.stringify({
                 email: this.email,
-            })).then(r => {
+            }),'omit').then(r => {
                 if (r.ret == 1) {
                     callConfig.msg += '邮件发送成功kira~';
                     callConfig.icon += 'fa-check-square-o';
@@ -969,6 +976,7 @@ const User = {
 };
 
 const userMixin = {
+    delimiters: ['$[',']$'],
     props: ['annC','thisuser','baseURL'],
 }
 
@@ -985,7 +993,6 @@ const UserAnnouncement = {
 };
 
 const UserInvite = {
-    delimiters: ['$[',']$'],
     mixins: [userMixin],
     template: /*html*/ `
     <div>
@@ -1014,24 +1021,103 @@ const UserInvite = {
         }
     },
     mounted() {
-        _get('getuserinviteinfo').then((r)=>{
+        _get('getuserinviteinfo','include').then((r)=>{
             console.log(r);
             this.code = r.inviteInfo.code.code;
             console.log(this.thisuser);
-        })
+        });
     }
 };
 
 const UserShop = {
     mixins: [userMixin],
     template: /*html*/ `
-    <div >
-        <div class="card-title">套餐购买</div>
+    <div>
+        <div class="pure-g">
+            <div class="pure-u-20-24 flex align-center">
+                <div class="card-title">套餐购买</div>
+                <transition name="fade" mode="out-in">
+                <label v-if="isCheckerShow" class="relative" for="">
+                    <input class="coupon-checker tips tips-blue" v-model="coupon" type="text" placeholder="优惠码">
+                    <button @click="couponCheck" class="btn-forinput" name="check"><span class="fa fa-arrow-up"></span></button>                       
+                    <button @click="hideChecker" class="btn-forinput" name="reset"><span class="fa fa-refresh"></span></button>                       
+                </label>
+                </transition>
+            </div>
+        </div>
         <div class="card-body">
-            <div class="shop"></div>
+            <div class="user-shop">
+                <div v-for="shop in shops" class="list-shop pure-g" :key="shop.id">
+                    <div class="pure-u-20-24">
+                        <span>$[shop.name]$</span>
+                        <span class="tips tips-gold">VIP $[shop.details.class]$</span>
+                        <span class="tips tips-green">￥$[shop.price]$</span>
+                        <span class="tips tips-cyan">$[shop.details.bandwidth]$G<span v-if="shop.details.reset !== '0'">+$[shop.details.reset_value]$G/($[shop.details.reset]$天/$[shop.details.reset_exp]$天)</span></span>
+                        <span class="tips tips-blue">$[shop.details.class_expire]$天</span>
+                    </div>
+                    <div class="pure-u-4-24 text-right"><button :disabled="isDisabled" class="buy-submit" @click="buy(shop.id,shop.auto_renew)">购买</button></div>
+                </div>
+            </div>
         </div>
     </div>
     `,
+    data: function() {
+        return {
+            shops: '',
+            isDisabled: false,
+            coupon: '',
+            isCheckerShow: false,
+            ajaxBody: {
+                shop: '',
+                autorenew: '',
+            },
+        }
+    },
+    methods: {
+        buy(id,autoRenew) {
+            this.isDisabled = true;
+            this.isCheckerShow = true;
+            let callConfig = {
+                msg: '请输入优惠码，如没有请直接确认',
+                icon: 'fa-bell',
+                time: 3000,
+            };
+            tmp.dispatch('CALL_MSGR',callConfig);
+            id = (id).toString();
+            Vue.set(this.ajaxBody,'shop',id);
+            Vue.set(this.ajaxBody,'autorenew',autoRenew);
+        },
+        couponCheck() {
+            let ajaxCon = {
+                coupon: this.coupon,
+                shop: this.ajaxBody.shop,
+            };
+            _post('/user/coupon_check',JSON.stringify(ajaxCon),'include').then((r)=>{
+                if (r.ret) {
+                    console.log(r);
+                    this.isCheckerShow = false;
+                } else {
+                    console.log(r);
+                }
+            });
+        },
+        orderCheck() {
+
+        },
+        hideChecker() {
+            this.isCheckerShow = false;
+            this.isDisabled = false;
+        },
+    },
+    mounted() {
+        _get('/getusershops','include').then((r)=>{
+            this.shops = r.arr.shops;
+            this.shops.forEach((el,index)=>{
+                Vue.set(this.shops[index],'details',JSON.parse(el.content))
+            });
+            console.log(this.shops);
+        });
+    },
 };
 
 const UserGuide = {
@@ -1433,8 +1519,9 @@ const Panel = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
-            _get('/logout').then((r)=>{
+            _get('/logout','include').then((r)=>{
                 if (r.ret === 1) {
                     callConfig.msg += '账户成功登出Kira~';
                     callConfig.icon += 'fa-check-square-o';
@@ -1569,7 +1656,7 @@ const Router = new VueRouter({
 
 Router.beforeEach((to,from,next)=>{
     if (!globalConfig) {
-        _get('/globalconfig').then((r)=>{
+        _get('/globalconfig','include').then((r)=>{
             if (r.ret == 1) {
                     globalConfig = r.globalConfig;
                     if (globalConfig.geetest_html && globalConfig.geetest_html.success) {
