@@ -12,6 +12,7 @@
     <link rel="bookmark" href="/favicon.ico"/>
     <link rel="stylesheet" href="/theme/material/css/index_base.css">
     <link rel="stylesheet" href="/theme/material/css/index.css">
+    <script src="/assets/js/fuck.js"></script>
     {if $config["enable_crisp"] == 'true'}
     <literal><script type="text/javascript"> 
     window.$crisp=[];

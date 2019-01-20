@@ -17,6 +17,7 @@
         <link rel="bookmark" href="/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 	<link rel="stylesheet" href="/assets/css/main.css"/>
+        <script src="/assets/js/fuck.js"></script>
         <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
 	<link href="//unpkg.com/nprogress@0.2.0/nprogress.css" rel="stylesheet" />
     <script src="//unpkg.com/nprogress@0.2.0/nprogress.js"></script>
