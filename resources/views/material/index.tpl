@@ -532,6 +532,7 @@ const Login = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
 
             if (this.globalConfig.enableLoginCaptcha !== 'false') {
@@ -555,7 +556,6 @@ const Login = {
                 if (r.ret === 1) {
                     callConfig.msg += '登录成功Kira~';
                     callConfig.icon += 'fa-check-square-o';
-                    callConfig.time += 1000;
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(() => {
                         tmp.commit('SET_LOGINTOKEN',1);
@@ -564,7 +564,6 @@ const Login = {
                 } else {
                     callConfig.msg += '登录失败Boommm';
                     callConfig.icon += 'fa-times-circle-o';
-                    callConfig.time += 1000;
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
                         this.isDisabled = false;
@@ -597,6 +596,7 @@ const Login = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
             _post('/auth/qrcode_check', JSON.stringify({
                 token: this.globalConfig.login_token,
@@ -612,7 +612,6 @@ const Login = {
                         if (r.ret) {
                             callConfig.msg += '登录成功Kira~';
                             callConfig.icon += 'fa-check-square-o';
-                            callConfig.time += 1000;
                             tmp.dispatch('CALL_MSGR',callConfig);
                             window.setTimeout(()=>{
                                 tmp.commit('SET_LOGINTOKEN',1);
@@ -746,6 +745,7 @@ const Register = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
 
             if (this.globalConfig.isEmailVeryify === 'true') {
@@ -780,7 +780,6 @@ const Register = {
                 if (r.ret == 1) {
                     callConfig.msg += '注册成功meow~';
                     callConfig.icon += 'fa-check-square-o';
-                    callConfig.time += 1000;
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
                         this.$router.replace('/auth/login');
@@ -788,7 +787,6 @@ const Register = {
                 } else {
                     callConfig.msg += 'WTF……注册失败';
                     callConfig.icon += 'fa-times-circle-o';
-                    callConfig.time += 1000;
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
                         this.isDisabled = false;
@@ -941,6 +939,7 @@ const Reset = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
 
             _post('/password/reset', JSON.stringify({
@@ -949,7 +948,6 @@ const Reset = {
                 if (r.ret == 1) {
                     callConfig.msg += '邮件发送成功kira~';
                     callConfig.icon += 'fa-check-square-o';
-                    callConfig.time += 1000;
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(() => {
                         this.$router.push('/auth/login');
@@ -957,7 +955,6 @@ const Reset = {
                 } else {
                     callConfig.msg += 'WTF……邮件发送失败，请检查邮箱地址';
                     callConfig.icon += 'fa-times-circle-o';
-                    callConfig.time += 1000;
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(()=>{
                         this.isDisabled = false;
@@ -1522,12 +1519,12 @@ const Panel = {
             let callConfig = {
                 msg: '',
                 icon: '',
+                time: 1000,
             };
             _get('/logout','include').then((r)=>{
                 if (r.ret === 1) {
                     callConfig.msg += '账户成功登出Kira~';
                     callConfig.icon += 'fa-check-square-o';
-                    callConfig.time += 1000;
                     tmp.dispatch('CALL_MSGR',callConfig);
                     window.setTimeout(() => {
                         tmp.commit('SET_LOGINTOKEN',0);
