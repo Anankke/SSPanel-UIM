@@ -205,6 +205,7 @@ class URL
         $new_user->protocol = str_replace("_compatible", "", $new_user->protocol);
         return $new_user;
     }
+
     public static function getAllItems($user, $is_mu = 0, $is_ss = 0) {
         $return_array = array();
         if ($user->is_admin) {
@@ -302,22 +303,24 @@ class URL
         }
         return $return_array;
     }
-    public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
+    public static function getAllUrl($user, $is_mu, $is_ss = 0) {
         $return_url = '';
-        $return_url .= URL::getUserTraffic($user, $is_mu).($enter == 0 ? ' ' : "\n");
-        $return_url .= URL::getUserClassExpiration($user, $is_mu).($enter == 0 ? ' ' : "\n");
+		if(!$is_ss){
+			$return_url .= URL::getUserTraffic($user, $is_mu).PHP_EOL;
+			$return_url .= URL::getUserClassExpiration($user, $is_mu).PHP_EOL;
+		}
         if(strtotime($user->expire_in)<time()){
 			return $return_url;
 		}
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
+            $return_url .= URL::getItemUrl($item, $is_ss).PHP_EOL;
         }
-        if(Config::get('mergeSub') and in_array($is_mu, array(0, 1))){
+        if(Config::get('mergeSub')=='true' and in_array($is_mu, array(0, 1))){
             $is_mu = $is_mu==0?1:0;
             $items = URL::getAllItems($user, $is_mu, $is_ss);
             foreach($items as $item) {
-                $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
+                $return_url .= URL::getItemUrl($item, $is_ss).PHP_EOL;
             }
         }
         return $return_url;
@@ -445,7 +448,7 @@ class URL
 					->orwhere('sort', '=', 10);
 			})
 			->where(function ($func) use ($user){
-				$func->where('node_group', '=', $user->group)
+				$func->where('node_group', '=', $user->node_group)
 					->orwhere('node_group', '=', 0);
 			})->orderBy('name')->get();
 		$server_index=1;
@@ -584,7 +587,7 @@ class URL
             $mu_user->obfs_param = $user->getMuMd5();
             $mu_user->protocol_param = $user->id.":".$user->passwd;
             $user = $mu_user;
-            if(!Config::get('mergeSub')){
+            if(Config::get('mergeSub')!='true'){
                 $node_name .= " - ".$mu_port." 单端口";
             }
         }
@@ -609,7 +612,7 @@ class URL
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
         $return_array['group'] = Config::get('appName');
-        if($mu_port != 0 && !Config::get('mergeSub')) {
+        if($mu_port != 0 && Config::get('mergeSub')!='true') {
             $return_array['group'] .= ' - 单端口';
         }
         return $return_array;
@@ -621,11 +624,17 @@ class URL
 
 	public static function getUserTraffic($user, $is_mu = 0){
         $group_name = Config::get('appName');
-		if(!Config::get('mergeSub') and $is_mu == 1){
+		if(Config::get('mergeSub')!='true' and $is_mu == 1){
 			$group_name .= ' - 单端口';
 		}
 		if(strtotime($user->expire_in)>time()){
-			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode($group_name);
+			if($user->transfer_enable==0){
+				$percent='0.00%';
+			}
+			else{
+				$percent=number_format(($user->transfer_enable-$user->u-$user->d)/$user->transfer_enable*100,2).'%';
+			}
+			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode('剩余流量：'.$percent.' '.$user->unusedTraffic())."&group=".Tools::base64_url_encode($group_name);
 		}else{
 			$ssurl = "www.google.com:1:auth_chain_a:chacha20:tls1.2_ticket_auth:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("账户已过期，请续费后使用")."&group=".Tools::base64_url_encode($group_name);
 		}
@@ -634,7 +643,7 @@ class URL
 
     public static function getUserClassExpiration($user, $is_mu = 0){
         $group_name = Config::get('appName');
-		if(!Config::get('mergeSub') and $is_mu == 1){
+		if(Config::get('mergeSub')!='true' and $is_mu == 1){
 			$group_name .= ' - 单端口';
 		}
 		if(strtotime($user->expire_in)>time()){

@@ -48,7 +48,9 @@ class Config
             "enable_flag" => self::get("enable_flag"),
             "enable_kill" => self::get("enable_kill"),
             "custom_invite_price" => self::get("custom_invite_price"),
-            "telegram_grouplink" => self::get("telegram_grouplink")
+            "telegram_grouplink" => self::get("telegram_grouplink"),
+            "captcha_provider" => self::get("captcha_provider"),
+            "enable_email_verify" => self::get("enable_email_verify"),
          ];
     }
 

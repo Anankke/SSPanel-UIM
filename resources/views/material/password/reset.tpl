@@ -89,7 +89,7 @@
                     if(data.ret == 1){
                         $("#result").modal();
                         $("#msg").html(data.msg);
-                       // window.setTimeout("location.href='/auth/login'", 2000);
+                       window.setTimeout("location.href='/auth/login'", 2000);
                     }else{
                         $("#result").modal();
                         $("#msg").html(data.msg);

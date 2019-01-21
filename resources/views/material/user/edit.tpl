@@ -116,8 +116,10 @@
 										{if $user->im_type==4}
 										Telegram
 										{/if}
-										{$user->im_value}
 										</code>
+										</p>
+										<p>当前联络方式账号：
+										<code>{$user->im_value}</code>
 										</p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="imtype">选择您的联络方式</label>
@@ -350,7 +352,7 @@
 										<p>价格：<code>{$config['port_price_specify']}</code>元/次</p>
 										<p>端口范围：<code>{$config['min_port']}～{$config['max_port']}</code></p>
 										<div class="form-group form-group-label">
-											<label class="floating-label" for="port-specify">在这输入想钦定的号</label>
+											<label class="floating-label" for="port-specify">在这输入想钦定的端口号</label>
 											<input class="form-control maxwidth-edit" id="port-specify" type="num">
 										</div>
 									</div>
@@ -360,28 +362,6 @@
 							</div>
 						</div>
 						{/if}
-
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-										<div class="cardbtn-edit">
-												<div class="card-heading">自定义规则</div>
-												<button class="btn btn-flat" id="setpac"><span class="icon">settings</span>&nbsp;</button>
-										</div>
-										<p>适用于ACL/PAC/Surge</p>
-										<p>格式参看<a href="https://adblockplus.org/zh_CN/filters">撰写 Adblock Plus 过滤规则</a></p>
-										<p>IP 段请使用 |127.0.0.0/8 类似格式表示</p>
-										<div class="form-group form-group-label control-highlight-custom">
-											<label class="floating-label" for="pac">规则书写区</label>
-											<code contenteditable="true" class="form-control maxwidth-edit" id="pac">{$user->pac}</code>
-										</div>
-
-									</div>
-					
-								</div>
-							</div>
-						</div>
 
 						{if $config['enable_telegram'] == 'true'}
 						<div class="card margin-bottom-no">

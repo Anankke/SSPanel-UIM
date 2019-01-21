@@ -61,9 +61,6 @@ class UserController extends BaseController
     {
 
         $user = $this->user;
-        $acl_token = LinkController::GenerateAclCode("smart", 0, $this->user->id, 0, "smart");
-        $router_token = LinkController::GenerateRouterCode($this->user->id, 0);
-        $router_token_without_mu = LinkController::GenerateRouterCode($this->user->id, 1);
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
         $GtSdk = null;
@@ -86,9 +83,6 @@ class UserController extends BaseController
 
         return $this->view()
             ->assign('ssr_sub_token', $ssr_sub_token)
-            ->assign('router_token', $router_token)
-            ->assign('router_token_without_mu', $router_token_without_mu)
-            ->assign('acl_token', $acl_token)
             ->assign('display_ios_class',Config::get('display_ios_class'))
             ->assign('ios_account',Config::get('ios_account'))
             ->assign('ios_password',Config::get('ios_password'))
@@ -323,7 +317,7 @@ class UserController extends BaseController
 
         if ($code == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "二维码不能为空";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -347,10 +341,9 @@ class UserController extends BaseController
         $enable = $request->getParam('enable');
         $user = $this->user;
 
-
         if ($enable == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "选项无效";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -734,17 +727,6 @@ class UserController extends BaseController
         }
     }
 
-    public function GetPcConf($request, $response, $args)
-    {
-        $is_mu = $request->getQueryParams()["is_mu"];
-        $is_ss = $request->getQueryParams()["is_ss"];
-
-        $newResponse = $response->withHeader('Content-type', ' application/octet-stream')->withHeader('Content-Disposition', ' attachment; filename=gui-config.json');//->getBody()->write($builder->output());
-        $newResponse->getBody()->write(LinkController::GetPcConf($this->user, $is_mu, $is_ss));
-
-        return $newResponse;
-    }
-
     public function GetIosConf($request, $response, $args)
     {
         $newResponse = $response->withHeader('Content-type', ' application/octet-stream')->withHeader('Content-Disposition', ' attachment; filename=allinone.conf');//->getBody()->write($builder->output());
@@ -831,6 +813,11 @@ class UserController extends BaseController
 
 
         return $this->view()->assign("anns", $Anns)->display('user/announcement.tpl');
+    }
+
+    public function tutorial($request, $response, $args)
+    {
+        return $this->view()->display('user/tutorial.tpl');
     }
 
 
@@ -1255,7 +1242,7 @@ class UserController extends BaseController
         foreach ($adminUser as $user) {
             $subject = Config::get('appName') . "-新工单被开启";
             $to = $user->email;
-            $text = "管理员您好，有人开启了新的工单，请您及时处理。";
+            $text = "管理员，有人开启了新的工单，请您及时处理。";
             try {
                 Mail::send($to, $subject, 'news/warn.tpl', [
                     "user" => $user, "text" => $text
@@ -1301,7 +1288,7 @@ class UserController extends BaseController
             foreach ($adminUser as $user) {
                 $subject = Config::get('appName') . "-工单被重新开启";
                 $to = $user->email;
-                $text = "管理员您好，有人重新开启了<a href=\"" . Config::get('baseUrl') . "/admin/ticket/" . $ticket_main->id . "/view\">工单</a>，请您及时处理。";
+                $text = "管理员，有人重新开启了<a href=\"" . Config::get('baseUrl') . "/admin/ticket/" . $ticket_main->id . "/view\">工单</a>，请您及时处理。";
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         "user" => $user, "text" => $text
@@ -1316,7 +1303,7 @@ class UserController extends BaseController
             foreach ($adminUser as $user) {
                 $subject = Config::get('appName') . "-工单被回复";
                 $to = $user->email;
-                $text = "管理员您好，有人回复了<a href=\"" . Config::get('baseUrl') . "/admin/ticket/" . $ticket_main->id . "/view\">工单</a>，请您及时处理。";
+                $text = "管理员，有人回复了<a href=\"" . Config::get('baseUrl') . "/admin/ticket/" . $ticket_main->id . "/view\">工单</a>，请您及时处理。";
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         "user" => $user, "text" => $text
@@ -1425,13 +1412,13 @@ class UserController extends BaseController
 
         if (!Tools::is_param_validate('obfs', $obfs)) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "混淆无效";
             return $response->getBody()->write(json_encode($res));
         }
 
         if (!Tools::is_param_validate('protocol', $protocol)) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "协议无效";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1443,7 +1430,7 @@ class UserController extends BaseController
 
         if (!Tools::checkNoneProtocol($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "您好，系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议<br>" . implode(',', Config::getSupportParam('allow_none_protocol')) . '<br>之内，请您先修改您的加密方式，再来修改此处设置。';
+            $res['msg'] = "系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议<br>" . implode(',', Config::getSupportParam('allow_none_protocol')) . '<br>之内，请您先修改您的加密方式，再来修改此处设置。';
             return $this->echoJson($response, $res);
         }
 
@@ -1502,7 +1489,7 @@ class UserController extends BaseController
 
         if (!($mail == "1" || $mail == "0")) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "非法输入";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1523,7 +1510,7 @@ class UserController extends BaseController
 
         if ($pac == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "输入不能为空";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1545,13 +1532,13 @@ class UserController extends BaseController
 
         if ($pwd == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "密码不能为空";
             return $response->getBody()->write(json_encode($res));
         }
 
         if (!Tools::is_validate($pwd)) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "密码无效";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1573,13 +1560,13 @@ class UserController extends BaseController
 
         if ($method == "") {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "非法输入";
             return $response->getBody()->write(json_encode($res));
         }
 
         if (!Tools::is_param_validate('method', $method)) {
             $res['ret'] = 0;
-            $res['msg'] = "悟空别闹";
+            $res['msg'] = "加密无效";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1587,7 +1574,7 @@ class UserController extends BaseController
 
         if (!Tools::checkNoneProtocol($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "您好，系统检测到您将要设置的加密方式为 none ，但您的协议并不在以下协议<br>" . implode(',', Config::getSupportParam('allow_none_protocol')) . '<br>之内，请您先修改您的协议，再来修改此处设置。';
+            $res['msg'] = "系统检测到您将要设置的加密方式为 none ，但您的协议并不在以下协议<br>" . implode(',', Config::getSupportParam('allow_none_protocol')) . '<br>之内，请您先修改您的协议，再来修改此处设置。';
             return $this->echoJson($response, $res);
         }
 
@@ -1619,7 +1606,7 @@ class UserController extends BaseController
     public function logout($request, $response, $args)
     {
         Auth::logout();
-        $newResponse = $response->withStatus(302)->withHeader('Location', '/auth/login');
+        $newResponse = $response->withStatus(302)->withHeader('Location', '/');
         return $newResponse;
     }
 
