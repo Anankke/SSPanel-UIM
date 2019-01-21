@@ -53,6 +53,10 @@ a {
     text-align: right;
 }
 
+.text-red {
+    color: #D1335B;
+}
+
 .margin-nobottom {
     margin-bottom: 0 !important;
 }
@@ -230,7 +234,8 @@ button.btn-user.index-btn-active {
 input.checkbox,
 .buy-submit,
 .font-light,
-.list-shop {
+.list-shop,
+.user-config {
     transition: all .3s;
 }
 
@@ -285,10 +290,12 @@ input.checkbox,
     border-color: #d6d6d6;
 }
 
-.buy-submit:disabled {
+.buy-submit:disabled,
+button.tips:disabled {
     color: #858585;
     border-color: #858585;
     cursor: not-allowed;
+    background-color: transparent;
 }
 
 .auth,
@@ -534,6 +541,11 @@ select {
     border-color: #faad14;
 }
 
+.tips-gold-trans.tips-gold {
+    color: white;
+    background-color: #faad14;
+}
+
 .tips-green {
     color: #52c41a;
     border-color: #52c41a;
@@ -547,6 +559,10 @@ select {
 .tips-red {
     color: #D1335B;
     border-color: #D1335B;
+}
+
+.font-red-trans {
+    color: #D1335B;
 }
 
 button.tips {
@@ -652,6 +668,14 @@ button.tips {
     width: 100%;
 }
 
+.user-invite-title .uim-tooltip {
+    width: 100%;
+}
+
+.user-invite-title .uim-tooltip button {
+    border: 0;
+}
+
 .list-shop {
     padding: .5rem;
     font-size: 1.2rem;
@@ -727,7 +751,8 @@ button[name=reset] {
     word-break: break-all;
 }
 
-.sublink-reset.tips-blue {
+.sublink-reset.tips-blue,
+.invite-reset.tips-blue {
     background-color: #1997c6;
     color: white;
 }

@@ -887,6 +887,7 @@ class UserController extends BaseController
         $user->invite_num += $num;
         $user->money -= $amount;
         $user->save();
+        $res['invite_num'] = $user->invite_num;
         $res['ret'] = 1;
         $res['msg'] = "邀请次数添加成功";
         return $response->getBody()->write(json_encode($res));
