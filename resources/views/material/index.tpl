@@ -105,6 +105,7 @@
                     <uim-messager v-show="msgrCon.isShow">
                         <i slot="icon" :class="msgrCon.icon"></i>
                         <span slot="msg">$[msgrCon.msg]$</span>
+                        <div v-if="msgrCon.html !== ''" slot="html" v-html="msgrCon.html"></div>
                     </uim-messager>
                 </transition>
 
@@ -213,6 +214,23 @@ let validate,captcha;
 
 let globalConfig;
 
+const UserTmp = {
+    state: {
+        userCon: '',
+    },
+    mutations: {
+        SET_USERCON (state,config) {
+            state.userCon = config;
+        },
+        SET_USERMONEY (state,number) {
+            state.userCon.money = number;
+        }
+    },
+    actions: {
+
+    },
+}
+
 const tmp = new Vuex.Store({
     state: {
         isLoading: 'loading',
@@ -220,6 +238,7 @@ const tmp = new Vuex.Store({
         logintoken: false,
         msgrCon: {
             msg: '操作成功',
+            html: '',
             icon: ['fa','fa-check-square-o'],
             isShow: false,
         },
@@ -262,6 +281,7 @@ const tmp = new Vuex.Store({
         SET_MSGRCON (state,config) {
             state.msgrCon.msg = config.msg;
             state.msgrCon.icon[1] = config.icon;
+            state.msgrCon.html = config.html;
         },
         ISSHOW_MSGR (state,boolean) {
             state.msgrCon.isShow = boolean;
@@ -299,12 +319,19 @@ const tmp = new Vuex.Store({
         },
     },
     actions: {
-        CALL_MSGR ({ commit,state },config) {
-            commit('SET_MSGRCON',config);
-            commit('ISSHOW_MSGR',true);
-            window.setTimeout(function() {
+        CALL_MSGR ({ dispatch,commit,state },config) {
+            if (state.msgrCon.isShow === true) {
                 commit('ISSHOW_MSGR',false);
-            },config.time)
+                setTimeout(() => {
+                    dispatch('CALL_MSGR',config);                    
+                }, 300);
+            } else {
+                commit('SET_MSGRCON',config);
+                commit('ISSHOW_MSGR',true);
+                window.setTimeout(function() {
+                    commit('ISSHOW_MSGR',false);
+                },config.time)
+            }
         },
         CALL_MODAL ({ commit,state },config) {
             if (state.modalCon.isMaskShow === false) {
@@ -319,6 +346,9 @@ const tmp = new Vuex.Store({
                 }, 300);
             }
         },
+    },
+    modules: {
+        userState: UserTmp,
     }
 });
 
@@ -330,6 +360,7 @@ var storeMap = {
         globalConfig: 'globalConfig',
         logintoken: 'logintoken',
         isLoading: 'isLoading',
+        userCon: state => state.userState.userCon,
     }),
 }
 
@@ -1004,11 +1035,22 @@ const User = {
 
 const userMixin = {
     delimiters: ['$[',']$'],
-    props: ['annC','thisuser','baseURL'],
+    props: ['annC','baseURL'],
+    methods: {
+        resetCredit() {
+            _get('/getcredit','include').then((r)=>{
+                console.log(r.arr);
+                this.updateCredit(r.arr.credit);
+            });
+        },
+        updateCredit(credit) {
+            tmp.commit('SET_USERMONEY',credit);
+        },
+    }
 }
 
 const UserAnnouncement = {
-    mixins: [userMixin],
+    mixins: [userMixin,storeMap],
     template: `
     <div>
         <div class="card-title">公告栏</div>
@@ -1020,18 +1062,18 @@ const UserAnnouncement = {
 };
 
 const UserInvite = {
-    mixins: [userMixin],
+    mixins: [userMixin,storeMap],
     template: /*html*/ `
     <div>
         <div class="card-title">邀请链接</div>
         <div class="card-body">
             <div class="user-invite">
-                <div v-if="thisuser.class !== 0">
+                <div v-if="userCon.class !== 0">
                     <input type="button" class="tips tips-blue" :value="inviteLink">
-                    <h5>邀请链接剩余次数： <span class="invite-number tips tips-gold">$[thisuser.invite_num]$次</span></h5>       
+                    <h5>邀请链接剩余次数： <span class="invite-number tips tips-gold">$[userCon.invite_num]$次</span></h5>       
                 </div>
                 <div v-else>
-                    <h3>$[thisuser.user_name]$，您不是VIP暂时无法使用邀请链接，<slot name='inviteToShop'></slot></h3>
+                    <h3>$[userCon.user_name]$，您不是VIP暂时无法使用邀请链接，<slot name='inviteToShop'></slot></h3>
                 </div>
             </div>
         </div>
@@ -1051,7 +1093,7 @@ const UserInvite = {
         _get('getuserinviteinfo','include').then((r)=>{
             console.log(r);
             this.code = r.inviteInfo.code.code;
-            console.log(this.thisuser);
+            console.log(this.userCon);
         });
     }
 };
@@ -1079,7 +1121,7 @@ const UserShop = {
                         <span>$[shop.name]$</span>
                         <span class="tips tips-gold">VIP $[shop.details.class]$</span>
                         <span class="tips tips-green">￥$[shop.price]$</span>
-                        <span class="tips tips-cyan">$[shop.details.bandwidth]$G<span v-if="shop.details.reset !== '0'">+$[shop.details.reset_value]$G/($[shop.details.reset]$天/$[shop.details.reset_exp]$天)</span></span>
+                        <span class="tips tips-cyan">$[shop.details.bandwidth]$G<span v-if="shop.details.reset">+$[shop.details.reset_value]$G/($[shop.details.reset]$天/$[shop.details.reset_exp]$天)</span></span>
                         <span class="tips tips-blue">$[shop.details.class_expire]$天</span>
                     </div>
                     <div class="pure-u-4-24 text-right"><button :disabled="isDisabled" class="buy-submit" @click="buy(shop)">购买</button></div>
@@ -1095,7 +1137,7 @@ const UserShop = {
                 <div class="order-checker-content">优惠额度：<span>$[orderCheckerContent.credit]$</span></div>
                 <div class="order-checker-content">总金额：<span>$[orderCheckerContent.total]$</span></div>
             </div>
-            <div slot="uim-modal-footer"><uim-switch></uim-switch></div>
+            <div class="flex align-center" slot="uim-modal-footer"><uim-switch @click.native="test" v-model="orderCheckerContent.disableothers"></uim-switch> <span class="switch-text">关闭旧套餐自动续费</span></div>
         </uim-modal>
         </transition>
 
@@ -1117,6 +1159,7 @@ const UserShop = {
                 name: '',
                 credit: '',
                 total: '',
+                disableothers: true,
             },
         }
     },
@@ -1127,7 +1170,7 @@ const UserShop = {
             let callConfig = {
                 msg: '请输入优惠码，如没有请直接确认',
                 icon: 'fa-bell',
-                time: 3000,
+                time: 1500,
             };
             tmp.dispatch('CALL_MSGR',callConfig);
             let id = (shop.id).toString();
@@ -1144,6 +1187,7 @@ const UserShop = {
                 this.isCardShow = false;
                 setTimeout(() => {
                     this.isMaskShow = false
+                    this.hideChecker();
                 }, 300);
             }
         },
@@ -1154,14 +1198,18 @@ const UserShop = {
             };
             _post('/user/coupon_check',JSON.stringify(ajaxCon),'include').then((r)=>{
                 if (r.ret) {
-                    console.log(r);
                     this.isCheckerShow = false;
                     this.orderCheckerContent.name = r.name;
                     this.orderCheckerContent.credit = r.credit;
                     this.orderCheckerContent.total = r.total;
                     this.callOrderChecker();
                 } else {
-                    console.log(r);
+                    let callConfig = {
+                        msg: r.msg,
+                        icon: 'fa-times-circle-o',
+                        time: 1000,
+                    };
+                    tmp.dispatch('CALL_MSGR',callConfig);
                 }
             });
         },
@@ -1173,7 +1221,31 @@ const UserShop = {
                 disableothers: this.disableothers,
             };
             _post('/user/buy',JSON.stringify(ajaxCon),'include').then((r)=>{
-
+                if (r.ret) {
+                    console.log(r);
+                    this.callOrderChecker();
+                    this.resetCredit();
+                } else {
+                    console.log(r);
+                    let self = this;
+                    let animation = new Promise(function(resolve) {
+                        self.callOrderChecker();
+                        setTimeout(() => {
+                            resolve('done');                            
+                        }, 600);
+                    });
+                    let message = r.msg
+                    let subPosition = message.indexOf('</br>');
+                    let callConfig = {
+                        msg: message.substr(0,subPosition),
+                        html: message.substr(subPosition),
+                        icon: 'fa-times-circle-o',
+                        time: 6000,
+                    };
+                    animation.then((r)=>{
+                        tmp.dispatch('CALL_MSGR',callConfig);                        
+                    })
+                }
             });
         },
         hideChecker() {
@@ -1193,7 +1265,7 @@ const UserShop = {
 };
 
 const UserGuide = {
-    mixins: [userMixin],
+    mixins: [userMixin,storeMap],
     template: /*html*/ `
     <div>
         <div class="card-title">配置指南</div>
@@ -1329,7 +1401,7 @@ const Panel = {
                         </div>
                     </div>
                     <transition name="fade" mode="out-in">
-                    <component :is="currentCardComponent" :baseURL="baseUrl" :thisuser="userCon" :annC="ann" class="card margin-nobottom">
+                    <component :is="currentCardComponent" :baseURL="baseUrl" :annC="ann" class="card margin-nobottom">
                         <button @click="componentChange" class="btn-inline" :data-component="menuOptions[3].id" slot="inviteToShop">成为VIP请点击这里</button>
                     </component>
                     </transition>
@@ -1359,7 +1431,6 @@ const Panel = {
     data: function() {
         return {
             userLoadState: 'beforeload',
-            userCon: '',
             ann: {
                 content: '',
                 date: '',
@@ -1619,7 +1690,8 @@ const Panel = {
          _get('/getuserinfo','include').then((r) => {
             if (r.ret === 1) {
                 console.log(r.info);
-                this.userCon = r.info.user;
+                tmp.commit('SET_USERCON',r.info.user);
+                console.log(this.userCon);
                 if (r.info.ann) {
                     this.ann = r.info.ann;
                 }
@@ -1633,7 +1705,6 @@ const Panel = {
                 this.tipsLink[3].content = this.userCon.protocol;
                 this.tipsLink[4].content = this.userCon.obfs;
                 this.tipsLink[5].content = this.userCon.obfs_param;
-                console.log(this.userCon);
             }
         }).then((r)=>{
             setTimeout(()=>{
@@ -1767,7 +1838,7 @@ Vue.component('uim-messager',{
     delimiters: ['$[',']$'],
     template: /*html*/ `
     <div class="uim-messager">
-        <div><slot name="icon"></slot><slot name="msg"></slot></div>
+        <div><slot name="icon"></slot><slot name="msg"></slot><slot name="html"></slot></div>
     </div>
     `,
 })
@@ -1866,13 +1937,30 @@ Vue.component('uim-modal',{
 
 Vue.component('uim-switch',{
     delimiters: ['$[',']$'],
+    model: {
+        prop: 'isBtnActive',
+        event: 'change',
+    },
+    props: ['isBtnActive'],
     template:/*html*/ `
-    <div>
-        <span>
-            <input type="text">
-        </span>
-    </div>
-    `
+    <span @click="btnSwitch" :class="{ 'uim-switch-body-active':switchStatus }" class="uim-switch-body">
+        <input :checked="isBtnActive" v-on:change="$emit('change',$event.target.checked)" type="checkbox">
+    </span>
+    `,
+    data: function() {
+        return {
+            switchStatus: this.isBtnActive,
+        }
+    },
+    methods: {
+        btnSwitch() {
+            if (this.switchStatus === false) {
+                this.switchStatus = true;
+            } else {
+                this.switchStatus = false;
+            }
+        },
+    },
 })
 
 const indexPage = new Vue({

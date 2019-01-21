@@ -973,13 +973,18 @@ input[type=checkbox].uim-checkbox {
     display: flex;
     padding: .75rem 0;
     border-top: 1px solid;
+    align-items: center;
 }
 
 .uim-modal-footer div {
     flex-basis: 50%;
 }
 
-.uim-modal-footer div:last-of-type {
+.uim-modal-footer>div:first-of-type {
+    padding-left: 1.5rem;
+}
+
+.uim-modal-footer>div:last-of-type {
     text-align: right;
 }
 
@@ -1000,6 +1005,55 @@ button.uim-modal-confirm {
     font-size: 1.5rem;
     padding: .5rem .75rem;
     cursor: pointer;
+}
+
+/* switch */
+
+.uim-switch-body { 
+    background-color: #ccc;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.uim-switch-body:after {
+    content: "";
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: white;
+    top: 2px;
+    left: 2px;
+}
+
+.uim-switch-body,
+.uim-switch-body:after {
+    transition: all .3s;
+    display: inline-block;
+}
+
+.uim-switch-body input,
+.uim-switch-body {
+    height: 24px;
+    width: 46px;
+    position: relative;
+}
+
+.uim-switch-body input {
+    z-index: 1;
+    opacity: 0;
+}
+
+.uim-switch-body-active:after {
+    transform: translateX(22px);
+}
+
+.uim-switch-body-active {
+    background-color: #2d8cf0;
+}
+
+.switch-text {
+    font-size: 14px;
 }
 
 /* loading 动画 */
