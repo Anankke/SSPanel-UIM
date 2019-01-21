@@ -549,6 +549,10 @@ select {
     border-color: #D1335B;
 }
 
+button.tips {
+    background-color: transparent;
+}
+
 .tips-blue:hover,
 .tips-gold:hover,
 .tips-green:hover,
@@ -627,6 +631,25 @@ select {
 
 .invite-number {
     font-size: 14px;
+}
+
+.invite-tools {
+    position: relative;
+    margin-left: .75rem;
+}
+.invite-tools .tips.tips-red {
+    position: relative;
+    top: 2px;
+}
+
+.invite-tools.tips-green {
+    padding: 3.5px .7rem;
+    bottom: 1px;
+    margin-left: .55rem;
+}
+
+.invite-link {
+    width: 100%;
 }
 
 .list-shop {
@@ -780,6 +803,10 @@ button[name=reset] {
 
     .link-reset .uim-tooltip-top {
         width: 230px;
+    }
+
+    .invite-link {
+        width: 450px;
     }
 }
 

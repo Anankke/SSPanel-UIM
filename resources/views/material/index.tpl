@@ -1078,12 +1078,37 @@ const UserInvite = {
     mixins: [userMixin,storeMap],
     template: /*html*/ `
     <div>
-        <div class="card-title">邀请链接</div>
+        <div class="flex align-center">
+            <div class="card-title">邀请链接</div>
+            <transition name="fade" mode="out-in">
+            <label  class="relative" for="">
+                <input  class="coupon-checker tips tips-blue" type="text" placeholder="">
+                <button  class="btn-forinput" name="check"><span class="fa fa-arrow-up"></span></button>                       
+                <button  class="btn-forinput" name="reset"><span class="fa fa-refresh"></span></button>                       
+            </label>
+            </transition>
+        </div>
         <div class="card-body">
             <div class="user-invite">
                 <div v-if="userCon.class !== 0">
-                    <input type="button" class="tips tips-blue" :value="inviteLink">
-                    <h5>邀请链接剩余次数： <span class="invite-number tips tips-gold">$[userCon.invite_num]$次</span></h5>       
+                    <div class="flex align-center wrap">
+                        <input type="input" class="invite-link tips tips-blue" :value="inviteLink" disabled>
+                        <span class="invite-tools link-reset relative flex justify-center text-center">
+                            <button @click="showInviteReset" class="tips tips-red"><span class="fa fa-refresh"> 重置</button>
+                            <transition name="fade" mode="out-in">
+                            <uim-tooltip v-show="inviteResetConfirm" class="uim-tooltip-top flex justify-center">
+                                <div slot="tooltip-inner">
+                                    <span>确定要重置邀请链接？</span>
+                                    <div>
+                                        <button @click="resetInviteLink" class="tips tips-green"><span class="fa fa-fw fa-check"></span></button>
+                                        <button @click="hideInviteReset" class="tips tips-red"><span class="fa fa-fw fa-remove"></span></button>
+                                    </div>
+                                </div>
+                            </uim-tooltip>
+                            </transition>
+                        </span>
+                    </div>
+                    <h5>邀请链接剩余次数： <span class="invite-number tips tips-gold">$[userCon.invite_num]$次</span> <span><button class="invite-tools invite-number tips tips-green">$购买</button></span></h5>       
                 </div>
                 <div v-else>
                     <h3>$[userCon.user_name]$，您不是VIP暂时无法使用邀请链接，<slot name='inviteToShop'></slot></h3>
@@ -1100,12 +1125,37 @@ const UserInvite = {
     data: function() {
         return {
             code: '',
+            invitePrice: '',
+            inviteResetConfirm: false,
         }
+    },
+    methods: {
+        showInviteReset() {
+            this.inviteResetConfirm = true;
+        },
+        hideInviteReset() {
+            this.inviteResetConfirm = false;
+        },
+        resetInviteLink() {
+            _get('/getnewinvotecode','include').then((r)=>{
+                console.log(r);
+                this.code = r.arr.code.code;
+                this.hideInviteReset();
+                let callConfig = {
+                    msg: '已重置您的邀请链接，复制您的邀请链接发送给其他人！',
+                    icon: 'fa-bell',
+                    time: 1500,
+                }
+                tmp.dispatch('CALL_MSGR',callConfig);
+            });
+        },
     },
     mounted() {
         _get('getuserinviteinfo','include').then((r)=>{
             console.log(r);
             this.code = r.inviteInfo.code.code;
+            this.invitePrice = r.inviteInfo.invitePrice;
+            console.log(this.invitePrice);
             console.log(this.userCon);
         });
     }
@@ -1366,7 +1416,7 @@ const Panel = {
                                     </uim-dropdown>                                
                                 </div>
                                 </transition>
-                                <h5 class="pure-u-1 flex space-between">
+                                <h5 class="pure-u-1 flex align-center space-between">
                                     <span>订阅链接</span>
                                     <span class="link-reset relative flex justify-center text-center">
                                         <button @click="showToolTip('resetConfirm')" class="tips tips-red"><span class="fa fa-refresh"> 重置链接</button>

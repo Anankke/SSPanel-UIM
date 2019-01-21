@@ -208,4 +208,23 @@ class VueController extends BaseController {
         return $response->getBody()->write(json_encode($res));
     }
 
+    public function getNewInviteCode($request, $response, $args)
+    {
+        $user = $this->user;
+        $user->clear_inviteCodes();
+        $code = InviteCode::where('user_id', $this->user->id)->first();
+        if ($code == null) {
+            $this->user->addInviteCode();
+			$code = InviteCode::where('user_id', $this->user->id)->first();
+        }
+
+        $res['arr'] = array(
+            "code" => $code,
+        );
+
+        $res['ret'] = 1;
+        
+        return $response->getBody()->write(json_encode($res));
+    }
+
 }
