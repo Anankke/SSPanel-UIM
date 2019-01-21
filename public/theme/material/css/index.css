@@ -267,20 +267,27 @@ input.checkbox,
     width: unset;
     margin: 0;
     font-size: 16px;
-    padding: .15rem .5rem;
+    padding: .05rem .5rem .2rem .5rem;
     width: 48%;
+    background: rgba(255, 255, 255, 0);
+    border: 1px solid #D1335B;
+}
+
+.buy-submit:hover,
+.buy-submit:focus {
+    background-color: #D1335B;
+    color: white;
 }
 
 .auth-submit:hover,
-.auth-submit:focus,
-.buy-submit:hover,
-.buy-submit:focus {
+.auth-submit:focus, {
     background-color: #d6d6d6;
     border-color: #d6d6d6;
 }
 
 .buy-submit:disabled {
     color: #858585;
+    border-color: #858585;
     cursor: not-allowed;
 }
 
@@ -628,10 +635,13 @@ select {
     border: 1px solid #434857;
     margin-bottom: .7rem;
     width: 95%;
+    backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .list-shop:hover {
-    transform: translateX(1rem);
+    transform: translate3D(1rem,0,0);
 }
 
 .coupon-checker {

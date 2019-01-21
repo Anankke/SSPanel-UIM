@@ -687,14 +687,15 @@ const Login = {
             tid = setTimeout(()=>{
                 this.tgAuthTrigger(tid);
             }, 2500);
-        }
-    },
-    mounted() {
-        document.addEventListener('keyup',(e)=>{
-            if (e.keyCode == 13) {
+        },
+        loginBindEnter(e) {
+            if (this.$route.path === '/auth/login' && e.keyCode == 13) {
                 this.login();
             }
-        });
+        },
+    },
+    mounted() {
+        document.addEventListener('keyup',this.loginBindEnter,false);
 
         if (this.globalConfig.enable_telegram === 'true') {
             this.telegramRender();
@@ -708,6 +709,10 @@ const Login = {
         }
         this.loadCaptcha('g-recaptcha-login');
         this.loadGT('#embed-captcha-login');
+    },
+    beforeRouteLeave(to, from , next) {
+        document.removeEventListener('keyup',this.loginBindEnter,false);
+        next();
     },
 };
 
@@ -929,6 +934,11 @@ const Register = {
                 }
             });
         },
+        registerBindEnter(e) {
+            if (this.$route.path === '/auth/register' && e.keyCode == 13) {
+                this.register();
+            }
+        },
     },
     mounted() {
         //dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码
@@ -943,11 +953,7 @@ const Register = {
             }
         }
         
-        document.addEventListener('keyup', (e) => {
-            if (e.keyCode == 13) {
-                this.register();
-            }
-        });
+        document.addEventListener('keyup',this.registerBindEnter,false);
 
         //验证加载
         if (this.globalConfig.enableRegCaptcha === 'false') {
@@ -955,6 +961,10 @@ const Register = {
         }
         this.loadCaptcha('g-recaptcha-reg');
         this.loadGT('#embed-captcha-reg');    
+    },
+    beforeRouteLeave(to, from , next) {
+        document.removeEventListener('keyup',this.registerBindEnter,false);
+        next();
     }
 };
 
@@ -1110,7 +1120,7 @@ const UserShop = {
                 <div class="card-title">套餐购买</div>
                 <transition name="fade" mode="out-in">
                 <label v-if="isCheckerShow" class="relative" for="">
-                    <input class="coupon-checker tips tips-blue" v-model="coupon" type="text" placeholder="优惠码">
+                    <input @keyup.13="couponCheck" class="coupon-checker tips tips-blue" v-model="coupon" type="text" placeholder="优惠码">
                     <button @click="couponCheck" class="btn-forinput" name="check"><span class="fa fa-arrow-up"></span></button>                       
                     <button @click="hideChecker" class="btn-forinput" name="reset"><span class="fa fa-refresh"></span></button>                       
                 </label>
