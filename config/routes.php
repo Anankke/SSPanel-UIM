@@ -306,6 +306,7 @@ $app->group('/admin', function () {
     $this->get('/logout', 'App\Controllers\AdminController:logout');
     $this->post('/payback/ajax', 'App\Controllers\AdminController:ajax_payback');
     $this->get('/yftOrder', 'App\Services\Gateway\YftPay:yftOrderForAdmin');
+	$this->post('/user/add', 'App\Controllers\Admin\UserController:addUserForAdmin');
 })->add(new Admin());
 
 // API
