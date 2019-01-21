@@ -380,6 +380,7 @@ $app->group("/chenPay", function () {
 $app->group('/admin', function () {
     $this->get('/editConfig', 'App\Controllers\AdminController:editConfig');
     $this->post('/saveConfig', 'App\Controllers\AdminController:saveConfig');
+	$this->post('/user/add', 'App\Controllers\Admin\UserController:addUserForAdmin');
 })->add(new Admin());
 // chenPay end
 

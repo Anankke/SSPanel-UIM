@@ -24,6 +24,27 @@
 				<div class="table-responsive">
 					{include file='table/table.tpl'}
 				</div>
+				<div class="card">
+					<div class="card-main">
+						<div class="card-inner">
+							<h3 style='font-family: "Microsoft YaHei"'>添加用户</h3></p>
+							<div class="form-group form-group-label col-md-12">
+								<label class="floating-label" for="userName" style="padding-left: 20px">用户名</label>
+								<input class="form-control" id="userName" type="text">
+							</div>
+							<div class="form-group form-group-label col-md-12">
+								<label class="floating-label" for="sptype" style="padding-left: 20px">选择您要开通的套餐</label>
+								<select class="form-control" id="sptype">
+									<option></option>
+                                    {foreach $shop_name as $key => $value}
+										<option value="{$value["id"]}">{$value["name"]}</option>
+                                    {/foreach}
+								</select>
+							</div>
+							<a class="btn btn-brand" href="javascript:void(0)" id="add_input" style="margin-left: 20px">确定添加</a>
+						</div>
+					</div>
+				</div>
 
 				<div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog" tabindex="-1">
 					<div class="modal-dialog modal-xs">
@@ -156,6 +177,48 @@ window.addEventListener('load', () => {
 	{foreach $table_config['total_column'] as $key => $value}
         modify_table_visible('checkbox_{$key}', '{$key}');
 	{/foreach}
+	
+	 function addUser() {
+        var name = document.getElementById("userName").value;
+        var shopId = document.getElementById("sptype").value;
+        if (name == ""){
+            $("#result").modal();
+            $("#msg").html("请填写用户名！");
+            return;
+        }
+        if (shopId == ""){
+            $("#result").modal();
+            $("#msg").html("请选择套餐！");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/admin/user/add",
+            dataType: "json",
+            data: {
+                "userName": name,
+                "shopId": shopId
+            },
+            success: function (data) {
+                if (data.ret) {
+                    $("#result").modal();
+                    $("#msg").html(data.msg);
+                    setTimeout("location.href='/admin/user'",1000);
+                } else {
+                    $("#result").modal();
+                    $("#msg").html(data.msg);
+                }
+            },
+            error: function (jqXHR) {
+                $("#result").modal();
+                $("#msg").html(data.msg + "  发生错误了。");
+            }
+        });
+    }
+    $("#add_input").click(function () {
+        addUser();
+    });
+
 
     function delete_id() {
 		$.ajax({
