@@ -45,6 +45,10 @@ a {
     text-align: left;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .text-right {
     text-align: right;
 }
@@ -533,10 +537,16 @@ select {
     border-color: #13c2c2;
 }
 
+.tips-red {
+    color: #D1335B;
+    border-color: #D1335B;
+}
+
 .tips-blue:hover,
 .tips-gold:hover,
 .tips-green:hover,
-.tips-cyan:hover {
+.tips-cyan:hover,
+.tips-red:hover {
     color: white;
 }
 
@@ -554,6 +564,10 @@ select {
 
 .tips-cyan:hover {
     background-color: #13c2c2;
+}
+
+.tips-red:hover {
+    background-color: #D1335B;
 }
 
 .ann {
@@ -659,6 +673,32 @@ button[name=reset] {
     margin: .5rem 0
 }
 
+.link-reset button {
+    background-color: rgba(255, 255, 255, 0);
+    outline: none;
+}
+
+.link-reset .uim-tooltip-top {
+    width: 100%;
+    background-color: white;
+    color: #434857;
+}
+
+.link-reset .uim-tooltip-top button {
+    border: 0;
+}
+
+.sublink {
+    font-size: 14px;
+    padding: 0 1rem;
+    word-break: break-all;
+}
+
+.sublink-reset.tips-blue {
+    background-color: #1997c6;
+    color: white;
+}
+
 @media screen and (min-width:35.5em) {
     .auth-tg {
         margin-top: 0;
@@ -726,6 +766,10 @@ button[name=reset] {
     .user-shop {
         max-height: 385px;
         overflow: auto;
+    }
+
+    .link-reset .uim-tooltip-top {
+        width: 230px;
     }
 }
 
@@ -816,6 +860,10 @@ button[name=reset] {
 
 .uim-messager span {
     margin-left: .6rem;
+}
+
+.uim-messager a {
+    color: #D1335B;
 }
 
 /* checkbox */
@@ -1054,6 +1102,34 @@ button.uim-modal-confirm {
 
 .switch-text {
     font-size: 14px;
+}
+
+/* tooltip */
+
+.uim-tooltip {
+    position: absolute;
+    z-index: 2;
+    box-shadow: 0 0 5px 1px gray;
+    border-radius: 4px;
+    background: white;
+    color: #434857;
+}
+
+.uim-tooltip-top {
+    bottom: 125%;
+    padding: .3rem;
+}
+
+.uim-tooltip.uim-tooltip-top:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    bottom: -7px;
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    transform: rotateZ(45deg);
+    z-index: -1;
 }
 
 /* loading 动画 */

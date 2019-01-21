@@ -25,6 +25,8 @@ use App\Utils\Geetest;
 
 use voku\helper\AntiXSS;
 
+use App\Utils\URL;
+
 class VueController extends BaseController {
 
     private $user;
@@ -188,6 +190,21 @@ class VueController extends BaseController {
         );
         $res['ret'] = 1;
 
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function getNewSubToken($request, $response, $args)
+    {
+        $user = $this->user;
+        $user->clean_link();
+        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
+
+        $res['arr'] = array(
+            'ssr_sub_token' => $ssr_sub_token,
+        );
+
+        $res['ret'] = 1;
+        
         return $response->getBody()->write(json_encode($res));
     }
 

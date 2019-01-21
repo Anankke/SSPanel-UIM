@@ -279,6 +279,9 @@ const tmp = new Vuex.Store({
             state.logintoken = n;
         },
         SET_MSGRCON (state,config) {
+            if (state.msgrCon.html !== '') {
+                state.msgrCon.html = '';
+            }
             state.msgrCon.msg = config.msg;
             state.msgrCon.icon[1] = config.icon;
             state.msgrCon.html = config.html;
@@ -1353,21 +1356,71 @@ const Panel = {
                                     </uim-dropdown>                                
                                 </div>
                                 </transition>
-                                <h5 class="pure-u-1">订阅链接</h5>
+                                <h5 class="pure-u-1 flex space-between">
+                                    <span>订阅链接</span>
+                                    <span class="link-reset relative flex justify-center text-center">
+                                        <button @click="showToolTip('resetConfirm')" class="tips tips-red"><span class="fa fa-refresh"> 重置链接</button>
+                                        <transition name="fade" mode="out-in">
+                                        <uim-tooltip v-show="toolTips.resetConfirm" class="uim-tooltip-top flex justify-center">
+                                            <div slot="tooltip-inner">
+                                                <span>确定要重置订阅链接？</span>
+                                                <div>
+                                                    <button @click="resetSubscribLink" class="tips tips-green"><span class="fa fa-fw fa-check"></span></button>
+                                                    <button @click="hideToolTip('resetConfirm')" class="tips tips-red"><span class="fa fa-fw fa-remove"></span></button>
+                                                </div>
+                                            </div>
+                                        </uim-tooltip>
+                                        </transition>
+                                    </span>
+                                </h5>
                                 <transition name="rotate-fade" mode="out-in">
                                 <div class="input-copy" v-if="currentDlType === 'SSR'" key="ssrsub">
-                                    <div class="pure-g align-center">
-                                        <span class="pure-u-6-24">普通端口:</span><input class="tips tips-blue pure-u-18-24" type="text" name="" id="" :value="suburlMu0" readonly>                                
+                                    <div class="pure-g align-center relative">
+                                        <span class="pure-u-6-24">普通端口:</span>
+                                        <span class="pure-u-18-24 pure-g relative flex justify-center text-center">
+                                            <input @mouseenter="showToolTip('mu0')" @mouseleave="hideToolTip('mu0')" :class="{ 'sublink-reset':subLinkTrans }" class="tips tips-blue pure-u-1" type="text" name="" id="" :value="suburlMu0" readonly>
+                                            <transition name="fade" mode="out-in">
+                                            <uim-tooltip v-show="toolTips.mu0" class="uim-tooltip-top flex justify-center">
+                                                <div class="sublink" slot="tooltip-inner">
+                                                    <span>$[suburlMu0]$</span>
+                                                </div>
+                                            </uim-tooltip>
+                                            </transition>
+                                        </span>
                                     </div>
-                                    <div v-if="mergeSub !== 'true'" class="pure-g align-center">
-                                        <span class="pure-u-6-24">单端口:</span><input class="tips tips-blue pure-u-18-24" type="text" name="" id="" :value="suburlMu1" readonly>                                                                  
+                                    <div v-if="mergeSub !== 'true'" class="pure-g align-center relative">
+                                        <span class="pure-u-6-24">单端口:</span>
+                                        <span class="pure-u-18-24 pure-g relative flex justify-center text-center">
+                                            <input @mouseenter="showToolTip('mu1')" @mouseleave="hideToolTip('mu1')" :class="{ 'sublink-reset':subLinkTrans }" class="tips tips-blue pure-u-1" type="text" name="" id="" :value="suburlMu1" readonly>
+                                            <transition name="fade" mode="out-in">
+                                            <uim-tooltip v-show="toolTips.mu1" class="uim-tooltip-top flex justify-center">
+                                                <div class="sublink" slot="tooltip-inner">
+                                                    <span>$[suburlMu1]$</span>
+                                                </div>
+                                            </uim-tooltip>
+                                            </transition> 
+                                        </span>                                                      
                                     </div>
                                 </div>
-                                <div class="input-copy" v-else-if="currentDlType === 'V2RAY'" key="sssub">
-                                    <input class="tips tips-blue" type="text" name="" id="" :value="suburlMu2" readonly>
+                                <div class="pure-g input-copy relative flex justify-center text-center" v-else-if="currentDlType === 'V2RAY'" key="sssub">
+                                    <input @mouseenter="showToolTip('mu2')" @mouseleave="hideToolTip('mu2')" :class="{ 'sublink-reset':subLinkTrans }" class="tips tips-blue" type="text" name="" id="" :value="suburlMu2" readonly>
+                                    <transition name="fade" mode="out-in">
+                                        <uim-tooltip v-show="toolTips.mu2" class="pure-u-1 uim-tooltip-top flex justify-center">
+                                        <div class="sublink" slot="tooltip-inner">
+                                            <span>$[suburlMu2]$</span>
+                                        </div>
+                                    </uim-tooltip>
+                                    </transition>
                                 </div>
-                                <div class="input-copy" v-else-if="currentDlType === 'SS/SSD'" key="v2sub">
-                                    <input class="tips tips-blue" type="text" name="" id="" :value="suburlMu3" readonly>
+                                <div class="pure-g input-copy relative flex justify-center text-center" v-else-if="currentDlType === 'SS/SSD'" key="v2sub">
+                                    <input @mouseenter="showToolTip('mu3')" @mouseleave="hideToolTip('mu3')" :class="{ 'sublink-reset':subLinkTrans }" class="tips tips-blue" type="text" name="" id="" :value="suburlMu3" readonly>
+                                    <transition name="fade" mode="out-in">
+                                    <uim-tooltip v-show="toolTips.mu3" class="pure-u-1 uim-tooltip-top flex justify-center">
+                                        <div class="sublink" slot="tooltip-inner">
+                                            <span>$[suburlMu3]$</span>
+                                        </div>
+                                    </uim-tooltip>
+                                    </transition>
                                 </div>
                                 </transition>
                             </div>
@@ -1441,6 +1494,14 @@ const Panel = {
             subUrl: '',
             ssrSubToken: '',
             mergeSub: 'false',
+            toolTips: {
+                mu0: false,
+                mu1: false,
+                mu2: false,
+                mu3: false,
+                resetConfirm: false,
+            },
+            subLinkTrans: false,
             tipsLink: [
                 {
                     name: '端口',
@@ -1681,7 +1742,32 @@ const Panel = {
         },
         changeAgentType(e) {
             this.currentDlType = e.target.dataset.type;
-        }
+        },
+        showToolTip(id) {
+            this.toolTips[id] = true;
+        },
+        hideToolTip(id) {
+            this.toolTips[id] = false;
+        },
+        subLinkResetTrans() {
+            this.subLinkTrans = true;
+            setTimeout(() => {
+                this.subLinkTrans = false;
+            }, 300);
+        },
+        resetSubscribLink() {
+            _get('/getnewsubtoken','include').then((r)=>{
+                this.ssrSubToken = r.arr.ssr_sub_token;
+                this.hideToolTip('resetConfirm');
+                this.subLinkResetTrans();
+                let callConfig = {
+                    msg: '已重置您的订阅链接，请变更或添加您的订阅链接！',
+                    icon: 'fa-bell',
+                    time: 1500,
+                }
+                tmp.dispatch('CALL_MSGR',callConfig);
+            });
+        },
     },
     mounted() {
         let self = this;
@@ -1961,6 +2047,15 @@ Vue.component('uim-switch',{
             }
         },
     },
+})
+
+Vue.component('uim-tooltip',{
+    delimiters: ['$[',']$'],
+    template:/*html*/ `
+    <div class="uim-tooltip">
+        <slot name="tooltip-inner"></slot>
+    </div>
+    `
 })
 
 const indexPage = new Vue({
