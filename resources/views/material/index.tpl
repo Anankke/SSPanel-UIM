@@ -288,7 +288,7 @@ const UserTmp = {
         SET_USERSETTINGS (state,config) {
             state.userSettings.resourse[0].content = config.class_expire;
             state.userSettings.resourse[1].content = config.expire_in;
-            state.userSettings.resourse[2].content = config.node_connector;
+            state.userSettings.resourse[2].content = config.online_ip_count;
             state.userSettings.resourse[3].content = config.node_speedlimit;
             state.userSettings.tipsLink[0].content = config.port;
             state.userSettings.tipsLink[1].content = config.passwd;
@@ -1666,15 +1666,17 @@ const UserResourse = {
             for (let i=0;i<resourse.length;i++) {
                 switch (resourse[i].name) {
                     case '在线设备数':
-                        if (resourse[i].content!==0) {
-                            this.setReasourse({ index:i,content:'online' + ' / ' + resourse[i].content });
+                        if (this.userCon.node_connector!==0) {
+                            this.setReasourse({ index:i,content:resourse[i].content + ' / ' + this.userCon.node_connector });
                         } else {
-                            this.setReasourse({ index:i,content:'online' + ' / 无限制' });
+                            this.setReasourse({ index:i,content:resourse[i].content + ' / 无限制' });
                         }
                         break;
                     case '端口速率':
                         if (resourse[i].content!==0) {
                             this.setReasourse({ index:i,content:resourse[i].content + ' Mbps' });
+                        } else {
+                            this.setReasourse({ index:i,content:'无限制' });
                         }
                         break;
                     default:
@@ -1685,13 +1687,37 @@ const UserResourse = {
         },
     },
     methods: {
-      
+        DateParse(str_date) {
+            let str_date_splited = str_date.split(/[^0-9]/);
+            return new Date (str_date_splited[0], str_date_splited[1] - 1, str_date_splited[2], str_date_splited[3], str_date_splited[4], str_date_splited[5]);
+        },
+        calcExpireDays(classExpire,userExpireIn) {
+            let levelExpire = this.DateParse(classExpire);
+            let accountExpire = this.DateParse(userExpireIn);
+            let nowDate = new Date();
+            let a = nowDate.getTime();
+            let b = levelExpire - a;
+            let c = accountExpire - a;
+            let levelExpireDays = Math.floor(b/(24*3600*1000));
+            let accountExpireDays = Math.floor(c/(24*3600*1000));
+            if (levelExpireDays < 0 || levelExpireDays > 315360000000) {
+                this.setReasourse({ index:0,content:'无限期' });
+            } else {
+                this.setReasourse({ index:0,content:levelExpireDays });
+            }
+            if (accountExpireDays < 0 || accountExpireDays > 315360000000) {
+                this.setReasourse({ index:1,content:'无限期' });
+            } else {
+                this.setReasourse({ index:1,content:accountExpireDays });
+            }
+        },
     },
     created() {
     
     },
     mounted() {
-        
+        let resourse = this.userSettings.resourse;
+        this.calcExpireDays(resourse[0].content,resourse[1].content);
     }
 };
 
@@ -1862,7 +1888,9 @@ const Panel = {
                             </ul>
                         </uim-anchor>
                         <transition name="fade" mode="out-in">
+                        <keep-alive>
                         <component v-on:turnPageByWheel="scrollPage" :is="userSettings.currentPage" :initialSet="userSettings" class="card margin-nobottom"></component>
+                        </keep-alive>
                         </transition>
                     </div>
                     <div class="user-btngroup pure-g">

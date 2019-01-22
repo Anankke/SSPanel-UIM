@@ -26,6 +26,8 @@ use App\Utils\Geetest;
 use voku\helper\AntiXSS;
 
 use App\Utils\URL;
+use App\Models\Ip;
+use App\Models\Node;
 
 class VueController extends BaseController {
 
@@ -119,6 +121,7 @@ class VueController extends BaseController {
         $mergeSub = Config::get('mergeSub');
         $subUrl = Config::get('subUrl');
         $baseUrl = Config::get('baseUrl');
+        $user['online_ip_count'] = $user->online_ip_count();
 
         $res['info'] = array(
             "user" => $user,
@@ -227,5 +230,6 @@ class VueController extends BaseController {
         
         return $response->getBody()->write(json_encode($res));
     }
+
 
 }
