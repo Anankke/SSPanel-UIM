@@ -62,7 +62,7 @@
 </style>
 
 <body>
-    <script src="/assets/js/fuck.js"></script>
+    {*<script src="/assets/js/fuck.js"></script>*}
     <div id="index" >
         <transition name="loading-fade" mode="out-in">
             <div class="loading flex align-center" v-if="isLoading === 'loading'" key="loading">
