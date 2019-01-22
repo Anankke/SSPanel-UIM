@@ -1094,7 +1094,8 @@ const UserInvite = {
                 <transition name="fade" mode="out-in">
                 <uim-tooltip v-show="showOrderCheck" class="uim-tooltip-top flex justify-center">
                     <div slot="tooltip-inner">
-                        <span v-html="orderCheckContent"></span>
+                        <span v-if="toolInputType === 'buy'"><div>确认购买 <span class="text-red">$[toolInputContent]$</span> 个吗？总价为 <span class="text-red">￥$[totalPrice]$</span></div></span>
+                        <span v-if="toolInputType === 'custom'">确认定制链接后缀为 <span class="text-red">$[toolInputContent]$</span> 吗？价格为 <span class="text-red">￥$[customPrice]$</span></span>
                         <div>
                             <button @click="submitOrder" class="tips tips-green"><span class="fa fa-fw fa-check"></span></button>
                             <button @click="hideOrderCheck" class="tips tips-red"><span class="fa fa-fw fa-remove"></span></button>
@@ -1103,6 +1104,17 @@ const UserInvite = {
                 </uim-tooltip>
                 </transition>
             </div>
+            <transition name="fade" mode="out-in">
+            <div v-show="showToolInput">
+                <div class="flex align-center" v-if="toolInputType === 'buy'" key="buy">
+                    <span v-show="toolInputType === 'buy'" class="tips tips-green">￥$[invitePrice]$/次</span>
+                    <span v-show="toolInputType === 'buy'" class="tips tips-gold">总价：￥$[totalPrice]$</span>        
+                </div>
+                <div class="flex align-center" v-else key="custom">
+                    <span v-show="toolInputType === 'custom'" class="tips tips-green">价格：￥$[customPrice]$</span>            
+                </div>
+            </div>
+            </transition>
         </div>
         <div class="card-body">
             <div class="user-invite">
@@ -1123,8 +1135,15 @@ const UserInvite = {
                             </uim-tooltip>
                             </transition>
                         </span>
+                        <span v-if="customPrice >= 0" class="invite-tools relative flex justify-center text-center">
+                            <button @click="showCustomToolInput" :disabled="isToolDisabled" class="tips tips-cyan"><span class="fa fa-pencil"> 定制</button>
+                        </span>
                     </div>
-                    <h5>邀请链接剩余次数： <span :class="{ 'tips-gold-trans':inviteTimeTrans }" class="invite-number tips tips-gold">$[userCon.invite_num]$次</span> <span v-if="invitePrice >= 0"><button @click="showBuyToolInput" :disabled="isToolDisabled" class="invite-tools invite-number tips tips-green">$购买</button></span></h5>       
+                    <h5>邀请链接剩余次数： <span :class="{ 'tips-gold-trans':inviteTimeTrans }" class="invite-number tips tips-gold">$[userCon.invite_num]$次</span> 
+                        <span v-if="invitePrice >= 0">
+                        <button @click="showBuyToolInput" :disabled="isToolDisabled" class="invite-tools invite-number tips tips-green"><span class="fa fa-cny"></span> 购买</button>
+                        </span>
+                    </h5>       
                 </div>
                 <div v-else>
                     <h3>$[userCon.user_name]$，您不是VIP暂时无法使用邀请链接，<slot name='inviteToShop'></slot></h3>
@@ -1137,11 +1156,19 @@ const UserInvite = {
         inviteLink: function() {
             return this.baseURL + '/#/auth/register?code=' + this.code;
         },
+        totalPriceCa: function() {
+            return parseInt(this.toolInputContent)*parseInt(this.invitePrice);
+        },
+        totalPrice: function() {
+            return isNaN(this.totalPriceCa) ? '' : this.totalPriceCa;
+        },
     },
     data: function() {
         return {
+            oldCode: '',
             code: '',
             invitePrice: '',
+            customPrice: '',
             toolInputContent: '',
             placeholder: '',
             toolInputType: '',
@@ -1152,9 +1179,15 @@ const UserInvite = {
             showToolInput: false,
             isToolDisabled: false,
             showOrderCheck: false,
+            theUnWatch: '',
         }
     },
     methods: {
+        destoryWatch() {
+            if (this.theUnWatch !== '') {
+                this.theUnWatch();
+            }
+        },
         showInviteReset() {
             this.inviteResetConfirm = true;
         },
@@ -1191,6 +1224,7 @@ const UserInvite = {
             this.showToolInput = false;
             this.isToolDisabled = false;
             this.hideOrderCheck();
+            this.destoryWatch();
             setTimeout(() => {
                 this.toolInputContent = '';
             }, 300);
@@ -1211,11 +1245,22 @@ const UserInvite = {
             this.placeholder = '输入购买数量';
             this.toolInputType = 'buy';
         },
+        showCustomToolInput() {
+            this.showToolInput = true;
+            this.isToolDisabled = true;
+            this.placeholder = '输入链接后缀';
+            this.toolInputType = 'custom';
+            let unwatchCustom = this.$watch('toolInputContent',function(newVal, oldVal) {
+                this.code = newVal;
+                this.oldCode = oldVal;
+            });
+            this.theUnWatch = unwatchCustom;
+        },
         hideOrderCheck() {
             this.showOrderCheck = false;
         },
         buyOrdercheck() {
-            if (isNaN(parseInt(this.toolInputContent))) {
+            if (isNaN(parseInt(this.toolInputContent)) || this.toolInputContent === '') {
                 let callConfig = {
                     msg: '请输入数字',
                     icon: 'fa-times-circle-o',
@@ -1223,15 +1268,20 @@ const UserInvite = {
                 }
                 tmp.dispatch('CALL_MSGR',callConfig); 
             } else {
-                let total = parseInt(this.toolInputContent)*parseInt(this.invitePrice);
-                this.orderCheckContent = /*html*/ `
-                <div>确认购买 <span class="text-red">${ this.toolInputContent }</span> 个吗？总价为 <span class="text-red">￥${ total }</span></div>
-                `
                 this.showOrderCheck = true;
             }
         },
         customOrderCheck() {
-
+            if (this.toolInputContent === '') {
+                let callConfig = {
+                    msg: '后缀不能为空',
+                    icon: 'fa-times-circle-o',
+                    time: 1500,
+                }
+                tmp.dispatch('CALL_MSGR',callConfig);
+            } else {
+                this.showOrderCheck = true;
+            }
         },
         submitOrder() {
             switch(this.toolInputType) {
@@ -1248,9 +1298,8 @@ const UserInvite = {
                 num: parseInt(this.toolInputContent),
             }
             _post('/user/buy_invite',JSON.stringify(ajaxBody),'include').then((r)=>{
+                this.hideToolInput();
                 if(r.ret) {
-                    console.log(r);
-                    this.hideToolInput();
                     this.resetCredit();
                     this.showInviteTimeTrans();
                     tmp.commit('SET_INVITE_NUM',r.invite_num);
@@ -1261,7 +1310,33 @@ const UserInvite = {
                     };
                     tmp.dispatch('CALL_MSGR',callConfig);
                 } else {
-                    this.hideToolInput();
+                    let callConfig = {
+                        msg: r.msg,
+                        icon: 'fa-times-circle-o',
+                        time: 1000,
+                    };
+                    tmp.dispatch('CALL_MSGR',callConfig);
+                }
+            });
+        },
+        customInvite() {
+            this.hideToolInput();
+            let ajaxBody = {
+                customcode: this.toolInputContent,
+            };
+            _post('/user/custom_invite',JSON.stringify(ajaxBody),'include').then((r)=>{
+                if (r.ret) {
+                    console.log(r);
+                    this.resetCredit();
+                    this.showLinkTrans();
+                    this.code = this.toolInputContent;
+                    let callConfig = {
+                        msg: r.msg,
+                        icon: 'fa-check-square-o',
+                        time: 1000,
+                    };
+                    tmp.dispatch('CALL_MSGR',callConfig);
+                } else {
                     let callConfig = {
                         msg: r.msg,
                         icon: 'fa-times-circle-o',
@@ -1272,12 +1347,15 @@ const UserInvite = {
             });
         },
     },
+    watch: {
+        toolInputType: 'destoryWatch',
+    },
     mounted() {
         _get('getuserinviteinfo','include').then((r)=>{
             console.log(r);
             this.code = r.inviteInfo.code.code;
             this.invitePrice = r.inviteInfo.invitePrice;
-            console.log(this.invitePrice);
+            this.customPrice = r.inviteInfo.customPrice;
             console.log(this.userCon);
         });
     }

@@ -285,7 +285,8 @@ input.checkbox,
 }
 
 .auth-submit:hover,
-.auth-submit:focus, {
+.auth-submit:focus,
+    {
     background-color: #d6d6d6;
     border-color: #d6d6d6;
 }
@@ -653,9 +654,10 @@ button.tips {
     position: relative;
     margin-left: .75rem;
 }
+
 .invite-tools .tips.tips-red {
     position: relative;
-    top: 2px;
+    top: 1px;
 }
 
 .invite-tools.tips-green {
@@ -676,6 +678,10 @@ button.tips {
     border: 0;
 }
 
+.user-invite-title .tips {
+    position: relative;
+}
+
 .list-shop {
     padding: .5rem;
     font-size: 1.2rem;
@@ -688,7 +694,7 @@ button.tips {
 }
 
 .list-shop:hover {
-    transform: translate3D(1rem,0,0);
+    transform: translate3D(1rem, 0, 0);
 }
 
 .coupon-checker {
@@ -832,6 +838,11 @@ button[name=reset] {
 
     .invite-link {
         width: 450px;
+    }
+
+    .user-invite-title .tips {
+        margin-bottom: .5rem;
+        margin-left: .75rem;
     }
 }
 
@@ -1119,7 +1130,7 @@ button.uim-modal-confirm {
 
 /* switch */
 
-.uim-switch-body { 
+.uim-switch-body {
     background-color: #ccc;
     border-radius: 25px;
     cursor: pointer;
