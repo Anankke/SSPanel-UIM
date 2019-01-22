@@ -7,7 +7,6 @@
 	<meta name="theme-color" content="#4285f4">
 	<title>{$config["appName"]}</title>
 
-
 	<!-- css -->
 	<link href="/theme/material/css/base.min.css" rel="stylesheet">
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
@@ -19,6 +18,7 @@
 
 </head>
 <body class="page-orange">
+    <script src="/assets/js/fuck.js"></script>
 	<header class="header header-orange header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
 			<div>
