@@ -517,6 +517,7 @@ select {
     overflow: hidden;
     color: #b1b3bb;
     margin: .75rem 0;
+    white-space: nowrap;
 }
 
 .font-light:hover {
@@ -1203,6 +1204,45 @@ button.uim-modal-confirm {
     background-color: white;
     transform: rotateZ(45deg);
     z-index: -1;
+}
+
+/* anchor */
+
+.uim-anchor {
+    position: absolute;
+    right: 1rem;
+}
+
+.uim-anchor ul {
+    background-color: transparent;
+    margin: 0;
+}
+
+.uim-anchor li {
+    list-style: none;
+    width: 1.6rem;
+    height: 1.75rem;
+    display: block;
+    background-color: transparent;
+    border: 2px solid #434857;
+    transition: all .3s;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.uim-anchor li:hover {
+    border-color: #7cb7f7;
+    box-shadow: 0 0 5px 1px #a1e2e2;
+}
+
+.uim-anchor li.uim-anchor-active {
+    background-color: #1997c6;
+    border-color: #7cb7f7;
+    box-shadow: 0 0 5px 0 #a1e2e2;
+}
+
+.uim-anchor li:last-of-type {
+    border-radius: 0 0 12px 12px;
 }
 
 /* loading 动画 */

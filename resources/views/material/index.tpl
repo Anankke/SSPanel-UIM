@@ -1051,7 +1051,7 @@ const User = {
 
 const userMixin = {
     delimiters: ['$[',']$'],
-    props: ['annC','baseURL'],
+    props: ['annC','baseURL','initialSet'],
     methods: {
         resetCredit() {
             _get('/getcredit','include').then((r)=>{
@@ -1220,7 +1220,10 @@ const UserInvite = {
                 tmp.dispatch('CALL_MSGR',callConfig);
             });
         },
-        hideToolInput() {
+        hideToolInput(token) {
+            if (token !== 1 || !token) {
+                this.code = this.oldCode;
+            }
             this.showToolInput = false;
             this.isToolDisabled = false;
             this.hideOrderCheck();
@@ -1240,6 +1243,8 @@ const UserInvite = {
             }
         },
         showBuyToolInput() {
+            this.destoryWatch();
+            this.code = this.oldCode;
             this.showToolInput = true;
             this.isToolDisabled = true;
             this.placeholder = '输入购买数量';
@@ -1252,7 +1257,6 @@ const UserInvite = {
             this.toolInputType = 'custom';
             let unwatchCustom = this.$watch('toolInputContent',function(newVal, oldVal) {
                 this.code = newVal;
-                this.oldCode = oldVal;
             });
             this.theUnWatch = unwatchCustom;
         },
@@ -1320,7 +1324,7 @@ const UserInvite = {
             });
         },
         customInvite() {
-            this.hideToolInput();
+            this.hideToolInput(1);
             let ajaxBody = {
                 customcode: this.toolInputContent,
             };
@@ -1329,7 +1333,7 @@ const UserInvite = {
                     console.log(r);
                     this.resetCredit();
                     this.showLinkTrans();
-                    this.code = this.toolInputContent;
+                    this.code = this.oldCode = this.toolInputContent;
                     let callConfig = {
                         msg: r.msg,
                         icon: 'fa-check-square-o',
@@ -1337,6 +1341,8 @@ const UserInvite = {
                     };
                     tmp.dispatch('CALL_MSGR',callConfig);
                 } else {
+                    this.showLinkTrans();
+                    this.code = this.oldCode;
                     let callConfig = {
                         msg: r.msg,
                         icon: 'fa-times-circle-o',
@@ -1347,18 +1353,18 @@ const UserInvite = {
             });
         },
     },
-    watch: {
-        toolInputType: 'destoryWatch',
-    },
     mounted() {
         _get('getuserinviteinfo','include').then((r)=>{
             console.log(r);
-            this.code = r.inviteInfo.code.code;
+            this.code = this.oldCode = r.inviteInfo.code.code;
             this.invitePrice = r.inviteInfo.invitePrice;
             this.customPrice = r.inviteInfo.customPrice;
             console.log(this.userCon);
         });
-    }
+    },
+    beforeDestroy() {
+        this.hideToolInput();
+    },
 };
 
 const UserShop = {
@@ -1537,7 +1543,59 @@ const UserGuide = {
         </div>
     </div>
     `,
+};
+
+const userSetMixin = {
+    methods: {
+        wheelChange(e) {
+            this.$emit('turnPageByWheel',e.deltaY);
+        },
+    },
 }
+
+const UserResourse = {
+    mixins: [userMixin,storeMap,userSetMixin],
+    template: /*html*/ `
+    <div @mousewheel="wheelChange" class="user-resourse">
+        <div class="card-title">可用资源</div>
+        <div class="card-body">
+            <div class="pure-g wrap">
+                <div v-for="tip in resourse" class="pure-u-1-3 pure-u-lg-4-24" :key="tip.name">
+                    <p class="tips tips-blue">$[tip.name]$</p>
+                    <p class="font-light">$[tip.content]$</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    `,
+    data: function() {
+        return {
+            resourse: this.initialSet.resourse,
+        }
+    },
+};
+
+const UserSettings = {
+    mixins: [userMixin,storeMap,userSetMixin],
+    template: /*html*/ `
+    <div @mousewheel="wheelChange" class="user-settings">
+        <div class="card-title">连接信息</div>
+        <div class="card-body">
+            <div class="pure-g wrap">
+                <div v-for="tip in tipsLink" class="pure-u-1-3 pure-u-lg-4-24" :key="tip.name">
+                    <p class="tips tips-blue">$[tip.name]$</p>
+                    <p class="font-light">$[tip.content]$</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    `,
+    data: function() {
+        return {
+            tipsLink: this.initialSet.tipsLink,
+        }
+    },
+};
 
 const Panel = {
     delimiters: ['$[',']$'],
@@ -1547,6 +1605,8 @@ const Panel = {
         'user-invite': UserInvite,
         'user-shop': UserShop,
         'user-guide': UserGuide,
+        'user-resourse': UserResourse,
+        'user-settings': UserSettings
     },
     template: /*html*/ `
     <div class="page-user pure-u-1">
@@ -1564,7 +1624,9 @@ const Panel = {
             <div class="usrcenter text-left pure-g space-between" v-else-if="userLoadState === 'loaded'">
                 <div class="pure-u-1 pure-u-sm-6-24">
                     <div class="card account-base">
-                        <div class="card-title">账户明细</div>
+                        <div class="flex space-between">
+                            <div class="card-title">账号明细</div>
+                        </div>
                         <div class="card-body">
                             <div class="pure-g">
                                 <div class="pure-u-1-2">
@@ -1688,16 +1750,15 @@ const Panel = {
                     </div>
                 </div>
                 <div class="pure-u-1 pure-u-sm-17-24">
-                    <div class="card">
-                        <div class="card-title">连接信息</div>
-                        <div class="card-body">
-                            <div class="pure-g">
-                                <div v-for="tip in tipsLink" class="pure-u-lg-4-24" :key="tip.name">
-                                    <p class="tips tips-blue">$[tip.name]$</p>
-                                    <p class="font-light">$[tip.content]$</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card relative">
+                        <uim-anchor>
+                            <ul slot="uim-anchor-inner">
+                                <li v-for="(page,index) in userSettings.pages" @click="changeUserSetPage(index)" :class="{ 'uim-anchor-active':userSettings.currentPage === page.id }" :data-page="page.id" :key="page.id"></li>
+                            </ul>
+                        </uim-anchor>
+                        <transition name="fade" mode="out-in">
+                        <component v-on:turnPageByWheel="scrollPage" :is="userSettings.currentPage" :initialSet="userSettings" class="card margin-nobottom"></component>
+                        </transition>
                     </div>
                     <div class="user-btngroup pure-g">
                         <div class="pure-u-16-24">
@@ -1715,7 +1776,7 @@ const Panel = {
                     </div>
                     <transition name="fade" mode="out-in">
                     <component :is="currentCardComponent" :baseURL="baseUrl" :annC="ann" class="card margin-nobottom">
-                        <button @click="componentChange" class="btn-inline" :data-component="menuOptions[3].id" slot="inviteToShop">成为VIP请点击这里</button>
+                        <button @click="componentChange" class="btn-inline text-red" :data-component="menuOptions[3].id" slot="inviteToShop">成为VIP请点击这里</button>
                     </component>
                     </transition>
                 </div>
@@ -1763,32 +1824,62 @@ const Panel = {
             },
             subLinkTrans: false,
             userCreditTrans: false,
-            tipsLink: [
-                {
-                    name: '端口',
-                    content: '',
-                },
-                {
-                    name: '密码',
-                    content: '',
-                },
-                {
-                    name: '加密',
-                    content: '',
-                },
-                {
-                    name: '协议',
-                    content: '',
-                },
-                {
-                    name: '混淆',
-                    content: '',
-                },
-                {
-                    name: '混淆参数',
-                    content: '',
-                },
-            ],
+            userSettings: {
+                pages: [
+                    {
+                        id: 'user-resourse',
+                    },
+                    {
+                        id: 'user-settings',
+                    },
+                ],
+                currentPage: 'user-resourse',
+                currentPageIndex: 0,
+                resourse: [
+                    {
+                        name: '等级有效期',
+                        content: '',
+                    },
+                    {
+                        name: '账号有效期',
+                        content: '',
+                    },
+                    {
+                        name: '在线设备数',
+                        content: '',
+                    },
+                    {
+                        name: '端口速率',
+                        content: '',
+                    },
+                ],
+                tipsLink: [
+                    {
+                        name: '端口',
+                        content: '',
+                    },
+                    {
+                        name: '密码',
+                        content: '',
+                    },
+                    {
+                        name: '加密',
+                        content: '',
+                    },
+                    {
+                        name: '协议',
+                        content: '',
+                    },
+                    {
+                        name: '混淆',
+                        content: '',
+                    },
+                    {
+                        name: '混淆参数',
+                        content: '',
+                    },
+                ],
+            },
             menuOptions: [
                 {
                     name: '公告栏',
@@ -2001,11 +2092,31 @@ const Panel = {
                 }
             });
         },
+        indexPlus(index,arrlength) {
+            if (index === arrlength - 1) {
+                this.userSettings.currentPageIndex = index;
+            } else {
+                this.userSettings.currentPageIndex += 1;
+            }
+            return this.userSettings.currentPageIndex;
+        },
+        indexMinus(index) {
+            if (index === 0) {
+                this.userSettings.currentPageIndex = index;
+            } else {
+                this.userSettings.currentPageIndex -= 1;
+            }
+            return this.userSettings.currentPageIndex;
+        },
         componentChange(e) {
             this.currentCardComponent = e.target.dataset.component;
         },
         changeAgentType(e) {
             this.currentDlType = e.target.dataset.type;
+        },
+        changeUserSetPage(index) {
+            this.userSettings.currentPage = this.userSettings.pages[index].id;
+            this.userSettings.currentPageIndex = index;
         },
         showToolTip(id) {
             this.toolTips[id] = true;
@@ -2038,6 +2149,15 @@ const Panel = {
                 this.userCreditTrans = false;
             }, 300);
         },
+        scrollPage(token) {
+            if (token > 0) {
+                let index = this.indexPlus(this.userSettings.currentPageIndex,this.userSettings.pages.length);
+                this.changeUserSetPage(index);
+            } else {
+                let index = this.indexMinus(this.userSettings.currentPageIndex);
+                this.changeUserSetPage(index);
+            }
+        },
     },
     mounted() {
         let self = this;
@@ -2055,12 +2175,16 @@ const Panel = {
                 this.subUrl = r.info.subUrl;
                 this.ssrSubToken = r.info.ssrSubToken;
                 this.mergeSub = r.info.mergeSub;
-                this.tipsLink[0].content = this.userCon.port;
-                this.tipsLink[1].content = this.userCon.passwd;
-                this.tipsLink[2].content = this.userCon.method;
-                this.tipsLink[3].content = this.userCon.protocol;
-                this.tipsLink[4].content = this.userCon.obfs;
-                this.tipsLink[5].content = this.userCon.obfs_param;
+                this.userSettings.resourse[0].content = this.userCon.class_expire;
+                this.userSettings.resourse[1].content = this.userCon.expire_in;
+                this.userSettings.resourse[2].content = this.userCon.node_connector;
+                this.userSettings.resourse[3].content = this.userCon.node_speedlimit;
+                this.userSettings.tipsLink[0].content = this.userCon.port;
+                this.userSettings.tipsLink[1].content = this.userCon.passwd;
+                this.userSettings.tipsLink[2].content = this.userCon.method;
+                this.userSettings.tipsLink[3].content = this.userCon.protocol;
+                this.userSettings.tipsLink[4].content = this.userCon.obfs;
+                this.userSettings.tipsLink[5].content = this.userCon.obfs_param;
             }
         }).then((r)=>{
             setTimeout(()=>{
@@ -2324,6 +2448,15 @@ Vue.component('uim-tooltip',{
     template:/*html*/ `
     <div class="uim-tooltip">
         <slot name="tooltip-inner"></slot>
+    </div>
+    `
+})
+
+Vue.component('uim-anchor',{
+    delimiters: ['$[',']$'],
+    template:/*html*/ `
+    <div class="uim-anchor">
+        <slot class="uim-anchor-inner" name="uim-anchor-inner"></slot>
     </div>
     `
 })
