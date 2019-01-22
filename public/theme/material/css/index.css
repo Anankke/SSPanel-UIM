@@ -1225,6 +1225,7 @@ button.uim-modal-confirm {
     display: block;
     background-color: transparent;
     border: 2px solid #434857;
+    border-top-color: transparent;
     transition: all .3s;
     cursor: pointer;
     z-index: 1;
@@ -1233,12 +1234,14 @@ button.uim-modal-confirm {
 .uim-anchor li:hover {
     border-color: #7cb7f7;
     box-shadow: 0 0 5px 1px #a1e2e2;
+    border-top-color: #7cb7f7;
 }
 
 .uim-anchor li.uim-anchor-active {
     background-color: #1997c6;
     border-color: #7cb7f7;
     box-shadow: 0 0 5px 0 #a1e2e2;
+    border-top-color: #7cb7f7;
 }
 
 .uim-anchor li:last-of-type {
