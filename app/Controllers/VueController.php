@@ -185,12 +185,18 @@ class VueController extends BaseController {
         return $response->getBody()->write(json_encode($res));
     }
 
-    public function getCredit($request, $response, $args)
+    public function getAllResourse($request, $response, $args)
     {
         $user = $this->user;
         
-        $res['arr'] = array(
-            'credit' => $user->money,
+        $res['resourse'] = array(
+            "money" => $user->money,
+            "class" => $user->class,
+            "class_expire" => $user->class_expire,
+            "expire_in" => $user->expire_in,
+            "online_ip_count" => $user->online_ip_count(),
+            "node_speedlimit" => $user->node_speedlimit,
+            "node_connector" => $user->node_connector,
         );
         $res['ret'] = 1;
 

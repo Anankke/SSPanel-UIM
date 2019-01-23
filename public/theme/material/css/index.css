@@ -567,6 +567,10 @@ select {
     color: #D1335B;
 }
 
+.font-gold-trans {
+    color: #faad14;
+}
+
 button.tips {
     background-color: transparent;
 }
