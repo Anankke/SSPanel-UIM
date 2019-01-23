@@ -720,7 +720,7 @@ const Login = {
                         this.$router.replace('/user/panel');
                     }, this.globalConfig.jumpDelay);
                 } else {
-                    callConfig.msg += '登录失败Boommm';
+                    callConfig.msg = `登录失败Boommm,${ r.msg }`;
                     callConfig.icon += 'fa-times-circle-o';
                     this.callMsgr(callConfig);
                     window.setTimeout(()=>{
@@ -941,14 +941,14 @@ const Register = {
 
             _post('/auth/register', JSON.stringify(ajaxCon),'include').then((r)=>{
                 if (r.ret == 1) {
-                    callConfig.msg += '注册成功meow~';
-                    callConfig.icon += 'fa-check-square-o';
+                    callConfig.msg = '注册成功meow~';
+                    callConfig.icon = 'fa-check-square-o';
                     this.callMsgr(callConfig);
                     window.setTimeout(()=>{
                         this.$router.replace('/auth/login');
                     }, this.globalConfig.jumpDelay);
                 } else {
-                    callConfig.msg += 'WTF……注册失败';
+                    callConfig.msg = `WTF……注册失败,${ r.msg }`;
                     callConfig.icon += 'fa-times-circle-o';
                     this.callMsgr(callConfig);
                     window.setTimeout(()=>{
