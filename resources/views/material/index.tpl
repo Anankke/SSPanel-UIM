@@ -939,7 +939,7 @@ const Register = {
                 }
             }
 
-            _post('/auth/register', JSON.stringify(ajaxCon),'omit').then((r)=>{
+            _post('/auth/register', JSON.stringify(ajaxCon),'include').then((r)=>{
                 if (r.ret == 1) {
                     callConfig.msg += '注册成功meow~';
                     callConfig.icon += 'fa-check-square-o';
