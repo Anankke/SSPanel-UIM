@@ -297,6 +297,11 @@ const UserTmp = {
             state.userSettings.tipsLink[4].content = config.obfs;
             state.userSettings.tipsLink[5].content = config.obfs_param;
         },
+        ADD_NEWUSERCON (state,config) {
+            for (let key in config) {
+                Vue.set(state.userCon,key,config[key]);
+            }
+        },
         SET_RESOURSE (state,config) {
             state.userSettings.resourse[config.index].content = config.content;
         }
@@ -442,6 +447,7 @@ var mutationMap = {
         setReasourse: 'SET_RESOURSE',
         setUserCon: 'SET_USERCON',
         setUserSettings: 'SET_USERSETTINGS',
+        addNewUserCon: 'ADD_NEWUSERCON',
     }),
 }
 
@@ -1666,15 +1672,15 @@ const UserResourse = {
             for (let i=0;i<resourse.length;i++) {
                 switch (resourse[i].name) {
                     case '在线设备数':
-                        if (this.userCon.node_connector!==0) {
-                            this.setReasourse({ index:i,content:resourse[i].content + ' / ' + this.userCon.node_connector });
+                        if (this.userCon.node_connector !== 0) {
+                            this.setReasourse({ index:i,content:this.userCon.online_ip_count + ' / ' + this.userCon.node_connector });
                         } else {
-                            this.setReasourse({ index:i,content:resourse[i].content + ' / 无限制' });
+                            this.setReasourse({ index:i,content:this.userCon.online_ip_count + ' / 无限制' });
                         }
                         break;
                     case '端口速率':
-                        if (resourse[i].content!==0) {
-                            this.setReasourse({ index:i,content:resourse[i].content + ' Mbps' });
+                        if (this.userCon.node_speedlimit !== 0) {
+                            this.setReasourse({ index:i,content:this.userCon.node_speedlimit + ' Mbps' });
                         } else {
                             this.setReasourse({ index:i,content:'无限制' });
                         }
@@ -1701,23 +1707,27 @@ const UserResourse = {
             let levelExpireDays = Math.floor(b/(24*3600*1000));
             let accountExpireDays = Math.floor(c/(24*3600*1000));
             if (levelExpireDays < 0 || levelExpireDays > 315360000000) {
-                this.setReasourse({ index:0,content:'无限期' });
+                this.addNewUserCon({ 'levelExpireDays':'无限期' });
+                this.setReasourse({ index:0,content:this.userCon.levelExpireDays });
             } else {
-                this.setReasourse({ index:0,content:levelExpireDays });
+                this.addNewUserCon({ 'levelExpireDays':levelExpireDays });
+                this.setReasourse({ index:0,content:this.userCon.levelExpireDays });
             }
             if (accountExpireDays < 0 || accountExpireDays > 315360000000) {
-                this.setReasourse({ index:1,content:'无限期' });
+                this.addNewUserCon({ 'accountExpireDays':'无限期' });
+                this.setReasourse({ index:1,content:this.userCon.accountExpireDays });
             } else {
-                this.setReasourse({ index:1,content:accountExpireDays });
+                this.addNewUserCon({ 'accountExpireDays':accountExpireDays });
+                this.setReasourse({ index:1,content:this.userCon.accountExpireDays });
             }
         },
     },
     created() {
-    
+        let resourse = this.userSettings.resourse;
+        this.calcExpireDays(this.userCon.class_expire,this.userCon.expire_in);
     },
     mounted() {
-        let resourse = this.userSettings.resourse;
-        this.calcExpireDays(resourse[0].content,resourse[1].content);
+        
     }
 };
 
