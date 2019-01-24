@@ -1686,8 +1686,18 @@ const UserResourse = {
                     <p class="font-light" :class="{ 'font-gold-trans':resourseTrans }"> <span class="user-config"></span> $[tip.content]$</p>
                 </div>
                 <div class="pure-u-1 pure-u-lg-8-24">
+                    <uim-progressbar class="uim-progressbar-sub">
+                        <span slot="uim-progressbar-label">已用流量/今日已用</span>
+                        <div slot="progress" class="uim-progressbar-gold uim-progressbar-progress" :style="{ width:transferObj.usedtotal + '%' }"></div>
+                        <div slot="progress-fold" class="uim-progressbar-red uim-progressbar-progress uim-progressbar-fold" :style="{ width:transferObj.usedtoday + '%' }"></div>
+                        <span slot="progress-text">$[userCon.lastUsedTraffic + '/' + userCon.todayUsedTraffic]$</span>
+                        <template slot="progress-sign">$[transferObj.usedtoday.toFixed(1) + '%']$</template>
+                    </uim-progressbar>
                     <uim-progressbar>
+                        <span slot="uim-progressbar-label">剩余流量</span>
                         <div slot="progress" class="uim-progressbar-blue uim-progressbar-progress" :style="{ width:transferObj.remain + '%' }"></div>
+                        <span slot="progress-text">$[userCon.unUsedTraffic]$</span>
+                        <template slot="progress-sign">$[transferObj.remain.toFixed(1) + '%']$</template>
                     </uim-progressbar>
                 </div>
             </div>
@@ -1726,7 +1736,7 @@ const UserResourse = {
             let lastdayTransfer = this.userCon.last_day_t;
             let obj = {
                 remain: enable === 0 ? 0 : (enable - upload - download)/enable*100,
-                usedtoday: enable === 0 ? 0 : (upload + download - lastdayTransfer)/enable*100,
+                usedtoday: enable === 0 ? 0 : (upload + download)/enable*100,
                 usedtotal: enable === 0 ? 0 : lastdayTransfer/enable*100,
             };
             return obj;
@@ -1765,10 +1775,11 @@ const UserResourse = {
     created() {
         let resourse = this.userSettings.resourse;
         this.calcExpireDays(this.userCon.class_expire,this.userCon.expire_in);
+        _get('/gettransfer','include').then((r)=>{
+            this.addNewUserCon(r.arr);
+            console.log(this.userCon);
+        });
     },
-    mounted() {
-        
-    }
 };
 
 const UserSettings = {
@@ -2582,10 +2593,14 @@ Vue.component('uim-anchor',{
 Vue.component('uim-progressbar',{
     delimiters: ['$[',']$'],
     template:/*html*/ `
-    <div class="uim-progressbar">
+    <div class="uim-progressbar" >
+        <div class="uim-progressbar-label"><slot name="uim-progressbar-label"></slot></div>
         <div class="uim-progressbar-inner">
             <slot name="progress"></slot>
+            <slot name="progress-fold"></slot>
+            <div class="uim-progress-text"><slot name="progress-text"></slot></div>
         </div>
+        <span class="uim-progress-sign"><slot name="progress-sign"></slot></span>
     </div>
     `
 })

@@ -237,5 +237,18 @@ class VueController extends BaseController {
         return $response->getBody()->write(json_encode($res));
     }
 
+    public function getTransfer($request, $response, $args)
+    {
+        $user = $this->user;
 
+        $res['arr'] = array(
+            "todayUsedTraffic" => $user->TodayusedTraffic(),
+            "lastUsedTraffic" => $user->LastusedTraffic(),
+            "unUsedTraffic" => $user->unusedTraffic(),
+        );
+
+        $res['ret'] = 1;
+        
+        return $response->getBody()->write(json_encode($res));
+    }
 }
