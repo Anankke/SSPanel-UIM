@@ -1678,26 +1678,29 @@ const UserResourse = {
     mixins: [userMixin,storeMap,userSetMixin],
     template: /*html*/ `
     <div @mousewheel="wheelChange" class="user-resourse">
-        <div class="card-title">可用资源</div>
+        <div class="flex align-baseline">
+            <div class="card-title">可用资源</div>
+            <span><button @click="dataRefresh" class="tips tips-green"><span class="fa fa-refresh"></span>刷新</button></span>
+        </div>
         <div class="card-body">
             <div class="pure-g wrap">
                 <div v-for="tip in calcResourse" class="pure-u-1-2 pure-u-lg-4-24" :key="tip.name">
-                    <p class="tips tips-blue">$[tip.name]$</p>
-                    <p class="font-light" :class="{ 'font-gold-trans':resourseTrans }"> <span class="user-config"></span> $[tip.content]$</p>
+                    <p class="tips tips-blue"> $[tip.name]$</p>
+                    <p class="font-light" class="user-config" :class="{ 'font-gold-trans':resourseTrans,'font-green-trans':isDataRefreshed }"> <span class="user-config"></span> $[tip.content]$</p>
                 </div>
                 <div class="pure-u-1 pure-u-lg-8-24">
                     <uim-progressbar class="uim-progressbar-sub">
                         <span slot="uim-progressbar-label">已用流量/今日已用</span>
                         <div slot="progress" class="uim-progressbar-gold uim-progressbar-progress" :style="{ width:transferObj.usedtotal + '%' }"></div>
                         <div slot="progress-fold" class="uim-progressbar-red uim-progressbar-progress uim-progressbar-fold" :style="{ width:transferObj.usedtoday + '%' }"></div>
-                        <span slot="progress-text">$[userCon.lastUsedTraffic + '/' + userCon.todayUsedTraffic]$</span>
-                        <template slot="progress-sign">$[transferObj.usedtoday.toFixed(1) + '%']$</template>
+                        <span class="user-config" :class="{ 'font-green-trans':isDataRefreshed }" slot="progress-text">$[userCon.lastUsedTraffic + '/' + userCon.todayUsedTraffic]$</span>
+                        <span slot="progress-sign" class="user-config" :class="{ 'font-green-trans':isDataRefreshed }">$[transferObj.usedtoday.toFixed(1) + '%']$</span>
                     </uim-progressbar>
                     <uim-progressbar>
-                        <span slot="uim-progressbar-label">剩余流量</span>
+                        <span slot="uim-progressbar-label">可用流量</span>
                         <div slot="progress" class="uim-progressbar-blue uim-progressbar-progress" :style="{ width:transferObj.remain + '%' }"></div>
-                        <span slot="progress-text">$[userCon.unUsedTraffic]$</span>
-                        <template slot="progress-sign">$[transferObj.remain.toFixed(1) + '%']$</template>
+                        <span :class="{ 'font-green-trans':isDataRefreshed }" slot="progress-text">$[userCon.unUsedTraffic]$</span>
+                        <span slot="progress-sign" class="user-config" :class="{ 'font-green-trans':isDataRefreshed }">$[transferObj.remain.toFixed(1) + '%']$</span>
                     </uim-progressbar>
                 </div>
             </div>
@@ -1742,6 +1745,11 @@ const UserResourse = {
             return obj;
         },
     },
+    data: function() {
+        return {
+            isDataRefreshed: false,
+        }
+    },
     methods: {
         DateParse(str_date) {
             let str_date_splited = str_date.split(/[^0-9]/);
@@ -1770,6 +1778,19 @@ const UserResourse = {
                 this.addNewUserCon({ 'accountExpireDays':accountExpireDays });
                 this.setReasourse({ index:1,content:this.userCon.accountExpireDays + ' 天' });
             }
+        },
+        dataRefresh() {
+            _get('/gettransfer','include').then((r)=>{
+                this.addNewUserCon(r.arr);
+                this.reConfigResourse();
+                this.showTransition('isDataRefreshed');
+            });
+        },
+        showTransition(key) {
+            this[key] = true;
+            setTimeout(() => {
+                this[key] = false;
+            }, 500);
         },
     },
     created() {

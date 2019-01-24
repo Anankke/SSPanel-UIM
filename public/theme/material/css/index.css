@@ -33,6 +33,10 @@ a {
     align-items: center;
 }
 
+.align-baseline {
+    align-items: baseline;
+}
+
 .justify-center {
     justify-content: center;
 }
@@ -540,6 +544,7 @@ select {
     border: 1px solid;
     font-size: 14px;
     border-radius: 3px;
+    outline: none;
 }
 
 .tips-blue {
@@ -578,6 +583,10 @@ select {
 
 .font-gold-trans {
     color: #faad14;
+}
+
+.font-green-trans {
+    color: #52c41a;
 }
 
 button.tips {
@@ -1276,11 +1285,6 @@ button.uim-modal-confirm {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: .5rem;
-}
-
-.uim-progressbar:last-of-type {
-    margin-bottom: 0;
 }
 
 .uim-progressbar-inner,
@@ -1292,6 +1296,7 @@ button.uim-modal-confirm {
     background-color: #434857;
     border-radius: 5px;
     position: relative;
+    transition: all .3s;
 }
 
 .uim-progressbar-inner {
@@ -1349,7 +1354,7 @@ button.uim-modal-confirm {
 
 .uim-progressbar-label {
     font-size: 12px;
-    margin-bottom: .3rem;
+    margin-bottom: .2rem;
     width: 100%;
 }
 
@@ -1364,7 +1369,7 @@ button.uim-modal-confirm {
 }
 
 .uim-progressbar-sub .uim-progress-text {
-    top: -100%;
+    top: -115%;
 }
 
 .uim-progress-sign {
