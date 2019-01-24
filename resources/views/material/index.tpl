@@ -1685,6 +1685,11 @@ const UserResourse = {
                     <p class="tips tips-blue">$[tip.name]$</p>
                     <p class="font-light" :class="{ 'font-gold-trans':resourseTrans }"> <span class="user-config"></span> $[tip.content]$</p>
                 </div>
+                <div class="pure-u-1 pure-u-lg-8-24">
+                    <uim-progressbar>
+                        <div slot="progress" class="uim-progressbar-blue uim-progressbar-progress" :style="{ width:transferObj.remain + '%' }"></div>
+                    </uim-progressbar>
+                </div>
             </div>
         </div>
     </div>
@@ -1713,6 +1718,18 @@ const UserResourse = {
                 }
             }
             return resourse;
+        },
+        transferObj: function() {
+            let enable = this.userCon.transfer_enable;
+            let upload = this.userCon.u;
+            let download = this.userCon.d;
+            let lastdayTransfer = this.userCon.last_day_t;
+            let obj = {
+                remain: enable === 0 ? 0 : (enable - upload - download)/enable*100,
+                usedtoday: enable === 0 ? 0 : (upload + download - lastdayTransfer)/enable*100,
+                usedtotal: enable === 0 ? 0 : lastdayTransfer/enable*100,
+            };
+            return obj;
         },
     },
     methods: {
@@ -1818,7 +1835,7 @@ const Panel = {
                             </div>
                         </div>
                     </div>
-                    <div class="card margin-nobottom">
+                    <div class="card quickset margin-nobottom-sm">
                         <div class="card-title">快速配置</div>
                         <div class="card-body">
                             <div class="pure-g">
@@ -1934,10 +1951,11 @@ const Panel = {
                                     <li @click="componentChange" v-for="menu in menuOptions" :data-component="menu.id" :key="menu.id">$[menu.name]$</li>
                                 </ul>
                             </uim-dropdown>
+                            <a v-if="userCon.is_admin === true" class="btn-user" href="/admin">运营中心</a>
                         </div>
                         <div class="pure-u-1-2 pure-u-sm-8-24 text-right">
-                            <a href="/user" class="btn-user">进入管理面板</a>
-                            <button @click="logout" class="btn-user">登出</button>                            
+                            <a href="/user" class="btn-user">管理面板</a>
+                            <button @click="logout" class="btn-user">账号登出</button>                            
                         </div>
                     </div>
                     <transition name="fade" mode="out-in">
@@ -2557,6 +2575,17 @@ Vue.component('uim-anchor',{
     template:/*html*/ `
     <div class="uim-anchor">
         <slot class="uim-anchor-inner" name="uim-anchor-inner"></slot>
+    </div>
+    `
+})
+
+Vue.component('uim-progressbar',{
+    delimiters: ['$[',']$'],
+    template:/*html*/ `
+    <div class="uim-progressbar">
+        <div class="uim-progressbar-inner">
+            <slot name="progress"></slot>
+        </div>
     </div>
     `
 })

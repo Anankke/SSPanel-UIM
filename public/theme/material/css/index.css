@@ -57,16 +57,16 @@ a {
     color: #D1335B;
 }
 
-.margin-nobottom {
-    margin-bottom: 0 !important;
-}
-
 .relative {
     position: relative;
 }
 
 [v-cloak] {
     display: none;
+}
+
+.margin-nobottom {
+    margin-bottom: 0 !important;
 }
 
 .nav,
@@ -495,6 +495,11 @@ select {
     margin-bottom: 1.5rem;
 }
 
+.user-btngroup a,
+.user-btngroup button {
+    min-width: 120px;
+}
+
 .card:hover,
 .list-shop:hover {
     border: 1px solid white;
@@ -857,6 +862,10 @@ button[name=reset] {
         margin-bottom: .5rem;
         margin-left: .75rem;
     }
+
+    .margin-nobottom-sm {
+        margin-bottom: 0 !important;
+    }
 }
 
 @media screen and (min-width:48em) {
@@ -992,6 +1001,7 @@ input[type=checkbox].uim-checkbox {
 
 .uim-dropdown {
     position: relative;
+    display: inline-block;
 }
 
 .uim-dropdown-menu {
@@ -1258,6 +1268,56 @@ button.uim-modal-confirm {
 
 .uim-anchor li:last-of-type {
     border-radius: 0 0 12px 12px;
+}
+
+/* progressbar */
+
+.uim-progressbar-inner,
+.uim-progressbar-progress,
+.uim-progressbar-progress:before {
+    display: inline-block;
+    height: 10px;
+    width: 100%;
+    background-color: #434857;
+    border-radius: 5px;
+    position: relative;
+}
+
+.uim-progressbar-progress,
+.uim-progressbar-progress:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    z-index: 3
+}
+
+.uim-progressbar-progress:before {
+    content: "";
+    opacity: 0;
+    width: unset;
+    z-index: 4;
+    background-color: #fff;
+    border-radius: 5px;
+    -webkit-animation: uim-progress-active 2s ease-in-out infinite;
+    animation: uim-progress-active 2s ease-in-out infinite;
+}
+
+.uim-progressbar .uim-progressbar-blue {
+    background-color: #2d8cf0;
+    box-shadow: 0 0 7px 0 #13c2c2;
+}
+
+@keyframes uim-progress-active {
+    from {
+        opacity: .3;
+        width: 0
+    }
+
+    to {
+        opacity: 0;
+        width: 100%
+    }
 }
 
 /* loading 动画 */
