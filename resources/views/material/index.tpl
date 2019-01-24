@@ -1681,7 +1681,7 @@ const UserResourse = {
         <div class="card-title">可用资源</div>
         <div class="card-body">
             <div class="pure-g wrap">
-                <div v-for="tip in calcResourse" class="pure-u-1-3 pure-u-lg-4-24" :key="tip.name">
+                <div v-for="tip in calcResourse" class="pure-u-1-2 pure-u-lg-4-24" :key="tip.name">
                     <p class="tips tips-blue">$[tip.name]$</p>
                     <p class="font-light" :class="{ 'font-gold-trans':resourseTrans }"> <span class="user-config"></span> $[tip.content]$</p>
                 </div>
@@ -1761,7 +1761,7 @@ const UserSettings = {
         <div class="card-title">连接信息</div>
         <div class="card-body">
             <div class="pure-g wrap">
-                <div v-for="tip in userSettings.tipsLink" class="pure-u-1-3 pure-u-lg-4-24" :key="tip.name">
+                <div v-for="tip in userSettings.tipsLink" class="pure-u-1-2 pure-u-lg-4-24" :key="tip.name">
                     <p class="tips tips-blue">$[tip.name]$</p>
                     <p class="font-light">$[tip.content]$</p>
                 </div>
@@ -1927,7 +1927,7 @@ const Panel = {
                         </transition>
                     </div>
                     <div class="user-btngroup pure-g">
-                        <div class="pure-u-16-24">
+                        <div class="pure-u-1-2 pure-u-sm-16-24">
                             <uim-dropdown>
                                 <span slot="dpbtn-content">栏目导航</span>
                                 <ul slot="dp-menu">
@@ -1935,7 +1935,7 @@ const Panel = {
                                 </ul>
                             </uim-dropdown>
                         </div>
-                        <div class="pure-u-8-24 text-right">
+                        <div class="pure-u-1-2 pure-u-sm-8-24 text-right">
                             <a href="/user" class="btn-user">进入管理面板</a>
                             <button @click="logout" class="btn-user">登出</button>                            
                         </div>

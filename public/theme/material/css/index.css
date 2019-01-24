@@ -305,6 +305,10 @@ button.tips:disabled {
     width: 100%;
 }
 
+.user {
+    padding: 0 .5rem;
+}
+
 .auth h1 {
     font-size: 3.5rem;
     margin-top: 0;
@@ -769,6 +773,10 @@ button[name=reset] {
 }
 
 @media screen and (min-width:35.5em) {
+    .user {
+        padding: 0;
+    }
+
     .auth-tg {
         margin-top: 0;
     }
