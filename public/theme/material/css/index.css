@@ -691,6 +691,7 @@ button.tips {
 
 .invite-link {
     width: 100%;
+    cursor: pointer;
 }
 
 .user-invite-title .uim-tooltip {
