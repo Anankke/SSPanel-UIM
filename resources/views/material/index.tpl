@@ -117,9 +117,9 @@
     {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js?render=explicit" async defer></script>
     {/if}
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuex@3.1.0/dist/vuex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.2/dist/vue-router.min.js"></script>
     {if isset($geetest_html)}
 	<script src="//static.geetest.com/static/tools/gt.js"></script>
     {/if}
