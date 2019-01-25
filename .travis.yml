@@ -13,7 +13,7 @@ before_install:
   - sudo sed -i 's|http://us-central1.gce.archive.ubuntu.com|https://ubuntu.mirror.noc.one|g' /etc/apt/sources.list
   - sudo sed -i 's|http://ppa.launchpad.net|https://launchpad.proxy.noc.one|g' /etc/apt/sources.list.d/*.list
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-  - sudo apt clean all && sudo apt update
+  - sudo apt clean all && sudo apt -qq -y update
   - sudo apt install -y nodejs
   - composer config -g repos.packagist composer https://packagist.noc.one
 install:
