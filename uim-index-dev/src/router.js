@@ -9,6 +9,10 @@ import Reset from './views/Reset.vue'
 import User from './views/User.vue'
 import Panel from './views/Panel.vue'
 
+import { globalConfig } from './App.vue'
+import { _get } from './js/fetch'
+import tmp from './store'
+
 Vue.use(Router)
 
 export default router;

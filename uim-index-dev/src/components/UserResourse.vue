@@ -67,8 +67,19 @@
 </template>
 
 <script>
+import storeMap from '@/mixins/storeMap'
+import userMixin from '@/mixins/userMixin'
+import userSetMixin from '@/mixins/userSetMixin'
+
+import Progressbar from '@/components/progressbar.vue'
+
+import { _get } from '../js/fetch'
+
 export default {
   mixins: [userMixin, storeMap, userSetMixin],
+  components: {
+    'uim-progressbar': Progressbar,
+  },
   computed: {
     calcResourse: function() {
       let resourse = this.userSettings.resourse;

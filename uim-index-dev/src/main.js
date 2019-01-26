@@ -1,15 +1,25 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import Router from './router' 
+import storeMap from './mixins/storeMap'
+import './css/index_base.css'
+import './css/index.css'
 
 Vue.config.productionTip = false
 
+import Messager from './components/messager.vue'
+import Uimclip from './directives/uimclip'
+import { _get } from './js/fetch'
+
+Vue.directive('uimclip',Uimclip)
+
 new Vue({
-  router,
-  store,
+  router: Router,
   delimiters: ['$[', ']$'],
   mixins: [storeMap],
+  components: {
+    'uim-messager': Messager,
+  },
   data: {
     routerN: 'auth',
     transType: 'slide-fade'

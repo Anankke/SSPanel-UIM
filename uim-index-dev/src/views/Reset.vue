@@ -27,6 +27,9 @@
 </template>
 
 <script>
+import storeMap from '@/mixins/storeMap'
+import { _post } from '../js/fetch'
+
 export default {
   delimiters: ["$[", "]$"],
   mixins: [storeMap],

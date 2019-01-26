@@ -129,8 +129,19 @@
 </template>
 
 <script>
+import storeMap from '@/mixins/storeMap'
+import userMixin from '@/mixins/userMixin'
+
+import Tooltip from '@/components/tooltip.vue'
+
+import { _get } from '../js/fetch'
+import { _post } from '../js/fetch'
+
 export default {
   mixins: [userMixin, storeMap],
+  components: {
+    "uim-tooltip": Tooltip,
+  },
   computed: {
     inviteLink: function() {
       return this.baseURL + "/#/auth/register?code=" + this.code;

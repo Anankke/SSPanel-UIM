@@ -307,6 +307,20 @@
 </template>
 
 <script>
+import storeMap from '@/mixins/storeMap'
+import UserAnnouncement from '@/components/UserAnnouncement.vue'
+import UserInvite from '@/components/UserInvite.vue'
+import UserShop from '@/components/UserShop.vue'
+import UserGuide from '@/components/UserGuide.vue'
+import UserResourse from '@/components/UserResourse.vue'
+import UserSettings from '@/components/UserSettings.vue'
+
+import Dropdown from '@/components/dropdown.vue'
+import Tooltip from '@/components/tooltip.vue'
+import Anchor from '@/components/anchor.vue'
+
+import { _get } from '../js/fetch'
+
 export default {
   delimiters: ["$[", "]$"],
   mixins: [storeMap],
@@ -316,7 +330,10 @@ export default {
     "user-shop": UserShop,
     "user-guide": UserGuide,
     "user-resourse": UserResourse,
-    "user-settings": UserSettings
+    "user-settings": UserSettings,
+    "uim-dropdown": Dropdown,
+    "uim-tooltip": Tooltip,
+    "uim-anchor": Anchor,
   },
   props: ["routermsg"],
   computed: {

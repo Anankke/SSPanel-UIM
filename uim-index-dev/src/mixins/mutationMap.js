@@ -1,5 +1,7 @@
+import { mapMutations } from 'vuex'
+
 export default {
-    methods: Vuex.mapMutations({
+    methods: ...mapMutations({
         setGlobalConfig: 'SET_GLOBALCONFIG',
         setHitokoto: 'SET_HITOKOTO',
         setJinRiShiCi: 'SET_JINRISHICI',

@@ -68,9 +68,19 @@
 </template>
 
 <script>
+import storeMap from '@/mixins/storeMap'
+import storeMap from '@/mixins/storeAuth'
+
+import Checkbox from '@/components/checkbox.vue'
+
+import { _post } from '../js/fetch'
+
 export default {
   delimiters: ["$[", "]$"],
   mixins: [storeMap, storeAuth],
+  components: {
+    "uim-checkbox": Checkbox,
+  },
   computed: Vuex.mapState({
     telegramHref: function() {
       return "https://t.me/" + this.globalConfig.telegram_bot;

@@ -13,6 +13,10 @@
 </template>
 
 <script>
+import storeMap from '@/mixins/storeMap'
+import userMixin from '@/mixins/userMixin'
+import userSetMixin from '@/mixins/userSetMixin'
+
 export default {
   mixins: [userMixin, storeMap, userSetMixin]
 };

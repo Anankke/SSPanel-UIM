@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: 'uim-anchor',
   delimiters: ["$[", "]$"]
 };
 </script>

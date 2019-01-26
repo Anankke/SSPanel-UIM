@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import storeMap from '@/mixins/storeMap'
+
 export default {
   delimiters: ["$[", "]$"],
   mixins: [storeMap],

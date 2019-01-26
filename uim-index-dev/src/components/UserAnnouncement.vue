@@ -8,6 +8,9 @@
 </template>
 
 <script>
+import storeMap from '@/mixins/storeMap'
+import userMixin from '@/mixins/userMixin'
+
 export default {
   mixins: [userMixin, storeMap]
 };

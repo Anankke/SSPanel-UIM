@@ -1,3 +1,5 @@
+import { _get } from '../js/fetch'
+
 export default {
     methods: {
         loadCaptcha(id) {

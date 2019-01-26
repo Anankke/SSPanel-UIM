@@ -69,6 +69,11 @@
 </template>
 
 <script>
+import storeMap from '@/mixins/storeMap'
+import storeMap from '@/mixins/storeAuth'
+
+import { _post } from '../js/fetch'
+
 export default {
   delimiters: ["$[", "]$"],
   mixins: [storeMap, storeAuth],
