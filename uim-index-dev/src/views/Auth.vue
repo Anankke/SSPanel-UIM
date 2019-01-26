@@ -13,7 +13,7 @@
           <i class="fa fa-circle fa-stack-2x"></i>
           <i :class="links.icon"></i>
         </span>
-        <span>$[links.content]$</span>
+        <span>{{links.content}}</span>
       </router-link>
     </div>
     <transition name="slide-fade" mode="out-in">
@@ -24,7 +24,6 @@
 
 <script>
 export default {
-  delimiters: ["$[", "]$"],
   props: ["routermsg"],
   data: function() {
     return {

@@ -14,7 +14,6 @@
 
 <script>
 export default {
-  delimiters: ["$[", "]$"],
   model: {
     prop: "isBtnActive",
     event: "change"

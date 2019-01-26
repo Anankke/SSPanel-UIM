@@ -1,8 +1,8 @@
 <template>
     <div class="title pure-g">
         <div class="pure-u-1 pure-u-xl-1-2 title-left">
-            <h1>$[routermsg.appname]$</h1>
-            <span>$[routermsg.hitokoto]$</span>
+            <h1>{{routermsg.appname}}</h1>
+            <span>{{routermsg.hitokoto}}</span>
             <router-link class="button-index" to="/auth/login">登录</router-link>
             <router-link class="button-index" to="/auth/register">注册</router-link>
             <router-link class="button-index" to="/user/panel">用户中心</router-link>
@@ -15,7 +15,6 @@
 
 <script>
 export default {
-    delimiters: ['$[',']$'],
     props: ['routermsg'],
 }
 </script>

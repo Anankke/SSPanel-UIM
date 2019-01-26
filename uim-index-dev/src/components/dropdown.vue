@@ -13,7 +13,6 @@
 
 <script>
 export default {
-  delimiters: ["$[", "]$"],
   data: function() {
     return {
       isDropdown: false

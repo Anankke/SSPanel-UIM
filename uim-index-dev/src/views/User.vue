@@ -6,7 +6,6 @@
 
 <script>
 export default {
-    delimiters: ['$[',']$'],
     props: ['routermsg'],
 }
 </script>

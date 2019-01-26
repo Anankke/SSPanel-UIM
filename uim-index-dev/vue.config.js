@@ -1,3 +1,4 @@
 module.exports = {
-    outputDir: '../public/vuedist/'
+    publicPath: '/vuedist/',
+    outputDir: '../public/vuedist/',
   }

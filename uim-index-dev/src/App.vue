@@ -11,8 +11,8 @@
             <a href="/indexold" class="flex align-center">
               <img class="logo" src="/images/logo_white.png" alt="logo">
               <div class="info">
-                <div class="name">$[globalConfig.indexMsg.appname]$</div>
-                <div class="sign">$[globalConfig.indexMsg.jinrishici]$</div>
+                <div class="name">{{globalConfig.indexMsg.appname}}</div>
+                <div class="sign">{{globalConfig.indexMsg.jinrishici}}</div>
               </div>
             </a>
           </div>
@@ -55,13 +55,13 @@
           <div
             class="pure-u-1 pure-u-sm-1-2 time"
             :class="{ enableCrisp:globalConfig.crisp === 'true' }"
-          >&copy;$[globalConfig.indexMsg.date]$ $[globalConfig.indexMsg.appname]$</div>
+          >&copy;{{globalConfig.indexMsg.date}} {{globalConfig.indexMsg.appname}}</div>
         </div>
 
         <transition name="slide-fade" mode="out-in">
           <uim-messager v-show="msgrCon.isShow">
             <i slot="icon" :class="msgrCon.icon"></i>
-            <span slot="msg">$[msgrCon.msg]$</span>
+            <span slot="msg">{{msgrCon.msg}}</span>
             <div v-if="msgrCon.html !== ''" slot="html" v-html="msgrCon.html"></div>
           </uim-messager>
         </transition>
@@ -71,16 +71,68 @@
 </template>
 
 <script>
-;(function(){
-  if (!window.Vuex) {
-    window.location = '/indexold';
-  }
-})();
+import Router from './router'
+import storeMap from '@/mixins/storeMap'
+import Messager from "./components/messager.vue";
 
-export let validate,captcha;
+import { _get } from "./js/fetch";
 
-export let globalConfig;
-
+export default {
+  router: Router,
+  mixins: [storeMap],
+  components: {
+    "uim-messager": Messager
+  },
+  data: function() {
+    return {
+      routerN: "auth",
+      transType: "slide-fade"
+    };
+  },
+  methods: {
+    routeJudge() {
+      switch (this.$route.path) {
+        case "/":
+          if (this.logintoken == false) {
+            this.routerN = "auth";
+          } else {
+            this.routerN = "user";
+          }
+          break;
+        default:
+          this.routerN = "index";
+      }
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.routeJudge();
+      if (to.path === "/password/reset" || from.path === "/password/reset") {
+        this.transType = "rotate-fade";
+      } else {
+        this.transType = "slide-fade";
+      }
+    }
+  },
+  beforeMount() {
+    fetch("https://api.lwl12.com/hitokoto/v1")
+      .then(r => {
+        return r.text();
+      })
+      .then(r => {
+        this.setHitokoto(r);
+      });
+    _get("https://v2.jinrishici.com/one.json", "include").then(r => {
+      this.setJinRiShiCi(r.data.content);
+    });
+  },
+  mounted() {
+    this.routeJudge();
+    setTimeout(() => {
+      this.setLoadState();
+    }, 1000);
+  },
+};
 </script>
 
 

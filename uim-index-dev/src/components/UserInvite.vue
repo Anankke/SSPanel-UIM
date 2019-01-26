@@ -25,13 +25,13 @@
           <div slot="tooltip-inner">
             <span v-if="toolInputType === 'buy'">
               <div>确认购买
-                <span class="text-red">$[toolInputContent]$</span> 个吗？总价为
-                <span class="text-red">￥$[totalPrice]$</span>
+                <span class="text-red">{{toolInputContent}}</span> 个吗？总价为
+                <span class="text-red">￥{{totalPrice}}</span>
               </div>
             </span>
             <span v-if="toolInputType === 'custom'">确认定制链接后缀为
-              <span class="text-red">$[toolInputContent]$</span> 吗？价格为
-              <span class="text-red">￥$[customPrice]$</span>
+              <span class="text-red">{{toolInputContent}}</span> 吗？价格为
+              <span class="text-red">￥{{customPrice}}</span>
             </span>
             <div>
               <button @click="submitOrder" class="tips tips-green">
@@ -47,11 +47,11 @@
       <transition name="fade" mode="out-in">
         <div v-show="showToolInput">
           <div class="flex align-center" v-if="toolInputType === 'buy'" key="buy">
-            <span v-show="toolInputType === 'buy'" class="tips tips-green">￥$[invitePrice]$/次</span>
-            <span v-show="toolInputType === 'buy'" class="tips tips-gold">总价：￥$[totalPrice]$</span>
+            <span v-show="toolInputType === 'buy'" class="tips tips-green">￥{{invitePrice}}/次</span>
+            <span v-show="toolInputType === 'buy'" class="tips tips-gold">总价：￥{{totalPrice}}</span>
           </div>
           <div class="flex align-center" v-else key="custom">
-            <span v-show="toolInputType === 'custom'" class="tips tips-green">价格：￥$[customPrice]$</span>
+            <span v-show="toolInputType === 'custom'" class="tips tips-green">价格：￥{{customPrice}}</span>
           </div>
         </div>
       </transition>
@@ -106,7 +106,7 @@
             <span
               :class="{ 'tips-gold-trans':inviteTimeTrans }"
               class="invite-number tips tips-gold"
-            >$[userCon.invite_num]$次</span>
+            >{{userCon.invite_num}}次</span>
             <span v-if="invitePrice >= 0">
               <button
                 @click="showBuyToolInput"
@@ -119,7 +119,7 @@
           </h5>
         </div>
         <div v-else>
-          <h3>$[userCon.user_name]$，您不是VIP暂时无法使用邀请链接，
+          <h3>{{userCon.user_name}}，您不是VIP暂时无法使用邀请链接，
             <slot name="inviteToShop"></slot>
           </h3>
         </div>

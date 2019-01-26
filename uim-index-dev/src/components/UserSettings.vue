@@ -4,8 +4,8 @@
     <div class="card-body">
       <div class="pure-g wrap">
         <div v-for="tip in userSettings.tipsLink" class="pure-u-1-2 pure-u-lg-4-24" :key="tip.name">
-          <p class="tips tips-blue">$[tip.name]$</p>
-          <p class="font-light">$[tip.content]$</p>
+          <p class="tips tips-blue">{{tip.name}}</p>
+          <p class="font-light">{{tip.content}}</p>
         </div>
       </div>
     </div>

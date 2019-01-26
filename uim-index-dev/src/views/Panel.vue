@@ -21,9 +21,9 @@
               <div class="pure-g">
                 <div class="pure-u-1-2">
                   <p class="tips tips-blue">用户名</p>
-                  <p class="font-light">$[userCon.user_name]$</p>
+                  <p class="font-light">{{userCon.user_name}}</p>
                   <p class="tips tips-blue">邮箱</p>
-                  <p class="font-light">$[userCon.email]$</p>
+                  <p class="font-light">{{userCon.email}}</p>
                 </div>
                 <div class="pure-u-1-2">
                   <p class="tips tips-blue">VIP等级</p>
@@ -31,14 +31,14 @@
                     <span
                       class="user-config"
                       :class="{ 'font-gold-trans':userResourseTrans }"
-                    >Lv. $[userCon.class]$</span>
+                    >Lv. {{userCon.class}}</span>
                   </p>
                   <p class="tips tips-blue">余额</p>
                   <p class="font-light">
                     <span
                       class="user-config"
                       :class="{ 'font-red-trans':userCreditTrans }"
-                    >$[userCon.money]$</span>
+                    >{{userCon.money}}</span>
                   </p>
                 </div>
               </div>
@@ -55,7 +55,7 @@
                   :class="{ 'index-btn-active':currentDlType === dl.type }"
                   class="pure-u-1-3 btn-user dl-type"
                   :key="dl.type"
-                >$[dl.type]$</button>
+                >{{dl.type}}</button>
                 <h5 class="pure-u-1">平台选择/客户端下载</h5>
                 <transition name="rotate-fade" mode="out-in">
                   <div v-if="currentDlType === 'SSR'" class="dl-link" key="ssr">
@@ -64,10 +64,10 @@
                       class="pure-u-1-3 btn-user"
                       :key="key"
                     >
-                      <span slot="dpbtn-content">$[key]$</span>
+                      <span slot="dpbtn-content">{{key}}</span>
                       <ul slot="dp-menu">
                         <li v-for="agent in value" :key="agent.id">
-                          <a :href="agent.href">$[agent.agentName]$</a>
+                          <a :href="agent.href">{{agent.agentName}}</a>
                         </li>
                       </ul>
                     </uim-dropdown>
@@ -78,10 +78,10 @@
                       class="pure-u-1-3 btn-user"
                       :key="key"
                     >
-                      <span slot="dpbtn-content">$[key]$</span>
+                      <span slot="dpbtn-content">{{key}}</span>
                       <ul slot="dp-menu">
                         <li v-for="agent in value" :key="agent.id">
-                          <a :href="agent.href">$[agent.agentName]$</a>
+                          <a :href="agent.href">{{agent.agentName}}</a>
                         </li>
                       </ul>
                     </uim-dropdown>
@@ -92,10 +92,10 @@
                       class="pure-u-1-3 btn-user"
                       :key="key"
                     >
-                      <span slot="dpbtn-content">$[key]$</span>
+                      <span slot="dpbtn-content">{{key}}</span>
                       <ul slot="dp-menu">
                         <li v-for="agent in value" :key="agent.id">
-                          <a :href="agent.href">$[agent.agentName]$</a>
+                          <a :href="agent.href">{{agent.agentName}}</a>
                         </li>
                       </ul>
                     </uim-dropdown>
@@ -148,7 +148,7 @@
                           class="uim-tooltip-top flex justify-center"
                         >
                           <div class="sublink" slot="tooltip-inner">
-                            <span>$[suburlMu0]$</span>
+                            <span>{{suburlMu0}}</span>
                           </div>
                         </uim-tooltip>
                       </span>
@@ -174,7 +174,7 @@
                           class="uim-tooltip-top flex justify-center"
                         >
                           <div class="sublink" slot="tooltip-inner">
-                            <span>$[suburlMu1]$</span>
+                            <span>{{suburlMu1}}</span>
                           </div>
                         </uim-tooltip>
                       </span>
@@ -203,7 +203,7 @@
                       class="pure-u-1 uim-tooltip-top flex justify-center"
                     >
                       <div class="sublink" slot="tooltip-inner">
-                        <span>$[suburlMu2]$</span>
+                        <span>{{suburlMu2}}</span>
                       </div>
                     </uim-tooltip>
                   </div>
@@ -230,7 +230,7 @@
                       class="pure-u-1 uim-tooltip-top flex justify-center"
                     >
                       <div class="sublink" slot="tooltip-inner">
-                        <span>$[suburlMu3]$</span>
+                        <span>{{suburlMu3}}</span>
                       </div>
                     </uim-tooltip>
                   </div>
@@ -274,7 +274,7 @@
                     v-for="menu in menuOptions"
                     :data-component="menu.id"
                     :key="menu.id"
-                  >$[menu.name]$</li>
+                  >{{menu.name}}</li>
                 </ul>
               </uim-dropdown>
               <a v-if="userCon.is_admin === true" class="btn-user" href="/admin">运营中心</a>
@@ -322,7 +322,6 @@ import Anchor from '@/components/anchor.vue'
 import { _get } from '../js/fetch'
 
 export default {
-  delimiters: ["$[", "]$"],
   mixins: [storeMap],
   components: {
     "user-announcement": UserAnnouncement,

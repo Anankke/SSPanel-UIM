@@ -26,15 +26,15 @@
       <div class="user-shop">
         <div v-for="shop in shops" class="list-shop pure-g" :key="shop.id">
           <div class="pure-u-20-24">
-            <span>$[shop.name]$</span>
-            <span class="tips tips-gold">VIP $[shop.details.class]$</span>
-            <span class="tips tips-green">￥$[shop.price]$</span>
-            <span class="tips tips-cyan">$[shop.details.bandwidth]$G
+            <span>{{shop.name}}</span>
+            <span class="tips tips-gold">VIP {{shop.details.class}}</span>
+            <span class="tips tips-green">￥{{shop.price}}</span>
+            <span class="tips tips-cyan">{{shop.details.bandwidth}}G
               <span
                 v-if="shop.details.reset"
-              >+$[shop.details.reset_value]$G/($[shop.details.reset]$天/$[shop.details.reset_exp]$天)</span>
+              >+{{shop.details.reset_value}}G/({{shop.details.reset}}天/{{shop.details.reset_exp}}天)</span>
             </span>
-            <span class="tips tips-blue">$[shop.details.class_expire]$天</span>
+            <span class="tips tips-blue">{{shop.details.class_expire}}天</span>
           </div>
           <div class="pure-u-4-24 text-right">
             <button :disabled="isDisabled" class="buy-submit" @click="buy(shop)">购买</button>
@@ -51,16 +51,16 @@
         :bindCard="isCardShow"
         v-if="isMaskShow"
       >
-        <h3 slot="uim-modal-title">$[modalCon.title]$</h3>
+        <h3 slot="uim-modal-title">{{modalCon.title}}</h3>
         <div class="flex align-center justify-center wrap" slot="uim-modal-body">
           <div class="order-checker-content">商品名称：
-            <span>$[orderCheckerContent.name]$</span>
+            <span>{{orderCheckerContent.name}}</span>
           </div>
           <div class="order-checker-content">优惠额度：
-            <span>$[orderCheckerContent.credit]$</span>
+            <span>{{orderCheckerContent.credit}}</span>
           </div>
           <div class="order-checker-content">总金额：
-            <span>$[orderCheckerContent.total]$</span>
+            <span>{{orderCheckerContent.total}}</span>
           </div>
         </div>
         <div class="flex align-center" slot="uim-modal-footer">
@@ -117,8 +117,8 @@ export default {
       };
       this.callMsgr(callConfig);
       let id = shop.id.toString();
-      Vue.set(this.ajaxBody, "shop", id);
-      Vue.set(this.ajaxBody, "autorenew", shop.autoRenew);
+      this.$set(this.ajaxBody, "shop", id);
+      this.$set(this.ajaxBody, "autorenew", shop.autoRenew);
     },
     callOrderChecker() {
       if (this.isMaskShow === false) {
@@ -222,7 +222,7 @@ export default {
     _get("/getusershops", "include").then(r => {
       this.shops = r.arr.shops;
       this.shops.forEach((el, index) => {
-        Vue.set(this.shops[index], "details", JSON.parse(el.content));
+        this.$set(this.shops[index], "details", JSON.parse(el.content));
       });
       console.log(this.shops);
     });

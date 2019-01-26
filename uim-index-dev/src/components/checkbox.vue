@@ -18,7 +18,6 @@
 
 <script>
 export default {
-  delimiters: ["$[", "]$"],
   model: {
     prop: "isChecked",
     event: "change"

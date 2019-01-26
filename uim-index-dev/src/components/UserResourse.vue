@@ -11,12 +11,12 @@
     <div class="card-body">
       <div class="pure-g wrap">
         <div v-for="tip in calcResourse" class="pure-u-1-2 pure-u-lg-4-24" :key="tip.name">
-          <p class="tips tips-blue">$[tip.name]$</p>
+          <p class="tips tips-blue">{{tip.name}}</p>
           <p
             class="font-light user-config"
             :class="{ 'font-gold-trans':resourseTrans,'font-green-trans':isDataRefreshed }"
           >
-            <span class="user-config"></span> $[tip.content]$
+            <span class="user-config"></span> {{tip.content}}
           </p>
         </div>
         <div class="pure-u-1 pure-u-lg-8-24">
@@ -36,12 +36,12 @@
               class="user-config"
               :class="{ 'font-green-trans':isDataRefreshed }"
               slot="progress-text"
-            >$[userCon.lastUsedTraffic + '/' + userCon.todayUsedTraffic]$</span>
+            >{{userCon.lastUsedTraffic + '/' + userCon.todayUsedTraffic}}</span>
             <span
               slot="progress-sign"
               class="user-config"
               :class="{ 'font-green-trans':isDataRefreshed }"
-            >$[transferObj.usedtoday.toFixed(1) + '%']$</span>
+            >{{transferObj.usedtoday.toFixed(1) + '%'}}</span>
           </uim-progressbar>
           <uim-progressbar>
             <span slot="uim-progressbar-label">可用流量</span>
@@ -53,12 +53,12 @@
             <span
               :class="{ 'font-green-trans':isDataRefreshed }"
               slot="progress-text"
-            >$[userCon.unUsedTraffic]$</span>
+            >{{userCon.unUsedTraffic}}</span>
             <span
               slot="progress-sign"
               class="user-config"
               :class="{ 'font-green-trans':isDataRefreshed }"
-            >$[transferObj.remain.toFixed(1) + '%']$</span>
+            >{{transferObj.remain.toFixed(1) + '%'}}</span>
           </uim-progressbar>
         </div>
       </div>
@@ -196,7 +196,6 @@ export default {
     }
   },
   created() {
-    let resourse = this.userSettings.resourse;
     this.calcExpireDays(this.userCon.class_expire, this.userCon.expire_in);
     _get("/gettransfer", "include").then(r => {
       this.addNewUserCon(r.arr);
