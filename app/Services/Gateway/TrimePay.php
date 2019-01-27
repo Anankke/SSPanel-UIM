@@ -64,8 +64,10 @@ class TrimePay extends AbstractPayment
     public function post($data, $type = "pay"){
         if ($type == "pay"){
             $this->gatewayUri .= "pay/go";
-        } else {
+        } else if ($type == "refund") {
             $this->gatewayUri .= "refund/go";
+        } else {
+            $this->gatewayUri .= "pay/pre";
         }
 
         $curl = curl_init();
@@ -110,8 +112,7 @@ class TrimePay extends AbstractPayment
         $data['sign'] = self::sign($params);
         switch ($type) {
             case('WEPAY_JSAPI'):
-                $result['code'] = 0;
-                $result['data'] = "http://cashier.hlxpay.com/jsapi.html?payData=".base64_encode(json_encode($data));
+                $result = json_decode(self::post($data, $type = "pre"), TRUE);
                 $result['pid'] = $pl->tradeno;
                 return json_encode($result);
             default:
