@@ -307,22 +307,23 @@
 </template>
 
 <script>
-import storeMap from '@/mixins/storeMap'
-import UserAnnouncement from '@/components/UserAnnouncement.vue'
-import UserInvite from '@/components/UserInvite.vue'
-import UserShop from '@/components/UserShop.vue'
-import UserGuide from '@/components/UserGuide.vue'
-import UserResourse from '@/components/UserResourse.vue'
-import UserSettings from '@/components/UserSettings.vue'
+import storeMap from "@/mixins/storeMap";
+import agentMixin from "@/mixins/agentMixin";
+import UserAnnouncement from "@/components/UserAnnouncement.vue";
+import UserInvite from "@/components/UserInvite.vue";
+import UserShop from "@/components/UserShop.vue";
+import UserGuide from "@/components/UserGuide.vue";
+import UserResourse from "@/components/UserResourse.vue";
+import UserSettings from "@/components/UserSettings.vue";
 
-import Dropdown from '@/components/dropdown.vue'
-import Tooltip from '@/components/tooltip.vue'
-import Anchor from '@/components/anchor.vue'
+import Dropdown from "@/components/dropdown.vue";
+import Tooltip from "@/components/tooltip.vue";
+import Anchor from "@/components/anchor.vue";
 
-import { _get } from '../js/fetch'
+import { _get } from "../js/fetch";
 
 export default {
-  mixins: [storeMap],
+  mixins: [storeMap, agentMixin],
   components: {
     "user-announcement": UserAnnouncement,
     "user-invite": UserInvite,
@@ -332,7 +333,7 @@ export default {
     "user-settings": UserSettings,
     "uim-dropdown": Dropdown,
     "uim-tooltip": Tooltip,
-    "uim-anchor": Anchor,
+    "uim-anchor": Anchor
   },
   props: ["routermsg"],
   computed: {
@@ -393,176 +394,7 @@ export default {
           id: "user-shop"
         }
       ],
-      currentCardComponent: "user-announcement",
-      downloads: [
-        {
-          type: "SSR",
-          agent: {
-            Windows: [
-              {
-                agentName: "SSR",
-                href: "/ssr-download/ssr-win.7z",
-                id: "AGENT_1_1_1"
-              },
-              {
-                agentName: "SSTAP",
-                href: "/ssr-download/SSTap.7z",
-                id: "AGENT_1_1_2"
-              }
-            ],
-            Macos: [
-              {
-                agentName: "SSX",
-                href: "/ssr-download/ssr-mac.dmg",
-                id: "AGENT_1_2_1"
-              }
-            ],
-            Linux: [
-              {
-                agentName: "SS-qt5",
-                href: "#",
-                id: "AGENT_1_3_1"
-              }
-            ],
-            Ios: [
-              {
-                agentName: "Potatso Lite",
-                href: "#",
-                id: "AGENT_1_4_1"
-              },
-              {
-                agentName: "Shadowrocket",
-                href: "#",
-                id: "AGENT_1_4_2"
-              }
-            ],
-            Android: [
-              {
-                agentName: "SSR",
-                href: "/ssr-download/ssr-android.apk",
-                id: "AGENT_1_5_1"
-              },
-              {
-                agentName: "SSRR",
-                href: "/ssr-download/ssrr-android.apk",
-                id: "AGENT_1_5_2"
-              }
-            ],
-            Router: [
-              {
-                agentName: "FancySS",
-                href: "https://github.com/hq450/fancyss_history_package",
-                id: "AGENT_1_6_1"
-              }
-            ]
-          }
-        },
-        {
-          type: "SS/SSD",
-          agent: {
-            Windows: [
-              {
-                agentName: "SSD",
-                href: "/ssr-download/ssd-win.7z",
-                id: "AGENT_2_1_1"
-              }
-            ],
-            Macos: [
-              {
-                agentName: "SSXG",
-                href: "/ssr-download/ss-mac.zip",
-                id: "AGENT_2_2_1"
-              }
-            ],
-            Linux: [
-              {
-                agentName: "/",
-                href: "#",
-                id: "AGENT_2_3_1"
-              }
-            ],
-            Ios: [
-              {
-                agentName: "Potatso Lite",
-                href: "#",
-                id: "AGENT_2_4_1"
-              },
-              {
-                agentName: "Shadowrocket",
-                href: "#",
-                id: "AGENT_2_4_2"
-              }
-            ],
-            Android: [
-              {
-                agentName: "SSD",
-                href: "/ssr-download/ssd-android.apk",
-                id: "AGENT_2_5_1"
-              },
-              {
-                agentName: "混淆插件",
-                href: "/ssr-download/ss-android-obfs.apk",
-                id: "AGENT_2_5_2"
-              }
-            ],
-            Router: [
-              {
-                agentName: "FancySS",
-                href: "https://github.com/hq450/fancyss_history_package",
-                id: "AGENT_2_6_1"
-              }
-            ]
-          }
-        },
-        {
-          type: "V2RAY",
-          agent: {
-            Windows: [
-              {
-                agentName: "V2RayN",
-                href: "/ssr-download/v2rayn.zip",
-                id: "AGENT_3_1_1"
-              }
-            ],
-            Macos: [
-              {
-                agentName: "/",
-                href: "#",
-                id: "AGENT_3_2_1"
-              }
-            ],
-            Linux: [
-              {
-                agentName: "/",
-                href: "#",
-                id: "AGENT_3_3_1"
-              }
-            ],
-            Ios: [
-              {
-                agentName: "Shadowrocket",
-                href: "#",
-                id: "AGENT_3_4_1"
-              }
-            ],
-            Android: [
-              {
-                agentName: "V2RayN",
-                href: "/ssr-download/v2rayng.apk",
-                id: "AGENT_3_5_1"
-              }
-            ],
-            Router: [
-              {
-                agentName: "FancySS",
-                href: "https://github.com/hq450/fancyss_history_package",
-                id: "AGENT_3_6_1"
-              }
-            ]
-          }
-        }
-      ],
-      currentDlType: "SSR"
+      currentCardComponent: "user-announcement"
     };
   },
   watch: {
@@ -613,9 +445,6 @@ export default {
     },
     componentChange(e) {
       this.currentCardComponent = e.target.dataset.component;
-    },
-    changeAgentType(e) {
-      this.currentDlType = e.target.dataset.type;
     },
     changeUserSetPage(index) {
       this.userSettings.currentPage = this.userSettings.pages[index].id;
