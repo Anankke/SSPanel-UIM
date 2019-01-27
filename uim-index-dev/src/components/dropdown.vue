@@ -39,3 +39,85 @@ export default {
   }
 };
 </script>
+
+<style>
+.uim-dropdown-btn {
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  display: inline-block;
+  border: 1px solid #434857;
+  min-width: 80px;
+  text-align: center;
+  transition: all 0.3s;
+  background: inherit;
+  outline: none;
+}
+
+.uim-dropdown-btn:hover {
+  border: 1px solid white;
+  box-shadow: 0 0 5px 1px gray;
+}
+
+.uim-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.uim-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  min-width: 120px;
+  cursor: pointer;
+  background: #1d1d1d;
+  z-index: 2;
+}
+
+.uim-dropdown-menu ul {
+  margin: 0;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  border: 1px solid #1997c6;
+  box-shadow: 0 0 5px 1px gray;
+}
+
+.uim-dropdown-menu li {
+  list-style: none;
+  width: 100%;
+  padding: 0.2rem 0;
+  transition: all 0.3s;
+}
+
+.uim-dropdown-menu li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.uim-dropdown-menu li:hover {
+  background: #1997c6;
+  transition: all 0.3s;
+}
+
+.uim-dropdown-btn {
+  min-width: 120px;
+}
+
+.dropdown-fade-enter-active,
+.dropdown-fade-leave-active {
+  transition: all 0.2s ease;
+}
+
+.dropdown-fade-enter,
+.dropdown-fade-leave-to {
+  transform-origin: top;
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+.dl-link .uim-dropdown-btn,
+.dl-link .uim-dropdown-menu {
+  min-width: unset;
+  width: 100%;
+}
+</style>

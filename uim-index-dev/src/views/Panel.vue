@@ -265,7 +265,7 @@
             </transition>
           </div>
           <div class="user-btngroup pure-g">
-            <div class="pure-u-1-2 pure-u-sm-16-24">
+            <div class="pure-u-1-2 pure-u-sm-16-24 btngroup-left">
               <uim-dropdown>
                 <span slot="dpbtn-content">栏目导航</span>
                 <ul slot="dp-menu">
@@ -279,7 +279,7 @@
               </uim-dropdown>
               <a v-if="userCon.is_admin === true" class="btn-user" href="/admin">运营中心</a>
             </div>
-            <div class="pure-u-1-2 pure-u-sm-8-24 text-right">
+            <div class="pure-u-1-2 pure-u-sm-8-24 text-right btngroup-right">
               <a href="/user" class="btn-user">管理面板</a>
               <button @click="logout" class="btn-user">账号登出</button>
             </div>

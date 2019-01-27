@@ -176,6 +176,7 @@ export default {
       if (this.logintoken === 1) {
         return;
       }
+
       let callConfig = {
         msg: "",
         icon: "",
@@ -191,7 +192,6 @@ export default {
       ).then(r => {
         if (r.ret > 0) {
           clearTimeout(tid);
-
           _post(
             "/auth/qrcode_login",
             JSON.stringify({
@@ -213,6 +213,9 @@ export default {
         } else if (r.ret == -1) {
           this.isTgtimeout = true;
         }
+      }).catch((r)=>{
+        clearTimeout(tid)
+        throw r
       });
       tid = setTimeout(() => {
         this.tgAuthTrigger(tid);
