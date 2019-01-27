@@ -633,7 +633,8 @@ button.tips {
     background-color: #D1335B;
 }
 
-.ann {
+.ann,
+.user-guide {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
     padding: .1rem 1rem;
@@ -871,9 +872,14 @@ button[name=reset] {
     }
 
     .ann,
-    .user-shop {
+    .user-shop,
+    .user-guide {
         max-height: 385px;
         overflow: auto;
+    }
+
+    .user-guide .tips {
+        margin-right: .5rem;
     }
 
     .link-reset .uim-tooltip-top {
