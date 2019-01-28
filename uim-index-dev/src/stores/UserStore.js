@@ -56,6 +56,7 @@ export default {
                 },
             ],
         },
+        currentDlType: "SSR",
     },
     mutations: {
         SET_USERCON(state, config) {
@@ -87,7 +88,10 @@ export default {
             for (let key in config) {
                 state.userCon[key] = config[key];
             }
-        }
+        },
+        SET_CURRENT_DL_TYPE (state, content) {
+            state.currentDlType = content;
+        },
     },
     actions: {
 

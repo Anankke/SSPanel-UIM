@@ -73,7 +73,7 @@ import userSetMixin from '@/mixins/userSetMixin'
 
 import Progressbar from '@/components/progressbar.vue'
 
-import { _get } from '../js/fetch'
+import { _get } from '../../js/fetch'
 
 export default {
   mixins: [userMixin, storeMap, userSetMixin],

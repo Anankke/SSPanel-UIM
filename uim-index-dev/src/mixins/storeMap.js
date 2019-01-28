@@ -14,6 +14,7 @@ export default {
         isLoading: 'isLoading',
         userCon: state => state.userState.userCon,
         userSettings: state => state.userState.userSettings,
+        currentDlType: state => state.userState.currentDlType,
     }),
     methods: {
         ...mapActions({
@@ -33,6 +34,7 @@ export default {
             setUserSettings: 'SET_USERSETTINGS',
             addNewUserCon: 'ADD_NEWUSERCON',
             setAllResourse: 'SET_ALLURESOURSE',
+            setCurrentDlType: 'SET_CURRENT_DL_TYPE',
         }),
         successCopied() {
             let callConfig = {

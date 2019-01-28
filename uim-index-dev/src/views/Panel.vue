@@ -58,37 +58,9 @@
                 >{{dl.type}}</button>
                 <h5 class="pure-u-1">平台选择/客户端下载</h5>
                 <transition name="rotate-fade" mode="out-in">
-                  <div v-if="currentDlType === 'SSR'" class="dl-link" key="ssr">
+                  <div class="dl-link" :key="typeToken.tagkey">
                     <uim-dropdown
-                      v-for="(value,key) in downloads[0].agent"
-                      class="pure-u-1-3 btn-user"
-                      :key="key"
-                    >
-                      <span slot="dpbtn-content">{{key}}</span>
-                      <ul slot="dp-menu">
-                        <li v-for="agent in value" :key="agent.id">
-                          <a :href="agent.href">{{agent.agentName}}</a>
-                        </li>
-                      </ul>
-                    </uim-dropdown>
-                  </div>
-                  <div v-else-if="currentDlType === 'SS/SSD'" class="dl-link" key="ss">
-                    <uim-dropdown
-                      v-for="(value,key) in downloads[1].agent"
-                      class="pure-u-1-3 btn-user"
-                      :key="key"
-                    >
-                      <span slot="dpbtn-content">{{key}}</span>
-                      <ul slot="dp-menu">
-                        <li v-for="agent in value" :key="agent.id">
-                          <a :href="agent.href">{{agent.agentName}}</a>
-                        </li>
-                      </ul>
-                    </uim-dropdown>
-                  </div>
-                  <div v-else-if="currentDlType === 'V2RAY'" class="dl-link" key="v2ray">
-                    <uim-dropdown
-                      v-for="(value,key) in downloads[2].agent"
+                      v-for="(value,key) in downloads[typeToken.arrIndex].agent"
                       class="pure-u-1-3 btn-user"
                       :key="key"
                     >
@@ -104,13 +76,13 @@
                 <h5 class="pure-u-1 flex align-center space-between">
                   <span>订阅链接</span>
                   <span class="link-reset relative flex justify-center text-center">
+                    <button @click="showToolTip('resetConfirm')" class="tips tips-red">
+                      <span class="fa fa-refresh"></span> 重置链接
+                    </button>
                     <uim-tooltip
                       v-show="toolTips.resetConfirm"
                       class="uim-tooltip-top flex justify-center"
                     >
-                      <button @click="showToolTip('resetConfirm')" class="tips tips-red">
-                        <span class="fa fa-refresh"></span> 重置链接
-                      </button>
                       <div slot="tooltip-inner">
                         <span>确定要重置订阅链接？</span>
                         <div>
@@ -126,34 +98,34 @@
                   </span>
                 </h5>
                 <transition name="rotate-fade" mode="out-in">
-                  <div class="input-copy" v-if="currentDlType === 'SSR'" key="ssrsub">
+                  <div class="input-copy" :key="typeToken.subKey">
                     <div class="pure-g align-center relative">
-                      <span class="pure-u-6-24">普通端口:</span>
+                      <span class="pure-u-6-24">{{currentDlType === 'SSR' ? '普通端口:' : '订阅链接:'}}</span>
                       <span class="pure-u-18-24 pure-g relative flex justify-center text-center">
                         <input
                           v-uimclip="{ onSuccess:successCopied }"
-                          :data-uimclip="suburlMu0"
-                          @mouseenter="showToolTip('mu0')"
-                          @mouseleave="hideToolTip('mu0')"
+                          :data-uimclip="typeToken.subUrl"
+                          @mouseenter="showToolTip(typeToken.muType)"
+                          @mouseleave="hideToolTip(typeToken.muType)"
                           :class="{ 'sublink-reset':subLinkTrans }"
                           class="tips tips-blue pure-u-1"
                           type="text"
                           name
                           id
-                          :value="suburlMu0"
+                          :value="typeToken.subUrl"
                           readonly
                         >
                         <uim-tooltip
-                          v-show="toolTips.mu0"
+                          v-show="toolTips[typeToken.muType]"
                           class="uim-tooltip-top flex justify-center"
                         >
                           <div class="sublink" slot="tooltip-inner">
-                            <span>{{suburlMu0}}</span>
+                            <span>{{typeToken.subUrl}}</span>
                           </div>
                         </uim-tooltip>
                       </span>
                     </div>
-                    <div v-if="mergeSub !== 'true'" class="pure-g align-center relative">
+                    <div v-if="currentDlType === 'SSR' && mergeSub !== 'true'" class="pure-g align-center relative">
                       <span class="pure-u-6-24">单端口:</span>
                       <span class="pure-u-18-24 pure-g relative flex justify-center text-center">
                         <input
@@ -179,60 +151,6 @@
                         </uim-tooltip>
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="pure-g input-copy relative flex justify-center text-center"
-                    v-else-if="currentDlType === 'V2RAY'"
-                    key="sssub"
-                  >
-                    <input
-                      v-uimclip="{ onSuccess:successCopied }"
-                      :data-uimclip="suburlMu2"
-                      @mouseenter="showToolTip('mu2')"
-                      @mouseleave="hideToolTip('mu2')"
-                      :class="{ 'sublink-reset':subLinkTrans }"
-                      class="tips tips-blue"
-                      type="text"
-                      name
-                      id
-                      :value="suburlMu2"
-                      readonly
-                    >
-                    <uim-tooltip
-                      v-show="toolTips.mu2"
-                      class="pure-u-1 uim-tooltip-top flex justify-center"
-                    >
-                      <div class="sublink" slot="tooltip-inner">
-                        <span>{{suburlMu2}}</span>
-                      </div>
-                    </uim-tooltip>
-                  </div>
-                  <div
-                    class="pure-g input-copy relative flex justify-center text-center"
-                    v-else-if="currentDlType === 'SS/SSD'"
-                    key="v2sub"
-                  >
-                    <input
-                      v-uimclip="{ onSuccess:successCopied }"
-                      :data-uimclip="suburlMu3"
-                      @mouseenter="showToolTip('mu3')"
-                      @mouseleave="hideToolTip('mu3')"
-                      :class="{ 'sublink-reset':subLinkTrans }"
-                      class="tips tips-blue"
-                      type="text"
-                      name
-                      id
-                      :value="suburlMu3"
-                      readonly
-                    >
-                    <uim-tooltip
-                      v-show="toolTips.mu3"
-                      class="pure-u-1 uim-tooltip-top flex justify-center"
-                    >
-                      <div class="sublink" slot="tooltip-inner">
-                        <span>{{suburlMu3}}</span>
-                      </div>
-                    </uim-tooltip>
                   </div>
                 </transition>
               </div>
@@ -267,7 +185,11 @@
           <div class="user-btngroup pure-g">
             <div class="pure-u-1-2 pure-u-sm-16-24 btngroup-left">
               <uim-dropdown>
-                <span slot="dpbtn-content">栏目导航</span>
+                <span slot="dpbtn-content">
+                  <transition name="fade" mode="out-in">
+                    <div :key="currentCardComponent">{{menuOptions[currentCardComponentIndex].name}}</div>
+                  </transition>
+                </span>
                 <ul slot="dp-menu">
                   <li
                     @click="componentChange"
@@ -309,12 +231,12 @@
 <script>
 import storeMap from "@/mixins/storeMap";
 import agentMixin from "@/mixins/agentMixin";
-import UserAnnouncement from "@/components/UserAnnouncement.vue";
-import UserInvite from "@/components/UserInvite.vue";
-import UserShop from "@/components/UserShop.vue";
-import UserGuide from "@/components/UserGuide.vue";
-import UserResourse from "@/components/UserResourse.vue";
-import UserSettings from "@/components/UserSettings.vue";
+import UserAnnouncement from "@/components/panel/UserAnnouncement.vue";
+import UserInvite from "@/components/panel/UserInvite.vue";
+import UserShop from "@/components/panel/UserShop.vue";
+import UserGuide from "@/components/panel/UserGuide.vue";
+import UserResourse from "@/components/panel/UserResourse.vue";
+import UserSettings from "@/components/panel/UserSettings.vue";
 
 import Dropdown from "@/components/dropdown.vue";
 import Tooltip from "@/components/tooltip.vue";
@@ -337,6 +259,53 @@ export default {
   },
   props: ["routermsg"],
   computed: {
+    typeToken: function() {
+      switch (this.currentDlType) {
+        case "SSR":
+          return {
+            tagkey: "dl-ssr",
+            subKey: 'sub-ssr',
+            arrIndex: 0,
+            muType: 'mu0',
+            subUrl: this.suburlMu0,
+          };
+          break;
+        case "SS/SSD":
+          return {
+            tagkey: "dl-ss",
+            subKey: 'sub-ss',
+            arrIndex: 1,
+            muType: 'mu3',
+            subUrl: this.suburlMu3,
+          };
+          break;
+        case "V2RAY":
+          return {
+            tagkey: "dl-v2",
+            subKey: 'sub-v2',
+            arrIndex: 2,
+            muType: 'mu2',
+            subUrl: this.suburlMu2,
+          };
+          break;
+      }
+    },
+    currentCardComponentIndex: function() {
+      switch(this.currentCardComponent) {
+        case 'user-announcement':
+          return 0;
+          break;
+        case 'user-guide':
+          return 1;
+          break;
+        case 'user-invite':
+          return 2;
+          break;
+        case 'user-shop':
+          return 3;
+          break;
+      }
+    },
     suburlBase: function() {
       return this.subUrl + this.ssrSubToken;
     },

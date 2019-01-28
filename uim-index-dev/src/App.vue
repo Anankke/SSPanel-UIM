@@ -18,26 +18,11 @@
           </div>
           <div class="pure-u-1-2 auth-sm flex align-center">
             <transition name="fade" mode="out-in">
-              <router-link v-if="routerN === 'index'" class="button-index" to="/" key="index">
-                <span key="toindex">
-                  <i class="fa fa-home"></i>
-                  <span class="hide-sm">回到首页</span>
+              <router-link class="button-index" :to="globalGuide.href" :key="routerN">
+                <span>
+                  <i class="fa" :class="globalGuide.icon"></i>
+                  <span class="hide-sm"> {{globalGuide.content}}</span>
                 </span>
-              </router-link>
-              <router-link
-                v-else-if="routerN === 'auth'"
-                class="button-index"
-                to="/auth/login"
-                key="auth"
-              >
-                <span key="toindex">
-                  <i class="fa fa-key"></i>
-                  <span class="hide-sm">登录/注册</span>
-                </span>
-              </router-link>
-              <router-link v-else to="/user/panel" class="button-index" key="user">
-                <i class="fa fa-user"></i>
-                <span class="hide-sm">用户中心</span>
               </router-link>
             </transition>
           </div>
@@ -71,8 +56,8 @@
 </template>
 
 <script>
-import Router from './router'
-import storeMap from '@/mixins/storeMap'
+import Router from "./router";
+import storeMap from "@/mixins/storeMap";
 import Messager from "./components/messager.vue";
 
 import { _get } from "./js/fetch";
@@ -82,6 +67,33 @@ export default {
   mixins: [storeMap],
   components: {
     "uim-messager": Messager
+  },
+  computed: {
+    globalGuide: function() {
+      switch (this.routerN) {
+        case "index":
+          return {
+            icon: "fa-home",
+            content: "回到首页",
+            href: "/"
+          };
+          break;
+        case "auth":
+          return {
+            icon: "fa-key",
+            content: "登录/注册",
+            href: "/auth/login"
+          };
+          break;
+        case "user":
+          return {
+            icon: "fa-user",
+            content: "用户中心",
+            href: "/user/panel"
+          };
+          break;
+      }
+    }
   },
   data: function() {
     return {
@@ -131,7 +143,7 @@ export default {
     setTimeout(() => {
       this.setLoadState();
     }, 1000);
-  },
+  }
 };
 </script>
 
@@ -141,14 +153,16 @@ export default {
 .fade-enter-active,
 .loading-fade-enter-active,
 .rotate-fade-enter-active,
-.loading-fadex-enter-active {
+.loading-fadex-enter-active,
+.slide-fadex-enter-active {
   transition: all 0.3s ease;
 }
 .slide-fade-leave-active,
 .fade-leave-active,
 .loading-fade-leave-active,
 .rotate-fade-leave-active,
-.loading-fadex-leave-active {
+.loading-fadex-leave-active,
+.slide-fadex-leave-active {
   transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .loading-fade-enter {
@@ -163,6 +177,14 @@ export default {
   transform: translateY(-20px);
   opacity: 0;
 }
+.slide-fadex-enter {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+.slide-fadex-enter-to {
+  transform: translateX(0px);
+  opacity: 1;
+}
 .rotate-fade-enter {
   transform: rotateY(90deg);
   -webkit-transform: rotateY(90deg);
@@ -170,6 +192,10 @@ export default {
 }
 .slide-fade-leave-to {
   transform: translateY(20px);
+  opacity: 0;
+}
+.slide-fadex-leave-to {
+  transform: translateX(20px);
   opacity: 0;
 }
 .rotate-fade-leave-to {

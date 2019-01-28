@@ -137,12 +137,11 @@ export default {
                     }
                 }
             ],
-            currentDlType: "SSR",
         }
     },
     methods: {
         changeAgentType(e) {
-            this.currentDlType = e.target.dataset.type;
+            this.setCurrentDlType(e.target.dataset.type); 
         },
     },
 }

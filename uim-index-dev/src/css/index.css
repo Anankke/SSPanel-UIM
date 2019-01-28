@@ -21,6 +21,10 @@ a {
     display: flex;
 }
 
+.absolute {
+    position: absolute;
+}
+
 .space-around {
     justify-content: space-around;
 }
@@ -640,6 +644,10 @@ button.tips {
     padding: .1rem 1rem;
 }
 
+.card-title-right {
+    padding-right: 1rem;
+}
+
 .dl-link button {
     font-size: 14px;
 }
@@ -876,6 +884,10 @@ button[name=reset] {
     .user-guide {
         max-height: 385px;
         overflow: auto;
+    }
+
+    .user-guide {
+        height: 385px;
     }
 
     .user-guide .tips {

@@ -79,8 +79,8 @@ import userMixin from '@/mixins/userMixin'
 import Shopmodal from '@/components/shopmodal.vue'
 import Switch from '@/components/switch.vue'
 
-import { _get } from '../js/fetch'
-import { _post } from '../js/fetch'
+import { _get } from '../../js/fetch'
+import { _post } from '../../js/fetch'
 
 export default {
   mixins: [userMixin, storeMap],

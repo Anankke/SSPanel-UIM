@@ -134,8 +134,8 @@ import userMixin from '@/mixins/userMixin'
 
 import Tooltip from '@/components/tooltip.vue'
 
-import { _get } from '../js/fetch'
-import { _post } from '../js/fetch'
+import { _get } from '../../js/fetch'
+import { _post } from '../../js/fetch'
 
 export default {
   mixins: [userMixin, storeMap],
