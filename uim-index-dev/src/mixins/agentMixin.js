@@ -108,6 +108,10 @@ export default {
                             agentName: "V2RayN",
                             href: "/ssr-download/v2rayn.zip",
                             id: "AGENT_3_1_1"
+                        }, {
+                            agentName: "ClashX",
+                            href: "/ssr-download/Clash-Windows.7z",
+                            id: "AGENT_3_1_2"
                         }],
                         Macos: [{
                             agentName: "/",
@@ -141,7 +145,7 @@ export default {
     },
     methods: {
         changeAgentType(e) {
-            this.setCurrentDlType(e.target.dataset.type); 
+            this.setCurrentDlType(e.target.dataset.type);
         },
     },
 }

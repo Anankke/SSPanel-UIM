@@ -56,7 +56,8 @@ export default {
                 },
             ],
         },
-        currentDlType: "SSR",
+        currentDlType: 'SSR',
+        currentAgentType: 'WINDOWS',
     },
     mutations: {
         SET_USERCON(state, config) {
@@ -90,6 +91,9 @@ export default {
             }
         },
         SET_CURRENT_DL_TYPE (state, content) {
+            state.currentDlType = content;
+        },
+        SET_CURRENT_AGENT_TYPE (state, content) {
             state.currentDlType = content;
         },
     },

@@ -7,7 +7,7 @@ github地址 https://github.com/nodesource/distributions/blob/master/README.md
 curl -sL https://deb.nodesource.com/setup_10.x | bash -
 apt-get install -y nodejs
 
-查看是否按照以及版本
+查看是否安装以及版本
 node -v 
 npm -v
 centos自己想办法
@@ -31,10 +31,9 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
-
 此命令构建index页面，会在public/vuedist目录生成对应的index.html、css、js文件
-将index.html改名为 index.tpl，移动到resourse/views/material 目录下
 
+将index.html改名为 index.tpl，移动到resourse/views/material 目录下：
 cp -u ../public/vuedist/index.html ../resources/views/material/index.tpl
 
 当前目录下一键运行以上两个命令脚本

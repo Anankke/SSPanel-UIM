@@ -501,6 +501,11 @@ select {
     margin-bottom: 1.5rem;
 }
 
+.card .card,
+.card .card:hover {
+    border: 0;
+}
+
 .user-btngroup {
     margin-bottom: 1.5rem;
 }
@@ -642,6 +647,10 @@ button.tips {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
     padding: .1rem 1rem;
+}
+
+.ann a {
+    color: #D1335B;
 }
 
 .card-title-right {
@@ -812,6 +821,17 @@ button[name=reset] {
     color: white;
 }
 
+.btn-anchor {
+    display: inline-block;
+    border: 1px solid gray;
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    position: relative;
+    top: 2.5px;
+    margin-right: .3rem;
+}
+
 @media screen and (min-width:35.5em) {
     .user {
         padding: 0;
@@ -894,6 +914,28 @@ button[name=reset] {
         margin-right: .5rem;
     }
 
+    .userguide-bookmark>div {
+        width: 100%;
+    }
+
+    .guide-area {
+        padding-right: 1rem;
+    }
+
+    .userguide-bookmark button {
+        background-color: #c8c8c81f;
+        border: none;
+        padding: .6rem 0;
+        outline: none;
+        display: block;
+        margin-top: 1rem;
+        font-size: 12px;
+        text-align: left;
+        padding-left: 1rem;
+        width: 100%;
+        border-radius: 20px;
+    }
+
     .link-reset .uim-tooltip-top {
         width: 230px;
     }
@@ -917,8 +959,8 @@ button[name=reset] {
         margin-top: 0;
     }
 
-    .user-btngroup .btngroup-left:last-child,
-    .user-btngroup .btngroup-right:last-child {
+    .user-btngroup .btngroup-left>*:last-child,
+    .user-btngroup .btngroup-right>*:last-child {
         margin-right: 0;
     }
 }
