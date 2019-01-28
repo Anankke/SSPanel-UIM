@@ -27,40 +27,49 @@
 						</div>
 					</div>
 					
-					<div class="table-responsive">
-						{$tickets->render()}
-                        <table class="table">
-                            <tr>
-								
-                              <!--  <th>ID</th>   -->
-                                <th>发起日期</th>
-                                <th>工单标题</th>
-								<th>工单状态</th>
-                               <th>操作</th>
-                            </tr>
-                            {foreach $tickets as $ticket}
-                                <tr>
-									
-                                 <!--   <td>#{$ticket->id}</td>  -->
-                                    <td>{$ticket->datetime()}</td>
-                                    <td>{$ticket->title}</td>
-									{if $ticket->status==1}
-									<td>工单服务中</td>
-									{else}
-									<td>工单已结束</td>
-									{/if}
-                                     <td>
-										<a class="btn btn-brand" href="/user/ticket/{$ticket->id}/view">查看</a>
-									</td>
-                                </tr>
-                            {/foreach}
-                        </table>
-                        {$tickets->render()}
+					<div class="card">
+						<div class="card-main">
+							<div class="card-inner">
+								<div class="card-table">
+									<div class="table-responsive table-user">
+										{$tickets->render()}
+										<table class="table">
+											<tr>
+												
+											  <!--  <th>ID</th>   -->
+												<th>发起日期</th>
+												<th>工单标题</th>
+												<th>工单状态</th>
+											   <th>操作</th>
+											</tr>
+											{foreach $tickets as $ticket}
+												<tr>
+													
+												 <!--   <td>#{$ticket->id}</td>  -->
+													<td>{$ticket->datetime()}</td>
+													<td>{$ticket->title}</td>
+													{if $ticket->status==1}
+													<td>工单服务中</td>
+													{else}
+													<td>工单已结束</td>
+													{/if}
+													 <td>
+														<a class="btn btn-brand" href="/user/ticket/{$ticket->id}/view">查看</a>
+													</td>
+												</tr>
+											{/foreach}
+										</table>
+										{$tickets->render()}
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+					
 					
 					<div class="fbtn-container">
 						<div class="fbtn-inner">
-							<a class="fbtn fbtn-lg fbtn-brand-accent waves-attach waves-circle waves-light" href="/user/ticket/create">+</a>
+							<a class="fbtn fbtn-lg fbtn-brand-accent" href="/user/ticket/create">+</a>
 							
 						</div>
 					</div>

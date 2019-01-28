@@ -1,13 +1,4 @@
-
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -29,9 +20,6 @@
 										<textarea style="display:none;" id="content"></textarea>
 									</div>
 								</div>
-								
-								
-								
 								
 							</div>
 						</div>
@@ -61,7 +49,9 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-md-10 col-md-push-1">
-											<button id="submit" type="submit" class="btn btn-block btn-brand waves-attach waves-light">添加</button><button id="close" type="submit" class="btn btn-block btn-brand-accent waves-attach waves-light">添加并关闭</button>
+											<button id="submit" type="submit" class="btn btn-block btn-brand waves-attach waves-light">添加</button>
+                                            <button id="close" type="submit" class="btn btn-block btn-brand-accent waves-attach waves-light">添加并关闭</button>
+                                            <button id="close_directly" type="submit" class="btn btn-block btn-brand-accent waves-attach waves-light">直接关闭</button>
 											<a class="btn btn-block btn-brand waves-attach waves-light" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show()">切换为该用户</a>
 										</div>
 									</div>
@@ -77,8 +67,6 @@
 						<div class="card-main">
 							<div class="card-inner">
 								{$ticket->content}
-								
-								
 							</div>
 							<div class="card-action"> {$ticket->datetime()}</div>
 						</div>
@@ -89,107 +77,125 @@
 					
 					{include file='dialog.tpl'}
 
-							
 			</div>
-			
-			
-			
+
 		</div>
 	</main>
 
-
-
-
-
-
 {include file='admin/footer.tpl'}
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
-  function changetouser_modal_show() {
-	$("#changetouser_modal").modal();
-}
-    $(document).ready(function () {
+    function changetouser_modal_show() {
+        $("#changetouser_modal").modal();
+    }
+    window.addEventListener('load', () => {
         function submit() {
 			$("#result").modal();
-            $("#msg").html("正在提交。");
+            $$.getElementById('msg').innerHTML = `正在提交。`;
             $.ajax({
                 type: "PUT",
                 url: "/admin/ticket/{$id}",
                 dataType: "json",
                 data: {
                     content: editor.getHTML(),
-					title: $("#title").val(),
-					status:status
+                    status
                 },
-                success: function (data) {
+                success: data => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
-                    $("#msg-error").hide(10);
-                    $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                error: jqXHR => {
+                    $("#result").modal();
+					$$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
         }
-		
-        $("#submit").click(function () {
-			status=1;
+
+        $$.getElementById('submit').addEventListener('click', () => {
+            status = 1;
             submit();
         });
-		
-		$("#close").click(function () {
-			status=0;
+
+        $$.getElementById('close').addEventListener('click', () => {
+            status = 0;
             submit();
         });
-	
+
+        $$.getElementById('close_directly').addEventListener('click', () => {
+            status = 0;
+            $("#result").modal();
+            $$.getElementById('msg').innerHTML = `正在提交。`;
+            $.ajax({
+                type: "PUT",
+                url: "/admin/ticket/{$id}",
+                dataType: "json",
+                data: {
+                    content: '这条工单已被关闭',
+                    status
+                },
+                success: data => {
+                    if (data.ret) {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
+                    } else {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                    }
+                },
+                error: jqXHR => {
+                    $("#result").modal();
+					$$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
+                }
+            });
+        });
+
 	function changetouser_id(){
 		$.ajax({
 			type:"POST",
 			url:"/admin/user/changetouser",
 			dataType:"json",
 			data:{
-              userid: {$ticket->User()->id},
-              adminid: {$user->id},
-              local: '/admin/ticket/'+{$ticket->id}+'/view'
+                userid: {$ticket->User()->id},
+                adminid: {$user->id},
+                local: '/admin/ticket/' + {$ticket->id} + '/view'
 			},
-			success:function(data){
-				if(data.ret){
+            success: data =>{
+                if (data.ret) {
 					$("#result").modal();
-					$("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                     window.setTimeout("location.href='/user'", {$config['jump_delay']});
-				}else{
+                } else {
 					$("#result").modal();
-					$("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
 				}
 			},
-			error:function(jqXHR){
+            error: jqXHR => {
 				$("#result").modal();
-				$("#msg").html(data.msg+"  发生错误了。");
+                $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
 			}
 		});
 	}
-  	$("#changetouser_input").click(function(){
+
+    $$.getElementById('changetouser_input').addEventListener('click', ()=>{
 		changetouser_id();
 	});
-    });
-	
-    $(function() {
+
+	});
+
+    (() => {
         editor = editormd("editormd", {
-             path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
-			height: 450,
-			saveHTMLToTextarea : true,
-			emoji : true
+            path : "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
+            height: 450,
+            saveHTMLToTextarea : true,
+            emoji : true
         });
 
         /*
@@ -199,12 +205,6 @@
             path : "../lib/"
         });
         */
-    });
+    })();
+
 </script>
-
-
-
-
-
-
-

@@ -30,10 +30,8 @@ class Config
 			"invite_get_money"=>self::get("invite_get_money"),
             "code_payback" => self::get("code_payback"),
 			"invite_gift"=>self::get("invite_gift"),
-            "wecenter_url" => self::get("wecenter_url"),
 			"port_price" => self::get("port_price"),
 			"port_price_specify" => self::get("port_price_specify"),
-            "enable_wecenter" => self::get("enable_wecenter"),
             "jump_delay" => self::get("jump_delay"),
             "enable_analytics_code" => self::get("enable_analytics_code"),
             "enable_donate" => self::get("enable_donate"),
@@ -47,7 +45,10 @@ class Config
 			"admin_contact2" => self::get("admin_contact2"),
 			"admin_contact3" => self::get("admin_contact3"),
 			"register_mode" => self::get("register_mode"),
-			"enable_flag" => self::get("enable_flag")
+            "enable_flag" => self::get("enable_flag"),
+            "enable_kill" => self::get("enable_kill"),
+            "custom_invite_price" => self::get("custom_invite_price"),
+            "telegram_grouplink" => self::get("telegram_grouplink")
          ];
     }
 
@@ -73,19 +74,6 @@ class Config
             'database'  => self::get('radius_db_database'),
             'username'  => self::get('radius_db_user'),
             'password'  => self::get('radius_db_password'),
-            'charset'   => self::get('db_charset'),
-            'collation' => self::get('db_collation')
-        ];
-    }
-
-    public static function getWecenterDbConfig()
-    {
-        return [
-            'driver'  => self::get('db_driver'),
-            'host'  => self::get('wecenter_db_host'),
-            'database'  => self::get('wecenter_db_database'),
-            'username'  => self::get('wecenter_db_user'),
-            'password'  => self::get('wecenter_db_password'),
             'charset'   => self::get('db_charset'),
             'collation' => self::get('db_collation')
         ];

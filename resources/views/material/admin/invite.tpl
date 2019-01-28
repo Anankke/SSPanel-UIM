@@ -1,10 +1,4 @@
- {include file='admin/main.tpl'}
-
-
-
-
-
-
+{include file='admin/main.tpl'}
 
 <main class="content">
 	<div class="content-header ui-content-header">
@@ -29,13 +23,14 @@
 					<div class="card-inner">
 					
 						<div class="form-group form-group-label">
-							<label class="floating-label" for="uid">需要增加邀请链接数量的用户（填写用户的ID，或者用户的完整邮箱)</label>
-							<input class="form-control" id="uid" type="text">
+							<label class="floating-label" for="uid">需要增加邀请链接数量的用户</label>
+							<input class="form-control maxwidth-edit" id="uid" type="text">
+							<p class="form-control-guide"><i class="material-icons">info</i>填写用户的ID，或者用户的完整邮箱</p>
 						</div>
 
 						<div class="form-group form-group-label">
 							<label class="floating-label" for="prefix">邀请链接数量</label>
-							<input class="form-control" id="num" type="number">
+							<input class="form-control maxwidth-edit" id="num" type="number">
 						</div>
 
 
@@ -76,50 +71,40 @@
 </main>
 
 
-
-
-
-
-
-
-
-
 {include file='admin/footer.tpl'}
 
 <script>
 {include file='table/js_1.tpl'}
 
-$("#invite").click(function () {
+
+$$.getElementById('invite').addEventListener('click', () => {
     $.ajax({
         type: "POST",
         url: "/admin/invite",
         dataType: "json",
         data: {
-            prefix: $("#prefix").val(),
-            uid: $("#uid").val(),
-            num: $("#num").val()
+            prefix: $$.getElementById('invite').value,
+            uid: $$.getElementById('uid').value,
+            num: $$.getElementById('num').value,
         },
-        success: function (data) {
+        success: data => {
             if (data.ret) {
                 $("#result").modal();
-                $("#msg").html(data.msg);
-                window.setTimeout("location.href='/admin/invite'", {$config['jump_delay']});
-						}
-            else
-						{
-							$("#result").modal();
-	                        $("#msg").html(data.msg+"。");
-						}
-
+                $$.getElementById('msg').innerHTML = data.msg;
+                window.setTimeout("location.href='/admin/invite'", {$config['jump_delay']} );
+            } else {
+                $("#result").modal();
+                $$.getElementById('msg').innerHTML = data.msg;
+            }
             // window.location.reload();
         },
-        error: function (jqXHR) {
-            alert("发生错误：" + jqXHR.status);
+        error: jqXHR => {
+            alert(`发生错误：${ldelim}jqXHR.status{rdelim}`);
         }
     })
-});
+})
 
-$(document).ready(function(){
+window.addEventListener('load', () => {
  	{include file='table/js_2.tpl'}
 });
 </script>

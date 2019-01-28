@@ -46,13 +46,16 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">匿名捐赠</p>
-										<p>当前设置：{if $user->is_hide==1} 匿名 {else} 不匿名 {/if}</p>
-										<div class="form-group form-group-label">
+										<p>当前设置：<code data-default="hide">{if $user->is_hide==1} 匿名 {else} 不匿名 {/if}</code></p>
+										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="hide">匿名设置</label>
-											<select id="hide" class="form-control">
-												<option value="1">匿名</option>
-												<option value="0">不匿名</option>
-											</select>
+											<button id="hide" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->is_hide}">
+												
+											</button>
+											<ul class="dropdown-menu" aria-labelledby="hide">
+												<li><a href="#" class="dropdown-option" onclick="return false;" val="1" data="hide">匿名</a> </li>
+												<li><a href="#" class="dropdown-option" onclick="return false;" val="0" data="hide">不匿名</a></li>
+											</ul>
 										</div>
 										
 									</div>
@@ -71,9 +74,9 @@
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
-									<div class="card-inner">
+								
 										<div class="card-table">
-											<div class="table-responsive">
+											<div class="table-responsive table-user">
 												{$codes->render()}
 												<table class="table table-hover">
 													<tr>
@@ -113,7 +116,7 @@
 												{$codes->render()}
 											</div>
 										</div>
-									</div>
+							
 									
 								</div>
 							</div>

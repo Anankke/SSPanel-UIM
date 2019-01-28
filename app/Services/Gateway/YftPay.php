@@ -14,10 +14,8 @@ use App\Models\YftOrder;
 use App\Services\Auth;
 use App\Services\View;
 use App\Utils\Telegram;
-use App\Utils\YftOrderNumUtil;
 use App\Services\Config;
 use App\Controllers\QuickPayFunction;
-use App\Controllers\PayConfig;
 
 class YftPay extends AbstractPayment
 {
@@ -83,7 +81,7 @@ class YftPay extends AbstractPayment
     {
         $newResponse = $response->withStatus(302)->withHeader('Location', '/user/code');
         $yftLib = new QuickPayFunction();
-        $pay_config = new PayConfig();
+        $pay_config = new YftPayConfig();
         $pay_config->init();
 
         //价格
@@ -173,13 +171,13 @@ class YftPay extends AbstractPayment
                     <div class="card-main">
                         <div class="card-inner">
                             <form action="/user/code/yft" method="post" target="_blank">
-                                <div class="card-inner">
+                                
                                     <p class="card-heading">在线充值</p>
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="price">充值金额</label>
                                         <input class="form-control" id="price" name="price" type="text">
                                     </div>
-                                </div>
+                                
                                 <div class="card-action">
                                     <div class="card-action-btn pull-left">
                                         <button type="submit" class="btn btn-flat waves-attach" id="yftCoin" ><span class="icon">check</span>&nbsp;充值</button>
@@ -208,7 +206,7 @@ class YftPay extends AbstractPayment
     private function constructPayPara($request)
     {
         $yftLib = new QuickPayFunction();
-        $pay_config = new PayConfig();
+        $pay_config = new YftPayConfig();
         $pay_config->init();
 
         /**************************请求参数**************************/
@@ -233,7 +231,18 @@ class YftPay extends AbstractPayment
         $accesskey = Config::get('yft_accesskey');
 
         //生成订单号
-        $ss_order_no = YftOrderNumUtil::generate_yftOrder(8);
+		// 密码字符集，可任意添加你需要的字符
+        $date = time();
+        $date = "yft".date("YmdHis",$date);
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $password = "";
+        for ($i = 0; $i < 8; $i++) {
+            // 这里提供两种字符获取方式
+            // 第一种是使用 substr 截取$chars中的任意一位字符；
+            // 第二种是取字符数组 $chars 的任意元素
+            $password .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+        }
+        $ss_order_no = $date.$password;
 
         /************************************************************/
         //构造要请求的参数数组，无需改动

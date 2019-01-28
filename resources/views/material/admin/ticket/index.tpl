@@ -1,9 +1,4 @@
- {include file='admin/main.tpl'}
-
-
-
-
-
+{include file='admin/main.tpl'}
 
 
 <main class="content">
@@ -41,17 +36,14 @@
 </main>
 
 
-
-
-
-
 {include file='admin/footer.tpl'}
 
 
 <script>
 {include file='table/js_1.tpl'}
-$(document).ready(function(){
-  table = $('#table_tickets').DataTable({
+
+window.addEventListener('load', () => {
+    table = $('#table_tickets').DataTable({
 		ajax: 'ticket/ajax',
 		processing: true,
 		serverSide: true,

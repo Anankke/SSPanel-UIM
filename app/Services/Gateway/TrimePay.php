@@ -108,9 +108,17 @@ class TrimePay extends AbstractPayment
         $data['returnUrl'] = Config::get("baseUrl")."/user/payment/return";
         $params = self::prepareSign($data);
         $data['sign'] = self::sign($params);
-        $result = json_decode(self::post($data), TRUE);
-        $result['pid'] = $pl->tradeno;
-        return json_encode($result);
+        switch ($type) {
+            case('WEPAY_JSAPI'):
+                $result['code'] = 0;
+                $result['data'] = "http://cashier.hlxpay.com/#/wepay/jsapi?payData=".base64_encode(json_encode($data));
+                $result['pid'] = $pl->tradeno;
+                return json_encode($result);
+            default:
+                $result = json_decode(self::post($data), TRUE);
+                $result['pid'] = $pl->tradeno;
+                return json_encode($result);
+        }
     }
 
     public function notify($request, $response, $args)

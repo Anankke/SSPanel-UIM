@@ -4,13 +4,13 @@
 	<meta charset="UTF-8">
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
 	<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
-	<meta name="theme-color" content="#3f51b5">
+	<meta name="theme-color" content="#4285f4">
 	<title>{$config["appName"]}</title>
 	<!-- css -->
 	<link href="/theme/material/css/base.min.css" rel="stylesheet">
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
-	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
-	<link href="https://fonts.loli.net/css?family=Material+Icons" rel="stylesheet">
+	<link href="/theme/material/css/auth.css" rel="stylesheet">
+    <link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic|Material+Icons" rel="stylesheet">
 
 	<!-- favicon -->
 
@@ -20,7 +20,7 @@
 .divcss5{ position:fixed; bottom:0;}
 </style>
 <body class="page-brand">
-	<header class="header header-transparent header-waterfall ui-header">
+	{* <header class="header header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
 			<li>
 				<a data-toggle="menu" href="#ui_menu">
@@ -87,15 +87,10 @@
 				     <a  href="/password/reset"><i class="icon icon-lg">security</i>&nbsp;重置密码</a>
 					</li>
 
-                  <li>
-                    <div class="divcss5">
-    					<img  src="/images/Ambassador-menu.png" width="230" height="310"/>
-                      </div>
-					</li>
 					{/if}
 				</ul>
 			</div>
 		</div>
-	</nav>
+	</nav> *}
 
 {if $config["enable_crisp"] == 'true'}{include file='crisp.tpl'}{/if}

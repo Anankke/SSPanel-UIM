@@ -20,7 +20,6 @@ require BASE_PATH."/config/.config.php";
 
 
 
-Boot::loadEnv();
 Boot::setDebug();
 //Boot::setVersion(VERSION);
 // config time zone

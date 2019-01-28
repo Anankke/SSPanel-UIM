@@ -109,6 +109,27 @@ class Shop extends Model
         }
     }
 
+    public function content_extra()
+    {
+        $content =  json_decode($this->attributes['content']);
+        if (isset($content->content_extra)) {
+            $content_extra = $content->content_extra;
+            $content_extra = explode(';',$content_extra);
+            $content_extra_new = array();
+            foreach ($content_extra as $innerContent) {
+                if (!strstr($innerContent,'-')) {
+                    $innerContent = 'check-' . $innerContent;
+                }
+                $innerContent = explode('-',$innerContent);
+                array_push($content_extra_new,$innerContent);
+            }
+            $content_extra = $content_extra_new;
+            return $content_extra;
+        } else {
+            return 0;
+        }
+    }
+
     public function user_class()
     {
         $content =  json_decode($this->attributes['content']);

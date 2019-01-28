@@ -6,7 +6,6 @@
     "mailgun/mailgun-php": "^2.6.0",
     "predis/predis": "~1.0",
     "phpmailer/phpmailer": "~5.2",
-    "vlucas/phpdotenv": "~2.1",
     "zeuxisoo/slim-whoops": "0.5.*",
     "firebase/php-jwt": "~3.0",
     "aws/aws-sdk-php": "3.*",

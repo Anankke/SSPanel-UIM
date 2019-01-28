@@ -1,12 +1,5 @@
 
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
 
 
 	<main class="content">
@@ -35,7 +28,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="search"> 输入用户 ID 进行搜索链路搜索 </label>
-									<input class="form-control" id="search" type="text">
+									<input class="form-control maxwidth-edit" id="search" type="text">
 								</div>
 							</div>
 							<div class="card-action">
@@ -85,24 +78,19 @@
 	</main>
 
 
-
-
-
-
 {include file='admin/footer.tpl'}
 
-
-
-
 <script>
+
 function delete_modal_show(id) {
-	deleteid=id;
+	deleteid = id;
 	$("#delete_modal").modal();
 }
 
 {include file='table/js_1.tpl'}
 
-$(document).ready(function(){
+
+window.addEventListener('load', () => {
 
 	{include file='table/js_2.tpl'}
 
@@ -114,37 +102,34 @@ $(document).ready(function(){
 			data:{
 				id: deleteid
 			},
-			success:function(data){
-				if(data.ret){
+            success: data => {
+				if (data.ret) {
 					$("#result").modal();
-					$("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
 					{include file='table/js_delete.tpl'}
-				}else{
+                } else {
 					$("#result").modal();
-					$("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
 				}
 			},
-			error:function(jqXHR){
+			error: jqXHR => {
 				$("#result").modal();
-				$("#msg").html(data.msg+"  发生错误了。");
+                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 			}
 		});
 	}
 
-	$("#delete_input").click(function(){
-		delete_id();
-	});
+    $$.getElementById('delete_input').addEventListener('click', delete_id);
 
-	function search(){
-		window.location="/admin/relay/path_search/"+$("#search").val();
-	}
+    let search = () => {
+        window.location = `/admin/relay/path_search/${ldelim}$$.getElementById('search').value{rdelim}`;
+    }
 
-	$("#search_button").click(function(){
-		if($("#search").val()!="")
-		{
-			search();
-		}
-	});
+    $$.getElementById('search_button').addEventListener('click', () => {
+        if ($$.getElementById('search').value !== "") {
+            search();
+        }
+    })
 })
 
 </script>
