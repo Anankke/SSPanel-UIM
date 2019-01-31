@@ -116,8 +116,39 @@ class AdminController extends UserController
     {
         $code = new Coupon();
         $code->onetime=$request->getParam('onetime');
+		$generate_type=$request->getParam('generate_type');
+		$final_code=$request->getParam('prefix');
 
-        $code->code = $request->getParam('prefix');
+		if(empty($final_code)&&($generate_type==1||$generate_type==3)){
+			$res['ret'] = 0;
+			$res['msg'] = "优惠码不能为空";
+			return $response->getBody()->write(json_encode($res));
+		}
+
+		if($generate_type==1){
+			if(Coupon::where('code',$final_code)->count()!=0){
+				$res['ret'] = 0;
+				$res['msg'] = "优惠码已存在";
+				return $response->getBody()->write(json_encode($res));
+			}
+		}
+		else{
+			while(true){
+				if($generate_type==2){
+					$temp_code=Tools::genRandomChar(8);
+				}
+				elseif($generate_type==3){
+					$temp_code=$final_code.Tools::genRandomChar(8);
+				}
+
+				if(Coupon::where('code',$temp_code)->count()==0){
+					$final_code=$temp_code;
+					break;
+				}
+			}
+		}
+
+        $code->code = $final_code;
         $code->expire=time()+$request->getParam('expire')*3600;
         $code->shop=$request->getParam('shop');
         $code->credit=$request->getParam('credit');
