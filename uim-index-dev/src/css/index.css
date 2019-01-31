@@ -920,6 +920,7 @@ button[name=reset] {
 
     .guide-area {
         padding-right: 1rem;
+        width: 100%;
     }
 
     .userguide-bookmark button {

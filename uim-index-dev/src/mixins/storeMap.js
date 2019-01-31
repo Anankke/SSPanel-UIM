@@ -15,7 +15,7 @@ export default {
         userCon: state => state.userState.userCon,
         userSettings: state => state.userState.userSettings,
         currentDlType: state => state.userState.currentDlType,
-        currentAgentType: state => state.userState.currentAgentType,
+        currentPlantformType: state => state.userState.currentPlantformType,
     }),
     methods: {
         ...mapActions({
@@ -36,7 +36,7 @@ export default {
             addNewUserCon: 'ADD_NEWUSERCON',
             setAllResourse: 'SET_ALLURESOURSE',
             setCurrentDlType: 'SET_CURRENT_DL_TYPE',
-            setCurrentAgentType: 'SET_CURRENT_AGENT_TYPE',
+            setCurrentPlantformType: 'SET_CURRENT_PLANTFORM_TYPE',
         }),
         successCopied() {
             let callConfig = {

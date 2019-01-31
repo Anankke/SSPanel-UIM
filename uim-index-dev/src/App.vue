@@ -21,7 +21,7 @@
               <router-link class="button-index" :to="globalGuide.href" :key="routerN">
                 <span>
                   <i class="fa" :class="globalGuide.icon"></i>
-                  <span class="hide-sm"> {{globalGuide.content}}</span>
+                  <span class="hide-sm">{{globalGuide.content}}</span>
                 </span>
               </router-link>
             </transition>
@@ -208,5 +208,27 @@ export default {
 .loading-fade-leave-to,
 .loading-fadex-leave-to {
   opacity: 0;
+}
+.list-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.list-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
+}
+.list-enter-active {
+  transition: all 0.5s ease;
+  overflow: hidden;
+  transition-delay: .5s;
+  position: relative;
+}
+.list-leave-active {
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+  position: relative;
+  overflow: hidden;
+}
+.list-move {
+  transition: all .5s;
 }
 </style>
