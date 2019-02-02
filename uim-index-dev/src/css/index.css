@@ -649,6 +649,23 @@ button.tips {
     padding: .1rem 1rem;
 }
 
+.user-guide {
+    height: 385px;
+    overflow: auto;
+}
+
+.guide-area>p:first-of-type{
+    margin-top: 0;
+}
+
+.guide-area p{
+    margin-bottom: 0;
+}
+
+.guide-area>p:last-of-type {
+    margin-bottom: 1rem;
+}
+
 .ann a {
     color: #D1335B;
 }
@@ -832,6 +849,11 @@ button[name=reset] {
     margin-right: .3rem;
 }
 
+.guide-area {
+    padding-right: 1rem;
+    width: 100%;
+}
+
 @media screen and (min-width:35.5em) {
     .user {
         padding: 0;
@@ -915,11 +937,6 @@ button[name=reset] {
     }
 
     .userguide-bookmark>div {
-        width: 100%;
-    }
-
-    .guide-area {
-        padding-right: 1rem;
         width: 100%;
     }
 

@@ -1,4 +1,21 @@
 export default {
+    computed: {
+        suburlBase: function () {
+            return this.subUrl + this.ssrSubToken;
+        },
+        suburlMu0: function () {
+            return this.suburlBase + "?mu=0";
+        },
+        suburlMu1: function () {
+            return this.suburlBase + "?mu=1";
+        },
+        suburlMu3: function () {
+            return this.suburlBase + "?mu=3";
+        },
+        suburlMu2: function () {
+            return this.suburlBase + "?mu=2";
+        }
+    },
     data: function () {
         return {
             downloads: [{

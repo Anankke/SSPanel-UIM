@@ -1,6 +1,12 @@
-import { mapActions } from 'vuex'
-import { mapState } from 'vuex'
-import { mapMutations } from 'vuex'
+import {
+    mapActions
+} from 'vuex'
+import {
+    mapState
+} from 'vuex'
+import {
+    mapMutations
+} from 'vuex'
 
 import tmp from '../store'
 
@@ -16,6 +22,11 @@ export default {
         userSettings: state => state.userState.userSettings,
         currentDlType: state => state.userState.currentDlType,
         currentPlantformType: state => state.userState.currentPlantformType,
+        ssrSubToken: state => state.userState.ssrSubToken,
+        subUrl: state => state.userState.subUrl,
+        iosAccount: state => state.userState.iosAccount,
+        iosPassword: state => state.userState.iosPassword,
+        displayIosClass: state => state.userState.displayIosClass,
     }),
     methods: {
         ...mapActions({
@@ -37,10 +48,11 @@ export default {
             setAllResourse: 'SET_ALLURESOURSE',
             setCurrentDlType: 'SET_CURRENT_DL_TYPE',
             setCurrentPlantformType: 'SET_CURRENT_PLANTFORM_TYPE',
+            setAllBaseCon: 'SET_ALLBASECON',
         }),
         successCopied() {
             let callConfig = {
-                msg: '复制成功！,已将链接复制到剪贴板',
+                msg: '复制成功！已将链接复制到剪贴板',
                 icon: 'fa-check-square-o',
                 time: '1500',
             }

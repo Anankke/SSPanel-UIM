@@ -3,6 +3,11 @@ import Vue from 'vue'
 export default {
     state: {
         userCon: '',
+        ssrSubToken: '',
+        subUrl: '',
+        iosAccount: '',
+        iosPassword: '',
+        displayIosClass: '',
         userSettings: {
             pages: [{
                     id: 'user-resourse',
@@ -95,6 +100,11 @@ export default {
         },
         SET_CURRENT_PLANTFORM_TYPE (state, content) {
             state.currentPlantformType = content;
+        },
+        SET_ALLBASECON (state, config) {
+            for (let key in config) {
+                Vue.set(state, key, config[key]);
+            }
         },
     },
     actions: {

@@ -125,7 +125,10 @@
                         </uim-tooltip>
                       </span>
                     </div>
-                    <div v-if="currentDlType === 'SSR' && mergeSub !== 'true'" class="pure-g align-center relative">
+                    <div
+                      v-if="currentDlType === 'SSR' && mergeSub !== 'true'"
+                      class="pure-g align-center relative"
+                    >
                       <span class="pure-u-6-24">单端口:</span>
                       <span class="pure-u-18-24 pure-g relative flex justify-center text-center">
                         <input
@@ -208,6 +211,7 @@
           </div>
           <transition name="fade" mode="out-in">
             <component
+              @guideToShop="componentChange"
               :is="currentCardComponent"
               v-on:resourseTransTrigger="showTransition('userResourseTrans')"
               :baseURL="baseUrl"
@@ -264,62 +268,47 @@ export default {
         case "SSR":
           return {
             tagkey: "dl-ssr",
-            subKey: 'sub-ssr',
+            subKey: "sub-ssr",
             arrIndex: 0,
-            muType: 'mu0',
-            subUrl: this.suburlMu0,
+            muType: "mu0",
+            subUrl: this.suburlMu0
           };
           break;
         case "SS/SSD":
           return {
             tagkey: "dl-ss",
-            subKey: 'sub-ss',
+            subKey: "sub-ss",
             arrIndex: 1,
-            muType: 'mu3',
-            subUrl: this.suburlMu3,
+            muType: "mu3",
+            subUrl: this.suburlMu3
           };
           break;
         case "V2RAY":
           return {
             tagkey: "dl-v2",
-            subKey: 'sub-v2',
+            subKey: "sub-v2",
             arrIndex: 2,
-            muType: 'mu2',
-            subUrl: this.suburlMu2,
+            muType: "mu2",
+            subUrl: this.suburlMu2
           };
           break;
       }
     },
     currentCardComponentIndex: function() {
-      switch(this.currentCardComponent) {
-        case 'user-announcement':
+      switch (this.currentCardComponent) {
+        case "user-announcement":
           return 0;
           break;
-        case 'user-guide':
+        case "user-guide":
           return 1;
           break;
-        case 'user-invite':
+        case "user-invite":
           return 2;
           break;
-        case 'user-shop':
+        case "user-shop":
           return 3;
           break;
       }
-    },
-    suburlBase: function() {
-      return this.subUrl + this.ssrSubToken;
-    },
-    suburlMu0: function() {
-      return this.suburlBase + "?mu=0";
-    },
-    suburlMu1: function() {
-      return this.suburlBase + "?mu=1";
-    },
-    suburlMu3: function() {
-      return this.suburlBase + "?mu=3";
-    },
-    suburlMu2: function() {
-      return this.suburlBase + "?mu=2";
     }
   },
   data: function() {
@@ -332,8 +321,6 @@ export default {
         markdown: ""
       },
       baseUrl: "",
-      subUrl: "",
-      ssrSubToken: "",
       mergeSub: "false",
       toolTips: {
         mu0: false,
@@ -465,9 +452,14 @@ export default {
           if (r.info.ann) {
             this.ann = r.info.ann;
           }
+          this.setAllBaseCon({
+            subUrl: r.info.subUrl,
+            ssrSubToken: r.info.ssrSubToken,
+            iosAccount: r.info.iosAccount,
+            iosPassword: r.info.iosPassword,
+            displayIosClass: r.info.displayIosClass
+          });
           this.baseUrl = r.info.baseUrl;
-          this.subUrl = r.info.subUrl;
-          this.ssrSubToken = r.info.ssrSubToken;
           this.mergeSub = r.info.mergeSub;
         }
       })
