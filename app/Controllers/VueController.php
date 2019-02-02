@@ -99,6 +99,12 @@ class VueController extends BaseController {
 
     public function getUserInfo($request, $response, $args) {
         $user = $this->user;
+        $pre_user = URL::cloneUser($user);
+        $user->ssr_url_all = URL::getAllUrl($pre_user, 0, 0);
+        $user->ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0);
+        $user->ss_url_all = URL::getAllUrl($pre_user, 0, 2);
+        $ssinfo = URL::getSSConnectInfo($pre_user);
+        $user->ssd_url_all = URL::getAllSSDUrl($ssinfo);
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
         $GtSdk = null;
         $recaptcha_sitekey = null;
