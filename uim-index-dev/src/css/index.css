@@ -29,6 +29,10 @@ a {
     justify-content: space-around;
 }
 
+.flex-end {
+    justify-content: flex-end;
+}
+
 .space-between {
     justify-content: space-between;
 }
@@ -568,6 +572,11 @@ select {
     outline: none;
 }
 
+.tips-sm {
+    font-size: 12px;
+    padding: .1rem .5rem;
+}
+
 .tips-blue {
     color: #1997c6;
     border-color: #1997c6;
@@ -652,6 +661,12 @@ button.tips {
 .user-guide {
     height: 385px;
     overflow: auto;
+}
+
+.user-guide input {
+    background: transparent;
+    height: unset;
+    display: block;
 }
 
 .guide-area>p:first-of-type{
@@ -751,6 +766,10 @@ button.tips {
 
 .user-invite-title .tips {
     position: relative;
+}
+
+.user-invite-title .btn-user {
+    margin-right: 1rem;
 }
 
 .list-shop {
@@ -928,6 +947,10 @@ button[name=reset] {
         overflow: auto;
     }
 
+    .user-invite {
+        max-height: 385px;
+    }
+
     .user-guide {
         height: 385px;
     }
@@ -981,6 +1004,12 @@ button[name=reset] {
     .user-btngroup .btngroup-right>*:last-child {
         margin-right: 0;
     }
+
+    .userinvite-table-container {
+        overflow: auto;
+        max-height: 385px;
+    }
+
 }
 
 @media screen and (min-width:48em) {

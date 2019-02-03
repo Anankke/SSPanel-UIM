@@ -94,6 +94,7 @@
                           name="iosAccount"
                           readonly="readonly"
                           class="tips tips-blue"
+                          :value="iosAccount"
                         >
                         <label for="iosPass">公共IOS密码</label>
                         <input
@@ -103,6 +104,7 @@
                           name="iosPass"
                           readonly="readonly"
                           class="tips tips-blue"
+                          :value="iosPassword"
                         >
                       </span>
                       <span v-else>
@@ -244,34 +246,31 @@ export default {
               },
               {
                 num: "SSTAP游戏端",
-                content:
-                  "",
-                id: "GT_W_0_5",
+                content: "",
+                id: "GT_W_0_5"
               },
               {
                 num: 1,
                 content:
                   "下载SSTap，并安装，期间会安装虚拟网卡，请点击允许或确认",
-                id: "GT_W_0_6",
+                id: "GT_W_0_6"
               },
               {
                 num: 2,
-                content:
-                  "打开桌面程序SSTAP",
-                id: "GT_W_0_7",
+                content: "打开桌面程序SSTAP",
+                id: "GT_W_0_7"
               },
               {
                 num: 3,
-                content:
-                  "齿轮图标-SSR订阅-SSR订阅管理添加以下订阅链接即可",
-                id: "GT_W_0_8",
+                content: "齿轮图标-SSR订阅-SSR订阅管理添加以下订阅链接即可",
+                id: "GT_W_0_8"
               },
               {
                 num: 4,
                 content:
                   "更新后选择其中一个节点闪电图标测试节点-测试UDP转发...通过!（UDP通过即可连接并开始游戏）",
-                id: "GT_W_0_9",
-              },
+                id: "GT_W_0_9"
+              }
             ]
           },
           {
@@ -681,12 +680,11 @@ export default {
                 id: "GT_I_2_2"
               },
               {
-                num: '备用',
-                content:
-                  "使用shadowrocket一键订阅",
+                num: "备用",
+                content: "使用shadowrocket一键订阅",
                 id: "GT_I_2_3",
-                extra: true,
-              },
+                extra: true
+              }
             ]
           },
           {

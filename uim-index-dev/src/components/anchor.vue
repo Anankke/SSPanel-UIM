@@ -32,6 +32,7 @@ export default {
   transition: all 0.3s;
   cursor: pointer;
   z-index: 1;
+  outline: none;
 }
 
 .uim-anchor li:hover {

@@ -172,6 +172,9 @@ class VueController extends BaseController {
             "paybacks_sum" => $paybacks_sum,
             "invitePrice" => Config::get('invite_price'),
             "customPrice" => Config::get('custom_invite_price'),
+            "invite_gift" => Config::get('invite_gift'),
+            "invite_get_money" => Config::get('invite_get_money'),
+            "code_payback" => Config::get('code_payback'),
         );
 
         $res['ret'] = 1;

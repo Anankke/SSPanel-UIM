@@ -1,125 +1,183 @@
 <template>
   <div>
-    <div class="user-invite-title flex align-center">
-      <div class="card-title">邀请链接</div>
-      <div class="relative flex align-center justify-center text-center">
-        <transition name="fade" mode="out-in">
-          <label v-show="showToolInput" class="relative" for>
-            <input
-              @keyup.13="submitToolInput"
-              v-model="toolInputContent"
-              :data-type="toolInputType"
-              class="coupon-checker tips tips-blue"
-              type="text"
-              :placeholder="placeholder"
-            >
-            <button @click="submitToolInput" class="btn-forinput" name="check">
-              <span class="fa fa-arrow-up"></span>
-            </button>
-            <button @click="hideToolInput" class="btn-forinput" name="reset">
-              <span class="fa fa-refresh"></span>
-            </button>
-          </label>
-        </transition>
-        <uim-tooltip v-show="showOrderCheck" class="uim-tooltip-top flex justify-center">
-          <div slot="tooltip-inner">
-            <span v-if="toolInputType === 'buy'">
-              <div>确认购买
-                <span class="text-red">{{toolInputContent}}</span> 个吗？总价为
-                <span class="text-red">￥{{totalPrice}}</span>
+    <div class="user-invite-title pure-g">
+      <div class="pure-u-1-2 pure-u-sm-18-24 flex align-center">
+        <div class="card-title">邀请链接</div>
+        <div class="relative flex align-center justify-center text-center">
+          <transition name="fade" mode="out-in">
+            <label v-show="showToolInput" class="relative" for>
+              <input
+                @keyup.13="submitToolInput"
+                v-model="toolInputContent"
+                :data-type="toolInputType"
+                class="coupon-checker tips tips-blue"
+                type="text"
+                :placeholder="placeholder"
+              >
+              <button @click="submitToolInput" class="btn-forinput" name="check">
+                <span class="fa fa-arrow-up"></span>
+              </button>
+              <button @click="hideToolInput" class="btn-forinput" name="reset">
+                <span class="fa fa-refresh"></span>
+              </button>
+            </label>
+          </transition>
+          <uim-tooltip v-show="showOrderCheck" class="uim-tooltip-top flex justify-center">
+            <div slot="tooltip-inner">
+              <span v-if="toolInputType === 'buy'">
+                <div>
+                  确认购买
+                  <span class="text-red">{{toolInputContent}}</span> 个吗？总价为
+                  <span class="text-red">￥{{totalPrice}}</span>
+                </div>
+              </span>
+              <span v-if="toolInputType === 'custom'">
+                确认定制链接后缀为
+                <span class="text-red">{{toolInputContent}}</span> 吗？价格为
+                <span class="text-red">￥{{customPrice}}</span>
+              </span>
+              <div>
+                <button @click="submitOrder" class="tips tips-green">
+                  <span class="fa fa-fw fa-check"></span>
+                </button>
+                <button @click="hideOrderCheck" class="tips tips-red">
+                  <span class="fa fa-fw fa-remove"></span>
+                </button>
               </div>
-            </span>
-            <span v-if="toolInputType === 'custom'">确认定制链接后缀为
-              <span class="text-red">{{toolInputContent}}</span> 吗？价格为
-              <span class="text-red">￥{{customPrice}}</span>
-            </span>
-            <div>
-              <button @click="submitOrder" class="tips tips-green">
-                <span class="fa fa-fw fa-check"></span>
-              </button>
-              <button @click="hideOrderCheck" class="tips tips-red">
-                <span class="fa fa-fw fa-remove"></span>
-              </button>
+            </div>
+          </uim-tooltip>
+        </div>
+        <transition name="fade" mode="out-in">
+          <div v-show="showToolInput">
+            <div class="flex align-center" v-if="toolInputType === 'buy'" key="buy">
+              <span v-show="toolInputType === 'buy'" class="tips tips-green">￥{{invitePrice}}/次</span>
+              <span v-show="toolInputType === 'buy'" class="tips tips-gold">总价：￥{{totalPrice}}</span>
+            </div>
+            <div class="flex align-center" v-else key="custom">
+              <span v-show="toolInputType === 'custom'" class="tips tips-green">价格：￥{{customPrice}}</span>
             </div>
           </div>
-        </uim-tooltip>
+        </transition>
       </div>
-      <transition name="fade" mode="out-in">
-        <div v-show="showToolInput">
-          <div class="flex align-center" v-if="toolInputType === 'buy'" key="buy">
-            <span v-show="toolInputType === 'buy'" class="tips tips-green">￥{{invitePrice}}/次</span>
-            <span v-show="toolInputType === 'buy'" class="tips tips-gold">总价：￥{{totalPrice}}</span>
-          </div>
-          <div class="flex align-center" v-else key="custom">
-            <span v-show="toolInputType === 'custom'" class="tips tips-green">价格：￥{{customPrice}}</span>
-          </div>
+      <transition name="fade">
+        <div v-if="showInviteLog" class="pure-u-1-2 pure-u-sm-6-24 flex-end flex align-center">
+          <button @click="closeInviteLog" class="btn-user">
+            <span class="fa fa-mail-reply"></span> 返回
+          </button>
         </div>
       </transition>
     </div>
     <div class="card-body">
       <div class="user-invite">
         <div v-if="userCon.class !== 0">
-          <div class="flex align-center wrap">
-            <input
-              type="text"
-              v-uimclip="{ onSuccess:successCopied }"
-              :data-uimclip="inviteLink"
-              :class="{ 'invite-reset':inviteLinkTrans }"
-              class="invite-link tips tips-blue"
-              :value="inviteLink"
-              readonly
-            >
-            <span class="invite-tools link-reset relative flex justify-center text-center">
-              <button @click="showInviteReset" class="tips tips-red">
-                <span class="fa fa-refresh"></span> 重置
-              </button>
+          <transition name="fade" mode="out-in">
+            <div v-if="!showInviteLog" key="closeLog">
+              <div class="flex align-center wrap">
+                <input
+                  type="text"
+                  v-uimclip="{ onSuccess:successCopied }"
+                  :data-uimclip="inviteLink"
+                  :class="{ 'invite-reset':inviteLinkTrans }"
+                  class="invite-link tips tips-blue"
+                  :value="inviteLink"
+                  readonly
+                >
+                <span class="invite-tools link-reset relative flex justify-center text-center">
+                  <button @click="showInviteReset" class="tips tips-red">
+                    <span class="fa fa-refresh"></span> 重置
+                  </button>
 
-              <uim-tooltip v-show="inviteResetConfirm" class="uim-tooltip-top flex justify-center">
-                <div slot="tooltip-inner">
-                  <span>确定要重置邀请链接？</span>
-                  <div>
-                    <button @click="resetInviteLink" class="tips tips-green">
-                      <span class="fa fa-fw fa-check"></span>
-                    </button>
-                    <button @click="hideInviteReset" class="tips tips-red">
-                      <span class="fa fa-fw fa-remove"></span>
-                    </button>
-                  </div>
-                </div>
-              </uim-tooltip>
-            </span>
-            <span
-              v-if="customPrice >= 0"
-              class="invite-tools relative flex justify-center text-center"
-            >
-              <button
-                @click="showCustomToolInput"
-                :disabled="isToolDisabled"
-                class="tips tips-cyan"
-              >
-                <span class="fa fa-pencil"></span> 定制
-              </button>
-            </span>
-          </div>
-          <h5>
-            邀请链接剩余次数：
-            <span
-              :class="{ 'tips-gold-trans':inviteTimeTrans }"
-              class="invite-number tips tips-gold"
-            >{{userCon.invite_num}}次</span>
-            <span v-if="invitePrice >= 0">
-              <button
-                @click="showBuyToolInput"
-                :disabled="isToolDisabled"
-                class="invite-tools invite-number tips tips-green"
-              >
-                <span class="fa fa-cny"></span> 购买
-              </button>
-            </span>
-          </h5>
+                  <uim-tooltip
+                    v-show="inviteResetConfirm"
+                    class="uim-tooltip-top flex justify-center"
+                  >
+                    <div slot="tooltip-inner">
+                      <span>确定要重置邀请链接？</span>
+                      <div>
+                        <button @click="resetInviteLink" class="tips tips-green">
+                          <span class="fa fa-fw fa-check"></span>
+                        </button>
+                        <button @click="hideInviteReset" class="tips tips-red">
+                          <span class="fa fa-fw fa-remove"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </uim-tooltip>
+                </span>
+                <span
+                  v-if="customPrice >= 0"
+                  class="invite-tools relative flex justify-center text-center"
+                >
+                  <button
+                    @click="showCustomToolInput"
+                    :disabled="isToolDisabled"
+                    class="tips tips-cyan"
+                  >
+                    <span class="fa fa-pencil"></span> 定制
+                  </button>
+                </span>
+              </div>
+              <h5>
+                邀请链接剩余次数：
+                <span
+                  :class="{ 'tips-gold-trans':inviteTimeTrans }"
+                  class="invite-number tips tips-gold"
+                >{{userCon.invite_num}}次</span>
+                <span v-if="invitePrice >= 0">
+                  <button
+                    @click="showBuyToolInput"
+                    :disabled="isToolDisabled"
+                    class="invite-tools invite-number tips tips-green"
+                  >
+                    <span class="fa fa-cny"></span> 购买
+                  </button>
+                </span>
+              </h5>
+              <h5>
+                每邀请1位用户注册，您会获得
+                <span class="tips tips-sm tips-cyan">{{invite_gift}}G</span> 流量奖励
+              </h5>
+              <h5>
+                对方将获得
+                <span class="tips tips-sm tips-cyan">￥{{invite_get_money}}</span> 作为初始资金
+              </h5>
+              <h5>
+                对方充值时您还会获得对方充值金额
+                <span class="tips tips-sm tips-cyan">{{code_payback}}%</span> 的返利
+              </h5>
+              <h4>
+                已获得返利：
+                <span class="tips tips-cyan">￥{{paybacks_sum}}</span>
+              </h4>
+              <button @click="checkInviteLog" class="tips tips-gold">查看返利明细</button>
+            </div>
+            <div v-else key="viewLog">
+              <div class="userinvite-table-container">
+                <uim-table>
+                  <th slot="uim-th">ID</th>
+                  <th slot="uim-th">被邀请用户ID</th>
+                  <th slot="uim-th">获得返利</th>
+                  <tr
+                    class="uim-tr-body"
+                    v-for="(item,key) in paybacks.data"
+                    :key="key+item.id"
+                    slot="uim-tr"
+                  >
+                    <td>{{item.id}}</td>
+                    <td>{{item.userid}}</td>
+                    <td>￥{{item.ref_get}}</td>
+                  </tr>
+                </uim-table>
+              </div>
+              <div class="uim-pagenation-container">
+                <uim-pagenation @turnPage="turnInviteLogPage" :pageinfo="pagenation"></uim-pagenation>
+              </div>
+            </div>
+          </transition>
         </div>
         <div v-else>
-          <h3>{{userCon.user_name}}，您不是VIP暂时无法使用邀请链接，
+          <h3>
+            {{userCon.user_name}}，您不是VIP暂时无法使用邀请链接，
             <slot name="inviteToShop"></slot>
           </h3>
         </div>
@@ -129,18 +187,22 @@
 </template>
 
 <script>
-import storeMap from '@/mixins/storeMap'
-import userMixin from '@/mixins/userMixin'
+import storeMap from "@/mixins/storeMap";
+import userMixin from "@/mixins/userMixin";
 
-import Tooltip from '@/components/tooltip.vue'
+import Tooltip from "@/components/tooltip.vue";
+import Table from "@/components/table.vue";
+import Pagenation from "@/components/pagenation.vue";
 
-import { _get } from '../../js/fetch'
-import { _post } from '../../js/fetch'
+import { _get } from "../../js/fetch";
+import { _post } from "../../js/fetch";
 
 export default {
   mixins: [userMixin, storeMap],
   components: {
     "uim-tooltip": Tooltip,
+    "uim-table": Table,
+    "uim-pagenation": Pagenation
   },
   computed: {
     inviteLink: function() {
@@ -169,7 +231,11 @@ export default {
       showToolInput: false,
       isToolDisabled: false,
       showOrderCheck: false,
-      theUnWatch: ""
+      theUnWatch: "",
+      showInviteLog: false,
+      paybacks: "",
+      paybacks_sum: "",
+      pagenation: ""
     };
   },
   methods: {
@@ -349,14 +415,36 @@ export default {
           }
         }
       );
+    },
+    checkInviteLog() {
+      this.showInviteLog = true;
+    },
+    closeInviteLog() {
+      this.showInviteLog = false;
+    },
+    turnInviteLogPage(current) {
+      let body = { current: current };
+      _post("getuserinviteinfo", JSON.stringify(body), "include").then(r => {
+        this.paybacks = r.inviteInfo.paybacks
+      });
     }
   },
   mounted() {
-    _get("getuserinviteinfo", "include").then(r => {
+    let body = { current: 1 };
+    _post("getuserinviteinfo", JSON.stringify(body), "include").then(r => {
       console.log(r);
       this.code = this.oldCode = r.inviteInfo.code.code;
       this.invitePrice = r.inviteInfo.invitePrice;
       this.customPrice = r.inviteInfo.customPrice;
+      this.paybacks = r.inviteInfo.paybacks;
+      this.paybacks_sum = r.inviteInfo.paybacks_sum;
+      this.invite_get_money = r.inviteInfo.invite_get_money;
+      this.invite_gift = r.inviteInfo.invite_gift;
+      this.code_payback = r.inviteInfo.code_payback;
+      this.pagenation = {
+        lastPage: r.inviteInfo.paybacks.last_page,
+        currentPage: 1
+      };
       console.log(this.userCon);
     });
   },
@@ -366,3 +454,8 @@ export default {
 };
 </script>
 
+<style>
+.uim-pagenation-container {
+  margin-top: 0.75rem;
+}
+</style>
