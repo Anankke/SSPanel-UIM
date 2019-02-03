@@ -156,10 +156,8 @@ class VueController extends BaseController {
 			$code = InviteCode::where('user_id', $this->user->id)->first();
         }
 
-        $pageNum = 1;
-        if (isset($request->getQueryParams()["page"])) {
-            $pageNum = $request->getQueryParams()["page"];
-        }
+        $pageNum = $request->getParam('current');
+        
         $paybacks = Payback::where("ref_by", $this->user->id)->orderBy("id", "desc")->paginate(15, ['*'], 'page', $pageNum);
         if (!$paybacks_sum = Payback::where("ref_by", $this->user->id)->sum('ref_get')) {
             $paybacks_sum = 0;

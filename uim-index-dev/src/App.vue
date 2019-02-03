@@ -206,7 +206,9 @@ export default {
 .fade-enter,
 .fade-leave-to,
 .loading-fade-leave-to,
-.loading-fadex-leave-to {
+.loading-fadex-leave-to,
+.list-fade-enter,
+.list-fade-leave-to {
   opacity: 0;
 }
 .list-enter {
@@ -217,18 +219,20 @@ export default {
   transform: translateY(20px);
   opacity: 0;
 }
-.list-enter-active {
-  transition: all 0.5s ease;
+.list-enter-active,
+.list-fade-enter-active {
+  transition: all 0.3s ease;
   overflow: hidden;
-  transition-delay: .5s;
+  transition-delay: .4s;
   position: relative;
 }
-.list-leave-active {
-  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+.list-leave-active,
+.list-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
   position: relative;
   overflow: hidden;
 }
 .list-move {
-  transition: all .5s;
+  transition: all .3s;
 }
 </style>

@@ -1,16 +1,16 @@
 <template>
   <div class="uim-pagenation">
-    <button class="uim-pagination-btn">
+    <button @click="setCurrentPage(currentPage-1)" class="uim-pagination-btn">
       <span class="fa fa-angle-left"></span>
     </button>
     <button
       v-for="(item,index) in buttonList"
-      @click="setCurrentPage(index)"
+      @click="setCurrentPage(item.num)"
       class="uim-pagination-btn"
       :class="{ 'uim-pagination-btn-active':item.isActive }"
       :key="item"
     >{{item.num}}</button>
-    <button class="uim-pagination-btn">
+    <button @click="setCurrentPage(currentPage+1)" class="uim-pagination-btn">
       <span class="fa fa-angle-right"></span>
     </button>
   </div>
@@ -75,10 +75,9 @@ export default {
         }
       }
     },
-    setCurrentPage(index) {
-      let button = this.buttonList[index];
-      if (button.num !== "···") {
-        this.currentPage = button.num;
+    setCurrentPage(num) {
+      if (num !== "···") {
+        this.currentPage = num;
         this.getButtonList();
         for (let i = 0; i <= this.buttonList.length - 1; i++) {
           let item = this.buttonList[i];
@@ -86,7 +85,7 @@ export default {
             item.isActive = true;
           }
         }
-        this.$emit('turnPage',this.currentPage);
+        this.$emit("turnPage", this.currentPage);
       }
     }
   },
@@ -107,6 +106,10 @@ button.uim-pagination-btn {
   border-radius: 4px;
   min-width: 24px;
   transition: all 0.3s;
+}
+button.uim-pagination-btn:hover {
+  color: black;
+  background: white;
 }
 button.uim-pagination-btn-active {
   color: black;

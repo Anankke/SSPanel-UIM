@@ -18,6 +18,7 @@ export default {
     width: 100%;
     table-layout: fixed;
     text-align: center;
+    position: relative;
 }
 .uim-table tr {
     border: 1px solid #434857;

@@ -1007,7 +1007,7 @@ button[name=reset] {
 
     .userinvite-table-container {
         overflow: auto;
-        max-height: 385px;
+        max-height: 355px;
     }
 
 }

@@ -157,12 +157,14 @@
                   <th slot="uim-th">ID</th>
                   <th slot="uim-th">被邀请用户ID</th>
                   <th slot="uim-th">获得返利</th>
+                  <transition-group name="list-fade" class="relative">
                   <tr
                     class="uim-tr-body"
                     v-for="(item,key) in paybacks.data"
                     :key="key+item.id"
                     slot="uim-tr"
                   >
+                  </transition-group>
                     <td>{{item.id}}</td>
                     <td>{{item.userid}}</td>
                     <td>￥{{item.ref_get}}</td>
