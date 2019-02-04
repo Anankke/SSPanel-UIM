@@ -223,8 +223,12 @@ export default {
 .list-fade-enter-active {
   transition: all 0.3s ease;
   overflow: hidden;
-  transition-delay: .4s;
+  transition-delay: .3s;
   position: relative;
+}
+.list-fade-enter-active {
+  transition: all 1s ease;
+  transition-delay: unset;
 }
 .list-leave-active,
 .list-fade-leave-active {

@@ -1,6 +1,6 @@
 <template>
   <div class="uim-pagenation">
-    <button @click="setCurrentPage(currentPage-1)" class="uim-pagination-btn">
+    <button @click="setCurrentPage(prev)" class="uim-pagination-btn">
       <span class="fa fa-angle-left"></span>
     </button>
     <button
@@ -10,7 +10,7 @@
       :class="{ 'uim-pagination-btn-active':item.isActive }"
       :key="item"
     >{{item.num}}</button>
-    <button @click="setCurrentPage(currentPage+1)" class="uim-pagination-btn">
+    <button @click="setCurrentPage(next)" class="uim-pagination-btn">
       <span class="fa fa-angle-right"></span>
     </button>
   </div>
@@ -18,7 +18,18 @@
 
 <script>
 export default {
+  name: "uim-pagenation",
   props: ["pageinfo"],
+  computed: {
+    prev: function() {
+      return this.currentPage - 1 > 0 ? this.currentPage - 1 : 1;
+    },
+    next: function() {
+      return this.currentPage + 1 <= this.pageinfo.lastPage
+        ? this.currentPage + 1
+        : this.pageinfo.lastPage;
+    }
+  },
   data: function() {
     return {
       buttonList: "",
@@ -33,65 +44,64 @@ export default {
       if (lastPage <= 6) {
         let arr = new Array(last_page);
         this.buttonList = Array.from(arr).map((value, index) => {
-          return {
+          let obj = {
             num: index + 1,
             isActive: false
           };
+          if (this.currentPage === obj.num) {
+            obj.isActive = true;
+          }
+          return obj;
         });
       } else {
-        if (currentPage < 6) {
-          this.buttonList = [1, 2, 3, 4, 5, 6, "···", lastPage].map(value => {
-            return {
+        let promise = new Promise((resolve, reject) => {
+          if (currentPage < 6) {
+            this.buttonList = [1, 2, 3, 4, 5, 6, "···", lastPage];
+          } else if (currentPage >= 6 && currentPage <= lastPage - 5) {
+            this.buttonList = [
+              1,
+              "···",
+              currentPage - 2,
+              currentPage - 1,
+              currentPage,
+              currentPage + 1,
+              currentPage + 2,
+              "···",
+              lastPage
+            ];
+          } else if (currentPage > lastPage - 5) {
+            let arr = new Array(6);
+            arr = Array.from(arr).map((value, index) => lastPage - 5 + index);
+            this.buttonList = [1, "···"].concat(arr);
+          }
+          resolve("done");
+        });
+        promise.then(r => {
+          console.log(r);
+          this.buttonList = this.buttonList.map(value => {
+            let obj = {
               num: value,
               isActive: false
             };
+            if (this.currentPage === obj.num) {
+              obj.isActive = true;
+            }
+            return obj;
           });
-        } else if (currentPage >= 6 && currentPage <= lastPage - 5) {
-          this.buttonList = [
-            1,
-            "···",
-            currentPage - 2,
-            currentPage - 1,
-            currentPage,
-            currentPage + 1,
-            currentPage + 2,
-            "···",
-            lastPage
-          ].map(value => {
-            return {
-              num: value,
-              isActive: false
-            };
-          });
-        } else if (currentPage > lastPage - 5) {
-          let arr = new Array(6);
-          arr = Array.from(arr).map((value, index) => lastPage - 5 + index);
-          this.buttonList = [1, "···"].concat(arr).map(value => {
-            return {
-              num: value,
-              isActive: false
-            };
-          });
-        }
+        });
       }
     },
     setCurrentPage(num) {
       if (num !== "···") {
         this.currentPage = num;
         this.getButtonList();
-        for (let i = 0; i <= this.buttonList.length - 1; i++) {
-          let item = this.buttonList[i];
-          if (item.num === this.currentPage) {
-            item.isActive = true;
-          }
-        }
         this.$emit("turnPage", this.currentPage);
       }
     }
   },
   mounted() {
+    this.currentPage = this.pageinfo.currentPage;
     this.getButtonList();
-    this.buttonList[0].isActive = true;
   }
 };
 </script>
