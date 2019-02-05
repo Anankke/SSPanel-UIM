@@ -777,14 +777,10 @@ button.tips {
     font-size: 1.2rem;
     border: 1px solid #434857;
     margin-bottom: .7rem;
-    width: 95%;
+    width: 100%;
     backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-}
-
-.list-shop:hover {
-    transform: translate3D(1rem, 0, 0);
 }
 
 .list-shop div:first-of-type .tips {
@@ -979,6 +975,10 @@ button[name=reset] {
 
     .link-reset .uim-tooltip-top {
         width: 230px;
+    }
+
+    .list-shop {
+        width: 95%;
     }
 
     .invite-link {

@@ -72,6 +72,7 @@ class VueController extends BaseController {
             "telegram_bot" => Config::get('telegram_bot'),
             "enable_logincaptcha" => Config::get('enable_login_captcha'),
             "enable_regcaptcha" => Config::get('enable_reg_captcha'),
+            "enable_checkin_captcha" => Config::get('enable_checkin_captcha'),
             "base_url" => Config::get('baseUrl'),
             "recaptcha_sitekey" => $recaptcha_sitekey,
             "captcha_provider" => Config::get('captcha_provider'),

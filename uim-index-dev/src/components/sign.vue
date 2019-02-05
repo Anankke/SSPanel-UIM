@@ -62,9 +62,6 @@ export default {
         ? "translateY(" + this.drawerTop() + ")"
         : "translateY(0px)";
     }
-    // isCaptchaRendered: function() {
-
-    // }
   },
   data: function() {
     return {
@@ -154,7 +151,7 @@ export default {
   mounted() {
     window.addEventListener("shake", this.shakeEventDidOccur, false);
 
-    if (this.globalConfig.enableLoginCaptcha === "false") {
+    if (this.globalConfig.enableCheckinCaptcha === "false") {
       return;
     }
     this.loadCaptcha("g-recaptcha-user");

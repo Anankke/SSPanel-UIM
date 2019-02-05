@@ -36,6 +36,7 @@ export default new Vuex.Store({
       enable_telegram: '',
       enableLoginCaptcha: '',
       enableRegCaptcha: '',
+      enableCheckinCaptcha: '',
       indexMsg: {
         appname: '',
         hitokoto: '',
@@ -79,6 +80,7 @@ export default new Vuex.Store({
       state.globalConfig.isEmailVeryify = config.enable_email_verify
       state.globalConfig.enableLoginCaptcha = config.enable_logincaptcha
       state.globalConfig.enableRegCaptcha = config.enable_regcaptcha
+      state.globalConfig.enableCheckinCaptcha = config.enable_checkin_captcha
       state.globalConfig.login_token = config.login_token
       state.globalConfig.login_number = config.login_number
       state.globalConfig.telegram_bot = config.telegram_bot
