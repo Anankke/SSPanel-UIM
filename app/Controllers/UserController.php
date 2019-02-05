@@ -1255,7 +1255,7 @@ class UserController extends BaseController
         foreach ($adminUser as $user) {
             $subject = Config::get('appName') . "-新工单被开启";
             $to = $user->email;
-            $text = "管理员您好，有人开启了新的工单，请您及时处理。";
+            $text = "管理员您好，有人开启了新的<a href=\"" . Config::get('baseUrl') . "/admin/ticket/" . $ticket->id . "/view\">工单，请您及时处理。";
             try {
                 Mail::send($to, $subject, 'news/warn.tpl', [
                     "user" => $user, "text" => $text
