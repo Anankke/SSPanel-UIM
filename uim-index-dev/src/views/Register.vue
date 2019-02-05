@@ -78,25 +78,24 @@ import tmp from '../store.js'
 
 export default {
   mixins: [storeMap, storeAuth],
-  data: function() {
+  data: function () {
     return {
-      usrname: "",
-      email: "",
-      passwd: "",
-      repasswd: "",
-      contect: "",
-      code: "",
-      imtype: "",
-      email_code: "",
+      usrname: '',
+      email: '',
+      passwd: '',
+      repasswd: '',
+      contect: '',
+      code: '',
+      imtype: '',
+      email_code: '',
       isDisabled: false,
-      vmText: "获取邮箱验证码",
+      vmText: '获取邮箱验证码',
       isVmDisabled: false
-    };
+    }
   },
   methods: {
-    register() {
-
-      this.isDisabled = true;
+    register () {
+      this.isDisabled = true
 
       let ajaxCon = {
         email: this.email,
@@ -106,164 +105,163 @@ export default {
         wechat: this.contect,
         imtype: this.imtype,
         code: this.code
-      };
+      }
 
       let callConfig = {
-        msg: "",
-        icon: "",
+        msg: '',
+        icon: '',
         time: 1000
-      };
-
-      if (this.globalConfig.isEmailVeryify === "true") {
-        ajaxCon.emailcode = this.email_code;
       }
 
-      if (this.globalConfig.registMode !== "invite") {
-        ajaxCon.code = 0;
-        if (this.getCookie("code") !== "") {
-          ajaxCon.code = this.getCookie("code");
+      if (this.globalConfig.isEmailVeryify === 'true') {
+        ajaxCon.emailcode = this.email_code
+      }
+
+      if (this.globalConfig.registMode !== 'invite') {
+        ajaxCon.code = 0
+        if (this.getCookie('code') !== '') {
+          ajaxCon.code = this.getCookie('code')
         }
       }
 
-      if (this.globalConfig.enableRegCaptcha !== "false") {
+      if (this.globalConfig.enableRegCaptcha !== 'false') {
         switch (this.globalConfig.captchaProvider) {
-          case "recaptcha":
-            ajaxCon.recaptcha = grecaptcha.getResponse();
-            break;
-          case "geetest":
+          case 'recaptcha':
+            ajaxCon.recaptcha = grecaptcha.getResponse()
+            break
+          case 'geetest':
             if (this.validate !== '') {
-              ajaxCon.geetest_challenge = this.validate.geetest_challenge;
-              ajaxCon.geetest_validate = this.validate.geetest_validate;
-              ajaxCon.geetest_seccode = this.validate.geetest_seccode;
+              ajaxCon.geetest_challenge = this.validate.geetest_challenge
+              ajaxCon.geetest_validate = this.validate.geetest_validate
+              ajaxCon.geetest_seccode = this.validate.geetest_seccode
             } else {
-              callConfig.msg += "请滑动验证码来完成验证。";
+              callConfig.msg += '请滑动验证码来完成验证。'
             }
-            break;
+            break
         }
       }
 
-      _post("/auth/register", JSON.stringify(ajaxCon), "include").then(r => {
+      _post('/auth/register', JSON.stringify(ajaxCon), 'include').then(r => {
         if (r.ret == 1) {
-          callConfig.msg = "注册成功meow~";
-          callConfig.icon = "fa-check-square-o";
-          this.callMsgr(callConfig);
+          callConfig.msg = '注册成功meow~'
+          callConfig.icon = 'fa-check-square-o'
+          this.callMsgr(callConfig)
           window.setTimeout(() => {
-            this.$router.replace("/auth/login");
-          }, this.globalConfig.jumpDelay);
+            this.$router.replace('/auth/login')
+          }, this.globalConfig.jumpDelay)
         } else {
-          callConfig.msg = `WTF……注册失败,${r.msg}`;
-          callConfig.icon += "fa-times-circle-o";
-          this.callMsgr(callConfig);
+          callConfig.msg = `WTF……注册失败,${r.msg}`
+          callConfig.icon += 'fa-times-circle-o'
+          this.callMsgr(callConfig)
           window.setTimeout(() => {
-            this.isDisabled = false;
-          }, 3000);
+            this.isDisabled = false
+          }, 3000)
         }
-      });
+      })
     },
-    //dumplin：轮子1.js读取url参数//nymph: 重拼字符串
-    getQueryVariable(variable) {
-      var query = window.location.hash.substring(1).split("?")[1];
-      if (typeof query === "undefined") {
-        return "";
+    // dumplin：轮子1.js读取url参数//nymph: 重拼字符串
+    getQueryVariable (variable) {
+      var query = window.location.hash.substring(1).split('?')[1]
+      if (typeof query === 'undefined') {
+        return ''
       }
-      var vars = query.split("&");
+      var vars = query.split('&')
       for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
+        var pair = vars[i].split('=')
         if (pair[0] == variable) {
-          return pair[1];
+          return pair[1]
         }
       }
-      return "";
+      return ''
     },
-    //dumplin:轮子2.js写入cookie
-    setCookie(cname, cvalue, exdays) {
-      var d = new Date();
-      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-      var expires = "expires=" + d.toGMTString();
-      document.cookie = cname + "=" + cvalue + "; " + expires;
+    // dumplin:轮子2.js写入cookie
+    setCookie (cname, cvalue, exdays) {
+      var d = new Date()
+      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000)
+      var expires = 'expires=' + d.toGMTString()
+      document.cookie = cname + '=' + cvalue + '; ' + expires
     },
-    //dumplin:轮子3.js读取cookie
-    getCookie(cname) {
-      var name = cname + "=";
-      var ca = document.cookie.split(";");
+    // dumplin:轮子3.js读取cookie
+    getCookie (cname) {
+      var name = cname + '='
+      var ca = document.cookie.split(';')
       for (var i = 0; i < ca.length; i++) {
-        var c = ca[i].trim();
-        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        var c = ca[i].trim()
+        if (c.indexOf(name) === 0) return c.substring(name.length, c.length)
       }
-      return "";
+      return ''
     },
-    time(time) {
-      if (time == 0) {
-        this.isVmDisabled = false;
-        this.vmText = "获取验证码";
-        time = 60;
+    time (time) {
+      if (time === 0) {
+        this.isVmDisabled = false
+        this.vmText = '获取验证码'
+        time = 60
       } else {
-        this.isVmDisabled = true;
-        this.vmText = "重新发送(" + time + ")";
-        time = time - 1;
+        this.isVmDisabled = true
+        this.vmText = '重新发送(' + time + ')'
+        time = time - 1
         setTimeout(() => {
-          this.time(time);
-        }, 1000);
+          this.time(time)
+        }, 1000)
       }
     },
-    sendVerifyMail() {
-      let time = tmp.state.wait;
-      this.time(time);
+    sendVerifyMail () {
+      let time = tmp.state.wait
+      this.time(time)
 
       let ajaxCon = {
         email: this.email
-      };
+      }
 
-      _post("auth/send", JSON.stringify(ajaxCon), "omit").then(r => {
+      _post('auth/send', JSON.stringify(ajaxCon), 'omit').then(r => {
         if (r.ret) {
           let callConfig = {
-            msg: "biu~邮件发送成功",
-            icon: "fa-check-square-o",
+            msg: 'biu~邮件发送成功',
+            icon: 'fa-check-square-o',
             time: 1000
-          };
-          this.callMsgr(callConfig);
+          }
+          this.callMsgr(callConfig)
         } else {
           let callConfig = {
-            msg: "emm……邮件发送失败",
-            icon: "fa-times-circle-o",
+            msg: 'emm……邮件发送失败',
+            icon: 'fa-times-circle-o',
             time: 1000
-          };
-          this.callMsgr(callConfig);
+          }
+          this.callMsgr(callConfig)
         }
-      });
+      })
     },
-    registerBindEnter(e) {
-      if (this.$route.path === "/auth/register" && e.keyCode == 13) {
-        this.register();
+    registerBindEnter (e) {
+      if (this.$route.path === '/auth/register' && e.keyCode === 13) {
+        this.register()
       }
     }
   },
-  mounted() {
-    //dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码
-    if (this.getQueryVariable("code") != "") {
-      this.setCookie("code", this.getQueryVariable("code"), 30);
-      this.$router.replace("/auth/register");
+  mounted () {
+    // dumplin:读取url参数写入cookie，自动跳转隐藏url邀请码
+    if (this.getQueryVariable('code') !== '') {
+      this.setCookie('code', this.getQueryVariable('code'), 30)
+      this.$router.replace('/auth/register')
     }
-    //dumplin:读取cookie，自动填入邀请码框
-    if (this.globalConfig.registMode == "invite") {
-      if (this.getCookie("code") != "") {
-        this.code = this.getCookie("code");
+    // dumplin:读取cookie，自动填入邀请码框
+    if (this.globalConfig.registMode === 'invite') {
+      if (this.getCookie('code') != '') {
+        this.code = this.getCookie('code')
       }
     }
 
-    document.addEventListener("keyup", this.registerBindEnter, false);
+    document.addEventListener('keyup', this.registerBindEnter, false)
 
-    //验证加载
-    if (this.globalConfig.enableRegCaptcha === "false") {
-      return;
+    // 验证加载
+    if (this.globalConfig.enableRegCaptcha === 'false') {
+      return
     }
-    this.loadCaptcha("g-recaptcha-reg");
-    this.loadGT("#embed-captcha-reg");
+    this.loadCaptcha('g-recaptcha-reg')
+    this.loadGT('#embed-captcha-reg')
   },
-  beforeRouteLeave(to, from, next) {
-    document.removeEventListener("keyup", this.registerBindEnter, false);
-    next();
+  beforeRouteLeave (to, from, next) {
+    document.removeEventListener('keyup', this.registerBindEnter, false)
+    next()
   }
-};
+}
 </script>
-

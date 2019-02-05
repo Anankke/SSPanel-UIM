@@ -15,25 +15,25 @@
 <script>
 export default {
   model: {
-    prop: "isBtnActive",
-    event: "change"
+    prop: 'isBtnActive',
+    event: 'change'
   },
-  props: ["isBtnActive"],
-  data: function() {
+  props: ['isBtnActive'],
+  data: function () {
     return {
       switchStatus: this.isBtnActive
-    };
+    }
   },
   methods: {
-    btnSwitch() {
+    btnSwitch () {
       if (this.switchStatus === false) {
-        this.switchStatus = true;
+        this.switchStatus = true
       } else {
-        this.switchStatus = false;
+        this.switchStatus = false
       }
     }
   }
-};
+}
 </script>
 
 <style>
@@ -85,4 +85,3 @@ export default {
   margin-left: .25rem;
 }
 </style>
-

@@ -34,13 +34,13 @@
             ></div>
             <span
               class="user-config"
-              :class="{ 'font-green-trans':isDataRefreshed }"
+              :class="{ 'font-green-trans':isDataRefreshed,'font-gold-trans':sign.isTrsfficRefreshed }"
               slot="progress-text"
             >{{userCon.lastUsedTraffic + '/' + userCon.todayUsedTraffic}}</span>
             <span
               slot="progress-sign"
               class="user-config"
-              :class="{ 'font-green-trans':isDataRefreshed }"
+              :class="{ 'font-green-trans':isDataRefreshed,'font-gold-trans':sign.isTrsfficRefreshed }"
             >{{transferObj.usedtoday.toFixed(1) + '%'}}</span>
           </uim-progressbar>
           <uim-progressbar>
@@ -51,13 +51,13 @@
               :style="{ width:transferObj.remain + '%' }"
             ></div>
             <span
-              :class="{ 'font-green-trans':isDataRefreshed }"
+              :class="{ 'font-green-trans':isDataRefreshed,'font-gold-trans':sign.isTrsfficRefreshed }"
               slot="progress-text"
             >{{userCon.unUsedTraffic}}</span>
             <span
               slot="progress-sign"
               class="user-config"
-              :class="{ 'font-green-trans':isDataRefreshed }"
+              :class="{ 'font-green-trans':isDataRefreshed,'font-gold-trans':sign.isTrsfficRefreshed }"
             >{{transferObj.remain.toFixed(1) + '%'}}</span>
           </uim-progressbar>
         </div>
@@ -78,67 +78,67 @@ import { _get } from '../../js/fetch'
 export default {
   mixins: [userMixin, storeMap, userSetMixin],
   components: {
-    'uim-progressbar': Progressbar,
+    'uim-progressbar': Progressbar
   },
   computed: {
-    calcResourse: function() {
-      let resourse = this.userSettings.resourse;
+    calcResourse: function () {
+      let resourse = this.userSettings.resourse
       for (let i = 0; i < resourse.length; i++) {
         switch (resourse[i].name) {
-          case "在线设备数":
+          case '在线设备数':
             if (this.userCon.node_connector !== 0) {
               this.setReasourse({
                 index: i,
                 content:
                   this.userCon.online_ip_count +
-                  " / " +
+                  ' / ' +
                   this.userCon.node_connector
-              });
+              })
             } else {
               this.setReasourse({
                 index: i,
-                content: this.userCon.online_ip_count + " / 无限制"
-              });
+                content: this.userCon.online_ip_count + ' / 无限制'
+              })
             }
-            break;
-          case "端口速率":
+            break
+          case '端口速率':
             if (this.userCon.node_speedlimit !== 0) {
               this.setReasourse({
                 index: i,
-                content: this.userCon.node_speedlimit + " Mbps"
-              });
+                content: this.userCon.node_speedlimit + ' Mbps'
+              })
             } else {
-              this.setReasourse({ index: i, content: "无限制" });
+              this.setReasourse({ index: i, content: '无限制' })
             }
-            break;
+            break
           default:
-            break;
+            break
         }
       }
-      return resourse;
+      return resourse
     },
-    transferObj: function() {
-      let enable = this.userCon.transfer_enable;
-      let upload = this.userCon.u;
-      let download = this.userCon.d;
-      let lastdayTransfer = this.userCon.last_day_t;
+    transferObj: function () {
+      let enable = this.userCon.transfer_enable
+      let upload = this.userCon.u
+      let download = this.userCon.d
+      let lastdayTransfer = this.userCon.last_day_t
       let obj = {
         remain:
           enable === 0 ? 0 : ((enable - upload - download) / enable) * 100,
         usedtoday: enable === 0 ? 0 : ((upload + download) / enable) * 100,
         usedtotal: enable === 0 ? 0 : (lastdayTransfer / enable) * 100
-      };
-      return obj;
+      }
+      return obj
     }
   },
-  data: function() {
+  data: function () {
     return {
-      isDataRefreshed: false
-    };
+      isDataRefreshed: false,
+    }
   },
   methods: {
-    DateParse(str_date) {
-      let str_date_splited = str_date.split(/[^0-9]/);
+    DateParse (str_date) {
+      let str_date_splited = str_date.split(/[^0-9]/)
       return new Date(
         str_date_splited[0],
         str_date_splited[1] - 1,
@@ -146,60 +146,60 @@ export default {
         str_date_splited[3],
         str_date_splited[4],
         str_date_splited[5]
-      );
+      )
     },
-    calcExpireDays(classExpire, userExpireIn) {
-      let levelExpire = this.DateParse(classExpire);
-      let accountExpire = this.DateParse(userExpireIn);
-      let nowDate = new Date();
-      let a = nowDate.getTime();
-      let b = levelExpire - a;
-      let c = accountExpire - a;
-      let levelExpireDays = Math.floor(b / (24 * 3600 * 1000));
-      let accountExpireDays = Math.floor(c / (24 * 3600 * 1000));
+    calcExpireDays (classExpire, userExpireIn) {
+      let levelExpire = this.DateParse(classExpire)
+      let accountExpire = this.DateParse(userExpireIn)
+      let nowDate = new Date()
+      let a = nowDate.getTime()
+      let b = levelExpire - a
+      let c = accountExpire - a
+      let levelExpireDays = Math.floor(b / (24 * 3600 * 1000))
+      let accountExpireDays = Math.floor(c / (24 * 3600 * 1000))
       if (levelExpireDays < 0 || levelExpireDays > 315360000000) {
-        this.addNewUserCon({ levelExpireDays: "无限期" });
-        this.setReasourse({ index: 0, content: this.userCon.levelExpireDays });
+        this.addNewUserCon({ levelExpireDays: '无限期' })
+        this.setReasourse({ index: 0, content: this.userCon.levelExpireDays })
       } else {
-        this.addNewUserCon({ levelExpireDays: levelExpireDays });
+        this.addNewUserCon({ levelExpireDays: levelExpireDays })
         this.setReasourse({
           index: 0,
-          content: this.userCon.levelExpireDays + " 天"
-        });
+          content: this.userCon.levelExpireDays + ' 天'
+        })
       }
       if (accountExpireDays < 0 || accountExpireDays > 315360000000) {
-        this.addNewUserCon({ accountExpireDays: "无限期" });
+        this.addNewUserCon({ accountExpireDays: '无限期' })
         this.setReasourse({
           index: 1,
           content: this.userCon.accountExpireDays
-        });
+        })
       } else {
-        this.addNewUserCon({ accountExpireDays: accountExpireDays });
+        this.addNewUserCon({ accountExpireDays: accountExpireDays })
         this.setReasourse({
           index: 1,
-          content: this.userCon.accountExpireDays + " 天"
-        });
+          content: this.userCon.accountExpireDays + ' 天'
+        })
       }
     },
-    dataRefresh() {
-      _get("/gettransfer", "include").then(r => {
-        this.addNewUserCon(r.arr);
-        this.reConfigResourse();
-        this.showTransition("isDataRefreshed");
-      });
+    dataRefresh () {
+      _get('/gettransfer', 'include').then(r => {
+        this.addNewUserCon(r.arr)
+        this.reConfigResourse()
+        this.showTransition('isDataRefreshed')
+      })
     },
-    showTransition(key) {
-      this[key] = true;
+    showTransition (key) {
+      this[key] = true
       setTimeout(() => {
-        this[key] = false;
-      }, 500);
+        this[key] = false
+      }, 500)
     }
   },
-  created() {
-    this.calcExpireDays(this.userCon.class_expire, this.userCon.expire_in);
-    _get("/gettransfer", "include").then(r => {
-      this.addNewUserCon(r.arr);
-    });
+  created () {
+    this.calcExpireDays(this.userCon.class_expire, this.userCon.expire_in)
+    _get('/gettransfer', 'include').then(r => {
+      this.addNewUserCon(r.arr)
+    })
   }
-};
+}
 </script>

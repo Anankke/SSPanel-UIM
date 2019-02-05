@@ -50,6 +50,10 @@
             <div v-if="msgrCon.html !== ''" slot="html" v-html="msgrCon.html"></div>
           </uim-messager>
         </transition>
+
+        <transition name="fade">
+          <uim-signer v-if="showSigner"></uim-signer>
+        </transition>
       </div>
     </transition>
   </div>
@@ -58,7 +62,8 @@
 <script>
 import Router from "./router";
 import storeMap from "@/mixins/storeMap";
-import Messager from "./components/messager.vue";
+import Messager from "@/components/messager.vue";
+import Signer from "@/components/sign.vue";
 
 import { _get } from "./js/fetch";
 
@@ -66,7 +71,8 @@ export default {
   router: Router,
   mixins: [storeMap],
   components: {
-    "uim-messager": Messager
+    "uim-messager": Messager,
+    "uim-signer": Signer
   },
   computed: {
     globalGuide: function() {
@@ -93,19 +99,22 @@ export default {
           };
           break;
       }
+    },
+    showSigner: function() {
+      return this.logintoken && this.$route.path === "/user/panel";
     }
   },
   data: function() {
     return {
       routerN: "auth",
-      transType: "slide-fade"
+      transType: "slide-fade",
     };
   },
   methods: {
     routeJudge() {
       switch (this.$route.path) {
         case "/":
-          if (this.logintoken == false) {
+          if (this.logintoken === false) {
             this.routerN = "auth";
           } else {
             this.routerN = "user";
@@ -146,7 +155,6 @@ export default {
   }
 };
 </script>
-
 
 <style>
 .slide-fade-enter-active,
@@ -223,7 +231,7 @@ export default {
 .list-fade-enter-active {
   transition: all 0.3s ease;
   overflow: hidden;
-  transition-delay: .3s;
+  transition-delay: 0.3s;
   position: relative;
 }
 .list-fade-enter-active {
@@ -237,6 +245,15 @@ export default {
   overflow: hidden;
 }
 .list-move {
-  transition: all .3s;
+  transition: all 0.3s;
+}
+.sign-enter,
+.sign-leave-to {
+  opacity: 0;
+  transform: scale(0);
+}
+.sign-enter-active,
+.sign-leave-active {
+  transition: all 0.4s;
 }
 </style>

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style>
@@ -37,4 +37,3 @@ export default {};
   z-index: -1;
 }
 </style>
-

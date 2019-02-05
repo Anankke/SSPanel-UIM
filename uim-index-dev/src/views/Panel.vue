@@ -273,7 +273,6 @@ export default {
             muType: "mu0",
             subUrl: this.suburlMu0
           };
-          break;
         case "SS/SSD":
           return {
             tagkey: "dl-ss",
@@ -282,7 +281,6 @@ export default {
             muType: "mu3",
             subUrl: this.suburlMu3
           };
-          break;
         case "V2RAY":
           return {
             tagkey: "dl-v2",
@@ -291,23 +289,18 @@ export default {
             muType: "mu2",
             subUrl: this.suburlMu2
           };
-          break;
       }
     },
     currentCardComponentIndex: function() {
       switch (this.currentCardComponent) {
         case "user-announcement":
           return 0;
-          break;
         case "user-guide":
           return 1;
-          break;
         case "user-invite":
           return 2;
-          break;
         case "user-shop":
           return 3;
-          break;
       }
     }
   },
@@ -436,6 +429,18 @@ export default {
         let index = this.indexMinus(this.userSettings.currentPageIndex);
         this.changeUserSetPage(index);
       }
+    },
+    showSigner() {
+      let promise = new Promise((resolve, reject) => {
+        this.setSignSet({ transition: true });
+        resolve();
+      });
+      promise.then(r => {
+        console.log(r);
+        setTimeout(() => {
+          this.setSignSet({ isSignShow: true });
+        }, 500);
+      });
     }
   },
   mounted() {
@@ -466,6 +471,7 @@ export default {
       .then(r => {
         setTimeout(() => {
           self.userLoadState = "loaded";
+          this.showSigner();
         }, 1000);
       });
   },

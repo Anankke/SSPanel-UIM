@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import storeMap from "@/mixins/storeMap";
+import storeMap from '@/mixins/storeMap'
 
 export default {
   mixins: [storeMap],
-  props: ["bindMask", "bindCard"]
-};
+  props: ['bindMask', 'bindCard']
+}
 </script>
 
 <style>
@@ -124,4 +124,3 @@ button.uim-modal-confirm {
   cursor: pointer;
 }
 </style>
-

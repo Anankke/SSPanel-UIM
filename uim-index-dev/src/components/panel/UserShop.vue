@@ -76,7 +76,7 @@
 import storeMap from '@/mixins/storeMap'
 import userMixin from '@/mixins/userMixin'
 
-import Shopmodal from '@/components/shopmodal.vue'
+import Shopmodal from '@/components/modal.vue'
 import Switch from '@/components/switch.vue'
 
 import { _get } from '../../js/fetch'
@@ -86,149 +86,148 @@ export default {
   mixins: [userMixin, storeMap],
   components: {
     'uim-modal': Shopmodal,
-    'uim-switch': Switch,
+    'uim-switch': Switch
   },
-  data: function() {
+  data: function () {
     return {
-      shops: "",
+      shops: '',
       isDisabled: false,
-      coupon: "",
+      coupon: '',
       isCheckerShow: false,
       ajaxBody: {
-        shop: "",
-        autorenew: ""
+        shop: '',
+        autorenew: ''
       },
       isMaskShow: false,
       isCardShow: false,
       orderCheckerContent: {
-        name: "",
-        credit: "",
-        total: "",
+        name: '',
+        credit: '',
+        total: '',
         disableothers: true
       }
-    };
+    }
   },
   methods: {
-    buy(shop) {
-      this.isDisabled = true;
-      this.isCheckerShow = true;
+    buy (shop) {
+      this.isDisabled = true
+      this.isCheckerShow = true
       let callConfig = {
-        msg: "请输入优惠码，如没有请直接确认",
-        icon: "fa-bell",
+        msg: '请输入优惠码，如没有请直接确认',
+        icon: 'fa-bell',
         time: 1500
-      };
-      this.callMsgr(callConfig);
-      let id = shop.id.toString();
-      this.$set(this.ajaxBody, "shop", id);
-      this.$set(this.ajaxBody, "autorenew", shop.autoRenew);
+      }
+      this.callMsgr(callConfig)
+      let id = shop.id.toString()
+      this.$set(this.ajaxBody, 'shop', id)
+      this.$set(this.ajaxBody, 'autorenew', shop.autoRenew)
     },
-    callOrderChecker() {
+    callOrderChecker () {
       if (this.isMaskShow === false) {
-        this.isMaskShow = true;
+        this.isMaskShow = true
         setTimeout(() => {
-          this.isCardShow = true;
-        }, 300);
+          this.isCardShow = true
+        }, 300)
       } else {
-        this.isCardShow = false;
+        this.isCardShow = false
         setTimeout(() => {
-          this.isMaskShow = false;
-          this.hideChecker();
-        }, 300);
+          this.isMaskShow = false
+          this.hideChecker()
+        }, 300)
       }
     },
-    couponCheck() {
+    couponCheck () {
       let ajaxCon = {
         coupon: this.coupon,
         shop: this.ajaxBody.shop
-      };
-      _post("/user/coupon_check", JSON.stringify(ajaxCon), "include").then(
+      }
+      _post('/user/coupon_check', JSON.stringify(ajaxCon), 'include').then(
         r => {
           if (r.ret) {
-            this.isCheckerShow = false;
-            this.orderCheckerContent.name = r.name;
-            this.orderCheckerContent.credit = r.credit;
-            this.orderCheckerContent.total = r.total;
-            this.callOrderChecker();
+            this.isCheckerShow = false
+            this.orderCheckerContent.name = r.name
+            this.orderCheckerContent.credit = r.credit
+            this.orderCheckerContent.total = r.total
+            this.callOrderChecker()
           } else {
             let callConfig = {
               msg: r.msg,
-              icon: "fa-times-circle-o",
+              icon: 'fa-times-circle-o',
               time: 1000
-            };
-            this.callMsgr(callConfig);
+            }
+            this.callMsgr(callConfig)
           }
         }
-      );
+      )
     },
-    orderCheck() {
+    orderCheck () {
       let ajaxCon = {
         coupon: this.coupon,
         shop: this.ajaxBody.shop,
         autorenew: this.ajaxBody.autorenew,
         disableothers: this.disableothers
-      };
-      _post("/user/buy", JSON.stringify(ajaxCon), "include").then(r => {
-        let self = this;
+      }
+      _post('/user/buy', JSON.stringify(ajaxCon), 'include').then(r => {
+        let self = this
         if (r.ret) {
-          console.log(r);
-          this.callOrderChecker();
-          this.reConfigResourse();
-          this.$emit("resourseTransTrigger");
+          console.log(r)
+          this.callOrderChecker()
+          this.reConfigResourse()
+          this.$emit('resourseTransTrigger')
           let callConfig = {
             msg: r.msg,
-            icon: "fa-check-square-o",
+            icon: 'fa-check-square-o',
             time: 1500
-          };
-          let animation = new Promise(function(resolve) {
-            self.callOrderChecker();
+          }
+          let animation = new Promise(function (resolve) {
+            self.callOrderChecker()
             setTimeout(() => {
-              resolve("done");
-            }, 600);
-          });
+              resolve('done')
+            }, 600)
+          })
           animation.then(r => {
-            this.callMsgr(callConfig);
-          });
+            this.callMsgr(callConfig)
+          })
         } else {
-          console.log(r);
-          let animation = new Promise(function(resolve) {
-            self.callOrderChecker();
+          console.log(r)
+          let animation = new Promise(function (resolve) {
+            self.callOrderChecker()
             setTimeout(() => {
-              resolve("done");
-            }, 600);
-          });
-          let message = r.msg;
-          let subPosition = message.indexOf("</br>");
-          let html;
+              resolve('done')
+            }, 600)
+          })
+          let message = r.msg
+          let subPosition = message.indexOf('</br>')
+          let html
           if (subPosition !== -1) {
-            message = message.substr(0, subPosition);
-            html = message.substr(subPosition);
+            message = message.substr(0, subPosition)
+            html = message.substr(subPosition)
           }
           let callConfig = {
             msg: message,
             html: html,
-            icon: "fa-times-circle-o",
+            icon: 'fa-times-circle-o',
             time: 6000
-          };
+          }
           animation.then(r => {
-            this.callMsgr(callConfig);
-          });
+            this.callMsgr(callConfig)
+          })
         }
-      });
+      })
     },
-    hideChecker() {
-      this.isCheckerShow = false;
-      this.isDisabled = false;
+    hideChecker () {
+      this.isCheckerShow = false
+      this.isDisabled = false
     }
   },
-  mounted() {
-    _get("/getusershops", "include").then(r => {
-      this.shops = r.arr.shops;
+  mounted () {
+    _get('/getusershops', 'include').then(r => {
+      this.shops = r.arr.shops
       this.shops.forEach((el, index) => {
-        this.$set(this.shops[index], "details", JSON.parse(el.content));
-      });
-      console.log(this.shops);
-    });
+        this.$set(this.shops[index], 'details', JSON.parse(el.content))
+      })
+      console.log(this.shops)
+    })
   }
-};
+}
 </script>
-

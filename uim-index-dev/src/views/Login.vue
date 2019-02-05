@@ -80,173 +80,171 @@ import { _post } from '../js/fetch'
 export default {
   mixins: [storeMap, storeAuth],
   components: {
-    "uim-checkbox": Checkbox,
+    'uim-checkbox': Checkbox
   },
   computed: mapState({
-    telegramHref: function() {
-      return "https://t.me/" + this.globalConfig.telegram_bot;
+    telegramHref: function () {
+      return 'https://t.me/' + this.globalConfig.telegram_bot
     },
-    isTgEnabled: function() {
-      return this.globalConfig.enable_telegram === "true";
+    isTgEnabled: function () {
+      return this.globalConfig.enable_telegram === 'true'
     }
   }),
-  data: function() {
+  data: function () {
     return {
-      email: "",
-      passwd: "",
+      email: '',
+      passwd: '',
       remember_me: false,
       isDisabled: false,
       isTgtimeout: false
-    };
+    }
   },
   methods: {
-    login() {
-
-      this.isDisabled = true;
+    login () {
+      this.isDisabled = true
 
       let ajaxCon = {
         email: this.email,
         passwd: this.passwd,
         remember_me: this.remember_me
-      };
+      }
 
       let callConfig = {
-        msg: "",
-        icon: "",
+        msg: '',
+        icon: '',
         time: 1000
-      };
+      }
 
-      if (this.globalConfig.enableLoginCaptcha !== "false") {
+      if (this.globalConfig.enableLoginCaptcha !== 'false') {
         switch (this.globalConfig.captchaProvider) {
-          case "recaptcha":
-            ajaxCon.recaptcha = grecaptcha.getResponse();
-            break;
-          case "geetest":
+          case 'recaptcha':
+            ajaxCon.recaptcha = grecaptcha.getResponse()
+            break
+          case 'geetest':
             if (this.validate !== '') {
-              ajaxCon.geetest_challenge = this.validate.geetest_challenge;
-              ajaxCon.geetest_validate = this.validate.geetest_validate;
-              ajaxCon.geetest_seccode = this.validate.geetest_seccode;
+              ajaxCon.geetest_challenge = this.validate.geetest_challenge
+              ajaxCon.geetest_validate = this.validate.geetest_validate
+              ajaxCon.geetest_seccode = this.validate.geetest_seccode
             } else {
-              callConfig.msg += "请滑动验证码来完成验证。";
+              callConfig.msg += '请滑动验证码来完成验证。'
             }
-            break;
+            break
         }
       }
 
-      _post("/auth/login", JSON.stringify(ajaxCon), "include").then(r => {
+      _post('/auth/login', JSON.stringify(ajaxCon), 'include').then(r => {
         if (r.ret === 1) {
-          callConfig.msg += "登录成功Kira~";
-          callConfig.icon += "fa-check-square-o";
-          this.callMsgr(callConfig);
+          callConfig.msg += '登录成功Kira~'
+          callConfig.icon += 'fa-check-square-o'
+          this.callMsgr(callConfig)
           window.setTimeout(() => {
-            this.setLoginToken(1);
-            this.$router.replace("/user/panel");
-          }, this.globalConfig.jumpDelay);
+            this.setLoginToken(1)
+            this.$router.replace('/user/panel')
+          }, this.globalConfig.jumpDelay)
         } else {
-          callConfig.msg = `登录失败Boommm,${r.msg}`;
-          callConfig.icon += "fa-times-circle-o";
-          this.callMsgr(callConfig);
+          callConfig.msg = `登录失败Boommm,${r.msg}`
+          callConfig.icon += 'fa-times-circle-o'
+          this.callMsgr(callConfig)
           window.setTimeout(() => {
-            this.isDisabled = false;
-          }, 3000);
+            this.isDisabled = false
+          }, 3000)
         }
-      });
+      })
     },
-    telegramRender() {
-      let el = document.createElement("script");
-      document.getElementById("telegram-login-box").append(el);
-      el.onload = function() {
-        document.getElementById("telegram-alert").outerHTML = "";
-      };
-      el.src = "https://telegram.org/js/telegram-widget.js?4";
-      el.setAttribute("data-size", "large");
-      el.setAttribute("data-telegram-login", this.globalConfig.telegram_bot);
+    telegramRender () {
+      let el = document.createElement('script')
+      document.getElementById('telegram-login-box').append(el)
+      el.onload = function () {
+        document.getElementById('telegram-alert').outerHTML = ''
+      }
+      el.src = 'https://telegram.org/js/telegram-widget.js?4'
+      el.setAttribute('data-size', 'large')
+      el.setAttribute('data-telegram-login', this.globalConfig.telegram_bot)
       el.setAttribute(
-        "data-auth-url",
-        this.globalConfig.base_url + "/auth/telegram_oauth"
-      );
-      el.setAttribute("data-request-access", "write");
+        'data-auth-url',
+        this.globalConfig.base_url + '/auth/telegram_oauth'
+      )
+      el.setAttribute('data-request-access', 'write')
 
-      let telegram_qrcode = "mod://login/" + this.globalConfig.login_token;
-      let qrcode = new QRCode(document.getElementById("telegram-qr"));
-      qrcode.clear();
-      qrcode.makeCode(telegram_qrcode);
+      let telegram_qrcode = 'mod://login/' + this.globalConfig.login_token
+      let qrcode = new QRCode(document.getElementById('telegram-qr'))
+      qrcode.clear()
+      qrcode.makeCode(telegram_qrcode)
     },
-    tgAuthTrigger(tid) {
+    tgAuthTrigger (tid) {
       if (this.logintoken === 1) {
-        return;
+        return
       }
 
       let callConfig = {
-        msg: "",
-        icon: "",
+        msg: '',
+        icon: '',
         time: 1000
-      };
+      }
       _post(
-        "/auth/qrcode_check",
+        '/auth/qrcode_check',
         JSON.stringify({
           token: this.globalConfig.login_token,
           number: this.globalConfig.login_number
         }),
-        "include"
+        'include'
       ).then(r => {
         if (r.ret > 0) {
-          clearTimeout(tid);
+          clearTimeout(tid)
           _post(
-            "/auth/qrcode_login",
+            '/auth/qrcode_login',
             JSON.stringify({
               token: this.globalConfig.login_token,
               number: this.globalConfig.login_number
             }),
-            "include"
+            'include'
           ).then(r => {
             if (r.ret) {
-              callConfig.msg += "登录成功Kira~";
-              callConfig.icon += "fa-check-square-o";
-              this.callMsgr(callConfig);
+              callConfig.msg += '登录成功Kira~'
+              callConfig.icon += 'fa-check-square-o'
+              this.callMsgr(callConfig)
               window.setTimeout(() => {
-                this.setLoginToken(1);
-                this.$router.replace("/user/panel");
-              }, this.globalConfig.jumpDelay);
+                this.setLoginToken(1)
+                this.$router.replace('/user/panel')
+              }, this.globalConfig.jumpDelay)
             }
-          });
+          })
         } else if (r.ret == -1) {
-          this.isTgtimeout = true;
+          this.isTgtimeout = true
         }
-      }).catch((r)=>{
+      }).catch((r) => {
         clearTimeout(tid)
         throw r
-      });
+      })
       tid = setTimeout(() => {
-        this.tgAuthTrigger(tid);
-      }, 2500);
+        this.tgAuthTrigger(tid)
+      }, 2500)
     },
-    loginBindEnter(e) {
-      if (this.$route.path === "/auth/login" && e.keyCode == 13) {
-        this.login();
+    loginBindEnter (e) {
+      if (this.$route.path === '/auth/login' && e.keyCode === 13) {
+        this.login()
       }
     }
   },
-  mounted() {
-    document.addEventListener("keyup", this.loginBindEnter, false);
+  mounted () {
+    document.addEventListener('keyup', this.loginBindEnter, false)
 
-    if (this.globalConfig.enable_telegram === "true") {
-      this.telegramRender();
+    if (this.globalConfig.enable_telegram === 'true') {
+      this.telegramRender()
       let tid = setTimeout(() => {
-        this.tgAuthTrigger(tid);
-      }, 2500);
+        this.tgAuthTrigger(tid)
+      }, 2500)
     }
 
-    if (this.globalConfig.enableLoginCaptcha === "false") {
-      return;
+    if (this.globalConfig.enableLoginCaptcha === 'false') {
+      return
     }
-    this.loadCaptcha("g-recaptcha-login");
-    this.loadGT("#embed-captcha-login");
+    this.loadCaptcha('g-recaptcha-login')
+    this.loadGT('#embed-captcha-login')
   },
-  beforeRouteLeave(to, from, next) {
-    document.removeEventListener("keyup", this.loginBindEnter, false);
-    next();
+  beforeRouteLeave (to, from, next) {
+    document.removeEventListener('keyup', this.loginBindEnter, false)
+    next()
   }
-};
+}
 </script>
-

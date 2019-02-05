@@ -2,7 +2,7 @@
   <div class="auth pure-g align-center">
     <div class="pure-u-1 pure-u-sm-4-24 flex wrap space-around auth-links">
       <router-link
-        v-for="(links,key) in routerLinks"
+        v-for="links in routerLinks"
         @click.native="setButtonState"
         :class="{ active:links.isActive }"
         class="button-round flex align-center"
@@ -24,57 +24,56 @@
 
 <script>
 export default {
-  props: ["routermsg"],
-  data: function() {
+  props: ['routermsg'],
+  data: function () {
     return {
       routerLinks: {
         login: {
-          id: "R_AUTH_0",
-          href: "/auth/login",
-          content: "登录",
-          icon: ["fa", "fa-sign-in", "fa-stack-1x", "fa-inverse"],
+          id: 'R_AUTH_0',
+          href: '/auth/login',
+          content: '登录',
+          icon: ['fa', 'fa-sign-in', 'fa-stack-1x', 'fa-inverse'],
           isActive: false
         },
         register: {
-          id: "R_AUTH_1",
-          href: "/auth/register",
-          content: "注册",
-          icon: ["fa", "fa-user-plus", "fa-stack-1x", "fa-inverse"],
+          id: 'R_AUTH_1',
+          href: '/auth/register',
+          content: '注册',
+          icon: ['fa', 'fa-user-plus', 'fa-stack-1x', 'fa-inverse'],
           isActive: false
         },
         reset: {
-          id: "R_PW_0",
-          href: "/password/reset",
-          content: "密码重置",
-          icon: ["fa", "fa-unlock-alt", "fa-stack-1x", "fa-inverse"],
+          id: 'R_PW_0',
+          href: '/password/reset',
+          content: '密码重置',
+          icon: ['fa', 'fa-unlock-alt', 'fa-stack-1x', 'fa-inverse'],
           isActive: false
         }
       }
-    };
+    }
   },
   methods: {
-    setButtonState() {
+    setButtonState () {
       for (let key in this.routerLinks) {
         if (this.$route.path == this.routerLinks[key].href) {
-          this.routerLinks[key].isActive = true;
+          this.routerLinks[key].isActive = true
         } else {
-          this.routerLinks[key].isActive = false;
+          this.routerLinks[key].isActive = false
         }
       }
     }
   },
   watch: {
-    $route: "setButtonState"
+    $route: 'setButtonState'
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter (to, from, next) {
     next(vm => {
-      vm.setButtonState();
-    });
+      vm.setButtonState()
+    })
   },
-  beforeRouteLeave(to, from, next) {
-    this.setButtonState();
-    next();
+  beforeRouteLeave (to, from, next) {
+    this.setButtonState()
+    next()
   }
-};
+}
 </script>
-

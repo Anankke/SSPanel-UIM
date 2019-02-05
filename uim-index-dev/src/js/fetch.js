@@ -10,27 +10,25 @@
  * @param {string} method
  * @returns {function} - A Promise Object
  */
-export const _request = (url, body, method,credentials) => 
-    fetch(url, {
-        method: method,
-        body: body,
-        headers: {
-            'content-type': 'application/json'
-        },
-        credentials: credentials,
-    }).then(resp => {
-        return Promise.all([resp.ok, resp.status, resp.json()]);
-    }).then(([ok, status, json]) => {
-        if (ok) {
-            return json;
-        } else {
-            throw new Error(JSON.stringify(json.error));
-        }
-    }).catch(error => {
-        throw error;
-    });
-
-    
+export const _request = (url, body, method, credentials) =>
+  fetch(url, {
+    method: method,
+    body: body,
+    headers: {
+      'content-type': 'application/json'
+    },
+    credentials: credentials
+  }).then(resp => {
+    return Promise.all([resp.ok, resp.status, resp.json()])
+  }).then(([ok, status, json]) => {
+    if (ok) {
+      return json
+    } else {
+      throw new Error(JSON.stringify(json.error))
+    }
+  }).catch(error => {
+    throw error
+  })
 
 /**
  * A Wrapper of Fetch GET Method
@@ -40,25 +38,24 @@ export const _request = (url, body, method,credentials) =>
  * @example
  * get('https://example.com').then(resp => { console.log(resp) })
  */
-export const _get = (url,credentials) => 
-    fetch(url, {
-        method: 'GET',
-        credentials,
-    }).then(resp => {
-        return Promise.all([resp.ok, resp.status, resp.json(), resp.headers])
-    })
+export const _get = (url, credentials) =>
+  fetch(url, {
+    method: 'GET',
+    credentials
+  }).then(resp => {
+    return Promise.all([resp.ok, resp.status, resp.json(), resp.headers])
+  })
     .then(([ok, status, json, headers]) => {
-        if (ok) {
-            return json;
-        } else {
-            throw new Error(JSON.stringify(json.error));
-        }
+      if (ok) {
+        return json
+      } else {
+        throw new Error(JSON.stringify(json.error))
+      }
     }).catch(error => {
-        console.log(error);
-        throw error; 
-    });
+      console.log(error)
+      throw error
+    })
 
-    
 /**
  * A Wrapper of Fetch POST Method
  * @function _post
@@ -69,4 +66,4 @@ export const _get = (url,credentials) =>
  * _post('https://example.com', JSON.stringify(data)).then(resp => { console.log(resp) })
  */
 
-export const _post = (url, body, credentials) => _request(url, body, 'POST', credentials);
+export const _post = (url, body, credentials) => _request(url, body, 'POST', credentials)

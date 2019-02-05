@@ -6,8 +6,8 @@
 
 <script>
 export default {
-  name: "uim-anchor"
-};
+  name: 'uim-anchor'
+}
 </script>
 
 <style>

@@ -19,5 +19,5 @@ import userSetMixin from '@/mixins/userSetMixin'
 
 export default {
   mixins: [userMixin, storeMap, userSetMixin]
-};
+}
 </script>

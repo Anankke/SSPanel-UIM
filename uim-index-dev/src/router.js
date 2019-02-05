@@ -14,109 +14,108 @@ import tmp from './store'
 
 Vue.use(Router)
 
-let globalConfig;
+let globalConfig
 
 const router = new Router({
   routes: [{
-      path: '/',
-      components: {
-        default: Root,
-      },
+    path: '/',
+    components: {
+      default: Root
+    },
+    meta: {
+      title: 'Index'
+    }
+  },
+  {
+    path: '/auth/',
+    component: Auth,
+    redirect: '/auth/login',
+    meta: {
+      alreadyAuth: true
+    },
+    children: [{
+      path: 'Login',
+      component: Login,
       meta: {
-        title: 'Index',
+        title: 'login'
       }
     },
     {
-      path: '/auth/',
-      component: Auth,
-      redirect: '/auth/login',
+      path: 'register',
+      component: Register,
       meta: {
-        alreadyAuth: true,
-      },
-      children: [{
-          path: 'Login',
-          component: Login,
-          meta: {
-            title: 'login',
-          }
-        },
-        {
-          path: 'register',
-          component: Register,
-          meta: {
-            title: 'Register',
-          }
-        },
-      ],
-    },
-    {
-      path: '/password/',
-      component: Password,
-      redirect: '/password/reset',
-      meta: {
-        alreadyAuth: true
-      },
-      children: [{
-        path: 'reset',
-        component: Reset,
-        meta: {
-          title: 'Reset',
-        }
-      }, ],
-    },
-    {
-      path: '/user/',
-      component: User,
-      redirect: '/user/panel',
-      meta: {
-        requireAuth: true
-      },
-      children: [{
-        path: 'panel',
-        component: Panel,
-        meta: {
-          title: 'Usercenter',
-        }
-      }]
+        title: 'Register'
+      }
     }
-  ],
+    ]
+  },
+  {
+    path: '/password/',
+    component: Password,
+    redirect: '/password/reset',
+    meta: {
+      alreadyAuth: true
+    },
+    children: [{
+      path: 'reset',
+      component: Reset,
+      meta: {
+        title: 'Reset'
+      }
+    } ]
+  },
+  {
+    path: '/user/',
+    component: User,
+    redirect: '/user/panel',
+    meta: {
+      requireAuth: true
+    },
+    children: [{
+      path: 'panel',
+      component: Panel,
+      meta: {
+        title: 'Usercenter'
+      }
+    }]
+  }
+  ]
 })
 
 router.beforeEach((to, from, next) => {
   if (!globalConfig) {
     _get('/globalconfig', 'include').then((r) => {
       if (r.ret == 1) {
-        globalConfig = r.globalConfig;
+        globalConfig = r.globalConfig
         if (globalConfig.geetest_html && globalConfig.geetest_html.success) {
-          globalConfig.isGetestSuccess = '1';
-          tmp.commit('SET_GLOBALCONFIG', globalConfig);
+          globalConfig.isGetestSuccess = '1'
+          tmp.commit('SET_GLOBALCONFIG', globalConfig)
         } else {
-          globalConfig.isGetestSuccess = '0';
-          tmp.commit('SET_GLOBALCONFIG', globalConfig);
+          globalConfig.isGetestSuccess = '0'
+          tmp.commit('SET_GLOBALCONFIG', globalConfig)
         }
       }
     }).then((r) => {
-      navGuardsForEach();
-    });
+      navGuardsForEach()
+    })
   } else {
-    navGuardsForEach();
+    navGuardsForEach()
   }
 
-  function navGuardsForEach() {
+  function navGuardsForEach () {
     if ((tmp.state.logintoken != false) && to.matched.some(function (record) {
-        return record.meta.alreadyAuth;
-      })) {
-      next('/user/panel');
+      return record.meta.alreadyAuth
+    })) {
+      next('/user/panel')
     } else if ((tmp.state.logintoken == false) && to.matched.some(function (record) {
-        return record.meta.requireAuth;
-      })) {
-      next('/auth/login');
+      return record.meta.requireAuth
+    })) {
+      next('/auth/login')
     } else {
-      document.title = tmp.state.globalConfig.indexMsg.appname + ' - ' + to.meta.title;
-      next();
+      document.title = tmp.state.globalConfig.indexMsg.appname + ' - ' + to.meta.title
+      next()
     }
   }
-
 })
 
-export default router;
+export default router

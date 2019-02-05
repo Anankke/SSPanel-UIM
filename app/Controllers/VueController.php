@@ -105,6 +105,7 @@ class VueController extends BaseController {
         $user->ss_url_all = URL::getAllUrl($pre_user, 0, 2);
         $ssinfo = URL::getSSConnectInfo($pre_user);
         $user->ssd_url_all = URL::getAllSSDUrl($ssinfo);
+        $user->isAbleToCheckin = $user->isAbleToCheckin();
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
         $GtSdk = null;
         $recaptcha_sitekey = null;
@@ -256,6 +257,28 @@ class VueController extends BaseController {
 
         $res['ret'] = 1;
         
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function getCaptcha($request, $response, $args) {
+        $GtSdk = null;
+        $recaptcha_sitekey = null;
+        if (Config::get('captcha_provider') != ''){
+            switch(Config::get('captcha_provider'))
+            {
+                case 'recaptcha':
+                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $res['recaptchaKey'] = $recaptcha_sitekey;
+                    break;
+                case 'geetest':
+                    $uid = time().rand(1, 10000) ;
+                    $GtSdk = Geetest::get($uid);
+                    $res['GtSdk'] = $GtSdk;
+                    break;
+            }
+        }
+
+        $res['respon'] = 1;
         return $response->getBody()->write(json_encode($res));
     }
 }

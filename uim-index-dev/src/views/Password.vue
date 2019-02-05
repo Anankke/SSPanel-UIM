@@ -8,6 +8,6 @@
 import storeMap from '@/mixins/storeMap'
 
 export default {
-    mixins: [storeMap],
+  mixins: [storeMap]
 }
 </script>

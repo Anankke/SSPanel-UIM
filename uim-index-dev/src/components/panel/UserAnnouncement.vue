@@ -13,5 +13,5 @@ import userMixin from '@/mixins/userMixin'
 
 export default {
   mixins: [userMixin, storeMap]
-};
+}
 </script>

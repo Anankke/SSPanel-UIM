@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     setClass() {
-      if (this.boxChecked == false) {
+      if (this.boxChecked === false) {
         this.boxChecked = true;
       } else {
         this.boxChecked = false;

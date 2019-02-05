@@ -6,6 +6,6 @@
 
 <script>
 export default {
-    props: ['routermsg'],
+  props: ['routermsg']
 }
 </script>

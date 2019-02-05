@@ -4,7 +4,7 @@
       <span class="fa fa-angle-left"></span>
     </button>
     <button
-      v-for="(item,index) in buttonList"
+      v-for="item in buttonList"
       @click="setCurrentPage(item.num)"
       class="uim-pagination-btn"
       :class="{ 'uim-pagination-btn-active':item.isActive }"
