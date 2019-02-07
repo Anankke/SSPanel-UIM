@@ -13,37 +13,37 @@
 
 <script>
 export default {
-  data: function () {
+  data: function() {
     return {
       isDropdown: false
-    }
+    };
   },
   methods: {
-    show () {
+    show() {
       if (this.isDropdown === false) {
-        this.isDropdown = true
+        this.isDropdown = true;
       } else {
-        this.isDropdown = false
+        this.isDropdown = false;
       }
     },
-    hide () {
+    hide() {
       if (this.isDropdown === true) {
-        this.isDropdown = false
+        this.isDropdown = false;
       }
     }
   },
-  mounted () {
-    document.addEventListener('click', () => {
-      this.hide()
-    })
+  mounted() {
+    document.addEventListener("click", () => {
+      this.hide();
+    });
   }
-}
+};
 </script>
 
 <style>
 .uim-dropdown-btn {
   font-size: 1rem;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 0.5rem;
   display: inline-block;
   border: 1px solid #434857;
   min-width: 80px;
@@ -119,5 +119,10 @@ export default {
 .dl-link .uim-dropdown-menu {
   min-width: unset;
   width: 100%;
+}
+@media screen and (min-width: 35.5em) {
+  .uim-dropdown-btn {
+    padding: 0.5rem 1.5rem;
+  }
 }
 </style>

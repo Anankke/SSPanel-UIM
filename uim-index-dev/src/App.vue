@@ -21,7 +21,7 @@
               <router-link class="button-index" :to="globalGuide.href" :key="routerN">
                 <span>
                   <i class="fa" :class="globalGuide.icon"></i>
-                  <span class="hide-sm">{{globalGuide.content}}</span>
+                  <span class="hide-sm"> {{globalGuide.content}}</span>
                 </span>
               </router-link>
             </transition>
@@ -247,13 +247,13 @@ export default {
 .list-move {
   transition: all 0.3s;
 }
-.sign-enter,
-.sign-leave-to {
+.signer-enter,
+.signer-leave-to {
   opacity: 0;
-  transform: scale(0);
+  transform: scale(0.1,0.1);
 }
-.sign-enter-active,
-.sign-leave-active {
+.signer-enter-active,
+.signer-leave-active {
   transition: all 0.4s;
 }
 </style>

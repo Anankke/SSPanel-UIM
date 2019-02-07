@@ -483,7 +483,11 @@ export default {
     ) {
       next(false);
     } else {
-      next();
+      this.setSignSet({ isSignShow: false });
+      setTimeout(() => {
+        this.setSignSet({ transition: false });
+        next();
+      }, 200);
     }
   }
 };

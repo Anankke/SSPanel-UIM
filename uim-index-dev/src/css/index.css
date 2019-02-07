@@ -198,7 +198,7 @@ a {
 a.btn-user,
 button.btn-user {
     font-size: 1rem;
-    padding: .5rem 1.5rem;
+    padding: .5rem .5rem;
     display: inline-block;
     border: 1px solid #434857;
     min-width: 80px;
@@ -669,18 +669,6 @@ button.tips {
     display: block;
 }
 
-.guide-area>p:first-of-type{
-    margin-top: 0;
-}
-
-.guide-area p{
-    margin-bottom: 0;
-}
-
-.guide-area>p:last-of-type {
-    margin-bottom: 1rem;
-}
-
 .ann a {
     color: #D1335B;
 }
@@ -864,11 +852,6 @@ button[name=reset] {
     margin-right: .3rem;
 }
 
-.guide-area {
-    padding-right: 1rem;
-    width: 100%;
-}
-
 @media screen and (min-width:35.5em) {
     .user {
         padding: 0;
@@ -943,6 +926,11 @@ button[name=reset] {
         overflow: auto;
     }
 
+    a.btn-user,
+    button.btn-user {
+        padding: .5rem 1.5rem;
+    }
+
     .user-invite {
         max-height: 385px;
     }
@@ -953,24 +941,6 @@ button[name=reset] {
 
     .user-guide .tips {
         margin-right: .5rem;
-    }
-
-    .userguide-bookmark>div {
-        width: 100%;
-    }
-
-    .userguide-bookmark button {
-        background-color: #c8c8c81f;
-        border: none;
-        padding: .6rem 0;
-        outline: none;
-        display: block;
-        margin-top: 1rem;
-        font-size: 12px;
-        text-align: left;
-        padding-left: 1rem;
-        width: 100%;
-        border-radius: 20px;
     }
 
     .link-reset .uim-tooltip-top {

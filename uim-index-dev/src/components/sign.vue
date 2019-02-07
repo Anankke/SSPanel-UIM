@@ -5,6 +5,7 @@
   >
     <div class="uim-signer-container" :style="{ top:containerTop(),transform:containerTransform }">
       <div
+        @click.stop
         :class="{ 'uim-signer-main-shadow':showSigner }"
         class="uim-signer-main"
         ref="signerMain"
@@ -14,17 +15,17 @@
           :class="{ 'uim-signer-btn-success':!userCon.isAbleToCheckin }"
           class="uim-signer-btn"
         >
-          <transition name="sign">
-            <span v-if="userCon.isAbleToCheckin">
+          <transition name="signer" mode="out-in">
+            <div v-if="userCon.isAbleToCheckin" key="notChekined">
               <p>点击，或摇一摇手机</p>
               <p>签到</p>
-            </span>
-            <span v-else>
+            </div>
+            <div v-else key="chekined">
               <p>
                 <span class="fa fa-check fa-4x"></span>
               </p>
               <p>今日已签到</p>
-            </span>
+            </div>
           </transition>
         </button>
         <div class="flex wrap">
@@ -41,7 +42,7 @@
         </div>
       </div>
       <div :style="{ top:drawerTop() }" class="uim-signer-drawer">
-        <button :class="{ 'uim-signer-drawer-active':showSigner }" @click="signerTrigger">
+        <button :class="{ 'uim-signer-drawer-active':showSigner }" @click.stop="signerTrigger">
           <span :class="{ 'uim-signer-rotate':showSigner }" class="fa fa-chevron-down"></span> 签到
         </button>
       </div>
@@ -91,6 +92,9 @@ export default {
         this.showSigner = false;
       }
     },
+    hideSigner() {
+      this.showSigner = false;
+    },
     checkin() {
       let body = {};
 
@@ -129,7 +133,7 @@ export default {
             this.callMsgr(callConfig);
             this.addNewUserCon(r.trafficInfo);
             this.TraffictransTrigger();
-          }, 500);
+          }, 1000);
         } else {
           console.log(r);
           callConfig.msg += r.msg;
@@ -151,6 +155,9 @@ export default {
   mounted() {
     window.addEventListener("shake", this.shakeEventDidOccur, false);
 
+    let app = document.getElementById("app");
+    app.addEventListener("click", this.hideSigner, false);
+
     if (this.globalConfig.enableCheckinCaptcha === "false") {
       return;
     }
@@ -159,6 +166,9 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("shake", this.shakeEventDidOccur, false);
+
+    let app = document.getElementById("app");
+    app.removeEventListener("click", this.hideSigner, false);
   }
 };
 </script>
