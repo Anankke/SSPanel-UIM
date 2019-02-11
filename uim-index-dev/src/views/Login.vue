@@ -209,7 +209,7 @@ export default {
               }, this.globalConfig.jumpDelay)
             }
           })
-        } else if (r.ret == -1) {
+        } else if (r.ret === -1) {
           this.isTgtimeout = true
         }
       }).catch((r) => {

@@ -53,7 +53,7 @@ export default {
         }),
         'omit'
       ).then(r => {
-        if (r.ret == 1) {
+        if (r.ret === 1) {
           callConfig.msg += '邮件发送成功kira~'
           callConfig.icon += 'fa-check-square-o'
           this.callMsgr(callConfig)

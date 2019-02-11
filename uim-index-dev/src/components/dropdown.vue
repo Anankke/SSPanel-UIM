@@ -13,31 +13,31 @@
 
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {
       isDropdown: false
-    };
+    }
   },
   methods: {
-    show() {
+    show () {
       if (this.isDropdown === false) {
-        this.isDropdown = true;
+        this.isDropdown = true
       } else {
-        this.isDropdown = false;
+        this.isDropdown = false
       }
     },
-    hide() {
+    hide () {
       if (this.isDropdown === true) {
-        this.isDropdown = false;
+        this.isDropdown = false
       }
     }
   },
-  mounted() {
-    document.addEventListener("click", () => {
-      this.hide();
-    });
+  mounted () {
+    document.addEventListener('click', () => {
+      this.hide()
+    })
   }
-};
+}
 </script>
 
 <style>

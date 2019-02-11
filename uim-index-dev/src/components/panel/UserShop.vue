@@ -83,8 +83,7 @@ import userMixin from "@/mixins/userMixin";
 import Shopmodal from "@/components/modal.vue";
 import Switch from "@/components/switch.vue";
 
-import { _get } from "../../js/fetch";
-import { _post } from "../../js/fetch";
+import { _get, _post } from "../../js/fetch";
 
 export default {
   mixins: [userMixin, storeMap],
@@ -174,7 +173,7 @@ export default {
       _post("/user/buy", JSON.stringify(ajaxCon), "include").then(r => {
         let self = this;
         if (r.ret) {
-          console.log(r);
+          window.console.log(r);
           this.callOrderChecker();
           this.reConfigResourse();
           this.$emit("resourseTransTrigger");
@@ -183,7 +182,7 @@ export default {
             icon: "fa-check-square-o",
             time: 1500
           };
-          let animation = new Promise(function(resolve) {
+          let animation = new Promise(function (resolve) {
             self.callOrderChecker();
             setTimeout(() => {
               resolve("done");
@@ -193,8 +192,8 @@ export default {
             this.callMsgr(callConfig);
           });
         } else {
-          console.log(r);
-          let animation = new Promise(function(resolve) {
+          window.console.log(r);
+          let animation = new Promise(function (resolve) {
             self.callOrderChecker();
             setTimeout(() => {
               resolve("done");
@@ -219,18 +218,18 @@ export default {
         }
       });
     },
-    hideChecker() {
+    hideChecker () {
       this.isCheckerShow = false;
       this.isDisabled = false;
     }
   },
-  mounted() {
+  mounted () {
     _get("/getusershops", "include").then(r => {
       this.shops = r.arr.shops;
       this.shops.forEach((el, index) => {
         this.$set(this.shops[index], "details", JSON.parse(el.content));
       });
-      console.log(this.shops);
+      window.console.log(this.shops);
     });
   }
 };

@@ -19,25 +19,25 @@
 <script>
 export default {
   model: {
-    prop: "isChecked",
-    event: "change"
+    prop: 'isChecked',
+    event: 'change'
   },
-  props: ["isChecked"],
-  data: function() {
+  props: ['isChecked'],
+  data: function () {
     return {
       boxChecked: false
-    };
+    }
   },
   methods: {
-    setClass() {
+    setClass () {
       if (this.boxChecked === false) {
-        this.boxChecked = true;
+        this.boxChecked = true
       } else {
-        this.boxChecked = false;
+        this.boxChecked = false
       }
     }
   }
-};
+}
 </script>
 
 <style>

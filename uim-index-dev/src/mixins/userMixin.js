@@ -5,7 +5,7 @@ export default {
   methods: {
     reConfigResourse () {
       _get('/getallresourse', 'include').then((r) => {
-        console.log(r)
+        window.console.log(r)
         this.updateUserSet(r.resourse)
       })
     },

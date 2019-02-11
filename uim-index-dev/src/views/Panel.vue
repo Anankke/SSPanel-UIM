@@ -233,88 +233,88 @@
 </template>
 
 <script>
-import storeMap from "@/mixins/storeMap";
-import agentMixin from "@/mixins/agentMixin";
-import UserAnnouncement from "@/components/panel/UserAnnouncement.vue";
-import UserInvite from "@/components/panel/UserInvite.vue";
-import UserShop from "@/components/panel/UserShop.vue";
-import UserGuide from "@/components/panel/UserGuide.vue";
-import UserResourse from "@/components/panel/UserResourse.vue";
-import UserSettings from "@/components/panel/UserSettings.vue";
+import storeMap from '@/mixins/storeMap'
+import agentMixin from '@/mixins/agentMixin'
+import UserAnnouncement from '@/components/panel/UserAnnouncement.vue'
+import UserInvite from '@/components/panel/UserInvite.vue'
+import UserShop from '@/components/panel/UserShop.vue'
+import UserGuide from '@/components/panel/UserGuide.vue'
+import UserResourse from '@/components/panel/UserResourse.vue'
+import UserSettings from '@/components/panel/UserSettings.vue'
 
-import Dropdown from "@/components/dropdown.vue";
-import Tooltip from "@/components/tooltip.vue";
-import Anchor from "@/components/anchor.vue";
+import Dropdown from '@/components/dropdown.vue'
+import Tooltip from '@/components/tooltip.vue'
+import Anchor from '@/components/anchor.vue'
 
-import { _get } from "../js/fetch";
+import { _get } from '../js/fetch'
 
 export default {
   mixins: [storeMap, agentMixin],
   components: {
-    "user-announcement": UserAnnouncement,
-    "user-invite": UserInvite,
-    "user-shop": UserShop,
-    "user-guide": UserGuide,
-    "user-resourse": UserResourse,
-    "user-settings": UserSettings,
-    "uim-dropdown": Dropdown,
-    "uim-tooltip": Tooltip,
-    "uim-anchor": Anchor
+    'user-announcement': UserAnnouncement,
+    'user-invite': UserInvite,
+    'user-shop': UserShop,
+    'user-guide': UserGuide,
+    'user-resourse': UserResourse,
+    'user-settings': UserSettings,
+    'uim-dropdown': Dropdown,
+    'uim-tooltip': Tooltip,
+    'uim-anchor': Anchor
   },
-  props: ["routermsg"],
+  props: ['routermsg'],
   computed: {
-    typeToken: function() {
+    typeToken: function () {
       switch (this.currentDlType) {
-        case "SSR":
+        case 'SSR':
           return {
-            tagkey: "dl-ssr",
-            subKey: "sub-ssr",
+            tagkey: 'dl-ssr',
+            subKey: 'sub-ssr',
             arrIndex: 0,
-            muType: "mu0",
+            muType: 'mu0',
             subUrl: this.suburlMu0
-          };
-        case "SS/SSD":
+          }
+        case 'SS/SSD':
           return {
-            tagkey: "dl-ss",
-            subKey: "sub-ss",
+            tagkey: 'dl-ss',
+            subKey: 'sub-ss',
             arrIndex: 1,
-            muType: "mu3",
+            muType: 'mu3',
             subUrl: this.suburlMu3
-          };
-        case "V2RAY":
+          }
+        case 'V2RAY':
           return {
-            tagkey: "dl-v2",
-            subKey: "sub-v2",
+            tagkey: 'dl-v2',
+            subKey: 'sub-v2',
             arrIndex: 2,
-            muType: "mu2",
+            muType: 'mu2',
             subUrl: this.suburlMu2
-          };
+          }
       }
     },
-    currentCardComponentIndex: function() {
+    currentCardComponentIndex: function () {
       switch (this.currentCardComponent) {
-        case "user-announcement":
-          return 0;
-        case "user-guide":
-          return 1;
-        case "user-invite":
-          return 2;
-        case "user-shop":
-          return 3;
+        case 'user-announcement':
+          return 0
+        case 'user-guide':
+          return 1
+        case 'user-invite':
+          return 2
+        case 'user-shop':
+          return 3
       }
     }
   },
-  data: function() {
+  data: function () {
     return {
-      userLoadState: "beforeload",
+      userLoadState: 'beforeload',
       ann: {
-        content: "",
-        date: "",
-        id: "",
-        markdown: ""
+        content: '',
+        date: '',
+        id: '',
+        markdown: ''
       },
-      baseUrl: "",
-      mergeSub: "false",
+      baseUrl: '',
+      mergeSub: 'false',
       toolTips: {
         mu0: false,
         mu1: false,
@@ -327,135 +327,135 @@ export default {
       userResourseTrans: false,
       menuOptions: [
         {
-          name: "公告栏",
-          id: "user-announcement"
+          name: '公告栏',
+          id: 'user-announcement'
         },
         {
-          name: "配置指南",
-          id: "user-guide"
+          name: '配置指南',
+          id: 'user-guide'
         },
         {
-          name: "邀请链接",
-          id: "user-invite"
+          name: '邀请链接',
+          id: 'user-invite'
         },
         {
-          name: "套餐购买",
-          id: "user-shop"
+          name: '套餐购买',
+          id: 'user-shop'
         }
       ],
-      currentCardComponent: "user-announcement"
-    };
+      currentCardComponent: 'user-announcement'
+    }
   },
   watch: {
-    "userCon.money"(to, from) {
-      this.showTransition("userCreditTrans");
+    'userCon.money' (to, from) {
+      this.showTransition('userCreditTrans')
     }
   },
   methods: {
-    logout() {
+    logout () {
       let callConfig = {
-        msg: "",
-        icon: "",
+        msg: '',
+        icon: '',
         time: 1000
-      };
-      _get("/logout", "include").then(r => {
+      }
+      _get('/logout', 'include').then(r => {
         if (r.ret === 1) {
-          callConfig.msg += "账户成功登出Kira~";
-          callConfig.icon += "fa-check-square-o";
-          this.callMsgr(callConfig);
+          callConfig.msg += '账户成功登出Kira~'
+          callConfig.icon += 'fa-check-square-o'
+          this.callMsgr(callConfig)
           window.setTimeout(() => {
-            this.setLoginToken(0);
-            this.$router.replace("/");
-          }, this.globalConfig.jumpDelay);
+            this.setLoginToken(0)
+            this.$router.replace('/')
+          }, this.globalConfig.jumpDelay)
         }
-      });
+      })
     },
-    indexPlus(index, arrlength) {
+    indexPlus (index, arrlength) {
       if (index === arrlength - 1) {
-        this.userSettings.currentPageIndex = index;
+        this.userSettings.currentPageIndex = index
       } else {
-        this.userSettings.currentPageIndex += 1;
+        this.userSettings.currentPageIndex += 1
       }
-      return this.userSettings.currentPageIndex;
+      return this.userSettings.currentPageIndex
     },
-    indexMinus(index) {
+    indexMinus (index) {
       if (index === 0) {
-        this.userSettings.currentPageIndex = index;
+        this.userSettings.currentPageIndex = index
       } else {
-        this.userSettings.currentPageIndex -= 1;
+        this.userSettings.currentPageIndex -= 1
       }
-      return this.userSettings.currentPageIndex;
+      return this.userSettings.currentPageIndex
     },
-    showTransition(key) {
-      this[key] = true;
+    showTransition (key) {
+      this[key] = true
       setTimeout(() => {
-        this[key] = false;
-      }, 500);
+        this[key] = false
+      }, 500)
     },
-    componentChange(e) {
-      this.currentCardComponent = e.target.dataset.component;
+    componentChange (e) {
+      this.currentCardComponent = e.target.dataset.component
     },
-    changeUserSetPage(index) {
-      this.userSettings.currentPage = this.userSettings.pages[index].id;
-      this.userSettings.currentPageIndex = index;
+    changeUserSetPage (index) {
+      this.userSettings.currentPage = this.userSettings.pages[index].id
+      this.userSettings.currentPageIndex = index
     },
-    showToolTip(id) {
-      this.toolTips[id] = true;
+    showToolTip (id) {
+      this.toolTips[id] = true
     },
-    hideToolTip(id) {
-      this.toolTips[id] = false;
+    hideToolTip (id) {
+      this.toolTips[id] = false
     },
-    resetSubscribLink() {
-      _get("/getnewsubtoken", "include").then(r => {
-        this.ssrSubToken = r.arr.ssr_sub_token;
-        this.hideToolTip("resetConfirm");
-        this.showTransition("subLinkTrans");
+    resetSubscribLink () {
+      _get('/getnewsubtoken', 'include').then(r => {
+        this.ssrSubToken = r.arr.ssr_sub_token
+        this.hideToolTip('resetConfirm')
+        this.showTransition('subLinkTrans')
         let callConfig = {
-          msg: "已重置您的订阅链接，请变更或添加您的订阅链接！",
-          icon: "fa-bell",
+          msg: '已重置您的订阅链接，请变更或添加您的订阅链接！',
+          icon: 'fa-bell',
           time: 1500
-        };
-        this.callMsgr(callConfig);
-      });
+        }
+        this.callMsgr(callConfig)
+      })
     },
-    scrollPage(token) {
+    scrollPage (token) {
       if (token > 0) {
         let index = this.indexPlus(
           this.userSettings.currentPageIndex,
           this.userSettings.pages.length
-        );
-        this.changeUserSetPage(index);
+        )
+        this.changeUserSetPage(index)
       } else {
-        let index = this.indexMinus(this.userSettings.currentPageIndex);
-        this.changeUserSetPage(index);
+        let index = this.indexMinus(this.userSettings.currentPageIndex)
+        this.changeUserSetPage(index)
       }
     },
-    showSigner() {
+    showSigner () {
       let promise = new Promise((resolve, reject) => {
-        this.setSignSet({ transition: true });
-        resolve();
-      });
+        this.setSignSet({ transition: true })
+        resolve()
+      })
       promise.then(r => {
-        console.log(r);
+        window.console.log(r)
         setTimeout(() => {
-          this.setSignSet({ isSignShow: true });
-        }, 500);
-      });
+          this.setSignSet({ isSignShow: true })
+        }, 500)
+      })
     }
   },
-  mounted() {
-    let self = this;
-    this.userLoadState = "loading";
+  mounted () {
+    let self = this
+    this.userLoadState = 'loading'
 
-    _get("/getuserinfo", "include")
+    _get('/getuserinfo', 'include')
       .then(r => {
         if (r.ret === 1) {
-          console.log(r.info);
-          this.setUserCon(r.info.user);
-          this.setUserSettings(this.userCon);
-          console.log(this.userCon);
+          window.console.log(r.info)
+          this.setUserCon(r.info.user)
+          this.setUserSettings(this.userCon)
+          window.console.log(this.userCon)
           if (r.info.ann) {
-            this.ann = r.info.ann;
+            this.ann = r.info.ann
           }
           this.setAllBaseCon({
             subUrl: r.info.subUrl,
@@ -463,32 +463,32 @@ export default {
             iosAccount: r.info.iosAccount,
             iosPassword: r.info.iosPassword,
             displayIosClass: r.info.displayIosClass
-          });
-          this.baseUrl = r.info.baseUrl;
-          this.mergeSub = r.info.mergeSub;
+          })
+          this.baseUrl = r.info.baseUrl
+          this.mergeSub = r.info.mergeSub
         }
       })
       .then(r => {
         setTimeout(() => {
-          self.userLoadState = "loaded";
-          this.showSigner();
-        }, 1000);
-      });
+          self.userLoadState = 'loaded'
+          this.showSigner()
+        }, 1000)
+      })
   },
-  beforeRouteLeave(to, from, next) {
+  beforeRouteLeave (to, from, next) {
     if (
-      to.matched.some(function(record) {
-        return record.meta.alreadyAuth;
+      to.matched.some(function (record) {
+        return record.meta.alreadyAuth
       })
     ) {
-      next(false);
+      next(false)
     } else {
-      this.setSignSet({ isSignShow: false });
+      this.setSignSet({ isSignShow: false })
       setTimeout(() => {
-        this.setSignSet({ transition: false });
-        next();
-      }, 200);
+        this.setSignSet({ transition: false })
+        next()
+      }, 200)
     }
   }
-};
+}
 </script>

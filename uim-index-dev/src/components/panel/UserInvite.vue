@@ -188,272 +188,271 @@
 </template>
 
 <script>
-import storeMap from '@/mixins/storeMap'
-import userMixin from '@/mixins/userMixin'
+import storeMap from "@/mixins/storeMap";
+import userMixin from "@/mixins/userMixin";
 
-import Tooltip from '@/components/tooltip.vue'
-import Table from '@/components/table.vue'
-import Pagenation from '@/components/pagenation.vue'
+import Tooltip from "@/components/tooltip.vue";
+import Table from "@/components/table.vue";
+import Pagenation from "@/components/pagenation.vue";
 
-import { _get } from '../../js/fetch'
-import { _post } from '../../js/fetch'
+import { _get, _post } from "../../js/fetch";
 
 export default {
   mixins: [userMixin, storeMap],
   components: {
-    'uim-tooltip': Tooltip,
-    'uim-table': Table,
-    'uim-pagenation': Pagenation
+    "uim-tooltip": Tooltip,
+    "uim-table": Table,
+    "uim-pagenation": Pagenation
   },
   computed: {
-    inviteLink: function () {
-      return this.baseURL + '/#/auth/register?code=' + this.code
+    inviteLink: function() {
+      return this.baseURL + "/#/auth/register?code=" + this.code;
     },
-    totalPriceCa: function () {
-      return parseInt(this.toolInputContent) * parseInt(this.invitePrice)
+    totalPriceCa: function() {
+      return parseInt(this.toolInputContent) * parseInt(this.invitePrice);
     },
-    totalPrice: function () {
-      return isNaN(this.totalPriceCa) ? '' : this.totalPriceCa
+    totalPrice: function() {
+      return isNaN(this.totalPriceCa) ? "" : this.totalPriceCa;
     }
   },
-  data: function () {
+  data: function() {
     return {
-      oldCode: '',
-      code: '',
-      invitePrice: '',
-      customPrice: '',
-      toolInputContent: '',
-      placeholder: '',
-      toolInputType: '',
-      orderCheckContent: '',
+      oldCode: "",
+      code: "",
+      invitePrice: "",
+      customPrice: "",
+      toolInputContent: "",
+      placeholder: "",
+      toolInputType: "",
+      orderCheckContent: "",
       inviteResetConfirm: false,
       inviteLinkTrans: false,
       inviteTimeTrans: false,
       showToolInput: false,
       isToolDisabled: false,
       showOrderCheck: false,
-      theUnWatch: '',
+      theUnWatch: "",
       showInviteLog: false,
-      paybacks: '',
-      paybacks_sum: '',
-      pagenation: ''
-    }
+      paybacks: "",
+      paybacks_sum: "",
+      pagenation: ""
+    };
   },
   methods: {
-    destoryWatch () {
-      if (this.theUnWatch !== '') {
-        this.theUnWatch()
+    destoryWatch() {
+      if (this.theUnWatch !== "") {
+        this.theUnWatch();
       }
     },
-    showInviteReset () {
-      this.inviteResetConfirm = true
+    showInviteReset() {
+      this.inviteResetConfirm = true;
     },
-    hideInviteReset () {
-      this.inviteResetConfirm = false
+    hideInviteReset() {
+      this.inviteResetConfirm = false;
     },
-    showLinkTrans () {
-      this.inviteLinkTrans = true
+    showLinkTrans() {
+      this.inviteLinkTrans = true;
       setTimeout(() => {
-        this.inviteLinkTrans = false
-      }, 300)
+        this.inviteLinkTrans = false;
+      }, 300);
     },
-    showInviteTimeTrans () {
-      this.inviteTimeTrans = true
+    showInviteTimeTrans() {
+      this.inviteTimeTrans = true;
       setTimeout(() => {
-        this.inviteTimeTrans = false
-      }, 300)
+        this.inviteTimeTrans = false;
+      }, 300);
     },
-    resetInviteLink () {
-      _get('/getnewinvotecode', 'include').then(r => {
-        console.log(r)
-        this.code = r.arr.code.code
-        this.hideInviteReset()
-        this.showLinkTrans()
+    resetInviteLink() {
+      _get("/getnewinvotecode", "include").then(r => {
+        window.console.log(r);
+        this.code = r.arr.code.code;
+        this.hideInviteReset();
+        this.showLinkTrans();
         let callConfig = {
-          msg: '已重置您的邀请链接，复制您的邀请链接发送给其他人！',
-          icon: 'fa-bell',
+          msg: "已重置您的邀请链接，复制您的邀请链接发送给其他人！",
+          icon: "fa-bell",
           time: 1500
-        }
-        this.callMsgr(callConfig)
-      })
+        };
+        this.callMsgr(callConfig);
+      });
     },
-    hideToolInput (token) {
+    hideToolInput(token) {
       if (token !== 1 || !token) {
-        this.code = this.oldCode
+        this.code = this.oldCode;
       }
-      this.showToolInput = false
-      this.isToolDisabled = false
-      this.hideOrderCheck()
-      this.destoryWatch()
+      this.showToolInput = false;
+      this.isToolDisabled = false;
+      this.hideOrderCheck();
+      this.destoryWatch();
       setTimeout(() => {
-        this.toolInputContent = ''
-      }, 300)
+        this.toolInputContent = "";
+      }, 300);
     },
-    submitToolInput () {
+    submitToolInput() {
       switch (this.toolInputType) {
-        case 'buy':
-          this.buyOrdercheck()
-          break
-        case 'custom':
-          this.customOrderCheck()
-          break
+        case "buy":
+          this.buyOrdercheck();
+          break;
+        case "custom":
+          this.customOrderCheck();
+          break;
       }
     },
-    showBuyToolInput () {
-      this.destoryWatch()
-      this.code = this.oldCode
-      this.showToolInput = true
-      this.isToolDisabled = true
-      this.placeholder = '输入购买数量'
-      this.toolInputType = 'buy'
+    showBuyToolInput() {
+      this.destoryWatch();
+      this.code = this.oldCode;
+      this.showToolInput = true;
+      this.isToolDisabled = true;
+      this.placeholder = "输入购买数量";
+      this.toolInputType = "buy";
     },
-    showCustomToolInput () {
-      this.showToolInput = true
-      this.isToolDisabled = true
-      this.placeholder = '输入链接后缀'
-      this.toolInputType = 'custom'
-      let unwatchCustom = this.$watch('toolInputContent', function (
+    showCustomToolInput() {
+      this.showToolInput = true;
+      this.isToolDisabled = true;
+      this.placeholder = "输入链接后缀";
+      this.toolInputType = "custom";
+      let unwatchCustom = this.$watch("toolInputContent", function(
         newVal,
         oldVal
       ) {
-        this.code = newVal
-      })
-      this.theUnWatch = unwatchCustom
+        this.code = newVal;
+      });
+      this.theUnWatch = unwatchCustom;
     },
-    hideOrderCheck () {
-      this.showOrderCheck = false
+    hideOrderCheck() {
+      this.showOrderCheck = false;
     },
-    buyOrdercheck () {
+    buyOrdercheck() {
       if (
         isNaN(parseInt(this.toolInputContent)) ||
-        this.toolInputContent === ''
+        this.toolInputContent === ""
       ) {
         let callConfig = {
-          msg: '请输入数字',
-          icon: 'fa-times-circle-o',
+          msg: "请输入数字",
+          icon: "fa-times-circle-o",
           time: 1500
-        }
-        this.callMsgr(callConfig)
+        };
+        this.callMsgr(callConfig);
       } else {
-        this.showOrderCheck = true
+        this.showOrderCheck = true;
       }
     },
-    customOrderCheck () {
-      if (this.toolInputContent === '') {
+    customOrderCheck() {
+      if (this.toolInputContent === "") {
         let callConfig = {
-          msg: '后缀不能为空',
-          icon: 'fa-times-circle-o',
+          msg: "后缀不能为空",
+          icon: "fa-times-circle-o",
           time: 1500
-        }
-        this.callMsgr(callConfig)
+        };
+        this.callMsgr(callConfig);
       } else {
-        this.showOrderCheck = true
+        this.showOrderCheck = true;
       }
     },
-    submitOrder () {
+    submitOrder() {
       switch (this.toolInputType) {
-        case 'buy':
-          this.buyInvite()
-          break
-        case 'custom':
-          this.customInvite()
-          break
+        case "buy":
+          this.buyInvite();
+          break;
+        case "custom":
+          this.customInvite();
+          break;
       }
     },
-    buyInvite () {
+    buyInvite() {
       let ajaxBody = {
         num: parseInt(this.toolInputContent)
-      }
-      _post('/user/buy_invite', JSON.stringify(ajaxBody), 'include').then(r => {
-        this.hideToolInput()
+      };
+      _post("/user/buy_invite", JSON.stringify(ajaxBody), "include").then(r => {
+        this.hideToolInput();
         if (r.ret) {
-          this.reConfigResourse()
-          this.showInviteTimeTrans()
-          this.setInviteNum(r.invite_num)
+          this.reConfigResourse();
+          this.showInviteTimeTrans();
+          this.setInviteNum(r.invite_num);
           let callConfig = {
             msg: r.msg,
-            icon: 'fa-check-square-o',
+            icon: "fa-check-square-o",
             time: 1000
-          }
-          this.callMsgr(callConfig)
+          };
+          this.callMsgr(callConfig);
         } else {
           let callConfig = {
             msg: r.msg,
-            icon: 'fa-times-circle-o',
+            icon: "fa-times-circle-o",
             time: 1000
-          }
-          this.callMsgr(callConfig)
+          };
+          this.callMsgr(callConfig);
         }
-      })
+      });
     },
-    customInvite () {
-      this.hideToolInput(1)
+    customInvite() {
+      this.hideToolInput(1);
       let ajaxBody = {
         customcode: this.toolInputContent
-      }
-      _post('/user/custom_invite', JSON.stringify(ajaxBody), 'include').then(
+      };
+      _post("/user/custom_invite", JSON.stringify(ajaxBody), "include").then(
         r => {
           if (r.ret) {
-            console.log(r)
-            this.reConfigResourse()
-            this.showLinkTrans()
-            this.code = this.oldCode = this.toolInputContent
+            window.console.log(r);
+            this.reConfigResourse();
+            this.showLinkTrans();
+            this.code = this.oldCode = this.toolInputContent;
             let callConfig = {
               msg: r.msg,
-              icon: 'fa-check-square-o',
+              icon: "fa-check-square-o",
               time: 1000
-            }
-            this.callMsgr(callConfig)
+            };
+            this.callMsgr(callConfig);
           } else {
-            this.showLinkTrans()
-            this.code = this.oldCode
+            this.showLinkTrans();
+            this.code = this.oldCode;
             let callConfig = {
               msg: r.msg,
-              icon: 'fa-times-circle-o',
+              icon: "fa-times-circle-o",
               time: 1000
-            }
-            this.callMsgr(callConfig)
+            };
+            this.callMsgr(callConfig);
           }
         }
-      )
+      );
     },
-    checkInviteLog () {
-      this.showInviteLog = true
+    checkInviteLog() {
+      this.showInviteLog = true;
     },
-    closeInviteLog () {
-      this.showInviteLog = false
+    closeInviteLog() {
+      this.showInviteLog = false;
     },
-    turnInviteLogPage (current) {
-      let body = { current: current }
-      _post('getuserinviteinfo', JSON.stringify(body), 'include').then(r => {
-        this.paybacks = r.inviteInfo.paybacks
-        this.pagenation.currentPage = r.inviteInfo.paybacks.current_page
-      })
+    turnInviteLogPage(current) {
+      let body = { current: current };
+      _post("getuserinviteinfo", JSON.stringify(body), "include").then(r => {
+        this.paybacks = r.inviteInfo.paybacks;
+        this.pagenation.currentPage = r.inviteInfo.paybacks.current_page;
+      });
     }
   },
-  mounted () {
-    let body = { current: 1 }
-    _post('getuserinviteinfo', JSON.stringify(body), 'include').then(r => {
-      console.log(r)
-      this.code = this.oldCode = r.inviteInfo.code.code
-      this.invitePrice = r.inviteInfo.invitePrice
-      this.customPrice = r.inviteInfo.customPrice
-      this.paybacks = r.inviteInfo.paybacks
-      this.paybacks_sum = r.inviteInfo.paybacks_sum
-      this.invite_get_money = r.inviteInfo.invite_get_money
-      this.invite_gift = r.inviteInfo.invite_gift
-      this.code_payback = r.inviteInfo.code_payback
+  mounted() {
+    let body = { current: 1 };
+    _post("getuserinviteinfo", JSON.stringify(body), "include").then(r => {
+      window.console.log(r);
+      this.code = this.oldCode = r.inviteInfo.code.code;
+      this.invitePrice = r.inviteInfo.invitePrice;
+      this.customPrice = r.inviteInfo.customPrice;
+      this.paybacks = r.inviteInfo.paybacks;
+      this.paybacks_sum = r.inviteInfo.paybacks_sum;
+      this.invite_get_money = r.inviteInfo.invite_get_money;
+      this.invite_gift = r.inviteInfo.invite_gift;
+      this.code_payback = r.inviteInfo.code_payback;
       this.pagenation = {
         lastPage: r.inviteInfo.paybacks.last_page,
         currentPage: 1
-      }
-      console.log(this.userCon)
-    })
+      };
+      window.console.log(this.userCon);
+    });
   },
-  beforeDestroy () {
-    this.hideToolInput()
+  beforeDestroy() {
+    this.hideToolInput();
   }
-}
+};
 </script>
 
 <style>

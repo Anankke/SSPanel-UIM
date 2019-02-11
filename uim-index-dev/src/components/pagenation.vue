@@ -18,92 +18,92 @@
 
 <script>
 export default {
-  name: "uim-pagenation",
-  props: ["pageinfo"],
+  name: 'uim-pagenation',
+  props: ['pageinfo'],
   computed: {
-    prev: function() {
-      return this.currentPage - 1 > 0 ? this.currentPage - 1 : 1;
+    prev: function () {
+      return this.currentPage - 1 > 0 ? this.currentPage - 1 : 1
     },
-    next: function() {
+    next: function () {
       return this.currentPage + 1 <= this.pageinfo.lastPage
         ? this.currentPage + 1
-        : this.pageinfo.lastPage;
+        : this.pageinfo.lastPage
     }
   },
-  data: function() {
+  data: function () {
     return {
-      buttonList: "",
+      buttonList: '',
       currentPage: 1,
       prevPage: 1
-    };
+    }
   },
   methods: {
-    getButtonList() {
-      let lastPage = this.pageinfo.lastPage;
-      let currentPage = this.currentPage;
+    getButtonList () {
+      let lastPage = this.pageinfo.lastPage
+      let currentPage = this.currentPage
       if (lastPage <= 6) {
-        let arr = new Array(last_page);
+        let arr = new Array(lastPage)
         this.buttonList = Array.from(arr).map((value, index) => {
           let obj = {
             num: index + 1,
             isActive: false
-          };
-          if (this.currentPage === obj.num) {
-            obj.isActive = true;
           }
-          return obj;
-        });
+          if (this.currentPage === obj.num) {
+            obj.isActive = true
+          }
+          return obj
+        })
       } else {
         let promise = new Promise((resolve, reject) => {
           if (currentPage < 6) {
-            this.buttonList = [1, 2, 3, 4, 5, 6, "···", lastPage];
+            this.buttonList = [1, 2, 3, 4, 5, 6, '···', lastPage]
           } else if (currentPage >= 6 && currentPage <= lastPage - 5) {
             this.buttonList = [
               1,
-              "···",
+              '···',
               currentPage - 2,
               currentPage - 1,
               currentPage,
               currentPage + 1,
               currentPage + 2,
-              "···",
+              '···',
               lastPage
-            ];
+            ]
           } else if (currentPage > lastPage - 5) {
-            let arr = new Array(6);
-            arr = Array.from(arr).map((value, index) => lastPage - 5 + index);
-            this.buttonList = [1, "···"].concat(arr);
+            let arr = new Array(6)
+            arr = Array.from(arr).map((value, index) => lastPage - 5 + index)
+            this.buttonList = [1, '···'].concat(arr)
           }
-          resolve("done");
-        });
+          resolve('done')
+        })
         promise.then(r => {
-          console.log(r);
+          window.console.log(r)
           this.buttonList = this.buttonList.map(value => {
             let obj = {
               num: value,
               isActive: false
-            };
-            if (this.currentPage === obj.num) {
-              obj.isActive = true;
             }
-            return obj;
-          });
-        });
+            if (this.currentPage === obj.num) {
+              obj.isActive = true
+            }
+            return obj
+          })
+        })
       }
     },
-    setCurrentPage(num) {
-      if (num !== "···") {
-        this.currentPage = num;
-        this.getButtonList();
-        this.$emit("turnPage", this.currentPage);
+    setCurrentPage (num) {
+      if (num !== '···') {
+        this.currentPage = num
+        this.getButtonList()
+        this.$emit('turnPage', this.currentPage)
       }
     }
   },
-  mounted() {
-    this.currentPage = this.pageinfo.currentPage;
-    this.getButtonList();
+  mounted () {
+    this.currentPage = this.pageinfo.currentPage
+    this.getButtonList()
   }
-};
+}
 </script>
 
 <style>

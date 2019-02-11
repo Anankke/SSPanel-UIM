@@ -1,10 +1,6 @@
 import {
-  mapActions
-} from 'vuex'
-import {
-  mapState
-} from 'vuex'
-import {
+  mapActions,
+  mapState,
   mapMutations
 } from 'vuex'
 

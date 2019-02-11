@@ -51,126 +51,126 @@
 </template>
 
 <script>
-import storeMap from "@/mixins/storeMap";
-import storeAuth from "@/mixins/storeAuth";
-import { _post } from "../js/fetch";
+import storeMap from '@/mixins/storeMap'
+import storeAuth from '@/mixins/storeAuth'
+import { _post } from '../js/fetch'
 
 export default {
   mixins: [storeMap, storeAuth],
   computed: {
-    containerTransform: function() {
+    containerTransform: function () {
       return this.showSigner
-        ? "translateY(" + this.drawerTop() + ")"
-        : "translateY(0px)";
+        ? 'translateY(' + this.drawerTop() + ')'
+        : 'translateY(0px)'
     }
   },
-  data: function() {
+  data: function () {
     return {
       showSigner: false,
-      shakeEvent: ""
-    };
+      shakeEvent: ''
+    }
   },
   methods: {
-    containerTop() {
+    containerTop () {
       if (this.$refs.signerMain) {
-        return -this.$refs.signerMain.clientHeight + "px";
+        return -this.$refs.signerMain.clientHeight + 'px'
       } else {
-        return "-250px";
+        return '-250px'
       }
     },
-    drawerTop() {
+    drawerTop () {
       if (this.$refs.signerMain) {
-        return this.$refs.signerMain.clientHeight + "px";
+        return this.$refs.signerMain.clientHeight + 'px'
       } else {
-        return "250px";
+        return '250px'
       }
     },
-    signerTrigger() {
+    signerTrigger () {
       if (this.showSigner === false) {
-        this.showSigner = true;
+        this.showSigner = true
       } else {
-        this.showSigner = false;
+        this.showSigner = false
       }
     },
-    hideSigner() {
-      this.showSigner = false;
+    hideSigner () {
+      this.showSigner = false
     },
-    checkin() {
-      let body = {};
+    checkin () {
+      let body = {}
 
       let callConfig = {
-        msg: "",
-        icon: "",
+        msg: '',
+        icon: '',
         time: 0
-      };
+      }
 
-      if (this.globalConfig.enableLoginCaptcha !== "false") {
+      if (this.globalConfig.enableLoginCaptcha !== 'false') {
         switch (this.globalConfig.captchaProvider) {
-          case "recaptcha":
-            body.recaptcha = grecaptcha.getResponse();
-            break;
-          case "geetest":
-            if (this.validate !== "") {
-              body.geetest_challenge = this.validate.geetest_challenge;
-              body.geetest_validate = this.validate.geetest_validate;
-              body.geetest_seccode = this.validate.geetest_seccode;
+          case 'recaptcha':
+            body.recaptcha = grecaptcha.getResponse()
+            break
+          case 'geetest':
+            if (this.validate !== '') {
+              body.geetest_challenge = this.validate.geetest_challenge
+              body.geetest_validate = this.validate.geetest_validate
+              body.geetest_seccode = this.validate.geetest_seccode
             } else {
-              callConfig.msg += "请滑动验证码来完成验证。";
+              callConfig.msg += '请滑动验证码来完成验证。'
             }
-            break;
+            break
         }
       }
 
-      _post("/user/checkin", JSON.stringify(body), "include").then(r => {
+      _post('/user/checkin', JSON.stringify(body), 'include').then(r => {
         if (r.ret) {
-          console.log(r);
-          callConfig.msg += r.msg;
-          callConfig.icon = "fa-check-square-o";
-          callConfig.time = 4000;
-          this.setAllResourse({ isAbleToCheckin: false });
+          window.console.log(r)
+          callConfig.msg += r.msg
+          callConfig.icon = 'fa-check-square-o'
+          callConfig.time = 4000
+          this.setAllResourse({ isAbleToCheckin: false })
           setTimeout(() => {
-            this.signerTrigger();
-            this.callMsgr(callConfig);
-            this.addNewUserCon(r.trafficInfo);
-            this.TraffictransTrigger();
-          }, 1000);
+            this.signerTrigger()
+            this.callMsgr(callConfig)
+            this.addNewUserCon(r.trafficInfo)
+            this.TraffictransTrigger()
+          }, 1000)
         } else {
-          console.log(r);
-          callConfig.msg += r.msg;
-          callConfig.icon = "fa-times-circle-o";
-          callConfig.time = 1500;
-          this.callMsgr(callConfig);
-          this.signerTrigger();
+          window.console.log(r)
+          callConfig.msg += r.msg
+          callConfig.icon = 'fa-times-circle-o'
+          callConfig.time = 1500
+          this.callMsgr(callConfig)
+          this.signerTrigger()
         }
-      });
+      })
     },
-    shakeEventDidOccur() {
-      if ("vibrate" in navigator) {
-        navigator.vibrate(500);
+    shakeEventDidOccur () {
+      if ('vibrate' in navigator) {
+        navigator.vibrate(500)
       }
 
-      this.checkin();
+      this.checkin()
     }
   },
-  mounted() {
-    window.addEventListener("shake", this.shakeEventDidOccur, false);
+  mounted () {
+    window.addEventListener('shake', this.shakeEventDidOccur, false)
 
-    let app = document.getElementById("app");
-    app.addEventListener("click", this.hideSigner, false);
+    let app = document.getElementById('app')
+    app.addEventListener('click', this.hideSigner, false)
 
-    if (this.globalConfig.enableCheckinCaptcha === "false") {
-      return;
+    if (this.globalConfig.enableCheckinCaptcha === 'false') {
+      return
     }
-    this.loadCaptcha("g-recaptcha-user");
-    this.loadGT("#embed-captcha-user");
+    this.loadCaptcha('g-recaptcha-user')
+    this.loadGT('#embed-captcha-user')
   },
-  beforeDestroy() {
-    window.removeEventListener("shake", this.shakeEventDidOccur, false);
+  beforeDestroy () {
+    window.removeEventListener('shake', this.shakeEventDidOccur, false)
 
-    let app = document.getElementById("app");
-    app.removeEventListener("click", this.hideSigner, false);
+    let app = document.getElementById('app')
+    app.removeEventListener('click', this.hideSigner, false)
   }
-};
+}
 </script>
 
 <style>

@@ -85,7 +85,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (!globalConfig) {
     _get('/globalconfig', 'include').then((r) => {
-      if (r.ret == 1) {
+      if (r.ret === 1) {
         globalConfig = r.globalConfig
         if (globalConfig.geetest_html && globalConfig.geetest_html.success) {
           globalConfig.isGetestSuccess = '1'
@@ -103,11 +103,11 @@ router.beforeEach((to, from, next) => {
   }
 
   function navGuardsForEach () {
-    if ((tmp.state.logintoken != false) && to.matched.some(function (record) {
+    if ((tmp.state.logintoken !== false) && to.matched.some(function (record) {
       return record.meta.alreadyAuth
     })) {
       next('/user/panel')
-    } else if ((tmp.state.logintoken == false) && to.matched.some(function (record) {
+    } else if ((tmp.state.logintoken === false) && to.matched.some(function (record) {
       return record.meta.requireAuth
     })) {
       next('/auth/login')

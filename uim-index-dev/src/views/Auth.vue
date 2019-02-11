@@ -55,7 +55,7 @@ export default {
   methods: {
     setButtonState () {
       for (let key in this.routerLinks) {
-        if (this.$route.path == this.routerLinks[key].href) {
+        if (this.$route.path === this.routerLinks[key].href) {
           this.routerLinks[key].isActive = true
         } else {
           this.routerLinks[key].isActive = false

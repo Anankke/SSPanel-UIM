@@ -45,16 +45,15 @@ export const _get = (url, credentials) =>
   }).then(resp => {
     return Promise.all([resp.ok, resp.status, resp.json(), resp.headers])
   })
-    .then(([ok, status, json, headers]) => {
-      if (ok) {
-        return json
-      } else {
-        throw new Error(JSON.stringify(json.error))
-      }
-    }).catch(error => {
-      console.log(error)
-      throw error
-    })
+  .then(([ok, status, json, headers]) => {
+    if (ok) {
+      return json
+    } else {
+      throw new Error(JSON.stringify(json.error))
+    }
+  }).catch(error => {
+    throw error
+  })
 
 /**
  * A Wrapper of Fetch POST Method

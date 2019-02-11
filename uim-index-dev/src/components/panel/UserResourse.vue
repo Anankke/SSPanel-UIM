@@ -133,7 +133,7 @@ export default {
   },
   data: function () {
     return {
-      isDataRefreshed: false,
+      isDataRefreshed: false
     }
   },
   methods: {

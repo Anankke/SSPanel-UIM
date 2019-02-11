@@ -142,7 +142,7 @@ export default {
       }
 
       _post('/auth/register', JSON.stringify(ajaxCon), 'include').then(r => {
-        if (r.ret == 1) {
+        if (r.ret === 1) {
           callConfig.msg = '注册成功meow~'
           callConfig.icon = 'fa-check-square-o'
           this.callMsgr(callConfig)
@@ -168,7 +168,7 @@ export default {
       var vars = query.split('&')
       for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split('=')
-        if (pair[0] == variable) {
+        if (pair[0] === variable) {
           return pair[1]
         }
       }
@@ -245,7 +245,7 @@ export default {
     }
     // dumplin:读取cookie，自动填入邀请码框
     if (this.globalConfig.registMode === 'invite') {
-      if (this.getCookie('code') != '') {
+      if (this.getCookie('code') !== '') {
         this.code = this.getCookie('code')
       }
     }
