@@ -91,6 +91,8 @@ class XCat
 			    return Update::update($this);
             case ("sendDailyUsageByTG"):
                 return $this->sendDailyUsageByTG();
+			case('npmbuild'):
+				return $this->npmbuild();
 			default:
                 return $this->defaultAction();
         }
@@ -289,4 +291,11 @@ class XCat
             }
         }
     }
+
+	public function npmbuild(){
+		chdir(BASE_PATH.'/uim-index-dev');
+		system('npm install');
+		system('npm run build');
+		system('cp -u ../public/vuedist/index.html ../resources/views/material/index.tpl');
+	}
 }
