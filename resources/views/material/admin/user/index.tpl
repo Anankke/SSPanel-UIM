@@ -126,7 +126,8 @@ window.addEventListener('load', () => {
             { "data": "auto_reset_day" },
             { "data": "auto_reset_bandwidth" },
             { "data": "ref_by" },
-            { "data": "ref_by_user_name" ,"orderable":false}
+            { "data": "ref_by_user_name" ,"orderable":false},
+			{ "data": "top_up" ,"orderable":false}
         ],
         "columnDefs": [
             {
