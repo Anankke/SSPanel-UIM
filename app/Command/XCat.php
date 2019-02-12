@@ -76,7 +76,9 @@ class XCat
             case("userga"):
                 return Job::UserGa();
             case("backup"):
-                return Job::backup();
+                return Job::backup(false);
+			case("backupfull"):
+				return Job::backup(true);
             case("initdownload"):
                 return $this->initdownload();
             case("updatedownload"):
