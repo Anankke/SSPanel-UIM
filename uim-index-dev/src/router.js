@@ -103,11 +103,11 @@ router.beforeEach((to, from, next) => {
   }
 
   function navGuardsForEach () {
-    if ((tmp.state.logintoken !== false) && to.matched.some(function (record) {
+    if (tmp.state.logintoken && to.matched.some(function (record) {
       return record.meta.alreadyAuth
     })) {
       next('/user/panel')
-    } else if ((tmp.state.logintoken === false) && to.matched.some(function (record) {
+    } else if (!tmp.state.logintoken && to.matched.some(function (record) {
       return record.meta.requireAuth
     })) {
       next('/auth/login')

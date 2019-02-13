@@ -295,8 +295,7 @@ input.checkbox,
 }
 
 .auth-submit:hover,
-.auth-submit:focus,
-    {
+.auth-submit:focus {
     background-color: #d6d6d6;
     border-color: #d6d6d6;
 }
@@ -719,26 +718,6 @@ button.tips {
     color: white;
 }
 
-.invite-number {
-    font-size: 14px;
-}
-
-.invite-tools {
-    position: relative;
-    margin-left: .75rem;
-}
-
-.invite-tools .tips.tips-red {
-    position: relative;
-    top: 1px;
-}
-
-.invite-tools.tips-green {
-    padding: 3.5px .7rem;
-    bottom: 1px;
-    margin-left: .55rem;
-}
-
 .invite-link {
     width: 100%;
     cursor: pointer;
@@ -750,10 +729,6 @@ button.tips {
 
 .user-invite-title .uim-tooltip button {
     border: 0;
-}
-
-.user-invite-title .tips {
-    position: relative;
 }
 
 .user-invite-title .btn-user {
@@ -955,10 +930,7 @@ button[name=reset] {
         width: 450px;
     }
 
-    .user-invite-title .tips {
-        margin-bottom: .5rem;
-        margin-left: .75rem;
-    }
+
 
     .margin-nobottom-sm {
         margin-bottom: 0 !important;
@@ -980,6 +952,9 @@ button[name=reset] {
         max-height: 355px;
     }
 
+    .btn-forinput {
+        top: 0.05rem;
+    }
 }
 
 @media screen and (min-width:48em) {

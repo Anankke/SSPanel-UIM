@@ -21,7 +21,7 @@
               <router-link class="button-index" :to="globalGuide.href" :key="routerN">
                 <span>
                   <i class="fa" :class="globalGuide.icon"></i>
-                  <span class="hide-sm"> {{globalGuide.content}}</span>
+                  <span class="hide-sm">{{globalGuide.content}}</span>
                 </span>
               </router-link>
             </transition>
@@ -44,10 +44,10 @@
         </div>
 
         <transition name="slide-fade" mode="out-in">
-          <uim-messager v-show="msgrCon.isShow">
-            <i slot="icon" :class="msgrCon.icon"></i>
-            <span slot="msg">{{msgrCon.msg}}</span>
-            <div v-if="msgrCon.html !== ''" slot="html" v-html="msgrCon.html"></div>
+          <uim-messager :msgrCon="msgrCon" v-show="msgrCon.isShow">
+            <template class="bbb" #icon></template>
+            <template #msg>{{msgrCon.msg}}</template>
+            <template #html></template>
           </uim-messager>
         </transition>
 
@@ -60,97 +60,97 @@
 </template>
 
 <script>
-import Router from './router'
-import storeMap from '@/mixins/storeMap'
-import Messager from '@/components/messager.vue'
-import Signer from '@/components/sign.vue'
+import Router from "./router";
+import storeMap from "@/mixins/storeMap";
+import Messager from "@/components/messager.vue";
+import Signer from "@/components/sign.vue";
 
-import { _get } from './js/fetch'
+import { _get } from "./js/fetch";
 
 export default {
   router: Router,
   mixins: [storeMap],
   components: {
-    'uim-messager': Messager,
-    'uim-signer': Signer
+    "uim-messager": Messager,
+    "uim-signer": Signer
   },
   computed: {
-    globalGuide: function () {
+    globalGuide: function() {
       switch (this.routerN) {
-        case 'index':
+        case "index":
           return {
-            icon: 'fa-home',
-            content: '回到首页',
-            href: '/'
-          }
-        case 'auth':
+            icon: "fa-home",
+            content: "回到首页",
+            href: "/"
+          };
+        case "auth":
           return {
-            icon: 'fa-key',
-            content: '登录/注册',
-            href: '/auth/login'
-          }
-        case 'user':
+            icon: "fa-key",
+            content: "登录/注册",
+            href: "/auth/login"
+          };
+        case "user":
           return {
-            icon: 'fa-user',
-            content: '用户中心',
-            href: '/user/panel'
-          }
+            icon: "fa-user",
+            content: "用户中心",
+            href: "/user/panel"
+          };
       }
     },
-    showSigner: function () {
-      return this.logintoken && this.$route.path === '/user/panel'
+    showSigner: function() {
+      return this.logintoken && this.$route.path === "/user/panel";
     }
   },
-  data: function () {
+  data: function() {
     return {
-      routerN: 'auth',
-      transType: 'slide-fade'
-    }
+      routerN: "auth",
+      transType: "slide-fade"
+    };
   },
   methods: {
-    routeJudge () {
+    routeJudge() {
       switch (this.$route.path) {
-        case '/':
+        case "/":
           if (this.logintoken === false) {
-            this.routerN = 'auth'
+            this.routerN = "auth";
           } else {
-            this.routerN = 'user'
+            this.routerN = "user";
           }
-          break
+          break;
         default:
-          this.routerN = 'index'
+          this.routerN = "index";
       }
     }
   },
   watch: {
-    $route (to, from) {
-      this.routeJudge()
-      if (to.path === '/password/reset' || from.path === '/password/reset') {
-        this.transType = 'rotate-fade'
+    $route(to, from) {
+      this.routeJudge();
+      if (to.path === "/password/reset" || from.path === "/password/reset") {
+        this.transType = "rotate-fade";
       } else {
-        this.transType = 'slide-fade'
+        this.transType = "slide-fade";
       }
     }
   },
-  beforeMount () {
-    fetch('https://api.lwl12.com/hitokoto/v1')
+  beforeMount() {
+    fetch("https://api.lwl12.com/hitokoto/v1")
       .then(r => {
-        return r.text()
+        return r.text();
       })
       .then(r => {
-        this.setHitokoto(r)
-      })
-    _get('https://v2.jinrishici.com/one.json', 'include').then(r => {
-      this.setJinRiShiCi(r.data.content)
-    })
+        this.setHitokoto(r);
+      });
+    _get("https://v2.jinrishici.com/one.json", "include").then(r => {
+      this.setJinRiShiCi(r.data.content);
+    });
   },
-  mounted () {
-    this.routeJudge()
+  mounted() {
+    this.routeJudge();
     setTimeout(() => {
-      this.setLoadState()
-    }, 1000)
+      this.setLoadState();
+    }, 1000);
   }
-}
+};
 </script>
 
 <style>
@@ -247,7 +247,7 @@ export default {
 .signer-enter,
 .signer-leave-to {
   opacity: 0;
-  transform: scale(0.1,0.1);
+  transform: scale(0.1, 0.1);
 }
 .signer-enter-active,
 .signer-leave-active {

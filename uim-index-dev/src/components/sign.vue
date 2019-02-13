@@ -104,7 +104,7 @@ export default {
         time: 0
       }
 
-      if (this.globalConfig.enableLoginCaptcha !== 'false') {
+      if (this.globalConfig.enableCheckinCaptcha !== 'false') {
         switch (this.globalConfig.captchaProvider) {
           case 'recaptcha':
             body.recaptcha = grecaptcha.getResponse()

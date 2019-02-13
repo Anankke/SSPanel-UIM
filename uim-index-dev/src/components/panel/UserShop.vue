@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pure-g">
-      <div class="pure-u-20-24 flex align-center">
+      <div class="pure-u-1 wrap flex align-center">
         <div class="card-title">套餐购买</div>
         <transition name="fade" mode="out-in">
           <label v-if="isCheckerShow" class="relative" for>
@@ -35,7 +35,7 @@
                 v-if="shop.details.reset"
               >+{{shop.details.reset_value}}G/({{shop.details.reset}}天/{{shop.details.reset_exp}}天)</span>
             </span>
-            <span class="tips tips-blue">{{shop.details.class_expire}}天</span>
+            <span v-if="shop.details.class_expire !== '0'" class="tips tips-blue">{{shop.details.class_expire}}天</span>
           </div>
           <div class="pure-u-1 pure-u-sm-4-24 list-shop-footer">
             <button :disabled="isDisabled" class="buy-submit" @click="buy(shop)">购买</button>

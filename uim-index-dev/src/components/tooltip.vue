@@ -1,13 +1,15 @@
 <template>
   <transition name="fade" mode="out-in">
     <div class="uim-tooltip">
-      <slot name="tooltip-inner"></slot>
+      <div class="tooltip-inner">
+        <slot name="tooltip-inner"></slot>
+      </div>
     </div>
   </transition>
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
 <style>
@@ -35,5 +37,11 @@ export default {}
   background-color: white;
   transform: rotateZ(45deg);
   z-index: -1;
+}
+
+.tooltip-inner {
+  font-size: 14px;
+  padding: .3rem 1rem;
+  word-break: break-all;
 }
 </style>

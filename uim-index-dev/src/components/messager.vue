@@ -1,15 +1,23 @@
 <template>
   <div class="uim-messager">
     <div>
-      <slot name="icon"></slot>
-      <slot name="msg"></slot>
-      <slot name="html"></slot>
+      <i :class="msgrCon.icon">
+        <slot name="icon"></slot>
+      </i>
+      <span>
+        <slot name="msg"></slot>
+      </span>
+      <div v-if="msgrCon.html !== ''" v-html="msgrCon.html">
+        <slot name="html"></slot>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: ["msgrCon"]
+};
 </script>
 
 <style>

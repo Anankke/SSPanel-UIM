@@ -1,13 +1,15 @@
 <template>
   <div class="uim-anchor">
-    <slot class="uim-anchor-inner" name="uim-anchor-inner"></slot>
+    <ul class="uim-anchor-inner">
+      <slot name="uim-anchor-inner"></slot>
+    </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'uim-anchor'
-}
+  name: "uim-anchor"
+};
 </script>
 
 <style>
