@@ -179,9 +179,18 @@ class TrimePay extends AbstractPayment
         if ($p->status == 1){
             $success = 1;
         } else {
-            $query = self::query($_POST['pid']);
-            if((int)$query['completedAt'] > 0){
-                self::postPayment($_POST['pid'], "TrimePay");
+            $data = array();
+            $data['payStatus']=$request->getParam('payStatus');
+            $data['payFee']=$request->getParam('payFee');
+            $data['callbackTradeNo']=$request->getParam('callbackTradeNo');
+            $data['payType']=$request->getParam('payType');
+            $data['merchantTradeNo']=$request->getParam('merchantTradeNo');
+            // 准备待签名数据
+            $str_to_sign = self::prepareSign($data);
+            // 验证签名
+            $resultVerify = self::verify($str_to_sign, $request->getParam('sign'));
+            if ($resultVerify) {
+                self::postPayment($data['merchantTradeNo'], "TrimePay");
                 $success = 1;
             } else {
                 $success = 0;
@@ -194,17 +203,8 @@ class TrimePay extends AbstractPayment
     {
         $return = [];
         $p = Paylist::where("tradeno", $_POST['pid'])->first();
-        if ($p->status == 0){
-            $query = self::query($_POST['pid']);
-            if((int)$query['completedAt'] > 0){
-                self::postPayment($_POST['pid'], "TrimePay");
-                $return['ret'] = 1;
-                $return['result'] = 1;
-            }
-        } else {
-            $return['ret'] = 1;
-            $return['result'] = $p->status;
-        }
+        $return['ret'] = 1;
+        $return['result'] = $p->status;
         return json_encode($return);
     }
 }
