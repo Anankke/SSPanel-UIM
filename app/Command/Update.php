@@ -33,12 +33,6 @@ class Update
 
 		echo(PHP_EOL);
 
-		echo('开始构建index...'.PHP_EOL);
-		$xcat->npmbuild();
-		echo('构建index结束'.PHP_EOL);
-
-		echo(PHP_EOL);
-
 		$config_old=file_get_contents(BASE_PATH."/config/.config.php");
 		$config_new=file_get_contents(BASE_PATH."/config/.config.php.example");
 
