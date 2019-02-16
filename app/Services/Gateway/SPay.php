@@ -107,7 +107,7 @@ class SPay extends AbstractPayment
                         <script>
                         window.onload = function(){
         $("#submitSpay").click(function() {
-            var price = parseFloat($("#amount").val());
+            var price = parseFloat($("#type").val());
             console.log("将要使用 SPay 方法充值" + price + "元");
             if (isNaN(price)) {
                 $("#result").modal();
