@@ -373,7 +373,13 @@ $app->group("/doiam", function () {
 $app->get('/logout', 'App\Controllers\VueController:vuelogout');
 $app->get('/globalconfig', 'App\Controllers\VueController:getGlobalConfig');
 $app->get('/getuserinfo', 'App\Controllers\VueController:getUserInfo');
-$app->get('/getuserinviteinfo', 'App\Controllers\VueController:getUserInviteInfo');
+$app->post('/getuserinviteinfo', 'App\Controllers\VueController:getUserInviteInfo');
+$app->get('/getusershops', 'App\Controllers\VueController:getUserShops');
+$app->get('/getallresourse', 'App\Controllers\VueController:getAllResourse');
+$app->get('/getnewsubtoken', 'App\Controllers\VueController:getNewSubToken');
+$app->get('/getnewinvotecode', 'App\Controllers\VueController:getNewInviteCode');
+$app->get('/gettransfer', 'App\Controllers\VueController:getTransfer');
+$app->get('/getCaptcha', 'App\Controllers\VueController:getCaptcha');
 
 /**
  * chenPay

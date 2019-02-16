@@ -178,5 +178,5 @@
 	</style>
 </head>
 <body class="page-green">
-    <script src="/assets/js/fuck.js"></script>
+    {*<script src="/assets/js/fuck.js"></script>*}
 	

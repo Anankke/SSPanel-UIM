@@ -1,14 +1,12 @@
 ---
-name: New Issue
-about: Issue
+name: issue
+about: temlpate
 
 ---
 
 <!--
 
 如果你不填充下面的内容，我们可能会直接关闭你的 issue。
-
-请在标题简单描述内容
 
 如果你没有仔细阅读  Wiki ，或者无关问题，我们可能会直接关闭你的 issue。
 

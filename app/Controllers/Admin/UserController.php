@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Code;
 use App\Models\Ip;
 use App\Models\RadiusBan;
 use App\Models\Relay;
@@ -31,7 +32,8 @@ class UserController extends AdminController
                             "last_checkin_time" => "上次签到时间", "today_traffic" => "今日流量/MB",
                             "enable" => "是否启用", "reg_date" => "注册时间",
                             "reg_ip" => "注册IP", "auto_reset_day" => "自动重置流量日",
-                            "auto_reset_bandwidth" => "自动重置流量/GB", "ref_by" => "邀请人ID", "ref_by_user_name" => "邀请人用户名");
+                            "auto_reset_bandwidth" => "自动重置流量/GB", "ref_by" => "邀请人ID", "ref_by_user_name" => "邀请人用户名",
+							"top_up" => "累计充值");
         $table_config['default_show_column'] = array("op", "id", "user_name", "remark", "email");
         $table_config['ajax_url'] = 'user/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/user/index.tpl');
@@ -361,6 +363,13 @@ class UserController extends AdminController
 					$tempdata['ref_by_user_name'] = $ref_user->user_name;
 				}
 			}
+			$codes=Code::where('userid',$user->id)->get();
+            $tempdata['top_up']=0;
+            foreach($codes as $code){
+				$tempdata['top_up']+=$code->number;
+            }
+            $tempdata['top_up']=round($tempdata['top_up'],2);
+
 			array_push($data,$tempdata);
 		}         
         $info = [

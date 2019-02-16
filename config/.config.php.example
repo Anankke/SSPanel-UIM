@@ -6,14 +6,8 @@
 //如需换行，直接换行即可，无需换行符
 //【新增/删除】config无需写入迁移附注
 $System_Config['config_migrate_notice']=
-'node_offline_warn 被改名为 enable_detect_offline
-enable_register 和 enable_invite_code 合并为 register_mode
-enable_auto_clean_unused 和 enable_auto_clean_unused_days 合并为auto_clean_unused_days
-enable_auto_clean_uncheck 和 enable_auto_clean_uncheck_days 合并为 auto_clean_uncheck_days
-enable_account_expire_delete 和 enable_account_expire_delete_days 合并为account_expire_delete_days
-enable_class_expire_reset_traffic 重命名为 class_expire_reset_traffic
-现在，用户账户过期时，流量会被强制重置为0
-enable_geetest_* 已变更为 enable_*_captcha
+'enable_geetest_* 已变更为 enable_*_captcha
+crisp已被替换为mylivechat
 
 ';
 $System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
@@ -59,6 +53,7 @@ $System_Config['sendgrid_sender'] = '';
 //备份设置--------------------------------------------------------------------------------------------
 $System_Config['auto_backup_email']='';		//接收备份的邮箱
 $System_Config['auto_backup_passwd']='';	//备份的压缩密码
+$System_Config['backup_notify']='true';		//备份通知到TG群中
 
 
 //用户注册设置-----------------------------------------------------------------------------------------
@@ -135,9 +130,9 @@ $System_Config['telegram_grouplink']='';           //telegram群邀请链接
 
 
 //沟通设置--------------------------------------------------------------------------------------------
-#客服系统设置，注册地址 https://crisp.chat/
-$System_Config['enable_crisp']='false';		//是否开启客服系统
-$System_Config['crisp_id']='null';			//客服系统ID ID查看路径：crisp.chat-->设置-->网站设置-->显示整合-->html
+#客服系统设置，注册地址 https://www.mylivechat.com
+$System_Config['enable_mylivechat']='false';		//是否开启客服系统
+$System_Config['mylivechat_id']='null';			//客服系统ID
 
 #工单系统设置
 $System_Config['enable_ticket']='true';		//是否开启工单系统

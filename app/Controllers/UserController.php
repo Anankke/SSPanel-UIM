@@ -887,6 +887,7 @@ class UserController extends BaseController
         $user->invite_num += $num;
         $user->money -= $amount;
         $user->save();
+        $res['invite_num'] = $user->invite_num;
         $res['ret'] = 1;
         $res['msg'] = "邀请次数添加成功";
         return $response->getBody()->write(json_encode($res));
@@ -1653,6 +1654,11 @@ class UserController extends BaseController
         $res['msg'] = sprintf("获得了 %d MB流量.", $traffic);
         $res['unflowtraffic'] = $this->user->transfer_enable;
         $res['traffic'] = Tools::flowAutoShow($this->user->transfer_enable);
+        $res['trafficInfo'] = array(
+            "todayUsedTraffic" => $this->user->TodayusedTraffic(),
+            "lastUsedTraffic" => $this->user->LastusedTraffic(),
+            "unUsedTraffic" => $this->user->unusedTraffic(),
+        );
         $res['ret'] = 1;
         return $this->echoJson($response, $res);
     }

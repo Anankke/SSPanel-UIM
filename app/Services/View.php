@@ -28,7 +28,7 @@ class View
         $smarty->setcachedir(BASE_PATH.'/storage/framework/smarty/cache/'); //设置缓存文件存放目录
         // add config
         $smarty->assign('config', Config::getPublicConfig());
-        $smarty->assign('user', Auth::getUser());
+        $smarty->assign('user', $user);
         $smarty->assign('can_backtoadmin', $can_backtoadmin);
         return $smarty;
     }

@@ -18,7 +18,7 @@
 
 </head>
 <body class="page-orange">
-    <script src="/assets/js/fuck.js"></script>
+    {*<script src="/assets/js/fuck.js"></script>*}
 	<header class="header header-orange header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
 			<div>
@@ -204,4 +204,4 @@
 		</div>
 	</nav>
 
-{if $config["enable_crisp"] == 'true'}{include file='crisp.tpl'}{/if}
+{if $config["enable_mylivechat"] == 'true'}{include file='mylivechat.tpl'}{/if}
