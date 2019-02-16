@@ -254,7 +254,6 @@ class XCat
     public function initQQWry()
     {
         echo("downloading....");
-        file_put_contents(BASE_PATH."/storage/qqwry.md5", $newmd5);
         $qqwry = file_get_contents("https://qqwry.mirror.noc.one/QQWry.Dat");
         if ($qqwry != "") {
             $fp = fopen(BASE_PATH."/storage/qqwry.dat", "wb");
