@@ -22,11 +22,17 @@ install:
   - echo "Comoposer install"
   - echo "==========================================================="
   - php composer.phar install
+  - cd uim-index-dev
+  - npm i
 before_script:
   - npm i -g phplint
+  - cd ..
 script:
   - cp config/.config.php.example config/.config.php
   - phplint '**/*.php' '!vendor/**'
   - php xcat initdownload
   - php xcat initQQWry
   - php xcat update
+  - cd uim-index-dev
+  - npm run lint
+  - npm run build
