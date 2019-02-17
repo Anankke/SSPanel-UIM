@@ -510,5 +510,8 @@ export default {
     margin-right: 0;
     margin-left: 0.75rem;
   }
+  .user-invite-title .btn-forinput {
+    top: 0.05rem;
+  }
 }
 </style>

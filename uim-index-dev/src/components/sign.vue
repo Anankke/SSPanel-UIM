@@ -107,7 +107,7 @@ export default {
       if (this.globalConfig.enableCheckinCaptcha !== 'false') {
         switch (this.globalConfig.captchaProvider) {
           case 'recaptcha':
-            body.recaptcha = grecaptcha.getResponse()
+            body.recaptcha = window.grecaptcha.getResponse()
             break
           case 'geetest':
             if (this.validate !== '') {

@@ -121,7 +121,7 @@ export default {
       if (this.globalConfig.enableLoginCaptcha !== "false") {
         switch (this.globalConfig.captchaProvider) {
           case "recaptcha":
-            ajaxCon.recaptcha = grecaptcha.getResponse();
+            ajaxCon.recaptcha = window.grecaptcha.getResponse();
             break;
           case "geetest":
             if (this.validate !== "") {
@@ -170,7 +170,7 @@ export default {
       el.setAttribute("data-request-access", "write");
 
       let telegram_qrcode = "mod://login/" + this.globalConfig.login_token;
-      let qrcode = new QRCode(document.getElementById("telegram-qr"));
+      let qrcode = new window.QRCode(document.getElementById("telegram-qr"));
       qrcode.clear();
       qrcode.makeCode(telegram_qrcode);
     },

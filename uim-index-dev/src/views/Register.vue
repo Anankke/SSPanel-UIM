@@ -127,7 +127,7 @@ export default {
       if (this.globalConfig.enableRegCaptcha !== 'false') {
         switch (this.globalConfig.captchaProvider) {
           case 'recaptcha':
-            ajaxCon.recaptcha = grecaptcha.getResponse()
+            ajaxCon.recaptcha = window.grecaptcha.getResponse()
             break
           case 'geetest':
             if (this.validate !== '') {
