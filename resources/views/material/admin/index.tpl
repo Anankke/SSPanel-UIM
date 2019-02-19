@@ -31,7 +31,7 @@
 									
 										<div id="check_chart" style="height: 300px; width: 100%;"></div>
 										
-										<script src="//cdn.jsdelivr.net/gh/YihanH/canvasjs.js@v2.2/canvasjs.min.js"></script>
+										<script src="//cdn.jsdelivr.net/gh/SuicidalCat/canvasjs.js@v2.3.1/canvasjs.min.js"></script>
                                         <script>
 											var chart = new CanvasJS.Chart("check_chart",
 											{
