@@ -12,20 +12,20 @@
       </div>
 
       <div class="usrcenter text-left pure-g space-between" v-else-if="userLoadState === 'loaded'">
-        <div class="pure-u-1 pure-u-sm-6-24">
-          <div class="card account-base">
+        <div class="pure-u-1 pure-u-xl-6-24 pure-g space-between flex">
+          <div class="pure-u-1 pure-u-sm-8-24 pure-u-xl-1 card account-base">
             <div class="flex space-between">
               <div class="card-title">账号明细</div>
             </div>
             <div class="card-body">
               <div class="pure-g">
-                <div class="pure-u-1-2">
+                <div class="pure-u-1-2 pure-u-sm-1 pure-u-xl-1-2">
                   <p class="tips tips-blue">用户名</p>
                   <p class="font-light">{{userCon.user_name}}</p>
                   <p class="tips tips-blue">邮箱</p>
                   <p class="font-light">{{userCon.email}}</p>
                 </div>
-                <div class="pure-u-1-2">
+                <div class="pure-u-1-2 pure-u-sm-1 pure-u-xl-1-2">
                   <p class="tips tips-blue">VIP等级</p>
                   <p class="font-light">
                     <span
@@ -44,7 +44,7 @@
               </div>
             </div>
           </div>
-          <div class="card quickset margin-nobottom-sm">
+          <div class="pure-u-1 pure-u-sm-15-24 pure-u-xl-1 card quickset margin-nobottom-xl">
             <div class="card-title">快速配置</div>
             <div class="card-body">
               <div class="pure-g">
@@ -58,7 +58,7 @@
                 >{{dl.type}}</button>
                 <h5 class="pure-u-1">平台选择/客户端下载</h5>
                 <transition name="rotate-fade" mode="out-in">
-                  <div class="dl-link" :key="typeToken.tagkey">
+                  <div class="pure-g dl-link" :key="typeToken.tagkey">
                     <uim-dropdown
                       v-for="(value,key) in downloads[typeToken.arrIndex].agent"
                       class="pure-u-1-3 btn-user"
@@ -160,7 +160,7 @@
             </div>
           </div>
         </div>
-        <div class="pure-u-1 pure-u-sm-17-24">
+        <div class="pure-u-1 pure-u-xl-17-24">
           <div class="card relative">
             <uim-anchor>
               <template #uim-anchor-inner>
@@ -186,7 +186,7 @@
             </transition>
           </div>
           <div class="user-btngroup pure-g">
-            <div class="pure-u-1-2 pure-u-sm-16-24 btngroup-left">
+            <div class="pure-u-1-2 btngroup-left">
               <uim-dropdown>
                 <template #dpbtn-content>
                   <transition name="fade" mode="out-in">
@@ -204,7 +204,7 @@
               </uim-dropdown>
               <a v-if="userCon.is_admin === true" class="btn-user" href="/admin">运营中心</a>
             </div>
-            <div class="pure-u-1-2 pure-u-sm-8-24 text-right btngroup-right">
+            <div class="pure-u-1-2 text-right btngroup-right">
               <a href="/user" class="btn-user">管理面板</a>
               <button @click="logout" class="btn-user">账号登出</button>
             </div>

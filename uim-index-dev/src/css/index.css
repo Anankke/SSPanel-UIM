@@ -676,6 +676,10 @@ button.tips {
     padding-right: 1rem;
 }
 
+.dl-link {
+    width: 100%;
+}
+
 .dl-link button {
     font-size: 14px;
 }
@@ -903,7 +907,7 @@ button[name=reset] {
 
     a.btn-user,
     button.btn-user {
-        padding: .5rem 1.5rem;
+        padding: .5rem .5rem;
     }
 
     .user-invite {
@@ -929,8 +933,6 @@ button[name=reset] {
     .invite-link {
         width: 450px;
     }
-
-
 
     .margin-nobottom-sm {
         margin-bottom: 0 !important;
@@ -1012,6 +1014,9 @@ button[name=reset] {
         margin-left: 10rem;
     }
 
+    .margin-nobottom-xl {
+        margin-bottom: 0 !important;
+    }
 }
 
 @media screen and (max-width:35.5em) {
