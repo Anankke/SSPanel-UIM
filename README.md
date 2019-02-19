@@ -13,7 +13,7 @@
 Telegram 频道 ：https://t.me/sspanel_Uim
 
 
-演示站: [demo.nimaqu.com](https://demo.nimaqu.com) 账号和密码都是 admin  对接节点的 mukey=NimaQu
+演示站: [sspanel.host](https://sspanel.host) 账号和密码都是 admin  对接节点的 mukey=NimaQu
 
 **原作者** [galaxychuck](https://github.com/galaxychuck)
 

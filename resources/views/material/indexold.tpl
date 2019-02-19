@@ -24,7 +24,6 @@
   </head>
   
        <body>
-        {*<script src="/assets/js/fuck.js"></script>*}
 			<div id="wrapper">
               <!--首页开始-->
 					<header id="header">
