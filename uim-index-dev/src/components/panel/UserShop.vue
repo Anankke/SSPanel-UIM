@@ -27,7 +27,7 @@
         <div v-for="shop in shops" class="list-shop pure-g" :key="shop.id">
           <div class="pure-u-1 pure-u-sm-20-24">
             <span class="user-shop-name">{{shop.name}}</span>
-            <span class="tips tips-gold">VIP {{shop.details.class}}</span>
+            <span class="tips tips-gold">VIP {{shop.details.class}}/<span v-if="shop.details.class_expire !== '0'">{{shop.details.class_expire}}天</span></span>
             <span class="tips tips-green">￥{{shop.price}}</span>
             <span class="tips tips-cyan">
               {{shop.details.bandwidth}}G
@@ -35,7 +35,7 @@
                 v-if="shop.details.reset"
               >+{{shop.details.reset_value}}G/({{shop.details.reset}}天/{{shop.details.reset_exp}}天)</span>
             </span>
-            <span v-if="shop.details.class_expire !== '0'" class="tips tips-blue">{{shop.details.class_expire}}天</span>
+            <span v-if="shop.details.expire !== '0'" class="tips tips-blue">账号续期{{shop.details.expire}}天</span>
           </div>
           <div class="pure-u-1 pure-u-sm-4-24 list-shop-footer">
             <button :disabled="isDisabled" class="buy-submit" @click="buy(shop)">购买</button>

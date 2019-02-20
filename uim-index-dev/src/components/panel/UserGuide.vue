@@ -356,7 +356,6 @@ export default {
           tips[i].isActive = false;
         }
       }
-      console.log(this.agentToken.tips);
     }
   },
   mounted() {
