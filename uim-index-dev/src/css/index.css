@@ -916,10 +916,6 @@ button[name=reset] {
         height: 385px;
     }
 
-    .user-guide .tips {
-        margin-right: .5rem;
-    }
-
     .link-reset .uim-tooltip-top {
         width: 230px;
     }
