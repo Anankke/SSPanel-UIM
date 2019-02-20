@@ -11,8 +11,8 @@
         </div>
       </div>
 
-      <div class="usrcenter text-left pure-g space-between" v-else-if="userLoadState === 'loaded'">
-        <div class="pure-u-1 pure-u-xl-6-24 pure-g space-between flex">
+      <div class="usrcenter text-left pure-g space-around" v-else-if="userLoadState === 'loaded'">
+        <div class="pure-u-1 pure-u-xl-6-24 pure-g usrcenter-left">
           <div class="pure-u-1 pure-u-sm-8-24 pure-u-xl-1 card account-base">
             <div class="flex space-between">
               <div class="card-title">账号明细</div>
@@ -492,3 +492,15 @@ export default {
   }
 };
 </script>
+
+<style>
+.pure-g.usrcenter-left {
+  justify-content: space-around;
+  display: flex;
+}
+@media screen and (min-width: 80em) {
+  .pure-g.usrcenter-left {
+    display: inline-block;
+  }
+}
+</style>
