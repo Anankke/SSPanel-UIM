@@ -7,7 +7,6 @@ before_install:
   - echo "==========================================================="
   - echo "Upgrade linux packages"
   - echo "==========================================================="
-  - sudo apt -qq -y update
   - sudo sed -i 's|http://us-east-1.ec2.archive.ubuntu.com|https://ubuntu.mirror.noc.one|g' /etc/apt/sources.list
   - sudo sed -i 's|http://security.ubuntu.com|https://ubuntu.mirror.noc.one|g' /etc/apt/sources.list
   - sudo sed -i 's|http://us-central1.gce.archive.ubuntu.com|https://ubuntu.mirror.noc.one|g' /etc/apt/sources.list
@@ -15,12 +14,8 @@ before_install:
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt clean all && sudo apt -qq -y update
   - sudo apt install -y nodejs
-  - composer config -g repos.packagist composer https://packagist.noc.one
 install:
   - sudo chmod -R 755 *
-  - echo "==========================================================="
-  - echo "Comoposer install"
-  - echo "==========================================================="
   - php composer.phar install
   - cd uim-index-dev
   - npm i
@@ -36,3 +31,7 @@ script:
   - cd uim-index-dev
   - npm run lint
   - npm run build
+cache:
+  directories:
+    - uim-index-dev/node_modules
+    - $HOME/.composer/cache/files
