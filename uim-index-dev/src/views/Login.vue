@@ -138,7 +138,7 @@ export default {
       _post("/auth/login", JSON.stringify(ajaxCon), "include").then(r => {
         if (r.ret === 1) {
           callConfig.msg += "登录成功Kira~";
-          callConfig.icon += "fa-check-square-o";
+          callConfig.icon += "check-circle";
           this.callMsgr(callConfig);
           window.setTimeout(() => {
             this.setLoginToken(true);
@@ -146,7 +146,7 @@ export default {
           }, this.globalConfig.jumpDelay);
         } else {
           callConfig.msg = `登录失败Boommm,${r.msg}`;
-          callConfig.icon += "fa-times-circle-o";
+          callConfig.icon += "times-circle";
           this.callMsgr(callConfig);
           window.setTimeout(() => {
             this.isDisabled = false;
@@ -205,7 +205,7 @@ export default {
             ).then(r => {
               if (r.ret) {
                 callConfig.msg += "登录成功Kira~";
-                callConfig.icon += "fa-check-square-o";
+                callConfig.icon += "check-circle";
                 this.callMsgr(callConfig);
                 window.setTimeout(() => {
                   this.setLoginToken(true);

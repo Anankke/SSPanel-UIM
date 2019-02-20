@@ -22,7 +22,7 @@
             </div>
             <div v-else key="chekined">
               <p>
-                <span class="fa fa-check fa-4x"></span>
+                <font-awesome-icon icon="check" size="4x" />
               </p>
               <p>今日已签到</p>
             </div>
@@ -43,7 +43,7 @@
       </div>
       <div :style="{ top:drawerTop() }" class="uim-signer-drawer">
         <button :class="{ 'uim-signer-drawer-active':showSigner }" @click.stop="signerTrigger">
-          <span :class="{ 'uim-signer-rotate':showSigner }" class="fa fa-chevron-down"></span> 签到
+          <font-awesome-icon icon="chevron-down" :class="{ 'uim-signer-rotate':showSigner }" />&nbsp;签到
         </button>
       </div>
     </div>
@@ -125,7 +125,7 @@ export default {
         if (r.ret) {
           window.console.log(r)
           callConfig.msg += r.msg
-          callConfig.icon = 'fa-check-square-o'
+          callConfig.icon = 'check-circle'
           callConfig.time = 4000
           this.setAllResourse({ isAbleToCheckin: false })
           setTimeout(() => {
@@ -137,7 +137,7 @@ export default {
         } else {
           window.console.log(r)
           callConfig.msg += r.msg
-          callConfig.icon = 'fa-times-circle-o'
+          callConfig.icon = 'times-circle'
           callConfig.time = 1500
           this.callMsgr(callConfig)
           this.signerTrigger()
@@ -196,7 +196,7 @@ export default {
 .uim-signer-main,
 .uim-signer-container,
 .uim-signer-main button,
-.uim-signer-drawer span {
+.uim-signer-drawer svg {
   transition: all 0.4s;
 }
 .uim-signer-container {

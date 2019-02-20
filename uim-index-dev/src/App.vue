@@ -20,8 +20,8 @@
             <transition name="fade" mode="out-in">
               <router-link class="button-index" :to="globalGuide.href" :key="routerN">
                 <span>
-                  <i class="fa" :class="globalGuide.icon"></i>
-                  <span class="hide-sm">{{globalGuide.content}}</span>
+                  <font-awesome-icon :icon="globalGuide.icon" />
+                  <span class="hide-sm">&nbsp;{{globalGuide.content}}</span>
                 </span>
               </router-link>
             </transition>
@@ -45,7 +45,6 @@
 
         <transition name="slide-fade" mode="out-in">
           <uim-messager :msgrCon="msgrCon" v-show="msgrCon.isShow">
-            <template class="bbb" #icon></template>
             <template #msg>{{msgrCon.msg}}</template>
             <template #html></template>
           </uim-messager>
@@ -79,19 +78,19 @@ export default {
       switch (this.routerN) {
         case "index":
           return {
-            icon: "fa-home",
+            icon: "home",
             content: "回到首页",
             href: "/"
           };
         case "auth":
           return {
-            icon: "fa-key",
+            icon: "key",
             content: "登录/注册",
             href: "/auth/login"
           };
         case "user":
           return {
-            icon: "fa-user",
+            icon: "user",
             content: "用户中心",
             href: "/user/panel"
           };

@@ -144,14 +144,14 @@ export default {
       _post('/auth/register', JSON.stringify(ajaxCon), 'include').then(r => {
         if (r.ret === 1) {
           callConfig.msg = '注册成功meow~'
-          callConfig.icon = 'fa-check-square-o'
+          callConfig.icon = 'check-circle'
           this.callMsgr(callConfig)
           window.setTimeout(() => {
             this.$router.replace('/auth/login')
           }, this.globalConfig.jumpDelay)
         } else {
           callConfig.msg = `WTF……注册失败,${r.msg}`
-          callConfig.icon += 'fa-times-circle-o'
+          callConfig.icon += 'times-circle'
           this.callMsgr(callConfig)
           window.setTimeout(() => {
             this.isDisabled = false
@@ -217,14 +217,14 @@ export default {
         if (r.ret) {
           let callConfig = {
             msg: 'biu~邮件发送成功',
-            icon: 'fa-check-square-o',
+            icon: 'check-circle',
             time: 1000
           }
           this.callMsgr(callConfig)
         } else {
           let callConfig = {
             msg: 'emm……邮件发送失败',
-            icon: 'fa-times-circle-o',
+            icon: 'times-circle',
             time: 1000
           }
           this.callMsgr(callConfig)

@@ -4,7 +4,7 @@
       <div class="card-title">可用资源</div>
       <span>
         <button @click="dataRefresh" class="tips tips-green">
-          <span class="fa fa-refresh"></span>刷新
+          <font-awesome-icon icon="sync-alt" />&nbsp;刷新
         </button>
       </span>
     </div>

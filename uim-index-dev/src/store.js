@@ -12,7 +12,7 @@ export default new Vuex.Store({
     msgrCon: {
       msg: '操作成功',
       html: '',
-      icon: ['fa', 'fa-check-square-o'],
+      icon: 'check-circle',
       isShow: false
     },
     modalCon: {
@@ -57,7 +57,7 @@ export default new Vuex.Store({
         state.msgrCon.html = ''
       }
       state.msgrCon.msg = config.msg
-      state.msgrCon.icon[1] = config.icon
+      state.msgrCon.icon = config.icon
       state.msgrCon.html = config.html
     },
     ISSHOW_MSGR (state, boolean) {

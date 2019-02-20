@@ -13,10 +13,10 @@
               placeholder="优惠码"
             >
             <button @click="couponCheck" class="btn-forinput" name="check">
-              <span class="fa fa-arrow-up"></span>
+              <font-awesome-icon icon="arrow-up" />
             </button>
             <button @click="hideChecker" class="btn-forinput" name="reset">
-              <span class="fa fa-refresh"></span>
+              <font-awesome-icon icon="sync-alt" />
             </button>
           </label>
         </transition>
@@ -117,7 +117,7 @@ export default {
       this.isCheckerShow = true;
       let callConfig = {
         msg: "请输入优惠码，如没有请直接确认",
-        icon: "fa-bell",
+        icon: "bell",
         time: 1500
       };
       this.callMsgr(callConfig);
@@ -155,7 +155,7 @@ export default {
           } else {
             let callConfig = {
               msg: r.msg,
-              icon: "fa-times-circle-o",
+              icon: "times-circle",
               time: 1000
             };
             this.callMsgr(callConfig);
@@ -179,7 +179,7 @@ export default {
           this.$emit("resourseTransTrigger");
           let callConfig = {
             msg: r.msg,
-            icon: "fa-check-square-o",
+            icon: "check-circle",
             time: 1500
           };
           let animation = new Promise(function (resolve) {
@@ -209,7 +209,7 @@ export default {
           let callConfig = {
             msg: message,
             html: html,
-            icon: "fa-times-circle-o",
+            icon: "times-circle",
             time: 6000
           };
           animation.then(r => {

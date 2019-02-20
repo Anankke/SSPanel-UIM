@@ -1,9 +1,7 @@
 <template>
   <div class="uim-messager">
     <div>
-      <i :class="msgrCon.icon">
-        <slot name="icon"></slot>
-      </i>
+      <font-awesome-icon :icon="msgrCon.icon" />
       <span>
         <slot name="msg"></slot>
       </span>

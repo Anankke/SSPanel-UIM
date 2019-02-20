@@ -7,7 +7,7 @@
     >
       <button @click="bookmarkTrigger" class="userguide-bookmark-drawer absolute">
         <div>
-          <span class="fa fa-chevron-left"></span>
+          <font-awesome-icon icon="chevron-left"/>
         </div>
         <div>平</div>
         <div>台</div>
@@ -62,7 +62,7 @@
                           :data-uimclip="userCon.ssr_url_all"
                           class="tips tips-cyan"
                         >
-                          <span class="fa fa-copy"></span> 普通端口链接
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;普通端口链接
                         </button>
                         <button
                           v-uimclip="{ onSuccess:successCopied }"
@@ -70,15 +70,15 @@
                           class="tips tips-cyan"
                           v-if="mergeSub !== 'true'"
                         >
-                          <span class="fa fa-copy"></span> 单端口多用户链接
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;单端口多用户链接
                         </button>
                       </span>
                       <span v-if="currentPlantformType === 'IOS'">
                         <button class="tips tips-cyan" @click="oneKeySub(suburlMu0)">
-                          <span class="fa fa-copy"></span> 小火箭一键普通端口订阅
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;小火箭一键普通端口订阅
                         </button>
                         <button class="tips tips-cyan" @click="oneKeySub(suburlMu1)">
-                          <span class="fa fa-copy"></span> 小火箭一键单端口订阅
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;小火箭一键单端口订阅
                         </button>
                       </span>
                     </p>
@@ -89,7 +89,7 @@
                           :data-uimclip="userCon.ssd_url_all"
                           class="tips tips-cyan"
                         >
-                          <span class="fa fa-copy"></span> 复制节点链接
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;复制节点链接
                         </button>
                       </span>
                       <span v-if="currentPlantformType === 'MACOS'">
@@ -98,14 +98,14 @@
                           :data-uimclip="userCon.ss_url_all"
                           class="tips tips-cyan"
                         >
-                          <span class="fa fa-copy"></span> 复制节点链接
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;复制节点链接
                         </button>
                       </span>
                     </p>
                     <p v-if="currentDlType === 'V2RAY'">
                       <span v-if="currentPlantformType === 'IOS'">
                         <button @click="oneKeySub(suburlMu2)" class="tips tips-cyan">
-                          <span class="fa fa-copy"></span> 小火箭一键订阅
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;小火箭一键订阅
                         </button>
                       </span>
                     </p>
