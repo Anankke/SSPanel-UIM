@@ -241,6 +241,7 @@ import UserShop from "@/components/panel/UserShop.vue";
 import UserGuide from "@/components/panel/UserGuide.vue";
 import UserResourse from "@/components/panel/UserResourse.vue";
 import UserSettings from "@/components/panel/UserSettings.vue";
+import UserCharge from "@/components/panel/UserCharge.vue";
 
 import Dropdown from "@/components/dropdown.vue";
 import Tooltip from "@/components/tooltip.vue";
@@ -257,6 +258,7 @@ export default {
     "user-guide": UserGuide,
     "user-resourse": UserResourse,
     "user-settings": UserSettings,
+    "user-charge": UserCharge,
     "uim-dropdown": Dropdown,
     "uim-tooltip": Tooltip,
     "uim-anchor": Anchor
@@ -299,8 +301,10 @@ export default {
           return 1;
         case "user-invite":
           return 2;
-        case "user-shop":
+        case "user-charge":
           return 3;
+        case "user-shop":
+          return 4;
       }
     }
   },
@@ -337,6 +341,10 @@ export default {
         {
           name: "邀请链接",
           id: "user-invite"
+        },
+        {
+          name: "充值中心",
+          id: "user-charge",
         },
         {
           name: "套餐购买",

@@ -16,10 +16,10 @@
                   :placeholder="placeholder"
                 >
                 <button @click="submitToolInput" class="btn-forinput" name="check">
-                  <font-awesome-icon icon="arrow-up" />
+                  <font-awesome-icon icon="arrow-up"/>
                 </button>
                 <button @click="hideToolInput" class="btn-forinput" name="reset">
-                  <font-awesome-icon icon="sync-alt" />
+                  <font-awesome-icon icon="sync-alt"/>
                 </button>
               </label>
             </transition>
@@ -39,10 +39,10 @@
                 </span>
                 <div>
                   <button @click="submitOrder" class="tips tips-green">
-                    <font-awesome-icon icon="check" fixed-width />
+                    <font-awesome-icon icon="check" fixed-width/>
                   </button>
                   <button @click="hideOrderCheck" class="tips tips-red">
-                    <font-awesome-icon icon="times" fixed-width />
+                    <font-awesome-icon icon="times" fixed-width/>
                   </button>
                 </div>
               </template>
@@ -67,7 +67,7 @@
       <transition name="fade">
         <div v-if="showInviteLog" class="pure-u-1-2 pure-u-sm-6-24 flex-end flex align-center">
           <button @click="closeInviteLog" class="btn-user">
-            <font-awesome-icon icon="reply" />&nbsp;返回
+            <font-awesome-icon icon="reply"/>&nbsp;返回
           </button>
         </div>
       </transition>
@@ -89,7 +89,7 @@
                 >
                 <span class="invite-tools link-reset relative flex justify-center text-center">
                   <button @click="showInviteReset" class="tips tips-red">
-                    <font-awesome-icon icon="sync-alt" />&nbsp;重置
+                    <font-awesome-icon icon="sync-alt"/>&nbsp;重置
                   </button>
 
                   <uim-tooltip
@@ -100,10 +100,10 @@
                       <span>确定要重置邀请链接？</span>
                       <div>
                         <button @click="resetInviteLink" class="tips tips-green">
-                          <font-awesome-icon icon="check" fixed-width />
+                          <font-awesome-icon icon="check" fixed-width/>
                         </button>
                         <button @click="hideInviteReset" class="tips tips-red">
-                          <font-awesome-icon icon="times" fixed-width />
+                          <font-awesome-icon icon="times" fixed-width/>
                         </button>
                       </div>
                     </template>
@@ -118,7 +118,7 @@
                     :disabled="isToolDisabled"
                     class="tips tips-cyan"
                   >
-                    <font-awesome-icon icon="pencil-alt" />&nbsp;定制
+                    <font-awesome-icon icon="pencil-alt"/>&nbsp;定制
                   </button>
                 </span>
               </div>
@@ -134,7 +134,7 @@
                     :disabled="isToolDisabled"
                     class="invite-number tips tips-green"
                   >
-                    <font-awesome-icon icon="yen-sign" />&nbsp;购买
+                    <font-awesome-icon icon="yen-sign"/>&nbsp;购买
                   </button>
                 </span>
               </h5>
@@ -159,20 +159,23 @@
             <div v-else key="viewLog">
               <div class="userinvite-table-container">
                 <uim-table>
-                  <th slot="uim-th">ID</th>
-                  <th slot="uim-th">被邀请用户ID</th>
-                  <th slot="uim-th">获得返利</th>
+                  <template #uim-th>
+                    <th>ID</th>
+                    <th>被邀请用户ID</th>
+                    <th>获得返利</th>
+                  </template>
 
-                  <tr
-                    class="uim-tr-body"
-                    v-for="(item,key) in paybacks.data"
-                    :key="key+item.id"
-                    slot="uim-tr"
-                  >
-                    <td>{{item.id}}</td>
-                    <td>{{item.userid}}</td>
-                    <td>￥{{item.ref_get}}</td>
-                  </tr>
+                  <template #uim-tbd>
+                    <tr
+                      class="uim-tr-body"
+                      v-for="(item,key) in paybacks.data"
+                      :key="key+item.id"
+                    >
+                      <td>{{item.id}}</td>
+                      <td>{{item.userid}}</td>
+                      <td>￥{{item.ref_get}}</td>
+                    </tr>
+                  </template>
                 </uim-table>
               </div>
               <div class="uim-pagenation-container">
