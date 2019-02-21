@@ -93,19 +93,21 @@ class SPay extends AbstractPayment
     public function getPurchaseHTML()
     {
         return '
+                    <div class="card-inner">
 						<div class="form-group pull-left">
                         <p class="modal-title" >本站支持支付宝在线充值</p>
                         <p>输入充值金额：</p>
                         <div class="form-group form-group-label">
                         <label class="floating-label" for="price">充值金额</label>
-                        <input id="type" class="form-control" name="amount" />
+                        <input id="type" class="form-control maxwidth-edit" name="amount" />
                         </div>
                         <a class="btn btn-flat waves-attach" id="submitSpay" ><span class="icon">check</span>&nbsp;充值</a>
                         </div>
+                    </div>
                         <script>
                         window.onload = function(){
         $("#submitSpay").click(function() {
-            var price = parseFloat($("#amount").val());
+            var price = parseFloat($("#type").val());
             console.log("将要使用 SPay 方法充值" + price + "元");
             if (isNaN(price)) {
                 $("#result").modal();

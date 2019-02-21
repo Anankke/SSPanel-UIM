@@ -30,43 +30,56 @@ class AnnController extends AdminController
 
     public function add($request, $response, $args)
     {
-        $ann = new Ann();
-        $ann->date =  date("Y-m-d H:i:s");
-        $ann->content =  $request->getParam('content');
-        $ann->markdown =  $request->getParam('markdown');
         $issend = $request->getParam('issend');
         $vip = $request->getParam('vip');
-        $users = User::all();
-        if (!$ann->save()) {
-            $rs['ret'] = 0;
-            $rs['msg'] = "添加失败";
-            return $response->getBody()->write(json_encode($rs));
+        $content = $request->getParam('content');
+        $beginSend = (int)($request->getParam('page') - 1) * Config::get('sendPageLimit');
+        $users = User::where('class', ">=", $vip)->skip($beginSend)->limit(Config::get('sendPageLimit'))->get();
+        if($request->getParam('page') == 1){
+            $ann = new Ann();
+            $ann->date =  date("Y-m-d H:i:s");
+            $ann->content =  $content;
+            $ann->markdown =  $request->getParam('markdown');
+
+            if (!$ann->save()) {
+                $rs['ret'] = 0;
+                $rs['msg'] = "添加失败";
+                return $response->getBody()->write(json_encode($rs));
+            }
         }
         if ($issend == 1){
             foreach($users as $user){
-                if ($user->class >= $vip){
-                    $subject = Config::get('appName')."-公告";
-                    $to = $user->email;
-                    if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
-                    	continue;
-                    }
-                    $text = $ann->content;
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            "user" => $user,"text" => $text
-                        ], [
-                        ]);
-                    } catch (\Exception $e) {
-                        continue;
-                    }
+                $subject = Config::get('appName')."-公告";
+                $to = $user->email;
+                if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+                	continue;
+                }
+                $text = $content;
+                try {
+                    Mail::send($to, $subject, 'news/warn.tpl', [
+                        "user" => $user,"text" => $text
+                    ], [
+                    ]);
+                } catch (\Exception $e) {
+                    continue;
                 }
             }
         }
-
-        Telegram::SendMarkdown("新公告：".PHP_EOL.$request->getParam('markdown'));
-        $rs['ret'] = 1;
-        $rs['msg'] = "公告添加成功，邮件发送成功";
-        return $response->getBody()->write(json_encode($rs));
+        if(count($users) == Config::get('sendPageLimit')){
+            $rs['ret'] = 2;
+            $rs['msg'] = $request->getParam('page') + 1;
+            return $response->getBody()->write(json_encode($rs));
+        }else{
+            Telegram::SendMarkdown("新公告：".PHP_EOL.$request->getParam('markdown'));
+            $rs['ret'] = 1;
+			if ($issend == 1){
+				$rs['msg'] = "公告添加成功，邮件发送成功";
+			}
+			else{
+				$rs['msg'] = "公告添加成功";
+			}
+            return $response->getBody()->write(json_encode($rs));
+        }
     }
 
     public function edit($request, $response, $args)

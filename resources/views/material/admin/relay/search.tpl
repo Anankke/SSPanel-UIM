@@ -1,13 +1,5 @@
 
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -86,39 +78,29 @@
 	</main>
 
 
-
-
-
-
 {include file='admin/footer.tpl'}
-
-
 
 
 <script>
 
-
-$(document).ready(function(){
+window.addEventListener('load', () => {
  	table = $('#table_1').DataTable({
-		"columnDefs": [
-			{
-					targets: [ '_all' ],
-					className: 'mdl-data-table__cell--non-numeric'
-			}
-		],
+		"columnDefs": [{
+            targets: [ '_all' ],
+            className: 'mdl-data-table__cell--non-numeric'
+        }],
 		{include file='table/lang_chinese.tpl'}
 	});
 
-	function search(){
-		window.location="/admin/relay/path_search/"+$("#search").val();
-	}
+    let search = () => {
+        window.location = `/admin/relay/path_search/${$$.getElementById('search').value}`
+    }
 
-	$("#search_button").click(function(){
-		if($("#search").val()!="")
-		{
-			search();
-		}
-	});
+    $$.getElementById('search_button').addEventListener('click', () => {
+        if ($$.getElementById('search').value !== "") {
+            search();
+        }
+    })
 })
 
 </script>

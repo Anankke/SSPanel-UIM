@@ -28,34 +28,43 @@
 						</div>
 					</div>
 					
-					<div class="table-responsive">
-						{$rules->render()}
-						<table class="table">
-						    <tr>
-						        <th>ID</th>
-						        <th>名称</th>
-						        <th>描述</th>
-							<th>正则表达式</th>
-							<th>类型</th>
-								
-						    </tr>
-						    {foreach $rules as $rule}
-						        <tr>
-								<td>#{$rule->id}</td>
-								<td>{$rule->name}</td>
-								<td>{$rule->text}</td>
-								<td>{$rule->regex}</td>
-								{if $rule->type == 1}
-									<td>数据包明文匹配</td>
-								{/if}		
-								{if $rule->type == 2}
-									<td>数据包 hex 匹配</td>
-								{/if}								
-						        </tr>
-						    {/foreach}
-						</table>
-						{$rules->render()}
-					</div>
+                    <div class="card">
+	                    <div class="card-main">
+		                    <div class="card-inner">
+			                    <div class="card-table">
+									<div class="table-responsive table-user">
+										{$rules->render()}
+										<table class="table">
+											<tr>
+												<th>ID</th>
+												<th>名称</th>
+												<th>描述</th>
+											<th>正则表达式</th>
+											<th>类型</th>
+												
+											</tr>
+											{foreach $rules as $rule}
+												<tr>
+												<td>#{$rule->id}</td>
+												<td>{$rule->name}</td>
+												<td>{$rule->text}</td>
+												<td>{$rule->regex}</td>
+												{if $rule->type == 1}
+													<td>数据包明文匹配</td>
+												{/if}		
+												{if $rule->type == 2}
+													<td>数据包 hex 匹配</td>
+												{/if}								
+												</tr>
+											{/foreach}
+										</table>
+										{$rules->render()}
+									</div>
+			                    </div>
+		                    </div>
+	                    </div>
+                    </div>
+					
 							
 			</div>
 			

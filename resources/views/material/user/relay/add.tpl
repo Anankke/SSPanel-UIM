@@ -21,41 +21,49 @@
 						<div class="card">
 							<div class="card-main">
 								<div class="card-inner">
-									<div class="form-group form-group-label">
+									<div class="form-group form-group-label control-highlight-custom dropdown">
 										<label class="floating-label" for="source_node">起源节点</label>
-										<select id="source_node" class="form-control" name="source_node">
-											<option value="0">请选择起源节点</option>
+										<button id="source_node" class="form-control maxwidth-edit" name="source_node" data-toggle="dropdown">
+											请选择起源节点								
+										</button>
+										<ul class="dropdown-menu" aria-labelledby="source_node">
 											{foreach $source_nodes as $source_node}
-												<option value="{$source_node->id}">{$source_node->name}</option>
+											    <li><a href="#" class="dropdown-option" onclick="return false;" val="{$source_node->id}" data="source_node">{$source_node->name}</a></li>
 											{/foreach}
-										</select>
+										</ul>
 									</div>
 
 
-									<div class="form-group form-group-label">
+									<div class="form-group form-group-label control-highlight-custom dropdown">
 										<label class="floating-label" for="dist_node">目标节点</label>
-										<select id="dist_node" class="form-control" name="dist_node">
-											<option value="-1">不进行中转</option>
+										<button id="dist_node" class="form-control maxwidth-edit" name="dist_node" data-toggle="dropdown">
+											请选择目标节点
+										</button>
+										<ul class="dropdown-menu" aria-labelledby="dist_node">
+												<li><a href="#" class="dropdown-option" onclick="return false;" val="-1" data="dist_node">不进行中转</a></li>
 											{foreach $dist_nodes as $dist_node}
-												<option value="{$dist_node->id}">{$dist_node->name}</option>
+												<li><a href="#" class="dropdown-option" onclick="return false;" val="{$dist_node->id}" data="dist_node">{$dist_node->name}</a></li>
 											{/foreach}
-										</select>
+										</ul>
 									</div>
 
-									<div class="form-group form-group-label">
+									<div class="form-group form-group-label control-highlight-custom dropdown">
 										<label class="floating-label" for="port">端口</label>
-										<select id="port" class="form-control" name="port">
+										<button id="port" class="form-control maxwidth-edit" name="port" data-toggle="dropdown">
+											请选择端口
+										</button>
+										<ul class="dropdown-menu" aria-labelledby="port">
 											{foreach $ports as $port}
-												<option value="{$port}">{$port}</option>
+												<li><a href="#" class="dropdown-option" onclick="return false;" val="{$port}" data="port">{$port}</a></li>
 											{/foreach}
-										</select>
+										</ul>
 									</div>
 
 
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="priority">优先级</label>
-										<input class="form-control" id="priority" name="priority" type="text" value="0">
+										<input class="form-control maxwidth-edit" id="priority" name="priority" type="text" value="0">
 									</div>
 
 
@@ -71,7 +79,7 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-md-10 col-md-push-1">
-												<button id="submit" type="submit" class="btn btn-block btn-brand waves-attach waves-light">添加</button>
+												<button id="submit" type="submit" class="btn btn-block btn-brand">添加</button>
 											</div>
 										</div>
 									</div>

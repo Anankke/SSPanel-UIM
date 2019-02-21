@@ -59,21 +59,19 @@
 {include file='admin/footer.tpl'}
 <script>
     function goto(type) {
-        var countPage = $("#countPage").val();
-        var currentPage = $("#currentPage").val();
-        if ("pre" == type){
-            if (currentPage == 1 || currentPage == ""){
-            }else {
+        var countPage = $$.getElementById('countPage').value,
+            currentPage = $$.getElementById('currentPage').value;
+
+        if ("pre" === type) {
+            if (currentPage !== 1 && currentPage !== "") {
                 window.location.href = "/admin/yftOrder?page=" + {$currentPage -1};
             }
-        }else if ("next" == type){
-            if (currentPage == countPage){
-            }else {
+        } else if ("next" === type) {
+            if (currentPage !== countPage) {
                 window.location.href = "/admin/yftOrder?page=" + {$currentPage +1};
             }
-        }else if ("end" == type){
-            if (countPage == currentPage){
-            }else {
+        } else if ("end" == type) {
+            if (countPage !== currentPage) {
                 window.location.href = "/admin/yftOrder?page=" + countPage;
             }
         }

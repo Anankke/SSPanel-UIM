@@ -16,13 +16,13 @@
 			</div>
 		</div>
 		<div class="container">
-			<section class="content-inner margin-top-no">
+			<section class="content-inner">
 				<div class="ui-card-wrap">
 					<div class="row">
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">注意！</p>
 										<p>配置文件以及二维码请勿泄露！</p>
 									</div>
@@ -35,17 +35,17 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">配置信息</p>
 										<div class="tab-content">
 
-											<nav class="tab-nav margin-top-no">
+											<nav class="tab-nav">
 												<ul class="nav nav-list">
 													<li {if $ssr_prefer}class="active"{/if}>
-														<a class="waves-attach" data-toggle="tab" href="#ssr_info"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+														<a class="" data-toggle="tab" href="#ssr_info"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
 													</li>
 													<li {if !$ssr_prefer}class="active"{/if}>
-														<a class="waves-attach" data-toggle="tab" href="#ss_info"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+														<a class="" data-toggle="tab" href="#ss_info"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
 													</li>
 												</ul>
 											</nav>
@@ -84,74 +84,26 @@
 							</div>
 						</div>
 
-
-
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
-										<p class="card-heading">客户端下载</p>
-
-
-										<nav class="tab-nav margin-top-no">
-											<ul class="nav nav-list">
-												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ssr_download"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
-												</li>
-												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ss_download"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
-												</li>
-											</ul>
-										</nav>
-										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_download">
-											{if URL::SSRCanConnect($user, $mu)}
-												<p><i class="icon icon-lg">desktop_windows</i>&nbsp;<a href="/ssr-download/ssr-win.7z">Windows</a></p>
-												<p><i class="icon icon-lg">laptop_mac</i>&nbsp;<a href="/ssr-download/ssr-mac.dmg">Mac OS X</a></p>
-												<p><i class="icon icon-lg">laptop_windows</i>&nbsp;<a href="https://github.com/breakwa11/shadowsocks-rss/wiki/Python-client">Linux</a></p>
-												<p><i class="icon icon-lg">android</i>&nbsp;<a href="/ssr-download/ssr-android.apk">Android</a></p>
-												<p><i class="icon icon-lg">phone_iphone</i>&nbsp;<a href="https://itunes.apple.com/us/app/shadowrocket/id932747118">iOS</a></p>
-											{else}
-												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
-											{/if}
-										</div>
-										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_download">
-											{if URL::SSCanConnect($user, $mu)}
-												<p><i class="icon icon-lg">desktop_windows</i>&nbsp;<a href="/ssr-download/ss-win.7z">Windows</a></p>
-												<p><i class="icon icon-lg">laptop_mac</i>&nbsp;<a href="/ssr-download/ss-mac.zip">Mac OS X</a></p>
-												<p><i class="icon icon-lg">laptop_windows</i>&nbsp;<a href="https://shadowsocks.org/en/download/clients.html">Linux</a></p>
-												<p><i class="icon icon-lg">android</i>&nbsp;<a href="/ssr-download/ss-android.apk">Android</a></p>
-												<p><i class="icon icon-lg">android</i>&nbsp;<a href="/ssr-download/ss-android-obfs.apk">Android Obfs插件</a></p>
-												<p><i class="icon icon-lg">phone_iphone</i>&nbsp;<a href="https://itunes.apple.com/us/app/shadowrocket/id932747118">iOS</a></p>
-											{else}
-												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
-											{/if}
-										</div>
-
-									</div>
-
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-12 col-sm-12">
-							<div class="card">
-								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">配置Json</p>
 
-										<nav class="tab-nav margin-top-no">
+										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ssr_json"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+													<a class="" data-toggle="tab" href="#ssr_json"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
 												</li>
 												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ss_json"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+													<a class="" data-toggle="tab" href="#ss_json"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
 												</li>
 											</ul>
 										</nav>
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_json">
 											{if URL::SSRCanConnect($user, $mu)}
-												<textarea class="form-control" rows="6">
+												
+												<pre>
 {
     "server": "{$ssr_item['address']}",
     "local_address": "127.0.0.1",
@@ -166,14 +118,15 @@
     "protocol": "{$ssr_item['protocol']}",
     "protocol_param": "{$ssr_item['protocol_param']}"
 }
-												</textarea>
+                                               </pre>
+												
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_json">
 											{if URL::SSCanConnect($user, $mu)}
-											<textarea class="form-control" rows="6">
+											<pre>
 {
 		"server": "{$ss_item['address']}",
 		"local_address": "127.0.0.1",
@@ -185,7 +138,7 @@
 		"method": "{$ss_item['method']}",
 		"plugin": "{URL::getJsonObfs($ss_item)}"
 }
-											</textarea>
+</pre>
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
@@ -200,16 +153,16 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">配置链接</p>
 
-										<nav class="tab-nav margin-top-no">
+										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ssr_url"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+													<a class="" data-toggle="tab" href="#ssr_url"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
 												</li>
 												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ss_url"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+													<a class="" data-toggle="tab" href="#ss_url"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
 												</li>
 											</ul>
 										</nav>
@@ -238,24 +191,24 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="card">
 								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
+									<div class="card-inner">
 										<p class="card-heading">配置二维码</p>
 
 
-										<nav class="tab-nav margin-top-no">
+										<nav class="tab-nav">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ssr_qrcode"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+													<a class="" data-toggle="tab" href="#ssr_qrcode"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
 												</li>
 												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#ss_qrcode"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+													<a class="" data-toggle="tab" href="#ss_qrcode"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
 												</li>
 											</ul>
 										</nav>
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_qrcode">
 											{if URL::SSRCanConnect($user, $mu)}
 												<div class="text-center">
-													<div id="ss-qr-n"></div>
+													<div id="ss-qr-n" class="qr-center"></div>
 												</div>
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
@@ -263,24 +216,24 @@
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_qrcode">
 											{if URL::SSCanConnect($user, $mu)}
-												<nav class="tab-nav margin-top-no">
+												<nav class="tab-nav">
 													<ul class="nav nav-list">
 														<li class="active">
-															<a class="waves-attach" data-toggle="tab" href="#ss_qrcode_normal"><i class="icon icon-lg">android</i>&nbsp;其他平台</a>
+															<a class="" data-toggle="tab" href="#ss_qrcode_normal"><i class="icon icon-lg">android</i>&nbsp;其他平台</a>
 														</li>
 														<li>
-															<a class="waves-attach" data-toggle="tab" href="#ss_qrcode_win"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
+															<a class="" data-toggle="tab" href="#ss_qrcode_win"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
 														</li>
 													</ul>
 												</nav>
 												<div class="tab-pane fade active in" id="ss_qrcode_normal">
 													<div class="text-center">
-														<div id="ss-qr"></div>
+														<div id="ss-qr" class="qr-center"></div>
 													</div>
 												</div>
 												<div class="tab-pane fade" id="ss_qrcode_win">
 													<div class="text-center">
-														<div id="ss-qr-win"></div>
+														<div id="ss-qr-win" class="qr-center"></div>
 													</div>
 												</div>
 											{else}
@@ -310,25 +263,27 @@
 {include file='user/footer.tpl'}
 
 
-<script src="/assets/public/js/jquery.qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
 <script>
 	{if URL::SSCanConnect($user, $mu)}
-	var text_qrcode = '{URL::getItemUrl($ss_item, 1)}';
-	jQuery('#ss-qr').qrcode({
-		"text": text_qrcode
-	});
+    var text_qrcode = '{URL::getItemUrl($ss_item, 1)}',
+        text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';
 
-	var text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';
-	jQuery('#ss-qr-win').qrcode({
-		"text": text_qrcode_win
-	});
+    var qrcode1 = new QRCode(document.getElementById("ss-qr"),{ correctLevel: 3 }),
+        qrcode2 = new QRCode(document.getElementById("ss-qr-win"),{ correctLevel: 3 });
+	
+
+    qrcode1.clear();
+    qrcode1.makeCode(text_qrcode);
+    qrcode2.clear();
+    qrcode2.makeCode(text_qrcode_win);
 	{/if}
 
 	{if URL::SSRCanConnect($user, $mu)}
-	var text_qrcode2 = '{URL::getItemUrl($ssr_item, 0)}';
-	jQuery('#ss-qr-n').qrcode({
-		"text": text_qrcode2
-	});
+    var text_qrcode2 = '{URL::getItemUrl($ssr_item, 0)}';
+    var qrcode3 = new QRCode(document.getElementById("ss-qr-n"),{ correctLevel: 3 });
+    qrcode3.clear();
+    qrcode3.makeCode(text_qrcode2);
 	{/if}
 
 

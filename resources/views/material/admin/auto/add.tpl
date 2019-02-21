@@ -1,12 +1,5 @@
 
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
 
 
 	<main class="content">
@@ -24,7 +17,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="content">命令</label>
-									<textarea class="form-control" id="content" rows="15"></textarea>
+									<textarea class="form-control maxwidth-edit" id="content" rows="15"></textarea>
 								</div>
 								
 								
@@ -40,7 +33,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="sign">GPG签名</label>
-									<textarea class="form-control" id="sign" rows="15"></textarea>
+									<textarea class="form-control maxwidth-edit" id="sign" rows="15"></textarea>
 								</div>
 								
 								
@@ -68,55 +61,42 @@
 					
 					{include file='dialog.tpl'}
 			</div>
-			
-			
-			
+
 		</div>
 	</main>
-
-	
-	
-	
-	
-
-
-
-
 
 
 {include file='admin/footer.tpl'}
 
 <script>
-    $(document).ready(function () {
+    window.addEventListener('load', () => {
         function submit() {
             $.ajax({
                 type: "POST",
                 url: "/admin/auto",
                 dataType: "json",
                 data: {
-                    content: $("#content").val(),
-					sign: $("#sign").val()
+                    content: $$getValue('content'),
+					sign: $$getValue('sign')
                 },
-                success: function (data) {
+                success: data => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: jqXHR => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
                 }
             });
         }
-		
-        $("#submit").click(function () {
-            submit();
-        });
+
+        $$.getElementById('submit').addEventListener('click', submit);
     });
 </script>

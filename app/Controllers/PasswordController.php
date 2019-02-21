@@ -32,9 +32,12 @@ class PasswordController extends BaseController
             $rs['msg'] = '此邮箱不存在.';
             return $response->getBody()->write(json_encode($rs));
         }
-        Password::sendResetEmail($email);
         $rs['ret'] = 1;
         $rs['msg'] = '重置邮件已经发送,请检查邮箱.';
+        if (Password::sendResetEmail($email)) {
+            $res['msg'] = "邮件发送失败，请联系网站管理员。";
+        }
+
         return $response->getBody()->write(json_encode($rs));
     }
 
@@ -49,7 +52,7 @@ class PasswordController extends BaseController
         $tokenStr = $args['token'];
         $password =  $request->getParam('password');
         $repasswd =  $request->getParam('repasswd');
-        
+
         if ($password != $repasswd) {
             $res['ret'] = 0;
             $res['msg'] = "两次输入不符合";
@@ -61,7 +64,7 @@ class PasswordController extends BaseController
             $res['msg'] = "密码太短啦";
             return $response->getBody()->write(json_encode($res));
         }
-        
+
         // check token
         $token = PasswordReset::where('token', $tokenStr)->first();
         if ($token == null || $token->expire_time < time()) {
@@ -88,9 +91,9 @@ class PasswordController extends BaseController
         }
         $rs['ret'] = 1;
         $rs['msg'] = '重置成功';
-        
+
         $user->clean_link();
-        
+
         return $response->getBody()->write(json_encode($rs));
     }
 }

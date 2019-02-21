@@ -1,14 +1,5 @@
 
-
-
-
 {include file='admin/main.tpl'}
-
-
-
-
-
-
 
 	<main class="content">
 		<div class="content-header ui-content-header">
@@ -25,7 +16,7 @@
 								<div class="card-inner">
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="source_node">起源节点</label>
-										<select id="source_node" class="form-control" name="source_node">
+										<select id="source_node" class="form-control maxwidth-edit" name="source_node">
 											<option value="0">请选择起源节点</option>
 											{foreach $source_nodes as $source_node}
 												<option value="{$source_node->id}" {if $rule->source_node_id == $source_node->id}selected{/if}>{$source_node->name}</option>
@@ -36,7 +27,7 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="dist_node">目标节点</label>
-										<select id="dist_node" class="form-control" name="dist_node">
+										<select id="dist_node" class="form-control maxwidth-edit" name="dist_node">
 											<option value="-1">不进行中转</option>
 											{foreach $dist_nodes as $dist_node}
 												<option value="{$dist_node->id}" {if $rule->dist_node_id == $dist_node->id}selected{/if}>{$dist_node->name}</option>
@@ -46,17 +37,17 @@
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="port">端口</label>
-										<input class="form-control" id="port" name="port" type="text" value="{$rule->port}">
+										<input class="form-control maxwidth-edit" id="port" name="port" type="text" value="{$rule->port}">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="priority">优先级</label>
-										<input class="form-control" id="priority" name="priority" type="text" value="{$rule->priority}">
+										<input class="form-control maxwidth-edit" id="priority" name="priority" type="text" value="{$rule->priority}">
 									</div>
 
 									<div class="form-group form-group-label">
 										<label class="floating-label" for="user_id">用户ID</label>
-										<input class="form-control" id="user_id" name="user_id" type="text" value="{$rule->user_id}">
+										<input class="form-control maxwidth-edit" id="user_id" name="user_id" type="text" value="{$rule->user_id}">
 									</div>
 
 								</div>
@@ -84,8 +75,6 @@
 
 			</div>
 
-
-
 		</div>
 	</main>
 
@@ -93,54 +82,45 @@
 {include file='admin/footer.tpl'}
 
 
-{literal}
-<script>
 
+<script>
+{literal}
 	$('#main_form').validate({
 		rules: {
 			priority: {required: true},
 			port: {required: true},
 			user_id: {required: true}
 		},
+{/literal}
+		submitHandler: () => {
 
-
-		submitHandler: function() {
-
-
-
-		$.ajax({
-				{/literal}
-				type: "PUT",
+            $.ajax({
+                type: "PUT",
 				url: "/admin/relay/{$rule->id}",
 				dataType: "json",
 				data: {
-						source_node: $("#source_node").val(),
-						dist_node: $("#dist_node").val(),
-						port: $("#port").val(),
-						user_id: $("#user_id").val(),
-						priority: $("#priority").val()
-				{literal}
-					},
-					success: function (data) {
-						if (data.ret) {
+                    source_node: $$getValue('source_node'),
+                    dist_node: $$getValue('dist_node'),
+                    port: $$getValue('port'),
+                    user_id: $$getValue('user_id'),
+                    priority: $$getValue('priority')
+                },
+                success: data => {
+					if (data.ret) {
 						$("#result").modal();
-						$("#msg").html(data.msg);
-									{/literal}
+                        $$.getElementById('msg').innerHTML = data.msg;
 						window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-									{literal}
-						} else {
+					} else {
 						$("#result").modal();
-						$("#msg").html(data.msg);
-						}
-					},
-					error: function (jqXHR) {
-						$("#result").modal();
-						$("#msg").html(data.msg+"  发生错误了。");
+                        $$.getElementById('msg').innerHTML = data.msg;
 					}
-					});
+                },
+                error: jqXHR => {
+					$("#result").modal();
+                    $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
 				}
-		});
+			});
+        }
+    });
 
 </script>
-
-{/literal}
