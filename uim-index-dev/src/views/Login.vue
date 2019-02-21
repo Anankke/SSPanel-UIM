@@ -121,7 +121,7 @@ export default {
       if (this.globalConfig.enableLoginCaptcha !== "false") {
         switch (this.globalConfig.captchaProvider) {
           case "recaptcha":
-            ajaxCon.recaptcha = grecaptcha.getResponse();
+            ajaxCon.recaptcha = window.grecaptcha.getResponse();
             break;
           case "geetest":
             if (this.validate !== "") {
@@ -138,7 +138,7 @@ export default {
       _post("/auth/login", JSON.stringify(ajaxCon), "include").then(r => {
         if (r.ret === 1) {
           callConfig.msg += "登录成功Kira~";
-          callConfig.icon += "fa-check-square-o";
+          callConfig.icon += "check-circle";
           this.callMsgr(callConfig);
           window.setTimeout(() => {
             this.setLoginToken(true);
@@ -146,7 +146,7 @@ export default {
           }, this.globalConfig.jumpDelay);
         } else {
           callConfig.msg = `登录失败Boommm,${r.msg}`;
-          callConfig.icon += "fa-times-circle-o";
+          callConfig.icon += "times-circle";
           this.callMsgr(callConfig);
           window.setTimeout(() => {
             this.isDisabled = false;
@@ -170,7 +170,7 @@ export default {
       el.setAttribute("data-request-access", "write");
 
       let telegram_qrcode = "mod://login/" + this.globalConfig.login_token;
-      let qrcode = new QRCode(document.getElementById("telegram-qr"));
+      let qrcode = new window.QRCode(document.getElementById("telegram-qr"));
       qrcode.clear();
       qrcode.makeCode(telegram_qrcode);
     },
@@ -205,7 +205,7 @@ export default {
             ).then(r => {
               if (r.ret) {
                 callConfig.msg += "登录成功Kira~";
-                callConfig.icon += "fa-check-square-o";
+                callConfig.icon += "check-circle";
                 this.callMsgr(callConfig);
                 window.setTimeout(() => {
                   this.setLoginToken(true);

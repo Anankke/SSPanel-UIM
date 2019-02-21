@@ -6,7 +6,7 @@
     <transition name="slide-fade" mode="out-in">
       <div v-show="bindCard" class="uim-modal-card">
         <div @click="$emit('closeModal')" class="uim-modal-close">
-          <span class="fa fa-close"></span>
+          <font-awesome-icon icon="times" />
         </div>
         <div class="uim-modal-title">
           <slot name="uim-modal-title"></slot>

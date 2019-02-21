@@ -15,10 +15,10 @@
 	<!-- jquery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1"></script>
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
-
+	<!-- js -->
+	<script src="/assets/js/fuck.js"></script>
 </head>
 <body class="page-orange">
-    {*<script src="/assets/js/fuck.js"></script>*}
 	<header class="header header-orange header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
 			<div>

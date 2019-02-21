@@ -34,7 +34,7 @@ export default {
 
               let self = this
 
-              initGeetest(GeConfig, function (captchaObj) {
+              window.initGeetest(GeConfig, function (captchaObj) {
                 captchaObj.appendTo(id)
                 captchaObj.onSuccess(function () {
                   self.validate = captchaObj.getValidate()
@@ -48,10 +48,10 @@ export default {
     // 加载完成的时间很谜
     grecaptchaRender (id) {
       setTimeout(() => {
-        if (!grecaptcha || !grecaptcha.render) {
+        if (!window.grecaptcha || !window.grecaptcha.render) {
           this.grecaptchaRender(id)
         } else {
-          grecaptcha.render(id)
+          window.grecaptcha.render(id)
         }
       }, 300)
     }

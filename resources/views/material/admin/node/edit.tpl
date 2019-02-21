@@ -235,7 +235,7 @@
                     node_bandwidth_limit: $$getValue('node_bandwidth_limit'),
                     bandwidthlimit_resetday: $$getValue('bandwidthlimit_resetday')
 {/literal},
-                    custom_rss: custom_rss,
+                    custom_rss,
                     mu_only: $$getValue('mu_only')
 {literal}
                 },

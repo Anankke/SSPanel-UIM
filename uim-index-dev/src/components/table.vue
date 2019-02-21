@@ -4,7 +4,7 @@
       <slot name="uim-th"></slot>
     </tr>
     <transition-group name="list-fade" class="relative" tag="tbody">
-      <slot name="uim-tr"></slot>
+      <slot name="uim-tbd"></slot>
     </transition-group>
   </table>
 </template>

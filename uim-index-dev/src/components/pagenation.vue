@@ -1,7 +1,7 @@
 <template>
   <div class="uim-pagenation">
     <button @click="setCurrentPage(prev)" class="uim-pagination-btn">
-      <span class="fa fa-angle-left"></span>
+      <font-awesome-icon icon="angle-left" />
     </button>
     <button
       v-for="item in buttonList"
@@ -11,7 +11,7 @@
       :key="item"
     >{{item.num}}</button>
     <button @click="setCurrentPage(next)" class="uim-pagination-btn">
-      <span class="fa fa-angle-right"></span>
+      <font-awesome-icon icon="angle-right" />
     </button>
   </div>
 </template>

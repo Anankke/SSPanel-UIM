@@ -3,11 +3,15 @@
     <div
       @click.stop
       class="userguide-bookmark-container pure-u-1-2 pure-u-sm-4-24 flex align-center absolute"
-      :class="{ 'userguide-bookmark-active':isBookmarkShow }"
+      :class="{ 'userguide-bookmark-drawer-active':isBookmarkShow }"
     >
       <button @click="bookmarkTrigger" class="userguide-bookmark-drawer absolute">
         <div>
-          <span class="fa fa-chevron-left"></span>
+          <font-awesome-icon
+            icon="chevron-left"
+            :style="{ transition: 'all .3s' }"
+            :class="{ 'bookmark-arrow-rotate':isBookmarkShow }"
+          />
         </div>
         <div>平</div>
         <div>台</div>
@@ -17,8 +21,9 @@
       <div class="userguide-bookmark flex align-center wrap" :key="agentToken.markKey">
         <button
           v-for="mark in agentToken.tips"
-          @click="setCurrentPlantformType(mark.type)"
+          @click="setCurrentPlantformType(mark.type),setBookmarkState(mark.type);"
           :key="mark.id"
+          :class="{ 'bookmark-active': mark.isActive }"
         >
           <span class="btn-anchor"></span>
           {{mark.type}}
@@ -47,7 +52,7 @@
     </div>
     <div class="card-body">
       <div class="user-guide pure-g relative">
-        <div class="pure-u-19-24 relative">
+        <div class="pure-u-1 pure-u-sm-19-24 relative">
           <transition name="slide-fadex">
             <div class="absolute guide-area" :key="currentDlType">
               <transition-group name="list" class="relative guide-area">
@@ -62,7 +67,7 @@
                           :data-uimclip="userCon.ssr_url_all"
                           class="tips tips-cyan"
                         >
-                          <span class="fa fa-copy"></span> 普通端口链接
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;普通端口链接
                         </button>
                         <button
                           v-uimclip="{ onSuccess:successCopied }"
@@ -70,15 +75,15 @@
                           class="tips tips-cyan"
                           v-if="mergeSub !== 'true'"
                         >
-                          <span class="fa fa-copy"></span> 单端口多用户链接
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;单端口多用户链接
                         </button>
                       </span>
                       <span v-if="currentPlantformType === 'IOS'">
                         <button class="tips tips-cyan" @click="oneKeySub(suburlMu0)">
-                          <span class="fa fa-copy"></span> 小火箭一键普通端口订阅
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;小火箭一键普通端口订阅
                         </button>
                         <button class="tips tips-cyan" @click="oneKeySub(suburlMu1)">
-                          <span class="fa fa-copy"></span> 小火箭一键单端口订阅
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;小火箭一键单端口订阅
                         </button>
                       </span>
                     </p>
@@ -89,7 +94,7 @@
                           :data-uimclip="userCon.ssd_url_all"
                           class="tips tips-cyan"
                         >
-                          <span class="fa fa-copy"></span> 复制节点链接
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;复制节点链接
                         </button>
                       </span>
                       <span v-if="currentPlantformType === 'MACOS'">
@@ -98,14 +103,14 @@
                           :data-uimclip="userCon.ss_url_all"
                           class="tips tips-cyan"
                         >
-                          <span class="fa fa-copy"></span> 复制节点链接
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;复制节点链接
                         </button>
                       </span>
                     </p>
                     <p v-if="currentDlType === 'V2RAY'">
                       <span v-if="currentPlantformType === 'IOS'">
                         <button @click="oneKeySub(suburlMu2)" class="tips tips-cyan">
-                          <span class="fa fa-copy"></span> 小火箭一键订阅
+                          <font-awesome-icon :icon="['far','copy']"/>&nbsp;小火箭一键订阅
                         </button>
                       </span>
                     </p>
@@ -133,7 +138,7 @@
                         >
                       </span>
                       <span v-else>
-                        等级至少为{{displayIosClass}}可见，如需升级请
+                        IOS公共账号等级至少为{{displayIosClass}}可见，如需升级请
                         <button
                           @click="$emit('guideToShop',$event)"
                           data-component="user-shop"
@@ -153,6 +158,9 @@
 </template>
 
 <style>
+.user-guide .tips {
+  margin-bottom: 0.4rem;
+}
 .userguide-bookmark-container {
   z-index: 1;
   top: 20%;
@@ -163,20 +171,20 @@
 .userguide-bookmark-container > button span {
   transition: all 0.4s;
 }
-.userguide-bookmark-active {
+.userguide-bookmark-drawer-active {
   right: 0;
   background: white;
   box-shadow: 0 0 5px 0 #b4b4b4;
 }
-.userguide-bookmark-active > button {
+.userguide-bookmark-drawer-active > button {
   background: white;
   color: black;
   border-color: white;
 }
-.userguide-bookmark-active > button span {
+.userguide-bookmark-drawer-active > button span {
   transform: rotateZ(180deg);
 }
-.userguide-bookmark-active .userguide-bookmark button {
+.userguide-bookmark-drawer-active .userguide-bookmark button {
   border: 1px solid;
   background: #4a4a4a;
 }
@@ -206,6 +214,10 @@
   width: 100%;
   border-radius: 20px;
 }
+.userguide-bookmark button,
+.userguide-bookmark button:hover span:first-of-type {
+  transition: all 0.3s;
+}
 .userguide-bookmark > div {
   width: 100%;
 }
@@ -224,7 +236,24 @@
   background: transparent;
   outline: none;
 }
+.bookmark-arrow-rotate {
+  transform: rotateZ(180deg);
+}
+button.bookmark-active,
+.userguide-bookmark button:hover,
+.userguide-bookmark-drawer-active .userguide-bookmark button.bookmark-active {
+  border: 1px solid #e1e1e1;
+  background-color: #e1e1e1;
+  color: black;
+}
+button.bookmark-active span:first-of-type,
+.userguide-bookmark button:hover span:first-of-type {
+  background-color: #868686;
+}
 @media screen and (min-width: 35.5em) {
+  .user-guide .tips {
+    margin-right: 0.5rem;
+  }
   .userguide-bookmark-container {
     right: 5%;
     padding: 0;
@@ -235,6 +264,12 @@
   }
   .userguide-bookmark-drawer {
     display: none;
+  }
+  button.bookmark-active,
+  .userguide-bookmark button:hover {
+    border: 0;
+    background-color: white;
+    color: black;
   }
 }
 </style>
@@ -311,11 +346,22 @@ export default {
     },
     hideBookmark() {
       this.isBookmarkShow = false;
+    },
+    setBookmarkState(type) {
+      let tips = this.agentToken.tips;
+      for (let i = 0; i < tips.length; i++) {
+        if (tips[i].type === type) {
+          tips[i].isActive = true;
+        } else {
+          tips[i].isActive = false;
+        }
+      }
     }
   },
   mounted() {
     let app = document.getElementById("app");
     app.addEventListener("click", this.hideBookmark, false);
+    this.setBookmarkState(this.currentPlantformType);
   },
   beforeDestroy() {
     let app = document.getElementById("app");
@@ -329,6 +375,7 @@ export default {
           {
             id: "GT_W_0",
             type: "WINDOWS",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -386,6 +433,7 @@ export default {
           {
             id: "GT_M_0",
             type: "MACOS",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -413,6 +461,7 @@ export default {
           {
             id: "GT_L_0",
             type: "LINUX",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -440,6 +489,7 @@ export default {
           {
             id: "GT_I_0",
             type: "IOS",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -470,6 +520,7 @@ export default {
           {
             id: "GT_A_0",
             type: "ANDROID",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -505,6 +556,7 @@ export default {
           {
             id: "GT_R_0",
             type: "ROUTER",
+            isActive: false,
             steps: [
               {
                 num: "梅林",
@@ -567,6 +619,7 @@ export default {
           {
             id: "GT_W_1",
             type: "WINDOWS",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -596,6 +649,7 @@ export default {
           {
             id: "GT_M_1",
             type: "MACOS",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -620,6 +674,7 @@ export default {
           {
             id: "GT_L_1",
             type: "LINUX",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -647,6 +702,7 @@ export default {
           {
             id: "GT_I_1",
             type: "IOS",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -665,6 +721,7 @@ export default {
           {
             id: "GT_A_1",
             type: "ANDROID",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -688,6 +745,7 @@ export default {
           {
             id: "GT_R_1",
             type: "ROUTER",
+            isActive: false,
             steps: [
               {
                 num: "梅林",
@@ -739,6 +797,7 @@ export default {
           {
             id: "GT_W_2",
             type: "WINDOWS",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -767,16 +826,19 @@ export default {
           {
             id: "GT_M_2",
             type: "MACOS",
+            isActive: false,
             steps: []
           },
           {
             id: "GT_L_2",
             type: "LINUX",
+            isActive: false,
             steps: []
           },
           {
             id: "GT_I_2",
             type: "IOS",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -800,6 +862,7 @@ export default {
           {
             id: "GT_A_2",
             type: "ANDROID",
+            isActive: false,
             steps: [
               {
                 num: 1,
@@ -827,6 +890,7 @@ export default {
           {
             id: "GT_R_2",
             type: "ROUTER",
+            isActive: false,
             steps: [
               {
                 num: "梅林",

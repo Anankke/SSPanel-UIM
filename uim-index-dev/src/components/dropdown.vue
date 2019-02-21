@@ -126,7 +126,7 @@ export default {
 }
 @media screen and (min-width: 35.5em) {
   .uim-dropdown-btn {
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 0.5rem;
   }
 }
 </style>

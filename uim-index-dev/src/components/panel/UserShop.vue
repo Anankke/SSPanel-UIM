@@ -13,10 +13,10 @@
               placeholder="优惠码"
             >
             <button @click="couponCheck" class="btn-forinput" name="check">
-              <span class="fa fa-arrow-up"></span>
+              <font-awesome-icon icon="arrow-up" />
             </button>
             <button @click="hideChecker" class="btn-forinput" name="reset">
-              <span class="fa fa-refresh"></span>
+              <font-awesome-icon icon="sync-alt" />
             </button>
           </label>
         </transition>
@@ -27,7 +27,7 @@
         <div v-for="shop in shops" class="list-shop pure-g" :key="shop.id">
           <div class="pure-u-1 pure-u-sm-20-24">
             <span class="user-shop-name">{{shop.name}}</span>
-            <span class="tips tips-gold">VIP {{shop.details.class}}</span>
+            <span class="tips tips-gold">VIP {{shop.details.class}}/<span v-if="shop.details.class_expire !== '0'">{{shop.details.class_expire}}天</span></span>
             <span class="tips tips-green">￥{{shop.price}}</span>
             <span class="tips tips-cyan">
               {{shop.details.bandwidth}}G
@@ -35,7 +35,7 @@
                 v-if="shop.details.reset"
               >+{{shop.details.reset_value}}G/({{shop.details.reset}}天/{{shop.details.reset_exp}}天)</span>
             </span>
-            <span v-if="shop.details.class_expire !== '0'" class="tips tips-blue">{{shop.details.class_expire}}天</span>
+            <span v-if="shop.details.expire !== '0'" class="tips tips-blue">账号续期{{shop.details.expire}}天</span>
           </div>
           <div class="pure-u-1 pure-u-sm-4-24 list-shop-footer">
             <button :disabled="isDisabled" class="buy-submit" @click="buy(shop)">购买</button>
@@ -117,7 +117,7 @@ export default {
       this.isCheckerShow = true;
       let callConfig = {
         msg: "请输入优惠码，如没有请直接确认",
-        icon: "fa-bell",
+        icon: "bell",
         time: 1500
       };
       this.callMsgr(callConfig);
@@ -155,7 +155,7 @@ export default {
           } else {
             let callConfig = {
               msg: r.msg,
-              icon: "fa-times-circle-o",
+              icon: "times-circle",
               time: 1000
             };
             this.callMsgr(callConfig);
@@ -179,7 +179,7 @@ export default {
           this.$emit("resourseTransTrigger");
           let callConfig = {
             msg: r.msg,
-            icon: "fa-check-square-o",
+            icon: "check-circle",
             time: 1500
           };
           let animation = new Promise(function (resolve) {
@@ -209,7 +209,7 @@ export default {
           let callConfig = {
             msg: message,
             html: html,
-            icon: "fa-times-circle-o",
+            icon: "times-circle",
             time: 6000
           };
           animation.then(r => {

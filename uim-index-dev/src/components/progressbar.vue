@@ -104,7 +104,7 @@ export default {}
   position: relative;
   display: flex;
   justify-content: center;
-  font-size: 0.5rem;
+  font-size: 12px;
   top: -50%;
 }
 
@@ -113,7 +113,7 @@ export default {}
 }
 
 .uim-progress-sign {
-  font-size: 0.5rem;
+  font-size: 12px;
   width: 20%;
   text-align: center;
 }

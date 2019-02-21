@@ -1,6 +1,6 @@
 ﻿{include file='user/main.tpl'}
 
-<script src="//cdn.jsdelivr.net/gh/YihanH/canvasjs.js@v2.2/canvasjs.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/SuicidalCat/canvasjs.js@v2.3.1/canvasjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1"></script>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 
@@ -119,6 +119,7 @@
 										</div>
 									{elseif $node['sort'] == 11}
 										{displayNodeLinkV2 node=$node}
+										{$point_node=$node}
 									{/if}
 
 									{if $node['sort'] == 0 || $node['sort'] == 10}
@@ -247,6 +248,7 @@
 
 													{elseif $node['sort'] == 11}
 														{displayNodeLinkV2 node=$node}
+														{$point_node=$node}
 												    {/if}
 
                                                     {if $node['sort'] == 0 || $node['sort'] == 10}

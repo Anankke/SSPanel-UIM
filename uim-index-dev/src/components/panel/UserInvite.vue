@@ -16,10 +16,10 @@
                   :placeholder="placeholder"
                 >
                 <button @click="submitToolInput" class="btn-forinput" name="check">
-                  <span class="fa fa-arrow-up"></span>
+                  <font-awesome-icon icon="arrow-up"/>
                 </button>
                 <button @click="hideToolInput" class="btn-forinput" name="reset">
-                  <span class="fa fa-refresh"></span>
+                  <font-awesome-icon icon="sync-alt"/>
                 </button>
               </label>
             </transition>
@@ -28,21 +28,21 @@
                 <span v-if="toolInputType === 'buy'">
                   <div>
                     确认购买
-                    <span class="text-red">{{toolInputContent}}</span> 个吗？总价为
+                    <span class="text-red">{{toolInputContent}}</span>&nbsp;个吗？总价为
                     <span class="text-red">￥{{totalPrice}}</span>
                   </div>
                 </span>
                 <span v-if="toolInputType === 'custom'">
                   确认定制链接后缀为
-                  <span class="text-red">{{toolInputContent}}</span> 吗？价格为
+                  <span class="text-red">{{toolInputContent}}</span>&nbsp;吗？价格为
                   <span class="text-red">￥{{customPrice}}</span>
                 </span>
                 <div>
                   <button @click="submitOrder" class="tips tips-green">
-                    <span class="fa fa-fw fa-check"></span>
+                    <font-awesome-icon icon="check" fixed-width/>
                   </button>
                   <button @click="hideOrderCheck" class="tips tips-red">
-                    <span class="fa fa-fw fa-remove"></span>
+                    <font-awesome-icon icon="times" fixed-width/>
                   </button>
                 </div>
               </template>
@@ -67,7 +67,7 @@
       <transition name="fade">
         <div v-if="showInviteLog" class="pure-u-1-2 pure-u-sm-6-24 flex-end flex align-center">
           <button @click="closeInviteLog" class="btn-user">
-            <span class="fa fa-mail-reply"></span> 返回
+            <font-awesome-icon icon="reply"/>&nbsp;返回
           </button>
         </div>
       </transition>
@@ -89,7 +89,7 @@
                 >
                 <span class="invite-tools link-reset relative flex justify-center text-center">
                   <button @click="showInviteReset" class="tips tips-red">
-                    <span class="fa fa-refresh"></span> 重置
+                    <font-awesome-icon icon="sync-alt"/>&nbsp;重置
                   </button>
 
                   <uim-tooltip
@@ -100,10 +100,10 @@
                       <span>确定要重置邀请链接？</span>
                       <div>
                         <button @click="resetInviteLink" class="tips tips-green">
-                          <span class="fa fa-fw fa-check"></span>
+                          <font-awesome-icon icon="check" fixed-width/>
                         </button>
                         <button @click="hideInviteReset" class="tips tips-red">
-                          <span class="fa fa-fw fa-remove"></span>
+                          <font-awesome-icon icon="times" fixed-width/>
                         </button>
                       </div>
                     </template>
@@ -118,7 +118,7 @@
                     :disabled="isToolDisabled"
                     class="tips tips-cyan"
                   >
-                    <span class="fa fa-pencil"></span> 定制
+                    <font-awesome-icon icon="pencil-alt"/>&nbsp;定制
                   </button>
                 </span>
               </div>
@@ -134,21 +134,21 @@
                     :disabled="isToolDisabled"
                     class="invite-number tips tips-green"
                   >
-                    <span class="fa fa-cny"></span> 购买
+                    <font-awesome-icon icon="yen-sign"/>&nbsp;购买
                   </button>
                 </span>
               </h5>
               <h5>
                 每邀请1位用户注册，您会获得
-                <span class="tips tips-sm tips-cyan">{{invite_gift}}G</span> 流量奖励
+                <span class="tips tips-sm tips-cyan">{{invite_gift}}G</span>&nbsp;流量奖励
               </h5>
               <h5>
                 对方将获得
-                <span class="tips tips-sm tips-cyan">￥{{invite_get_money}}</span> 作为初始资金
+                <span class="tips tips-sm tips-cyan">￥{{invite_get_money}}</span>&nbsp;作为初始资金
               </h5>
               <h5>
                 对方充值时您还会获得对方充值金额
-                <span class="tips tips-sm tips-cyan">{{code_payback}}%</span> 的返利
+                <span class="tips tips-sm tips-cyan">{{code_payback}}%</span>&nbsp;的返利
               </h5>
               <h4>
                 已获得返利：
@@ -159,20 +159,23 @@
             <div v-else key="viewLog">
               <div class="userinvite-table-container">
                 <uim-table>
-                  <th slot="uim-th">ID</th>
-                  <th slot="uim-th">被邀请用户ID</th>
-                  <th slot="uim-th">获得返利</th>
+                  <template #uim-th>
+                    <th>ID</th>
+                    <th>被邀请用户ID</th>
+                    <th>获得返利</th>
+                  </template>
 
-                  <tr
-                    class="uim-tr-body"
-                    v-for="(item,key) in paybacks.data"
-                    :key="key+item.id"
-                    slot="uim-tr"
-                  >
-                    <td>{{item.id}}</td>
-                    <td>{{item.userid}}</td>
-                    <td>￥{{item.ref_get}}</td>
-                  </tr>
+                  <template #uim-tbd>
+                    <tr
+                      class="uim-tr-body"
+                      v-for="(item,key) in paybacks.data"
+                      :key="key+item.id"
+                    >
+                      <td>{{item.id}}</td>
+                      <td>{{item.userid}}</td>
+                      <td>￥{{item.ref_get}}</td>
+                    </tr>
+                  </template>
                 </uim-table>
               </div>
               <div class="uim-pagenation-container">
@@ -275,7 +278,7 @@ export default {
         this.showLinkTrans();
         let callConfig = {
           msg: "已重置您的邀请链接，复制您的邀请链接发送给其他人！",
-          icon: "fa-bell",
+          icon: "bell",
           time: 1500
         };
         this.callMsgr(callConfig);
@@ -334,7 +337,7 @@ export default {
       ) {
         let callConfig = {
           msg: "请输入数字",
-          icon: "fa-times-circle-o",
+          icon: "times-circle",
           time: 1500
         };
         this.callMsgr(callConfig);
@@ -346,7 +349,7 @@ export default {
       if (this.toolInputContent === "") {
         let callConfig = {
           msg: "后缀不能为空",
-          icon: "fa-times-circle-o",
+          icon: "times-circle",
           time: 1500
         };
         this.callMsgr(callConfig);
@@ -376,14 +379,14 @@ export default {
           this.setInviteNum(r.invite_num);
           let callConfig = {
             msg: r.msg,
-            icon: "fa-check-square-o",
+            icon: "check-circle",
             time: 1000
           };
           this.callMsgr(callConfig);
         } else {
           let callConfig = {
             msg: r.msg,
-            icon: "fa-times-circle-o",
+            icon: "times-circle",
             time: 1000
           };
           this.callMsgr(callConfig);
@@ -404,7 +407,7 @@ export default {
             this.code = this.oldCode = this.toolInputContent;
             let callConfig = {
               msg: r.msg,
-              icon: "fa-check-square-o",
+              icon: "check-circle",
               time: 1000
             };
             this.callMsgr(callConfig);
@@ -413,7 +416,7 @@ export default {
             this.code = this.oldCode;
             let callConfig = {
               msg: r.msg,
-              icon: "fa-times-circle-o",
+              icon: "times-circle",
               time: 1000
             };
             this.callMsgr(callConfig);
@@ -509,6 +512,9 @@ export default {
   .toolinput-state .tips {
     margin-right: 0;
     margin-left: 0.75rem;
+  }
+  .user-invite-title .btn-forinput {
+    top: 0.05rem;
   }
 }
 </style>
