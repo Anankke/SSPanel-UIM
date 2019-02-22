@@ -703,6 +703,7 @@ button.tips {
 }
 
 .user-invite input,
+.user-charge input,
 .btn-inline {
     background: rgba(255, 255, 255, 0);
 }
@@ -943,7 +944,7 @@ button[name=reset] {
         margin-right: 0;
     }
 
-    .userinvite-table-container {
+    .user-table-container {
         overflow: auto;
         max-height: 355px;
     }

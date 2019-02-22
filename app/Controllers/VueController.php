@@ -282,4 +282,17 @@ class VueController extends BaseController {
         $res['respon'] = 1;
         return $response->getBody()->write(json_encode($res));
     }
+
+    public function getChargeLog($request, $response, $args)
+    {
+        $pageNum = $request->getParam('current');
+      
+        $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
+        $codes->setPath('/#/user/code');
+
+        $res['codes'] = $codes;
+        $res['ret'] = 1;
+
+        return $response->getBody()->write(json_encode($res));
+    }
 }

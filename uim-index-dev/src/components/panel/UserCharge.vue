@@ -19,7 +19,7 @@
         </uim-dropdown>
       </div>
     </div>
-    <div class="card-body">
+    <div class="card-body user-charge">
       <transition name="fade" mode="out-in">
         <component :is="paymentType.component"></component>
       </transition>
@@ -58,22 +58,26 @@ export default {
       menuList: {
         code: {
           name: "充值码",
-          component: "payment-log",
+          component: "payment-code"
         },
         log: {
           name: "充值记录",
-          component: "payment-code",
+          component: "payment-log"
         }
       }
     };
   },
   methods: {
     changePayementType(type) {
-        this.currentPayment = type;
+      this.currentPayment = type;
     }
   }
 };
 </script>
 
 <style>
+.user-charge .tips {
+  margin-right: 0.5rem;
+  margin-bottom: 0.75rem;
+}
 </style>

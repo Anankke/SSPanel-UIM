@@ -33,5 +33,8 @@ export default {}
   padding: 0.3rem 0;
   color: #cfd2da;
   font-size: 14px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 </style>

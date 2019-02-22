@@ -157,7 +157,7 @@
               <button @click="checkInviteLog" class="tips tips-gold">查看返利明细</button>
             </div>
             <div v-else key="viewLog">
-              <div class="userinvite-table-container">
+              <div class="user-table-container">
                 <uim-table>
                   <template #uim-th>
                     <th>ID</th>
@@ -166,11 +166,7 @@
                   </template>
 
                   <template #uim-tbd>
-                    <tr
-                      class="uim-tr-body"
-                      v-for="(item,key) in paybacks.data"
-                      :key="key+item.id"
-                    >
+                    <tr class="uim-tr-body" v-for="(item,key) in paybacks.data" :key="key+item.id">
                       <td>{{item.id}}</td>
                       <td>{{item.userid}}</td>
                       <td>￥{{item.ref_get}}</td>
@@ -243,7 +239,10 @@ export default {
       showInviteLog: false,
       paybacks: "",
       paybacks_sum: "",
-      pagenation: ""
+      pagenation: {
+        lastPage: 1,
+        currentPage: 1
+      }
     };
   },
   methods: {
@@ -442,7 +441,6 @@ export default {
   mounted() {
     let body = { current: 1 };
     _post("/getuserinviteinfo", JSON.stringify(body), "include").then(r => {
-      window.console.log(r);
       this.code = this.oldCode = r.inviteInfo.code.code;
       this.invitePrice = r.inviteInfo.invitePrice;
       this.customPrice = r.inviteInfo.customPrice;
@@ -453,9 +451,7 @@ export default {
       this.code_payback = r.inviteInfo.code_payback;
       this.pagenation = {
         lastPage: r.inviteInfo.paybacks.last_page,
-        currentPage: 1
       };
-      window.console.log(this.userCon);
     });
   },
   beforeDestroy() {
@@ -465,9 +461,6 @@ export default {
 </script>
 
 <style>
-.uim-pagenation-container {
-  margin-top: 0.75rem;
-}
 .invite-tools {
   position: relative;
   margin: 1rem 0.75rem 0 0;
