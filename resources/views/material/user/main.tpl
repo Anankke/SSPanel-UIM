@@ -105,7 +105,6 @@
 									<i class="icon icon-lg">loyalty</i>&nbsp;邀请链接
 								</a>
 							</li>
-							
 						</ul>
 
 
