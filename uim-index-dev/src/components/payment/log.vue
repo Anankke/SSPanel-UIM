@@ -18,7 +18,7 @@
       </uim-table>
     </div>
     <div class="uim-pagenation-container">
-      <uim-pagenation @turnPage="turnChargeLogPage" :pageinfo="pagenation"></uim-pagenation>
+      <uim-pagenation ref="pagenation" @turnPage="turnChargeLogPage" :pageinfo="pagenation"></uim-pagenation>
     </div>
   </div>
 </template>
@@ -55,13 +55,12 @@ export default {
       });
     }
   },
-  mounted() {
+  created() {
     let body = { current: 1 };
     _post("/getChargeLog", JSON.stringify(body), "include").then(r => {
       this.codes = r.codes;
-      this.pagenation = {
-        lastPage: r.codes.last_page,
-      };
+      this.pagenation.lastPage = r.codes.last_page;
+      this.$refs.pagenation.getButtonList();
     });
   }
 };
