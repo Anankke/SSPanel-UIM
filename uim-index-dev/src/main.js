@@ -29,11 +29,15 @@ import {
   faArrowUp,
   faReply,
   faPencilAlt,
-  faYenSign
+  faYenSign,
+  faComments
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faCopy
 } from '@fortawesome/free-regular-svg-icons'
+import {
+  faAlipay
+} from '@fortawesome/free-brands-svg-icons'
 import {
   FontAwesomeIcon,
   FontAwesomeLayers,
@@ -66,7 +70,9 @@ let iconList = [
   faReply,
   faPencilAlt,
   faYenSign,
-  faCopy
+  faCopy,
+  faAlipay,
+  faComments
 ]
 library.add(...iconList)
 
