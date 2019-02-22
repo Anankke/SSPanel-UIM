@@ -46,9 +46,12 @@ class Job
 				if(!Tools::is_ip($node->server)){
 					if($node->changeNodeIp($node->server)){
 						$node->save();
+						if ($node->sort == 0 || $node->sort == 10) {
+							Tools::updateRelayRuleIp($node);
+						}
 					}					
-				}
-			}
+				}		
+			}			
         }
     }
 
