@@ -12,7 +12,7 @@ It will not impact the appearance and can give developers a lot of support :)
     {if $config["sspanelAnalysis"] == 'true'}
     <!-- Google Analytics -->
     <script>
-        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        window.ga=window.ga||function(){ (ga.q=ga.q||[]).push(arguments) };ga.l=+new Date;
         ga('create', 'UA-111801619-3', 'auto');
         var hostDomain = window.location.host || document.location.host || document.domain;
         ga('set', 'dimension1', hostDomain);
