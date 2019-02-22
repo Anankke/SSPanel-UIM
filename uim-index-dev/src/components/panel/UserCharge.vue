@@ -34,17 +34,21 @@ import userMixin from "@/mixins/userMixin";
 import Dropdown from "@/components/dropdown.vue";
 import Code from "@/components/payment/code.vue";
 import Log from "@/components/payment/log.vue";
+import Trime from "@/components/payment/trimepay.vue";
 
 export default {
   mixins: [userMixin, storeMap],
   components: {
     "uim-dropdown": Dropdown,
     "payment-code": Code,
-    "payment-log": Log
+    "payment-log": Log,
+    "payment-trimepay": Trime
   },
   computed: {
     paymentType: function() {
       switch (this.currentPayment) {
+        case "trimepay":
+          return this.menuList["trimepay"];
         case "code":
           return this.menuList["code"];
         case "log":
@@ -54,8 +58,12 @@ export default {
   },
   data: function() {
     return {
-      currentPayment: "code",
+      currentPayment: "trimepay",
       menuList: {
+        trimepay: {
+          name: "自助充值",
+          component: "payment-trimepay"
+        },
         code: {
           name: "充值码",
           component: "payment-code"
