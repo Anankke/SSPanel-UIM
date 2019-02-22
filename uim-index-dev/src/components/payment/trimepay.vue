@@ -1,19 +1,26 @@
 <template>
   <div>
-    <button @click="setChargeType('alipay')" class="btn-user">
-      <font-awesome-icon icon="alipay"/>&nbsp;Alipay
-    </button>
-    <button @click="setChargeType('wechat')" class="btn-user">
-      <font-awesome-icon icon="comments"/>&nbsp;Wechat
-    </button>
+    <div class="charge-btngroup">
+      <button @click="setChargeType('alipay')" class="btn-user">
+        <font-awesome-icon icon="alipay"/>&nbsp;Alipay
+      </button>
+      <button @click="setChargeType('wechat')" class="btn-user">
+        <font-awesome-icon icon="comments"/>&nbsp;Wechat
+      </button>
+    </div>
+
     <input type="text" v-model="price" class="tips tips-blue" placeholder="输入充值金额">
     <button @click="charge" class="tips tips-gold">充值</button>
 
     <transition name="fade" mode="out-in">
-      <div v-if="isQrShow" class="text-center">
-        <p>使用微信扫描二维码支付</p>
-        <div align="center" id="trimeweqr" style="padding-top:10px;"></div>
-        <p>充值完毕后会自动跳转</p>
+      <div v-if="isQrShow" class="text-center pure-g flex align-center">
+        <div class="pure-u-1-2">
+          <p>使用微信扫描二维码支付</p>
+          <p>充值完毕后会自动跳转</p>
+        </div>
+        <div class="pure-u-1-2">
+          <div align="center" id="trimeweqr" style="padding-top:10px;"></div>
+        </div>
       </div>
     </transition>
 
@@ -51,6 +58,9 @@ export default {
   methods: {
     setChargeType(type) {
       this.chargeType = type;
+      if (type === "alipay") {
+        this.isQrShow = false;
+      }
     },
     charge() {
       let type = this.chargeType;
@@ -168,3 +178,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.charge-btngroup {
+  margin-bottom: 1rem;
+}
+.charge-btngroup button {
+  margin-right: 1rem;
+}
+</style>
