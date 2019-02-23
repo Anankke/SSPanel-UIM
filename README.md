@@ -68,8 +68,6 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 [**CGDF**](https://github.com/CGDF-GitHub)
 
-- 一键国旗
-- 财务报表
 - xcat一键update
 - 适配SSD
 - 用户列表分页加载
