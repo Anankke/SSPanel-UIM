@@ -1,11 +1,19 @@
 <template>
   <div>
     <div class="charge-btngroup">
-      <button @click="setChargeType('alipay')" class="btn-user">
-        <font-awesome-icon icon="alipay"/>&nbsp;Alipay
+      <button
+        @click="setChargeType('alipay')"
+        class="btn-user"
+        :class="{ 'index-btn-active':chargeType === 'alipay' }"
+      >
+        <font-awesome-icon :icon="['fab','alipay']"/>&nbsp;支付宝
       </button>
-      <button @click="setChargeType('wechat')" class="btn-user">
-        <font-awesome-icon icon="comments"/>&nbsp;Wechat
+      <button
+        @click="setChargeType('wechat')"
+        class="btn-user"
+        :class="{ 'index-btn-active':chargeType === 'wechat' }"
+      >
+        <font-awesome-icon icon="comments"/>&nbsp;微信
       </button>
     </div>
 
@@ -14,11 +22,11 @@
 
     <transition name="fade" mode="out-in">
       <div v-if="isQrShow" class="text-center pure-g flex align-center">
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-sm-1-2">
           <p>使用微信扫描二维码支付</p>
           <p>充值完毕后会自动跳转</p>
         </div>
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-sm-1-2">
           <div align="center" id="trimeweqr" style="padding-top:10px;"></div>
         </div>
       </div>
@@ -52,15 +60,20 @@ export default {
       price: "",
       isMaskShow: false,
       isCardShow: false,
-      isQrShow: false
+      isQrShow: false,
+      tid: ""
     };
   },
   methods: {
     setChargeType(type) {
       this.chargeType = type;
       if (type === "alipay") {
-        this.isQrShow = false;
+        this.hideQr();
       }
+    },
+    hideQr() {
+      this.isQrShow = false;
+      clearTimeout(this.tid);
     },
     charge() {
       let type = this.chargeType;
@@ -129,7 +142,7 @@ export default {
                 height: 200,
                 text: encodeURI(r)
               });
-              let tid = setTimeout(() => {
+              this.tid = setTimeout(() => {
                 this.chargeChecker(pid);
               }, 1000);
             });
@@ -163,17 +176,20 @@ export default {
       params.set("pid", token);
       _post("/payment/status", params, "include", headers).then(data => {
         if (data.result) {
-          window.console.log(data);
           let callConfig = {
             msg: "充值成功",
             icon: "check-circle",
             time: 1500
           };
+          this.callMsgr(callConfig);
+          this.hideQr();
+          this.reConfigResourse();
+        } else {
+          this.tid = setTimeout(() => {
+            this.chargeChecker(token);
+          }, 1000);
         }
       });
-      let tid = setTimeout(() => {
-        this.chargeChecker(token);
-      }, 1000);
     }
   }
 };
@@ -183,7 +199,8 @@ export default {
 .charge-btngroup {
   margin-bottom: 1rem;
 }
-.charge-btngroup button {
+.charge-btngroup button.btn-user {
   margin-right: 1rem;
+  min-width: 100px;
 }
 </style>
