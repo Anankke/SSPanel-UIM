@@ -341,8 +341,19 @@ class User extends Model
                               $ref_user_id, $ref_user_name);
         return $return_array;
     }
+
     public function get_user_attributes($key)
     {
         return $this->attributes[$key];
     }
+
+	public function get_top_up()
+	{
+		$codes=Code::where('userid',$this->attributes['id'])->get();
+		$top_up=0;
+        foreach($codes as $code){
+			$top_up+=$code->number;
+        }
+        return round($top_up,2);
+	}
 }
