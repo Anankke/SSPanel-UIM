@@ -156,12 +156,6 @@ class Node extends Model
             return false;
         }
 
-        $relay_rules = Relay::where('dist_node_id', $node_id)->get();
-        foreach ($relay_rules as $relay_rule) {
-            $relay_rule->dist_ip = $ip;
-            $relay_rule->save();
-        }
-
         $this->attributes['node_ip'] = $ip;
         return true;
     }

@@ -269,13 +269,23 @@
 															</div>
 														{else}
 															<p class="card-heading" align="center"><b> 
-																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_class}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐。
+																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_class}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐
 															</b></p>
 														{/if}
 													{/if}
-													<p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a class="btn-dl" href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i class="material-icons">save_alt</i> 点击安装 Potatso Lite</a> 或在非国区AppStore中搜索<code>Shadowrocket</code>下载安装 </p>
-														<p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso Lite，点击添加代理，点击右上角的 + 号，选择“订阅”，名字任意填写，开启自动更新，URL填写以下地址并保存即可</p>
-														<p>如果使用shadowrocket,打开 Shadowrocket，点击右上角的 + 号，类型选择“Subscribe”，URL填写以下地址并点击右上角完成即可。或使用<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub0"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键{if $mergeSub!='true'}普通{/if}端口订阅</a> {if $mergeSub!='true'}<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub1"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键单端口订阅</a>{/if}</p>
+													    <p><span class="icon icon-lg text-white">build</span> 工具一：Shadowrocket</p>
+														<p><span class="icon icon-lg text-white">filter_1</span> 使用共享账户登录 App Store （请勿在“设置”界面直接登录AppleID），搜索并下载<code>Shadowrocket</code>，期间可能会弹出付款，照做即可，不会产生真实扣费
+														<p><span class="icon icon-lg text-white">filter_2</span> 打开Shadowrocket，点击右上角的 + 号，“类型”选择“Subscribe”，点击复制本网页下方的“订阅地址”，粘贴到“URL”中，点击右上角的“完成”</p>
+														<p>或在 Safari 中点击<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub0"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键{if $mergeSub!='true'}普通端口{/if}订阅</a> {if $mergeSub!='true'}<a href="javascript:void(0);" class="btn-dl" style="margin-left: 5px;" data-onekeyfor="sub1"><i class="material-icons icon-sm">how_to_vote</i>小火箭一键单端口订阅</a>{/if}</p>
+														<p><span class="icon icon-lg text-white">filter_3</span> 选择一个节点，打开上方的连接开关即可</p>
+														<p><span class="icon icon-lg text-white">build</span> 工具二：Quantumult</p>
+														<p><span class="icon icon-lg text-white">filter_1</span> 使用共享账户登录 App Store （请勿在“设置”界面直接登录AppleID），搜索并下载<code>Quantumult</code>，期间可能会弹出付款，照做即可，不会产生真实扣费
+														<p><span class="icon icon-lg text-white">filter_2</span> 点击下方的“设置”，点击“订阅”，点击右上角的 + 号，选择“服务器”，“名称”任意填写，点击复制本网页下方的“订阅地址”，粘贴到“链接”中，点击右上角的“保存”</p>
+														<p><span class="icon icon-lg text-white">filter_3</span> 点击 Quantumult 底部菜单栏中间的图标，选择一个节点，再点击“主页”，打开右上角的开关即可</p>
+														<p><span class="icon icon-lg text-white">build</span> 工具三：Potatso Lite</p>
+														<p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a class="btn-dl" href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i class="material-icons">save_alt</i> 点击安装 Potatso Lite</a>，安装时如果弹出登录框则使用上方的账户</p>
+														<p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso Lite，点击添加代理，选择“订阅”，名字任意填写，点击复制本网页下方的“订阅地址”，粘贴到URL中，点击右上角的 √</p>
+														<p><span class="icon icon-lg text-white">filter_3</span> 选择一个代理节点，点击下方的“开始”即可</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" id="sub0" readonly value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">点击复制</button><br></div>
 														{if $mergeSub!='true'}
@@ -446,8 +456,18 @@
 															</b></p>
 														{/if}
 													{/if}
-                                                        <p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中点击<a href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist">这里</a>安装 Potatso Lite</p>
-														<p><span class="icon icon-lg text-white">filter_2</span> 打开<a href="/user/node">节点列表</a>，点开自己需要的节点详情，自行导入节点</p>
+                                                        <p><span class="icon icon-lg text-white">build</span> 工具一：Shadowrocket</p>
+                                                        <p><span class="icon icon-lg text-white">filter_1</span> 使用共享账户登录 App Store （请勿在“设置”界面直接登录AppleID），搜索并下载<code>Shadowrocket</code>，期间可能会弹出付款，照做即可，不会产生真实扣费
+                                                        <p><span class="icon icon-lg text-white">filter_2</span> 打开<a href="/user/node">节点列表</a>，点开自己需要的节点详情，点击配置链接导入节点</p>
+                                                        <p><span class="icon icon-lg text-white">filter_3</span> 选择一个节点，打开上方的连接开关即可</p>
+                                                        <p><span class="icon icon-lg text-white">build</span> 工具二：Quantumult</p>
+                                                        <p><span class="icon icon-lg text-white">filter_1</span> 使用共享账户登录 App Store （请勿在“设置”界面直接登录AppleID），搜索并下载<code>Quantumult</code>，期间可能会弹出付款，照做即可，不会产生真实扣费
+                                                        <p><span class="icon icon-lg text-white">filter_2</span> 打开<a href="/user/node">节点列表</a>，点开自己需要的节点详情，点击配置链接导入节点</p>
+                                                        <p><span class="icon icon-lg text-white">filter_3</span> 点击 Quantumult 底部菜单栏中间的图标，选择一个节点，再点击“主页”，打开右上角的开关即可</p>
+                                                        <p><span class="icon icon-lg text-white">build</span> 工具三：Potatso Lite</p>
+                                                        <p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a class="btn-dl" href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i class="material-icons">save_alt</i> 点击安装 Potatso Lite</a>，安装时如果弹出登录框则使用上方的账户</p>
+                                                        <p><span class="icon icon-lg text-white">filter_2</span> 打开<a href="/user/node">节点列表</a>，点开自己需要的节点详情，点击配置链接导入节点</p>
+                                                        <p><span class="icon icon-lg text-white">filter_3</span> 选择一个代理节点，点击下方的“开始”即可</p>
 													</div>
 													<div class="tab-pane fade" id="all_ss_android">
 														<p><span class="icon icon-lg text-white">filter_1</span><a href="/ssr-download/ssd-android.apk" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 SSD</a>，<a href="/ssr-download/ss-android-obfs.apk" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 SS 混淆插件</a></p>
@@ -786,6 +806,7 @@ $(".copy-text").click(function () {
 	$("#result").modal();
 	$("#msg").html("已拷贝订阅链接，请您继续接下来的操作。");
 });
+
 $(function(){
 	new Clipboard('.reset-link');
 });

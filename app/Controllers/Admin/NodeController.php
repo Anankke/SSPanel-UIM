@@ -148,16 +148,20 @@ class NodeController extends AdminController
 				$success=$node->changeNodeIp($node->server);
 			}else{
 				$success=$node->changeNodeIp($req_node_ip);
-			}                        
+			}
         } else {
             $node->node_ip="";
-        }
+        }		
 
 		if (!$success) {
 			$rs['ret'] = 0;
             $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
             return $response->getBody()->write(json_encode($rs));
-        }      
+        }    
+		
+		if ($node->sort == 0 || $node->sort == 10) {
+			Tools::updateRelayRuleIp($node);
+		}
 
         if ($node->sort==1) {
             $SS_Node=Node::where('sort', '=', 0)->where('server', '=', $request->getParam('server'))->first();

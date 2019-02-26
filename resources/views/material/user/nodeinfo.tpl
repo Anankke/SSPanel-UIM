@@ -168,16 +168,16 @@
 										</nav>
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_url">
 											{if URL::SSRCanConnect($user, $mu)}
-												<p><a href="{URL::getItemUrl($ssr_item, 0)}"/>Android 手机上用默认浏览器打开点我就可以直接添加了(给 ShadowsocksR APP)</a></p>
-												<p><a href="{URL::getItemUrl($ssr_item, 0)}"/>iOS 上用 Safari 打开点我就可以直接添加了(给 Shadowrocket)</a></p>
+												<p><a class="copy-text" data-clipboard-text="{URL::getItemUrl($ssr_item, 0)}">点我复制配置链接</a></p>
+												<p><a href="{URL::getItemUrl($ssr_item, 0)}">iOS 上用 Safari 打开点我即可直接添加</a></p>
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_url">
 											{if URL::SSCanConnect($user, $mu)}
-												<p><a href="{URL::getItemUrl($ss_item, 1)}"/>Android 手机上用默认浏览器打开点我就可以直接添加了(给 Shadowsocks)</a></p>
-												<p><a href="{URL::getItemUrl($ss_item, 1)}"/>iOS 上用 Safari 打开点我就可以直接添加了(给 Shadowrocket)</a></p>
+												<p><a class="copy-text" data-clipboard-text="{URL::getItemUrl($ssr_item, 1)}">点我复制配置链接</a></p>
+												<p><a href="{URL::getItemUrl($ss_item, 1)}">iOS 上用 Safari 打开点我即可直接添加</a></p>
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
@@ -246,7 +246,7 @@
 							</div>
 						</div>
 
-
+						{include file='dialog.tpl'}
 
 					</div>
 				</div>
@@ -264,7 +264,16 @@
 
 
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
+
 <script>
+	$(function(){
+		new Clipboard('.copy-text');
+	});
+	$(".copy-text").click(function () {
+		$("#result").modal();
+		$("#msg").html("已拷贝订阅链接，请您继续接下来的操作。");
+	});
+
 	{if URL::SSCanConnect($user, $mu)}
     var text_qrcode = '{URL::getItemUrl($ss_item, 1)}',
         text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';

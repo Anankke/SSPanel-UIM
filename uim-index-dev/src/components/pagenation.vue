@@ -93,7 +93,7 @@ export default {
     },
     setCurrentPage(num) {
       if (num !== "···") {
-        this.currentPage = num ? num : 1;
+        this.currentPage = num || 1;
         this.getButtonList();
         this.$emit("turnPage", this.currentPage);
       }

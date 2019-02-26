@@ -29,7 +29,7 @@ import Pagenation from "@/components/pagenation.vue";
 
 import storeMap from "@/mixins/storeMap";
 import userMixin from "@/mixins/userMixin";
-import { _get, _post } from "../../js/fetch";
+import { _post } from "../../js/fetch";
 
 export default {
   mixins: [userMixin, storeMap],
