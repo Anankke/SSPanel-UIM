@@ -354,6 +354,6 @@ class User extends Model
         foreach($codes as $code){
 			$top_up+=$code->number;
         }
-        $top_up=round($top_up,2);
+        return round($top_up,2);
 	}
 }
