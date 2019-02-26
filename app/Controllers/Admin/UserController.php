@@ -363,12 +363,8 @@ class UserController extends AdminController
 					$tempdata['ref_by_user_name'] = $ref_user->user_name;
 				}
 			}
-			$codes=Code::where('userid',$user->id)->get();
-            $tempdata['top_up']=0;
-            foreach($codes as $code){
-				$tempdata['top_up']+=$code->number;
-            }
-            $tempdata['top_up']=round($tempdata['top_up'],2);
+			
+            $tempdata['top_up']=$user->get_top_up();
 
 			array_push($data,$tempdata);
 		}         
