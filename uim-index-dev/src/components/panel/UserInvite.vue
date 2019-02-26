@@ -450,7 +450,7 @@ export default {
       this.invite_gift = r.inviteInfo.invite_gift;
       this.code_payback = r.inviteInfo.code_payback;
       this.pagenation = {
-        lastPage: r.inviteInfo.paybacks.last_page,
+        lastPage: r.inviteInfo.paybacks.last_page
       };
     });
   },

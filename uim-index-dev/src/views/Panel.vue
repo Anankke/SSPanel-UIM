@@ -344,7 +344,7 @@ export default {
         },
         {
           name: "充值中心",
-          id: "user-charge",
+          id: "user-charge"
         },
         {
           name: "套餐购买",
