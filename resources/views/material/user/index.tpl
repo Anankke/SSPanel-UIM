@@ -806,6 +806,7 @@ $(".copy-text").click(function () {
 	$("#result").modal();
 	$("#msg").html("已拷贝订阅链接，请您继续接下来的操作。");
 });
+
 $(function(){
 	new Clipboard('.reset-link');
 });
