@@ -115,13 +115,12 @@ class TrimePay extends AbstractPayment
         switch ($type) {
             case('WEPAY_JSAPI'):
                 $result = json_decode(self::post($data, $type = "pre"), TRUE);
-                $result['pid'] = $pl->tradeno;
-                return json_encode($result);
+                break;
             default:
                 $result = json_decode(self::post($data), TRUE);
-                $result['pid'] = $pl->tradeno;
-                return json_encode($result);
         }
+        $result['pid'] = $pl->tradeno;
+        return json_encode($result);
     }
 
     public function query($tradeNo){
