@@ -212,6 +212,7 @@ $System_Config['enable_donate']='false';	//是否显示用户捐赠（所有收�
 
 #iOS账户显示
 $System_Config['display_ios_class']='-1';	//至少等级为多少的用户可以看见，小于0时关闭此功能
+$System_Config['display_ios_topup']='0';	//满足等级要求后，累计充值高于多少的用户可以看见
 $System_Config['ios_account']='';			//iOS账户
 $System_Config['ios_password']='';			//iOS密码
 
