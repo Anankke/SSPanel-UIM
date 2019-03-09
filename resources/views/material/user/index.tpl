@@ -256,20 +256,22 @@
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
 													{if $display_ios_class>=0}
-														<div><span class="icon icon-lg text-white">account_box</span> 公共iOS账户：</div>
-														{if $user->class>=$display_ios_class}
+														<div><span class="icon icon-lg text-white">account_box</span> 本站iOS账户：</div>
+														{if $user->class>=$display_ios_class && $user->get_top_up()>=$display_ios_topup}
 															<div class="float-clear">
 																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
 																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_account}">点击复制</button><br>
 															</div>
-															<div><span class="icon icon-lg text-white">lock</span> 公共iOS密码：</div>
+															<div><span class="icon icon-lg text-white">lock</span> 本站iOS密码：</div>
 															<div class="float-clear">
 																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_password}" readonly="true">
 																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_password}">点击复制</button><br>
 															</div>
+															<p><span class="icon icon-lg text-white">error</span><strong>禁止将账户分享给他人！</strong></p>
+															<br/>
 														{else}
 															<p class="card-heading" align="center"><b> 
-																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_class}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐
+																<i class="icon icon-lg">visibility_off</i>等级至少为<code>{$display_ios_class}</code>且累计充值大于<code>{$display_ios_topup}</code>时可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐
 															</b></p>
 														{/if}
 													{/if}
@@ -439,20 +441,22 @@
 													</div>
 													<div class="tab-pane fade" id="all_ss_ios">													
 													{if $display_ios_class>=0}
-														<div><span class="icon icon-lg text-white">account_box</span> 公共iOS账户：</div>
-														{if $user->class>=$display_ios_class}
+														<div><span class="icon icon-lg text-white">account_box</span> 本站iOS账户：</div>
+														{if $user->class>=$display_ios_class && $user->get_top_up()>=$display_ios_topup}
 															<div class="float-clear">
 																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
 																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_account}">点击复制</button><br>
 															</div>
-															<div><span class="icon icon-lg text-white">lock</span> 公共iOS密码：</div>
+															<div><span class="icon icon-lg text-white">lock</span> 本站iOS密码：</div>
 															<div class="float-clear">
 																<input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_password}" readonly="true">
 																<button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_password}">点击复制</button><br>
 															</div>
+															<p><span class="icon icon-lg text-white">error</span><strong>禁止将账户分享给他人！</strong></p>
+															<br/>
 														{else}
 															<p class="card-heading" align="center"><b> 
-																<i class="icon icon-lg">visibility_off</i>等级至少为{$display_ios_class}可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐。
+																<i class="icon icon-lg">visibility_off</i>等级至少为<code>{$display_ios_class}</code>且累计充值大于<code>{$display_ios_topup}</code>时可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐。
 															</b></p>
 														{/if}
 													{/if}
@@ -510,7 +514,8 @@
 														<p><span class="icon icon-lg text-white">filter_2</span> 双击任务栏右下角V2RayN图标->订阅->订阅设置->添加->填入下方的地址，点击确定</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 再次点击订阅->更新订阅，右击任务栏右下角V2RayN图标->启动Http代理</p>
 														<p><span class="icon icon-lg text-white">filter_4</span> 自行选择“Http代理模式”和“服务器”</p>
-														<p> 也可以使用ClashX进行连接，<a href="/ssr-download/Clash-Windows.7z" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 ClashX</a></p>
+                                                        <p> 也可以使用 Clash 进行连接，<a href="/ssr-download/Clash-Windows.7z" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 Clash for Windows
+                                                         </a></p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=2" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">点击复制</button><br></div>
 													</div>

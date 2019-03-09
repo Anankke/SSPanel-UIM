@@ -60,11 +60,8 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>                                    
                       
-                    
-                      
-
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -374,7 +371,7 @@
 												<div><a class="btn btn-flat btn-brand-accent" href="/user/telegram_reset"><span class="icon">not_interested</span>&nbsp;</a></div>
 										</div>{/if}
                                       {if $user->telegram_id == 0}
-										<p>Telegram 添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。</p>
+										<p>复制保存下方的二维码图片，私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a></p>
 										<div class="form-group form-group-label">
 											<div class="text-center">
 												<div id="telegram-qr" class="qr-center"></div>
