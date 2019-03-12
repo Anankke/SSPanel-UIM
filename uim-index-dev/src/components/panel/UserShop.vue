@@ -13,10 +13,10 @@
               placeholder="优惠码"
             >
             <button @click="couponCheck" class="btn-forinput" name="check">
-              <font-awesome-icon icon="arrow-up" />
+              <font-awesome-icon icon="arrow-up"/>
             </button>
             <button @click="hideChecker" class="btn-forinput" name="reset">
-              <font-awesome-icon icon="sync-alt" />
+              <font-awesome-icon icon="sync-alt"/>
             </button>
           </label>
         </transition>
@@ -27,7 +27,12 @@
         <div v-for="shop in shops" class="list-shop pure-g" :key="shop.id">
           <div class="pure-u-1 pure-u-sm-20-24">
             <span class="user-shop-name">{{shop.name}}</span>
-            <span class="tips tips-gold">VIP {{shop.details.class}}/<span v-if="shop.details.class_expire !== '0'">{{shop.details.class_expire}}天</span></span>
+            <span class="tips tips-gold">
+              VIP {{shop.details.class}}/
+              <span
+                v-if="shop.details.class_expire !== '0'"
+              >{{shop.details.class_expire}}天</span>
+            </span>
             <span class="tips tips-green">￥{{shop.price}}</span>
             <span class="tips tips-cyan">
               {{shop.details.bandwidth}}G
@@ -35,7 +40,10 @@
                 v-if="shop.details.reset"
               >+{{shop.details.reset_value}}G/({{shop.details.reset}}天/{{shop.details.reset_exp}}天)</span>
             </span>
-            <span v-if="shop.details.expire !== '0'" class="tips tips-blue">账号续期{{shop.details.expire}}天</span>
+            <span
+              v-if="shop.details.expire !== '0'"
+              class="tips tips-blue"
+            >账号续期{{shop.details.expire}}天</span>
           </div>
           <div class="pure-u-1 pure-u-sm-4-24 list-shop-footer">
             <button :disabled="isDisabled" class="buy-submit" @click="buy(shop)">购买</button>
@@ -146,19 +154,21 @@ export default {
       };
       _post("/user/coupon_check", JSON.stringify(ajaxCon), "include").then(
         r => {
-          if (r.ret) {
+          if (r.ret === 1) {
             this.isCheckerShow = false;
             this.orderCheckerContent.name = r.name;
             this.orderCheckerContent.credit = r.credit;
             this.orderCheckerContent.total = r.total;
             this.callOrderChecker();
-          } else {
+          } else if (r.ret === 0) {
             let callConfig = {
               msg: r.msg,
               icon: "times-circle",
               time: 1000
             };
             this.callMsgr(callConfig);
+          } else {
+            this.ajaxNotLogin();
           }
         }
       );
@@ -172,8 +182,7 @@ export default {
       };
       _post("/user/buy", JSON.stringify(ajaxCon), "include").then(r => {
         let self = this;
-        if (r.ret) {
-          window.console.log(r);
+        if (r.ret === 1) {
           this.callOrderChecker();
           this.reConfigResourse();
           this.$emit("resourseTransTrigger");
@@ -182,7 +191,7 @@ export default {
             icon: "check-circle",
             time: 1500
           };
-          let animation = new Promise(function (resolve) {
+          let animation = new Promise(function(resolve) {
             self.callOrderChecker();
             setTimeout(() => {
               resolve("done");
@@ -191,9 +200,8 @@ export default {
           animation.then(r => {
             this.callMsgr(callConfig);
           });
-        } else {
-          window.console.log(r);
-          let animation = new Promise(function (resolve) {
+        } else if (r.ret === 0) {
+          let animation = new Promise(function(resolve) {
             self.callOrderChecker();
             setTimeout(() => {
               resolve("done");
@@ -215,21 +223,27 @@ export default {
           animation.then(r => {
             this.callMsgr(callConfig);
           });
+        } else {
+          this.ajaxNotLogin();
         }
       });
     },
-    hideChecker () {
+    hideChecker() {
       this.isCheckerShow = false;
       this.isDisabled = false;
     }
   },
-  mounted () {
+  mounted() {
     _get("/getusershops", "include").then(r => {
-      this.shops = r.arr.shops;
-      this.shops.forEach((el, index) => {
-        this.$set(this.shops[index], "details", JSON.parse(el.content));
-      });
-      window.console.log(this.shops);
+      if (r.ret === 1) {
+        this.shops = r.arr.shops;
+        this.shops.forEach((el, index) => {
+          this.$set(this.shops[index], "details", JSON.parse(el.content));
+        });
+        window.console.log(this.shops);
+      } else if (r.ret === 0) {
+        this.ajaxNotLogin();
+      }
     });
   }
 };
