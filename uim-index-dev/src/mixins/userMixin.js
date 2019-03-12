@@ -1,15 +1,20 @@
-import { _get } from '../js/fetch'
+import {
+  _get
+} from '../js/fetch'
 
 export default {
   props: ['annC', 'baseURL'],
   methods: {
-    reConfigResourse () {
+    reConfigResourse() {
       _get('/getallresourse', 'include').then((r) => {
-        window.console.log(r)
-        this.updateUserSet(r.resourse)
+        if (r.ret === 1) {
+          this.updateUserSet(r.resourse)
+        } else {
+          this.ajaxNotLogin()
+        }
       })
     },
-    updateUserSet (resourse) {
+    updateUserSet(resourse) {
       this.setAllResourse(resourse)
     }
   }

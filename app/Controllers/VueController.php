@@ -197,6 +197,13 @@ class VueController extends BaseController {
 
     public function getUserShops($request, $response, $args)
     {
+        $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+        
         $shops = Shop::where("status", 1)->orderBy("name")->get();
         
         $res['arr'] = array(
@@ -210,6 +217,11 @@ class VueController extends BaseController {
     public function getAllResourse($request, $response, $args)
     {
         $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
         
         $res['resourse'] = array(
             "money" => $user->money,
@@ -228,6 +240,12 @@ class VueController extends BaseController {
     public function getNewSubToken($request, $response, $args)
     {
         $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+
         $user->clean_link();
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
@@ -243,6 +261,12 @@ class VueController extends BaseController {
     public function getNewInviteCode($request, $response, $args)
     {
         $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+
         $user->clear_inviteCodes();
         $code = InviteCode::where('user_id', $this->user->id)->first();
         if ($code == null) {
@@ -262,6 +286,11 @@ class VueController extends BaseController {
     public function getTransfer($request, $response, $args)
     {
         $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
 
         $res['arr'] = array(
             "todayUsedTraffic" => $user->TodayusedTraffic(),
@@ -298,9 +327,16 @@ class VueController extends BaseController {
 
     public function getChargeLog($request, $response, $args)
     {
+        $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+
         $pageNum = $request->getParam('current');
       
-        $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
+        $codes = Code::where('type', '<>', '-2')->where('userid', '=', $user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/#/user/code');
 
         $res['codes'] = $codes;

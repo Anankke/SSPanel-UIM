@@ -49,13 +49,22 @@ export default {
       setAllBaseCon: 'SET_ALLBASECON',
       setSignSet: 'SET_SIGNSET'
     }),
-    successCopied () {
+    successCopied() {
       let callConfig = {
         msg: '复制成功！已将链接复制到剪贴板',
         icon: 'check-circle',
         time: '1500'
       }
       this.callMsgr(callConfig)
+    },
+    ajaxNotLogin() {
+      let callConfig = {
+        msg: '登录超时，请重新登录',
+        icon: "times-circle",
+        time: 1500
+      };
+      this.callMsgr(callConfig);
+      this.$router.push("/");
     }
   }
 
