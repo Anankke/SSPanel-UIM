@@ -64,6 +64,7 @@ export default {
         time: 1500
       };
       this.callMsgr(callConfig);
+      this.setLoginToken(false);
       this.$router.push("/");
     }
   }
