@@ -6,6 +6,7 @@ import './css/index.css'
 import {
   library
 } from '@fortawesome/fontawesome-svg-core'
+
 import {
   faCircle,
   faHome,
@@ -30,14 +31,18 @@ import {
   faReply,
   faPencilAlt,
   faYenSign,
-  faComments
+  faComments,
+  faCodeBranch
 } from '@fortawesome/free-solid-svg-icons'
+
 import {
   faCopy
 } from '@fortawesome/free-regular-svg-icons'
+
 import {
   faAlipay
 } from '@fortawesome/free-brands-svg-icons'
+
 import {
   FontAwesomeIcon,
   FontAwesomeLayers,
@@ -72,7 +77,8 @@ let iconList = [
   faYenSign,
   faCopy,
   faAlipay,
-  faComments
+  faComments,
+  faCodeBranch
 ]
 library.add(...iconList)
 

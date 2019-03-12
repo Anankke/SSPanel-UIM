@@ -8,8 +8,11 @@ import Password from './views/Password.vue'
 import Reset from './views/Reset.vue'
 import User from './views/User.vue'
 import Panel from './views/Panel.vue'
+import Node from './views/Node.vue'
 
-import { _get } from './js/fetch'
+import {
+  _get
+} from './js/fetch'
 import tmp from './store'
 
 Vue.use(Router)
@@ -18,67 +21,75 @@ let globalConfig
 
 const router = new Router({
   routes: [{
-    path: '/',
-    components: {
-      default: Root
-    },
-    meta: {
-      title: 'Index'
-    }
-  },
-  {
-    path: '/auth/',
-    component: Auth,
-    redirect: '/auth/login',
-    meta: {
-      alreadyAuth: true
-    },
-    children: [{
-      path: 'Login',
-      component: Login,
+      path: '/',
+      components: {
+        default: Root
+      },
       meta: {
-        title: 'login'
+        title: 'Index'
       }
     },
     {
-      path: 'register',
-      component: Register,
+      path: '/auth/',
+      component: Auth,
+      redirect: '/auth/login',
       meta: {
-        title: 'Register'
-      }
+        alreadyAuth: true
+      },
+      children: [{
+          path: 'Login',
+          component: Login,
+          meta: {
+            title: 'login'
+          }
+        },
+        {
+          path: 'register',
+          component: Register,
+          meta: {
+            title: 'Register'
+          }
+        }
+      ]
+    },
+    {
+      path: '/password/',
+      component: Password,
+      redirect: '/password/reset',
+      meta: {
+        alreadyAuth: true
+      },
+      children: [{
+        path: 'reset',
+        component: Reset,
+        meta: {
+          title: 'Reset'
+        }
+      }]
+    },
+    {
+      path: '/user/',
+      component: User,
+      redirect: '/user/panel',
+      meta: {
+        requireAuth: true
+      },
+      children: [{
+          path: 'panel',
+          component: Panel,
+          meta: {
+            title: 'Usercenter'
+          }
+        },
+        {
+          path: 'node',
+          component: Node,
+          meta: {
+            title: 'Usercenter'
+          }
+        }
+      ]
     }
-    ]
-  },
-  {
-    path: '/password/',
-    component: Password,
-    redirect: '/password/reset',
-    meta: {
-      alreadyAuth: true
-    },
-    children: [{
-      path: 'reset',
-      component: Reset,
-      meta: {
-        title: 'Reset'
-      }
-    } ]
-  },
-  {
-    path: '/user/',
-    component: User,
-    redirect: '/user/panel',
-    meta: {
-      requireAuth: true
-    },
-    children: [{
-      path: 'panel',
-      component: Panel,
-      meta: {
-        title: 'Usercenter'
-      }
-    }]
-  }
   ]
 })
 
@@ -102,14 +113,14 @@ router.beforeEach((to, from, next) => {
     navGuardsForEach()
   }
 
-  function navGuardsForEach () {
+  function navGuardsForEach() {
     if (tmp.state.logintoken && to.matched.some(function (record) {
-      return record.meta.alreadyAuth
-    })) {
+        return record.meta.alreadyAuth
+      })) {
       next('/user/panel')
     } else if (!tmp.state.logintoken && to.matched.some(function (record) {
-      return record.meta.requireAuth
-    })) {
+        return record.meta.requireAuth
+      })) {
       next('/auth/login')
     } else {
       document.title = tmp.state.globalConfig.indexMsg.appname + ' - ' + to.meta.title
