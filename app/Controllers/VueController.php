@@ -100,6 +100,12 @@ class VueController extends BaseController {
 
     public function getUserInfo($request, $response, $args) {
         $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+
         $pre_user = URL::cloneUser($user);
         $user->ssr_url_all = URL::getAllUrl($pre_user, 0, 0);
         $user->ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0);
@@ -152,16 +158,23 @@ class VueController extends BaseController {
 
     public function getUserInviteInfo($request, $response, $args)
     {
-        $code = InviteCode::where('user_id', $this->user->id)->first();
+        $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        $code = InviteCode::where('user_id', $user->id)->first();
         if ($code == null) {
-            $this->user->addInviteCode();
-			$code = InviteCode::where('user_id', $this->user->id)->first();
+            $user->addInviteCode();
+			$code = InviteCode::where('user_id', $user->id)->first();
         }
 
         $pageNum = $request->getParam('current');
         
-        $paybacks = Payback::where("ref_by", $this->user->id)->orderBy("id", "desc")->paginate(15, ['*'], 'page', $pageNum);
-        if (!$paybacks_sum = Payback::where("ref_by", $this->user->id)->sum('ref_get')) {
+        $paybacks = Payback::where("ref_by", $user->id)->orderBy("id", "desc")->paginate(15, ['*'], 'page', $pageNum);
+        if (!$paybacks_sum = Payback::where("ref_by", $user->id)->sum('ref_get')) {
             $paybacks_sum = 0;
         }
         $paybacks->setPath('/#/user/panel');

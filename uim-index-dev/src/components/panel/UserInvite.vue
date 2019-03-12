@@ -441,17 +441,21 @@ export default {
   mounted() {
     let body = { current: 1 };
     _post("/getuserinviteinfo", JSON.stringify(body), "include").then(r => {
-      this.code = this.oldCode = r.inviteInfo.code.code;
-      this.invitePrice = r.inviteInfo.invitePrice;
-      this.customPrice = r.inviteInfo.customPrice;
-      this.paybacks = r.inviteInfo.paybacks;
-      this.paybacks_sum = r.inviteInfo.paybacks_sum;
-      this.invite_get_money = r.inviteInfo.invite_get_money;
-      this.invite_gift = r.inviteInfo.invite_gift;
-      this.code_payback = r.inviteInfo.code_payback;
-      this.pagenation = {
-        lastPage: r.inviteInfo.paybacks.last_page
-      };
+      if (r.ret === 1) {
+        this.code = this.oldCode = r.inviteInfo.code.code;
+        this.invitePrice = r.inviteInfo.invitePrice;
+        this.customPrice = r.inviteInfo.customPrice;
+        this.paybacks = r.inviteInfo.paybacks;
+        this.paybacks_sum = r.inviteInfo.paybacks_sum;
+        this.invite_get_money = r.inviteInfo.invite_get_money;
+        this.invite_gift = r.inviteInfo.invite_gift;
+        this.code_payback = r.inviteInfo.code_payback;
+        this.pagenation = {
+          lastPage: r.inviteInfo.paybacks.last_page
+        };
+      } else if (r.ret === -1) {
+        console.log(r);
+      }
     });
   },
   beforeDestroy() {
