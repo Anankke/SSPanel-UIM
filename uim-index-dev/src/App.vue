@@ -114,6 +114,7 @@ export default {
   },
   methods: {
     routeJudge() {
+      window.console.log(this.$route.path);
       switch (this.$route.path) {
         case "/":
           if (this.logintoken === false) {

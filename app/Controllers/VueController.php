@@ -28,6 +28,7 @@ use voku\helper\AntiXSS;
 use App\Utils\URL;
 use App\Models\Ip;
 use App\Models\Node;
+use App\Models\Relay;
 
 class VueController extends BaseController {
 

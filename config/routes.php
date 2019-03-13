@@ -381,6 +381,7 @@ $app->get('/getnewinvotecode', 'App\Controllers\VueController:getNewInviteCode')
 $app->get('/gettransfer', 'App\Controllers\VueController:getTransfer');
 $app->get('/getCaptcha', 'App\Controllers\VueController:getCaptcha');
 $app->post('/getChargeLog', 'App\Controllers\VueController:getChargeLog');
+$app->get('/getnodelist', 'App\Controllers\VueController:getNodeList');
 
 /**
  * chenPay
