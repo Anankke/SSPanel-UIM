@@ -100,11 +100,11 @@
 
 									{$relay_rule = null}
 
-                                    {if $node['sort'] == 10 && $node['sort'] != 11}
+                                    {if $node['sort'] == 10 && $node['sort'] != 11 && $node['sort']!=12}
 										{$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
 									{/if}
 
-									{if $node['mu_only'] != 1 && $node['sort'] != 11}
+									{if $node['mu_only'] != 1 && $node['sort'] != 11 && $node['sort']!=12}
 									    <div class="tiptitle">
 											<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">
 												{$node['name']}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}
@@ -117,7 +117,7 @@
 												</div>
 											</div>
 										</div>
-									{elseif $node['sort'] == 11}
+									{elseif $node['sort'] == 11 || $node['sort']==12}
 										{displayNodeLinkV2 node=$node}
 										{$point_node=$node}
 									{/if}
@@ -154,7 +154,7 @@
 										<div><span class="node-icon"><i class="icon icon-lg">chat</i> </span>{$node['info']}</div>
 									</div>
 
-									{if $node['sort'] == 11}
+									{if $node['sort'] == 11 || $node['sort'] == 12}
 										{displayV2rayNode node=$node}
 									{/if}
 
@@ -232,13 +232,13 @@
 													{$relay_rule = null}
 													<!-- 用户等级不小于节点等级 -->
 
-                                                    {if $node['sort'] == 10 && $node['sort'] != 11}
+                                                    {if $node['sort'] == 10 && $node['sort'] != 11 &&$node['sort'] != 12}
 														{$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
 													{/if}
                                                  <div class="card nodetip-table">
 														<div class="card-main">
 																<div class="card-inner">
-													{if $node['mu_only'] != 1 && $node['sort'] != 11}
+													{if $node['mu_only'] != 1 && $node['sort'] != 11 && $node['sort']!=12}
 													
 																<p class="card-heading">
 																	<a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
@@ -246,7 +246,7 @@
 																	<span class="label label-brand-accent">←点击节点查看配置信息</span>
 																</p>
 
-													{elseif $node['sort'] == 11}
+													{elseif $node['sort'] == 11|| $node['sort']==12}
 														{displayNodeLinkV2 node=$node}
 														{$point_node=$node}
 												    {/if}
@@ -283,7 +283,7 @@
 													
 													<div><i class="icon icon-lg node-icon">chat</i> {$node['info']}</div>
 
-													{if $node['sort'] == 11}
+													{if $node['sort'] == 11 ||$node['sort']==12}
 														{displayV2rayNode node=$node}
 													{/if}
 												</div>

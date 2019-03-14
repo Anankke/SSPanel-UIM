@@ -20,7 +20,7 @@
             <transition name="fade" mode="out-in">
               <router-link class="button-index" :to="globalGuide.href" :key="routerN">
                 <span>
-                  <font-awesome-icon :icon="globalGuide.icon" />
+                  <font-awesome-icon :icon="globalGuide.icon"/>
                   <span class="hide-sm">&nbsp;{{globalGuide.content}}</span>
                 </span>
               </router-link>
@@ -88,11 +88,17 @@ export default {
             content: "登录/注册",
             href: "/auth/login"
           };
-        case "user":
+        case "panel":
           return {
             icon: "user",
             content: "用户中心",
             href: "/user/panel"
+          };
+        case "node":
+          return {
+            icon: "code-branch",
+            content: "节点列表",
+            href: "/user/node"
           };
       }
     },
@@ -108,16 +114,21 @@ export default {
   },
   methods: {
     routeJudge() {
+      window.console.log(this.$route.path);
       switch (this.$route.path) {
         case "/":
           if (this.logintoken === false) {
             this.routerN = "auth";
           } else {
-            this.routerN = "user";
+            this.routerN = "panel";
           }
           break;
-        default:
-          this.routerN = "index";
+        case "/user/panel":
+          this.routerN = "node";
+          break;
+        case "/user/node":
+          this.routerN = "panel";
+          break;
       }
     }
   },
