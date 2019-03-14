@@ -510,7 +510,7 @@ class UserController extends BaseController
 			}
 
 			if ($node->sort == 0 ||$node->sort == 7 || $node->sort == 8 ||
-				$node->sort == 10 || $node->sort == 11){
+				$node->sort == 10 || $node->sort == 11|| $node->sort ==12){
 				$array_node['online_user']=$node->getOnlineUserCount();
 			}
 			else{
@@ -605,7 +605,7 @@ class UserController extends BaseController
                 }
 
 
-                if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11) {
+                if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11 || $node->sort == 12) {
                     $node_tempalive = $node->getOnlineUserCount();
                     $node_prealive[$node->id] = $node_tempalive;
                     if ($node->isNodeOnline() !== null) {

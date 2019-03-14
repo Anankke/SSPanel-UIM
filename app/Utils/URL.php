@@ -366,7 +366,11 @@ class URL
         ];
         $item['ps'] = $node->name;
         $item['add'] = $node_explode[0];
-        $item['port'] = $node_explode[1];
+        if ($node_explode[1]=="0" or $node_explode[1]==""){
+            $item['port'] = "443";
+        }else{
+            $item['port'] = $node_explode[1];
+        }
         $item['id'] = $user->getUuid();
         $item['aid'] = $node_explode[2];
         $item['net'] = "tcp";
@@ -381,7 +385,6 @@ class URL
         }
         if (count($node_explode) >= 5 ) {
             if (in_array($item['net'], array("kcp", "http"))){
-
                 $item['type'] = $node_explode[4];
             } else if ($node_explode[4]=='ws'){
                 $item['net'] = 'ws';
@@ -390,13 +393,21 @@ class URL
 
         if (count($node_explode) >= 6) {
             $item = array_merge($item, URL::parse_args($node_explode[5]));
+            if (array_key_exists("server",$item)){
+                $item['add'] = $item['server'];
+                unset($item['server']);
+            }
+            if (array_key_exists("outside_port",$item)){
+                $item['port'] = $item['outside_port'];
+                unset($item['outside_port']);
+            }
         }
 
         return "vmess://".base64_encode((json_encode($item, JSON_UNESCAPED_UNICODE)));
     }
 
     public static function getAllVMessUrl($user) {
-        $nodes = Node::where('sort', 11)->where(
+        $nodes = Node::where('sort', 11)->orwhere('sort',12)->where(
             function ($query) use ($user){
                 $query->where("node_group", "=", $user->node_group)
                     ->orWhere("node_group", "=", 0);

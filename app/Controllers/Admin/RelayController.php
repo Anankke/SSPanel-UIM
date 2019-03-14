@@ -30,14 +30,27 @@ class RelayController extends AdminController
     public function create($request, $response, $args)
     {
         $user = Auth::getUser();
-        $source_nodes = Node::where('sort', 10)->orderBy('name')->get();
-
+        $source_nodes = Node::where('sort', 10)->orwhere("sort",12)->orderBy('name')->get();
+        foreach($source_nodes as $node){
+            if ($node->sort==12){
+                $node->name = $node->name." 正在使用V2ray后端 ";
+            }
+        }
         $dist_nodes = Node::where(
             function ($query) {
                 $query->Where('sort', 0)
-                    ->orWhere('sort', 10);
+                    ->orWhere('sort', 10)->orWhere('sort',12)->orWhere('sort',11);
             }
         )->orderBy('name')->get();
+
+        foreach ($dist_nodes as $node){
+            if ($node->sort==11 or $node->sort==12){
+                $node_explode = explode(';', $node->server);
+                $node->name = $node->name." 如果是V2ray后端 请设置成 ".$node_explode[1];
+            }else {
+                $node->name = $node->name." 如果是V2ray后端 请不要设置，用户页面设置 ";
+            }
+        }
 
 
         return $this->view()->assign('source_nodes', $source_nodes)->assign('dist_nodes', $dist_nodes)->display('admin/relay/add.tpl');
@@ -58,6 +71,14 @@ class RelayController extends AdminController
             return $response->getBody()->write(json_encode($rs));
         }
 
+        if ($source_node->sort==12){
+            $rules = Relay::Where('source_node_id', $source_node_id)->get();
+            if (count($rules)>0){
+                $rs['ret'] = 0;
+                $rs['msg'] = "v2ray中转一个起点一个rule";
+                return $response->getBody()->write(json_encode($rs));
+            }
+        }
         $dist_node = Node::where('id', $dist_node_id)->first();
         if ($dist_node == null) {
             $rs['ret'] = 0;
@@ -113,14 +134,28 @@ class RelayController extends AdminController
             exit(0);
         }
 
-        $source_nodes = Node::where('sort', 10)->orderBy('name')->get();
+        $source_nodes = Node::where('sort', 10)->orwhere('sort',12)->orderBy('name')->get();
+        foreach($source_nodes as $node){
+            if ($node->sort==12){
+                $node->name = $node->name." 正在使用V2ray后端 ";
+            }
+        }
 
         $dist_nodes = Node::where(
             function ($query) {
                 $query->Where('sort', 0)
-                    ->orWhere('sort', 10);
+                    ->orWhere('sort', 10)->orWhere('sort',12)->orWhere('sort',11);
             }
         )->orderBy('name')->get();
+
+        foreach ($dist_nodes as $node){
+            if ($node->sort==11 or $node->sort==12){
+                $node_explode = explode(';', $node->server);
+                $node->name = $node->name." 如果是V2ray后端 请设置成".$node_explode[1];
+            }else {
+                $node->name = $node->name." 如果是V2ray后端 请不要设置，用户页面设置 ";
+            }
+        }
 
         return $this->view()->assign('rule', $rule)->assign('source_nodes', $source_nodes)->assign('dist_nodes', $dist_nodes)->display('admin/relay/edit.tpl');
     }
@@ -228,7 +263,7 @@ class RelayController extends AdminController
                 $query->Where("node_group", "=", $user->node_group)
                       ->orWhere("node_group", "=", 0);
             }
-        )->where("sort", "=", 10)->where("node_class", "<=", $user->class)->orderBy('name')->get();
+        )->where("sort", "=", 10)-orwhere("sort","=",12)->where("node_class", "<=", $user->class)->orderBy('name')->get();
 
         $pathset = new \ArrayObject();
 
