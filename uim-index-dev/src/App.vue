@@ -125,8 +125,10 @@ export default {
           break;
         case "/user/panel":
           this.routerN = "node";
+          break;
         case "/user/node":
           this.routerN = "panel";
+          break;
       }
     }
   },

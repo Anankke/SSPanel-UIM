@@ -3,7 +3,7 @@
     <div class="title-back flex align-center">NODELIST</div>
 
     <transition name="loading-fadex" mode="out-in">
-      <div class="loading flex align-center" v-if="userLoadState === 'beforeload'">USERCENTER</div>
+      <div class="loading flex align-center" v-if="userLoadState === 'beforeload'">NODELIST</div>
 
       <div class="loading flex align-center" v-else-if="userLoadState === 'loading'" key="loading">
         <div class="spinnercube">
@@ -26,6 +26,11 @@ import { _get } from "../js/fetch";
 
 export default {
   mixins: [storeMap],
+  data: function() {
+    return {
+      userLoadState
+    };
+  },
   mounted() {
     let self = this;
     this.userLoadState = "loading";
