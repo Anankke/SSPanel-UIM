@@ -102,6 +102,7 @@
 													<option value="9">Shadowsocks 单端口多用户</option>
 													<option value="10">Shadowsocks 中转</option>
 													<option value="11">V2Ray</option>
+													<option value="12">V2Ray 中转</option>
 												</select>
 											</div>
 									</div>

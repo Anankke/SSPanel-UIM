@@ -64,9 +64,8 @@ class NodeController extends AdminController
 				$req_node_ip=$node->server;
 			}			
 		}
-                  
-        if ($node->sort == 11) {
-            $server_list = explode(";", $node->server);
+
+        if ($node->sort == 11 || $node->sort == 12) {
 			if(!Tools::is_ip($server_list[0])){
 				$node->node_ip = gethostbyname($server_list[0]);
 			}else{
@@ -82,7 +81,7 @@ class NodeController extends AdminController
             $node->node_ip="";
         }
 
-		if($node->node_ip==""&&($node->sort == 11||$node->sort == 0 || $node->sort == 1 || $node->sort == 10)){
+		if($node->node_ip=="" && ($node->sort == 11|| $node->sort == 12 ||$node->sort == 0 || $node->sort == 1 || $node->sort == 10)){
 			$rs['ret'] = 0;
             $rs['msg'] = "获取节点IP失败，请检查您输入的节点地址是否正确！";
             return $response->getBody()->write(json_encode($rs));
@@ -148,7 +147,7 @@ class NodeController extends AdminController
 		}
 
 		$success=true;
-		if ($node->sort == 11) {
+		if ($node->sort == 11 || $node->sort == 12) {
             $server_list = explode(";", $node->server);
 			if(!Tools::is_ip($server_list[0])){
 				$success=$node->changeNodeIp($server_list[0]);
@@ -288,6 +287,9 @@ class NodeController extends AdminController
                 case 11:
                   $sort = 'V2Ray 节点';
                   break;
+                case 12:
+                    $sort ='V2ray - 中转';
+                    break;
                 default:
                   $sort = '系统保留';
             }

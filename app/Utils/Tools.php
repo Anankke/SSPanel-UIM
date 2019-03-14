@@ -303,7 +303,7 @@ class Tools
 
         if (($input_rule->id == $edit_rule_id || $edit_rule_id == 0) && $input_rule->dist_node_id != -1) {
             $dist_node = Node::find($input_rule->dist_node_id);
-            if ($input_rule->source_node_id == 0 && $dist_node->sort == 10) {
+            if ($input_rule->source_node_id == 0 && ($dist_node->sort == 10 ||$dist_node->sort == 12)) {
                 return -1;
             }
 
