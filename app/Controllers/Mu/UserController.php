@@ -16,7 +16,7 @@ class UserController extends BaseController
         $node = Node::where("node_ip", "=", $_SERVER["REMOTE_ADDR"])->where(
             function ($query) {
                 $query->where("sort", "=", 0)
-                    ->orWhere("sort", "=", 10);
+                    ->orWhere("sort", "=", 10)->orWhere("sort","=",12);
             }
         )->first();
         $node->node_heartbeat=time();
