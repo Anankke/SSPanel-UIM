@@ -81,7 +81,7 @@ class TelegramProcess
 
             }
         } else {
-            $bot->sendMessage($message->getChat()->getId(), "您未绑定本站账号。", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+            $bot->sendMessage($message->getChat()->getId(), "您未绑定本站账号，您可以进入网站的“资料编辑”，在右下方绑定您的账号", $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
         }
     }
 
@@ -122,9 +122,10 @@ class TelegramProcess
 						/checkin 签到
 						/help 获取帮助信息
 						/rss 获取节点订阅
-
-						您可以在面板里点击 资料编辑 ，滑到页面最下方，就可以看到 Telegram 绑定指示了，绑定您的账号，更多精彩功能等着您去发掘。
 					          ";
+					if($user==null){
+						$help_list.="您未绑定本站账号，您可以进入网站的“资料编辑”，在右下方绑定您的账号";
+					}
                     $bot->sendMessage($message->getChat()->getId(), $help_list);
                     break;
                 default:
@@ -179,9 +180,9 @@ class TelegramProcess
                                     $user->im_type = 4;
                                     $user->im_value = $message->getFrom()->getUsername();
                                     $user->save();
-                                    $bot->sendMessage($message->getChat()->getId(), "绑定成功。邮箱：" . $user->email);
+                                    $bot->sendMessage($message->getChat()->getId(), "绑定成功，邮箱：" . $user->email);
                                 } else {
-                                    $bot->sendMessage($message->getChat()->getId(), "绑定失败，二维码无效。" . substr($qrcode_text, 11));
+                                    $bot->sendMessage($message->getChat()->getId(), "绑定失败，二维码无效" . substr($qrcode_text, 11));
                                 }
                             }
 
@@ -189,12 +190,12 @@ class TelegramProcess
                                 if ($user != null) {
                                     $uid = TelegramSessionManager::verify_login_session(substr($qrcode_text, 12), $user->id);
                                     if ($uid != 0) {
-                                        $bot->sendMessage($message->getChat()->getId(), "登录验证成功。邮箱：" . $user->email);
+                                        $bot->sendMessage($message->getChat()->getId(), "登录验证成功，邮箱：" . $user->email);
                                     } else {
-                                        $bot->sendMessage($message->getChat()->getId(), "登录验证失败，二维码无效。" . substr($qrcode_text, 12));
+                                        $bot->sendMessage($message->getChat()->getId(), "登录验证失败，二维码无效" . substr($qrcode_text, 12));
                                     }
                                 } else {
-                                    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号。" . substr($qrcode_text, 12));
+                                    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号" . substr($qrcode_text, 12));
                                 }
                             }
 
@@ -205,12 +206,12 @@ class TelegramProcess
                             if ($user != null) {
                                 $uid = TelegramSessionManager::verify_login_number($message->getText(), $user->id);
                                 if ($uid != 0) {
-                                    $bot->sendMessage($message->getChat()->getId(), "登录验证成功。邮箱：" . $user->email);
+                                    $bot->sendMessage($message->getChat()->getId(), "登录验证成功，邮箱：" . $user->email);
                                 } else {
-                                    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，数字无效。");
+                                    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，数字无效");
                                 }
                             } else {
-                                $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号。");
+                                $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号");
                             }
                             break;
                         }
@@ -234,7 +235,7 @@ class TelegramProcess
                     if ($message->getChat()->getId() == Config::get('telegram_chatid')) {
                         $bot->sendMessage($message->getChat()->getId(), Tuling::chat($message->getFrom()->getId(), substr($message->getText(), 5)), $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
                     } else {
-                        $bot->sendMessage($message->getChat()->getId(), '不约，叔叔我们不约。', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
+                        $bot->sendMessage($message->getChat()->getId(), '不约，叔叔我们不约', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
                     }
                     break;
                 case 'traffic':
@@ -253,9 +254,10 @@ class TelegramProcess
 						/checkin 签到
 						/help 获取帮助信息
 						/rss 获取节点订阅
-
-						您可以在面板里点击 资料编辑 ，滑到页面最下方，就可以看到 Telegram 绑定指示了，绑定您的账号，更多精彩功能等着您去发掘。
 					";
+					if($user==null){
+						$help_list.="您未绑定本站账号，您可以进入网站的“资料编辑”，在右下方绑定您的账号";
+					}
                     $bot->sendMessage($message->getChat()->getId(), $help_list_group, $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
                     break;
                 default:
@@ -263,7 +265,7 @@ class TelegramProcess
                         if ($message->getChat()->getId() == Config::get('telegram_chatid')) {
                             $bot->sendMessage($message->getChat()->getId(), Tuling::chat($message->getFrom()->getId(), $message->getText()), $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
                         } else {
-                            $bot->sendMessage($message->getChat()->getId(), '不约，叔叔我们不约。', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
+                            $bot->sendMessage($message->getChat()->getId(), '不约，叔叔我们不约', $parseMode = null, $disablePreview = false, $replyToMessageId = $message->getMessageId());
                         }
                     }
                     if ($message->getNewChatMember() != null && Config::get('enable_welcome_message') == 'true') {
