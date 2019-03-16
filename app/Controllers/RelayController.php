@@ -229,17 +229,18 @@ class RelayController extends UserController
                     ->orWhere("node_group", "=", 0);
             }
         )->where('type', 1)->where('sort', 9)->where("node_class", "<=", $user->class)->first();
+        $v2ray_port_raw="";
         if ($dist_node->sort ==12 || $dist_node->sort==11) {
             $node_explode = explode(';', $dist_node->server);
-            $port_raw= $node_explode[1];
+            $v2ray_port_raw= $node_explode[1];
         }
-        if (($port_raw == null && $port != $user->port) || ($port!=$port_raw && $port!=$user->port)){
+        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port || $port!=$v2ray_port_raw))) {
             $rs['ret'] = 0;
             $rs['msg'] = "端口错误";
             return $response->getBody()->write(json_encode($rs));
         }
 
-        if (!Tools::is_protocol_relay($user)) {
+            if (!Tools::is_protocol_relay($user)) {
             $rs['ret'] = 0;
             $rs['msg'] = "为了中转的稳定，您需要在<a href='/user/edit'>资料编辑</a>处设置协议为 auth_aes128_md5 或 auth_aes128_sha1 后方可设置中转规则！";
             return $response->getBody()->write(json_encode($rs));
@@ -400,11 +401,12 @@ class RelayController extends UserController
                     ->orWhere("node_group", "=", 0);
             }
         )->where('type', 1)->where('sort', 9)->where("node_class", "<=", $user->class)->first();
+        $v2ray_port_raw="";
         if ($dist_node->sort ==12 || $dist_node->sort==11) {
             $node_explode = explode(';', $dist_node->server);
-            $port_raw= $node_explode[1];
+            $v2ray_port_raw= $node_explode[1];
         }
-        if (($port_raw == null && $port != $user->port) || ($port!=$port_raw && $port!=$user->port)){
+        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port || $port!=$v2ray_port_raw))) {
             $rs['ret'] = 0;
             $rs['msg'] = "端口错误";
             return $response->getBody()->write(json_encode($rs));
