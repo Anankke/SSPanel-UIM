@@ -95,7 +95,6 @@ class TelegramProcess
 		];
         if ($message->getChat()->getId() > 0) {
             //个人
-            $commands = array("ping", "traffic", "checkin", "help", "rss");
             $bot->sendChatAction($message->getChat()->getId(), 'typing');
 
             switch ($command) {
@@ -121,10 +120,10 @@ class TelegramProcess
                     break;
                 default:
 					if ($message->getPhoto()==null){
-						 if (is_numeric($message->getText()) || strlen($message->getText()) != 6) {
+						if (is_numeric($message->getText()) || strlen($message->getText()) != 6) {
 							$reply['message']= Tuling::chat($message->getFrom()->getId(), $message->getText());
                             break;
-                         }
+                        }
 						
 						if($user==null){
 							$reply['message']= "登录验证失败，您未绑定本站账号";
@@ -133,7 +132,7 @@ class TelegramProcess
 
                         $uid = TelegramSessionManager::verify_login_number($message->getText(), $user->id);
                         if ($uid != 0) {
-                           $reply['message']= "登录验证成功，邮箱：" . $user->email;
+                            $reply['message']= "登录验证成功，邮箱：" . $user->email;
                         } else {
                             $reply['message']= "登录验证失败，数字无效";
                         }
@@ -220,7 +219,6 @@ class TelegramProcess
             if (Config::get('telegram_group_quiet') == 'true') {
                 return;
             }
-            $commands = array("ping", "traffic", "checkin", "help");
             $bot->sendChatAction($message->getChat()->getId(), 'typing');
 
             switch ($command) {
