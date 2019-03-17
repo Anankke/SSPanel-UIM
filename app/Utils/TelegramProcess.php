@@ -252,6 +252,9 @@ class TelegramProcess
                     if ($message->getNewChatMember() != null && Config::get('enable_welcome_message') == 'true') {
                         $reply['message']="欢迎 " . $message->getNewChatMember()->getFirstName() . " " . $message->getNewChatMember()->getLastName();
                     }
+					else{
+						$reply['message']=null;
+					}
             }
         }
 
