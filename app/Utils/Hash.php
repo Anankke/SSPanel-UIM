@@ -17,12 +17,11 @@ class Hash
                 return self::sha256WithSalt($str);
                 break;
             case 'argon2i':
-                return self::argon2iWithSalt($str);
+                return self::argon2i($str);
                 break;
             case 'bcypt':
                 return self::bcypt($str);
                 break;
-
             default:
                 return self::md5WithSalt($str);
         }
@@ -45,23 +44,23 @@ class Hash
         return hash('sha256', $pwd . $salt);
     }
 
-    public static function argon2iWithSalt($pwd)
+    public static function argon2i($pwd)
     {
         $salt = Config::get('salt');
-        return hash('sha256', password_hash($pwd . $salt, PASSWORD_ARGON2I));
-        //由于直接Argon2字符超过64位数据库装不下，懒得去改数据库了，所有再套一层sha256在外面缩短下长度
+        if ($salt == "") return password_hash($pwd, PASSWORD_ARGON2I);
+        else return password_hash($pwd, PASSWORD_ARGON2I, ['salt' => $salt]);
     }
 
     public static function bcypt($pwd)
     {
         $salt = Config::get('salt');
-        return password_hash($pwd, PASSWORD_BCRYPT);
+        if ($salt == "") return password_hash($pwd, PASSWORD_BCRYPT);
+        else return password_hash($pwd, PASSWORD_BCRYPT, ['salt' => $salt]);
     }
 
-    // @TODO
     public static function checkPassword($hashedPassword, $password)
     {
-        if (Config::get('pwdMethod') == "bcypt") return password_verify($password, $hashedPassword);
+        if (in_array(Config::get('pwdMethod'), ['bcypt', 'argon2i'])) return password_verify($password, $hashedPassword);
         else return ($hashedPassword == self::passwordHash($password));
     }
 }
