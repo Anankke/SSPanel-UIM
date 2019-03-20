@@ -12,10 +12,10 @@
         </div>
       </div>
 
-      <div
-        class="usrcenter text-left pure-g space-around"
-        v-else-if="userLoadState === 'loaded'"
-      >节点列表</div>
+      <div class="usrcenter text-left pure-g space-around" v-else-if="userLoadState === 'loaded'">
+        <div class="pure-u-1 pure-u-xl-6-24 pure-g usrcenter-left">节点详情</div>
+        <div class="pure-u-1 pure-u-xl-17-24">节点列表</div>
+      </div>
     </transition>
   </div>
 </template>
@@ -28,16 +28,22 @@ export default {
   mixins: [storeMap],
   data: function() {
     return {
-      userLoadState
+      userLoadState: "beforeload"
     };
   },
   mounted() {
     let self = this;
     this.userLoadState = "loading";
 
-    _get("/getnodelist", "include").then(r => {
-      console.log(r);
-    });
+    _get("/getnodelist", "include")
+      .then(r => {
+        window.console.log(r);
+      })
+      .then(r => {
+        setTimeout(() => {
+          self.userLoadState = "loaded";
+        }, 1000);
+      });
   },
   beforeRouteLeave(to, from, next) {
     if (

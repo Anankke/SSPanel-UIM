@@ -17,42 +17,50 @@ class Hash
                 return self::sha256WithSalt($str);
                 break;
             case 'argon2i':
-                return self::argon2iWithSalt($str);
+                return self::argon2i($str);
+                break;
+            case 'bcypt':
+                return self::bcypt($str);
                 break;
             default:
                 return self::md5WithSalt($str);
         }
-        return $str;
     }
 
     public static function cookieHash($str)
     {
-        return  substr(hash('sha256', $str.Config::get('key')), 5, 45);
+        return substr(hash('sha256', $str . Config::get('key')), 5, 45);
     }
 
     public static function md5WithSalt($pwd)
     {
         $salt = Config::get('salt');
-        return md5($pwd.$salt);
+        return md5($pwd . $salt);
     }
 
     public static function sha256WithSalt($pwd)
     {
         $salt = Config::get('salt');
-        return hash('sha256', $pwd.$salt);
+        return hash('sha256', $pwd . $salt);
     }
-    public static function argon2iWithSalt($pwd)
+
+    public static function argon2i($pwd)
     {
         $salt = Config::get('salt');
-        return hash('sha256',password_hash($pwd.$salt, PASSWORD_ARGON2I));
-        //由于直接Argon2字符超过64位数据库装不下，懒得去改数据库了，所有再套一层sha256在外面缩短下长度
+        if ($salt == "") return password_hash($pwd, PASSWORD_ARGON2I);
+        else return password_hash($pwd, PASSWORD_ARGON2I, ['salt' => $salt]);
     }
-    // @TODO
+
+    public static function bcypt($pwd)
+    {
+        $salt = Config::get('salt');
+        if ($salt == "") return password_hash($pwd, PASSWORD_BCRYPT);
+        else return password_hash($pwd, PASSWORD_BCRYPT, ['salt' => $salt]);
+    }
+
     public static function checkPassword($hashedPassword, $password)
     {
-        if ($hashedPassword == self::passwordHash($password)) {
-            return true;
-        }
-        return false;
+        if (in_array(Config::get('pwdMethod'), ['bcypt', 'argon2i'])) return password_verify($password, $hashedPassword);
+        else return ($hashedPassword == self::passwordHash($password));
     }
 }

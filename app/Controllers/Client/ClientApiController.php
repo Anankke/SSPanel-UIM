@@ -65,7 +65,7 @@ class ClientApiController extends BaseController
         }
         $res['ret'] = 1;
         $res['msg'] = "ok";
-        $res['data'] = Config::get('baseUrl').'/link/'.$ssr_sub_token.'?mu='.$mu;
+        $res['data'] = Config::get('subUrl').$ssr_sub_token.'?mu='.$mu;
         return $this->echoJson($response, $res);
     }
 }
