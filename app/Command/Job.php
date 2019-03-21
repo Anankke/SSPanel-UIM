@@ -35,23 +35,17 @@ class Job
     {
         $nodes = Node::all();
         foreach ($nodes as $node) {
-            if ($node->sort == 11 or $node->sort ==12) {
-				$server_list = explode(";", $node->server);
-				if(!Tools::is_ip($server_list[0])){
-					if($node->changeNodeIp($server_list[0])){
-						$node->save();
-					}					
-				}
-			} else if($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
-				if(!Tools::is_ip($node->server)){
-					if($node->changeNodeIp($node->server)){
-						$node->save();
-						if ($node->sort == 0 || $node->sort == 10) {
-							Tools::updateRelayRuleIp($node);
-						}
-					}					
-				}		
-			}			
+            if (in_array($node->sort, array(0, 1, 10, 11, 12, 13))) {
+                $server_list = explode(";", $node->server);
+                if (!Tools::is_ip($server_list[0])) {
+                    if ($node->changeNodeIp($server_list[0])) {
+                        $node->save();
+                    }
+                }
+                if (in_array($node->sort, array(0, 10, 12))) {
+                    Tools::updateRelayRuleIp($node);
+                }
+            }
         }
     }
 
@@ -114,7 +108,7 @@ class Job
         $nodes = Node::all();
         foreach ($nodes as $node) {
             $rule = preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/",$node->server);
-            if (!$rule && (!$node->sort || $node->sort == 10||$node-sort==12)) {
+            if (!$rule && (!$node->sort || $node->sort == 10||$node-sort==12||$node-sort==13)) {
                 $ip=gethostbyname($node->server);
                 $node->node_ip=$ip;
                 $node->save();
@@ -128,7 +122,7 @@ class Job
     {
         $nodes = Node::all();
         foreach ($nodes as $node) {
-            if ($node->sort == 0 || $node->sort == 10 || $node->sort == 11 ||$node->sort ==12 ) {
+            if ($node->sort == 0 || $node->sort == 10 || $node->sort == 11 ||$node->sort ==12 ||$node->sort==13) {
                 if (date("d")==$node->bandwidthlimit_resetday) {
                     $node->node_bandwidth=0;
                     $node->save();
@@ -457,7 +451,7 @@ class Job
                             echo $e->getMessage();
                         }
 
-                        if (Config::get('enable_cloudxns')=='true' && ($node->sort==0 || $node->sort==10 ||$node->sort==12)) {
+                        if (Config::get('enable_cloudxns')=='true' && ($node->sort==0 || $node->sort==10 ||$node->sort==12||$node->sort==13)) {
                             $api=new Api();
                             $api->setApiKey(Config::get("cloudxns_apikey"));//修改成自己API KEY
                             $api->setSecretKey(Config::get("cloudxns_apisecret"));//修改成自己的SECERET KEY
@@ -520,7 +514,7 @@ class Job
                         echo $e->getMessage();
                     }
 
-                    if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10||$node->sort==12)) {
+                    if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10||$node->sort==12||$node->sort==13)) {
                         $api=new Api();
                         $api->setApiKey(Config::get("cloudxns_apikey"));//修改成自己API KEY
                         $api->setSecretKey(Config::get("cloudxns_apisecret"));//修改成自己的SECERET KEY
@@ -837,7 +831,7 @@ class Job
 							catch (\Exception $e) {
 								echo $e->getMessage();
 							}
-							if (Config::get('enable_cloudxns')=='true' && ($node->sort==0 || $node->sort==10 ||$node->sort==12)) {
+							if (Config::get('enable_cloudxns')=='true' && ($node->sort==0 || $node->sort==10 ||$node->sort==12||$node->sort==13)) {
 								$api=new Api();
 								$api->setApiKey(Config::get("cloudxns_apikey"));
 								//修改成自己API KEY
@@ -892,7 +886,7 @@ class Job
 							catch (\Exception $e) {
 								echo $e->getMessage();
 							}
-							if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10||$node->sort==12)) {
+							if (Config::get('enable_cloudxns')=='true'&& ($node->sort==0 || $node->sort==10||$node->sort==12||$node->sort==13)) {
 								$api=new Api();
 								$api->setApiKey(Config::get("cloudxns_apikey"));
 								//修改成自己API KEY
