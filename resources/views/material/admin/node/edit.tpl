@@ -104,6 +104,7 @@
 													<option value="10" {if $node->sort==10}selected{/if}>Shadowsocks 中转</option>
 													<option value="11" {if $node->sort==11}selected{/if}>V2Ray</option>
 													<option value="12" {if $node->sort==12}selected{/if}>V2Ray 中转</option>
+													<option value="13" {if $node->sort==13}selected{/if}>Shadowsocks V2Ray-Plugin</option>
 												</select>
 											</div>
 									</div>

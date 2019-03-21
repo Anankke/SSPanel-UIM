@@ -73,7 +73,8 @@ class NodeController extends BaseController
         $nodes = Node::where('node_ip', '<>', null)->where(
             function ($query) {
                 $query->where("sort", "=", 0)
-                    ->orWhere("sort", "=", 10)->orWhere("sort","=",12);
+                    ->orWhere("sort", "=", 10)
+                    ->orWhere("sort", "=", 12);
             }
         )->get();
         $res = [

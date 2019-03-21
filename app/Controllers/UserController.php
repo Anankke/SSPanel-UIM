@@ -480,8 +480,13 @@ class UserController extends BaseController
 
 			$array_node['id']=$node->id;
 			$array_node['class']=$node->node_class;
-			$array_node['name']=$node->name;
-			$array_node['server']=$node->server;
+            $array_node['name']=$node->name;
+            if ($node->sort == 13) {
+                $server = explode(';', $node->server);
+                $array_node['server']=$server[1];
+            } else {
+                $array_node['server']=$node->server;
+            }
 			$array_node['sort']=$node->sort;
 			$array_node['info']=$node->info;
 			$array_node['mu_only']=$node->mu_only;
@@ -509,13 +514,11 @@ class UserController extends BaseController
 				$array_node['online']=-1;
 			}
 
-			if ($node->sort == 0 ||$node->sort == 7 || $node->sort == 8 ||
-				$node->sort == 10 || $node->sort == 11|| $node->sort ==12){
-				$array_node['online_user']=$node->getOnlineUserCount();
-			}
-			else{
-				$array_node['online_user']=-1;
-			}
+            if (in_array($node->sort, array(0, 7, 8, 10, 11, 12, 13))) {
+                $array_node['online_user']=$node->getOnlineUserCount();
+            } else {
+                $array_node['online_user']=-1;
+            }
 
 			$nodeLoad = $node->getNodeLoad();
             if (isset($nodeLoad[0]['load'])) {
@@ -605,7 +608,7 @@ class UserController extends BaseController
                 }
 
 
-                if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11 || $node->sort == 12) {
+                if (in_array($node->sort, array(0, 7, 8, 10, 11, 12, 13))) {
                     $node_tempalive = $node->getOnlineUserCount();
                     $node_prealive[$node->id] = $node_tempalive;
                     if ($node->isNodeOnline() !== null) {
@@ -722,38 +725,16 @@ class UserController extends BaseController
                     return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
                 }
                 break;
+            case 13:
+                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
+                }
+                break;
             default:
                 echo "微笑";
 
         }
     }
-
-    public function GetIosConf($request, $response, $args)
-    {
-        $newResponse = $response->withHeader('Content-type', ' application/octet-stream')->withHeader('Content-Disposition', ' attachment; filename=allinone.conf');//->getBody()->write($builder->output());
-        if ($this->user->is_admin) {
-            $newResponse->getBody()->write(LinkController::GetIosConf(Node::where(
-                function ($query) {
-                    $query->where('sort', 0)
-                        ->orWhere('sort', 10);
-                }
-            )->where("type", "1")->get(), $this->user));
-        } else {
-            $newResponse->getBody()->write(LinkController::GetIosConf(Node::where(
-                function ($query) {
-                    $query->where('sort', 0)
-                        ->orWhere('sort', 10);
-                }
-            )->where("type", "1")->where(
-                function ($query) {
-                    $query->where("node_group", "=", $this->user->node_group)
-                        ->orWhere("node_group", "=", 0);
-                }
-            )->where("node_class", "<=", $this->user->class)->get(), $this->user));
-        }
-        return $newResponse;
-    }
-
 
     public function profile($request, $response, $args)
     {
