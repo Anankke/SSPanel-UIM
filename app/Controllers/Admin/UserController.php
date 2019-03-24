@@ -277,7 +277,7 @@ class UserController extends AdminController
 			$order_field='transfer_enable';
 		}
 		elseif($order_field=='today_traffic'){
-			$order_field='u +d - t';
+			$order_field='u +d - last_day_t';
 		}
         
 		$users=array();
