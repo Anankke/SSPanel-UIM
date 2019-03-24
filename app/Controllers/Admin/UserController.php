@@ -269,37 +269,47 @@ class UserController extends AdminController
         $limit_start = $request->getParam('start');
         $limit_length = $request->getParam('length');
         $search = $request->getParam('search')['value'];
+
+		if($order_field=='used_traffic'){
+			$order_field='u + d';
+		}
+		elseif($order_field=='enable_traffic'){
+			$order_field='transfer_enable';
+		}
+		elseif($order_field=='today_traffic'){
+			$order_field='u +d - t';
+		}
         
 		$users=array();
 		$count_filtered=0;
 
         if ($search) {
-            $users = User::orderBy($order_field,$order)
-                    ->skip($limit_start)->limit($limit_length)
-                    ->where(
-                        function ($query) use ($search) {
-                            $query->where('id','LIKE',"%$search%")
-								->orwhere('user_name','LIKE',"%$search%")
-								->orwhere('email','LIKE',"%$search%")
-								->orwhere('im_value','LIKE',"%$search%")
-								->orwhere('port','LIKE',"%$search%");
-							}
-						)
-                    ->get();
-            $count_filtered = User::where(
-                        function ($query)use($search) {
-                            $query->where('id','LIKE',"%$search%")
-								->orwhere('user_name','LIKE',"%$search%")
-								->orwhere('email','LIKE',"%$search%")
-								->orwhere('im_value','LIKE',"%$search%")
-								->orwhere('port','LIKE',"%$search%");
-							}
-						)->count();
-		}
-		else{
-            $users = User::orderBy($order_field,$order)
+            $users = User::where(
+				function ($query) use ($search) {
+					$query->where('id','LIKE',"%$search%")
+						->orwhere('user_name','LIKE',"%$search%")
+						->orwhere('email','LIKE',"%$search%")
+						->orwhere('im_value','LIKE',"%$search%")
+						->orwhere('port','LIKE',"%$search%");
+					}
+				)
+                ->orderByRaw($order_field.' '.$order)
                 ->skip($limit_start)->limit($limit_length)
                 ->get();
+            $count_filtered = User::where(
+				function ($query)use($search) {
+					$query->where('id','LIKE',"%$search%")
+						->orwhere('user_name','LIKE',"%$search%")
+						->orwhere('email','LIKE',"%$search%")
+						->orwhere('im_value','LIKE',"%$search%")
+						->orwhere('port','LIKE',"%$search%");
+					}
+				)->count();
+		}
+		else{
+            $users = User::orderByRaw($order_field.' '.$order)
+				->skip($limit_start)->limit($limit_length)
+				->get();
             $count_filtered = User::count();
         }
 		        
