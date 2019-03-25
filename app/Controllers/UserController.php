@@ -1370,10 +1370,16 @@ class UserController extends BaseController
         $wechat = trim($wechat);
 
         $user = $this->user;
-
+		
         if ($user->telegram_id != 0) {
             $res['ret'] = 0;
             $res['msg'] = "您绑定了 Telegram ，所以此项并不能被修改。";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if ($user->discord != 0) {
+            $res['ret'] = 0;
+            $res['msg'] = "您绑定了 Discord ，所以此项并不能被修改。";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1735,29 +1741,34 @@ class UserController extends BaseController
         return $this->view()->display('user/disable.tpl');
     }
 
+    public function discord_reset($request, $response, $args)
+    {
+        $user = $this->user;
+        $user->discord = 0;
+        $user->save();
+        return $response->withStatus(302)->withHeader('Location', '/user/edit');
+    }
+
     public function telegram_reset($request, $response, $args)
     {
         $user = $this->user;
         $user->telegram_id = 0;
         $user->save();
-        $newResponse = $response->withStatus(302)->withHeader('Location', '/user/edit');
-        return $newResponse;
+        return $response->withStatus(302)->withHeader('Location', '/user/edit');
     }
 
     public function resetURL($request, $response, $args)
     {
         $user = $this->user;
         $user->clean_link();
-        $newResponse = $response->withStatus(302)->withHeader('Location', '/user');
-        return $newResponse;
+        return $response->withStatus(302)->withHeader('Location', '/user');
     }
 
     public function resetInviteURL($request, $response, $args)
     {
         $user = $this->user;
         $user->clear_inviteCodes();
-        $newResponse = $response->withStatus(302)->withHeader('Location', '/user/invite');
-        return $newResponse;
+        return $response->withStatus(302)->withHeader('Location', '/user/invite');
     }
 
     public function backtoadmin($request, $response, $args)

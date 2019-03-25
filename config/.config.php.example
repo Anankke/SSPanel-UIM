@@ -8,9 +8,10 @@
 $System_Config['config_migrate_notice']=
 'enable_geetest_* 已变更为 enable_*_captcha
 crisp已被替换为mylivechat
+telegrma_qrcode被重命名为qrcode
 
 ';
-$System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
+$System_Config['version']='1';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
 
 //基本设置--------------------------------------------------------------------------------------------
@@ -112,8 +113,18 @@ $System_Config['notify_limit_mode'] = 'false';			//false为关闭，per为按照
 $System_Config['notify_limit_value'] = '20';			//当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 $System_Config['mergeSub'] = 'false';						//合并订阅设置 可选项 false / true
 
+//Bot 设置--------------------------------------------------------------------------------------------
+#通用
+$System_Config['qrcode']='zxing_local';				//二维码解码方式，online，phpzbar，zxing_online，zxing_local
+$System_Config['finance_public']='false';			//财务报告是否向群公开
+$System_Config['enable_welcome_message']='true';	//机器人发送欢迎消息
 
-//Telegram bot设置------------------------------------------------------------------------------------
+#Discord
+$System_Config['enable_discord']='false';	//是否开启Discord bot
+$System_Config['discord_token']='';			//Discord bot,bot 的 token，在 https://discordapp.com/developers/applications/ 申请
+
+
+#Telegram
 $System_Config['enable_telegram']='false';			//是否开启Telegram bot
 $System_Config['telegram_token']='';				//Telegram bot,bot 的 token ，跟 father bot 申请
 $System_Config['telegram_chatid']='';				//Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到。
@@ -122,11 +133,7 @@ $System_Config['tuling_apikey']='';					//图灵机器人API Key
 $System_Config['tuling_apisecert']='';				//图灵机器人密钥
 $System_Config['telegram_bot']='_bot';				//Telegram 机器人账号
 $System_Config['telegram_group_quiet']='false';		//Telegram 机器人在群组中不回应
-$System_Config['telegram_qrcode']='zxing_local';	//二维码解码方式，online，phpzbar，zxing_online，zxing_local
 $System_Config['telegram_request_token']='';		//Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat setTelegram
-$System_Config['enable_welcome_message']='true';	//机器人发送欢迎消息
-$System_Config['finance_public']='false';			//财务报告是否向Telegram群公开
-$System_Config['telegram_grouplink']='';           //telegram群邀请链接
 
 
 //沟通设置--------------------------------------------------------------------------------------------

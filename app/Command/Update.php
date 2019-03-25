@@ -136,7 +136,8 @@ class Update
 	public static function old_to_new($version_old)
 	{
 		if($version_old<=0){
-		
+			$datatables = new Datatables(new DatatablesHelper());
+			$datatables->query('ALTER TABLE user ADD discord BIGINT NULL AFTER telegram_id')->generate();
 		}
 	}
 }

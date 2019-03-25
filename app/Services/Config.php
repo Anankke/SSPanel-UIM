@@ -37,6 +37,7 @@ class Config
             "sspanelAnalysis" => self::get("sspanelAnalysis"),
             "enable_donate" => self::get("enable_donate"),
             "enable_telegram" => self::get("enable_telegram"),
+            "enable_discord" => self::get("enable_discord"),
             "payment_system" => self::get("payment_system"),
           	"enable_mylivechat" => self::get("enable_mylivechat"),
           	"mylivechat_id" => self::get("mylivechat_id"),
@@ -50,8 +51,7 @@ class Config
             "enable_kill" => self::get("enable_kill"),
             "custom_invite_price" => self::get("custom_invite_price"),
             "captcha_provider" => self::get("captcha_provider"),
-            "enable_email_verify" => self::get("enable_email_verify"),
-            "telegram_grouplink" => self::get("telegram_grouplink")
+            "enable_email_verify" => self::get("enable_email_verify")
          ];
     }
 

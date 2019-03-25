@@ -9,7 +9,7 @@ class QRcode
 {
     public static function decode($url)
     {
-        switch (Config::get('telegram_qrcode')) {
+        switch (Config::get('qrcode')) {
             case 'phpzbar':
                 return QRcode::phpzbar_decode($url);
             case 'online':
