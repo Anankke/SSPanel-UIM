@@ -30,7 +30,8 @@ use App\Models\Ip;
 use App\Models\Node;
 use App\Models\Relay;
 
-class VueController extends BaseController {
+class VueController extends BaseController
+{
 
     private $user;
 
@@ -39,18 +40,18 @@ class VueController extends BaseController {
         $this->user = Auth::getUser();
     }
 
-    public function getGlobalConfig($request, $response, $args) {
+    public function getGlobalConfig($request, $response, $args)
+    {
         $GtSdk = null;
         $recaptcha_sitekey = null;
         $user = $this->user;
-        if (Config::get('captcha_provider') != ''){
-            switch(Config::get('captcha_provider'))
-            {
+        if (Config::get('captcha_provider') != '') {
+            switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
                     break;
                 case 'geetest':
-                    $uid = time().rand(1, 10000) ;
+                    $uid = time() . rand(1, 10000);
                     $GtSdk = Geetest::get($uid);
                     break;
             }
@@ -99,7 +100,8 @@ class VueController extends BaseController {
         return $response->getBody()->write(json_encode($res));
     }
 
-    public function getUserInfo($request, $response, $args) {
+    public function getUserInfo($request, $response, $args)
+    {
         $user = $this->user;
 
         if (!$user->isLogin) {
@@ -117,14 +119,13 @@ class VueController extends BaseController {
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('captcha_provider') != ''){
-            switch(Config::get('captcha_provider'))
-            {
+        if (Config::get('captcha_provider') != '') {
+            switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
                     break;
                 case 'geetest':
-                    $uid = time().rand(1, 10000) ;
+                    $uid = time() . rand(1, 10000);
                     $GtSdk = Geetest::get($uid);
                     break;
             }
@@ -169,11 +170,11 @@ class VueController extends BaseController {
         $code = InviteCode::where('user_id', $user->id)->first();
         if ($code == null) {
             $user->addInviteCode();
-			$code = InviteCode::where('user_id', $user->id)->first();
+            $code = InviteCode::where('user_id', $user->id)->first();
         }
 
         $pageNum = $request->getParam('current');
-        
+
         $paybacks = Payback::where("ref_by", $user->id)->orderBy("id", "desc")->paginate(15, ['*'], 'page', $pageNum);
         if (!$paybacks_sum = Payback::where("ref_by", $user->id)->sum('ref_get')) {
             $paybacks_sum = 0;
@@ -204,9 +205,9 @@ class VueController extends BaseController {
             $res['ret'] = -1;
             return $response->getBody()->write(json_encode($res));
         }
-        
+
         $shops = Shop::where("status", 1)->orderBy("name")->get();
-        
+
         $res['arr'] = array(
             'shops' => $shops,
         );
@@ -223,7 +224,7 @@ class VueController extends BaseController {
             $res['ret'] = -1;
             return $response->getBody()->write(json_encode($res));
         }
-        
+
         $res['resourse'] = array(
             "money" => $user->money,
             "class" => $user->class,
@@ -255,7 +256,7 @@ class VueController extends BaseController {
         );
 
         $res['ret'] = 1;
-        
+
         return $response->getBody()->write(json_encode($res));
     }
 
@@ -272,7 +273,7 @@ class VueController extends BaseController {
         $code = InviteCode::where('user_id', $this->user->id)->first();
         if ($code == null) {
             $this->user->addInviteCode();
-			$code = InviteCode::where('user_id', $this->user->id)->first();
+            $code = InviteCode::where('user_id', $this->user->id)->first();
         }
 
         $res['arr'] = array(
@@ -280,7 +281,7 @@ class VueController extends BaseController {
         );
 
         $res['ret'] = 1;
-        
+
         return $response->getBody()->write(json_encode($res));
     }
 
@@ -300,22 +301,22 @@ class VueController extends BaseController {
         );
 
         $res['ret'] = 1;
-        
+
         return $response->getBody()->write(json_encode($res));
     }
 
-    public function getCaptcha($request, $response, $args) {
+    public function getCaptcha($request, $response, $args)
+    {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('captcha_provider') != ''){
-            switch(Config::get('captcha_provider'))
-            {
+        if (Config::get('captcha_provider') != '') {
+            switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
                     $res['recaptchaKey'] = $recaptcha_sitekey;
                     break;
                 case 'geetest':
-                    $uid = time().rand(1, 10000) ;
+                    $uid = time() . rand(1, 10000);
                     $GtSdk = Geetest::get($uid);
                     $res['GtSdk'] = $GtSdk;
                     break;
@@ -336,7 +337,7 @@ class VueController extends BaseController {
         }
 
         $pageNum = $request->getParam('current');
-      
+
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/#/user/code');
 
@@ -357,90 +358,92 @@ class VueController extends BaseController {
 
         $nodes = Node::where('type', 1)->orderBy('node_class')->orderBy('name')->get();
         $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
-		if (!Tools::is_protocol_relay($user)) {
+        if (!Tools::is_protocol_relay($user)) {
             $relay_rules = array();
         }
 
-		$array_nodes = array();
-		$nodes_muport = array();
+        $array_nodes = array();
+        $nodes_muport = array();
 
-		foreach($nodes as $node){
-			if($node->node_group != $user->node_group && $node->node_group != 0){
-				continue;
-			}
-			if ($node->sort == 9) {
+        foreach ($nodes as $node) {
+            if ($node->node_group != $user->node_group && $node->node_group != 0) {
+                continue;
+            }
+            if ($node->sort == 9) {
                 $mu_user = User::where('port', '=', $node->server)->first();
                 $mu_user->obfs_param = $this->user->getMuMd5();
                 array_push($nodes_muport, array('server' => $node, 'user' => $mu_user));
                 continue;
             }
-			$array_node = array();
+            $array_node = array();
 
-			$array_node['id'] = $node->id;
-			$array_node['class'] = $node->node_class;
-			$array_node['name'] = $node->name;
-			$array_node['server'] = $node->server;
-			$array_node['sort'] = $node->sort;
-			$array_node['info'] = $node->info;
-			$array_node['mu_only'] = $node->mu_only;
-			$array_node['group'] = $node->node_group;
+            $array_node['id'] = $node->id;
+            $array_node['class'] = $node->node_class;
+            $array_node['name'] = $node->name;
+            if ($this->user->class < $node->node_class) {
+                $array_node['server'] = '***.***.***.***';
+            } else {
+                if ($node->sort == 13) {
+                    $server = explode(';', $node->server);
+                    $array_node['server'] = $server[1];
+                } else {
+                    $array_node['server'] = $node->server;
+                }
+            }
+
+            $array_node['sort'] = $node->sort;
+            $array_node['info'] = $node->info;
+            $array_node['mu_only'] = $node->mu_only;
+            $array_node['group'] = $node->node_group;
 
             $array_node['raw_node'] = $node;
-			$regex = Config::get('flag_regex');
+            $regex = Config::get('flag_regex');
             $matches = array();
             preg_match($regex, $node->name, $matches);
             if (isset($matches[0])) {
-				$array_node['flag'] = $matches[0].'.png';
-            }
-			else {
+                $array_node['flag'] = $matches[0] . '.png';
+            } else {
                 $array_node['flag'] = 'unknown.png';
             }
 
-			$node_online=$node->isNodeOnline();
-			if($node_online === null){
-				$array_node['online']=0;
-			}
-			else if($node_online === true){
-				$array_node['online']=1;
-			}
-			else if($node_online === false){
-				$array_node['online']=-1;
-			}
+            $node_online = $node->isNodeOnline();
+            if ($node_online === null) {
+                $array_node['online'] = 0;
+            } else if ($node_online === true) {
+                $array_node['online'] = 1;
+            } else if ($node_online === false) {
+                $array_node['online'] = -1;
+            }
 
-			if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 ||
-				$node->sort == 10 || $node->sort == 11){
-				$array_node['online_user'] = $node->getOnlineUserCount();
-			}
-			else{
-				$array_node['online_user']=-1;
-			}
+            if (in_array($node->sort, array(0, 7, 8, 10, 11, 12, 13))) {
+                $array_node['online_user'] = $node->getOnlineUserCount();
+            } else {
+                $array_node['online_user'] = -1;
+            }
 
-			$nodeLoad = $node->getNodeLoad();
+            $nodeLoad = $node->getNodeLoad();
             if (isset($nodeLoad[0]['load'])) {
                 $array_node['latest_load'] = ((explode(" ", $nodeLoad[0]['load']))[0]) * 100;
-            }
-			else {
+            } else {
                 $array_node['latest_load'] = -1;
             }
 
             $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);
             $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit);
-			if($node->node_speedlimit == 0.0){
-				$array_node['bandwidth'] = 0;
-			}
-			else if($node->node_speedlimit >= 1024.00){
-				$array_node['bandwidth'] =round ($node->node_speedlimit/1024.00,1).'Gbps';
-			}
-			else{
-				$array_node['bandwidth'] = $node->node_speedlimit.'Mbps';
-			}
+            if ($node->node_speedlimit == 0.0) {
+                $array_node['bandwidth'] = 0;
+            } else if ($node->node_speedlimit >= 1024.00) {
+                $array_node['bandwidth'] = round($node->node_speedlimit / 1024.00, 1) . 'Gbps';
+            } else {
+                $array_node['bandwidth'] = $node->node_speedlimit . 'Mbps';
+            }
 
-			$array_node['traffic_rate'] = $node->traffic_rate;
-			$array_node['status'] = $node->status;
+            $array_node['traffic_rate'] = $node->traffic_rate;
+            $array_node['status'] = $node->status;
 
-			array_push($array_nodes,$array_node);
+            array_push($array_nodes, $array_node);
         }
-        
+
         $res['nodeinfo'] = array(
             "nodes" => $array_nodes,
             "nodes_muport" => $nodes_muport,
@@ -449,7 +452,8 @@ class VueController extends BaseController {
             "tools" => new Tools(),
         );
         $res['ret'] = 1;
-        
+
         return $response->getBody()->write(json_encode($res));
-	}
+    }
 }
+

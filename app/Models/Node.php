@@ -118,7 +118,7 @@ class Node extends Model
         $sort = $this->attributes['sort'];
         $node_heartbeat = $this->attributes['node_heartbeat'];
         $log = NodeOnlineLog::where('node_id', $id)->where("log_time",">",time()-300)->orderBy('id', 'desc')->first();
-        if(!($sort == 0 || $sort == 7 || $sort == 8 || $sort==10 || $sort==11) || $node_heartbeat == 0){
+        if(!($sort == 0 || $sort == 7 || $sort == 8 || $sort == 10 || $sort == 11 || $sort == 12 || $sort == 13) || $node_heartbeat == 0){
             $result = null;
         }else if ($log != null && $log->log_time + 300 > time()) {
             $result = true;

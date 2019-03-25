@@ -164,8 +164,6 @@
 							<li><a href="/user/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>
 
 
-
-
                           {if $config['enable_donate']=='true'}
 							<li>
 								<a href="/user/donate">
@@ -175,12 +173,6 @@
 							{/if}
 
 						</ul>
-
-						{if $config['enable_telegram']=='true' && $config['telegram_grouplink']!='' }
-						<li>
-							<a href="{$config['telegram_grouplink']}" target="_blank"><span class="icon icon-lg">near_me</span> Telegram群组</a>
-						</li>
-						{/if}
 
 						{if $user->isAdmin()}
 							<li>
