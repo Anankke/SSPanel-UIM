@@ -113,6 +113,10 @@
 										{if $user->im_type==4}
 										Telegram
 										{/if}
+
+										{if $user->im_type==5}
+										Discord
+										{/if}
 										</code>
 										</p>
 										<p>当前联络方式账号：
@@ -128,6 +132,7 @@
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="2" data="imtype">QQ</a></li>
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="3" data="imtype">Facebook</a></li>
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="4" data="imtype">Telegram</a></li>
+                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="5" data="imtype">Discord</a></li>
 											</ul>
 										</div>
 
