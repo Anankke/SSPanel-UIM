@@ -391,7 +391,7 @@
 										{if $user->discord == 0}
 											<p>私聊发给 Discord 机器人 以绑定 Discord</p>
 										{/if}
-
+									{/if}
 										<div class="form-group form-group-label">
 											<div class="text-center">
 												<div id="telegram-qr" class="qr-center"></div>
