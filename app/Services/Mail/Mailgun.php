@@ -29,15 +29,18 @@ class Mailgun extends Base
         ];
     }
 
-    public function send($to, $subject, $text, $file)
+    public function send($to, $subject, $text, $files)
     {
+		$line=array();
+		foreach($files as $file){
+			array_push($line,array('filePath'=>$file, 'filename'=>'attachment'))
+		}
         $this->mg->messages()->send($this->domain,[
                 'from' => $this->sender,
                 'to' => $to,
                 'subject' => $subject,
-                'html' => $text
-            ],[
-                'inline' => $file
+                'html' => $text           
+                'inline' => $inline
             ]
         );
     }
