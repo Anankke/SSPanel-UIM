@@ -33,7 +33,7 @@ class Mailgun extends Base
     {
 		$inline=array();
 		foreach($files as $file){
-			array_push($inline,array('filePath'=>$file, 'filename'=>'attachment'));
+			array_push($inline,array('filePath'=>$file, 'filename'=>basename($file)));
 		}
 		if(count($inline)==0){
 			$this->mg->messages()->send($this->domain,[

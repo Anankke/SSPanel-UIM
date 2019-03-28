@@ -37,7 +37,7 @@ class SendGrid extends Base
             $attachment = new \SendGrid\Attachment();
             $attachment->setContent(base64_encode(file_get_contents($file)));
             $attachment->setType("application/octet-stream");
-            $attachment->setFilename("backup.zip");
+            $attachment->setFilename(basename($file));
             $attachment->setDisposition("attachment");
             $attachment->setContentId("backup");
             $mail->addAttachment($attachment);
