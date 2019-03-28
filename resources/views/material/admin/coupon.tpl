@@ -50,25 +50,23 @@
 									</div>
 								</div>
 
+								<div class="form-group form-group-label">
+									<label for="generate-type">
+										<label class="floating-label" for="sort">选择生成方式</label>
+										<select id="generate-type" class="form-control maxwidth-edit">
+											<option value="1">指定字符</option>
+											<option value="2">随机字符</option>
+											<option value="3">指定字符+随机字符</option>
+										</select>
+									</label>
+								</div>
 
                                 <div class="form-group">
 									<div class="row">
 										<div class="col-md-10 col-md-push-1">
-                                            <button id="coupon" type="submit" class="btn btn-block btn-brand waves-attach waves-light">生成指定字符的优惠码</button>
+                                            <button id="coupon" type="submit" class="btn btn-block btn-brand waves-attach waves-light">生成优惠码</button>
 										</div>
 									</div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-10 col-md-push-1">
-                                            <button id="coupon-random" type="submit" class="btn btn-block waves-attach waves-light">生成仅包含随机字符的优惠码</button>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-10 col-md-push-1">
-                                            <button id="coupon-prefix-random" type="submit" class="btn btn-block waves-attach waves-light">生成指定前缀+随机字符的优惠码</button>
-                                        </div>
-                                    </div>
 								</div>
 
 							</div>
@@ -105,54 +103,39 @@
 
 
 <script>
-let randomWord = () => Math.random().toString(36).substr(2);
 
 {include file='table/js_1.tpl'}
 
-let submitCoupon = code => {
-    $.ajax({
-        type: "POST",
-        url: "/admin/coupon",
-        dataType: "json",
-        data: {
-            // prefix: $("#prefix").val(),
-            prefix: code,
-            credit: $$getValue('credit'),
-            shop: $$getValue('shop'),
-            onetime: $$getValue('count'),
-            expire: $$getValue('expire'),
-        },
-        success: data => {
-            if (data.ret) {
-                $("#result").modal();
-                $$.getElementById('msg').innerHTML = data.msg;
-                window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
-            }
-            // window.location.reload();
-        },
-        error: jqXHR => {
-            alert(`发生错误：${ldelim}jqXHR.status{rdelim}`);
-        }
-    })
-}
 
 window.addEventListener('load', () => {
 		{include file='table/js_2.tpl'}
 
         $$.getElementById('coupon').addEventListener('click', () => {
             let couponCode = $$.getElementById('prefix').value;
-            submitCoupon(couponCode);
+            
+			$.ajax({
+				type: "POST",
+		        url: "/admin/coupon",
+			    dataType: "json",
+				data: {
+					prefix: $$getValue('prefix'),
+				    credit: $$getValue('credit'),
+				    shop: $$getValue('shop'),
+				    onetime: $$getValue('count'),
+					expire: $$getValue('expire'),
+					generate_type: $$getValue('generate-type'),
+			    },
+				success: data => {
+					$("#result").modal();
+		            $("#msg").html(data.msg);
+					if (data.ret) {
+				        window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
+				    }
+				},
+			    error: jqXHR => {
+				    alert(`发生错误：${ldelim}jqXHR.status{rdelim}`);
+				}
+			})
         })
-
-        $$.getElementById('coupon-random').addEventListener('click', () => {
-            let couponCode = randomWord();
-            submitCoupon(couponCode);
-        })
-
-        $$.getElementById('coupon-random').addEventListener('click', () => {
-            let couponCode = $$.getElementById('prefix').value.concat(randomWord());
-            submitCoupon(couponCode);
-        })
-
 })
 </script>

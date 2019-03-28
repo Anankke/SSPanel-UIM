@@ -6,17 +6,12 @@
 //如需换行，直接换行即可，无需换行符
 //【新增/删除】config无需写入迁移附注
 $System_Config['config_migrate_notice']=
-'node_offline_warn 被改名为 enable_detect_offline
-enable_register 和 enable_invite_code 合并为 register_mode
-enable_auto_clean_unused 和 enable_auto_clean_unused_days 合并为auto_clean_unused_days
-enable_auto_clean_uncheck 和 enable_auto_clean_uncheck_days 合并为 auto_clean_uncheck_days
-enable_account_expire_delete 和 enable_account_expire_delete_days 合并为account_expire_delete_days
-enable_class_expire_reset_traffic 重命名为 class_expire_reset_traffic
-现在，用户账户过期时，流量会被强制重置为0
-enable_geetest_* 已变更为 enable_*_captcha
+'enable_geetest_* 已变更为 enable_*_captcha
+crisp已被替换为mylivechat
+telegrma_qrcode被重命名为qrcode
 
 ';
-$System_Config['version']='0';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
+$System_Config['version']='1';	//仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
 
 //基本设置--------------------------------------------------------------------------------------------
@@ -59,6 +54,7 @@ $System_Config['sendgrid_sender'] = '';
 //备份设置--------------------------------------------------------------------------------------------
 $System_Config['auto_backup_email']='';		//接收备份的邮箱
 $System_Config['auto_backup_passwd']='';	//备份的压缩密码
+$System_Config['backup_notify']='true';		//备份通知到TG群中
 
 
 //用户注册设置-----------------------------------------------------------------------------------------
@@ -117,8 +113,18 @@ $System_Config['notify_limit_mode'] = 'false';			//false为关闭，per为按照
 $System_Config['notify_limit_value'] = '20';			//当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 $System_Config['mergeSub'] = 'false';						//合并订阅设置 可选项 false / true
 
+//Bot 设置--------------------------------------------------------------------------------------------
+#通用
+$System_Config['qrcode']='zxing_local';				//二维码解码方式，online，phpzbar，zxing_online，zxing_local
+$System_Config['finance_public']='false';			//财务报告是否向群公开
+$System_Config['enable_welcome_message']='true';	//机器人发送欢迎消息
 
-//Telegram bot设置------------------------------------------------------------------------------------
+#Discord
+$System_Config['enable_discord']='false';	//是否开启Discord bot
+$System_Config['discord_token']='';			//Discord bot,bot 的 token，在 https://discordapp.com/developers/applications/ 申请
+
+
+#Telegram
 $System_Config['enable_telegram']='false';			//是否开启Telegram bot
 $System_Config['telegram_token']='';				//Telegram bot,bot 的 token ，跟 father bot 申请
 $System_Config['telegram_chatid']='';				//Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到。
@@ -127,17 +133,13 @@ $System_Config['tuling_apikey']='';					//图灵机器人API Key
 $System_Config['tuling_apisecert']='';				//图灵机器人密钥
 $System_Config['telegram_bot']='_bot';				//Telegram 机器人账号
 $System_Config['telegram_group_quiet']='false';		//Telegram 机器人在群组中不回应
-$System_Config['telegram_qrcode']='zxing_local';	//二维码解码方式，online，phpzbar，zxing_online，zxing_local
 $System_Config['telegram_request_token']='';		//Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat setTelegram
-$System_Config['enable_welcome_message']='true';	//机器人发送欢迎消息
-$System_Config['finance_public']='false';			//财务报告是否向Telegram群公开
-$System_Config['telegram_grouplink']='';           //telegram群邀请链接
 
 
 //沟通设置--------------------------------------------------------------------------------------------
-#客服系统设置，注册地址 https://crisp.chat/
-$System_Config['enable_crisp']='false';		//是否开启客服系统
-$System_Config['crisp_id']='null';			//客服系统ID ID查看路径：crisp.chat-->设置-->网站设置-->显示整合-->html
+#客服系统设置，注册地址 https://www.mylivechat.com
+$System_Config['enable_mylivechat']='false';		//是否开启客服系统
+$System_Config['mylivechat_id']='null';			//客服系统ID
 
 #工单系统设置
 $System_Config['enable_ticket']='true';		//是否开启工单系统
@@ -217,6 +219,7 @@ $System_Config['enable_donate']='false';	//是否显示用户捐赠（所有收�
 
 #iOS账户显示
 $System_Config['display_ios_class']='-1';	//至少等级为多少的用户可以看见，小于0时关闭此功能
+$System_Config['display_ios_topup']='0';	//满足等级要求后，累计充值高于多少的用户可以看见
 $System_Config['ios_account']='';			//iOS账户
 $System_Config['ios_password']='';			//iOS密码
 
@@ -243,7 +246,8 @@ $System_Config['v2ray_level']='0';
 #杂项
 $System_Config['enable_login_bind_ip']='false';		//是否将登陆线程和IP绑定
 $System_Config['authDriver'] = 'cookie';			//不能更改此项
-$System_Config['salt'] = '';						//密码加密用，请留空
+$System_Config['pwdMethod'] = 'sha256';				//密码加密 可选 md5, sha256, bcrypt, argon2i（argon2i需要至少php7.2）
+$System_Config['salt'] = '';						//推荐配合 md5/sha256 用，argon2i/bcrypt 强烈建议不要自己设置 salt。只要不设置，它会自动创建安全的盐值
 $System_Config['sessionDriver'] = 'cookie';			//可选: cookie,redis
 $System_Config['cacheDriver'] = 'cookie';			//可选: cookie,redis
 $System_Config['tokenDriver'] = 'db';				//可选: db,redis
@@ -254,7 +258,6 @@ $System_Config['pacpp_offset']='-20000';
 $System_Config['Speedtest_duration']='6';			//显示多长时间的测速记录
 $System_Config['login_warn']='false';				//异地登陆提示
 $System_Config['timeZone'] = 'PRC';					//PRC 天朝时间  UTC 格林时间
-$System_Config['pwdMethod'] = 'sha256';				//密码加密   可选 md5,sha256，argon2i（argon2i需要至少php7.2）
 $System_Config['db_charset'] = 'utf8';
 $System_Config['db_collation'] = 'utf8_general_ci';
 $System_Config['db_prefix'] = '';
@@ -295,6 +298,7 @@ $System_Config['relay_insecure_mode']='false';		//强烈推荐不开启
 
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
 $System_Config['enable_analytics_code']='false';
+$System_Config['sspanelAnalysis'] = 'true';
 
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
 if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ) {

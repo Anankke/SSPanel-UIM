@@ -9,6 +9,18 @@ It will not impact the appearance and can give developers a lot of support :)
 		<marquee>&copy;{date("Y")} {$config["appName"]} | Powered by <a href="/staff">SSPANEL</a></marquee>{if $config["enable_analytics_code"] == 'true'}{include file='analytics.tpl'}{/if}
 	</div>
 </footer>
+    {if $config["sspanelAnalysis"] == 'true'}
+    <!-- Google Analytics -->
+    <script>
+        window.ga=window.ga||function(){ (ga.q=ga.q||[]).push(arguments) };ga.l=+new Date;
+        ga('create', 'UA-111801619-3', 'auto');
+        var hostDomain = window.location.host || document.location.host || document.domain;
+        ga('set', 'dimension1', hostDomain);
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+    <!-- End Google Analytics -->
+    {/if}
 	<!-- js -->
 	<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.1"></script>
     {if isset($geetest_html)}

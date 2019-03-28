@@ -303,7 +303,7 @@ class Tools
 
         if (($input_rule->id == $edit_rule_id || $edit_rule_id == 0) && $input_rule->dist_node_id != -1) {
             $dist_node = Node::find($input_rule->dist_node_id);
-            if ($input_rule->source_node_id == 0 && $dist_node->sort == 10) {
+            if ($input_rule->source_node_id == 0 && ($dist_node->sort == 10 ||$dist_node->sort == 12)) {
                 return -1;
             }
 
@@ -445,5 +445,104 @@ class Tools
 		}
 
 		return ctype_digit($str);
-	}
+    }
+    
+    public static function v2Array($node)
+    {
+        $server = explode(';', $node);
+        $item = [
+            'host'=>'',
+            'path'=>'',
+            'tls'=>''
+        ];
+        $item['add'] = $server[0];
+        if ($server[1] == "0" or $server[1] == "") {
+            $item['port'] = "443";
+        } else {
+            $item['port'] = $server[1];
+        }
+        $item['aid'] = $server[2];
+        $item['net'] = "tcp";
+        $item['type'] = "none";
+        if (count($server) >= 4) {
+            $item['net'] = $server[3];
+            if ($item['net'] == 'ws') {
+                $item['path'] = '/';
+            } elseif ($item['net'] == 'tls') {
+                $item['tls'] = 'tls';
+            }
+        }
+        if (count($server) >= 5) {
+            if (in_array($item['net'], array("kcp", "http"))) {
+                $item['type'] = $server[4];
+            } elseif ($server[4] == 'ws') {
+                $item['net'] = 'ws';
+            }
+        }
+        if (count($server) >= 6) {
+            $item = array_merge($item, URL::parse_args($server[5]));
+            if (array_key_exists("server", $item)) {
+                $item['add'] = $item['server'];
+                unset($item['server']);
+            }
+            if (array_key_exists("outside_port", $item)) {
+                $item['port'] = $item['outside_port'];
+                unset($item['outside_port']);
+            }
+        }
+        return $item;
+    }
+
+    public static function checkTls($node)
+    {
+        $server = Tools::v2Array($node);
+        if ($server['tls'] == "tls" && Tools::is_ip($server['add'])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static function ssv2Array($node)
+    {
+        $server = explode(';', $node);
+        $item = [
+            'host'=>'',
+            'path'=>'',
+            'net'=>'ws',
+            'tls'=>''
+        ];
+        $item['add'] = $server[0];
+        if ($server[1] == "0" or $server[1] == "") {
+            $item['port'] = "443";
+        } else {
+            $item['port'] = $server[1];
+        }
+        if (count($server) >= 4) {
+            $item['net'] = $server[3];
+            if ($item['net'] == 'ws') {
+                $item['path'] = '/';
+            } elseif ($item['net'] == 'tls') {
+                $item['tls'] = 'tls';
+            }
+        }
+        if (count($server) >= 5 && $server[4] == 'ws') {
+            $item['net'] = 'ws';
+        }elseif (count($server) >= 5 && $server[4] == 'tls'){
+            $item['tls'] = 'tls';
+        }
+        if (count($server) >= 6) {
+            $item = array_merge($item, URL::parse_args($server[5]));
+            if (array_key_exists("server", $item)) {
+                $item['add'] = $item['server'];
+                unset($item['server']);
+            }
+            if (array_key_exists("outside_port", $item)) {
+                $item['port'] = $item['outside_port'];
+                unset($item['outside_port']);
+            }
+        }
+        return $item;
+    }
+
 }

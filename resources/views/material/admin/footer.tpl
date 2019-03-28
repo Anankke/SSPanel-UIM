@@ -5,6 +5,18 @@
 	</footer>
 
 	<!-- js -->
+    {if $config["sspanelAnalysis"] == 'true'}
+    <!-- Google Analytics -->
+    <script>
+        window.ga=window.ga||function(){ (ga.q=ga.q||[]).push(arguments) };ga.l=+new Date;
+        ga('create', 'UA-111801619-3', 'auto');
+        var hostDomain = window.location.host || document.location.host || document.domain;
+        ga('set', 'dimension1', hostDomain);
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+    <!-- End Google Analytics -->
+    {/if}
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0"></script>
 	<script src="https://cdn.jsdelivr.net/npm/datatables.net@1.10.19"></script>
 	<script src="//cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.19/media/js/dataTables.material.min.js"></script>

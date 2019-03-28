@@ -24,7 +24,8 @@
     "cloudflare/sdk": "1.1.1",
     "chen-see/chen-pay": "^1.0@dev",
     "league/omnipay": "^3",
-    "lokielse/omnipay-alipay": "*"
+    "lokielse/omnipay-alipay": "*",
+	"charlottedunois/yasmin": "*"
   },
   "autoload": {
     "classmap": [

@@ -11,9 +11,9 @@
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
 	<link href="/theme/material/css/auth.css" rel="stylesheet">
     <link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic|Material+Icons" rel="stylesheet">
-
 	<!-- favicon -->
-
+	<!-- js -->
+	<script src="/assets/js/fuck.js"></script>
 	<!-- ... -->
 </head>
   <style>
@@ -93,4 +93,4 @@
 		</div>
 	</nav> *}
 
-{if $config["enable_crisp"] == 'true'}{include file='crisp.tpl'}{/if}
+{if $config["enable_mylivechat"] == 'true'}{include file='mylivechat.tpl'}{/if}

@@ -54,33 +54,36 @@ class NodeController extends AdminController
         $node->status = $request->getParam('status');
         $node->sort = $request->getParam('sort');
 
-		$req_node_ip = trim($request->getParam('node_ip'));
+        $req_node_ip = trim($request->getParam('node_ip'));
 		if($req_node_ip==""){
 			$req_node_ip=$node->server;
 		}
-                  
-        if ($node->sort == 11) {
-            $server_list = explode(";", $node->server);
-			if(!Tools::is_ip($server_list[0])){
-				$node->node_ip = gethostbyname($server_list[0]);
-			}else{
-				$node->node_ip = $req_node_ip;
-			}
-        } else if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
-			if(!Tools::is_ip($node->server)){
-				$node->node_ip = gethostbyname($node->server);
-			}else{
-				$node->node_ip = $req_node_ip;
-			}                        
-        } else {
-            $node->node_ip="";
-        }
 
-		if($node->node_ip==""&&($node->sort == 11||$node->sort == 0 || $node->sort == 1 || $node->sort == 10)){
-			$rs['ret'] = 0;
-            $rs['msg'] = "获取节点IP失败，请检查您输入的节点地址是否正确！";
-            return $response->getBody()->write(json_encode($rs));
-		}
+        if (in_array($node->sort, array(0, 1, 10, 11, 12, 13))) {
+            $server_list = explode(";", $node->server);
+            if (in_array($node->sort, array(11, 12)) && count($server_list) <= 5) {
+                $rs['ret'] = 0;
+                $rs['msg'] = "您输入的节点地址格式有误！";
+                return $response->getBody()->write(json_encode($rs));
+            }
+            if (in_array($node->sort, array(11, 12)) && !Tools::checkTls($node->server)) {
+                $rs['ret'] = 0;
+                $rs['msg'] = "节点地址出现错误，使用 tls 需要域名！";
+                return $response->getBody()->write(json_encode($rs));
+            }
+            if (!Tools::is_ip($server_list[0])) {
+                $node->node_ip = gethostbyname($server_list[0]);
+            } else {
+                $node->node_ip = $req_node_ip;
+            }
+            if ($node->node_ip == "") {
+                $rs['ret'] = 0;
+                $rs['msg'] = "获取节点IP失败，请检查您输入的节点地址是否正确！";
+                return $response->getBody()->write(json_encode($rs));
+            }
+        } else {
+            $node->node_ip = "";
+        }
 
         if ($node->sort==1) {
             Radius::AddNas($node->node_ip, $request->getParam('server'));
@@ -135,29 +138,37 @@ class NodeController extends AdminController
 			$req_node_ip=$node->server;
 		}
 
-		$success=true;
-		if ($node->sort == 11) {
+        $success=true;
+        if (in_array($node->sort, array(0, 1, 10, 11, 12, 13))) {
             $server_list = explode(";", $node->server);
-			if(!Tools::is_ip($server_list[0])){
-				$success=$node->changeNodeIp($server_list[0]);
-			}else{
-				$success=$node->changeNodeIp($req_node_ip);
-			}
-        } else if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10){
-			if(!Tools::is_ip($node->server)){
-				$success=$node->changeNodeIp($node->server);
-			}else{
-				$success=$node->changeNodeIp($req_node_ip);
-			}                        
+            if (in_array($node->sort, array(11, 12)) && count($server_list) <= 5) {
+                $rs['ret'] = 0;
+                $rs['msg'] = "您输入的节点地址格式有误！";
+                return $response->getBody()->write(json_encode($rs));
+            }
+            if (in_array($node->sort, array(11, 12)) && !Tools::checkTls($node->server)) {
+                $rs['ret'] = 0;
+                $rs['msg'] = "节点地址出现错误，使用 tls 需要域名！";
+                return $response->getBody()->write(json_encode($rs));
+            }
+            if (!Tools::is_ip($server_list[0])) {
+                $success = $node->changeNodeIp($server_list[0]);
+            } else {
+                $success = $node->changeNodeIp($req_node_ip);
+            }
         } else {
-            $node->node_ip="";
+            $node->node_ip = "";
         }
 
 		if (!$success) {
 			$rs['ret'] = 0;
             $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
             return $response->getBody()->write(json_encode($rs));
-        }      
+        }    
+		
+		if (in_array($node->sort, array(0, 10, 11, 12, 13))) {
+			Tools::updateRelayRuleIp($node);
+		}
 
         if ($node->sort==1) {
             $SS_Node=Node::where('sort', '=', 0)->where('server', '=', $request->getParam('server'))->first();
@@ -271,6 +282,12 @@ class NodeController extends AdminController
                   break;
                 case 11:
                   $sort = 'V2Ray 节点';
+                  break;
+                case 12:
+                  $sort = 'V2Ray - 中转';
+                  break;
+                case 13:
+                  $sort = 'Shadowsocks - V2Ray-Plugin';
                   break;
                 default:
                   $sort = '系统保留';

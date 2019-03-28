@@ -136,7 +136,9 @@ class Update
 	public static function old_to_new($version_old)
 	{
 		if($version_old<=0){
-		
+			echo('执行升级：0 -> 1');
+			$conn=mysqli_connect(Config::get('db_host'),Config::get('db_username'),Config::get('db_password'),Config::get('db_database'));
+			mysqli_query($conn,'ALTER TABLE user ADD discord BIGINT NULL AFTER telegram_id');
 		}
 	}
 }

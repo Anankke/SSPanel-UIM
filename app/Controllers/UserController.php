@@ -84,6 +84,7 @@ class UserController extends BaseController
         return $this->view()
             ->assign('ssr_sub_token', $ssr_sub_token)
             ->assign('display_ios_class',Config::get('display_ios_class'))
+            ->assign('display_ios_topup',Config::get('display_ios_topup'))
             ->assign('ios_account',Config::get('ios_account'))
             ->assign('ios_password',Config::get('ios_password'))
             ->assign('ann', $Ann)
@@ -479,8 +480,13 @@ class UserController extends BaseController
 
 			$array_node['id']=$node->id;
 			$array_node['class']=$node->node_class;
-			$array_node['name']=$node->name;
-			$array_node['server']=$node->server;
+            $array_node['name']=$node->name;
+            if ($node->sort == 13) {
+                $server = explode(';', $node->server);
+                $array_node['server']=$server[1];
+            } else {
+                $array_node['server']=$node->server;
+            }
 			$array_node['sort']=$node->sort;
 			$array_node['info']=$node->info;
 			$array_node['mu_only']=$node->mu_only;
@@ -508,13 +514,11 @@ class UserController extends BaseController
 				$array_node['online']=-1;
 			}
 
-			if ($node->sort == 0 ||$node->sort == 7 || $node->sort == 8 ||
-				$node->sort == 10 || $node->sort == 11){
-				$array_node['online_user']=$node->getOnlineUserCount();
-			}
-			else{
-				$array_node['online_user']=-1;
-			}
+            if (in_array($node->sort, array(0, 7, 8, 10, 11, 12, 13))) {
+                $array_node['online_user']=$node->getOnlineUserCount();
+            } else {
+                $array_node['online_user']=-1;
+            }
 
 			$nodeLoad = $node->getNodeLoad();
             if (isset($nodeLoad[0]['load'])) {
@@ -604,7 +608,7 @@ class UserController extends BaseController
                 }
 
 
-                if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11) {
+                if (in_array($node->sort, array(0, 7, 8, 10, 11, 12, 13))) {
                     $node_tempalive = $node->getOnlineUserCount();
                     $node_prealive[$node->id] = $node_tempalive;
                     if ($node->isNodeOnline() !== null) {
@@ -721,38 +725,16 @@ class UserController extends BaseController
                     return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
                 }
                 break;
+            case 13:
+                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
+                }
+                break;
             default:
                 echo "微笑";
 
         }
     }
-
-    public function GetIosConf($request, $response, $args)
-    {
-        $newResponse = $response->withHeader('Content-type', ' application/octet-stream')->withHeader('Content-Disposition', ' attachment; filename=allinone.conf');//->getBody()->write($builder->output());
-        if ($this->user->is_admin) {
-            $newResponse->getBody()->write(LinkController::GetIosConf(Node::where(
-                function ($query) {
-                    $query->where('sort', 0)
-                        ->orWhere('sort', 10);
-                }
-            )->where("type", "1")->get(), $this->user));
-        } else {
-            $newResponse->getBody()->write(LinkController::GetIosConf(Node::where(
-                function ($query) {
-                    $query->where('sort', 0)
-                        ->orWhere('sort', 10);
-                }
-            )->where("type", "1")->where(
-                function ($query) {
-                    $query->where("node_group", "=", $this->user->node_group)
-                        ->orWhere("node_group", "=", 0);
-                }
-            )->where("node_class", "<=", $this->user->class)->get(), $this->user));
-        }
-        return $newResponse;
-    }
-
 
     public function profile($request, $response, $args)
     {
@@ -879,6 +861,12 @@ class UserController extends BaseController
         $amount = $price * $num;
 
         $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+
         if ($user->money < $amount) {
             $res['ret'] = 0;
             $res['msg'] = "余额不足，总价为" . $amount . "元。";
@@ -912,6 +900,12 @@ class UserController extends BaseController
         } 
 
         $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+
         if ($user->money < $price) {
             $res['ret'] = 0;
             $res['msg'] = "余额不足，总价为" . $price . "元。";
@@ -1008,6 +1002,13 @@ class UserController extends BaseController
         $coupon = $request->getParam('coupon');
         $coupon = trim($coupon);
 
+        $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+
         $shop = $request->getParam('shop');
 
         $shop = Shop::where("id", $shop)->where("status", 1)->first();
@@ -1042,7 +1043,6 @@ class UserController extends BaseController
 
         $use_limit = $coupon->onetime;
         if ($use_limit > 0) {
-            $user = $this->user;
             $use_count = Bought::where("userid", $user->id)->where("coupon", $coupon->code)->count();
             if ($use_count >= $use_limit) {
                 $res['ret'] = 0;
@@ -1106,6 +1106,11 @@ class UserController extends BaseController
 
         $price = $shop->price * ((100 - $credit) / 100);
         $user = $this->user;
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
 
         if (bccomp($user->money , $price,2)==-1) {
             $res['ret'] = 0;
@@ -1365,10 +1370,16 @@ class UserController extends BaseController
         $wechat = trim($wechat);
 
         $user = $this->user;
-
+		
         if ($user->telegram_id != 0) {
             $res['ret'] = 0;
             $res['msg'] = "您绑定了 Telegram ，所以此项并不能被修改。";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if ($user->discord != 0) {
+            $res['ret'] = 0;
+            $res['msg'] = "您绑定了 Discord ，所以此项并不能被修改。";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -1654,6 +1665,11 @@ class UserController extends BaseController
         $res['msg'] = sprintf("获得了 %d MB流量.", $traffic);
         $res['unflowtraffic'] = $this->user->transfer_enable;
         $res['traffic'] = Tools::flowAutoShow($this->user->transfer_enable);
+        $res['trafficInfo'] = array(
+            "todayUsedTraffic" => $this->user->TodayusedTraffic(),
+            "lastUsedTraffic" => $this->user->LastusedTraffic(),
+            "unUsedTraffic" => $this->user->unusedTraffic(),
+        );
         $res['ret'] = 1;
         return $this->echoJson($response, $res);
     }
@@ -1725,29 +1741,34 @@ class UserController extends BaseController
         return $this->view()->display('user/disable.tpl');
     }
 
+    public function discord_reset($request, $response, $args)
+    {
+        $user = $this->user;
+        $user->discord = 0;
+        $user->save();
+        return $response->withStatus(302)->withHeader('Location', '/user/edit');
+    }
+
     public function telegram_reset($request, $response, $args)
     {
         $user = $this->user;
         $user->telegram_id = 0;
         $user->save();
-        $newResponse = $response->withStatus(302)->withHeader('Location', '/user/edit');
-        return $newResponse;
+        return $response->withStatus(302)->withHeader('Location', '/user/edit');
     }
 
     public function resetURL($request, $response, $args)
     {
         $user = $this->user;
         $user->clean_link();
-        $newResponse = $response->withStatus(302)->withHeader('Location', '/user');
-        return $newResponse;
+        return $response->withStatus(302)->withHeader('Location', '/user');
     }
 
     public function resetInviteURL($request, $response, $args)
     {
         $user = $this->user;
         $user->clear_inviteCodes();
-        $newResponse = $response->withStatus(302)->withHeader('Location', '/user/invite');
-        return $newResponse;
+        return $response->withStatus(302)->withHeader('Location', '/user/invite');
     }
 
     public function backtoadmin($request, $response, $args)

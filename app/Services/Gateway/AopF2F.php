@@ -49,7 +49,7 @@ class AopF2F extends AbstractPayment
 
         $request = $gateway->purchase();
         $request->setBizContent([
-            'subject'      => "￥".$pl->total." - ".Config::get("appName")." - {$user->user_name}({$user->email})",
+            'subject'      => $pl->tradeno,
             'out_trade_no' => $pl->tradeno,
             'total_amount' => $pl->total
         ]);

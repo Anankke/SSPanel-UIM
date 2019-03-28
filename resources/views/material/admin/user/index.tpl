@@ -116,17 +116,18 @@ window.addEventListener('load', () => {
             { "data": "obfs" },
             { "data": "online_ip_count" ,"orderable":false},
             { "data": "last_ss_time" ,"orderable":false},
-            { "data": "used_traffic" ,"orderable":false},
-            { "data": "enable_traffic" ,"orderable":false},
+            { "data": "used_traffic"},
+            { "data": "enable_traffic"},
             { "data": "last_checkin_time" ,"orderable":false},
-            { "data": "today_traffic" ,"orderable":false},
+            { "data": "today_traffic"},
             { "data": "enable" },
             { "data": "reg_date" },
             { "data": "reg_ip" },
             { "data": "auto_reset_day" },
             { "data": "auto_reset_bandwidth" },
             { "data": "ref_by" },
-            { "data": "ref_by_user_name" ,"orderable":false}
+            { "data": "ref_by_user_name" ,"orderable":false},
+			{ "data": "top_up" ,"orderable":false}
         ],
         "columnDefs": [
             {

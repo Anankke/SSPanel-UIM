@@ -15,10 +15,10 @@
 	<!-- jquery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1"></script>
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
-
+	<!-- js -->
+	<script src="/assets/js/fuck.js"></script>
 </head>
 <body class="page-orange">
-    {*<script src="/assets/js/fuck.js"></script>*}
 	<header class="header header-orange header-transparent header-waterfall ui-header">
 		<ul class="nav nav-list pull-left">
 			<div>
@@ -105,7 +105,6 @@
 									<i class="icon icon-lg">loyalty</i>&nbsp;邀请链接
 								</a>
 							</li>
-							
 						</ul>
 
 
@@ -165,8 +164,6 @@
 							<li><a href="/user/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>
 
 
-
-
                           {if $config['enable_donate']=='true'}
 							<li>
 								<a href="/user/donate">
@@ -176,12 +173,6 @@
 							{/if}
 
 						</ul>
-
-						{if $config['enable_telegram']=='true' && $config['telegram_grouplink']!='' }
-						<li>
-							<a href="{$config['telegram_grouplink']}" target="_blank"><span class="icon icon-lg">near_me</span> Telegram群组</a>
-						</li>
-						{/if}
 
 						{if $user->isAdmin()}
 							<li>
@@ -204,4 +195,4 @@
 		</div>
 	</nav>
 
-{if $config["enable_crisp"] == 'true'}{include file='crisp.tpl'}{/if}
+{if $config["enable_mylivechat"] == 'true'}{include file='mylivechat.tpl'}{/if}
