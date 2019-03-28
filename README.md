@@ -12,6 +12,7 @@
 
 Telegram 频道 ：https://t.me/sspanel_Uim
 
+Telegram 非官方水群 ：https://t.me/SSUnion
 
 演示站: [sspanel.host](https://sspanel.host) 账号和密码都是 admin  对接节点的 mukey=NimaQu
 
