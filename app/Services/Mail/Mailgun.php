@@ -31,11 +31,11 @@ class Mailgun extends Base
 
     public function send($to, $subject, $text, $files)
     {
-		$line=array();
+		$inline=array();
 		foreach($files as $file){
-			array_push($line,array('filePath'=>$file, 'filename'=>'attachment'));
+			array_push($inline,array('filePath'=>$file, 'filename'=>'attachment'));
 		}
-		if(count($line)==0){
+		if(count($inline)==0){
 			$this->mg->messages()->send($this->domain,[
                 'from' => $this->sender,
                 'to' => $to,
