@@ -18,7 +18,7 @@ use App\Utils\Radius;
 use App\Utils\QQWry;
 use App\Utils\Check;
 use App\Utils\Tools;
-
+use App\Utils\GA;
 
 class UserController extends AdminController
 {
