@@ -149,7 +149,7 @@ class Job
                 $bought->delete();
                 continue;
             }
-            $boughted_users[]=$bought->userid;
+
             $shop=Shop::where("id", $bought->shopid)->first();
 
             if ($shop == null) {
@@ -158,6 +158,7 @@ class Job
             }
 
             if($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0) {
+                $boughted_users[]=$bought->userid;
               if(time() - $shop->reset_exp() * 86400 < $bought->datetime) {
                 if(intval((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && intval((time() - $bought->datetime) / 86400) != 0) {
                   echo("流量重置-".$user->id."\n");
