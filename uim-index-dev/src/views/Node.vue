@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="pure-u-1 pure-u-xl-17-24">
-          <div class="card">
+          <div class="card margin-nobottom-sm">
             <div class="flex space-between align-center">
               <div class="card-title">节点列表</div>
               <div class="card-title-right">
@@ -47,14 +47,16 @@
               </div>
             </div>
             <div class="card-body">
-              <div
-                v-for="(node, index) in nodeFilter"
-                :class="{ 'nodeitem-avtive':currentNode.id === node.id }"
-                class="nodeitem"
-                :key="node.id"
-                @click="setCurrentNode(index)"
-              >
-                <div class="nodename">{{node.name}}</div>
+              <div class="nodelist">
+                <div
+                  v-for="(node, index) in nodeFilter"
+                  :class="{ 'nodeitem-avtive':currentNode.id === node.id }"
+                  class="nodeitem"
+                  :key="node.id"
+                  @click="setCurrentNode(index)"
+                >
+                  <div class="nodename">{{node.name}}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -174,5 +176,9 @@ export default {
 .nodeitem-avtive {
   border: 1px solid #fff;
   box-shadow: 0 0 5px 1px grey;
+}
+.nodelist {
+  overflow-y: auto;
+  max-height: 625px;
 }
 </style>
