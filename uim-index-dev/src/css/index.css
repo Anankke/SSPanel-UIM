@@ -845,6 +845,7 @@ button[name=reset] {
 
     .footer {
         margin-top: 3rem;
+        padding-bottom: 1rem;
     }
 
     .title-left a {
@@ -859,14 +860,6 @@ button[name=reset] {
 
     .title h1 {
         font-size: 4rem;
-    }
-
-    .staff {
-        text-align: left;
-    }
-
-    .time {
-        text-align: right;
     }
 
     .auth-submit {
@@ -1009,14 +1002,28 @@ button[name=reset] {
         margin-left: 10rem;
     }
 
-    .margin-nobottom-xl {
-        margin-bottom: 0 !important;
+    .staff {
+        text-align: left;
+    }
+
+    .time {
+        text-align: right;
     }
 }
 
 @media screen and (max-width:35.5em) {
     .hide-sm {
         display: none !important;
+    }
+
+    .margin-nobottom-sm {
+        margin-bottom: 0 !important;
+    }
+}
+
+@media screen and (min-width:80em) {
+    .margin-nobottom-xl {
+        margin-bottom: 0 !important;
     }
 }
 
