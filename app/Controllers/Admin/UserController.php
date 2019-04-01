@@ -6,15 +6,19 @@ use App\Models\User;
 use App\Models\Code;
 use App\Models\Ip;
 use App\Models\RadiusBan;
+use App\Models\Bought;
 use App\Models\Relay;
 use App\Controllers\AdminController;
 use App\Services\Config;
 use App\Services\Auth;
+use App\Services\Mail;
 use App\Utils;
 use App\Utils\Hash;
 use App\Utils\Radius;
 use App\Utils\QQWry;
+use App\Utils\Check;
 use App\Utils\Tools;
+use App\Utils\GA;
 
 class UserController extends AdminController
 {
@@ -38,6 +42,136 @@ class UserController extends AdminController
         $table_config['ajax_url'] = 'user/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/user/index.tpl');
     }
+    public function createNewUser($request, $response, $args){
+        # 需要一个 userEmail
+        $email = $request->getParam('userEmail');
+        $email = trim($email);
+        $email = strtolower($email);
+        // check email format
+        if (!Check::isEmailLegal($email)) {
+            $res['ret'] = 0;
+            $res['msg'] = "邮箱无效";
+            return $response->getBody()->write(json_encode($res));
+        }
+        // check email
+        $user = User::where('email', $email)->first();
+        if ($user != null) {
+            $res['ret'] = 0;
+            $res['msg'] = "邮箱已经被注册了";
+            return $response->getBody()->write(json_encode($res));
+        }
+        // do reg user
+        $user = new User();
+        $pass = Tools::genRandomChar(8);
+        $user->user_name =$email;
+        $user->email = $email;
+        $user->pass = Hash::passwordHash($pass);
+        $user->passwd = Tools::genRandomChar(6);
+        $user->port = Tools::getAvPort();
+        $user->t = 0;
+        $user->u = 0;
+        $user->d = 0;
+        $user->method = Config::get('reg_method');
+        $user->protocol = Config::get('reg_protocol');
+        $user->protocol_param = Config::get('reg_protocol_param');
+        $user->obfs = Config::get('reg_obfs');
+        $user->obfs_param = Config::get('reg_obfs_param');
+        $user->forbidden_ip = Config::get('reg_forbidden_ip');
+        $user->forbidden_port = Config::get('reg_forbidden_port');
+        $user->im_type = 2;
+        $user->im_value = $email;
+        $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
+        $user->invite_num = Config::get('inviteNum');
+        $user->auto_reset_day = Config::get('reg_auto_reset_day');
+        $user->auto_reset_bandwidth = Config::get('reg_auto_reset_bandwidth');
+        $user->money = 0;
+        $user->class_expire = date("Y-m-d H:i:s", time() + Config::get('user_class_expire_default') * 3600);
+        $user->class = Config::get('user_class_default');
+        $user->node_connector = Config::get('user_conn');
+        $user->node_speedlimit = Config::get('user_speedlimit');
+        $user->expire_in = date("Y-m-d H:i:s", time() + Config::get('user_expire_in_default') * 86400);
+        $user->reg_date = date("Y-m-d H:i:s");
+        $user->reg_ip = $_SERVER["REMOTE_ADDR"];
+        $user->plan = 'A';
+        $user->theme = Config::get('theme');
+
+        $groups=explode(",", Config::get('ramdom_group'));
+
+        $user->node_group=$groups[array_rand($groups)];
+
+        $ga = new GA();
+        $secret = $ga->createSecret();
+
+        $user->ga_token = $secret;
+        $user->ga_enable = 0;
+        if ($user->save()) {
+            $res['ret'] = 1;
+            $res['msg'] = "新用户注册成功 用户名: ".$email." 随机初始密码: ".$pass;
+            $res['email_error']="success";
+            $subject = Config::get('appName')."-新用户注册通知";
+            $to = $user->email;
+            $text = "您好，管理员已经为您生成账户，用户名: ".$email."，登录密码为：". $pass."，感谢您的支持。 " ;
+            try {
+                Mail::send($to, $subject, 'newuser.tpl', [
+                    "user" => $user,"text" => $text
+                ], [
+                ]);
+            } catch (\Exception $e) {
+                $res['email_error'] = $e->getMessage();
+            }
+            return $response->getBody()->write(json_encode($res));
+        }
+        $res['ret'] = 0;
+        $res['msg'] = "未知错误";
+        return $response->getBody()->write(json_encode($res));
+    }
+    public function buy($request, $response, $args){
+        #shop 信息可以通过 App\Controllers\UserController:shop 获得
+        # 需要shopId，disableothers，autorenew,userEmail
+
+        $shopId = $request->getParam('shopId');
+        $shop = Shop::where("id", $shopId)->where("status", 1)->first();
+        $disableothers = $request->getParam('disableothers');
+        $autorenew = $request->getParam('autorenew');
+        $email=$request->getParam("userEmail");
+        $user = User::where("email",'=', $email)->first();
+        if ($user==null){
+            $result['ret'] = 0;
+            $result['msg'] = "未找到该用户";
+            return $response->getBody()->write(json_encode($result));
+        }
+        if ($shop == null) {
+            $result['ret'] = 0;
+            $result['msg'] = "请选择套餐";
+            return $response->getBody()->write(json_encode($result));
+        }
+        if ($disableothers == 1) {
+            $boughts = Bought::where("userid", $user->id)->get();
+            foreach ($boughts as $disable_bought) {
+                $disable_bought->renew = 0;
+                $disable_bought->save();
+            }
+        }
+        $bought = new Bought();
+        $bought->userid = $user->id;
+        $bought->shopid = $shop->id;
+        $bought->datetime = time();
+        if ($autorenew == 0 || $shop->auto_renew == 0) {
+            $bought->renew = 0;
+        } else {
+            $bought->renew = time() + $shop->auto_renew * 86400;
+        }
+
+        $price = $shop->price;
+        $bought->price = $price;
+        $bought->save();
+
+        $shop->buy($user);
+        $result['ret'] = 1;
+        $result['msg'] = "套餐添加成功";
+        return $response->getBody()->write(json_encode($result));
+    }
+
 
     public function search($request, $response, $args)
     {
