@@ -47,7 +47,7 @@
 import storeMap from "@/mixins/storeMap";
 import userMixin from "@/mixins/userMixin";
 import modal from "@/components/modal.vue";
-import { _get, _post } from "../../js/fetch";
+import { _post } from "../../js/fetch";
 
 export default {
   mixins: [userMixin, storeMap],
@@ -61,7 +61,8 @@ export default {
       isMaskShow: false,
       isCardShow: false,
       isQrShow: false,
-      tid: ""
+      tid: "",
+      qrcode: {}
     };
   },
   methods: {
@@ -136,7 +137,7 @@ export default {
             })
             .then(r => {
               window.console.log(r);
-              let qrcode = new window.QRCode("trimeweqr", {
+              this.qrcode = new window.QRCode("trimeweqr", {
                 render: "canvas",
                 width: 200,
                 height: 200,

@@ -81,7 +81,6 @@ export default {
     }
   },
   created() {
-    console.log(this.globalConfig);
     let type = this.globalConfig.paymentType;
     this.currentPayment = type;
     let curPayment = {
@@ -97,7 +96,7 @@ export default {
         break;
     }
     this.$set(this.menuList, this.globalConfig.paymentType, curPayment);
-    console.log(this.menuList);
+    window.console.log(this.menuList);
   }
 };
 </script>
