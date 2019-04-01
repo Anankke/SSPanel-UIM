@@ -141,6 +141,7 @@ class Job
 
         //auto reset
         $boughts=Bought::all();
+        $boughted_users = array();
         foreach ($boughts as $bought) {
             $user=User::where("id", $bought->userid)->first();
 
@@ -157,6 +158,7 @@ class Job
             }
 
             if($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0) {
+                $boughted_users[]=$bought->userid;
               if(time() - $shop->reset_exp() * 86400 < $bought->datetime) {
                 if(intval((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && intval((time() - $bought->datetime) / 86400) != 0) {
                   echo("流量重置-".$user->id."\n");
@@ -188,7 +190,9 @@ class Job
         foreach ($users as $user) {
             $user->last_day_t=($user->u+$user->d);
             $user->save();
-
+            if (in_array($user->id,$boughted_users)){
+                continue;
+            }
             if (date("d") == $user->auto_reset_day) {
                 $user->u = 0;
                 $user->d = 0;
@@ -208,6 +212,8 @@ class Job
                     echo $e->getMessage();
                 }
             }
+
+
         }
 
 
