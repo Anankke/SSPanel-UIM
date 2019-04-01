@@ -35,6 +35,7 @@ import Dropdown from "@/components/dropdown.vue";
 import Code from "@/components/payment/code.vue";
 import Log from "@/components/payment/log.vue";
 import Trime from "@/components/payment/trimepay.vue";
+import CodePay from "@/components/payment/codepay.vue";
 
 export default {
   mixins: [userMixin, storeMap],
@@ -42,13 +43,16 @@ export default {
     "uim-dropdown": Dropdown,
     "payment-code": Code,
     "payment-log": Log,
-    "payment-trimepay": Trime
+    "payment-trimepay": Trime,
+    "payment-codepay": CodePay
   },
   computed: {
     paymentType: function() {
       switch (this.currentPayment) {
         case "trimepay":
           return this.menuList["trimepay"];
+        case "codepay":
+          return this.menuList["codepay"];
         case "code":
           return this.menuList["code"];
         case "log":
@@ -58,12 +62,8 @@ export default {
   },
   data: function() {
     return {
-      currentPayment: "trimepay",
+      currentPayment: "",
       menuList: {
-        trimepay: {
-          name: "自助充值",
-          component: "payment-trimepay"
-        },
         code: {
           name: "充值码",
           component: "payment-code"
@@ -79,6 +79,25 @@ export default {
     changePayementType(type) {
       this.currentPayment = type;
     }
+  },
+  created() {
+    console.log(this.globalConfig);
+    let type = this.globalConfig.paymentType;
+    this.currentPayment = type;
+    let curPayment = {
+      name: "自助充值",
+      component: ""
+    };
+    switch (type) {
+      case "trimepay":
+        curPayment.component = "payment-trimepay";
+        break;
+      case "codepay":
+        curPayment.component = "payment-codepay";
+        break;
+    }
+    this.$set(this.menuList, this.globalConfig.paymentType, curPayment);
+    console.log(this.menuList);
   }
 };
 </script>
