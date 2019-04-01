@@ -86,6 +86,7 @@ class VueController extends BaseController
             "isLogin" => $user->isLogin,
             "enable_telegram" => Config::get('enable_telegram'),
             "enable_mylivechat" => Config::get('enable_mylivechat'),
+            "payment_type" => Config::get('payment_system'),
         );
 
         $res['ret'] = 1;
