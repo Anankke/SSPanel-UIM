@@ -124,28 +124,28 @@ class AuthController extends BaseController
 
         if ($user == null) {
             $rs['ret'] = 0;
-            $rs['msg'] = "邮箱或者密码错误";
+            $rs['msg'] = "邮箱不存在";
             return $response->getBody()->write(json_encode($rs));
         }
 
         if (!Hash::checkPassword($user->pass, $passwd)) {
             $rs['ret'] = 0;
-            $rs['msg'] = "邮箱或者密码错误.";
+            $rs['msg'] = "邮箱或者密码错误";
 
 
-            $loginip = new LoginIp();
-            $loginip->ip = $_SERVER["REMOTE_ADDR"];
-            $loginip->userid = $user->id;
-            $loginip->datetime = time();
-            $loginip->type = 1;
-            $loginip->save();
+            $loginIP = new LoginIp();
+            $loginIP->ip = $_SERVER["REMOTE_ADDR"];
+            $loginIP->userid = $user->id;
+            $loginIP->datetime = time();
+            $loginIP->type = 1;
+            $loginIP->save();
 
             return $response->getBody()->write(json_encode($rs));
         }
-        // @todo
+
         $time = 3600 * 24;
         if ($rememberMe) {
-            $time = 3600 * 24 * 7;
+            $time = 3600 * 24 * Config::get('rememberMeDuration');
         }
 
         if ($user->ga_enable == 1) {
@@ -163,12 +163,12 @@ class AuthController extends BaseController
         $rs['ret'] = 1;
         $rs['msg'] = "登录成功";
 
-        $loginip = new LoginIp();
-        $loginip->ip = $_SERVER["REMOTE_ADDR"];
-        $loginip->userid = $user->id;
-        $loginip->datetime = time();
-        $loginip->type = 0;
-        $loginip->save();
+        $loginIP = new LoginIp();
+        $loginIP->ip = $_SERVER["REMOTE_ADDR"];
+        $loginIP->userid = $user->id;
+        $loginIP->datetime = time();
+        $loginIP->type = 0;
+        $loginIP->save();
 
         return $response->getBody()->write(json_encode($rs));
     }
