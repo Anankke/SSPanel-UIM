@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Gateway;
+namespace App\Services\Gateway\SPay;
 
 class Spay_submit
 {

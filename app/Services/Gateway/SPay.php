@@ -10,6 +10,9 @@ namespace App\Services\Gateway;
 use App\Services\View;
 use App\Services\Auth;
 use App\Services\Config;
+use App\Services\Gateway\SPay\Spay_tool;
+use App\Services\Gateway\SPay\Spay_submit;
+use App\Services\Gateway\SPay\Spay_notify;
 
 use App\Models\Paylist;
 
