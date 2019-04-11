@@ -72,7 +72,7 @@ export default {
 
 .uim-dropdown-btn svg {
   position: absolute;
-  right: 0.75rem;
+  right: 0.6rem;
   top: 0.75rem;
 }
 

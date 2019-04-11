@@ -3,7 +3,7 @@
     <div class="flex space-between align-center">
       <div class="card-title">充值中心</div>
       <div class="card-title-right">
-        <uim-dropdown>
+        <uim-dropdown show-arrow>
           <template #dpbtn-content>
             <transition name="fade" mode="out-in">
               <div :key="paymentType.name">{{paymentType.name}}</div>
