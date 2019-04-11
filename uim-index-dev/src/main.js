@@ -32,7 +32,8 @@ import {
   faPencilAlt,
   faYenSign,
   faComments,
-  faCodeBranch
+  faCodeBranch,
+  faCaretDown
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -78,7 +79,8 @@ let iconList = [
   faCopy,
   faAlipay,
   faComments,
-  faCodeBranch
+  faCodeBranch,
+  faCaretDown
 ]
 library.add(...iconList)
 

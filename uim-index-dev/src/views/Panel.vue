@@ -187,7 +187,7 @@
           </div>
           <div class="user-btngroup pure-g">
             <div class="pure-u-1-2 btngroup-left">
-              <uim-dropdown>
+              <uim-dropdown show-arrow>
                 <template #dpbtn-content>
                   <transition name="fade" mode="out-in">
                     <div :key="currentCardComponent">{{menuOptions[currentCardComponentIndex].name}}</div>
