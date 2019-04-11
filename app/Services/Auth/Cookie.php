@@ -52,7 +52,7 @@ class Cookie extends Base
             return $user;
         }
 
-        $user = User::where('email',$email);
+        $user = User::where('email',$email)->first();
         if ($user == null) {
             $user = new User();
             $user->isLogin = false;
