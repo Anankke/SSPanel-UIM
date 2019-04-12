@@ -240,7 +240,7 @@ class RelayController extends UserController
                 $v2ray_port_raw="443";
             }
         }
-        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port || $port!=$v2ray_port_raw))) {
+        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port && $port!=$v2ray_port_raw))) {
             $rs['ret'] = 0;
             $rs['msg'] = "端口错误";
             return $response->getBody()->write(json_encode($rs));
@@ -418,7 +418,7 @@ class RelayController extends UserController
                 $v2ray_port_raw="443";
             }
         }
-        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port || $port!=$v2ray_port_raw))) {
+        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port && $port!=$v2ray_port_raw))) {
             $rs['ret'] = 0;
             $rs['msg'] = "端口错误";
             return $response->getBody()->write(json_encode($rs));
