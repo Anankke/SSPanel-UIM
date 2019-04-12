@@ -155,6 +155,9 @@ class RelayController extends UserController
         foreach ($dist_nodes as $node){
             if ($node->sort==11 or $node->sort==12){
                 $node_explode = explode(';', $node->server);
+                if ($node_explode[1]=="" || $node_explode[1]=="0"){
+                    $node_explode[1]="443";
+                }
                 array_push($ports, $node_explode[1]);
                 $node->name = $node->name." 如果是V2ray后端 请设置成 ".$node_explode[1];
             }else {
@@ -233,8 +236,11 @@ class RelayController extends UserController
         if ($dist_node->sort ==12 || $dist_node->sort==11) {
             $node_explode = explode(';', $dist_node->server);
             $v2ray_port_raw= $node_explode[1];
+            if ($v2ray_port_raw=="" || $v2ray_port_raw=="0"){
+                $v2ray_port_raw="443";
+            }
         }
-        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port || $port!=$v2ray_port_raw))) {
+        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port && $port!=$v2ray_port_raw))) {
             $rs['ret'] = 0;
             $rs['msg'] = "端口错误";
             return $response->getBody()->write(json_encode($rs));
@@ -331,6 +337,9 @@ class RelayController extends UserController
         foreach ($dist_nodes as $node){
             if ($node->sort==11 or $node->sort==12){
                 $node_explode = explode(';', $node->server);
+                if ($node_explode[1]=="" || $node_explode[1]=="0"){
+                    $node_explode[1]="443";
+                }
                 array_push($ports, $node_explode[1]);
                 $node->name = $node->name." 如果是V2ray后端 请设置成: ".$node_explode[1];
             }else {
@@ -405,8 +414,11 @@ class RelayController extends UserController
         if ($dist_node->sort ==12 || $dist_node->sort==11) {
             $node_explode = explode(';', $dist_node->server);
             $v2ray_port_raw= $node_explode[1];
+            if ($v2ray_port_raw=="" || $v2ray_port_raw=="0"){
+                $v2ray_port_raw="443";
+            }
         }
-        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port || $port!=$v2ray_port_raw))) {
+        if (($port_raw == null && $port != $user->port)||($v2ray_port_raw!="" && ($port!=$user->port && $port!=$v2ray_port_raw))) {
             $rs['ret'] = 0;
             $rs['msg'] = "端口错误";
             return $response->getBody()->write(json_encode($rs));
