@@ -46,6 +46,9 @@ class RelayController extends AdminController
         foreach ($dist_nodes as $node){
             if ($node->sort==11 or $node->sort==12){
                 $node_explode = explode(';', $node->server);
+                if ($node_explode[1]=="" || $node_explode[1]=="0"){
+                    $node_explode[1]="443";
+                }
                 $node->name = $node->name." 如果是V2ray后端 请设置成 ".$node_explode[1];
             }else {
                 $node->name = $node->name." 如果是V2ray后端 请不要设置，用户页面设置 ";
@@ -151,6 +154,9 @@ class RelayController extends AdminController
         foreach ($dist_nodes as $node){
             if ($node->sort==11 or $node->sort==12){
                 $node_explode = explode(';', $node->server);
+                if ($node_explode[1]=="" || $node_explode[1]=="0"){
+                    $node_explode[1]="443";
+                }
                 $node->name = $node->name." 如果是V2ray后端 请设置成".$node_explode[1];
             }else {
                 $node->name = $node->name." 如果是V2ray后端 请不要设置，用户页面设置 ";
