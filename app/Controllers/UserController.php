@@ -482,8 +482,8 @@ class UserController extends BaseController
 			$array_node['class']=$node->node_class;
             $array_node['name']=$node->name;
             if ($node->sort == 13) {
-                $server = explode(';', $node->server);
-                $array_node['server']=$server[1];
+                $server = Tools::ssv2Array($node->server);
+                $array_node['server']=$server['add'];
             } else {
                 $array_node['server']=$node->server;
             }
