@@ -30,7 +30,12 @@ class RelayController extends AdminController
     public function create($request, $response, $args)
     {
         $user = Auth::getUser();
-        $source_nodes = Node::where('sort', 10)->orwhere("sort",12)->orderBy('name')->get();
+        $source_nodes = Node::where(
+            function ($query) {
+                $query->Where('sort', 10)
+                    ->orWhere('sort', 12);
+            }
+            )->orderBy('name')->get();
         foreach($source_nodes as $node){
             if ($node->sort==12){
                 $node->name = $node->name." 正在使用V2ray后端 ";
@@ -39,22 +44,20 @@ class RelayController extends AdminController
         $dist_nodes = Node::where(
             function ($query) {
                 $query->Where('sort', 0)
-                    ->orWhere('sort', 10)->orWhere('sort',12)->orWhere('sort',11);
+                    ->orWhere('sort', 10)
+                    ->orWhere('sort', 11)
+                    ->orWhere('sort', 12);
             }
         )->orderBy('name')->get();
 
         foreach ($dist_nodes as $node){
             if ($node->sort==11 or $node->sort==12){
-                $node_explode = explode(';', $node->server);
-                if ($node_explode[1]=="" || $node_explode[1]=="0"){
-                    $node_explode[1]="443";
-                }
-                $node->name = $node->name." 如果是V2ray后端 请设置成 ".$node_explode[1];
+                $node_explode = Tools::ssv2Array($node->server);
+                $node->name = $node->name." 如果是V2ray后端 请设置成 ".$node_explode['port'];
             }else {
                 $node->name = $node->name." 如果是V2ray后端 请不要设置，用户页面设置 ";
             }
         }
-
 
         return $this->view()->assign('source_nodes', $source_nodes)->assign('dist_nodes', $dist_nodes)->display('admin/relay/add.tpl');
     }
@@ -137,7 +140,12 @@ class RelayController extends AdminController
             exit(0);
         }
 
-        $source_nodes = Node::where('sort', 10)->orwhere('sort',12)->orderBy('name')->get();
+        $source_nodes = Node::where(
+            function ($query) {
+                $query->Where('sort', 10)
+                    ->orWhere('sort', 12);
+            }            
+            )->orderBy('name')->get();
         foreach($source_nodes as $node){
             if ($node->sort==12){
                 $node->name = $node->name." 正在使用V2ray后端 ";
@@ -147,17 +155,16 @@ class RelayController extends AdminController
         $dist_nodes = Node::where(
             function ($query) {
                 $query->Where('sort', 0)
-                    ->orWhere('sort', 10)->orWhere('sort',12)->orWhere('sort',11);
+                    ->orWhere('sort', 10)
+                    ->orWhere('sort', 11)
+                    ->orWhere('sort', 12);
             }
         )->orderBy('name')->get();
 
         foreach ($dist_nodes as $node){
             if ($node->sort==11 or $node->sort==12){
-                $node_explode = explode(';', $node->server);
-                if ($node_explode[1]=="" || $node_explode[1]=="0"){
-                    $node_explode[1]="443";
-                }
-                $node->name = $node->name." 如果是V2ray后端 请设置成".$node_explode[1];
+                $node_explode = Tools::ssv2Array($node->server);
+                $node->name = $node->name." 如果是V2ray后端 请设置成".$node_explode['port'];
             }else {
                 $node->name = $node->name." 如果是V2ray后端 请不要设置，用户页面设置 ";
             }
@@ -267,9 +274,14 @@ class RelayController extends AdminController
         $nodes = Node::where(
             function ($query) use ($user) {
                 $query->Where("node_group", "=", $user->node_group)
-                      ->orWhere("node_group", "=", 0);
+                    ->orWhere("node_group", "=", 0);
             }
-        )->where("sort", "=", 10)-orwhere("sort","=",12)->where("node_class", "<=", $user->class)->orderBy('name')->get();
+        )->where(
+            function ($query) {
+                $query->Where('sort', 10)
+                    ->orWhere('sort', 12);
+            }
+            )->where("node_class", "<=", $user->class)->orderBy('name')->get();
 
         $pathset = new \ArrayObject();
 

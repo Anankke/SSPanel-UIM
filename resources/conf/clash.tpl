@@ -33,16 +33,16 @@ secret: ''
 
 Proxy:
 {foreach $confs as $conf}
-  - {json_encode($conf,JSON_UNESCAPED_SLASHES)}
+  - {json_encode($conf,320)}
 {/foreach}
 
 Proxy Group:
-  - { name: "Auto", type: fallback, proxies: {$proxies|json_encode}, url: "http://www.gstatic.com/generate_204", interval: 300 }
-{append var='proxies' value='Auto'}
-  - { name: "Proxy", type: select, proxies: {$proxies|json_encode} }
+  - { name: "Auto", type: fallback, proxies: {json_encode($proxies,320)}, url: "http://www.gstatic.com/generate_204", interval: 300 }
+{append var='proxies' value='Auto' index=0}
+  - { name: "Proxy", type: select, proxies: {json_encode($proxies,320)} }
   - { name: "Domestic", type: select, proxies: ["DIRECT","Proxy"] }
 {$China_media=["Domestic","Proxy"]}
-  - { name: "China_media", type: select, proxies: {$China_media|json_encode} }
+  - { name: "China_media", type: select, proxies: {json_encode($China_media,320)} }
   - { name: "Global_media", type: select, proxies: ["Proxy"]}
   - { name: "Others", type: select, proxies: ["Proxy","Domestic"]}
 
@@ -587,30 +587,3 @@ Rule:
 
 - GEOIP,CN,Domestic
 - MATCH,Others
-
-# Clash for Windows 自定义系统代理需要绕过的域名或IP。
-
-cfw-bypass:
-  - 'music.163.com'
-  - '*.music.126.net'
-  - localhost
-  - 127.*
-  - 10.*
-  - 172.16.*
-  - 172.17.*
-  - 172.18.*
-  - 172.19.*
-  - 172.20.*
-  - 172.21.*
-  - 172.22.*
-  - 172.23.*
-  - 172.24.*
-  - 172.25.*
-  - 172.26.*
-  - 172.27.*
-  - 172.28.*
-  - 172.29.*
-  - 172.30.*
-  - 172.31.*
-  - 192.168.*
-  - <local>
