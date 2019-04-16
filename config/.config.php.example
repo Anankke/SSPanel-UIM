@@ -120,7 +120,7 @@ $System_Config['finance_public']='false';			//财务报告是否向群公开
 $System_Config['enable_welcome_message']='true';	//机器人发送欢迎消息
 
 #Discord
-$System_Config['enable_discord']='false';	//是否开启Discord bot
+$System_Config['enable_discord']='false';	//是否开启Discord bot（仍未完成）
 $System_Config['discord_token']='';			//Discord bot,bot 的 token，在 https://discordapp.com/developers/applications/ 申请
 
 
