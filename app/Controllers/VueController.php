@@ -186,6 +186,7 @@ class VueController extends BaseController
             "code" => $code,
             "paybacks" => $paybacks,
             "paybacks_sum" => $paybacks_sum,
+            "invite_num" => $user->invite_num,
             "invitePrice" => Config::get('invite_price'),
             "customPrice" => Config::get('custom_invite_price'),
             "invite_gift" => Config::get('invite_gift'),
@@ -386,7 +387,7 @@ class VueController extends BaseController
             } else {
                 if ($node->sort == 13) {
                     $server = Tools::ssv2Array($node->server);
-                    $array_node['server']=$server['add'];
+                    $array_ n ode['server ' ]=$server['add'];
                 } else {
                     $array_node['server'] = $node->server;
                 }
@@ -457,4 +458,3 @@ class VueController extends BaseController
         return $response->getBody()->write(json_encode($res));
     }
 }
-

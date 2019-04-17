@@ -3,7 +3,6 @@ import {
 } from '../js/fetch'
 
 export default {
-  props: ['annC', 'baseURL'],
   methods: {
     reConfigResourse() {
       _get('/getallresourse', 'include').then((r) => {

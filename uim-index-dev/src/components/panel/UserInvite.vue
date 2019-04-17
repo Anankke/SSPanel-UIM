@@ -464,6 +464,7 @@ export default {
         this.pagenation = {
           lastPage: r.inviteInfo.paybacks.last_page
         };
+        this.setInviteNum(r.inviteInfo.invite_num);
       } else if (r.ret === -1) {
         this.ajaxNotLogin();
       }

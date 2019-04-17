@@ -23,7 +23,10 @@ export default {
     iosAccount: state => state.userState.iosAccount,
     iosPassword: state => state.userState.iosPassword,
     displayIosClass: state => state.userState.displayIosClass,
-    sign: state => state.userState.sign
+    sign: state => state.userState.sign,
+    ann: state => state.userState.ann,
+    baseURL: state => state.userState.baseURL,
+    mergeSub: state => state.userState.mergeSub
   }),
   methods: {
     ...mapActions({
@@ -47,7 +50,10 @@ export default {
       setCurrentDlType: 'SET_CURRENT_DL_TYPE',
       setCurrentPlantformType: 'SET_CURRENT_PLANTFORM_TYPE',
       setAllBaseCon: 'SET_ALLBASECON',
-      setSignSet: 'SET_SIGNSET'
+      setSignSet: 'SET_SIGNSET',
+      setAnn: 'SET_ANN',
+      setBaseUrl: 'SET_BASEURL',
+      setMergeSub: 'SET_MERGESUB'
     }),
     successCopied() {
       let callConfig = {

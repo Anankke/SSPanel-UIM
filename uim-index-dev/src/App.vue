@@ -114,7 +114,6 @@ export default {
   },
   methods: {
     routeJudge() {
-      window.console.log(this.$route.path);
       switch (this.$route.path) {
         case "/":
           if (this.logintoken === false) {
@@ -130,11 +129,26 @@ export default {
           this.routerN = "panel";
           break;
       }
+    },
+    getPublicResouce() {
+      fetch("https://api.lwl12.com/hitokoto/v1")
+        .then(r => {
+          return r.text();
+        })
+        .then(r => {
+          this.setHitokoto(r);
+        });
+      _get("https://v2.jinrishici.com/one.json", "include").then(r => {
+        this.setJinRiShiCi(r.data.content);
+      });
     }
   },
   watch: {
     $route(to, from) {
       this.routeJudge();
+      if (this.globalConfig.indexMsg.hitokoto === "") {
+        this.getPublicResouce();
+      }
       if (to.path === "/password/reset" || from.path === "/password/reset") {
         this.transType = "rotate-fade";
       } else {
@@ -143,22 +157,18 @@ export default {
     }
   },
   beforeMount() {
-    fetch("https://api.lwl12.com/hitokoto/v1")
-      .then(r => {
-        return r.text();
-      })
-      .then(r => {
-        this.setHitokoto(r);
-      });
-    _get("https://v2.jinrishici.com/one.json", "include").then(r => {
-      this.setJinRiShiCi(r.data.content);
-    });
+    if (
+      window.location.hash === "#/" &&
+      this.globalConfig.indexMsg.hitokoto === ""
+    ) {
+      this.getPublicResouce();
+    }
   },
   mounted() {
     this.routeJudge();
     setTimeout(() => {
       this.setLoadState();
-    }, 1000);
+    }, 500);
   }
 };
 </script>

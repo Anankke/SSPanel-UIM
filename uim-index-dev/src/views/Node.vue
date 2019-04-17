@@ -144,7 +144,7 @@ export default {
       .then(r => {
         setTimeout(() => {
           self.userLoadState = "loaded";
-        }, 1000);
+        }, 500);
       });
   },
   beforeRouteLeave(to, from, next) {
