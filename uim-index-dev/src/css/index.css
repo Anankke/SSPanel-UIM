@@ -51,6 +51,10 @@ a {
     flex-wrap: wrap;
 }
 
+.no-wrap {
+    flex-wrap: nowrap;
+}
+
 .text-left {
     text-align: left;
 }
@@ -479,10 +483,6 @@ select {
     margin-left: auto;
     margin-right: auto;
     width: 87%;
-}
-
-#embed-captcha-login {
-    margin-top: 1rem;
 }
 
 .auth-tg {
