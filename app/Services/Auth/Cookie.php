@@ -14,12 +14,12 @@ class Cookie extends Base
     {
         $user = User::find($uid);
         $key = Hash::cookieHash($user->pass);
-        $expire_in = $time+time();
+        $expire_in = $time + time();
         Utils\Cookie::set([
             "uid" => $uid,
             "email" => $user->email,
             "key" => $key,
-            "ip" => md5($_SERVER["REMOTE_ADDR"].Config::get('key').$uid.$expire_in),
+            "ip" => md5($_SERVER["REMOTE_ADDR"] . Config::get('key') . $uid . $expire_in),
             "expire_in" => $expire_in
         ], $expire_in);
     }
@@ -29,30 +29,27 @@ class Cookie extends Base
         $uid = Utils\Cookie::get('uid');
         $email = Utils\Cookie::get('email');
         $key = Utils\Cookie::get('key');
-        $ip = Utils\Cookie::get('ip');
-        
+        $ipHash = Utils\Cookie::get('ip');
         $expire_in = Utils\Cookie::get('expire_in');
-        
+
+        $user = new User();
+        $user->isLogin = false;
+
         if ($uid == null) {
-            $user = new User();
-            $user->isLogin = false;
-            return $user;
-        }
-        
-        $nodes=Node::where("node_ip", "=", $_SERVER["REMOTE_ADDR"])->first();
-        if ($ip != md5($_SERVER["REMOTE_ADDR"].Config::get('key').$uid.$expire_in) && $nodes==null && Config::get('enable_login_bind_ip')=='true') {
-            $user = new User();
-            $user->isLogin = false;
-            return $user;
-        }
-        
-        if ($expire_in<time()) {
-            $user = new User();
-            $user->isLogin = false;
             return $user;
         }
 
-        $user = User::where('email',$email)->first();
+        $nodes = Node::where("node_ip", "=", $_SERVER["REMOTE_ADDR"])->first();
+        if ($ipHash != md5($_SERVER["REMOTE_ADDR"] . Config::get('key') . $uid . $expire_in) && $nodes == null && Config::get('enable_login_bind_ip') == 'true') {
+            return $user;
+        }
+
+        if ($expire_in < time()) {
+            return $user;
+        }
+
+
+        $user = User::where('email', $email)->first();
         if ($user == null) {
             $user = new User();
             $user->isLogin = false;
@@ -60,9 +57,12 @@ class Cookie extends Base
         }
 
         if (Hash::cookieHash($user->pass) != $key) {
+            $user = new User();
             $user->isLogin = false;
             return $user;
         }
+
+
         $user->isLogin = true;
         return $user;
     }
