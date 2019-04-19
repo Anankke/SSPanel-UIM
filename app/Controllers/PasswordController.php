@@ -12,7 +12,6 @@ use App\Utils\Hash;
  * @package App\Controllers
  * 密码重置
  */
-
 class PasswordController extends BaseController
 {
     public function reset()
@@ -22,7 +21,7 @@ class PasswordController extends BaseController
 
     public function handleReset($request, $response, $args)
     {
-        $email =  $request->getParam('email');
+        $email = $request->getParam('email');
         // check limit
 
         // send email
@@ -50,8 +49,8 @@ class PasswordController extends BaseController
     public function handleToken($request, $response, $args)
     {
         $tokenStr = $args['token'];
-        $password =  $request->getParam('password');
-        $repasswd =  $request->getParam('repasswd');
+        $password = $request->getParam('password');
+        $repasswd = $request->getParam('repasswd');
 
         if ($password != $repasswd) {
             $res['ret'] = 0;
@@ -66,7 +65,7 @@ class PasswordController extends BaseController
         }
 
         // check token
-        $token = PasswordReset::where('token', $tokenStr)->first();
+        $token = PasswordReset::where('token', $tokenStr)->orderBy('id', 'desc')->first();
         if ($token == null || $token->expire_time < time()) {
             $rs['ret'] = 0;
             $rs['msg'] = '链接已经失效,请重新获取';
