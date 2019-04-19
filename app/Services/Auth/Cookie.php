@@ -49,12 +49,18 @@ class Cookie extends Base
         }
 
 
-        $user = User::where('email', $email)->first();
+        $user = User::find($uid);
         if ($user == null) {
             $user = new User();
             $user->isLogin = false;
             return $user;
         }
+
+        if ($user->email != $email) {
+            $user = new User();
+            $user->isLogin = false;
+        }
+
 
         if (Hash::cookieHash($user->pass) != $key) {
             $user = new User();
