@@ -27,9 +27,9 @@ class Hash
         }
     }
 
-    public static function cookieHash($str)
+    public static function cookieHash($passHash, $expire_in)
     {
-        return substr(hash('sha256', $str . Config::get('key')), 5, 45);
+        return substr(hash('sha256', $passHash . Config::get('key') . $expire_in), 5, 45);
     }
 
     public static function md5WithSalt($pwd)
