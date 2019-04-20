@@ -293,7 +293,7 @@
 														<p><span class="icon icon-lg text-white">filter_2</span> 点击下方的“设置”，点击“订阅”，点击右上角的 + 号，选择“服务器”，“名称”任意填写，点击复制本网页下方的“订阅地址”，粘贴到“链接”中，点击右上角的“保存”</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 点击 Quantumult 底部菜单栏中间的图标，选择一个节点，再点击“主页”，打开右上角的开关即可</p>
 														<p><span class="icon icon-lg text-white">build</span> 工具三：Potatso Lite</p>
-														<p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a class="btn-dl" href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i class="material-icons">save_alt</i> 点击安装 Potatso Lite</a>，安装时如果弹出登录框则使用上方的账户</p>
+														<p><span class="icon icon-lg text-white">filter_1</span> 在外服APP商店中搜索Potatso Lite下载，安装时如果弹出登录框则使用上方的账户</p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso Lite，点击添加代理，选择“订阅”，名字任意填写，点击复制本网页下方的“订阅地址”，粘贴到URL中，点击右上角的 √</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 选择一个代理节点，点击下方的“开始”即可</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
