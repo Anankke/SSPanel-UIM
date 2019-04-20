@@ -4,26 +4,31 @@ namespace App\Utils;
 
 use App\Services\Config;
 
+
 class Hash
 {
-    public static function passwordHash($str)
+    public static function passwordHash($pass)
     {
         $method = Config::get('pwdMethod');
         switch ($method) {
             case 'md5':
-                return self::md5WithSalt($str);
+                return self::md5WithSalt($pass);
                 break;
             case 'sha256':
-                return self::sha256WithSalt($str);
+                return self::sha256WithSalt($pass);
+                break;
+            case 'bcrypt':
+                return password_hash($pass, PASSWORD_BCRYPT);
                 break;
             case 'argon2i':
-                return self::argon2i($str);
+                return password_hash($pass, PASSWORD_ARGON2I);
                 break;
-            case 'bcypt':
-                return self::bcypt($str);
+            case 'argon2id':
+                return password_hash($pass, PASSWORD_ARGON2ID);
                 break;
+
             default:
-                return self::md5WithSalt($str);
+                return self::md5WithSalt($pass);
         }
     }
 
@@ -44,23 +49,9 @@ class Hash
         return hash('sha256', $pwd . $salt);
     }
 
-    public static function argon2i($pwd)
-    {
-        $salt = Config::get('salt');
-        if ($salt == "") return password_hash($pwd, PASSWORD_ARGON2I);
-        else return password_hash($pwd, PASSWORD_ARGON2I, ['salt' => $salt]);
-    }
-
-    public static function bcypt($pwd)
-    {
-        $salt = Config::get('salt');
-        if ($salt == "") return password_hash($pwd, PASSWORD_BCRYPT);
-        else return password_hash($pwd, PASSWORD_BCRYPT, ['salt' => $salt]);
-    }
-
     public static function checkPassword($hashedPassword, $password)
     {
-        if (in_array(Config::get('pwdMethod'), ['bcypt', 'argon2i'])) return password_verify($password, $hashedPassword);
-        else return ($hashedPassword == self::passwordHash($password));
+        if (in_array(Config::get('pwdMethod'), ['bcrypt', 'argon2i', 'argon2id'])) return password_verify($password, $hashedPassword);
+        return ($hashedPassword == self::passwordHash($password));
     }
 }
