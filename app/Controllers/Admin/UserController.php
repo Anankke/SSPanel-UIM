@@ -359,41 +359,41 @@ class UserController extends AdminController
         $rs['msg'] = "删除成功";
         return $response->getBody()->write(json_encode($rs));
     }
-    
+
     public function changetouser($request, $response, $args)
     {
         $userid = $request->getParam('userid');
         $adminid = $request->getParam('adminid');
         $user = User::find($userid);
         $admin = User::find($adminid);
-        $expire_in = time()+60*60;
-      
+        $expire_in = time() + 60 * 60;
+
         if (!$admin->is_admin || !$user || !Auth::getUser()->isLogin) {
             $rs['ret'] = 0;
             $rs['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($rs));
         }
-        
+
         Utils\Cookie::set([
             "uid" => $user->id,
             "email" => $user->email,
-            "key" => Hash::cookieHash($user->pass),
-            "ip" => md5($_SERVER["REMOTE_ADDR"].Config::get('key').$user.$expire_in),
-            "expire_in" =>  $expire_in,
+            "key" => Hash::cookieHash($user->pass, $expire_in),
+            "ip" => md5($_SERVER["REMOTE_ADDR"] . Config::get('key') . $user->id . $expire_in),
+            "expire_in" => $expire_in,
             "old_uid" => Utils\Cookie::get('uid'),
             "old_email" => Utils\Cookie::get('email'),
             "old_key" => Utils\Cookie::get('key'),
             "old_ip" => Utils\Cookie::get('ip'),
             "old_expire_in" => Utils\Cookie::get('expire_in'),
-            "old_local" =>  $request->getParam('local')
-        ],  $expire_in);
+            "old_local" => $request->getParam('local')
+        ], $expire_in);
         $rs['ret'] = 1;
         $rs['msg'] = "切换成功";
         return $response->getBody()->write(json_encode($rs));
     }
 
 	public function ajax($request, $response, $args)
-	{		
+	{
         //得到排序的方式
         $order = $request->getParam('order')[0]['dir'];
         //得到排序字段的下标
@@ -413,7 +413,7 @@ class UserController extends AdminController
 		elseif($order_field=='today_traffic'){
 			$order_field='u +d - last_day_t';
 		}
-        
+
 		$users=array();
 		$count_filtered=0;
 
@@ -443,7 +443,7 @@ class UserController extends AdminController
 						->orwhere('protocol','LIKE',"%$search%")
 						->orwhere('protocol_param','LIKE',"%$search%")
 						->orwhere('obfs','LIKE',"%$search%")
-						->orwhere('obfs_param','LIKE',"%$search%");						
+						->orwhere('obfs_param','LIKE',"%$search%");
 					}
 				)
                 ->orderByRaw($order_field.' '.$order)
@@ -474,7 +474,7 @@ class UserController extends AdminController
 						->orwhere('protocol','LIKE',"%$search%")
 						->orwhere('protocol_param','LIKE',"%$search%")
 						->orwhere('obfs','LIKE',"%$search%")
-						->orwhere('obfs_param','LIKE',"%$search%");		
+						->orwhere('obfs_param','LIKE',"%$search%");
 					}
 				)->count();
 		}
@@ -484,7 +484,7 @@ class UserController extends AdminController
 				->get();
             $count_filtered = User::count();
         }
-		        
+
 		$data=array();
 		foreach ($users as $user) {
 			$tempdata=array();
@@ -497,7 +497,7 @@ class UserController extends AdminController
 			$tempdata['remark']=$user->remark;
 			$tempdata['email']=$user->email;
 			$tempdata['money']=$user->money;
-			$tempdata['im_value']=$user->im_value;			
+			$tempdata['im_value']=$user->im_value;
 			switch($user->im_type) {
 				case 1:
 				$tempdata['im_type'] = '微信';
@@ -531,7 +531,7 @@ class UserController extends AdminController
 			$tempdata['reg_date']=$user->reg_date;
 			$tempdata['reg_ip']=$user->reg_ip;
 			$tempdata['auto_reset_day']=$user->auto_reset_day;
-			$tempdata['auto_reset_bandwidth']=$user->auto_reset_bandwidth;			
+			$tempdata['auto_reset_bandwidth']=$user->auto_reset_bandwidth;
             $tempdata['ref_by']= $user->ref_by;
 			if ($user->ref_by == 0) {
 				$tempdata['ref_by_user_name'] = "系统邀请";
@@ -545,11 +545,11 @@ class UserController extends AdminController
 					$tempdata['ref_by_user_name'] = $ref_user->user_name;
 				}
 			}
-			
+
             $tempdata['top_up']=$user->get_top_up();
 
 			array_push($data,$tempdata);
-		}         
+		}
         $info = [
            'draw'=> $request->getParam('draw'), // ajax请求次数，作为标识符
            'recordsTotal'=>User::count(),

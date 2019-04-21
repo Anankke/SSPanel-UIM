@@ -897,7 +897,7 @@ class UserController extends BaseController
             $res['ret'] = 0;
             $res['msg'] = "此后缀名被抢注了";
             return $response->getBody()->write(json_encode($res));
-        } 
+        }
 
         $user = $this->user;
 
@@ -1370,7 +1370,7 @@ class UserController extends BaseController
         $wechat = trim($wechat);
 
         $user = $this->user;
-		
+
         if ($user->telegram_id != 0) {
             $res['ret'] = 0;
             $res['msg'] = "您绑定了 Telegram ，所以此项并不能被修改。";
@@ -1799,8 +1799,8 @@ class UserController extends BaseController
             "uid" => Utils\Cookie::get('old_uid'),
             "email" => Utils\Cookie::get('old_email'),
             "key" => Utils\Cookie::get('old_key'),
-            "ip" => Utils\Cookie::get('old_expire_in'),
-            "expire_in" => $expire_in,
+            "ip" => Utils\Cookie::get('old_ip'),
+            "expire_in" => Utils\Cookie::get('old_expire_in'),
             "old_uid" => null,
             "old_email" => null,
             "old_key" => null,
