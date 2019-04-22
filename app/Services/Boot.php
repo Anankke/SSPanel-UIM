@@ -12,6 +12,7 @@ class Boot
         if (Config::get('debug') == "true") {
             define("DEBUG", true);
         }
+        View::$beginTime = microtime(true);
     }
 
     public static function setVersion($version)
