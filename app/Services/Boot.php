@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Service\View;
 
 class Boot
 {
@@ -34,5 +35,8 @@ class Boot
             $capsule->addConnection(Config::getRadiusDbConfig(), 'radius');
         }
         $capsule->bootEloquent();
+
+        View::$connection = $capsule->getDatabaseManager();
+        $capsule->getDatabaseManager()->connection('default')->enableQueryLog();
     }
 }
