@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
-use App\Service\View;
 
 class Boot
 {
