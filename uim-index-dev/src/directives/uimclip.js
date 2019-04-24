@@ -3,11 +3,10 @@ export default {
     el.addEventListener('click', (e) => {
       let copy = new Promise((resolve, reject) => {
         let input = document.createElement('input')
-        let body = document.getElementsByTagName('body')[0]
         let value = el.dataset.uimclip
         input.setAttribute('type', 'text')
         input.setAttribute('value', value)
-        body.appendChild(input)
+        el.after(input)
         input.focus()
         input.setSelectionRange(0, value.length)
         document.execCommand('copy', true)
