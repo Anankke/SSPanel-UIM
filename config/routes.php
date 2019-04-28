@@ -403,5 +403,17 @@ $app->group('/admin', function () {
 })->add(new Admin());
 // chenPay end
 
+//添加番茄云支付路由
+$app->group('/user',function(){    
+$this->get("/tomatopay","App\Utils\TomatoPay:route_home");    
+$this->post("/tomatopay","App\Utils\TomatoPay:handel");
+});
+$app->group("/tomatopay",function(){    
+$this->post("/callback_wx","App\Utils\TomatoPay:handel_wxcallback");  
+$this->post("/callback_ali","App\Utils\TomatoPay:handel_alicallback"); 
+$this->get("/return","App\Utils\TomatoPay:handel_return");
+});
+//添加番茄云支付路由END
+
 // Run Slim Routes for App
 $app->run();
