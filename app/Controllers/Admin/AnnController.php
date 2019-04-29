@@ -71,8 +71,8 @@ class AnnController extends AdminController
 				$ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
 				$postdata = http_build_query(
 				array(
-				'text' => Config::get('appName')."-公告";
-				'desp' => $$request->getParam('markdown');
+				'text' => Config::get('appName')."-公告",
+				'desp' => $$request->getParam('markdown')
 				));
 				$opts = array('http' =>
 				array(
