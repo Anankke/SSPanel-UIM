@@ -54,7 +54,7 @@ $System_Config['sendgrid_sender'] = '';
 # https://pushbear.ftqq.com/
 # 向关注了二维码的用户以微信方式推送消息
 
-$System_Config['usePushBear'] = 'true';		// true 启用	false 禁用
+$System_Config['usePushBear'] = 'false';		// true 启用	false 禁用
 $System_Config['PushBear_sendkey'] = '';	//请填写您在PushBear获取的sendkey  请仔细检查勿粘贴错
 
 //备份设置--------------------------------------------------------------------------------------------
