@@ -157,7 +157,7 @@ $sign = md5(substr($o,0,-1).$settings['token']);
 					pid = data.pid;
 					if(type=="wxpay"){
 						$("#result").modal();
-						$("#msg").html("正在跳转到支付宝..."+data.code);
+						$("#msg").html("正在跳转到微信支付..."+data.code);
 					}else if(type=="alipay"){
 						$("#result").modal();
 						$("#msg").html("正在跳转到支付宝..."+data.code);
