@@ -1267,7 +1267,6 @@ class UserController extends BaseController
 			$context  = stream_context_create($opts);
 			file_get_contents('https://sc.ftqq.com/'.$ScFtqq_SCKEY.'.send', false, $context);
 		}
-		}
 		
         $res['ret'] = 1;
         $res['msg'] = "提交成功";
@@ -1320,7 +1319,7 @@ class UserController extends BaseController
 				$ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
 				$postdata = http_build_query(
 				array(
-				'text' => Config::get('appName') . "-工单被重新开启";,
+				'text' => Config::get('appName') . "-工单被重新开启",
 				'desp' => $markdown
 				));
 				$opts = array('http' =>
@@ -1354,7 +1353,7 @@ class UserController extends BaseController
 				$ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
 				$postdata = http_build_query(
 				array(
-				'text' => Config::get('appName') . "-工单被回复";,
+				'text' => Config::get('appName') . "-工单被回复",
 				'desp' => $markdown
 				));
 				$opts = array('http' =>
