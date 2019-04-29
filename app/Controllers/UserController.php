@@ -1234,7 +1234,7 @@ class UserController extends BaseController
         $ticket->datetime = time();
         $ticket->save();
 
-		if(Config::get('mail_ticket') == 'true'){
+		if(Config::get('mail_ticket') == 'true' && $markdown !=''){
 			$adminUser = User::where("is_admin", "=", "1")->get();
 	       foreach ($adminUser as $user) {
 		        $subject = Config::get('appName') . "-新工单被开启";
@@ -1251,7 +1251,7 @@ class UserController extends BaseController
 			}
 		}
 
-		if(Config::get('useScFtqq') == 'true'){
+		if(Config::get('useScFtqq') == 'true' && $markdown !=''){
 			$ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
 			$postdata = http_build_query(
 			array(
@@ -1278,6 +1278,7 @@ class UserController extends BaseController
         $id = $args['id'];
         $content = $request->getParam('content');
         $status = $request->getParam('status');
+		$markdown = $request->getParam('markdown');
 
         if ($content == "" || $status == "") {
             $res['ret'] = 0;
@@ -1299,7 +1300,7 @@ class UserController extends BaseController
         }
 
         if ($status == 1 && $ticket_main->status != $status) {
-			if(Config::get('mail_ticket') == 'true'){
+			if(Config::get('mail_ticket') == 'true' && $markdown !=''){
 				$adminUser = User::where("is_admin", "=", "1")->get();
 				foreach ($adminUser as $user) {
 					$subject = Config::get('appName') . "-工单被重新开启";
@@ -1315,7 +1316,7 @@ class UserController extends BaseController
 					}
 				}
 			}
-			if(Config::get('useScFtqq') == 'true'){
+			if(Config::get('useScFtqq') == 'true' && $markdown !=''){
 				$ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
 				$postdata = http_build_query(
 				array(
@@ -1333,7 +1334,7 @@ class UserController extends BaseController
 				$useScFtqq = Config::get('ScFtqq_SCKEY');
 			}
         } else {
-			if(Config::get('mail_ticket') == 'true'){
+			if(Config::get('mail_ticket') == 'true' && $markdown !=''){
 				$adminUser = User::where("is_admin", "=", "1")->get();
 				foreach ($adminUser as $user) {
 					$subject = Config::get('appName') . "-工单被回复";
@@ -1349,7 +1350,7 @@ class UserController extends BaseController
 					}
 				}
 			}
-			if(Config::get('useScFtqq') == 'true'){
+			if(Config::get('useScFtqq') == 'true' && $markdown !=''){
 				$ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
 				$postdata = http_build_query(
 				array(

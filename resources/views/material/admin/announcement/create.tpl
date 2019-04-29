@@ -118,7 +118,7 @@
                 dataType: "json",
                 data: {
                     content: editor.getHTML(),
-					markdown: editor.getMarkdown(),
+					markdown: $('.editormd-markdown-textarea').val(),
                   	vip: $$getValue('vip'),
                   	issend,
 					PushBear,
