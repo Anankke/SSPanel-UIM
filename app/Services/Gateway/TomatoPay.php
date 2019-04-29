@@ -6,6 +6,10 @@ use App\Services\Config;
 use App\Models\Paylist;
 class TomatoPay extends AbstractPayment
 {
+	protected $enabled = [
+        'wxpay'=>0, // 1 启用 0 关闭
+        'alipay'=>1, // 1 启用 0 关闭
+        ];
     protected $data = [
         'wxpay'=>[    //配置微信支付
             'mchid' => 1555860947,   // 商户号
@@ -118,7 +122,7 @@ $sign = md5(substr($o,0,-1).$settings['token']);
 									</div>
                                     <div class="card-action">
 										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="code-update" ><span class="icon">check</span>&nbsp;充值</NOtton>
+											<button class="btn btn-flat waves-attach" id="code-update" ><span class="icon">check</span>&nbsp;充值</button>
 										</div>
 									</div>
                         <script>
