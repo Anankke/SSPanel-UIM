@@ -50,6 +50,12 @@ $System_Config['smtp_ssl'] = 'true';
 $System_Config['sendgrid_key'] = '';
 $System_Config['sendgrid_sender'] = '';
 
+# PushBear  基于微信模板的一对多消息送达服务
+# https://pushbear.ftqq.com/
+# 向关注了二维码的用户以微信方式推送消息
+
+$System_Config['usePushBear'] = 'true';		// true 启用	false 禁用
+$System_Config['PushBear_sendkey'] = '';	//请填写您在PushBear获取的sendkey  请仔细检查勿粘贴错
 
 //备份设置--------------------------------------------------------------------------------------------
 $System_Config['auto_backup_email']='';		//接收备份的邮箱
