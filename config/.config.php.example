@@ -178,15 +178,16 @@ $System_Config['payment_system']='none';
 #tomatopay番茄云支付
 $System_Config['tomatopay'] = [
         'wxpay'=>[
-            'mchid' => 1555860947,   // 商户号
+            'mchid' => '1555860947',   // 商户号
             'account' => '2487642542@qq.com', //您在番茄云支付的登录邮箱
             'token' => "qGNbcGjW8MFhDupjxeJy7wqDUBoz7ZJg" // 安全验证码
         ],
         'alipay'=>[
-            'mchid' => 1555860935,   // 商户号
+            'mchid' => '1555860935',   // 商户号
             'account' => '2487642542@qq.com', //您在番茄云支付的登录邮箱
             'token' => "owVtOoA7n7e3MM7J4yJxiKMaQ8NEOJjr" // 安全验证码
         ],
+ ];
 #codepay码支付
 #wiki地址:https://goo.gl/dRwRDi  http://t.cn/RnsWjtB
 $System_Config['codepay_id']='';					//码支付ID
