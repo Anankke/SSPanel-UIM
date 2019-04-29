@@ -147,6 +147,11 @@ $System_Config['PushBear_sendkey'] = '';	//请填写您在PushBear获取的sendk
 
 #工单系统设置
 $System_Config['enable_ticket']='true';		//是否开启工单系统
+$System_Config['mail_ticket']='false';		//是否开启工单邮件提醒
+
+# Server酱  用户提交新工单或者回复工单时用微信提醒机场主 http://sc.ftqq.com/
+$System_Config['useScFtqq'] = 'false';		//是否开启工单Server酱提醒
+$System_Config['ScFtqq_SCKEY'] = '';	//请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
 
 #管理员联系方式设置
 $System_Config['enable_admin_contact']='false';			//是否开启管理员联系方式

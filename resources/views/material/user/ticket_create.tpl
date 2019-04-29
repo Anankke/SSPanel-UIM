@@ -99,6 +99,7 @@
                 dataType: "json",
                 data: {
                     content: editor.getHTML(),
+					markdown: editor.getMarkdown(),
 					title: $("#title").val()
                 },
                 success: function (data) {
