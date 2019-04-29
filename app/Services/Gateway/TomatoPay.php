@@ -6,35 +6,16 @@ use App\Services\Config;
 use App\Models\Paylist;
 class TomatoPay extends AbstractPayment
 {
-	protected $enabled = [
-        'wxpay'=>1, // 1 启用 0 关闭
-        'alipay'=>1, // 1 启用 0 关闭
-        ];
-    protected $data = [
-        'wxpay'=>[    //配置微信支付
-            'mchid' => 1555860947,   // 商户号
-            'account' => '2487642542@qq.com', //登陆邮箱
-            'token' => "qGNbcGjW8MFhDupjxeJy7wqDUBoz7ZJg" // 安全验证码
-        ],
-        'alipay'=>[  //配置支付宝支付
-            'mchid' => 1555860935,   // 商户号
-            'account' => '2487642542@qq.com', //登陆邮箱
-            'token' => "owVtOoA7n7e3MM7J4yJxiKMaQ8NEOJjr" // 安全验证码
-        ],
-    ];
-	
+
     public function purchase($request, $response, $args)
     {
         $type = $request->getParam('type');
         $price = $request->getParam('price');
-        if($this->enabled[$type]==0){
-            return json_encode(['errcode'=>-1,'errmsg'=>"非法的支付方式."]);
-        }
         if($price <= 0){
             return json_encode(['errcode'=>-1,'errmsg'=>"非法的金额."]);
         }
         $user = Auth::getUser();
-        $settings = $this->data[$type];
+        $settings = Config::get("tomatopay")[$type];
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
@@ -63,7 +44,7 @@ class TomatoPay extends AbstractPayment
     public function notify($request, $response, $args)
     {
 		$type = $args['type'];
-		      $settings = $this->data[$type];
+		      $settings = Config::get("tomatopay")[$type];
                 $order_data = $_REQUEST;
         $transid   = $order_data['trade_no'];       //转账交易号
 		$invoiceid = $order_data['out_trade_no'];     //订单号
@@ -122,7 +103,7 @@ $sign = md5(substr($o,0,-1).$settings['token']);
 									</div>
                                     <div class="card-action">
 										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="code-update" ><span class="icon">check</span>&nbsp;充值</button>
+											<button class="btn btn-flat waves-attach" id="code-update" ><span class="icon">check</span>&nbsp;充值</NOtton>
 										</div>
 									</div>
                         <script>
@@ -157,7 +138,7 @@ $sign = md5(substr($o,0,-1).$settings['token']);
 					pid = data.pid;
 					if(type=="wxpay"){
 						$("#result").modal();
-						$("#msg").html("正在跳转到微信支付..."+data.code);
+						$("#msg").html("正在跳转到微信..."+data.code);
 					}else if(type=="alipay"){
 						$("#result").modal();
 						$("#msg").html("正在跳转到支付宝..."+data.code);
