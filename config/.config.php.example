@@ -176,18 +176,17 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 #取值 none | codepay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay |tomatopay
 $System_Config['payment_system']='none';
 #tomatopay番茄云支付
-$System_Config = [
+$System_Config['tomatopay'] = [
         'wxpay'=>[
             'mchid' => 1511606484,   // 商户号
             'account' => admin@fanqieui.com, //您在番茄云支付的登录邮箱
             'token' => "IWDxq5wILmuWZEQKj1hEFFsHXBAotsD8" // 安全验证码
         ],
         'alipay'=>[
-            'mchid' => 1511606511,   // 商户号
-            ''account' => admin@fanqieui.com, //您在番茄云支付的登录邮箱
-            'token' => "bDtPDQwi76RQO3ISnDryrk9Hbe3SsAkQ" // 安全验证码
-            ];
-
+            'mchid' => 1511606484,   // 商户号
+            'account' => admin@fanqieui.com, //您在番茄云支付的登录邮箱
+            'token' => "IWDxq5wILmuWZEQKj1hEFFsHXBAotsD8" // 安全验证码
+        ],
 #codepay码支付
 #wiki地址:https://goo.gl/dRwRDi  http://t.cn/RnsWjtB
 $System_Config['codepay_id']='';					//码支付ID
