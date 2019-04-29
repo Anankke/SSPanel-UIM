@@ -50,12 +50,6 @@ $System_Config['smtp_ssl'] = 'true';
 $System_Config['sendgrid_key'] = '';
 $System_Config['sendgrid_sender'] = '';
 
-# PushBear  基于微信模板的一对多消息送达服务
-# https://pushbear.ftqq.com/
-# 向关注了二维码的用户以微信方式推送消息
-
-$System_Config['usePushBear'] = 'false';		// true 启用	false 禁用
-$System_Config['PushBear_sendkey'] = '';	//请填写您在PushBear获取的sendkey  请仔细检查勿粘贴错
 
 //备份设置--------------------------------------------------------------------------------------------
 $System_Config['auto_backup_email']='';		//接收备份的邮箱
@@ -146,6 +140,10 @@ $System_Config['telegram_request_token']='';		//Telegram 机器人请求Key，�
 #客服系统设置，注册地址 https://www.mylivechat.com
 $System_Config['enable_mylivechat']='false';		//是否开启客服系统
 $System_Config['mylivechat_id']='null';			//客服系统ID
+
+# PushBear  基于微信模板的向关注了二维码的用户以微信方式推送消息 https://pushbear.ftqq.com/
+$System_Config['usePushBear'] = 'false';		// true 启用	false 禁用
+$System_Config['PushBear_sendkey'] = '';	//请填写您在PushBear获取的sendkey  请仔细检查勿粘贴错
 
 #工单系统设置
 $System_Config['enable_ticket']='true';		//是否开启工单系统

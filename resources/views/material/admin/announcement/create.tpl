@@ -100,10 +100,17 @@
             } else {
 				var issend=0;
 			}
+			if ($$.getElementById('PushBear').checked) {
+				var PushBear=1;
+            } else {
+				var PushBear=0;
+			}
             if (page === -1) {
                 sedPage = 1;
             } else {
                 sedPage = page;
+				var PushBear=0;
+
 			}
             $.ajax({
                 type: "POST",
@@ -114,6 +121,7 @@
 					markdown: editor.getMarkdown(),
                   	vip: $$getValue('vip'),
                   	issend,
+					PushBear,
 					page: sedPage
                 },
                 success: data => {
