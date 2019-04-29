@@ -36,8 +36,6 @@
 						</div>
 					</div>
 					
-					
-					
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
@@ -107,6 +105,7 @@
                 dataType: "json",
                 data: {
                     content: editor.getHTML(),
+					markdown: editor.getMarkdown(),
 					title: $("#title").val(),
 					status:status
                 },

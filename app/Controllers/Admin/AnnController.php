@@ -68,11 +68,21 @@ class AnnController extends AdminController
             }
         }
 			if ($PushBear == 1){
-			   foreach($users as $user){
-			       $subject = Config::get('appName')."-公告";
-				   $PushBear_sendkey = Config::get('PushBear_sendkey')."-公告";
-				   file_get_contents('https://pushbear.ftqq.com/sub?sendkey='.$PushBear_sendkey.'&text='.$subject.'&desp='.urlencode($request->getParam('markdown')));
-				}
+				$ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
+				$postdata = http_build_query(
+				array(
+				'text' => Config::get('appName')."-公告",
+				'desp' => $$request->getParam('markdown')
+				));
+				$opts = array('http' =>
+				array(
+				'method'  => 'POST',
+				'header'  => 'Content-type: application/x-www-form-urlencoded',
+				'content' => $postdata
+				));
+				$context  = stream_context_create($opts);
+				file_get_contents('https://sc.ftqq.com/'.$ScFtqq_SCKEY.'.send', false, $context);
+				
 			}
         if(count($users) == Config::get('sendPageLimit')){
             $rs['ret'] = 2;

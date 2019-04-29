@@ -50,12 +50,6 @@ $System_Config['smtp_ssl'] = 'true';
 $System_Config['sendgrid_key'] = '';
 $System_Config['sendgrid_sender'] = '';
 
-# PushBear  基于微信模板的一对多消息送达服务
-# https://pushbear.ftqq.com/
-# 向关注了二维码的用户以微信方式推送消息
-
-$System_Config['usePushBear'] = 'true';		// true 启用	false 禁用
-$System_Config['PushBear_sendkey'] = '';	//请填写您在PushBear获取的sendkey  请仔细检查勿粘贴错
 
 //备份设置--------------------------------------------------------------------------------------------
 $System_Config['auto_backup_email']='';		//接收备份的邮箱
@@ -147,8 +141,17 @@ $System_Config['telegram_request_token']='';		//Telegram 机器人请求Key，�
 $System_Config['enable_mylivechat']='false';		//是否开启客服系统
 $System_Config['mylivechat_id']='null';			//客服系统ID
 
+# PushBear  基于微信模板的向关注了二维码的用户以微信方式推送消息 https://pushbear.ftqq.com/
+$System_Config['usePushBear'] = 'false';		// true 启用	false 禁用
+$System_Config['PushBear_sendkey'] = '';	//请填写您在PushBear获取的sendkey  请仔细检查勿粘贴错
+
 #工单系统设置
 $System_Config['enable_ticket']='true';		//是否开启工单系统
+$System_Config['mail_ticket']='true';		//是否开启工单邮件提醒
+
+# Server酱  用户提交新工单或者回复工单时用微信提醒机场主 http://sc.ftqq.com/
+$System_Config['useScFtqq'] = 'false';		//是否开启工单Server酱提醒
+$System_Config['ScFtqq_SCKEY'] = '';	//请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
 
 #管理员联系方式设置
 $System_Config['enable_admin_contact']='false';			//是否开启管理员联系方式
