@@ -100,16 +100,20 @@
             } else {
 				var issend=0;
 			}
+			{if $config["usePushBear"] == "true"}
 			if ($$.getElementById('PushBear').checked) {
 				var PushBear=1;
             } else {
 				var PushBear=0;
 			}
+			{/if}
             if (page === -1) {
                 sedPage = 1;
             } else {
                 sedPage = page;
+				{if $config["usePushBear"] == "true"}
 				var PushBear=0;
+				{/if}
 
 			}
             $.ajax({
@@ -121,7 +125,9 @@
 					markdown: $('.editormd-markdown-textarea').val(),
                   	vip: $$getValue('vip'),
                   	issend,
+					{if $config["usePushBear"] == "true"}
 					PushBear,
+					{/if}
 					page: sedPage
                 },
                 success: data => {
