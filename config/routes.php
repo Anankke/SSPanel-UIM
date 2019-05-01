@@ -79,6 +79,8 @@ $app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');//yft uses GET
 $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
+$app->post('/tomato_back/{type}', 'App\Services\Payment:notify');
+$app->get('/tomato_back/{type}', 'App\Services\Payment:notify');
 
 // User Center
 $app->group('/user', function () {
