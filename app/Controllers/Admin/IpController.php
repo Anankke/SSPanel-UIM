@@ -20,8 +20,8 @@ class IpController extends AdminController
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array("id" => "ID", "userid" => "用户ID",
-                          "user_name" => "用户名", "ip" => "IP",
-                          "location" => "归属地", "datetime" => "时间", "type" => "类型");
+            "user_name" => "用户名", "ip" => "IP",
+            "location" => "归属地", "datetime" => "时间", "type" => "类型");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
@@ -33,9 +33,9 @@ class IpController extends AdminController
     public function alive($request, $response, $args)
     {
         $table_config['total_column'] = array("id" => "ID", "userid" => "用户ID",
-                          "user_name" => "用户名", "nodeid" => "节点ID",
-                          "node_name" => "节点名", "ip" => "IP",
-                          "location" => "归属地", "datetime" => "时间", "is_node" => "是否为中转连接");
+            "user_name" => "用户名", "nodeid" => "节点ID",
+            "node_name" => "节点名", "ip" => "IP",
+            "location" => "归属地", "datetime" => "时间", "is_node" => "是否为中转连接");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
@@ -47,8 +47,8 @@ class IpController extends AdminController
     public function block($request, $response, $args)
     {
         $table_config['total_column'] = array("id" => "ID",
-                        "name" => "节点名称", "ip" => "IP",
-                        "location" => "归属地", "datetime" => "时间");
+            "name" => "节点名称", "ip" => "IP",
+            "location" => "归属地", "datetime" => "时间");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
@@ -60,8 +60,8 @@ class IpController extends AdminController
     public function unblock($request, $response, $args)
     {
         $table_config['total_column'] = array("id" => "ID", "userid" => "用户ID",
-                          "user_name" => "用户名", "ip" => "IP",
-                          "location" => "归属地", "datetime" => "时间");
+            "user_name" => "用户名", "ip" => "IP",
+            "location" => "归属地", "datetime" => "时间");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
@@ -88,7 +88,7 @@ class IpController extends AdminController
 
 
         $res['ret'] = 1;
-        $res['msg'] = "发送解封命令解封 ".$ip." 成功";
+        $res['msg'] = "发送解封命令解封 " . $ip . " 成功";
         return $this->echoJson($response, $res);
     }
 
@@ -104,8 +104,8 @@ class IpController extends AdminController
         $iplocation = new QQWry();
 
         $datatables->edit('location', function ($data) use ($iplocation) {
-            $location=$iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location = $iplocation->getlocation($data['location']);
+            return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
         });
 
         $body = $response->getBody();
@@ -124,8 +124,8 @@ class IpController extends AdminController
         $iplocation = new QQWry();
 
         $datatables->edit('location', function ($data) use ($iplocation) {
-            $location=$iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location = $iplocation->getlocation($data['location']);
+            return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
         });
 
         $body = $response->getBody();
@@ -144,8 +144,8 @@ class IpController extends AdminController
 
         $iplocation = new QQWry();
         $datatables->edit('location', function ($data) use ($iplocation) {
-            $location=$iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location = $iplocation->getlocation($data['location']);
+            return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
         });
 
         $datatables->edit('type', function ($data) {
@@ -168,13 +168,13 @@ class IpController extends AdminController
 
         $iplocation = new QQWry();
 
-        $datatables->edit('ip', function ($data){
+        $datatables->edit('ip', function ($data) {
             return Tools::getRealIp($data['ip']);
         });
 
-        $datatables->edit('is_node', function ($data){
+        $datatables->edit('is_node', function ($data) {
             $is_node = Node::where("node_ip", Tools::getRealIp($data['ip']))->first();
-            if($is_node) {
+            if ($is_node) {
                 return "是";
             } else {
                 return "否";
@@ -182,8 +182,8 @@ class IpController extends AdminController
         });
 
         $datatables->edit('location', function ($data) use ($iplocation) {
-            $location=$iplocation->getlocation(Tools::getRealIp($data['location']));
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+            $location = $iplocation->getlocation(Tools::getRealIp($data['location']));
+            return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
         });
 
         $body = $response->getBody();

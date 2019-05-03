@@ -6,68 +6,71 @@ use App\Models\User;
 use App\Services\Config;
 use App\Controllers\LinkController;
 
-class Discord{
-	public static function set(){
-		$loop = \React\EventLoop\Factory::create();
-		$client = new \CharlotteDunois\Yasmin\Client(array(), $loop);
-		$client->on('error', function ($error) {
-			echo $error.PHP_EOL;
-		});
-		
-		$client->on('ready', function () use ($client) {
-			echo 'Logged in as '.$client->user->tag.' created on '.$client->user->createdAt->format('d.m.Y H:i:s').PHP_EOL;
-		});
+class Discord
+{
+    public static function set()
+    {
+        $loop = \React\EventLoop\Factory::create();
+        $client = new \CharlotteDunois\Yasmin\Client(array(), $loop);
+        $client->on('error', function ($error) {
+            echo $error . PHP_EOL;
+        });
 
-		$client->on('message', function ($message) {
-			//echo 'Received Message from '.$message->author->tag.' in '.($message->channel->type === 'text' ? 'channel #'.$message->channel->name : 'DM').' with '.$message->attachments->count().' attachment(s) and '.\count($message->embeds).' embed(s)'.PHP_EOL;
-			if(strpos($message->content, '!bind') === 0) {
-				bindQR($client, $message);
-			}
-			elseif(strpos($message->content, '!checkin') === 0) {
-				checkin($client, $message);
-			}
-			elseif(strpos($message->content, '!traffic') === 0) {
-				traffic($client, $message);
-			}
-		});
+        $client->on('ready', function () use ($client) {
+            echo 'Logged in as ' . $client->user->tag . ' created on ' . $client->user->createdAt->format('d.m.Y H:i:s') . PHP_EOL;
+        });
 
-		$client->login(Config::get('discord_token'))->done();
-		$loop->run();
-		echo('ÉèÖÃ³É¹¦£¡'.PHP_EOL);
-	}
-	
-	public static function bindQR($client, $message){
-		$message->channel->send("ÕýÔÚ½âÂë£¬ÇëÉÔºó¡£¡£¡£");
-		$attachments=$message->attachments->toArray();
-		reset($attachments);
-		$qrcode_text=QRcode::decod(current($attachments)->url);
-		if($qrcode_text==null){
-			$message->channel->send("½âÂëÊ§°Ü");
-			return;
-		}
-		
-		if (substr($qrcode_text, 0, 11) == 'mod://bind/' && strlen($qrcode_text) == 27) {
-			$uid = TelegramSessionManager::verify_bind_session(substr($qrcode_text, 11));
-			if ($uid == 0) {
-				$message->channel->send("°ó¶¨Ê§°Ü£¬¶þÎ¬ÂëÎÞÐ§£º" . substr($qrcode_text, 11)."¶þÎ¬ÂëµÄÓÐÐ§ÆÚÎª10·ÖÖÓ£¬Çë³¢ÊÔË¢ÐÂÍøÕ¾µÄ¡°×ÊÁÏ±à¼­¡±Ò³ÃæÒÔ¸üÐÂ¶þÎ¬Âë");
-				return;			
-			}
-			$user = User::where('id', $uid)->first();
-			$user->discord = $message->author->id;
-			$user->im_type = 5;
-			$user->im_value = $message->author->username;
-			$user->save();
-			$reply['message']= "°ó¶¨³É¹¦£¬ÓÊÏä£º" . $user->email;
-		}
-		
-		$message->channel->send("Î´ÖªÄÚÈÝ¶þÎ¬Âë");
-	}
+        $client->on('message', function ($message) {
+            //echo 'Received Message from '.$message->author->tag.' in '.($message->channel->type === 'text' ? 'channel #'.$message->channel->name : 'DM').' with '.$message->attachments->count().' attachment(s) and '.\count($message->embeds).' embed(s)'.PHP_EOL;
+            if (strpos($message->content, '!bind') === 0) {
+                bindQR($client, $message);
+            } elseif (strpos($message->content, '!checkin') === 0) {
+                checkin($client, $message);
+            } elseif (strpos($message->content, '!traffic') === 0) {
+                traffic($client, $message);
+            }
+        });
 
-	public static function checkin($client, $message){
-	
-	}
+        $client->login(Config::get('discord_token'))->done();
+        $loop->run();
+        echo('ï¿½ï¿½ï¿½Ã³É¹ï¿½ï¿½ï¿½' . PHP_EOL);
+    }
 
-	public static function traffic($client, $message){
-	
-	}
+    public static function bindQR($client, $message)
+    {
+        $message->channel->send("ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½Ôºó¡£¡ï¿½ï¿½ï¿½");
+        $attachments = $message->attachments->toArray();
+        reset($attachments);
+        $qrcode_text = QRcode::decod(current($attachments)->url);
+        if ($qrcode_text == null) {
+            $message->channel->send("ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½");
+            return;
+        }
+
+        if (substr($qrcode_text, 0, 11) == 'mod://bind/' && strlen($qrcode_text) == 27) {
+            $uid = TelegramSessionManager::verify_bind_session(substr($qrcode_text, 11));
+            if ($uid == 0) {
+                $message->channel->send("ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½" . substr($qrcode_text, 11) . "ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½Îª10ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ë³¢ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½Õ¾ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½Ï±à¼­ï¿½ï¿½Ò³ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½Â¶ï¿½Î¬ï¿½ï¿½");
+                return;
+            }
+            $user = User::where('id', $uid)->first();
+            $user->discord = $message->author->id;
+            $user->im_type = 5;
+            $user->im_value = $message->author->username;
+            $user->save();
+            $reply['message'] = "ï¿½ó¶¨³É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä£º" . $user->email;
+        }
+
+        $message->channel->send("Î´Öªï¿½ï¿½ï¿½Ý¶ï¿½Î¬ï¿½ï¿½");
+    }
+
+    public static function checkin($client, $message)
+    {
+
+    }
+
+    public static function traffic($client, $message)
+    {
+
+    }
 }

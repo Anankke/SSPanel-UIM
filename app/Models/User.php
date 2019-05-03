@@ -39,7 +39,7 @@ class User extends Model
 
     public function getGravatarAttribute()
     {
-      //  $hash = md5(strtolower(trim($this->attributes['email'])));
+        //  $hash = md5(strtolower(trim($this->attributes['email'])));
         return "/images/Avatar.jpg";//.$hash;
     }
 
@@ -64,9 +64,9 @@ class User extends Model
         foreach ($matches[0] as $key) {
             $key_match = str_replace("%", "", $key);
             $key_match = str_replace("m", "", $key_match);
-            $md5 = substr(MD5($this->attributes['id'].$this->attributes['passwd'].$this->attributes['method'].$this->attributes['obfs'].$this->attributes['protocol']),
-            ($key_match < 0 ? $key_match : 0),
-            abs($key_match));
+            $md5 = substr(MD5($this->attributes['id'] . $this->attributes['passwd'] . $this->attributes['method'] . $this->attributes['obfs'] . $this->attributes['protocol']),
+                ($key_match < 0 ? $key_match : 0),
+                abs($key_match));
             $str = str_replace($key, $md5, $str);
         }
         return $str;
@@ -117,19 +117,20 @@ class User extends Model
     {
         $uid = $this->attributes['id'];
         $code = new InviteCode();
-		while(true){
-			$temp_code=Tools::genRandomChar(4);
-			if(InviteCode::where('user_id', $uid)->count()==0){
-				break;
-			}
-		}
+        while (true) {
+            $temp_code = Tools::genRandomChar(4);
+            if (InviteCode::where('user_id', $uid)->count() == 0) {
+                break;
+            }
+        }
         $code->code = $temp_code;
         $code->user_id = $uid;
         $code->save();
     }
 
-    public function getUuid() {
-        return Uuid::uuid3(Uuid::NAMESPACE_DNS, $this->attributes['id']. '|' .$this->attributes['passwd'])->toString();
+    public function getUuid()
+    {
+        return Uuid::uuid3(Uuid::NAMESPACE_DNS, $this->attributes['id'] . '|' . $this->attributes['passwd'])->toString();
     }
 
     public function trafficUsagePercent()
@@ -150,16 +151,19 @@ class User extends Model
         $transfer_enable = $this->attributes['transfer_enable'];
         return Tools::flowAutoShow($transfer_enable);
     }
+
     public function enableTrafficInGB()
     {
         $transfer_enable = $this->attributes['transfer_enable'];
         return Tools::flowToGB($transfer_enable);
     }
+
     public function usedTraffic()
     {
         $total = $this->attributes['u'] + $this->attributes['d'];
         return Tools::flowAutoShow($total);
     }
+
     public function unusedTraffic()
     {
         $total = $this->attributes['u'] + $this->attributes['d'];
@@ -169,7 +173,7 @@ class User extends Model
 
     public function TodayusedTraffic()
     {
-        $total = $this->attributes['u'] + $this->attributes['d']-$this->attributes['last_day_t'];
+        $total = $this->attributes['u'] + $this->attributes['d'] - $this->attributes['last_day_t'];
         return Tools::flowAutoShow($total);
     }
 
@@ -184,7 +188,7 @@ class User extends Model
         $last = $this->attributes['last_check_in_time'];
 
         $now = time();
-        if (date("Ymd", $now)!= date("Ymd", $last)) {
+        if (date("Ymd", $now) != date("Ymd", $last)) {
             return true;
         }
         return false;
@@ -200,7 +204,7 @@ class User extends Model
     public function getGAurl()
     {
         $ga = new GA();
-        $url = $ga->getUrl(urlencode(Config::get('appName')."-".$this->attributes['user_name']."-两步验证码"), $this->attributes['ga_token']);
+        $url = $ga->getUrl(urlencode(Config::get('appName') . "-" . $this->attributes['user_name'] . "-两步验证码"), $this->attributes['ga_token']);
         return $url;
     }
 
@@ -221,7 +225,7 @@ class User extends Model
         $uid = $this->attributes['id'];
         Link::where('userid', $uid)->delete();
     }
-    
+
     public function clear_inviteCodes()
     {
         $uid = $this->attributes['id'];
@@ -231,12 +235,12 @@ class User extends Model
     public function online_ip_count()
     {
         $uid = $this->attributes['id'];
-        $total = Ip::where("datetime", ">=", time()-90)->where('userid', $uid)->orderBy('userid', 'desc')->get();
+        $total = Ip::where("datetime", ">=", time() - 90)->where('userid', $uid)->orderBy('userid', 'desc')->get();
         $unique_ip_list = array();
         foreach ($total as $single_record) {
             $single_record->ip = Tools::getRealIp($single_record->ip);
             $is_node = Node::where("node_ip", $single_record->ip)->first();
-            if($is_node) {
+            if ($is_node) {
                 continue;
             }
 
@@ -289,19 +293,19 @@ class User extends Model
 
         $im_type = '';
         $im_value = $this->attributes['im_value'];
-        switch($this->attributes['im_type']) {
+        switch ($this->attributes['im_type']) {
             case 1:
-              $im_type = '微信';
-              break;
+                $im_type = '微信';
+                break;
             case 2:
-              $im_type = 'QQ';
-              break;
+                $im_type = 'QQ';
+                break;
             case 3:
-              $im_type = 'Google+';
-              break;
+                $im_type = 'Google+';
+                break;
             default:
-              $im_type = 'Telegram';
-              $im_value = '<a href="https://telegram.me/'.$im_value.'">'.$im_value.'</a>';
+                $im_type = 'Telegram';
+                $im_value = '<a href="https://telegram.me/' . $im_value . '">' . $im_value . '</a>';
         }
 
         $ref_user = User::find($this->attributes['ref_by']);
@@ -320,25 +324,25 @@ class User extends Model
         }
 
         $iplocation = new QQWry();
-        $location=$iplocation->getlocation($reg_location);
-        $reg_location .= "\n".iconv('gbk', 'utf-8//IGNORE', $location['country'].$location['area']);
+        $location = $iplocation->getlocation($reg_location);
+        $reg_location .= "\n" . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
 
-        $return_array = Array('DT_RowId' => 'row_1_'.$id, $id, $id,
-                              $this->attributes['user_name'], $this->attributes['remark'],
-                              $this->attributes['email'], $this->attributes['money'],
-                              $im_type, $im_value,
-                              $this->attributes['node_group'], $account_expire_in,
-                              $this->attributes['class'], $class_expire_in,
-                              $this->attributes['passwd'], $this->attributes['port'],
-                              $this->attributes['method'],
-                              $this->attributes['protocol'], $this->attributes['obfs'],
-                              $this->online_ip_count(), $this->lastSsTime(),
-                              $used_traffic, $enable_traffic,
-                              $this->lastCheckInTime(), $today_traffic,
-                              $is_enable, $this->attributes['reg_date'],
-                              $reg_location,
-                              $this->attributes['auto_reset_day'], $this->attributes['auto_reset_bandwidth'],
-                              $ref_user_id, $ref_user_name);
+        $return_array = Array('DT_RowId' => 'row_1_' . $id, $id, $id,
+            $this->attributes['user_name'], $this->attributes['remark'],
+            $this->attributes['email'], $this->attributes['money'],
+            $im_type, $im_value,
+            $this->attributes['node_group'], $account_expire_in,
+            $this->attributes['class'], $class_expire_in,
+            $this->attributes['passwd'], $this->attributes['port'],
+            $this->attributes['method'],
+            $this->attributes['protocol'], $this->attributes['obfs'],
+            $this->online_ip_count(), $this->lastSsTime(),
+            $used_traffic, $enable_traffic,
+            $this->lastCheckInTime(), $today_traffic,
+            $is_enable, $this->attributes['reg_date'],
+            $reg_location,
+            $this->attributes['auto_reset_day'], $this->attributes['auto_reset_bandwidth'],
+            $ref_user_id, $ref_user_name);
         return $return_array;
     }
 
@@ -347,13 +351,13 @@ class User extends Model
         return $this->attributes[$key];
     }
 
-	public function get_top_up()
-	{
-		$codes=Code::where('userid',$this->attributes['id'])->get();
-		$top_up=0;
-        foreach($codes as $code){
-			$top_up+=$code->number;
+    public function get_top_up()
+    {
+        $codes = Code::where('userid', $this->attributes['id'])->get();
+        $top_up = 0;
+        foreach ($codes as $code) {
+            $top_up += $code->number;
         }
-        return round($top_up,2);
-	}
+        return round($top_up, 2);
+    }
 }

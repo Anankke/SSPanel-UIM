@@ -17,13 +17,14 @@ use Omnipay\Omnipay;
 
 class AopF2F extends AbstractPayment
 {
-    private function createGateway(){
+    private function createGateway()
+    {
         $gateway = Omnipay::create('Alipay_AopF2F');
         $gateway->setSignType('RSA2'); //RSA/RSA2
         $gateway->setAppId(Config::get("f2fpay_app_id"));
         $gateway->setPrivateKey(Config::get("merchant_private_key")); // 可以是路径，也可以是密钥内容
         $gateway->setAlipayPublicKey(Config::get("alipay_public_key")); // 可以是路径，也可以是密钥内容
-        $gateway->setNotifyUrl(Config::get("baseUrl")."/payment/notify");
+        $gateway->setNotifyUrl(Config::get("baseUrl") . "/payment/notify");
 
         return $gateway;
     }
@@ -49,7 +50,7 @@ class AopF2F extends AbstractPayment
 
         $request = $gateway->purchase();
         $request->setBizContent([
-            'subject'      => $pl->tradeno,
+            'subject' => $pl->tradeno,
             'out_trade_no' => $pl->tradeno,
             'total_amount' => $pl->total
         ]);
@@ -78,7 +79,7 @@ class AopF2F extends AbstractPayment
             /** @var \Omnipay\Alipay\Responses\AopCompletePurchaseResponse $response */
             $aliResponse = $aliRequest->send();
             $pid = $aliResponse->data('out_trade_no');
-            if($aliResponse->isPaid()){
+            if ($aliResponse->isPaid()) {
                 self::postPayment($pid, "支付宝当面付");
                 die('success'); //The response should be 'success' only
             }

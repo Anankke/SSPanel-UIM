@@ -9,7 +9,7 @@ class Analytic
 {
     public function userCount()
     {
-        return  User::all()->count();
+        return User::all()->count();
     }
 
     public function checkinUserCount()

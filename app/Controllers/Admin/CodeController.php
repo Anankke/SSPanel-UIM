@@ -16,9 +16,9 @@ class CodeController extends AdminController
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array("id" => "ID", "code" => "内容",
-                        "type" => "类型", "number" => "操作",
-                        "isused" => "是否已经使用", "userid" => "用户ID",
-                        "user_name" => "用户名", "usedatetime" => "使用时间");
+            "type" => "类型", "number" => "操作",
+            "isused" => "是否已经使用", "userid" => "用户ID",
+            "user_name" => "用户名", "usedatetime" => "使用时间");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
@@ -43,11 +43,11 @@ class CodeController extends AdminController
         $type = $request->getParam('type');
         $number = $request->getParam('number');
 
-		if(Tools::isInt($n)==false){
-		    $rs['ret'] = 0;
+        if (Tools::isInt($n) == false) {
+            $rs['ret'] = 0;
             $rs['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($rs));
-		}
+        }
 
         for ($i = 0; $i < $n; $i++) {
             $char = Tools::genRandomChar(32);
@@ -55,11 +55,10 @@ class CodeController extends AdminController
             $code->code = time() . $char;
             $code->type = -1;
             $code->number = $number;
-            $code->userid=0;
-            $code->usedatetime="1989:06:04 02:30:00";
+            $code->userid = 0;
+            $code->usedatetime = "1989:06:04 02:30:00";
             $code->save();
         }
-
 
 
         $rs['ret'] = 1;
@@ -96,14 +95,14 @@ class CodeController extends AdminController
 
         $datatables->edit('number', function ($data) {
             switch ($data['type']) {
-              case -1:
-                return "充值 ".$data['number']." 元";
+                case -1:
+                    return "充值 " . $data['number'] . " 元";
 
-              case -2:
-                return "支出 ".$data['number']." 元";
+                case -2:
+                    return "支出 " . $data['number'] . " 元";
 
-              default:
-                return "已经废弃";
+                default:
+                    return "已经废弃";
             }
         });
 
@@ -126,14 +125,14 @@ class CodeController extends AdminController
 
         $datatables->edit('type', function ($data) {
             switch ($data['type']) {
-              case -1:
-                return "充值金额";
+                case -1:
+                    return "充值金额";
 
-              case -2:
-                return "财务支出";
+                case -2:
+                    return "财务支出";
 
-              default:
-                return "已经废弃";
+                default:
+                    return "已经废弃";
             }
         });
 

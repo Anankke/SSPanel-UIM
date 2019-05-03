@@ -387,7 +387,7 @@ class VueController extends BaseController
             } else {
                 if ($node->sort == 13) {
                     $server = Tools::ssv2Array($node->server);
-                    $array_node['server']=$server['add'];
+                    $array_node['server'] = $server['add'];
                 } else {
                     $array_node['server'] = $node->server;
                 }

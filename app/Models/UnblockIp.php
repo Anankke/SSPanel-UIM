@@ -20,7 +20,7 @@ class UnblockIp extends Model
             return $user;
         }
     }
-    
+
     public function time()
     {
         return date("Y-m-d H:i:s", $this->attributes['datetime']);

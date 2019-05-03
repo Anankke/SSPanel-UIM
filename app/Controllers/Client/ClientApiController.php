@@ -33,20 +33,21 @@ class ClientApiController extends BaseController
         return $this->echoJson($response, $res);
     }
 
-    public function Redirect($request, $response, $args){
+    public function Redirect($request, $response, $args)
+    {
         $user = Auth::getUser();
         $url = $request->getQueryParams()["target"];
-        if(!$user->isLogin){
+        if (!$user->isLogin) {
             $accessToken = Helper::getTokenFromReq($request);
             $storage = Factory::createTokenStorage();
             $token = $storage->get($accessToken);
-            if ($token==null) {
+            if ($token == null) {
                 $res['ret'] = 0;
                 $res['msg'] = "token is null";
                 return $this->echoJson($response, $res);
             }
             $user = User::find($token->userId);
-            $time =  3600*24;
+            $time = 3600 * 24;
             Auth::login($user->id, $time);
         }
         return $response->withRedirect($url);
@@ -60,12 +61,12 @@ class ClientApiController extends BaseController
         $user = User::find($token->userId);
         $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id, 0);
         $mu = 0;
-        if($request->getQueryParams()["mu"]!=""){
+        if ($request->getQueryParams()["mu"] != "") {
             $mu = $request->getQueryParams()["mu"];
         }
         $res['ret'] = 1;
         $res['msg'] = "ok";
-        $res['data'] = Config::get('subUrl').$ssr_sub_token.'?mu='.$mu;
+        $res['data'] = Config::get('subUrl') . $ssr_sub_token . '?mu=' . $mu;
         return $this->echoJson($response, $res);
     }
 }

@@ -32,18 +32,18 @@ class Tools
         } elseif (abs($value) > $kb) {
             return round($value / $kb, 2) . "KB";
         } else {
-            return round($value, 2)."B";
+            return round($value, 2) . "B";
         }
     }
 
-	//虽然名字是toMB，但是实际上功能是from MB to B
+    //虽然名字是toMB，但是实际上功能是from MB to B
     public static function toMB($traffic)
     {
         $mb = 1048576;
         return $traffic * $mb;
     }
 
-	//虽然名字是toGB，但是实际上功能是from GB to B
+    //虽然名字是toGB，但是实际上功能是from GB to B
     public static function toGB($traffic)
     {
         $gb = 1048576 * 1024;
@@ -72,18 +72,18 @@ class Tools
     }
 
     //获取随机字符串
-		
-		public static function genRandomNum($length = 8)
-		{
-				// 来自Miku的 6位随机数 注册验证码 生成方案
-				$chars = '0123456789';
-				$char = '';
-				for ($i = 0; $i < $length; $i++) {
-						$char .= $chars[mt_rand(0, strlen($chars) - 1)];
-				}
-				return $char;
-		}
-		
+
+    public static function genRandomNum($length = 8)
+    {
+        // 来自Miku的 6位随机数 注册验证码 生成方案
+        $chars = '0123456789';
+        $char = '';
+        for ($i = 0; $i < $length; $i++) {
+            $char .= $chars[mt_rand(0, strlen($chars) - 1)];
+        }
+        return $char;
+    }
+
     public static function genRandomChar($length = 8)
     {
         // 密码字符集，可任意添加你需要的字符
@@ -128,7 +128,7 @@ class Tools
     public static function genUUID()
     {
         // @TODO
-      return self::genSID();
+        return self::genSID();
     }
 
     public static function getLastPort()
@@ -161,12 +161,12 @@ class Tools
 
     public static function getDir($dir)
     {
-        $dirArray[]=null;
+        $dirArray[] = null;
         if (false != ($handle = opendir($dir))) {
-            $i=0;
+            $i = 0;
             while (false !== ($file = readdir($handle))) {
-                if ($file != "." && $file != ".."&&!strpos($file, ".")) {
-                    $dirArray[$i]=$file;
+                if ($file != "." && $file != ".." && !strpos($file, ".")) {
+                    $dirArray[$i] = $file;
                     $i++;
                 }
             }
@@ -293,8 +293,8 @@ class Tools
                     return $rule->id;
                 }
 
-        //递归处理这个节点
-        $maybe_rule_id = Tools::has_conflict_rule($rule, $ruleset, $edit_rule_id, $origin_node_id, $rule->user_id);
+                //递归处理这个节点
+                $maybe_rule_id = Tools::has_conflict_rule($rule, $ruleset, $edit_rule_id, $origin_node_id, $rule->user_id);
                 if ($maybe_rule_id != 0) {
                     return $maybe_rule_id;
                 }
@@ -303,7 +303,7 @@ class Tools
 
         if (($input_rule->id == $edit_rule_id || $edit_rule_id == 0) && $input_rule->dist_node_id != -1) {
             $dist_node = Node::find($input_rule->dist_node_id);
-            if ($input_rule->source_node_id == 0 && ($dist_node->sort == 10 ||$dist_node->sort == 12)) {
+            if ($input_rule->source_node_id == 0 && ($dist_node->sort == 10 || $dist_node->sort == 12)) {
                 return -1;
             }
 
@@ -333,10 +333,10 @@ class Tools
                 if ($single_rule->dist_node_id == $path->begin_node->id) {
                     $path->begin_node = $single_rule->Source_Node();
                     if ($path->begin_node->isNodeAccessable() == false) {
-                        $path->path = '<font color="#FF0000">'.$single_rule->Source_Node()->name.'</font>'." → ".$path->path;
+                        $path->path = '<font color="#FF0000">' . $single_rule->Source_Node()->name . '</font>' . " → " . $path->path;
                         $path->status = "阻断";
                     } else {
-                        $path->path = $single_rule->Source_Node()->name." → ".$path->path;
+                        $path->path = $single_rule->Source_Node()->name . " → " . $path->path;
                         $path->status = "通畅";
                     }
                     return $pathset;
@@ -345,10 +345,10 @@ class Tools
                 if ($path->end_node->id == $single_rule->source_node_id) {
                     $path->end_node = $single_rule->Dist_Node();
                     if ($path->end_node->isNodeAccessable() == false) {
-                        $path->path = $path->path." → ".'<font color="#FF0000">'.$single_rule->Dist_Node()->name.'</font>';
+                        $path->path = $path->path . " → " . '<font color="#FF0000">' . $single_rule->Dist_Node()->name . '</font>';
                         $path->status = "阻断";
                     } else {
-                        $path->path = $path->path." → ".$single_rule->Dist_Node()->name;
+                        $path->path = $path->path . " → " . $single_rule->Dist_Node()->name;
                     }
                     return $pathset;
                 }
@@ -358,7 +358,7 @@ class Tools
         $new_path = new \stdClass();
         $new_path->begin_node = $single_rule->Source_Node();
         if ($new_path->begin_node->isNodeAccessable() == false) {
-            $new_path->path = '<font color="#FF0000">'.$single_rule->Source_Node()->name.'</font>';
+            $new_path->path = '<font color="#FF0000">' . $single_rule->Source_Node()->name . '</font>';
             $new_path->status = "阻断";
         } else {
             $new_path->path = $single_rule->Source_Node()->name;
@@ -367,10 +367,10 @@ class Tools
 
         $new_path->end_node = $single_rule->Dist_Node();
         if ($new_path->end_node->isNodeAccessable() == false) {
-            $new_path->path .= " -> ".'<font color="#FF0000">'.$single_rule->Dist_Node()->name.'</font>';
+            $new_path->path .= " -> " . '<font color="#FF0000">' . $single_rule->Dist_Node()->name . '</font>';
             $new_path->status = "阻断";
         } else {
-            $new_path->path .= " -> ".$single_rule->Dist_Node()->name;
+            $new_path->path .= " -> " . $single_rule->Dist_Node()->name;
         }
 
         $new_path->port = $port;
@@ -425,9 +425,8 @@ class Tools
 
     public static function checkNoneProtocol($user)
     {
-        if($user->method == 'none' && !in_array($user->protocol, Config::getSupportParam('allow_none_protocol')))
-        {
-          return false;
+        if ($user->method == 'none' && !in_array($user->protocol, Config::getSupportParam('allow_none_protocol'))) {
+            return false;
         }
 
         return true;
@@ -438,22 +437,22 @@ class Tools
         return str_replace("::ffff:", "", $rawIp);
     }
 
-	public static function isInt($str)
-	{
-		if($str[0]=='-'){
-			$str=substr($str,1);
-		}
+    public static function isInt($str)
+    {
+        if ($str[0] == '-') {
+            $str = substr($str, 1);
+        }
 
-		return ctype_digit($str);
+        return ctype_digit($str);
     }
-    
+
     public static function v2Array($node)
     {
         $server = explode(';', $node);
         $item = [
-            'host'=>'',
-            'path'=>'',
-            'tls'=>''
+            'host' => '',
+            'path' => '',
+            'tls' => ''
         ];
         $item['add'] = $server[0];
         if ($server[1] == "0" or $server[1] == "") {
@@ -507,10 +506,10 @@ class Tools
     {
         $server = explode(';', $node);
         $item = [
-            'host'=>'',
-            'path'=>'',
-            'net'=>'ws',
-            'tls'=>''
+            'host' => '',
+            'path' => '',
+            'net' => 'ws',
+            'tls' => ''
         ];
         $item['add'] = $server[0];
         if ($server[1] == "0" or $server[1] == "") {
@@ -528,7 +527,7 @@ class Tools
         }
         if (count($server) >= 5 && $server[4] == 'ws') {
             $item['net'] = 'ws';
-        }elseif (count($server) >= 5 && $server[4] == 'tls'){
+        } elseif (count($server) >= 5 && $server[4] == 'tls') {
             $item['tls'] = 'tls';
         }
         if (count($server) >= 6) {

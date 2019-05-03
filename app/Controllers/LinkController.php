@@ -25,7 +25,7 @@ class LinkController extends BaseController
 
     public static function GenerateRandomLink()
     {
-        $i =0;
+        $i = 0;
         for ($i = 0; $i < 10; $i++) {
             $token = Tools::genRandomChar(16);
             $Elink = Link::where("token", "=", $token)->first();
@@ -67,21 +67,21 @@ class LinkController extends BaseController
             return null;
         }
 
-		if($Elink->type!=11){
-			return null;
-		}
-		
-		$user=User::where("id", $Elink->userid)->first();
+        if ($Elink->type != 11) {
+            return null;
+        }
+
+        $user = User::where("id", $Elink->userid)->first();
         if ($user == null) {
             return null;
         }
 
         $mu = 0;
-		if (isset($request->getQueryParams()["mu"])) {
-			$mu = (int)$request->getQueryParams()["mu"];
+        if (isset($request->getQueryParams()["mu"])) {
+            $mu = (int)$request->getQueryParams()["mu"];
         }
 
-        $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.txt');
+        $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=' . $token . '.txt');
         $newResponse->getBody()->write(LinkController::GetSSRSub(User::where("id", "=", $Elink->userid)->first(), $mu));
         return $newResponse;
     }
@@ -92,15 +92,13 @@ class LinkController extends BaseController
 
     public static function GetSSRSub($user, $mu = 0)
     {
-        if ($mu==0||$mu==1) {
+        if ($mu == 0 || $mu == 1) {
             return Tools::base64_url_encode(URL::getAllUrl($user, $mu, 0));
-        } 
-		elseif ($mu == LinkController::V2RYA_MU){
+        } elseif ($mu == LinkController::V2RYA_MU) {
             return Tools::base64_url_encode(URL::getAllVMessUrl($user));
-        }
-		elseif ($mu==LinkController::SSD_MU) {
-			return URL::getAllSSDUrl($user);
-		} elseif ($mu==LinkController::CLASH_MU) {
+        } elseif ($mu == LinkController::SSD_MU) {
+            return URL::getAllSSDUrl($user);
+        } elseif ($mu == LinkController::CLASH_MU) {
             // Clash
             return LinkController::GetClash($user);
         }
@@ -184,10 +182,10 @@ class LinkController extends BaseController
         }
         $render = ConfRender::getTemplateRender();
         $render->assign('user', $user)
-        ->assign('confs', $confs)
-        ->assign('proxies', array_map(function ($conf) {
-            return $conf['name'];
-        }, $proxy_confs));
+            ->assign('confs', $confs)
+            ->assign('proxies', array_map(function ($conf) {
+                return $conf['name'];
+            }, $proxy_confs));
         return $render->fetch('clash.tpl');
     }
 

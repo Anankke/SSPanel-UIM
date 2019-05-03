@@ -12,7 +12,7 @@ class LoginIp extends Model
 {
     protected $connection = "default";
     protected $table = "login_ip";
-    
+
     public function user()
     {
         $user = User::where("id", $this->attributes['userid'])->first();
@@ -23,7 +23,7 @@ class LoginIp extends Model
             return $user;
         }
     }
-    
+
     public function datetime()
     {
         return date("Y-m-d H:i:s", $this->attributes['datetime']);

@@ -12,7 +12,7 @@ class Api
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
     {
         $accessToken = Helper::getTokenFromReq($request);
-        if ($accessToken==null) {
+        if ($accessToken == null) {
             $res['ret'] = 0;
             $res['msg'] = "token is null";
             $response->getBody()->write(json_encode($res));
@@ -20,7 +20,7 @@ class Api
         }
         $storage = Factory::createTokenStorage();
         $token = $storage->get($accessToken);
-        if ($token==null) {
+        if ($token == null) {
             $res['ret'] = 0;
             $res['msg'] = "token is null";
             $response->getBody()->write(json_encode($res));

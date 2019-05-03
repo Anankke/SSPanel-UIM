@@ -31,28 +31,27 @@ class Mailgun extends Base
 
     public function send($to, $subject, $text, $files)
     {
-		$inline=array();
-		foreach($files as $file){
-			array_push($inline,array('filePath'=>$file, 'filename'=>basename($file)));
-		}
-		if(count($inline)==0){
-			$this->mg->messages()->send($this->domain,[
-                'from' => $this->sender,
-                'to' => $to,
-                'subject' => $subject,
-                'html' => $text
-				]
-			);
-		}
-		else{
-			$this->mg->messages()->send($this->domain,[
-                'from' => $this->sender,
-                'to' => $to,
-                'subject' => $subject,
-                'html' => $text,      
-                'inline' => $inline
-				]
-			);
-		}
+        $inline = array();
+        foreach ($files as $file) {
+            array_push($inline, array('filePath' => $file, 'filename' => basename($file)));
+        }
+        if (count($inline) == 0) {
+            $this->mg->messages()->send($this->domain, [
+                    'from' => $this->sender,
+                    'to' => $to,
+                    'subject' => $subject,
+                    'html' => $text
+                ]
+            );
+        } else {
+            $this->mg->messages()->send($this->domain, [
+                    'from' => $this->sender,
+                    'to' => $to,
+                    'subject' => $subject,
+                    'html' => $text,
+                    'inline' => $inline
+                ]
+            );
+        }
     }
 }

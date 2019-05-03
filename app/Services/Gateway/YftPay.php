@@ -59,8 +59,8 @@ class YftPay extends AbstractPayment
         if (isset($request->getQueryParams()["page"])) {
             $pageNum = $request->getQueryParams()["page"];
         }
-        $orderList = YftOrder::where("price",">=", 0)->orderBy("id", "asc")->paginate(15, ['*'], 'page', $pageNum);
-        $count = sizeof(YftOrder::where("price",">=", 0)->get());
+        $orderList = YftOrder::where("price", ">=", 0)->orderBy("id", "asc")->paginate(15, ['*'], 'page', $pageNum);
+        $count = sizeof(YftOrder::where("price", ">=", 0)->get());
         $countPage = ceil($count / 15);
         $orderList->setPath('/admin/yftOrder');
 
@@ -231,9 +231,9 @@ class YftPay extends AbstractPayment
         $accesskey = Config::get('yft_accesskey');
 
         //生成订单号
-		// 密码字符集，可任意添加你需要的字符
+        // 密码字符集，可任意添加你需要的字符
         $date = time();
-        $date = "yft".date("YmdHis",$date);
+        $date = "yft" . date("YmdHis", $date);
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $password = "";
         for ($i = 0; $i < 8; $i++) {
@@ -242,7 +242,7 @@ class YftPay extends AbstractPayment
             // 第二种是取字符数组 $chars 的任意元素
             $password .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
         }
-        $ss_order_no = $date.$password;
+        $ss_order_no = $date . $password;
 
         /************************************************************/
         //构造要请求的参数数组，无需改动

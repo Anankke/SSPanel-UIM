@@ -42,7 +42,7 @@ class SendGrid extends Base
             $attachment->setContentId("backup");
             $mail->addAttachment($attachment);
         }
-        
+
         $response = $this->sg->client->mail()->send()->post($mail);
         echo $response->body();
     }

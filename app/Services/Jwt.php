@@ -15,7 +15,7 @@ class Jwt
     {
         return JwtClient::encode($input, self::getKey());
     }
-    
+
     public static function encode_withkey($input, $key)
     {
         return JwtClient::encode($input, $key);

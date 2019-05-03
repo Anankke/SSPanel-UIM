@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Utils;
+
 use App\Models\User;
 use App\Models\Code;
 use App\Models\Paylist;

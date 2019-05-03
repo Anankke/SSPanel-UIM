@@ -13,10 +13,10 @@ class NodeController extends BaseController
     public function info($request, $response, $args)
     {
         $node_id = $args['id'];
-		if($node_id=='0'){
-			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-			$node_id=$node->id;
-		}
+        if ($node_id == '0') {
+            $node = Node::where("node_ip", $_SERVER["REMOTE_ADDR"])->first();
+            $node_id = $node->id;
+        }
         $load = $request->getParam('load');
         $uptime = $request->getParam('uptime');
         $log = new NodeInfoLog();
@@ -41,10 +41,10 @@ class NodeController extends BaseController
     public function get_info($request, $response, $args)
     {
         $node_id = $args['id'];
-		if($node_id=='0'){
-			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-			$node_id = $node->id;
-		}
+        if ($node_id == '0') {
+            $node = Node::where("node_ip", $_SERVER["REMOTE_ADDR"])->first();
+            $node_id = $node->id;
+        }
         $node = Node::find($node_id);
         if ($node == null) {
             $res = [

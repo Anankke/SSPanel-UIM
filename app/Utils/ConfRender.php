@@ -11,8 +11,10 @@ namespace App\Utils;
 use Smarty;
 
 
-class ConfRender {
-    public static function getTemplateRender() {
+class ConfRender
+{
+    public static function getTemplateRender()
+    {
         $smarty = new smarty();
 
         $smarty->settemplatedir(BASE_PATH . '/resources/conf/');

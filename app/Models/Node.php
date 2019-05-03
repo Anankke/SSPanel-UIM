@@ -43,9 +43,9 @@ class Node extends Model
     public function getNodeUpRate()
     {
         $id = $this->attributes['id'];
-        $log = NodeOnlineLog::where('node_id', $id)->where('log_time', '>=', time()-86400)->count();
+        $log = NodeOnlineLog::where('node_id', $id)->where('log_time', '>=', time() - 86400)->count();
 
-        return $log/1440;
+        return $log / 1440;
     }
 
     public function getNodeLoad()
@@ -65,7 +65,7 @@ class Node extends Model
     public function getOnlineUserCount()
     {
         $id = $this->attributes['id'];
-        $log = NodeOnlineLog::where('node_id', $id)->where("log_time",">",time()-300)->orderBy('id', 'desc')->first();
+        $log = NodeOnlineLog::where('node_id', $id)->where("log_time", ">", time() - 300)->orderBy('id', 'desc')->first();
         if ($log == null) {
             return 0;
         }
@@ -81,9 +81,9 @@ class Node extends Model
         }
 
 
-        return "电信延迟：".$log->telecomping." 下载：".$log->telecomeupload." 上传：".$log->telecomedownload."<br>
-		联通延迟：".$log->unicomping." 下载：".$log->unicomupload." 上传：".$log->unicomdownload."<br>
-		移动延迟：".$log->cmccping." 下载：".$log->cmccupload." 上传：".$log->cmccdownload."<br>定时测试，仅供参考";
+        return "电信延迟：" . $log->telecomping . " 下载：" . $log->telecomeupload . " 上传：" . $log->telecomedownload . "<br>
+		联通延迟：" . $log->unicomping . " 下载：" . $log->unicomupload . " 上传：" . $log->unicomdownload . "<br>
+		移动延迟：" . $log->cmccping . " 下载：" . $log->cmccupload . " 上传：" . $log->cmccdownload . "<br>定时测试，仅供参考";
     }
 
     public function getSpeedtestResult()
@@ -117,10 +117,10 @@ class Node extends Model
         $id = $this->attributes['id'];
         $sort = $this->attributes['sort'];
         $node_heartbeat = $this->attributes['node_heartbeat'];
-        $log = NodeOnlineLog::where('node_id', $id)->where("log_time",">",time()-300)->orderBy('id', 'desc')->first();
-        if(!($sort == 0 || $sort == 7 || $sort == 8 || $sort == 10 || $sort == 11 || $sort == 12 || $sort == 13) || $node_heartbeat == 0){
+        $log = NodeOnlineLog::where('node_id', $id)->where("log_time", ">", time() - 300)->orderBy('id', 'desc')->first();
+        if (!($sort == 0 || $sort == 7 || $sort == 8 || $sort == 10 || $sort == 11 || $sort == 12 || $sort == 13) || $node_heartbeat == 0) {
             $result = null;
-        }else if ($log != null && $log->log_time + 300 > time()) {
+        } else if ($log != null && $log->log_time + 300 > time()) {
             $result = true;
         }
         return $result;

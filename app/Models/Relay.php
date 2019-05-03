@@ -5,7 +5,6 @@ namespace App\Models;
 /**
  * DetectLog Model
  */
-
 class Relay extends Model
 {
     protected $connection = "default";

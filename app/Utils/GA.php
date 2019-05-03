@@ -10,7 +10,6 @@ namespace App\Utils;
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
  * @link http://www.phpgangsta.de/
  */
-
 class GA
 {
     protected $_codeLength = 6;
@@ -50,7 +49,7 @@ class GA
         $secretkey = $this->_base32Decode($secret);
 
         // Pack time into binary string
-        $time = chr(0).chr(0).chr(0).chr(0).pack('N*', $timeSlice);
+        $time = chr(0) . chr(0) . chr(0) . chr(0) . pack('N*', $timeSlice);
         // Hash it with users secret key
         $hm = hash_hmac('SHA1', $time, $secretkey, true);
         // Use last nipple of result as index/offset
@@ -78,18 +77,18 @@ class GA
      */
     public function getQRCodeGoogleUrl($name, $secret, $title = null)
     {
-        $urlencoded = urlencode('otpauth://totp/'.$name.'?secret='.$secret.'');
+        $urlencoded = urlencode('otpauth://totp/' . $name . '?secret=' . $secret . '');
         if (isset($title)) {
-            $urlencoded .= urlencode('&issuer='.urlencode($title));
+            $urlencoded .= urlencode('&issuer=' . urlencode($title));
         }
-        return 'https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl='.$urlencoded.'';
+        return 'https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl=' . $urlencoded . '';
     }
-    
+
     public function getUrl($name, $secret, $title = null)
     {
-        $urlencoded = 'otpauth://totp/'.$name.'?secret='.$secret.'';
+        $urlencoded = 'otpauth://totp/' . $name . '?secret=' . $secret . '';
         if (isset($title)) {
-            $urlencoded .= '&issuer='.urlencode($title);
+            $urlencoded .= '&issuer=' . urlencode($title);
         }
         return $urlencoded;
     }
@@ -160,7 +159,7 @@ class GA
         $secret = str_replace('=', '', $secret);
         $secret = str_split($secret);
         $binaryString = "";
-        for ($i = 0; $i < count($secret); $i = $i+8) {
+        for ($i = 0; $i < count($secret); $i = $i + 8) {
             $x = "";
             if (!in_array($secret[$i], $base32chars)) {
                 return false;
@@ -170,7 +169,7 @@ class GA
             }
             $eightBits = str_split($x, 8);
             for ($z = 0; $z < count($eightBits); $z++) {
-                $binaryString .= (($y = chr(base_convert($eightBits[$z], 2, 10))) || ord($y) == 48) ? $y:"";
+                $binaryString .= (($y = chr(base_convert($eightBits[$z], 2, 10))) || ord($y) == 48) ? $y : "";
             }
         }
         return $binaryString;

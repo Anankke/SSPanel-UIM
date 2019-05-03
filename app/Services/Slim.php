@@ -14,7 +14,6 @@ use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 /***
  * The slim documents: http://www.slimframework.com/docs/objects/router.html
  */
-
 class Slim
 {
     public $app;
@@ -30,7 +29,7 @@ class Slim
         // Make a Slim App
         $app = new App([
             'settings' => [
-                'debug'         => $debug,
+                'debug' => $debug,
                 'whoops.editor' => 'sublime',
                 'displayErrorDetails' => $debug
             ]

@@ -30,10 +30,10 @@ class Redis extends Base
         $sid = Tools::genSID();
         Cookie::set([
             'sid' => $sid
-        ], $time+time());
+        ], $time + time());
         $value = $uid;
         $this->client->setex($sid, $time, $value);
-        $this->client->setex($sid."ip", $time, $_SERVER["REMOTE_ADDR"]);
+        $this->client->setex($sid . "ip", $time, $_SERVER["REMOTE_ADDR"]);
     }
 
     public function logout()
@@ -46,22 +46,22 @@ class Redis extends Base
     {
         $sid = Cookie::get('sid');
         $value = $this->client->get($sid);
-        
-        $ip = $this->client->get($sid."ip");
-        $nodes=Node::where("node_ip", "=", $_SERVER["REMOTE_ADDR"])->first();
-        if ($ip != $_SERVER["REMOTE_ADDR"] && $nodes==null && Config::get('enable_login_bind_ip')=='true') {
+
+        $ip = $this->client->get($sid . "ip");
+        $nodes = Node::where("node_ip", "=", $_SERVER["REMOTE_ADDR"])->first();
+        if ($ip != $_SERVER["REMOTE_ADDR"] && $nodes == null && Config::get('enable_login_bind_ip') == 'true') {
             $user = new User();
             $user->isLogin = false;
             return $user;
         }
-        
+
         if ($value == null) {
             $user = new User();
             $user->isLogin = false;
             return $user;
         }
         $uid = $value;
-        $user =  User::find($uid);
+        $user = User::find($uid);
         if ($user == null) {
             $user = new User();
             $user->isLogin = false;

@@ -16,38 +16,38 @@ class UserController extends BaseController
         $node = Node::where("node_ip", "=", $_SERVER["REMOTE_ADDR"])->where(
             function ($query) {
                 $query->where("sort", "=", 0)
-                    ->orWhere("sort", "=", 10)->orWhere("sort","=",12);
+                    ->orWhere("sort", "=", 10)->orWhere("sort", "=", 12);
             }
         )->first();
-        $node->node_heartbeat=time();
+        $node->node_heartbeat = time();
         $node->save();
 
-        if ($node->node_group!=0) {
+        if ($node->node_group != 0) {
             $users_raw = User::where(
-                function ($query) use ($node){
+                function ($query) use ($node) {
                     $query->where(
-                      function ($query1) use ($node){
-                          $query1->where("class", ">=", $node->node_class)
-                              ->where("node_group", "=", $node->node_group);
-                      }
+                        function ($query1) use ($node) {
+                            $query1->where("class", ">=", $node->node_class)
+                                ->where("node_group", "=", $node->node_group);
+                        }
                     )->orwhere('is_admin', 1);
                 }
             )
-            ->where("enable", 1)->where("expire_in", ">", date("Y-m-d H:i:s"))->get();
+                ->where("enable", 1)->where("expire_in", ">", date("Y-m-d H:i:s"))->get();
         } else {
             $users_raw = User::where(
-                function ($query) use ($node){
+                function ($query) use ($node) {
                     $query->where(
-                      function ($query1) use ($node){
-                          $query1->where("class", ">=", $node->node_class);
-                      }
+                        function ($query1) use ($node) {
+                            $query1->where("class", ">=", $node->node_class);
+                        }
                     )->orwhere('is_admin', 1);
                 }
             )->where("enable", 1)->where("expire_in", ">", date("Y-m-d H:i:s"))->get();
         }
-        if ($node->node_bandwidth_limit!=0) {
-            if ($node->node_bandwidth_limit<$node->node_bandwidth) {
-                $users=null;
+        if ($node->node_bandwidth_limit != 0) {
+            if ($node->node_bandwidth_limit < $node->node_bandwidth) {
+                $users = null;
 
                 $res = [
                     "ret" => 1,
@@ -58,7 +58,7 @@ class UserController extends BaseController
         }
 
         $key_list = array('method', 'id', 'port', 'passwd', 'u', 'd', 'enable',
-                          't', 'transfer_enable', 'switch', 'email');
+            't', 'transfer_enable', 'switch', 'email');
 
         $users_output = array();
 
@@ -86,7 +86,7 @@ class UserController extends BaseController
         $nodeId = $request->getParam('node_id');
         $node = Node::find($nodeId);
 
-        $node->node_bandwidth=$node->node_bandwidth+$d+$u;
+        $node->node_bandwidth = $node->node_bandwidth + $d + $u;
 
         $node->save();
 

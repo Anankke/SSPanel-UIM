@@ -1,9 +1,12 @@
 <?php
+
 namespace App\Services\Gateway;
+
 use App\Services\View;
 use App\Services\Auth;
 use App\Services\Config;
 use App\Models\Paylist;
+
 class TomatoPay extends AbstractPayment
 {
 
@@ -11,8 +14,8 @@ class TomatoPay extends AbstractPayment
     {
         $type = $request->getParam('type');
         $price = $request->getParam('price');
-        if($price <= 0){
-            return json_encode(['errcode'=>-1,'errmsg'=>"非法的金额."]);
+        if ($price <= 0) {
+            return json_encode(['errcode' => -1, 'errmsg' => "非法的金额."]);
         }
         $user = Auth::getUser();
         $settings = Config::get("tomatopay")[$type];
@@ -21,59 +24,59 @@ class TomatoPay extends AbstractPayment
         $pl->total = $price;
         $pl->tradeno = self::generateGuid();
         $pl->save();
-        $fqaccount=$settings['account'];
-        $fqkey=$settings['token'];
+        $fqaccount = $settings['account'];
+        $fqkey = $settings['token'];
         $fqmchid = $settings['mchid'];
-		$fqtype = 1;
-		$fqtrade = $pl->tradeno;
-	    $fqcny = $price;
+        $fqtype = 1;
+        $fqtrade = $pl->tradeno;
+        $fqcny = $price;
         $data = [
             'account' => $settings['account'],
-			'mchid' => $settings['mchid'],
-			'type' => 1,
-			'trade' => $pl->tradeno,
-			'cny' => $price,
+            'mchid' => $settings['mchid'],
+            'type' => 1,
+            'trade' => $pl->tradeno,
+            'cny' => $price,
         ];
-      $signs = md5("mchid=".$fqmchid."&account=".$fqaccount."&cny=".$fqcny."&type=1&trade=".$fqtrade.$fqkey);
-        $url="https://b.fanqieui.com/gateways/".$type.".php?account=".$fqaccount."&mchid=".$fqmchid."&type=".$fqtype."&trade=".$fqtrade."&cny=".$fqcny."&signs=".$signs;
-		$result = "<script language='javascript' type='text/javascript'>window.location.href='".$url."';</script>";
-        $result = json_encode(array('code'=>$result,'errcode'=>0,'pid' =>$pl->id));
+        $signs = md5("mchid=" . $fqmchid . "&account=" . $fqaccount . "&cny=" . $fqcny . "&type=1&trade=" . $fqtrade . $fqkey);
+        $url = "https://b.fanqieui.com/gateways/" . $type . ".php?account=" . $fqaccount . "&mchid=" . $fqmchid . "&type=" . $fqtype . "&trade=" . $fqtrade . "&cny=" . $fqcny . "&signs=" . $signs;
+        $result = "<script language='javascript' type='text/javascript'>window.location.href='" . $url . "';</script>";
+        $result = json_encode(array('code' => $result, 'errcode' => 0, 'pid' => $pl->id));
         return $result;
     }
-    
+
     public function notify($request, $response, $args)
     {
-		$type = $args['type'];
-		      $settings = Config::get("tomatopay")[$type];
-                $order_data = $_REQUEST;
-        $transid   = $order_data['trade_no'];       //转账交易号
-		$invoiceid = $order_data['out_trade_no'];     //订单号
-		$amount    = $order_data['total_fee'];          //获取递过来的总价格
-		$status    = $order_data['trade_status'];         //获取传递过来的交易状态
-      $signs    = $order_data['sign']; 
-      
-      $security  = array();
-      $security['out_trade_no']      = $invoiceid;
-      $security['total_fee']    = $amount;
-      $security['trade_no']        = $transid;
-      $security['trade_status']       = $status;
-foreach ($security as $k=>$v)
-{
-    $o.= "$k=".urlencode($v)."&";
-}
-$sign = md5(substr($o,0,-1).$settings['token']);
+        $type = $args['type'];
+        $settings = Config::get("tomatopay")[$type];
+        $order_data = $_REQUEST;
+        $transid = $order_data['trade_no'];       //转账交易号
+        $invoiceid = $order_data['out_trade_no'];     //订单号
+        $amount = $order_data['total_fee'];          //获取递过来的总价格
+        $status = $order_data['trade_status'];         //获取传递过来的交易状态
+        $signs = $order_data['sign'];
+
+        $security = array();
+        $security['out_trade_no'] = $invoiceid;
+        $security['total_fee'] = $amount;
+        $security['trade_no'] = $transid;
+        $security['trade_status'] = $status;
+        foreach ($security as $k => $v) {
+            $o .= "$k=" . urlencode($v) . "&";
+        }
+        $sign = md5(substr($o, 0, -1) . $settings['token']);
 
 
-         if ($sign == $signs) {
-           $this->postPayment($order_data['out_trade_no'], "在线支付");
-        echo 'success';
-        if($ispost==0) header("Location: /user/code");
-			
+        if ($sign == $signs) {
+            $this->postPayment($order_data['out_trade_no'], "在线支付");
+            echo 'success';
+            if ($ispost == 0) header("Location: /user/code");
 
-        }else{
-           echo '验证失败';
+
+        } else {
+            echo '验证失败';
         }
     }
+
     public function getPurchaseHTML()
     {
         return '
@@ -151,10 +154,12 @@ $sign = md5(substr($o,0,-1).$settings['token']);
 </script>
 ';
     }
+
     public function getReturnHTML($request, $response, $args)
     {
 
     }
+
     public function getStatus($request, $response, $args)
     {
         // TODO: Implement getStatus() method.

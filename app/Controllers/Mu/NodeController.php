@@ -30,7 +30,7 @@ class NodeController extends BaseController
         ];
         return $this->echoJson($response, $res);
     }
-    
+
     public function info($request, $response, $args)
     {
         $node_id = $args['id'];
