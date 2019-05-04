@@ -69,6 +69,9 @@ It will not impact the appearance and can give developers a lot of support :)
 													<td>永远喜欢</td>
 													<td>永远喜欢 <a href="https://t.me/Anankke">Anankke</a></td>
 												</tr>
+													<td>迫害</td>
+													<td>如果你们看见了<a href="https://twitter.com/kotomei2">kotomei</a>，请 /prpr 并让他去学习</td>
+												</tr>
 												<tr>
 													<td>出演</td>
 													<td><a href="https://www.zhaoj.in">（曾经的）glzjin</a>，<a href="http://mengyang.wang/">mengyang</a>，<a href="http://tony.ecy.ren/">tony</a></td>
