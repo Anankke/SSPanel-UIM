@@ -308,7 +308,7 @@ $System_Config['radius_secret']='';					//Radius连接密钥
 $System_Config['enable_cloudxns']='false';			//是否开启Cloudxns
 $System_Config['cloudxns_apikey']='';				//自己去 cloudxns.net 申请
 $System_Config['cloudxns_apisecret']='';
-$System_Config['cloudxns_domain']='zhaoj.in';		//你的域名
+$System_Config['cloudxns_domain']='';		//你的域名
 
 #Cloudflare
 $System_Config['cloudflare_enable']='false';										//是否开启 Cloudflare 解析
