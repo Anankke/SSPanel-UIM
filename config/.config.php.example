@@ -192,6 +192,8 @@ $System_Config['tomatopay'] = [
             'token' => "owVtOoA7n7e3MM7J4yJxiKMaQ8NEOJjr" // 安全验证码
         ],
  ];
+ #翔狐支付
+ $System_Config['flyfoxpay']=['config'=>['hid'=>'******','key'=>'********','mail'=>'*******@****.***']];		
 #codepay码支付
 #wiki地址:https://goo.gl/dRwRDi  http://t.cn/RnsWjtB
 $System_Config['codepay_id']='';					//码支付ID
