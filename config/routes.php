@@ -81,6 +81,8 @@ $app->get('/staff', 'App\Controllers\HomeController:staff');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
 $app->post('/tomato_back/{type}', 'App\Services\Payment:notify');
 $app->get('/tomato_back/{type}', 'App\Services\Payment:notify');
+$app->post('/flyfoxpay_back/{type}', 'App\Services\Payment:notify');
+$app->get('/flyfoxpay_back/{type}', 'App\Services\Payment:notify');
 
 // User Center
 $app->group('/user', function () {
