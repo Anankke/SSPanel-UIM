@@ -94,15 +94,16 @@ $System_Config['email_verify_iplimit']='10';		//验证码有效期内，单IP可
 
 //已注册用户设置---------------------------------------------------------------------------------------
 #基础
-$System_Config['checkinMin'] = '1';				//用户签到最少流量 单位MB
+$System_Config['checkinMin'] = '1';			//用户签到最少流量 单位MB
 $System_Config['checkinMax'] = '50';			//用户签到最多流量
-$System_Config['auto_clean_uncheck_days']='-1';	//自动清理多少天没签到的0级用户，小于等于0时关闭
-$System_Config['auto_clean_unused_days']='-1';	//自动清理多少天没使用的0级用户，小于等于0时关闭
+$System_Config['auto_clean_uncheck_days']='-1';	        //自动清理多少天没签到的0级用户，小于等于0时关闭
+$System_Config['auto_clean_unused_days']='-1';	        //自动清理多少天没使用的0级用户，小于等于0时关闭
 $System_Config['auto_clean_min_money']='1';		//余额低于多少的0级用户可以被清理
 $System_Config['code_payback']='20';			//充值返利百分比
-$System_Config['invite_gift']='2';				//邀请新用户获得流量奖励，单位G
-$System_Config['enable_bought_reset']='true';	//购买时是否重置流量
-$System_Config['port_price']='-1';				//用户随机重置端口所需要的价格，价格小于0时视为不开放购买
+$System_Config['invite_gift']='2';			//邀请新用户获得流量奖励，单位G
+$System_Config['enable_bought_reset']='true';	        //购买时是否重置流量
+$System_Config['enable_bought_extend']='true';	        //购买时是否延长等级期限（同等级配套）
+$System_Config['port_price']='-1';			//用户随机重置端口所需要的价格，价格小于0时视为不开放购买
 $System_Config['port_price_specify']='-1';		//用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
 
 #高级
