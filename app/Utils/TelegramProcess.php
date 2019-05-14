@@ -121,23 +121,21 @@ class TelegramProcess
                     break;
                 default:
                     if ($message->getPhoto() == null) {
-                        if (is_numeric($message->getText()) || strlen($message->getText()) != 6) {
+                        if (!is_numeric($message->getText()) || strlen($message->getText()) != 6) {
                             $reply['message'] = Tuling::chat($message->getFrom()->getId(), $message->getText());
                             break;
-                        }
-
-                        if ($user == null) {
+                        }else if($user != null) {
+                            $uid = TelegramSessionManager::verify_login_number($message->getText(), $user->id);
+                            if ($uid != 0) {
+                                $reply['message'] = "登录验证成功，邮箱：" . $user->email;
+                            } else {
+                                $reply['message'] = "登录验证失败，数字无效";
+                            }
+                            break;
+                        } else {
                             $reply['message'] = "登录验证失败，您未绑定本站账号";
                             break;
                         }
-
-                        $uid = TelegramSessionManager::verify_login_number($message->getText(), $user->id);
-                        if ($uid != 0) {
-                            $reply['message'] = "登录验证成功，邮箱：" . $user->email;
-                        } else {
-                            $reply['message'] = "登录验证失败，数字无效";
-                        }
-                        break;
                     }
 
                     $bot->sendMessage($message->getChat()->getId(), "正在解码，请稍候。。。");
