@@ -197,6 +197,9 @@ $System_Config['tomatopay'] = [
 $System_Config['codepay_id']='';					//码支付ID
 $System_Config['codepay_key']='';					//码支付通信密钥
 
+#flyfoxpay翔狐科技
+$System_Config['flyfoxpay']=['config'=>['hid'=>'******','key'=>'********','mail'=>'*******@****.***']];				
+
 #alipay,f2fpay
 $System_Config['f2fpay_app_id']='';
 $System_Config['f2fpay_p_id']='';
