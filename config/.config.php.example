@@ -177,8 +177,14 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay |tomatopay
+#取值 none | codepay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay |tomatopay |epay
 $System_Config['payment_system']='none';
+
+# 易支付
+$System_Config['epay_url'] ='';      //易支付url
+$System_Config['epay_pid']='';        //易支付商户ID
+$System_Config['epay_key']='';         //易支付商户Key
+
 #tomatopay番茄云支付
 #使用教程:https://swapidc.fanqieui.com/?t/329.html  tg群 https://t.me/fanqiepay
 $System_Config['tomatopay'] = [
