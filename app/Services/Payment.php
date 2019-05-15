@@ -10,7 +10,7 @@ namespace App\Services;
 
 use App\Services\Config;
 use App\Services\Gateway\{
-    AopF2F, Codepay, DoiAMPay, PaymentWall, ChenPay, SPay, TrimePay, YftPay, TomatoPay
+    AopF2F, Codepay, DoiAMPay, PaymentWall, ChenPay, SPay, TrimePay, YftPay, TomatoPay,Epay
 };
 
 class Payment
@@ -37,6 +37,8 @@ class Payment
                 return new ChenPay();
             case("trimepay"):
                 return new TrimePay(Config::get('trimepay_secret'));
+            case("epay"):
+                return new Epay();
             default:
                 return NULL;
         }
