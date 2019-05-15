@@ -373,7 +373,12 @@ $app->group("/doiam", function () {
     $this->get("/return/alipay", "App\Services\Payment:returnHTML");
     $this->post("/status", "App\Services\Payment:getStatus");
 });
-
+$app->group("/epay",function (){
+    $this->post('/notify', 'App\Services\Payment:notify');
+    $this->get('/notify', 'App\Services\Payment:notify');
+    $this->post('/return','App\Services\Payment:returnHTML');
+    $this->get('/return','App\Services\Payment:returnHTML');
+});
 // Vue
 
 $app->get('/logout', 'App\Controllers\VueController:vuelogout');
