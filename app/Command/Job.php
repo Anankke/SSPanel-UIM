@@ -442,6 +442,24 @@ class Job
 
             foreach ($nodes as $node) {
                 if ($node->isNodeOnline() === false && !file_exists(BASE_PATH . "/storage/" . $node->id . ".offline")) {
+                    if (Config::get('useScFtqq') == 'true' && Config::get('enable_detect_offline_useScFtqq') == 'true') {
+                       $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
+                       $text = "管理员您好，系统发现节点 " . $node->name . " 掉线了，请您及时处理。";
+                       $postdata = http_build_query(
+                            array(
+                                'text' => Config::get('appName') . "-节点掉线了",
+                                'desp' => $text
+                       ));
+
+                       $opts = array('http' =>
+                            array(
+                                 'method' => 'POST',
+                                 'header' => 'Content-type: application/x-www-form-urlencoded',
+                                 'content' => $postdata
+                      ));
+                      $context = stream_context_create($opts);
+                      file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
+                    }
                     foreach ($adminUser as $user) {
                         echo "Send offline mail to user: " . $user->id;
                         $subject = Config::get('appName') . "-系统警告";
@@ -503,6 +521,24 @@ class Job
                     fwrite($myfile, $txt);
                     fclose($myfile);
                 } elseif ($node->isNodeOnline() === true && file_exists(BASE_PATH . "/storage/" . $node->id . ".offline")) {
+                    if (Config::get('useScFtqq') == 'true' && Config::get('enable_detect_offline_useScFtqq') == 'true') {
+                       $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
+                       $text = "管理员您好，系统发现节点 " . $node->name . " 恢复上线了。";
+                       $postdata = http_build_query(
+                            array(
+                                'text' => Config::get('appName') . "-节点掉线了",
+                                'desp' => $text
+                       ));
+
+                       $opts = array('http' =>
+                            array(
+                                 'method' => 'POST',
+                                 'header' => 'Content-type: application/x-www-form-urlencoded',
+                                 'content' => $postdata
+                      ));
+                      $context = stream_context_create($opts);
+                      file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
+                    }
                     foreach ($adminUser as $user) {
                         echo "Send offline mail to user: " . $user->id;
                         $subject = Config::get('appName') . "-系统提示";
