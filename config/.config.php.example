@@ -256,6 +256,8 @@ $System_Config['detect_gfw_count']='3';												//尝试次数
 
 #离线检测
 $System_Config['enable_detect_offline']='true';
+#离线检测是否推送到Server酱 请配置好上文的Server配置
+$System_Config['enable_detect_offline_useScFtqq']='true';
 
 
 //V2Ray相关设置------------------------------------------------------------------------------------------
