@@ -10,7 +10,7 @@ namespace App\Services;
 
 use App\Services\Config;
 use App\Services\Gateway\{
-    AopF2F, Codepay, DoiAMPay, PaymentWall, ChenPay, SPay, TrimePay, YftPay, TomatoPay
+    AopF2F, Codepay, DoiAMPay, PaymentWall, ChenPay, SPay, TrimePay, TomatoPay
 };
 
 class Payment
@@ -31,8 +31,6 @@ class Payment
                 return new SPay();
             case("f2fpay"):
                 return new AopF2F();
-            case("yftpay"):
-                return new YftPay();
             case("chenAlipay"):
                 return new ChenPay();
             case("trimepay"):

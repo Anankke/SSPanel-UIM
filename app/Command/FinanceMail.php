@@ -175,22 +175,6 @@ class FinanceMail
             $income_count += 1;
             $income_total += $code['number'];
         }
-        $datatables2 = new Datatables(new DatatablesHelper());
-        $datatables2->query('select COUNT(*) as "count_yft" from INFORMATION_SCHEMA.TABLES where TABLE_NAME = "yft_order_info"');
-        $count_yft = $datatables2->generate();
-        if (strpos($count_yft, '"count_yft":1')) {
-            $datatables2->query(
-                'select yft_order_info.price from yft_order_info
-				where date_format(yft_order_info.create_time,\'%Y-%m\') =date_format(date_sub(curdate(), interval 1 month),\'%Y-%m\') and yft_order_info.state= 1');
-            //每周的第一天是周日，因此统计周日～周六的七天
-            $text_json2 = $datatables2->generate();
-            $text_array2 = json_decode($text_json2, true);
-            $codes2 = $text_array2['data'];
-            foreach ($codes2 as $code2) {
-                $income_count += 1;
-                $income_total += $code2['price'];
-            }
-        }
         $text_html .= '<br>上月总收入笔数：' . $income_count . '<br>上月总收入金额：' . $income_total;
 
         $adminUser = User::where("is_admin", "=", "1")->get();

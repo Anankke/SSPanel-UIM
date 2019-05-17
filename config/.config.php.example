@@ -29,7 +29,7 @@ $System_Config['db_password'] = 'sspanel';						//用户名对应的密码
 
 
 //邮件设置--------------------------------------------------------------------------------------------
-$System_Config['mailDriver'] = 'none';	//发送邮件方式：none / mailgun / smtp / sendgrid 
+$System_Config['mailDriver'] = 'none';	//发送邮件方式：none / mailgun / smtp / sendgrid
 $System_Config['sendPageLimit']= 50;	//发信分页 解决大站发公告超时问题
 
 # mailgun
@@ -177,7 +177,7 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay |tomatopay
+#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay
 $System_Config['payment_system']='none';
 #tomatopay番茄云支付
 #使用教程:https://swapidc.fanqieui.com/?t/329.html  tg群 https://t.me/fanqiepay
@@ -214,10 +214,6 @@ $System_Config['pmw_height']='350px';
 $System_Config['alipay_id']='';
 $System_Config['alipay_key']='';
 $System_Config['amount']=[2,23,233,2333,23333];		//充值金额选项设定
-
-#yftpay,https://pay.anypay.me/
-$System_Config['yft_secret']='';
-$System_Config['yft_accesskey']='';
 
 #alipay,zfbjk.com
 $System_Config['zfbjk_pid']='';
