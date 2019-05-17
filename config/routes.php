@@ -78,8 +78,6 @@ $app->post('/notify', 'App\Controllers\HomeController:notify');
 $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
-$app->post('/tomato_back/{type}', 'App\Services\Payment:notify');
-$app->get('/tomato_back/{type}', 'App\Services\Payment:notify');
 
 // User Center
 $app->group('/user', function () {
@@ -118,7 +116,7 @@ $app->group('/user', function () {
     $this->post('/ticket', 'App\Controllers\UserController:ticket_add');
     $this->get('/ticket/{id}/view', 'App\Controllers\UserController:ticket_view');
     $this->put('/ticket/{id}', 'App\Controllers\UserController:ticket_update');
-	
+
     $this->post('/buy_invite', 'App\Controllers\UserController:buyInvite');
     $this->post('/custom_invite', 'App\Controllers\UserController:customInvite');
     $this->get('/edit', 'App\Controllers\UserController:edit');
@@ -312,7 +310,7 @@ $app->group('/api', function () {
     $this->post('/token', 'App\Controllers\ApiController:newToken');
     $this->get('/node', 'App\Controllers\ApiController:node')->add(new Api());
     $this->get('/user/{id}', 'App\Controllers\ApiController:userInfo')->add(new Api());
-    $this->get('/sublink','App\Controllers\Client\ClientApiController:GetSubLink');
+    $this->get('/sublink', 'App\Controllers\Client\ClientApiController:GetSubLink');
 });
 
 // mu
