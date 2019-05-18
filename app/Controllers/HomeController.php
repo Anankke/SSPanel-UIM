@@ -30,14 +30,13 @@ class HomeController extends BaseController
     {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('captcha_provider') != ''){
-            switch(Config::get('captcha_provider'))
-            {
+        if (Config::get('captcha_provider') != '') {
+            switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
                     break;
                 case 'geetest':
-                    $uid = time().rand(1, 10000) ;
+                    $uid = time() . rand(1, 10000);
                     $GtSdk = Geetest::get($uid);
                     break;
             }
@@ -84,39 +83,39 @@ class HomeController extends BaseController
     {
         return $this->view()->display('tos.tpl');
     }
-    
+
     public function staff()
     {
         return $this->view()->display('staff.tpl');
     }
-    
+
     public function telegram($request, $response, $args)
     {
         $token = "";
         if (isset($request->getQueryParams()["token"])) {
             $token = $request->getQueryParams()["token"];
         }
-        
+
         if ($token == Config::get('telegram_request_token')) {
             TelegramProcess::process();
         } else {
             echo("不正确请求！");
         }
     }
-    
+
     public function page404($request, $response, $args)
     {
         return $this->view()->display('404.tpl');
     }
-    
+
     public function page405($request, $response, $args)
     {
         return $this->view()->display('405.tpl');
     }
-    
+
     public function page500($request, $response, $args)
     {
-		return $this->view()->display('500.tpl');
+        return $this->view()->display('500.tpl');
     }
 
     public function getOrderList($request, $response, $args)

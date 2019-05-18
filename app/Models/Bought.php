@@ -16,7 +16,7 @@ class Bought extends Model
     {
         return date("Y-m-d H:i:s", $this->attributes['datetime']);
     }
-    
+
     public function user()
     {
         $user = User::where("id", $this->attributes['userid'])->first();
@@ -27,7 +27,7 @@ class Bought extends Model
             return $user;
         }
     }
-    
+
     public function shop()
     {
         return Shop::where("id", $this->attributes['shopid'])->first();

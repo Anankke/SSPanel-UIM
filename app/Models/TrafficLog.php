@@ -20,7 +20,7 @@ class TrafficLog extends Model
             return $node;
         }
     }
-    
+
     public function user()
     {
         $user = User::where("id", $this->attributes['user_id'])->first();
@@ -36,10 +36,10 @@ class TrafficLog extends Model
     {
         return Tools::flowAutoShow($this->attributes['u'] + $this->attributes['d']);
     }
-    
+
     public function totalUsedRaw()
     {
-        return number_format(($this->attributes['u'] + $this->attributes['d'])/1024, 2, ".", "");
+        return number_format(($this->attributes['u'] + $this->attributes['d']) / 1024, 2, ".", "");
     }
 
     public function logTime()

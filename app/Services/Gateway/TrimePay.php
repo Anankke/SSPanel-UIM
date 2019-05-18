@@ -7,6 +7,7 @@
  */
 
 namespace App\Services\Gateway;
+
 use App\Services\View;
 use App\Services\Auth;
 use App\Services\Config;
@@ -17,32 +18,36 @@ class TrimePay extends AbstractPayment
 
     private $appSecret;
     private $gatewayUri;
+
     /**
      * 签名初始化
-     * @param merKey	签名密钥
+     * @param merKey    签名密钥
      */
 
-    public function __construct($appSecret) {
+    public function __construct($appSecret)
+    {
         $this->appSecret = $appSecret;
         $this->gatewayUri = 'https://api.Trimepay.com/gateway/';
     }
 
 
     /**
-     * @name	准备签名/验签字符串
+     * @name    准备签名/验签字符串
      */
-    public function prepareSign($data) {
+    public function prepareSign($data)
+    {
         ksort($data);
         return http_build_query($data);
     }
 
     /**
-     * @name	生成签名
-     * @param	sourceData
-     * @return	签名数据
+     * @name    生成签名
+     * @param sourceData
+     * @return    签名数据
      */
-    public function sign($data) {
-        $signature = strtolower(md5(md5($data).$this->appSecret));
+    public function sign($data)
+    {
+        $signature = strtolower(md5(md5($data) . $this->appSecret));
         return $signature;
     }
 
@@ -52,7 +57,8 @@ class TrimePay extends AbstractPayment
      * @param	sourceData 原数据
      * @return
      */
-    public function verify($data, $signature) {
+    public function verify($data, $signature)
+    {
         $mySign = $this->sign($data);
         if ($mySign === $signature) {
             return true;
@@ -61,12 +67,13 @@ class TrimePay extends AbstractPayment
         }
     }
 
-    public function post($data, $type = "pay"){
-        if ($type == "pay"){
+    public function post($data, $type = "pay")
+    {
+        if ($type == "pay") {
             $this->gatewayUri .= "pay/go";
         } else if ($type == "refund") {
             $this->gatewayUri .= "refund/go";
-        } else if ($type == "pre"){
+        } else if ($type == "pre") {
             $this->gatewayUri .= "pay/pre";
         } else {
             $this->gatewayUri .= "query/go";
@@ -86,15 +93,14 @@ class TrimePay extends AbstractPayment
     }
 
 
-
     public function purchase($request, $response, $args)
     {
         $price = $request->getParam('price');
         $type = $request->getParam('type');
 
 
-        if($price <= 0){
-            return json_encode(['code'=>-1,'errmsg'=>"非法的金额."]);
+        if ($price <= 0) {
+            return json_encode(['code' => -1, 'errmsg' => "非法的金额."]);
         }
         $user = Auth::getUser();
         $pl = new Paylist();
@@ -108,8 +114,8 @@ class TrimePay extends AbstractPayment
         $data['payType'] = $type;
         $data['merchantTradeNo'] = $pl->tradeno;
         $data['totalFee'] = (float)$price * 100;
-        $data['notifyUrl'] = Config::get("baseUrl")."/payment/notify";
-        $data['returnUrl'] = Config::get("baseUrl")."/user/payment/return";
+        $data['notifyUrl'] = Config::get("baseUrl") . "/payment/notify";
+        $data['returnUrl'] = Config::get("baseUrl") . "/user/payment/return";
         $params = self::prepareSign($data);
         $data['sign'] = self::sign($params);
         switch ($type) {
@@ -123,7 +129,8 @@ class TrimePay extends AbstractPayment
         return json_encode($result);
     }
 
-    public function query($tradeNo){
+    public function query($tradeNo)
+    {
         $data['appId'] = Config::get('trimepay_appid');
         $data['merchantTradeNo'] = $tradeNo;
         $params = self::prepareSign($data);
@@ -135,11 +142,11 @@ class TrimePay extends AbstractPayment
     public function notify($request, $response, $args)
     {
         $data = array();
-        $data['payStatus']=$request->getParam('payStatus');
-        $data['payFee']=$request->getParam('payFee');
-        $data['callbackTradeNo']=$request->getParam('callbackTradeNo');
-        $data['payType']=$request->getParam('payType');
-        $data['merchantTradeNo']=$request->getParam('merchantTradeNo');
+        $data['payStatus'] = $request->getParam('payStatus');
+        $data['payFee'] = $request->getParam('payFee');
+        $data['callbackTradeNo'] = $request->getParam('callbackTradeNo');
+        $data['payType'] = $request->getParam('payType');
+        $data['merchantTradeNo'] = $request->getParam('merchantTradeNo');
 
         //file_put_contents(BASE_PATH.'/storage/trimepay_notify.log', json_encode($data)."\r\n", FILE_APPEND);
         // 准备待签名数据
@@ -150,12 +157,13 @@ class TrimePay extends AbstractPayment
             //file_put_contents('./trimepay_notify_success.log', json_encode($data)."\r\n", FILE_APPEND);
             self::postPayment($data['merchantTradeNo'], "TrimePay");
             echo 'SUCCESS';
-        }else{
+        } else {
             echo 'FAIL';
         }
     }
 
-    public function refund($merchantTradeNo){
+    public function refund($merchantTradeNo)
+    {
         $data['appId'] = Config::get('trimepay_appid');
         $data['merchantTradeNo'] = $merchantTradeNo;
         $params = self::prepareSign($data);
@@ -173,17 +181,17 @@ class TrimePay extends AbstractPayment
     public function getReturnHTML($request, $response, $args)
     {
         $pid = $_GET['merchantTradeNo'];
-        $p = Paylist::where('tradeno','=',$pid)->first();
+        $p = Paylist::where('tradeno', '=', $pid)->first();
         $money = $p->total;
-        if ($p->status == 1){
+        if ($p->status == 1) {
             $success = 1;
         } else {
             $data = array();
-            $data['payStatus']=$request->getParam('payStatus');
-            $data['payFee']=$request->getParam('payFee');
-            $data['callbackTradeNo']=$request->getParam('callbackTradeNo');
-            $data['payType']=$request->getParam('payType');
-            $data['merchantTradeNo']=$request->getParam('merchantTradeNo');
+            $data['payStatus'] = $request->getParam('payStatus');
+            $data['payFee'] = $request->getParam('payFee');
+            $data['callbackTradeNo'] = $request->getParam('callbackTradeNo');
+            $data['payType'] = $request->getParam('payType');
+            $data['merchantTradeNo'] = $request->getParam('merchantTradeNo');
             // 准备待签名数据
             $str_to_sign = self::prepareSign($data);
             // 验证签名

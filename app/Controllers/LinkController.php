@@ -25,7 +25,7 @@ class LinkController extends BaseController
 
     public static function GenerateRandomLink()
     {
-        $i =0;
+        $i = 0;
         for ($i = 0; $i < 10; $i++) {
             $token = Tools::genRandomChar(16);
             $Elink = Link::where("token", "=", $token)->first();
@@ -67,21 +67,21 @@ class LinkController extends BaseController
             return null;
         }
 
-		if($Elink->type!=11){
-			return null;
-		}
-		
-		$user=User::where("id", $Elink->userid)->first();
+        if ($Elink->type != 11) {
+            return null;
+        }
+
+        $user = User::where("id", $Elink->userid)->first();
         if ($user == null) {
             return null;
         }
 
         $mu = 0;
-		if (isset($request->getQueryParams()["mu"])) {
-			$mu = (int)$request->getQueryParams()["mu"];
+        if (isset($request->getQueryParams()["mu"])) {
+            $mu = (int)$request->getQueryParams()["mu"];
         }
 
-        $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.txt');
+        $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=' . $token . '.txt');
         $newResponse->getBody()->write(LinkController::GetSSRSub(User::where("id", "=", $Elink->userid)->first(), $mu));
         return $newResponse;
     }
@@ -92,24 +92,101 @@ class LinkController extends BaseController
 
     public static function GetSSRSub($user, $mu = 0)
     {
-        if ($mu==0||$mu==1) {
+        if ($mu == 0 || $mu == 1) {
             return Tools::base64_url_encode(URL::getAllUrl($user, $mu, 0));
-        } 
-		elseif ($mu == LinkController::V2RYA_MU){
+        } elseif ($mu == LinkController::V2RYA_MU) {
             return Tools::base64_url_encode(URL::getAllVMessUrl($user));
-        }
-		elseif ($mu==LinkController::SSD_MU) {
-			return URL::getAllSSDUrl($user);
-		} elseif ($mu==LinkController::CLASH_MU) {
+        } elseif ($mu == LinkController::SSD_MU) {
+            return URL::getAllSSDUrl($user);
+        } elseif ($mu == LinkController::CLASH_MU) {
             // Clash
-            $render = ConfRender::getTemplateRender();
-            $confs = URL::getClashInfo($user);
-
-            $render->assign('user', $user)->assign('confs', $confs)->assign('proxies', array_map(function ($conf) {
-                return $conf['name'];
-            }, $confs));
-
-            return $render->fetch('clash.tpl');
+            return LinkController::GetClash($user);
         }
     }
+
+    public static function GetClash($user)
+    {
+        $confs = [];
+        $proxy_confs = [];
+        // ss
+        $items = array_merge(URL::getAllItems($user, 0, 1), URL::getAllItems($user, 1, 1));
+        foreach ($items as $item) {
+            $sss = [
+                "name" => $item['remark'],
+                "type" => "ss",
+                "server" => $item['address'],
+                "port" => $item['port'],
+                "cipher" => $item['method'],
+                "password" => $item['passwd'],
+            ];
+            if ($item['obfs'] != "plain") {
+                switch ($item['obfs']) {
+                    case "simple_obfs_http":
+                        $sss['plugin'] = "obfs";
+                        $sss['plugin-opts']['mode'] = "http";
+                        break;
+                    case "simple_obfs_tls":
+                        $sss['plugin'] = "obfs";
+                        $sss['plugin-opts']['mode'] = "tls";
+                        break;
+                    case "v2ray":
+                        $sss['plugin'] = "v2ray-plugin";
+                        $sss['plugin-opts']['mode'] = "websocket";
+                        if (strpos($item['obfs_param'], "security=tls")) {
+                            $sss['plugin-opts']['tls'] = true;
+                        }
+                        $sss['plugin-opts']['host'] = $user->getMuMd5();
+                        $sss['plugin-opts']['path'] = $item['path'];
+                        break;
+                }
+            }
+            if ($item['obfs'] != "v2ray") {
+                if ($item['obfs'] != "plain" && $item['obfs_param'] != '') {
+                    $sss['plugin-opts']['host'] = $item['obfs_param'];
+                } else {
+                    $sss['plugin-opts']['host'] = "wns.windows.com";
+                }
+            }
+            $proxy_confs[] = $sss;
+            $confs[] = $sss;
+        }
+        // v2
+        $items = URL::getAllVMessUrl($user, 1);
+        foreach ($items as $item) {
+            if (in_array($item['net'], array("kcp", "http", "quic"))) {
+                continue;
+            }
+            $v2rays = [
+                "name" => $item['ps'],
+                "type" => "vmess",
+                "server" => $item['add'],
+                "port" => $item['port'],
+                "uuid" => $item['id'],
+                "alterId" => $item['aid'],
+                "cipher" => "auto",
+            ];
+            if ($item['net'] == "ws") {
+                $v2rays['network'] = 'ws';
+                $v2rays['ws-path'] = $item['path'];
+                if ($item['tls'] == 'tls') {
+                    $v2rays['tls'] = true;
+                }
+                if ($item['host'] != '') {
+                    $v2rays['ws-headers']['Host'] = $item['host'];
+                }
+            } elseif ($item['net'] == "tls") {
+                $v2rays['tls'] = true;
+            }
+            $proxy_confs[] = $v2rays;
+            $confs[] = $v2rays;
+        }
+        $render = ConfRender::getTemplateRender();
+        $render->assign('user', $user)
+            ->assign('confs', $confs)
+            ->assign('proxies', array_map(function ($conf) {
+                return $conf['name'];
+            }, $proxy_confs));
+        return $render->fetch('clash.tpl');
+    }
+
 }

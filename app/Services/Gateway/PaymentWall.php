@@ -7,6 +7,7 @@
  */
 
 namespace App\Services\Gateway;
+
 use App\Models\User;
 use App\Models\Code;
 use App\Services\Auth;
@@ -24,7 +25,7 @@ class PaymentWall extends AbstractPayment
 
     public function notify($request, $response, $args)
     {
-        if (Config::get('pmw_publickey')!="") {
+        if (Config::get('pmw_publickey') != "") {
             \Paymentwall_Config::getInstance()->set(array(
                 'api_type' => \Paymentwall_Config::API_VC,
                 'public_key' => Config::get('pmw_publickey'),
@@ -38,35 +39,35 @@ class PaymentWall extends AbstractPayment
                 } elseif ($pingback->isCancelable()) {
                     // withdraw the virual currency
                 }
-                $user=User::find($pingback->getUserId());
-                $user->money=$user->money+$pingback->getVirtualCurrencyAmount();
+                $user = User::find($pingback->getUserId());
+                $user->money = $user->money + $pingback->getVirtualCurrencyAmount();
                 $user->save();
-                $codeq=new Code();
-                $codeq->code="Payment Wall 充值";
-                $codeq->isused=1;
-                $codeq->type=-1;
-                $codeq->number=$pingback->getVirtualCurrencyAmount();
-                $codeq->usedatetime=date("Y-m-d H:i:s");
-                $codeq->userid=$user->id;
+                $codeq = new Code();
+                $codeq->code = "Payment Wall 充值";
+                $codeq->isused = 1;
+                $codeq->type = -1;
+                $codeq->number = $pingback->getVirtualCurrencyAmount();
+                $codeq->usedatetime = date("Y-m-d H:i:s");
+                $codeq->userid = $user->id;
                 $codeq->save();
-                if ($user->ref_by!=""&&$user->ref_by!=0&&$user->ref_by!=null) {
-                    $gift_user=User::where("id", "=", $user->ref_by)->first();
-                    $gift_user->money=($gift_user->money+($codeq->number*(Config::get('code_payback')/100)));
+                if ($user->ref_by != "" && $user->ref_by != 0 && $user->ref_by != null) {
+                    $gift_user = User::where("id", "=", $user->ref_by)->first();
+                    $gift_user->money = ($gift_user->money + ($codeq->number * (Config::get('code_payback') / 100)));
                     $gift_user->save();
-                    $Payback=new Payback();
-                    $Payback->total=$pingback->getVirtualCurrencyAmount();
-                    $Payback->userid=$user->id;
-                    $Payback->ref_by=$user->ref_by;
-                    $Payback->ref_get=$codeq->number*(Config::get('code_payback')/100);
-                    $Payback->datetime=time();
+                    $Payback = new Payback();
+                    $Payback->total = $pingback->getVirtualCurrencyAmount();
+                    $Payback->userid = $user->id;
+                    $Payback->ref_by = $user->ref_by;
+                    $Payback->ref_get = $codeq->number * (Config::get('code_payback') / 100);
+                    $Payback->datetime = time();
                     $Payback->save();
                 }
                 echo 'OK'; // Paymentwall expects response to be OK, otherwise the pingback will be resent
                 if (Config::get('enable_donate') == 'true') {
                     if ($user->is_hide == 1) {
-                        Telegram::Send("姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ".$codeq->number." 元呢~");
+                        Telegram::Send("姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 " . $codeq->number . " 元呢~");
                     } else {
-                        Telegram::Send("姐姐姐姐，".$user->user_name." 大老爷给我们捐了 ".$codeq->number." 元呢~");
+                        Telegram::Send("姐姐姐姐，" . $user->user_name . " 大老爷给我们捐了 " . $codeq->number . " 元呢~");
                     }
                 }
             } else {
@@ -92,18 +93,18 @@ class PaymentWall extends AbstractPayment
             array(),     // array of products - leave blank for Virtual Currency API
             array(
                 'email' => $user->email,
-                'history'=>
+                'history' =>
                     array(
-                        'registration_date'=>strtotime($user->reg_date),
-                        'registration_ip'=>$user->reg_ip,
-                        'payments_number'=>Code::where('userid', '=', $user->id)->where('type', '=', -1)->count(),
-                        'membership'=>$user->class),
-                'customer'=>array(
-                    'username'=>$user->user_name
+                        'registration_date' => strtotime($user->reg_date),
+                        'registration_ip' => $user->reg_ip,
+                        'payments_number' => Code::where('userid', '=', $user->id)->where('type', '=', -1)->count(),
+                        'membership' => $user->class),
+                'customer' => array(
+                    'username' => $user->user_name
                 )
             ) // additional parameters
         );
-        return $widget->getHtmlCode(array("height"=>Config::get('pmw_height'),"width"=>"100%"));
+        return $widget->getHtmlCode(array("height" => Config::get('pmw_height'), "width" => "100%"));
     }
 
     public function getReturnHTML($request, $response, $args)

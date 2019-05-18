@@ -11,8 +11,8 @@ class JwtToken extends Base
     {
         $expireTime = time() + $time;
         $ary = [
-          "uid" => $uid,
-          "expire_time" => $expireTime
+            "uid" => $uid,
+            "expire_time" => $expireTime
         ];
         $decode = Jwt::encode($ary);
         Utils\Cookie::set([
@@ -26,7 +26,7 @@ class JwtToken extends Base
         Utils\Cookie::set([
             //"uid" => $uid,
             "token" => ""
-        ], time()-3600);
+        ], time() - 3600);
     }
 
     public function getUser()

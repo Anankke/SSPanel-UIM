@@ -13,9 +13,9 @@ class autoController extends AdminController
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array("id" => "ID",
-                              "datetime" => "时间", "type" => "类型", "value" => "内容");
+            "datetime" => "时间", "type" => "类型", "value" => "内容");
         $table_config['default_show_column'] = array("op", "id",
-                                  "datetime", "type", "value");
+            "datetime", "type", "value");
         $table_config['ajax_url'] = 'auto/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/auto/index.tpl');
     }
@@ -28,10 +28,10 @@ class autoController extends AdminController
     public function add($request, $response, $args)
     {
         $auto = new Auto();
-        $auto->datetime =  time();
-        $auto->value =  $request->getParam('content');
-        $auto->sign =  $request->getParam('sign');
-        $auto->type =  1;
+        $auto->datetime = time();
+        $auto->value = $request->getParam('content');
+        $auto->sign = $request->getParam('sign');
+        $auto->type = 1;
 
         if (!$auto->save()) {
             $rs['ret'] = 0;

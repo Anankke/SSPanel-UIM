@@ -1,11 +1,13 @@
 <template>
-    <div class="user pure-g">
-        <router-view></router-view>
-    </div>
+  <div class="user pure-g">
+    <transition name="slide-fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
+  </div>
 </template>
 
 <script>
 export default {
-  props: ['routermsg']
-}
+  props: ["routermsg"]
+};
 </script>

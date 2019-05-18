@@ -12,11 +12,8 @@
         <input v-model="passwd" type="password" name="Password">
       </div>
       <div class="input-control flex wrap">
-        <uim-checkbox v-model="remember_me">
-          <template #content>
-            <span>记住我</span>
-          </template>
-        </uim-checkbox>
+        <label for="stepcode">两步验证（未设置请忽略）</label>
+        <input v-model="stepcode" type="stepcode" name="stepcode">
       </div>
       <div class="input-control flex wrap">
         <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-login"></div>
@@ -38,6 +35,16 @@
         type="submit"
         :disabled="isDisabled"
       >确认登录</button>
+      <div class="input-control flex">
+        <div class="input-inner flex no-wrap space-between">
+          <uim-checkbox v-model="remember_me">
+            <template #content>
+              <span>记住我</span>
+            </template>
+          </uim-checkbox>
+          <router-link class="link" to="/password/reset">忘记密码？</router-link>
+        </div>
+      </div>
     </div>
     <div
       v-if="globalConfig.enable_telegram === 'true'"
@@ -97,6 +104,7 @@ export default {
     return {
       email: "",
       passwd: "",
+      stepcode: "",
       remember_me: false,
       isDisabled: false,
       isTgtimeout: false
@@ -109,6 +117,7 @@ export default {
       let ajaxCon = {
         email: this.email,
         passwd: this.passwd,
+        code: this.stepcode,
         remember_me: this.remember_me
       };
 
@@ -253,3 +262,24 @@ export default {
   }
 };
 </script>
+
+<style>
+#login {
+  margin-bottom: 1rem;
+}
+.input-inner {
+  flex-basis: 80%;
+}
+.input-control a.link {
+  color: #d1335b;
+  transition: all 0.3s;
+}
+.input-control a.link:hover {
+  color: #13c2c2;
+}
+@media screen and (min-width: 35.5em) {
+  .input-inner {
+    flex-basis: 65%;
+  }
+}
+</style>

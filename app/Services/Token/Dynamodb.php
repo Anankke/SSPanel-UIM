@@ -22,9 +22,9 @@ class Dynamodb extends Base
         $result = $this->client->putItem(array(
             'TableName' => $this->tableName,
             'Item' => array(
-                'token'      => array('S' => $token),
-                'user_id'    => array('N' => (string)$user->id),
-                'create_time'   => array('N' => (string)time()),
+                'token' => array('S' => $token),
+                'user_id' => array('N' => (string)$user->id),
+                'create_time' => array('N' => (string)time()),
                 'expire_time' => array('N' => (string)$expireTime)
             )
         ));
@@ -36,7 +36,7 @@ class Dynamodb extends Base
         $this->client->deleteItem(array(
             'TableName' => $this->tableName,
             'Key' => array(
-                'token'   => array('S' => $token),
+                'token' => array('S' => $token),
             )
         ));
     }
@@ -46,8 +46,8 @@ class Dynamodb extends Base
         $result = $this->client->getItem(array(
             'ConsistentRead' => true,
             'TableName' => $this->tableName,
-            'Key'       => array(
-                'token'   => array('S' => $token),
+            'Key' => array(
+                'token' => array('S' => $token),
             )
         ));
         $token = new Token();

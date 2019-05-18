@@ -199,7 +199,7 @@
 																<a class="" data-toggle="tab" href="#all_ssr_mac"><i class="icon icon-lg">laptop_mac</i>&nbsp;MacOS</a>
 															</li>
                                                           <li>
-																<a class="" data-toggle="tab" href="#all_ssr_linux"><i class="icon icon-lg">dvr</i>&nbsp;Linux</a>
+																<a class="" data-toggle="tab" href="#all_ssr_linux"><i class="icon icon-lg">dvr</i>&nbsp;Linux（GUI）</a>
 															</li>
 															<li>
 																<a class="" data-toggle="tab" href="#all_ssr_ios"><i class="icon icon-lg">phone_iphone</i>&nbsp;iOS</a>
@@ -252,7 +252,15 @@
                                                       <p><a href="/user/tutorial">点击这里查看Mac教程</a></p>
 													</div>
                                                   <div class="tab-pane fade" id="all_ssr_linux">
-                                                      <p><a href="/user/tutorial">点击这里查看Linux教程</a></p>
+													  <p><span class="icon icon-lg text-white">filter_1</span>自行安装python，<a href="/ssr-download/ssr-linux.AppImage" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载electron-ssr</a>，安装并启动</p>    
+                                                      <p><span class="icon icon-lg text-white">filter_2</span> 右击托盘纸飞机图标->服务器->订阅管理，点击“添加”，输入以下订阅地址并回车</p>
+													<p><span class="icon icon-lg text-white">filter_3</span >订阅成功后点击“完成”关闭界面，右击托盘纸飞机图标->服务器->{$config["appName"]}->选择一个节点即可</p>
+													<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
+													<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">点击复制</button><br></div>
+													{if $mergeSub!='true'}
+														<div><span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：</div>
+														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button><br></div>
+													{/if}
 													</div>
 													<div class="tab-pane fade" id="all_ssr_ios">
 													{if $display_ios_class>=0}
@@ -285,7 +293,7 @@
 														<p><span class="icon icon-lg text-white">filter_2</span> 点击下方的“设置”，点击“订阅”，点击右上角的 + 号，选择“服务器”，“名称”任意填写，点击复制本网页下方的“订阅地址”，粘贴到“链接”中，点击右上角的“保存”</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 点击 Quantumult 底部菜单栏中间的图标，选择一个节点，再点击“主页”，打开右上角的开关即可</p>
 														<p><span class="icon icon-lg text-white">build</span> 工具三：Potatso Lite</p>
-														<p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a class="btn-dl" href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i class="material-icons">save_alt</i> 点击安装 Potatso Lite</a>，安装时如果弹出登录框则使用上方的账户</p>
+														<p><span class="icon icon-lg text-white">filter_1</span> 在外服APP商店中搜索Potatso Lite下载，安装时如果弹出登录框则使用上方的账户</p>
 														<p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso Lite，点击添加代理，选择“订阅”，名字任意填写，点击复制本网页下方的“订阅地址”，粘贴到URL中，点击右上角的 √</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 选择一个代理节点，点击下方的“开始”即可</p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}订阅地址：</div>
@@ -514,7 +522,8 @@
 														<p><span class="icon icon-lg text-white">filter_2</span> 双击任务栏右下角V2RayN图标->订阅->订阅设置->添加->填入下方的地址，点击确定</p>
 														<p><span class="icon icon-lg text-white">filter_3</span> 再次点击订阅->更新订阅，右击任务栏右下角V2RayN图标->启动Http代理</p>
 														<p><span class="icon icon-lg text-white">filter_4</span> 自行选择“Http代理模式”和“服务器”</p>
-														<p> 也可以使用ClashX进行连接，<a href="/ssr-download/Clash-Windows.7z" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 ClashX</a></p>
+                                                        <p> 也可以使用 Clash 进行连接，<a href="/ssr-download/Clash-Windows.7z" class="btn-dl"><i class="material-icons">save_alt</i> 点击下载 Clash for Windows
+                                                         </a></p>
 														<div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：</div>
 														<div class="float-clear"><input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=2" readonly="true"><button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">点击复制</button><br></div>
 													</div>

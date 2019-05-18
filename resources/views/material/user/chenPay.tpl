@@ -62,14 +62,13 @@
 
                 <div class="text-center">
                     <p id="title" class="textShow"></p>
-                    <p id="qrcode">
-                        <a class="pay"
-                           href="">
+                    <a class="pay" href="">
+                        <p id="qrcode">
                             {*<img src="/images/loading.gif"*}
                             {*width="300px"/>*}
-                            <div id="qrcode" style="text-align: center"></div>
-                        </a>
-                    </p>
+                        <div id="qrcode" style="text-align: center"></div>
+                        </p>
+                    </a>
                     <p id="title">支付成功后大约一分钟内提示</p>
                     <p id="info"></p>
                 </div>
@@ -81,16 +80,16 @@
 <script>
     function chenPayLoad() {
         var $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
-            $wxpayApp = 'weixin://',
-            $pay_type = 0,
-            $order_id = 0,
-            qrcode = new QRCode(document.getElementById("qrcode"));
+                $wxpayApp = 'weixin://',
+                $pay_type = 0,
+                $order_id = 0,
+                qrcode = new QRCode(document.getElementById("qrcode"));
         if ('{$QRcodeUrl}'.indexOf('|') > 0) {
             var $alipayUrl = '{$QRcodeUrl}'.split('|'),
-                $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
+                    $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
         } else {
             var $alipayUrl = '{$QRcodeUrl}',
-                $wxpayUrl = '{$WxQRcodeUrl}';
+                    $wxpayUrl = '{$WxQRcodeUrl}';
         }
         $("#AliPayType").val($('.btn-price:first-child').attr('price'));
         $(".btn-price").click(function () {

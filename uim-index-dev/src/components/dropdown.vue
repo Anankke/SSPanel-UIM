@@ -4,6 +4,7 @@
       <span>
         <slot name="dpbtn-content"></slot>
       </span>
+      <font-awesome-icon v-if="showArrow" icon="caret-down"/>
     </button>
     <transition name="dropdown-fade" mode="out-in">
       <div v-show="isDropdown" @click.stop="hide" class="uim-dropdown-menu">
@@ -17,6 +18,12 @@
 
 <script>
 export default {
+  props: {
+    showArrow: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: function() {
     return {
       isDropdown: false
@@ -55,11 +62,18 @@ export default {
   transition: all 0.3s;
   background: inherit;
   outline: none;
+  position: relative;
 }
 
 .uim-dropdown-btn:hover {
   border: 1px solid white;
   box-shadow: 0 0 5px 1px gray;
+}
+
+.uim-dropdown-btn svg {
+  position: absolute;
+  right: 0.6rem;
+  top: 0.75rem;
 }
 
 .uim-dropdown {

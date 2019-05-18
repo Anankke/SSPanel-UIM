@@ -21,6 +21,22 @@
 					</div>
 				</div>
 
+				<div class="card">
+					<div class="card-main">
+						<div class="card-inner">
+							<div class="form-group form-group-label">
+								<label class="floating-label" for="quick_create"> 输入email快速创建新用户 </label>
+								<input class="form-control maxwidth-edit" id="quick_create" type="text">
+							</div>
+						</div>
+						<div class="card-action">
+							<div class="card-action-btn pull-left">
+								<a class="btn btn-flat waves-attach waves-light" id="quick_create_confirm"><span class="icon">check</span>&nbsp;创建</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="table-responsive">
 					{include file='table/table.tpl'}
 				</div>
@@ -116,10 +132,10 @@ window.addEventListener('load', () => {
             { "data": "obfs" },
             { "data": "online_ip_count" ,"orderable":false},
             { "data": "last_ss_time" ,"orderable":false},
-            { "data": "used_traffic" ,"orderable":false},
-            { "data": "enable_traffic" ,"orderable":false},
+            { "data": "used_traffic"},
+            { "data": "enable_traffic"},
             { "data": "last_checkin_time" ,"orderable":false},
-            { "data": "today_traffic" ,"orderable":false},
+            { "data": "today_traffic"},
             { "data": "enable" },
             { "data": "reg_date" },
             { "data": "reg_ip" },
@@ -178,7 +194,7 @@ window.addEventListener('load', () => {
 			},
             error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}jqXHR{rdelim} 发生了错误。`;
 			}
 		});
 	}
@@ -213,12 +229,39 @@ window.addEventListener('load', () => {
 			},
 			error: jqXHR => {
 				$("#result").modal();
-                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生了错误。`;
+                $$.getElementById('msg').innerHTML = `${ldelim}jqXHR{rdelim} 发生了错误。`;
 			}
 		});
 	}
 
     $$.getElementById('changetouser_input').addEventListener('click', changetouser_id);
+
+	function quickCreate() {
+		$.ajax({
+			type: 'POST',
+			url: '/admin/user/create',
+			dataType: 'json',
+			data: {
+				userEmail: $$getValue('quick_create')
+			},
+			success: data => {
+				if (data.ret) {
+					$("#result").modal();
+					$$.getElementById('msg').innerHTML = data.msg;
+					window.setTimeout("location.href='/admin/user'", {$config['jump_delay']});
+				} else {
+					$("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+				}
+			},
+			error: jqXHR => {
+				$("#result").modal();
+                $$.getElementById('msg').innerHTML = `${ldelim}jqXHR{rdelim} 发生了错误。`;
+			}
+		})
+	}
+
+	$$.getElementById('quick_create_confirm').addEventListener('click', quickCreate)
 })
 
 

@@ -19,49 +19,48 @@ class UserController extends BaseController
         $params = $request->getQueryParams();
 
         $node_id = $params['node_id'];
-		$node=new Node();
-		if($node_id=='0'){
-			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-			$node_id=$node->id;
-		}
-		else{
-			$node = Node::where("id", "=", $node_id)->first();
-			if ($node == null) {
-				$res = [
-					"ret" => 0
-				];
-				return $this->echoJson($response, $res);
-			}
-		}
-        $node->node_heartbeat=time();
+        $node = new Node();
+        if ($node_id == '0') {
+            $node = Node::where("node_ip", $_SERVER["REMOTE_ADDR"])->first();
+            $node_id = $node->id;
+        } else {
+            $node = Node::where("id", "=", $node_id)->first();
+            if ($node == null) {
+                $res = [
+                    "ret" => 0
+                ];
+                return $this->echoJson($response, $res);
+            }
+        }
+        $node->node_heartbeat = time();
         $node->save();
 
-        if ($node->node_group!=0) {
+        if ($node->node_group != 0) {
             $users_raw = User::where(
-                function ($query) use ($node){
+                function ($query) use ($node) {
                     $query->where(
-                      function ($query1) use ($node){
-                          $query1->where("class", ">=", $node->node_class)
-                              ->where("node_group", "=", $node->node_group);
-                      }
+                        function ($query1) use ($node) {
+                            $query1->where("class", ">=", $node->node_class)
+                                ->where("node_group", "=", $node->node_group);
+                        }
                     )->orwhere('is_admin', 1);
                 }
             )
-            ->where("enable", 1)->where("expire_in", ">", date("Y-m-d H:i:s"))->get();
+                ->where("enable", 1)->where("expire_in", ">", date("Y-m-d H:i:s"))->get();
         } else {
             $users_raw = User::where(
-                function ($query) use ($node){
+                function ($query) use ($node) {
                     $query->where(
-                      function ($query1) use ($node){
-                          $query1->where("class", ">=", $node->node_class);
-                      }
+                        function ($query1) use ($node) {
+                            $query1->where("class", ">=", $node->node_class);
+                        }
                     )->orwhere('is_admin', 1);
                 }
             )->where("enable", 1)->where("expire_in", ">", date("Y-m-d H:i:s"))->get();
         }
-        if ($node->node_bandwidth_limit!=0) {
+        if ($node->node_bandwidth_limit != 0) {
             if ($node->node_bandwidth_limit < $node->node_bandwidth) {
-                $users=null;
+                $users = null;
 
                 $res = [
                     "ret" => 1,
@@ -74,8 +73,8 @@ class UserController extends BaseController
         $users = array();
 
         $key_list = array('email', 'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param',
-                'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
-                'is_multi_user', 'id', 'port', 'passwd', 'u', 'd');
+            'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
+            'is_multi_user', 'id', 'port', 'passwd', 'u', 'd');
 
         foreach ($users_raw as $user_raw) {
             if ($user_raw->transfer_enable > $user_raw->u + $user_raw->d) {
@@ -100,10 +99,10 @@ class UserController extends BaseController
         $data = $request->getParam('data');
         $this_time_total_bandwidth = 0;
         $node_id = $params['node_id'];
-		if($node_id=='0'){
-			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-			$node_id=$node->id;
-		}
+        if ($node_id == '0') {
+            $node = Node::where("node_ip", $_SERVER["REMOTE_ADDR"])->first();
+            $node_id = $node->id;
+        }
         $node = Node::find($node_id);
 
         if ($node == null) {
@@ -121,7 +120,7 @@ class UserController extends BaseController
 
                 $user = User::find($user_id);
 
-                if($user == NULL) {
+                if ($user == NULL) {
                     continue;
                 }
 
@@ -172,10 +171,10 @@ class UserController extends BaseController
 
         $data = $request->getParam('data');
         $node_id = $params['node_id'];
-		if($node_id=='0'){
-			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-			$node_id=$node->id;
-		}
+        if ($node_id == '0') {
+            $node = Node::where("node_ip", $_SERVER["REMOTE_ADDR"])->first();
+            $node_id = $node->id;
+        }
         $node = Node::find($node_id);
 
         if ($node == null) {
@@ -212,10 +211,10 @@ class UserController extends BaseController
 
         $data = $request->getParam('data');
         $node_id = $params['node_id'];
-		if($node_id=='0'){
-			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-			$node_id=$node->id;
-		}
+        if ($node_id == '0') {
+            $node = Node::where("node_ip", $_SERVER["REMOTE_ADDR"])->first();
+            $node_id = $node->id;
+        }
         $node = Node::find($node_id);
 
         if ($node == null) {

@@ -12,6 +12,7 @@ class Boot
         if (Config::get('debug') == "true") {
             define("DEBUG", true);
         }
+        View::$beginTime = microtime(true);
     }
 
     public static function setVersion($version)
@@ -30,9 +31,12 @@ class Boot
         // Init Eloquent ORM Connection
         $capsule = new Capsule;
         $capsule->addConnection(Config::getDbConfig(), 'default');
-        if (Config::get('enable_radius')=='true') {
+        if (Config::get('enable_radius') == 'true') {
             $capsule->addConnection(Config::getRadiusDbConfig(), 'radius');
         }
         $capsule->bootEloquent();
+
+        View::$connection = $capsule->getDatabaseManager();
+        $capsule->getDatabaseManager()->connection('default')->enableQueryLog();
     }
 }

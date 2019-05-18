@@ -43,6 +43,16 @@
 												<input class="access-hide" id="issend" type="checkbox" name="issend"><span class="switch-toggle"></span>是否发送邮件
 											</label>
 											</div>
+
+											
+											{if $config["usePushBear"] == "true"}
+											<div class="checkbox switch">
+											<label for="PushBear">
+												<input class="access-hide" id="PushBear" type="checkbox" name="PushBear"><span class="switch-toggle"></span>是否使用PushBear
+											</label>
+											</div>
+											<p class="form-control-guide"><i class="material-icons">info</i>向关注了二维码的用户以微信方式推送消息</p>
+											{/if}
 										</div>
 
 											<button id="submit" type="submit" class="btn btn-block btn-brand waves-attach waves-light">添加</button>
@@ -90,10 +100,21 @@
             } else {
 				var issend=0;
 			}
+			{if $config["usePushBear"] == "true"}
+			if ($$.getElementById('PushBear').checked) {
+				var PushBear=1;
+            } else {
+				var PushBear=0;
+			}
+			{/if}
             if (page === -1) {
                 sedPage = 1;
             } else {
                 sedPage = page;
+				{if $config["usePushBear"] == "true"}
+				var PushBear=0;
+				{/if}
+
 			}
             $.ajax({
                 type: "POST",
@@ -101,9 +122,12 @@
                 dataType: "json",
                 data: {
                     content: editor.getHTML(),
-					markdown: editor.getMarkdown(),
+					markdown: $('.editormd-markdown-textarea').val(),
                   	vip: $$getValue('vip'),
                   	issend,
+					{if $config["usePushBear"] == "true"}
+					PushBear,
+					{/if}
 					page: sedPage
                 },
                 success: data => {

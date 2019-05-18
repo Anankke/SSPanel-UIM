@@ -7,6 +7,7 @@
  */
 
 namespace App\Services\Gateway;
+
 use App\Services\Auth;
 use App\Services\Config;
 use App\Models\User;
@@ -45,7 +46,7 @@ class Codepay extends AbstractPayment
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
-        $pl->tradeno = (string)time()."UID".(string)$user->id;
+        $pl->tradeno = (string)time() . "UID" . (string)$user->id;
         $pl->save();
 
 
@@ -88,7 +89,7 @@ class Codepay extends AbstractPayment
         //以下五行无需更改
         ksort($_POST); //排序post参数
         reset($_POST); //内部指针指向数组中的第一个元素
-        $codepay_key=Config::get('codepay_key'); //这是您的密钥
+        $codepay_key = Config::get('codepay_key'); //这是您的密钥
         $sign = '';//初始化
         foreach ($_POST AS $key => $val) { //遍历POST参数
             if ($val == '' || $key == 'sign') continue; //跳过这些不签名

@@ -52,6 +52,9 @@
 											<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_info">
 												{if URL::SSRCanConnect($user, $mu)}
 													{$ssr_item = URL::getItem($user, $node, $mu, $relay_rule_id, 0)}
+													{if $ssr_item['obfs']=="v2ray"}
+														<p>您好，Shadowsocks V2Ray-Plugin 节点需要您的加密方式使用 AEAD 系列。请您到 资料编辑 页面修改后再来查看此处。</p>
+													{else}
 													<p>服务器地址：{$ssr_item['address']}<br>
 													服务器端口：{$ssr_item['port']}<br>
 													加密方式：{$ssr_item['method']}<br>
@@ -60,6 +63,7 @@
 													协议参数：{$ssr_item['protocol_param']}<br>
 													混淆：{$ssr_item['obfs']}<br>
 													混淆参数：{$ssr_item['obfs_param']}<br></p>
+													{/if}
 												{else}
 													<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 													<p>同时, ShadowsocksR 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
@@ -68,12 +72,16 @@
 											<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_info">
 												{if URL::SSCanConnect($user, $mu)}
 													{$ss_item = URL::getItem($user, $node, $mu, $relay_rule_id, 1)}
+													{if $ss_item['obfs']=="v2ray" && URL::CanMethodConnect($user->method)!=2}
+														<p>您好，Shadowsocks V2Ray-Plugin 节点需要您的加密方式使用 AEAD 系列。请您到 资料编辑 页面修改后再来查看此处。</p>
+													{else}
 													<p>服务器地址：{$ss_item['address']}<br>
 													服务器端口：{$ss_item['port']}<br>
 													加密方式：{$ss_item['method']}<br>
 													密码：{$ss_item['passwd']}<br>
 													混淆：{$ss_item['obfs']}<br>
 													混淆参数：{$ss_item['obfs_param']}<br></p>
+													{/if}
 												{else}
 													<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 												{/if}
@@ -102,7 +110,9 @@
 										</nav>
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_json">
 											{if URL::SSRCanConnect($user, $mu)}
-												
+												{if $ssr_item['obfs']=="v2ray"}
+													<p>您好，Shadowsocks V2Ray-Plugin 节点需要您的加密方式使用 AEAD 系列。请您到 资料编辑 页面修改后再来查看此处。</p>
+												{else}
 												<pre>
 {
     "server": "{$ssr_item['address']}",
@@ -119,13 +129,16 @@
     "protocol_param": "{$ssr_item['protocol_param']}"
 }
                                                </pre>
-												
+												{/if}
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_json">
 											{if URL::SSCanConnect($user, $mu)}
+												{if $ss_item['obfs']=="v2ray" && URL::CanMethodConnect($user->method)!=2}
+													<p>您好，Shadowsocks V2Ray-Plugin 节点需要您的加密方式使用 AEAD 系列。请您到 资料编辑 页面修改后再来查看此处。</p>
+												{else}
 											<pre>
 {
 		"server": "{$ss_item['address']}",
@@ -139,6 +152,7 @@
 		"plugin": "{URL::getJsonObfs($ss_item)}"
 }
 </pre>
+												{/if}
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
@@ -168,16 +182,24 @@
 										</nav>
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_url">
 											{if URL::SSRCanConnect($user, $mu)}
+												{if $ssr_item['obfs']=="v2ray"}
+													<p>您好，Shadowsocks V2Ray-Plugin 节点需要您的加密方式使用 AEAD 系列。请您到 资料编辑 页面修改后再来查看此处。</p>
+												{else}
 												<p><a class="copy-text" data-clipboard-text="{URL::getItemUrl($ssr_item, 0)}">点我复制配置链接</a></p>
 												<p><a href="{URL::getItemUrl($ssr_item, 0)}">iOS 上用 Safari 打开点我即可直接添加</a></p>
+												{/if}
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_url">
 											{if URL::SSCanConnect($user, $mu)}
-												<p><a class="copy-text" data-clipboard-text="{URL::getItemUrl($ssr_item, 1)}">点我复制配置链接</a></p>
+												{if $ss_item['obfs']=="v2ray" && URL::CanMethodConnect($user->method)!=2}
+													<p>您好，Shadowsocks V2Ray-Plugin 节点需要您的加密方式使用 AEAD 系列。请您到 资料编辑 页面修改后再来查看此处。</p>
+												{else}
+												<p><a class="copy-text" data-clipboard-text="{URL::getItemUrl($ss_item, 1)}">点我复制配置链接</a></p>
 												<p><a href="{URL::getItemUrl($ss_item, 1)}">iOS 上用 Safari 打开点我即可直接添加</a></p>
+												{/if}
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
@@ -207,15 +229,22 @@
 										</nav>
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_qrcode">
 											{if URL::SSRCanConnect($user, $mu)}
+												{if $ssr_item['obfs']=="v2ray"}
+													<p>您好，Shadowsocks V2Ray-Plugin 节点需要您的加密方式使用 AEAD 系列。请您到 资料编辑 页面修改后再来查看此处。</p>
+												{else}
 												<div class="text-center">
 													<div id="ss-qr-n" class="qr-center"></div>
 												</div>
+												{/if}
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_qrcode">
 											{if URL::SSCanConnect($user, $mu)}
+												{if $ss_item['obfs']=="v2ray" && URL::CanMethodConnect($user->method)!=2}
+													<p>您好，Shadowsocks V2Ray-Plugin 节点需要您的加密方式使用 AEAD 系列。请您到 资料编辑 页面修改后再来查看此处。</p>
+												{else}
 												<nav class="tab-nav">
 													<ul class="nav nav-list">
 														<li class="active">
@@ -236,6 +265,7 @@
 														<div id="ss-qr-win" class="qr-center"></div>
 													</div>
 												</div>
+												{/if}
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}

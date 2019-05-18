@@ -8,13 +8,12 @@ use App\Services\View;
 /**
  * BaseController
  */
-
 class BaseController
 {
     public $view;
 
     public $smarty;
-    
+
     public function construct__()
     {
     }

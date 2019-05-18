@@ -17,8 +17,8 @@ class RelayController extends AdminController
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array("op" => "操作", "id" => "ID", "user_id" => "用户ID",
-                          "user_name" => "用户名", "source_node_name" => "起源节点",
-                          "dist_node_name" => "目标节点", "port" => "端口", "priority" => "优先级");
+            "user_name" => "用户名", "source_node_name" => "起源节点",
+            "dist_node_name" => "目标节点", "port" => "端口", "priority" => "优先级");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             array_push($table_config['default_show_column'], $column);
@@ -30,15 +30,34 @@ class RelayController extends AdminController
     public function create($request, $response, $args)
     {
         $user = Auth::getUser();
-        $source_nodes = Node::where('sort', 10)->orderBy('name')->get();
-
+        $source_nodes = Node::where(
+            function ($query) {
+                $query->Where('sort', 10)
+                    ->orWhere('sort', 12);
+            }
+        )->orderBy('name')->get();
+        foreach ($source_nodes as $node) {
+            if ($node->sort == 12) {
+                $node->name = $node->name . " 正在使用V2ray后端 ";
+            }
+        }
         $dist_nodes = Node::where(
             function ($query) {
                 $query->Where('sort', 0)
-                    ->orWhere('sort', 10);
+                    ->orWhere('sort', 10)
+                    ->orWhere('sort', 11)
+                    ->orWhere('sort', 12);
             }
         )->orderBy('name')->get();
 
+        foreach ($dist_nodes as $node) {
+            if ($node->sort == 11 or $node->sort == 12) {
+                $node_explode = Tools::ssv2Array($node->server);
+                $node->name = $node->name . " 如果是V2ray后端 请设置成 " . $node_explode['port'];
+            } else {
+                $node->name = $node->name . " 如果是V2ray后端 请不要设置，用户页面设置 ";
+            }
+        }
 
         return $this->view()->assign('source_nodes', $source_nodes)->assign('dist_nodes', $dist_nodes)->display('admin/relay/add.tpl');
     }
@@ -58,6 +77,14 @@ class RelayController extends AdminController
             return $response->getBody()->write(json_encode($rs));
         }
 
+        if ($source_node->sort == 12) {
+            $rules = Relay::Where('source_node_id', $source_node_id)->get();
+            if (count($rules) > 0) {
+                $rs['ret'] = 0;
+                $rs['msg'] = "v2ray中转一个起点一个rule";
+                return $response->getBody()->write(json_encode($rs));
+            }
+        }
         $dist_node = Node::where('id', $dist_node_id)->first();
         if ($dist_node == null) {
             $rs['ret'] = 0;
@@ -84,7 +111,7 @@ class RelayController extends AdminController
         $maybe_rule_id = Tools::has_conflict_rule($rule, $ruleset, 0, $rule->source_node_id);
         if ($maybe_rule_id != 0) {
             $rs['ret'] = 0;
-            $rs['msg'] = "您即将添加的规则与规则 ID:".$maybe_rule_id." 冲突！";
+            $rs['msg'] = "您即将添加的规则与规则 ID:" . $maybe_rule_id . " 冲突！";
             if ($maybe_rule_id == -1) {
                 $rs['msg'] = "您即将添加的规则可能会造成冲突！";
             }
@@ -113,14 +140,35 @@ class RelayController extends AdminController
             exit(0);
         }
 
-        $source_nodes = Node::where('sort', 10)->orderBy('name')->get();
+        $source_nodes = Node::where(
+            function ($query) {
+                $query->Where('sort', 10)
+                    ->orWhere('sort', 12);
+            }
+        )->orderBy('name')->get();
+        foreach ($source_nodes as $node) {
+            if ($node->sort == 12) {
+                $node->name = $node->name . " 正在使用V2ray后端 ";
+            }
+        }
 
         $dist_nodes = Node::where(
             function ($query) {
                 $query->Where('sort', 0)
-                    ->orWhere('sort', 10);
+                    ->orWhere('sort', 10)
+                    ->orWhere('sort', 11)
+                    ->orWhere('sort', 12);
             }
         )->orderBy('name')->get();
+
+        foreach ($dist_nodes as $node) {
+            if ($node->sort == 11 or $node->sort == 12) {
+                $node_explode = Tools::ssv2Array($node->server);
+                $node->name = $node->name . " 如果是V2ray后端 请设置成" . $node_explode['port'];
+            } else {
+                $node->name = $node->name . " 如果是V2ray后端 请不要设置，用户页面设置 ";
+            }
+        }
 
         return $this->view()->assign('rule', $rule)->assign('source_nodes', $source_nodes)->assign('dist_nodes', $dist_nodes)->display('admin/relay/edit.tpl');
     }
@@ -172,7 +220,7 @@ class RelayController extends AdminController
         $maybe_rule_id = Tools::has_conflict_rule($rule, $ruleset, $rule->id, $rule->source_node_id);
         if ($maybe_rule_id != 0) {
             $rs['ret'] = 0;
-            $rs['msg'] = "您即将添加的规则与规则 ID:".$maybe_rule_id." 冲突！";
+            $rs['msg'] = "您即将添加的规则与规则 ID:" . $maybe_rule_id . " 冲突！";
             if ($maybe_rule_id == -1) {
                 $rs['msg'] = "您即将添加的规则可能会造成冲突！";
             }
@@ -214,7 +262,7 @@ class RelayController extends AdminController
 
     public function path_search($request, $response, $args)
     {
-        $uid=$args["id"];
+        $uid = $args["id"];
 
         $user = User::find($uid);
 
@@ -226,9 +274,14 @@ class RelayController extends AdminController
         $nodes = Node::where(
             function ($query) use ($user) {
                 $query->Where("node_group", "=", $user->node_group)
-                      ->orWhere("node_group", "=", 0);
+                    ->orWhere("node_group", "=", 0);
             }
-        )->where("sort", "=", 10)->where("node_class", "<=", $user->class)->orderBy('name')->get();
+        )->where(
+            function ($query) {
+                $query->Where('sort', 10)
+                    ->orWhere('sort', 12);
+            }
+        )->where("node_class", "<=", $user->class)->orderBy('name')->get();
 
         $pathset = new \ArrayObject();
 
@@ -278,10 +331,10 @@ class RelayController extends AdminController
                     if ($single_path->end_node->id == $path->begin_node->id) {
                         $path->begin_node = $single_path->begin_node;
                         if ($path->begin_node->isNodeAccessable() == false) {
-                            $path->path = '<font color="#FF0000">'.$single_path->begin_node->name.'</font>'." → ".$path->path;
+                            $path->path = '<font color="#FF0000">' . $single_path->begin_node->name . '</font>' . " → " . $path->path;
                             $path->status = "阻断";
                         } else {
-                            $path->path = $single_path->begin_node->name." → ".$path->path;
+                            $path->path = $single_path->begin_node->name . " → " . $path->path;
                             $path->status = "通畅";
                         }
 
@@ -292,10 +345,10 @@ class RelayController extends AdminController
                     if ($path->end_node->id == $single_path->begin_node->id) {
                         $path->end_node = $single_path->end_node;
                         if ($single_path->end_node->isNodeAccessable() == false) {
-                            $path->path = $path->path." → ".'<font color="#FF0000">'.$single_path->end_node->name.'</font>';
+                            $path->path = $path->path . " → " . '<font color="#FF0000">' . $single_path->end_node->name . '</font>';
                             $path->status = "阻断";
                         } else {
-                            $path->path = $path->path." → ".$single_path->end_node->name;
+                            $path->path = $path->path . " → " . $single_path->end_node->name;
                         }
 
                         $pathset->offsetUnset($index);
@@ -314,8 +367,8 @@ class RelayController extends AdminController
         $datatables->query('Select relay.id as op,relay.id,relay.user_id,user.user_name,source_node.name as source_node_name,dist_node.name as dist_node_name,relay.port,relay.priority from relay,user,ss_node as source_node,ss_node as dist_node WHERE (relay.user_id = user.id or relay.user_id = 0) and source_node.id = relay.source_node_id and dist_node.id = relay.dist_node_id group by id');
 
         $datatables->edit('op', function ($data) {
-            return '<a class="btn btn-brand" href="/admin/relay/'.$data['id'].'/edit">编辑</a>
-                    <a class="btn btn-brand-accent" id="delete" value="'.$data['id'].'" href="javascript:void(0);" onClick="delete_modal_show(\''.$data['id'].'\')">删除</a>';
+            return '<a class="btn btn-brand" href="/admin/relay/' . $data['id'] . '/edit">编辑</a>
+                    <a class="btn btn-brand-accent" id="delete" value="' . $data['id'] . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $data['id'] . '\')">删除</a>';
         });
 
         $datatables->edit('user_name', function ($data) {

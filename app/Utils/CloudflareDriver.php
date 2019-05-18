@@ -7,6 +7,7 @@
  */
 
 namespace App\Utils;
+
 use App\Services\Config;
 
 class CloudflareDriver
@@ -44,10 +45,10 @@ class CloudflareDriver
         $recordCount = $r->result_info->count;
         $records = $r->result;
 
-        if ($recordCount == 0){
+        if ($recordCount == 0) {
             self::addRecord($dns, $zoneID, 'A', $name, $content);
-        } elseif ($recordCount >= 1){
-            foreach ($records as $record){
+        } elseif ($recordCount >= 1) {
+            foreach ($records as $record) {
                 $recordID = $record->id;
                 self::modifyRecord($dns, $zoneID, $recordID, $name, $content, $proxied);
             }

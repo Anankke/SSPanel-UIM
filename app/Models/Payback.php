@@ -6,7 +6,7 @@ class Payback extends Model
 {
     protected $connection = "default";
     protected $table = 'payback';
-    
+
     public function user()
     {
         $user = User::where("id", $this->attributes['userid'])->first();

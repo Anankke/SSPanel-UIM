@@ -20,7 +20,7 @@
             <transition name="fade" mode="out-in">
               <router-link class="button-index" :to="globalGuide.href" :key="routerN">
                 <span>
-                  <font-awesome-icon :icon="globalGuide.icon" />
+                  <font-awesome-icon :icon="globalGuide.icon"/>
                   <span class="hide-sm">&nbsp;{{globalGuide.content}}</span>
                 </span>
               </router-link>
@@ -33,12 +33,12 @@
           </transition>
         </div>
         <div class="footer pure-g">
-          <div class="pure-u-1 pure-u-sm-1-2 staff">
+          <div class="pure-u-1 pure-u-xl-1-2 staff">
             POWERED BY
             <a href="./staff">SSPANEL-UIM</a>
           </div>
           <div
-            class="pure-u-1 pure-u-sm-1-2 time"
+            class="pure-u-1 pure-u-xl-1-2 time"
             :class="{ enableCrisp:globalConfig.crisp === 'true' }"
           >&copy;{{globalConfig.indexMsg.date}} {{globalConfig.indexMsg.appname}}</div>
         </div>
@@ -88,11 +88,17 @@ export default {
             content: "登录/注册",
             href: "/auth/login"
           };
-        case "user":
+        case "panel":
           return {
             icon: "user",
             content: "用户中心",
             href: "/user/panel"
+          };
+        case "node":
+          return {
+            icon: "code-branch",
+            content: "节点列表",
+            href: "/user/node"
           };
       }
     },
@@ -113,17 +119,36 @@ export default {
           if (this.logintoken === false) {
             this.routerN = "auth";
           } else {
-            this.routerN = "user";
+            this.routerN = "panel";
           }
           break;
-        default:
-          this.routerN = "index";
+        case "/user/panel":
+          this.routerN = "node";
+          break;
+        case "/user/node":
+          this.routerN = "panel";
+          break;
       }
+    },
+    getPublicResouce() {
+      fetch("https://api.lwl12.com/hitokoto/v1")
+        .then(r => {
+          return r.text();
+        })
+        .then(r => {
+          this.setHitokoto(r);
+        });
+      _get("https://v2.jinrishici.com/one.json", "include").then(r => {
+        this.setJinRiShiCi(r.data.content);
+      });
     }
   },
   watch: {
     $route(to, from) {
       this.routeJudge();
+      if (this.globalConfig.indexMsg.hitokoto === "") {
+        this.getPublicResouce();
+      }
       if (to.path === "/password/reset" || from.path === "/password/reset") {
         this.transType = "rotate-fade";
       } else {
@@ -132,22 +157,18 @@ export default {
     }
   },
   beforeMount() {
-    fetch("https://api.lwl12.com/hitokoto/v1")
-      .then(r => {
-        return r.text();
-      })
-      .then(r => {
-        this.setHitokoto(r);
-      });
-    _get("https://v2.jinrishici.com/one.json", "include").then(r => {
-      this.setJinRiShiCi(r.data.content);
-    });
+    if (
+      window.location.hash === "#/" &&
+      this.globalConfig.indexMsg.hitokoto === ""
+    ) {
+      this.getPublicResouce();
+    }
   },
   mounted() {
     this.routeJudge();
     setTimeout(() => {
       this.setLoadState();
-    }, 1000);
+    }, 500);
   }
 };
 </script>

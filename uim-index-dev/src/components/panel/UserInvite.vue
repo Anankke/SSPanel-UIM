@@ -271,16 +271,19 @@ export default {
     },
     resetInviteLink() {
       _get("/getnewinvotecode", "include").then(r => {
-        window.console.log(r);
-        this.code = r.arr.code.code;
-        this.hideInviteReset();
-        this.showLinkTrans();
-        let callConfig = {
-          msg: "已重置您的邀请链接，复制您的邀请链接发送给其他人！",
-          icon: "bell",
-          time: 1500
-        };
-        this.callMsgr(callConfig);
+        if (r.ret === 1) {
+          this.code = r.arr.code.code;
+          this.hideInviteReset();
+          this.showLinkTrans();
+          let callConfig = {
+            msg: "已重置您的邀请链接，复制您的邀请链接发送给其他人！",
+            icon: "bell",
+            time: 1500
+          };
+          this.callMsgr(callConfig);
+        } else if (r.ret === -1) {
+          this.ajaxNotLogin();
+        }
       });
     },
     hideToolInput(token) {
@@ -372,7 +375,7 @@ export default {
       };
       _post("/user/buy_invite", JSON.stringify(ajaxBody), "include").then(r => {
         this.hideToolInput();
-        if (r.ret) {
+        if (r.ret === 1) {
           this.reConfigResourse();
           this.showInviteTimeTrans();
           this.setInviteNum(r.invite_num);
@@ -382,13 +385,15 @@ export default {
             time: 1000
           };
           this.callMsgr(callConfig);
-        } else {
+        } else if (r.ret === 0) {
           let callConfig = {
             msg: r.msg,
             icon: "times-circle",
             time: 1000
           };
           this.callMsgr(callConfig);
+        } else {
+          this.ajaxNotLogin();
         }
       });
     },
@@ -399,7 +404,7 @@ export default {
       };
       _post("/user/custom_invite", JSON.stringify(ajaxBody), "include").then(
         r => {
-          if (r.ret) {
+          if (r.ret === 1) {
             window.console.log(r);
             this.reConfigResourse();
             this.showLinkTrans();
@@ -410,7 +415,7 @@ export default {
               time: 1000
             };
             this.callMsgr(callConfig);
-          } else {
+          } else if (r.ret === 0) {
             this.showLinkTrans();
             this.code = this.oldCode;
             let callConfig = {
@@ -419,6 +424,8 @@ export default {
               time: 1000
             };
             this.callMsgr(callConfig);
+          } else {
+            this.ajaxNotLogin();
           }
         }
       );
@@ -433,25 +440,34 @@ export default {
     turnInviteLogPage(current) {
       let body = { current: current };
       _post("/getuserinviteinfo", JSON.stringify(body), "include").then(r => {
-        this.paybacks = r.inviteInfo.paybacks;
-        this.pagenation.currentPage = r.inviteInfo.paybacks.current_page;
+        if (r.ret === 1) {
+          this.paybacks = r.inviteInfo.paybacks;
+          this.pagenation.currentPage = r.inviteInfo.paybacks.current_page;
+        } else if (r.ret === -1) {
+          this.ajaxNotLogin();
+        }
       });
     }
   },
   mounted() {
     let body = { current: 1 };
     _post("/getuserinviteinfo", JSON.stringify(body), "include").then(r => {
-      this.code = this.oldCode = r.inviteInfo.code.code;
-      this.invitePrice = r.inviteInfo.invitePrice;
-      this.customPrice = r.inviteInfo.customPrice;
-      this.paybacks = r.inviteInfo.paybacks;
-      this.paybacks_sum = r.inviteInfo.paybacks_sum;
-      this.invite_get_money = r.inviteInfo.invite_get_money;
-      this.invite_gift = r.inviteInfo.invite_gift;
-      this.code_payback = r.inviteInfo.code_payback;
-      this.pagenation = {
-        lastPage: r.inviteInfo.paybacks.last_page
-      };
+      if (r.ret === 1) {
+        this.code = this.oldCode = r.inviteInfo.code.code;
+        this.invitePrice = r.inviteInfo.invitePrice;
+        this.customPrice = r.inviteInfo.customPrice;
+        this.paybacks = r.inviteInfo.paybacks;
+        this.paybacks_sum = r.inviteInfo.paybacks_sum;
+        this.invite_get_money = r.inviteInfo.invite_get_money;
+        this.invite_gift = r.inviteInfo.invite_gift;
+        this.code_payback = r.inviteInfo.code_payback;
+        this.pagenation = {
+          lastPage: r.inviteInfo.paybacks.last_page
+        };
+        this.setInviteNum(r.inviteInfo.invite_num);
+      } else if (r.ret === -1) {
+        this.ajaxNotLogin();
+      }
     });
   },
   beforeDestroy() {

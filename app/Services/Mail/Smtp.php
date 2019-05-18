@@ -21,9 +21,9 @@ class Smtp extends Base
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
         $mail->Username = $this->config['username'];                 // SMTP username
         $mail->Password = $this->config['passsword'];                    // SMTP password
-    if (Config::get('smtp_ssl') == 'true') {
-        $mail->SMTPSecure = (Config::get('smtp_port') =='587'?'tls':'ssl');                            // Enable TLS encryption, `ssl` also accepted
-    }
+        if (Config::get('smtp_ssl') == 'true') {
+            $mail->SMTPSecure = (Config::get('smtp_port') == '587' ? 'tls' : 'ssl');                            // Enable TLS encryption, `ssl` also accepted
+        }
         $mail->Port = $this->config['port'];                                    // TCP port to connect to
         $mail->setFrom($this->config['sender'], $this->config['name']);
         $mail->CharSet = 'UTF-8';
