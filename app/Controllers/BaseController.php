@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\View;
+use App\Services\Auth;
 
 /**
  * BaseController
