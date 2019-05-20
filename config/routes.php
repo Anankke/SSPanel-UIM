@@ -1,6 +1,5 @@
 <?php
 
-use Slim\App;
 use Slim\Container;
 use App\Middleware\Auth;
 use App\Middleware\Guest;
@@ -51,7 +50,7 @@ if ($debug == false) {
     };
 }
 
-$app = new App($container);
+$app = new Slim\App($container);
 $app->add(new WhoopsMiddleware());
 
 
