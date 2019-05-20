@@ -26,6 +26,11 @@ $configuration = [
 
 $container = new Container($configuration);
 
+// Init slim php view
+$container['renderer'] = function ($c) {
+    return new Slim\Views\PhpRenderer();
+};
+
 $container['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {
         return $response->withAddedHeader('Location', '/404');

@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Services\Auth;
 use App\Services\View;
 
 /**
@@ -10,24 +9,44 @@ use App\Services\View;
  */
 class BaseController
 {
-    public $view;
+    /**
+     * @var \Smarty
+     */
+    protected $view;
 
-    public $smarty;
+    /**
+     * @var \Slim\Views\PhpRenderer
+     */
+    protected $renderer;
 
-    public function construct__()
+    /**
+     * @var \App\Models\User
+     *
+     * TODO: private -> protected
+     */
+    private $user;
+
+    /**
+     * Construct page renderer
+     */
+    public function __construct(\Slim\Container $container)
     {
+        $this->view = View::getSmarty();
+
+        // TODO
+        $this->user = Auth::getUser();
+        $this->renderer = $container->get('renderer');
+
+        if ($this->user->isLogin) {
+            define('TEMPLATE_PATH', BASE_PATH . '/templates/views/' . $this->user->theme . '/');
+        } else {
+            define('TEMPLATE_PATH', BASE_PATH . '/templates/views/' . $_ENV['theme'] . '/');
+        }
+        
+        $this->renderer->setTemplatePath(TEMPLATE_PATH);
+        $this->renderer->addAttribute('user', $this->user);
     }
 
-    public function smarty()
-    {
-        $this->smarty = View::getSmarty();
-        return $this->smarty;
-    }
-
-    public function view()
-    {
-        return $this->smarty();
-    }
 
     /**
      * @param $response
