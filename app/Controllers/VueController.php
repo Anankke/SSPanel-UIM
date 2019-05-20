@@ -32,14 +32,6 @@ use App\Models\Relay;
 
 class VueController extends BaseController
 {
-
-    private $user;
-
-    public function __construct()
-    {
-        $this->user = Auth::getUser();
-    }
-
     public function getGlobalConfig($request, $response, $args)
     {
         $GtSdk = null;

@@ -21,10 +21,8 @@ class BaseController
 
     /**
      * @var \App\Models\User
-     *
-     * TODO: private -> protected
      */
-    private $user;
+    protected $user;
 
     /**
      * Construct page renderer
@@ -32,9 +30,9 @@ class BaseController
     public function __construct(\Slim\Container $container)
     {
         $this->view = View::getSmarty();
+        $this->user = Auth::getUser();
 
         // TODO
-        $this->user = Auth::getUser();
         $this->renderer = $container->get('renderer');
 
         if ($this->user->isLogin) {

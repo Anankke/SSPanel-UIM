@@ -50,17 +50,8 @@ use App\Services\Mail;
  */
 class UserController extends BaseController
 {
-    private $user;
-
-    public function __construct()
-    {
-        $this->user = Auth::getUser();
-    }
-
     public function index($request, $response, $args)
     {
-
-        $user = $this->user;
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
         $GtSdk = null;

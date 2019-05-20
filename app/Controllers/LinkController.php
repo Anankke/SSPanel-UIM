@@ -19,10 +19,6 @@ use App\Services\Config;
  */
 class LinkController extends BaseController
 {
-    public function __construct()
-    {
-    }
-
     public static function GenerateRandomLink()
     {
         $i = 0;
