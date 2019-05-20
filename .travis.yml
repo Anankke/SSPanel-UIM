@@ -23,7 +23,7 @@ before_script:
   - npm i -g phplint
   - cd ..
 script:
-  - cp config/.config.php.example config/.config.php
+  - cp config/.config.example.php config/.config.php
   - phplint '**/*.php' '!vendor/**'
   - php xcat initdownload
   - php xcat initQQWry
