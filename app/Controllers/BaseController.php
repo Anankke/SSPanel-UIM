@@ -30,6 +30,15 @@ class BaseController
     }
 
     /**
+     * Get smarty
+     *
+     * @return \Smarty
+     */
+    public function view()
+    {
+        return $this->view;
+    }
+    /**
      * @param $response
      * @param $res
      * @return mixed
