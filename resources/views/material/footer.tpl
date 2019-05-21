@@ -21,7 +21,7 @@ It will not impact the appearance and can give developers a lot of support :)
         (function () {
             function perfops() {
                 var js = document.createElement('script');
-                js.src = 'https://rum.perfops.net/rum3.min.js';
+                js.src = 'https://cdn.jsdelivr.net/npm/perfops-rom';
                 document.body.appendChild(js);
             }
             if (document.readyState === 'complete') {
