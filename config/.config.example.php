@@ -177,7 +177,7 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay
+#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay | tomatobitpay | bitpay
 $System_Config['payment_system']='none';
 
 #codepay码支付
@@ -211,6 +211,9 @@ $System_Config['zfbjk_qrcodeurl']='';
 $System_Config['trimepay_appid']='';				//AppID
 $System_Config['trimepay_secret']='';				//AppSecret
 
+# Bitpay - 数字货币匿名支付, bitpay (或者兼容支付方式，例如tomatobitpay)
+#   https://t.me/joinchat/GLKSKhUnE4GvEAPgqtChAQ
+$System_Config['bitpay_secret']='XXXX';
 
 //其他面板显示设置------------------------------------------------------------------------------------------
 #后台商品列表 销量统计
