@@ -383,5 +383,21 @@ $app->group('/admin', function () {
 })->add(new Admin());
 // chenPay end
 
+/********************************************************************************
+ * BitPay - Safe and Anonlymous Payment via Cryptos (BTC, BCH, ETH, EOS, LTC, etc)
+ *    which coexists with the existing payment methods
+ ********************************************************************************/
+$app->group('/user', function () {
+    $this->post('/bitpay/purchase', 'App\Services\BitPayment:purchase');
+    $this->get('/bitpay/return', 'App\Services\BitPayment:returnHTML');
+})->add(new Auth());
+$app->group('/bitpay', function () {
+    $this->post('/notify', 'App\Services\BitPayment:notify');
+    $this->post('/status', 'App\Services\BitPayment:getStatus');
+});
+
+/********************************************************************************/
+
+
 // Run Slim Routes for App
 $app->run();
