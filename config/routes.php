@@ -26,25 +26,25 @@ $configuration = [
 $container = new Container($configuration);
 
 // Init slim php view
-$container['renderer'] = function ($c) {
+$container['renderer'] = static function ($c) {
     return new Slim\Views\PhpRenderer();
 };
 
-$container['notFoundHandler'] = function ($c) {
-    return function ($request, $response) use ($c) {
+$container['notFoundHandler'] = static function ($c) {
+    return static function ($request, $response) use ($c) {
         return $response->withAddedHeader('Location', '/404');
     };
 };
 
-$container['notAllowedHandler'] = function ($c) {
-    return function ($request, $response, $methods) use ($c) {
+$container['notAllowedHandler'] = static function ($c) {
+    return static function ($request, $response, $methods) use ($c) {
         return $response->withAddedHeader('Location', '/405');
     };
 };
 
 if ($debug == false) {
-    $container['errorHandler'] = function ($c) {
-        return function ($request, $response, $exception) use ($c) {
+    $container['errorHandler'] = static function ($c) {
+        return static function ($request, $response, $exception) use ($c) {
             return $response->withAddedHeader('Location', '/500');
         };
     };

@@ -36,7 +36,7 @@ class HomeController extends BaseController
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
                     break;
                 case 'geetest':
-                    $uid = time() . rand(1, 10000);
+                    $uid = time() . random_int(1, 10000);
                     $GtSdk = Geetest::get($uid);
                     break;
             }
@@ -44,7 +44,7 @@ class HomeController extends BaseController
 
         if (Config::get('enable_telegram') == 'true') {
             $login_text = TelegramSessionManager::add_login_session();
-            $login = explode("|", $login_text);
+            $login = explode('|', $login_text);
             $login_token = $login[0];
             $login_number = $login[1];
         } else {
@@ -91,15 +91,12 @@ class HomeController extends BaseController
 
     public function telegram($request, $response, $args)
     {
-        $token = "";
-        if (isset($request->getQueryParams()["token"])) {
-            $token = $request->getQueryParams()["token"];
-        }
+        $token = $request->getQueryParams()["token"] ?? "";
 
         if ($token == Config::get('telegram_request_token')) {
             TelegramProcess::process();
         } else {
-            echo("不正确请求！");
+            echo('不正确请求！');
         }
     }
 
@@ -123,7 +120,7 @@ class HomeController extends BaseController
         $key = $request->getParam('key');
         if (!$key || $key != Config::get('key')) {
             $res['ret'] = 0;
-            $res['msg'] = "错误";
+            $res['msg'] = '错误';
             return $response->getBody()->write(json_encode($res));
         }
         return $response->getBody()->write(json_encode(['data' => AliPay::getList()]));
@@ -136,7 +133,7 @@ class HomeController extends BaseController
         $url = $request->getParam('url');
         if (!$key || $key != Config::get('key')) {
             $res['ret'] = 0;
-            $res['msg'] = "错误";
+            $res['msg'] = '错误';
             return $response->getBody()->write(json_encode($res));
         }
         return $response->getBody()->write(json_encode(['res' => AliPay::setOrder($sn, $url)]));
