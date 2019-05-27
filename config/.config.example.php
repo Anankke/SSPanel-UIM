@@ -211,6 +211,10 @@ $System_Config['zfbjk_qrcodeurl']='';
 $System_Config['trimepay_appid']='';				//AppID
 $System_Config['trimepay_secret']='';				//AppSecret
 
+# BitPay 数字货币支付（比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
+#   客服和技术 24x7 在线支持： https://t.me/joinchat/GLKSKhUnE4GvEAPgqtChAQ
+$System_Config['bitpay_secret']='';
+ 
 
 //其他面板显示设置------------------------------------------------------------------------------------------
 #后台商品列表 销量统计
