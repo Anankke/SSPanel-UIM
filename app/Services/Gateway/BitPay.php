@@ -6,10 +6,11 @@
  * Time: 1:08 AM PST
  */
 namespace App\Services\Gateway;
-use App\Services\View;
+
+use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Config;
-use App\Models\Paylist;
+use App\Services\View;
 
 class BitPay extends AbstractPayment
 {
@@ -55,7 +56,7 @@ class BitPay extends AbstractPayment
             curl_setopt($curl, CURLOPT_POST, 1);
             $data_string = json_encode($data);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
-        } else if ($type == "query") {
+        } elseif ($type == "query") {
             $this->bitpayGatewayUri .= "orders/merchant_order_id/status?id=";
             $this->bitpayGatewayUri .= $data['merchant_order_id'];
             curl_setopt($curl, CURLOPT_URL, $this->bitpayGatewayUri);
@@ -72,13 +73,13 @@ class BitPay extends AbstractPayment
     public function query($tradeNo)
     {
         $data['merchant_order_id'] = $tradeNo;
-        $result = json_decode(self::mprequest($data, "query"), TRUE);
+        $result = json_decode(self::mprequest($data, "query"), true);
         return $result;
     }
     /*****************************************************************
      * Abstract Payment Implentation
      ******************************************************************/
-                    public function purchase($request, $response, $args)
+    public function purchase($request, $response, $args)
     {
         $price = $request->getParam('price');
         $type = $request->getParam('type');
@@ -107,7 +108,7 @@ class BitPay extends AbstractPayment
         }
         $str_to_sign = self::prepareSignId($pl->tradeno);
         $data['token'] = self::sign($str_to_sign);
-        $result = json_decode(self::mprequest($data, "pay"), TRUE);
+        $result = json_decode(self::mprequest($data, "pay"), true);
         $result['pid'] = $pl->tradeno;
         // file_put_contents(BASE_PATH.'/bitpay_purchase.log', json_encode($data)."\r\n", FILE_APPEND);
         // file_put_contents(BASE_PATH.'/bitpay_purchase.log', json_encode($result)."\r\n", FILE_APPEND);
@@ -128,7 +129,7 @@ class BitPay extends AbstractPayment
         }
         $inputString = file_get_contents('php://input', 'r');
         $inputStripped = str_replace(array("\r", "\n", "\t", "\v"), '', $inputString);
-        $inputJSON = json_decode($inputStripped, TRUE); //convert JSON into array
+        $inputJSON = json_decode($inputStripped, true); //convert JSON into array
         $data = array();
         if (!is_null($inputJSON)) {
             $data['status'] = $inputJSON['status'];
