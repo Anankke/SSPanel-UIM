@@ -41,7 +41,7 @@ class BitPay extends AbstractPayment
 
     public function verify($data, $signature) {
         $mySign = $this->sign($data);
-        if ($mySign == $signature) {
+        if ($mySign === $signature) {
             return true;
         } else {
             return false;
@@ -136,6 +136,12 @@ class BitPay extends AbstractPayment
 
     public function notify($request, $response, $args)
     {
+        if (!$this->bitpayAppSecret || $this->bitpayAppSecret === '') {
+            $return = [];
+            $return['status'] = 400;
+            echo json_encode($return);
+            return;
+        }
         $inputString = file_get_contents('php://input', 'r');
         $inputStripped = str_replace(array("\r", "\n", "\t", "\v"), '', $inputString);
         $inputJSON = json_decode($inputStripped, TRUE); //convert JSON into array
@@ -156,7 +162,7 @@ class BitPay extends AbstractPayment
         $resultVerify = self::verify($str_to_sign, $inputJSON['token']);
 
         $isPaid = !is_null($data) && !is_null($data['status']) && $data['status'] == 'PAID';
-        file_put_contents(BASE_PATH.'/bitpay_notify.log', $resultVerify."\r\n".$isPaid."\r\n", FILE_APPEND);
+        // file_put_contents(BASE_PATH.'/bitpay_notify.log', $resultVerify."\r\n".$isPaid."\r\n", FILE_APPEND);
 
         if ($resultVerify && $isPaid) {
             self::postPayment($data['merchant_order_id'], "BitPay");
@@ -188,7 +194,7 @@ class BitPay extends AbstractPayment
             $data = self::query($pid);
 
             $isPaid = !is_null($data) && !is_null($data['order']) && !is_null($data['order']['status']) && $data['order']['status'] == 'PAID';
-            file_put_contents(BASE_PATH.'/bitpay_return.log', $pid . " " . $data ."\r\n". $isPaid . "\r\n", FILE_APPEND);
+            // file_put_contents(BASE_PATH.'/bitpay_return.log', $pid . " " . $data ."\r\n". $isPaid . "\r\n", FILE_APPEND);
 
             if ($isPaid) {
                 self::postPayment($pid, "BitPay");
