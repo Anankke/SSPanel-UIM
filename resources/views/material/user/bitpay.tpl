@@ -33,7 +33,7 @@
         $('#readytopay').modal();
         $("#readytopay").on('shown.bs.modal', function () {
             $.ajax({
-                'url': "/user/bitpay/purchase",
+                'url': "/user/payment/bitpay/purchase",
                 'data': {
                     'price': price,
                     'type': type,
@@ -59,7 +59,7 @@
     function f(){
         $.ajax({
             type: "POST",
-            url: "/payment/status",
+            url: "/payments/bitpay/status",
             dataType: "json",
             data: {
                 pid:pid

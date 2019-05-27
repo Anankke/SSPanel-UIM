@@ -147,12 +147,19 @@ $app->group('/user', function () {
     //Reconstructed Payment System
     $this->post('/payment/purchase', App\Services\Payment::class . ':purchase');
     $this->get('/payment/return', App\Services\Payment::class . ':returnHTML');
+
+    // Crypto Payment - BTC, ETH, EOS, BCH, LTC etch
+    $this->post('/payment/bitpay/purchase', App\Services\BitPayment::class . ':purchase');
+    $this->get('/payment/bitpay/return', App\Services\BitPayment::class . ':returnHTML');
 })->add(new Auth());
 
 $app->group('/payment', function () {
     $this->post('/notify', App\Services\Payment::class . ':notify');
     $this->post('/notify/{type}', App\Services\Payment::class . ':notify');
     $this->post('/status', App\Services\Payment::class . ':getStatus');
+
+    $this->post('/bitpay/notify', App\Services\BitPayment::class . ':notify');
+    $this->post('/bitpay/status', App\Services\BitPayment::class . ':getStatus');
 });
 
 // Auth
@@ -382,22 +389,6 @@ $app->group('/admin', function () {
     $this->post('/saveConfig', App\Controllers\AdminController::class . ':saveConfig');
 })->add(new Admin());
 // chenPay end
-
-/********************************************************************************
- * BitPay - Safe and Anonlymous Payment via Cryptos (BTC, BCH, ETH, EOS, LTC, etc)
- *    which coexists with the existing payment methods
- ********************************************************************************/
-$app->group('/user', function () {
-    $this->post('/bitpay/purchase', 'App\Services\BitPayment:purchase');
-    $this->get('/bitpay/return', 'App\Services\BitPayment:returnHTML');
-})->add(new Auth());
-$app->group('/bitpay', function () {
-    $this->post('/notify', 'App\Services\BitPayment:notify');
-    $this->post('/status', 'App\Services\BitPayment:getStatus');
-});
-
-/********************************************************************************/
-
 
 // Run Slim Routes for App
 $app->run();
