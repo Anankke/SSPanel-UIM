@@ -455,12 +455,12 @@ class Tools
             'tls' => ''
         ];
         $item['add'] = $server[0];
-        if ($server[1] == "0" or $server[1] == "") {
-            $item['port'] = "443";
+        if ($server[1] == "0" && $server[1] == "") {
+            $item['port'] = 443;
         } else {
-            $item['port'] = $server[1];
+            $item['port'] = (int)$server[1];
         }
-        $item['aid'] = $server[2];
+        $item['aid'] = (int)$server[2];
         $item['net'] = "tcp";
         $item['type'] = "none";
         if (count($server) >= 4) {
@@ -485,7 +485,7 @@ class Tools
                 unset($item['server']);
             }
             if (array_key_exists("outside_port", $item)) {
-                $item['port'] = $item['outside_port'];
+                $item['port'] = (int)$item['outside_port'];
                 unset($item['outside_port']);
             }
         }
@@ -512,10 +512,10 @@ class Tools
             'tls' => ''
         ];
         $item['add'] = $server[0];
-        if ($server[1] == "0" or $server[1] == "") {
-            $item['port'] = "443";
+        if ($server[1] == "0" && $server[1] == "") {
+            $item['port'] = 443;
         } else {
-            $item['port'] = $server[1];
+            $item['port'] = (int)$server[1];
         }
         if (count($server) >= 4) {
             $item['net'] = $server[3];
@@ -537,7 +537,7 @@ class Tools
                 unset($item['server']);
             }
             if (array_key_exists("outside_port", $item)) {
-                $item['port'] = $item['outside_port'];
+                $item['port'] = (int)$item['outside_port'];
                 unset($item['outside_port']);
             }
         }

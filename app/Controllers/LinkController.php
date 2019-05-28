@@ -135,12 +135,14 @@ class LinkController extends BaseController
                         $sss['plugin-opts']['path'] = $item['path'];
                         break;
                 }
-            }
-            if ($item['obfs'] != 'v2ray') {
-                if ($item['obfs'] != 'plain' && $item['obfs_param'] != '') {
-                    $sss['plugin-opts']['host'] = $item['obfs_param'];
-                } else {
-                    $sss['plugin-opts']['host'] = 'wns.windows.com';
+                if ($item['obfs'] != 'v2ray') {
+                    if ($item['obfs_param'] != '') {
+                        $sss['plugin-opts']['host'] = $item['obfs_param'];
+                    } elseif ($user->obfs_param != '') {
+                        $sss['plugin-opts']['host'] = $user->obfs_param;
+                    } else {
+                        $sss['plugin-opts']['host'] = "wns.windows.com";
+                    }
                 }
             }
             $proxy_confs[] = $sss;
