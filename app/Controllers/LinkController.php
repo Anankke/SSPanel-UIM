@@ -141,7 +141,7 @@ class LinkController extends BaseController
                     } elseif ($user->obfs_param != '') {
                         $sss['plugin-opts']['host'] = $user->obfs_param;
                     } else {
-                        $sss['plugin-opts']['host'] = "wns.windows.com";
+                        $sss['plugin-opts']['host'] = 'wns.windows.com';
                     }
                 }
             }
@@ -181,9 +181,15 @@ class LinkController extends BaseController
         $render = ConfRender::getTemplateRender();
         $render->assign('user', $user)
             ->assign('confs', $confs)
-            ->assign('proxies', array_map(static function ($conf) {
-                return $conf['name'];
-            }, $proxy_confs));
+            ->assign(
+                'proxies',
+                array_map(
+                    static function ($conf) {
+                        return $conf['name'];
+                    },
+                    $proxy_confs
+                )
+            );
         return $render->fetch('clash.tpl');
     }
 
