@@ -135,12 +135,14 @@ class LinkController extends BaseController
                         $sss['plugin-opts']['path'] = $item['path'];
                         break;
                 }
-            }
-            if ($item['obfs'] != 'v2ray') {
-                if ($item['obfs'] != 'plain' && $item['obfs_param'] != '') {
-                    $sss['plugin-opts']['host'] = $item['obfs_param'];
-                } else {
-                    $sss['plugin-opts']['host'] = 'wns.windows.com';
+                if ($item['obfs'] != 'v2ray') {
+                    if ($item['obfs_param'] != '') {
+                        $sss['plugin-opts']['host'] = $item['obfs_param'];
+                    } elseif ($user->obfs_param != '') {
+                        $sss['plugin-opts']['host'] = $user->obfs_param;
+                    } else {
+                        $sss['plugin-opts']['host'] = 'wns.windows.com';
+                    }
                 }
             }
             $proxy_confs[] = $sss;
@@ -179,9 +181,15 @@ class LinkController extends BaseController
         $render = ConfRender::getTemplateRender();
         $render->assign('user', $user)
             ->assign('confs', $confs)
-            ->assign('proxies', array_map(static function ($conf) {
-                return $conf['name'];
-            }, $proxy_confs));
+            ->assign(
+                'proxies',
+                array_map(
+                    static function ($conf) {
+                        return $conf['name'];
+                    },
+                    $proxy_confs
+                )
+            );
         return $render->fetch('clash.tpl');
     }
 
