@@ -61,9 +61,9 @@ class GA
         $value = unpack('N', $hashpart);
         $value = $value[1];
         // Only 32 bits
-        $value = $value & 0x7FFFFFFF;
+        $value &= 0x7FFFFFFF;
 
-        $modulo = pow(10, $this->_codeLength);
+        $modulo = 10 ** $this->_codeLength;
         return str_pad($value % $modulo, $this->_codeLength, '0', STR_PAD_LEFT);
     }
 
@@ -122,7 +122,7 @@ class GA
      * Set the code length, should be >=6
      *
      * @param int $length
-     * @return PHPGangsta_GoogleAuthenticator
+     * @return GA|PHPGangsta_GoogleAuthenticator
      */
     public function setCodeLength($length)
     {
@@ -152,15 +152,15 @@ class GA
         }
         for ($i = 0; $i < 4; $i++) {
             if ($paddingCharCount == $allowedValues[$i] &&
-                substr($secret, -($allowedValues[$i])) != str_repeat($base32chars[32], $allowedValues[$i])) {
+                substr($secret, -$allowedValues[$i]) != str_repeat($base32chars[32], $allowedValues[$i])) {
                 return false;
             }
         }
         $secret = str_replace('=', '', $secret);
         $secret = str_split($secret);
-        $binaryString = "";
-        for ($i = 0; $i < count($secret); $i = $i + 8) {
-            $x = "";
+        $binaryString = '';
+        for ($i = 0, $iMax = count($secret); $i < $iMax; $i += 8) {
+            $x = '';
             if (!in_array($secret[$i], $base32chars)) {
                 return false;
             }
@@ -168,8 +168,8 @@ class GA
                 $x .= str_pad(base_convert(@$base32charsFlipped[@$secret[$i + $j]], 10, 2), 5, '0', STR_PAD_LEFT);
             }
             $eightBits = str_split($x, 8);
-            for ($z = 0; $z < count($eightBits); $z++) {
-                $binaryString .= (($y = chr(base_convert($eightBits[$z], 2, 10))) || ord($y) == 48) ? $y : "";
+            foreach ($eightBits as $zValue) {
+                $binaryString .= (($y = chr(base_convert($zValue, 2, 10))) || ord($y) == 48) ? $y : '';
             }
         }
         return $binaryString;
@@ -191,12 +191,12 @@ class GA
         $base32chars = $this->_getBase32LookupTable();
 
         $secret = str_split($secret);
-        $binaryString = "";
-        for ($i = 0; $i < count($secret); $i++) {
-            $binaryString .= str_pad(base_convert(ord($secret[$i]), 10, 2), 8, '0', STR_PAD_LEFT);
+        $binaryString = '';
+        foreach ($secret as $iValue) {
+            $binaryString .= str_pad(base_convert(ord($iValue), 10, 2), 8, '0', STR_PAD_LEFT);
         }
         $fiveBitBinaryArray = str_split($binaryString, 5);
-        $base32 = "";
+        $base32 = '';
         $i = 0;
         while ($i < count($fiveBitBinaryArray)) {
             $base32 .= $base32chars[base_convert(str_pad($fiveBitBinaryArray[$i], 5, '0'), 2, 10)];

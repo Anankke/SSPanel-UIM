@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-use App\Models\User;
 use App\Services\Config;
 
 class Tuling
@@ -18,8 +17,8 @@ class Tuling
             $param = json_encode($data);
 
 
-            $sock = new HTTPSocket;
-            $sock->connect("www.tuling123.com", 80);
+            $sock = new HTTPSocket();
+            $sock->connect('www.tuling123.com', 80);
             $sock->set_method('POST');
             $sock->add_header('Content-Type', 'application/json');
             $sock->query('/openapi/api', $param);

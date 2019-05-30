@@ -11,7 +11,7 @@ namespace App\Utils;
  * @author      Lars Moelleken
  * @copyright   Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @copyright   Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
- * @license     http://opensource.org/licenses/MIT	MIT License
+ * @license     http://opensource.org/licenses/MIT  MIT License
  */
 class AntiXSS
 {
@@ -1879,16 +1879,15 @@ class AntiXSS
         $strInt = (int)$str;
         $strFloat = (float)$str;
         /** @noinspection TypeUnsafeComparisonInspection */
-        if (
-            !$str
+        if (!$str
             ||
             $str === null
             ||
             is_bool($str)
             ||
-            "$strInt" == $str || is_int($str)
+            (string)$strInt == $str || is_int($str)
             ||
-            "$strFloat" == $str || is_float($str)
+            (string)$strFloat == $str || is_float($str)
         ) {
             return $str;
         }
@@ -2513,7 +2512,6 @@ class AntiXSS
         // decode-again, for e.g. HHVM, PHP 5.3, miss configured applications ...
         if (preg_match_all('/&[a-z]{2,}[;]{0}/i', $str, $matches)) {
             if (null === $entities) {
-
                 // links:
                 // - http://dev.w3.org/html5/html-author/charref
                 // - http://www.w3schools.com/charsets/ref_html_entities_n.asp

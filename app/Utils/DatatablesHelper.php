@@ -15,7 +15,7 @@ class DatatablesHelper implements DatabaseInterface
 
     public function __construct($config = null)
     {
-        $capsule = new Capsule;
+        $capsule = new Capsule();
         $capsule->addConnection(Config::getDbConfig(), 'default');
         $this->connection = $capsule->getConnection('default');
         try {
@@ -41,7 +41,7 @@ class DatatablesHelper implements DatabaseInterface
 
     public function count($query)
     {
-        $query = "Select count(*) as rowcount," . substr($query, 6);
+        $query = 'Select count(*) as rowcount,' . substr($query, 6);
         $data = $this->connection->select($query, $this->escape);
         return $data[0]->rowcount;
     }
@@ -49,6 +49,6 @@ class DatatablesHelper implements DatabaseInterface
     public function escape($string)
     {
         $this->escape[':escape' . (count($this->escape) + 1)] = '%' . $string . '%';
-        return ":escape" . (count($this->escape));
+        return ':escape' . count($this->escape);
     }
 }
