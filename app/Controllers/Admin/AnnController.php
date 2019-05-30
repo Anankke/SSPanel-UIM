@@ -35,6 +35,7 @@ class AnnController extends AdminController
         $PushBear = $request->getParam('PushBear');
         $vip = $request->getParam('vip');
         $content = $request->getParam('content');
+		$subject = Config::get('appName') . '-公告';
 
         if ($request->getParam('page') == 1) {
             $ann = new Ann();
@@ -48,11 +49,22 @@ class AnnController extends AdminController
                 return $response->getBody()->write(json_encode($rs));
             }
         }
+		if ($PushBear == 1) {
+            $PushBear_sendkey = Config::get('PushBear_sendkey');
+            $postdata = http_build_query(
+                array(
+                    'text' => $subject,
+                    'desp' => $request->getParam('markdown'),
+					'sendkey'=> $PushBear_sendkey
+                )
+            );
+            file_get_contents('https://pushbear.ftqq.com/sub?' . $postdata, false);
+        }
         if ($issend == 1) {
             $beginSend = ($request->getParam('page') - 1) * Config::get('sendPageLimit');
             $users = User::where('class', '>=', $vip)->skip($beginSend)->limit(Config::get('sendPageLimit'))->get();
             foreach ($users as $user) {
-                $subject = Config::get('appName') . '-公告';
+                
                 $to = $user->email;
                 if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
                     continue;
@@ -67,29 +79,12 @@ class AnnController extends AdminController
                     continue;
                 }
             }
-        }
-        if ($PushBear == 1) {
-            $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
-            $postdata = http_build_query(
-                array(
-                    'text' => Config::get('appName') . '-公告',
-                    'desp' => $$request->getParam('markdown')
-                )
-            );
-            $opts = array('http' =>
-                array(
-                    'method' => 'POST',
-                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                    'content' => $postdata
-                ));
-            $context = stream_context_create($opts);
-            file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
-        }
         if (count($users) == Config::get('sendPageLimit')) {
             $rs['ret'] = 2;
             $rs['msg'] = $request->getParam('page') + 1;
             return $response->getBody()->write(json_encode($rs));
         }
+		}
 
         Telegram::SendMarkdown('新公告：' . PHP_EOL . $request->getParam('markdown'));
         $rs['ret'] = 1;
