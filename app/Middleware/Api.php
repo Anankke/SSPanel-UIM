@@ -14,7 +14,7 @@ class Api
         $accessToken = Helper::getTokenFromReq($request);
         if ($accessToken == null) {
             $res['ret'] = 0;
-            $res['msg'] = "token is null";
+            $res['msg'] = 'token is null';
             $response->getBody()->write(json_encode($res));
             return $response;
         }
@@ -22,13 +22,13 @@ class Api
         $token = $storage->get($accessToken);
         if ($token == null) {
             $res['ret'] = 0;
-            $res['msg'] = "token is null";
+            $res['msg'] = 'token is null';
             $response->getBody()->write(json_encode($res));
             return $response;
         }
         if ($token->expireTime < time()) {
             $res['ret'] = 0;
-            $res['msg'] = "token is expire";
+            $res['msg'] = 'token is expire';
             $response->getBody()->write(json_encode($res));
             return $response;
         }

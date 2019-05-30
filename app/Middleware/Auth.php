@@ -5,9 +5,6 @@ namespace App\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\Services\Auth as AuthService;
-use App\Services\Config;
-
-use App\Services\Jwt;
 
 class Auth
 {
@@ -18,8 +15,8 @@ class Auth
             $newResponse = $response->withStatus(302)->withHeader('Location', '/auth/login');
             return $newResponse;
         }
-        $enablePages = array("/user/disable", "/user/backtoadmin", "/user/logout");
-        if ($user->enable == 0 && !in_array($_SERVER["REQUEST_URI"], $enablePages)) {
+        $enablePages = array('/user/disable', '/user/backtoadmin', '/user/logout');
+        if ($user->enable == 0 && !in_array($_SERVER['REQUEST_URI'], $enablePages)) {
             $newResponse = $response->withStatus(302)->withHeader('Location', '/user/disable');
             return $newResponse;
         }
