@@ -15,13 +15,13 @@ class CodeController extends AdminController
 {
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = array("id" => "ID", "code" => "内容",
-            "type" => "类型", "number" => "操作",
-            "isused" => "是否已经使用", "userid" => "用户ID",
-            "user_name" => "用户名", "usedatetime" => "使用时间");
+        $table_config['total_column'] = array('id' => 'ID', 'code' => '内容',
+            'type' => '类型', 'number' => '操作',
+            'isused' => '是否已经使用', 'userid' => '用户ID',
+            'user_name' => '用户名', 'usedatetime' => '使用时间');
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
-            array_push($table_config['default_show_column'], $column);
+            $table_config['default_show_column'][] = $column;
         }
         $table_config['ajax_url'] = 'code/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/code/index.tpl');
@@ -45,7 +45,7 @@ class CodeController extends AdminController
 
         if (Tools::isInt($n) == false) {
             $rs['ret'] = 0;
-            $rs['msg'] = "非法请求";
+            $rs['msg'] = '非法请求';
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -56,13 +56,13 @@ class CodeController extends AdminController
             $code->type = -1;
             $code->number = $number;
             $code->userid = 0;
-            $code->usedatetime = "1989:06:04 02:30:00";
+            $code->usedatetime = '1989:06:04 02:30:00';
             $code->save();
         }
 
 
         $rs['ret'] = 1;
-        $rs['msg'] = "充值码添加成功";
+        $rs['msg'] = '充值码添加成功';
         return $response->getBody()->write(json_encode($rs));
     }
 
@@ -79,12 +79,12 @@ class CodeController extends AdminController
         $code->number = $amount;
         $code->userid = Auth::getUser()->id;
         $code->isused = 1;
-        $code->usedatetime = date("Y:m:d H:i:s");
+        $code->usedatetime = date('Y:m:d H:i:s');
 
         $code->save();
 
         $rs['ret'] = 1;
-        $rs['msg'] = "添加成功";
+        $rs['msg'] = '添加成功';
         return $response->getBody()->write(json_encode($rs));
     }
 
@@ -93,51 +93,51 @@ class CodeController extends AdminController
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query('Select code.id,code.code,code.type,code.number,code.isused,code.userid,code.userid as user_name,code.usedatetime from code');
 
-        $datatables->edit('number', function ($data) {
+        $datatables->edit('number', static function ($data) {
             switch ($data['type']) {
                 case -1:
-                    return "充值 " . $data['number'] . " 元";
+                    return '充值 ' . $data['number'] . ' 元';
 
                 case -2:
-                    return "支出 " . $data['number'] . " 元";
+                    return '支出 ' . $data['number'] . ' 元';
 
                 default:
-                    return "已经废弃";
+                    return '已经废弃';
             }
         });
 
-        $datatables->edit('isused', function ($data) {
+        $datatables->edit('isused', static function ($data) {
             return $data['isused'] == 1 ? '已使用' : '未使用';
         });
 
-        $datatables->edit('userid', function ($data) {
+        $datatables->edit('userid', static function ($data) {
             return $data['userid'] == 0 ? '未使用' : $data['userid'];
         });
 
-        $datatables->edit('user_name', function ($data) {
+        $datatables->edit('user_name', static function ($data) {
             $user = User::find($data['user_name']);
             if ($user == null) {
-                return "未使用";
+                return '未使用';
             }
 
             return $user->user_name;
         });
 
-        $datatables->edit('type', function ($data) {
+        $datatables->edit('type', static function ($data) {
             switch ($data['type']) {
                 case -1:
-                    return "充值金额";
+                    return '充值金额';
 
                 case -2:
-                    return "财务支出";
+                    return '财务支出';
 
                 default:
-                    return "已经废弃";
+                    return '已经废弃';
             }
         });
 
-        $datatables->edit('usedatetime', function ($data) {
-            return $data['usedatetime'] > '2000-1-1 0:0:0' ? $data['usedatetime'] : "未使用";
+        $datatables->edit('usedatetime', static function ($data) {
+            return $data['usedatetime'] > '2000-1-1 0:0:0' ? $data['usedatetime'] : '未使用';
         });
 
         $body = $response->getBody();

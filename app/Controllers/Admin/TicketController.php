@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Models\Ticket;
 use App\Models\User;
 
+use Exception;
 use voku\helper\AntiXSS;
 use App\Services\Auth;
 
@@ -20,11 +21,11 @@ class TicketController extends AdminController
 {
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = array("op" => "操作", "id" => "ID",
-            "datetime" => "时间", "title" => "标题", "userid" => "用户ID",
-            "user_name" => "用户名", "status" => "状态");
-        $table_config['default_show_column'] = array("op", "id",
-            "datetime", "title", "userid", "user_name", "status");
+        $table_config['total_column'] = array('op' => '操作', 'id' => 'ID',
+            'datetime' => '时间', 'title' => '标题', 'userid' => '用户ID',
+            'user_name' => '用户名', 'status' => '状态');
+        $table_config['default_show_column'] = array('op', 'id',
+            'datetime', 'title', 'userid', 'user_name', 'status');
         $table_config['ajax_url'] = 'ticket/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/ticket/index.tpl');
     }
@@ -37,37 +38,37 @@ class TicketController extends AdminController
         $status = $request->getParam('status');
 
 
-        if ($content == "" || $status == "") {
+        if ($content == '' || $status == '') {
             $res['ret'] = 0;
-            $res['msg'] = "请填全";
+            $res['msg'] = '请填全';
             return $this->echoJson($response, $res);
         }
 
-        if (strpos($content, "admin") != false || strpos($content, "user") != false) {
+        if (strpos($content, 'admin') != false || strpos($content, 'user') != false) {
             $res['ret'] = 0;
-            $res['msg'] = "请求中有不正当的词语。";
+            $res['msg'] = '请求中有不正当的词语。';
             return $this->echoJson($response, $res);
         }
 
 
-        $ticket_main = Ticket::where("id", "=", $id)->where("rootid", "=", 0)->first();
+        $ticket_main = Ticket::where('id', '=', $id)->where('rootid', '=', 0)->first();
 
         //if($status==1&&$ticket_main->status!=$status)
         {
-            $adminUser = User::where("id", "=", $ticket_main->userid)->get();
-            foreach ($adminUser as $user) {
-                $subject = Config::get('appName') . "-工单被回复";
-                $to = $user->email;
-                $text = "您好，有人回复了<a href=\"" . Config::get('baseUrl') . "/user/ticket/" . $ticket_main->id . "/view\">工单</a>，请您查看。";
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        "user" => $user, "text" => $text
-                    ], [
-                    ]);
-                } catch (\Exception $e) {
-                    echo $e->getMessage();
-                }
+            $adminUser = User::where('id', '=', $ticket_main->userid)->get();
+        foreach ($adminUser as $user) {
+            $subject = Config::get('appName') . '-工单被回复';
+            $to = $user->email;
+            $text = '您好，有人回复了<a href="' . Config::get('baseUrl') . '/user/ticket/' . $ticket_main->id . '/view">工单</a>，请您查看。';
+            try {
+                Mail::send($to, $subject, 'news/warn.tpl', [
+                    'user' => $user, 'text' => $text
+                ], [
+                ]);
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
+        }
         }
 
         $antiXss = new AntiXSS();
@@ -84,7 +85,7 @@ class TicketController extends AdminController
         $ticket->save();
 
         $res['ret'] = 1;
-        $res['msg'] = "提交成功";
+        $res['msg'] = '提交成功';
         return $this->echoJson($response, $res);
     }
 
@@ -92,16 +93,13 @@ class TicketController extends AdminController
     {
         $id = $args['id'];
 
-        $pageNum = 1;
-        if (isset($request->getQueryParams()["page"])) {
-            $pageNum = $request->getQueryParams()["page"];
-        }
+        $pageNum = $request->getQueryParams()['page'] ?? 1;
 
 
-        $ticketset = Ticket::where("id", $id)->orWhere("rootid", "=", $id)->orderBy("datetime", "desc")->paginate(5, ['*'], 'page', $pageNum);
-        $ticketset->setPath('/admin/ticket/' . $id . "/view");
+        $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
+        $ticketset->setPath('/admin/ticket/' . $id . '/view');
 
-        return $this->view()->assign('ticketset', $ticketset)->assign("id", $id)->display('admin/ticket/view.tpl');
+        return $this->view()->assign('ticketset', $ticketset)->assign('id', $id)->display('admin/ticket/view.tpl');
     }
 
     public function ajax($request, $response, $args)
@@ -109,15 +107,15 @@ class TicketController extends AdminController
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query('Select ticket.id as op,ticket.id,ticket.datetime,ticket.title,ticket.userid,user.user_name,ticket.status from ticket,user where ticket.userid = user.id and ticket.rootid = 0');
 
-        $datatables->edit('op', function ($data) {
+        $datatables->edit('op', static function ($data) {
             return '<a class="btn btn-brand" href="/admin/ticket/' . $data['id'] . '/view">查看</a>';
         });
 
-        $datatables->edit('datetime', function ($data) {
+        $datatables->edit('datetime', static function ($data) {
             return date('Y-m-d H:i:s', $data['datetime']);
         });
 
-        $datatables->edit('status', function ($data) {
+        $datatables->edit('status', static function ($data) {
             return $data['status'] == 1 ? '开启' : '关闭';
         });
 

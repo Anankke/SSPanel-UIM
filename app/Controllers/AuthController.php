@@ -308,6 +308,8 @@ class AuthController extends BaseController
             $res['msg'] = '验证码发送成功，请查收邮件。';
             return $response->getBody()->write(json_encode($res));
         }
+        $res['ret'] = 0;
+        return $response->getBody()->write(json_encode($res));
     }
 
     public function registerHandle($request, $response)
@@ -364,7 +366,7 @@ class AuthController extends BaseController
                 $res['msg'] = '邀请码无效';
                 return $response->getBody()->write(json_encode($res));
             }
-        } else if ($c->user_id != 0) {
+        } elseif ($c->user_id != 0) {
             $gift_user = User::where('id', '=', $c->user_id)->first();
             if ($gift_user == null) {
                 $res['ret'] = 0;
@@ -376,7 +378,9 @@ class AuthController extends BaseController
                 $res['ret'] = 0;
                 $res['msg'] = '邀请人不是VIP';
                 return $response->getBody()->write(json_encode($res));
-            } else if ($gift_user->invite_num == 0) {
+            }
+
+            if ($gift_user->invite_num == 0) {
                 $res['ret'] = 0;
                 $res['msg'] = '邀请人可用邀请次数为0';
                 return $response->getBody()->write(json_encode($res));

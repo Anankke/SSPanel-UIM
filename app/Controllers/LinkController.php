@@ -94,7 +94,9 @@ class LinkController extends BaseController
 
         if ($mu == self::SSD_MU) {
             return URL::getAllSSDUrl($user);
-        } elseif ($mu == self::CLASH_MU) {
+        }
+
+        if ($mu == self::CLASH_MU) {
             // Clash
             return self::GetClash($user);
         }

@@ -16,17 +16,17 @@ class NodeController extends AdminController
 {
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = Array("op" => "操作", "id" => "ID", "name" => "节点名称",
-            "type" => "显示与隐藏", "sort" => "类型",
-            "server" => "节点地址", "node_ip" => "节点IP",
-            "info" => "节点信息",
-            "status" => "状态", "traffic_rate" => "流量比率", "node_group" => "节点群组",
-            "node_class" => "节点等级", "node_speedlimit" => "节点限速/Mbps",
-            "node_bandwidth" => "已走流量/GB", "node_bandwidth_limit" => "流量限制/GB",
-            "bandwidthlimit_resetday" => "流量重置日", "node_heartbeat" => "上一次活跃时间",
-            "custom_method" => "自定义加密", "custom_rss" => "自定义协议以及混淆",
-            "mu_only" => "只启用单端口多用户");
-        $table_config['default_show_column'] = Array("op", "id", "name", "sort");
+        $table_config['total_column'] = array('op' => '操作', 'id' => 'ID', 'name' => '节点名称',
+            'type' => '显示与隐藏', 'sort' => '类型',
+            'server' => '节点地址', 'node_ip' => '节点IP',
+            'info' => '节点信息',
+            'status' => '状态', 'traffic_rate' => '流量比率', 'node_group' => '节点群组',
+            'node_class' => '节点等级', 'node_speedlimit' => '节点限速/Mbps',
+            'node_bandwidth' => '已走流量/GB', 'node_bandwidth_limit' => '流量限制/GB',
+            'bandwidthlimit_resetday' => '流量重置日', 'node_heartbeat' => '上一次活跃时间',
+            'custom_method' => '自定义加密', 'custom_rss' => '自定义协议以及混淆',
+            'mu_only' => '只启用单端口多用户');
+        $table_config['default_show_column'] = array('op', 'id', 'name', 'sort');
         $table_config['ajax_url'] = 'node/ajax';
 
         return $this->view()->assign('table_config', $table_config)->display('admin/node/index.tpl');
@@ -55,24 +55,24 @@ class NodeController extends AdminController
         $node->sort = $request->getParam('sort');
 
         $req_node_ip = trim($request->getParam('node_ip'));
-        if ($req_node_ip == "") {
+        if ($req_node_ip == '') {
             $req_node_ip = $node->server;
         }
 
         if (in_array($node->sort, array(0, 1, 10, 11, 12, 13))) {
-            $server_list = explode(";", $node->server);
+            $server_list = explode(';', $node->server);
             if (!Tools::is_ip($server_list[0])) {
                 $node->node_ip = gethostbyname($server_list[0]);
             } else {
                 $node->node_ip = $req_node_ip;
             }
-            if ($node->node_ip == "") {
+            if ($node->node_ip == '') {
                 $rs['ret'] = 0;
-                $rs['msg'] = "获取节点IP失败，请检查您输入的节点地址是否正确！";
+                $rs['msg'] = '获取节点IP失败，请检查您输入的节点地址是否正确！';
                 return $response->getBody()->write(json_encode($rs));
             }
         } else {
-            $node->node_ip = "";
+            $node->node_ip = '';
         }
 
         if ($node->sort == 1) {
@@ -89,10 +89,10 @@ class NodeController extends AdminController
             CloudflareDriver::updateRecord($domain_name[0], $node->node_ip);
         }
 
-        Telegram::Send("新节点添加~" . $request->getParam('name'));
+        Telegram::Send('新节点添加~' . $request->getParam('name'));
 
         $rs['ret'] = 1;
-        $rs['msg'] = "节点添加成功";
+        $rs['msg'] = '节点添加成功';
         return $response->getBody()->write(json_encode($rs));
     }
 
@@ -100,8 +100,6 @@ class NodeController extends AdminController
     {
         $id = $args['id'];
         $node = Node::find($id);
-        if ($node == null) {
-        }
         return $this->view()->assign('node', $node)->display('admin/node/edit.tpl');
     }
 
@@ -124,25 +122,25 @@ class NodeController extends AdminController
         $node->sort = $request->getParam('sort');
 
         $req_node_ip = trim($request->getParam('node_ip'));
-        if ($req_node_ip == "") {
+        if ($req_node_ip == '') {
             $req_node_ip = $node->server;
         }
 
         $success = true;
         if (in_array($node->sort, array(0, 1, 10, 11, 12, 13))) {
-            $server_list = explode(";", $node->server);
+            $server_list = explode(';', $node->server);
             if (!Tools::is_ip($server_list[0])) {
                 $success = $node->changeNodeIp($server_list[0]);
             } else {
                 $success = $node->changeNodeIp($req_node_ip);
             }
         } else {
-            $node->node_ip = "";
+            $node->node_ip = '';
         }
 
         if (!$success) {
             $rs['ret'] = 0;
-            $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
+            $rs['msg'] = '更新节点IP失败，请检查您输入的节点地址是否正确！';
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -153,7 +151,7 @@ class NodeController extends AdminController
         if ($node->sort == 1) {
             $SS_Node = Node::where('sort', '=', 0)->where('server', '=', $request->getParam('server'))->first();
             if ($SS_Node != null) {
-                if (time() - $SS_Node->node_heartbeat < 300 || $SS_Node->node_heartbeat == 0) {
+                if ($SS_Node->node_heartbeat == 0 || time() - $SS_Node->node_heartbeat < 300) {
                     Radius::AddNas(gethostbyname($request->getParam('server')), $request->getParam('server'));
                 }
             } else {
@@ -168,10 +166,10 @@ class NodeController extends AdminController
 
         $node->save();
 
-        Telegram::Send("节点信息被修改~" . $request->getParam('name'));
+        Telegram::Send('节点信息被修改~' . $request->getParam('name'));
 
         $rs['ret'] = 1;
-        $rs['msg'] = "修改成功";
+        $rs['msg'] = '修改成功';
         return $response->getBody()->write(json_encode($rs));
     }
 
@@ -188,14 +186,14 @@ class NodeController extends AdminController
 
         if (!$node->delete()) {
             $rs['ret'] = 0;
-            $rs['msg'] = "删除失败";
+            $rs['msg'] = '删除失败';
             return $response->getBody()->write(json_encode($rs));
         }
 
-        Telegram::Send("节点被删除~" . $name);
+        Telegram::Send('节点被删除~' . $name);
 
         $rs['ret'] = 1;
-        $rs['msg'] = "删除成功";
+        $rs['msg'] = '删除成功';
         return $response->getBody()->write(json_encode($rs));
     }
 
@@ -204,16 +202,16 @@ class NodeController extends AdminController
         $datatables = new Datatables(new DatatablesHelper());
 
 
-        $total_column = Array("op" => "操作", "id" => "ID", "name" => "节点名称",
-            "type" => "显示与隐藏", "sort" => "类型",
-            "server" => "节点地址", "node_ip" => "节点IP",
-            "info" => "节点信息",
-            "status" => "状态", "traffic_rate" => "流量比率", "node_group" => "节点群组",
-            "node_class" => "节点等级", "node_speedlimit" => "节点限速/Mbps",
-            "node_bandwidth" => "已走流量/GB", "node_bandwidth_limit" => "流量限制/GB",
-            "bandwidthlimit_resetday" => "流量重置日", "node_heartbeat" => "上一次活跃时间",
-            "custom_method" => "自定义加密", "custom_rss" => "自定义协议以及混淆",
-            "mu_only" => "只启用单端口多用户");
+        $total_column = array('op' => '操作', 'id' => 'ID', 'name' => '节点名称',
+            'type' => '显示与隐藏', 'sort' => '类型',
+            'server' => '节点地址', 'node_ip' => '节点IP',
+            'info' => '节点信息',
+            'status' => '状态', 'traffic_rate' => '流量比率', 'node_group' => '节点群组',
+            'node_class' => '节点等级', 'node_speedlimit' => '节点限速/Mbps',
+            'node_bandwidth' => '已走流量/GB', 'node_bandwidth_limit' => '流量限制/GB',
+            'bandwidthlimit_resetday' => '流量重置日', 'node_heartbeat' => '上一次活跃时间',
+            'custom_method' => '自定义加密', 'custom_rss' => '自定义协议以及混淆',
+            'mu_only' => '只启用单端口多用户');
         $key_str = '';
         foreach ($total_column as $single_key => $single_value) {
             if ($single_key == 'op') {
@@ -225,20 +223,20 @@ class NodeController extends AdminController
         }
         $datatables->query('Select ' . $key_str . ' from ss_node');
 
-        $datatables->edit('op', function ($data) {
+        $datatables->edit('op', static function ($data) {
             return '<a class="btn btn-brand" ' . ($data['sort'] == 999 ? 'disabled' : 'href="/admin/node/' . $data['id'] . '/edit"') . '>编辑</a>
                     <a class="btn btn-brand-accent" ' . ($data['sort'] == 999 ? 'disabled' : 'id="delete" value="' . $data['id'] . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $data['id'] . '\')"') . '>删除</a>';
         });
 
-        $datatables->edit('node_bandwidth', function ($data) {
+        $datatables->edit('node_bandwidth', static function ($data) {
             return Tools::flowToGB($data['node_bandwidth']);
         });
 
-        $datatables->edit('node_bandwidth_limit', function ($data) {
+        $datatables->edit('node_bandwidth_limit', static function ($data) {
             return Tools::flowToGB($data['node_bandwidth_limit']);
         });
 
-        $datatables->edit('sort', function ($data) {
+        $datatables->edit('sort', static function ($data) {
             $sort = '';
             switch ($data['sort']) {
                 case 0:
@@ -274,27 +272,27 @@ class NodeController extends AdminController
             return $sort;
         });
 
-        $datatables->edit('type', function ($data) {
+        $datatables->edit('type', static function ($data) {
             return $data['type'] == 1 ? '显示' : '隐藏';
         });
 
-        $datatables->edit('custom_method', function ($data) {
+        $datatables->edit('custom_method', static function ($data) {
             return $data['custom_method'] == 1 ? '启用' : '关闭';
         });
 
-        $datatables->edit('custom_rss', function ($data) {
+        $datatables->edit('custom_rss', static function ($data) {
             return $data['custom_rss'] == 1 ? '启用' : '关闭';
         });
 
-        $datatables->edit('mu_only', function ($data) {
+        $datatables->edit('mu_only', static function ($data) {
             return $data['mu_only'] == 1 ? '启用' : '关闭';
         });
 
-        $datatables->edit('node_heartbeat', function ($data) {
+        $datatables->edit('node_heartbeat', static function ($data) {
             return date('Y-m-d H:i:s', $data['node_heartbeat']);
         });
 
-        $datatables->edit('DT_RowId', function ($data) {
+        $datatables->edit('DT_RowId', static function ($data) {
             return 'row_1_' . $data['id'];
         });
 
