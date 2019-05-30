@@ -10,7 +10,6 @@ use App\Models\Speedtest;
 use App\Models\Node;
 use App\Models\Auto;
 use App\Controllers\BaseController;
-use App\Utils\Tools;
 
 class FuncController extends BaseController
 {
@@ -51,10 +50,8 @@ class FuncController extends BaseController
         if ($node_id == '0') {
             $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
             $node_id = $node->id;
-
         } else {
             $node = Node::where('id', $node_id)->first();
-
         }
         $rules = Relay::Where('source_node_id', $node_id)->get();
         if (count($rules) > 0) {
@@ -72,7 +69,6 @@ class FuncController extends BaseController
                     $rule['dist_node_sort'] = null;
                     $rule['dist_node_server'] = null;
                 }
-
             }
             $res = [
                 'ret' => 1,
