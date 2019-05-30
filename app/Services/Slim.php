@@ -22,7 +22,7 @@ class Slim
     {
         // config
         $debug = false;
-        if (defined("DEBUG")) {
+        if (defined('DEBUG')) {
             $debug = true;
         }
 
@@ -34,7 +34,7 @@ class Slim
                 'displayErrorDetails' => $debug
             ]
         ]);
-        $app->add(new WhoopsMiddleware);
+        $app->add(new WhoopsMiddleware());
         $this->app = $app;
     }
 

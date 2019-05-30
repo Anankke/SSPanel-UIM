@@ -29,9 +29,9 @@ class BitPayment
         $bitpayConfig = Config::get('bitpay_secret');
         if (self::getClient() != null && $bitpayConfig != '') {
             return self::getClient()->getPurchaseHTML();
-        } else {
-            return '';
         }
+
+        return '';
     }
     public static function getStatus($request, $response, $args)
     {
