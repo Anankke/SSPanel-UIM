@@ -194,5 +194,4 @@ class LinkController extends BaseController
             );
         return $render->fetch('clash.tpl');
     }
-
 }

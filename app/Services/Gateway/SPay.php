@@ -8,7 +8,6 @@
 
 namespace App\Services\Gateway;
 
-use App\Services\View;
 use App\Services\Auth;
 use App\Services\Config;
 

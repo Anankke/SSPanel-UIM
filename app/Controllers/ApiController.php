@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\InviteCode;
 use App\Models\Node;
 use App\Models\User;
 use App\Services\Factory;

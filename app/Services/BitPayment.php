@@ -7,7 +7,6 @@
  */
 namespace App\Services;
 
-use App\Services\Config;
 use App\Services\Gateway\BitPay;
 
 class BitPayment

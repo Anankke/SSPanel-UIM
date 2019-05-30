@@ -6,7 +6,6 @@ use App\Models\Relay;
 use App\Models\Node;
 use App\Models\User;
 use App\Services\Auth;
-use App\Controllers\UserController;
 use App\Utils\Tools;
 use App\Services\Config;
 use ArrayObject;

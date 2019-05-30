@@ -3,12 +3,6 @@
 namespace App\Services;
 
 use Slim\App;
-use Slim\Container;
-use App\Controllers;
-use App\Middleware\Auth;
-use App\Middleware\Guest;
-use App\Middleware\Admin;
-use App\Middleware\Api;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 
 /***
