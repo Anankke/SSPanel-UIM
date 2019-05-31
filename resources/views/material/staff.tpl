@@ -83,7 +83,7 @@ It will not impact the appearance and can give developers a lot of support :)
 												</tr>
                                                <tr>
 													<td>本程序的参与人员列表</td>
-													<td>此列表为参与到 <a href="https://github.com/Anankke/ss-panel-v3-mod_Uim">SSPanel V3 Mod UIM</a> 中的人员，在此表示感谢。</td>
+													<td>此列表为参与到 <a href="https://github.com/Anankke/SSPanel-Uim">SSPanel V3 Mod UIM</a> 中的人员，在此表示感谢。</td>
 												</tr>
 
 											</tbody>

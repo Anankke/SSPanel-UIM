@@ -22,12 +22,12 @@ about: temlpate
 
 **我确认我已经阅读了** (使用 "x" 选择)
 
-- [ ] [项目 Wiki ](https://github.com/Anankke/ss-panel-v3-mod_Uim/wiki)
-- [ ] [项目其他 issue](https://github.com/Anankke/ss-panel-v3-mod_Uim/issues?utf8=%E2%9C%93&q=is%3Aissue)
+- [ ] [项目 Wiki ](https://github.com/Anankke/SSPanel-Uim/wiki)
+- [ ] [项目其他 issue](https://github.com/Anankke/SSPanel-Uim/issues?utf8=%E2%9C%93&q=is%3Aissue)
 
 **我确认我做到了** (使用 "x" 选择)
 
-- [ ] [将项目升级到当前分支最新版本](https://github.com/Anankke/ss-panel-v3-mod_Uim/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC)
+- [ ] [将项目升级到当前分支最新版本](https://github.com/Anankke/SSPanel-Uim/wiki/%E5%8D%87%E7%B4%9A%E7%89%88%E6%9C%AC)
 - [ ] 在[项目演示站](https://demo.nimaqu.com)成功复现问题
 
 **我正在申请**  (使用 "x" 选择)
