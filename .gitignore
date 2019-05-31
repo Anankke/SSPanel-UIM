@@ -8,10 +8,8 @@ index.html
 public/ssr-download/
 public/images/*.*
 public/theme/material/css/images/bg
-storage/trimepay_notify.log
-storage/traffic_notified/
+storage
 .idea
-storage/qqwry.*
 .vs/
 .htaccess
 php_errors.log
