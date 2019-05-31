@@ -8,9 +8,14 @@ index.html
 public/ssr-download/
 public/images/*.*
 public/theme/material/css/images/bg
-storage
+storage/*
 .idea
 .vs/
 .htaccess
 php_errors.log
 composer.lock
+.env
+composer.phar
+.user.ini
+public/.user.ini
+resources/views/material/analytics.tpl
