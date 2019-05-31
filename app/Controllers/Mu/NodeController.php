@@ -19,18 +19,18 @@ class NodeController extends BaseController
         $log->log_time = time();
         if (!$log->save()) {
             $res = [
-                "ret" => 0,
-                "msg" => "update failed",
+                'ret' => 0,
+                'msg' => 'update failed',
             ];
             return $this->echoJson($response, $res);
         }
         $res = [
-            "ret" => 1,
-            "msg" => "ok",
+            'ret' => 1,
+            'msg' => 'ok',
         ];
         return $this->echoJson($response, $res);
     }
-    
+
     public function info($request, $response, $args)
     {
         $node_id = $args['id'];
@@ -43,14 +43,14 @@ class NodeController extends BaseController
         $log->log_time = time();
         if (!$log->save()) {
             $res = [
-                "ret" => 0,
-                "msg" => "update failed",
+                'ret' => 0,
+                'msg' => 'update failed',
             ];
             return $this->echoJson($response, $res);
         }
         $res = [
-            "ret" => 1,
-            "msg" => "ok",
+            'ret' => 1,
+            'msg' => 'ok',
         ];
         return $this->echoJson($response, $res);
     }

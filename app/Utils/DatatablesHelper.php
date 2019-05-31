@@ -12,9 +12,10 @@ class DatatablesHelper implements DatabaseInterface
 {
     protected $escape = [];
     protected $connection;
+
     public function __construct($config = null)
     {
-        $capsule = new Capsule;
+        $capsule = new Capsule();
         $capsule->addConnection(Config::getDbConfig(), 'default');
         $this->connection = $capsule->getConnection('default');
         try {
@@ -22,28 +23,32 @@ class DatatablesHelper implements DatabaseInterface
         } catch (QueryException $e) {
         }
     }
+
     public function connect()
     {
         return $this;
     }
+
     public function query($query)
     {
         $data = $this->connection->select($query, $this->escape);
         $row = [];
         foreach ($data as $item) {
-            $row[] = (array) $item;
+            $row[] = (array)$item;
         }
         return $row;
     }
+
     public function count($query)
     {
-        $query = "Select count(*) as rowcount," . substr($query, 6);
+        $query = 'Select count(*) as rowcount,' . substr($query, 6);
         $data = $this->connection->select($query, $this->escape);
         return $data[0]->rowcount;
     }
+
     public function escape($string)
     {
-        $this->escape[':escape' . (count($this->escape) + 1) ] = '%' . $string . '%';
-        return ":escape" . (count($this->escape));
+        $this->escape[':escape' . (count($this->escape) + 1)] = '%' . $string . '%';
+        return ':escape' . count($this->escape);
     }
 }

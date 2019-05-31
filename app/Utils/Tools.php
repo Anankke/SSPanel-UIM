@@ -22,28 +22,36 @@ class Tools
         $tb = $gb * 1024;
         $pb = $tb * 1024;
         if (abs($value) > $pb) {
-            return round($value / $pb, 2) . "PB";
-        } elseif (abs($value) > $tb) {
-            return round($value / $tb, 2) . "TB";
-        } elseif (abs($value) > $gb) {
-            return round($value / $gb, 2) . "GB";
-        } elseif (abs($value) > $mb) {
-            return round($value / $mb, 2) . "MB";
-        } elseif (abs($value) > $kb) {
-            return round($value / $kb, 2) . "KB";
-        } else {
-            return round($value, 2)."B";
+            return round($value / $pb, 2) . 'PB';
         }
+
+        if (abs($value) > $tb) {
+            return round($value / $tb, 2) . 'TB';
+        }
+
+        if (abs($value) > $gb) {
+            return round($value / $gb, 2) . 'GB';
+        }
+
+        if (abs($value) > $mb) {
+            return round($value / $mb, 2) . 'MB';
+        }
+
+        if (abs($value) > $kb) {
+            return round($value / $kb, 2) . 'KB';
+        }
+
+        return round($value, 2) . 'B';
     }
 
-	//虽然名字是toMB，但是实际上功能是from MB to B
+    //虽然名字是toMB，但是实际上功能是from MB to B
     public static function toMB($traffic)
     {
         $mb = 1048576;
         return $traffic * $mb;
     }
 
-	//虽然名字是toGB，但是实际上功能是from GB to B
+    //虽然名字是toGB，但是实际上功能是from GB to B
     public static function toGB($traffic)
     {
         $gb = 1048576 * 1024;
@@ -72,25 +80,25 @@ class Tools
     }
 
     //获取随机字符串
-		
-		public static function genRandomNum($length = 8)
-		{
-				// 来自Miku的 6位随机数 注册验证码 生成方案
-				$chars = '0123456789';
-				$char = '';
-				for ($i = 0; $i < $length; $i++) {
-						$char .= $chars[mt_rand(0, strlen($chars) - 1)];
-				}
-				return $char;
-		}
-		
+
+    public static function genRandomNum($length = 8)
+    {
+        // 来自Miku的 6位随机数 注册验证码 生成方案
+        $chars = '0123456789';
+        $char = '';
+        for ($i = 0; $i < $length; $i++) {
+            $char .= $chars[random_int(0, strlen($chars) - 1)];
+        }
+        return $char;
+    }
+
     public static function genRandomChar($length = 8)
     {
         // 密码字符集，可任意添加你需要的字符
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $char = '';
         for ($i = 0; $i < $length; $i++) {
-            $char .= $chars[mt_rand(0, strlen($chars) - 1)];
+            $char .= $chars[random_int(0, strlen($chars) - 1)];
         }
         return $char;
     }
@@ -114,21 +122,21 @@ class Tools
 
     public static function secondsToTime($seconds)
     {
-        $dtF = new DateTime("@0");
+        $dtF = new DateTime('@0');
         $dtT = new DateTime("@$seconds");
         return $dtF->diff($dtT)->format('%a 天, %h 小时, %i 分 + %s 秒');
     }
 
     public static function genSID()
     {
-        $unid = uniqid(Config::get('key'));
+        $unid = uniqid(Config::get('key'), true);
         return Hash::sha256WithSalt($unid);
     }
 
     public static function genUUID()
     {
         // @TODO
-      return self::genSID();
+        return self::genSID();
     }
 
     public static function getLastPort()
@@ -161,12 +169,12 @@ class Tools
 
     public static function getDir($dir)
     {
-        $dirArray[]=null;
+        $dirArray[] = null;
         if (false != ($handle = opendir($dir))) {
-            $i=0;
+            $i = 0;
             while (false !== ($file = readdir($handle))) {
-                if ($file != "." && $file != ".."&&!strpos($file, ".")) {
-                    $dirArray[$i]=$file;
+                if ($file != '.' && $file != '..' && !strpos($file, '.')) {
+                    $dirArray[$i] = $file;
                     $i++;
                 }
             }
@@ -192,11 +200,7 @@ class Tools
             }
         }
 
-        if ($cur_id != $rule->id) {
-            return false;
-        }
-
-        return true;
+        return !($cur_id != $rule->id);
     }
 
     public static function pick_out_relay_rule($relay_node_id, $port, $ruleset)
@@ -239,10 +243,8 @@ class Tools
             }
         }
 
-        if ($match_rule != null) {
-            if ($match_rule->dist_node_id == -1) {
-                return null;
-            }
+        if (($match_rule != null) && $match_rule->dist_node_id == -1) {
+            return null;
         }
 
         return $match_rule;
@@ -278,11 +280,7 @@ class Tools
 
         $relay_able_list = Config::getSupportParam('relay_able_protocol');
 
-        if (in_array($user->protocol, $relay_able_list) || Config::get('relay_insecure_mode') == 'true') {
-            return true;
-        }
-
-        return false;
+        return in_array($user->protocol, $relay_able_list) || Config::get('relay_insecure_mode') == 'true';
     }
 
     public static function has_conflict_rule($input_rule, $ruleset, $edit_rule_id = 0, $origin_node_id = 0, $user_id = 0)
@@ -293,8 +291,8 @@ class Tools
                     return $rule->id;
                 }
 
-        //递归处理这个节点
-        $maybe_rule_id = Tools::has_conflict_rule($rule, $ruleset, $edit_rule_id, $origin_node_id, $rule->user_id);
+                //递归处理这个节点
+                $maybe_rule_id = self::has_conflict_rule($rule, $ruleset, $edit_rule_id, $origin_node_id, $rule->user_id);
                 if ($maybe_rule_id != 0) {
                     return $maybe_rule_id;
                 }
@@ -303,7 +301,7 @@ class Tools
 
         if (($input_rule->id == $edit_rule_id || $edit_rule_id == 0) && $input_rule->dist_node_id != -1) {
             $dist_node = Node::find($input_rule->dist_node_id);
-            if ($input_rule->source_node_id == 0 && $dist_node->sort == 10) {
+            if ($input_rule->source_node_id == 0 && ($dist_node->sort == 10 || $dist_node->sort == 12)) {
                 return -1;
             }
 
@@ -333,11 +331,11 @@ class Tools
                 if ($single_rule->dist_node_id == $path->begin_node->id) {
                     $path->begin_node = $single_rule->Source_Node();
                     if ($path->begin_node->isNodeAccessable() == false) {
-                        $path->path = '<font color="#FF0000">'.$single_rule->Source_Node()->name.'</font>'." → ".$path->path;
-                        $path->status = "阻断";
+                        $path->path = '<font color="#FF0000">' . $single_rule->Source_Node()->name . '</font>' . ' → ' . $path->path;
+                        $path->status = '阻断';
                     } else {
-                        $path->path = $single_rule->Source_Node()->name." → ".$path->path;
-                        $path->status = "通畅";
+                        $path->path = $single_rule->Source_Node()->name . ' → ' . $path->path;
+                        $path->status = '通畅';
                     }
                     return $pathset;
                 }
@@ -345,10 +343,10 @@ class Tools
                 if ($path->end_node->id == $single_rule->source_node_id) {
                     $path->end_node = $single_rule->Dist_Node();
                     if ($path->end_node->isNodeAccessable() == false) {
-                        $path->path = $path->path." → ".'<font color="#FF0000">'.$single_rule->Dist_Node()->name.'</font>';
-                        $path->status = "阻断";
+                        $path->path = $path->path . ' → ' . '<font color="#FF0000">' . $single_rule->Dist_Node()->name . '</font>';
+                        $path->status = '阻断';
                     } else {
-                        $path->path = $path->path." → ".$single_rule->Dist_Node()->name;
+                        $path->path = $path->path . ' → ' . $single_rule->Dist_Node()->name;
                     }
                     return $pathset;
                 }
@@ -358,19 +356,19 @@ class Tools
         $new_path = new \stdClass();
         $new_path->begin_node = $single_rule->Source_Node();
         if ($new_path->begin_node->isNodeAccessable() == false) {
-            $new_path->path = '<font color="#FF0000">'.$single_rule->Source_Node()->name.'</font>';
-            $new_path->status = "阻断";
+            $new_path->path = '<font color="#FF0000">' . $single_rule->Source_Node()->name . '</font>';
+            $new_path->status = '阻断';
         } else {
             $new_path->path = $single_rule->Source_Node()->name;
-            $new_path->status = "通畅";
+            $new_path->status = '通畅';
         }
 
         $new_path->end_node = $single_rule->Dist_Node();
         if ($new_path->end_node->isNodeAccessable() == false) {
-            $new_path->path .= " -> ".'<font color="#FF0000">'.$single_rule->Dist_Node()->name.'</font>';
-            $new_path->status = "阻断";
+            $new_path->path .= ' -> ' . '<font color="#FF0000">' . $single_rule->Dist_Node()->name . '</font>';
+            $new_path->status = '阻断';
         } else {
-            $new_path->path .= " -> ".$single_rule->Dist_Node()->name;
+            $new_path->path .= ' -> ' . $single_rule->Dist_Node()->name;
         }
 
         $new_path->port = $port;
@@ -393,17 +391,15 @@ class Tools
     {
         $dist_ip_str = $dist_node->node_ip;
         $dist_ip_array = explode(',', $dist_ip_str);
-        $return_ip = NULL;
+        $return_ip = null;
         foreach ($dist_ip_array as $single_dist_ip_str) {
             $child1_array = explode('#', $single_dist_ip_str);
             if ($child1_array[0] == $single_dist_ip_str) {
                 $return_ip = $child1_array[0];
-            } else {
-                if (isset($child1_array[1])) {
-                    $node_id_array = explode('|', $child1_array[1]);
-                    if (in_array($source_node->id, $node_id_array)) {
-                        $return_ip = $child1_array[0];
-                    }
+            } elseif (isset($child1_array[1])) {
+                $node_id_array = explode('|', $child1_array[1]);
+                if (in_array($source_node->id, $node_id_array)) {
+                    $return_ip = $child1_array[0];
                 }
             }
         }
@@ -418,32 +414,121 @@ class Tools
         foreach ($rules as $rule) {
             $source_node = Node::where('id', $rule->source_node_id)->first();
 
-            $rule->dist_ip = Tools::getRelayNodeIp($source_node, $dist_node);
+            $rule->dist_ip = self::getRelayNodeIp($source_node, $dist_node);
             $rule->save();
         }
     }
 
     public static function checkNoneProtocol($user)
     {
-        if($user->method == 'none' && !in_array($user->protocol, Config::getSupportParam('allow_none_protocol')))
-        {
-          return false;
-        }
-
-        return true;
+        return !($user->method == 'none' && !in_array($user->protocol, Config::getSupportParam('allow_none_protocol')));
     }
 
     public static function getRealIp($rawIp)
     {
-        return str_replace("::ffff:", "", $rawIp);
+        return str_replace('::ffff:', '', $rawIp);
     }
 
-	public static function isInt($str)
-	{
-		if($str[0]=='-'){
-			$str=substr($str,1);
-		}
+    public static function isInt($str)
+    {
+        if ($str[0] == '-') {
+            $str = substr($str, 1);
+        }
 
-		return ctype_digit($str);
-	}
+        return ctype_digit($str);
+    }
+
+    public static function v2Array($node)
+    {
+        $server = explode(';', $node);
+        $item = [
+            'host' => '',
+            'path' => '',
+            'tls' => ''
+        ];
+        $item['add'] = $server[0];
+        if ($server[1] == '0' && $server[1] == '') {
+            $item['port'] = 443;
+        } else {
+            $item['port'] = (int)$server[1];
+        }
+        $item['aid'] = (int)$server[2];
+        $item['net'] = 'tcp';
+        $item['type'] = 'none';
+        if (count($server) >= 4) {
+            $item['net'] = $server[3];
+            if ($item['net'] == 'ws') {
+                $item['path'] = '/';
+            } elseif ($item['net'] == 'tls') {
+                $item['tls'] = 'tls';
+            }
+        }
+        if (count($server) >= 5) {
+            if (in_array($item['net'], array('kcp', 'http'))) {
+                $item['type'] = $server[4];
+            } elseif ($server[4] == 'ws') {
+                $item['net'] = 'ws';
+            }
+        }
+        if (count($server) >= 6) {
+            $item = array_merge($item, URL::parse_args($server[5]));
+            if (array_key_exists('server', $item)) {
+                $item['add'] = $item['server'];
+                unset($item['server']);
+            }
+            if (array_key_exists('outside_port', $item)) {
+                $item['port'] = (int)$item['outside_port'];
+                unset($item['outside_port']);
+            }
+        }
+        return $item;
+    }
+
+    public static function checkTls($node)
+    {
+        $server = self::v2Array($node);
+        return !($server['tls'] == 'tls' && self::is_ip($server['add']));
+    }
+
+    public static function ssv2Array($node)
+    {
+        $server = explode(';', $node);
+        $item = [
+            'host' => '',
+            'path' => '',
+            'net' => 'ws',
+            'tls' => ''
+        ];
+        $item['add'] = $server[0];
+        if ($server[1] == '0' && $server[1] == '') {
+            $item['port'] = 443;
+        } else {
+            $item['port'] = (int)$server[1];
+        }
+        if (count($server) >= 4) {
+            $item['net'] = $server[3];
+            if ($item['net'] == 'ws') {
+                $item['path'] = '/';
+            } elseif ($item['net'] == 'tls') {
+                $item['tls'] = 'tls';
+            }
+        }
+        if (count($server) >= 5 && $server[4] == 'ws') {
+            $item['net'] = 'ws';
+        } elseif (count($server) >= 5 && $server[4] == 'tls') {
+            $item['tls'] = 'tls';
+        }
+        if (count($server) >= 6) {
+            $item = array_merge($item, URL::parse_args($server[5]));
+            if (array_key_exists('server', $item)) {
+                $item['add'] = $item['server'];
+                unset($item['server']);
+            }
+            if (array_key_exists('outside_port', $item)) {
+                $item['port'] = (int)$item['outside_port'];
+                unset($item['outside_port']);
+            }
+        }
+        return $item;
+    }
 }

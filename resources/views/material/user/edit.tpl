@@ -57,14 +57,13 @@
 											<label class="floating-label" for="sspwd">新连接密码</label>
 											<input class="form-control maxwidth-edit" id="sspwd" type="text">
 										</div>
+										<br/>
+										<p>您需要了解的是，修改此密码同时也会变更您 V2Ray 节点的 UUID，请注意及时更新托管订阅。</p>
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>                                    
                       
-                    
-                      
-
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -116,8 +115,14 @@
 										{if $user->im_type==4}
 										Telegram
 										{/if}
-										{$user->im_value}
+
+										{if $user->im_type==5}
+										Discord
+										{/if}
 										</code>
+										</p>
+										<p>当前联络方式账号：
+										<code>{$user->im_value}</code>
 										</p>
 										<div class="form-group form-group-label control-highlight-custom dropdown">
 											<label class="floating-label" for="imtype">选择您的联络方式</label>
@@ -129,6 +134,7 @@
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="2" data="imtype">QQ</a></li>
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="3" data="imtype">Facebook</a></li>
                                                 <li><a href="#" class="dropdown-option" onclick="return false;" val="4" data="imtype">Telegram</a></li>
+                                                <li><a href="#" class="dropdown-option" onclick="return false;" val="5" data="imtype">Discord</a></li>
 											</ul>
 										</div>
 
@@ -350,7 +356,7 @@
 										<p>价格：<code>{$config['port_price_specify']}</code>元/次</p>
 										<p>端口范围：<code>{$config['min_port']}～{$config['max_port']}</code></p>
 										<div class="form-group form-group-label">
-											<label class="floating-label" for="port-specify">在这输入想钦定的号</label>
+											<label class="floating-label" for="port-specify">在这输入想钦定的端口号</label>
 											<input class="form-control maxwidth-edit" id="port-specify" type="num">
 										</div>
 									</div>
@@ -361,52 +367,48 @@
 						</div>
 						{/if}
 
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-										<div class="cardbtn-edit">
-												<div class="card-heading">自定义规则</div>
-												<button class="btn btn-flat" id="setpac"><span class="icon">settings</span>&nbsp;</button>
-										</div>
-										<p>适用于ACL/PAC/Surge</p>
-										<p>格式参看<a href="https://adblockplus.org/zh_CN/filters">撰写 Adblock Plus 过滤规则</a></p>
-										<p>IP 段请使用 |127.0.0.0/8 类似格式表示</p>
-										<div class="form-group form-group-label control-highlight-custom">
-											<label class="floating-label" for="pac">规则书写区</label>
-											<code contenteditable="true" class="form-control maxwidth-edit" id="pac">{$user->pac}</code>
-										</div>
-
-									</div>
-					
-								</div>
-							</div>
-						</div>
-
-						{if $config['enable_telegram'] == 'true'}
+						{if $config['enable_telegram'] == 'true' || $config['enable_discord'] == 'true'}
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
 									{if $user->telegram_id != 0}
 										<div class="cardbtn-edit">
-												<div class="card-heading">Telegram 绑定</div>
-												<div><a class="btn btn-flat btn-brand-accent" href="/user/telegram_reset"><span class="icon">not_interested</span>&nbsp;</a></div>
-										</div>{/if}
-                                      {if $user->telegram_id == 0}
-										<p>Telegram 添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。</p>
+											<div class="card-heading">Telegram 绑定</div>
+											<div><a class="btn btn-flat btn-brand-accent" href="/user/telegram_reset"><span class="icon">not_interested</span>&nbsp;</a></div>
+										</div>
+									{/if}
+									{if $user->discord != 0}
+										<div class="cardbtn-edit">
+											<div class="card-heading">Discord 绑定</div>
+											<div><a class="btn btn-flat btn-brand-accent" href="/user/discord_reset"><span class="icon">not_interested</span>&nbsp;</a></div>
+										</div>
+									{/if}
+
+                                    {if $user->telegram_id == 0 || $user->discord == 0}
+										<p>复制保存下方的二维码图片（有效期10分钟，超时请刷新本页面以重新获取，每张二维码只能使用一次）</p>
+										{if $user->telegram_id == 0}
+											<p>私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 以绑定 Telegram</p>
+										{/if}
+										{if $user->discord == 0}
+											<p>私聊发给 Discord 机器人 以绑定 Discord</p>
+										{/if}
+									{/if}
 										<div class="form-group form-group-label">
 											<div class="text-center">
 												<div id="telegram-qr" class="qr-center"></div>
-												{elseif $user->telegram_id != 0}
-												当前绑定Telegram账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
+												{if $user->telegram_id != 0}
+													<p>当前绑定Telegram账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a></p>
 												{/if}
-									        </div>
-									    </div>
-								    </div>
-							    </div>
-						    </div>
-					    </div>
+												{if $user->discord != 0}
+													<p>当前绑定Telegram账户：{$user->im_value}</p>
+												{/if}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						{/if}
 					
 
@@ -562,7 +564,7 @@ $(".copy-text").click(function () {
     qrcode1.clear();
     qrcode1.makeCode(ga_qrcode);
 
-	{if $config['enable_telegram'] == 'true'}
+	{if $config['enable_telegram'] == 'true' || $config['enable_discord'] == 'true'}
 
 	var telegram_qrcode = 'mod://bind/{$bind_token}';
 

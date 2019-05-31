@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Utils;
 
 /**
@@ -13,21 +14,18 @@ namespace App\Utils;
  * @author Phi1 'l0rdphi1' Stier <l0rdphi1@liquenox.net>
  * @package HTTPSocket
  * @version 2.7.2
-
  * 2.7.2
  * added x-use-https header check
  * added max number of location redirects
  * added custom settable message if x-use-https is found, so users can be told where to set their scripts
  * if a redirect host is https, add ssl:// to remote_host
-
  * 2.7.1
  * added isset to headers['location'], line 306
-
  */
 class HTTPSocket
 {
     public $version = '2.7.2';
-    
+
     /* all vars are private except $error, $query_cache, and $doFollowLocationHeader */
 
     public $method = 'GET';
@@ -98,11 +96,11 @@ class HTTPSocket
      */
     public function set_login($uname = '', $passwd = '')
     {
-        if (strlen($uname) > 0) {
+        if ($uname !== '') {
             $this->remote_uname = $uname;
         }
 
-        if (strlen($passwd) > 0) {
+        if ($passwd !== '') {
             $this->remote_passwd = $passwd;
         }
     }
@@ -123,7 +121,7 @@ class HTTPSocket
         if (preg_match('!^http://!i', $request) || preg_match('!^https://!i', $request)) {
             $location = parse_url($request);
             if (preg_match('!^https://!i', $request)) {
-                $this->connect('ssl://'.$location['host'], $location['port']);
+                $this->connect('ssl://' . $location['host'], $location['port']);
             } else {
                 $this->connect($location['host'], $location['port']);
             }
@@ -133,16 +131,16 @@ class HTTPSocket
             $content = $location['query'];
 
 
-            if (strlen($request) < 1) {
+            if ($request == '') {
                 $request = '/';
             }
         }
 
         $array_headers = array(
             'User-Agent' => "HTTPSocket/$this->version",
-            'Host' => ($this->remote_port == 80 ? $this->remote_host : "$this->remote_host:$this->remote_port"),
+            'Host' => $this->remote_port == 80 ? $this->remote_host : "$this->remote_host:$this->remote_port",
             'Accept' => '*/*',
-            'Connection' => 'Close' );
+            'Connection' => 'Close');
 
         foreach ($this->extra_headers as $key => $value) {
             $array_headers[$key] = $value;
@@ -155,10 +153,10 @@ class HTTPSocket
             $pairs = array();
 
             foreach ($content as $key => $value) {
-                $pairs[] = "$key=".urlencode($value);
+                $pairs[] = "$key=" . urlencode($value);
             }
 
-            $content = join('&', $pairs);
+            $content = implode('&', $pairs);
             unset($pairs);
         }
 
@@ -182,8 +180,8 @@ class HTTPSocket
         }
 
         // if we have a username and password, add the header
-        if (isset($this->remote_uname) && isset($this->remote_passwd)) {
-            $array_headers['Authorization'] = 'Basic '.base64_encode("$this->remote_uname:$this->remote_passwd");
+        if (isset($this->remote_uname, $this->remote_passwd)) {
+            $array_headers['Authorization'] = 'Basic ' . base64_encode("$this->remote_uname:$this->remote_passwd");
         }
 
         // for DA skins: if $this->remote_passwd is NULL, try to use the login key system
@@ -195,12 +193,9 @@ class HTTPSocket
         if ($this->method == 'POST') {
             $array_headers['Content-type'] = 'application/x-www-form-urlencoded';
             $array_headers['Content-length'] = strlen($content);
-        }
-        // else method is GET or HEAD. we don't support anything else right now.
-        else {
-            if ($content) {
-                $request .= "?$content";
-            }
+        } // else method is GET or HEAD. we don't support anything else right now.
+        elseif ($content) {
+            $request .= "?$content";
         }
 
         // prepare query
@@ -228,7 +223,7 @@ class HTTPSocket
 
             // now load results
             $this->lastTransferSpeed = 0;
-            $status = socket_get_status($socket);
+            $status = stream_get_meta_data($socket);
             $startTime = time();
             $length = 0;
             $prevSecond = 0;
@@ -240,22 +235,22 @@ class HTTPSocket
                 $elapsedTime = time() - $startTime;
 
                 if ($elapsedTime > 0) {
-                    $this->lastTransferSpeed = ($length/1024)/$elapsedTime;
+                    $this->lastTransferSpeed = ($length / 1024) / $elapsedTime;
                 }
 
                 if ($doSpeedCheck > 0 && $elapsedTime > 5 && $this->lastTransferSpeed < $doSpeedCheck) {
-                    $this->warn[] = "kB/s for last 5 seconds is below 50 kB/s (~".(($length/1024)/$elapsedTime)."), dropping connection...";
+                    $this->warn[] = 'kB/s for last 5 seconds is below 50 kB/s (~' . (($length / 1024) / $elapsedTime) . '), dropping connection...';
                     $this->result_status_code = 503;
                     break;
                 }
             }
 
             if ($this->lastTransferSpeed == 0) {
-                $this->lastTransferSpeed = $length/1024;
+                $this->lastTransferSpeed = $length / 1024;
             }
         }
-        
-        list($this->result_header, $this->result_body) = preg_split("/\r\n\r\n/", $this->result, 2);
+
+        [$this->result_header, $this->result_body] = preg_split("/\r\n\r\n/", $this->result, 2);
 
         if ($this->bind_host) {
             socket_close($socket);
@@ -282,13 +277,13 @@ class HTTPSocket
         // now, if we're being passed a location header, should we follow it?
         if ($this->doFollowLocationHeader) {
             //dont bother if we didn't even setup the script correctly
-            if (isset($headers['x-use-https']) && $headers['x-use-https']=='yes') {
+            if (isset($headers['x-use-https']) && $headers['x-use-https'] == 'yes') {
                 die($this->ssl_setting_message);
             }
 
             if (isset($headers['location'])) {
                 if ($this->max_redirects <= 0) {
-                    die("Too many redirects on: ".$headers['location']);
+                    die('Too many redirects on: ' . $headers['location']);
                 }
 
                 $this->max_redirects--;
@@ -316,7 +311,7 @@ class HTTPSocket
 
         if ($this->get_status_code() == 200) {
             if ($asArray) {
-                return preg_split("/\n/", $this->fetch_body());
+                return explode("\n", $this->fetch_body());
             }
 
             return $this->fetch_body();
@@ -377,12 +372,12 @@ class HTTPSocket
     public function fetch_header($header = '')
     {
         $array_headers = preg_split("/\r\n/", $this->result_header);
-        
-        $array_return = array( 0 => $array_headers[0] );
+
+        $array_return = array(0 => $array_headers[0]);
         unset($array_headers[0]);
 
         foreach ($array_headers as $pair) {
-            list($key, $value) = preg_split("/: /", $pair, 2);
+            [$key, $value] = explode(': ', $pair, 2);
             $array_return[strtolower($key)] = $value;
         }
 

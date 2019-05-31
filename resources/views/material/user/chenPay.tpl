@@ -15,7 +15,7 @@
     }
 
     #qrcode img {
-        display: initial!important;
+        display: initial !important;
     }
 </style>
 <div class="card-inner">
@@ -53,7 +53,7 @@
     <div class="modal-dialog modal-xs">
         <div class="modal-content">
             <div class="modal-heading">
-                <a class="modal-close" id="AliPayReadyToPayClose" data-dismiss="modal">×</a>
+                <a class="modal-close" id="AliPayReadyToPayClose">×</a>
                 <h2 class="modal-title">扫码充值<span style="color: red;margin-left: 10px;"
                                                   id="countTime"></span>
                 </h2>
@@ -62,14 +62,13 @@
 
                 <div class="text-center">
                     <p id="title" class="textShow"></p>
-                    <p id="qrcode">
-                        <a class="pay"
-                           href="">
+                    <a class="pay" href="">
+                        <p id="qrcode">
                             {*<img src="/images/loading.gif"*}
                             {*width="300px"/>*}
-                            <div id="qrcode" style="text-align: center"></div>
-                        </a>
-                    </p>
+                        <div id="qrcode" style="text-align: center"></div>
+                        </p>
+                    </a>
                     <p id="title">支付成功后大约一分钟内提示</p>
                     <p id="info"></p>
                 </div>
@@ -81,16 +80,16 @@
 <script>
     function chenPayLoad() {
         var $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
-            $wxpayApp = 'weixin://',
-            $pay_type = 0,
-            $order_id = 0,
-            qrcode = new QRCode(document.getElementById("qrcode"));
+                $wxpayApp = 'weixin://',
+                $pay_type = 0,
+                $order_id = 0,
+                qrcode = new QRCode(document.getElementById("qrcode"));
         if ('{$QRcodeUrl}'.indexOf('|') > 0) {
             var $alipayUrl = '{$QRcodeUrl}'.split('|'),
-                $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
+                    $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
         } else {
             var $alipayUrl = '{$QRcodeUrl}',
-                $wxpayUrl = '{$WxQRcodeUrl}';
+                    $wxpayUrl = '{$WxQRcodeUrl}';
         }
         $("#AliPayType").val($('.btn-price:first-child').attr('price'));
         $(".btn-price").click(function () {
@@ -122,7 +121,10 @@
                 success: function (data) {
                     if (data.ret) {
                         $order_id = data.id;
-                        $("#AliPayReadyToPay").modal();
+                        $("#AliPayReadyToPay").modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
                         getCountdown();
                         $id = setInterval(function () {
                             getCountdown()
@@ -131,8 +133,7 @@
                             checkPayTime(data.id)
                         }, 1000);
                         if (data.url) {
-                            if ($type == 2)
-                                $('.pay').attr('href', $wxpayApp);
+                            if ($type == 2) $('.pay').attr('href', $wxpayApp);
                             else $('.pay').attr('href', $alipay + data.url);
                             qrcode.clear();
                             qrcode.makeCode(data.url);
@@ -181,11 +182,14 @@
                 });
             }
 
-            $('#AliPayReadyToPay').unbind('hide.bs.modal').on('hide.bs.modal', function () {
-                if (CheckPayTimeId) clearTimeout(CheckPayTimeId);
-                if ($id) clearInterval($id);
-                AliPayDelete($order_id);
-                $('.pay').attr('href', '').children('img').attr('src', '/images/loading.gif');
+            $('#AliPayReadyToPayClose').unbind('click').click(function () {
+                if (confirm("此操作会删除您的订单,是否确定要取消订单吗❓ \n如果您支付完成请耐心等候系统提示,请点取消按钮！")) {
+                    if (CheckPayTimeId) clearTimeout(CheckPayTimeId);
+                    if ($id) clearInterval($id);
+                    AliPayDelete($order_id);
+                    $("#AliPayReadyToPay").modal('hide');
+                    $('.pay').attr('href', '').children('img').attr('src', '/images/loading.gif');
+                }
             });
 
             function close($msg) {

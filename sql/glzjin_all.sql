@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL,
   `user_name` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
   `email` varchar(32) NOT NULL,
-  `pass` varchar(64) NOT NULL,
+  `pass` varchar(256) NOT NULL,
   `passwd` varchar(16) NOT NULL,
   `t` int(11) NOT NULL DEFAULT '0',
   `u` bigint(20) NOT NULL,
@@ -696,3 +696,5 @@ ALTER TABLE `paylist`
 --
 ALTER TABLE `paylist`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;ALTER TABLE `user_traffic_log` CHANGE `u` `u` BIGINT(20) NOT NULL, CHANGE `d` `d` BIGINT(20) NOT NULL;
+
+ALTER TABLE `user` ADD `discord` BIGINT NULL AFTER `telegram_id`; 

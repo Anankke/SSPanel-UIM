@@ -5,7 +5,6 @@ namespace App\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\Services\Auth as AuthService;
-use App\Services\Config;
 
 class Admin
 {
@@ -22,7 +21,7 @@ class Admin
             $newResponse = $response->withStatus(302)->withHeader('Location', '/user');
             return $newResponse;
         }
-        
+
         $response = $next($request, $response);
         return $response;
     }

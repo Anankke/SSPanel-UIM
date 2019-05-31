@@ -15,8 +15,7 @@ class Helper
         if (!isset($params['access_token'])) {
             return null;
         }
-        $accessToken = $params['access_token'];
-        return $accessToken;
+        return $params['access_token'];
     }
 
     public static function getMuKeyFromReq($request)
@@ -25,7 +24,6 @@ class Helper
         if (!isset($params['key'])) {
             return null;
         }
-        $accessToken = $params['key'];
-        return $accessToken;
+        return $params['key'];
     }
 }

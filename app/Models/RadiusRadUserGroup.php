@@ -4,6 +4,6 @@ namespace App\Models;
 
 class RadiusRadUserGroup extends Model
 {
-    protected $connection = "radius";
-    protected $table = "radusergroup";
+    protected $connection = 'radius';
+    protected $table = 'radusergroup';
 }

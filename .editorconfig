@@ -1,0 +1,22 @@
+# https://editorconfig.org/
+
+root = true
+
+[*]
+tab_width                = 4
+
+[*.php]
+charset                  = utf-8
+end_of_line              = lf
+indent_size              = 4
+indent_style             = space
+trim_trailing_whitespace = true
+insert_final_newline     = true
+
+[*.md]
+charset                  = utf-8
+end_of_line              = lf
+indent_style             = space
+trim_trailing_whitespace = true
+insert_final_newline     = true
+max_line_length          = 80

@@ -11,11 +11,11 @@ class Factory
     {
         $sdk = new Sdk([
             'credentials' => array(
-                'key'    => Config::get('aws_access_key_id'),
+                'key' => Config::get('aws_access_key_id'),
                 'secret' => Config::get('aws_secret_access_key'),
             ),
-            'region'   => Config::get('aws_region'),
-            'version'  => 'latest',
+            'region' => Config::get('aws_region'),
+            'version' => 'latest',
             'DynamoDb' => [
                 'region' => Config::get('aws_region')
             ]

@@ -123,9 +123,6 @@
 							<li><a href="/admin/shop"><i class="icon icon-lg">shop</i>&nbsp;商品</a></li>
 							<li><a href="/admin/coupon"><i class="icon icon-lg">card_giftcard</i>&nbsp;优惠码</a></li>
 							<li><a href="/admin/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>
-                            {if $config['payment_system']=='yftpay'}
-							<li><a href="/admin/yftOrder"><i class="icon icon-lg">shopping_cart</i>&nbsp;充值记录</a></li>
-							{/if}
 							{if $config['payment_system']=='chenAlipay'}
 								<li><a href="/admin/editConfig"><i class="icon icon-lg">shopping_cart</i>&nbsp;支付设置</a></li>
 							{/if}

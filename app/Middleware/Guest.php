@@ -12,8 +12,7 @@ class Guest
     {
         $user = AuthService::getUser();
         if ($user->isLogin) {
-            $newResponse = $response->withStatus(302)->withHeader('Location', '/user');
-            return $newResponse;
+            return $response->withStatus(302)->withHeader('Location', '/user');
         }
         $response = $next($request, $response);
         return $response;

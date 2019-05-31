@@ -21,7 +21,7 @@ class Geetest
         $_SESSION['user_id'] = $user_id;
         return $ret;
     }
-    
+
     public static function verify($geetest_challenge, $geetest_validate, $geetest_seccode)
     {
         session_start();
@@ -31,15 +31,15 @@ class Geetest
             $result = $GtSdk->success_validate($geetest_challenge, $geetest_validate, $geetest_seccode, $user_id);
             if ($result) {
                 return true;
-            } else {
-                return false;
             }
-        } else {
-            if ($GtSdk->fail_validate($geetest_challenge, $geetest_validate, $geetest_seccode)) {
-                return true;
-            } else {
-                return false;
-            }
+
+            return false;
         }
+
+        if ($GtSdk->fail_validate($geetest_challenge, $geetest_validate, $geetest_seccode)) {
+            return true;
+        }
+
+        return false;
     }
 }
