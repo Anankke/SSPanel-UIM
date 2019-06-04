@@ -57,7 +57,7 @@ $app->add(new WhoopsMiddleware());
 // Home
 $app->post('/spay_back', App\Services\Payment::class . ':notify');
 $app->get('/spay_back', App\Services\Payment::class . ':notify');
-$app->get('/', App\Controllers\HomeController::class . ':indexold');
+$app->get('/', App\Controllers\HomeController::class . ':index');
 $app->get('/indexold', App\Controllers\HomeController::class . ':indexold');
 $app->get('/404', App\Controllers\HomeController::class . ':page404');
 $app->get('/405', App\Controllers\HomeController::class . ':page405');
