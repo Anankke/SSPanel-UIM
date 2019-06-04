@@ -1,6 +1,6 @@
 language: php
 php:
-  - 7.1
+  - 7.2
 sudo: enabled
 dist: xenial
 before_install:
@@ -16,7 +16,7 @@ before_install:
   - sudo apt install -y nodejs
 install:
   - sudo chmod -R 755 *
-  - php composer.phar install
+  - composer install
   - cd uim-index-dev
   - npm i
 before_script:
