@@ -277,7 +277,7 @@ export default {
     },
     typeToken: function() {
       switch (this.currentDlType) {
-        case "SSR":
+        case "SSR": {
           let url = this.suburlBase;
           if (this.mergeSub !== "true") {
             url = this.suburlMu0;
@@ -289,6 +289,7 @@ export default {
             muType: "mu0",
             subUrl: url
           };
+        }
         case "SS/SSD":
           return {
             tagkey: "dl-ss",
