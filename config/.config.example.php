@@ -190,6 +190,7 @@ $System_Config['f2fpay_app_id']='';
 $System_Config['f2fpay_p_id']='';
 $System_Config['alipay_public_key']='';
 $System_Config['merchant_private_key']='';
+$System_Config['f2fNotifyUrl']='';                  //自定义当面付回调地址
 
 #PaymentWall
 $System_Config['pmw_publickey']='';
@@ -284,7 +285,7 @@ $System_Config['redis_scheme'] = 'tcp';
 $System_Config['redis_host'] = '127.0.0.1';
 $System_Config['redis_port'] = '6379';
 $System_Config['redis_database'] = '0';
-$System_Config['redis_password']="";
+$System_Config['redis_password']= '';
 
 #Radius设置
 $System_Config['enable_radius']='false';			//是否开启Radius
@@ -314,7 +315,7 @@ $System_Config['enable_analytics_code']='false';
 $System_Config['sspanelAnalysis'] = 'true';
 
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
-if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ) {
-$list = explode("," , $_SERVER["HTTP_X_FORWARDED_FOR"]);
-$_SERVER["REMOTE_ADDR"] = $list[0];
+if ( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+$list = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+$_SERVER['REMOTE_ADDR'] = $list[0];
 }
