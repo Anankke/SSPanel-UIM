@@ -243,16 +243,14 @@ class URL
         if (strtotime($user->expire_in) < time()) {
             return $return_url;
         }
-        $items = self::getAllItems($user, $is_mu, $is_ss);
+        if (Config::get('mergeSub') == 'true') {
+            $items = self::getAllItems($user, 1, $is_ss) + self::getAllItems($user, 0, $is_ss);
+        } else {
+            $items = self::getAllItems($user, $is_mu, $is_ss);
+        }
+
         foreach ($items as $item) {
             $return_url .= self::getItemUrl($item, $is_ss) . PHP_EOL;
-        }
-        if (Config::get('mergeSub') == 'true' and in_array($is_mu, array(0, 1))) {
-            $is_mu = $is_mu == 0 ? 1 : 0;
-            $items = self::getAllItems($user, $is_mu, $is_ss);
-            foreach ($items as $item) {
-                $return_url .= self::getItemUrl($item, $is_ss) . PHP_EOL;
-            }
         }
         return $return_url;
     }
@@ -273,7 +271,7 @@ class URL
             $personal_info = $item['method'] . ':' . $item['passwd'];
             $ssurl = 'ss://' . Tools::base64_url_encode($personal_info) . '@' . $item['address'] . ':' . $item['port'];
             $plugin = '';
-            if (in_array($item['obfs'], $ss_obfs_list) || $item['obfs'] == 'v2ray') {
+            if ($item['obfs'] == 'v2ray' || in_array($item['obfs'], $ss_obfs_list)) {
                 if (strpos($item['obfs'], 'http') !== false) {
                     $plugin .= 'obfs-local;obfs=http';
                 } elseif (strpos($item['obfs'], 'tls') !== false) {
@@ -587,7 +585,7 @@ class URL
     public static function getUserTraffic($user, $is_mu = 0)
     {
         $group_name = Config::get('appName');
-        if (Config::get('mergeSub') != 'true' and $is_mu == 1) {
+        if ($is_mu == 1 && Config::get('mergeSub') != 'true') {
             $group_name .= ' - 单端口';
         }
         if (strtotime($user->expire_in) > time()) {
@@ -606,7 +604,7 @@ class URL
     public static function getUserClassExpiration($user, $is_mu = 0)
     {
         $group_name = Config::get('appName');
-        if (Config::get('mergeSub') != 'true' and $is_mu == 1) {
+        if ($is_mu == 1 && Config::get('mergeSub') != 'true') {
             $group_name .= ' - 单端口';
         }
         if (strtotime($user->expire_in) > time()) {
