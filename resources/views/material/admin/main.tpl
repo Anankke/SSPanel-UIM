@@ -129,7 +129,7 @@
 						</ul>
 
 						<li><a href="/user"><i class="icon icon-lg">person</i>&nbsp;用户中心</a></li>
-					</li>
+
 
 
 
