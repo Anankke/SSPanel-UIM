@@ -44,17 +44,9 @@ class Shop extends Model
                     break;
                 default:
             }
-
-            //if ($i<count($content)&&$key!="connector") {
-            //$content_text .= ",";
-            //}
-
-            $i++;
         }
 
-        if ($content_text[strlen($content_text) - 1] == ',') {
-            $content_text = substr($content_text, 0, -1);
-        }
+        $content_text = rtrim($content_text, ',');
 
         return $content_text;
     }
