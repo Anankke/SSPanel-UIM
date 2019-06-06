@@ -95,7 +95,9 @@
             }],
             columns: [
                 {foreach $table_config['total_column'] as $key => $value}
-                {"data": "{$key}"},
+                {
+                    "data": "{$key}"
+                },
                 {/foreach}
             ],
             {include file='table/lang_chinese.tpl'}

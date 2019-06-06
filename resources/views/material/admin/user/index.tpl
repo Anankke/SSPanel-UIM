@@ -126,6 +126,7 @@
                 type: "POST",
             },
             columns: [
+                {literal}
                 {"data": "op", "orderable": false},
                 {"data": "id"},
                 {"data": "user_name"},
@@ -157,6 +158,7 @@
                 {"data": "ref_by"},
                 {"data": "ref_by_user_name", "orderable": false},
                 {"data": "top_up", "orderable": false}
+                {/literal}
             ],
             "columnDefs": [
                 {
