@@ -1,10 +1,10 @@
- <div class="card-inner">
- <div class="row">
+<div class="card-inner">
+    <div class="row">
         <div class="col-lg-6 col-md-6">
             <p class="card-heading">支付宝在线充值</p>
             <div class="form-group form-group-label">
                 <label class="floating-label" for="amount">金额</label>
-                <input class="form-control" id="amount" type="text" >
+                <input class="form-control" id="amount" type="text">
             </div>
         </div>
         <div class="col-lg-6 col-md-6">
@@ -12,10 +12,11 @@
         </div>
     </div>
 </div>
-    <a class="btn btn-flat waves-attach" id="pay" onclick="pay();" ><span class="icon">check</span>&nbsp;充值</a>
+<a class="btn btn-flat waves-attach" id="pay" onclick="pay();"><span class="icon">check</span>&nbsp;充值</a>
 <script>
     var pid = 0;
-    function pay(){
+
+    function pay() {
         $("#readytopay").modal();
         $("#readytopay").on('shown.bs.modal', function () {
             $.ajax({
@@ -37,7 +38,7 @@
                             height: 200,
                             text: encodeURI(data.qrcode)
                         });
-                        $('#qrcode').attr('href',data.qrcode);
+                        $('#qrcode').attr('href', data.qrcode);
                         setTimeout(f, 1000);
                     } else {
                         $("#result").modal();
@@ -48,19 +49,19 @@
                     console.log(jqXHR);
                     $("#readytopay").modal('hide');
                     $("#result").modal();
-                    $("#msg").html(jqXHR+"  发生了错误。");
+                    $("#msg").html(jqXHR + "  发生了错误。");
                 }
             })
         });
     }
 
-    function f(){
+    function f() {
         $.ajax({
             type: "POST",
             url: "/payment/status",
             dataType: "json",
             data: {
-                pid:pid
+                pid: pid
             },
             success: function (data) {
                 if (data.result) {

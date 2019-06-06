@@ -45,14 +45,15 @@
                                 <label class="floating-label" for="number">规定金额设定</label>
                                 <input class="form-control maxwidth-edit" id="Pay_Price" type="text"
                                        value="{$payConfig['Pay_Price']}">
-                                <p class="form-control-guide"><i class="material-icons">info</i>不设定则无需输入，英文“|”分割，必须大于2</p>
+                                <p class="form-control-guide"><i class="material-icons">info</i>不设定则无需输入，英文“|”分割，必须大于2
+                                </p>
                             </div>
 
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="amount">支付宝二维码</label>
                                 <input class="form-control maxwidth-edit" id="AliPay_QRcode" type="text"
                                        value="{$payConfig['AliPay_QRcode']}">
-                                <p class="form-control-guide"><i class="material-icons">info</i>金额设定后需要英文“|”分割</p>                                       
+                                <p class="form-control-guide"><i class="material-icons">info</i>金额设定后需要英文“|”分割</p>
                             </div>
 
 
@@ -71,7 +72,7 @@
                                 <label class="floating-label" for="number">微信二维码</label>
                                 <input class="form-control maxwidth-edit" id="WxPay_QRcode" type="text"
                                        value="{$payConfig['WxPay_QRcode']}">
-                                <p class="form-control-guide"><i class="material-icons">info</i>金额设定后需要英文“|”分割</p>                                       
+                                <p class="form-control-guide"><i class="material-icons">info</i>金额设定后需要英文“|”分割</p>
                             </div>
 
                             <div class="form-group form-group-label">
@@ -117,58 +118,59 @@
 
 <script>
 
-window.addEventListener('load', () => {
-    function submit() {
-        if ($$.getElementById('AliPay_Status').checked) {
-            var AliPay_Status = 1;
-        } else {
-            var AliPay_Status = 0;
-        }
-        if ($$.getElementById('WxPay_Status').checked) {
-            var WxPay_Status = 1
-        } else {
-            var WxPay_Status = 0
-        };
-        $.ajax({
-            type: "POST",
-            url: "/admin/saveConfig",
-            dataType: "json",
-            data: {
-                AliPay_Status,
-                WxPay_Status,
-                Notice_EMail: $$.getElementById('Notice_EMail').value,
-                AliPay_QRcode: $$.getElementById('AliPay_QRcode').value,
-                AliPay_Cookie: $$.getElementById('AliPay_Cookie').value,
-                WxPay_Url: $$.getElementById('WxPay_Url').value,
-                WxPay_QRcode: $$.getElementById('WxPay_QRcode').value,
-                WxPay_Cookie: $$.getElementById('WxPay_Cookie').value,
-                Pay_Price: $$.getElementById('Pay_Price').value,
-            },
-            success: data => {
-                if (data.ret) {
+    window.addEventListener('load', () => {
+        function submit() {
+            if ($$.getElementById('AliPay_Status').checked) {
+                var AliPay_Status = 1;
+            } else {
+                var AliPay_Status = 0;
+            }
+            if ($$.getElementById('WxPay_Status').checked) {
+                var WxPay_Status = 1
+            } else {
+                var WxPay_Status = 0
+            }
+            ;
+            $.ajax({
+                type: "POST",
+                url: "/admin/saveConfig",
+                dataType: "json",
+                data: {
+                    AliPay_Status,
+                    WxPay_Status,
+                    Notice_EMail: $$.getElementById('Notice_EMail').value,
+                    AliPay_QRcode: $$.getElementById('AliPay_QRcode').value,
+                    AliPay_Cookie: $$.getElementById('AliPay_Cookie').value,
+                    WxPay_Url: $$.getElementById('WxPay_Url').value,
+                    WxPay_QRcode: $$.getElementById('WxPay_QRcode').value,
+                    WxPay_Cookie: $$.getElementById('WxPay_Cookie').value,
+                    Pay_Price: $$.getElementById('Pay_Price').value,
+                },
+                success: data => {
+                    if (data.ret) {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.reload()", {$config['jump_delay']});
+                    } else {
+                        $("#msg-error").hide(10);
+                        $("#msg-error").show(100);
+                        $$.getElementById('msg-error-p').innerHTML = data.msg;
+                    }
+                },
+                error: jqXHR => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    window.setTimeout("location.reload()", {$config['jump_delay']});
-                } else {
-                    $("#msg-error").hide(10);
-                    $("#msg-error").show(100);
-                    $$.getElementById('msg-error-p').innerHTML = data.msg;
+                    $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
                 }
-            },
-            error: jqXHR => {
-                $("#result").modal();
-                $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
+            });
+        }
+
+        $("html").keydown(event => {
+            if (event.keyCode == 13) {
+                login();
             }
         });
-    }
 
-    $("html").keydown(event => {
-        if (event.keyCode == 13) {
-            login();
-        }
-    });
+        $$.getElementById('submit').addEventListener('click', submit);
 
-    $$.getElementById('submit').addEventListener('click', submit);
-
-})
+    })
 </script>

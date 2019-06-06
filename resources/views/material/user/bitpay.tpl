@@ -4,14 +4,15 @@
         <p class="card-heading">数字货币充值</p>
         <div class="form-group form-group-label">
             <label class="floating-label" for="bitpayamount">金额</label>
-            <input class="form-control" id="bitpayamount" type="text" >
+            <input class="form-control" id="bitpayamount" type="text">
         </div>
     </div>
 </div>
 
 <div class="card-action">
     <div class="card-action-btn pull-left">
-        <button class="btn btn-flat waves-attach" id="bitpaySubmit" name="type" onclick="bitpay('Crypto')"><img src="https://bitpay.dev/img/mpay-zh.png" height="50px" /></button>
+        <button class="btn btn-flat waves-attach" id="bitpaySubmit" name="type" onclick="bitpay('Crypto')"><img
+                    src="https://bitpay.dev/img/mpay-zh.png" height="50px"/></button>
     </div>
 </div>
 
@@ -20,10 +21,10 @@
 <script>
     var pid = 0;
 
-    function bitpay(type){
+    function bitpay(type) {
         var price = parseFloat($("#bitpayamount").val());
 
-        console.log("将要使用 "+ type + " 充值" + price + "元");
+        console.log("将要使用 " + type + " 充值" + price + "元");
         if (isNaN(price)) {
             $("#readytopay").modal('hide');
             $("#result").modal();
@@ -56,13 +57,13 @@
         });
     }
 
-    function f(){
+    function f() {
         $.ajax({
             type: "POST",
             url: "/payments/bitpay/status",
             dataType: "json",
             data: {
-                pid:pid
+                pid: pid
             },
             success: function (data) {
                 console.log(data);
