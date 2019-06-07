@@ -19,6 +19,9 @@ before_install:
   - echo "==========================================================="
   - echo "Configure MySQL"
   - echo "==========================================================="
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('sspanel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo mysql_upgrade -u root -p "sspanel"
+  - sudo service mysql restart
   - sudo mysql -e "CREATE DATABASE sspanel; use sspanel; source sql/glzjin_all.sql;"
 install:
   - npm i -g phplint
@@ -35,7 +38,6 @@ before_script:
   - phplint '**/*.php' '!vendor/**'
 script:
   - cp config/.config.example.php config/.config.php
-  - sed -i "s|$System_Config['db_password'] = 'sspanel';|$System_Config['db_password'] = '';|g" config/.config.php
   - php xcat createAdmin test@example.com test
   - php xcat syncusers
   - php xcat initdownload
