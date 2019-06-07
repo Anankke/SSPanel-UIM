@@ -99,6 +99,8 @@ class XCat
                 return $this->sendDailyUsageByTG();
             case ('npmbuild'):
                 return $this->npmbuild();
+            case ('getCookie'):
+                return $this->getCookie();
             default:
                 return $this->defaultAction();
         }
@@ -178,17 +180,23 @@ class XCat
 
     public function createAdmin()
     {
-        echo 'add admin/ 创建管理员帐号.....';
-        // ask for input
-        fwrite(STDOUT, 'Enter your email/输入管理员邮箱: ');
-        // get input
-        $email = trim(fgets(STDIN));
-        // write input back
-        fwrite(STDOUT, "Enter password for: $email / 为 $email 添加密码: ");
-        $passwd = trim(fgets(STDIN));
-        echo "Email: $email, Password: $passwd! ";
-        fwrite(STDOUT, "Press [Y] to create admin..... 按下[Y]确认来确认创建管理员账户..... \n");
-        $y = trim(fgets(STDIN));
+        if (count($this->argv) === 2) {
+            echo 'add admin/ 创建管理员帐号.....';
+            // ask for input
+            fwrite(STDOUT, 'Enter your email/输入管理员邮箱: ');
+            // get input
+            $email = trim(fgets(STDIN));
+            // write input back
+            fwrite(STDOUT, "Enter password for: $email / 为 $email 添加密码: ");
+            $passwd = trim(fgets(STDIN));
+            echo "Email: $email, Password: $passwd! ";
+            fwrite(STDOUT, "Press [y] to create admin..... 按下[Y]确认来确认创建管理员账户..... \n");
+            $y = trim(fgets(STDIN));
+        } elseif (count($this->argv) === 4) {
+            [, , $email, $passwd] = $this->argv;
+            $y = 'y';
+        }
+
         if (strtolower($y) == 'y') {
             echo 'start create admin account';
             // create admin user
@@ -289,5 +297,14 @@ class XCat
         system('npm install');
         system('npm run build');
         system('cp -u ../public/vuedist/index.html ../resources/views/material/index.tpl');
+    }
+
+    public function getCookie()
+    {
+        if (count($this->argv) === 3) {
+            $user = User::find($this->argv[2]);
+            $expire_in = 3600 + time();
+            echo Hash::cookieHash($user->pass, $expire_in) . ' ' . $expire_in;
+        }
     }
 }
