@@ -19,7 +19,7 @@ before_install:
   - echo "==========================================================="
   - echo "Configure MySQL"
   - echo "==========================================================="
-  - sudo mysql -e "CREATE DATABASE sspanel; use sspanel; source ./sql/glzjin_all.sql"
+  - sudo mysql -e "CREATE DATABASE sspanel; use sspanel; source sql/glzjin_all.sql;"
 install:
   - sudo chmod -R 755 *
   - composer install
