@@ -32,7 +32,7 @@ script:
   - cp config/.config.example.php config/.config.php
   - sed -i "s|$System_Config['db_password'] = 'sspanel';|$System_Config['db_password'] = '';|g" config/.config.php
   - phplint '**/*.php' '!vendor/**'
-  - php xcat createAdmin
+  # - php xcat createAdmin
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
