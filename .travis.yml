@@ -1,4 +1,6 @@
 language: php
+services:
+  - mysql
 php:
   - 7.2
 sudo: enabled
@@ -14,6 +16,10 @@ before_install:
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt clean all && sudo apt -qq -y update
   - sudo apt install -y nodejs
+  - echo "==========================================================="
+  - echo "Configure MySQL"
+  - echo "==========================================================="
+  - sudo mysql -e "CREATE DATABASE sspanel; use sspanel; source ./sql/glzjin_all.sql"
 install:
   - sudo chmod -R 755 *
   - composer install
@@ -24,7 +30,10 @@ before_script:
   - cd ..
 script:
   - cp config/.config.example.php config/.config.php
+  - sed -i "s|$System_Config['db_password'] = 'sspanel';|$System_Config['db_password'] = '';|g" config/.config.php
   - phplint '**/*.php' '!vendor/**'
+  - php xcat createAdmin
+  - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
   - php xcat update
