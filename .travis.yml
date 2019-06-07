@@ -41,7 +41,9 @@ script:
   - php xcat initdownload
   - php xcat initQQWry
   - php xcat update
-  - nohup php -S 0.0.0.0:8080 -t &
+  - nohup php -S 0.0.0.0:8080 -t public &
+  - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://localhost:8080'
+
 cache:
   directories:
     - uim-index-dev/node_modules
