@@ -36,11 +36,10 @@ before_script:
 script:
   - cp config/.config.example.php config/.config.php
   - sed -i "s|$System_Config['db_password'] = 'sspanel';|$System_Config['db_password'] = '';|g" config/.config.php
-  # - php xcat createAdmin
+  - php xcat createAdmin test@example.com test
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
-  - php xcat update
   - nohup php -S 0.0.0.0:8080 -t public &
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://localhost:8080'
 
