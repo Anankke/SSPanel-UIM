@@ -43,11 +43,10 @@ script:
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
-  - nohup php -S localhost:23480 -t public &
+  - start-stop-daemon --start --quiet --background --make-pidfile --pidfile /tmp/run/php-sspanel-uim.pid --exec $(which php) -S localhost:23480 -t public
   - curl -vvv 'http://localhost:23480'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://localhost:23480'
   - cat nohup.out
-  - php -S localhost:8080 -t public
 cache:
   directories:
     - uim-index-dev/node_modules
