@@ -41,7 +41,7 @@ script:
   - php xcat initdownload
   - php xcat initQQWry
   - php xcat update
-  - sudo start-stop-daemon --start --quiet --background --make-pidfile --pidfile /tmp/run/php-sspanel-uim.pid --exec php -S 0.0.0.0:8080 -t public
+  - nohup php -S 0.0.0.0:8080 -t &
 cache:
   directories:
     - uim-index-dev/node_modules
