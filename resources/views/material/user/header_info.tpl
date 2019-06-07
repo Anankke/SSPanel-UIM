@@ -12,7 +12,6 @@
     <!-- css -->
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
-    <link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/365cent/material-design-icons@3.0.1/material-icons.min.css" rel="stylesheet">
 
     <!-- jquery -->
