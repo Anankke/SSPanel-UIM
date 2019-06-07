@@ -38,7 +38,8 @@ Proxy:
 
 Proxy Group:
   - { name: "Auto", type: fallback, proxies: {json_encode($proxies,320)}, url: "http://www.gstatic.com/generate_204", interval: 300 }
-{append var='proxies' value='Auto' index=0}
+{$tmp[] = "Auto"}
+{assign 'proxies' $tmp|array_merge:$proxies}
   - { name: "Proxy", type: select, proxies: {json_encode($proxies,320)} }
   - { name: "Domestic", type: select, proxies: ["DIRECT","Proxy"] }
 {$China_media=["Domestic","Proxy"]}
