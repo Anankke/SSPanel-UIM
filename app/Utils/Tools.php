@@ -447,7 +447,7 @@ class Tools
             'tls' => ''
         ];
         $item['add'] = $server[0];
-        if ($server[1] == '0' && $server[1] == '') {
+        if ($server[1] == '0' || $server[1] == '') {
             $item['port'] = 443;
         } else {
             $item['port'] = (int)$server[1];
@@ -500,7 +500,7 @@ class Tools
             'tls' => ''
         ];
         $item['add'] = $server[0];
-        if ($server[1] == '0' && $server[1] == '') {
+        if ($server[1] == '0' || $server[1] == '') {
             $item['port'] = 443;
         } else {
             $item['port'] = (int)$server[1];
