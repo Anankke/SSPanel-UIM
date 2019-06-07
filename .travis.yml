@@ -21,25 +21,29 @@ before_install:
   - echo "==========================================================="
   - sudo mysql -e "CREATE DATABASE sspanel; use sspanel; source sql/glzjin_all.sql;"
 install:
+  - npm i -g phplint
   - sudo chmod -R 755 *
   - composer install
   - cd uim-index-dev
   - npm i
-before_script:
-  - npm i -g phplint
   - cd ..
+before_script:
+  - cd uim-index-dev
+  - npm run lint
+  - npm run build
+  - cd ..
+  - phplint '**/*.php' '!vendor/**'
 script:
   - cp config/.config.example.php config/.config.php
   - sed -i "s|$System_Config['db_password'] = 'sspanel';|$System_Config['db_password'] = '';|g" config/.config.php
-  - phplint '**/*.php' '!vendor/**'
   # - php xcat createAdmin
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
   - php xcat update
-  - cd uim-index-dev
-  - npm run lint
-  - npm run build
+  - start-stop-daemon -S -q -b -m \
+      -p /tmp/run/php-sspanel-uim.pid \
+      -x php -S 0.0.0.0:8080 -t public
 cache:
   directories:
     - uim-index-dev/node_modules
