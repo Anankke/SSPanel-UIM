@@ -50,5 +50,4 @@ script:
 cache:
   directories:
     - uim-index-dev/node_modules
-    - vendor
     - $HOME/.composer/cache/files
