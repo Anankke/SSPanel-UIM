@@ -5,8 +5,9 @@ php:
   - 7.3
 sudo: enabled
 dist: xenial
-hosts:
-  - sspanel.test
+addons:
+  hosts:
+    - sspanel.test
 before_install:
   - echo "==========================================================="
   - echo "Upgrade linux packages"
