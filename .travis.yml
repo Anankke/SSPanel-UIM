@@ -53,8 +53,8 @@ script:
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
-  - curl -vvv 'http://sspanel.test:23480'
-  - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480'
+  - curl -vvv 'http://sspanel.test:23480/index.php'
+  - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
 cache:
   directories:
     - uim-index-dev/node_modules
