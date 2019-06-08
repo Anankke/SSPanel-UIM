@@ -10,7 +10,7 @@
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
     <link href="/theme/material/css/auth.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/google/material-design-icons@3.0.1/iconfont/material-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <!-- favicon -->
     <!-- js -->
     <script src="/assets/js/fuck.js"></script>
