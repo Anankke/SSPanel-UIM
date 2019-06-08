@@ -48,12 +48,12 @@ class UserController extends AdminController
         $email = $request->getParam('userEmail');
         $email = trim($email);
         $email = strtolower($email);
-        // check email format
-        if (!Check::isEmailLegal($email)) {
-            $res['ret'] = 0;
-            $res['msg'] = '邮箱无效';
-            return $response->getBody()->write(json_encode($res));
-        }
+        // not really user input
+        //if (!Check::isEmailLegal($email)) {
+        //    $res['ret'] = 0;
+        //   $res['msg'] = '邮箱无效';
+        //   return $response->getBody()->write(json_encode($res));
+        //}
         // check email
         $user = User::where('email', $email)->first();
         if ($user != null) {

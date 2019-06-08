@@ -25,7 +25,7 @@
                     <div class="card-main">
                         <div class="card-inner">
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="quick_create"> 输入email快速创建新用户 </label>
+                                <label class="floating-label" for="quick_create"> 输入 email 快速创建新用户 </label>
                                 <input class="form-control maxwidth-edit" id="quick_create" type="text">
                             </div>
                         </div>
@@ -260,14 +260,9 @@
                     userEmail: $$getValue('quick_create')
                 },
                 success: data => {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        window.setTimeout("location.href='/admin/user'", {$config['jump_delay']});
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    window.setTimeout("location.href='/admin/user'", 5000);
                 },
                 error: jqXHR => {
                     $("#result").modal();
