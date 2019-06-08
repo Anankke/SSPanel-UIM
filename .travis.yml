@@ -53,6 +53,10 @@ script:
   - curl -vvv 'http://localhost:23480'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://localhost:23480'
   - killall php
+  - (php -S 0.0.0.0:23480 -t public &)
+  - curl -vvv 'http://localhost:23480'
+  - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://localhost:23480'
+  - killall php
   - php -S 0.0.0.0:23480 -t public
   - killall php
 cache:
