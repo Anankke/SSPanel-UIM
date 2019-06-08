@@ -26,7 +26,7 @@ before_install:
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('sspanel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
   - sudo mysql_upgrade -u root -psspanel
   - sudo service mysql restart
-  - wget -O sspanel.conf https://gist.githubusercontent.com/SukkaW/f0bf4a9d1f0ac959f65ce114f343efbc/raw/74f0f9da0ff5b50e21e65b0513aa4d9a20c24a9a/sspanel.conf
+  - wget -O sspanel.conf https://gist.githubusercontent.com/SukkaW/f0bf4a9d1f0ac959f65ce114f343efbc/raw/a5b9a9534ff227f29c6753a2067f50e2424d93fc/sspanel.conf
   - echo "==========================================================="
   - echo "Configure Nginx"
   - echo "==========================================================="
