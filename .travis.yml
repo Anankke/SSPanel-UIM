@@ -44,10 +44,17 @@ script:
   - php xcat initdownload
   - php xcat initQQWry
   - sudo mkdir -p /tmp/run/
-  - start-stop-daemon --start --quiet --background --exec $(which php) -- -S localhost:23480 -t public
+  - start-stop-daemon --start --quiet --background --exec $(which php) -- -S 0.0.0.0:23480 -t public
   - curl -vvv 'http://localhost:23480'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://localhost:23480'
+  - killall php
+  - nohup php -S 0.0.0.0:23480 -t public &
   - cat nohup.out
+  - curl -vvv 'http://localhost:23480'
+  - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://localhost:23480'
+  - killall php
+  - php -S 0.0.0.0:23480 -t public
+  - killall php
 cache:
   directories:
     - uim-index-dev/node_modules
