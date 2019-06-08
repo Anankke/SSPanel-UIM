@@ -26,11 +26,10 @@ before_install:
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('sspanel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
   - sudo mysql_upgrade -u root -psspanel
   - sudo service mysql restart
-  - wget -O sspanel.conf https://gist.githubusercontent.com/SukkaW/f0bf4a9d1f0ac959f65ce114f343efbc/raw/a5b9a9534ff227f29c6753a2067f50e2424d93fc/sspanel.conf
   - echo "==========================================================="
   - echo "Configure Nginx"
   - echo "==========================================================="
-  - sudo cp sspanel.conf /etc/nginx/sites-available/sspanel.test
+  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test
   - sudo ln -s /etc/nginx/sites-available/sspanel.test /etc/nginx/sites-enabled/
   - sudo service nginx restart
   - sudo service php7.3-fpm restart
@@ -53,8 +52,8 @@ script:
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
-  - curl -vvv 'http://localhost:23480'
-  - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://localhost:23480'
+  - curl -vvv 'http://sspanel.test:23480'
+  - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480'
 cache:
   directories:
     - uim-index-dev/node_modules
