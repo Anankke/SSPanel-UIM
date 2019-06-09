@@ -190,7 +190,7 @@ $System_Config['f2fpay_app_id']='';
 $System_Config['f2fpay_p_id']='';
 $System_Config['alipay_public_key']='';
 $System_Config['merchant_private_key']='';
-$System_Config['f2fNotifyUrl']='';                  //自定义当面付回调地址
+$System_Config['f2fNotifyUrl']=null;                  //自定义当面付回调地址
 
 #PaymentWall
 $System_Config['pmw_publickey']='';
@@ -215,7 +215,7 @@ $System_Config['trimepay_secret']='';				//AppSecret
 # BitPay 数字货币支付（比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
 #   客服和技术 24x7 在线支持： https://t.me/joinchat/GLKSKhUnE4GvEAPgqtChAQ
 $System_Config['bitpay_secret']='';
- 
+
 
 //其他面板显示设置------------------------------------------------------------------------------------------
 #后台商品列表 销量统计
