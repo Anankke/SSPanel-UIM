@@ -30,6 +30,8 @@ before_install:
   - echo "==========================================================="
   - echo "Configure Nginx"
   - echo "==========================================================="
+  - echo "$TRAVIS_BUILD_DIR"
+  - echo "==========================================================="
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
   - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test
