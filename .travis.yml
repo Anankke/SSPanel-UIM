@@ -30,7 +30,8 @@ before_install:
   - echo "==========================================================="
   - echo "Configure Nginx"
   - echo "==========================================================="
-  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test
+  - sudo ls /etc/nginx/
+  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test/site.conf
   - sudo ln -s /etc/nginx/sites-available/sspanel.test /etc/nginx/sites-enabled/
   - sudo service nginx restart
   - sudo service php7.3-fpm restart
