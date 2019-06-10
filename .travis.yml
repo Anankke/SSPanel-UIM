@@ -59,6 +59,7 @@ script:
   - php xcat initQQWry
   - curl -vvv 'http://sspanel.test:23480/index.php'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
+  - curl -vvv 'http://sspanel.test:23480/paolu.html'
 cache:
   directories:
     - uim-index-dev/node_modules
