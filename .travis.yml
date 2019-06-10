@@ -30,11 +30,14 @@ before_install:
   - echo "==========================================================="
   - echo "Configure Nginx"
   - echo "==========================================================="
-  - sudo ls /etc/nginx/
-  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test/site.conf
+  - sudo ls /etc/nginx/sites-enabled/
+  - sudo ls /etc/nginx/sites-available/
+  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test
   - sudo ln -s /etc/nginx/sites-available/sspanel.test /etc/nginx/sites-enabled/
-  - sudo service nginx restart
+  - sudo ls /etc/nginx/sites-enabled/
+  - sudo ls /etc/nginx/sites-available/
   - sudo service php7.3-fpm restart
+  - sudo service nginx restart
 install:
   - npm i -g phplint
   - sudo chmod -R 755 *
