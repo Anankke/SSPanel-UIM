@@ -35,6 +35,7 @@ before_install:
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
   - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/nginx/sites-available/sspanel.test
   - sudo ln -s /etc/nginx/sites-available/sspanel.test /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
