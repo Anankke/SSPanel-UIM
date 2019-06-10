@@ -244,7 +244,7 @@ class URL
             return $return_url;
         }
         if (Config::get('mergeSub') == 'true') {
-            $items = self::getAllItems($user, 1, $is_ss) + self::getAllItems($user, 0, $is_ss);
+            $items = array_merge(self::getAllItems($user, 1, $is_ss), self::getAllItems($user, 0, $is_ss));
         } else {
             $items = self::getAllItems($user, $is_mu, $is_ss);
         }
