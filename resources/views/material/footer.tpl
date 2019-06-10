@@ -6,8 +6,8 @@ It will not impact the appearance and can give developers a lot of support :)
 -->
 <footer class="ui-footer">
     <div class="container">
-        <marquee>&copy;{date("Y")} {$config["appName"]} | Powered by <a href="/staff">SSPANEL</a>
-        </marquee>{if $config["enable_analytics_code"] == 'true'}{include file='analytics.tpl'}{/if}
+        &copy;{date("Y")} {$config["appName"]} | Powered by <a href="/staff">SSPANEL</a>
+        {if $config["enable_analytics_code"] == 'true'}{include file='analytics.tpl'}{/if}
     </div>
 </footer>
 {if $config["sspanelAnalysis"] == 'true'}
