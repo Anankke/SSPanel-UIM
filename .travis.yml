@@ -5,6 +5,9 @@ php:
   - 7.3
 sudo: enabled
 dist: xenial
+env:
+  global:
+    - git_last_msg=`git log -1 --pretty=%B | grep "\[skip lint\]"`
 addons:
   hosts:
     - sspanel.test
@@ -42,8 +45,6 @@ before_install:
   - sudo service php7.3-fpm restart
   - sudo service nginx restart
 install:
-  - |
-    git_last_msg=`git log -1 --pretty=%B | grep "\[skip lint\]"`
   - |
     [ ! -n "$git_last_msg" ] && npm i -g phplint
   - sudo chmod -R 755 *
