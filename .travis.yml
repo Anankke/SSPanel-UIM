@@ -42,7 +42,9 @@ before_install:
   - sudo service php7.3-fpm restart
   - sudo service nginx restart
 install:
-  - npm i -g phplint
+  - git_last_msg=$(git log -1 --pretty=%B | tee | grep "\[skip lint\]")
+  - |
+    [ -n "$git_last_msg" ] && npm i -g phplint
   - sudo chmod -R 755 *
   - composer install
   - cd uim-index-dev
@@ -50,10 +52,12 @@ install:
   - cd ..
 before_script:
   - cd uim-index-dev
-  - npm run lint
+  - |
+    [ -n "$git_last_msg" ] && npm run lint
   - npm run build
   - cd ..
-  - phplint '**/*.php' '!vendor/**'
+  - |
+    [ -n "$git_last_msg" ] && phplint '**/*.php' '!vendor/**'
 script:
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
