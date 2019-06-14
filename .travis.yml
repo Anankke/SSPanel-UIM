@@ -42,7 +42,8 @@ before_install:
   - sudo service php7.3-fpm restart
   - sudo service nginx restart
 install:
-  - git_last_msg=$(git log -1 --pretty=%B | tee | grep "\[skip lint\]")
+  - |
+    git_last_msg=`git log -1 --pretty=%B | grep "\[skip lint\]"`
   - |
     [ ! -n "$git_last_msg" ] && npm i -g phplint
   - sudo chmod -R 755 *
