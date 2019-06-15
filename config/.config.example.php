@@ -177,7 +177,7 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay
+#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | bitpayx
 $System_Config['payment_system']='none';
 
 #codepay码支付
