@@ -47,7 +47,7 @@
                     if (data.errcode == 0) {
                         $("#readytopay").modal('hide');
                         $("#msg").html("正在跳转到支付宝支付...");
-                        window.location.href = data.url;
+                        window.open( data.url, '_blank' );
                     } else {
                         $("#result").modal();
                         $("#msg").html(data.errmsg);
