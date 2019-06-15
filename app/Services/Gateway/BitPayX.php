@@ -109,9 +109,9 @@ class BitPayX extends AbstractPayment
         $data['callback_url'] = Config::get('baseUrl') . '/payment/notify';
 
         // 如果不想暴露域名，建议屏蔽下面3行
-        // $data['success_url'] = Config::get('baseUrl') . '/user/payment/return?merchantTradeNo=';
-        // $data['success_url'] .= $pl->tradeno;
-        // $data['cancel_url'] = $data['success_url'];
+        $data['success_url'] = Config::get('baseUrl') . '/user/payment/return?merchantTradeNo=';
+        $data['success_url'] .= $pl->tradeno;
+        $data['cancel_url'] = $data['success_url'];
 
         $str_to_sign = $this->prepareSignId($pl->tradeno);
         $data['token'] = $this->sign($str_to_sign);
