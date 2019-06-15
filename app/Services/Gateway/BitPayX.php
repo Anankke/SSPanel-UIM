@@ -35,6 +35,7 @@ class BitPayX extends AbstractPayment
         $data_sign['secret'] = $this->bitpayAppSecret;
         $data_sign['type'] = 'FIAT';
         ksort($data_sign);
+
         return http_build_query($data_sign);
     }
 
@@ -46,6 +47,7 @@ class BitPayX extends AbstractPayment
     public function verify($data, $signature)
     {
         $mySign = $this->sign($data);
+
         return $mySign === $signature;
     }
 
@@ -53,13 +55,13 @@ class BitPayX extends AbstractPayment
     {
         $headers = array('content-type: application/json', 'token: ' . $this->bitpayAppSecret);
         $curl = curl_init();
-        if ($type === 'pay') {
+        if ('pay' === $type) {
             $this->bitpayGatewayUri .= 'orders';
             curl_setopt($curl, CURLOPT_URL, $this->bitpayGatewayUri);
             curl_setopt($curl, CURLOPT_POST, 1);
             $data_string = json_encode($data);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
-        } elseif ($type === 'query') {
+        } elseif ('query' === $type) {
             $this->bitpayGatewayUri .= 'orders/merchant_order_id/status?id=' . $data['merchant_order_id'];
             curl_setopt($curl, CURLOPT_URL, $this->bitpayGatewayUri);
             curl_setopt($curl, CURLOPT_HTTPGET, 1);
@@ -70,12 +72,14 @@ class BitPayX extends AbstractPayment
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         $data = curl_exec($curl);
         curl_close($curl);
+
         return $data;
     }
 
     public function query($tradeNo)
     {
         $data['merchant_order_id'] = $tradeNo;
+
         return json_decode($this->mprequest($data, 'query'), true);
     }
 
@@ -97,14 +101,14 @@ class BitPayX extends AbstractPayment
         $pl->tradeno = self::generateGuid();
         $pl->save();
         $data['merchant_order_id'] = $pl->tradeno;
-        $data['price_amount'] = (float)$price;
+        $data['price_amount'] = (float) $price;
         $data['price_currency'] = 'CNY';
         $data['pay_currency'] = $type;
         $data['title'] = '支付单号：' . $pl->tradeno;
         $data['description'] = '充值：' . $price . ' 元';
         $data['callback_url'] = Config::get('baseUrl') . '/payment/notify';
 
-        // 如果不想暴露域名，建议屏蔽下面3行 
+        // 如果不想暴露域名，建议屏蔽下面3行
         // $data['success_url'] = Config::get('baseUrl') . '/user/payment/return?merchantTradeNo=';
         // $data['success_url'] .= $pl->tradeno;
         // $data['cancel_url'] = $data['success_url'];
@@ -115,26 +119,29 @@ class BitPayX extends AbstractPayment
         $result['pid'] = $pl->tradeno;
         // file_put_contents(BASE_PATH.'/bitpay_purchase.log', json_encode($data)."\r\n", FILE_APPEND);
         // file_put_contents(BASE_PATH.'/bitpay_purchase.log', json_encode($result)."\r\n", FILE_APPEND);
-        if ($result['status'] == 200 || $result['status'] == 201) {
+        if (200 === $result['status'] || 201 === $result['status']) {
             $result['payment_url'] .= '&lang=zh';
+
             return json_encode(array('url' => $result['payment_url'], 'errcode' => 0, 'pid' => $pl->id));
         }
+
         return json_encode(['errcode' => -1, 'errmsg' => $result . error]);
     }
 
     public function notify($request, $response, $args)
     {
-        if (!$this->bitpayAppSecret || $this->bitpayAppSecret === '') {
+        if (!$this->bitpayAppSecret || '' === $this->bitpayAppSecret) {
             $return = [];
             $return['status'] = 400;
             echo json_encode($return);
+
             return;
         }
         $inputString = file_get_contents('php://input', 'r');
         $inputStripped = str_replace(array("\r", "\n", "\t", "\v"), '', $inputString);
         $inputJSON = json_decode($inputStripped, true); //convert JSON into array
         $data = array();
-        if ($inputJSON !== null) {
+        if (null !== $inputJSON) {
             $data['status'] = $inputJSON['status'];
             $data['order_id'] = $inputJSON['order_id'];
             $data['merchant_order_id'] = $inputJSON['merchant_order_id'];
@@ -146,7 +153,7 @@ class BitPayX extends AbstractPayment
         // 准备待签名数据
         $str_to_sign = $this->prepareSignId($inputJSON['merchant_order_id']);
         $resultVerify = $this->verify($str_to_sign, $inputJSON['token']);
-        $isPaid = $data !== null && $data['status'] !== null && $data['status'] === 'PAID';
+        $isPaid = null !== $data && null !== $data['status'] && 'PAID' === $data['status'];
         // file_put_contents(BASE_PATH.'/bitpay_notify.log', $resultVerify."\r\n".$isPaid."\r\n", FILE_APPEND);
         if ($resultVerify && $isPaid) {
             $this->postPayment($data['merchant_order_id'], 'BitPayX - 支付宝');
@@ -172,11 +179,11 @@ class BitPayX extends AbstractPayment
         $pid = $_GET['merchantTradeNo'];
         $p = Paylist::where('tradeno', '=', $pid)->first();
         $money = $p->total;
-        if ($p->status == 1) {
+        if (1 === $p->status) {
             $success = 1;
         } else {
             $data = $this->query($pid);
-            $isPaid = $data !== null && $data['order'] !== null && $data['order']['status'] !== null && $data['order']['status'] === 'PAID';
+            $isPaid = null !== $data && null !== $data['order'] && null !== $data['order']['status'] && 'PAID' === $data['order']['status'];
             // file_put_contents(BASE_PATH.'/bitpay_return.log', $pid . " " . $data ."\r\n". $isPaid . "\r\n", FILE_APPEND);
             if ($isPaid) {
                 $this->postPayment($pid, 'BitPayX - 支付宝');
@@ -185,6 +192,7 @@ class BitPayX extends AbstractPayment
                 $success = 0;
             }
         }
+
         return View::getSmarty()->assign('money', $money)->assign('success', $success)->fetch('user/pay_success.tpl');
     }
 
