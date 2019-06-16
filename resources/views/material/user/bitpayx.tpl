@@ -2,7 +2,7 @@
     <p class="card-heading">输入充值金额后，点击下方的图标进行充值</p>
     <div class="form-group form-group-label">
         <label class="floating-label" for="bitpayx-amount">金额</label>
-        <input class="form-control" id="bitpayx-amount" type="text">
+        <input class="form-control" id="bitpayx-amount" type="number">
     </div>
 </div>
 <div id="bitpayx-qrarea">
@@ -47,7 +47,7 @@
                     if (data.errcode == 0) {
                         $("#readytopay").modal('hide');
                         $("#msg").html("正在跳转到支付宝支付...");
-                        window.open( data.url, '_blank' );
+                        window.location.href = data.url;
                     } else {
                         $("#result").modal();
                         $("#msg").html(data.errmsg);
