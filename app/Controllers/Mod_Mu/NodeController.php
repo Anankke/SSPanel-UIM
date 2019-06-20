@@ -6,6 +6,7 @@ namespace App\Controllers\Mod_Mu;
 use App\Controllers\BaseController;
 use App\Models\NodeInfoLog;
 use App\Models\Node;
+use App\Services\Config;
 
 class NodeController extends BaseController
 {
@@ -81,5 +82,38 @@ class NodeController extends BaseController
             'data' => $nodes
         ];
         return $this->echoJson($response, $res);
+    }
+
+    public function getConfig($request, $response, $args)
+    {
+        $data = $request->getParsedBody();
+        switch ($data['type']) {
+            case ('database'):
+                $db_config = Config::getDbConfig();
+                $db_config['host'] = $this->getServerIP();
+                $res = [
+                    'ret' => 1,
+                    'data' => $db_config,
+                ];
+                break;
+            case ('webapi'):
+                $webapiConfig = [];
+                #todo
+        }
+        return $this->echoJson($response, $res);
+    }
+
+    private function getServerIP()
+    {
+        if (isset($_SERVER)) {
+            if ($_SERVER['SERVER_ADDR']) {
+                $serverIP = $_SERVER['SERVER_ADDR'];
+            } else {
+                $serverIP = $_SERVER['LOCAL_ADDR'];
+            }
+        } else {
+            $serverIP = getenv('SERVER_ADDR');
+        }
+        return $serverIP;
     }
 }
