@@ -74,7 +74,7 @@ class ApiController extends BaseController
 
     public function node($request, $response, $args)
     {
-        $accessToken = Helper::getTokenFromReq($request);
+        $accessToken = Helper::getParam($request, 'access_token');
         $storage = Factory::createTokenStorage();
         $token = $storage->get($accessToken);
         $user = User::find($token->userId);
@@ -143,7 +143,7 @@ class ApiController extends BaseController
     public function userInfo($request, $response, $args)
     {
         $id = $args['id'];
-        $accessToken = Helper::getTokenFromReq($request);
+        $accessToken = Helper::getParam($request, 'access_token');
         $storage = Factory::createTokenStorage();
         $token = $storage->get($accessToken);
         if ($id != $token->userId) {

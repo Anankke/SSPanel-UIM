@@ -13,10 +13,10 @@ class Mod_Mu
 {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
     {
-        $key = Helper::getMuKeyFromReq($request);
-        if ($key == null) {
+        $key = Helper::getParam($request, 'key');
+        if ($key === null) {
             $res['ret'] = 0;
-            $res['data'] = 'key is null';
+            $res['data'] = 'null';
             $response->getBody()->write(json_encode($res));
             return $response;
         }

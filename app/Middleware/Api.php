@@ -11,7 +11,7 @@ class Api
 {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
     {
-        $accessToken = Helper::getTokenFromReq($request);
+        $accessToken = Helper::getParam($request, 'access_token');
         if ($accessToken == null) {
             $res['ret'] = 0;
             $res['msg'] = 'token is null';

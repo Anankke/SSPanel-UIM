@@ -13,8 +13,8 @@ class Mu
 {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
     {
-        $key = Helper::getMuKeyFromReq($request);
-        if ($key == null) {
+        $key = Helper::getParam($request, 'key');
+        if ($key === null) {
             $res['ret'] = 0;
             $res['msg'] = 'key is null';
             $response->getBody()->write(json_encode($res));
