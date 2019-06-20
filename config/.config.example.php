@@ -20,7 +20,7 @@ $System_Config['debug'] =  'false';								//正式环境请确保为 false
 $System_Config['appName'] = 'sspanel';							//站点名称
 $System_Config['baseUrl'] = 'http://url.com';					//站点地址
 $System_Config['subUrl'] = $System_Config['baseUrl'].'/link/';	//订阅地址，如需和站点名称相同，请不要修改
-$System_Config['muKey'] = 'NimaQu';								//用于校验ss-go mu的请求，可以随意修改，但请保持前后端一致
+$System_Config['muKey'] = 'NimaQu';								//用于校验魔改后端请求，可以随意修改，但请保持前后端一致，否则节点不能工作！
 $System_Config['db_driver'] = 'mysql';							//数据库程序
 $System_Config['db_host'] = 'localhost';						//数据库地址
 $System_Config['db_database'] = 'sspanel';						//数据库名
@@ -275,6 +275,7 @@ $System_Config['timeZone'] = 'PRC';					//PRC 天朝时间  UTC 格林时间
 $System_Config['db_charset'] = 'utf8';
 $System_Config['db_collation'] = 'utf8_general_ci';
 $System_Config['db_prefix'] = '';
+$System_Config['muKeyList'] = ['　'];                //多 key 列表
 
 #aws
 $System_Config['aws_access_key_id'] = '';
