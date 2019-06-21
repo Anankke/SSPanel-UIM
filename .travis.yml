@@ -51,7 +51,7 @@ install:
 before_script:
   - cd uim-index-dev
   - test "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" && npm run lint
-  - npm run buildcd
+  - npm run build
   - cd ..
   - test "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" && phplint '**/*.php' '!vendor/**'
 script:
