@@ -43,7 +43,7 @@ before_install:
   - sudo service nginx restart
 install:
   - |
-    [ ! -n "$(git log -1 --pretty=%B | grep \"\\[skip lint\\]\")" ] && npm i -g phplint
+    [ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ] && npm i -g phplint
   - sudo chmod -R 755 *
   - composer install
   - cd uim-index-dev
@@ -52,7 +52,7 @@ install:
 before_script:
   - cd uim-index-dev
   - |
-    [ ! -n "$(git log -1 --pretty=%B | grep \"\\[skip lint\\]\")" ] && npm run lint
+    [ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ] && npm run lint
   - npm run build
   - cd ..
   - |
