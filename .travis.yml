@@ -5,9 +5,6 @@ php:
   - 7.3
 sudo: enabled
 dist: xenial
-env:
-  global:
-    - git_last_msg=`git log -1 --pretty=%B | grep "\[skip lint\]"`
 addons:
   hosts:
     - sspanel.test
@@ -46,7 +43,7 @@ before_install:
   - sudo service nginx restart
 install:
   - |
-    [ ! -n "$git_last_msg" ] && npm i -g phplint
+    [ ! -n "$(git log -1 --pretty=%B | grep \"\\[skip lint\\]\")" ] && npm i -g phplint
   - sudo chmod -R 755 *
   - composer install
   - cd uim-index-dev
@@ -55,11 +52,11 @@ install:
 before_script:
   - cd uim-index-dev
   - |
-    [ ! -n "$git_last_msg" ] && npm run lint
+    [ ! -n "$(git log -1 --pretty=%B | grep \"\\[skip lint\\]\")" ] && npm run lint
   - npm run build
   - cd ..
   - |
-    [ ! -n "$git_last_msg" ] && phplint '**/*.php' '!vendor/**'
+    [ ! -n "$(git log -1 --pretty=%B | grep "\[skip lint\]")" ] && phplint '**/*.php' '!vendor/**'
 script:
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
