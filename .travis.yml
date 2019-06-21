@@ -42,18 +42,18 @@ before_install:
   - sudo service php7.3-fpm restart
   - sudo service nginx restart
 install:
-  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" == "x" && npm i -g phplint
   - sudo chmod -R 755 *
   - composer install
+  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" && npm i -g phplint
   - cd uim-index-dev
   - npm i
   - cd ..
 before_script:
   - cd uim-index-dev
-  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" == "x" && npm run lint
-  - npm run build
+  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" && npm run lint
+  - npm run buildcd
   - cd ..
-  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" == "x" && phplint '**/*.php' '!vendor/**'
+  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" && phplint '**/*.php' '!vendor/**'
 script:
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
