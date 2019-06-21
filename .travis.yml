@@ -42,8 +42,7 @@ before_install:
   - sudo service php7.3-fpm restart
   - sudo service nginx restart
 install:
-  - |
-    [ "x$(git log -1 --pretty=%B | grep 'skip lint')" == "x" ] && npm i -g phplint
+  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" == "x" && npm i -g phplint
   - sudo chmod -R 755 *
   - composer install
   - cd uim-index-dev
@@ -51,12 +50,10 @@ install:
   - cd ..
 before_script:
   - cd uim-index-dev
-  - |
-    [ "x$(git log -1 --pretty=%B | grep 'skip lint')" == "x" ] && npm run lint
+  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" == "x" && npm run lint
   - npm run build
   - cd ..
-  - |
-    [ ! -n "$(git log -1 --pretty=%B | grep "\[skip lint\]")" ] && phplint '**/*.php' '!vendor/**'
+  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" == "x" && phplint '**/*.php' '!vendor/**'
 script:
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
