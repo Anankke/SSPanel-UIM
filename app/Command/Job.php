@@ -62,11 +62,20 @@ class Job
         if ($full) {
             system('mysqldump --user=' . Config::get('db_username') . ' --password=' . Config::get('db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . Config::get('db_database') . ' > /tmp/ssmodbackup/mod.sql');
         } else {
-            system('mysqldump --user=' . Config::get('db_username') . ' --password=' . Config::get('db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . Config::get('db_database') . ' announcement auto blockip bought code coupon disconnect_ip link login_ip payback radius_ban shop speedtest ss_invite_code ss_node ss_password_reset ticket unblockip user user_token email_verify detect_list relay paylist> /tmp/ssmodbackup/mod.sql', $ret);
-            system('mysqldump --opt --user=' . Config::get('db_username') . ' --password=' . Config::get('db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' -d ' . Config::get('db_database') . ' alive_ip ss_node_info ss_node_online_log user_traffic_log detect_log telegram_session >> /tmp/ssmodbackup/mod.sql', $ret);
+            system(
+                'mysqldump --user=' . Config::get('db_username') . ' --password=' . Config::get('db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . Config::get('db_database') . ' announcement auto blockip bought code coupon disconnect_ip link login_ip payback radius_ban shop speedtest ss_invite_code ss_node ss_password_reset ticket unblockip user user_token email_verify detect_list relay paylist> /tmp/ssmodbackup/mod.sql',
+                $ret
+            );
+            system(
+                'mysqldump --opt --user=' . Config::get('db_username') . ' --password=' . Config::get('db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' -d ' . Config::get('db_database') . ' alive_ip ss_node_info ss_node_online_log user_traffic_log detect_log telegram_session >> /tmp/ssmodbackup/mod.sql',
+                $ret
+            );
             if (Config::get('enable_radius') == 'true') {
                 $db_address_array = explode(':', Config::get('radius_db_host'));
-                system('mysqldump --user=' . Config::get('radius_db_user') . ' --password=' . Config::get('radius_db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . '' . Config::get('radius_db_database') . '> /tmp/ssmodbackup/radius.sql', $ret);
+                system(
+                    'mysqldump --user=' . Config::get('radius_db_user') . ' --password=' . Config::get('radius_db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . '' . Config::get('radius_db_database') . '> /tmp/ssmodbackup/radius.sql',
+                    $ret
+                );
             }
         }
 
@@ -78,7 +87,8 @@ class Job
         try {
             Mail::send($to, $subject, 'news/backup.tpl', [
                 'text' => $text
-            ], ['/tmp/ssmodbackup.zip'
+            ], [
+                '/tmp/ssmodbackup.zip'
             ]);
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -173,7 +183,8 @@ class Job
                     $text = '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB';
                     try {
                         Mail::send($to, $subject, 'news/warn.tpl', [
-                            'user' => $user, 'text' => $text
+                            'user' => $user,
+                            'text' => $text
                         ], [
                         ]);
                     } catch (Exception $e) {
@@ -203,7 +214,8 @@ class Job
                 $text = '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
+                        'user' => $user,
+                        'text' => $text
                     ], [
                     ]);
                 } catch (Exception $e) {
@@ -254,7 +266,7 @@ class Job
         self::updatedownload();
     }
 
-//   定时任务开启的情况下，每天自动检测有没有最新版的后端，github源来自Miku
+    //   定时任务开启的情况下，每天自动检测有没有最新版的后端，github源来自Miku
     public static function updatedownload()
     {
         system('cd ' . BASE_PATH . '/public/ssr-download/ && git pull https://github.com/xcxnig/ssr-download.git');
@@ -295,7 +307,11 @@ class Job
                     $ips[$alive_ip->ip] = 1;
                     if ($user->node_connector < count($ips)) {
                         //暂时封禁
-                        $isDisconnect = Disconnect::where('id', '=', $alive_ip->ip)->where('userid', '=', $user->id)->first();
+                        $isDisconnect = Disconnect::where('id', '=', $alive_ip->ip)->where(
+                            'userid',
+                            '=',
+                            $user->id
+                        )->first();
 
                         if ($isDisconnect == null) {
                             $disconnect = new Disconnect();
@@ -365,7 +381,8 @@ class Job
                 $text = '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
+                        'user' => $user,
+                        'text' => $text
                     ], [
                     ]);
                 } catch (Exception $e) {
@@ -394,7 +411,8 @@ class Job
                 $text = '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
+                        'user' => $user,
+                        'text' => $text
                     ], [
                     ]);
                 } catch (Exception $e) {
@@ -410,7 +428,8 @@ class Job
                 $text = '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
+                        'user' => $user,
+                        'text' => $text
                     ], [
                     ]);
                 } catch (Exception $e) {
@@ -445,12 +464,14 @@ class Job
                                 'desp' => $text
                             )
                         );
-                        $opts = array('http' =>
-                            array(
-                                'method' => 'POST',
-                                'header' => 'Content-type: application/x-www-form-urlencoded',
-                                'content' => $postdata
-                            ));
+                        $opts = array(
+                            'http' =>
+                                array(
+                                    'method' => 'POST',
+                                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                                    'content' => $postdata
+                                )
+                        );
                         $context = stream_context_create($opts);
                         file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
                     }
@@ -462,7 +483,8 @@ class Job
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
                         try {
                             Mail::send($to, $subject, 'news/warn.tpl', [
-                                'user' => $user, 'text' => $text
+                                'user' => $user,
+                                'text' => $text
                             ], [
                             ]);
                         } catch (Exception $e) {
@@ -498,7 +520,17 @@ class Job
                                     )->whereRaw('UNIX_TIMESTAMP()-`node_heartbeat`<300')->first();
 
                                     if ($Temp_node != null) {
-                                        $api->record->recordUpdate($domain_id, $record->host, $Temp_node->server, 'CNAME', 55, 60, 1, '', $record_id);
+                                        $api->record->recordUpdate(
+                                            $domain_id,
+                                            $record->host,
+                                            $Temp_node->server,
+                                            'CNAME',
+                                            55,
+                                            60,
+                                            1,
+                                            '',
+                                            $record_id
+                                        );
                                     }
 
                                     $notice_text = '喵喵喵~ ' . $node->name . ' 节点掉线了喵~域名解析被切换到了 ' . $Temp_node->name . ' 上了喵~';
@@ -511,7 +543,10 @@ class Job
 
                     Telegram::Send($notice_text);
 
-                    $myfile = fopen(BASE_PATH . '/storage/' . $node->id . '.offline', 'wb+') or die('Unable to open file!');
+                    $myfile = fopen(
+                        BASE_PATH . '/storage/' . $node->id . '.offline',
+                        'wb+'
+                    ) or die('Unable to open file!');
                     $txt = '1';
                     fwrite($myfile, $txt);
                     fclose($myfile);
@@ -526,12 +561,14 @@ class Job
                             )
                         );
 
-                        $opts = array('http' =>
-                            array(
-                                'method' => 'POST',
-                                'header' => 'Content-type: application/x-www-form-urlencoded',
-                                'content' => $postdata
-                            ));
+                        $opts = array(
+                            'http' =>
+                                array(
+                                    'method' => 'POST',
+                                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                                    'content' => $postdata
+                                )
+                        );
                         $context = stream_context_create($opts);
                         file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
                     }
@@ -542,7 +579,8 @@ class Job
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
                         try {
                             Mail::send($to, $subject, 'news/warn.tpl', [
-                                'user' => $user, 'text' => $text
+                                'user' => $user,
+                                'text' => $text
                             ], [
                             ]);
                         } catch (Exception $e) {
@@ -569,7 +607,17 @@ class Job
                                 if (($record->host . '.' . Config::get('cloudxns_domain')) == $node->server) {
                                     $record_id = $record->record_id;
 
-                                    $api->record->recordUpdate($domain_id, $record->host, $node->getNodeIp(), 'A', 55, 600, 1, '', $record_id);
+                                    $api->record->recordUpdate(
+                                        $domain_id,
+                                        $record->host,
+                                        $node->getNodeIp(),
+                                        'A',
+                                        55,
+                                        600,
+                                        1,
+                                        '',
+                                        $record_id
+                                    );
                                 }
                             }
 
@@ -608,13 +656,22 @@ class Job
                             $nodes2 = Node::where('node_ip', 'LIKE', $userlog->ip . '%')->first();
                             if ($Userlocation != $location['country'] && $nodes == null && $nodes2 == null) {
                                 $user = User::where('id', '=', $userlog->userid)->first();
-                                echo 'Send warn mail to user: ' . $user->id . '-' . iconv('gbk', 'utf-8//IGNORE', $Userlocation) . '-' . iconv('gbk', 'utf-8//IGNORE', $location['country']);
+                                echo 'Send warn mail to user: ' . $user->id . '-' . iconv(
+                                    'gbk',
+                                    'utf-8//IGNORE',
+                                    $Userlocation
+                                ) . '-' . iconv('gbk', 'utf-8//IGNORE', $location['country']);
                                 $subject = Config::get('appName') . '-系统警告';
                                 $to = $user->email;
-                                $text = '您好，系统发现您的账号在 ' . iconv('gbk', 'utf-8//IGNORE', $Userlocation) . ' 有异常登录，请您自己自行核实登录行为。有异常请及时修改密码。';
+                                $text = '您好，系统发现您的账号在 ' . iconv(
+                                    'gbk',
+                                    'utf-8//IGNORE',
+                                    $Userlocation
+                                ) . ' 有异常登录，请您自己自行核实登录行为。有异常请及时修改密码。';
                                 try {
                                     Mail::send($to, $subject, 'news/warn.tpl', [
-                                        'user' => $user, 'text' => $text
+                                        'user' => $user,
+                                        'text' => $text
                                     ], [
                                     ]);
                                 } catch (Exception $e) {
@@ -629,7 +686,10 @@ class Job
 
         $users = User::all();
         foreach ($users as $user) {
-            if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime($user->expire_in) < time() && strtotime($user->expire_in) > 644447105)) && RadiusBan::where('userid', $user->id)->first() == null) {
+            if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime($user->expire_in) < time() && strtotime($user->expire_in) > 644447105)) && RadiusBan::where(
+                'userid',
+                $user->id
+            )->first() == null) {
                 $rb = new RadiusBan();
                 $rb->userid = $user->id;
                 $rb->save();
@@ -647,13 +707,17 @@ class Job
                 $text = '您好，系统发现您的账号已经过期了。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
+                        'user' => $user,
+                        'text' => $text
                     ], [
                     ]);
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-                $myfile = fopen(BASE_PATH . '/storage/' . $user->id . '.expire_in', 'wb+') or die('Unable to open file!');
+                $myfile = fopen(
+                    BASE_PATH . '/storage/' . $user->id . '.expire_in',
+                    'wb+'
+                ) or die('Unable to open file!');
                 $txt = '1';
                 fwrite($myfile, $txt);
                 fclose($myfile);
@@ -688,10 +752,14 @@ class Job
                     $text = '您好，系统发现您剩余流量已经低于 ' . Config::get('notify_limit_value') . $unit_text . ' 。';
                     try {
                         Mail::send($to, $subject, 'news/warn.tpl', [
-                            'user' => $user, 'text' => $text
+                            'user' => $user,
+                            'text' => $text
                         ], [
                         ]);
-                        $myfile = fopen(BASE_PATH . '/storage/traffic_notified/' . $user->id . '.userid', 'wb+') or die('Unable to open file!');
+                        $myfile = fopen(
+                            BASE_PATH . '/storage/traffic_notified/' . $user->id . '.userid',
+                            'wb+'
+                        ) or die('Unable to open file!');
                         $txt = '1';
                         fwrite($myfile, $txt);
                         fclose($myfile);
@@ -711,7 +779,8 @@ class Job
                 $text = '您好，系统发现您的账户已经过期 ' . Config::get('account_expire_delete_days') . ' 天了，帐号已经被删除。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
+                        'user' => $user,
+                        'text' => $text
                     ], [
                     ]);
                 } catch (Exception $e) {
@@ -724,7 +793,10 @@ class Job
 
 
             if (Config::get('auto_clean_uncheck_days') > 0 &&
-                max($user->last_check_in_time, strtotime($user->reg_date)) + (Config::get('auto_clean_uncheck_days') * 86400) < time() &&
+                max(
+                    $user->last_check_in_time,
+                    strtotime($user->reg_date)
+                ) + (Config::get('auto_clean_uncheck_days') * 86400) < time() &&
                 $user->class == 0 &&
                 $user->money <= Config::get('auto_clean_min_money')
             ) {
@@ -733,7 +805,8 @@ class Job
                 $text = '您好，系统发现您的账号已经 ' . Config::get('auto_clean_uncheck_days') . ' 天没签到了，帐号已经被删除。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
+                        'user' => $user,
+                        'text' => $text
                     ], [
                     ]);
                 } catch (Exception $e) {
@@ -753,7 +826,8 @@ class Job
                 $text = '您好，系统发现您的账号已经 ' . Config::get('auto_clean_unused_days') . ' 天没使用了，帐号已经被删除。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
+                        'user' => $user,
+                        'text' => $text
                     ], [
                     ]);
                 } catch (Exception $e) {
@@ -780,7 +854,8 @@ class Job
                 $to = $user->email;
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
+                        'user' => $user,
+                        'text' => $text
                     ], [
                     ]);
                 } catch (Exception $e) {
@@ -827,7 +902,11 @@ class Job
                         continue;
                     }
                     $api_url = Config::get('detect_gfw_url');
-                    $api_url = str_replace(array('{ip}', '{port}'), array($node->node_ip, Config::get('detect_gfw_port')), $api_url);
+                    $api_url = str_replace(
+                        array('{ip}', '{port}'),
+                        array($node->node_ip, Config::get('detect_gfw_port')),
+                        $api_url
+                    );
                     //因为考虑到有v2ray之类的节点，所以不得不使用ip作为参数
                     $result_tcping = false;
                     $detect_time = Config::get('detect_gfw_count');
@@ -852,7 +931,8 @@ class Job
                             $text = '管理员您好，系统发现节点 ' . $node->name . ' 被墙了，请您及时处理。';
                             try {
                                 Mail::send($to, $subject, 'news/warn.tpl', [
-                                    'user' => $user, 'text' => $text
+                                    'user' => $user,
+                                    'text' => $text
                                 ], [
                                 ]);
                             } catch (Exception $e) {
@@ -882,7 +962,17 @@ class Job
                                             }
                                         )->whereRaw('UNIX_TIMESTAMP()-`node_heartbeat`<300')->first();
                                         if ($Temp_node != null) {
-                                            $api->record->recordUpdate($domain_id, $record->host, $Temp_node->server, 'CNAME', 55, 60, 1, '', $record_id);
+                                            $api->record->recordUpdate(
+                                                $domain_id,
+                                                $record->host,
+                                                $Temp_node->server,
+                                                'CNAME',
+                                                55,
+                                                60,
+                                                1,
+                                                '',
+                                                $record_id
+                                            );
                                         }
                                         $notice_text = '喵喵喵~ ' . $node->name . ' 节点被墙了喵~域名解析被切换到了 ' . $Temp_node->name . ' 上了喵~';
                                     }
@@ -907,7 +997,8 @@ class Job
                             $text = '管理员您好，系统发现节点 ' . $node->name . ' 溜出墙了。';
                             try {
                                 Mail::send($to, $subject, 'news/warn.tpl', [
-                                    'user' => $user, 'text' => $text
+                                    'user' => $user,
+                                    'text' => $text
                                 ], [
                                 ]);
                             } catch (Exception $e) {
@@ -930,7 +1021,17 @@ class Job
                                 foreach ($record_json->data as $record) {
                                     if (($record->host . '.' . Config::get('cloudxns_domain')) == $node->server) {
                                         $record_id = $record->record_id;
-                                        $api->record->recordUpdate($domain_id, $record->host, $node->getNodeIp(), 'A', 55, 600, 1, '', $record_id);
+                                        $api->record->recordUpdate(
+                                            $domain_id,
+                                            $record->host,
+                                            $node->getNodeIp(),
+                                            'A',
+                                            55,
+                                            600,
+                                            1,
+                                            '',
+                                            $record_id
+                                        );
                                     }
                                 }
                                 $notice_text = '喵喵喵~ ' . $node->name . ' 节点恢复了喵~域名解析被切换回来了喵~';

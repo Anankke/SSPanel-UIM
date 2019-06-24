@@ -282,12 +282,23 @@ class XCat
         $bot = new BotApi(Config::get('telegram_token'));
         $users = User::where('telegram_id', '>', 0)->get();
         foreach ($users as $user) {
-            $reply_message = '您当前的流量状况：
-今日已使用 ' . $user->TodayusedTraffic() . ' ' . number_format(($user->u + $user->d - $user->last_day_t) / $user->transfer_enable * 100, 2) . '%
-今日之前已使用 ' . $user->LastusedTraffic() . ' ' . number_format($user->last_day_t / $user->transfer_enable * 100, 2) . '%
-未使用 ' . $user->unusedTraffic() . ' ' . number_format(($user->transfer_enable - ($user->u + $user->d)) / $user->transfer_enable * 100, 2) . '%
-					                        ';
-            $bot->sendMessage($user->get_user_attributes('telegram_id'), $reply_message, $parseMode = null, $disablePreview = false, $replyToMessageId = null);
+            $reply_message = '您当前的流量状况： 今日已使用 ' . $user->TodayusedTraffic() . ' ' . number_format(
+                ($user->u + $user->d - $user->last_day_t) / $user->transfer_enable * 100,
+                2
+            ) . '% 今日之前已使用 ' . $user->LastusedTraffic() . ' ' . number_format(
+                $user->last_day_t / $user->transfer_enable * 100,
+                2
+            ) . '% 未使用 ' . $user->unusedTraffic() . ' ' . number_format(
+                ($user->transfer_enable - ($user->u + $user->d)) / $user->transfer_enable * 100,
+                2
+            ) . '% ';
+            $bot->sendMessage(
+                $user->get_user_attributes('telegram_id'),
+                $reply_message,
+                $parseMode = null,
+                $disablePreview = false,
+                $replyToMessageId = null
+            );
         }
     }
 
