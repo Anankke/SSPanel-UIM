@@ -26,7 +26,6 @@ class AopF2F extends AbstractPayment
         $gateway->setAlipayPublicKey(Config::get('alipay_public_key')); // 可以是路径，也可以是密钥内容
         $notifyUrl = Config::get('f2fNotifyUrl') ?? (Config::get('baseUrl') . '/payment/notify');
         $gateway->setNotifyUrl($notifyUrl);
-
         return $gateway;
     }
 
@@ -81,7 +80,7 @@ class AopF2F extends AbstractPayment
             $aliResponse = $aliRequest->send();
             $pid = $aliResponse->data('out_trade_no');
             if ($aliResponse->isPaid()) {
-                $this->postPayment($pid, '支付宝当面付');
+                $this->postPayment($pid, '支付宝当面付 ' . $pid);
                 die('success'); //The response should be 'success' only
             }
         } catch (Exception $e) {
