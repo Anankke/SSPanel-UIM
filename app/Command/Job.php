@@ -131,6 +131,7 @@ class Job
 
     public static function DailyJob()
     {
+        ini_set('memory_limit', '-1');
         $nodes = Node::all();
         foreach ($nodes as $node) {
             if ($node->sort == 0 || $node->sort == 10 || $node->sort == 11 || $node->sort == 12 || $node->sort == 13) {
