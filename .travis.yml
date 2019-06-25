@@ -48,11 +48,11 @@ install:
 before_script:
   - cd uim-index-dev
   - |
-    [[ "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" ]] && npm run lint
+    [[ "x$(git log -1 --pretty=%B | grep 'skip lint')" != "x" ]] && npm run lint
   - npm run build
   - cd ..
   - |
-    [[ "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" ]] && phplint '**/*.php' '!vendor/**'
+    [[ "x$(git log -1 --pretty=%B | grep 'skip lint')" != "x" ]] && phplint '**/*.php' '!vendor/**'
 script:
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
