@@ -19,7 +19,7 @@ before_install:
   - sudo sed -i 's|http://ppa.launchpad.net|https://launchpad.proxy.noc.one|g' /etc/apt/sources.list.d/*.list
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt clean all && sudo apt -qq -y update
-  - sudo apt install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx
+  - sudo apt install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx && sudo apt upgrade
   - echo "==========================================================="
   - echo "Configure MySQL"
   - echo "==========================================================="
@@ -39,8 +39,6 @@ before_install:
   - sudo ln -s /etc/nginx/sites-available/sspanel.test /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
-  - sudo service php7.3-fpm restart
-  - sudo service nginx restart
 install:
   - sudo chmod -R 755 *
   - composer install
@@ -50,16 +48,20 @@ install:
   - cd ..
 before_script:
   - cd uim-index-dev
-  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" && npm run lint
+  - |
+    [[ "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" ]] && npm run lint
   - npm run build
   - cd ..
-  - test "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" && phplint '**/*.php' '!vendor/**'
+  - |
+    [[ test "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" ]] && phplint '**/*.php' '!vendor/**'
 script:
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
+  - sudo service php7.3-fpm restart
+  - sudo service nginx restart
   - curl -vvv 'http://sspanel.test:23480/index.php'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
   - curl -vvv 'http://sspanel.test:23480/paolu.html'
