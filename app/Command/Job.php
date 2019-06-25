@@ -51,6 +51,7 @@ class Job
 
     public static function backup($full = false)
     {
+        ini_set('memory_limit', '-1');
         $to = Config::get('auto_backup_email');
         if ($to == null) {
             return false;
