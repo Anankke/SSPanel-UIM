@@ -15,7 +15,6 @@ before_install:
   - sudo add-apt-repository ppa:ondrej/php -y
   - sudo sed -i 's|http://us-east-1.ec2.archive.ubuntu.com|https://ubuntu.mirror.noc.one|g' /etc/apt/sources.list
   - sudo sed -i 's|http://security.ubuntu.com|https://ubuntu.mirror.noc.one|g' /etc/apt/sources.list
-  - sudo sed -i 's|http://us-central1.gce.archive.ubuntu.com|https://ubuntu.mirror.noc.one|g' /etc/apt/sources.list
   - sudo sed -i 's|http://ppa.launchpad.net|https://launchpad.proxy.noc.one|g' /etc/apt/sources.list.d/*.list
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt clean all && sudo apt -qq -y update
@@ -53,7 +52,7 @@ before_script:
   - npm run build
   - cd ..
   - |
-    [[ test "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" ]] && phplint '**/*.php' '!vendor/**'
+    [[ "x$(git log -1 --pretty=%B | grep 'skip lint')" = "x" ]] && phplint '**/*.php' '!vendor/**'
 script:
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
