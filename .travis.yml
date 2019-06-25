@@ -19,7 +19,7 @@ before_install:
   - sudo sed -i 's|http://ppa.launchpad.net|https://launchpad.proxy.noc.one|g' /etc/apt/sources.list.d/*.list
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt clean all && sudo apt -qq -y update
-  - sudo apt install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx && sudo apt upgrade
+  - sudo apt install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx dash bash
   - echo "==========================================================="
   - echo "Configure MySQL"
   - echo "==========================================================="
