@@ -46,23 +46,22 @@ install:
   - echo "==========================================================="
   - echo $(git log -1 --pretty=%B | grep 'skip lint')
   - echo "==========================================================="
-  - |
-    [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]] && echo "Skip lint"
-  - |
-    [ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ] && echo "Skip lint"
-  - |
-    [ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ] && npm i -g phplint
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+    npm i -g phplint
+    fi
   - cd uim-index-dev
   - npm i
   - cd ..
 before_script:
   - cd uim-index-dev
-  - |
-    [ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ] && npm run lint
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+    npm run lint
+    fi
   - npm run build
   - cd ..
-  - |
-    [ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ] && phplint '**/*.php' '!vendor/**'
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+    phplint '**/*.php' '!vendor/**'
+    fi
 script:
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
