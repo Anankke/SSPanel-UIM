@@ -47,7 +47,7 @@ install:
   - echo $(git log -1 --pretty=%B | grep 'skip lint')
   - echo "==========================================================="
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
-    npm i -g phplint
+      npm i -g phplint;
     fi
   - cd uim-index-dev
   - npm i
@@ -55,12 +55,12 @@ install:
 before_script:
   - cd uim-index-dev
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
-    npm run lint
+      npm run lint;
     fi
   - npm run build
   - cd ..
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
-    phplint '**/*.php' '!vendor/**'
+      phplint '**/*.php' '!vendor/**';
     fi
 script:
   - cp config/.config.example.php config/.config.php
