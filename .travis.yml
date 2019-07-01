@@ -47,6 +47,10 @@ install:
   - echo $(git log -1 --pretty=%B | grep 'skip lint')
   - echo "==========================================================="
   - |
+    [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]] && echo "Skip lint"
+  - |
+    [ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ] && echo "Skip lint"
+  - |
     [ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ] && npm i -g phplint
   - cd uim-index-dev
   - npm i
