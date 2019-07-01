@@ -64,6 +64,10 @@ before_script:
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
       phplint '**/*.php' '!vendor/**';
     fi
+  - chmod +x ./test/listTpl.sh
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+      ./test/listTpl.sh
+    fi
 script:
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
