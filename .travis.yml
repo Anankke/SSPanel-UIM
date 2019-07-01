@@ -51,6 +51,9 @@ install:
   - cd uim-index-dev
   - npm i
   - cd ..
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+      cd test && git vlonr https://github.com/erunion/smarty-lint && cd .. ;
+    fi
 before_script:
   - cd uim-index-dev
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
