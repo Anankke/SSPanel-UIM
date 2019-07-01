@@ -59,6 +59,7 @@ before_script:
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
       npm run lint;
     fi
+  - npm audit
   - npm run build
   - cd ..
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
