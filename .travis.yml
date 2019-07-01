@@ -9,7 +9,6 @@ addons:
   hosts:
     - sspanel.test
 before_install:
-before_install:
   - echo "==========================================================="
   - echo "Current Shell is $SHELL"
   - echo "==========================================================="
