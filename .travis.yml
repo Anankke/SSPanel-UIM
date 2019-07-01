@@ -52,7 +52,7 @@ install:
   - npm i
   - cd ..
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
-      cd test && git vlonr https://github.com/erunion/smarty-lint && cd .. ;
+      cd test && git clone https://github.com/erunion/smarty-lint && cd .. ;
     fi
 before_script:
   - cd uim-index-dev
@@ -66,7 +66,7 @@ before_script:
     fi
   - chmod +x ./test/listTpl.sh
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
-      ./test/listTpl.sh
+      ./test/listTpl.sh;
     fi
 script:
   - cp config/.config.example.php config/.config.php

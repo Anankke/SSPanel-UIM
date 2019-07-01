@@ -6,5 +6,5 @@ do
     echo '--------------------------------------------------'
     echo $LINE
     echo '--------------------------------------------------'
-    ./test/smart-lint/smart-lint "$LINE" y
+    ./test/smarty-lint/smarty-lint "$LINE" y
 done < ./test/tpl_files.txt
