@@ -41,6 +41,9 @@ before_install:
 install:
   - sudo chmod -R 755 *
   - composer install
+  - echo "==========================================================="
+  - echo $(git log -1 --pretty=%B | grep 'skip lint')
+  - echo "==========================================================="
   - test "x$(git log -1 --pretty=%B | grep 'skip lint')" == "x" && npm i -g phplint
   - cd uim-index-dev
   - npm i
