@@ -76,7 +76,7 @@
 <script>
     $(document).ready(function () {
         {if $config['restrict_ticket'] == 'true'}
-            {if $user->get_available_ticket() > 1}
+            {if $user->get_available_ticket() < 1}
                 $("#result").modal();$("#msg").html("达到工单上限, 正在跳转");
                 window.setTimeout("location.href='/user/ticket'", {$config['jump_delay']});
             {/if}
