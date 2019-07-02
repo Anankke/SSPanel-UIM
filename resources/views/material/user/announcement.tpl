@@ -24,17 +24,16 @@
                                                 <th>内容</th>
                                             </tr>
                                             {foreach $anns as $ann}
-                                                <tr>
-                                                    <td>#{$ann->id}</td>
-                                                    <td>{$ann->date}</td>
-                                                    <td>{$ann->content}</td>
-                                                </tr>
+                                            <tr>
+                                                <td>#{$ann->id}</td>
+                                                <td>{$ann->date}</td>
+                                                <td>{$ann->content}</td>
+                                            </tr>
                                             {/foreach}
                                         </table>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
@@ -42,11 +41,9 @@
 
                 </div>
 
-
             </div>
         </section>
     </div>
 </main>
-
 
 {include file='user/footer.tpl'}

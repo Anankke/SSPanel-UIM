@@ -12,7 +12,9 @@
         </div>
     </div>
 </div>
+
 <a class="btn btn-flat waves-attach" id="pay" onclick="pay();"><span class="icon">check</span>&nbsp;充值</a>
+
 <script>
     var pid = 0;
 
