@@ -42,6 +42,7 @@ class Config
             'enable_mylivechat' => self::get('enable_mylivechat'),
             'mylivechat_id' => self::get('mylivechat_id'),
             'enable_ticket' => self::get('enable_ticket'),
+            'freeuser_ticket' => self::get('freeuser_ticket'),
             'enable_admin_contact' => self::get('enable_admin_contact'),
             'admin_contact1' => self::get('admin_contact1'),
             'admin_contact2' => self::get('admin_contact2'),
