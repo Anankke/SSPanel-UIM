@@ -1,4 +1,4 @@
 table_1
-    .row('#row_1_' + deleteid)
-    .remove()
-    .draw();
+.row('#row_1_' + deleteid)
+.remove()
+.draw();

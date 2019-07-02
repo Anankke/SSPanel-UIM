@@ -3,6 +3,8 @@
 namespace App\Utils;
 
 use App\Services\Config;
+use Exception;
+use TelegramBot\Api\BotApi;
 
 class Telegram
 {
@@ -13,10 +15,10 @@ class Telegram
     public static function Send($messageText)
     {
         if (Config::get('enable_telegram') == 'true') {
-            $bot = new \TelegramBot\Api\BotApi(Config::get('telegram_token'));
+            $bot = new BotApi(Config::get('telegram_token'));
             try {
                 $bot->sendMessage(Config::get('telegram_chatid'), $messageText);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 echo $e->getMessage();
             }
         }
@@ -26,10 +28,10 @@ class Telegram
     public static function SendMarkdown($messageText)
     {
         if (Config::get('enable_telegram') == 'true') {
-            $bot = new \TelegramBot\Api\BotApi(Config::get('telegram_token'));
+            $bot = new BotApi(Config::get('telegram_token'));
             try {
-                $bot->sendMessage(Config::get('telegram_chatid'), $messageText, "Markdown");
-            } catch (\Exception $e) {
+                $bot->sendMessage(Config::get('telegram_chatid'), $messageText, 'Markdown');
+            } catch (Exception $e) {
                 echo $e->getMessage();
             }
         }

@@ -6,7 +6,6 @@ class Response
 {
     public static function redirect($response, $to)
     {
-        $newResponse = $response->withStatus(302)->withHeader('Location', $to);
-        return $newResponse;
+        return $response->withStatus(302)->withHeader('Location', $to);
     }
 }

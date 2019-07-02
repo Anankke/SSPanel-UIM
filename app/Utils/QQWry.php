@@ -19,7 +19,7 @@ class QQWry
 
     public function __construct()
     {
-        $filename = BASE_PATH . "/storage/qqwry.dat";
+        $filename = BASE_PATH . '/storage/qqwry.dat';
 
         $this->fp = 0;
 
@@ -63,11 +63,11 @@ class QQWry
 
     private function packip($ip)
     {
-        return pack('N', intval(ip2long($ip)));
+        return pack('N', (int)ip2long($ip));
     }
 
 
-    private function getstring($data = "")
+    private function getstring($data = '')
     {
         $char = fread($this->fp, 1);
 
@@ -85,17 +85,13 @@ class QQWry
         $byte = fread($this->fp, 1);
 
         switch (ord($byte)) {
-
             case 0:
-
-                $area = "";
+                $area = '';
 
                 break;
 
             case 1:
-
             case 2:
-
                 fseek($this->fp, $this->getlong3());
 
                 $area = $this->getstring();
@@ -103,11 +99,9 @@ class QQWry
                 break;
 
             default:
-
                 $area = $this->getstring($byte);
 
                 break;
-
         }
 
         return $area;
@@ -169,9 +163,7 @@ class QQWry
         $byte = fread($this->fp, 1);
 
         switch (ord($byte)) {
-
             case 1:
-
                 $countryOffset = $this->getlong3();
 
                 fseek($this->fp, $countryOffset);
@@ -179,9 +171,7 @@ class QQWry
                 $byte = fread($this->fp, 1);
 
                 switch (ord($byte)) {
-
                     case 2:
-
                         fseek($this->fp, $this->getlong3());
 
                         $location['country'] = $this->getstring();
@@ -193,19 +183,16 @@ class QQWry
                         break;
 
                     default:
-
                         $location['country'] = $this->getstring($byte);
 
                         $location['area'] = $this->getarea();
 
                         break;
-
                 }
 
                 break;
 
             case 2:
-
                 fseek($this->fp, $this->getlong3());
 
                 $location['country'] = $this->getstring();
@@ -217,21 +204,19 @@ class QQWry
                 break;
 
             default:
-
                 $location['country'] = $this->getstring($byte);
 
                 $location['area'] = $this->getarea();
 
                 break;
-
         }
 
-        if ($location['country'] == " CZ88.NET") {
-            $location['country'] = "未知";
+        if ($location['country'] == ' CZ88.NET') {
+            $location['country'] = '未知';
         }
 
-        if ($location['area'] == " CZ88.NET") {
-            $location['area'] = "";
+        if ($location['area'] == ' CZ88.NET') {
+            $location['area'] = '';
         }
 
         return $location;

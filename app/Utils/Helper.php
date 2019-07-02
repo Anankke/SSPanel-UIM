@@ -3,29 +3,16 @@
 
 namespace App\Utils;
 
+
 class Helper
 {
-    public static function redirect($url)
+    public static function getParam($request, $queryString): ?string
     {
+        return $request->getQueryParams()[$queryString] ?? null;
     }
 
-    public static function getTokenFromReq($request)
+    public static function getData($request, $name)
     {
-        $params = $request->getQueryParams();
-        if (!isset($params['access_token'])) {
-            return null;
-        }
-        $accessToken = $params['access_token'];
-        return $accessToken;
-    }
-
-    public static function getMuKeyFromReq($request)
-    {
-        $params = $request->getQueryParams();
-        if (!isset($params['key'])) {
-            return null;
-        }
-        $accessToken = $params['key'];
-        return $accessToken;
+        return $request->getParsedBody()[$name];
     }
 }

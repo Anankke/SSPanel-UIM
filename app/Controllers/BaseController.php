@@ -2,33 +2,44 @@
 
 namespace App\Controllers;
 
-use App\Services\Auth;
+use App\Models\User;
 use App\Services\View;
+use App\Services\Auth;
+use Smarty;
 
 /**
  * BaseController
  */
 class BaseController
 {
-    public $view;
+    /**
+     * @var Smarty
+     */
+    protected $view;
 
-    public $smarty;
+    /**
+     * @var User
+     */
+    protected $user;
 
-    public function construct__()
+    /**
+     * Construct page renderer
+     */
+    public function __construct()
     {
+        $this->view = View::getSmarty();
+        $this->user = Auth::getUser();
     }
 
-    public function smarty()
-    {
-        $this->smarty = View::getSmarty();
-        return $this->smarty;
-    }
-
+    /**
+     * Get smarty
+     *
+     * @return Smarty
+     */
     public function view()
     {
-        return $this->smarty();
+        return $this->view;
     }
-
     /**
      * @param $response
      * @param $res

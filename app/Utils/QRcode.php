@@ -2,8 +2,10 @@
 
 namespace App\Utils;
 
-use App\Models\User;
 use App\Services\Config;
+use QrReader;
+use ZBarCodeImage;
+use ZBarCodeScanner;
 
 class QRcode
 {
@@ -11,13 +13,13 @@ class QRcode
     {
         switch (Config::get('qrcode')) {
             case 'phpzbar':
-                return QRcode::phpzbar_decode($url);
+                return self::phpzbar_decode($url);
             case 'online':
-                return QRcode::online_decode($url);
+                return self::online_decode($url);
             case 'zxing_local':
-                return QRcode::zxing_local_decode($url);
+                return self::zxing_local_decode($url);
             default:
-                return QRcode::zxing_decode($url);
+                return self::zxing_decode($url);
         }
     }
 
@@ -27,8 +29,8 @@ class QRcode
         $data['fileurl'] = $url;
         $param = http_build_query($data, '', '&');
 
-        $sock = new HTTPSocket;
-        $sock->connect("api.qrserver.com", 80);
+        $sock = new HTTPSocket();
+        $sock->connect('api.qrserver.com', 80);
         $sock->set_method('GET');
         $sock->query('/v1/read-qr-code/', $param);
 
@@ -42,36 +44,36 @@ class QRcode
 
     public static function phpzbar_decode($url)
     {
-        $filepath = BASE_PATH . "/storage/" . time() . rand(1, 100) . ".png";
+        $filepath = BASE_PATH . '/storage/' . time() . random_int(1, 100) . '.png';
         $img = file_get_contents($url);
         file_put_contents($filepath, $img);
 
         /* Create new image object */
-        $image = new \ZBarCodeImage($filepath);
+        $image = new ZBarCodeImage($filepath);
 
         /* Create a barcode scanner */
-        $scanner = new \ZBarCodeScanner();
+        $scanner = new ZBarCodeScanner();
 
         /* Scan the image */
         $barcode = $scanner->scan($image);
 
         unlink($filepath);
 
-        return (isset($barcode[0]['data']) ? $barcode[0]['data'] : null);
+        return ($barcode[0]['data'] ?? null);
     }
 
     public static function zxing_local_decode($url)
     {
-        $filepath = BASE_PATH . "/storage/" . time() . rand(1, 100) . ".png";
+        $filepath = BASE_PATH . '/storage/' . time() . random_int(1, 100) . '.png';
         $img = file_get_contents($url);
         file_put_contents($filepath, $img);
 
-        $qrcode = new \QrReader($filepath);
+        $qrcode = new QrReader($filepath);
         $text = $qrcode->text(); //return decoded text from QR Code
 
         unlink($filepath);
 
-        if ($text == null || $text == "") {
+        if ($text == null || $text == '') {
             return null;
         }
 
@@ -80,7 +82,7 @@ class QRcode
 
     public static function zxing_decode($url)
     {
-        $raw_text = file_get_contents("https://zxing.org/w/decode?u=" . urlencode($url));
-        return Tools::get_middle_text($raw_text, "<tr><td>Raw text</td><td><pre>", "</pre></td></tr><tr><td>Raw bytes</td><td><pre>");
+        $raw_text = file_get_contents('https://zxing.org/w/decode?u=' . urlencode($url));
+        return Tools::get_middle_text($raw_text, '<tr><td>Raw text</td><td><pre>', '</pre></td></tr><tr><td>Raw bytes</td><td><pre>');
     }
 }

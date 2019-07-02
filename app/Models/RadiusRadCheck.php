@@ -4,6 +4,6 @@ namespace App\Models;
 
 class RadiusRadCheck extends Model
 {
-    protected $connection = "radius";
-    protected $table = "radcheck";
+    protected $connection = 'radius';
+    protected $table = 'radcheck';
 }

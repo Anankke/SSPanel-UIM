@@ -3,12 +3,6 @@
 namespace App\Services;
 
 use Slim\App;
-use Slim\Container;
-use App\Controllers;
-use App\Middleware\Auth;
-use App\Middleware\Guest;
-use App\Middleware\Admin;
-use App\Middleware\Api;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 
 /***
@@ -22,7 +16,7 @@ class Slim
     {
         // config
         $debug = false;
-        if (defined("DEBUG")) {
+        if (defined('DEBUG')) {
             $debug = true;
         }
 
@@ -34,7 +28,7 @@ class Slim
                 'displayErrorDetails' => $debug
             ]
         ]);
-        $app->add(new WhoopsMiddleware);
+        $app->add(new WhoopsMiddleware());
         $this->app = $app;
     }
 

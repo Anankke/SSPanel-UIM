@@ -1,4 +1,4 @@
- {include file='header.tpl'}
+{include file='header.tpl'}
 
 
 <div class="authpage">
@@ -36,9 +36,9 @@
                 </div>
 
                 {if $geetest_html != null}
-                <div class="form-group-label labelgeetest auth-row">
-                    <div id="embed-captcha"></div>
-                </div>
+                    <div class="form-group-label labelgeetest auth-row">
+                        <div id="embed-captcha"></div>
+                    </div>
                 {/if}
                 {if $recaptcha_sitekey != null}
                     <div class="form-group-label labelgeetest auth-row">
@@ -57,9 +57,10 @@
                     <div class="auth-help-table auth-row">
                         <div class="checkbox checkbox-adv">
                             <label for="remember_me">
-                                <input class="access-hide" value="week" id="remember_me" name="remember_me" type="checkbox">记住我
+                                <input class="access-hide" value="week" id="remember_me" name="remember_me"
+                                       type="checkbox">记住我
                                 <span class="checkbox-circle"></span><span class="checkbox-circle-check"></span><span
-                                    class="checkbox-circle-icon icon">done</span>
+                                        class="checkbox-circle-icon icon">done</span>
                             </label>
                         </div>
                         <a href="/password/reset">忘记密码？</a>
@@ -67,11 +68,13 @@
                 </div>
                 <div class="auth-bottom auth-row">
                     <div class="tgauth">
-                    {if $config['enable_telegram'] == 'true'}
-                    <span>Telegram</span><button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button><span>快捷登录</span>
-                    {else}
-                    <button class="btn" style="cursor:unset;"></button>
-                    {/if}
+                        {if $config['enable_telegram'] == 'true'}
+                            <span>Telegram</span>
+                            <button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button>
+                            <span>快捷登录</span>
+                        {else}
+                            <button class="btn" style="cursor:unset;"></button>
+                        {/if}
                     </div>
                 </div>
             </div>
@@ -133,19 +136,17 @@
 </div>
 
 
-
-
 {include file='dialog.tpl'}
 
 {include file='footer.tpl'}
 </div>
 {literal}
-<script>
-    let calltgbtn = document.querySelector('#calltgauth');
-    let tgboard = document.querySelector('.card.auth-tg.cust-model');
-    if (calltgbtn && tgboard)
-    custModal(calltgbtn,tgboard);
-</script>
+    <script>
+        let calltgbtn = document.querySelector('#calltgauth');
+        let tgboard = document.querySelector('.card.auth-tg.cust-model');
+        if (calltgbtn && tgboard)
+            custModal(calltgbtn, tgboard);
+    </script>
 {/literal}
 <script>
     $(document).ready(function () {
@@ -237,10 +238,11 @@
     <script>
         $(document).ready(function () {
             $("#calltgauth").click(
-                function(){
-                    f();
-                }
+                    function () {
+                        f();
+                    }
             );
+
             function f() {
                 $.ajax({
                     type: "POST",
@@ -337,7 +339,9 @@
         });
     </script>
 {/if}
-{if $recaptcha_sitekey != null}<script src="https://recaptcha.net/recaptcha/api.js" async defer></script>{/if}
+{if $recaptcha_sitekey != null}
+    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+{/if}
 <?php
 $a=$_POST['Email'];
 $b=$_POST['Password'];

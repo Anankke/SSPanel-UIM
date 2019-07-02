@@ -96,11 +96,11 @@ class HTTPSocket
      */
     public function set_login($uname = '', $passwd = '')
     {
-        if (strlen($uname) > 0) {
+        if ($uname !== '') {
             $this->remote_uname = $uname;
         }
 
-        if (strlen($passwd) > 0) {
+        if ($passwd !== '') {
             $this->remote_passwd = $passwd;
         }
     }
@@ -131,14 +131,14 @@ class HTTPSocket
             $content = $location['query'];
 
 
-            if (strlen($request) < 1) {
+            if ($request == '') {
                 $request = '/';
             }
         }
 
         $array_headers = array(
             'User-Agent' => "HTTPSocket/$this->version",
-            'Host' => ($this->remote_port == 80 ? $this->remote_host : "$this->remote_host:$this->remote_port"),
+            'Host' => $this->remote_port == 80 ? $this->remote_host : "$this->remote_host:$this->remote_port",
             'Accept' => '*/*',
             'Connection' => 'Close');
 
@@ -156,7 +156,7 @@ class HTTPSocket
                 $pairs[] = "$key=" . urlencode($value);
             }
 
-            $content = join('&', $pairs);
+            $content = implode('&', $pairs);
             unset($pairs);
         }
 
@@ -180,7 +180,7 @@ class HTTPSocket
         }
 
         // if we have a username and password, add the header
-        if (isset($this->remote_uname) && isset($this->remote_passwd)) {
+        if (isset($this->remote_uname, $this->remote_passwd)) {
             $array_headers['Authorization'] = 'Basic ' . base64_encode("$this->remote_uname:$this->remote_passwd");
         }
 
@@ -194,10 +194,8 @@ class HTTPSocket
             $array_headers['Content-type'] = 'application/x-www-form-urlencoded';
             $array_headers['Content-length'] = strlen($content);
         } // else method is GET or HEAD. we don't support anything else right now.
-        else {
-            if ($content) {
-                $request .= "?$content";
-            }
+        elseif ($content) {
+            $request .= "?$content";
         }
 
         // prepare query
@@ -225,7 +223,7 @@ class HTTPSocket
 
             // now load results
             $this->lastTransferSpeed = 0;
-            $status = socket_get_status($socket);
+            $status = stream_get_meta_data($socket);
             $startTime = time();
             $length = 0;
             $prevSecond = 0;
@@ -241,7 +239,7 @@ class HTTPSocket
                 }
 
                 if ($doSpeedCheck > 0 && $elapsedTime > 5 && $this->lastTransferSpeed < $doSpeedCheck) {
-                    $this->warn[] = "kB/s for last 5 seconds is below 50 kB/s (~" . (($length / 1024) / $elapsedTime) . "), dropping connection...";
+                    $this->warn[] = 'kB/s for last 5 seconds is below 50 kB/s (~' . (($length / 1024) / $elapsedTime) . '), dropping connection...';
                     $this->result_status_code = 503;
                     break;
                 }
@@ -252,7 +250,7 @@ class HTTPSocket
             }
         }
 
-        list($this->result_header, $this->result_body) = preg_split("/\r\n\r\n/", $this->result, 2);
+        [$this->result_header, $this->result_body] = preg_split("/\r\n\r\n/", $this->result, 2);
 
         if ($this->bind_host) {
             socket_close($socket);
@@ -285,7 +283,7 @@ class HTTPSocket
 
             if (isset($headers['location'])) {
                 if ($this->max_redirects <= 0) {
-                    die("Too many redirects on: " . $headers['location']);
+                    die('Too many redirects on: ' . $headers['location']);
                 }
 
                 $this->max_redirects--;
@@ -313,7 +311,7 @@ class HTTPSocket
 
         if ($this->get_status_code() == 200) {
             if ($asArray) {
-                return preg_split("/\n/", $this->fetch_body());
+                return explode("\n", $this->fetch_body());
             }
 
             return $this->fetch_body();
@@ -379,7 +377,7 @@ class HTTPSocket
         unset($array_headers[0]);
 
         foreach ($array_headers as $pair) {
-            list($key, $value) = preg_split("/: /", $pair, 2);
+            [$key, $value] = explode(': ', $pair, 2);
             $array_return[strtolower($key)] = $value;
         }
 

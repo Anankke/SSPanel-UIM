@@ -1,32 +1,39 @@
-# 欢迎使用ss panel v3 mod 再次修改版
+# 欢迎使用 SSPanel V3 魔改再次修改版
 
+**ss-panel-v3-mod**是一款专为 Shadowsocks/ShadowsocksR 设计的管理面板，再次感谢 ss-panel-v3-mod 的制作者，修改后的功能简介：
 
-**ss-panel-v3-mod**是一款专为shadowsocks设计的web前端面板，再次感谢ss-panel-v3-mod 的制作者，修改后的功能简介：
-
-- **支付系统集成**：集成 支付宝当面付  易付通 码支付 TrimePay 等多种支付系统，使用方法见项目[wiki](https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/)
-- **UI** ：修改为 ~~援交~~ 圆角、并自定义了几个图标的显示，节点列表等級0可见等級1节点但无法看见节点详情，增加了国家图标显示
+- **支付系统集成**：集成 支付宝当面付  易付通 码支付 TrimePay 等多种支付系统，使用方法见项目[wiki](https://github.com/Anankke/SSPanel-Uim/wiki/)
+- **UI** ：修改为 ~~援交~~ 圆角、并自定义了几个图标的显示，节点列表等級 0 可见等級 1 节点但无法看见节点详情，增加了国家图标显示
 - **商店**：商品增加同时连接设备数，用户限速属性
 - 从肥羊那里**抄**来的：新用户注册现金奖励|高等级节点体验|设备数量限制
-- **优化**：css和js等置入本地提升加载速度
-- 增加**v2Ray** 功能，详情请看 wiki: [Indexyz 版](https://github.com/Anankke/ss-panel-v3-mod_Uim/wiki/v2ray---indexyz-%E7%89%88%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)  |  [Rico 版](https://github.com/Anankke/ss-panel-v3-mod_Uim/wiki/v2ray---Rico-%E7%89%88%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)
+- **优化**：css 和 js 等置入本地提升加载速度
+- 增加 **v2Ray** 功能，详情请看 wiki: [Indexyz 版](https://github.com/Anankke/SSPanel-Uim/wiki/v2ray---indexyz-%E7%89%88%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)  |  [Rico 版](https://github.com/Anankke/SSPanel-Uim/wiki/v2ray---Rico-%E7%89%88%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)
+- 巨量性能优化
+- 更多新功能写不下了。（确信）
 
 Telegram 频道 ：https://t.me/sspanel_Uim
 
-Telegram 非官方水群 ：https://t.me/SSUnion
+Telegram ~~可能是个官方~~水群 ：https://t.me/SSUnion
+
+记得点小星星！
 
 演示站: [sspanel.host](https://sspanel.host) 账号和密码都是 admin  对接节点的 mukey=NimaQu
 
 **原作者** [galaxychuck](https://github.com/galaxychuck)
 
-[支持开发者请点我](https://github.com/NimaQu/ss-panel-v3-mod_UIM#%E5%85%B3%E4%BA%8E%E6%8D%90%E8%B5%A0)
+[支持开发者请点我](https://github.com/Anankke/SSPanel-Uim#%E5%85%B3%E4%BA%8E%E6%8D%90%E8%B5%A0)
 
 ## 搭建教程
 
-GitHub Wiki : https://github.com/NimaQu/ss-panel-v3-mod_Uim/wiki/%E5%89%8D%E7%AB%AF%E5%AE%89%E8%A3%85
+GitHub Wiki : https://github.com/Anankke/SSPanel-Uim/wiki/%E5%89%8D%E7%AB%AF%E5%AE%89%E8%A3%85
 
-Wiki已经启用，欢迎为此面板维护wiki
+Wiki 已经启用，欢迎为此面板维护 wiki
 
 #### 鸣谢
+
+##### [Anankke](https://github.com/galaxychuck)
+
+- 面板现**维护者**
 
 ##### [galaxychuck](https://github.com/galaxychuck)
 
@@ -83,12 +90,15 @@ Wiki已经启用，欢迎为此面板维护wiki
 
 - 重写节点列表，支持分级显示所有级别节点
 
-##### 还有所有被引用过代码的同学，以及所有提交过issue的同学。
+#### 还有所有被引用过代码的同学，以及所有提交过 pr/issue 的同学。
 
 #### 关于捐赠
 
 您对我们的帮助将是支持我们做下去的动力，只需您在购买部分产品或向他人推荐产品时从我们的返利链接购买，这就是对我们很大的支持了。~~没有钱了，肯定要做啊，不做没有钱用啊，打工是不可能打工的，这辈子不可能打工的~~
 
+##### Anankke
+
+- [Anankke 很可爱请给 Anankke 钱](https://t.me/anankke/5)
 
 ##### dumplin
 

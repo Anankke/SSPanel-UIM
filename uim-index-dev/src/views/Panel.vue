@@ -100,7 +100,7 @@
                 <transition name="rotate-fade" mode="out-in">
                   <div class="input-copy" :key="typeToken.subKey">
                     <div class="pure-g align-center relative">
-                      <span class="pure-u-6-24">{{currentDlType === 'SSR' ? '普通端口:' : '订阅链接:'}}</span>
+                      <span class="pure-u-6-24">{{ssrlinkTitle}}</span>
                       <span class="pure-u-18-24 pure-g relative flex justify-center text-center">
                         <input
                           v-uimclip="{ onSuccess:successCopied }"
@@ -264,16 +264,32 @@ export default {
   },
   props: ["routermsg"],
   computed: {
+    ssrlinkTitle: function() {
+      if (this.mergeSub === "true") {
+        return "订阅链接:";
+      } else {
+        if (this.currentDlType === "SSR") {
+          return "普通端口:";
+        } else {
+          return "订阅链接:";
+        }
+      }
+    },
     typeToken: function() {
       switch (this.currentDlType) {
-        case "SSR":
+        case "SSR": {
+          let url = this.suburlBase;
+          if (this.mergeSub !== "true") {
+            url = this.suburlMu0;
+          }
           return {
             tagkey: "dl-ssr",
             subKey: "sub-ssr",
             arrIndex: 0,
             muType: "mu0",
-            subUrl: this.suburlMu0
+            subUrl: url
           };
+        }
         case "SS/SSD":
           return {
             tagkey: "dl-ss",

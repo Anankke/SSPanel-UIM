@@ -21,52 +21,50 @@
 <div class="card-inner">
     <div class="form-group pull-left">
         <p class="modal-title">本站支持支付宝/微信在线充值</p>
-        {if preg_match('/\|/', $config['Pay_Price'])}
-        {$data = explode('|', $config['Pay_Price'])}
-        <p>选择充值金额：</p>
-        <div class="form-group form-group-label btnBox">
-            {foreach $data as $key => $item}
-                <a class="btn btn-price {if $key == 0}active{/if}" price="{$item}" type="{$key}">{$item}元</a>
-            {/foreach}
-            <input type="hidden" id="AliPayType" class="form-control" name="amount"/>
-            {else}
 
+        {if preg_match('/\|/', $config['Pay_Price'])}
+            {$data = explode('|', $config['Pay_Price'])}
+            <p>选择充值金额：</p>
+            <div class="form-group form-group-label btnBox">
+                {foreach $data as $key => $item}
+                    <a class="btn btn-price {if $key == 0}active{/if}" price="{$item}" type="{$key}">{$item} 元</a>
+                {/foreach}
+                <input type="hidden" id="AliPayType" class="form-control" name="amount"/>
+            </div>
+        {else}
             <p>输入充值金额：</p>
             <div class="form-group form-group-label btnBox"><label class="floating-label" for="price">充值金额</label>
                 <input type="number" id="AliPayType" class="form-control" name="amount"/>
             </div>
-            {/if}
-        </div>
-
-        {if $config['AliPay_Status']==1}
-            <a class="btn btn-flat waves-attach" id="urlChangeAliPay" type="1"><img src="/images/alipay.jpg"
-                                                                                    width="45"></a>
-        {/if}
-        {if $config['WxPay_Status']==1}
-            <a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><img src="/images/weixin.jpg"
-                                                                                     width="45"></a>
         {/if}
     </div>
+
+    {if $config['AliPay_Status']==1}
+        <a class="btn btn-flat waves-attach" id="urlChangeAliPay" type="1">
+            <img src="/images/alipay.jpg" width="45">
+        </a>
+    {/if}
+    {if $config['WxPay_Status']==1}
+        <a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2">
+            <img src="/images/weixin.jpg" width="45">
+        </a>
+    {/if}
 </div>
-<div aria-hidden="true" class="modal modal-va-middle fade" id="AliPayReadyToPay" role="dialog"
-     tabindex="-1">
+
+<div aria-hidden="true" class="modal modal-va-middle fade" id="AliPayReadyToPay" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-xs">
         <div class="modal-content">
             <div class="modal-heading">
                 <a class="modal-close" id="AliPayReadyToPayClose">×</a>
-                <h2 class="modal-title">扫码充值<span style="color: red;margin-left: 10px;"
-                                                  id="countTime"></span>
-                </h2>
+                <h2 class="modal-title">扫码充值<span style="color: red;margin-left: 10px;" id="countTime"></span></h2>
             </div>
             <div class="modal-inner" style="text-align: center">
-
                 <div class="text-center">
                     <p id="title" class="textShow"></p>
                     <a class="pay" href="">
                         <p id="qrcode">
-                            {*<img src="/images/loading.gif"*}
-                            {*width="300px"/>*}
-                        <div id="qrcode" style="text-align: center"></div>
+                            {*<img src="/images/loading.gif" width="300px"/>*}
+                            <div id="qrcode" style="text-align: center"></div>
                         </p>
                     </a>
                     <p id="title">支付成功后大约一分钟内提示</p>
@@ -80,17 +78,19 @@
 <script>
     function chenPayLoad() {
         var $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
-                $wxpayApp = 'weixin://',
-                $pay_type = 0,
-                $order_id = 0,
-                qrcode = new QRCode(document.getElementById("qrcode"));
+            $wxpayApp = 'weixin://',
+            $pay_type = 0,
+            $order_id = 0,
+            qrcode = new QRCode(document.getElementById("qrcode"));
+
         if ('{$QRcodeUrl}'.indexOf('|') > 0) {
             var $alipayUrl = '{$QRcodeUrl}'.split('|'),
-                    $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
+                $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
         } else {
             var $alipayUrl = '{$QRcodeUrl}',
-                    $wxpayUrl = '{$WxQRcodeUrl}';
+                $wxpayUrl = '{$WxQRcodeUrl}';
         }
+
         $("#AliPayType").val($('.btn-price:first-child').attr('price'));
         $(".btn-price").click(function () {
             $pay_type = $(this).attr('type');
@@ -102,12 +102,18 @@
             var $type = $(this).attr('type');
             if ($type == 2) {
                 $('.textShow').html('手机端长按二维码保存到手机<br>点击二维码进入扫一扫选择图片支付');
-                if ('{$QRcodeUrl}'.indexOf('|') > 0) var pay_url = $wxpayUrl[$pay_type];
-                else var pay_url = $wxpayUrl;
+                if ('{$QRcodeUrl}'.indexOf('|') > 0) {
+                    var pay_url = $wxpayUrl[$pay_type];
+                } else { 
+                    var pay_url = $wxpayUrl;
+                }
             } else {
                 $('.textShow').html('手机端点击二维码即可转跳支付宝支付');
-                if ('{$QRcodeUrl}'.indexOf('|') > 0) var pay_url = $alipayUrl[$pay_type];
-                else var pay_url = $alipayUrl;
+                if ('{$QRcodeUrl}'.indexOf('|') > 0) {
+                    var pay_url = $alipayUrl[$pay_type];
+                } else {
+                    var pay_url = $alipayUrl;
+                }
             }
             $.ajax({
                 type: "GET",
@@ -183,7 +189,7 @@
             }
 
             $('#AliPayReadyToPayClose').unbind('click').click(function () {
-                if (confirm("此操作会删除您的订单,是否确定要取消订单吗❓ \n如果您支付完成请耐心等候系统提示,请点取消按钮！")) {
+                if (confirm("此操作会删除您的订单,是否确定要取消订单吗？\n如果您支付完成请耐心等候系统提示,请点取消按钮！")) {
                     if (CheckPayTimeId) clearTimeout(CheckPayTimeId);
                     if ($id) clearInterval($id);
                     AliPayDelete($order_id);
@@ -201,7 +207,9 @@
                 $("#msg").html($msg);
             }
 
-            var m = 2, s = 59, countdown = document.getElementById("countTime");
+            var m = 2,
+                s = 59,
+                countdown = document.getElementById("countTime");
 
             function getCountdown() {
                 countdown.innerHTML = "<span>" + (m >= 10 ? m : '0' + m) + "</span>:<span>" + (s >= 10 ? s : '0' + s) + "</span>";

@@ -6,40 +6,22 @@ use App\Models\InviteCode;
 use App\Models\User;
 use App\Models\Code;
 use App\Models\Payback;
-use App\Models\Paylist;
 use App\Models\Ann;
 use App\Models\Shop;
 use App\Services\Auth;
 use App\Services\Config;
-use App\Services\Payment;
 use App\Utils\AliPay;
 use App\Utils\Tools;
-use App\Utils\Telegram;
-use App\Utils\Tuling;
 use App\Utils\TelegramSessionManager;
-use App\Utils\QRcode;
-use App\Utils\Pay;
-use App\Utils\TelegramProcess;
 use App\Utils\Spay_tool;
 use App\Utils\Geetest;
 
-use voku\helper\AntiXSS;
-
 use App\Utils\URL;
-use App\Models\Ip;
 use App\Models\Node;
 use App\Models\Relay;
 
 class VueController extends BaseController
 {
-
-    private $user;
-
-    public function __construct()
-    {
-        $this->user = Auth::getUser();
-    }
-
     public function getGlobalConfig($request, $response, $args)
     {
         $GtSdk = null;
@@ -51,7 +33,7 @@ class VueController extends BaseController
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
                     break;
                 case 'geetest':
-                    $uid = time() . rand(1, 10000);
+                    $uid = time() . random_int(1, 10000);
                     $GtSdk = Geetest::get($uid);
                     break;
             }
@@ -59,7 +41,7 @@ class VueController extends BaseController
 
         if (Config::get('enable_telegram') == 'true') {
             $login_text = TelegramSessionManager::add_login_session();
-            $login = explode("|", $login_text);
+            $login = explode('|', $login_text);
             $login_token = $login[0];
             $login_number = $login[1];
         } else {
@@ -68,25 +50,25 @@ class VueController extends BaseController
         }
 
         $res['globalConfig'] = array(
-            "geetest_html" => $GtSdk,
-            "login_token" => $login_token,
-            "login_number" => $login_number,
-            "telegram_bot" => Config::get('telegram_bot'),
-            "enable_logincaptcha" => Config::get('enable_login_captcha'),
-            "enable_regcaptcha" => Config::get('enable_reg_captcha'),
-            "enable_checkin_captcha" => Config::get('enable_checkin_captcha'),
-            "base_url" => Config::get('baseUrl'),
-            "recaptcha_sitekey" => $recaptcha_sitekey,
-            "captcha_provider" => Config::get('captcha_provider'),
-            "jump_delay" => Config::get('jump_delay'),
-            "register_mode" => Config::get('register_mode'),
-            "enable_email_verify" => Config::get('enable_email_verify'),
-            "appName" => Config::get('appName'),
-            "dateY" => date("Y"),
-            "isLogin" => $user->isLogin,
-            "enable_telegram" => Config::get('enable_telegram'),
-            "enable_mylivechat" => Config::get('enable_mylivechat'),
-            "payment_type" => Config::get('payment_system'),
+            'geetest_html' => $GtSdk,
+            'login_token' => $login_token,
+            'login_number' => $login_number,
+            'telegram_bot' => Config::get('telegram_bot'),
+            'enable_logincaptcha' => Config::get('enable_login_captcha'),
+            'enable_regcaptcha' => Config::get('enable_reg_captcha'),
+            'enable_checkin_captcha' => Config::get('enable_checkin_captcha'),
+            'base_url' => Config::get('baseUrl'),
+            'recaptcha_sitekey' => $recaptcha_sitekey,
+            'captcha_provider' => Config::get('captcha_provider'),
+            'jump_delay' => Config::get('jump_delay'),
+            'register_mode' => Config::get('register_mode'),
+            'enable_email_verify' => Config::get('enable_email_verify'),
+            'appName' => Config::get('appName'),
+            'dateY' => date('Y'),
+            'isLogin' => $user->isLogin,
+            'enable_telegram' => Config::get('enable_telegram'),
+            'enable_mylivechat' => Config::get('enable_mylivechat'),
+            'payment_type' => Config::get('payment_system'),
         );
 
         $res['ret'] = 1;
@@ -126,7 +108,7 @@ class VueController extends BaseController
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
                     break;
                 case 'geetest':
-                    $uid = time() . rand(1, 10000);
+                    $uid = time() . random_int(1, 10000);
                     $GtSdk = Geetest::get($uid);
                     break;
             }
@@ -141,17 +123,17 @@ class VueController extends BaseController
         $user['online_ip_count'] = $user->online_ip_count();
 
         $res['info'] = array(
-            "user" => $user,
-            "ssrSubToken" => $ssr_sub_token,
-            "displayIosClass" => $display_ios_class,
-            "iosAccount" => $ios_account,
-            "iosPassword" => $ios_password,
-            "mergeSub" => $mergeSub,
-            "subUrl" => $subUrl,
-            "baseUrl" => $baseUrl,
-            "ann" => $Ann,
-            "recaptchaSitekey" => $recaptcha_sitekey,
-            "GtSdk" => $GtSdk,
+            'user' => $user,
+            'ssrSubToken' => $ssr_sub_token,
+            'displayIosClass' => $display_ios_class,
+            'iosAccount' => $ios_account,
+            'iosPassword' => $ios_password,
+            'mergeSub' => $mergeSub,
+            'subUrl' => $subUrl,
+            'baseUrl' => $baseUrl,
+            'ann' => $Ann,
+            'recaptchaSitekey' => $recaptcha_sitekey,
+            'GtSdk' => $GtSdk,
         );
 
         $res['ret'] = 1;
@@ -176,22 +158,22 @@ class VueController extends BaseController
 
         $pageNum = $request->getParam('current');
 
-        $paybacks = Payback::where("ref_by", $user->id)->orderBy("id", "desc")->paginate(15, ['*'], 'page', $pageNum);
-        if (!$paybacks_sum = Payback::where("ref_by", $user->id)->sum('ref_get')) {
+        $paybacks = Payback::where('ref_by', $user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
+        if (!$paybacks_sum = Payback::where('ref_by', $user->id)->sum('ref_get')) {
             $paybacks_sum = 0;
         }
         $paybacks->setPath('/#/user/panel');
 
         $res['inviteInfo'] = array(
-            "code" => $code,
-            "paybacks" => $paybacks,
-            "paybacks_sum" => $paybacks_sum,
-            "invite_num" => $user->invite_num,
-            "invitePrice" => Config::get('invite_price'),
-            "customPrice" => Config::get('custom_invite_price'),
-            "invite_gift" => Config::get('invite_gift'),
-            "invite_get_money" => Config::get('invite_get_money'),
-            "code_payback" => Config::get('code_payback'),
+            'code' => $code,
+            'paybacks' => $paybacks,
+            'paybacks_sum' => $paybacks_sum,
+            'invite_num' => $user->invite_num,
+            'invitePrice' => Config::get('invite_price'),
+            'customPrice' => Config::get('custom_invite_price'),
+            'invite_gift' => Config::get('invite_gift'),
+            'invite_get_money' => Config::get('invite_get_money'),
+            'code_payback' => Config::get('code_payback'),
         );
 
         $res['ret'] = 1;
@@ -208,7 +190,7 @@ class VueController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        $shops = Shop::where("status", 1)->orderBy("name")->get();
+        $shops = Shop::where('status', 1)->orderBy('name')->get();
 
         $res['arr'] = array(
             'shops' => $shops,
@@ -228,13 +210,13 @@ class VueController extends BaseController
         }
 
         $res['resourse'] = array(
-            "money" => $user->money,
-            "class" => $user->class,
-            "class_expire" => $user->class_expire,
-            "expire_in" => $user->expire_in,
-            "online_ip_count" => $user->online_ip_count(),
-            "node_speedlimit" => $user->node_speedlimit,
-            "node_connector" => $user->node_connector,
+            'money' => $user->money,
+            'class' => $user->class,
+            'class_expire' => $user->class_expire,
+            'expire_in' => $user->expire_in,
+            'online_ip_count' => $user->online_ip_count(),
+            'node_speedlimit' => $user->node_speedlimit,
+            'node_connector' => $user->node_connector,
         );
         $res['ret'] = 1;
 
@@ -279,7 +261,7 @@ class VueController extends BaseController
         }
 
         $res['arr'] = array(
-            "code" => $code,
+            'code' => $code,
         );
 
         $res['ret'] = 1;
@@ -297,9 +279,9 @@ class VueController extends BaseController
         }
 
         $res['arr'] = array(
-            "todayUsedTraffic" => $user->TodayusedTraffic(),
-            "lastUsedTraffic" => $user->LastusedTraffic(),
-            "unUsedTraffic" => $user->unusedTraffic(),
+            'todayUsedTraffic' => $user->TodayusedTraffic(),
+            'lastUsedTraffic' => $user->LastusedTraffic(),
+            'unUsedTraffic' => $user->unusedTraffic(),
         );
 
         $res['ret'] = 1;
@@ -318,7 +300,7 @@ class VueController extends BaseController
                     $res['recaptchaKey'] = $recaptcha_sitekey;
                     break;
                 case 'geetest':
-                    $uid = time() . rand(1, 10000);
+                    $uid = time() . random_int(1, 10000);
                     $GtSdk = Geetest::get($uid);
                     $res['GtSdk'] = $GtSdk;
                     break;
@@ -374,7 +356,7 @@ class VueController extends BaseController
             if ($node->sort == 9) {
                 $mu_user = User::where('port', '=', $node->server)->first();
                 $mu_user->obfs_param = $this->user->getMuMd5();
-                array_push($nodes_muport, array('server' => $node, 'user' => $mu_user));
+                $nodes_muport[] = array('server' => $node, 'user' => $mu_user);
                 continue;
             }
             $array_node = array();
@@ -384,13 +366,11 @@ class VueController extends BaseController
             $array_node['name'] = $node->name;
             if ($this->user->class < $node->node_class) {
                 $array_node['server'] = '***.***.***.***';
+            } elseif ($node->sort == 13) {
+                $server = Tools::ssv2Array($node->server);
+                $array_node['server'] = $server['add'];
             } else {
-                if ($node->sort == 13) {
-                    $server = Tools::ssv2Array($node->server);
-                    $array_node['server'] = $server['add'];
-                } else {
-                    $array_node['server'] = $node->server;
-                }
+                $array_node['server'] = $node->server;
             }
 
             $array_node['sort'] = $node->sort;
@@ -411,9 +391,9 @@ class VueController extends BaseController
             $node_online = $node->isNodeOnline();
             if ($node_online === null) {
                 $array_node['online'] = 0;
-            } else if ($node_online === true) {
+            } elseif ($node_online === true) {
                 $array_node['online'] = 1;
-            } else if ($node_online === false) {
+            } elseif ($node_online === false) {
                 $array_node['online'] = -1;
             }
 
@@ -425,7 +405,7 @@ class VueController extends BaseController
 
             $nodeLoad = $node->getNodeLoad();
             if (isset($nodeLoad[0]['load'])) {
-                $array_node['latest_load'] = ((explode(" ", $nodeLoad[0]['load']))[0]) * 100;
+                $array_node['latest_load'] = (explode(' ', $nodeLoad[0]['load']))[0] * 100;
             } else {
                 $array_node['latest_load'] = -1;
             }
@@ -434,7 +414,7 @@ class VueController extends BaseController
             $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit);
             if ($node->node_speedlimit == 0.0) {
                 $array_node['bandwidth'] = 0;
-            } else if ($node->node_speedlimit >= 1024.00) {
+            } elseif ($node->node_speedlimit >= 1024.00) {
                 $array_node['bandwidth'] = round($node->node_speedlimit / 1024.00, 1) . 'Gbps';
             } else {
                 $array_node['bandwidth'] = $node->node_speedlimit . 'Mbps';
@@ -443,15 +423,15 @@ class VueController extends BaseController
             $array_node['traffic_rate'] = $node->traffic_rate;
             $array_node['status'] = $node->status;
 
-            array_push($array_nodes, $array_node);
+            $array_nodes[] = $array_node;
         }
 
         $res['nodeinfo'] = array(
-            "nodes" => $array_nodes,
-            "nodes_muport" => $nodes_muport,
-            "relay_rules" => $relay_rules,
-            "user" => $user,
-            "tools" => new Tools(),
+            'nodes' => $array_nodes,
+            'nodes_muport' => $nodes_muport,
+            'relay_rules' => $relay_rules,
+            'user' => $user,
+            'tools' => new Tools(),
         );
         $res['ret'] = 1;
 
