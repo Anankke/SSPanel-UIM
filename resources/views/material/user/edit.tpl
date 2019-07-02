@@ -437,7 +437,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -465,7 +465,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -492,7 +492,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -522,7 +522,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -558,13 +558,13 @@
                 url: "wechat",
                 dataType: "json",
                 data: {
-                    wechat: $("#wechat").val(),
-                    imtype: $("#imtype").val()
+                    wechat: $$getValue('wechat'),
+                    imtype: $$getValue('imtype')
                 },
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-im").html($("#imtype").find("option:selected").text() + " " + $("#wechat").val());
+                        $$.getElementById('ajax-im').innerHTML = `${$("#imtype").find("option:selected").text()} ${$$getValue('wechat')}`
                         $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
@@ -573,7 +573,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -588,16 +588,16 @@
                 url: "ssr",
                 dataType: "json",
                 data: {
-                    protocol: $("#protocol").val(),
-                    obfs: $("#obfs").val(),
-                    obfs_param: $("#obfs-param").val()
+                    protocol: $$getValue('protocol'),
+                    obfs: $$getValue('obfs'),
+                    obfs_param: $$getValue('obfs_param')
                 },
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-user-protocol").html($("#protocol").val());
-                        $("#ajax-user-obfs").html($("#obfs").val());
-                        $("#ajax-user-obfs-param").html($("#obfs-param").val());
+                        $$.getElementById('ajax-user-protocol').innerHTML = $$getValue('protocol');
+                        $$.getElementById('ajax-user-obfs').innerHTML = $$getValue('obfs');
+                        $$.getElementById('ajax-user-obfs-param').innerHTML = $$getValue('obfs_param');
                         $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
@@ -606,7 +606,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -622,8 +622,8 @@
                 url: "relay",
                 dataType: "json",
                 data: {
-                    relay_enable: $("#relay_enable").val(),
-                    relay_info: $("#relay_info").val()
+                    relay_enable: $$getValue('relay_enable'),
+                    relay_info: $$getValue('relay_info')
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -636,7 +636,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -654,8 +654,9 @@
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-block").html("IP: " + data.msg + " 没有被封");
-                        $("#msg").html("发送解封命令解封 " + data.msg + " 成功");
+                        $("#").html("IP: " +  + " ");
+                        $$.getElementById('ajax-block').innerHTML = `IP：${data.msg} 没有被封`;
+                        $$.getElementById('msg').innerHTML = `IP：${data.msg} 解封成功过`;
                     } else {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
@@ -663,7 +664,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -679,7 +680,7 @@
                 url: "gacheck",
                 dataType: "json",
                 data: {
-                    code: $("#code").val()
+                    code: $$getValue('code')
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -692,7 +693,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -708,7 +709,7 @@
                 url: "gaset",
                 dataType: "json",
                 data: {
-                    enable: $("#ga-enable").val()
+                    enable: $$getValue('ga-enable')
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -721,7 +722,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -736,21 +737,21 @@
                 url: "sspwd",
                 dataType: "json",
                 data: {
-                    sspwd: $("#sspwd").val()
+                    sspwd: $$getValue('sspwd')
                 },
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-user-passwd").html($("#sspwd").val());
-                        $("#msg").html("修改成功");
+                        $$.getElementById('ajax-user-passwd"').innerHTML = $$getValue('sspwd');
+                        $$.getElementById('msg').innerHTML = '修改成功';
                     } else {
                         $("#result").modal();
-                        $("#msg").html("修改失败");
+                        $$.getElementById('msg').innerHTML = '修改失败';
                     }
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -766,12 +767,12 @@
                 url: "mail",
                 dataType: "json",
                 data: {
-                    mail: $("#mail").val()
+                    mail: $$getValue('mail')
                 },
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-mail").html($("#mail").val() == "1" ? "发送" : "不发送");
+                        $$.getElementById('ajax-mail').innerHTML = ($$getValue('mail') === '1') ? '发送' : '不发送'
                         $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
@@ -780,7 +781,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -795,7 +796,7 @@
                 url: "theme",
                 dataType: "json",
                 data: {
-                    theme: $("#theme").val()
+                    theme: $$getValue('theme')
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -809,7 +810,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -825,13 +826,13 @@
                 url: "method",
                 dataType: "json",
                 data: {
-                    method: $("#method").val()
+                    method: $$getValue('method')
                 },
                 success: (data) => {
-                    $("#ajax-user-method").html($("#method").val());
+                    $$.getElementById('ajax-user-method').innerHTML = $$getValue('method');
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html("修改成功");
+                        $$.getElementById('msg').innerHTML = '修改成功';
                     } else {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
@@ -839,7 +840,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
