@@ -72,7 +72,7 @@
                 {$ticketset->render()}
 
                 {include file='dialog.tpl'}
-
+            </section>
 
         </div>
 
