@@ -11,13 +11,15 @@
 
 <div class="card-action">
     <div class="card-action-btn pull-left">
-        <button class="btn btn-flat waves-attach" id="bitpaySubmit" name="type" onclick="bitpay('Crypto')"><img
-                    src="https://bitpay.dev/img/mpay-zh.png" height="50px"/></button>
+        <button class="btn btn-flat waves-attach" id="bitpaySubmit" name="type" onclick="bitpay('Crypto')">
+            <img src="https://bitpay.dev/img/mpay-zh.png" height="50px"/>
+        </button>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1"></script>
 <script src="/assets/js/qrcode.min.js"></script>
+
 <script>
     var pid = 0;
 
@@ -44,7 +46,7 @@
                 success: function (data) {
                     console.log(data);
 
-                    if (data.errcode == 0) {
+                    if (data.errcode === 0) {
                         $("#readytopay").modal('hide');
                         $("#msg").html("正在跳转到数字货币支付...");
                         window.location.href = data.url;
@@ -79,5 +81,4 @@
         });
         tid = setTimeout(f, 1000); //循环调用触发setTimeout
     }
-
 </script>

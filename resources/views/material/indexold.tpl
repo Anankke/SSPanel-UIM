@@ -1,23 +1,22 @@
 <!DOCTYPE HTML>
 <!--
-	Dimension by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+    Dimension by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-{if $config['appName'] == '跑路'}
-<script>window.location.href = '{$config["baseUrl"]}/paolu.html';</script>
-{/if}
 <html>
 <head>
+    <meta charset="utf-8"/>
     <title>{$config["appName"]}</title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
-    <meta charset="utf-8"/>
+    {if $config['appName'] == '跑路'}
+        <script>window.location.href = '{$config["baseUrl"]}/paolu.html';</script>
+    {/if}
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="bookmark" href="/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="stylesheet" href="/assets/css/main.css"/>
-
     <noscript>
         <link rel="stylesheet" href="/assets/css/noscript.css"/>
     </noscript>
@@ -26,6 +25,7 @@
 </head>
 
 <body>
+
 <div id="wrapper">
     <!--首页开始-->
     <header id="header">
@@ -36,19 +36,23 @@
             <div class="content">
                 <div class="inner">
                     <p>用户：<code>{$user->user_name}</code>
-                        等级：{if $user->class!=0}
+                        等级：
+                        {if $user->class!=0}
                         <code>VIP{$user->class}</code>
                         {else}
                         <code>免费</code>
                         {/if}
-                        过期时间：{if $user->class_expire!="1989-06-04 00:05:00"}
+                        过期时间：
+                        {if $user->class_expire!="1989-06-04 00:05:00"}
                         <code>{$user->class_expire}</code>
                         {else}
                         <code>不过期</code>
-                        {/if}</p>
+                        {/if}
+                    </p>
                     <p>总流量：<code>{$user->enableTraffic()}</code>
                         已用流量：<code>{$user->usedTraffic()}</code>
-                        剩余流量：<code>{$user->unusedTraffic()}</code></p>
+                        剩余流量：<code>{$user->unusedTraffic()}</code>
+                    </p>
                 </div>
             </div>
             <nav>
@@ -74,7 +78,6 @@
                     <li><a href="#1">简介</a></li>
                     <li><a href="/auth/login">登录</a></li>
                     <li><a href="/auth/register">注册</a></li>
-
                 </ul>
             </nav>
         {/if}
@@ -85,11 +88,12 @@
         <!--标签1开始-->
         <article id="1">
             <h2 class="major">简介</h2>
-            <p>「ホワイトアルバムの季節」が、また、やってきた。</p></article>
+            <p>「ホワイトアルバムの季節」が、また、やってきた。</p>
+        </article>
         <!--
         简介修改示例:
-        <p> 123</p>
-        一个  <p> 123</p>  为一行，请不要删除 </article>
+        <p>123</p>
+        一个 <p>123</p> 为一行，请不要删除 </article>
         -->
         <!--标签4开始-->
         <article id="4">
@@ -98,14 +102,13 @@
                 <p>此处填写联系方式</p>
                 <li>
                     <a target="_blank" href="#" class="icon fa-facebook">
-                        <!-- 请在fontawesome.com寻找替换图标 href替换链接 -->
+                        <!-- 请在 fontawesome.com 寻找替换图标 href 替换链接 -->
                         <span class="label">Facebook</span>
                     </a>
                 </li>
             </ul>
         </article>
         <article id="login">
-
             <h2 class="major">登录</h2>
             <form method="post" action="javascript:void(0);">
                 <div class="field half first">
@@ -123,12 +126,10 @@
                 </ul>
             </form>
 
-
             <div class="field half">
                 <input value="week" id="remember_me" name="remember_me" type="checkbox" checked>
                 <label for="remember_me">记住我</label>
             </div>
-
 
             <br>
 
@@ -160,9 +161,8 @@
         }
     } catch (e) {
     }
-
-
 </script>
+
 <!-- 進度條 -->
 <script>
     {literal}
@@ -202,5 +202,7 @@
         }
     }
 </script>
+
 </body>
+
 </html>

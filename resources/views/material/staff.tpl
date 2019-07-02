@@ -1,4 +1,5 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+
 <html>
 <head>
     <title>{$config["appName"]}</title>
@@ -49,19 +50,15 @@
 
     <div class="table-wrapper">
         <table>
-
             <tbody>
+
             <tr>
                 <td>原作</td>
                 <td><a href="https://github.com/orvice/">orvice</a></td>
             </tr>
             <tr>
                 <td>现阶段维护</td>
-                <td><a href="https://github.com/Talocan">Anankke</a>，<a
-                            href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a
-                            href="https://github.com/mxihan">Rin SAMA</a>，<a
-                            href="https://github.com/xcxnig">Miku</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a
-                            href="https://github.com/laurieryayoi">Nymph</a></td>
+                <td><a href="https://github.com/Talocan">Anankke</a>，<a href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a href="https://github.com/mxihan">Rin SAMA</a>，<a href="https://github.com/xcxnig">Miku</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a href="https://github.com/laurieryayoi">Nymph</a></td>
             </tr>
             <tr>
                 <td>监督</td>
@@ -69,8 +66,7 @@
             </tr>
             <tr>
                 <td>作画</td>
-                <td><a href="https://github.com/Daemonite/">Daemonite</a>，<a href="https://github.com/galaxychuck">galaxyq</a>
-                </td>
+                <td><a href="https://github.com/Daemonite/">Daemonite</a>，<a href="https://github.com/galaxychuck">galaxyq</a></td>
             </tr>
             <tr>
                 <td>永远喜欢</td>
@@ -93,19 +89,12 @@
         </table>
     </div>
 
-
     <nav>
         <ul>
             <a href="javascript:history.back();" class="button">返回上一页</a>
         </ul>
     </nav>
 
-
-    <!--首页结束-->
-    <div id="main">
-
-        <!--全部标签结束-->
-    </div>
     <!-- 版权底部 -->
     <footer id="footer">
         <p class="copyright">&copy;2015-2018 {$config["appName"]}</p>
@@ -119,5 +108,6 @@
 <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
 <script src="/assets/js/util.js"></script>
 <script src="/assets/js/main.js"></script>
+
 </body>
 </html>

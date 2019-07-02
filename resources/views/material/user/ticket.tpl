@@ -63,26 +63,12 @@
                 <div class="fbtn-container">
                     <div class="fbtn-inner">
                         <a class="fbtn fbtn-lg fbtn-brand-accent" href="/user/ticket/create">+</a>
-
                     </div>
                 </div>
-
-
+            </section>
         </div>
-
-
     </div>
 </main>
 
 
 {include file='user/footer.tpl'}
-
-
-
-
-
-
-
-
-
-
