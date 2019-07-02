@@ -359,4 +359,10 @@ class User extends Model
         $tickets = Ticket::where('rootid','=', 0,'and')->where('userid', $this->attributes['id'])->get();
         return $tickets->count();
     }
+    
+    public function get_available_ticket()
+    {
+        $number = $this->get_top_up() / $config['restrict_value'];
+    	return $number - $this->get_ticket_number();
+    }
 }
