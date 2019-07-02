@@ -42,37 +42,33 @@
                                     {$rules->render()}
                                     <table class="table table-user">
                                         <tr>
-
                                             <!--	<th>ID</th>   -->
                                             <th>起源节点</th>
                                             <th>目标节点</th>
                                             <th>端口</th>
                                             <th>优先级</th>
                                             <th>操作</th>
-
                                         </tr>
                                         {foreach $rules as $rule}
                                             <tr>
-
-                                                <!--		<td>#{$rule->id}</td>  -->
+                                                <!--<td>#{$rule->id}</td>-->
                                                 {if $rule->source_node_id == 0}
-                                                    <td>所有节点</td>
+                                                <td>所有节点</td>
                                                 {else}
-                                                    <td>{$rule->Source_Node()->name}</td>
+                                                <td>{$rule->Source_Node()->name}</td>
                                                 {/if}
+
                                                 {if $rule->Dist_Node() == null}
-                                                    <td>不进行中转</td>
+                                                <td>不进行中转</td>
                                                 {else}
-                                                    <td>{$rule->Dist_Node()->name}</td>
+                                                <td>{$rule->Dist_Node()->name}</td>
                                                 {/if}
+
                                                 <td>{if $rule->port == 0}所有端口{else}{$rule->port}{/if}</td>
                                                 <td>{$rule->priority}</td>
                                                 <td>
-                                                    <a class="btn btn-brand"
-                                                       {if $rule->user_id == 0}disabled{else}href="/user/relay/{$rule->id}/edit"{/if}>编辑</a>
-                                                    <a class="btn btn-brand-accent" id="delete" value="{$rule->id}"
-                                                       {if $rule->user_id == 0}disabled{else}href="javascript:void(0);"
-                                                       onClick="delete_modal_show('{$rule->id}')"{/if}>删除</a>
+                                                    <a class="btn btn-brand" {if $rule->user_id == 0}disabled{else}href="/user/relay/{$rule->id}/edit"{/if}>编辑</a>
+                                                    <a class="btn btn-brand-accent" id="delete" value="{$rule->id}" {if $rule->user_id == 0}disabled{else}href="javascript:void(0);" onClick="delete_modal_show('{$rule->id}')"{/if}>删除</a>
                                                 </td>
                                             </tr>
                                         {/foreach}
@@ -111,10 +107,7 @@
                 </div>
 
                 <div class="fbtn-container">
-                    <div class="fbtn-inner">
-                        <a class="fbtn fbtn-lg fbtn-brand-accent" href="/user/relay/create">+</a>
-
-                    </div>
+                    <div class="fbtn-inner"><a class="fbtn fbtn-lg fbtn-brand-accent" href="/user/relay/create">+</a></div>
                 </div>
 
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
@@ -126,15 +119,15 @@
                                 <h2 class="modal-title">确认要删除？</h2>
                             </div>
                             <div class="modal-inner">
-                                <p>请您确认。</p>
+                                <p>请您确认</p>
                             </div>
                             <div class="modal-footer">
                                 <p class="text-right">
-                                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect"
-                                            data-dismiss="modal" type="button">取消
+                                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">
+                                        取消
                                     </button>
-                                    <button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal"
-                                            id="delete_input" type="button">确定
+                                    <button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal" id="delete_input" type="button">
+                                        确定
                                     </button>
                                 </p>
                             </div>
