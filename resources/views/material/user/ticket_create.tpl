@@ -85,17 +85,17 @@
                     markdown: $('.editormd-markdown-textarea').val(),
                     title: $("#title").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/user/ticket'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
                     $("#msg-error-p").html("发生错误：" + jqXHR.status);

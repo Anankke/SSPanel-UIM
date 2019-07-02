@@ -424,7 +424,7 @@
                 url: "resetport",
                 dataType: "json",
                 data: {},
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $("#ajax-user-port").html(data.msg);
@@ -432,10 +432,10 @@
 
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -453,17 +453,17 @@
                 data: {
                     port: $("#port-specify").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $("#ajax-user-port").html($("#port-specify").val());
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -481,16 +481,16 @@
                 data: {
                     pac: $("#pac").text()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -511,16 +511,16 @@
                     pwd: $("#pwd").val(),
                     repwd: $("#repwd").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -561,17 +561,17 @@
                     wechat: $("#wechat").val(),
                     imtype: $("#imtype").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $("#ajax-im").html($("#imtype").find("option:selected").text() + " " + $("#wechat").val());
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -592,19 +592,19 @@
                     obfs: $("#obfs").val(),
                     obfs_param: $("#obfs-param").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $("#ajax-user-protocol").html($("#protocol").val());
                         $("#ajax-user-obfs").html($("#obfs").val());
                         $("#ajax-user-obfs-param").html($("#obfs-param").val());
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -625,16 +625,16 @@
                     relay_enable: $("#relay_enable").val(),
                     relay_info: $("#relay_info").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -651,17 +651,17 @@
                 url: "unblock",
                 dataType: "json",
                 data: {},
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $("#ajax-block").html("IP: " + data.msg + " 没有被封");
                         $("#msg").html("发送解封命令解封 " + data.msg + " 成功");
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -681,16 +681,16 @@
                 data: {
                     code: $("#code").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -710,16 +710,16 @@
                 data: {
                     enable: $("#ga-enable").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -738,7 +738,7 @@
                 data: {
                     sspwd: $("#sspwd").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $("#ajax-user-passwd").html($("#sspwd").val());
@@ -748,7 +748,7 @@
                         $("#msg").html("修改失败");
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -768,17 +768,17 @@
                 data: {
                     mail: $("#mail").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $("#ajax-mail").html($("#mail").val() == "1" ? "发送" : "不发送");
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -797,17 +797,17 @@
                 data: {
                     theme: $("#theme").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }
@@ -827,17 +827,17 @@
                 data: {
                     method: $("#method").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     $("#ajax-user-method").html($("#method").val());
                     if (data.ret) {
                         $("#result").modal();
                         $("#msg").html("修改成功");
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
                     $("#msg").html(data.msg + " 出现了一些错误。");
                 }

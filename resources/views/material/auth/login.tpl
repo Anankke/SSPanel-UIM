@@ -182,21 +182,21 @@
                     geetest_validate: validate.geetest_validate,
                     geetest_seccode: validate.geetest_seccode{/if}
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret == 1) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/user'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         document.getElementById("login").disabled = false;
                         {if $geetest_html != null}
                         captcha.refresh();
                         {/if}
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
                     $("#msg-error-p").html("发生错误：" + jqXHR.status);
@@ -252,7 +252,7 @@
                         token: "{$login_token}",
                         number: "{$login_number}"
                     },
-                    success: function (data) {
+                    success: (data) => {
                         if (data.ret > 0) {
                             clearTimeout(tid);
 
@@ -264,16 +264,16 @@
                                     token: "{$login_token}",
                                     number: "{$login_number}"
                                 },
-                                success: function (data) {
+                                success: (data) => {
                                     if (data.ret) {
                                         $("#result").modal();
                                         $("#msg").html("登录成功！");
                                         window.setTimeout("location.href=/user/", {$config['jump_delay']});
                                     }
                                 },
-                                error: function (jqXHR) {
+                                error: (jqXHR) => {
                                     $("#result").modal();
-                                    $("#msg").html("发生错误：" + jqXHR.status);
+                                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
                                 }
                             });
 
@@ -284,10 +284,10 @@
                             }
                         }
                     },
-                    error: function (jqXHR) {
+                    error: (jqXHR) => {
                         if (jqXHR.status != 200 && jqXHR.status != 0) {
                             $("#result").modal();
-                            $("#msg").html("发生错误：" + jqXHR.status);
+                            $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
                         }
                     }
                 });

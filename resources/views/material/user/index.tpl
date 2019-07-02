@@ -1268,22 +1268,22 @@
                 data: {
                     recaptcha: grecaptcha.getResponse()
                 },{/if}
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#checkin-msg").html(data.msg);
                         $("#checkin-btn").html(checkedmsgGE);
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         $('#remain').html(data.traffic);
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             });
         }
@@ -1299,22 +1299,22 @@
                 data: {
                     recaptcha: grecaptcha.getResponse()
                 },{/if}
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#checkin-msg").html(data.msg);
                         $("#checkin-btn").html(checkedmsgGE);
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         $('#remain').html(data.traffic);
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             })
         })
@@ -1357,22 +1357,22 @@
                     geetest_validate: validate.geetest_validate,
                     geetest_seccode: validate.geetest_seccode
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#checkin-msg").html(data.msg);
                         $("#checkin-btn").html(checkedmsgGE);
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         $('#remain').html(data.traffic);
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             });
         });

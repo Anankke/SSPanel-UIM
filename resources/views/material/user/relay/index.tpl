@@ -155,11 +155,11 @@
     }
 
 
-    $(document).ready(function () {
+    $(document).ready(() => {
 
         {if !$is_relay_able}
         $("#result").modal();
-        $("#msg").html("为了中转的稳定，您需要在<a href='/user/edit'>资料编辑</a>处设置协议为以下协议之一： <br>{foreach $relay_able_protocol_list as $single_text}{$single_text}<br>{/foreach}后方可设置中转规则！");
+        $$.getElementById('msg').innerHTML = `为了中转的稳定，您需要在<a href='/user/edit'>资料编辑</a>处设置协议为以下协议之一： <br>{foreach $relay_able_protocol_list as $single_text}{$single_text}<br>{/foreach}后方可设置中转规则！`
         {/if}
 
         function delete_id() {
@@ -170,24 +170,24 @@
                 data: {
                     id: deleteid
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "  发生错误了。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了`;
                 }
             });
         }
 
-        $("#delete_input").click(function () {
+        $("#delete_input").click(() => {
             delete_id();
         });
     })

@@ -281,7 +281,7 @@
                 coupon: $("#coupon").val(),
                 shop: shop
             },
-            success: function (data) {
+            success: (data) => {
                 if (data.ret) {
                     $("#name").html("商品名称：" + data.name);
                     $("#credit").html("优惠额度：" + data.credit);
@@ -289,10 +289,10 @@
                     $("#order_modal").modal();
                 } else {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             },
-            error: function (jqXHR) {
+            error: (jqXHR) => {
                 $("#result").modal();
                 $("#msg").html(data.msg + "  发生了错误。");
             }
@@ -323,17 +323,17 @@
                 autorenew: autorenew,
                 disableothers: disableothers
             },
-            success: function (data) {
+            success: (data) => {
                 if (data.ret) {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                     window.setTimeout("location.href='/user/shop'", {$config['jump_delay']});
                 } else {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             },
-            error: function (jqXHR) {
+            error: (jqXHR) => {
                 $("#result").modal();
                 $("#msg").html(data.msg + "  发生了错误。");
             }

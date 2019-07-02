@@ -28,11 +28,11 @@
                 data: {
                     amount: $("#amount").val()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
-                        console.log(data);
+                        //console.log(data);
                         pid = data.pid;
-                        $("#qrarea").html('<div class="text-center"><p>请使用手机支付宝扫描二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码唤起支付宝支付</p></div>');
+                        $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>请使用手机支付宝扫描二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码唤起支付宝支付</p></div>'
                         $("#readytopay").modal('hide');
                         new QRCode("qrcode", {
                             render: "canvas",
@@ -40,18 +40,18 @@
                             height: 200,
                             text: encodeURI(data.qrcode)
                         });
-                        $('#qrcode').attr('href', data.qrcode);
+                        $$.getElementById('qrcode').setAttribute('href', data.qrcode);
                         setTimeout(f, 1000);
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
-                    console.log(jqXHR);
+                error: (jqXHR) => {
+                    //console.log(jqXHR);
                     $("#readytopay").modal('hide');
                     $("#result").modal();
-                    $("#msg").html(jqXHR + "  发生了错误。");
+                    $$.getElementById('msg').innerHTML = `${jqXHR} 发生错误了`;
                 }
             })
         });
@@ -65,7 +65,7 @@
             data: {
                 pid: pid
             },
-            success: function (data) {
+            success: (data) => {
                 if (data.result) {
                     console.log(data);
                     $("#alipay").modal('hide');
@@ -74,7 +74,7 @@
                     window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                 }
             },
-            error: function (jqXHR) {
+            error: (jqXHR) => {
                 console.log(jqXHR);
             }
         });

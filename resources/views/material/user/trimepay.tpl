@@ -45,7 +45,7 @@
                 },
                 'dataType': 'json',
                 'type': "POST",
-                success: function (data) {
+                success: (data) => {
                     if (data.code == 0) {
                         console.log(data);
                         $("#readytopay").modal('hide');
@@ -64,7 +64,7 @@
                         }
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         console.log(data);
                     }
                 }
@@ -80,7 +80,7 @@
             data: {
                 pid: pid
             },
-            success: function (data) {
+            success: (data) => {
                 if (data.result) {
                     console.log(data);
                     $("#result").modal();
@@ -88,7 +88,7 @@
                     window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                 }
             },
-            error: function (jqXHR) {
+            error: (jqXHR) => {
                 console.log(jqXHR);
             }
         });

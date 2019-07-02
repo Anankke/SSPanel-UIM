@@ -105,7 +105,7 @@
 
 <script>
     function delete_modal_show(id) {
-        deleteid = id;
+        var deleteid = id;
         $("#delete_modal").modal();
     }
 
@@ -118,26 +118,24 @@
                 data: {
                     id: deleteid
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "  发生错误了。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了`;
                 }
             });
         }
 
-        $("#delete_input").click(function () {
-            delete_id();
-        });
+        $$.getElementById('delete_input').addEventListener('click', delete_id);
     })
 
 </script>

@@ -198,12 +198,12 @@
                 type: "POST",
                 url: "/user/invite",
                 dataType: "json",
-                success: function (data) {
+                success: (data) => {
                     window.location.reload();
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             })
         })
@@ -220,19 +220,19 @@
             data: {
                 num: $("#buy-invite-num").val(),
             },
-            success: function (data) {
+            success: (data) => {
                 if (data.ret) {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                     window.setTimeout("location.href='/user/invite'", {$config['jump_delay']});
                 } else {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             },
-            error: function (jqXHR) {
+            error: (jqXHR) => {
                 $("#result").modal();
-                $("#msg").html(data.msg + "     出现了一些错误。");
+                $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
             }
         })
     });
@@ -245,19 +245,19 @@
             data: {
                 customcode: $("#custom-invite-link").val(),
             },
-            success: function (data) {
+            success: (data) => {
                 if (data.ret) {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                     window.setTimeout("location.href='/user/invite'", {$config['jump_delay']});
                 } else {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             },
-            error: function (jqXHR) {
+            error: (jqXHR) => {
                 $("#result").modal();
-                $("#msg").html(data.msg + "     出现了一些错误。");
+                $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
             }
         })
     });

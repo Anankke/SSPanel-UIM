@@ -128,7 +128,7 @@
                 },
                 success: data => {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                     if (data.ret) {
                         window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
                     }

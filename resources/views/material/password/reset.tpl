@@ -87,19 +87,19 @@
                 data: {
                     email: $("#email").val(),
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret == 1) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/auth/login'", 2000);
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             });
         }

@@ -235,14 +235,14 @@
                         geetest_seccode: validate.geetest_seccode
                         {/if}
                     },
-                    success: function (data) {
+                    success: (data) => {
                         if (data.ret == 1) {
                             $("#result").modal();
-                            $("#msg").html(data.msg);
+                            $$.getElementById('msg').innerHTML = data.msg;
                             window.setTimeout("location.href='/auth/login'", {$config['jump_delay']});
                         } else {
                             $("#result").modal();
-                            $("#msg").html(data.msg);
+                            $$.getElementById('msg').innerHTML = data.msg;
                             setCookie('code', '', 0);
                             $("#code").val(getCookie('code'));
                             document.getElementById("tos").disabled = false;
@@ -251,7 +251,7 @@
                             {/if}
                         }
                     },
-                    error: function (jqXHR) {
+                    error: (jqXHR) => {
                         $("#msg-error").hide(10);
                         $("#msg-error").show(100);
                         $("#msg-error-p").html("发生错误：" + jqXHR.status);
@@ -339,19 +339,19 @@
                     data: {
                         email: $("#email").val()
                     },
-                    success: function (data) {
+                    success: (data) => {
                         if (data.ret) {
                             $("#result").modal();
-                            $("#msg").html(data.msg);
+                            $$.getElementById('msg').innerHTML = data.msg;
 
                         } else {
                             $("#result").modal();
-                            $("#msg").html(data.msg);
+                            $$.getElementById('msg').innerHTML = data.msg;
                         }
                     },
-                    error: function (jqXHR) {
+                    error: (jqXHR) => {
                         $("#result").modal();
-                        $("#msg").html(data.msg + "     出现了一些错误。");
+                        $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                     }
                 })
             })
