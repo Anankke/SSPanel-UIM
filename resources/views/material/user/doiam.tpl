@@ -46,7 +46,7 @@
             //console.log("将要使用" + type + "方法充值" + price + "元");
             if (isNaN(price)) {
                 $("#result").modal();
-                $$.getElementById('msg').innerHTML = 非法的金额！;
+                $$.getElementById('msg').innerHTML = '非法的金额！';
             }
             $.ajax({
                 url: "/user/payment/purchase",
@@ -66,16 +66,16 @@
                         pid = data.pid;
                         if (type == "wepay") {
                             $("#result").modal();
-                            $("#msg").html('<div class="text-center">使用微信扫描二维码支付.<div id="dmy" style="padding-top:  10px;"></div></div>');
+                            $$.getElementById('msg').innerHTML = '<div class="text-center">使用微信扫描二维码支付.<div id="dmy" style="padding-top:  10px;"></div></div>';
                             qrcode.clear();
                             qrcode.makeCode(data.code);
                             setTimeout(f, 2000);
                         } else if (type == "alipay") {
                             $("#result").modal();
-                            $("#msg").html("正在跳转到支付宝..." + data.code);
+                            $.getElementById('msg').innerHTML = `正在跳转到支付宝... ${data.code}`;
                         } else if (type == "qqpay") {
                             $("#result").modal();
-                            $("#msg").html('<div class="text-center">使用QQ扫描二维码支付.<div id="dmy"></div></div>');
+                            $$.getElementById('msg').innerHTML = '<div class="text-center">使用QQ扫描二维码支付.<div id="dmy"></div></div>';
                             qrcode.clear();
                             qrcode.makeCode(data.code);
                             setTimeout(f, 2000);

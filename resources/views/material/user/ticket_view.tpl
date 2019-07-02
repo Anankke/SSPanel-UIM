@@ -87,7 +87,7 @@
     $(document).ready(function () {
         function submit() {
             $("#result").modal();
-            $("#msg").html("正在提交。");
+            $$.getElementById('msg').innerHTML = '正在提交';
             $.ajax({
                 type: "PUT",
                 url: "/user/ticket/{$id}",
@@ -95,8 +95,8 @@
                 data: {
                     content: editor.getHTML(),
                     markdown: editor.getMarkdown(),
-                    title: $("#title").val(),
-                    status: status
+                    title: $$getValue('title')
+                    status
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -111,7 +111,7 @@
                 error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             });
         }
@@ -129,15 +129,15 @@
         $("#close_directly").click(function () {
             status = 0;
             $("#result").modal();
-            $("#msg").html("正在提交。");
+            $$.getElementById('msg').innerHTML = '正在提交';
             $.ajax({
                 type: "PUT",
                 url: "/user/ticket/{$id}",
                 dataType: "json",
                 data: {
                     content: '这条工单已被关闭',
-                    title: $("#title").val(),
-                    status: status
+                    title: $$getValue('title')
+                    status
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -152,7 +152,7 @@
                 error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             });
         });

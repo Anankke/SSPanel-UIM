@@ -71,8 +71,8 @@
                 url: "/password/token/{$token}",
                 dataType: "json",
                 data: {
-                    password: $("#password").val(),
-                    repasswd: $("#repasswd").val(),
+                    password: $$getValue('password'),
+                    repasswd: $$getValue('repasswd'),
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -87,9 +87,9 @@
                 error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
                     // 在控制台输出错误信息
-                    console.log(removeHTMLTag(jqXHR.responseText));
+                    //console.log(removeHTMLTag(jqXHR.responseText));
                 }
             });
         }

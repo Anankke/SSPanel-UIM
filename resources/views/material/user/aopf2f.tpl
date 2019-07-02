@@ -26,7 +26,7 @@
                 url: "/user/payment/purchase",
                 dataType: "json",
                 data: {
-                    amount: $("#amount").val()
+                    amount: $$getValue('amount')
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -67,15 +67,15 @@
             },
             success: (data) => {
                 if (data.result) {
-                    console.log(data);
+                    //console.log(data);
                     $("#alipay").modal('hide');
                     $("#result").modal();
-                    $("#msg").html("充值成功！");
+                    $$.getElementById('msg').innerHTML = '充值成功';
                     window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                 }
             },
             error: (jqXHR) => {
-                console.log(jqXHR);
+                //console.log(jqXHR);
             }
         });
         tid = setTimeout(f, 1000); //循环调用触发setTimeout

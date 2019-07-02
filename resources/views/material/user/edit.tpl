@@ -412,7 +412,7 @@
 
     $(".copy-text").click(function () {
         $("#result").modal();
-        $("#msg").html("已复制到您的剪贴板。");
+        $$.getElementById('msg').innerHTML = '已复制到您的剪贴板。';
     });
 </script>
 
@@ -427,9 +427,8 @@
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-user-port").html(data.msg);
-                        $("#msg").html("设置成功，新端口是" + data.msg);
-
+                        $$.getElementById('ajax-user-port').innerHTML = data.msg;
+                        $$.getElementById('msg').innerHTML = `设置成功，新端口是 ${data.msg}`;
                     } else {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
@@ -451,12 +450,12 @@
                 url: "specifyport",
                 dataType: "json",
                 data: {
-                    port: $("#port-specify").val()
+                    port: $$getValue('port-specify')
                 },
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-user-port").html($("#port-specify").val());
+                        $$.getElementById('ajax-user-port').innerHTML = $$getValue('port-specify');
                         $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
@@ -507,9 +506,9 @@
                 url: "password",
                 dataType: "json",
                 data: {
-                    oldpwd: $("#oldpwd").val(),
-                    pwd: $("#pwd").val(),
-                    repwd: $("#repwd").val()
+                    oldpwd: $$getValue('oldpwd'),
+                    pwd: $$getValue('pwd'),
+                    repwd: $$getValue('repwd')
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -654,7 +653,6 @@
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#").html("IP: " +  + " ");
                         $$.getElementById('ajax-block').innerHTML = `IP：${data.msg} 没有被封`;
                         $$.getElementById('msg').innerHTML = `IP：${data.msg} 解封成功过`;
                     } else {

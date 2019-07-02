@@ -24,7 +24,7 @@
     var pid = 0;
 
     function bitpay(type) {
-        var price = parseFloat($("#bitpayamount").val());
+        var price = parseFloat($$getValue('bitpayamount'));
 
         //console.log("将要使用 " + type + " 充值" + price + "元");
         if (isNaN(price)) {

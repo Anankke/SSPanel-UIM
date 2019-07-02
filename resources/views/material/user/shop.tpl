@@ -284,14 +284,14 @@
             url: "coupon_check",
             dataType: "json",
             data: {
-                coupon: $("#coupon").val(),
-                shop: shop
+                coupon: $$getValue('coupon'),
+                shop
             },
             success: (data) => {
                 if (data.ret) {
-                    $("#name").html("商品名称：" + data.name);
-                    $("#credit").html("优惠额度：" + data.credit);
-                    $("#total").html("总金额：" + data.total);
+                    $$.getElementById('name').innerHTML = `商品名称：${data.name}`;
+                    $$.getElementById('credit').innerHTML = `优惠额度：${data.credit}`;
+                    $$.getElementById('total').innerHTML = `总金额：${data.total}`;
                     $("#order_modal").modal();
                 } else {
                     $("#result").modal();
@@ -300,7 +300,7 @@
             },
             error: (jqXHR) => {
                 $("#result").modal();
-                $("#msg").html(data.msg + "  发生了错误。");
+                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误`;
             }
         })
     });
@@ -324,10 +324,10 @@
             url: "buy",
             dataType: "json",
             data: {
-                coupon: $("#coupon").val(),
-                shop: shop,
-                autorenew: autorenew,
-                disableothers: disableothers
+                coupon: $$getValue('coupon'),
+                shop,
+                autorenew,
+                disableothers
             },
             success: (data) => {
                 if (data.ret) {
@@ -341,7 +341,7 @@
             },
             error: (jqXHR) => {
                 $("#result").modal();
-                $("#msg").html(data.msg + "  发生了错误。");
+                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误`;
             }
         })
     });

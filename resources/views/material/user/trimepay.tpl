@@ -26,7 +26,7 @@
             }
         }
 
-        var price = parseFloat($("#amount").val());
+        var price = parseFloat($$getValue('amount'));
 
         //console.log("将要使用 " + type + " 充值" + price + "元");
         if (isNaN(price)) {

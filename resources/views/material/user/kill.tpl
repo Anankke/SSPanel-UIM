@@ -70,7 +70,7 @@
                 url: "kill",
                 dataType: "json",
                 data: {
-                    passwd: $("#passwd").val(),
+                    passwd: $$getValue('passwd'),
                 },
                 success: (data) => {
                     if (data.ret) {
