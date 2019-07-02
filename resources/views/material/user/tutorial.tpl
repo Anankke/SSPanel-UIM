@@ -20,8 +20,7 @@
                                 <nav class="tab-nav margin-top-no">
                                     <ul class="nav nav-list">
                                         <li class="active">
-                                            <a class="" data-toggle="tab" href="#all_ssr_windows"><i
-                                                        class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
+                                            <a class="" data-toggle="tab" href="#all_ssr_windows"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
                                         </li>
                                         <li>
                                             <a class="" data-toggle="tab" href="#all_ssr_mac"><i class="icon icon-lg">laptop_mac</i>&nbsp;MacOS</a>
@@ -33,12 +32,10 @@
                                             <a class="" data-toggle="tab" href="#all_ssr_ios"><i class="icon icon-lg">phone_iphone</i>&nbsp;iOS</a>
                                         </li>
                                         <li>
-                                            <a class="" data-toggle="tab" href="#all_ssr_android"><i
-                                                        class="icon icon-lg">android</i>&nbsp;Android</a>
+                                            <a class="" data-toggle="tab" href="#all_ssr_android"><i class="icon icon-lg">android</i>&nbsp;Android</a>
                                         </li>
                                         <li>
-                                            <a class="" data-toggle="tab" href="#all_ssr_router"><i
-                                                        class="icon icon-lg">router</i>&nbsp;路由器</a>
+                                            <a class="" data-toggle="tab" href="#all_ssr_router"><i class="icon icon-lg">router</i>&nbsp;路由器</a>
                                         </li>
                                         <li>
                                             <a class="" data-toggle="tab" href="#all_ssr_game"><i class="icon icon-lg">videogame_asset</i>&nbsp;游戏端</a>
@@ -128,9 +125,7 @@
                                     <h4>说明：shadowsocks-qt5是ubuntu上一个可视化的版本</h4>
                                     <hr/>
                                     <h5>安装shadowsocks-qt5</h5>
-                                    <pre><code>1.$ sudo add-apt-repository ppa:hzwhuang/ss-qt5
-												2.$ sudo apt-get update
-												3.$ sudo apt-get install shadowsocks-qt5</code></pre>
+                                    <pre><code>1.$ sudo add-apt-repository ppa:hzwhuang/ss-qt5 2.$ sudo apt-get update 3.$ sudo apt-get install shadowsocks-qt5</code></pre>
                                     <h5>如果安装成功之后，按<code>win</code>键搜索应该能够找到软件，如下图所示：</h5>
                                     <p><img src="/images/c-linux-1.png"/></p>
                                     <h5>配置shadowsocks-qt5</h5>

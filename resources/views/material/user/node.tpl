@@ -174,8 +174,7 @@
                                         {/foreach}
                                     {/if}
                                     <div class="tipmiddle">
-                                        <div><span class="node-icon"><i
-                                                        class="icon icon-lg">chat</i> </span>{$node['info']}</div>
+                                        <div><span class="node-icon"><i class="icon icon-lg">chat</i> </span>{$node['info']}</div>
                                     </div>
                                     {if $node['sort'] == 11 || $node['sort'] == 12}
                                         {displayV2rayNode node=$node}
