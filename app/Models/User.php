@@ -353,4 +353,10 @@ class User extends Model
         }
         return round($top_up, 2);
     }
+    
+    public function get_ticket_number()
+    {
+        $tickets = Ticket::where('rootid','=', 0,'and')->where('userid', $this->attributes['id'])->get();
+        return $tickets->count();
+    }
 }
