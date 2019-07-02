@@ -379,7 +379,7 @@
 <script>
 
     function urlChange(id, is_mu, rule_id) {
-        var site = './node/' + id + '?ismu=' + is_mu + '&relay_rule=' + rule_id;
+        var site = `./node/${id}?ismu=${is_mu}&relay_rule=${rule_id}`;
         if (id == 'guide') {
             var doc = document.getElementById('infoifram').contentWindow.document;
             doc.open();
@@ -396,7 +396,7 @@
     });
     $(".copy-text").click(function () {
         $("#result").modal();
-        $("#msg").html("已复制，请进入软件添加。");
+        $$.getElementById('msg').innerHTML = '已复制，请进入软件添加。';
     });
 
     {literal}

@@ -1,5 +1,5 @@
 {include file='user/main.tpl'}
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
 
 <main class="content">
     <div class="content-header ui-content-header">
@@ -29,14 +29,10 @@
                         <div class="card-inner">
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="content">内容</label>
-                                <link rel="stylesheet"
-                                      href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
                                 <div id="editormd">
                                     <textarea style="display:none;" id="content"></textarea>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -75,7 +71,7 @@
     $(document).ready(function () {
         function submit() {
             $("#result").modal();
-            $("#msg").html("正在提交。");
+            $$.getElementById('msg').innerHTML = '正在提交付...'
             $.ajax({
                 type: "POST",
                 url: "/user/ticket",
@@ -83,7 +79,7 @@
                 data: {
                     content: editor.getHTML(),
                     markdown: $('.editormd-markdown-textarea').val(),
-                    title: $("#title").val()
+                    title: $$getValue('title')
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -98,7 +94,7 @@
                 error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             });
         }

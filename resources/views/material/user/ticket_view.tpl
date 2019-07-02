@@ -1,5 +1,5 @@
 {include file='user/main.tpl'}
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
 
 <main class="content">
 
@@ -17,8 +17,6 @@
                         <div class="card-inner">
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="content">内容</label>
-                                <link rel="stylesheet"
-                                      href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
                                 <div id="editormd">
                                     <textarea style="display:none;" id="content"></textarea>
                                 </div>
@@ -55,14 +53,14 @@
 
                 {foreach $ticketset as $ticket}
                     <div class="card">
-                        <aside class="card-side pull-left"><img alt="alt text for John Smith avatar"
-                                                                src="{$ticket->User()->gravatar}"></span></br>{$ticket->User()->user_name}
+                        <aside class="card-side pull-left">
+                            <img alt="alt text for John Smith avatar" src="{$ticket->User()->gravatar}">
+                            <br>
+                            {$ticket->User()->user_name}
                         </aside>
                         <div class="card-main">
                             <div class="card-inner">
                                 {$ticket->content}
-
-
                             </div>
                             <div class="card-action"> {$ticket->datetime()}</div>
                         </div>

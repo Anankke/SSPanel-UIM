@@ -25,10 +25,16 @@
                     <div class="card">
                         <div class="card-main">
                             <div class="card-inner ui-switch">
-                                <div class="switch-btn" id="switch-cards"><a href="#" onclick="return false"><i
-                                                class="mdui-icon material-icons">apps</i></a></div>
-                                <div class="switch-btn" id="switch-table"><a href="#" onclick="return false"><i
-                                                class="mdui-icon material-icons">dehaze</i></a></div>
+                                <div class="switch-btn" id="switch-cards">
+                                    <a href="#" onclick="return false">
+                                        <i class="mdui-icon material-icons">apps</i>
+                                    </a>
+                                </div>
+                                <div class="switch-btn" id="switch-table">
+                                    <a href="#" onclick="return false">
+                                        <i class="mdui-icon material-icons">dehaze</i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

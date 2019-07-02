@@ -189,7 +189,7 @@
 
     $(".copy-text").click(function () {
         $("#result").modal();
-        $("#msg").html("已复制到您的剪贴板，请您继续接下来的操作。");
+        $$.getElementById('msg').innerHTML = '已复制到您的剪贴板，请您继续接下来的操作。';
     });
 
     $(document).ready(function () {
@@ -218,7 +218,7 @@
             url: "/user/buy_invite",
             dataType: "json",
             data: {
-                num: $("#buy-invite-num").val(),
+                num: $$getValue('buy-invite-num')
             },
             success: (data) => {
                 if (data.ret) {
@@ -243,7 +243,7 @@
             url: "/user/custom_invite",
             dataType: "json",
             data: {
-                customcode: $("#custom-invite-link").val(),
+                customcode: $$getValue('custom-invite-link'),
             },
             success: (data) => {
                 if (data.ret) {
@@ -268,7 +268,7 @@
 
     $(".reset-link").click(function () {
         $("#result").modal();
-        $("#msg").html("已重置您的邀请链接，复制您的邀请链接发送给其他人！");
+        $$.getElementById('msg').innerHTML = '已重置您的邀请链接，复制您的邀请链接发送给其他人！';
         window.setTimeout("location.href='/user/inviteurl_reset'", {$config['jump_delay']});
     });
 

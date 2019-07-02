@@ -1180,7 +1180,7 @@
 
     $(".copy-text").click(function () {
         $("#result").modal();
-        $("#msg").html("已拷贝订阅链接，请您继续接下来的操作。");
+        $$.getElementById('msg').innerHTML = '已拷贝订阅链接，请您继续接下来的操作';
     });
 
     $(function () {
@@ -1189,14 +1189,14 @@
 
     $(".reset-link").click(function () {
         $("#result").modal();
-        $("#msg").html("已重置您的订阅链接，请变更或添加您的订阅链接！");
+        $$.getElementById('msg').innerHTML = '已重置您的订阅链接，请变更或添加您的订阅链接！';
         window.setTimeout("location.href='/user/url_reset'", {$config['jump_delay']});
     });
 
     {if $user->transfer_enable-($user->u+$user->d) == 0}
     window.onload = function () {
         $("#result").modal();
-        $("#msg").html("您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~");
+        $$.getElementById('msg').innerHTML = '您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~';
     };
     {/if}
 
@@ -1209,7 +1209,7 @@
         });
 
         myShakeEvent.start();
-        CountDown()
+        CountDown();
 
         window.addEventListener('shake', shakeEventDidOccur, false);
 
@@ -1227,11 +1227,12 @@
                 },{/if}
                 success: (data) => {
                     if (data.ret) {
-                        $("#checkin-msg").html(data.msg);
-                        $("#checkin-btn").html(checkedmsgGE);
+
+                        $$.getElementById('checkin-msg').innerHTML = data.msg;
+                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $('#remain').html(data.traffic);
+                        $$.getElementById('remain').innerHTML = data.traffic;
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
@@ -1258,11 +1259,11 @@
                 },{/if}
                 success: (data) => {
                     if (data.ret) {
-                        $("#checkin-msg").html(data.msg);
-                        $("#checkin-btn").html(checkedmsgGE);
+                        $$.getElementById('checkin-msg').innerHTML = data.msg;
+                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $('#remain').html(data.traffic);
+                        $$.getElementById('remain').innerHTML = data.traffic;
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
@@ -1316,11 +1317,11 @@
                 },
                 success: (data) => {
                     if (data.ret) {
-                        $("#checkin-msg").html(data.msg);
-                        $("#checkin-btn").html(checkedmsgGE);
+                        $$.getElementById('checkin-msg').innerHTML = data.msg;
+                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $('#remain').html(data.traffic);
+                        $$.getElementById('remain').innerHTML = data.traffic;
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();

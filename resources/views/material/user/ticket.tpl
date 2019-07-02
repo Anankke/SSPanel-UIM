@@ -46,8 +46,7 @@
                                                     <td>工单已结束</td>
                                                 {/if}
                                                 <td>
-                                                    <a class="btn btn-brand"
-                                                       href="/user/ticket/{$ticket->id}/view">查看</a>
+                                                    <a class="btn btn-brand" href="/user/ticket/{$ticket->id}/view">查看</a>
                                                 </td>
                                             </tr>
                                         {/foreach}
