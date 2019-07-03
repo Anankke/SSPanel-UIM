@@ -143,7 +143,7 @@ class SPay extends AbstractPayment
                             window.location.href = data.url;
                         } else {
                             $("#result").modal();
-                            $$.getElementById('msg').innerHTML = data.msg;
+                            $$.getElementById(\'msg\').innerHTML = data.msg;
                             console.log(data);
                         }
                     }
