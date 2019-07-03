@@ -125,20 +125,20 @@
                 url: "hide",
                 dataType: "json",
                 data: {
-                    hide: $("#hide").val()
+                    hide: $$getValue('hide')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "     出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })

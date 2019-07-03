@@ -91,56 +91,47 @@
                 </form>
                 {include file='dialog.tpl'}
             <section>
-
         </div>
-
 
     </div>
 </main>
 
-
 {include file='user/footer.tpl'}
-
 
 {literal}
 <script>
-
     $('#main_form').validate({
         rules: {
             priority: {required: true}
         },
-
-
-        submitHandler: function () {
-
-
+        submitHandler: () => {
             $.ajax({
 {/literal}
-                type: "PUT",
-                url: "/user/relay/{$rule->id}",
-                dataType: "json",
+                type: 'PUT',
+                url: '/user/relay/{$rule->id}',
+                dataType: 'json',
                 data: {
-                    source_node: $("#source_node").val(),
-                    dist_node: $("#dist_node").val(),
-                    port: $("#port").val(),
-                    priority: $("#priority").val()
+                    source_node: $$getValue('source_node'),
+                    dist_node: $$getValue('dist_node')
+                    port: $$getValue('port'),
+                    priority: $$getValue('priority')
 {literal}
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
 {/literal}
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
 {literal}
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "  发生错误了。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 发生错误了`;
                 }
             });
         }

@@ -207,7 +207,7 @@
     <script>
         $(document).ready(function () {
             function register() {
-                code = $("#code").val();
+                code = $$getValue('code');
                 {if $config['register_mode'] != 'invite'}
                 code = 0;
                 if ((getCookie('code')) != '') {
@@ -221,28 +221,32 @@
                     url: "/auth/register",
                     dataType: "json",
                     data: {
-                        email: $("#email").val(),
-                        name: $("#name").val(),
-                        passwd: $("#passwd").val(),
-                        repasswd: $("#repasswd").val(),
-                        wechat: $("#wechat").val(),{if $recaptcha_sitekey != null}
-                        recaptcha: grecaptcha.getResponse(),{/if}
-                        imtype: $("#imtype").val(),
-                        code: code{if $enable_email_verify == 'true'},
-                        emailcode: $("#email_code").val(){/if}{if $geetest_html != null},
+                        email: $$getValue('email'),
+                        name: $$getValue('name'),
+                        passwd: $$getValue('password'),
+                        repasswd: $$getValue('repasswd'),
+                        wechat: $$getValue('wechat'),
+
+                        {if $recaptcha_sitekey != null}
+                        recaptcha: grecaptcha.getResponse(),
+                        {/if}
+
+                        imtype: $$getValue('imtype'),
+                        code{if $enable_email_verify == 'true'},
+                        emailcode: $$getValue('email_code'){/if}{if $geetest_html != null},
                         geetest_challenge: validate.geetest_challenge,
                         geetest_validate: validate.geetest_validate,
                         geetest_seccode: validate.geetest_seccode
                         {/if}
                     },
-                    success: function (data) {
+                    success: (data) => {
                         if (data.ret == 1) {
                             $("#result").modal();
-                            $("#msg").html(data.msg);
+                            $$.getElementById('msg').innerHTML = data.msg;
                             window.setTimeout("location.href='/auth/login'", {$config['jump_delay']});
                         } else {
                             $("#result").modal();
-                            $("#msg").html(data.msg);
+                            $$.getElementById('msg').innerHTML = data.msg;
                             setCookie('code', '', 0);
                             $("#code").val(getCookie('code'));
                             document.getElementById("tos").disabled = false;
@@ -251,10 +255,10 @@
                             {/if}
                         }
                     },
-                    error: function (jqXHR) {
+                    error: (jqXHR) => {
                         $("#msg-error").hide(10);
                         $("#msg-error").show(100);
-                        $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                        $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
                         document.getElementById("tos").disabled = false;
                         {if $geetest_html != null}
                         captcha.refresh();
@@ -288,15 +292,9 @@
 
             $("#tos").click(function () {
                 {if $geetest_html != null}
-                if (typeof validate == 'undefined') {
+                if (typeof validate === 'undefined' || !validate) {
                     $("#result").modal();
-                    $("#msg").html("请滑动验证码来完成验证。");
-                    return;
-                }
-
-                if (!validate) {
-                    $("#result").modal();
-                    $("#msg").html("请滑动验证码来完成验证。");
+                    $$.getElementById('msg').innerHTML = '请滑动验证码来完成验证'
                     return;
                 }
 
@@ -337,21 +335,21 @@
                     url: "send",
                     dataType: "json",
                     data: {
-                        email: $("#email").val()
+                        email: $$getValue('email')
                     },
-                    success: function (data) {
+                    success: (data) => {
                         if (data.ret) {
                             $("#result").modal();
-                            $("#msg").html(data.msg);
+                            $$.getElementById('msg').innerHTML = data.msg;
 
                         } else {
                             $("#result").modal();
-                            $("#msg").html(data.msg);
+                            $$.getElementById('msg').innerHTML = data.msg;
                         }
                     },
-                    error: function (jqXHR) {
+                    error: (jqXHR) => {
                         $("#result").modal();
-                        $("#msg").html(data.msg + "     出现了一些错误。");
+                        $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                     }
                 })
             })

@@ -120,11 +120,11 @@
                 url: "/user/chenPay",
                 dataType: "json",
                 data: {
-                    fee: $("#AliPayType").val(),
+                    fee: $$getValue('AliPayType'),
                     type: $type,
                     url: pay_url
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $order_id = data.id;
                         $("#AliPayReadyToPay").modal({
@@ -139,14 +139,17 @@
                             checkPayTime(data.id)
                         }, 1000);
                         if (data.url) {
-                            if ($type == 2) $('.pay').attr('href', $wxpayApp);
-                            else $('.pay').attr('href', $alipay + data.url);
+                            if ($type == 2) {
+                                 $('.pay').attr('href', $wxpayApp);
+                            } else {
+                                $('.pay').attr('href', $alipay + data.url);
+                            }
                             qrcode.clear();
                             qrcode.makeCode(data.url);
                         }
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 }
             });
@@ -156,17 +159,13 @@
                     type: "GET",
                     url: "/chenPay/status?" + Math.random(),
                     dataType: "json",
-                    data: {
-                        id: id
-                    },
-                    success: function (data) {
-                        if (data.ret) {
-                            if (data.status == 1) {
-                                close('充值成功！');
-                                setTimeout(function () {
-                                    location.reload()
-                                }, 3000);
-                            }
+                    data: { id },
+                    success: (data) => {
+                        if (data.ret && data.status === 1) {
+                            close('充值成功！');
+                            setTimeout(function () {
+                                window.location.reload()
+                            }, 3000);
                         }
                     }
                 });
@@ -180,18 +179,19 @@
                     type: "GET",
                     url: "/user/orderDelete",
                     dataType: "json",
-                    data: {
-                        id: id
-                    },
-                    success: function (data) {
-                    }
+                    data: { id },
+                    success: (data) => { }
                 });
             }
 
             $('#AliPayReadyToPayClose').unbind('click').click(function () {
                 if (confirm("此操作会删除您的订单,是否确定要取消订单吗？\n如果您支付完成请耐心等候系统提示,请点取消按钮！")) {
-                    if (CheckPayTimeId) clearTimeout(CheckPayTimeId);
-                    if ($id) clearInterval($id);
+                    if (CheckPayTimeId) {
+                        clearTimeout(CheckPayTimeId);
+                    }
+                    if ($id) {
+                        clearInterval($id);
+                    }
                     AliPayDelete($order_id);
                     $("#AliPayReadyToPay").modal('hide');
                     $('.pay').attr('href', '').children('img').attr('src', '/images/loading.gif');
@@ -199,12 +199,16 @@
             });
 
             function close($msg) {
-                if (CheckPayTimeId) clearTimeout(CheckPayTimeId);
-                if ($id) clearInterval($id)
+                if (CheckPayTimeId) {
+                    clearTimeout(CheckPayTimeId);
+                }
+                if ($id) {
+                    clearInterval($id);
+                }
                 $('.pay').attr('href', '').children('img').attr('src', '/images/loading.gif');
                 $("#AliPayReadyToPay").modal('hide');
                 $("#result").modal();
-                $("#msg").html($msg);
+                $$.getElementById('msg').innerHTML = $msg;
             }
 
             var m = 2,
@@ -212,8 +216,8 @@
                 countdown = document.getElementById("countTime");
 
             function getCountdown() {
-                countdown.innerHTML = "<span>" + (m >= 10 ? m : '0' + m) + "</span>:<span>" + (s >= 10 ? s : '0' + s) + "</span>";
-                if (m == 0 && s == 0) {
+                countdown.innerHTML = `<span>${(m >= 10 ? m : '0' + m)}</span>:<span>${(s >= 10) ? s : '0' + s}</span>`;
+                if (m === 0 && s === 0) {
                     close('倒计时结束了');
                 } else if (m >= 0) {
                     if (s > 0) {
@@ -226,7 +230,7 @@
         });
     }
 
-    $(function () {
+    $(() => {
         chenPayLoad();
     });
     // setTimeout("chenPayLoad()", 2000);

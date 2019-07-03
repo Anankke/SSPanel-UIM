@@ -412,7 +412,7 @@
 
     $(".copy-text").click(function () {
         $("#result").modal();
-        $("#msg").html("已复制到您的剪贴板。");
+        $$.getElementById('msg').innerHTML = '已复制到您的剪贴板。';
     });
 </script>
 
@@ -424,20 +424,19 @@
                 url: "resetport",
                 dataType: "json",
                 data: {},
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-user-port").html(data.msg);
-                        $("#msg").html("设置成功，新端口是" + data.msg);
-
+                        $$.getElementById('ajax-user-port').innerHTML = data.msg;
+                        $$.getElementById('msg').innerHTML = `设置成功，新端口是 ${data.msg}`;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -451,21 +450,21 @@
                 url: "specifyport",
                 dataType: "json",
                 data: {
-                    port: $("#port-specify").val()
+                    port: $$getValue('port-specify')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-user-port").html($("#port-specify").val());
-                        $("#msg").html(data.msg);
+                        $$.getElementById('ajax-user-port').innerHTML = $$getValue('port-specify');
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -481,18 +480,18 @@
                 data: {
                     pac: $("#pac").text()
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -507,22 +506,22 @@
                 url: "password",
                 dataType: "json",
                 data: {
-                    oldpwd: $("#oldpwd").val(),
-                    pwd: $("#pwd").val(),
-                    repwd: $("#repwd").val()
+                    oldpwd: $$getValue('oldpwd'),
+                    pwd: $$getValue('pwd'),
+                    repwd: $$getValue('repwd')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -558,22 +557,22 @@
                 url: "wechat",
                 dataType: "json",
                 data: {
-                    wechat: $("#wechat").val(),
-                    imtype: $("#imtype").val()
+                    wechat: $$getValue('wechat'),
+                    imtype: $$getValue('imtype')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-im").html($("#imtype").find("option:selected").text() + " " + $("#wechat").val());
-                        $("#msg").html(data.msg);
+                        $$.getElementById('ajax-im').innerHTML = `${$("#imtype").find("option:selected").text()} ${$$getValue('wechat')}`
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -588,25 +587,25 @@
                 url: "ssr",
                 dataType: "json",
                 data: {
-                    protocol: $("#protocol").val(),
-                    obfs: $("#obfs").val(),
-                    obfs_param: $("#obfs-param").val()
+                    protocol: $$getValue('protocol'),
+                    obfs: $$getValue('obfs'),
+                    obfs_param: $$getValue('obfs_param')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-user-protocol").html($("#protocol").val());
-                        $("#ajax-user-obfs").html($("#obfs").val());
-                        $("#ajax-user-obfs-param").html($("#obfs-param").val());
-                        $("#msg").html(data.msg);
+                        $$.getElementById('ajax-user-protocol').innerHTML = $$getValue('protocol');
+                        $$.getElementById('ajax-user-obfs').innerHTML = $$getValue('obfs');
+                        $$.getElementById('ajax-user-obfs-param').innerHTML = $$getValue('obfs_param');
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -622,21 +621,21 @@
                 url: "relay",
                 dataType: "json",
                 data: {
-                    relay_enable: $("#relay_enable").val(),
-                    relay_info: $("#relay_info").val()
+                    relay_enable: $$getValue('relay_enable'),
+                    relay_info: $$getValue('relay_info')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -651,19 +650,19 @@
                 url: "unblock",
                 dataType: "json",
                 data: {},
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-block").html("IP: " + data.msg + " 没有被封");
-                        $("#msg").html("发送解封命令解封 " + data.msg + " 成功");
+                        $$.getElementById('ajax-block').innerHTML = `IP：${data.msg} 没有被封`;
+                        $$.getElementById('msg').innerHTML = `IP：${data.msg} 解封成功过`;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -679,20 +678,20 @@
                 url: "gacheck",
                 dataType: "json",
                 data: {
-                    code: $("#code").val()
+                    code: $$getValue('code')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -708,20 +707,20 @@
                 url: "gaset",
                 dataType: "json",
                 data: {
-                    enable: $("#ga-enable").val()
+                    enable: $$getValue('ga-enable')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -736,21 +735,21 @@
                 url: "sspwd",
                 dataType: "json",
                 data: {
-                    sspwd: $("#sspwd").val()
+                    sspwd: $$getValue('sspwd')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-user-passwd").html($("#sspwd").val());
-                        $("#msg").html("修改成功");
+                        $$.getElementById('ajax-user-passwd"').innerHTML = $$getValue('sspwd');
+                        $$.getElementById('msg').innerHTML = '修改成功';
                     } else {
                         $("#result").modal();
-                        $("#msg").html("修改失败");
+                        $$.getElementById('msg').innerHTML = '修改失败';
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -766,21 +765,21 @@
                 url: "mail",
                 dataType: "json",
                 data: {
-                    mail: $("#mail").val()
+                    mail: $$getValue('mail')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-mail").html($("#mail").val() == "1" ? "发送" : "不发送");
-                        $("#msg").html(data.msg);
+                        $$.getElementById('ajax-mail').innerHTML = ($$getValue('mail') === '1') ? '发送' : '不发送'
+                        $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -795,21 +794,21 @@
                 url: "theme",
                 dataType: "json",
                 data: {
-                    theme: $("#theme").val()
+                    theme: $$getValue('theme')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -825,21 +824,21 @@
                 url: "method",
                 dataType: "json",
                 data: {
-                    method: $("#method").val()
+                    method: $$getValue('method')
                 },
-                success: function (data) {
-                    $("#ajax-user-method").html($("#method").val());
+                success: (data) => {
+                    $$.getElementById('ajax-user-method').innerHTML = $$getValue('method');
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html("修改成功");
+                        $$.getElementById('msg').innerHTML = '修改成功';
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + " 出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })

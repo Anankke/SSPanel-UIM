@@ -1,5 +1,5 @@
 {include file='user/main.tpl'}
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
 
 <main class="content">
 
@@ -17,8 +17,6 @@
                         <div class="card-inner">
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="content">内容</label>
-                                <link rel="stylesheet"
-                                      href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
                                 <div id="editormd">
                                     <textarea style="display:none;" id="content"></textarea>
                                 </div>
@@ -55,14 +53,14 @@
 
                 {foreach $ticketset as $ticket}
                     <div class="card">
-                        <aside class="card-side pull-left"><img alt="alt text for John Smith avatar"
-                                                                src="{$ticket->User()->gravatar}"></span></br>{$ticket->User()->user_name}
+                        <aside class="card-side pull-left">
+                            <img alt="alt text for John Smith avatar" src="{$ticket->User()->gravatar}">
+                            <br>
+                            {$ticket->User()->user_name}
                         </aside>
                         <div class="card-main">
                             <div class="card-inner">
                                 {$ticket->content}
-
-
                             </div>
                             <div class="card-action"> {$ticket->datetime()}</div>
                         </div>
@@ -89,7 +87,7 @@
     $(document).ready(function () {
         function submit() {
             $("#result").modal();
-            $("#msg").html("正在提交。");
+            $$.getElementById('msg').innerHTML = '正在提交';
             $.ajax({
                 type: "PUT",
                 url: "/user/ticket/{$id}",
@@ -97,23 +95,23 @@
                 data: {
                     content: editor.getHTML(),
                     markdown: editor.getMarkdown(),
-                    title: $("#title").val(),
-                    status: status
+                    title: $$getValue('title')
+                    status
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/user/ticket'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             });
         }
@@ -131,30 +129,30 @@
         $("#close_directly").click(function () {
             status = 0;
             $("#result").modal();
-            $("#msg").html("正在提交。");
+            $$.getElementById('msg').innerHTML = '正在提交';
             $.ajax({
                 type: "PUT",
                 url: "/user/ticket/{$id}",
                 dataType: "json",
                 data: {
                     content: '这条工单已被关闭',
-                    title: $("#title").val(),
-                    status: status
+                    title: $$getValue('title')
+                    status
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/user/ticket'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             });
         });

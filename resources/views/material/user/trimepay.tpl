@@ -26,34 +26,34 @@
             }
         }
 
-        var price = parseFloat($("#amount").val());
+        var price = parseFloat($$getValue('amount'));
 
-        console.log("将要使用 " + type + " 充值" + price + "元");
+        //console.log("将要使用 " + type + " 充值" + price + "元");
         if (isNaN(price)) {
             $("#readytopay").modal('hide');
             $("#result").modal();
-            $("#msg").html("非法的金额!");
+            $$.getElementById('msg').innerHTML = '非法的金额！'
             return;
         }
         $('#readytopay').modal();
         $("#readytopay").on('shown.bs.modal', function () {
             $.ajax({
-                'url': "/user/payment/purchase",
-                'data': {
-                    'price': price,
-                    'type': type,
+                url: "/user/payment/purchase",
+                data: {
+                    price,
+                    type,
                 },
-                'dataType': 'json',
-                'type': "POST",
-                success: function (data) {
+                dataType: 'json',
+                type: "POST",
+                success: (data) => {
                     if (data.code == 0) {
-                        console.log(data);
+                        //console.log(data);
                         $("#readytopay").modal('hide');
                         if (type === 'ALIPAY_WAP' || type === 'ALIPAY_WEB') {
                             window.location.href = data.data;
                         } else {
                             pid = data.pid;
-                            $("#qrarea").html('<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>');
+                            $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>';
                             var qrcode = new QRCode("qrcode", {
                                 render: "canvas",
                                 width: 200,
@@ -64,8 +64,8 @@
                         }
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
-                        console.log(data);
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        //console.log(data);
                     }
                 }
             });
@@ -77,19 +77,17 @@
             type: "POST",
             url: "/payment/status",
             dataType: "json",
-            data: {
-                pid: pid
-            },
-            success: function (data) {
+            data: { pid },
+            success: (data) => {
                 if (data.result) {
-                    console.log(data);
+                    //console.log(data);
                     $("#result").modal();
-                    $("#msg").html("充值成功！");
+                    $$.getElementById('msg').innerHTML = '充值成功！';
                     window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                 }
             },
-            error: function (jqXHR) {
-                console.log(jqXHR);
+            error: (jqXHR) => {
+                //console.log(jqXHR);
             }
         });
         tid = setTimeout(f, 1000); //循环调用触发setTimeout

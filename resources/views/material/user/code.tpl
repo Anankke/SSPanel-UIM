@@ -173,27 +173,26 @@
                 url: "code",
                 dataType: "json",
                 data: {
-                    code: $("#code").val()
+                    code: $$getValue('code')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             })
         })
     })
 </script>
-
 
 {include file='user/footer.tpl'}
