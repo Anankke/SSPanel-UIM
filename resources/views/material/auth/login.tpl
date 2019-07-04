@@ -191,7 +191,9 @@
                 error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
+                    $$.getElementById('msg').innerHTML = `发生错误：${
+                            jqXHR.status
+                    }`;
                     document.getElementById("login").disabled = false;
                     {if $geetest_html != null}
                     captcha.refresh();
@@ -265,7 +267,9 @@
                                 },
                                 error: (jqXHR) => {
                                     $("#result").modal();
-                                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
+                                    $$.getElementById('msg').innerHTML = `发生错误：${
+                            jqXHR.status
+                    }`;
                                 }
                             });
 
@@ -279,7 +283,9 @@
                     error: (jqXHR) => {
                         if (jqXHR.status !== 200 && jqXHR.status !== 0) {
                             $("#result").modal();
-                            $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
+                            $$.getElementById('msg').innerHTML = `发生错误：${
+                            jqXHR.status
+                    }`;
                         }
                     }
                 });

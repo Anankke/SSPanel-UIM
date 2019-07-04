@@ -258,7 +258,9 @@
                     error: (jqXHR) => {
                         $("#msg-error").hide(10);
                         $("#msg-error").show(100);
-                        $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
+                        $$.getElementById('msg-error-p').innerHTML = `发生错误：${
+                            jqXHR.status
+                    }`;
                         document.getElementById("tos").disabled = false;
                         {if $geetest_html != null}
                         captcha.refresh();
@@ -349,7 +351,9 @@
                     },
                     error: (jqXHR) => {
                         $("#result").modal();
-                        $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                        $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                     }
                 })
             })

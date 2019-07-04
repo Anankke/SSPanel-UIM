@@ -94,7 +94,9 @@
                 error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${jqXHR.status}`;
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${
+                            jqXHR.status
+                    }`;
                 }
             });
         }

@@ -379,7 +379,13 @@
 <script>
 
     function urlChange(id, is_mu, rule_id) {
-        var site = `./node/${id}?ismu=${is_mu}&relay_rule=${rule_id}`;
+        var site = `./node/${
+                id
+        }?ismu=${
+                is_mu
+        }&relay_rule=${
+                rule_id
+        }`;
         if (id == 'guide') {
             var doc = document.getElementById('infoifram').contentWindow.document;
             doc.open();

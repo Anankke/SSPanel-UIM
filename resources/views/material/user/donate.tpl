@@ -138,7 +138,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })

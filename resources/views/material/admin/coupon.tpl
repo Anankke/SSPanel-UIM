@@ -134,7 +134,9 @@
                     }
                 },
                 error: jqXHR => {
-                    alert(`发生错误：${ldelim}jqXHR.status{rdelim}`);
+                    alert(`发生错误：${
+                            jqXHR.status
+                    }`);
                 }
             })
         })

@@ -289,9 +289,15 @@
             },
             success: (data) => {
                 if (data.ret) {
-                    $$.getElementById('name').innerHTML = `商品名称：${data.name}`;
-                    $$.getElementById('credit').innerHTML = `优惠额度：${data.credit}`;
-                    $$.getElementById('total').innerHTML = `总金额：${data.total}`;
+                    $$.getElementById('name').innerHTML = `商品名称：${
+                            data.name
+                            }`;
+                    $$.getElementById('credit').innerHTML = `优惠额度：${
+                            data.credit
+                            }`;
+                    $$.getElementById('total').innerHTML = `总金额：${
+                            data.total
+                            }`;
                     $("#order_modal").modal();
                 } else {
                     $("#result").modal();
@@ -300,7 +306,9 @@
             },
             error: (jqXHR) => {
                 $("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误`;
+                $$.getElementById('msg').innerHTML = `${
+                        data.msg
+                        } 发生了错误`;
             }
         })
     });
@@ -341,7 +349,9 @@
             },
             error: (jqXHR) => {
                 $("#result").modal();
-                $$.getElementById('msg').innerHTML = `${data.msg} 发生了错误`;
+                $$.getElementById('msg').innerHTML = `${
+                        data.msg
+                        } 发生了错误`;
             }
         })
     });

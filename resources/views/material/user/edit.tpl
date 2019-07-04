@@ -428,7 +428,9 @@
                     if (data.ret) {
                         $("#result").modal();
                         $$.getElementById('ajax-user-port').innerHTML = data.msg;
-                        $$.getElementById('msg').innerHTML = `设置成功，新端口是 ${data.msg}`;
+                        $$.getElementById('msg').innerHTML = `设置成功，新端口是 ${
+                                data.msg
+                        }`;
                     } else {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
@@ -436,7 +438,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -464,7 +468,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -491,7 +497,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -521,7 +529,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -572,7 +582,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -605,7 +617,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -635,7 +649,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -653,8 +669,12 @@
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $$.getElementById('ajax-block').innerHTML = `IP：${data.msg} 没有被封`;
-                        $$.getElementById('msg').innerHTML = `IP：${data.msg} 解封成功过`;
+                        $$.getElementById('ajax-block').innerHTML = `IP：${
+                                data.msg
+                        } 没有被封`;
+                        $$.getElementById('msg').innerHTML = `IP：${
+                                data.msg
+                        } 解封成功过`;
                     } else {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
@@ -662,7 +682,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -691,7 +713,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -720,7 +744,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -749,7 +775,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -779,7 +807,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -808,7 +838,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
@@ -838,7 +870,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                        } 出现了一些错误`;
                 }
             })
         })
