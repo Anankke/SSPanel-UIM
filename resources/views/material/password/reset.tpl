@@ -60,7 +60,8 @@
             </div>
             <div class="modal-footer">
                 <p class="text-right">
-                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">
+                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal"
+                            type="button">
                         我知道了
                     </button>
                 </p>

@@ -35,10 +35,13 @@
                                     </p>
                                     <div class="form-group form-group-label control-highlight-custom dropdown">
                                         <label class="floating-label" for="hide">匿名设置</label>
-                                        <button id="hide" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->is_hide}"></button>
+                                        <button id="hide" class="form-control maxwidth-edit" data-toggle="dropdown"
+                                                value="{$user->is_hide}"></button>
                                         <ul class="dropdown-menu" aria-labelledby="hide">
-                                            <li><a href="#" class="dropdown-option" onclick="return false;" val="1" data="hide">匿名</a></li>
-                                            <li><a href="#" class="dropdown-option" onclick="return false;" val="0" data="hide">不匿名</a></li>
+                                            <li><a href="#" class="dropdown-option" onclick="return false;" val="1"
+                                                   data="hide">匿名</a></li>
+                                            <li><a href="#" class="dropdown-option" onclick="return false;" val="0"
+                                                   data="hide">不匿名</a></li>
                                         </ul>
                                     </div>
 
@@ -139,8 +142,8 @@
                 error: (jqXHR) => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `${
-                                data.msg
-                        } 出现了一些错误`;
+                            data.msg
+                            } 出现了一些错误`;
                 }
             })
         })

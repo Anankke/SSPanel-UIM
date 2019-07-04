@@ -19,7 +19,8 @@
                                 <nav class="tab-nav margin-top-no">
                                     <ul class="nav nav-list">
                                         <li class="active">
-                                            <a class="" data-toggle="tab" href="#all_ssr_windows"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
+                                            <a class="" data-toggle="tab" href="#all_ssr_windows"><i
+                                                        class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
                                         </li>
                                         <li>
                                             <a class="" data-toggle="tab" href="#all_ssr_mac"><i class="icon icon-lg">laptop_mac</i>&nbsp;MacOS</a>
@@ -31,10 +32,12 @@
                                             <a class="" data-toggle="tab" href="#all_ssr_ios"><i class="icon icon-lg">phone_iphone</i>&nbsp;iOS</a>
                                         </li>
                                         <li>
-                                            <a class="" data-toggle="tab" href="#all_ssr_android"><i class="icon icon-lg">android</i>&nbsp;Android</a>
+                                            <a class="" data-toggle="tab" href="#all_ssr_android"><i
+                                                        class="icon icon-lg">android</i>&nbsp;Android</a>
                                         </li>
                                         <li>
-                                            <a class="" data-toggle="tab" href="#all_ssr_router"><i class="icon icon-lg">router</i>&nbsp;路由器</a>
+                                            <a class="" data-toggle="tab" href="#all_ssr_router"><i
+                                                        class="icon icon-lg">router</i>&nbsp;路由器</a>
                                         </li>
                                         <li>
                                             <a class="" data-toggle="tab" href="#all_ssr_game"><i class="icon icon-lg">videogame_asset</i>&nbsp;游戏端</a>

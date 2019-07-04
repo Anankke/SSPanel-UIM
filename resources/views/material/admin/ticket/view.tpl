@@ -134,7 +134,7 @@
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `发生错误：${
                             jqXHR.status
-                    }`;
+                            }`;
                 }
             });
         }
@@ -175,7 +175,7 @@
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `发生错误：${
                             jqXHR.status
-                    }`;
+                            }`;
                 }
             });
         });
@@ -204,7 +204,7 @@
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `发生错误：${
                             jqXHR.status
-                    }`;
+                            }`;
                 }
             });
         }

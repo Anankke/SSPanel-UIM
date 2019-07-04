@@ -58,7 +58,11 @@
             </tr>
             <tr>
                 <td>现阶段维护</td>
-                <td><a href="https://github.com/Talocan">Anankke</a>，<a href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a href="https://github.com/mxihan">Rin SAMA</a>，<a href="https://github.com/xcxnig">Miku</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a href="https://github.com/laurieryayoi">Nymph</a></td>
+                <td><a href="https://github.com/Talocan">Anankke</a>，<a
+                            href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a
+                            href="https://github.com/mxihan">Rin SAMA</a>，<a
+                            href="https://github.com/xcxnig">Miku</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a
+                            href="https://github.com/laurieryayoi">Nymph</a></td>
             </tr>
             <tr>
                 <td>监督</td>
@@ -66,7 +70,8 @@
             </tr>
             <tr>
                 <td>作画</td>
-                <td><a href="https://github.com/Daemonite/">Daemonite</a>，<a href="https://github.com/galaxychuck">galaxyq</a></td>
+                <td><a href="https://github.com/Daemonite/">Daemonite</a>，<a href="https://github.com/galaxychuck">galaxyq</a>
+                </td>
             </tr>
             <tr>
                 <td>永远喜欢</td>

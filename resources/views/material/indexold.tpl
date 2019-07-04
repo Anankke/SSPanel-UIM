@@ -38,15 +38,15 @@
                     <p>用户：<code>{$user->user_name}</code>
                         等级：
                         {if $user->class!=0}
-                        <code>VIP{$user->class}</code>
+                            <code>VIP{$user->class}</code>
                         {else}
-                        <code>免费</code>
+                            <code>免费</code>
                         {/if}
                         过期时间：
                         {if $user->class_expire!="1989-06-04 00:05:00"}
-                        <code>{$user->class_expire}</code>
+                            <code>{$user->class_expire}</code>
                         {else}
-                        <code>不过期</code>
+                            <code>不过期</code>
                         {/if}
                     </p>
                     <p>总流量：<code>{$user->enableTraffic()}</code>

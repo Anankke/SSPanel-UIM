@@ -174,7 +174,8 @@
                                         {/foreach}
                                     {/if}
                                     <div class="tipmiddle">
-                                        <div><span class="node-icon"><i class="icon icon-lg">chat</i> </span>{$node['info']}</div>
+                                        <div><span class="node-icon"><i
+                                                        class="icon icon-lg">chat</i> </span>{$node['info']}</div>
                                     </div>
                                     {if $node['sort'] == 11 || $node['sort'] == 12}
                                         {displayV2rayNode node=$node}
@@ -381,11 +382,11 @@
     function urlChange(id, is_mu, rule_id) {
         var site = `./node/${
                 id
-        }?ismu=${
+                }?ismu=${
                 is_mu
-        }&relay_rule=${
+                }&relay_rule=${
                 rule_id
-        }`;
+                }`;
         if (id == 'guide') {
             var doc = document.getElementById('infoifram').contentWindow.document;
             doc.open();

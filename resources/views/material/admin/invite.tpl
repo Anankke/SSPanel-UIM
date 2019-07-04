@@ -99,8 +99,8 @@
             },
             error: jqXHR => {
                 alert(`发生错误：${
-                            jqXHR.status
-                    }`);
+                        jqXHR.status
+                        }`);
             }
         })
     })

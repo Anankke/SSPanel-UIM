@@ -41,7 +41,8 @@
                 </li>
 
                 <li>
-                    <a class="padding-right-cd waves-attach" href="/user/logout"><span class="icon icon-lg margin-right">exit_to_app</span>登出</a>
+                    <a class="padding-right-cd waves-attach" href="/user/logout"><span
+                                class="icon icon-lg margin-right">exit_to_app</span>登出</a>
                 </li>
             </ul>
             {else}
@@ -52,7 +53,8 @@
                     <a class="padding-right-lg waves-attach" href="/auth/login"><span class="icon icon-lg margin-right">account_box</span>登录</a>
                 </li>
                 <li>
-                    <a class="padding-right-lg waves-attach" href="/auth/register"><span class="icon icon-lg margin-right">pregnant_woman</span>注册</a>
+                    <a class="padding-right-lg waves-attach" href="/auth/register"><span
+                                class="icon icon-lg margin-right">pregnant_woman</span>注册</a>
                 </li>
             </ul>
             {/if}
@@ -151,9 +153,10 @@
                 {/if}
 
                 {if $can_backtoadmin}
-                <li>
-                    <a class="padding-right-cd waves-attach" href="/user/backtoadmin"><span class="icon icon-lg margin-right">backtoadmin</span>返回管理员身份</a>
-                </li>
+                    <li>
+                        <a class="padding-right-cd waves-attach" href="/user/backtoadmin"><span
+                                    class="icon icon-lg margin-right">backtoadmin</span>返回管理员身份</a>
+                    </li>
                 {/if}
             </ul>
         </div>

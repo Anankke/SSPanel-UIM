@@ -36,29 +36,31 @@
                                             <th>操作</th>
                                         </tr>
                                         {foreach $shops as $shop}
-                                        <tr>
-                                            <!--<td>#{$shop->id}</td> -->
-                                            <td>{$shop->shop()->name}</td>
-                                            <td>{$shop->shop()->content()}</td>
-                                            <td>{$shop->price} 元</td>
+                                            <tr>
+                                                <!--<td>#{$shop->id}</td> -->
+                                                <td>{$shop->shop()->name}</td>
+                                                <td>{$shop->shop()->content()}</td>
+                                                <td>{$shop->price} 元</td>
 
-                                            {if $shop->renew==0}
-                                                <td>不自动续费</td>
-                                            {else}
-                                                <td>在 {$shop->renew_date()} 续费</td>
-                                            {/if}
+                                                {if $shop->renew==0}
+                                                    <td>不自动续费</td>
+                                                {else}
+                                                    <td>在 {$shop->renew_date()} 续费</td>
+                                                {/if}
 
-                                            {if $shop->shop()->auto_reset_bandwidth==0}
-                                                <td>不自动重置</td>
-                                            {else}
-                                                <td>自动重置</td>
-                                            {/if}
+                                                {if $shop->shop()->auto_reset_bandwidth==0}
+                                                    <td>不自动重置</td>
+                                                {else}
+                                                    <td>自动重置</td>
+                                                {/if}
 
-                                            <td>
-                                                <a class="btn btn-brand" {if $shop->renew==0}disabled{else}href="javascript:void(0);" onClick="delete_modal_show('{$shop->id}')"{/if}>关闭自动续费</a>
-                                            </td>
+                                                <td>
+                                                    <a class="btn btn-brand"
+                                                       {if $shop->renew==0}disabled{else}href="javascript:void(0);"
+                                                       onClick="delete_modal_show('{$shop->id}')"{/if}>关闭自动续费</a>
+                                                </td>
 
-                                        </tr>
+                                            </tr>
                                         {/foreach}
                                     </table>
                                     {$shops->render()}
@@ -68,7 +70,8 @@
                     </div>
                 </div>
 
-                <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog" tabindex="-1">
+                <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
+                     tabindex="-1">
                     <div class="modal-dialog modal-xs">
                         <div class="modal-content">
                             <div class="modal-heading">
@@ -80,10 +83,12 @@
                             </div>
                             <div class="modal-footer">
                                 <p class="text-right">
-                                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">
+                                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect"
+                                            data-dismiss="modal" type="button">
                                         取消
                                     </button>
-                                    <button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal" id="delete_input" type="button">
+                                    <button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal"
+                                            id="delete_input" type="button">
                                         确定
                                     </button>
                                 </p>
@@ -131,8 +136,8 @@
                 error: (jqXHR) => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `${
-                                data.msg
-                        } 发生错误了`;
+                            data.msg
+                            } 发生错误了`;
                 }
             });
         }

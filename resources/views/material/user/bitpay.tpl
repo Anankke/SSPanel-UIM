@@ -64,7 +64,7 @@
             type: "POST",
             url: "/payments/bitpay/status",
             dataType: "json",
-            data: { pid },
+            data: {pid},
             success: (data) => {
                 //console.log(data);
                 if (data.status === 200) {

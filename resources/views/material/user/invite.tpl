@@ -205,7 +205,7 @@
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `发生错误：${
                             jqXHR.status
-                    }`;
+                            }`;
                 }
             })
         })
@@ -235,7 +235,7 @@
             error: (jqXHR) => {
                 $("#result").modal();
                 $$.getElementById('msg').innerHTML = `${
-                                data.msg
+                        data.msg
                         } 出现了一些错误`;
             }
         })
@@ -262,7 +262,7 @@
             error: (jqXHR) => {
                 $("#result").modal();
                 $$.getElementById('msg').innerHTML = `${
-                                data.msg
+                        data.msg
                         } 出现了一些错误`;
             }
         })

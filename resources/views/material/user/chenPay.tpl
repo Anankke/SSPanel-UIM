@@ -64,7 +64,7 @@
                     <a class="pay" href="">
                         <p id="qrcode">
                             {*<img src="/images/loading.gif" width="300px"/>*}
-                            <div id="qrcode" style="text-align: center"></div>
+                        <div id="qrcode" style="text-align: center"></div>
                         </p>
                     </a>
                     <p id="title">支付成功后大约一分钟内提示</p>
@@ -78,17 +78,17 @@
 <script>
     function chenPayLoad() {
         var $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
-            $wxpayApp = 'weixin://',
-            $pay_type = 0,
-            $order_id = 0,
-            qrcode = new QRCode(document.getElementById("qrcode"));
+                $wxpayApp = 'weixin://',
+                $pay_type = 0,
+                $order_id = 0,
+                qrcode = new QRCode(document.getElementById("qrcode"));
 
         if ('{$QRcodeUrl}'.indexOf('|') > 0) {
             var $alipayUrl = '{$QRcodeUrl}'.split('|'),
-                $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
+                    $wxpayUrl = '{$WxQRcodeUrl}'.split('|');
         } else {
             var $alipayUrl = '{$QRcodeUrl}',
-                $wxpayUrl = '{$WxQRcodeUrl}';
+                    $wxpayUrl = '{$WxQRcodeUrl}';
         }
 
         $("#AliPayType").val($('.btn-price:first-child').attr('price'));
@@ -104,7 +104,7 @@
                 $('.textShow').html('手机端长按二维码保存到手机<br>点击二维码进入扫一扫选择图片支付');
                 if ('{$QRcodeUrl}'.indexOf('|') > 0) {
                     var pay_url = $wxpayUrl[$pay_type];
-                } else { 
+                } else {
                     var pay_url = $wxpayUrl;
                 }
             } else {
@@ -140,7 +140,7 @@
                         }, 1000);
                         if (data.url) {
                             if ($type == 2) {
-                                 $('.pay').attr('href', $wxpayApp);
+                                $('.pay').attr('href', $wxpayApp);
                             } else {
                                 $('.pay').attr('href', $alipay + data.url);
                             }
@@ -159,7 +159,7 @@
                     type: "GET",
                     url: "/chenPay/status?" + Math.random(),
                     dataType: "json",
-                    data: { id },
+                    data: {id},
                     success: (data) => {
                         if (data.ret && data.status === 1) {
                             close('充值成功！');
@@ -179,8 +179,9 @@
                     type: "GET",
                     url: "/user/orderDelete",
                     dataType: "json",
-                    data: { id },
-                    success: (data) => { }
+                    data: {id},
+                    success: (data) => {
+                    }
                 });
             }
 
@@ -212,8 +213,8 @@
             }
 
             var m = 2,
-                s = 59,
-                countdown = document.getElementById("countTime");
+                    s = 59,
+                    countdown = document.getElementById("countTime");
 
             function getCountdown() {
                 countdown.innerHTML = `<span>${(m >= 10 ? m : '0' + m)}</span>:<span>${(s >= 10) ? s : '0' + s}</span>`;

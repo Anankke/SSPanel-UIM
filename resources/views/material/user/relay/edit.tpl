@@ -16,7 +16,8 @@
                             <div class="card-inner">
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="source_node">起源节点</label>
-                                    <button id="source_node" class="form-control maxwidth-edit" name="source_node" data-toggle="dropdown" value="{$rule->source_node_id}">
+                                    <button id="source_node" class="form-control maxwidth-edit" name="source_node"
+                                            data-toggle="dropdown" value="{$rule->source_node_id}">
                                         {foreach $source_nodes as $source_node}
                                             {if $rule->source_node_id == $source_node->id}{$source_node->name}{/if}
                                         {/foreach}
@@ -25,7 +26,8 @@
                                     <ul class="dropdown-menu" aria-labelledby="source_node">
                                         {foreach $source_nodes as $source_node}
                                             <li>
-                                                <a href="#" class="dropdown-option" onclick="return false;" val="{$source_node->id}" data="source_node">{$source_node->name}</a>
+                                                <a href="#" class="dropdown-option" onclick="return false;"
+                                                   val="{$source_node->id}" data="source_node">{$source_node->name}</a>
                                             </li>
                                         {/foreach}
                                     </ul>
@@ -33,30 +35,35 @@
 
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="dist_node">目标节点</label>
-                                    <button id="dist_node" class="form-control maxwidth-edit" name="dist_node" data-toggle="dropdown" value="{$rule->dist_node_id}">
+                                    <button id="dist_node" class="form-control maxwidth-edit" name="dist_node"
+                                            data-toggle="dropdown" value="{$rule->dist_node_id}">
                                         {foreach $dist_nodes as $dist_node}
                                             {if $rule->dist_node_id == $dist_node->id}{$dist_node->name}{/if}
                                         {/foreach}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dist_node">
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="-1" data="dist_node">不进行中转</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="-1"
+                                               data="dist_node">不进行中转</a></li>
 
                                         {foreach $dist_nodes as $dist_node}
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="{$dist_node->id}" data="dist_node">{$dist_node->name}</a></li>
+                                            <li><a href="#" class="dropdown-option" onclick="return false;"
+                                                   val="{$dist_node->id}" data="dist_node">{$dist_node->name}</a></li>
                                         {/foreach}
                                     </ul>
                                 </div>
 
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="port">端口</label>
-                                    <button id="port" class="form-control maxwidth-edit" name="port" data-toggle="dropdown" value="{$rule->port}">
+                                    <button id="port" class="form-control maxwidth-edit" name="port"
+                                            data-toggle="dropdown" value="{$rule->port}">
                                         {foreach $ports as $port}
                                             {if $rule->port == $port}{$rule->port}{/if}
                                         {/foreach}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="port">
                                         {foreach $ports as $port}
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="{$port}" data="port">{$port}</a></li>
+                                            <li><a href="#" class="dropdown-option" onclick="return false;"
+                                                   val="{$port}" data="port">{$port}</a></li>
                                         {/foreach}
                                     </ul>
                                 </div>
@@ -64,7 +71,8 @@
 
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="priority">优先级</label>
-                                    <input class="form-control maxwidth-edit" id="priority" name="priority" type="text" value="{$rule->priority}">
+                                    <input class="form-control maxwidth-edit" id="priority" name="priority" type="text"
+                                           value="{$rule->priority}">
                                 </div>
 
 
@@ -90,7 +98,7 @@
                     </div>
                 </form>
                 {include file='dialog.tpl'}
-            <section>
+                <section>
         </div>
 
     </div>
@@ -106,7 +114,7 @@
         },
         submitHandler: () => {
             $.ajax({
-{/literal}
+                {/literal}
                 type: 'PUT',
                 url: '/user/relay/{$rule->id}',
                 dataType: 'json',
@@ -115,15 +123,15 @@
                     dist_node: $$getValue('dist_node')
                     port: $$getValue('port'),
                     priority: $$getValue('priority')
-{literal}
+                    {literal}
                 },
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-{/literal}
+                        {/literal}
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-{literal}
+                        {literal}
                     } else {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
@@ -132,8 +140,8 @@
                 error: (jqXHR) => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `${
-                                data.msg
-                        } 发生错误了`;
+                            data.msg
+                            } 发生错误了`;
                 }
             });
         }
