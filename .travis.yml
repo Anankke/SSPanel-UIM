@@ -83,6 +83,8 @@ script:
   - curl -vvv 'http://sspanel.test:23480/index.php'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
   - curl -vvv 'http://sspanel.test:23480/paolu.html'
+  - sudo cat /var/log/nginx/access.log
+  - sudo cat /var/log/nginx/error.log
 cache:
   directories:
     - uim-index-dev/node_modules
