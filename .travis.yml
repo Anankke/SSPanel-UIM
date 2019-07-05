@@ -14,8 +14,6 @@ before_install:
   - echo "$TRAVIS_BUILD_DIR"
   - echo "==========================================================="
   - echo $(whoami)
-  - sudo su
-  - echo $(whoami)
   - echo "==========================================================="
   - echo "Upgrade linux packages"
   - echo "==========================================================="
@@ -44,9 +42,6 @@ before_install:
   - sudo ls /etc/nginx/sites-available/
   - sudo cat /etc/nginx/sites-enabled/sspanel.test.conf
 install:
-  - sudo chmod -R 755 $TRAVIS_BUILD_DIR/
-  - sudo chown -R www-data:www-data $TRAVIS_BUILD_DIR/
-  - sudo chmod -R 755 *
   - composer install
   - echo "==========================================================="
   - echo $(git log -1 --pretty=%B | grep 'skip lint')
@@ -81,6 +76,8 @@ script:
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
+  - sudo chmod -R 755 $TRAVIS_BUILD_DIR/
+  - sudo chown -R www-data:www-data $TRAVIS_BUILD_DIR/
   - sudo service php7.3-fpm restart
   - sudo nginx -c /etc/nginx/nginx.conf
   - curl -vvv 'http://sspanel.test:23480/index.php'
