@@ -79,7 +79,9 @@
             type: "POST",
             url: "/payment/status",
             dataType: "json",
-            data: {pid},
+{literal}
+            data: { pid },
+{/literal}
             success: (data) => {
                 if (data.result) {
                     //console.log(data);
