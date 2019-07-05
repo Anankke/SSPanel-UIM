@@ -74,7 +74,7 @@ before_script:
     fi
 script:
   - sudo chmod -R 755 *
-  - cp config/.config.example.php config/.config.php
+  - cp test/config.php config/.config.php
   - php xcat createAdmin test@example.com test
   - php xcat syncusers
   - php xcat initdownload
