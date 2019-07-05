@@ -79,7 +79,7 @@ script:
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
-  - sudo service php7.3-fpm restart
+  - service php7.3-fpm restart
   - sudo nginx -c /etc/nginx/nginx.conf
   - curl -vvv 'http://sspanel.test:23480/index.php'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
