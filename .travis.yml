@@ -32,6 +32,8 @@ before_install:
   - echo "==========================================================="
   - echo "Configure Nginx"
   - echo "==========================================================="
+  - sudo sed -e "s?user www-data;?user travis;?g" --in-place /etc/nginx/nginx.conf
+  - sudo cat /etc/nginx/nginx.conf
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
   - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test.conf
@@ -71,13 +73,12 @@ before_script:
       ./test/listTpl.sh;
     fi
 script:
+  - sudo chmod -R 755 *
   - cp config/.config.example.php config/.config.php
   - php xcat createAdmin test@example.com test
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
-  - sudo chmod -R 755 $TRAVIS_BUILD_DIR/
-  - sudo chown -R www-data:www-data $TRAVIS_BUILD_DIR/
   - sudo service php7.3-fpm restart
   - sudo nginx -c /etc/nginx/nginx.conf
   - curl -vvv 'http://sspanel.test:23480/index.php'
