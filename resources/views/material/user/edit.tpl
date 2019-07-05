@@ -473,6 +473,7 @@
     });
 </script>
 
+{literal}
 <script>
     $(document).ready(function () {
         $("#portreset").click(function () {
@@ -533,6 +534,7 @@
         })
     })
 </script>
+
 <script>
     $(document).ready(function () {
         $("#setpac").click(function () {
@@ -594,7 +596,7 @@
         })
     })
 </script>
-
+{/literal}
 <script>
     var ga_qrcode = '{$user->getGAurl()}',
             qrcode1 = new QRCode(document.getElementById("ga-qr"));
@@ -639,9 +641,8 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+{literal}
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -674,9 +675,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -706,9 +705,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -739,9 +736,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -770,9 +765,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -801,9 +794,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -832,9 +823,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
@@ -864,15 +853,13 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
         })
     })
 </script>
-
+{/literal}
 <script>
     $(document).ready(function () {
         $("#theme-update").click(function () {
@@ -893,6 +880,7 @@
                         $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
+{literal}
                 error: (jqXHR) => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `${
@@ -935,4 +923,4 @@
         })
     })
 </script>
-
+{/literal}
