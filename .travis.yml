@@ -34,13 +34,13 @@ before_install:
   - echo "==========================================================="
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
-  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test
-  - sudo cat /etc/nginx/nginx.conf
+  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test.conf
   - sudo rm -rf /etc/nginx/sites-available/default
-  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/nginx/sites-available/sspanel.test
-  - sudo ln -s /etc/nginx/sites-available/sspanel.test /etc/nginx/sites-enabled/
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/nginx/sites-available/sspanel.test.conf
+  - sudo ln -s /etc/nginx/sites-available/sspanel.test.conf /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
+  - sudo cat /etc/nginx/sites-enabled/sspanel.test.conf
 install:
   - sudo chmod -R 755 *
   - composer install
@@ -78,7 +78,7 @@ script:
   - php xcat initdownload
   - php xcat initQQWry
   - sudo service php7.3-fpm restart
-  - sudo service nginx restart
+  - sudo nginx -c /etc/nginx/nginx.conf
   - curl -vvv 'http://sspanel.test:23480/index.php'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
   - curl -vvv 'http://sspanel.test:23480/paolu.html'
