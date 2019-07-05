@@ -162,50 +162,45 @@
             document.getElementById("login").disabled = true;
 
             $.ajax({
-                        type: "POST",
-                        url: "/auth/login",
-                        dataType: "json",
-                        data: {
-                            email: $$getValue('email'),
-                            passwd: $$getValue('passwd'),
-                            code: $$getValue('code'),,{if $recaptcha_sitekey != null}
-                        recaptcha: grecaptcha.getResponse(),{/if}
-                        remember_me: $("#remember_me:checked").val(){if $geetest_html != null},
-                        geetest_challenge: validate.geetest_challenge,
-                        geetest_validate: validate.geetest_validate,
-                        geetest_seccode: validate.geetest_seccode{/if}
-                    },
-                    success
-        :
-            (data) => {
-                if (data.ret == 1) {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    window.setTimeout("location.href='/user'", {$config['jump_delay']});
-                } else {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
+                type: "POST",
+                url: "/auth/login",
+                dataType: "json",
+                data: {
+                    email: $$getValue('email'),
+                    passwd: $$getValue('passwd'),
+                    code: $$getValue('code'),{if $recaptcha_sitekey != null}
+                    recaptcha: grecaptcha.getResponse(),{/if}
+                    remember_me: $("#remember_me:checked").val(){if $geetest_html != null},
+                    geetest_challenge: validate.geetest_challenge,
+                    geetest_validate: validate.geetest_validate,
+                    geetest_seccode: validate.geetest_seccode{/if}
+                },
+                success: (data) => {
+                    if (data.ret == 1) {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.href='/user'", {$config['jump_delay']});
+                    } else {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        document.getElementById("login").disabled = false;
+                        {if $geetest_html != null}
+                        captcha.refresh();
+                        {/if}
+                    }
+                },
+                error: (jqXHR) => {
+                    $("#msg-error").hide(10);
+                    $("#msg-error").show(100);
+                    $$.getElementById('msg').innerHTML = `发生错误：${
+                        jqXHR.status
+                    }`;
                     document.getElementById("login").disabled = false;
                     {if $geetest_html != null}
                     captcha.refresh();
                     {/if}
                 }
-            },
-                    error
-        :
-            (jqXHR) => {
-                $("#msg-error").hide(10);
-                $("#msg-error").show(100);
-                $$.getElementById('msg').innerHTML = `发生错误：${
-                        jqXHR.status
-                        }`;
-                document.getElementById("login").disabled = false;
-                {if $geetest_html != null}
-                captcha.refresh();
-                {/if}
-            }
-        })
-            ;
+            });
         }
 
         $("html").keydown(function (event) {
