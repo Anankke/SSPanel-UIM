@@ -617,7 +617,7 @@
     {/if}
 </script>
 
-
+{literal}
 <script>
     $(document).ready(function () {
         $("#wechat-update").click(function () {
@@ -641,7 +641,6 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-{literal}
                     $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
             })
