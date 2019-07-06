@@ -32,7 +32,7 @@ before_install:
   - echo "==========================================================="
   - echo "Configure Nginx"
   - echo "==========================================================="
-  - sudo sed -e "s?user www-data;?user travis;?g" --in-place /etc/nginx/nginx.conf
+  #- sudo sed -e "s?user www-data;?user travis;?g" --in-place /etc/nginx/nginx.conf
   - sudo cat /etc/nginx/nginx.conf
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
@@ -79,8 +79,9 @@ script:
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
-  - service php7.3-fpm restart
+  - sudo service php7.3-fpm restart
   - sudo nginx -c /etc/nginx/nginx.conf
+  - sudo chown -R www-data:www-data $TRAVIS_BUILD_DIR/
   - curl -vvv 'http://sspanel.test:23480/index.php'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
   - curl -vvv 'http://sspanel.test:23480/paolu.html'
