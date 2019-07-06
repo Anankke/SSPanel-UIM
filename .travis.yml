@@ -9,19 +9,86 @@ addons:
   hosts:
     - sspanel.test
 before_install:
-  - chmod +x test/travis/setup.sh
-  - ./test/travis/setup.sh
+  - echo "==========================================================="
+  - echo "$SHELL"
+  - echo "$TRAVIS_BUILD_DIR"
+  - echo "==========================================================="
+  - echo $(whoami)
+  - sudo adduser www-data travis
+  - echo "==========================================================="
+  - echo "Upgrade linux packages"
+  - echo "==========================================================="
+  - sudo add-apt-repository ppa:ondrej/php -y
+  - curl -sL https://noc.one/ubuntu | bash
+  - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+  - sudo apt clean all && sudo apt -qq -y update
+  - sudo apt install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx dash bash
+  - echo "==========================================================="
+  - echo "Configure MySQL"
+  - echo "==========================================================="
+  - sudo mysql -e "CREATE DATABASE sspanel; use sspanel; source sql/glzjin_all.sql;"
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('sspanel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo mysql_upgrade -u root -psspanel
+  - sudo service mysql restart
+  - echo "==========================================================="
+  - echo "Configure Nginx"
+  - echo "==========================================================="
+  #- sudo sed -e "s?user www-data;?user travis;?g" --in-place /etc/nginx/nginx.conf
+  - sudo cat /etc/nginx/nginx.conf
+  - sudo ls /etc/nginx/sites-enabled/
+  - sudo ls /etc/nginx/sites-available/
+  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test.conf
+  - sudo rm -rf /etc/nginx/sites-available/default
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/nginx/sites-available/sspanel.test.conf
+  - sudo ln -s /etc/nginx/sites-available/sspanel.test.conf /etc/nginx/sites-enabled/
+  - sudo ls /etc/nginx/sites-enabled/
+  - sudo ls /etc/nginx/sites-available/
+  - sudo cat /etc/nginx/sites-enabled/sspanel.test.conf
 install:
-  - chmod +x test/travis/install.sh
-  - ./test/travis/install.sh
+  - composer install
+  - echo "==========================================================="
+  - echo $(git log -1 --pretty=%B | grep 'skip lint')
+  - echo "==========================================================="
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+      npm i -g phplint;
+    fi
+  - cd uim-index-dev
+  - npm i
+  - cd ..
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+      cd test && git clone https://github.com/erunion/smarty-lint && cd .. ;
+    fi
 before_script:
-  - chmod +x test/travis/lint.sh
-  - ./test/travis/lint.sh
+  - cd uim-index-dev
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+      npm run lint;
+    fi
+  - npm audit || true
+  - npm run build
+  - cd ..
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+      phplint '**/*.php' '!vendor/**';
+    fi
+  - chmod +x ./test/listTpl.sh
+  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
+      ./test/listTpl.sh;
+    fi
 script:
-  - chmod +x test/travis/test_xcat.sh
-  - ./test/travis/test_xcat.sh
-  - chmod +x test/travis/test_route.sh
-  - ./test/travis/test_route.sh
+  - sudo chmod -R 755 *
+  - cp test/config.php config/.config.php
+  - php xcat createAdmin test@example.com test
+  - php xcat syncusers
+  - php xcat initdownload
+  - php xcat initQQWry
+  - sudo service php7.3-fpm restart
+  - sudo nginx -c /etc/nginx/nginx.conf
+  - sudo chmod -R 777 $TRAVIS_BUILD_DIR
+  - sudo chown -R www-data:www-data $TRAVIS_BUILD_DIR
+  - curl -vvv 'http://sspanel.test:23480/index.php'
+  - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
+  - curl -vvv 'http://sspanel.test:23480/paolu.html'
+  - sudo cat /var/log/nginx/access.log
+  - sudo cat /var/log/nginx/error.log
 cache:
   directories:
     - uim-index-dev/node_modules
