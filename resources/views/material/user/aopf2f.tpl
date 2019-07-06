@@ -51,7 +51,9 @@
                     //console.log(jqXHR);
                     $("#readytopay").modal('hide');
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${jqXHR} 发生错误了`;
+                    $$.getElementById('msg').innerHTML = `${
+                            jqXHR
+                            } 发生错误了`;
                 }
             })
         });
