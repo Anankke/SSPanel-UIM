@@ -13,12 +13,13 @@ before_install:
   - echo "$SHELL"
   - echo "$TRAVIS_BUILD_DIR"
   - echo "==========================================================="
+  - echo $(whoami)
+  - sudo adduser www-data travis
+  - echo "==========================================================="
   - echo "Upgrade linux packages"
   - echo "==========================================================="
   - sudo add-apt-repository ppa:ondrej/php -y
-  - sudo sed -i 's|http://us-east-1.ec2.archive.ubuntu.com|https://ubuntu.mirror.noc.one|g' /etc/apt/sources.list
-  - sudo sed -i 's|http://security.ubuntu.com|https://ubuntu.mirror.noc.one|g' /etc/apt/sources.list
-  - sudo sed -i 's|http://ppa.launchpad.net|https://launchpad.proxy.noc.one|g' /etc/apt/sources.list.d/*.list
+  - curl -sL https://noc.one/ubuntu | bash
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt clean all && sudo apt -qq -y update
   - sudo apt install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx dash bash
@@ -32,15 +33,18 @@ before_install:
   - echo "==========================================================="
   - echo "Configure Nginx"
   - echo "==========================================================="
+  #- sudo sed -e "s?user www-data;?user travis;?g" --in-place /etc/nginx/nginx.conf
+  - sudo cat /etc/nginx/nginx.conf
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
-  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test
-  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/nginx/sites-available/sspanel.test
-  - sudo ln -s /etc/nginx/sites-available/sspanel.test /etc/nginx/sites-enabled/
+  - sudo cp test/travis-ci.conf /etc/nginx/sites-available/sspanel.test.conf
+  - sudo rm -rf /etc/nginx/sites-available/default
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/nginx/sites-available/sspanel.test.conf
+  - sudo ln -s /etc/nginx/sites-available/sspanel.test.conf /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-enabled/
   - sudo ls /etc/nginx/sites-available/
+  - sudo cat /etc/nginx/sites-enabled/sspanel.test.conf
 install:
-  - sudo chmod -R 755 *
   - composer install
   - echo "==========================================================="
   - echo $(git log -1 --pretty=%B | grep 'skip lint')
@@ -70,16 +74,21 @@ before_script:
       ./test/listTpl.sh;
     fi
 script:
-  - cp config/.config.example.php config/.config.php
+  - sudo chmod -R 755 *
+  - cp test/config.php config/.config.php
   - php xcat createAdmin test@example.com test
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
   - sudo service php7.3-fpm restart
-  - sudo service nginx restart
+  - sudo nginx -c /etc/nginx/nginx.conf
+  - sudo chmod -R 777 $TRAVIS_BUILD_DIR
+  - sudo chown -R www-data:www-data $TRAVIS_BUILD_DIR
   - curl -vvv 'http://sspanel.test:23480/index.php'
   - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
   - curl -vvv 'http://sspanel.test:23480/paolu.html'
+  - sudo cat /var/log/nginx/access.log
+  - sudo cat /var/log/nginx/error.log
 cache:
   directories:
     - uim-index-dev/node_modules
