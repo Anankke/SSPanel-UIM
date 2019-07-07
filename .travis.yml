@@ -45,7 +45,9 @@ before_install:
   - sudo ls /etc/nginx/sites-available/
   - sudo cat /etc/nginx/sites-enabled/sspanel.test.conf
 install:
-  - composer install
+  - if [ ! -d "vendor" ]; then
+      composer install;
+    fi
   - echo "==========================================================="
   - echo $(git log -1 --pretty=%B | grep 'skip lint')
   - echo "==========================================================="
@@ -93,3 +95,4 @@ cache:
   directories:
     - uim-index-dev/node_modules
     - $HOME/.composer/cache/files
+    - vendor
