@@ -95,7 +95,7 @@
                 data: {
                     content: editor.getHTML(),
                     markdown: editor.getMarkdown(),
-                    title: $$getValue('title')
+                    title: $$getValue('title'),
                     status
                 },
                 success: (data) => {
