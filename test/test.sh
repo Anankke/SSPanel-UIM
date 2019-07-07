@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "key=$1"
+echo "expire_in=$2"
+
 while read ROUTE
 do
     http_code=$(curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} "http://sspanel.test:23480$ROUTE")
