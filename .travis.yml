@@ -86,7 +86,7 @@ script:
   - sudo nginx -c /etc/nginx/nginx.conf
   - sudo chmod -R 777 $TRAVIS_BUILD_DIR
   - sudo chown -R www-data:www-data $TRAVIS_BUILD_DIR
-  - ./test/test.sh ${arrcookie[1]} ${arrcookie[2]}
+  - ./test/test.sh ${arrcookie[0]} ${arrcookie[1]}
   - sudo cat /var/log/nginx/access.log
   - sudo cat /var/log/nginx/error.log
 cache:
