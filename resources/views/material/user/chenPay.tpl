@@ -153,7 +153,7 @@
                     }
                 }
             });
-
+            {literal}
             function checkPayTime(id) {
                 $.ajax({
                     type: "GET",
@@ -184,7 +184,7 @@
                     }
                 });
             }
-
+            {/literal}
             $('#AliPayReadyToPayClose').unbind('click').click(function () {
                 if (confirm("此操作会删除您的订单,是否确定要取消订单吗？\n如果您支付完成请耐心等候系统提示,请点取消按钮！")) {
                     if (CheckPayTimeId) {

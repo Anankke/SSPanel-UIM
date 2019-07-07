@@ -95,7 +95,6 @@
                 data: {
                     content: editor.getHTML(),
                     markdown: editor.getMarkdown(),
-                    title: $$getValue('title')
                     status
                 },
                 success: (data) => {
@@ -138,7 +137,6 @@
                 dataType: "json",
                 data: {
                     content: '这条工单已被关闭',
-                    title: $$getValue('title')
                     status
                 },
                 success: (data) => {
