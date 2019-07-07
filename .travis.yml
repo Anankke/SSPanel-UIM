@@ -81,8 +81,7 @@ script:
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
-  - php xcat getCookie 0
-  - php xcat getCookie 1
+  - echo $(php xcat getCookie 1)
   - sudo service php7.3-fpm restart
   - sudo nginx -c /etc/nginx/nginx.conf
   - sudo chmod -R 777 $TRAVIS_BUILD_DIR
