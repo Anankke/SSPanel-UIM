@@ -207,8 +207,9 @@
     <script>
         $(document).ready(function () {
             function register() {
+                {if $config['register_mode'] == 'invite'}
                 code = $$getValue('code');
-                {if $config['register_mode'] != 'invite'}
+                {else}
                 code = 0;
                 if ((getCookie('code')) != '') {
                     code = getCookie('code');
@@ -223,7 +224,7 @@
                     data: {
                         email: $$getValue('email'),
                         name: $$getValue('name'),
-                        passwd: $$getValue('password'),
+                        passwd: $$getValue('passwd'),
                         repasswd: $$getValue('repasswd'),
                         wechat: $$getValue('wechat'),
 
