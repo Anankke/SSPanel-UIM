@@ -22,7 +22,7 @@ before_install:
   - curl -sL https://noc.one/ubuntu | bash
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt clean all && sudo apt -qq -y update
-  - sudo apt install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx dash bash
+  - sudo apt install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx dash bash curl
   - echo "==========================================================="
   - echo "Configure MySQL"
   - echo "==========================================================="
@@ -84,9 +84,8 @@ script:
   - sudo nginx -c /etc/nginx/nginx.conf
   - sudo chmod -R 777 $TRAVIS_BUILD_DIR
   - sudo chown -R www-data:www-data $TRAVIS_BUILD_DIR
-  - curl -vvv 'http://sspanel.test:23480/index.php'
-  - curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'http://sspanel.test:23480/index.php'
-  - curl -vvv 'http://sspanel.test:23480/paolu.html'
+  - chmod +x test/test.sh
+  - ./test/test.sh
   - sudo cat /var/log/nginx/access.log
   - sudo cat /var/log/nginx/error.log
 cache:
