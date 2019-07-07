@@ -138,7 +138,7 @@
                 dataType: "json",
                 data: {
                     content: '这条工单已被关闭',
-                    title: $$getValue('title')
+                    title: $$getValue('title'),
                     status
                 },
                 success: (data) => {
