@@ -81,7 +81,7 @@ script:
   - php xcat syncusers
   - php xcat initdownload
   - php xcat initQQWry
-  - arrcookie=($(php xcat getCookie 1) | sed 's| |\n|g')
+  - arrcookie=($(php xcat getCookie 1 | sed 's| |\n|g'))
   - sudo service php7.3-fpm restart
   - sudo nginx -c /etc/nginx/nginx.conf
   - sudo chmod -R 777 $TRAVIS_BUILD_DIR
