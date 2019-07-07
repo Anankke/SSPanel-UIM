@@ -16,7 +16,7 @@ while read ROUTE
 do
     http_code=$(curl -o /dev/null -H"Cookie: $cookie" -s -m 10 --connect-timeout 5 -w %{http_code} "http://sspanel.test:23480$ROUTE")
     num=$[num+x]
-    [[ "$http_code" = "200" ]] && success=$[success+i]
+    [[ "$http_code" = "200" ]] && success=$[success+x]
     echo "$ROUTE - http code: $http_code"
     echo '--------------------------------------------------'
 done < ./test/route.list
