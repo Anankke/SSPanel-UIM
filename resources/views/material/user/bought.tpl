@@ -27,7 +27,8 @@
                                     {$shops->render()}
                                     <table class="table">
                                         <tr>
-                                            <!--   <th>ID</th> -->
+                                            <th>ID</th>
+                                            <th>购买时间</th>
                                             <th>商品名称</th>
                                             <th>内容</th>
                                             <th>价格</th>
@@ -37,7 +38,8 @@
                                         </tr>
                                         {foreach $shops as $shop}
                                             <tr>
-                                                <!--<td>#{$shop->id}</td> -->
+                                                <td>#{$shop->id}</td>
+                                                <td>{$shop->datetime("Y/m/d",$date_unix)}</td>
                                                 <td>{$shop->shop()->name}</td>
                                                 <td>{$shop->shop()->content()}</td>
                                                 <td>{$shop->price} 元</td>
