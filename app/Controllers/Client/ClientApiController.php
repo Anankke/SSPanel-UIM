@@ -17,6 +17,7 @@ use App\Services\Auth;
 use App\Services\Config;
 use App\Services\Factory;
 use App\Utils\Helper;
+use Whoops\Exception\ErrorException;
 
 class ClientApiController extends BaseController
 {
@@ -61,12 +62,18 @@ class ClientApiController extends BaseController
         $user = User::find($token->userId);
         $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id, 0);
         $mu = 0;
-        if ($request->getQueryParams()['mu'] != '') {
-            $mu = $request->getQueryParams()['mu'];
-        }
         $res['ret'] = 1;
         $res['msg'] = 'ok';
         $res['data'] = Config::get('subUrl') . $ssr_sub_token . '?mu=' . $mu;
+        try {
+            if ($request->getQueryParams()['mu'] != '') {
+                $mu = $request->getQueryParams()['mu'];
+            }
+        }catch (ErrorException $e){
+            if (Config::get('mergeSub') == true) {
+                $res['data'] = Config::get('subUrl') . $ssr_sub_token;
+            }
+        }
         return $this->echoJson($response, $res);
     }
 }
