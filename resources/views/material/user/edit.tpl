@@ -45,22 +45,22 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">节点连接密码修改</div>
-                                    <button class="btn btn-flat" id="ss-pwd-update"><span class="icon">check</span>&nbsp;
-                                    </button>
+                                    <button class="btn btn-flat" id="ss-pwd-update"><span class="icon">check</span>&nbsp;</button>
                                 </div>
 
                                 <p>当前连接密码：<code id="ajax-user-passwd">{$user->passwd}</code>
-                                    <button class="kaobei copy-text btn btn-subscription" type="button"
-                                            data-clipboard-text="{$user->passwd}">
+                                    <button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">
                                         点击拷贝
                                     </button>
                                 </p>
-                                <div class="form-group form-group-label">
+                                <!--<div class="form-group form-group-label">
                                     <label class="floating-label" for="sspwd">新连接密码</label>
                                     <input class="form-control maxwidth-edit" id="sspwd" type="text">
                                 </div>
-                                <br>
-                                <p>您需要了解的是，修改此密码同时也会变更您 V2Ray 节点的 UUID，请注意及时更新托管订阅。</p>
+                                <br>-->
+                                <p>为了确保您的安全，节点连接密码不允许自定义，点击提交按钮将会自动生成由随机字母和数字组成的连接密码。</p>
+                                <p>修改连接密码同时也会自动为您重新生成 V2Ray 节点的 UUID。</p>
+                                <p>修改密码后，请立刻更新各个客户端上的连接信息。</p>
                             </div>
                         </div>
                     </div>
@@ -227,8 +227,7 @@
                                 <p>当前主题：<code data-default="theme">{$user->theme}</code></p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="theme">主题</label>
-                                    <button id="theme" type="button" class="form-control maxwidth-edit"
-                                            data-toggle="dropdown" value="{$user->theme}">
+                                    <button id="theme" type="button" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->theme}">
 
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="mail">
@@ -254,7 +253,7 @@
                         <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
-                                    <div class="card-heading">IP解封</div>
+                                    <div class="card-heading">IP 解封</div>
                                     <button class="btn btn-flat" id="unblock"><span class="icon">not_interested</span>&nbsp;
                                     </button>
                                 </div>
@@ -794,18 +793,19 @@
 
 <script>
     $(document).ready(function () {
+        let newsspwd = Math.random().toString(36).substr(2);
         $("#ss-pwd-update").click(function () {
             $.ajax({
                 type: "POST",
                 url: "sspwd",
                 dataType: "json",
                 data: {
-                    sspwd: $$getValue('sspwd')
+                    sspwd: newsspwd
                 },
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $$.getElementById('ajax-user-passwd').innerHTML = $$getValue('sspwd');
+                        $$.getElementById('ajax-user-passwd').innerHTML = newsspwd;
                         $$.getElementById('msg').innerHTML = '修改成功';
                     } else {
                         $("#result").modal();
