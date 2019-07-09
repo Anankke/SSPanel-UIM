@@ -537,13 +537,8 @@
                     pac: $("#pac").text()
                 },
                 success: (data) => {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
@@ -569,13 +564,8 @@
                     repwd: $$getValue('repwd')
                 },
                 success: (data) => {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
@@ -685,13 +675,8 @@
                     relay_info: $$getValue('relay_info')
                 },
                 success: (data) => {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
@@ -745,13 +730,8 @@
                     code: $$getValue('code')
                 },
                 success: (data) => {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
@@ -774,13 +754,8 @@
                     enable: $$getValue('ga-enable')
                 },
                 success: (data) => {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
                 },
                 error: (jqXHR) => {
                     $("#result").modal();

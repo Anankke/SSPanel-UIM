@@ -131,13 +131,8 @@
                     hide: $$getValue('hide')
                 },
                 success: (data) => {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
