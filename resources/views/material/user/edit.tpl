@@ -78,9 +78,7 @@
                                 </div>
                                 <p>注意：SS/SSD/SSR 支持的加密方式有所不同，请根据实际情况来进行选择</p>
                                 <p>
-                                    当前加密方式：<code id="ajax-user-method"
-                                                 data-default="method">[{if URL::CanMethodConnect($user->method) == 2}SS/SSD{else}SS/SSR{/if}
-                                        可连接] {$user->method}</code>
+                                    当前加密方式：<code id="ajax-user-method" data-default="method">[{if URL::CanMethodConnect($user->method) == 2}SS/SSD{else}SS/SSR{/if}可连接] {$user->method}</code>
                                 </p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="method">加密方式</label>
@@ -161,9 +159,7 @@
                                     <button class="btn btn-flat" id="ssr-update"><span class="icon">check</span>&nbsp;
                                     </button>
                                 </div>
-                                <p>当前协议：<code id="ajax-user-protocol"
-                                              data-default="protocol">[{if URL::CanProtocolConnect($user->protocol) == 3}SS/SSD/SSR{else}SSR{/if}
-                                        可连接] {$user->protocol}</code></p>
+                                <p>当前协议：<code id="ajax-user-protocol" data-default="protocol">[{if URL::CanProtocolConnect($user->protocol) == 3}SS/SSD/SSR{else}SSR{/if}可连接] {$user->protocol}</code></p>
                                 <p>注意1：如果需要兼容 SS/SSD 请设置为 origin 或选择带_compatible的兼容选项</p>
                                 <p>注意3：auth_chain 系为实验性协议，可能造成不稳定或无法使用，开启前请询问是否支持</p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
@@ -184,9 +180,7 @@
                             </div>
 
                             <div class="card-inner">
-                                <p>当前混淆方式：<code id="ajax-user-obfs"
-                                                data-default="obfs">[{if URL::CanObfsConnect($user->obfs) >= 3}SS/SSD/SSR{elseif URL::CanObfsConnect($user->obfs) == 1}SSR{else}SS/SSD{/if}
-                                        可连接] {$user->obfs}</code></p>
+                                <p>当前混淆方式：<code id="ajax-user-obfs" data-default="obfs">[{if URL::CanObfsConnect($user->obfs) >= 3}SS/SSD/SSR{elseif URL::CanObfsConnect($user->obfs) == 1}SSR{else}SS/SSD{/if}可连接] {$user->obfs}</code></p>
                                 <p>注意1：如果需要兼容 SS/SSD 请设置为 plain 或选择带_compatible的兼容选项</p>
                                 <p>注意2：SS/SSD 和 SSR 支持的混淆类型有所不同，simple_obfs_* 为 SS/SSD 的混淆方式，其他为 SSR 的混淆方式</p>
                                 <p>注意3：如果使用 SS/SSD 作为客户端，请确保自己知道如何下载并使用混淆插件</p>
@@ -281,9 +275,7 @@
                                     </button>
                                 </div>
                                 <p class="card-heading"></p>
-                                <p>当前设置：<code id="ajax-mail"
-                                              data-default="mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}</code>
-                                </p>
+                                <p>当前设置：<code id="ajax-mail" data-default="mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}</code></p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="mail">发送设置</label>
                                     <button type="button" id="mail" class="form-control maxwidth-edit"
@@ -813,7 +805,7 @@
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $$.getElementById('ajax-user-passwd"').innerHTML = $$getValue('sspwd');
+                        $$.getElementById('ajax-user-passwd').innerHTML = $$getValue('sspwd');
                         $$.getElementById('msg').innerHTML = '修改成功';
                     } else {
                         $("#result").modal();
