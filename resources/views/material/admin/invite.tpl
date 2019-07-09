@@ -82,9 +82,9 @@
             url: "/admin/invite",
             dataType: "json",
             data: {
-                prefix: $$.getElementById('invite').value,
-                uid: $$.getElementById('uid').value,
-                num: $$.getElementById('num').value,
+                prefix: $$getValue('invite'),
+                uid: $$getValue('uid'),
+                num: $$getValue('num'),
             },
             success: data => {
                 if (data.ret) {

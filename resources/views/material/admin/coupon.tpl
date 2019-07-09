@@ -112,7 +112,7 @@
         {include file='table/js_2.tpl'}
 
         $$.getElementById('coupon').addEventListener('click', () => {
-            let couponCode = $$.getElementById('prefix').value;
+            let couponCode = $$getValue('prefix');
 
             $.ajax({
                 type: "POST",

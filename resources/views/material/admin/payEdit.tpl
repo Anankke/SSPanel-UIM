@@ -138,13 +138,13 @@
                 data: {
                     AliPay_Status,
                     WxPay_Status,
-                    Notice_EMail: $$.getElementById('Notice_EMail').value,
-                    AliPay_QRcode: $$.getElementById('AliPay_QRcode').value,
-                    AliPay_Cookie: $$.getElementById('AliPay_Cookie').value,
-                    WxPay_Url: $$.getElementById('WxPay_Url').value,
-                    WxPay_QRcode: $$.getElementById('WxPay_QRcode').value,
-                    WxPay_Cookie: $$.getElementById('WxPay_Cookie').value,
-                    Pay_Price: $$.getElementById('Pay_Price').value,
+                    Notice_EMail: $$getValue('Notice_EMail'),
+                    AliPay_QRcode: $$getValue('AliPay_QRcode'),
+                    AliPay_Cookie: $$getValue('AliPay_Cookie'),
+                    WxPay_Url: $$getValue('WxPay_Url'),
+                    WxPay_QRcode: $$getValue('WxPay_QRcode'),
+                    WxPay_Cookie: $$getValue('WxPay_Cookie'),
+                    Pay_Price: $$getValue('Pay_Price'),
                 },
                 success: data => {
                     if (data.ret) {

@@ -1272,8 +1272,9 @@
         }
 
         function AddSub(id) {
-            let url = document.getElementById(id).value;
-            let tmp = window.btoa(url);
+            let url = $$getValue(id),
+                tmp = window.btoa(url);
+
             tmp = tmp.substring(0, tmp.length);
             url = "sub://" + tmp + "#";
             window.location.href = url;
