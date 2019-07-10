@@ -42,12 +42,20 @@
                     <div class="card-main">
                         <div class="card-inner">
                             <div class="card-inner">
+                                <div class="card-heading">选择客户端</div>
+                                <p>SS/SSD/SSR 支持的加密方式和混淆方式有所不同，请根据实际情况来进行选择</p>
+                                <p>在这里选择你需要使用的客户端可以帮助你筛选加密方式和混淆方式</p>
+                                <p>auth_chain 系为实验性协议，可能造成不稳定或无法使用</p>
+                                <br>
+                                <button class="kaobei btn btn-subscription" type="button">SS/SSD</button>
+                                <button class="kaobei btn btn-subscription" type="button">SSR</button>
+                                <button class="kaobei btn btn-subscription" type="button">通用</button>
+                            </div>
+                            <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">加密方式修改</div>
-                                    <button class="btn btn-flat" id="method-update"><span class="icon">check</span>&nbsp;
-                                    </button>
+                                    <button class="btn btn-flat" id="method-update"><span class="icon">check</span>&nbsp</button>
                                 </div>
-                                <p>注意：SS/SSD/SSR 支持的加密方式有所不同，请根据实际情况来进行选择</p>
                                 <p>
                                     当前加密方式：<code id="ajax-user-method" data-default="method">[{if URL::CanMethodConnect($user->method) == 2}SS/SSD{else}SS/SSR{/if}可连接] {$user->method}</code>
                                 </p>
@@ -76,8 +84,6 @@
                                     </button>
                                 </div>
                                 <p>当前协议：<code id="ajax-user-protocol" data-default="protocol">[{if URL::CanProtocolConnect($user->protocol) == 3}SS/SSD/SSR{else}SSR{/if}可连接] {$user->protocol}</code></p>
-                                <p>注意1：如果需要兼容 SS/SSD 请设置为 origin 或选择带_compatible的兼容选项</p>
-                                <p>注意3：auth_chain 系为实验性协议，可能造成不稳定或无法使用，开启前请询问是否支持</p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="protocol">协议</label>
                                     <button id="protocol" class="form-control maxwidth-edit" data-toggle="dropdown"
