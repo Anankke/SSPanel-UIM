@@ -15,35 +15,6 @@
                         <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
-                                    <div class="card-heading">账号登录密码修改</div>
-                                    <button class="btn btn-flat" id="pwd-update"><span class="icon">check</span>&nbsp;
-                                    </button>
-                                </div>
-                                <div class="form-group form-group-label">
-                                    <label class="floating-label" for="oldpwd">当前密码</label>
-                                    <input class="form-control maxwidth-edit" id="oldpwd" type="password">
-                                </div>
-
-                                <div class="form-group form-group-label">
-                                    <label class="floating-label" for="pwd">新密码</label>
-                                    <input class="form-control maxwidth-edit" id="pwd" type="password">
-                                </div>
-
-                                <div class="form-group form-group-label">
-                                    <label class="floating-label" for="repwd">确认新密码</label>
-                                    <input class="form-control maxwidth-edit" id="repwd" type="password">
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card margin-bottom-no">
-                    <div class="card-main">
-                        <div class="card-inner">
-                            <div class="card-inner">
-                                <div class="cardbtn-edit">
                                     <div class="card-heading">节点连接密码修改</div>
                                     <button class="btn btn-flat" id="ss-pwd-update"><span class="icon">check</span>&nbsp;</button>
                                 </div>
@@ -100,55 +71,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="card margin-bottom-no">
-                    <div class="card-main">
-                        <div class="card-inner">
-                            <div class="card-inner">
-                                <div class="cardbtn-edit">
-                                    <div class="card-heading">联络方式修改</div>
-                                    <button class="btn btn-flat" id="wechat-update"><span class="icon">check</span>&nbsp;
-                                    </button>
-                                </div>
-                                <p>当前联络方式：
-                                    <code id="ajax-im" data-default="imtype">
-                                        {if $user->im_type==1}微信{/if}
-                                        {if $user->im_type==2}QQ{/if}
-                                        {if $user->im_type==3}Google+{/if}
-                                        {if $user->im_type==4}Telegram{/if}
-                                        {if $user->im_type==5}Discord{/if}
-                                    </code>
-                                </p>
-                                <p>当前联络方式账号：
-                                    <code>{$user->im_value}</code>
-                                </p>
-                                <div class="form-group form-group-label control-highlight-custom dropdown">
-                                    <label class="floating-label" for="imtype">选择您的联络方式</label>
-                                    <button class="form-control maxwidth-edit" id="imtype" data-toggle="dropdown"
-                                            value="{$user->im_type}"></button>
-                                    <ul class="dropdown-menu" aria-labelledby="imtype">
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="1"
-                                               data="imtype">微信</a></li>
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="2"
-                                               data="imtype">QQ</a></li>
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="3"
-                                               data="imtype">Facebook</a></li>
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="4"
-                                               data="imtype">Telegram</a></li>
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="5"
-                                               data="imtype">Discord</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="form-group form-group-label">
-                                    <label class="floating-label" for="wechat">在这输入联络方式账号</label>
-                                    <input class="form-control maxwidth-edit" id="wechat" type="text">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
 
                 <div class="card margin-bottom-no">
                     <div class="card-main">
@@ -214,39 +136,39 @@
                     </div>
                 </div>
 
+            </div>
+
+
+            <div class="col-xx-12 col-sm-6">
 
                 <div class="card margin-bottom-no">
                     <div class="card-main">
                         <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
-                                    <div class="card-heading">主题修改</div>
-                                    <button class="btn btn-flat" id="theme-update"><span class="icon">check</span>&nbsp;
+                                    <div class="card-heading">账号登录密码修改</div>
+                                    <button class="btn btn-flat" id="pwd-update"><span class="icon">check</span>&nbsp;
                                     </button>
                                 </div>
-                                <p>当前主题：<code data-default="theme">{$user->theme}</code></p>
-                                <div class="form-group form-group-label control-highlight-custom dropdown">
-                                    <label class="floating-label" for="theme">主题</label>
-                                    <button id="theme" type="button" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->theme}">
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="oldpwd">当前密码</label>
+                                    <input class="form-control maxwidth-edit" id="oldpwd" type="password">
+                                </div>
 
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="mail">
-                                        {foreach $themes as $theme}
-                                            <li>
-                                                <a href="#" class="dropdown-option" onclick="return false;"
-                                                   val="{$theme}" data="theme">{$theme}</a>
-                                            </li>
-                                        {/foreach}
-                                    </ul>
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="pwd">新密码</label>
+                                    <input class="form-control maxwidth-edit" id="pwd" type="password">
+                                </div>
+
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="repwd">确认新密码</label>
+                                    <input class="form-control maxwidth-edit" id="repwd" type="password">
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="col-xx-12 col-sm-6">
 
                 <div class="card margin-bottom-no">
                     <div class="card-main">
@@ -291,6 +213,53 @@
                     </div>
                 </div>
 
+                <div class="card margin-bottom-no">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div class="card-inner">
+                                <div class="cardbtn-edit">
+                                    <div class="card-heading">联络方式修改</div>
+                                    <button class="btn btn-flat" id="wechat-update"><span class="icon">check</span>&nbsp;
+                                    </button>
+                                </div>
+                                <p>当前联络方式：
+                                    <code id="ajax-im" data-default="imtype">
+                                        {if $user->im_type==1}微信{/if}
+                                        {if $user->im_type==2}QQ{/if}
+                                        {if $user->im_type==3}Google+{/if}
+                                        {if $user->im_type==4}Telegram{/if}
+                                        {if $user->im_type==5}Discord{/if}
+                                    </code>
+                                </p>
+                                <p>当前联络方式账号：
+                                    <code>{$user->im_value}</code>
+                                </p>
+                                <div class="form-group form-group-label control-highlight-custom dropdown">
+                                    <label class="floating-label" for="imtype">选择您的联络方式</label>
+                                    <button class="form-control maxwidth-edit" id="imtype" data-toggle="dropdown"
+                                            value="{$user->im_type}"></button>
+                                    <ul class="dropdown-menu" aria-labelledby="imtype">
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="1"
+                                               data="imtype">微信</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="2"
+                                               data="imtype">QQ</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="3"
+                                               data="imtype">Facebook</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="4"
+                                               data="imtype">Telegram</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="5"
+                                               data="imtype">Discord</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="wechat">在这输入联络方式账号</label>
+                                    <input class="form-control maxwidth-edit" id="wechat" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card margin-bottom-no">
                     <div class="card-main">
@@ -443,6 +412,35 @@
                         </div>
                     </div>
                 {/if}
+
+<div class="card margin-bottom-no">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div class="card-inner">
+                                <div class="cardbtn-edit">
+                                    <div class="card-heading">主题修改</div>
+                                    <button class="btn btn-flat" id="theme-update"><span class="icon">check</span>&nbsp;
+                                    </button>
+                                </div>
+                                <p>当前主题：<code data-default="theme">{$user->theme}</code></p>
+                                <div class="form-group form-group-label control-highlight-custom dropdown">
+                                    <label class="floating-label" for="theme">主题</label>
+                                    <button id="theme" type="button" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->theme}">
+
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="mail">
+                                        {foreach $themes as $theme}
+                                            <li>
+                                                <a href="#" class="dropdown-option" onclick="return false;"
+                                                   val="{$theme}" data="theme">{$theme}</a>
+                                            </li>
+                                        {/foreach}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 {include file='dialog.tpl'}
 
