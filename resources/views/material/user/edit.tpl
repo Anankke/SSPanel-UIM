@@ -639,14 +639,14 @@
                 data: {
                     protocol: $$getValue('protocol'),
                     obfs: $$getValue('obfs'),
-                    obfs_param: $$getValue('obfs_param')
+                    obfs_param: $$getValue('obfs-param')
                 },
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $$.getElementById('ajax-user-protocol').innerHTML = $$getValue('protocol');
                         $$.getElementById('ajax-user-obfs').innerHTML = $$getValue('obfs');
-                        $$.getElementById('ajax-user-obfs-param').innerHTML = $$getValue('obfs_param');
+                        $$.getElementById('ajax-user-obfs-param').innerHTML = $$getValue('obfs-param');
                         $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
