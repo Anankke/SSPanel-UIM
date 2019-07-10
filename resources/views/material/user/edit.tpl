@@ -459,6 +459,55 @@
 
 {literal}
 <script>
+    /*
+     * 筛选 SS/SSR 加密、混淆和协议的选项
+     *
+     * 引入三个按钮：
+     * #filter-btn-ss 筛选 SS，点击以后隐藏 .filter-item-ssr，显示 .filter-item-ss 和 .filter-item-universal
+     * #filter-btn-ssr 筛选 SSR，点击以后隐藏 .filter-item-ss，显示 .filter-item-ssr 和 .filter-item-universal
+     * #filter-btn-universal 筛选必须同时兼容两者的，点击以后隐藏 .filter-item-ss 和 .filter-item-ssr，显示 .filter-item-universal
+     *
+     * 引入函数 hideFilterItem(itemType) 和 showFilterItem(itemType)，参数 item 可以是 ss ssr universal。
+     */
+    (() => {
+        const hideFilterItem = (itemType) => {
+            for (let i of $$.getElementsByClassName(`filter-item-${itemType}`)) {
+                i.style.display = 'none';
+            }
+        };
+        const showFilterItem = (itemType) => {
+            for (let i of $$.getElementsByClassName(`filter-item-${itemType}`)) {
+                i.style.display = 'block';
+            }
+        };
+
+        const chooseSS = () => {
+            hideFilterItem('ssr');
+            showFilterItem('ss');
+            showFilterItem('universal');
+        };
+
+        const chooseSSR = () => {
+            hideFilterItem('ss');
+            showFilterItem('ssr');
+            showFilterItem('universal');
+        };
+
+        const chooseUniversal = () => {
+            hideFilterItem('ss');
+            hideFilterItem('ssr');
+            showFilterItem('universal');
+        };
+
+        $$.getElementById('filter-btn-ss').addEventListener('click', chooseSS);
+        $$.getElementById('filter-btn-ssr').addEventListener('click', chooseSSR);
+        $$.getElementById('filter-btn-universal').addEventListener('click', chooseUniversal);
+    })();
+</script>
+{/literal}
+
+{literal}
+<script>
     $(document).ready(function () {
         $("#portreset").click(function () {
             $.ajax({
