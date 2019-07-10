@@ -153,7 +153,7 @@ class Job
         Telegram::Send('姐姐姐姐，数据库被清理了，感觉身体被掏空了呢~');
 
         //auto reset
-        $boughts = Bought::where('renew', '<>', 0)->get();
+        $boughts = Bought::all();
         $boughted_users = array();
         foreach ($boughts as $bought) {
             $user = User::where('id', $bought->userid)->first();
