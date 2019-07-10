@@ -68,13 +68,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="card margin-bottom-no">
-                    <div class="card-main">
-                        <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">协议&混淆设置</div>
@@ -274,8 +268,7 @@
                                             href="https://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">&nbsp;iOS</a>
                                 </p>
                                 <p>在没有测试完成绑定成功之前请不要启用。</p>
-                                <p>当前设置：<code
-                                            data-default="ga-enable">{if $user->ga_enable==1} 要求验证 {else} 不要求 {/if}</code>
+                                <p>当前设置：<code data-default="ga-enable">{if $user->ga_enable==1} 要求验证 {else} 不要求 {/if}</code>
                                 </p>
                                 <p>当前服务器时间：{date("Y-m-d H:i:s")}</p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
@@ -377,8 +370,9 @@
                                         <div class="cardbtn-edit">
                                             <div class="card-heading">Discord 绑定</div>
                                             <div>
-                                                <a class="btn btn-flat btn-brand-accent"
-                                                   href="/user/discord_reset"><span class="icon">not_interested</span>&nbsp;</a>
+                                                <a class="btn btn-flat btn-brand-accent" href="/user/discord_reset">
+                                                <span class="icon">not_interested</span>&nbsp;
+                                                </a>
                                             </div>
                                         </div>
                                     {/if}
@@ -386,8 +380,7 @@
                                     {if $user->telegram_id == 0 || $user->discord == 0}
                                         <p>复制保存下方的二维码图片（有效期10分钟，超时请刷新本页面以重新获取，每张二维码只能使用一次）</p>
                                         {if $user->telegram_id == 0}
-                                            <p>私聊发给 Telegram 机器人 <a
-                                                        href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 以绑定
+                                            <p>私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 以绑定
                                                 Telegram</p>
                                         {/if}
                                         {if $user->discord == 0}
@@ -398,8 +391,7 @@
                                         <div class="text-center">
                                             <div id="telegram-qr" class="qr-center"></div>
                                             {if $user->telegram_id != 0}
-                                                <p>当前绑定Telegram账户：<a
-                                                            href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
+                                                <p>当前绑定Telegram账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
                                                 </p>
                                             {/if}
                                             {if $user->discord != 0}
@@ -413,7 +405,7 @@
                     </div>
                 {/if}
 
-<div class="card margin-bottom-no">
+                <div class="card margin-bottom-no">
                     <div class="card-main">
                         <div class="card-inner">
                             <div class="card-inner">
