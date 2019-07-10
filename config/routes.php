@@ -305,9 +305,9 @@ $app->group('/api', function () {
     $this->post('/token', App\Controllers\ApiController::class . ':newToken');
     $this->get('/node', App\Controllers\ApiController::class . ':node')->add(new Api());
     $this->get('/user/{id}', App\Controllers\ApiController::class . ':userInfo')->add(new Api());
-    $this->get('/sublink', App\Controllers\Client\ClientApiController::class . ':GetSubLink');
-    $this->get('/ann', App\Controllers\Client\ClientApiController::class . ':GetAnnouncement');
-    $this->get('/alluserinfo',App\Controllers\Client\ClientApiController::class.':GetUserInfo');
+    $this->get('/sublink', App\Controllers\Client\ClientApiController::class . ':GetSubLink')->add(new Api());;
+    $this->get('/ann', App\Controllers\Client\ClientApiController::class . ':GetAnnouncement')->add(new Api());
+    $this->get('/alluserinfo',App\Controllers\Client\ClientApiController::class.':GetUserInfo')->add(new Api());
 });
 
 // mu
