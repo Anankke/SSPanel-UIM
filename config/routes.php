@@ -308,6 +308,7 @@ $app->group('/api', function () {
     $this->get('/sublink', App\Controllers\Client\ClientApiController::class . ':GetSubLink')->add(new Api());;
     $this->get('/ann', App\Controllers\Client\ClientApiController::class . ':GetAnnouncement')->add(new Api());
     $this->get('/alluserinfo',App\Controllers\Client\ClientApiController::class.':GetUserInfo')->add(new Api());
+    $this->get('/usecode',App\Controllers\Client\ClientApiController::class.':UseCode')->add(new Api());
 });
 
 // mu
