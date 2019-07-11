@@ -45,7 +45,6 @@ use App\Utils\TelegramSessionManager;
 use App\Utils\Pay;
 use App\Utils\URL;
 use App\Utils\DatatablesHelper;
-use Ozdemir\Datatables\Datatables;
 use App\Services\Mail;
 
 /**
@@ -522,7 +521,7 @@ class UserController extends BaseController
             }
 
             $array_node['latest_load'] = -1;
-            foreach ((array)$infoLogs as $log) {
+            foreach ($infoLogs as $log) {
                 if ($log['node_id'] == $node->id) {
                     $array_node['latest_load'] = (explode(' ', $log['load']))[0] * 100;
                     break;
