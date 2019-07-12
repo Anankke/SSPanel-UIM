@@ -59,7 +59,7 @@
         });
     }
 
-    function f() {
+    function bitpayf() {
         $.ajax({
             type: "POST",
             url: "/payments/bitpay/status",
@@ -79,6 +79,6 @@
                 //console.log(jqXHR);
             }
         });
-        tid = setTimeout(f, 1000); //循环调用触发setTimeout
+        tid = setTimeout(bitpayf, 1000); //循环调用触发setTimeout
     }
 </script>
