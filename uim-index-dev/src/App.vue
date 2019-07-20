@@ -128,6 +128,15 @@ export default {
         case "/user/node":
           this.routerN = "panel";
           break;
+        case "/auth/login":
+          this.routerN = "index";
+          break;
+        case "/auth/register":
+          this.routerN = "index";
+          break;
+        case "/password/reset":
+          this.routerN = "index";
+          break;
       }
     },
     getPublicResouce() {
