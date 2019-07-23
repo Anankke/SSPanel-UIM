@@ -217,8 +217,8 @@ $System_Config['trimepay_secret']='';				//AppSecret
 $System_Config['bitpay_secret']='';
 
 #PayJs
-$System_Config['payjs_mchid']='1523648681';
-$System_Config['payjs_key']='FmyDDAci7HptlTDG';	
+$System_Config['payjs_mchid']='';
+$System_Config['payjs_key']='';	
 
 
 //其他面板显示设置------------------------------------------------------------------------------------------
