@@ -217,7 +217,7 @@
                     countdown = document.getElementById("countTime");
 
             function getCountdown() {
-                countdown.innerHTML = `<span>${(m >= 10 ? m : '0' + m)}</span>:<span>${(s >= 10) ? s : '0' + s}</span>`;
+                countdown.innerHTML = "<span>" + (m >= 10 ? m : '0' + m) + "</span>:<span>" + (s >= 10 ? s : '0' + s) + "</span>";
                 if (m === 0 && s === 0) {
                     close('倒计时结束了');
                 } else if (m >= 0) {
