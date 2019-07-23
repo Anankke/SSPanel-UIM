@@ -42,7 +42,7 @@ export default {
             href: '#',
             id: 'AGENT_1_3_1'
           }],
-          iOS: [{
+          Ios: [{
             agentName: 'Potatso Lite',
             href: '#',
             id: 'AGENT_1_4_1'
