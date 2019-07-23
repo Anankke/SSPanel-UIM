@@ -32,6 +32,8 @@ class Payment
                 return new ChenPay();
             case ('trimepay'):
                 return new TrimePay(Config::get('trimepay_secret'));
+            case ('payjs'):
+                return new PAYJS(Config::get('payjs_key'));
             default:
                 return null;
         }
