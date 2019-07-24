@@ -233,6 +233,9 @@ class TelegramProcess
                 case 'prpr':
                     $reply = self::needbind_method($bot, $message, $command, $user, $reply_to);
                     break;
+                case 'rss':
+                    $reply['message'] = '请私聊机器人使用该命令';
+                    break;
                 case 'help':
                     $reply['message'] = '命令列表：
 						/ping  获取群组ID
