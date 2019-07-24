@@ -75,7 +75,7 @@ class TelegramProcess
                     foreach (self::$all_rss as $key => $value) {
                         $keys[] = [['text' => $value, 'callback_data' => $key]];
                     }
-                    $reply['mark'] = new InlineKeyboardMarkup(
+                    $reply['markup'] = new InlineKeyboardMarkup(
                         $keys
                     );
                     break;
@@ -260,7 +260,7 @@ class TelegramProcess
             }
         }
 
-        $bot->sendMessage($message->getChat()->getId(), $reply['message'], $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to, $replyMarkup = $reply['mark']);
+        $bot->sendMessage($message->getChat()->getId(), $reply['message'], $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to, $replyMarkup = $reply['markup']);
         $bot->sendChatAction($message->getChat()->getId(), '');
     }
 
