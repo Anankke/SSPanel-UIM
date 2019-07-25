@@ -215,7 +215,7 @@
             var m = 2,
                     s = 59,
                     countdown = document.getElementById("countTime");
-
+{literal}
             function getCountdown() {
                 countdown.innerHTML = `<span>${(m >= 10 ? m : '0' + m)}</span>:<span>${(s >= 10) ? s : '0' + s}</span>`;
                 if (m === 0 && s === 0) {
@@ -230,7 +230,7 @@
             }
         });
     }
-
+{/literal}
     $(() => {
         chenPayLoad();
     });
