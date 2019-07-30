@@ -3,7 +3,7 @@
 namespace App\Utils;
 
 use App\Services\Config;
-use QrReader;
+use Zxing\QrReader;
 use ZBarCodeImage;
 use ZBarCodeScanner;
 
