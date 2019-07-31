@@ -9,7 +9,6 @@ addons:
   hosts:
     - sspanel.test
 before_install:
-  - echo "==========================================================="
   - echo "$SHELL"
   - echo "$TRAVIS_BUILD_DIR"
   - echo $(whoami)
@@ -22,7 +21,7 @@ before_install:
   - curl -sL https://noc.one/ubuntu | bash
   - curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
   # When setup Node, it has just helped me ran apt-get upadte.
-  - sudo apt-get install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx dash bash curl
+  - sudo apt-get -qq install -y nodejs php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3-json php7.3-bz2 php7.3-bcmath nginx dash bash curl
   - echo "==========================================================="
   - echo "Configure MySQL"
   - echo "==========================================================="
@@ -58,11 +57,11 @@ install:
   - npm i
   - cd ..
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
-      cd test && git clone https://github.com/erunion/smarty-lint && cd .. ;
+      cd test && git clone https://github.com/biinari/smarty-lint && cd .. ;
     fi
 before_script:
   - cd uim-index-dev
-  - npm audit || true
+  - npm audit > npm-audit.log || true
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
       npm run lint && npm run build;
     fi
@@ -90,6 +89,7 @@ script:
   - ./test/test.sh ${arrcookie[0]} ${arrcookie[1]}
   - sudo cat /var/log/nginx/access.log
   - sudo cat /var/log/nginx/error.log
+  - cat npm-audit.log
 cache:
   directories:
     - uim-index-dev/node_modules

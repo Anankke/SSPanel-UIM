@@ -3,7 +3,6 @@
 echo ""
 echo "key=$1"
 echo "expire_in=$2"
-echo ""
 echo '--------------------------------------------------'
 
 cookie="uid=1; email=test@example.com; key=$1; expire_in=$2"
@@ -18,7 +17,7 @@ do
     num=$[num+x]
     [[ "$http_code" = "200" ]] && success=$[success+x]
     echo "$ROUTE - http code: $http_code"
-    echo '--------------------------------------------------'
 done < ./test/route.list
 
+echo '--------------------------------------------------'
 echo "Success route: $success / $num"
