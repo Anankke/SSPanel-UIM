@@ -35,16 +35,12 @@
                                 <h2 class="modal-title">确认要切换为该用户？</h2>
                             </div>
                             <div class="modal-inner">
-                                <p>请您确认。</p>
+                                <p>切换为该用户以后，你随时可以通过菜单底部的「返回管理员身份」按钮返回本条工单。</p>
                             </div>
                             <div class="modal-footer">
                                 <p class="text-right">
-                                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect"
-                                            data-dismiss="modal" type="button">取消
-                                    </button>
-                                    <button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal"
-                                            id="changetouser_input" type="button">确定
-                                    </button>
+                                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button">取消</button>
+                                    <button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal" id="changetouser_input" type="button">确定</button>
                                 </p>
                             </div>
                         </div>
@@ -58,17 +54,10 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-10 col-md-push-1">
-                                        <button id="submit" type="submit"
-                                                class="btn btn-block btn-brand waves-attach waves-light">添加
-                                        </button>
-                                        <button id="close" type="submit"
-                                                class="btn btn-block btn-brand-accent waves-attach waves-light">添加并关闭
-                                        </button>
-                                        <button id="close_directly" type="submit"
-                                                class="btn btn-block btn-brand-accent waves-attach waves-light">直接关闭
-                                        </button>
-                                        <a class="btn btn-block btn-brand waves-attach waves-light" id="changetouser"
-                                           href="javascript:void(0);" onClick="changetouser_modal_show()">切换为该用户</a>
+                                        <button id="submit" type="submit" class="btn btn-brand waves-attach waves-light">添加</button>
+                                        <button id="close" type="submit" class="btn btn-brand-accent waves-attach waves-light">添加并关闭</button>
+                                        <button id="close_directly" type="submit" class="btn btn-brand-accent waves-attach waves-light">直接关闭</button>
+                                        <button  id="changetouser" class="btn btn-brand waves-attach waves-light" onClick="changetouser_modal_show()">切换为该用户</button>
                                     </div>
                                 </div>
                             </div>

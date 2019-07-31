@@ -135,6 +135,8 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="ui-card-wrap">
 
                 <div class="col-xx-12 col-sm-4">
                     <div class="card">
@@ -241,46 +243,37 @@
                                 <dl class="dl-horizontal">
 
 
-                                    <p>
-                                        <dt>等级过期时间</dt>
-                                        {if $user->class_expire!="1989-06-04 00:05:00"}
+                                    <dt>等级过期时间</dt>
+                                    {if $user->class_expire!="1989-06-04 00:05:00"}
                                     <dd><i class="icon icon-md">event</i>&nbsp;{$user->class_expire}</dd>
                                     {else}
                                     <dd><i class="icon icon-md">event</i>&nbsp;不过期</dd>
                                     {/if}
-                                    </p>
-                                    <p>
-                                        <dt>等级有效期</dt>
-                                        <i class="icon icon-md">event</i>
-                                        <span class="label-level-expire">剩余</span>
-                                        <code><span id="days-level-expire"></span></code>
-                                        <span class="label-level-expire">天</span>
-                                    </p>
 
-                                    <p>
-                                        <dt>帐号过期时间</dt>
+                                    <dt>等级有效期</dt>
+                                    <i class="icon icon-md">event</i>
+                                    <span class="label-level-expire">剩余</span>
+                                    <code><span id="days-level-expire"></span></code>
+                                    <span class="label-level-expire">天</span>
+
+                                    <dt>帐号过期时间</dt>
                                     <dd><i class="icon icon-md">event</i>&nbsp;{$user->expire_in}</dd>
-                                    </p>
-                                    <p>
-                                        <dt>账号有效期</dt>
-                                        <i class="icon icon-md">event</i>
-                                        <span class="label-account-expire">剩余</span>
-                                        <code><span id="days-account-expire"></span></code>
-                                        <span class="label-account-expire">天</span>
-                                    </p>
 
-                                    <p>
-                                        <dt>上次使用</dt>
-                                        {if $user->lastSsTime()!="从未使用喵"}
+                                    <dt>账号有效期</dt>
+                                    <i class="icon icon-md">event</i>
+                                    <span class="label-account-expire">剩余</span>
+                                    <code><span id="days-account-expire"></span></code>
+                                    <span class="label-account-expire">天</span>
+
+                                    <dt>上次使用</dt>
+                                    {if $user->lastSsTime()!="从未使用喵"}
                                     <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastSsTime()}</dd>
                                     {else}
                                     <dd><i class="icon icon-md">event</i>&nbsp;从未使用</dd>
-                                    {/if}</p>
-                                    <p>
-                                        <dt>上次签到时间：</dt>
-                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastCheckInTime()}</dd>
-                                    </p>
+                                    {/if}
 
+                                    <dt>上次签到时间：</dt>
+                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastCheckInTime()}</dd>
 
                                     <p id="checkin-msg"></p>
 
