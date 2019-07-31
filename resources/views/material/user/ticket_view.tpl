@@ -49,8 +49,8 @@
 
                 {foreach $ticketset as $ticket}
                     <div class="card">
-                        <aside class="card-side pull-left">
-                            <img alt="alt text for John Smith avatar" src="{$ticket->User()->gravatar}">
+                        <aside class="card-side pull-left" style="padding: 16px; text-align: center">
+                            <img alt="alt text for John Smith avatar" style="border-radius: 100%" src="{$ticket->User()->gravatar}">
                             <br>
                             {$ticket->User()->user_name}
                         </aside>
