@@ -89,7 +89,7 @@ script:
   - ./test/test.sh ${arrcookie[0]} ${arrcookie[1]}
   - sudo cat /var/log/nginx/access.log
   - sudo cat /var/log/nginx/error.log
-  - cat npm-audit.log
+  - cat uim-index-dev/npm-audit.log
 cache:
   directories:
     - uim-index-dev/node_modules
