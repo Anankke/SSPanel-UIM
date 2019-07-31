@@ -33,9 +33,7 @@
                                         {/if}
                                     {/if}
                                     <br/>
-                                    <p><i class="icon icon-lg">attach_money</i>当前余额：<font color="#399AF2"
-                                                                                          size="5">{$user->money}</font>
-                                        元</p>
+                                    <p><i class="icon icon-lg">attach_money</i>当前余额：<font color="#399AF2" size="5">{$user->money}</font> 元</p>
                                 </div>
                             </div>
                         </div>

@@ -18,7 +18,6 @@
                             <div class="nodemain">
                                 <div class="nodehead node-flex">
                                     <div class="nodename">帐号等级</div>
-                                    <a href="/user/shop" class="card-tag tag-orange">升级</a>
                                 </div>
                                 <div class="nodemiddle node-flex">
                                     <div class="nodetype">
@@ -43,6 +42,7 @@
                                 {else}
                                     <span><i class="icon icon-md">add_circle</i>升级解锁 VIP 节点</span>
                                 {/if}
+                                <a href="/user/shop" class="card-tag tag-orange">商店</a>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,6 @@
                             <div class="nodemain">
                                 <div class="nodehead node-flex">
                                     <div class="nodename">余额</div>
-                                    <a href="/user/code" class="card-tag tag-green">充值</a>
                                 </div>
                                 <div class="nodemiddle node-flex">
                                     <div class="nodetype">
@@ -69,7 +68,8 @@
                         </div>
                         <div class="user-info-bottom">
                             <div class="nodeinfo node-flex">
-                                <span href="/user/shop"><i class="icon icon-md">attach_money</i>账户内可用余额</span>
+                                <span><i class="icon icon-md">attach_money</i>账户余额</span>
+                                <a href="/user/code" class="card-tag tag-green">充值</a>
                             </div>
                         </div>
                     </div>
