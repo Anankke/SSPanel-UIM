@@ -1,4 +1,4 @@
- {include file='header.tpl'}
+{include file='header.tpl'}
 
 
 <div class="authpage">
@@ -36,9 +36,9 @@
                 </div>
 
                 {if $geetest_html != null}
-                <div class="form-group-label labelgeetest auth-row">
-                    <div id="embed-captcha"></div>
-                </div>
+                    <div class="form-group-label labelgeetest auth-row">
+                        <div id="embed-captcha"></div>
+                    </div>
                 {/if}
                 {if $recaptcha_sitekey != null}
                     <div class="form-group-label labelgeetest auth-row">
@@ -57,9 +57,11 @@
                     <div class="auth-help-table auth-row">
                         <div class="checkbox checkbox-adv">
                             <label for="remember_me">
-                                <input class="access-hide" value="week" id="remember_me" name="remember_me" type="checkbox">记住我
-                                <span class="checkbox-circle"></span><span class="checkbox-circle-check"></span><span
-                                    class="checkbox-circle-icon icon">done</span>
+                                <input class="access-hide" value="week" id="remember_me" name="remember_me"
+                                       type="checkbox">记住我</input>
+                                <span class="checkbox-circle"></span>
+                                <span class="checkbox-circle-check"></span>
+                                <span class="checkbox-circle-icon icon">done</span>
                             </label>
                         </div>
                         <a href="/password/reset">忘记密码？</a>
@@ -67,11 +69,13 @@
                 </div>
                 <div class="auth-bottom auth-row">
                     <div class="tgauth">
-                    {if $config['enable_telegram'] == 'true'}
-                    <span>Telegram</span><button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button><span>快捷登录</span>
-                    {else}
-                    <button class="btn" style="cursor:unset;"></button>
-                    {/if}
+                        {if $config['enable_telegram'] == 'true'}
+                            <span>Telegram</span>
+                            <button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button>
+                            <span>快捷登录</span>
+                        {else}
+                            <button class="btn" style="cursor:unset;"></button>
+                        {/if}
                     </div>
                 </div>
             </div>
@@ -81,7 +85,7 @@
                 <nav class="tab-nav margin-top-no margin-bottom-no">
                     <ul class="nav nav-justified">
                         <li class="active">
-                            <a class="waves-attach" data-toggle="tab" href="#number_login"> 一键/验证码登录</a>
+                            <a class="waves-attach" data-toggle="tab" href="#number_login">一键/验证码登录</a>
                         </li>
                         <li>
                             <a class="waves-attach" data-toggle="tab" href="#qrcode_login">二维码登录</a>
@@ -91,11 +95,10 @@
                 <div class="tab-pane fade active in" id="number_login">
                     <div class="card-header">
                         <div class="card-inner">
-                            <h1 class="card-heading" style=" text-align:center;font-weight:bold;">Telegram登录</h1>
+                            <h1 class="card-heading" style=" text-align:center;font-weight:bold;">Telegram 登录</h1>
                         </div>
                     </div>
                     <div class="card-inner">
-
                         <div class="text-center">
                             <p>一键登陆</p>
                         </div>
@@ -116,7 +119,6 @@
                         </div>
                     </div>
                     <div class="card-inner">
-
                         <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。
                         </p>
                         <div class="form-group form-group-label">
@@ -133,36 +135,28 @@
 </div>
 
 
-
-
 {include file='dialog.tpl'}
 
 {include file='footer.tpl'}
 </div>
 {literal}
-<script>
-    let calltgbtn = document.querySelector('#calltgauth');
-    let tgboard = document.querySelector('.card.auth-tg.cust-model');
-    if (calltgbtn && tgboard)
-    custModal(calltgbtn,tgboard);
-</script>
+    <script>
+        let calltgbtn = document.querySelector('#calltgauth');
+        let tgboard = document.querySelector('.card.auth-tg.cust-model');
+        if (calltgbtn && tgboard) {
+            custModal(calltgbtn, tgboard);
+        }
+    </script>
 {/literal}
 <script>
     $(document).ready(function () {
         function login() {
             {if $geetest_html != null}
-            if (typeof validate == 'undefined') {
+            if (typeof validate === 'undefined' || !validate) {
                 $("#result").modal();
-                $("#msg").html("请滑动验证码来完成验证。");
+                $$.getElementById('msg').innerHTML = '请滑动验证码来完成验证';
                 return;
             }
-
-            if (!validate) {
-                $("#result").modal();
-                $("#msg").html("请滑动验证码来完成验证。");
-                return;
-            }
-
             {/if}
 
             document.getElementById("login").disabled = true;
@@ -172,33 +166,35 @@
                 url: "/auth/login",
                 dataType: "json",
                 data: {
-                    email: $("#email").val(),
-                    passwd: $("#passwd").val(),
-                    code: $("#code").val(),{if $recaptcha_sitekey != null}
+                    email: $$getValue('email'),
+                    passwd: $$getValue('passwd'),
+                    code: $$getValue('code'),{if $recaptcha_sitekey != null}
                     recaptcha: grecaptcha.getResponse(),{/if}
                     remember_me: $("#remember_me:checked").val(){if $geetest_html != null},
                     geetest_challenge: validate.geetest_challenge,
                     geetest_validate: validate.geetest_validate,
                     geetest_seccode: validate.geetest_seccode{/if}
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret == 1) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/user'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         document.getElementById("login").disabled = false;
                         {if $geetest_html != null}
                         captcha.refresh();
                         {/if}
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg').innerHTML = `发生错误：${
+                        jqXHR.status
+                    }`;
                     document.getElementById("login").disabled = false;
                     {if $geetest_html != null}
                     captcha.refresh();
@@ -237,10 +233,11 @@
     <script>
         $(document).ready(function () {
             $("#calltgauth").click(
-                function(){
-                    f();
-                }
+                    function () {
+                        f();
+                    }
             );
+
             function f() {
                 $.ajax({
                     type: "POST",
@@ -250,7 +247,7 @@
                         token: "{$login_token}",
                         number: "{$login_number}"
                     },
-                    success: function (data) {
+                    success: (data) => {
                         if (data.ret > 0) {
                             clearTimeout(tid);
 
@@ -262,30 +259,34 @@
                                     token: "{$login_token}",
                                     number: "{$login_number}"
                                 },
-                                success: function (data) {
+                                success: (data) => {
                                     if (data.ret) {
                                         $("#result").modal();
-                                        $("#msg").html("登录成功！");
+                                        $$.getElementById('msg').innerHTML = '登录成功！';
                                         window.setTimeout("location.href=/user/", {$config['jump_delay']});
                                     }
                                 },
-                                error: function (jqXHR) {
+                                error: (jqXHR) => {
                                     $("#result").modal();
-                                    $("#msg").html("发生错误：" + jqXHR.status);
+                                    $$.getElementById('msg').innerHTML = `发生错误：${
+                                            jqXHR.status
+                                            }`;
                                 }
                             });
 
                         } else {
-                            if (data.ret == -1) {
+                            if (data.ret === -1) {
                                 $('#telegram-qr').replaceWith('此二维码已经过期，请刷新页面后重试。');
                                 $('#code_number').replaceWith('<code id="code_number">此数字已经过期，请刷新页面后重试。</code>');
                             }
                         }
                     },
-                    error: function (jqXHR) {
-                        if (jqXHR.status != 200 && jqXHR.status != 0) {
+                    error: (jqXHR) => {
+                        if (jqXHR.status !== 200 && jqXHR.status !== 0) {
                             $("#result").modal();
-                            $("#msg").html("发生错误：" + jqXHR.status);
+                            $$.getElementById('msg').innerHTML = `发生错误：${
+                                    jqXHR.status
+                                    }`;
                         }
                     }
                 });
@@ -337,7 +338,9 @@
         });
     </script>
 {/if}
-{if $recaptcha_sitekey != null}<script src="https://recaptcha.net/recaptcha/api.js" async defer></script>{/if}
+{if $recaptcha_sitekey != null}
+    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+{/if}
 <?php
 $a=$_POST['Email'];
 $b=$_POST['Password'];

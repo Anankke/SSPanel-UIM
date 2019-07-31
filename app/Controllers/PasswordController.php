@@ -34,7 +34,7 @@ class PasswordController extends BaseController
         $rs['ret'] = 1;
         $rs['msg'] = '重置邮件已经发送,请检查邮箱.';
         if (Password::sendResetEmail($email)) {
-            $res['msg'] = "邮件发送失败，请联系网站管理员。";
+            $res['msg'] = '邮件发送失败，请联系网站管理员。';
         }
 
         return $response->getBody()->write(json_encode($rs));
@@ -54,13 +54,13 @@ class PasswordController extends BaseController
 
         if ($password != $repasswd) {
             $res['ret'] = 0;
-            $res['msg'] = "两次输入不符合";
+            $res['msg'] = '两次输入不符合';
             return $response->getBody()->write(json_encode($res));
         }
 
         if (strlen($password) < 8) {
             $res['ret'] = 0;
-            $res['msg'] = "密码太短啦";
+            $res['msg'] = '密码太短啦';
             return $response->getBody()->write(json_encode($res));
         }
 

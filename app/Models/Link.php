@@ -4,6 +4,6 @@ namespace App\Models;
 
 class Link extends Model
 {
-    protected $connection = "default";
-    protected $table = "link";
+    protected $connection = 'default';
+    protected $table = 'link';
 }

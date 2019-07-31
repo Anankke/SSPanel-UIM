@@ -9,7 +9,7 @@
     <link rel="bookmark" href="/favicon.ico" type="image/x-icon"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="shortcut icon" type="image/ico" href="images/ssr.ico">
-	<style>
+    <style>
         /*! Spectre.css v0.5.0 | MIT License | github.com/picturepan2/spectre */
 
         html {
@@ -168,14 +168,14 @@
         }
 
         .valign {
-            display: -webkit-box!important;
-            display: -webkit-flex!important;
-            display: -ms-flexbox!important;
-            display: flex!important;
-            -webkit-box-align: center!important;
-            -webkit-align-items: center!important;
-            -ms-flex-align: center!important;
-            align-items: center!important;
+            display: -webkit-box !important;
+            display: -webkit-flex !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -webkit-box-align: center !important;
+            -webkit-align-items: center !important;
+            -ms-flex-align: center !important;
+            align-items: center !important;
         }
 
         .section-footer {
@@ -198,19 +198,19 @@
 </head>
 <body>
 <div class="empty valign" style="height:100vh">
-<div class="centered">
-<p class="empty-title h1">{$title}</p>
-<p class="empty-title h4">{$message}</p>
-<div class="divider"></div>
-<div class="empty-action">
-</div>
-<footer class="section section-footer">
-<div id="copyright" class="grid-footer container grid-lg">©
-<span year="">{date("Y")}</span>
-<a href="{$config["baseUrl"]}" target="_blank">{$config["appName"]}</a>
-</div>
-</footer>
-</div>
+    <div class="centered">
+        <p class="empty-title h1">{$title}</p>
+        <p class="empty-title h4">{$message}</p>
+        <div class="divider"></div>
+        <div class="empty-action">
+        </div>
+        <footer class="section section-footer">
+            <div id="copyright" class="grid-footer container grid-lg">©
+                <span year="">{date("Y")}</span>
+                <a href="{$config["baseUrl"]}" target="_blank">{$config["appName"]}</a>
+            </div>
+        </footer>
+    </div>
 </div>
 </body>
 </html>

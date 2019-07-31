@@ -38,8 +38,7 @@ class Analytics
 
     public function getRawTodayTrafficUsage()
     {
-        $total = User::sum('u') + User::sum('d') - User::sum('last_day_t');
-        return $total;
+        return User::sum('u') + User::sum('d') - User::sum('last_day_t');
     }
 
     public function getLastTrafficUsage()
@@ -51,8 +50,7 @@ class Analytics
 
     public function getRawLastTrafficUsage()
     {
-        $total = User::sum('last_day_t');
-        return $total;
+        return User::sum('last_day_t');
     }
 
     public function getUnusedTrafficUsage()
@@ -63,8 +61,7 @@ class Analytics
 
     public function getRawUnusedTrafficUsage()
     {
-        $total = User::sum('transfer_enable') - User::sum('u') - User::sum('d');
-        return $total;
+        return User::sum('transfer_enable') - User::sum('u') - User::sum('d');
     }
 
 
@@ -76,8 +73,7 @@ class Analytics
 
     public function getRawTotalTraffic()
     {
-        $total = User::sum('transfer_enable');
-        return $total;
+        return User::sum('transfer_enable');
     }
 
     public function getOnlineUser($time)
@@ -99,7 +95,7 @@ class Analytics
     public function getTotalNodes()
     {
         return Node::where('node_heartbeat', '>', 0)->where(
-            function ($query) {
+            static function ($query) {
                 $query->Where('sort', '=', 0)
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 11)
@@ -112,7 +108,7 @@ class Analytics
     public function getAliveNodes()
     {
         return Node::where(
-            function ($query) {
+            static function ($query) {
                 $query->Where('sort', '=', 0)
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 11)

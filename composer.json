@@ -25,7 +25,7 @@
     "chen-see/chen-pay": "^1.0@dev",
     "league/omnipay": "^3",
     "lokielse/omnipay-alipay": "*",
-	"charlottedunois/yasmin": "*"
+    "charlottedunois/yasmin": "*"
   },
   "autoload": {
     "classmap": [

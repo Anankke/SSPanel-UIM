@@ -20,7 +20,7 @@ $System_Config['debug'] =  'false';								//正式环境请确保为 false
 $System_Config['appName'] = 'sspanel';							//站点名称
 $System_Config['baseUrl'] = 'http://url.com';					//站点地址
 $System_Config['subUrl'] = $System_Config['baseUrl'].'/link/';	//订阅地址，如需和站点名称相同，请不要修改
-$System_Config['muKey'] = 'NimaQu';								//用于校验ss-go mu的请求，可以随意修改，但请保持前后端一致
+$System_Config['muKey'] = 'NimaQu';								//用于校验魔改后端请求，可以随意修改，但请保持前后端一致，否则节点不能工作！
 $System_Config['db_driver'] = 'mysql';							//数据库程序
 $System_Config['db_host'] = 'localhost';						//数据库地址
 $System_Config['db_database'] = 'sspanel';						//数据库名
@@ -29,7 +29,7 @@ $System_Config['db_password'] = 'sspanel';						//用户名对应的密码
 
 
 //邮件设置--------------------------------------------------------------------------------------------
-$System_Config['mailDriver'] = 'none';	//发送邮件方式：none / mailgun / smtp / sendgrid 
+$System_Config['mailDriver'] = 'none';	//发送邮件方式：none / mailgun / smtp / sendgrid
 $System_Config['sendPageLimit']= 50;	//发信分页 解决大站发公告超时问题
 
 # mailgun
@@ -94,15 +94,16 @@ $System_Config['email_verify_iplimit']='10';		//验证码有效期内，单IP可
 
 //已注册用户设置---------------------------------------------------------------------------------------
 #基础
-$System_Config['checkinMin'] = '1';				//用户签到最少流量 单位MB
+$System_Config['checkinMin'] = '1';			//用户签到最少流量 单位MB
 $System_Config['checkinMax'] = '50';			//用户签到最多流量
-$System_Config['auto_clean_uncheck_days']='-1';	//自动清理多少天没签到的0级用户，小于等于0时关闭
-$System_Config['auto_clean_unused_days']='-1';	//自动清理多少天没使用的0级用户，小于等于0时关闭
+$System_Config['auto_clean_uncheck_days']='-1';	        //自动清理多少天没签到的0级用户，小于等于0时关闭
+$System_Config['auto_clean_unused_days']='-1';	        //自动清理多少天没使用的0级用户，小于等于0时关闭
 $System_Config['auto_clean_min_money']='1';		//余额低于多少的0级用户可以被清理
 $System_Config['code_payback']='20';			//充值返利百分比
-$System_Config['invite_gift']='2';				//邀请新用户获得流量奖励，单位G
-$System_Config['enable_bought_reset']='true';	//购买时是否重置流量
-$System_Config['port_price']='-1';				//用户随机重置端口所需要的价格，价格小于0时视为不开放购买
+$System_Config['invite_gift']='2';			//邀请新用户获得流量奖励，单位G
+$System_Config['enable_bought_reset']='true';	        //购买时是否重置流量
+$System_Config['enable_bought_extend']='true';	        //购买时是否延长等级期限（同等级配套）
+$System_Config['port_price']='-1';			//用户随机重置端口所需要的价格，价格小于0时视为不开放购买
 $System_Config['port_price_specify']='-1';		//用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
 
 #高级
@@ -176,22 +177,9 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | yftpay | chenAlipay | paymentwall | spay |tomatopay
+#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs
 $System_Config['payment_system']='none';
-#tomatopay番茄云支付
-#使用教程:https://swapidc.fanqieui.com/?t/329.html  tg群 https://t.me/fanqiepay
-$System_Config['tomatopay'] = [
-        'wxpay'=>[
-            'mchid' => '1555860947',   // 商户号
-            'account' => '2487642542@qq.com', //您在番茄云支付的登录邮箱
-            'token' => "qGNbcGjW8MFhDupjxeJy7wqDUBoz7ZJg" // 安全验证码
-        ],
-        'alipay'=>[
-            'mchid' => '1555860935',   // 商户号
-            'account' => '2487642542@qq.com', //您在番茄云支付的登录邮箱
-            'token' => "owVtOoA7n7e3MM7J4yJxiKMaQ8NEOJjr" // 安全验证码
-        ],
- ];
+
 #codepay码支付
 #wiki地址:https://goo.gl/dRwRDi  http://t.cn/RnsWjtB
 $System_Config['codepay_id']='';					//码支付ID
@@ -202,6 +190,7 @@ $System_Config['f2fpay_app_id']='';
 $System_Config['f2fpay_p_id']='';
 $System_Config['alipay_public_key']='';
 $System_Config['merchant_private_key']='';
+$System_Config['f2fNotifyUrl']=null;                  //自定义当面付回调地址
 
 #PaymentWall
 $System_Config['pmw_publickey']='';
@@ -214,10 +203,6 @@ $System_Config['alipay_id']='';
 $System_Config['alipay_key']='';
 $System_Config['amount']=[2,23,233,2333,23333];		//充值金额选项设定
 
-#yftpay,https://pay.anypay.me/
-$System_Config['yft_secret']='';
-$System_Config['yft_accesskey']='';
-
 #alipay,zfbjk.com
 $System_Config['zfbjk_pid']='';
 $System_Config['zfbjk_key']='';
@@ -226,6 +211,14 @@ $System_Config['zfbjk_qrcodeurl']='';
 #Trimepay https://portal.trimepay.com/#/auth/register/134
 $System_Config['trimepay_appid']='';				//AppID
 $System_Config['trimepay_secret']='';				//AppSecret
+
+# BitPay 数字货币支付（比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
+#   客服和技术 24x7 在线支持： https://t.me/joinchat/GLKSKhUnE4GvEAPgqtChAQ
+$System_Config['bitpay_secret']='';
+
+#PayJs
+$System_Config['payjs_mchid']='';
+$System_Config['payjs_key']='';	
 
 
 //其他面板显示设置------------------------------------------------------------------------------------------
@@ -256,6 +249,8 @@ $System_Config['detect_gfw_count']='3';												//尝试次数
 
 #离线检测
 $System_Config['enable_detect_offline']='true';
+#离线检测是否推送到Server酱 请配置好上文的Server配置
+$System_Config['enable_detect_offline_useScFtqq']='true';
 
 
 //V2Ray相关设置------------------------------------------------------------------------------------------
@@ -269,7 +264,7 @@ $System_Config['v2ray_level']='0';
 $System_Config['enable_login_bind_ip']='false';		//是否将登陆线程和IP绑定
 $System_Config['rememberMeDuration']='7';           //登录时记住账号时长天数
 $System_Config['authDriver'] = 'cookie';			//不能更改此项
-$System_Config['pwdMethod'] = 'sha256';				//密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
+$System_Config['pwdMethod'] = 'md5';				//密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
 $System_Config['salt'] = '';						//推荐配合 md5/sha256， bcrypt/argon2i/argon2id 会忽略此项
 $System_Config['sessionDriver'] = 'cookie';			//可选: cookie,redis
 $System_Config['cacheDriver'] = 'cookie';			//可选: cookie,redis
@@ -284,6 +279,7 @@ $System_Config['timeZone'] = 'PRC';					//PRC 天朝时间  UTC 格林时间
 $System_Config['db_charset'] = 'utf8';
 $System_Config['db_collation'] = 'utf8_general_ci';
 $System_Config['db_prefix'] = '';
+$System_Config['muKeyList'] = ['　'];                //多 key 列表
 
 #aws
 $System_Config['aws_access_key_id'] = '';
@@ -294,7 +290,7 @@ $System_Config['redis_scheme'] = 'tcp';
 $System_Config['redis_host'] = '127.0.0.1';
 $System_Config['redis_port'] = '6379';
 $System_Config['redis_database'] = '0';
-$System_Config['redis_password']="";
+$System_Config['redis_password']= '';
 
 #Radius设置
 $System_Config['enable_radius']='false';			//是否开启Radius
@@ -324,7 +320,7 @@ $System_Config['enable_analytics_code']='false';
 $System_Config['sspanelAnalysis'] = 'true';
 
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
-if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ) {
-$list = explode("," , $_SERVER["HTTP_X_FORWARDED_FOR"]);
-$_SERVER["REMOTE_ADDR"] = $list[0];
+if ( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+$list = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+$_SERVER['REMOTE_ADDR'] = $list[0];
 }

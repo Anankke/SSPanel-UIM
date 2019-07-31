@@ -4,15 +4,12 @@ namespace App\Command;
 
 use App\Services\Config;
 
-use Ozdemir\Datatables\Datatables;
-use App\Utils\DatatablesHelper;
-
 class Update
 {
     public static function update($xcat)
     {
         global $System_Config;
-        $copy_result = copy(BASE_PATH . "/config/.config.php", BASE_PATH . "/config/.config.php.bak");
+        $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
         if ($copy_result == true) {
             echo('备份成功' . PHP_EOL);
         } else {
@@ -32,15 +29,12 @@ class Update
 
         echo(PHP_EOL);
 
-        $config_old = file_get_contents(BASE_PATH . "/config/.config.php");
-        $config_new = file_get_contents(BASE_PATH . "/config/.config.php.example");
+        $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
+        $config_new = file_get_contents(BASE_PATH . '/config/.config.example.php');
 
         //执行版本升级
-        $version_old = 0;
-        if (isset($System_Config['version'])) {
-            $version_old = $System_Config['version'];
-        }
-        Update::old_to_new($version_old);
+        $version_old = $System_Config['version'] ?? 0;
+        self::old_to_new($version_old);
 
         //将旧config迁移到新config上
         $migrated = array();
@@ -61,7 +55,7 @@ class Update
             preg_match($regex, $config_old, $matches_old);
 
             $config_new = str_replace($matches_new[0], $matches_old[0], $config_new);
-            array_push($migrated, 'System_Config[\'' . $key . '\']');
+            $migrated[] = 'System_Config[\'' . $key . '\']';
         }
         echo(PHP_EOL);
 
@@ -77,16 +71,18 @@ class Update
             }
             //匹配注释
             $regex_comment = '/' . $difference . '.*?;.*?(?=\n)/s';
-            $regex_comment = str_replace('[', '\[', $regex_comment);
-            $regex_comment = str_replace(']', '\]', $regex_comment);
+            $regex_comment = str_replace(array('[', ']'), array('\[', '\]'), $regex_comment);
             $matches_comment = array();
             preg_match($regex_comment, $config_new, $matches_comment);
-            $comment = "";
+            $comment = '';
             if (isset($matches_comment[0])) {
                 $comment = $matches_comment[0];
                 $comment = substr(
-                    $comment, strpos(
-                        $comment, '//', strpos($comment, ';') //查找';'之后的第一个'//'，然后substr其后面的comment
+                    $comment,
+                    strpos(
+                        $comment,
+                        '//',
+                        strpos($comment, ';') //查找';'之后的第一个'//'，然后substr其后面的comment
                     ) + 2
                 );
             }
@@ -104,8 +100,11 @@ class Update
         preg_match($regex_notice, $config_new, $matches_notice);
         $notice_new = $matches_notice[0];
         $notice_new = substr(
-            $notice_new, strpos(
-                $notice_new, '\'', strpos($notice_new, '=') //查找'='之后的第一个'\''，然后substr其后面的notice
+            $notice_new,
+            strpos(
+                $notice_new,
+                '\'',
+                strpos($notice_new, '=') //查找'='之后的第一个'\''，然后substr其后面的notice
             ) + 1
         );
         echo('以下是迁移附注：');
@@ -118,7 +117,7 @@ class Update
         }
         echo(PHP_EOL);
 
-        file_put_contents(BASE_PATH . "/config/.config.php", $config_new);
+        file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
         echo(PHP_EOL . '迁移完成' . PHP_EOL);
 
         echo(PHP_EOL);

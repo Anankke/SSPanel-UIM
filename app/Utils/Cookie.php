@@ -20,9 +20,6 @@ class Cookie
 
     public static function get($key)
     {
-        if (isset($_COOKIE[$key])) {
-            return $_COOKIE[$key];
-        }
-        return "";
+        return $_COOKIE[$key] ?? '';
     }
 }

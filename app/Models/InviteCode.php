@@ -7,6 +7,6 @@ namespace App\Models;
  */
 class InviteCode extends Model
 {
-    protected $connection = "default";
-    protected $table = "ss_invite_code";
+    protected $connection = 'default';
+    protected $table = 'ss_invite_code';
 }
