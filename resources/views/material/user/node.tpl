@@ -85,7 +85,7 @@
                                 <div class="nodemain">
                                     <div class="nodehead node-flex">
                                         {if $config['enable_flag']=='true'}
-                                            <div class="flag"><img src="/images/prefix/{$node['flag']}" alt="">
+                                            <div class="flag"><img src="/images/prefix/{$node['flag']}">
                                             </div>{/if}
                                         <div class="nodename">{$node['name']}</div>
                                     </div>

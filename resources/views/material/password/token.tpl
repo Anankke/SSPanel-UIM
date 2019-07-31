@@ -11,7 +11,7 @@
                     <div>首 页</div>
                 </a>
                 <div class="auth-logo">
-                    <img src="/images/authlogo.jpg" alt="">
+                    <img src="/images/authlogo.jpg">
                 </div>
                 <a href="/auth/login" class="boardtop-right">
                     <div>登 录</div>

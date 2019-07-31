@@ -43,7 +43,7 @@
             {if $user->isLogin}
                 <span class="access-hide">{$user->user_name}</span>
                 <span class="icon icon-cd margin-right">account_circle</span>
-                <!--<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="{$user->gravatar}"></span>  -->
+                <!--<span class="avatar avatar-sm"><img src="{$user->gravatar}"></span>  -->
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
@@ -56,7 +56,7 @@
             {else}
                 <span class="access-hide">未登录</span>
                 <span class="icon icon-cd margin-right">account_circle</span>
-                <!--<span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="/theme/material/images/users/avatar-001.jpg"></span> -->
+                <!--<span class="avatar avatar-sm"><img src="/theme/material/images/users/avatar-001.jpg"></span> -->
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
