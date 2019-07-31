@@ -33,10 +33,15 @@
 
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-10 col-md-push-1">
-                                        <button id="submit" type="submit" class="btn btn-brand">添加</button>
-                                        <button id="close" type="submit" class="btn btn-brand-accent">添加并关闭</button>
-                                        <button id="close_directly" type="submit" class="btn btn-brand-accent waves-attach waves-light">直接关闭</button>
+                                    <div class="col-md-10">
+                                        {if $ticket->status==1}
+                                            <button id="submit" type="submit" class="btn btn-brand">添加</button>
+                                            <button id="close" type="submit" class="btn btn-brand-accent">添加并关闭</button>
+                                            <button id="close_directly" type="submit" class="btn btn-brand-accent waves-attach waves-light">直接关闭</button>
+                                        {else}
+                                            <p>工单已被关闭，你将不能继续添加回复</p>
+                                            <p>如果持续开启新工单骚扰客服或工程师可能会导致您的账号被暂时禁用</p>
+                                        {/if}
                                     </div>
                                 </div>
                             </div>

@@ -1,4 +1,5 @@
 {include file='admin/main.tpl'}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
 
 <main class="content">
     <div class="content-header ui-content-header">
@@ -15,8 +16,6 @@
                         <div class="card-inner">
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="content">内容</label>
-                                <link rel="stylesheet"
-                                      href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
                                 <div id="editormd">
                                     <textarea style="display:none;" id="content"></textarea>
                                 </div>
