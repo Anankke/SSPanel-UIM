@@ -12,11 +12,12 @@
              width="64" height="64">
     </button>
 </div>
+
+<script src="/theme/assets/user/js/qrcodefix.min.js"></script>
+
 <script>
     var pid = 0;
     function pay(type) {
-        if (type = 'wechat') {
-        }
         var price = parseFloat($$getValue('amount'));
         //console.log("将要使用 " + type + " 充值" + price + "元");
         if (isNaN(price)) {
@@ -30,23 +31,24 @@
             $.ajax({
                 url: "/user/payment/purchase",
                 data: {
-                    price,
-                    type,
+                    'price': price,
+                    'type': 'wechat',
+                    'way': 'payjs'
                 },
                 dataType: 'json',
                 type: "POST",
                 success: (data) => {
                     if (data.code == 0) {
                         //console.log(data);
+                      	pid = data.pid;
                         $("#readytopay").modal('hide');
                         {
-                            pid = data.pid;
                             $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>';
                             var qrcode = new QRCode("qrcode", {
                                 render: "canvas",
                                 width: 200,
                                 height: 200,
-                                text: encodeURI(data.data)
+                                text: data.url
                             });
                             tid = setTimeout(f, 1000); //循环调用触发setTimeout
                         }
@@ -65,7 +67,7 @@
             url: "/payment/status",
             dataType: "json",
 {literal}
-            data: { pid },
+            data: { pid: pid },
 {/literal}
             success: (data) => {
                 if (data.result) {
