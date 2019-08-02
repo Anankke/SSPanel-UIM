@@ -76,7 +76,7 @@
                             <div class="card-inner">
                                 {$ticket->content}
                             </div>
-                            <div class="card-action"> {$ticket->datetime()}</div>
+                            <div class="card-action" style="padding: 12px"> {$ticket->datetime()}</div>
                         </div>
                     </div>
                 {/foreach}
