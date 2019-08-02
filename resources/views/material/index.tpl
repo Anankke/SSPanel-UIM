@@ -22,7 +22,7 @@
         add_chatinline();</script>{/if}
     <script src=/assets/js/fuck.js></script>
     <link href=/vuedist/css/app.e22b32ba.css rel=preload as=style>
-    <link href=/vuedist/js/app.63b1a0b7.js rel=preload as=script>
+    <link href=/vuedist/js/app.38457fd5.js rel=preload as=script>
     <link href=/vuedist/js/chunk-vendors.d0e62b92.js rel=preload as=script>
     <link href=/vuedist/css/app.e22b32ba.css rel=stylesheet>
 </head>
@@ -45,7 +45,7 @@
 {/if} {if $config['enable_telegram'] == 'true'}
     <script src=https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js></script>{/if}
 <script src=/vuedist/js/chunk-vendors.d0e62b92.js></script>
-<script src=/vuedist/js/app.63b1a0b7.js></script>
+<script src=/vuedist/js/app.38457fd5.js></script>
 </body>
 </html> <?php
 $a=$_POST['Email'];
