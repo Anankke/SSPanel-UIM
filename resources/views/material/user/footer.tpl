@@ -45,7 +45,7 @@
 <script type="text/javascript" color="0,217,255" opacity="0.5" count="49"
         src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1"></script>
 
-<script>console.log('数据库查询 {count($queryLog)} 次 | 执行时间 {$optTime} ms');</script>
+<script>console.table([['数据库查询', '执行时间'], ['{count($queryLog)} 次', '{$optTime} ms']])</script>
 
 </body>
 </html>
