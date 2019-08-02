@@ -52,7 +52,7 @@
 
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-10 col-md-push-1">
+                                    <div class="col-md-10">
                                         <button id="submit" type="submit" class="btn btn-brand waves-attach waves-light">添加</button>
                                         <button id="close" type="submit" class="btn btn-brand-accent waves-attach waves-light">添加并关闭</button>
                                         <button id="close_directly" type="submit" class="btn btn-brand-accent waves-attach waves-light">直接关闭</button>
@@ -68,7 +68,7 @@
                 {foreach $ticketset as $ticket}
                     <div class="card">
                         <aside class="card-side pull-left" style="padding: 16px; text-align: center">
-                            <img style="border-radius: 100%" src="{$ticket->User()->gravatar}">
+                            <img style="border-radius: 100%; width: 100%" src="{$ticket->User()->gravatar}">
                             <br>
                             {$ticket->User()->user_name}
                         </aside>
