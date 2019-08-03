@@ -1325,7 +1325,7 @@
 
     $(".copy-text").click(function () {
         $("#result").modal();
-        $$.getElementById('msg').innerHTML = '已拷贝订阅链接，请您继续接下来的操作';
+        $$.getElementById('msg').innerHTML = '已复制，请您继续接下来的操作';
     });
 
     $(function () {
