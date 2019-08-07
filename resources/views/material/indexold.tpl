@@ -70,7 +70,7 @@
                     如果想自定义文本请删除下面这段script代码,格式为
                     <p>自定义文本</p>
                     -->
-                    <div id="lwlhitokoto"></div>
+                    <p>够了，我无法忍受你的行为，现在你将成为我们中的一员</p>
                 </div>
             </div>
             <nav>
@@ -183,7 +183,7 @@
     });
     {/literal}
 
-    window.addEventListener('load', () => {
+    /*window.addEventListener('load', () => {
         fetch('https://api.lwl12.com/hitokoto/v1?encode=realjson', {
             method: 'GET',
         }).then((response) => {
@@ -200,7 +200,7 @@
         } else {
             hitokoto.innerHTML = `${ldelim}data.text{rdelim}`;
         }
-    }
+    }*/
 </script>
 
 </body>
