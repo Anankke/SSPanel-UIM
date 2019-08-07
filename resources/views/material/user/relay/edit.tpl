@@ -120,7 +120,7 @@
                 dataType: 'json',
                 data: {
                     source_node: $$getValue('source_node'),
-                    dist_node: $$getValue('dist_node')
+                    dist_node: $$getValue('dist_node'),
                     port: $$getValue('port'),
                     priority: $$getValue('priority')
                     {literal}
