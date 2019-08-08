@@ -15,7 +15,9 @@
         <link rel="stylesheet" href="/assets/css/noscript.css"/>
     </noscript>
 </head>
+
 <body>
+
 <div id="wrapper">
     <header id="header">
         <div class="logo">
@@ -23,7 +25,7 @@
         </div>
         <div class="content">
             <div class="inner">
-                <h1>500错误</h1>
+                <h1>500 错误</h1>
                 <p>服务娘崩溃了呢... TwT</p>
                 <p>这件事儿不应该发生的...如果反复出现可以提交一下工单联系站主.</p>
             </div>
@@ -39,9 +41,11 @@
     </footer>
 </div>
 <div id="bg"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
 <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
 <script src="/assets/js/util.js"></script>
 <script src="/assets/js/main.js"></script>
 </body>
+
 </html>

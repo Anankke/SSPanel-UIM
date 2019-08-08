@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -37,9 +36,7 @@
                                     <div class="form-group form-group-label control-highlight-custom dropdown">
                                         <label class="floating-label" for="hide">匿名设置</label>
                                         <button id="hide" class="form-control maxwidth-edit" data-toggle="dropdown"
-                                                value="{$user->is_hide}">
-
-                                        </button>
+                                                value="{$user->is_hide}"></button>
                                         <ul class="dropdown-menu" aria-labelledby="hide">
                                             <li><a href="#" class="dropdown-option" onclick="return false;" val="1"
                                                    data="hide">匿名</a></li>
@@ -131,20 +128,17 @@
                 url: "hide",
                 dataType: "json",
                 data: {
-                    hide: $("#hide").val()
+                    hide: $$getValue('hide')
                 },
-                success: function (data) {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                    } else {
-                        $("#result").modal();
-                        $("#msg").html(data.msg);
-                    }
-                },
-                error: function (jqXHR) {
+                success: (data) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "     出现了一些错误。");
+                    $$.getElementById('msg').innerHTML = data.msg;
+                },
+                error: (jqXHR) => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = `${
+                            data.msg
+                            } 出现了一些错误`;
                 }
             })
         })

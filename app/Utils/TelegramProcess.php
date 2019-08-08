@@ -75,7 +75,7 @@ class TelegramProcess
                     foreach (self::$all_rss as $key => $value) {
                         $keys[] = [['text' => $value, 'callback_data' => $key]];
                     }
-                    $reply['mark'] = new InlineKeyboardMarkup(
+                    $reply['markup'] = new InlineKeyboardMarkup(
                         $keys
                     );
                     break;
@@ -233,6 +233,9 @@ class TelegramProcess
                 case 'prpr':
                     $reply = self::needbind_method($bot, $message, $command, $user, $reply_to);
                     break;
+                case 'rss':
+                    $reply['message'] = '请私聊机器人使用该命令';
+                    break;
                 case 'help':
                     $reply['message'] = '命令列表：
 						/ping  获取群组ID
@@ -260,7 +263,7 @@ class TelegramProcess
             }
         }
 
-        $bot->sendMessage($message->getChat()->getId(), $reply['message'], $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to, $replyMarkup = $reply['mark']);
+        $bot->sendMessage($message->getChat()->getId(), $reply['message'], $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to, $replyMarkup = $reply['markup']);
         $bot->sendChatAction($message->getChat()->getId(), '');
     }
 

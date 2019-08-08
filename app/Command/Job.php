@@ -271,7 +271,7 @@ class Job
     //   定时任务开启的情况下，每天自动检测有没有最新版的后端，github源来自Miku
     public static function updatedownload()
     {
-        system('cd ' . BASE_PATH . '/public/ssr-download/ && git pull https://github.com/xcxnig/ssr-download.git');
+        system('cd ' . BASE_PATH . '/public/ssr-download/ && git pull https://github.com/xcxnig/ssr-download.git && git gc');
     }
 
 
@@ -558,7 +558,7 @@ class Job
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
                         $postdata = http_build_query(
                             array(
-                                'text' => Config::get('appName') . '-节点掉线了',
+                                'text' => Config::get('appName') . '-节点恢复上线了',
                                 'desp' => $text
                             )
                         );

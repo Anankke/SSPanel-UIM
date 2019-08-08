@@ -11,7 +11,6 @@
         <section class="content-inner margin-top-no">
             <div class="ui-card-wrap">
 
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-main">
@@ -128,9 +127,7 @@
                                     <h4>说明：shadowsocks-qt5是ubuntu上一个可视化的版本</h4>
                                     <hr/>
                                     <h5>安装shadowsocks-qt5</h5>
-                                    <pre><code>1.$ sudo add-apt-repository ppa:hzwhuang/ss-qt5
-												2.$ sudo apt-get update
-												3.$ sudo apt-get install shadowsocks-qt5</code></pre>
+                                    <pre><code>1.$ sudo add-apt-repository ppa:hzwhuang/ss-qt5 2.$ sudo apt-get update 3.$ sudo apt-get install shadowsocks-qt5</code></pre>
                                     <h5>如果安装成功之后，按<code>win</code>键搜索应该能够找到软件，如下图所示：</h5>
                                     <p><img src="/images/c-linux-1.png"/></p>
                                     <h5>配置shadowsocks-qt5</h5>

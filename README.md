@@ -17,29 +17,28 @@ Telegram ~~可能是个官方~~水群 ：https://t.me/SSUnion
 
 记得点小星星！
 
-演示站: [sspanel.host](https://sspanel.host) 账号和密码都是 admin  对接节点的 mukey=NimaQu
+演示站: [sspanel.host](https://sspanel.host) 账号和密码都是 `admin` 对接节点的 `mukey=NimaQu`
 
 **原作者** [galaxychuck](https://github.com/galaxychuck)
 
 [支持开发者请点我](https://github.com/Anankke/SSPanel-Uim#%E5%85%B3%E4%BA%8E%E6%8D%90%E8%B5%A0)
 
-## 搭建教程
+## Wiki
 
-GitHub Wiki : https://github.com/Anankke/SSPanel-Uim/wiki/%E5%89%8D%E7%AB%AF%E5%AE%89%E8%A3%85
-
-Wiki 已经启用，欢迎为此面板维护 wiki
+https://wiki.sspanel.host
 
 #### 鸣谢
 
 ##### [Anankke](https://github.com/galaxychuck)
 
-- 面板现**维护者**
+- 面板现 **维护者**
 
 ##### [galaxychuck](https://github.com/galaxychuck)
 
-- 面板**原作者**
+- 面板 **原作者**
 
 ##### [hkserversolution](https://www.hkserversolution.com/cart.php)
+
 - Demo 演示站服务器赞助
 
 ##### [dumplin](https://github.com/dumplin233) 
@@ -87,8 +86,15 @@ Wiki 已经启用，欢迎为此面板维护 wiki
 [**laurieryayoi**](https://github.com/laurieryayoi)
 
 - 重做美化UI（~~援交~~圆角化）
-
+- 新版 Vue(SPA) 版界面
 - 重写节点列表，支持分级显示所有级别节点
+
+[**sukka**](https://skk.moe)
+
+- Travis CI 持续集成
+- 单元测试
+- 全站 JavaScript 的重写
+- 新版 Wiki 的搭建和维护
 
 #### 还有所有被引用过代码的同学，以及所有提交过 pr/issue 的同学。
 
@@ -111,8 +117,6 @@ Wiki 已经启用，欢迎为此面板维护 wiki
 - [Vultr](https://www.vultr.com/?ref=7205737)
 
 [laurieryayoi 的前端课程报名](https://t.me/kinokonominoco)
-
-
 
 ## 免责声明
 

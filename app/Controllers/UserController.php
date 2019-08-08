@@ -23,6 +23,8 @@ use App\Utils\Tools;
 use App\Utils\Radius;
 use App\Models\DetectLog;
 use App\Models\DetectRule;
+use App\Models\NodeOnlineLog;
+use App\Models\NodeInfoLog;
 
 use Exception;
 use voku\helper\AntiXSS;
@@ -42,6 +44,7 @@ use App\Utils\Telegram;
 use App\Utils\TelegramSessionManager;
 use App\Utils\Pay;
 use App\Utils\URL;
+use App\Utils\DatatablesHelper;
 use App\Services\Mail;
 
 /**
@@ -456,6 +459,9 @@ class UserController extends BaseController
 
         $array_nodes = array();
         $nodes_muport = array();
+        $db = new DatatablesHelper();
+        $infoLogs = $db->query('SELECT * FROM ( SELECT * FROM `ss_node_info` WHERE log_time > ' . (time() - 300) . ' ORDER BY id DESC LIMIT 999999999999 ) t GROUP BY node_id ORDER BY id DESC');
+        $onlineLogs = $db->query('SELECT * FROM ( SELECT * FROM `ss_node_online_log` WHERE log_time > ' . (time() - 300) . ' ORDER BY id DESC LIMIT 999999999999 ) t GROUP BY node_id ORDER BY id DESC');
 
         foreach ($nodes as $node) {
             if ($node->node_group != $user->node_group && $node->node_group != 0) {
@@ -493,26 +499,37 @@ class UserController extends BaseController
                 $array_node['flag'] = 'unknown.png';
             }
 
-            $node_online = $node->isNodeOnline();
-            if ($node_online === null) {
+            $sort = $array_node['sort'];
+            $array_node['online_user'] = 0;
+            
+            foreach ($onlineLogs as $log) {
+                if ($log['node_id'] != $node->id) {
+                    continue;
+                }
+                if (in_array($sort, array(0, 7, 8, 10, 11, 12, 13))) {
+                    $array_node['online_user'] = $log['online_user'];
+                } else {
+                    $array_node['online_user'] = -1;
+                }
+                break;
+            }
+            
+            // check node status 
+            // 0: new node; -1: offline; 1: online
+            $node_heartbeat = $node->node_heartbeat + 300;
+            $array_node['online'] = -1;
+            if (!in_array($sort, array(0, 7, 8, 10, 11, 12, 13)) || $node_heartbeat == 300 ) {
                 $array_node['online'] = 0;
-            } elseif ($node_online === true) {
+            } elseif ($node_heartbeat > time()) {
                 $array_node['online'] = 1;
-            } elseif ($node_online === false) {
-                $array_node['online'] = -1;
             }
 
-            if (in_array($node->sort, array(0, 7, 8, 10, 11, 12, 13))) {
-                $array_node['online_user'] = $node->getOnlineUserCount();
-            } else {
-                $array_node['online_user'] = -1;
-            }
-
-            $nodeLoad = $node->getNodeLoad();
-            if (isset($nodeLoad[0]['load'])) {
-                $array_node['latest_load'] = (explode(' ', $nodeLoad[0]['load']))[0] * 100;
-            } else {
-                $array_node['latest_load'] = -1;
+            $array_node['latest_load'] = -1;
+            foreach ($infoLogs as $log) {
+                if ($log['node_id'] == $node->id) {
+                    $array_node['latest_load'] = (explode(' ', $log['load']))[0] * 100;
+                    break;
+                }
             }
 
             $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);

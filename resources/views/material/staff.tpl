@@ -1,4 +1,5 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+
 <html>
 <head>
     <title>{$config["appName"]}</title>
@@ -9,7 +10,6 @@
     <link rel="bookmark" href="/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="stylesheet" href="/assets/css/main.css"/>
-    <link href="/bootstrap" type="text/html" rel="stylesheet">
     <noscript>
         <link rel="stylesheet" href="/assets/css/noscript.css"/>
     </noscript>
@@ -32,6 +32,7 @@
     <p>MIT许可证（MIT）</p>
 
     <p class="copyright">&copy;2015 orvice</p>
+    <p class="copyright">&copy;2019 SSPanel UIM Dev Team</p>
 
     <p>特此免费授予任何获得副本的人这个软件和相关的文档文件（“软件”）来处理在软件中没有限制，
         包括但不限于权利使用，复制，修改，合并，发布，分发，再许可和/或销售该软件的副本，
@@ -49,8 +50,8 @@
 
     <div class="table-wrapper">
         <table>
-
             <tbody>
+
             <tr>
                 <td>原作</td>
                 <td><a href="https://github.com/orvice/">orvice</a></td>
@@ -77,10 +78,6 @@
                 <td>永远喜欢 <a href="https://t.me/Anankke">Anankke</a></td>
             </tr>
             <tr>
-                <td>迫害</td>
-                <td>如果你们看见了<a href="https://twitter.com/kotomei2">kotomei</a>，请 /prpr 并让他去学习</td>
-            </tr>
-            <tr>
                 <td>出演</td>
                 <td><a href="http://mengyang.wang/">mengyang</a>，<a href="http://tony.ecy.ren/">tony</a></td>
             </tr>
@@ -97,19 +94,12 @@
         </table>
     </div>
 
-
     <nav>
         <ul>
             <a href="javascript:history.back();" class="button">返回上一页</a>
         </ul>
     </nav>
 
-
-    <!--首页结束-->
-    <div id="main">
-
-        <!--全部标签结束-->
-    </div>
     <!-- 版权底部 -->
     <footer id="footer">
         <p class="copyright">&copy;2015-2018 {$config["appName"]}</p>
@@ -123,5 +113,6 @@
 <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
 <script src="/assets/js/util.js"></script>
 <script src="/assets/js/main.js"></script>
+
 </body>
 </html>

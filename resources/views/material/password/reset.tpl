@@ -11,7 +11,7 @@
                     <div>首 页</div>
                 </a>
                 <div class="auth-logo">
-                    <img src="/images/authlogo.jpg" alt="">
+                    <img src="/images/authlogo.jpg">
                 </div>
                 <a href="/auth/login" class="boardtop-right">
                     <div>登 录</div>
@@ -41,9 +41,7 @@
         </div>
 
         <div class="card auth-tg">
-            <div class="card-main">
-
-            </div>
+            <div class="card-main"></div>
         </div>
     </div>
 </div>
@@ -63,7 +61,8 @@
             <div class="modal-footer">
                 <p class="text-right">
                     <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal"
-                            type="button">我知道了
+                            type="button">
+                        我知道了
                     </button>
                 </p>
             </div>
@@ -71,41 +70,39 @@
     </div>
 </div>
 
-
 {include file='footer.tpl'}
-
 
 <script>
     $(document).ready(function () {
         function reset() {
             $("#result").modal();
-            $("#msg").html("sending, please wait....");
+            $$.getElementById('msg').innerHTML = '发送中，请等待'
             $.ajax({
                 type: "POST",
                 url: "/password/reset",
                 dataType: "json",
                 data: {
-                    email: $("#email").val(),
+                    email: $$getValue('email'),
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret == 1) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/auth/login'", 2000);
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             });
         }
 
         $("html").keydown(function (event) {
-            if (event.keyCode == 13) {
+            if (event.keyCode === 13) {
                 reset();
             }
         });

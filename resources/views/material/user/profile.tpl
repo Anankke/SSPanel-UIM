@@ -18,9 +18,12 @@
                                     {if $config['enable_kill']=="true"}
                                         <div class="cardbtn-edit">
                                             <div class="card-heading">我的帐号</div>
-                                            <div class="account-flex"><span>注销账号</span><a class="btn btn-flat"
-                                                                                          href="kill"><span
-                                                            class="icon">not_interested</span>&nbsp;</a></div>
+                                            <div class="account-flex">
+                                                <span>注销账号</span>
+                                                <a class="btn btn-flat" href="kill">
+                                                    <span class="icon">not_interested</span>&nbsp;
+                                                </a>
+                                            </div>
                                         </div>
                                     {/if}
                                     <dl class="dl-horizontal">

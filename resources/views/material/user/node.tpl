@@ -85,7 +85,7 @@
                                 <div class="nodemain">
                                     <div class="nodehead node-flex">
                                         {if $config['enable_flag']=='true'}
-                                            <div class="flag"><img src="/images/prefix/{$node['flag']}" alt="">
+                                            <div class="flag"><img src="/images/prefix/{$node['flag']}">
                                             </div>{/if}
                                         <div class="nodename">{$node['name']}</div>
                                     </div>
@@ -218,15 +218,15 @@
                                                             {$node['name']}
 														</span>
                                                         |
-                                                        <span class="node-icon"><i
-                                                                    class="icon icon-lg">flight_takeoff</i></span>
+                                                        <span class="node-icon">
+                                                            <i class="icon icon-lg">flight_takeoff</i></span>
                                                         <strong><b><span
                                                                         class="node-alive">{if $node['online_user'] == -1}N/A{else}{$node['online_user']}{/if}</span></b></strong>
-                                                        | <span class="node-icon"><i
-                                                                    class="icon icon-lg">cloud</i></span>
+                                                        | <span class="node-icon">
+                                                            <i class="icon icon-lg">cloud</i></span>
                                                         <span class="node-load">负载：{if $node['latest_load'] == -1}N/A{else}{$node['latest_load']}%{/if}</span>
-                                                        | <span class="node-icon"><i
-                                                                    class="icon icon-lg">import_export</i></span>
+                                                        | <span class="node-icon">
+                                                            <i class="icon icon-lg">import_export</i></span>
                                                         <span class="node-mothed">{$node['bandwidth']}</span>
                                                         | <span class="node-icon"><i class="icon icon-lg">equalizer</i></span>
                                                         {if $node['traffic_limit']>0}
@@ -234,8 +234,8 @@
                                                         {else}
                                                             {$node['traffic_used']}GB
                                                         {/if}
-                                                        | <span class="node-icon"><i
-                                                                    class="icon icon-lg">network_check</i></span>
+                                                        | <span class="node-icon">
+                                                            <i class="icon icon-lg">network_check</i></span>
                                                         <span class="node-tr">{$node['traffic_rate']} 倍率</span>
                                                         | <span class="node-icon"><i class="icon icon-lg">notifications_none</i></span>
                                                         <span class="node-status">{$node['status']}</span>
@@ -380,7 +380,13 @@
 <script>
 
     function urlChange(id, is_mu, rule_id) {
-        var site = './node/' + id + '?ismu=' + is_mu + '&relay_rule=' + rule_id;
+        var site = `./node/${
+                id
+                }?ismu=${
+                is_mu
+                }&relay_rule=${
+                rule_id
+                }`;
         if (id == 'guide') {
             var doc = document.getElementById('infoifram').contentWindow.document;
             doc.open();
@@ -397,7 +403,7 @@
     });
     $(".copy-text").click(function () {
         $("#result").modal();
-        $("#msg").html("已复制，请进入软件添加。");
+        $$.getElementById('msg').innerHTML = '已复制，请进入软件添加。';
     });
 
     {literal}

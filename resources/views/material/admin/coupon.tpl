@@ -112,7 +112,7 @@
         {include file='table/js_2.tpl'}
 
         $$.getElementById('coupon').addEventListener('click', () => {
-            let couponCode = $$.getElementById('prefix').value;
+            let couponCode = $$getValue('prefix');
 
             $.ajax({
                 type: "POST",
@@ -128,13 +128,15 @@
                 },
                 success: data => {
                     $("#result").modal();
-                    $("#msg").html(data.msg);
+                    $$.getElementById('msg').innerHTML = data.msg;
                     if (data.ret) {
                         window.setTimeout("location.href='/admin/coupon'", {$config['jump_delay']});
                     }
                 },
                 error: jqXHR => {
-                    alert(`发生错误：${ldelim}jqXHR.status{rdelim}`);
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
                 }
             })
         })

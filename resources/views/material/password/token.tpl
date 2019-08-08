@@ -11,7 +11,7 @@
                     <div>首 页</div>
                 </a>
                 <div class="auth-logo">
-                    <img src="/images/authlogo.jpg" alt="">
+                    <img src="/images/authlogo.jpg">
                 </div>
                 <a href="/auth/login" class="boardtop-right">
                     <div>登 录</div>
@@ -71,25 +71,27 @@
                 url: "/password/token/{$token}",
                 dataType: "json",
                 data: {
-                    password: $("#password").val(),
-                    repasswd: $("#repasswd").val(),
+                    password: $$getValue('password'),
+                    repasswd: $$getValue('repasswd'),
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href='/auth/login'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
-                    $("#msg-error-p").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg-error-p').innerHTML = `发生错误：${
+                            jqXHR.status
+                            }`;
                     // 在控制台输出错误信息
-                    console.log(removeHTMLTag(jqXHR.responseText));
+                    //console.log(removeHTMLTag(jqXHR.responseText));
                 }
             });
         }

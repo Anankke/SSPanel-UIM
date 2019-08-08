@@ -145,15 +145,15 @@
                                             {else}
                                                 <pre>
 {
-		"server": "{$ss_item['address']}",
-		"local_address": "127.0.0.1",
-		"local_port": 1080,
-		"timeout": 300,
-		"workers": 1,
-		"server_port": {$ss_item['port']},
-		"password": "{$ss_item['passwd']}",
-		"method": "{$ss_item['method']}",
-		"plugin": "{URL::getJsonObfs($ss_item)}"
+        "server": "{$ss_item['address']}",
+        "local_address": "127.0.0.1",
+        "local_port": 1080,
+        "timeout": 300,
+        "workers": 1,
+        "server_port": {$ss_item['port']},
+        "password": "{$ss_item['passwd']}",
+        "method": "{$ss_item['method']}",
+        "plugin": "{URL::getJsonObfs($ss_item)}"
 }
 </pre>
                                             {/if}
@@ -231,15 +231,19 @@
                                 <div class="card-inner">
                                     <p class="card-heading">配置二维码</p>
 
-
                                     <nav class="tab-nav">
                                         <ul class="nav nav-list">
                                             <li {if $ssr_prefer}class="active"{/if}>
-                                                <a class="" data-toggle="tab" href="#ssr_qrcode"><i
-                                                            class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+                                                <a class="" data-toggle="tab" href="#ssr_qrcode">
+                                                    <i class="icon icon-lg">airplanemode_active</i>
+                                                    &nbsp;ShadowsocksR
+                                                </a>
                                             </li>
                                             <li {if !$ssr_prefer}class="active"{/if}>
-                                                <a class="" data-toggle="tab" href="#ss_qrcode"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+                                                <a class="" data-toggle="tab" href="#ss_qrcode">
+                                                    <i class="icon icon-lg">flight_takeoff</i>
+                                                    &nbsp;Shadowsocks
+                                                </a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -267,12 +271,16 @@
                                                 <nav class="tab-nav">
                                                     <ul class="nav nav-list">
                                                         <li class="active">
-                                                            <a class="" data-toggle="tab" href="#ss_qrcode_normal"><i
-                                                                        class="icon icon-lg">android</i>&nbsp;其他平台</a>
+                                                            <a class="" data-toggle="tab" href="#ss_qrcode_normal">
+                                                                <i class="icon icon-lg">android</i>
+                                                                &nbsp;其他平台
+                                                            </a>
                                                         </li>
                                                         <li>
-                                                            <a class="" data-toggle="tab" href="#ss_qrcode_win"><i
-                                                                        class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
+                                                            <a class="" data-toggle="tab" href="#ss_qrcode_win">
+                                                                <i class="icon icon-lg">desktop_windows</i>
+                                                                &nbsp;Windows
+                                                            </a>
                                                         </li>
                                                     </ul>
                                                 </nav>
@@ -318,7 +326,7 @@
     });
     $(".copy-text").click(function () {
         $("#result").modal();
-        $("#msg").html("已拷贝订阅链接，请您继续接下来的操作。");
+        $$.getElementById('msg').innerHTML = '已拷贝订阅链接，请您继续接下来的操作'
     });
 
     {if URL::SSCanConnect($user, $mu)}
@@ -346,6 +354,4 @@
     qrcode3.clear();
     qrcode3.makeCode(text_qrcode2);
     {/if}
-
-
 </script>

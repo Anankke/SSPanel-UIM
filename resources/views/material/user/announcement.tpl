@@ -34,7 +34,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
@@ -42,11 +41,9 @@
 
                 </div>
 
-
             </div>
         </section>
     </div>
 </main>
-
 
 {include file='user/footer.tpl'}

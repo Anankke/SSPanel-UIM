@@ -42,29 +42,28 @@
                                     {$rules->render()}
                                     <table class="table table-user">
                                         <tr>
-
                                             <!--	<th>ID</th>   -->
                                             <th>起源节点</th>
                                             <th>目标节点</th>
                                             <th>端口</th>
                                             <th>优先级</th>
                                             <th>操作</th>
-
                                         </tr>
                                         {foreach $rules as $rule}
                                             <tr>
-
-                                                <!--		<td>#{$rule->id}</td>  -->
+                                                <!--<td>#{$rule->id}</td>-->
                                                 {if $rule->source_node_id == 0}
                                                     <td>所有节点</td>
                                                 {else}
                                                     <td>{$rule->Source_Node()->name}</td>
                                                 {/if}
+
                                                 {if $rule->Dist_Node() == null}
                                                     <td>不进行中转</td>
                                                 {else}
                                                     <td>{$rule->Dist_Node()->name}</td>
                                                 {/if}
+
                                                 <td>{if $rule->port == 0}所有端口{else}{$rule->port}{/if}</td>
                                                 <td>{$rule->priority}</td>
                                                 <td>
@@ -111,9 +110,7 @@
                 </div>
 
                 <div class="fbtn-container">
-                    <div class="fbtn-inner">
-                        <a class="fbtn fbtn-lg fbtn-brand-accent" href="/user/relay/create">+</a>
-
+                    <div class="fbtn-inner"><a class="fbtn fbtn-lg fbtn-brand-accent" href="/user/relay/create">+</a>
                     </div>
                 </div>
 
@@ -126,15 +123,17 @@
                                 <h2 class="modal-title">确认要删除？</h2>
                             </div>
                             <div class="modal-inner">
-                                <p>请您确认。</p>
+                                <p>请您确认</p>
                             </div>
                             <div class="modal-footer">
                                 <p class="text-right">
                                     <button class="btn btn-flat btn-brand-accent waves-attach waves-effect"
-                                            data-dismiss="modal" type="button">取消
+                                            data-dismiss="modal" type="button">
+                                        取消
                                     </button>
                                     <button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal"
-                                            id="delete_input" type="button">确定
+                                            id="delete_input" type="button">
+                                        确定
                                     </button>
                                 </p>
                             </div>
@@ -162,11 +161,11 @@
     }
 
 
-    $(document).ready(function () {
+    $(document).ready(() => {
 
         {if !$is_relay_able}
         $("#result").modal();
-        $("#msg").html("为了中转的稳定，您需要在<a href='/user/edit'>资料编辑</a>处设置协议为以下协议之一： <br>{foreach $relay_able_protocol_list as $single_text}{$single_text}<br>{/foreach}后方可设置中转规则！");
+        $$.getElementById('msg').innerHTML = `为了中转的稳定，您需要在<a href='/user/edit'>资料编辑</a>处设置协议为以下协议之一： <br>{foreach $relay_able_protocol_list as $single_text}{$single_text}<br>{/foreach}后方可设置中转规则！`
         {/if}
 
         function delete_id() {
@@ -177,24 +176,26 @@
                 data: {
                     id: deleteid
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "  发生错误了。");
+                    $$.getElementById('msg').innerHTML = `${
+                            data.msg
+                            } 发生错误了`;
                 }
             });
         }
 
-        $("#delete_input").click(function () {
+        $("#delete_input").click(() => {
             delete_id();
         });
     })

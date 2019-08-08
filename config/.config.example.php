@@ -177,7 +177,7 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay
+#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs
 $System_Config['payment_system']='none';
 
 #codepay码支付
@@ -215,6 +215,10 @@ $System_Config['trimepay_secret']='';				//AppSecret
 # BitPay 数字货币支付（比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
 #   客服和技术 24x7 在线支持： https://t.me/joinchat/GLKSKhUnE4GvEAPgqtChAQ
 $System_Config['bitpay_secret']='';
+
+#PayJs
+$System_Config['payjs_mchid']='';
+$System_Config['payjs_key']='';	
 
 
 //其他面板显示设置------------------------------------------------------------------------------------------

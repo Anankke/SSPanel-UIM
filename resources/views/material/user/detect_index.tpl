@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -33,7 +32,6 @@
                                             <th>描述</th>
                                             <th>正则表达式</th>
                                             <th>类型</th>
-
                                         </tr>
                                         {foreach $rules as $rule}
                                             <tr>
@@ -57,20 +55,10 @@
                     </div>
                 </div>
 
-
         </div>
-
 
     </div>
 </main>
 
 
 {include file='user/footer.tpl'}
-
-
-
-
-
-
-
-

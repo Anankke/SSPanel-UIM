@@ -183,7 +183,7 @@
                 var auto_reset_bandwidth = 0;
             }
 
-            let contentExtra = $$.getElementById('content_extra').value;
+            let contentExtra = $$getValue('content_extra');
             if (contentExtra === '') {
                 contentExtra = 'check-全球节点分布;check-快速客服响应;check-全平台客户端';
             }
@@ -220,7 +220,9 @@
                 },
                 error: jqXHR => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
+                    $$.getElementById('msg').innerHTML = `发生错误：${
+                            jqXHR.status
+                            }`;
                 }
             });
         }

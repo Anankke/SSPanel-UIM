@@ -136,14 +136,15 @@
                                                             style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"/>
                                                 </td>
                                             </tr>
-											
-											<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+
+                                            <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                 <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 5px 0;"
                                                     valign="top">
-													  <p>您的邮箱验证代码为: <b>{$code}</b>，请在网页中填写，完成验证。<br>(本验证代码在 {$expire} 之前有效)</p><br>
+                                                    <p>您的邮箱验证代码为: <b>{$code}</b>，请在网页中填写，完成验证。<br>(本验证代码在 {$expire}
+                                                        之前有效)</p><br>
                                                 </td>
                                             </tr>
-											
+
                                         </table>
                                     </td>
                                 </tr>

@@ -22,15 +22,16 @@
                                             {if $rule->source_node_id == $source_node->id}{$source_node->name}{/if}
                                         {/foreach}
                                     </button>
+
                                     <ul class="dropdown-menu" aria-labelledby="source_node">
                                         {foreach $source_nodes as $source_node}
-                                            <li><a href="#" class="dropdown-option" onclick="return false;"
+                                            <li>
+                                                <a href="#" class="dropdown-option" onclick="return false;"
                                                    val="{$source_node->id}" data="source_node">{$source_node->name}</a>
                                             </li>
                                         {/foreach}
                                     </ul>
                                 </div>
-
 
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="dist_node">目标节点</label>
@@ -43,6 +44,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="dist_node">
                                         <li><a href="#" class="dropdown-option" onclick="return false;" val="-1"
                                                data="dist_node">不进行中转</a></li>
+
                                         {foreach $dist_nodes as $dist_node}
                                             <li><a href="#" class="dropdown-option" onclick="return false;"
                                                    val="{$dist_node->id}" data="dist_node">{$dist_node->name}</a></li>
@@ -97,56 +99,49 @@
                 </form>
                 {include file='dialog.tpl'}
                 <section>
-
         </div>
-
 
     </div>
 </main>
 
-
 {include file='user/footer.tpl'}
-
 
 {literal}
 <script>
-
     $('#main_form').validate({
         rules: {
             priority: {required: true}
         },
-
-
-        submitHandler: function () {
-
-
+        submitHandler: () => {
             $.ajax({
                 {/literal}
-                type: "PUT",
-                url: "/user/relay/{$rule->id}",
-                dataType: "json",
+                type: 'PUT',
+                url: '/user/relay/{$rule->id}',
+                dataType: 'json',
                 data: {
-                    source_node: $("#source_node").val(),
-                    dist_node: $("#dist_node").val(),
-                    port: $("#port").val(),
-                    priority: $("#priority").val()
+                    source_node: $$getValue('source_node'),
+                    dist_node: $$getValue('dist_node'),
+                    port: $$getValue('port'),
+                    priority: $$getValue('priority')
                     {literal}
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         {/literal}
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
                         {literal}
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "  发生错误了。");
+                    $$.getElementById('msg').innerHTML = `${
+                            data.msg
+                            } 发生错误了`;
                 }
             });
         }

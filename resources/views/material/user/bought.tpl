@@ -27,23 +27,23 @@
                                     {$shops->render()}
                                     <table class="table">
                                         <tr>
-
-                                            <!--   <th>ID</th> -->
+                                            <th>ID</th>
+                                            <th>购买时间</th>
                                             <th>商品名称</th>
                                             <th>内容</th>
                                             <th>价格</th>
                                             <th>续费时间</th>
                                             <th>续费时重置流量</th>
                                             <th>操作</th>
-
                                         </tr>
                                         {foreach $shops as $shop}
                                             <tr>
-
-                                                <!--       <td>#{$shop->id}</td> -->
+                                                <td>#{$shop->id}</td>
+                                                <td>{$shop->datetime("Y/m/d",$date_unix)}</td>
                                                 <td>{$shop->shop()->name}</td>
                                                 <td>{$shop->shop()->content()}</td>
                                                 <td>{$shop->price} 元</td>
+
                                                 {if $shop->renew==0}
                                                     <td>不自动续费</td>
                                                 {else}
@@ -55,9 +55,10 @@
                                                 {else}
                                                     <td>自动重置</td>
                                                 {/if}
+
                                                 <td>
-                                                    <a class="btn btn-brand" {if $shop->renew==0}disabled{else}
-                                                       href="javascript:void(0);"
+                                                    <a class="btn btn-brand"
+                                                       {if $shop->renew==0}disabled{else}href="javascript:void(0);"
                                                        onClick="delete_modal_show('{$shop->id}')"{/if}>关闭自动续费</a>
                                                 </td>
 
@@ -70,7 +71,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
                      tabindex="-1">
@@ -86,10 +86,12 @@
                             <div class="modal-footer">
                                 <p class="text-right">
                                     <button class="btn btn-flat btn-brand-accent waves-attach waves-effect"
-                                            data-dismiss="modal" type="button">取消
+                                            data-dismiss="modal" type="button">
+                                        取消
                                     </button>
                                     <button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal"
-                                            id="delete_input" type="button">确定
+                                            id="delete_input" type="button">
+                                        确定
                                     </button>
                                 </p>
                             </div>
@@ -99,9 +101,7 @@
 
                 {include file='dialog.tpl'}
 
-
         </div>
-
 
     </div>
 </main>
@@ -112,7 +112,7 @@
 
 <script>
     function delete_modal_show(id) {
-        deleteid = id;
+        var deleteid = id;
         $("#delete_modal").modal();
     }
 
@@ -125,33 +125,26 @@
                 data: {
                     id: deleteid
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                         window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "  发生错误了。");
+                    $$.getElementById('msg').innerHTML = `${
+                            data.msg
+                            } 发生错误了`;
                 }
             });
         }
 
-        $("#delete_input").click(function () {
-            delete_id();
-        });
+        $$.getElementById('delete_input').addEventListener('click', delete_id);
     })
 
 </script>
-
-
-
-
-
-
-

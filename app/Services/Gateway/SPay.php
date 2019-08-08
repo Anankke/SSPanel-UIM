@@ -135,7 +135,7 @@ class SPay extends AbstractPayment
                     },
                     \'dataType\': \'json\',
                     \'type\': "POST",
-                    success: function (data) {
+                    success: (data) => {
                         if (data.code == 0) {
                             $("#result").modal();
                             $("#msg").html("正在跳转到支付宝...");
@@ -143,7 +143,7 @@ class SPay extends AbstractPayment
                             window.location.href = data.url;
                         } else {
                             $("#result").modal();
-                            $("#msg").html(data.msg);
+                            $$.getElementById(\'msg\').innerHTML = data.msg;
                             console.log(data);
                         }
                     }

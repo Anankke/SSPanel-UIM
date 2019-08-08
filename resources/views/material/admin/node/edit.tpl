@@ -229,7 +229,7 @@
             } else {
                 var type = 0;
             }
-            {/literal}
+{/literal}
             if ($$.getElementById('custom_rss').checked) {
                 var custom_rss = 1;
             } else {
@@ -241,7 +241,7 @@
                 type: "PUT",
                 url: "/admin/node/{$node->id}",
                 dataType: "json",
-                {literal}
+{literal}
                 data: {
                     name: $$getValue('name'),
                     server: $$getValue('server'),
@@ -258,16 +258,14 @@
                     class: $$getValue('class'),
                     node_bandwidth_limit: $$getValue('node_bandwidth_limit'),
                     bandwidthlimit_resetday: $$getValue('bandwidthlimit_resetday')
-                    {/literal},
+{/literal},
                     custom_rss,
                     mu_only: $$getValue('mu_only')
-                    {literal}
                 },
-                success: data => {
+                success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        {/literal}
                         window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
 
                     } else {
@@ -275,13 +273,14 @@
                         $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: jqXHR => {
+{literal}
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `发生错误：${ldelim}jqXHR.status{rdelim}`;
+                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
                 }
             });
         }
     });
-
+{/literal}
 </script>
 

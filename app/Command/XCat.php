@@ -324,7 +324,7 @@ class XCat
     {
         if (count($this->argv) === 3) {
             $user = User::find($this->argv[2]);
-            $expire_in = 3600 + time();
+            $expire_in = 86400 + time();
             echo Hash::cookieHash($user->pass, $expire_in) . ' ' . $expire_in;
         }
     }

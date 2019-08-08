@@ -15,15 +15,18 @@
         <link rel="stylesheet" href="/assets/css/noscript.css"/>
     </noscript>
 </head>
+
 <body>
 <div id="wrapper">
     <header id="header">
         <div class="logo">
-            <span class="icon fa-rocket"></span></div>
+            <span class="icon fa-rocket"></span>
+        </div>
         <div class="content">
             <div class="inner">
-                <h1>404错误</h1>
-                <p>您的页面查找不到咯</p></div>
+                <h1>404 错误</h1>
+                <p>您的页面查找不到咯</p>
+            </div>
         </div>
         <nav>
             <ul>
@@ -39,4 +42,5 @@
 <script src="/assets/js/util.js"></script>
 <script src="/assets/js/main.js"></script>
 </body>
+
 </html>

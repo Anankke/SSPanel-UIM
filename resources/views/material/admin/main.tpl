@@ -55,7 +55,7 @@
             <a class="dropdown-toggle padding-left-no padding-right-no" data-toggle="dropdown">
                 {if $user->isLogin}
                 <span class="access-hide">{$user->user_name}</span>
-                <span class="avatar avatar-sm"><img alt="alt text for John Smith avatar" src="{$user->gravatar}"></span>
+                <span class="avatar avatar-sm"><img src="{$user->gravatar}"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
@@ -68,8 +68,7 @@
             </ul>
             {else}
             <span class="access-hide">未登录</span>
-            <span class="avatar avatar-sm"><img alt="alt text for John Smith avatar"
-                                                src="/theme/material/images/users/avatar-001.jpg"></span>
+            <span class="avatar avatar-sm"><img src="/theme/material/images/users/avatar-001.jpg"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
@@ -126,9 +125,10 @@
 
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_trade">交易</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_trade">
-                        <li><a href="/admin/code"><i
-                                        class="icon icon-lg">code</i>&nbsp;充值{if $config['enable_donate']=='true'}与捐赠{/if}
-                                记录</a></li>
+                        <li><a href="/admin/code">
+                                <i class="icon icon-lg">code</i>
+                                &nbsp;{if $config['enable_donate']=='true'}充值与捐赠记录{else}充值记录{/if}</a>
+                        </li>
                         <li><a href="/admin/shop"><i class="icon icon-lg">shop</i>&nbsp;商品</a></li>
                         <li><a href="/admin/coupon"><i class="icon icon-lg">card_giftcard</i>&nbsp;优惠码</a></li>
                         <li><a href="/admin/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>

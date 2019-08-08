@@ -82,9 +82,9 @@
             url: "/admin/invite",
             dataType: "json",
             data: {
-                prefix: $$.getElementById('invite').value,
-                uid: $$.getElementById('uid').value,
-                num: $$.getElementById('num').value,
+                prefix: $$getValue('invite'),
+                uid: $$getValue('uid'),
+                num: $$getValue('num'),
             },
             success: data => {
                 if (data.ret) {
@@ -98,7 +98,9 @@
                 // window.location.reload();
             },
             error: jqXHR => {
-                alert(`发生错误：${ldelim}jqXHR.status{rdelim}`);
+                alert(`发生错误：${
+                        jqXHR.status
+                        }`);
             }
         })
     })

@@ -18,7 +18,6 @@
                             <div class="nodemain">
                                 <div class="nodehead node-flex">
                                     <div class="nodename">帐号等级</div>
-                                    <a href="/user/shop" class="card-tag tag-orange">升级</a>
                                 </div>
                                 <div class="nodemiddle node-flex">
                                     <div class="nodetype">
@@ -41,8 +40,9 @@
                                 {if $user->class!=0}
                                     <span><i class="icon icon-md">add_circle</i>到期流量清空</span>
                                 {else}
-                                    <span><i class="icon icon-md">add_circle</i>升级解锁VIP节点</span>
+                                    <span><i class="icon icon-md">add_circle</i>升级解锁 VIP 节点</span>
                                 {/if}
+                                <a href="/user/shop" class="card-tag tag-orange">商店</a>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,6 @@
                             <div class="nodemain">
                                 <div class="nodehead node-flex">
                                     <div class="nodename">余额</div>
-                                    <a href="/user/code" class="card-tag tag-green">充值</a>
                                 </div>
                                 <div class="nodemiddle node-flex">
                                     <div class="nodetype">
@@ -69,7 +68,8 @@
                         </div>
                         <div class="user-info-bottom">
                             <div class="nodeinfo node-flex">
-                                <span href="/user/shop"><i class="icon icon-md">attach_money</i>账户内可用余额</span>
+                                <span><i class="icon icon-md">attach_money</i>账户余额</span>
+                                <a href="/user/code" class="card-tag tag-green">充值</a>
                             </div>
                         </div>
                     </div>
@@ -135,6 +135,179 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="ui-card-wrap">
+
+                <div class="col-xx-12 col-sm-4">
+                    <div class="card">
+                        <div class="card-main">
+                            <div class="card-inner">
+
+                                {*
+                                <div id="traffic_chart" style="height: 300px; width: 100%;"></div>
+
+                                <script src="/assets/js/canvasjs.min.js"> </script>
+                                <script type="text/javascript">
+                                    var chart = new CanvasJS.Chart("traffic_chart", {
+                                        theme: "light1",
+                                        title: {
+                                            text: "流量使用情况",
+                                            fontFamily: "Impact",
+                                            fontWeight: "normal"
+                                        },
+                                        legend: {
+                                            verticalAlign: "bottom",
+                                            horizontalAlign: "center"
+                                        },
+                                        data: [{
+                                            startAngle: -15,
+                                            indexLabelFontSize: 20,
+                                            indexLabelFontFamily: "Garamond",
+                                            indexLabelFontColor: "darkgrey",
+                                            indexLabelLineColor: "darkgrey",
+                                            indexLabelPlacement: "outside",
+                                            yValueFormatString: "##0.00\"%\"",
+                                            type: "pie",
+                                            showInLegend: true,
+                                            dataPoints: [
+                                                {if $user->transfer_enable != 0}
+                                                {
+                                                    y: {$user->last_day_t/$user->transfer_enable*100},label: "过去已用", legendText:"过去已用 {number_format($user->last_day_t/$user->transfer_enable*100,2)}% {$user->LastusedTraffic()}", indexLabel: "过去已用 {number_format($user->last_day_t/$user->transfer_enable*100,2)}% {$user->LastusedTraffic()}"
+                                                },
+                                                {
+                                                    y: {($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100},label: "今日已用", legendText:"今日已用 {number_format(($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100,2)}% {$user->TodayusedTraffic()}", indexLabel: "今日已用 {number_format(($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100,2)}% {$user->TodayusedTraffic()}"
+                                                },
+                                                {
+                                                    y: {($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100},label: "剩余可用", legendText:"剩余可用 {number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)}% {$user->unusedTraffic()}", indexLabel: "剩余可用 {number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)}% {$user->unusedTraffic()}"
+                                                }
+                                                {/if}
+                                            ]
+                                        }
+                                        ]
+                                    });
+
+                                    chart.render();
+                                </script>
+                                *}
+
+                                <div class="progressbar">
+                                    <div class="before"></div>
+                                    <div class="bar tuse color3"
+                                         style="width:calc({($user->transfer_enable==0)?0:($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}%);"></div>
+                                    <div class="label-flex">
+                                        <div class="label la-top">
+                                            <div class="bar ard color3"></div>
+                                            <span class="traffic-info">今日已用</span>
+                                            <code class="card-tag tag-red">{$user->TodayusedTraffic()}</code>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progressbar">
+                                    <div class="before"></div>
+                                    <div class="bar ard color2"
+                                         style="width:calc({($user->transfer_enable==0)?0:$user->last_day_t/$user->transfer_enable*100}%);">
+                                        <span></span>
+                                    </div>
+                                    <div class="label-flex">
+                                        <div class="label la-top">
+                                            <div class="bar ard color2"><span></span></div>
+                                            <span class="traffic-info">过去已用</span>
+                                            <code class="card-tag tag-orange">{$user->LastusedTraffic()}</code>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progressbar">
+                                    <div class="before"></div>
+                                    <div class="bar remain color"
+                                         style="width:calc({($user->transfer_enable==0)?0:($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}%);">
+                                        <span></span>
+                                    </div>
+                                    <div class="label-flex">
+                                        <div class="label la-top">
+                                            <div class="bar ard color"><span></span></div>
+                                            <span class="traffic-info">剩余流量</span>
+                                            <code class="card-tag tag-green" id="remain">{$user->unusedTraffic()}</code>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-main">
+                            <div class="card-inner margin-bottom-no">
+                                <p class="card-heading"><i class="icon icon-md">account_circle</i>账号使用情况</p>
+                                <dl class="dl-horizontal">
+
+
+                                    <dt>等级过期时间</dt>
+                                    {if $user->class_expire!="1989-06-04 00:05:00"}
+                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->class_expire}</dd>
+                                    {else}
+                                    <dd><i class="icon icon-md">event</i>&nbsp;不过期</dd>
+                                    {/if}
+
+                                    <dt>等级有效期</dt>
+                                    <i class="icon icon-md">event</i>
+                                    <span class="label-level-expire">剩余</span>
+                                    <code><span id="days-level-expire"></span></code>
+                                    <span class="label-level-expire">天</span>
+
+                                    <dt>帐号过期时间</dt>
+                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->expire_in}</dd>
+
+                                    <dt>账号有效期</dt>
+                                    <i class="icon icon-md">event</i>
+                                    <span class="label-account-expire">剩余</span>
+                                    <code><span id="days-account-expire"></span></code>
+                                    <span class="label-account-expire">天</span>
+
+                                    <dt>上次使用</dt>
+                                    {if $user->lastSsTime()!="从未使用喵"}
+                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastSsTime()}</dd>
+                                    {else}
+                                    <dd><i class="icon icon-md">event</i>&nbsp;从未使用</dd>
+                                    {/if}
+
+                                    <dt>上次签到时间：</dt>
+                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastCheckInTime()}</dd>
+
+                                    <p id="checkin-msg"></p>
+
+                                    {if $geetest_html != null}
+                                        <div id="popup-captcha"></div>
+                                    {/if}
+                                    {if $recaptcha_sitekey != null && $user->isAbleToCheckin()}
+                                        <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+                                    {/if}
+
+
+                                    <div class="card-action">
+                                        <div class="usercheck pull-left">
+                                            {if $user->isAbleToCheckin() }
+                                                <div id="checkin-btn">
+                                                    <button id="checkin" class="btn btn-brand btn-flat"><span
+                                                                class="icon">check</span>&nbsp;点我签到&nbsp;
+                                                        <div><span class="icon">screen_rotation</span>&nbsp;或者摇动手机签到
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            {else}
+                                                <p><a class="btn btn-brand disabled btn-flat" href="#"><span
+                                                                class="icon">check</span>&nbsp;今日已签到</a></p>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </dl>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-xx-12 col-sm-8">
 
                     <div class="card">
@@ -194,36 +367,44 @@
                                             <nav class="tab-nav margin-top-no">
                                                 <ul class="nav nav-list">
                                                     <li class="active">
-                                                        <a class="" data-toggle="tab" href="#all_ssr_windows"><i
-                                                                    class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
+                                                        <a class="" data-toggle="tab" href="#all_ssr_windows">
+                                                            <i class="icon icon-lg">desktop_windows</i>&nbsp;Windows
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_mac"><i
-                                                                    class="icon icon-lg">laptop_mac</i>&nbsp;MacOS</a>
+                                                        <a class="" data-toggle="tab" href="#all_ssr_mac">
+                                                            <i class="icon icon-lg">laptop_mac</i>&nbsp;MacOS
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_linux"><i
-                                                                    class="icon icon-lg">dvr</i>&nbsp;Linux（GUI）</a>
+                                                        <a class="" data-toggle="tab" href="#all_ssr_linux">
+                                                            <i class="icon icon-lg">dvr</i>&nbsp;Linux（GUI）
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_ios"><i
-                                                                    class="icon icon-lg">phone_iphone</i>&nbsp;iOS</a>
+                                                        <a class="" data-toggle="tab" href="#all_ssr_ios">
+                                                            <i class="icon icon-lg">phone_iphone</i>&nbsp;iOS
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_android"><i
-                                                                    class="icon icon-lg">android</i>&nbsp;Android</a>
+                                                        <a class="" data-toggle="tab" href="#all_ssr_android">
+                                                            <i class="icon icon-lg">android</i>&nbsp;Android
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_router"><i
-                                                                    class="icon icon-lg">router</i>&nbsp;路由器</a>
+                                                        <a class="" data-toggle="tab" href="#all_ssr_router">
+                                                            <i class="icon icon-lg">router</i>&nbsp;路由器
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_game"><i
-                                                                    class="icon icon-lg">videogame_asset</i>&nbsp;游戏端</a>
+                                                        <a class="" data-toggle="tab" href="#all_ssr_game">
+                                                            <i class="icon icon-lg">videogame_asset</i>&nbsp;游戏端
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_info"><i
-                                                                    class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
+                                                        <a class="" data-toggle="tab" href="#all_ssr_info">
+                                                            <i class="icon icon-lg">info_outline</i>&nbsp;连接信息
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </nav>
@@ -253,78 +434,85 @@
                                                     <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
                                                     订阅地址：
                                                 </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                                                readonly="true">
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1"
+                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
+                                                           readonly="true">
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
                                                             data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
                                                         点击复制
                                                     </button>
-                                                    <br></div>
+                                                    <br>
+                                                </div>
                                                 {if $mergeSub!='true'}
-                                                    <div><span class="icon icon-lg text-white">flash_auto</span>
+                                                    <div>
+                                                        <span class="icon icon-lg text-white">flash_auto</span>
                                                         单端口节点订阅地址：
                                                     </div>
-                                                    <div class="float-clear"><input type="text"
-                                                                                    class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                    name="input1" readonly
-                                                                                    value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                                                    readonly="true">
+                                                    <div class="float-clear">
+                                                        <input type="text"
+                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
+                                                               readonly="true">
                                                         <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                                 type="button"
                                                                 data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
                                                             点击复制
                                                         </button>
-                                                        <br></div>
+                                                        <br>
+                                                    </div>
                                                 {/if}
 
                                                 <p><a href="/user/tutorial">点击这里查看Windows教程</a></p>
                                             </div>
                                             <div class="tab-pane fade" id="all_ssr_mac">
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            href="/ssr-download/ssr-mac.dmg" class="btn-dl"><i
+                                                <p><span class="icon icon-lg text-white">filter_1</span>
+                                                    <a href="/ssr-download/ssr-mac.dmg" class="btn-dl"><i
                                                                 class="material-icons">save_alt</i>
                                                         点击下载ShadowsocksX-NG-R8</a>，安装并启动</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    右击托盘纸飞机图标->服务器->服务器订阅，填入以下订阅地址</p>
+                                                <p><span class="icon icon-lg text-white">filter_2</span>右击托盘纸飞机图标->服务器->服务器订阅，填入以下订阅地址
+                                                </p>
                                                 <p><span class="icon icon-lg text-white">filter_3</span>更新订阅成功后服务器列表即可出现节点，选择一个节点
                                                 </p>
                                                 <p><span class="icon icon-lg text-white">filter_4</span>
                                                     再次右击托盘纸飞机图标，如果shadowsocks还未打开，则需要点击打开</p>
-
                                                 <div>
                                                     <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
                                                     订阅地址：
                                                 </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                                                readonly="true">
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1"
+                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
+                                                           readonly="true">
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
                                                             data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
                                                         点击复制
                                                     </button>
-                                                    <br></div>
+                                                    <br>
+                                                </div>
                                                 {if $mergeSub!='true'}
-                                                    <div><span class="icon icon-lg text-white">flash_auto</span>
+                                                    <div>
+                                                        <span class="icon icon-lg text-white">flash_auto</span>
                                                         单端口节点订阅地址：
                                                     </div>
-                                                    <div class="float-clear"><input type="text"
-                                                                                    class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                    name="input1" readonly
-                                                                                    value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                                                    readonly="true">
+                                                    <div class="float-clear">
+                                                        <input type="text"
+                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
+                                                               readonly="true">
                                                         <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                                 type="button"
                                                                 data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
                                                             点击复制
                                                         </button>
-                                                        <br></div>
+                                                        <br>
+                                                    </div>
                                                 {/if}
                                                 <p><a href="/user/tutorial">点击这里查看Mac教程</a></p>
                                             </div>
@@ -341,32 +529,36 @@
                                                     <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
                                                     订阅地址：
                                                 </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                                                readonly="true">
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1"
+                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
+                                                           readonly="true">
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
                                                             data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
                                                         点击复制
                                                     </button>
-                                                    <br></div>
+                                                    <br>
+                                                </div>
                                                 {if $mergeSub!='true'}
-                                                    <div><span class="icon icon-lg text-white">flash_auto</span>
+                                                    <div>
+                                                        <span class="icon icon-lg text-white">flash_auto</span>
                                                         单端口节点订阅地址：
                                                     </div>
-                                                    <div class="float-clear"><input type="text"
-                                                                                    class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                    name="input1" readonly
-                                                                                    value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                                                    readonly="true">
+                                                    <div class="float-clear">
+                                                        <input type="text"
+                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
+                                                               readonly="true">
                                                         <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                                 type="button"
                                                                 data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
                                                             点击复制
                                                         </button>
-                                                        <br></div>
+                                                        <br>
+                                                    </div>
                                                 {/if}
                                             </div>
                                             <div class="tab-pane fade" id="all_ssr_ios">
@@ -399,14 +591,17 @@
                                                             </button>
                                                             <br>
                                                         </div>
-                                                        <p><span class="icon icon-lg text-white">error</span><strong>禁止将账户分享给他人！</strong>
+                                                        <p>
+                                                            <span class="icon icon-lg text-white">error</span>
+                                                            <strong>禁止将账户分享给他人！</strong>
                                                         </p>
                                                         <br/>
                                                     {else}
                                                         <p class="card-heading" align="center"><b>
                                                                 <i class="icon icon-lg">visibility_off</i>等级至少为<code>{$display_ios_class}</code>且累计充值大于<code>{$display_ios_topup}</code>时可见，如需升级请<a
                                                                         href="/user/shop">点击这里</a>升级套餐
-                                                            </b></p>
+                                                            </b>
+                                                        </p>
                                                     {/if}
                                                 {/if}
                                                 <p><span class="icon icon-lg text-white">build</span> 工具一：Shadowrocket
@@ -419,19 +614,21 @@
                                                 <p>或在 Safari 中点击<a href="javascript:void(0);" class="btn-dl"
                                                                    style="margin-left: 5px;" data-onekeyfor="sub0"><i
                                                                 class="material-icons icon-sm">how_to_vote</i>小火箭一键{if $mergeSub!='true'}普通端口{/if}
-                                                        订阅</a> {if $mergeSub!='true'}
+                                                        订阅</a>
+                                                    {if $mergeSub!='true'}
                                                         <a href="javascript:void(0);" class="btn-dl"
-                                                           style="margin-left: 5px;" data-onekeyfor="sub1"><i
-                                                                    class="material-icons icon-sm">how_to_vote</i>小火箭一键单端口订阅</a>
-                                                    {/if}</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    选择一个节点，打开上方的连接开关即可</p>
+                                                           style="margin-left: 5px;" data-onekeyfor="sub1">
+                                                            <i class="material-icons icon-sm">how_to_vote</i>小火箭一键单端口订阅\
+                                                        </a>
+                                                    {/if}
+                                                </p>
+                                                <p><span class="icon icon-lg text-white">filter_3</span>选择一个节点，打开上方的连接开关即可
+                                                </p>
                                                 <p><span class="icon icon-lg text-white">build</span> 工具二：Quantumult</p>
                                                 <p><span class="icon icon-lg text-white">filter_1</span> 使用共享账户登录 App
                                                     Store （请勿在“设置”界面直接登录AppleID），搜索并下载<code>Quantumult</code>，期间可能会弹出付款，照做即可，不会产生真实扣费
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    点击下方的“设置”，点击“订阅”，点击右上角的 +
-                                                    号，选择“服务器”，“名称”任意填写，点击复制本网页下方的“订阅地址”，粘贴到“链接”中，点击右上角的“保存”</p>
+                                                <p><span class="icon icon-lg text-white">filter_2</span>点击下方的“设置”，点击“订阅”，点击右上角的
+                                                    + 号，选择“服务器”，“名称”任意填写，点击复制本网页下方的“订阅地址”，粘贴到“链接”中，点击右上角的“保存”</p>
                                                 <p><span class="icon icon-lg text-white">filter_3</span> 点击 Quantumult
                                                     底部菜单栏中间的图标，选择一个节点，再点击“主页”，打开右上角的开关即可</p>
                                                 <p><span class="icon icon-lg text-white">build</span> 工具三：Potatso Lite
@@ -440,38 +637,40 @@
                                                     在外服APP商店中搜索Potatso Lite下载，安装时如果弹出登录框则使用上方的账户</p>
                                                 <p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso
                                                     Lite，点击添加代理，选择“订阅”，名字任意填写，点击复制本网页下方的“订阅地址”，粘贴到URL中，点击右上角的 √</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    选择一个代理节点，点击下方的“开始”即可</p>
+                                                <p><span class="icon icon-lg text-white">filter_3</span>\选择一个代理节点，点击下方的“开始”即可
+                                                </p>
                                                 <div>
                                                     <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
                                                     订阅地址：
                                                 </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" id="sub0" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                                                readonly="true">
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1" id="sub0"
+                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
+                                                           readonly="true">
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
                                                             data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
                                                         点击复制
                                                     </button>
-                                                    <br></div>
+                                                    <br>
+                                                </div>
                                                 {if $mergeSub!='true'}
-                                                    <div><span class="icon icon-lg text-white">flash_auto</span>
-                                                        单端口节点订阅地址：
+                                                    <div><span class="icon icon-lg text-white">flash_auto</span>单端口节点订阅地址：
                                                     </div>
-                                                    <div class="float-clear"><input type="text"
-                                                                                    class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                    name="input1" id="sub1" readonly
-                                                                                    value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                                                    readonly="true">
+                                                    <div class="float-clear">
+                                                        <input type="text"
+                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                               name="input1" id="sub1"
+                                                               value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true">
                                                         <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                                 type="button"
                                                                 data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
                                                             点击复制
                                                         </button>
-                                                        <br></div>
+                                                        <br>
+                                                    </div>
                                                 {/if}
                                                 <!-- <p><a href="/user/tutorial">点击这里查看iOS教程</a></p> -->
                                             </div>
@@ -504,32 +703,35 @@
                                                     <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
                                                     订阅地址：
                                                 </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                                                readonly="true">
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1"
+                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
+                                                           readonly="true">
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
                                                             data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
                                                         点击复制
                                                     </button>
-                                                    <br></div>
+                                                    <br>
+                                                </div>
                                                 {if $mergeSub!='true'}
                                                     <div><span class="icon icon-lg text-white">flash_auto</span>
                                                         单端口节点订阅地址：
                                                     </div>
-                                                    <div class="float-clear"><input type="text"
-                                                                                    class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                    name="input1" readonly
-                                                                                    value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                                                    readonly="true">
+                                                    <div class="float-clear">
+                                                        <input type="text"
+                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
+                                                               readonly="true">
                                                         <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                                 type="button"
                                                                 data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
                                                             点击复制
                                                         </button>
-                                                        <br></div>
+                                                        <br>
+                                                    </div>
                                                 {/if}
 
                                                 <p><a href="/user/tutorial">点击这里查看Android教程</a></p>
@@ -560,32 +762,35 @@
                                                     <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
                                                     订阅地址：
                                                 </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                                                readonly="true">
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1"
+                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
+                                                           readonly="true">
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
                                                             data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
                                                         点击复制
                                                     </button>
-                                                    <br></div>
+                                                    <br>
+                                                </div>
                                                 {if $mergeSub!='true'}
                                                     <div><span class="icon icon-lg text-white">flash_auto</span>
                                                         单端口节点订阅地址：
                                                     </div>
-                                                    <div class="float-clear"><input type="text"
-                                                                                    class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                    name="input1" readonly
-                                                                                    value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                                                    readonly="true">
+                                                    <div class="float-clear">
+                                                        <input type="text"
+                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
+                                                               readonly="true">
                                                         <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                                 type="button"
                                                                 data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
                                                             点击复制
                                                         </button>
-                                                        <br></div>
+                                                        <br>
+                                                    </div>
                                                 {/if}
                                             </div>
                                             <div class="tab-pane fade" id="all_ssr_game">
@@ -606,32 +811,35 @@
                                                     <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
                                                     订阅地址：
                                                 </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                                                readonly="true">
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1"
+                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
+                                                           readonly="true">
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
                                                             data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
                                                         点击复制
                                                     </button>
-                                                    <br></div>
+                                                    <br>
+                                                </div>
                                                 {if $mergeSub!='true'}
                                                     <div><span class="icon icon-lg text-white">flash_auto</span>
                                                         单端口节点订阅地址：
                                                     </div>
-                                                    <div class="float-clear"><input type="text"
-                                                                                    class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                    name="input1" readonly
-                                                                                    value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                                                    readonly="true">
+                                                    <div class="float-clear">
+                                                        <input type="text"
+                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
+                                                               readonly="true">
                                                         <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                                 type="button"
                                                                 data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
                                                             点击复制
                                                         </button>
-                                                        <br></div>
+                                                        <br>
+                                                    </div>
                                                 {/if}
 
                                                 <p><a href="/user/tutorial">点击这里查看游戏客户端教程</a></p>
@@ -683,28 +891,34 @@
                                             <nav class="tab-nav margin-top-no">
                                                 <ul class="nav nav-list">
                                                     <li class="active">
-                                                        <a class="" data-toggle="tab" href="#all_ss_windows"><i
-                                                                    class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
+                                                        <a class="" data-toggle="tab" href="#all_ss_windows">
+                                                            <i class="icon icon-lg">desktop_windows</i>&nbsp;Windows
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_mac"><i
-                                                                    class="icon icon-lg">laptop_mac</i>&nbsp;MacOS</a>
+                                                        <a class="" data-toggle="tab" href="#all_ss_mac">
+                                                            <i class="icon icon-lg">laptop_mac</i>&nbsp;MacOS
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_ios"><i
-                                                                    class="icon icon-lg">laptop_mac</i>&nbsp;iOS</a>
+                                                        <a class="" data-toggle="tab" href="#all_ss_ios">
+                                                            <i class="icon icon-lg">laptop_mac</i>&nbsp;iOS
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_android"><i
-                                                                    class="icon icon-lg">android</i>&nbsp;Android</a>
+                                                        <a class="" data-toggle="tab" href="#all_ss_android">
+                                                            <i class="icon icon-lg">android</i>&nbsp;Android
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_router"><i
-                                                                    class="icon icon-lg">router</i>&nbsp;路由器</a>
+                                                        <a class="" data-toggle="tab" href="#all_ss_router">
+                                                            <i class="icon icon-lg">router</i>&nbsp;路由器
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_info"><i
-                                                                    class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
+                                                        <a class="" data-toggle="tab" href="#all_ss_info">
+                                                            <i class="icon icon-lg">info_outline</i>&nbsp;连接信息
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </nav>
@@ -899,20 +1113,20 @@
                                             <nav class="tab-nav margin-top-no">
                                                 <ul class="nav nav-list">
                                                     <li class="active">
-                                                        <a class="" data-toggle="tab" href="#all_v2ray_windows"><i
-                                                                    class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
+                                                        <a class="" data-toggle="tab" href="#all_v2ray_windows">
+                                                            <i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_v2ray_ios"><i
-                                                                    class="icon icon-lg">laptop_mac</i>&nbsp;iOS</a>
+                                                        <a class="" data-toggle="tab" href="#all_v2ray_ios">
+                                                            <i class="icon icon-lg">laptop_mac</i>&nbsp;iOS</a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_v2ray_android"><i
-                                                                    class="icon icon-lg">android</i>&nbsp;Android</a>
+                                                        <a class="" data-toggle="tab" href="#all_v2ray_android">
+                                                            <i class="icon icon-lg">android</i>&nbsp;Android</a>
                                                     </li>
                                                     <li>
-                                                        <a class="" data-toggle="tab" href="#all_v2ray_info"><i
-                                                                    class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
+                                                        <a class="" data-toggle="tab" href="#all_v2ray_info">
+                                                            <i class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
                                                     </li>
                                                 </ul>
                                             </nav>
@@ -933,16 +1147,18 @@
                                                     </a></p>
                                                 <div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：
                                                 </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}?mu=2"
-                                                                                readonly="true">
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1" value="{$subUrl}{$ssr_sub_token}?mu=2"
+                                                           readonly="true">
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">点击复制
+                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">
+                                                        点击复制
                                                     </button>
-                                                    <br></div>
+                                                    <br>
+                                                </div>
                                             </div>
                                             <div class="tab-pane fade" id="all_v2ray_ios">
                                                 <p><span class="icon icon-lg text-white">filter_1</span> 在非国区AppStore中搜索<code>Shadowrocket</code>下载安装
@@ -979,16 +1195,18 @@
                                                     选择一个节点，点击右下角按钮订阅</p>
                                                 <div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：
                                                 </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}?mu=2"
-                                                                                readonly="true">
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1" value="{$subUrl}{$ssr_sub_token}?mu=2"
+                                                           readonly="true">
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">点击复制
+                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">
+                                                        点击复制
                                                     </button>
-                                                    <br></div>
+                                                    <br>
+                                                </div>
                                             </div>
                                             <div class="tab-pane fade" id="all_v2ray_info">
                                                 {$v2_url_all = URL::getAllVMessUrl($user)}
@@ -996,11 +1214,11 @@
                                                                 class="material-icons icon-sm">how_to_vote</i>点击这里复制全部
                                                         VMess 链接</a></p>
                                                 <div><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：</div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}?mu=2"
-                                                                                readonly="true"/>
+                                                <div class="float-clear">
+                                                    <input type="text"
+                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
+                                                           name="input1" value="{$subUrl}{$ssr_sub_token}?mu=2"
+                                                           readonly="true"/>
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
                                                             type="button"
                                                             data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">
@@ -1020,189 +1238,6 @@
 
                 </div>
 
-                <div class="col-xx-12 col-sm-4">
-
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-inner margin-bottom-no">
-                                <p class="card-heading"><i class="icon icon-md">account_circle</i>账号使用情况</p>
-                                <dl class="dl-horizontal">
-
-
-                                    <p>
-                                        <dt>等级过期时间</dt>
-                                        {if $user->class_expire!="1989-06-04 00:05:00"}
-                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->class_expire}</dd>
-                                    {else}
-                                    <dd><i class="icon icon-md">event</i>&nbsp;不过期</dd>
-                                    {/if}
-                                    </p>
-                                    <p>
-                                        <dt>等级有效期</dt>
-                                        <i class="icon icon-md">event</i>
-                                        <span class="label-level-expire">剩余</span>
-                                        <code><span id="days-level-expire"></span></code>
-                                        <span class="label-level-expire">天</span>
-                                    </p>
-
-                                    <p>
-                                        <dt>帐号过期时间</dt>
-                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->expire_in}</dd>
-                                    </p>
-                                    <p>
-                                        <dt>账号有效期</dt>
-                                        <i class="icon icon-md">event</i>
-                                        <span class="label-account-expire">剩余</span>
-                                        <code><span id="days-account-expire"></span></code>
-                                        <span class="label-account-expire">天</span>
-                                    </p>
-
-                                    <p>
-                                        <dt>上次使用</dt>
-                                        {if $user->lastSsTime()!="从未使用喵"}
-                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastSsTime()}</dd>
-                                    {else}
-                                    <dd><i class="icon icon-md">event</i>&nbsp;从未使用</dd>
-                                    {/if}</p>
-                                    <p>
-                                        <dt>上次签到时间：</dt>
-                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastCheckInTime()}</dd>
-                                    </p>
-
-
-                                    <p id="checkin-msg"></p>
-
-                                    {if $geetest_html != null}
-                                        <div id="popup-captcha"></div>
-                                    {/if}
-                                    {if $recaptcha_sitekey != null && $user->isAbleToCheckin()}
-                                        <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
-                                    {/if}
-
-
-                                    <div class="card-action">
-                                        <div class="usercheck pull-left">
-                                            {if $user->isAbleToCheckin() }
-                                                <div id="checkin-btn">
-                                                    <button id="checkin" class="btn btn-brand btn-flat"><span
-                                                                class="icon">check</span>&nbsp;点我签到&nbsp;
-                                                        <div><span class="icon">screen_rotation</span>&nbsp;或者摇动手机签到
-                                                        </div>
-                                                    </button>
-                                                </div>
-                                            {else}
-                                                <p><a class="btn btn-brand disabled btn-flat" href="#"><span
-                                                                class="icon">check</span>&nbsp;今日已签到</a></p>
-                                            {/if}
-                                        </div>
-                                    </div>
-                                </dl>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-inner">
-
-                                {*<div id="traffic_chart" style="height: 300px; width: 100%;"></div>
-
-                               <script src="/assets/js/canvasjs.min.js"> </script>
-                                <script type="text/javascript">
-                                    var chart = new CanvasJS.Chart("traffic_chart",
-
-
-
-                                    {
-                                 theme: "light1",
-
-
-                                        title:{
-                                            text: "流量使用情况",
-                                            fontFamily: "Impact",
-                                            fontWeight: "normal"
-                                            },
-                                        legend:{
-                                            verticalAlign: "bottom",
-                                            horizontalAlign: "center"
-                                        },
-                                        data: [
-                                        {
-                                            startAngle: -15,
-                                            indexLabelFontSize: 20,
-                                            indexLabelFontFamily: "Garamond",
-                                            indexLabelFontColor: "darkgrey",
-                                            indexLabelLineColor: "darkgrey",
-                                            indexLabelPlacement: "outside",
-                                            yValueFormatString: "##0.00\"%\"",
-                                            type: "pie",
-                                            showInLegend: true,
-                                            dataPoints: [
-                                                {if $user->transfer_enable != 0}
-                                                {
-                                                    y: {$user->last_day_t/$user->transfer_enable*100},label: "过去已用", legendText:"过去已用 {number_format($user->last_day_t/$user->transfer_enable*100,2)}% {$user->LastusedTraffic()}", indexLabel: "过去已用 {number_format($user->last_day_t/$user->transfer_enable*100,2)}% {$user->LastusedTraffic()}"
-                                                },
-                                                {
-                                                    y: {($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100},label: "今日已用", legendText:"今日已用 {number_format(($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100,2)}% {$user->TodayusedTraffic()}", indexLabel: "今日已用 {number_format(($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100,2)}% {$user->TodayusedTraffic()}"
-                                                },
-                                                {
-                                                    y: {($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100},label: "剩余可用", legendText:"剩余可用 {number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)}% {$user->unusedTraffic()}", indexLabel: "剩余可用 {number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)}% {$user->unusedTraffic()}"
-                                                }
-                                                {/if}
-                                            ]
-                                        }
-                                        ]
-                                    });
-
-                                    chart.render();
-                                </script> *}
-
-                                <div class="progressbar">
-                                    <div class="before"></div>
-                                    <div class="bar tuse color3"
-                                         style="width:calc({($user->transfer_enable==0)?0:($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}%);">
-                                        <span></span></div>
-                                    <div class="label-flex">
-                                        <div class="label la-top">
-                                            <div class="bar ard color3"><span></span></div>
-                                            <span class="traffic-info">今日已用</span><code
-                                                    class="card-tag tag-red">{$user->TodayusedTraffic()}</code></div>
-                                    </div>
-                                </div>
-                                <div class="progressbar">
-                                    <div class="before"></div>
-                                    <div class="bar ard color2"
-                                         style="width:calc({($user->transfer_enable==0)?0:$user->last_day_t/$user->transfer_enable*100}%);">
-                                        <span></span></div>
-                                    <div class="label-flex">
-                                        <div class="label la-top">
-                                            <div class="bar ard color2"><span></span></div>
-                                            <span class="traffic-info">过去已用</span><code
-                                                    class="card-tag tag-orange">{$user->LastusedTraffic()}</code></div>
-                                    </div>
-                                </div>
-                                <div class="progressbar">
-                                    <div class="before"></div>
-                                    <div class="bar remain color"
-                                         style="width:calc({($user->transfer_enable==0)?0:($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}%);">
-                                        <span></span></div>
-                                    <div class="label-flex">
-                                        <div class="label la-top">
-                                            <div class="bar ard color"><span></span></div>
-                                            <span class="traffic-info">剩余流量</span><code class="card-tag tag-green"
-                                                                                        id="remain">{$user->unusedTraffic()}</code>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
             </div>
             {include file='dialog.tpl'}
 
@@ -1232,8 +1267,9 @@
         }
 
         function AddSub(id) {
-            let url = document.getElementById(id).value;
-            let tmp = window.btoa(url);
+            let url = $$getValue(id),
+                tmp = window.btoa(url);
+
             tmp = tmp.substring(0, tmp.length);
             url = "sub://" + tmp + "#";
             window.location.href = url;
@@ -1289,7 +1325,7 @@
 
     $(".copy-text").click(function () {
         $("#result").modal();
-        $("#msg").html("已拷贝订阅链接，请您继续接下来的操作。");
+        $$.getElementById('msg').innerHTML = '已复制，请您继续接下来的操作';
     });
 
     $(function () {
@@ -1298,14 +1334,14 @@
 
     $(".reset-link").click(function () {
         $("#result").modal();
-        $("#msg").html("已重置您的订阅链接，请变更或添加您的订阅链接！");
+        $$.getElementById('msg').innerHTML = '已重置您的订阅链接，请变更或添加您的订阅链接！';
         window.setTimeout("location.href='/user/url_reset'", {$config['jump_delay']});
     });
 
     {if $user->transfer_enable-($user->u+$user->d) == 0}
     window.onload = function () {
         $("#result").modal();
-        $("#msg").html("您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~");
+        $$.getElementById('msg').innerHTML = '您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~';
     };
     {/if}
 
@@ -1318,7 +1354,7 @@
         });
 
         myShakeEvent.start();
-        CountDown()
+        CountDown();
 
         window.addEventListener('shake', shakeEventDidOccur, false);
 
@@ -1334,22 +1370,25 @@
                 data: {
                     recaptcha: grecaptcha.getResponse()
                 },{/if}
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
-                        $("#checkin-msg").html(data.msg);
-                        $("#checkin-btn").html(checkedmsgGE);
+
+                        $$.getElementById('checkin-msg').innerHTML = data.msg;
+                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
-                        $("#msg").html(data.msg);
-                        $('#remain').html(data.traffic);
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        $$.getElementById('remain').innerHTML = data.traffic;
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg').innerHTML = `发生错误：${
+                            jqXHR.status
+                            }`;
                 }
             });
         }
@@ -1365,22 +1404,24 @@
                 data: {
                     recaptcha: grecaptcha.getResponse()
                 },{/if}
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
-                        $("#checkin-msg").html(data.msg);
-                        $("#checkin-btn").html(checkedmsgGE);
+                        $$.getElementById('checkin-msg').innerHTML = data.msg;
+                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
-                        $("#msg").html(data.msg);
-                        $('#remain').html(data.traffic);
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        $$.getElementById('remain').innerHTML = data.traffic;
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg').innerHTML = `发生错误：${
+                            jqXHR.status
+                            }`;
                 }
             })
         })
@@ -1423,22 +1464,24 @@
                     geetest_validate: validate.geetest_validate,
                     geetest_seccode: validate.geetest_seccode
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
-                        $("#checkin-msg").html(data.msg);
-                        $("#checkin-btn").html(checkedmsgGE);
+                        $$.getElementById('checkin-msg').innerHTML = data.msg;
+                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
-                        $("#msg").html(data.msg);
-                        $('#remain').html(data.traffic);
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        $$.getElementById('remain').innerHTML = data.traffic;
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
+                error: (jqXHR) => {
                     $("#result").modal();
-                    $("#msg").html("发生错误：" + jqXHR.status);
+                    $$.getElementById('msg').innerHTML = `发生错误：${
+                            jqXHR.status
+                            }`;
                 }
             });
         });

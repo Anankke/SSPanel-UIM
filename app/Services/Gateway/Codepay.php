@@ -87,7 +87,7 @@ class Codepay extends AbstractPayment
             $urls .= "$key=" . urlencode($val); //拼接为url参数形式并URL编码参数值
         }
         $query = $urls . '&sign=' . md5($sign . $codepay_key); //创建订单所需的参数
-        $url = 'https://codepay.fateqq.com:51888/creat_order/?' . $query; //支付页面
+        $url = 'https://codepay.fateqq.com/creat_order/?' . $query; //支付页面
 
 
         header('Location:' . $url);
