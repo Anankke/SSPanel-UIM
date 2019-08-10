@@ -174,7 +174,7 @@ class XCat
 
     public function initdownload()
     {
-        system('git clone https://github.com/xcxnig/ssr-download.git ' . BASE_PATH . '/public/ssr-download/', $ret);
+        system('git clone --depth=3 https://github.com/xcxnig/ssr-download.git ' . BASE_PATH . '/public/ssr-download/ && git gc', $ret);
         echo $ret;
     }
 
@@ -265,15 +265,19 @@ class XCat
 
     public function initQQWry()
     {
-        echo('downloading....');
-        $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat');
+        echo('开始下载纯真 IP 数据库....');
+        $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
         if ($qqwry != '') {
             $fp = fopen(BASE_PATH . '/storage/qqwry.dat', 'wb');
             if ($fp) {
                 fwrite($fp, $qqwry);
                 fclose($fp);
+                echo('纯真 IP 数据库下载成功！');
+            } else {
+                echo('纯真 IP 数据库保存失败！');
             }
-            echo('finish....');
+        } else {
+            echo('下载失败！请重试，或在 https://github.com/SukkaW/qqwry-mirror/issues/new 反馈！');
         }
     }
 
