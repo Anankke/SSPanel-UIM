@@ -51,21 +51,30 @@ class Node extends Model
     public function getNodeLoad()
     {
         $id = $this->attributes['id'];
-        $log = NodeInfoLog::where('node_id', $id)->orderBy('id', 'desc')->whereRaw('`log_time`%1800<60')->limit(48)->get();
+        $log = NodeInfoLog::where('node_id', $id)->orderBy(
+            'id',
+            'desc'
+        )->whereRaw('`log_time`%1800<60')->limit(48)->get();
         return $log;
     }
 
     public function getNodeAlive()
     {
         $id = $this->attributes['id'];
-        $log = NodeOnlineLog::where('node_id', $id)->orderBy('id', 'desc')->whereRaw('`log_time`%1800<60')->limit(48)->get();
+        $log = NodeOnlineLog::where('node_id', $id)->orderBy(
+            'id',
+            'desc'
+        )->whereRaw('`log_time`%1800<60')->limit(48)->get();
         return $log;
     }
 
     public function getOnlineUserCount()
     {
         $id = $this->attributes['id'];
-        $log = NodeOnlineLog::where('node_id', $id)->where('log_time', '>', time() - 300)->orderBy('id', 'desc')->first();
+        $log = NodeOnlineLog::where('node_id', $id)->where('log_time', '>', time() - 300)->orderBy(
+            'id',
+            'desc'
+        )->first();
         if ($log == null) {
             return 0;
         }
@@ -113,17 +122,19 @@ class Node extends Model
 
     public function isNodeOnline()
     {
-        $result = false;
-        $id = $this->attributes['id'];
-        $sort = $this->attributes['sort'];
-        $node_heartbeat = $this->attributes['node_heartbeat'];
-        $log = NodeOnlineLog::where('node_id', $id)->where('log_time', '>', time() - 300)->orderBy('id', 'desc')->first();
-        if (!($sort == 0 || $sort == 7 || $sort == 8 || $sort == 10 || $sort == 11 || $sort == 12 || $sort == 13) || $node_heartbeat == 0) {
-            $result = null;
-        } elseif ($log != null && $log->log_time + 300 > time()) {
-            $result = true;
+        $delay = 300;
+        if ($this->attributes['node_heartbeat'] === 0) {
+            return false;
         }
-        return $result;
+
+        if (!in_array($this->attributes['sort'], [0, 7, 8, 10, 11, 12, 13])) {
+            return null;
+        }
+
+        if ($this->attributes['node_heartbeat'] > time() - $delay) {
+            return true;
+        }
+        return false;
     }
 
     public function isNodeTrafficOut()
