@@ -456,7 +456,7 @@ class Job
             $nodes = Node::all();
 
             foreach ($nodes as $node) {
-                if ($node->isNodeOnline() === false && !file_exists(BASE_PATH . '/storage/' . $node->id . '.offline')) {
+                if ($node->node_heartbeat + 300 < time() === false && !file_exists(BASE_PATH . '/storage/' . $node->id . '.offline')) {
                     if (Config::get('useScFtqq') == 'true' && Config::get('enable_detect_offline_useScFtqq') == 'true') {
                         $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
@@ -552,7 +552,7 @@ class Job
                     $txt = '1';
                     fwrite($myfile, $txt);
                     fclose($myfile);
-                } elseif ($node->isNodeOnline() === true && file_exists(BASE_PATH . '/storage/' . $node->id . '.offline')) {
+                } elseif ($node->node_heartbeat + 300 > time()  === true && file_exists(BASE_PATH . '/storage/' . $node->id . '.offline')) {
                     if (Config::get('useScFtqq') == 'true' && Config::get('enable_detect_offline_useScFtqq') == 'true') {
                         $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
