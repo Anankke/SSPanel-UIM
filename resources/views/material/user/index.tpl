@@ -337,7 +337,7 @@
 
                     <div class="card quickadd">
                         <div class="card-main">
-                            <div class="card-inner margin-bottom-no">
+                            <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading"><i class="icon icon-md">phonelink</i> 快速添加节点</div>
                                     <div class="reset-flex"><span>重置订阅链接</span><a class="reset-link btn btn-brand-accent btn-flat"><i class="icon">autorenew</i>&nbsp;</a></div>
@@ -855,6 +855,44 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
+
+                                                <br>
+
+                                                {if $mergeSub!='true'}
+                                                <div>
+                                                    <span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：
+                                                </div>
+                                                <div class="float-clear">
+                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" value="{$subUrl}{$ssr_sub_token}?mu=0" readonly="true">
+                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=0">点击复制</button>
+                                                </div>
+                                                <br>
+                                                <div>
+                                                    <span class="icon icon-lg text-white">flash_auto</span> 单端口节点订阅地址：
+                                                </div>
+                                                <div class="float-clear">
+                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true">
+                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">点击复制</button>
+                                                </div>
+                                                {else}
+                                                <div>
+                                                    <span class="icon icon-lg text-white">flash_auto</span> 订阅地址：
+                                                </div>
+                                                <div class="float-clear">
+                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" value="{$subUrl}{$ssr_sub_token}" readonly="true">
+                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}">点击复制</button>
+                                                </div>
+                                                {/if}
+
+                                                <br>
+
+                                                    {if $mergeSub!='true'}
+                                                        <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$ssr_url_all}">点击复制 SSR 普通端口节点链接</button>
+                                                        <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$ssr_url_all_mu}">点击复制 SSR 单端口多用户链接</button>
+                                                    {else}
+                                                        <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$ssr_url_all}">点击复制全部 SSR 节点链接</button>
+                                                    {/if}
+
                                                 {else}
                                                     <p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks
                                                         客户端来连接，或者到 资料编辑 页面修改后再来查看此处</p>
@@ -905,7 +943,7 @@
                                                 {$ss_url_all = URL::getAllUrl($pre_user, 0, 2)}
                                                 {$ssd_url_all =URL::getAllSSDUrl($user)}
 
-                                                {if URL::SSCanConnect($user)}\
+                                                {if URL::SSCanConnect($user)}
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
@@ -930,6 +968,20 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
+                                                <br>
+                                                <div>
+                                                    <span class="icon icon-lg text-white">flash_auto</span> SSD 节点订阅地址
+                                                </div>
+                                                <div class="float-clear">
+                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$subUrl}{$ssr_sub_token}?mu=3" readonly="true">
+                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=3">点击复制
+                                                    </button>
+                                                </div>
+
+                                                <br>
+                                                <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$ssd_url_all}">点击复制全部 SSD 节点链接</button>
+                                                <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$ss_url_all}">点击复制全部 SS 节点链接</button>
+                                                
                                                 {else}
                                                     <p>您好，您目前的 加密方式，混淆，或者协议设置在 SS 客户端下无法连接。请您选用 SSR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处</p>
                                                     <p>同时, Shadowsocks 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
