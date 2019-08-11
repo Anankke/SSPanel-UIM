@@ -194,7 +194,6 @@
                                 <p class="card-heading"><i class="icon icon-md">account_circle</i>账号使用情况</p>
                                 <dl class="dl-horizontal">
 
-
                                     <dt>等级过期时间</dt>
                                     {if $user->class_expire!="1989-06-04 00:05:00"}
                                     <dd><i class="icon icon-md">event</i>&nbsp;{$user->class_expire}</dd>
@@ -357,7 +356,7 @@
                                         </li>
                                     </ul>
                                 </nav>
-                                <div class="card-inner">
+                                <div>
                                     <div class="tab-content">
                                         <div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="all_ssr">
                                             {$pre_user = URL::cloneUser($user)}
@@ -828,35 +827,34 @@
                                                 {$ssr_url_all = URL::getAllUrl($pre_user, 0, 0)}
                                                 {$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0)}
                                                 {if URL::SSRCanConnect($user)}
-                                                    <dl class="dl-horizontal">
-                                                        <p>
-                                                            <dt><code>优先导入普通端口，如果普通端口无法使用再导入单端口</code></dt>
-                                                        </p>
-                                                        <p>
-                                                            <dt>端口</dt>
-                                                        <dd>{$user->port}</dd>
-                                                        </p>
-                                                        <p>
-                                                            <dt>密码</dt>
-                                                        <dd>{$user->passwd}</dd>
-                                                        </p>
-                                                        <p>
-                                                            <dt>自定义加密</dt>
-                                                        <dd>{$user->method}</dd>
-                                                        </p>
-                                                        <p>
-                                                            <dt>自定义协议</dt>
-                                                        <dd>{$user->protocol}</dd>
-                                                        </p>
-                                                        <p>
-                                                            <dt>自定义混淆</dt>
-                                                        <dd>{$user->obfs}</dd>
-                                                        </p>
-                                                        <p>
-                                                            <dt>自定义混淆参数</dt>
-                                                        <dd>{$user->obfs_param}</dd>
-                                                        </p>
-                                                    </dl>
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>端口</td>
+                                                            <td>{$user->port}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>密码</td>
+                                                            <td>{$user->passwd}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>自定义加密</td>
+                                                            <td>{$user->method}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>自定义协议</td>
+                                                            <td>{$user->protocol}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>自定义混淆</td>
+                                                            <td>{$user->obfs}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>自定义混淆参数</td>
+                                                            <td>{$user->obfs_param}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                                 {else}
                                                     <p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks
                                                         客户端来连接，或者到 资料编辑 页面修改后再来查看此处</p>
@@ -907,33 +905,33 @@
                                                 {$ss_url_all = URL::getAllUrl($pre_user, 0, 2)}
                                                 {$ssd_url_all =URL::getAllSSDUrl($user)}
 
-                                                {if URL::SSCanConnect($user)}
-                                                    <dl class="dl-horizontal">
-                                                        <p>各个节点的地址请到节点列表查看！</p>
-                                                        <p>
-                                                            <dt>端口</dt>
-                                                        <dd>{$user->port}</dd>
-                                                        </p>
-                                                        <p>
-                                                            <dt>密码</dt>
-                                                        <dd>{$user->passwd}</dd>
-                                                        </p>
-                                                        <p>
-                                                            <dt>自定义加密</dt>
-                                                        <dd>{$user->method}</dd>
-                                                        </p>
-                                                        <p>
-                                                            <dt>自定义混淆</dt>
-                                                        <dd>{$user->obfs}</dd>
-                                                        </p>
-                                                        <p>
-                                                            <dt>自定义混淆参数</dt>
-                                                        <dd>{$user->obfs_param}</dd>
-                                                        </p>
-                                                    </dl>
+                                                {if URL::SSCanConnect($user)}\
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>端口</td>
+                                                            <td>{$user->port}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>密码</td>
+                                                            <td>{$user->passwd}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>自定义加密</td>
+                                                            <td>{$user->method}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>自定义混淆</td>
+                                                            <td>{$user->obfs}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>自定义混淆参数</td>
+                                                            <td>{$user->obfs_param}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                                 {else}
-                                                    <p>您好，您目前的 加密方式，混淆，或者协议设置在 SS 客户端下无法连接。请您选用 SSR 客户端来连接，或者到 资料编辑
-                                                        页面修改后再来查看此处</p>
+                                                    <p>您好，您目前的 加密方式，混淆，或者协议设置在 SS 客户端下无法连接。请您选用 SSR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处</p>
                                                     <p>同时, Shadowsocks 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
                                                 {/if}
                                             </div>
