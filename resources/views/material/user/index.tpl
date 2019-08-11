@@ -308,7 +308,7 @@
                                 <div class="card-inner">
                                     <div class="tab-content">
                                         <div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="all_ssr_client">
-                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：<a href="/ssr-download/ssr-win.7z" target="_blank">下载 ShadowsocksRR Windows</a></p>
+                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/ssr-win.7z" target="_blank">ShadowsocksRR Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
                                             <p><i class="icon icon-lg">laptop_mac</i> macOS：<a href="/ssr-download/ssr-mac.dmg" target="_blank">下载 ShadowsocksX-NG-R8</a></p>
                                             <p><i class="icon icon-lg">laptop_windows</i> Linux（GUI）：<a href="/ssr-download/ssr-linux.AppImage" target="_blank">下载 Electron SSR</a></p>
                                             <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ssrr-android.apk">SSRR</a> 或 <a href="/ssr-download/ssr-android.apk">SSR</a></p>
@@ -316,7 +316,7 @@
                                             <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package" target="_blank">FancySS 下载页面</a> 下载 koolss 插件</p>
                                         </div>
                                         <div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ss_client">
-                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/ssd-win.7z" target="_blank">SSD Windows</a> 或 <a href="/ssr-download/ss-win.zip" target="_blank">Shadowsocks Windows</a></p>
+                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/ssd-win.7z" target="_blank">SSD Windows</a>，<a href="/ssr-download/ss-win.zip" target="_blank">Shadowsocks Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
                                             <p><i class="icon icon-lg">laptop_mac</i> macOS：<a href="/ssr-download/ss-mac.zip" target="_blank">下载 ShadowsocksX-NG</a></p>
                                             <p><i class="icon icon-lg">laptop_windows</i> Linux（GUI）：<a href="/ssr-download/ssr-linux.AppImage" target="_blank">下载 Electron SSR</a></p>
                                             <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ss-android.apk">Shadowsocks Android</a> 或 <a href="/ssr-download/ssd-android.apk">SSD Android</a></p>
@@ -341,9 +341,7 @@
                             <div class="card-inner margin-bottom-no">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading"><i class="icon icon-md">phonelink</i> 快速添加节点</div>
-                                    <div class="reset-flex"><span>重置订阅链接</span><a
-                                                class="reset-link btn btn-brand-accent btn-flat"><i class="icon">autorenew</i>&nbsp;</a>
-                                    </div>
+                                    <div class="reset-flex"><span>重置订阅链接</span><a class="reset-link btn btn-brand-accent btn-flat"><i class="icon">autorenew</i>&nbsp;</a></div>
                                 </div>
                                 <nav class="tab-nav margin-top-no">
                                     <ul class="nav nav-list">
@@ -413,9 +411,7 @@
                                                 {$user = URL::getSSRConnectInfo($pre_user)}
                                                 {$ssr_url_all = URL::getAllUrl($pre_user, 0, 0)}
                                                 {$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0)}
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            class="btn-dl" href="/ssr-download/ssr-win.7z"><i
-                                                                class="material-icons">save_alt</i> 点击下载SSRR</a>解压至任意磁盘并运行
+                                                <p><span class="icon icon-lg text-white">filter_1</span>将下载的 SSR 或 SSRR 解压至任意磁盘并运行
                                                 </p>
                                                 <p><span class="icon icon-lg text-white">filter_2</span>
                                                     任务栏右下角右键纸飞机图标->服务器订阅->SSR服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSR服务器订阅（绕过代理）
@@ -469,14 +465,9 @@
                                                 <p><a href="/user/tutorial">点击这里查看Windows教程</a></p>
                                             </div>
                                             <div class="tab-pane fade" id="all_ssr_mac">
-                                                <p><span class="icon icon-lg text-white">filter_1</span>
-                                                    <a href="/ssr-download/ssr-mac.dmg" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i>
-                                                        点击下载ShadowsocksX-NG-R8</a>，安装并启动</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>右击托盘纸飞机图标->服务器->服务器订阅，填入以下订阅地址
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>更新订阅成功后服务器列表即可出现节点，选择一个节点
-                                                </p>
+                                                <p><span class="icon icon-lg text-white">filter_1</span>安装 ShadowsocksX-NG-R8 并启动</p>
+                                                <p><span class="icon icon-lg text-white">filter_2</span>右击托盘纸飞机图标->服务器->服务器订阅，填入以下订阅地址</p>
+                                                <p><span class="icon icon-lg text-white">filter_3</span>更新订阅成功后服务器列表即可出现节点，选择一个节点</p>
                                                 <p><span class="icon icon-lg text-white">filter_4</span>
                                                     再次右击托盘纸飞机图标，如果shadowsocks还未打开，则需要点击打开</p>
                                                 <div>
@@ -517,10 +508,7 @@
                                                 <p><a href="/user/tutorial">点击这里查看Mac教程</a></p>
                                             </div>
                                             <div class="tab-pane fade" id="all_ssr_linux">
-                                                <p><span class="icon icon-lg text-white">filter_1</span>自行安装python，<a
-                                                            href="/ssr-download/ssr-linux.AppImage" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> 点击下载electron-ssr</a>，安装并启动
-                                                </p>
+                                                <p><span class="icon icon-lg text-white">filter_1</span>自行安装python，下载 electron-ssr 安装并启动</p>
                                                 <p><span class="icon icon-lg text-white">filter_2</span>
                                                     右击托盘纸飞机图标->服务器->订阅管理，点击“添加”，输入以下订阅地址并回车</p>
                                                 <p><span class="icon icon-lg text-white">filter_3</span>订阅成功后点击“完成”关闭界面，右击托盘纸飞机图标->服务器->{$config["appName"]}
@@ -675,11 +663,7 @@
                                                 <!-- <p><a href="/user/tutorial">点击这里查看iOS教程</a></p> -->
                                             </div>
                                             <div class="tab-pane fade" id="all_ssr_android">
-                                                <p><span class="icon icon-lg text-white">filter_1</span>点击下载<a
-                                                            href="/ssr-download/ssr-android.apk" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> SSR </a> 或 <a
-                                                            href="/ssr-download/ssrr-android.apk" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> SSRR </a> 并安装</p>
+                                                <p><span class="icon icon-lg text-white">filter_1</span>安装 SSR 或 SSRR</p>
                                                 <p><span class="icon icon-lg text-white">filter_2</span>
                                                     打开App，点击右下角的<span class="icon icon-lg text-white">add</span>号图标</p>
                                                 <p><span class="icon icon-lg text-white">filter_3</span> 添加/升级 SSR订阅</p>
@@ -738,10 +722,7 @@
                                             </div>
                                             <div class="tab-pane fade" id="all_ssr_router">
                                                 <p>梅林：</p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            href="https://github.com/hq450/fancyss_history_package"
-                                                            class="btn-dl"><i class="material-icons">save_alt</i> 进入下载页面
-                                                    </a> 下载“科学上网”插件</p>
+                                                <p><span class="icon icon-lg text-white">filter_1</span>下载并安装“科学上网”插件</p>
                                                 <p><span class="icon icon-lg text-white">filter_2</span>
                                                     进入路由器管理页面->系统管理->勾选“Format JFFS partition at next boot”和“Enable JFFS
                                                     custom scripts and configs”->应用本页面设置，重启路由器</p>
@@ -794,9 +775,7 @@
                                                 {/if}
                                             </div>
                                             <div class="tab-pane fade" id="all_ssr_game">
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            href="/ssr-download/SSTap.7z" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> 点击下载SSTap</a>，并安装
+                                                <p><span class="icon icon-lg text-white">filter_1</span>安装 SSTap
                                                 </p>
                                                 <p><span class="icon icon-lg text-white">filter_2</span>
                                                     期间会安装虚拟网卡，请点击允许或确认</p>
