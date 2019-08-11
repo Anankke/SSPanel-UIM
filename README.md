@@ -9,14 +9,14 @@
 [![License](https://img.shields.io/github/license/Anankke/SSPanel-Uim?style=flat-square)](https://github.com/Anankke/SSPanel-Uim/blob/dev/LICENSE)
 [![Travis Build Status](https://img.shields.io/travis/Anankke/SSPanel-UIM/master.svg?style=flat-square)](https://travis-ci.org/Anankke/SSPanel-Uim)
 ![GitHub repo size](https://img.shields.io/github/repo-size/anankke/sspanel-uim?style=flat-square&color=328657)
-[![Telegram Chat](https://img.shields.io/badge/chat-t.me%2Fssunion-0d86d7?style=flat-square)](https://t.me/ssunion)
 [![Telegram Channel](https://img.shields.io/badge/news-t.me%2Fsspanel_uim-0d86d7?style=flat-square)](https://t.me/sspanel_uim)
+[![Telegram Chat](https://img.shields.io/badge/chat-t.me%2Fssunion-0d86d7?style=flat-square)](https://t.me/ssunion)
 
-[演示站点](https://sspanel.host) | [使用文档](https://wiki.sspanel.host) | [更新日志](https://github.com/Anankke/SSPanel-Uim/releases)
+[演示站点](https://sspanel.host) | [使用文档](https://wiki.sspanel.host) | [更新日志](https://github.com/Anankke/SSPanel-Uim/releases) | [Telegram 频道](https://t.me/sspanel_uim) | [Telegram 水群](https://t.me/ssunion)
 
 ## 简介
 
-SSPanel UIM 是一款专为 Shadowsocks / ShadowsocksR / V2Ray 设计的销售和管理面板，基于 ss-panel-v3-mod 开发。
+SSPanel UIM 是一款专为 Shadowsocks / ShadowsocksR / V2Ray 设计的多用户管理面板，基于 ss-panel-v3-mod 开发。
 
 ## 特性
 
@@ -64,7 +64,11 @@ SSPanel UIM 欢迎各种贡献，包括但不限于改进，新功能，文档�
 
 ## 协议
 
-SSPanel UIM 使用 MIT License 开源，不提供任何担保。使用 SSPanel UIM 即表明，您知情并同意：SSPanel UIM 不对您的任何损失负责，包括但不限于服务中断、Kernel Panic、机器无法开机或正常使用、数据丢失或硬件损坏、原子弹爆炸、第三次世界大战、SCP 基金会无法阻止 SCP-3125 引发的全球 MK 级现实重构等。
+SSPanel UIM 使用 MIT License 开源、不提供任何担保。使用 SSPanel UIM 即表明，您知情并同意：
+
+- 您在使用 SSPanel UIM 时，必须保留 Staff 页面（该页面包含了 MIT License）和页脚的 Staff 入口
+- SSPanel UIM 不会对您的任何损失负责，包括但不限于服务中断、Kernel Panic、机器无法开机或正常使用、数据丢失或硬件损坏、原子弹爆炸、第三次世界大战、SCP 基金会无法阻止 SCP-3125 引发的全球 MK 级现实重构等
+
 
 ## 鸣谢
 
