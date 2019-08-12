@@ -5393,10 +5393,6 @@ html.no-touchevents .tile-action-show {
   -webkit-transition: margin 0.15s linear;
   transition: margin 0.15s linear;
 }
-.tile-collapse.active {
-  margin-right: -8px;
-  margin-left: -8px;
-}
 .tile-collapse > [data-toggle="tile"] {
   cursor: pointer;
   display: -webkit-box;

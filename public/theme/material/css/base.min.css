@@ -5388,11 +5388,6 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 	top: 0
 }
 
-.tile-collapse.active {
-	margin-right: -8px;
-	margin-left: -8px
-}
-
 .tile-collapse>[data-toggle=tile] {
 	cursor: pointer;
 	display: -webkit-box;
