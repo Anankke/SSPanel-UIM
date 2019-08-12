@@ -6,7 +6,7 @@ WORKDIR /app
 COPY docker/supervisor /etc/supervisor
 
 RUN apt-get update -y && \
-    apt-get install supervisor -y && \
+    apt-get install supervisor cronie -y && \
     cp config/.config.example.php config/.config.php && \
     chmod -R 755 storage && \
     chmod -R 777 /app/storage/framework/smarty/compile/ && \
