@@ -29,7 +29,7 @@ RUN apt-get update -y && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
     echo "#!/bin/bash" > /entrypoint && \
     echo "set -e" >> /entrypoint && \
-    echo "/usr/bin/supervisord -c /etc/supervisord.conf" >> /entrypoint && \
+    echo "/usr/bin/supervisord -c /etc/supervisord.conf -n" >> /entrypoint && \
     chmod +x /entrypoint
 
 ENTRYPOINT ["/entrypoint"]
