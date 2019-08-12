@@ -26,6 +26,10 @@ RUN apt-get update -y && \
     apt clean autoclean -y && \
     apt autoremove -y && \
     apt-get remove --purge && \
-    rm -rf /var/lib/{apt,dpkg,cache,log}/
+    rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
+    echo "#!/bin/bash" > /entrypoint && \
+    echo "set -e" >> /entrypoint && \
+    echo "/usr/bin/supervisord -c /etc/supervisord.conf" >> /entrypoint && \
+    chmod +x /entrypoint
 
-ENTRYPOINT ["/usr/bin/supervisord -c /etc/supervisord.conf"]
+ENTRYPOINT ["/entrypoint"]
