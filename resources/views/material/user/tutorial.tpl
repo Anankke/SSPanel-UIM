@@ -1,5 +1,11 @@
 {include file='user/main.tpl'}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sukka/markdown.css">
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+.tile-sub div {
+    padding: 16px;
+}
+</style>
 
 {*
                                     <div class="tile tile-collapse">
@@ -9,7 +15,7 @@
                                             </div>
                                         </div>
                                         <div class="collapsible-region collapse" id="tutorial-heading-<!-- 客户端名称 -->">
-                                            <div class="tile-sub">
+                                            <div class="tile-sub markdown-body">
                                                 <div id="tutorial-<!--客户端名称 -->-content"></div>
                                                 <script>
                                                     document.getElementById('tutorial-<!--客户端名称 -->-content').innerHTML = marked(`{include file='markdown/**.md'}`);
@@ -58,7 +64,7 @@
                                             </div>
                                         </div>
                                         <div class="collapsible-region collapse" id="tutorial-heading-ssrwin">
-                                            <div class="tile-sub">
+                                            <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssrwin-content"></div>
                                                 <script>
                                                     document.getElementById('tutorial-ssrwin-content').innerHTML = marked(`{include file='markdown/ssr-win.md'}`);
@@ -73,7 +79,7 @@
                                             </div>
                                         </div>
                                         <div class="collapsible-region collapse" id="tutorial-heading-ssrmac">
-                                            <div class="tile-sub">
+                                            <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssrmac-content"></div>
                                                 <script>
                                                     document.getElementById('tutorial-ssrmac-content').innerHTML = marked(`{include file='markdown/ssr-mac.md'}`);
@@ -88,7 +94,7 @@
                                             </div>
                                         </div>
                                         <div class="collapsible-region collapse" id="tutorial-ssr-android">
-                                            <div class="tile-sub">
+                                            <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssr-android-content"></div>
                                                 <script>
                                                     document.getElementById('tutorial-ssr-android-content').innerHTML = marked(`{include file='markdown/ssr-android.md'}`);
@@ -103,7 +109,7 @@
                                             </div>
                                         </div>
                                         <div class="collapsible-region collapse" id="tutorial-ssr-shadowrocket">
-                                            <div class="tile-sub">
+                                            <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssr-shadowrocket-content"></div>
                                                 <script>
                                                     document.getElementById('tutorial-ssr-shadowrocket-content').innerHTML = marked(`{include file='markdown/shadowrocket.md'}`);
@@ -123,7 +129,7 @@
                                             </div>
                                         </div>
                                         <div class="collapsible-region collapse" id="tutorial-heading-ssqt5">
-                                            <div class="tile-sub">
+                                            <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssqt5-content"></div>
                                                 <script>
                                                     document.getElementById('tutorial-ssqt5-content').innerHTML = marked(`{include file='markdown/ss-qt5.md'}`);
