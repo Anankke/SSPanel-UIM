@@ -218,7 +218,7 @@ $System_Config['bitpay_secret']='';
 
 #PayJs
 $System_Config['payjs_mchid']='';
-$System_Config['payjs_key']='';	
+$System_Config['payjs_key']='';
 
 
 //其他面板显示设置------------------------------------------------------------------------------------------
@@ -323,4 +323,29 @@ $System_Config['sspanelAnalysis'] = 'true';
 if ( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
 $list = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
 $_SERVER['REMOTE_ADDR'] = $list[0];
+}
+
+
+// make replace System_Config with env
+function findKeyName($name) {
+    global $System_Config;
+    foreach($System_Config as $configKey => $configValue) {
+        if (strtoupper($configKey) == $name) {
+            return $configKey;
+        }
+    }
+
+    return NULL;
+}
+
+foreach(getenv() as $envKey => $envValue) {
+    global $System_Config;
+    $envUpKey = strtoupper($envKey);
+    // Key starts with UIM_
+    if (substr($envKey, 0 , 4) == "UIM_") {
+        // Vaild env key, set to System_Config
+        $configKey = substr($envKey, 4);
+        $realKey = findKeyName($configKey);
+        $System_Config[$realKey] = $envValue;
+    }
 }
