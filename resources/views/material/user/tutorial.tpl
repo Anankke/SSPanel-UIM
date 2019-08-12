@@ -8,21 +8,52 @@
 </style>
 
 {*
+
+如何添加教程：
+
+1. 首先，整个 UI 分为几个部分
+
+|| SSR || SS || V2Ray ||    <- 顶部的三个 Tab
+========================
+------------------------
+| SSR Windows          |    <- 一个收起来的 Tile Collapse 组件
+------------------------
+------------------------
+| SSR Android          |    <- 点击后展开的 Tile Collapse 组件
+------------------------
+|         教           |
+|         程           |    <- 由 markdown 编写的教程放在 resources/views/material/user/markdown 目录下
+|         内           |    <- 由浏览器将 markdown 渲染成 HTML
+|         容           |
+------------------------
+------------------------
+| SSTap                |    <- 又一个收起来的 Tile Collapse 组件
+------------------------
+
+Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tutorial_ssr #tutorial_ss #tutorial_v2ray
+
+在容器中放置 Tile Collapse 组件，每个组件用于显示一种客户端的教程
+
+以下是一个 Tile Collapse 组件的代码，缩进已经调整好，直接复制就可以用：
+
                                     <div class="tile tile-collapse">
-                                        <div data-toggle="tile" data-target="#tutorial-heading-<!-- 客户端名称 -->">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-<!-- ID -->">
                                             <div class="tile-inner">
                                                 <div class="text-overflow"><!-- 客户端名称 --></div>
                                             </div>
                                         </div>
-                                        <div class="collapsible-region collapse" id="tutorial-heading-<!-- 客户端名称 -->">
+                                        <div class="collapsible-region collapse" id="tutorial-heading-<!-- ID -->">
                                             <div class="tile-sub markdown-body">
-                                                <div id="tutorial-<!--客户端名称 -->-content"></div>
+                                                <div id="tutorial-<!--ID -->-content"></div>
                                                 <script>
-                                                    document.getElementById('tutorial-<!--客户端名称 -->-content').innerHTML = marked(`{include file='markdown/**.md'}`);
+                                                    document.getElementById('tutorial-<!--ID -->-content').innerHTML = marked(`{include file='markdown/<!-- markdown 文件名 -->.md'}`);
                                                 </script>
                                             </div>
                                         </div>
                                     </div>
+
+！！注意！！
+每个 Tile Collapse 组件的 ID 必须唯一！
 *}
 
 <main class="content">
