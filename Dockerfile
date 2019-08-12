@@ -3,6 +3,7 @@ LABEL maintainer="Indexyz <indexyz@protonmail.com>"
 
 COPY . /app
 WORKDIR /app
+COPY docker/supervisor /etc/supervisor
 
 RUN apt-get update -y && \
     apt-get install supervisor -y && \
@@ -27,4 +28,4 @@ RUN apt-get update -y && \
     apt-get remove --purge && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/
 
-ENTRYPOINT ["/usr/bin/supervisord", "-c /etc/supervisord.conf"]
+ENTRYPOINT ["/usr/bin/supervisord -c /etc/supervisord.conf"]
