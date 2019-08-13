@@ -346,6 +346,8 @@ foreach(getenv() as $envKey => $envValue) {
         // Vaild env key, set to System_Config
         $configKey = substr($envUpKey, 4);
         $realKey = findKeyName($configKey);
-        $System_Config[$realKey] = $envValue;
+        if ($realKey != NULL) {
+            $System_Config[$realKey] = $envValue;
+        }
     }
 }
