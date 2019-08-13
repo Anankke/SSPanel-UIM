@@ -44,6 +44,8 @@ before_install:
   - sudo ls /etc/nginx/sites-available/
   - sudo cat /etc/nginx/sites-enabled/sspanel.test.conf
 install:
+  # Make composer download 10x faseter
+  - composer global require hirak/prestissimo
   - composer install
   - echo "==========================================================="
   - echo $(git log -1 --pretty=%B | grep 'skip lint')
