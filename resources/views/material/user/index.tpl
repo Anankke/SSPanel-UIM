@@ -286,55 +286,6 @@
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-inner margin-bottom-no">
-                                <div class="card-heading"><i class="icon icon-md">phonelink</i> 客户端下载</div>
-
-                                <nav class="tab-nav margin-top-no">
-                                    <ul class="nav nav-list">
-                                        <li {if $ssr_prefer}class="active"{/if}>
-                                            <a class="" data-toggle="tab" href="#all_ssr_client"><i class="icon icon-lg">airplanemode_active</i>&nbsp;SSR</a>
-                                        </li>
-                                        <li {if !$ssr_prefer}class="active"{/if}>
-                                            <a class="" data-toggle="tab" href="#all_ss_client"><i class="icon icon-lg">flight_takeoff</i>&nbsp;SS/SSD</a>
-                                        </li>
-                                        <li>
-                                            <a class="" data-toggle="tab" href="#all_v2ray_client"><i class="icon icon-lg">flight_land</i>&nbsp;V2RAY</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="card-inner">
-                                    <div class="tab-content">
-                                        <div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="all_ssr_client">
-                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/ssr-win.7z" target="_blank">ShadowsocksRR Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
-                                            <p><i class="icon icon-lg">laptop_mac</i> macOS：<a href="/ssr-download/ssr-mac.dmg" target="_blank">下载 ShadowsocksX-NG-R8</a></p>
-                                            <p><i class="icon icon-lg">laptop_windows</i> Linux（GUI）：<a href="/ssr-download/ssr-linux.AppImage" target="_blank">下载 Electron SSR</a></p>
-                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ssrr-android.apk">SSRR</a> 或 <a href="/ssr-download/ssr-android.apk">SSR</a></p>
-                                            <p><i class="icon icon-lg">phone_iphone</i> iOS：可以使用 Shadowrocket、Quantumult、Potatso 或 Potatso Lite</p>
-                                            <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package" target="_blank">FancySS 下载页面</a> 下载 koolss 插件</p>
-                                        </div>
-                                        <div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ss_client">
-                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/ssd-win.7z" target="_blank">SSD Windows</a>，<a href="/ssr-download/ss-win.zip" target="_blank">Shadowsocks Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
-                                            <p><i class="icon icon-lg">laptop_mac</i> macOS：<a href="/ssr-download/ss-mac.zip" target="_blank">下载 ShadowsocksX-NG</a></p>
-                                            <p><i class="icon icon-lg">laptop_windows</i> Linux（GUI）：<a href="/ssr-download/ssr-linux.AppImage" target="_blank">下载 Electron SSR</a></p>
-                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ss-android.apk">Shadowsocks Android</a> 或 <a href="/ssr-download/ssd-android.apk">SSD Android</a></p>
-                                            <p><i class="icon icon-lg">phone_iphone</i> iOS：可以使用 Shadowrocket、Quantumult、Potatso 或 Potatso Lite</p>
-                                            <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package" target="_blank">FancySS 下载页面</a></p>
-                                        </div>
-                                        <div class="tab-pane fade" id="all_v2ray_client">
-                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/v2rayn.zip" target="_blank">V2RayN</a></p>
-                                            <p><i class="icon icon-lg">laptop_mac</i> macOS：请前往 <a href="https://github.com/yanue/V2rayU">V2RayU 页面</a> 下载</p>
-                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ss-android.apk">V2RayNG</a></p>
-                                            <p><i class="icon icon-lg">phone_iphone</i> iOS：可以使用 Shadowrocket</p>
-                                            <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package/tree/master/fancyss_X64" target="_blank">FancySS 历史下载页面</a> 下载 v2ray 插件</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="card quickadd">
                         <div class="card-main">
                             <div class="card-inner">
@@ -361,468 +312,6 @@
                                         <div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="all_ssr">
                                             {$pre_user = URL::cloneUser($user)}
 
-                                            <nav class="tab-nav margin-top-no">
-                                                <ul class="nav nav-list">
-                                                    <li class="active">
-                                                        <a class="" data-toggle="tab" href="#all_ssr_windows">
-                                                            <i class="icon icon-lg">desktop_windows</i>&nbsp;Windows
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_mac">
-                                                            <i class="icon icon-lg">laptop_mac</i>&nbsp;MacOS
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_linux">
-                                                            <i class="icon icon-lg">dvr</i>&nbsp;Linux（GUI）
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_ios">
-                                                            <i class="icon icon-lg">phone_iphone</i>&nbsp;iOS
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_android">
-                                                            <i class="icon icon-lg">android</i>&nbsp;Android
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_router">
-                                                            <i class="icon icon-lg">router</i>&nbsp;路由器
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_game">
-                                                            <i class="icon icon-lg">videogame_asset</i>&nbsp;游戏端
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ssr_info">
-                                                            <i class="icon icon-lg">info_outline</i>&nbsp;连接信息
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-
-                                            <div class="tab-pane fade active in" id="all_ssr_windows">
-                                                {$user = URL::getSSRConnectInfo($pre_user)}
-                                                {$ssr_url_all = URL::getAllUrl($pre_user, 0, 0)}
-                                                {$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0)}
-                                                <p><span class="icon icon-lg text-white">filter_1</span>将下载的 SSR 或 SSRR 解压至任意磁盘并运行
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    任务栏右下角右键纸飞机图标->服务器订阅->SSR服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSR服务器订阅（绕过代理）
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
-                                                <p><span class="icon icon-lg text-white">filter_4</span>
-                                                    备用导入节点方法：{if $mergeSub!='true'}点击复制{/if}<a class="copy-text btn-dl"
-                                                                                               data-clipboard-text="{$ssr_url_all}"><i
-                                                                class="material-icons icon-sm">how_to_vote</i>{if $mergeSub!='true'}普通端口{else}点击复制{/if}
-                                                        链接</a>{if $mergeSub!='true'}或者<a class="copy-text btn-dl"
-                                                                                         data-clipboard-text="{$ssr_url_all_mu}">
-                                                        <i class="material-icons icon-sm">how_to_vote</i>单端口多用户链接
-                                                    </a>{/if}，然后右键小飞机->从剪贴板复制地址</p>
-                                                <div>
-                                                    <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
-                                                    订阅地址：
-                                                </div>
-                                                <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1"
-                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                           readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
-                                                        点击复制
-                                                    </button>
-                                                    <br>
-                                                </div>
-                                                {if $mergeSub!='true'}
-                                                    <div>
-                                                        <span class="icon icon-lg text-white">flash_auto</span>
-                                                        单端口节点订阅地址：
-                                                    </div>
-                                                    <div class="float-clear">
-                                                        <input type="text"
-                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                               readonly="true">
-                                                        <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                type="button"
-                                                                data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
-                                                            点击复制
-                                                        </button>
-                                                        <br>
-                                                    </div>
-                                                {/if}
-
-                                                <p><a href="/user/tutorial">点击这里查看Windows教程</a></p>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ssr_mac">
-                                                <p><span class="icon icon-lg text-white">filter_1</span>安装 ShadowsocksX-NG-R8 并启动</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>右击托盘纸飞机图标->服务器->服务器订阅，填入以下订阅地址</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>更新订阅成功后服务器列表即可出现节点，选择一个节点</p>
-                                                <p><span class="icon icon-lg text-white">filter_4</span>
-                                                    再次右击托盘纸飞机图标，如果shadowsocks还未打开，则需要点击打开</p>
-                                                <div>
-                                                    <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
-                                                    订阅地址：
-                                                </div>
-                                                <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1"
-                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                           readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
-                                                        点击复制
-                                                    </button>
-                                                    <br>
-                                                </div>
-                                                {if $mergeSub!='true'}
-                                                    <div>
-                                                        <span class="icon icon-lg text-white">flash_auto</span>
-                                                        单端口节点订阅地址：
-                                                    </div>
-                                                    <div class="float-clear">
-                                                        <input type="text"
-                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                               readonly="true">
-                                                        <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                type="button"
-                                                                data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
-                                                            点击复制
-                                                        </button>
-                                                        <br>
-                                                    </div>
-                                                {/if}
-                                                <p><a href="/user/tutorial">点击这里查看Mac教程</a></p>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ssr_linux">
-                                                <p><span class="icon icon-lg text-white">filter_1</span>自行安装python，下载 electron-ssr 安装并启动</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    右击托盘纸飞机图标->服务器->订阅管理，点击“添加”，输入以下订阅地址并回车</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>订阅成功后点击“完成”关闭界面，右击托盘纸飞机图标->服务器->{$config["appName"]}
-                                                    ->选择一个节点即可</p>
-                                                <div>
-                                                    <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
-                                                    订阅地址：
-                                                </div>
-                                                <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1"
-                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                           readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
-                                                        点击复制
-                                                    </button>
-                                                    <br>
-                                                </div>
-                                                {if $mergeSub!='true'}
-                                                    <div>
-                                                        <span class="icon icon-lg text-white">flash_auto</span>
-                                                        单端口节点订阅地址：
-                                                    </div>
-                                                    <div class="float-clear">
-                                                        <input type="text"
-                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                               readonly="true">
-                                                        <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                type="button"
-                                                                data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
-                                                            点击复制
-                                                        </button>
-                                                        <br>
-                                                    </div>
-                                                {/if}
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ssr_ios">
-                                                {if $display_ios_class>=0}
-                                                    <div><span class="icon icon-lg text-white">account_box</span>
-                                                        本站iOS账户：
-                                                    </div>
-                                                    {if $user->class>=$display_ios_class && $user->get_top_up()>=$display_ios_topup}
-                                                        <div class="float-clear">
-                                                            <input type="text"
-                                                                   class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                   name="input1" readonly value="{$ios_account}"
-                                                                   readonly="true">
-                                                            <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                    type="button" data-clipboard-text="{$ios_account}">
-                                                                点击复制
-                                                            </button>
-                                                            <br>
-                                                        </div>
-                                                        <div><span class="icon icon-lg text-white">lock</span> 本站iOS密码：
-                                                        </div>
-                                                        <div class="float-clear">
-                                                            <input type="text"
-                                                                   class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                   name="input1" readonly value="{$ios_password}"
-                                                                   readonly="true">
-                                                            <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                    type="button" data-clipboard-text="{$ios_password}">
-                                                                点击复制
-                                                            </button>
-                                                            <br>
-                                                        </div>
-                                                        <p>
-                                                            <span class="icon icon-lg text-white">error</span>
-                                                            <strong>禁止将账户分享给他人！</strong>
-                                                        </p>
-                                                        <br/>
-                                                    {else}
-                                                        <p class="card-heading" align="center"><b>
-                                                                <i class="icon icon-lg">visibility_off</i>等级至少为<code>{$display_ios_class}</code>且累计充值大于<code>{$display_ios_topup}</code>时可见，如需升级请<a
-                                                                        href="/user/shop">点击这里</a>升级套餐
-                                                            </b>
-                                                        </p>
-                                                    {/if}
-                                                {/if}
-                                                <p><span class="icon icon-lg text-white">build</span> 工具一：Shadowrocket
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span> 使用共享账户登录 App
-                                                    Store （请勿在“设置”界面直接登录AppleID），搜索并下载<code>Shadowrocket</code>，期间可能会弹出付款，照做即可，不会产生真实扣费
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    打开Shadowrocket，点击右上角的 +
-                                                    号，“类型”选择“Subscribe”，点击复制本网页下方的“订阅地址”，粘贴到“URL”中，点击右上角的“完成”</p>
-                                                <p>或在 Safari 中点击<a href="javascript:void(0);" class="btn-dl"
-                                                                   style="margin-left: 5px;" data-onekeyfor="sub0"><i
-                                                                class="material-icons icon-sm">how_to_vote</i>小火箭一键{if $mergeSub!='true'}普通端口{/if}
-                                                        订阅</a>
-                                                    {if $mergeSub!='true'}
-                                                        <a href="javascript:void(0);" class="btn-dl"
-                                                           style="margin-left: 5px;" data-onekeyfor="sub1">
-                                                            <i class="material-icons icon-sm">how_to_vote</i>小火箭一键单端口订阅\
-                                                        </a>
-                                                    {/if}
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>选择一个节点，打开上方的连接开关即可
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">build</span> 工具二：Quantumult</p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span> 使用共享账户登录 App
-                                                    Store （请勿在“设置”界面直接登录AppleID），搜索并下载<code>Quantumult</code>，期间可能会弹出付款，照做即可，不会产生真实扣费
-                                                <p><span class="icon icon-lg text-white">filter_2</span>点击下方的“设置”，点击“订阅”，点击右上角的
-                                                    + 号，选择“服务器”，“名称”任意填写，点击复制本网页下方的“订阅地址”，粘贴到“链接”中，点击右上角的“保存”</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> 点击 Quantumult
-                                                    底部菜单栏中间的图标，选择一个节点，再点击“主页”，打开右上角的开关即可</p>
-                                                <p><span class="icon icon-lg text-white">build</span> 工具三：Potatso Lite
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span>
-                                                    在外服APP商店中搜索Potatso Lite下载，安装时如果弹出登录框则使用上方的账户</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> 打开 Potatso
-                                                    Lite，点击添加代理，选择“订阅”，名字任意填写，点击复制本网页下方的“订阅地址”，粘贴到URL中，点击右上角的 √</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>\选择一个代理节点，点击下方的“开始”即可
-                                                </p>
-                                                <div>
-                                                    <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
-                                                    订阅地址：
-                                                </div>
-                                                <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1" id="sub0"
-                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                           readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
-                                                        点击复制
-                                                    </button>
-                                                    <br>
-                                                </div>
-                                                {if $mergeSub!='true'}
-                                                    <div><span class="icon icon-lg text-white">flash_auto</span>单端口节点订阅地址：
-                                                    </div>
-                                                    <div class="float-clear">
-                                                        <input type="text"
-                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                               name="input1" id="sub1"
-                                                               value="{$subUrl}{$ssr_sub_token}?mu=1" readonly="true">
-                                                        <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                type="button"
-                                                                data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
-                                                            点击复制
-                                                        </button>
-                                                        <br>
-                                                    </div>
-                                                {/if}
-                                                <!-- <p><a href="/user/tutorial">点击这里查看iOS教程</a></p> -->
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ssr_android">
-                                                <p><span class="icon icon-lg text-white">filter_1</span>安装 SSR 或 SSRR</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    打开App，点击右下角的<span class="icon icon-lg text-white">add</span>号图标</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> 添加/升级 SSR订阅</p>
-                                                <p><span class="icon icon-lg text-white">filter_4</span>
-                                                    添加订阅地址，输入下方订阅地址后确定</p>
-                                                <p><span class="icon icon-lg text-white">filter_5</span>
-                                                    订阅出现系统自带的与{$config["appName"]}，请把系统自带的无效订阅左滑删除（自带影响订阅更新速度）</p>
-                                                <p><span class="icon icon-lg text-white">filter_6</span> 点击确定并升级</p>
-                                                <p><span class="icon icon-lg text-white">filter_7</span> 点击选择任意节点，
-                                                    路由选择：略过区域网路以及中国大陆</p>
-                                                <p><span class="icon icon-lg text-white">filter_8</span> 点击右上角的纸飞机图标即可连接
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_9</span>
-                                                    备用导入节点方法：在手机上默认浏览器中点击<a href="{$ssr_url_all}" class="btn-dl"><i
-                                                                class="material-icons icon-sm">how_to_vote</i>普通端口链接</a>或者<a
-                                                            href="{$ssr_url_all_mu}" class="btn-dl"><i
-                                                                class="material-icons icon-sm">how_to_vote</i>单端口多用户链接</a>，然后点击确定
-                                                </p>
-
-                                                <div>
-                                                    <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
-                                                    订阅地址：
-                                                </div>
-                                                <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1"
-                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                           readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
-                                                        点击复制
-                                                    </button>
-                                                    <br>
-                                                </div>
-                                                {if $mergeSub!='true'}
-                                                    <div><span class="icon icon-lg text-white">flash_auto</span>
-                                                        单端口节点订阅地址：
-                                                    </div>
-                                                    <div class="float-clear">
-                                                        <input type="text"
-                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                               readonly="true">
-                                                        <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                type="button"
-                                                                data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
-                                                            点击复制
-                                                        </button>
-                                                        <br>
-                                                    </div>
-                                                {/if}
-
-                                                <p><a href="/user/tutorial">点击这里查看Android教程</a></p>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ssr_router">
-                                                <p>梅林：</p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span>下载并安装“科学上网”插件</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    进入路由器管理页面->系统管理->勾选“Format JFFS partition at next boot”和“Enable JFFS
-                                                    custom scripts and configs”->应用本页面设置，重启路由器</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    进入路由器管理页面->软件中心->离线安装，上传插件文件进行安装</p>
-                                                <p><span class="icon icon-lg text-white">filter_4</span>
-                                                    进入“科学上网”插件->更新管理，将下方的订阅地址复制粘贴进去，点击“保存并订阅”</p>
-                                                <p><span class="icon icon-lg text-white">filter_5</span>
-                                                    账号设置->节点选择，选择一个节点，打开“科学上网”开关->保存&应用</p>
-                                                <p>padavan：</p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span>
-                                                    进入路由器管理页面->扩展功能->Shadowsocks</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    将下方的订阅地址填入“ssr服务器订阅”，点击“更新”</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    选择需要的节点（右方勾选）->应用主SS->打开上方的开关</p>
-                                                <div>
-                                                    <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
-                                                    订阅地址：
-                                                </div>
-                                                <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1"
-                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                           readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
-                                                        点击复制
-                                                    </button>
-                                                    <br>
-                                                </div>
-                                                {if $mergeSub!='true'}
-                                                    <div><span class="icon icon-lg text-white">flash_auto</span>
-                                                        单端口节点订阅地址：
-                                                    </div>
-                                                    <div class="float-clear">
-                                                        <input type="text"
-                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                               readonly="true">
-                                                        <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                type="button"
-                                                                data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
-                                                            点击复制
-                                                        </button>
-                                                        <br>
-                                                    </div>
-                                                {/if}
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ssr_game">
-                                                <p><span class="icon icon-lg text-white">filter_1</span>安装 SSTap
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    期间会安装虚拟网卡，请点击允许或确认</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> 打开桌面程序SSTap</p>
-                                                <p><span class="icon icon-lg text-white">filter_4</span>
-                                                    齿轮图标-SSR订阅-SSR订阅管理添加以下订阅链接即可</p>
-                                                <p><span class="icon icon-lg text-white">filter_5</span>
-                                                    更新后选择其中一个节点闪电图标测试节点-测试UDP转发...通过!（UDP通过即可连接并开始游戏），如测试不通过，点击齿轮图标设置DNS，推荐谷歌DNS
-                                                </p>
-
-                                                <div>
-                                                    <span class="icon icon-lg text-white">flash_auto</span> {if $mergeSub!='true'}普通节点{/if}
-                                                    订阅地址：
-                                                </div>
-                                                <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1"
-                                                           value="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}"
-                                                           readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}{if $mergeSub!='true'}?mu=0{/if}">
-                                                        点击复制
-                                                    </button>
-                                                    <br>
-                                                </div>
-                                                {if $mergeSub!='true'}
-                                                    <div><span class="icon icon-lg text-white">flash_auto</span>
-                                                        单端口节点订阅地址：
-                                                    </div>
-                                                    <div class="float-clear">
-                                                        <input type="text"
-                                                               class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                               name="input1" value="{$subUrl}{$ssr_sub_token}?mu=1"
-                                                               readonly="true">
-                                                        <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                type="button"
-                                                                data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=1">
-                                                            点击复制
-                                                        </button>
-                                                        <br>
-                                                    </div>
-                                                {/if}
-
-                                                <p><a href="/user/tutorial">点击这里查看游戏客户端教程</a></p>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ssr_info">
                                                 {$user = URL::getSSRConnectInfo($pre_user)}
                                                 {$ssr_url_all = URL::getAllUrl($pre_user, 0, 0)}
                                                 {$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0)}
@@ -899,45 +388,10 @@
                                                     <p>同时, ShadowsocksR 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
                                                     <p>请注意，在当前状态下您的 SSR 订阅链接已经失效，您无法通过此种方式导入节点</p>
                                                 {/if}
-                                            </div>
+
                                         </div>
 
                                         <div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ss">
-                                            <nav class="tab-nav margin-top-no">
-                                                <ul class="nav nav-list">
-                                                    <li class="active">
-                                                        <a class="" data-toggle="tab" href="#all_ss_windows">
-                                                            <i class="icon icon-lg">desktop_windows</i>&nbsp;Windows
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_mac">
-                                                            <i class="icon icon-lg">laptop_mac</i>&nbsp;MacOS
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_ios">
-                                                            <i class="icon icon-lg">laptop_mac</i>&nbsp;iOS
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_android">
-                                                            <i class="icon icon-lg">android</i>&nbsp;Android
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_router">
-                                                            <i class="icon icon-lg">router</i>&nbsp;路由器
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_ss_info">
-                                                            <i class="icon icon-lg">info_outline</i>&nbsp;连接信息
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <div class="tab-pane fade" id="all_ss_info">
                                                 {$user = URL::getSSConnectInfo($pre_user)}
                                                 {$ss_url_all_mu = URL::getAllUrl($pre_user, 1, 1)}
                                                 {$ss_url_all = URL::getAllUrl($pre_user, 0, 2)}
@@ -986,282 +440,116 @@
                                                     <p>您好，您目前的 加密方式，混淆，或者协议设置在 SS 客户端下无法连接。请您选用 SSR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处</p>
                                                     <p>同时, Shadowsocks 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
                                                 {/if}
-                                            </div>
-                                            <div class="tab-pane fade active in" id="all_ss_windows">
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            href="/ssr-download/ssd-win.7z" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> 点击下载 SSD</a>，解压至任意磁盘并运行
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    任务栏右下角右键纸飞机图标->服务器订阅->SSD服务器订阅设置，将订阅链接设置为下面的地址，确定之后再更新SSD服务器订阅</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    然后选择一个合适的服务器，代理规则选“绕过局域网和大陆”，然后即可上网</p>
-                                                <p><span class="icon icon-lg text-white">filter_4</span> 备用导入节点方法：<a
-                                                            class="copy-text btn-dl"
-                                                            data-clipboard-text='{$ssd_url_all}'><i
-                                                                class="material-icons icon-sm">how_to_vote</i>点我复制链接</a>，然后右键小飞机->从剪贴板复制地址
-                                                </p>
-                                                <div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：
-                                                </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}?mu=3"
-                                                                                readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=3">点击复制
-                                                    </button>
-                                                    <br></div>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ss_mac">
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            href="/ssr-download/ss-mac.zip" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> 点击下载 ShadowsocksX-NG</a>，并安装
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> <a
-                                                            class="copy-text btn-dl"
-                                                            data-clipboard-text='{$ss_url_all}'><i
-                                                                class="material-icons icon-sm">how_to_vote</i>点我复制链接</a>，然后右击托盘小飞机图标->从剪贴板导入服务器配置链接
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    再次右击托盘小飞机图标->服务器，选择一个服务器即可上网</p>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ss_ios">
-                                                {if $display_ios_class>=0}
-                                                    <div><span class="icon icon-lg text-white">account_box</span>
-                                                        本站iOS账户：
-                                                    </div>
-                                                    {if $user->class>=$display_ios_class && $user->get_top_up()>=$display_ios_topup}
-                                                        <div class="float-clear">
-                                                            <input type="text"
-                                                                   class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                   name="input1" readonly value="{$ios_account}"
-                                                                   readonly="true">
-                                                            <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                    type="button" data-clipboard-text="{$ios_account}">
-                                                                点击复制
-                                                            </button>
-                                                            <br>
-                                                        </div>
-                                                        <div><span class="icon icon-lg text-white">lock</span> 本站iOS密码：
-                                                        </div>
-                                                        <div class="float-clear">
-                                                            <input type="text"
-                                                                   class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                   name="input1" readonly value="{$ios_password}"
-                                                                   readonly="true">
-                                                            <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                                    type="button" data-clipboard-text="{$ios_password}">
-                                                                点击复制
-                                                            </button>
-                                                            <br>
-                                                        </div>
-                                                        <p><span class="icon icon-lg text-white">error</span><strong>禁止将账户分享给他人！</strong>
-                                                        </p>
-                                                        <br/>
-                                                    {else}
-                                                        <p class="card-heading" align="center"><b>
-                                                                <i class="icon icon-lg">visibility_off</i>等级至少为<code>{$display_ios_class}</code>且累计充值大于<code>{$display_ios_topup}</code>时可见，如需升级请<a
-                                                                        href="/user/shop">点击这里</a>升级套餐。
-                                                            </b></p>
-                                                    {/if}
-                                                {/if}
-                                                <p><span class="icon icon-lg text-white">build</span> 工具一：Shadowrocket
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span> 使用共享账户登录 App
-                                                    Store （请勿在“设置”界面直接登录AppleID），搜索并下载<code>Shadowrocket</code>，期间可能会弹出付款，照做即可，不会产生真实扣费
-                                                <p><span class="icon icon-lg text-white">filter_2</span> 打开<a
-                                                            href="/user/node">节点列表</a>，点开自己需要的节点详情，点击配置链接导入节点</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    选择一个节点，打开上方的连接开关即可</p>
-                                                <p><span class="icon icon-lg text-white">build</span> 工具二：Quantumult</p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span> 使用共享账户登录 App
-                                                    Store （请勿在“设置”界面直接登录AppleID），搜索并下载<code>Quantumult</code>，期间可能会弹出付款，照做即可，不会产生真实扣费
-                                                <p><span class="icon icon-lg text-white">filter_2</span> 打开<a
-                                                            href="/user/node">节点列表</a>，点开自己需要的节点详情，点击配置链接导入节点</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> 点击 Quantumult
-                                                    底部菜单栏中间的图标，选择一个节点，再点击“主页”，打开右上角的开关即可</p>
-                                                <p><span class="icon icon-lg text-white">build</span> 工具三：Potatso Lite
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span> 在 Safari 中<a
-                                                            class="btn-dl"
-                                                            href="itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/xcxnig/ssr-download/master/potatso-lite.plist"><i
-                                                                class="material-icons">save_alt</i> 点击安装 Potatso
-                                                        Lite</a>，安装时如果弹出登录框则使用上方的账户</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> 打开<a
-                                                            href="/user/node">节点列表</a>，点开自己需要的节点详情，点击配置链接导入节点</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    选择一个代理节点，点击下方的“开始”即可</p>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ss_android">
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            href="/ssr-download/ssd-android.apk" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> 点击下载 SSD</a>，<a
-                                                            href="/ssr-download/ss-android-obfs.apk" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> 点击下载 SS 混淆插件</a></p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    安装后，在手机上点击复制下方的订阅链接</a></p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> 打开 ShadowsocksD
-                                                    ，点击右上角的“加号”，选择“添加订阅”，将剪贴板中的内容粘贴进去，点击“OK”，稍等片刻即可看见订阅的节点</p>
-                                                <div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：
-                                                </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}?mu=3"
-                                                                                readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=3">点击复制
-                                                    </button>
-                                                    <br></div>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_ss_router">
-                                                <p>梅林：</p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            href="https://github.com/hq450/fancyss_history_package"
-                                                            class="btn-dl"><i class="material-icons">save_alt</i> 进入下载页面
-                                                    </a> 下载“科学上网”插件</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    进入路由器管理页面->系统管理->勾选“Format JFFS partition at next boot”和“Enable JFFS
-                                                    custom scripts and configs”->应用本页面设置，重启路由器</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    进入路由器管理页面->软件中心->离线安装，上传插件文件进行安装</p>
-                                                <p><span class="icon icon-lg text-white">filter_4</span>
-                                                    进入“科学上网”插件->节点管理，手动添加节点，打开“科学上网”开关->保存&应用</p>
-                                                <p>padavan：</p>
-                                                <p><span class="icon icon-lg text-white">filter_1</span>
-                                                    进入路由器管理页面->扩展功能->Shadowsocks</p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    手动添加需要的节点并勾选->应用主SS->打开上方的开关</p>
-                                            </div>
                                         </div>
 
                                         <div class="tab-pane fade" id="all_v2ray">
-                                            <nav class="tab-nav margin-top-no">
-                                                <ul class="nav nav-list">
-                                                    <li class="active">
-                                                        <a class="" data-toggle="tab" href="#all_v2ray_windows">
-                                                            <i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_v2ray_ios">
-                                                            <i class="icon icon-lg">laptop_mac</i>&nbsp;iOS</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_v2ray_android">
-                                                            <i class="icon icon-lg">android</i>&nbsp;Android</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#all_v2ray_info">
-                                                            <i class="icon icon-lg">info_outline</i>&nbsp;连接信息</a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <div class="tab-pane fade active in" id="all_v2ray_windows">
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            href="/ssr-download/v2rayn.zip" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> 点击下载 V2RayN</a>，解压至任意磁盘并运行
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    双击任务栏右下角V2RayN图标->订阅->订阅设置->添加->填入下方的地址，点击确定</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    再次点击订阅->更新订阅，右击任务栏右下角V2RayN图标->启动Http代理</p>
-                                                <p><span class="icon icon-lg text-white">filter_4</span>
-                                                    自行选择“Http代理模式”和“服务器”</p>
-                                                <p> 也可以使用 Clash 进行连接，<a href="/ssr-download/Clash-Windows.7z"
-                                                                        class="btn-dl"><i class="material-icons">save_alt</i>
-                                                        点击下载 Clash for Windows
-                                                    </a></p>
-                                                <div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：
-                                                </div>
-                                                <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1" value="{$subUrl}{$ssr_sub_token}?mu=2"
-                                                           readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">
-                                                        点击复制
-                                                    </button>
-                                                    <br>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_v2ray_ios">
-                                                <p><span class="icon icon-lg text-white">filter_1</span> 在非国区AppStore中搜索<code>Shadowrocket</code>下载安装
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> 打开
-                                                    Shadowrocket，点击右上角的 + 号，类型选择“Subscribe”，URL填写以下地址并点击右上角完成即可。或使用<a
-                                                            href="javascript:void(0);" class="btn-dl"
-                                                            style="margin-left: 5px;" data-onekeyfor="v2sub"><i
-                                                                class="material-icons icon-sm">how_to_vote</i>小火箭一键订阅</a>
-                                                </p>
-                                                <div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：
-                                                </div>
-                                                <div class="float-clear"><input type="text"
-                                                                                class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                                                name="input1" id="v2sub" readonly
-                                                                                value="{$subUrl}{$ssr_sub_token}?mu=2"
-                                                                                readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">点击复制
-                                                    </button>
-                                                    <br></div>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_v2ray_android">
-                                                <p><span class="icon icon-lg text-white">filter_1</span><a
-                                                            href="/ssr-download/v2rayng.apk" class="btn-dl"><i
-                                                                class="material-icons">save_alt</i> 点击下载 V2RayNG</a>并安装
-                                                </p>
-                                                <p><span class="icon icon-lg text-white">filter_2</span>
-                                                    点击左上角菜单按钮展开菜单->订阅设置->点击右上角“+”，URL填写以下地址并点击右上角“√”保存</p>
-                                                <p><span class="icon icon-lg text-white">filter_3</span>
-                                                    回到软件主界面->点击右上角“更多”按钮->更新订阅</p>
-                                                <p><span class="icon icon-lg text-white">filter_4</span>
-                                                    选择一个节点，点击右下角按钮订阅</p>
-                                                <div><span class="icon icon-lg text-white">flash_auto</span> 节点订阅地址：
-                                                </div>
-                                                <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1" value="{$subUrl}{$ssr_sub_token}?mu=2"
-                                                           readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">
-                                                        点击复制
-                                                    </button>
-                                                    <br>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane fade" id="all_v2ray_info">
+
                                                 {$v2_url_all = URL::getAllVMessUrl($user)}
-                                                <p><a class="copy-text btn-dl" data-clipboard-text="{$v2_url_all}"><i
-                                                                class="material-icons icon-sm">how_to_vote</i>点击这里复制全部
-                                                        VMess 链接</a></p>
+                                                <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$v2_url_all}">点击复制全部 VMess 链接</button>
+
                                                 <div><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：</div>
                                                 <div class="float-clear">
-                                                    <input type="text"
-                                                           class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7"
-                                                           name="input1" value="{$subUrl}{$ssr_sub_token}?mu=2"
-                                                           readonly="true"/>
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2"
-                                                            type="button"
-                                                            data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">
-                                                        点击复制
-                                                    </button>
+                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" value="{$subUrl}{$ssr_sub_token}?mu=2" readonly="true"/>
+                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">点击复制</button>
                                                     <br>
                                                 </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
 
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-main">
+                            <div class="card-inner margin-bottom-no">
+                                <div class="card-heading"><i class="icon icon-md">phonelink</i> 客户端下载</div>
+
+                                <nav class="tab-nav margin-top-no">
+                                    <ul class="nav nav-list">
+                                        <li {if $ssr_prefer}class="active"{/if}>
+                                            <a class="" data-toggle="tab" href="#all_ssr_client"><i class="icon icon-lg">airplanemode_active</i>&nbsp;SSR</a>
+                                        </li>
+                                        <li {if !$ssr_prefer}class="active"{/if}>
+                                            <a class="" data-toggle="tab" href="#all_ss_client"><i class="icon icon-lg">flight_takeoff</i>&nbsp;SS/SSD</a>
+                                        </li>
+                                        <li>
+                                            <a class="" data-toggle="tab" href="#all_v2ray_client"><i class="icon icon-lg">flight_land</i>&nbsp;V2RAY</a>
+                                        </li>
+
+                                        {if $display_ios_class>=0}
+                                        <li>
+                                            <a class="" data-toggle="tab" href="#all_appid_client"><i class="icon icon-lg">phone_iphone</i>&nbsp;iOS 公共账号</a>
+                                        </li>
+                                        {/if}
+                                    </ul>
+                                </nav>
+                                <div class="card-inner">
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="all_ssr_client">
+                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/ssr-win.7z" target="_blank">ShadowsocksRR Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
+                                            <p><i class="icon icon-lg">laptop_mac</i> macOS：<a href="/ssr-download/ssr-mac.dmg" target="_blank">下载 ShadowsocksX-NG-R8</a></p>
+                                            <p><i class="icon icon-lg">laptop_windows</i> Linux（GUI）：<a href="/ssr-download/ssr-linux.AppImage" target="_blank">下载 Electron SSR</a></p>
+                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ssrr-android.apk">SSRR</a> 或 <a href="/ssr-download/ssr-android.apk">SSR</a></p>
+                                            <p><i class="icon icon-lg">phone_iphone</i> iOS：可以使用 Shadowrocket、Quantumult、Potatso 或 Potatso Lite</p>
+                                            <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package" target="_blank">FancySS 下载页面</a></p>
+                                        </div>
+                                        <div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ss_client">
+                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/ssd-win.7z" target="_blank">SSD Windows</a>，<a href="/ssr-download/ss-win.zip" target="_blank">Shadowsocks Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
+                                            <p><i class="icon icon-lg">laptop_mac</i> macOS：<a href="/ssr-download/ss-mac.zip" target="_blank">下载 ShadowsocksX-NG</a></p>
+                                            <p><i class="icon icon-lg">laptop_windows</i> Linux（GUI）：<a href="/ssr-download/ssr-linux.AppImage" target="_blank">下载 Electron SSR</a></p>
+                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ss-android.apk">Shadowsocks Android</a> 或 <a href="/ssr-download/ssd-android.apk">SSD Android</a>。如果需要启用混淆还需要下载 <a href="/ssr-download/ss-android-obfs.apk">Simple-Obfs 混淆插件</a>。</p>
+                                            <p><i class="icon icon-lg">phone_iphone</i> iOS：可以使用 Shadowrocket、Quantumult、Potatso 或 Potatso Lite</p>
+                                            <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package" target="_blank">FancySS 下载页面</a></p>
+                                        </div>
+                                        <div class="tab-pane fade" id="all_v2ray_client">
+                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/v2rayn.zip" target="_blank">V2RayN</a></p>
+                                            <p><i class="icon icon-lg">laptop_mac</i> macOS：请前往 <a href="https://github.com/yanue/V2rayU">V2RayU 页面</a> 下载</p>
+                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ss-android.apk">V2RayNG</a></p>
+                                            <p><i class="icon icon-lg">phone_iphone</i> iOS：可以使用 Shadowrocket</p>
+                                            <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package/tree/master/fancyss_X64" target="_blank">FancySS 历史下载页面</a> 下载 v2ray 插件</p>
+                                        </div>
+
+                                        {if $display_ios_class>=0}
+                                        <div class="tab-pane fade" id="all_appid_client">
+                                            {if $user->class>=$display_ios_class && $user->get_top_up()>=$display_ios_topup}
+                                                <div>
+                                                    <span class="icon icon-lg text-white">account_box</span>本站iOS账户：
+                                                </div>
+                                                <div class="float-clear">
+                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
+                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_account}">点击复制</button>
+                                                    <br>
+                                                </div>
+
+                                                <div>
+                                                    <span class="icon icon-lg text-white">lock</span> 本站iOS密码：
+                                                </div>
+                                                <div class="float-clear">
+                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_password}" readonly="true">
+                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_password}">点击复制</button>
+                                                    <br>
+                                                </div>
+                                                <p>
+                                                    <span class="icon icon-lg text-white">error</span>
+                                                    <strong>禁止将账户分享给他人！</strong>
+                                                </p>
+                                                <br>
+                                            {else}
+                                                <p class="card-heading" align="center">
+                                                    <i class="icon icon-lg">visibility_off</i> <b>等级至少为<code>{$display_ios_class}</code>且累计充值大于<code>{$display_ios_topup}</code>时可见，如需升级请<a href="/user/shop">点击这里</a>升级套餐</b>
+                                                </p>
+                                            {/if}
+
+                                        </div>
+                                        {/if}
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
