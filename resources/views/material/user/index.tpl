@@ -28,6 +28,13 @@
                                         {/if}
                                     </div>
                                 </div>
+                                <div class="nodemiddle node-flex">
+                                    {if $user->class_expire!="1989-06-04 00:05:00"}
+                                        <div style="font-size: 14px">等级到期时间 {$user->class_expire}</div>
+                                    {else}
+                                        <div style="font-size: 14px">账户等级不会过期</div>
+                                    {/if}
+                                </div>
                             </div>
                             <div class="nodestatus">
                                 <div class="infocolor-red">
@@ -59,6 +66,9 @@
                                         {$user->money} CNY
                                     </div>
                                 </div>
+                                <div class="nodemiddle node-flex">
+                                    <div style="font-size: 14px">账户有效时间 {$user->expire_in}</div>
+                                </div>
                             </div>
                             <div class="nodestatus">
                                 <div class="infocolor-green">
@@ -68,7 +78,7 @@
                         </div>
                         <div class="user-info-bottom">
                             <div class="nodeinfo node-flex">
-                                <span><i class="icon icon-md">attach_money</i>账户余额</span>
+                                <span><i class="icon icon-md">attach_money</i>到期账户自动删除</span>
                                 <a href="/user/code" class="card-tag tag-green">充值</a>
                             </div>
                         </div>
@@ -89,6 +99,13 @@
                                             <dd>{$user->online_ip_count()} / 不限制</dd>
                                         {/if}
                                     </div>
+                                </div>
+                                <div class="nodemiddle node-flex">
+                                    {if $user->lastSsTime()!="从未使用喵"}
+                                        <div style="font-size: 14px">上次使用：{$user->lastSsTime()}</div>
+                                    {else}
+                                        <div style="font-size: 14px">从未使用过</div>
+                                    {/if}
                                 </div>
                             </div>
                             <div class="nodestatus">
@@ -120,6 +137,9 @@
                                         {/if}
                                     </div>
                                 </div>
+                                <div class="nodemiddle node-flex">
+                                    <div style="font-size: 14px">实际速率受限于运营商带宽上限</div>
+                                </div>
                             </div>
                             <div class="nodestatus">
                                 <div class="infocolor-blue">
@@ -138,10 +158,11 @@
             </div>
             <div class="ui-card-wrap">
 
-                <div class="col-xx-12 col-sm-4">
+                <div class="col-xx-12 col-sm-5">
+
                     <div class="card">
                         <div class="card-main">
-                            <div class="card-inner">
+                        <div class="card-inner margin-bottom-no">
                                 <div class="progressbar">
                                     <div class="before"></div>
                                     <div class="bar tuse color3"
@@ -185,46 +206,10 @@
 
                             </div>
 
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-main">
                             <div class="card-inner margin-bottom-no">
-                                <p class="card-heading"><i class="icon icon-md">account_circle</i>账号使用情况</p>
-                                <dl class="dl-horizontal">
+                                <p class="card-heading"><i class="icon icon-md">account_circle</i>签到</p>
 
-                                    <dt>等级过期时间</dt>
-                                    {if $user->class_expire!="1989-06-04 00:05:00"}
-                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->class_expire}</dd>
-                                    {else}
-                                    <dd><i class="icon icon-md">event</i>&nbsp;不过期</dd>
-                                    {/if}
-
-                                    <dt>等级有效期</dt>
-                                    <i class="icon icon-md">event</i>
-                                    <span class="label-level-expire">剩余</span>
-                                    <code><span id="days-level-expire"></span></code>
-                                    <span class="label-level-expire">天</span>
-
-                                    <dt>帐号过期时间</dt>
-                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->expire_in}</dd>
-
-                                    <dt>账号有效期</dt>
-                                    <i class="icon icon-md">event</i>
-                                    <span class="label-account-expire">剩余</span>
-                                    <code><span id="days-account-expire"></span></code>
-                                    <span class="label-account-expire">天</span>
-
-                                    <dt>上次使用</dt>
-                                    {if $user->lastSsTime()!="从未使用喵"}
-                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastSsTime()}</dd>
-                                    {else}
-                                    <dd><i class="icon icon-md">event</i>&nbsp;从未使用</dd>
-                                    {/if}
-
-                                    <dt>上次签到时间：</dt>
-                                    <dd><i class="icon icon-md">event</i>&nbsp;{$user->lastCheckInTime()}</dd>
+                                    <p>上次签到时间：{$user->lastCheckInTime()}</p>
 
                                     <p id="checkin-msg"></p>
 
@@ -234,7 +219,6 @@
                                     {if $recaptcha_sitekey != null && $user->isAbleToCheckin()}
                                         <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
                                     {/if}
-
 
                                     <div class="card-action">
                                         <div class="usercheck pull-left">
@@ -259,7 +243,7 @@
                     </div>
                 </div>
 
-                <div class="col-xx-12 col-sm-8">
+                <div class="col-xx-12 col-sm-7">
 
                     <div class="card">
                         <div class="card-main">
