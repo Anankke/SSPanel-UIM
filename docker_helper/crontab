@@ -1,0 +1,4 @@
+30 22 * * * php /app/xcat sendDiaryMail
+0 0 * * * php -n /app/xcat dailyjob
+*/1 * * * * php /app/xcat checkjob
+*/1 * * * * php /app/xcat syncnode

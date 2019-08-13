@@ -1,0 +1,54 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: sspanel
+      MYSQL_DATABASE: sspanel
+      MYSQL_USER: sspanel
+      MYSQL_PASSWORD: sspanel
+    ports:
+      - "127.0.0.1:3306:3306"
+  redis:
+    image: redis:5
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+  seeds:
+    depends_on:
+      - db
+    image: registry.gitlab.com/airport114/seeds
+    ports:
+      - "127.0.0.1:8082:8080"
+    restart: always
+    environment:
+      GIN_MODE: release
+      DATABASE_HOST: db
+      DATABASE_USER: sspanel
+      DATABASE_PASS: sspanel
+      DATABASE_NAME: sspanel
+      VERIFYKEY: testkey
+  panel:
+    build: .
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "127.0.0.1:8081:80"
+    restart: always
+    volumes:
+      -  ${PWD}/app:/app/app
+      -  ${PWD}/public:/app/public
+      -  ${PWD}/resources:/app/resources
+      -  ${PWD}/storage:/app/storage
+      -  ${PWD}/config:/app/config
+      -  ${PWD}/sql:/app/sql
+      - ${PWD}/config/.config.dev.php:/app/config/.config.php
+volumes:
+  db_data: {}
+  redis-data: {}
