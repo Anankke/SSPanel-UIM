@@ -46,7 +46,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-<!--ID -->-content"></div>
                                                 <script>
-                                                    document.getElementById('tutorial-<!--ID -->-content').innerHTML = marked(`{include file='markdown/<!-- markdown 文件名 -->.md'}`);
+                                                    document.getElementById('tutorial-<!--ID -->-content').innerHTML = marked(`{include file='user/markdown/<!-- markdown 文件名 -->.md'}`);
                                                 </script>
                                             </div>
                                         </div>
@@ -98,7 +98,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssrwin-content"></div>
                                                 <script>
-                                                    document.getElementById('tutorial-ssrwin-content').innerHTML = marked(`{include file='markdown/ssr-win.md'}`);
+                                                    document.getElementById('tutorial-ssrwin-content').innerHTML = marked(`{include file='user/markdown/ssr-win.md'}`);
                                                 </script>
                                             </div>
                                         </div>
@@ -113,7 +113,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssrmac-content"></div>
                                                 <script>
-                                                    document.getElementById('tutorial-ssrmac-content').innerHTML = marked(`{include file='markdown/ssr-mac.md'}`);
+                                                    document.getElementById('tutorial-ssrmac-content').innerHTML = marked(`{include file='user/markdown/ssr-mac.md'}`);
                                                 </script>
                                             </div>
                                         </div>
@@ -128,7 +128,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssr-android-content"></div>
                                                 <script>
-                                                    document.getElementById('tutorial-ssr-android-content').innerHTML = marked(`{include file='markdown/ssr-android.md'}`);
+                                                    document.getElementById('tutorial-ssr-android-content').innerHTML = marked(`{include file='user/markdown/ssr-android.md'}`);
                                                 </script>
                                             </div>
                                         </div>
@@ -143,7 +143,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssr-shadowrocket-content"></div>
                                                 <script>
-                                                    document.getElementById('tutorial-ssr-shadowrocket-content').innerHTML = marked(`{include file='markdown/shadowrocket.md'}`);
+                                                    document.getElementById('tutorial-ssr-shadowrocket-content').innerHTML = marked(`{include file='user/markdown/shadowrocket.md'}`);
                                                 </script>
                                             </div>
                                         </div>
@@ -163,7 +163,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssqt5-content"></div>
                                                 <script>
-                                                    document.getElementById('tutorial-ssqt5-content').innerHTML = marked(`{include file='markdown/ss-qt5.md'}`);
+                                                    document.getElementById('tutorial-ssqt5-content').innerHTML = marked(`{include file='user/markdown/ss-qt5.md'}`);
                                                 </script>
                                             </div>
                                         </div>
