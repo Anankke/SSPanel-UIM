@@ -342,9 +342,9 @@ foreach(getenv() as $envKey => $envValue) {
     global $System_Config;
     $envUpKey = strtoupper($envKey);
     // Key starts with UIM_
-    if (substr($envKey, 0 , 4) == "UIM_") {
+    if (substr($envUpKey, 0 , 4) == "UIM_") {
         // Vaild env key, set to System_Config
-        $configKey = substr($envKey, 4);
+        $configKey = substr($envUpKey, 4);
         $realKey = findKeyName($configKey);
         $System_Config[$realKey] = $envValue;
     }
