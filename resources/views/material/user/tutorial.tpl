@@ -104,6 +104,21 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                         </div>
                                     </div>
                                     <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-ssr-sstap">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">SSTap</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-heading-ssr-sstap">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-ssr-sstap-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-ssr-sstap-content').innerHTML = marked(`{include file='user/markdown/sstap.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile tile-collapse">
                                         <div data-toggle="tile" data-target="#tutorial-heading-ssrmac">
                                             <div class="tile-inner">
                                                 <div class="text-overflow">ShadowsocksX-NG-R8 macOS</div>
@@ -114,6 +129,21 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                                 <div id="tutorial-ssrmac-content"></div>
                                                 <script>
                                                     document.getElementById('tutorial-ssrmac-content').innerHTML = marked(`{include file='user/markdown/ssr-mac.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-electron-ssr">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">Electron SSR Linux</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-heading-electron-ssr">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-electron-ssr-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-electron-ssr-content').innerHTML = marked(`{include file='user/markdown/electron-ssr.md'}`);
                                                 </script>
                                             </div>
                                         </div>
@@ -134,6 +164,21 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                         </div>
                                     </div>
                                     <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-ssr-quantumult">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">Quantumult iOS</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-ssr-quantumult">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-ssr-quantumult-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-ssr-quantumult-content').innerHTML = marked(`{include file='user/markdown/quantumult.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile tile-collapse">
                                         <div data-toggle="tile" data-target="#tutorial-heading-ssr-shadowrocket">
                                             <div class="tile-inner">
                                                 <div class="text-overflow">Shadowrocket iOS</div>
@@ -148,11 +193,71 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-ssr-potatso-lite">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">Potatso Lite iOS</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-ssr-potatso-lite">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-ssr-potatso-lite-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-ssr-potatso-lite-content').innerHTML = marked(`{include file='user/markdown/potatso-lite.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-ssr-router">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">Merlin & Padavan</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-ssr-router">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-ssr-router-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-ssr-router-content').innerHTML = marked(`{include file='user/markdown/router.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
 
                                 <div class="tab-pane fade page-course" id="tutorial_ss">
 
+                                    <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-ssdwin">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">ShadowsocksD Windows</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-heading-ssdwin">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-ssdwin-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-ssdwin-content').innerHTML = marked(`{include file='user/markdown/ssd-windows.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-ssxng">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">ShadowsocksX-NG macOS</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-heading-ssxng">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-ssxng-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-ssxng-content').innerHTML = marked(`{include file='user/markdown/ssx.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="tile tile-collapse">
                                         <div data-toggle="tile" data-target="#tutorial-heading-ssqt5">
                                             <div class="tile-inner">
@@ -168,10 +273,72 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-ssd-android">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">ShadowsocksD Android</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-heading-ssd-android">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-ssd-android-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-ssd-android-content').innerHTML = marked(`{include file='user/markdown/ssd-android.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-router-ss">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">Merlin & Padavan</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-heading-router-ss">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-router-ss-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-router-ss-content').innerHTML = marked(`{include file='user/markdown/router-ss.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
 
                                 <div class="tab-pane fade page-course" id="tutorial_v2ray">
+
+                                    <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-v2rayn">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">V2RayN Windows</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-heading-v2rayn">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-v2rayn-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-v2rayn-content').innerHTML = marked(`{include file='user/markdown/v2rayn.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile tile-collapse">
+                                        <div data-toggle="tile" data-target="#tutorial-heading-v2rayng">
+                                            <div class="tile-inner">
+                                                <div class="text-overflow">V2RayNG Android</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-region collapse" id="tutorial-heading-v2rayng">
+                                            <div class="tile-sub markdown-body">
+                                                <div id="tutorial-v2rayng-content"></div>
+                                                <script>
+                                                    document.getElementById('tutorial-v2rayng-content').innerHTML = marked(`{include file='user/markdown/v2rayng.md'}`);
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
