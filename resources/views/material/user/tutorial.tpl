@@ -154,7 +154,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                                 <div class="text-overflow">SSR / SSRR Android</div>
                                             </div>
                                         </div>
-                                        <div class="collapsible-region collapse" id="tutorial-ssr-android">
+                                        <div class="collapsible-region collapse" id="tutorial-heading-ssr-android">
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssr-android-content"></div>
                                                 <script>
@@ -169,7 +169,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                                 <div class="text-overflow">Quantumult iOS</div>
                                             </div>
                                         </div>
-                                        <div class="collapsible-region collapse" id="tutorial-ssr-quantumult">
+                                        <div class="collapsible-region collapse" id="tutorial-heading-ssr-quantumult">
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssr-quantumult-content"></div>
                                                 <script>
@@ -184,7 +184,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                                 <div class="text-overflow">Shadowrocket iOS</div>
                                             </div>
                                         </div>
-                                        <div class="collapsible-region collapse" id="tutorial-ssr-shadowrocket">
+                                        <div class="collapsible-region collapse" id="tutorial-heading-ssr-shadowrocket">
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssr-shadowrocket-content"></div>
                                                 <script>
@@ -199,7 +199,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                                 <div class="text-overflow">Potatso Lite iOS</div>
                                             </div>
                                         </div>
-                                        <div class="collapsible-region collapse" id="tutorial-ssr-potatso-lite">
+                                        <div class="collapsible-region collapse" id="tutorial-heading-ssr-potatso-lite">
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssr-potatso-lite-content"></div>
                                                 <script>
@@ -214,7 +214,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                                 <div class="text-overflow">Merlin & Padavan</div>
                                             </div>
                                         </div>
-                                        <div class="collapsible-region collapse" id="tutorial-ssr-router">
+                                        <div class="collapsible-region collapse" id="tutorial-heading-ssr-router">
                                             <div class="tile-sub markdown-body">
                                                 <div id="tutorial-ssr-router-content"></div>
                                                 <script>
