@@ -204,7 +204,7 @@ a.btn-dl:focus,a.btn-dl:visited {
 }
 
 .progressbar:first-of-type {
-	margin-top: 70px;
+    margin-top: 60px;
 }
 
 .progressbar .before{

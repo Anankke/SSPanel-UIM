@@ -1,6 +1,16 @@
 {include file='user/main.tpl'}
 {$ssr_prefer = URL::SSRCanConnect($user, 0)}
 
+<style>
+.table {
+    box-shadow: none;
+}
+table tr td:first-child {
+    text-align: right;
+    font-weight: bold;
+}
+</style>
+
 <main class="content">
 
     <div class="content-header ui-content-header">
@@ -36,11 +46,6 @@
                                     {/if}
                                 </div>
                             </div>
-                            <div class="nodestatus">
-                                <div class="infocolor-red">
-                                    <i class="icon icon-md t4-text">stars</i>
-                                </div>
-                            </div>
                         </div>
                         <div class="user-info-bottom">
                             <div class="nodeinfo node-flex">
@@ -68,11 +73,6 @@
                                 </div>
                                 <div class="nodemiddle node-flex">
                                     <div style="font-size: 14px">账户有效时间 {$user->expire_in}</div>
-                                </div>
-                            </div>
-                            <div class="nodestatus">
-                                <div class="infocolor-green">
-                                    <i class="icon icon-md">account_balance_wallet</i>
                                 </div>
                             </div>
                         </div>
@@ -108,11 +108,6 @@
                                     {/if}
                                 </div>
                             </div>
-                            <div class="nodestatus">
-                                <div class="infocolor-yellow">
-                                    <i class="icon icon-md">phonelink</i>
-                                </div>
-                            </div>
                         </div>
                         <div class="user-info-bottom">
                             <div class="nodeinfo node-flex">
@@ -141,11 +136,6 @@
                                     <div style="font-size: 14px">实际速率受限于运营商带宽上限</div>
                                 </div>
                             </div>
-                            <div class="nodestatus">
-                                <div class="infocolor-blue">
-                                    <i class="icon icon-md">settings_input_component</i>
-                                </div>
-                            </div>
                         </div>
                         <div class="user-info-bottom">
                             <div class="nodeinfo node-flex">
@@ -163,6 +153,7 @@
                     <div class="card">
                         <div class="card-main">
                         <div class="card-inner margin-bottom-no">
+                            <p class="card-heading" style="margin-bottom: 0;"><i class="icon icon-md">account_circle</i>流量使用情况</p>
                                 <div class="progressbar">
                                     <div class="before"></div>
                                     <div class="bar tuse color3"
@@ -241,9 +232,6 @@
 
                         </div>
                     </div>
-                </div>
-
-                <div class="col-xx-12 col-sm-7">
 
                     <div class="card">
                         <div class="card-main">
@@ -269,6 +257,10 @@
                             </div>
                         </div>
                     </div>
+
+                </div>
+
+                <div class="col-xx-12 col-sm-7">
 
                     <div class="card quickadd">
                         <div class="card-main">
@@ -303,27 +295,27 @@
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
-                                                            <td>端口</td>
+                                                            <td><strong>端口</strong></td>
                                                             <td>{$user->port}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>密码</td>
+                                                            <td><strong>密码</strong></td>
                                                             <td>{$user->passwd}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>自定义加密</td>
+                                                            <td><strong>自定义加密</strong></td>
                                                             <td>{$user->method}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>自定义协议</td>
+                                                            <td><strong>自定义协议</strong></td>
                                                             <td>{$user->protocol}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>自定义混淆</td>
+                                                            <td><strong>自定义混淆</strong></td>
                                                             <td>{$user->obfs}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>自定义混淆参数</td>
+                                                            <td><strong>自定义混淆参数</strong></td>
                                                             <td>{$user->obfs_param}</td>
                                                         </tr>
                                                     </tbody>
@@ -385,23 +377,23 @@
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
-                                                            <td>端口</td>
+                                                            <td><strong>端口</strong></td>
                                                             <td>{$user->port}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>密码</td>
+                                                            <td><strong>密码</strong></td>
                                                             <td>{$user->passwd}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>自定义加密</td>
+                                                            <td><strong>自定义加密</strong></td>
                                                             <td>{$user->method}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>自定义混淆</td>
+                                                            <td><strong>自定义混淆</strong></td>
                                                             <td>{$user->obfs}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td>自定义混淆参数</td>
+                                                            <td><strong>自定义混淆参数</strong></td>
                                                             <td>{$user->obfs_param}</td>
                                                         </tr>
                                                     </tbody>
@@ -429,14 +421,15 @@
                                         <div class="tab-pane fade" id="all_v2ray">
 
                                                 {$v2_url_all = URL::getAllVMessUrl($user)}
-                                                <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$v2_url_all}">点击复制全部 VMess 链接</button>
+                                                
 
                                                 <div><span class="icon icon-lg text-white">flash_auto</span> 订阅地址：</div>
                                                 <div class="float-clear">
                                                     <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" value="{$subUrl}{$ssr_sub_token}?mu=2" readonly="true"/>
                                                     <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$subUrl}{$ssr_sub_token}?mu=2">点击复制</button>
-                                                    <br>
                                                 </div>
+                                                <br>
+                                                <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$v2_url_all}">点击复制全部 VMess 链接</button>
 
                                         </div>
                                     </div>
