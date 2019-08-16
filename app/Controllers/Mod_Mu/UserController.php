@@ -75,7 +75,7 @@ class UserController extends BaseController
             'is_multi_user', 'id', 'port', 'passwd', 'u', 'd');
 
         foreach ($users_raw as $user_raw) {
-            if ($user_raw->transfer_enable > $user_raw->u + $user_raw->d && $user_raw->online_ip_count() <= $user_raw->node_connector) {
+            if ($user_raw->transfer_enable > $user_raw->u + $user_raw->d &&  ($user_raw->online_ip_count() <= $user_raw->node_connector || $user_raw->node_connector == 0)) {
                 $user_raw = Tools::keyFilter($user_raw, $key_list);
                 $user_raw->uuid = $user_raw->getUuid();
                 $users[] = $user_raw;
