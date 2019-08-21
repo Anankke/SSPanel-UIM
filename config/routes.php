@@ -155,6 +155,7 @@ $app->group('/user', function () {
 
 $app->group('/payment', function () {
     $this->post('/notify', App\Services\Payment::class . ':notify');
+    $this->get('/yyhyo/notify', App\Services\Payment::class . ':notify');
     $this->post('/notify/{type}', App\Services\Payment::class . ':notify');
     $this->post('/status', App\Services\Payment::class . ':getStatus');
 
