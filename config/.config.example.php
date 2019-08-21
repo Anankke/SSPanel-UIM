@@ -177,7 +177,7 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs
+#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yyhyppay
 $System_Config['payment_system']='none';
 
 #codepay码支付
@@ -218,8 +218,11 @@ $System_Config['bitpay_secret']='';
 
 #PayJs
 $System_Config['payjs_mchid']='';
-$System_Config['payjs_key']='';	
+$System_Config['payjs_key']='';
 
+#烟雨云支付 http://pay.yyhyo.com/
+$System_Config['yyhyopay_pid']='';
+$System_Config['yyhyopay_key']='';
 
 //其他面板显示设置------------------------------------------------------------------------------------------
 #后台商品列表 销量统计
