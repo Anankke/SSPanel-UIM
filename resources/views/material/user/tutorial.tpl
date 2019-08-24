@@ -11,7 +11,7 @@
 
 如何添加教程：
 
-1. 首先，整个 UI 分为几个部分
+首先，整个 UI 分为几个部分，包括 Tab 和一一对应的容器。容器之间的切换通过 Tab 实现，容器中会放置 Tile Collapse 组件
 
 || SSR || SS || V2Ray ||    <- 顶部的三个 Tab
 ========================
@@ -30,11 +30,11 @@
 | SSTap                |    <- 又一个收起来的 Tile Collapse 组件
 ------------------------
 
-Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tutorial_ssr #tutorial_ss #tutorial_v2ray
+Tab 负责控制 SSR / SS / V2Ray 的容器的切换。Tab 条目位于 ul.nav.nav-list 下；对应的放置客户端教程的容器分别是 #tutorial_ssr #tutorial_ss #tutorial_v2ray
 
-在容器中放置 Tile Collapse 组件，每个组件用于显示一种客户端的教程
+在容器中放置多个 Tile Collapse 组件，每个组件用于显示一种客户端的教程
 
-以下是一个 Tile Collapse 组件的代码，缩进已经调整好，直接复制就可以用：
+以下是一个 Tile Collapse 组件的代码，缩进已经调整好，复制后替换就可以用：
 
                                     <div class="tile tile-collapse">
                                         <div data-toggle="tile" data-target="#tutorial-heading-<!-- ID -->">
@@ -53,7 +53,11 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换，这些容器分别是 #tu
                                     </div>
 
 ！！注意！！
-每个 Tile Collapse 组件的 ID 必须唯一！
+
+* 每个 Tile Collapse 组件的 ID 必须唯一！
+* Markdown 文件中的 Code Block 的符号 ` 需要使用反斜杠防转义：\`
+* include file 的路径是相对于当前主题所在目录（/resources/views/material）的
+
 *}
 
 <main class="content">
