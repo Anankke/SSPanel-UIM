@@ -258,7 +258,13 @@ class XCat
     public function setTelegram()
     {
         $bot = new BotApi(Config::get('telegram_token'));
-        if ($bot->setWebhook(Config::get('baseUrl') . '/telegram_callback?token=' . Config::get('telegram_request_token')) == 1) {
+        $ch= curl_init();
+        curl_setopt ($ch, CURLOPT_URL, sprintf('https://api.telegram.org/bot%s/deleteWebhook', Config::get('telegram_token')));
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        $deleteWebhookReturn = json_decode(curl_exec($ch));
+        curl_close($ch);
+        if ($deleteWebhookReturn->ok && $deleteWebhookReturn->result && $bot->setWebhook(Config::get('baseUrl') . '/telegram_callback?token=' . Config::get('telegram_request_token')) == 1) {
             echo('设置成功！' . PHP_EOL);
         }
     }
