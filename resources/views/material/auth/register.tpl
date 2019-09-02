@@ -37,6 +37,7 @@
                             <div class="form-group-label auth-row">
                                 <label class="floating-label" for="passwd">密码</label>
                                 <input class="form-control maxwidth-auth" id="passwd" type="password">
+                                <p id="passwd-strong" style="text-align: left; margin: 3px; font-size: 80%"></p>
                             </div>
                         </div>
                     </div>
@@ -202,6 +203,48 @@
 {include file='dialog.tpl'}
 
 {include file='footer.tpl'}
+
+<script>
+const checkStrong = (sValue) => {
+    let modes = 0;
+    if (sValue.length < 7) return modes;
+    if (/\d/.test(sValue)) modes++;
+    if (/[a-z]/.test(sValue)) modes++;
+    if (/[A-Z]/.test(sValue)) modes++;
+    if (/\W/.test(sValue)) modes++;
+
+    switch (modes) {
+        case 1:
+            return 1;
+            break;
+        case 2:
+            return 2;
+        case 3:
+        case 4:
+            return sValue.length < 12 ? 3 : 4
+            break;
+    }
+}
+
+const showStrong = () => {
+    const password = document.getElementById('passwd').value;
+    const $passwordStrongEl = document.getElementById('passwd-strong');
+    const strong = checkStrong(password);
+    if (strong = 0) {
+        $passwordStrongEl.innerHTML = '需大于 8 位；推荐使用包含大小写字母、数字、符号的密码';
+    } else if (strong = 1) {
+        $passwordStrongEl.innerHTML = '你的密码强度为： <span style="color: red; font-weight: bold">非常弱</span>';
+    } else if (strong = 2) {
+        $passwordStrongEl.innerHTML = '你的密码强度为： <span style="color: red; font-weight: bold">弱</span>';
+    } else if (strong = 3) {
+        $passwordStrongEl.innerHTML = '你的密码强度为： <span style="color: yellow; font-weight: bold">中等</span>';
+    } else if (strong = 4) {
+        $passwordStrongEl.innerHTML = '你的密码强度为： <span style="color: green; font-weight: bold">强</span>';
+    }
+}
+
+document.getElementById('passwd').addEventListener('input', checkStrong);
+</script>
 
 {if $config['register_mode']!='close'}
     <script>

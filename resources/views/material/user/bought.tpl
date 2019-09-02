@@ -58,8 +58,7 @@
 
                                                 <td>
                                                     <a class="btn btn-brand"
-                                                       {if $shop->renew==0}disabled{else}href="javascript:void(0);"
-                                                       onClick="delete_modal_show('{$shop->id}')"{/if}>关闭自动续费</a>
+                                                       {if $shop->renew==0}disabled{else}href="javascript:void(0);" onClick="delete_modal_show('{$shop->id}')"{/if}>关闭自动续费</a>
                                                 </td>
 
                                             </tr>
@@ -112,18 +111,18 @@
 
 <script>
     function delete_modal_show(id) {
-        var deleteid = id;
         $("#delete_modal").modal();
+        document.getElementById('delete_input').setAttribute('data-id', id);
     }
 
     $(document).ready(function () {
-        function delete_id() {
+        function delete_id(id) {
             $.ajax({
                 type: "DELETE",
                 url: "/user/bought",
                 dataType: "json",
                 data: {
-                    id: deleteid
+                    id
                 },
                 success: (data) => {
                     if (data.ret) {
@@ -144,7 +143,9 @@
             });
         }
 
-        $$.getElementById('delete_input').addEventListener('click', delete_id);
+        $$.getElementById('delete_input').addEventListener('click', () => {
+            delete_id($$.getElementById('delete_input').getAttribute('data-id'));
+        });
     })
 
 </script>

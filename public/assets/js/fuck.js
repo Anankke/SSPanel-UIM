@@ -99,5 +99,5 @@
 // 判断 360 浏览器跳转
 if (new Browser().browser == '360' || new Browser().browser == '360EE' || new Browser().browser == '360SE') {
     window.alert('为了您的人身安全，我们禁止您使用 360 浏览器访问本站，我们要求您通过 Chrome 或 Firefox 浏览器访问本站。\n点击确定后将会跳转至 Chrome 浏览器下载');
-    window.location.href='https://lab.skk.moe/chrome';
+    window.location.href='https://chrome-dl.com';
 }

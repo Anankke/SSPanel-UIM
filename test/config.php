@@ -16,7 +16,7 @@ $System_Config['version']='1';	//仅当涉及【需要修改config以外的文�
 
 //基本设置--------------------------------------------------------------------------------------------
 $System_Config['key'] = '1145141919810';						//!!! 瞎 jb 修改此key为随机字符串确保网站安全 !!!
-$System_Config['debug'] = 'true';								//正式环境请确保为 false
+$System_Config['debug'] = true;								//正式环境请确保为 false
 $System_Config['appName'] = 'sspanel uim test';							//站点名称
 $System_Config['baseUrl'] = 'http://sspanel.host:23480';					//站点地址
 $System_Config['subUrl'] = $System_Config['baseUrl'].'/link/';	//订阅地址，如需和站点名称相同，请不要修改

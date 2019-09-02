@@ -14,6 +14,7 @@
 </div>
 <script>
     var pid = 0;
+
     function pay(type) {
         if (type = 'wechat') {
         }
@@ -43,10 +44,11 @@
                             pid = data.pid;
                             $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>';
                             var qrcode = new QRCode("qrcode", {
+                                correctLevel: 3,  //解决超过200字符的二维码生成问题
                                 render: "canvas",
                                 width: 200,
                                 height: 200,
-                                text: encodeURI(data.data)
+                                text: data.url      //使用encodeURI()函数报会调低至错误
                             });
                             tid = setTimeout(f, 1000); //循环调用触发setTimeout
                         }
@@ -59,14 +61,15 @@
             });
         });
     }
+
     function f() {
         $.ajax({
             type: "POST",
             url: "/payment/status",
             dataType: "json",
-{literal}
-            data: { pid },
-{/literal}
+            data: {
+                pid
+            },
             success: (data) => {
                 if (data.result) {
                     //console.log(data);

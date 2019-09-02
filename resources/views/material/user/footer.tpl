@@ -42,8 +42,6 @@
 <script src="/theme/material/js/base.min.js"></script>
 <script src="/theme/material/js/project.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/clipboard@1.5.16/dist/clipboard.min.js"></script>
-<script type="text/javascript" color="0,217,255" opacity="0.5" count="49"
-        src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1"></script>
 
 <script>console.table([['数据库查询', '执行时间'], ['{count($queryLog)} 次', '{$optTime} ms']])</script>
 

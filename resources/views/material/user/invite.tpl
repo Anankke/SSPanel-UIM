@@ -10,7 +10,7 @@
         <section class="content-inner margin-top-no">
             <div class="row">
 
-                <div class="col-xx-12">
+                <div class="col-lg-6 col-md-6">
                     <div class="card margin-bottom-no">
                         <div class="card-main">
                             <div class="card-inner">
@@ -31,7 +31,7 @@
                 {if $user->class!=0}
 
                     {if $user->invite_num!=-1}
-                        <div class="col-xx-12">
+                        <div class="col-lg-6 col-md-6">
                             <div class="card margin-bottom-no">
                                 <div class="card-main">
                                     <div class="card-inner margin-bottom-no">
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         {if $config['custom_invite_price']>=0}
-                            <div class="col-xx-12 {if $config['invite_price']>=0}col-lg-6{/if}">
+                            <div class="col-lg-6 col-md-6">
                                 <div class="card margin-bottom-no">
                                     <div class="card-main">
                                         <div class="card-inner margin-bottom-no">
@@ -101,7 +101,7 @@
                     {/if}
 
                     {if $config['invite_price']>=0}
-                        <div class="col-xx-12 {if $config['custom_invite_price']>=0}col-lg-6{/if}">
+                        <div class="col-xx-12">
                             <div class="card margin-bottom-no">
                                 <div class="card-main">
                                     <div class="card-inner">

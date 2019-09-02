@@ -19,13 +19,13 @@ class Update
 
         echo(PHP_EOL);
 
-        echo('开始升级ssrdownload...' . PHP_EOL);
+        echo('开始升级客户端...' . PHP_EOL);
         Job::updatedownload();
-        echo('升级ssrdownload结束' . PHP_EOL);
+        echo('客户端升级结束' . PHP_EOL);
 
-        echo('开始升级QQWry...' . PHP_EOL);
+        echo('开始升级 QQWry...' . PHP_EOL);
         $xcat->initQQWry();
-        echo('升级QQWry结束' . PHP_EOL);
+        echo('升级 QQWry结束' . PHP_EOL);
 
         echo(PHP_EOL);
 

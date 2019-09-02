@@ -8,10 +8,7 @@ class Boot
 {
     public static function setDebug()
     {
-        // debug
-        if (Config::get('debug') == 'true') {
-            define('DEBUG', true);
-        }
+        define('DEBUG', Config::get('debug'));
         View::$beginTime = microtime(true);
     }
 
