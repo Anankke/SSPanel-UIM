@@ -5,7 +5,6 @@ namespace App\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\Services\Auth as AuthService;
-use App\Services\Config;
 
 class Admin
 {

@@ -16,11 +16,11 @@ $System_Config['version']='1';	//仅当涉及【需要修改config以外的文�
 
 //基本设置--------------------------------------------------------------------------------------------
 $System_Config['key'] = '1145141919810';						//!!! 瞎 jb 修改此key为随机字符串确保网站安全 !!!
-$System_Config['debug'] =  'false';								//正式环境请确保为 false
+$System_Config['debug'] =  false;								//正式环境请确保为 false
 $System_Config['appName'] = 'sspanel';							//站点名称
 $System_Config['baseUrl'] = 'http://url.com';					//站点地址
 $System_Config['subUrl'] = $System_Config['baseUrl'].'/link/';	//订阅地址，如需和站点名称相同，请不要修改
-$System_Config['muKey'] = 'NimaQu';								//用于校验ss-go mu的请求，可以随意修改，但请保持前后端一致
+$System_Config['muKey'] = 'NimaQu';								//用于校验魔改后端请求，可以随意修改，但请保持前后端一致，否则节点不能工作！
 $System_Config['db_driver'] = 'mysql';							//数据库程序
 $System_Config['db_host'] = 'localhost';						//数据库地址
 $System_Config['db_database'] = 'sspanel';						//数据库名
@@ -177,7 +177,7 @@ $System_Config['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay
+#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs
 $System_Config['payment_system']='none';
 
 #codepay码支付
@@ -190,6 +190,7 @@ $System_Config['f2fpay_app_id']='';
 $System_Config['f2fpay_p_id']='';
 $System_Config['alipay_public_key']='';
 $System_Config['merchant_private_key']='';
+$System_Config['f2fNotifyUrl']=null;                  //自定义当面付回调地址
 
 #PaymentWall
 $System_Config['pmw_publickey']='';
@@ -214,7 +215,11 @@ $System_Config['trimepay_secret']='';				//AppSecret
 # BitPay 数字货币支付（比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
 #   客服和技术 24x7 在线支持： https://t.me/joinchat/GLKSKhUnE4GvEAPgqtChAQ
 $System_Config['bitpay_secret']='';
- 
+
+#PayJs
+$System_Config['payjs_mchid']='';
+$System_Config['payjs_key']='';
+
 
 //其他面板显示设置------------------------------------------------------------------------------------------
 #后台商品列表 销量统计
@@ -259,7 +264,7 @@ $System_Config['v2ray_level']='0';
 $System_Config['enable_login_bind_ip']='false';		//是否将登陆线程和IP绑定
 $System_Config['rememberMeDuration']='7';           //登录时记住账号时长天数
 $System_Config['authDriver'] = 'cookie';			//不能更改此项
-$System_Config['pwdMethod'] = 'sha256';				//密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
+$System_Config['pwdMethod'] = 'md5';				//密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
 $System_Config['salt'] = '';						//推荐配合 md5/sha256， bcrypt/argon2i/argon2id 会忽略此项
 $System_Config['sessionDriver'] = 'cookie';			//可选: cookie,redis
 $System_Config['cacheDriver'] = 'cookie';			//可选: cookie,redis
@@ -274,6 +279,7 @@ $System_Config['timeZone'] = 'PRC';					//PRC 天朝时间  UTC 格林时间
 $System_Config['db_charset'] = 'utf8';
 $System_Config['db_collation'] = 'utf8_general_ci';
 $System_Config['db_prefix'] = '';
+$System_Config['muKeyList'] = ['　'];                //多 key 列表
 
 #aws
 $System_Config['aws_access_key_id'] = '';
@@ -284,7 +290,7 @@ $System_Config['redis_scheme'] = 'tcp';
 $System_Config['redis_host'] = '127.0.0.1';
 $System_Config['redis_port'] = '6379';
 $System_Config['redis_database'] = '0';
-$System_Config['redis_password']="";
+$System_Config['redis_password']= '';
 
 #Radius设置
 $System_Config['enable_radius']='false';			//是否开启Radius
@@ -314,7 +320,34 @@ $System_Config['enable_analytics_code']='false';
 $System_Config['sspanelAnalysis'] = 'true';
 
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
-if ( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ) {
-$list = explode("," , $_SERVER["HTTP_X_FORWARDED_FOR"]);
-$_SERVER["REMOTE_ADDR"] = $list[0];
+if ( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+$list = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+$_SERVER['REMOTE_ADDR'] = $list[0];
+}
+
+
+// make replace System_Config with env
+function findKeyName($name) {
+    global $System_Config;
+    foreach($System_Config as $configKey => $configValue) {
+        if (strtoupper($configKey) == $name) {
+            return $configKey;
+        }
+    }
+
+    return NULL;
+}
+
+foreach(getenv() as $envKey => $envValue) {
+    global $System_Config;
+    $envUpKey = strtoupper($envKey);
+    // Key starts with UIM_
+    if (substr($envUpKey, 0 , 4) == "UIM_") {
+        // Vaild env key, set to System_Config
+        $configKey = substr($envUpKey, 4);
+        $realKey = findKeyName($configKey);
+        if ($realKey != NULL) {
+            $System_Config[$realKey] = $envValue;
+        }
+    }
 }

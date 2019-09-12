@@ -19,7 +19,7 @@ class Spay_tool
      */
     public static function md5Sign($prestr, $key)
     {
-        $prestr = $prestr . $key;
+        $prestr .= $key;
         return md5($prestr);
     }
 
@@ -32,14 +32,10 @@ class Spay_tool
      */
     public static function md5Verify($prestr, $sign, $key)
     {
-        $prestr = $prestr . $key;
+        $prestr .= $key;
         $mysgin = md5($prestr);
 
-        if ($mysgin == $sign) {
-            return true;
-        } else {
-            return false;
-        }
+        return $mysgin == $sign;
     }
 
     /**
@@ -49,12 +45,12 @@ class Spay_tool
      */
     public static function createLinkstring($para)
     {
-        $arg = "";
-        while (list($key, $val) = each($para)) {
-            $arg .= $key . "=" . $val . "&";
+        $arg = '';
+        foreach ($para as $key => $val) {
+            $arg .= $key . '=' . $val . '&';
         }
         //去掉最后一个&字符
-        $arg = substr($arg, 0, strlen($arg) - 1);
+        $arg = substr($arg, 0, -1);
 
         //如果存在转义字符，那么去掉转义
         if (get_magic_quotes_gpc()) {
@@ -71,9 +67,9 @@ class Spay_tool
      */
     public static function createLinkstringUrlencode($para)
     {
-        $arg = "";
-        while (list($key, $val) = each($para)) {
-            $arg .= $key . "=" . urlencode($val) . "&";
+        $arg = '';
+        foreach ($para as $key => $val) {
+            $arg .= $key . '=' . urlencode($val) . '&';
         }
         //去掉最后一个&字符
         $arg = substr($arg, 0, count($arg) - 2);
@@ -95,11 +91,11 @@ class Spay_tool
     {
         $para_filter = array();
         while (list($key, $val) = each($para)) {
-            if ($key == "sign" || $key == "sign_type" || $val == "") {
+            if ($key == 'sign' || $key == 'sign_type' || $val == '') {
                 continue;
-            } else {
-                $para_filter[$key] = $para[$key];
             }
+
+            $para_filter[$key] = $para[$key];
         }
         return $para_filter;
     }
@@ -123,9 +119,9 @@ class Spay_tool
      */
     public static function logResult($word = '')
     {
-        $fp = fopen(BASE_PATH . "/storage/log.txt", "a");
+        $fp = fopen(BASE_PATH . '/storage/log.txt', 'ab');
         flock($fp, LOCK_EX);
-        fwrite($fp, "执行日期：" . strftime("%Y%m%d%H%M%S", time()) . "\n" . $word . "\n");
+        fwrite($fp, '执行日期：' . strftime('%Y%m%d%H%M%S', time()) . "\n" . $word . "\n");
         flock($fp, LOCK_UN);
         fclose($fp);
     }
@@ -162,18 +158,18 @@ class Spay_tool
      */
     public static function charsetEncode($input, $_output_charset, $_input_charset)
     {
-        $output = "";
+        $output = '';
         if (!isset($_output_charset)) {
             $_output_charset = $_input_charset;
         }
         if ($_input_charset == $_output_charset || $input == null) {
             $output = $input;
-        } elseif (function_exists("mb_convert_encoding")) {
+        } elseif (function_exists('mb_convert_encoding')) {
             $output = mb_convert_encoding($input, $_output_charset, $_input_charset);
-        } elseif (function_exists("iconv")) {
+        } elseif (function_exists('iconv')) {
             $output = iconv($_input_charset, $_output_charset, $input);
         } else {
-            die("sorry, you have no libs support for charset change.");
+            die('sorry, you have no libs support for charset change.');
         }
         return $output;
     }
@@ -187,18 +183,18 @@ class Spay_tool
      */
     public static function charsetDecode($input, $_input_charset, $_output_charset)
     {
-        $output = "";
+        $output = '';
         if (!isset($_input_charset)) {
             $_input_charset = $_input_charset;
         }
         if ($_input_charset == $_output_charset || $input == null) {
             $output = $input;
-        } elseif (function_exists("mb_convert_encoding")) {
+        } elseif (function_exists('mb_convert_encoding')) {
             $output = mb_convert_encoding($input, $_output_charset, $_input_charset);
-        } elseif (function_exists("iconv")) {
+        } elseif (function_exists('iconv')) {
             $output = iconv($_input_charset, $_output_charset, $input);
         } else {
-            die("sorry, you have no libs support for charset changes.");
+            die('sorry, you have no libs support for charset changes.');
         }
         return $output;
     }
@@ -216,12 +212,12 @@ class Spay_tool
         $alipay_config['key'] = Config::get('alipay_key');
 
         // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-        $alipay_config['notify_url'] = Config::get('baseUrl') . "/purchase/notify";
+        $alipay_config['notify_url'] = Config::get('baseUrl') . '/purchase/notify';
 
         // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
 
         //此处请填 访问地址+"/user/code"
-        $alipay_config['return_url'] = Config::get('baseUrl') . "/user/code";
+        $alipay_config['return_url'] = Config::get('baseUrl') . '/user/code';
 
         //签名方式
         $alipay_config['sign_type'] = strtoupper('MD5');
@@ -231,16 +227,16 @@ class Spay_tool
 
         //ca证书路径地址，用于curl中ssl校验
         //请保证cacert.pem文件在当前文件夹目录中
-        $alipay_config['cacert'] = "";
+        $alipay_config['cacert'] = '';
 
         //访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
         $alipay_config['transport'] = 'http';
 
         // 支付类型 ，无需修改
-        $alipay_config['payment_type'] = "1";
+        $alipay_config['payment_type'] = '1';
 
         // 产品类型，无需修改
-        $alipay_config['service'] = "create_direct_pay_by_user";
+        $alipay_config['service'] = 'create_direct_pay_by_user';
 
         //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
@@ -248,10 +244,10 @@ class Spay_tool
         //↓↓↓↓↓↓↓↓↓↓ 请在这里配置防钓鱼信息，如果没开通防钓鱼功能，为空即可 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
         // 防钓鱼时间戳  若要使用请调用类文件submit中的query_timestamp函数
-        $alipay_config['anti_phishing_key'] = "";
+        $alipay_config['anti_phishing_key'] = '';
 
         // 客户端的IP地址 非局域网的外网IP地址，如：221.0.0.1
-        $alipay_config['exter_invoke_ip'] = "";
+        $alipay_config['exter_invoke_ip'] = '';
 
         //↑↑↑↑↑↑↑↑↑↑请在这里配置防钓鱼信息，如果没开通防钓鱼功能，为空即可 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 

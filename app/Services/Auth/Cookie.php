@@ -16,11 +16,11 @@ class Cookie extends Base
         $expire_in = $time + time();
         $key = Hash::cookieHash($user->pass, $expire_in);
         Utils\Cookie::set([
-            "uid" => $uid,
-            "email" => $user->email,
-            "key" => $key,
-            "ip" => md5($_SERVER["REMOTE_ADDR"] . Config::get('key') . $uid . $expire_in),
-            "expire_in" => $expire_in
+            'uid' => $uid,
+            'email' => $user->email,
+            'key' => $key,
+            'ip' => md5($_SERVER['REMOTE_ADDR'] . Config::get('key') . $uid . $expire_in),
+            'expire_in' => $expire_in
         ], $expire_in);
     }
 
@@ -44,11 +44,9 @@ class Cookie extends Base
         }
 
         if (Config::get('enable_login_bind_ip') == 'true') {
-            $nodes = Node::where("node_ip", "=", $_SERVER["REMOTE_ADDR"])->first();
-            if ($nodes == null) {
-                if ($ipHash != md5($_SERVER["REMOTE_ADDR"] . Config::get('key') . $uid . $expire_in)) {
-                    return $user;
-                }
+            $nodes = Node::where('node_ip', '=', $_SERVER['REMOTE_ADDR'])->first();
+            if (($nodes == null) && $ipHash != md5($_SERVER['REMOTE_ADDR'] . Config::get('key') . $uid . $expire_in)) {
+                return $user;
             }
         }
 
@@ -80,9 +78,9 @@ class Cookie extends Base
     {
         $time = time() - 1000;
         Utils\Cookie::set([
-            "uid" => null,
-            "email" => null,
-            "key" => null
+            'uid' => null,
+            'email' => null,
+            'key' => null
         ], $time);
     }
 }

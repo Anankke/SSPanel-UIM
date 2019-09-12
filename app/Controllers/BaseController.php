@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
 use App\Services\View;
 use App\Services\Auth;
+use Smarty;
 
 /**
  * BaseController
@@ -11,12 +13,12 @@ use App\Services\Auth;
 class BaseController
 {
     /**
-     * @var \Smarty
+     * @var Smarty
      */
     protected $view;
 
     /**
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -32,7 +34,7 @@ class BaseController
     /**
      * Get smarty
      *
-     * @return \Smarty
+     * @return Smarty
      */
     public function view()
     {

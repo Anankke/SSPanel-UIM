@@ -1,10 +1,10 @@
- <div class="card-inner">
- <div class="row">
+<div class="card-inner">
+    <div class="row">
         <div class="col-lg-6 col-md-6">
             <p class="card-heading">支付宝在线充值</p>
             <div class="form-group form-group-label">
                 <label class="floating-label" for="amount">金额</label>
-                <input class="form-control" id="amount" type="text" >
+                <input class="form-control" id="amount" type="text">
             </div>
         </div>
         <div class="col-lg-6 col-md-6">
@@ -12,10 +12,13 @@
         </div>
     </div>
 </div>
-    <a class="btn btn-flat waves-attach" id="pay" onclick="pay();" ><span class="icon">check</span>&nbsp;充值</a>
+
+<a class="btn btn-flat waves-attach" id="pay" onclick="pay();"><span class="icon">check</span>&nbsp;充值</a>
+
 <script>
     var pid = 0;
-    function pay(){
+
+    function pay() {
         $("#readytopay").modal();
         $("#readytopay").on('shown.bs.modal', function () {
             $.ajax({
@@ -23,13 +26,13 @@
                 url: "/user/payment/purchase",
                 dataType: "json",
                 data: {
-                    amount: $("#amount").val()
+                    amount: $$getValue('amount')
                 },
-                success: function (data) {
+                success: (data) => {
                     if (data.ret) {
-                        console.log(data);
+                        //console.log(data);
                         pid = data.pid;
-                        $("#qrarea").html('<div class="text-center"><p>请使用手机支付宝扫描二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码唤起支付宝支付</p></div>');
+                        $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>请使用手机支付宝扫描二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码唤起支付宝支付</p></div>'
                         $("#readytopay").modal('hide');
                         new QRCode("qrcode", {
                             render: "canvas",
@@ -37,42 +40,44 @@
                             height: 200,
                             text: encodeURI(data.qrcode)
                         });
-                        $('#qrcode').attr('href',data.qrcode);
+                        $$.getElementById('qrcode').setAttribute('href', data.qrcode);
                         setTimeout(f, 1000);
                     } else {
                         $("#result").modal();
-                        $("#msg").html(data.msg);
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: function (jqXHR) {
-                    console.log(jqXHR);
+                error: (jqXHR) => {
+                    //console.log(jqXHR);
                     $("#readytopay").modal('hide');
                     $("#result").modal();
-                    $("#msg").html(jqXHR+"  发生了错误。");
+                    $$.getElementById('msg').innerHTML = `${
+                            jqXHR
+                            } 发生错误了`;
                 }
             })
         });
     }
 
-    function f(){
+    function f() {
         $.ajax({
             type: "POST",
             url: "/payment/status",
             dataType: "json",
             data: {
-                pid:pid
+                pid: pid
             },
-            success: function (data) {
+            success: (data) => {
                 if (data.result) {
-                    console.log(data);
+                    //console.log(data);
                     $("#alipay").modal('hide');
                     $("#result").modal();
-                    $("#msg").html("充值成功！");
+                    $$.getElementById('msg').innerHTML = '充值成功';
                     window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
                 }
             },
-            error: function (jqXHR) {
-                console.log(jqXHR);
+            error: (jqXHR) => {
+                //console.log(jqXHR);
             }
         });
         tid = setTimeout(f, 1000); //循环调用触发setTimeout

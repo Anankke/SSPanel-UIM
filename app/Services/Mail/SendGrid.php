@@ -3,6 +3,10 @@
 namespace App\Services\Mail;
 
 use App\Services\Config;
+use SendGrid\Attachment;
+use SendGrid\Content;
+use SendGrid\Email;
+use SendGrid\Mail;
 
 class SendGrid extends Base
 {
@@ -13,33 +17,33 @@ class SendGrid extends Base
     public function __construct()
     {
         $this->config = $this->getConfig();
-        $this->sg = new \SendGrid($this->config["key"]);
-        $this->sender = $this->config["sender"];
+        $this->sg = new \SendGrid($this->config['key']);
+        $this->sender = $this->config['sender'];
     }
 
     public function getConfig()
     {
         return [
-            "key" => Config::get('sendgrid_key'),
-            "sender" => Config::get('sendgrid_sender')
+            'key' => Config::get('sendgrid_key'),
+            'sender' => Config::get('sendgrid_sender')
         ];
     }
 
     public function send($to_address, $subject_raw, $text, $files)
     {
-        $from = new \SendGrid\Email(null, $this->sender);
+        $from = new Email(null, $this->sender);
         $subject = $subject_raw;
-        $to = new \SendGrid\Email(null, $to_address);
-        $content = new \SendGrid\Content("text/html", $text);
-        $mail = new \SendGrid\Mail($from, $subject, $to, $content);
+        $to = new Email(null, $to_address);
+        $content = new Content('text/html', $text);
+        $mail = new Mail($from, $subject, $to, $content);
 
         foreach ($files as $file) {
-            $attachment = new \SendGrid\Attachment();
+            $attachment = new Attachment();
             $attachment->setContent(base64_encode(file_get_contents($file)));
-            $attachment->setType("application/octet-stream");
+            $attachment->setType('application/octet-stream');
             $attachment->setFilename(basename($file));
-            $attachment->setDisposition("attachment");
-            $attachment->setContentId("backup");
+            $attachment->setDisposition('attachment');
+            $attachment->setContentId('backup');
             $mail->addAttachment($attachment);
         }
 

@@ -12,84 +12,84 @@ class Spay_notify
 
     public static function Spay_notify($alipay_config)
     {
-        self::__construct($alipay_config);
+        (new Spay_notify())->__construct($alipay_config);
     }
 
     /**
      * 针对notify_url验证消息是否是支付宝发出的合法消息
-     * @return 验证结果
+     * @return 验证结果|bool
      */
     public function verifyNotify()
     {
         if (empty($_POST)) {//判断POST来的数组是否为空
             return false;
-        } else {
-            //生成签名结果
-            $isSign = $this->getSignVeryfy($_POST, $_POST["sign"]);
-
-
-            //写日志记录
-            //if ($isSign) {
-            //	$isSignStr = 'true';
-            //}
-            //else {
-            //	$isSignStr = 'false';
-            //}
-            //$log_text = "responseTxt=".$responseTxt."\n notify_url_log:isSign=".$isSignStr.",";
-            //$log_text = $log_text.Spay_tool::createLinkstring($_POST);
-            //Spay_tool::logResult($log_text);
-
-            //验证
-            //$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
-            //isSign的结果不是true，与安全校验码、请求时的参数格式（如：带自定义参数等）、编码格式有关
-            if ($isSign) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+//生成签名结果
+        $isSign = $this->getSignVeryfy($_POST, $_POST['sign']);
+
+
+        //写日志记录
+        //if ($isSign) {
+        //  $isSignStr = 'true';
+        //}
+        //else {
+        //  $isSignStr = 'false';
+        //}
+        //$log_text = "responseTxt=".$responseTxt."\n notify_url_log:isSign=".$isSignStr.",";
+        //$log_text = $log_text.Spay_tool::createLinkstring($_POST);
+        //Spay_tool::logResult($log_text);
+
+        //验证
+        //$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
+        //isSign的结果不是true，与安全校验码、请求时的参数格式（如：带自定义参数等）、编码格式有关
+        if ($isSign) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * 针对return_url验证消息是否是支付宝发出的合法消息
-     * @return 验证结果
+     * @return 验证结果|bool
      */
     public function verifyReturn()
     {
         if (empty($_GET)) {//判断POST来的数组是否为空
             return false;
-        } else {
-            //生成签名结果
-            $isSign = $this->getSignVeryfy($_GET, $_GET["sign"]);
-            //获取支付宝远程服务器ATN结果（验证是否是支付宝发来的消息）
-
-            //写日志记录
-            //if ($isSign) {
-            //	$isSignStr = 'true';
-            //}
-            //else {
-            //	$isSignStr = 'false';
-            //}
-            //$log_text = "responseTxt=".$responseTxt."\n return_url_log:isSign=".$isSignStr.",";
-            //$log_text = $log_text.Spay_tool::createLinkstring($_GET);
-            //Spay_tool::logResult($log_text);
-
-            //验证
-            //$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
-            //isSign的结果不是true，与安全校验码、请求时的参数格式（如：带自定义参数等）、编码格式有关
-            if ($isSign) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+//生成签名结果
+        $isSign = $this->getSignVeryfy($_GET, $_GET['sign']);
+        //获取支付宝远程服务器ATN结果（验证是否是支付宝发来的消息）
+
+        //写日志记录
+        //if ($isSign) {
+        //  $isSignStr = 'true';
+        //}
+        //else {
+        //  $isSignStr = 'false';
+        //}
+        //$log_text = "responseTxt=".$responseTxt."\n return_url_log:isSign=".$isSignStr.",";
+        //$log_text = $log_text.Spay_tool::createLinkstring($_GET);
+        //Spay_tool::logResult($log_text);
+
+        //验证
+        //$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
+        //isSign的结果不是true，与安全校验码、请求时的参数格式（如：带自定义参数等）、编码格式有关
+        if ($isSign) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * 获取返回时的签名验证结果
      * @param $para_temp 通知返回来的参数数组
      * @param $sign 返回的签名结果
-     * @return 签名验证结果
+     * @return 签名验证结果|bool
      */
     public function getSignVeryfy($para_temp, $sign)
     {
@@ -117,9 +117,7 @@ class Spay_notify
     public function getResponse($notify_id)
     {
         $veryfy_url = $this->http_verify_url;
-        $veryfy_url = $veryfy_url . "notify_id=" . $notify_id;
-        $responseTxt = Spay_tool::getHttpResponseGET($veryfy_url);
-
-        return $responseTxt;
+        $veryfy_url = $veryfy_url . 'notify_id=' . $notify_id;
+        return Spay_tool::getHttpResponseGET($veryfy_url);
     }
 }

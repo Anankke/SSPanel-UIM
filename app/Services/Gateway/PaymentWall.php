@@ -11,10 +11,11 @@ namespace App\Services\Gateway;
 use App\Models\User;
 use App\Models\Code;
 use App\Services\Auth;
-use App\Models\Paylist;
 use App\Models\Payback;
 use App\Services\Config;
-use App\Services\Payment;
+use Paymentwall_Config;
+use Paymentwall_Pingback;
+use Paymentwall_Widget;
 
 class PaymentWall extends AbstractPayment
 {
@@ -25,13 +26,13 @@ class PaymentWall extends AbstractPayment
 
     public function notify($request, $response, $args)
     {
-        if (Config::get('pmw_publickey') != "") {
-            \Paymentwall_Config::getInstance()->set(array(
-                'api_type' => \Paymentwall_Config::API_VC,
+        if (Config::get('pmw_publickey') != '') {
+            Paymentwall_Config::getInstance()->set(array(
+                'api_type' => Paymentwall_Config::API_VC,
                 'public_key' => Config::get('pmw_publickey'),
                 'private_key' => Config::get('pmw_privatekey')
             ));
-            $pingback = new \Paymentwall_Pingback($_GET, $_SERVER['REMOTE_ADDR']);
+            $pingback = new Paymentwall_Pingback($_GET, $_SERVER['REMOTE_ADDR']);
             if ($pingback->validate()) {
                 $virtualCurrency = $pingback->getVirtualCurrencyAmount();
                 if ($pingback->isDeliverable()) {
@@ -40,19 +41,19 @@ class PaymentWall extends AbstractPayment
                     // withdraw the virual currency
                 }
                 $user = User::find($pingback->getUserId());
-                $user->money = $user->money + $pingback->getVirtualCurrencyAmount();
+                $user->money += $pingback->getVirtualCurrencyAmount();
                 $user->save();
                 $codeq = new Code();
-                $codeq->code = "Payment Wall 充值";
+                $codeq->code = 'Payment Wall 充值';
                 $codeq->isused = 1;
                 $codeq->type = -1;
                 $codeq->number = $pingback->getVirtualCurrencyAmount();
-                $codeq->usedatetime = date("Y-m-d H:i:s");
+                $codeq->usedatetime = date('Y-m-d H:i:s');
                 $codeq->userid = $user->id;
                 $codeq->save();
-                if ($user->ref_by != "" && $user->ref_by != 0 && $user->ref_by != null) {
-                    $gift_user = User::where("id", "=", $user->ref_by)->first();
-                    $gift_user->money = ($gift_user->money + ($codeq->number * (Config::get('code_payback') / 100)));
+                if ($user->ref_by != '' && $user->ref_by != 0 && $user->ref_by != null) {
+                    $gift_user = User::where('id', '=', $user->ref_by)->first();
+                    $gift_user->money += ($codeq->number * (Config::get('code_payback') / 100));
                     $gift_user->save();
                     $Payback = new Payback();
                     $Payback->total = $pingback->getVirtualCurrencyAmount();
@@ -65,9 +66,9 @@ class PaymentWall extends AbstractPayment
                 echo 'OK'; // Paymentwall expects response to be OK, otherwise the pingback will be resent
                 if (Config::get('enable_donate') == 'true') {
                     if ($user->is_hide == 1) {
-                        Telegram::Send("姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 " . $codeq->number . " 元呢~");
+                        Telegram::Send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
                     } else {
-                        Telegram::Send("姐姐姐姐，" . $user->user_name . " 大老爷给我们捐了 " . $codeq->number . " 元呢~");
+                        Telegram::Send('姐姐姐姐，' . $user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
                     }
                 }
             } else {
@@ -81,13 +82,13 @@ class PaymentWall extends AbstractPayment
 
     public function getPurchaseHTML()
     {
-        \Paymentwall_Config::getInstance()->set(array(
-            'api_type' => \Paymentwall_Config::API_VC,
+        Paymentwall_Config::getInstance()->set(array(
+            'api_type' => Paymentwall_Config::API_VC,
             'public_key' => Config::get('pmw_publickey'),
             'private_key' => Config::get('pmw_privatekey')
         ));
         $user = Auth::getUser();
-        $widget = new \Paymentwall_Widget(
+        $widget = new Paymentwall_Widget(
             $user->id, // id of the end-user who's making the payment
             Config::get('pmw_widget'),      // widget code, e.g. p1; can be picked inside of your merchant account
             array(),     // array of products - leave blank for Virtual Currency API
@@ -104,7 +105,7 @@ class PaymentWall extends AbstractPayment
                 )
             ) // additional parameters
         );
-        return $widget->getHtmlCode(array("height" => Config::get('pmw_height'), "width" => "100%"));
+        return $widget->getHtmlCode(array('height' => Config::get('pmw_height'), 'width' => '100%'));
     }
 
     public function getReturnHTML($request, $response, $args)

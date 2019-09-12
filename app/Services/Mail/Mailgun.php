@@ -15,17 +15,17 @@ class Mailgun extends Base
     public function __construct()
     {
         $this->config = $this->getConfig();
-        $this->mg = MailgunService::create($this->config["key"]);
-        $this->domain = $this->config["domain"];
-        $this->sender = $this->config["sender"];
+        $this->mg = MailgunService::create($this->config['key']);
+        $this->domain = $this->config['domain'];
+        $this->sender = $this->config['sender'];
     }
 
     public function getConfig()
     {
         return [
-            "key" => Config::get('mailgun_key'),
-            "domain" => Config::get('mailgun_domain'),
-            "sender" => Config::get('mailgun_sender')
+            'key' => Config::get('mailgun_key'),
+            'domain' => Config::get('mailgun_domain'),
+            'sender' => Config::get('mailgun_sender')
         ];
     }
 
@@ -33,7 +33,7 @@ class Mailgun extends Base
     {
         $inline = array();
         foreach ($files as $file) {
-            array_push($inline, array('filePath' => $file, 'filename' => basename($file)));
+            $inline[] = array('filePath' => $file, 'filename' => basename($file));
         }
         if (count($inline) == 0) {
             $this->mg->messages()->send($this->domain, [
@@ -41,8 +41,7 @@ class Mailgun extends Base
                     'to' => $to,
                     'subject' => $subject,
                     'html' => $text
-                ]
-            );
+                ]);
         } else {
             $this->mg->messages()->send($this->domain, [
                     'from' => $this->sender,
@@ -50,8 +49,7 @@ class Mailgun extends Base
                     'subject' => $subject,
                     'html' => $text,
                     'inline' => $inline
-                ]
-            );
+                ]);
         }
     }
 }

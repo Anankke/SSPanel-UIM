@@ -61,7 +61,7 @@
                   {{step.content}}
                   <span v-if="step.extra">
                     <p v-if="currentDlType === 'SSR'">
-                      <span v-if="currentPlantformType === ('WINDOWS' || 'ANDROID')">
+                      <span v-if="currentPlantformType === 'WINDOWS' || currentPlantformType === 'ANDROID'">
                         <button
                           v-uimclip="{ onSuccess:successCopied }"
                           :data-uimclip="userCon.ssr_url_all"

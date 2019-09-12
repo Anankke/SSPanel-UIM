@@ -7,8 +7,8 @@ use App\Utils;
 
 class View
 {
-    public static $connection = null;
-    public static $beginTime = null;
+    public static $connection;
+    public static $beginTime;
 
     public static function getSmarty()
     {
@@ -34,9 +34,9 @@ class View
         $smarty->assign('user', $user);
         $smarty->assign('can_backtoadmin', $can_backtoadmin);
 
-        if (View::$connection) {
-            $smarty->assign('queryLog', View::$connection->connection('default')->getQueryLog());
-            $optTime = microtime(true) - View::$beginTime;
+        if (self::$connection) {
+            $smarty->assign('queryLog', self::$connection->connection('default')->getQueryLog());
+            $optTime = microtime(true) - self::$beginTime;
             $smarty->assign('optTime', $optTime * 1000);
         }
 

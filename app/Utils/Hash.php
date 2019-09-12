@@ -51,7 +51,9 @@ class Hash
 
     public static function checkPassword($hashedPassword, $password)
     {
-        if (in_array(Config::get('pwdMethod'), ['bcrypt', 'argon2i', 'argon2id'])) return password_verify($password, $hashedPassword);
+        if (in_array(Config::get('pwdMethod'), ['bcrypt', 'argon2i', 'argon2id'])) {
+            return password_verify($password, $hashedPassword);
+        }
         return ($hashedPassword == self::passwordHash($password));
     }
 }

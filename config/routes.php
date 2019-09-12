@@ -9,17 +9,11 @@ use App\Middleware\Mu;
 use App\Middleware\Mod_Mu;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 
-// config
-$debug = false;
-if (defined('DEBUG')) {
-    $debug = true;
-}
-
 $configuration = [
     'settings' => [
-        'debug' => $debug,
+        'debug' => DEBUG,
         'whoops.editor' => 'sublime',
-        'displayErrorDetails' => $debug
+        'displayErrorDetails' => DEBUG
     ]
 ];
 
@@ -42,7 +36,7 @@ $container['notAllowedHandler'] = static function ($c) {
     };
 };
 
-if ($debug == false) {
+if (DEBUG == false) {
     $container['errorHandler'] = static function ($c) {
         return static function ($request, $response, $exception) use ($c) {
             return $response->withAddedHeader('Location', '/500');
@@ -326,6 +320,7 @@ $app->group('/mod_mu', function () {
     $this->post('/nodes/{id}/info', App\Controllers\Mod_Mu\NodeController::class . ':info');
 
     $this->get('/nodes', App\Controllers\Mod_Mu\NodeController::class . ':get_all_info');
+    $this->post('/nodes/config', App\Controllers\Mod_Mu\NodeController::class . ':getConfig');
 
     $this->get('/func/detect_rules', App\Controllers\Mod_Mu\FuncController::class . ':get_detect_logs');
     $this->get('/func/relay_rules', App\Controllers\Mod_Mu\FuncController::class . ':get_relay_rules');

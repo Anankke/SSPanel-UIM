@@ -193,17 +193,18 @@ a.btn-dl:focus,a.btn-dl:visited {
 }
 
 .progressbar{
-    position:relative;
-	display:block;
-    width:90%;
-    height:20px;
-    border-bottom:1px solid rgba(255,255,255,0.25);
-    border-radius:16px;
-	margin:40px auto;
-	margin-top: 60px;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 20px;
+    border-bottom: 1px solid rgba(255,255,255,.25);
+    border-radius: 16px;
+    margin: 40px auto;
+    margin-top: 40px;
 }
+
 .progressbar:first-of-type {
-	margin-top: 70px;
+    margin-top: 60px;
 }
 
 .progressbar .before{
