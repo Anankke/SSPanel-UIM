@@ -578,37 +578,6 @@ table tr td:first-child {
         return new Date(str_date_splited[0], str_date_splited[1] - 1, str_date_splited[2], str_date_splited[3], str_date_splited[4], str_date_splited[5]);
     }
 
-    /*
-     * Author: neoFelhz & CloudHammer
-     * https://github.com/CloudHammer/CloudHammer/make-sspanel-v3-mod-great-again
-     * License: MIT license & SATA license
-     */
-    function CountDown() {
-        var levelExpire = DateParse("{$user->class_expire}");
-        var accountExpire = DateParse("{$user->expire_in}");
-        var nowDate = new Date();
-        var a = nowDate.getTime();
-        var b = levelExpire - a;
-        var c = accountExpire - a;
-        var levelExpireDays = Math.floor(b / (24 * 3600 * 1000));
-        var accountExpireDays = Math.floor(c / (24 * 3600 * 1000));
-        if (levelExpireDays < 0 || levelExpireDays > 315360000000) {
-            document.getElementById('days-level-expire').innerHTML = "无限期";
-            for (var i = 0; i < document.getElementsByClassName('label-level-expire').length; i += 1) {
-                document.getElementsByClassName('label-level-expire')[i].style.display = 'none';
-            }
-        } else {
-            document.getElementById('days-level-expire').innerHTML = levelExpireDays;
-        }
-        if (accountExpireDays < 0 || accountExpireDays > 315360000000) {
-            document.getElementById('days-account-expire').innerHTML = "无限期";
-            for (var i = 0; i < document.getElementsByClassName('label-account-expire').length; i += 1) {
-                document.getElementsByClassName('label-account-expire')[i].style.display = 'none';
-            }
-        } else {
-            document.getElementById('days-account-expire').innerHTML = accountExpireDays;
-        }
-    }
 </script>
 
 <script>
@@ -648,8 +617,6 @@ table tr td:first-child {
         });
 
         myShakeEvent.start();
-        CountDown();
-
         window.addEventListener('shake', shakeEventDidOccur, false);
 
         function shakeEventDidOccur() {
