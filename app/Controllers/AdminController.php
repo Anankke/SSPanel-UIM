@@ -60,7 +60,34 @@ class AdminController extends UserController
         $table_config['ajax_url'] = 'payback/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/invite.tpl');
     }
+    
+    public function chgInvite($request, $response, $args)
+    {
+        $prefix = $request->getParam('prefix');
 
+        if ($request->getParam('userid')!=NULL && $request->getParam('refid')!=NULL) {
+            if (strpos($request->getParam('userid'), "@")!=false) {
+                $user=User::where("email", "=", $request->getParam('userid'))->first();
+            } else {
+                $user=User::Where("id", "=", $request->getParam('userid'))->first();
+            }
+
+            if ($user==null) {
+                $res['ret'] = 0;
+                $res['msg'] = "邀请者更改失败，检查用户id是否输入正确";
+                return $response->getBody()->write(json_encode($res));
+            }
+            $uid = $user->id;
+        } else {
+            $uid=0;
+        }
+		$user->ref_by = $request->getParam('refid');
+		$user->save();
+        $res['ret'] = 1;
+        $res['msg'] = "邀请者更改成功";
+        return $response->getBody()->write(json_encode($res));
+    }
+    
     public function addInvite($request, $response, $args)
     {
         $num = $request->getParam('num');
