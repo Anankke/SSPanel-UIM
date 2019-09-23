@@ -319,12 +319,6 @@ $System_Config['relay_insecure_mode']='false';		//强烈推荐不开启
 $System_Config['enable_analytics_code']='false';
 $System_Config['sspanelAnalysis'] = 'true';
 
-#在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
-if ( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
-$list = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-$_SERVER['REMOTE_ADDR'] = $list[0];
-}
-
 
 // make replace System_Config with env
 function findKeyName($name) {
