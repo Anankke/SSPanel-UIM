@@ -288,6 +288,7 @@ $app->group('/admin', function () {
     $this->get('/profile', App\Controllers\AdminController::class . ':profile');
     $this->get('/invite', App\Controllers\AdminController::class . ':invite');
     $this->post('/invite', App\Controllers\AdminController::class . ':addInvite');
+    $this->post('/chginvite', App\Controllers\AdminController::class . ':chgInvite');
     $this->get('/sys', App\Controllers\AdminController::class . ':sys');
     $this->get('/logout', App\Controllers\AdminController::class . ':logout');
     $this->post('/payback/ajax', App\Controllers\AdminController::class . ':ajax_payback');
