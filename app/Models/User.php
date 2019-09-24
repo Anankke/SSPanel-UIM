@@ -404,4 +404,11 @@ class User extends Model
     	$paid = User::where('class',"!=",'0')->count();
     	return $paid;
     }
+    
+    public function disable_reason()
+    {
+    	$reason_id = DetectLog::where('user_id','=',$this->attributes['id'])->orderBy('id', 'DESC')->get();
+    	$reason = DetectRule::where("id","=",$reason_id[0]->list_id)->get();
+    	return $reason[0]->text;
+    }
 }
