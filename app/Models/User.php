@@ -398,4 +398,10 @@ class User extends Model
         }
         return $top_up;
     }
+    
+    public function paid()
+    {
+    	$paid = User::where('class',"!=",'0')->count();
+    	return $paid;
+    }
 }
