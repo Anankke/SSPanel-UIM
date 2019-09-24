@@ -353,4 +353,29 @@ class User extends Model
         }
         return round($top_up, 2);
     }
+    
+    public function yesterday_income()
+    {
+    	return Code::where('usedatetime','like',date('Y-m-d%',strtotime("-1 days")))->sum(number);
+    }
+    
+    public function today_income()
+    {
+    	return Code::where('usedatetime','like',date('Y-m-d%'))->sum(number);
+    }
+    
+    public function this_month_income()
+    {
+    	return Code::where('usedatetime','like',date('Y-m%'))->sum(number);
+    }
+    
+    public function last_month_income()
+    {
+    	return Code::where('usedatetime','like',date('Y-m%',strtotime("-1 months")))->sum(number);
+    }
+    
+    public function total_income()
+    {
+    	return Code::where('usedatetime','like',date('%'))->sum(number);
+    }
 }
