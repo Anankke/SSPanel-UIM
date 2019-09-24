@@ -15,11 +15,13 @@
                     <div class="card-main">
                         <div class="card-inner">
                             <p>系统中金额流转记录。</p>
-                            <p>今日流水：￥{$user->today_income()}
-							<br/>昨日流水：￥{$user->yesterday_income()}
-							<br/>这月流水：￥{$user->this_month_income()}
-							<br/>上月流水：￥{$user->last_month_income()}
-							<br/>总共流水：￥{$user->total_income()}</p>
+                            <p>
+			        今日流水：￥{$user->today_income()}<br/>
+				昨日流水：￥{$user->yesterday_income()}<br/>
+				这月流水：￥{$user->this_month_income()}<br/>
+				上月流水：￥{$user->last_month_income()}<br/>
+				总共流水：￥{$user->total_income()}
+			    </p>
                             <p>显示表项:
                                 {include file='table/checkbox.tpl'}
                             </p>
