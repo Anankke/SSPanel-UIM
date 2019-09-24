@@ -14,6 +14,7 @@
                     <div class="card-main">
                         <div class="card-inner">
                             <p>系统中所有用户的列表。</p>
+							<p>付费用户：{$user->paid()}</p>
                             <p>显示表项:
                                 {include file='table/checkbox.tpl'}
                             </p>
