@@ -12,15 +12,20 @@
             <section class="content-inner margin-top-no">
 
                 <div class="card">
-                    <div class="card-main">
-                        <div class="card-inner">
-                            <p>系统中金额流转记录。</p>
-                            <p>显示表项:
-                                {include file='table/checkbox.tpl'}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+					<div class="card-main">
+						<div class="card-inner">
+							<p>系统中金额流转记录。</p>
+							<p><b>今日流水：￥{$user->tdyincome()}
+							<br/>昨日流水：￥{$user->ytdincome()}
+							<br/>这月流水：￥{$user->mthincome()}
+							<br/>上月流水：￥{$user->lstmthincome()}
+							<br/>总流水：￥{$user->ttlincome()}</b></p>
+							<p>显示表项:
+								{include file='table/checkbox.tpl'}
+							</p>
+						</div>
+					</div>
+				</div>
 
                 <div class="table-responsive">
                     {include file='table/table.tpl'}
