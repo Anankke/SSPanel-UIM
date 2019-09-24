@@ -353,4 +353,49 @@ class User extends Model
         }
         return round($top_up, 2);
     }
+    
+    public function ytdincome()
+    {
+    	$codes = Code::where('usedatetime','like',date('Y-m-d%',strtotime("-1 days")))->get();
+    	foreach ($codes as $code) {
+            $top_up += $code->number;
+        }
+        return $top_up;
+    }
+    
+    public function tdyincome()
+    {
+    	$codes = Code::where('usedatetime','like',date('Y-m-d%'))->get();
+    	foreach ($codes as $code) {
+            $top_up += $code->number;
+        }
+        return $top_up;
+    }
+    
+    public function mthincome()
+    {
+    	$codes = Code::where('usedatetime','like',date('Y-m%'))->get();
+    	foreach ($codes as $code) {
+            $top_up += $code->number;
+        }
+        return $top_up;
+    }
+    
+    public function lstmthincome()
+    {
+    	$codes = Code::where('usedatetime','like',date('Y-m%',strtotime("-1 months")))->get();
+    	foreach ($codes as $code) {
+            $top_up += $code->number;
+        }
+        return $top_up;
+    }
+    
+    public function ttlincome()
+    {
+    	$codes = Code::where('usedatetime','like',date('%'))->get();
+    	foreach ($codes as $code) {
+            $top_up += $code->number;
+        }
+        return $top_up;
+    }
 }
