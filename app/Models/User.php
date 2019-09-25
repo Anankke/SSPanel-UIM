@@ -378,4 +378,9 @@ class User extends Model
     {
     	return Code::where('usedatetime','like',date('%'))->sum(number);
     }
+    
+    public function paidUserCount()
+    {
+        return User::where('class',"!=",'0')->count();
+    }
 }
