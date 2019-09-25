@@ -383,4 +383,11 @@ class User extends Model
     {
         return User::where('class',"!=",'0')->count();
     }
+    
+    public function disableReason()
+    {
+        $reason_id = DetectLog::where('user_id','=',$this->attributes['id'])->orderBy('id', 'DESC')->first();
+        $reason = DetectRule::where("id","=",$reason_id->list_id)->get();
+        return $reason[0]->text;
+    }
 }
