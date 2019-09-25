@@ -38,7 +38,7 @@ class User extends Model
     public function getGravatarAttribute()
     {
         $hash = md5(strtolower(trim($this->attributes['email'])));
-        return "https://gravatar.loli.net/avatar/".$hash;
+        return 'https://gravatar.loli.net/avatar/' . $hash;
     }
 
     public function isAdmin()
@@ -56,7 +56,11 @@ class User extends Model
 
     public function getMuMd5()
     {
-        $str = str_replace(array('%id', '%suffix'), array($this->attributes['id'], Config::get('mu_suffix')), Config::get('mu_regex'));
+        $str = str_replace(
+            array('%id', '%suffix'),
+            array($this->attributes['id'], Config::get('mu_suffix')),
+            Config::get('mu_regex')
+        );
         preg_match_all("|%-?[1-9]\d*m|U", $str, $matches, PREG_PATTERN_ORDER);
         foreach ($matches[0] as $key) {
             $key_match = str_replace(array('%', 'm'), '', $key);
@@ -128,7 +132,10 @@ class User extends Model
 
     public function getUuid()
     {
-        return Uuid::uuid3(Uuid::NAMESPACE_DNS, $this->attributes['id'] . '|' . $this->attributes['passwd'])->toString();
+        return Uuid::uuid3(
+            Uuid::NAMESPACE_DNS,
+            $this->attributes['id'] . '|' . $this->attributes['passwd']
+        )->toString();
     }
 
     public function trafficUsagePercent()
@@ -199,7 +206,10 @@ class User extends Model
     public function getGAurl()
     {
         $ga = new GA();
-        $url = $ga->getUrl(urlencode(Config::get('appName') . '-' . $this->attributes['user_name'] . '-两步验证码'), $this->attributes['ga_token']);
+        $url = $ga->getUrl(
+            urlencode(Config::get('appName') . '-' . $this->attributes['user_name'] . '-两步验证码'),
+            $this->attributes['ga_token']
+        );
         return $url;
     }
 
@@ -320,22 +330,39 @@ class User extends Model
         $location = $iplocation->getlocation($reg_location);
         $reg_location .= "\n" . iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
 
-        $return_array = array('DT_RowId' => 'row_1_' . $id, $id, $id,
-            $this->attributes['user_name'], $this->attributes['remark'],
-            $this->attributes['email'], $this->attributes['money'],
-            $im_type, $im_value,
-            $this->attributes['node_group'], $account_expire_in,
-            $this->attributes['class'], $class_expire_in,
-            $this->attributes['passwd'], $this->attributes['port'],
+        $return_array = array(
+            'DT_RowId' => 'row_1_' . $id,
+            $id,
+            $id,
+            $this->attributes['user_name'],
+            $this->attributes['remark'],
+            $this->attributes['email'],
+            $this->attributes['money'],
+            $im_type,
+            $im_value,
+            $this->attributes['node_group'],
+            $account_expire_in,
+            $this->attributes['class'],
+            $class_expire_in,
+            $this->attributes['passwd'],
+            $this->attributes['port'],
             $this->attributes['method'],
-            $this->attributes['protocol'], $this->attributes['obfs'],
-            $this->online_ip_count(), $this->lastSsTime(),
-            $used_traffic, $enable_traffic,
-            $this->lastCheckInTime(), $today_traffic,
-            $is_enable, $this->attributes['reg_date'],
+            $this->attributes['protocol'],
+            $this->attributes['obfs'],
+            $this->online_ip_count(),
+            $this->lastSsTime(),
+            $used_traffic,
+            $enable_traffic,
+            $this->lastCheckInTime(),
+            $today_traffic,
+            $is_enable,
+            $this->attributes['reg_date'],
             $reg_location,
-            $this->attributes['auto_reset_day'], $this->attributes['auto_reset_bandwidth'],
-            $ref_user_id, $ref_user_name);
+            $this->attributes['auto_reset_day'],
+            $this->attributes['auto_reset_bandwidth'],
+            $ref_user_id,
+            $ref_user_name
+        );
         return $return_array;
     }
 
@@ -353,41 +380,41 @@ class User extends Model
         }
         return round($top_up, 2);
     }
-    
+
     public function yesterdayIncome()
     {
-    	return Code::where('usedatetime','like',date('Y-m-d%',strtotime("-1 days")))->sum(number);
+        return Code::where('usedatetime', 'like', date('Y-m-d%', strtotime('-1 days')))->sum(number);
     }
-    
+
     public function todayIncome()
     {
-    	return Code::where('usedatetime','like',date('Y-m-d%'))->sum(number);
+        return Code::where('usedatetime', 'like', date('Y-m-d%'))->sum(number);
     }
-    
+
     public function thisMonthIncome()
     {
-    	return Code::where('usedatetime','like',date('Y-m%'))->sum(number);
+        return Code::where('usedatetime', 'like', date('Y-m%'))->sum(number);
     }
-    
+
     public function lastMonthIncome()
     {
-    	return Code::where('usedatetime','like',date('Y-m%',strtotime("-1 months")))->sum(number);
+        return Code::where('usedatetime', 'like', date('Y-m%', strtotime('-1 months')))->sum(number);
     }
-    
+
     public function totalIncome()
     {
-    	return Code::where('usedatetime','like',date('%'))->sum(number);
+        return Code::where('usedatetime', 'like', date('%'))->sum(number);
     }
-    
+
     public function paidUserCount()
     {
-        return User::where('class',"!=",'0')->count();
+        return self::where('class', '!=', '0')->count();
     }
-    
+
     public function disableReason()
     {
-        $reason_id = DetectLog::where('user_id','=',$this->attributes['id'])->orderBy('id', 'DESC')->first();
-        $reason = DetectRule::where("id","=",$reason_id->list_id)->get();
+        $reason_id = DetectLog::where('user_id', '=', $this->attributes['id'])->orderBy('id', 'DESC')->first();
+        $reason = DetectRule::where('id', '=', $reason_id->list_id)->get();
         return $reason[0]->text;
     }
 }
