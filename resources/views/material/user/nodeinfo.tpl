@@ -330,23 +330,6 @@
 		$("#result").modal();
 		$("#msg").html("已复制到您的剪贴板，请您继续接下来的操作。");
 	});
-
-    $(document).ready(function () {
-        $("#invite").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/invite",
-                dataType: "json",
-                success: function (data) {
-                    window.location.reload();
-                },
-                error: function (jqXHR) {
-                    $("#result").modal();
-					$("#msg").html("发生错误：" + jqXHR.status);
-                }
-            })
-        })
-    })
 </script>
 <script>
     $(function () {
