@@ -15,7 +15,10 @@
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-                                    <p>您由于某些原因而被管理员禁用了账户，请联系管理员。</p>
+                                    <p>您由于以下原因而被管理员禁用了账户，请联系管理员。</p>
+                                    <p>
+                                        禁用原因：{$user->disableReason()}
+                                    </p>
                                     {if $config["enable_admin_contact"] == 'true'}
                                         <p>管理员联系方式：</p>
                                         {if $config["admin_contact1"]!=null}
