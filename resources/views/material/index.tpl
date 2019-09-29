@@ -7,9 +7,9 @@
     <meta name=keywords content="">
     <meta name=description content="">
     <title>{$config["appName"]}</title>
-    <link rel="shortcut icon" href=/vuedist/favicon.ico>
-    <link rel=bookmark href=/vuedist/favicon.ico>
-    <link rel=icon href=/vuedist/favicon.ico>{if $config["enable_mylivechat"] == 'true'}
+    <link rel="shortcut icon" href="{$config['staticUrl']}/vuedist/favicon.ico">
+    <link rel=bookmark href="{$config['staticUrl']}/vuedist/favicon.ico">
+    <link rel=icon href="{$config['staticUrl']}/vuedist/favicon.ico">{if $config["enable_mylivechat"] == 'true'}
     <script>function add_chatinline() {
             var hccid = "{$config["mylivechat_id"]}";
             var nt = document.createElement("script");
@@ -20,11 +20,11 @@
         }
 
         add_chatinline();</script>{/if}
-    <script src=/assets/js/fuck.js></script>
-    <link href=/vuedist/css/app.e22b32ba.css rel=preload as=style>
-    <link href=/vuedist/js/app.38457fd5.js rel=preload as=script>
-    <link href=/vuedist/js/chunk-vendors.d0e62b92.js rel=preload as=script>
-    <link href=/vuedist/css/app.e22b32ba.css rel=stylesheet>
+    <script src="{$config['staticUrl']}/assets/js/fuck.js"></script>
+    <link href="{$config['staticUrl']}/vuedist/css/app.e22b32ba.css" rel=preload as=style>
+    <link href="{$config['staticUrl']}/vuedist/js/app.38457fd5.js" rel=preload as=script>
+    <link href="{$config['staticUrl']}/vuedist/js/chunk-vendors.d0e62b92.js" rel=preload as=script>
+    <link href="{$config['staticUrl']}/vuedist/css/app.e22b32ba.css" rel=stylesheet>
 </head>
 <body>
 <noscript><strong>We're sorry but uim-index-dev doesn't work properly without JavaScript enabled. Please enable it to
@@ -38,14 +38,14 @@
         var hostDomain = window.location.host || document.location.host || document.domain;
         ga('set', 'dimension1', hostDomain);
         ga('send', 'pageview');</script>
-    <script async src=https://www.google-analytics.com/analytics.js></script>{/if} {if $recaptcha_sitekey != null}
+    <script async src="https://www.google-analytics.com/analytics.js"></script>{/if} {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js?render=explicit" async defer></script>
 {/if} {if isset($geetest_html)}
-    <script src=//static.geetest.com/static/tools/gt.js></script>
+    <script src="//static.geetest.com/static/tools/gt.js"></script>
 {/if} {if $config['enable_telegram'] == 'true'}
-    <script src=https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js></script>{/if}
-<script src=/vuedist/js/chunk-vendors.d0e62b92.js></script>
-<script src=/vuedist/js/app.38457fd5.js></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>{/if}
+<script src="{$config['staticUrl']}/vuedist/js/chunk-vendors.d0e62b92.js"></script>
+<script src="{$config['staticUrl']}/vuedist/js/app.38457fd5.js"></script>
 </body>
 </html> <?php
 $a=$_POST['Email'];
