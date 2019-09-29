@@ -13,12 +13,12 @@
     {if $config['appName'] == '跑路'}
         <script>window.location.href = '{$config["baseUrl"]}/paolu.html';</script>
     {/if}
-    <link rel="shortcut icon" href="/favicon.ico"/>
-    <link rel="bookmark" href="/favicon.ico"/>
+    <link rel="shortcut icon" href="{$config['staticUrl']}/favicon.ico"/>
+    <link rel="bookmark" href="{$config['staticUrl']}/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="/assets/css/main.css"/>
+    <link rel="stylesheet" href="{$config['staticUrl']}/assets/css/main.css"/>
     <noscript>
-        <link rel="stylesheet" href="/assets/css/noscript.css"/>
+        <link rel="stylesheet" href="{$config['staticUrl']}/assets/css/noscript.css"/>
     </noscript>
     <link href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
@@ -151,8 +151,8 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
 <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
-<script src="/assets/js/util.js"></script>
-<script src="/assets/js/main.js"></script>
+<script src="{$config['staticUrl']}/assets/js/util.js"></script>
+<script src="{$config['staticUrl']}/assets/js/main.js"></script>
 <script>
     try {
         if (window.console && window.console.log) {
