@@ -38,8 +38,8 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/datatables.net@1.10.19"></script>
 <script src="//cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.19/media/js/dataTables.material.min.js"></script>
-<script src="/theme/material/js/base.min.js"></script>
-<script src="/theme/material/js/project.min.js"></script>
+<script src="{$config['staticUrl']}/theme/material/js/base.min.js"></script>
+<script src="{$config['staticUrl']}/theme/material/js/project.min.js"></script>
 
 </body>
 </html>
