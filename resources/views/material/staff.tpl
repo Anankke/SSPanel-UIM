@@ -6,12 +6,12 @@
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <meta charset="utf-8"/>
-    <link rel="shortcut icon" href="/favicon.ico"/>
-    <link rel="bookmark" href="/favicon.ico"/>
+    <link rel="shortcut icon" href="{$config['staticUrl']}/favicon.ico"/>
+    <link rel="bookmark" href="{$config['staticUrl']}/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="/assets/css/main.css"/>
+    <link rel="stylesheet" href="{$config['staticUrl']}/assets/css/main.css"/>
     <noscript>
-        <link rel="stylesheet" href="/assets/css/noscript.css"/>
+        <link rel="stylesheet" href="{$config['staticUrl']}/assets/css/noscript.css"/>
     </noscript>
 </head>
 
@@ -111,8 +111,8 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
 <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
-<script src="/assets/js/util.js"></script>
-<script src="/assets/js/main.js"></script>
+<script src="{$config['staticUrl']}/assets/js/util.js"></script>
+<script src="{$config['staticUrl']}/assets/js/main.js"></script>
 
 </body>
 </html>
