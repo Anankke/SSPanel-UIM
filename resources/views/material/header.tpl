@@ -9,9 +9,9 @@
     <meta name="theme-color" content="#4285f4">
     <title>{$config["appName"]}</title>
     <!-- css -->
-    <link href="/theme/material/css/base.min.css" rel="stylesheet">
-    <link href="/theme/material/css/project.min.css" rel="stylesheet">
-    <link href="/theme/material/css/auth.css" rel="stylesheet">
+    <link href="{$config['staticUrl']}/theme/material/css/base.min.css" rel="stylesheet">
+    <link href="{$config['staticUrl']}/theme/material/css/project.min.css" rel="stylesheet">
+    <link href="{$config['staticUrl']}/theme/material/css/auth.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <style>
         .divcss5 {
@@ -21,7 +21,7 @@
     </style>
     <!-- favicon -->
     <!-- js -->
-    <script src="/assets/js/fuck.js"></script>
+    <script src="{$config['staticUrl']}/assets/js/fuck.js"></script>
     <!-- ... -->
 </head>
 
