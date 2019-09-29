@@ -8,15 +8,15 @@
     <title>{$config["appName"]}</title>
 
     <!-- css -->
-    <link href="/theme/material/css/base.min.css" rel="stylesheet">
-    <link href="/theme/material/css/project.min.css" rel="stylesheet">
+    <link href="{$config['staticUrl']}/theme/material/css/base.min.css" rel="stylesheet">
+    <link href="{$config['staticUrl']}/theme/material/css/project.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/material/css/user.css">
+    <link rel="stylesheet" href="{$config['staticUrl']}/theme/material/css/user.css">
     <!-- jquery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1"></script>
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
     <!-- js -->
-    <script src="/assets/js/fuck.js"></script>
+    <script src="{$config['staticUrl']}/assets/js/fuck.js"></script>
 </head>
 <body class="page-orange">
 <header class="header header-orange header-transparent header-waterfall ui-header">
