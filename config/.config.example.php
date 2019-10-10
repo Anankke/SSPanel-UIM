@@ -177,8 +177,12 @@ $_ENV['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs
+#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yftpay
 $_ENV['payment_system']='none';
+
+#yft支付设置
+$_ENV['yft_secret']='';
+$_ENV['yft_accesskey']='';
 
 #codepay码支付
 #wiki地址:https://goo.gl/dRwRDi  http://t.cn/RnsWjtB
