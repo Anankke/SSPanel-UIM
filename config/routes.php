@@ -61,9 +61,6 @@ $app->get('/tos', App\Controllers\HomeController::class . ':tos');
 $app->get('/staff', App\Controllers\HomeController::class . ':staff');
 $app->post('/telegram_callback', App\Controllers\HomeController::class . ':telegram');
 
-//yft uses GET
-$app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');
-
 // User Center
 $app->group('/user', function () {
     $this->get('', App\Controllers\UserController::class . ':index');
@@ -148,18 +145,11 @@ $app->group('/user', function () {
     // Crypto Payment - BTC, ETH, EOS, BCH, LTC etch
     $this->post('/payment/bitpay/purchase', App\Services\BitPayment::class . ':purchase');
     $this->get('/payment/bitpay/return', App\Services\BitPayment::class . ':returnHTML');
-
-    //易付通路由定义 start
-    $this->post('/code/yft/pay', 'App\Services\Gateway\YftPay:yftPay');
-    $this->get('/code/yft/pay/result', 'App\Services\Gateway\YftPay:notify');
-    $this->post('/code/yft', 'App\Services\Gateway\YftPay:yft');
-    $this->get('/yftOrder', 'App\Services\Gateway\YftPay:yftOrder');
-    //易付通路由定义 end
-
 })->add(new Auth());
 
 $app->group('/payment', function () {
     $this->post('/notify', App\Services\Payment::class . ':notify');
+    $this->get('/notify', App\Services\Payment::class . ':notify');
     $this->post('/notify/{type}', App\Services\Payment::class . ':notify');
     $this->post('/status', App\Services\Payment::class . ':getStatus');
 
@@ -303,9 +293,6 @@ $app->group('/admin', function () {
     $this->get('/sys', App\Controllers\AdminController::class . ':sys');
     $this->get('/logout', App\Controllers\AdminController::class . ':logout');
     $this->post('/payback/ajax', App\Controllers\AdminController::class . ':ajax_payback');
-
-    $this->get('/yftOrder', 'App\Services\Gateway\YftPay:yftOrderForAdmin');
-
 })->add(new Admin());
 
 // API
