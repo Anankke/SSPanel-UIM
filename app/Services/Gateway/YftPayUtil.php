@@ -32,7 +32,7 @@ class YftPayUtil
     {
         //待请求参数数组
         $para = YftPayUtil::buildRequestPara($para_temp);
-        $sHtml = "<form id='paysubmit' name='paysubmit' action='https://pay.anypay.me/pay/subOrder/zfb' accept-charset='utf-8' method='POST'>";
+        $sHtml = "<form id='paysubmit' name='paysubmit' action='https://payment.pi.do/pay/subOrder/zfb' accept-charset='utf-8' method='POST'>";
         foreach ($para as $key => $val) {
             $sHtml .= "<input type='hidden' name='" . $key . "' value='" . $val . "'/>";
         }
