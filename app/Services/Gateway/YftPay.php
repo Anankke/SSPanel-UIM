@@ -54,7 +54,7 @@ class YftPay extends AbstractPayment
             */
             $order = Paylist::where('tradeno', $ss_order_no)->first();
             if ($order->status == 0) {
-                $this->postPayment($ss_order_no, '易付支付');
+                $this->postPayment($ss_order_no, '易付 充值');
                 return "success";
             }
             return "fail";
