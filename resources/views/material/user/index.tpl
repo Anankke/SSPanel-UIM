@@ -485,7 +485,7 @@ table tr td:first-child {
                                         <div class="tab-pane fade" id="all_v2ray_client">
                                             <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/v2rayn.zip" target="_blank">V2RayN</a></p>
                                             <p><i class="icon icon-lg">laptop_mac</i> macOS：下载 <a href="/ssr-download/V2rayU.dmg">V2RayU</a></p>
-                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ss-android.apk">V2RayNG</a></p>
+                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/v2rayng.apk">V2RayNG</a></p>
                                             <p><i class="icon icon-lg">phone_iphone</i> iOS：可以使用 Shadowrocket</p>
                                             <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package/tree/master/fancyss_X64" target="_blank">FancySS 历史下载页面</a> 下载 v2ray 插件</p>
                                         </div>
