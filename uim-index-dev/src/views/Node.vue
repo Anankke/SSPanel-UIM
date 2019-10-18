@@ -205,7 +205,6 @@ export default {
           }
         })
         .then(r => {});
-    } else {
     }
 
     if (this.nodeList === "") {
