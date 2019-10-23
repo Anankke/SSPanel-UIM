@@ -638,7 +638,7 @@ table tr td:first-child {
                         $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.traffic;
+                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
@@ -671,7 +671,7 @@ table tr td:first-child {
                         $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.traffic;
+                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
@@ -731,7 +731,7 @@ table tr td:first-child {
                         $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.traffic;
+                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
