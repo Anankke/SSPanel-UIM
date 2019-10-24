@@ -148,6 +148,7 @@ $app->group('/user', function () {
 })->add(new Auth());
 
 $app->group('/payment', function () {
+    $this->get('/notify', App\Services\Payment::class . ':notify');
     $this->post('/notify', App\Services\Payment::class . ':notify');
     $this->post('/notify/{type}', App\Services\Payment::class . ':notify');
     $this->post('/status', App\Services\Payment::class . ':getStatus');
