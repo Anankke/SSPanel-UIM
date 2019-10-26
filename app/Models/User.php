@@ -384,66 +384,31 @@ class User extends Model
     public function yesterdayIncome()
     {
         $number = Code::where('usedatetime', 'like', date('Y-m-d%', strtotime('-1 days')))->sum('number');
-        if($number == NULL)
-        {
-            return '0';
-        }
-        else
-        {
-            return $number;
-        }
+        return is_null($number)?0:$number;
     }
 
     public function todayIncome()
     {
         $number = Code::where('usedatetime', 'like', date('Y-m-d%'))->sum('number');
-        if($number == NULL)
-        {
-            return '0';
-        }
-        else
-        {
-            return $number;
-        }
+        return is_null($number)?0:$number;
     }
 
     public function thisMonthIncome()
     {
         $number = Code::where('usedatetime', 'like', date('Y-m%'))->sum('number');
-        if($number == NULL)
-        {
-            return '0';
-        }
-        else
-        {
-            return $number;
-        }
+        return is_null($number)?0:$number;
     }
 
     public function lastMonthIncome()
     {
         $number = Code::where('usedatetime', 'like', date('Y-m%', strtotime('-1 months')))->sum('number');
-        if($number == NULL)
-        {
-            return '0';
-        }
-        else
-        {
-            return $number;
-        }
+        return is_null($number)?0:$number;
     }
 
     public function totalIncome()
     {
         $number = Code::where('usedatetime', 'like', date('%'))->sum('number');
-        if($number == NULL)
-        {
-            return '0';
-        }
-        else
-        {
-            return $number;
-        }
+        return is_null($number)?0:$number;
     }
 
     public function paidUserCount()
