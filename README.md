@@ -47,7 +47,7 @@ SSPanel UIM 支持安装在 LNMP、宝塔面板、Plesk 面板、oneinstack 等�
 ```
 账号：admin
 密码：admin
-mukey=NimaQu
+mukey ShirakamiFubuki
 ```
 
 ## 文档
@@ -162,9 +162,7 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 #### galaxychuck
 
-- [黛米付-支付接入](https://www.daimiyun.cn/register.php?aff=624)
-- [冲上云霄云主机](http://console.soar-clouds.com/aff.php?aff=94)
-- [Vultr](https://www.vultr.com/?ref=7205737)
+- [hkserversolution-推荐UIM面板服务器放置](https://www.hkserversolution.com/aff.php?aff=60)
 
 #### laurieryayoi
 

@@ -33,7 +33,7 @@
             <a class="dropdown-toggle padding-left-no padding-right-no" data-toggle="dropdown">
                 {if $user->isLogin}
                 <span class="access-hide">{$user->user_name}</span>
-                <span class="icon icon-cd margin-right">account_circle</span>
+                <span class="avatar avatar-sm"><img src="{$user->gravatar}"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
@@ -43,6 +43,9 @@
                 <li>
                     <a class="padding-right-cd waves-attach" href="/user/logout"><span
                                 class="icon icon-lg margin-right">exit_to_app</span>登出</a>
+                </li>
+                <li> 
+                    <a href="//en.gravatar.com/" target="view_window"><i class="icon icon-md t4-text">insert_photo</i>设置头像</a>
                 </li>
             </ul>
             {else}

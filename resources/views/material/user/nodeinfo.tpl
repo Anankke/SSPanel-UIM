@@ -196,6 +196,7 @@
                                                 </p>
                                                 <p><a href="{URL::getItemUrl($ssr_item, 0)}">iOS 上用 Safari
                                                         打开点我即可直接添加</a></p>
+                                                <p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{URL::getItemUrl($ssr_item, 0)}">拷贝SSR链接</button></p>
                                             {/if}
                                         {else}
                                             <p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到
@@ -213,6 +214,7 @@
                                                 </p>
                                                 <p><a href="{URL::getItemUrl($ss_item, 1)}">iOS 上用 Safari 打开点我即可直接添加</a>
                                                 </p>
+                                                <p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{URL::getItemUrl($ss_item, 1)}">拷贝SS链接</button></p>
                                             {/if}
                                         {else}
                                             <p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到
@@ -319,7 +321,16 @@
 
 
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
+<script>
+	$(function(){
+		new Clipboard('.copy-text');
+	});
 
+	$(".copy-text").click(function () {
+		$("#result").modal();
+		$("#msg").html("已复制到您的剪贴板，请您继续接下来的操作。");
+	});
+</script>
 <script>
     $(function () {
         new Clipboard('.copy-text');

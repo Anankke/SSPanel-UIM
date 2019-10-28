@@ -16,13 +16,18 @@ pull request for each branch. This allows each feature or improvement to be revi
 
 ### Coding Style
 
-All pull requests and commits **must** adhere to the [PSR-2 standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) at least.
+All pull requests and commits **must** adhere to the [PSR-2 standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) at least.  
 And we **recommend** adhering to the [PSR-12 standard](https://github.com/php-fig/fig-standards/blob/master/proposed/extended-coding-style-guide.md).
 
 ### Commit message
 
-The Commit message **must** containe all the changes you maked in sort.
+The Commit message **must** containe all the changes you maked in sort.  
 Please **do not** use words like "fix", "improve" only.
+
+### Rule
+
+If you want to add a new function for router callback, please follow the structure of the HomeController.  
+Please use the function from PSR-7 like `$request->getParsedBodyParam()`, `getParsedBodyParam()` as possible.
 
 ## 简体中文
 
@@ -36,9 +41,14 @@ Please **do not** use words like "fix", "improve" only.
 
 ### 代码风格
 
-所有的 Pull request 和 commit 都至少**必须**遵守 [PSR-2 标准](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)。
+所有的 Pull request 和 commit 都至少**必须**遵守 [PSR-2 标准](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)。  
 我们建议**最好**遵守 [PSR-12 标准](https://github.com/php-fig/fig-standards/blob/master/proposed/extended-coding-style-guide.md)。
 
 ### Commit 消息
 
 Commit 消息必须简洁地包含你所有的修改。请不要仅使用「修复」、「改进」等字样。
+
+### 规范
+
+若你需要新增/修改 Router callback，请依照类似 HomeController 的形式。  
+如无必要，请不要使用`$request->getParam()`并尽量使用 PSR-7 中的`$request->getParsedBodyParam()`、`getParsedBodyParam()`等一系列用于获取参数的方法。

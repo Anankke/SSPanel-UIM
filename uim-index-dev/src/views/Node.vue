@@ -14,12 +14,41 @@
 
       <div class="usrcenter text-left pure-g space-around" v-else-if="userLoadState === 'loaded'">
         <div class="pure-u-1 pure-u-xl-6-24 pure-g usrcenter-left">
-          <div class="card">
+          <div class="card pure-u-1">
             <div class="flex space-between align-center">
               <div class="card-title">节点详情</div>
             </div>
             <div class="card-body">
-              <div>节点地址：{{currentNode.server}}</div>
+              <div>节点名称：{{currentNode.name}}</div>
+              <div class="node-data">节点地址：{{currentNode.server}}</div>
+              <div class="node-data">{{currentNode.info}}</div>
+              <div class="node-data">
+                <span class="tips tips-blue">流量</span>
+                <span>{{currentNode.traffic_used}}</span>
+                <span v-if="currentNode.traffic_limit>0">{{'/ ' + currentNode.traffic_limit}}</span> GB
+              </div>
+
+              <div>
+                <div class="node-data">
+                  <span class="tips tips-blue">在线</span>
+                  <span v-if="currentNode.online_user>0">{{currentNode.online_user}}</span>
+                  <span v-else>0</span>
+                </div>
+                <div class="node-data">
+                  <span class="tips tips-blue">倍率</span>
+                  <span>{{currentNode.traffic_rate}}</span>
+                </div>
+                <div class="node-data">
+                  <span class="tips tips-blue">速率</span>
+                  <span v-if="currentNode.bandwidth>0">{{currentNode.bandwidth}}</span>
+                  <span v-else>无限制</span>
+                </div>
+                <div class="node-data">
+                  <span class="tips tips-blue">负载</span>
+                  <span v-if="currentNode.latest_load>0">{{currentNode.latest_load}} %</span>
+                  <span v-else>0</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -47,7 +76,7 @@
               </div>
             </div>
             <div class="card-body">
-              <div class="nodelist">
+              <div class="nodelist flex space-between">
                 <div
                   v-for="(node, index) in nodeFilter"
                   :class="{ 'nodeitem-avtive':currentNode.id === node.id }"
@@ -55,8 +84,23 @@
                   :key="node.id"
                   @click="setCurrentNode(index)"
                 >
-                  <div class="nodename">{{node.name}}</div>
+                  <div class="flex space-between align-center">
+                    <div class="nodename">
+                      <img
+                        v-if="globalConfig.enableFlag === 'true'"
+                        class="flag"
+                        :src="'/images/prefix/' + node.flag"
+                        alt
+                      />
+                      {{node.name | tailFilter}}
+                    </div>
+                    <div
+                      class="node-online-status"
+                      :class="[{'node-online':node.online === 1},{'node-unset':node.online === 0},{'node-offline':node.online !== 0 && node.online !==1}]"
+                    ></div>
+                  </div>
                 </div>
+                <div class="nodeitem-fix"></div>
               </div>
             </div>
           </div>
@@ -68,14 +112,22 @@
 
 <script>
 import storeMap from "@/mixins/storeMap";
+import nodeMap from "@/mixins/nodeMap";
 import { _get } from "../js/fetch";
 
 import Dropdown from "@/components/dropdown.vue";
 
 export default {
-  mixins: [storeMap],
+  mixins: [storeMap, nodeMap],
   components: {
     "uim-dropdown": Dropdown
+  },
+  filters: {
+    tailFilter: function(value) {
+      let index = value.indexOf(" - ");
+      value = value.slice(0, index);
+      return value;
+    }
   },
   computed: {
     classDrop: function() {
@@ -114,8 +166,6 @@ export default {
     return {
       userLoadState: "beforeload",
       currentNodeClass: 0,
-      nodeList: [],
-      user: {},
       currentNode: {}
     };
   },
@@ -131,21 +181,56 @@ export default {
     let self = this;
     this.userLoadState = "loading";
 
-    _get("/getnodelist", "include")
-      .then(r => {
-        window.console.log(r);
+    if (this.userCon === "") {
+      _get("/getuserinfo", "include")
+        .then(r => {
+          if (r.ret === 1) {
+            this.setUserCon(r.info.user);
+            this.setUserSettings(this.userCon);
+            window.console.log(this.userCon);
+            if (r.info.ann) {
+              this.setAnn(r.info.ann);
+            }
+            this.setAllBaseCon({
+              subUrl: r.info.subUrl,
+              ssrSubToken: r.info.ssrSubToken,
+              iosAccount: r.info.iosAccount,
+              iosPassword: r.info.iosPassword,
+              displayIosClass: r.info.displayIosClass
+            });
+            this.setBaseUrl(r.info.baseUrl);
+            this.setMergeSub(r.info.mergeSub);
+          } else if (r.ret === -1) {
+            this.ajaxNotLogin();
+          }
+        })
+        .then(r => {});
+    }
 
-        this.nodeList = r.nodeinfo.nodes;
-        this.user = r.nodeinfo.user;
+    if (this.nodeList === "") {
+      _get("/getnodelist", "include")
+        .then(r => {
+          if (r.ret === 1) {
+            window.console.log(r);
 
-        this.currentNodeClass = this.nodeList[0].class;
-        this.setCurrentNode(0);
-      })
-      .then(r => {
-        setTimeout(() => {
+            this.setNodeList(r.nodeinfo.nodes);
+
+            window.console.log(this.nodeList);
+
+            this.currentNodeClass = this.nodeList[0].class;
+
+            this.setCurrentNode(0);
+          } else if (r.ret === -1) {
+            this.ajaxNotLogin();
+          }
+        })
+        .then(r => {
           self.userLoadState = "loaded";
-        }, 500);
-      });
+        });
+    } else {
+      self.userLoadState = "loaded";
+      this.setCurrentNode(0);
+    }
   },
   beforeRouteLeave(to, from, next) {
     if (
@@ -166,19 +251,85 @@ export default {
 </script>
 
 <style>
+.nodename {
+  display: flex;
+  align-items: center;
+}
 .nodeitem {
   border: 1px solid #434857;
   margin-bottom: 0.5rem;
   padding: 0.6rem;
   transition: 0.3s all;
+  flex-basis: 100%;
 }
 .nodeitem:hover,
 .nodeitem-avtive {
   border: 1px solid #fff;
   box-shadow: 0 0 5px 1px grey;
 }
+.nodeitem-fix {
+  flex-basis: 0;
+}
 .nodelist {
   overflow-y: auto;
   max-height: 625px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.node-online-status {
+  text-align: end;
+  width: 15px;
+  border-radius: 50%;
+  height: 15px;
+}
+.node-online {
+  background-color: #52c41a;
+  box-shadow: 0px 0px 5px #8fe663;
+}
+.node-unset {
+  background-color: grey;
+  box-shadow: 0px 0px 5px white;
+}
+.node-offline {
+  background-color: #d1335b;
+  box-shadow: 0px 0px 5px #e2738f;
+}
+.node-data {
+  margin-top: 0.5rem;
+}
+.node-data .tips {
+  margin-right: 1rem;
+}
+.flag {
+  width: 35px;
+  margin-right: .5rem;
+}
+
+@media screen and (min-width: 35.5em) {
+}
+
+@media screen and (min-width: 48em) {
+  .nodeitem {
+    flex-basis: 49%;
+  }
+}
+
+@media screen and (min-width: 64em) {
+  .nodeitem {
+    flex-basis: 32%;
+  }
+  .nodeitem-fix {
+    flex-basis: 32%;
+  }
+}
+
+@media screen and (min-width: 80em) {
+  .nodeitem {
+    flex-basis: 32%;
+  }
+  .nodeitem-fix {
+    flex-basis: 32%;
+  }
 }
 </style>

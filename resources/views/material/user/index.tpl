@@ -484,8 +484,8 @@ table tr td:first-child {
                                         </div>
                                         <div class="tab-pane fade" id="all_v2ray_client">
                                             <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/v2rayn.zip" target="_blank">V2RayN</a></p>
-                                            <p><i class="icon icon-lg">laptop_mac</i> macOS：请前往 <a href="https://github.com/yanue/V2rayU">V2RayU 页面</a> 下载</p>
-                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ss-android.apk">V2RayNG</a></p>
+                                            <p><i class="icon icon-lg">laptop_mac</i> macOS：下载 <a href="/ssr-download/V2rayU.dmg">V2RayU</a></p>
+                                            <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/v2rayng.apk">V2RayNG</a></p>
                                             <p><i class="icon icon-lg">phone_iphone</i> iOS：可以使用 Shadowrocket</p>
                                             <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package/tree/master/fancyss_X64" target="_blank">FancySS 历史下载页面</a> 下载 v2ray 插件</p>
                                         </div>
@@ -578,37 +578,6 @@ table tr td:first-child {
         return new Date(str_date_splited[0], str_date_splited[1] - 1, str_date_splited[2], str_date_splited[3], str_date_splited[4], str_date_splited[5]);
     }
 
-    /*
-     * Author: neoFelhz & CloudHammer
-     * https://github.com/CloudHammer/CloudHammer/make-sspanel-v3-mod-great-again
-     * License: MIT license & SATA license
-     */
-    function CountDown() {
-        var levelExpire = DateParse("{$user->class_expire}");
-        var accountExpire = DateParse("{$user->expire_in}");
-        var nowDate = new Date();
-        var a = nowDate.getTime();
-        var b = levelExpire - a;
-        var c = accountExpire - a;
-        var levelExpireDays = Math.floor(b / (24 * 3600 * 1000));
-        var accountExpireDays = Math.floor(c / (24 * 3600 * 1000));
-        if (levelExpireDays < 0 || levelExpireDays > 315360000000) {
-            document.getElementById('days-level-expire').innerHTML = "无限期";
-            for (var i = 0; i < document.getElementsByClassName('label-level-expire').length; i += 1) {
-                document.getElementsByClassName('label-level-expire')[i].style.display = 'none';
-            }
-        } else {
-            document.getElementById('days-level-expire').innerHTML = levelExpireDays;
-        }
-        if (accountExpireDays < 0 || accountExpireDays > 315360000000) {
-            document.getElementById('days-account-expire').innerHTML = "无限期";
-            for (var i = 0; i < document.getElementsByClassName('label-account-expire').length; i += 1) {
-                document.getElementsByClassName('label-account-expire')[i].style.display = 'none';
-            }
-        } else {
-            document.getElementById('days-account-expire').innerHTML = accountExpireDays;
-        }
-    }
 </script>
 
 <script>
@@ -648,8 +617,6 @@ table tr td:first-child {
         });
 
         myShakeEvent.start();
-        CountDown();
-
         window.addEventListener('shake', shakeEventDidOccur, false);
 
         function shakeEventDidOccur() {
@@ -671,7 +638,7 @@ table tr td:first-child {
                         $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.traffic;
+                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
@@ -704,7 +671,7 @@ table tr td:first-child {
                         $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.traffic;
+                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
@@ -764,7 +731,7 @@ table tr td:first-child {
                         $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.traffic;
+                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();

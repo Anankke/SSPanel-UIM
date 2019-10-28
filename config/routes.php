@@ -148,6 +148,7 @@ $app->group('/user', function () {
 })->add(new Auth());
 
 $app->group('/payment', function () {
+    $this->get('/notify', App\Services\Payment::class . ':notify');
     $this->post('/notify', App\Services\Payment::class . ':notify');
     $this->post('/notify/{type}', App\Services\Payment::class . ':notify');
     $this->post('/status', App\Services\Payment::class . ':getStatus');
@@ -288,6 +289,7 @@ $app->group('/admin', function () {
     $this->get('/profile', App\Controllers\AdminController::class . ':profile');
     $this->get('/invite', App\Controllers\AdminController::class . ':invite');
     $this->post('/invite', App\Controllers\AdminController::class . ':addInvite');
+    $this->post('/chginvite', App\Controllers\AdminController::class . ':chgInvite');
     $this->get('/sys', App\Controllers\AdminController::class . ':sys');
     $this->get('/logout', App\Controllers\AdminController::class . ':logout');
     $this->post('/payback/ajax', App\Controllers\AdminController::class . ':ajax_payback');
