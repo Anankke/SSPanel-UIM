@@ -284,6 +284,7 @@ $_ENV['db_charset'] = 'utf8';
 $_ENV['db_collation'] = 'utf8_general_ci';
 $_ENV['db_prefix'] = '';
 $_ENV['muKeyList'] = ['　'];                //多 key 列表
+$_ENV['subscribe_client'] = 'false';        //下载协议客户端时附带节点和订阅信息
 
 #aws
 $_ENV['aws_access_key_id'] = '';
