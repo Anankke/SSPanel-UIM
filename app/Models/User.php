@@ -401,7 +401,7 @@ class User extends Model
 
     public function lastMonthIncome()
     {
-        $number = Code::where('usedatetime', 'like', date('Y-m%', strtotime('-1 months')))->sum('number');
+        $number = Code::where('usedatetime', 'like', date('Y-m%', strtotime('first day of last month')))->sum('number');
         return is_null($number)?0:$number;
     }
 
