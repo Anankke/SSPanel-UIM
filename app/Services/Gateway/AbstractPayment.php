@@ -14,18 +14,39 @@ use App\Models\User;
 use App\Models\Code;
 use App\Services\Config;
 use App\Utils\Telegram;
+use Slim\Http\{Request, Response};
 
 abstract class AbstractPayment
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     abstract public function purchase($request, $response, $args);
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     abstract public function notify($request, $response, $args);
 
-    abstract public function getPurchaseHTML();
-
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     abstract public function getReturnHTML($request, $response, $args);
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     abstract public function getStatus($request, $response, $args);
+
+    abstract public function getPurchaseHTML();
 
     public function postPayment($pid, $method)
     {
