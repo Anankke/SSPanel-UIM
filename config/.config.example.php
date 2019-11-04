@@ -177,7 +177,7 @@ $_ENV['enable_checkin_captcha'] = 'false';	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | trimepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yftpay
+#取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yftpay
 $_ENV['payment_system']='none';
 
 #yft支付设置
@@ -211,10 +211,6 @@ $_ENV['amount']=[2,23,233,2333,23333];		//充值金额选项设定
 $_ENV['zfbjk_pid']='';
 $_ENV['zfbjk_key']='';
 $_ENV['zfbjk_qrcodeurl']='';
-
-#Trimepay https://portal.trimepay.com/#/auth/register/134
-$_ENV['trimepay_appid']='';				//AppID
-$_ENV['trimepay_secret']='';				//AppSecret
 
 # BitPay 数字货币支付（比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
 #   客服和技术 24x7 在线支持： https://t.me/joinchat/GLKSKhUnE4GvEAPgqtChAQ
