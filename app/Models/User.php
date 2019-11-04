@@ -349,6 +349,7 @@ class User extends Model
             $this->attributes['method'],
             $this->attributes['protocol'],
             $this->attributes['obfs'],
+            $this->attributes['obfs_param'],
             $this->online_ip_count(),
             $this->lastSsTime(),
             $used_traffic,
