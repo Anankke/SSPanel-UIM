@@ -29,7 +29,7 @@ class UserController extends AdminController
             'node_group' => '群组', 'expire_in' => '账户过期时间',
             'class' => '等级', 'class_expire' => '等级过期时间',
             'passwd' => '连接密码', 'port' => '连接端口', 'method' => '加密方式',
-            'protocol' => '连接协议', 'obfs' => '连接混淆方式',
+            'protocol' => '连接协议', 'obfs' => '混淆方式','obfs_param' => '混淆参数',
             'online_ip_count' => '在线IP数', 'last_ss_time' => '上次使用时间',
             'used_traffic' => '已用流量/GB', 'enable_traffic' => '总流量/GB',
             'last_checkin_time' => '上次签到时间', 'today_traffic' => '今日流量/MB',
