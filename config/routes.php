@@ -310,14 +310,6 @@ $app->group('/api', function () {
 });
 
 // mu
-$app->group('/mu', function () {
-    $this->get('/users', App\Controllers\Mu\UserController::class . ':index');
-    $this->post('/users/{id}/traffic', App\Controllers\Mu\UserController::class . ':addTraffic');
-    $this->post('/nodes/{id}/online_count', App\Controllers\Mu\NodeController::class . ':onlineUserLog');
-    $this->post('/nodes/{id}/info', App\Controllers\Mu\NodeController::class . ':info');
-})->add(new Mu());
-
-// mu
 $app->group('/mod_mu', function () {
     $this->get('/nodes/{id}/info', App\Controllers\Mod_Mu\NodeController::class . ':get_info');
     $this->get('/users', App\Controllers\Mod_Mu\UserController::class . ':index');
