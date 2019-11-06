@@ -300,14 +300,6 @@ $app->group('/admin', function () {
     $this->post('/payback/ajax', App\Controllers\AdminController::class . ':ajax_payback');
 })->add(new Admin());
 
-// API
-$app->group('/api', function () {
-    $this->get('/token/{token}', App\Controllers\ApiController::class . ':token');
-    $this->post('/token', App\Controllers\ApiController::class . ':newToken');
-    $this->get('/node', App\Controllers\ApiController::class . ':node')->add(new Api());
-    $this->get('/user/{id}', App\Controllers\ApiController::class . ':userInfo')->add(new Api());
-});
-
 // mu
 $app->group('/mod_mu', function () {
     $this->get('/nodes/{id}/info', App\Controllers\Mod_Mu\NodeController::class . ':get_info');
