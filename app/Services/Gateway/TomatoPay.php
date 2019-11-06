@@ -52,9 +52,9 @@ class TomatoPay extends AbstractPayment
         $sign = md5(substr($o, 0, -1) . $settings['token']);
         if ($sign == $signs) {
             $this->postPayment($order_data['out_trade_no'], "在线支付");
-            $response->write('success');
+            return $response->write('success');
         } else {
-            $response->write('failed');
+            return $response->write('failed');
         }
     }
     public function getPurchaseHTML()
