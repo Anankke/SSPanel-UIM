@@ -9,7 +9,7 @@ class Guest
     /**
      * @param \Slim\Http\Request    $request
      * @param \Slim\Http\Response   $response
-     * @param array                 $args
+     * @param callable              $next
      *
      * @return \Slim\Http\Response
      */
