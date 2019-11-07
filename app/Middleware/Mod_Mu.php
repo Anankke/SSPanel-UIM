@@ -18,30 +18,23 @@ class Mod_Mu
     {
         $key = $request->getQueryParam('key');
         if ($key === null) {
-            $res['ret'] = 0;
-            $res['data'] = 'null';
-            return $response->write(json_encode($res));
+            return $response->withjson([
+                'ret' => 0,
+                'data' => 'Your key is null.'
+            ]);
         }
 
-        $auth = false;
         $keys = Config::getMuKey();
-        foreach ($keys as $k) {
-            if ($key == $k) {
-                $auth = true;
-                break;
-            }
-        }
-        $node = Node::where('node_ip', 'LIKE', $_SERVER['REMOTE_ADDR'] . '%')->first();
-        if ($node == null && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
-            $res['ret'] = 0;
-            $res['data'] = 'token or source is invalid, Your ip address is ' . $_SERVER['REMOTE_ADDR'];
-            return $response->write(json_encode($res));
-        }
+        $auth = in_array($key, $keys);
 
-        if ($auth == false) {
-            $res['ret'] = 0;
-            $res['data'] = 'token or source is invalid';
-            return $response->write(json_encode($res));
+        $node = Node::where('node_ip', 'LIKE', $_SERVER['REMOTE_ADDR'] . '%')->first();
+        if ($auth === false
+            || ($node === null && $_SERVER['REMOTE_ADDR'] != '127.0.0.1')
+            ) {
+            return $response->withJson([
+                'ret' => 0,
+                'data' => 'Token or IP is invalid. Now, your IP address is ' . $_SERVER['REMOTE_ADDR']
+            ]);
         }
 
         return $next($request, $response);
