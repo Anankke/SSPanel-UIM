@@ -311,12 +311,6 @@ $_ENV['radius_db_user'] = '';
 $_ENV['radius_db_password'] = '';
 $_ENV['radius_secret'] = '';					//Radius连接密钥
 
-#Cloudxns
-$_ENV['enable_cloudxns'] = true;			//是否开启Cloudxns
-$_ENV['cloudxns_apikey'] = '';				//自己去 cloudxns.net 申请
-$_ENV['cloudxns_apisecret'] = '';
-$_ENV['cloudxns_domain'] = '';		//你的域名
-
 #Cloudflare
 $_ENV['cloudflare_enable'] = true;										//是否开启 Cloudflare 解析
 $_ENV['cloudflare_email'] = 'user@example.com';								//Cloudflare 邮箱地址
