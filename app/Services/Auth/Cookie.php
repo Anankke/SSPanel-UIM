@@ -43,7 +43,7 @@ class Cookie extends Base
             return $user;
         }
 
-        if (Config::get('enable_login_bind_ip') == 'true') {
+        if (Config::get('enable_login_bind_ip') == true) {
             $nodes = Node::where('node_ip', '=', $_SERVER['REMOTE_ADDR'])->first();
             if (($nodes == null) && $ipHash != md5($_SERVER['REMOTE_ADDR'] . Config::get('key') . $uid . $expire_in)) {
                 return $user;

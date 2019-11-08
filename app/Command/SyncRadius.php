@@ -20,7 +20,7 @@ class SyncRadius
 {
     public static function synclogin()
     {
-        if (Config::get('enable_radius') == 'false') {
+        if (Config::get('enable_radius') == false) {
             return;
         }
         $tempuserbox = array();

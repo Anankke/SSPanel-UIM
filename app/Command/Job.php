@@ -71,7 +71,7 @@ class Job
                 'mysqldump --opt --user=' . Config::get('db_username') . ' --password=' . Config::get('db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' -d ' . Config::get('db_database') . ' alive_ip ss_node_info ss_node_online_log user_traffic_log detect_log telegram_session >> /tmp/ssmodbackup/mod.sql',
                 $ret
             );
-            if (Config::get('enable_radius') == 'true') {
+            if (Config::get('enable_radius') == true) {
                 $db_address_array = explode(':', Config::get('radius_db_host'));
                 system(
                     'mysqldump --user=' . Config::get('radius_db_user') . ' --password=' . Config::get('radius_db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . '' . Config::get('radius_db_database') . '> /tmp/ssmodbackup/radius.sql',
@@ -97,7 +97,7 @@ class Job
         system('rm -rf /tmp/ssmodbackup', $ret);
         system('rm /tmp/ssmodbackup.zip', $ret);
 
-        if (Config::get('backup_notify') == 'true') {
+        if (Config::get('backup_notify') == true) {
             Telegram::Send('备份完毕了喵~今天又是安全祥和的一天呢。');
         }
     }
@@ -433,12 +433,12 @@ class Job
         $adminUser = User::where('is_admin', '=', '1')->get();
 
         //节点掉线检测
-        if (Config::get('enable_detect_offline') == 'true') {
+        if (Config::get('enable_detect_offline') == true) {
             $nodes = Node::all();
 
             foreach ($nodes as $node) {
                 if ($node->isNodeOnline() === false && !file_exists(BASE_PATH . '/storage/' . $node->id . '.offline')) {
-                    if (Config::get('useScFtqq') == 'true' && Config::get('enable_detect_offline_useScFtqq') == 'true') {
+                    if (Config::get('useScFtqq') == true && Config::get('enable_detect_offline_useScFtqq') == true) {
                         $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
                         $postdata = http_build_query(
@@ -474,7 +474,7 @@ class Job
                             echo $e->getMessage();
                         }
 
-                        if (Config::get('enable_cloudxns') == 'true' && ($node->sort == 0 || $node->sort == 10 || $node->sort == 12 || $node->sort == 13)) {
+                        if (Config::get('enable_cloudxns') == true && ($node->sort == 0 || $node->sort == 10 || $node->sort == 12 || $node->sort == 13)) {
                             $api = new Api();
                             $api->setApiKey(Config::get('cloudxns_apikey'));//修改成自己API KEY
                             $api->setSecretKey(Config::get('cloudxns_apisecret'));//修改成自己的SECERET KEY
@@ -534,7 +534,7 @@ class Job
                     fwrite($myfile, $txt);
                     fclose($myfile);
                 } elseif ($node->isNodeOnline() === true && file_exists(BASE_PATH . '/storage/' . $node->id . '.offline')) {
-                    if (Config::get('useScFtqq') == 'true' && Config::get('enable_detect_offline_useScFtqq') == 'true') {
+                    if (Config::get('useScFtqq') == true && Config::get('enable_detect_offline_useScFtqq') == true) {
                         $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
                         $postdata = http_build_query(
@@ -570,7 +570,7 @@ class Job
                             echo $e->getMessage();
                         }
 
-                        if (Config::get('enable_cloudxns') == 'true' && ($node->sort == 0 || $node->sort == 10 || $node->sort == 12 || $node->sort == 13)) {
+                        if (Config::get('enable_cloudxns') == true && ($node->sort == 0 || $node->sort == 10 || $node->sort == 12 || $node->sort == 13)) {
                             $api = new Api();
                             $api->setApiKey(Config::get('cloudxns_apikey'));//修改成自己API KEY
                             $api->setSecretKey(Config::get('cloudxns_apisecret'));//修改成自己的SECERET KEY
@@ -619,7 +619,7 @@ class Job
 
 
         //登录地检测
-        if (Config::get('login_warn') == 'true') {
+        if (Config::get('login_warn') == true) {
             $iplocation = new QQWry();
             $Logs = LoginIp::where('datetime', '>', time() - 60)->get();
             foreach ($Logs as $log) {
@@ -713,7 +713,7 @@ class Job
             if (!file_exists(BASE_PATH . '/storage/traffic_notified/') && !mkdir($concurrentDirectory = BASE_PATH . '/storage/traffic_notified/') && !is_dir($concurrentDirectory)) {
                 throw new RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
-            if (Config::get('notify_limit_mode') != 'false') {
+            if (Config::get('notify_limit_mode') != false) {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = 'false';
 
@@ -921,7 +921,7 @@ class Job
                             } catch (Exception $e) {
                                 echo $e->getMessage();
                             }
-                            if (Config::get('enable_cloudxns') == 'true' && ($node->sort == 0 || $node->sort == 10 || $node->sort == 12 || $node->sort == 13)) {
+                            if (Config::get('enable_cloudxns') == true && ($node->sort == 0 || $node->sort == 10 || $node->sort == 12 || $node->sort == 13)) {
                                 $api = new Api();
                                 $api->setApiKey(Config::get('cloudxns_apikey'));
                                 //修改成自己API KEY
@@ -987,7 +987,7 @@ class Job
                             } catch (Exception $e) {
                                 echo $e->getMessage();
                             }
-                            if (Config::get('enable_cloudxns') == 'true' && ($node->sort == 0 || $node->sort == 10 || $node->sort == 12 || $node->sort == 13)) {
+                            if (Config::get('enable_cloudxns') == true && ($node->sort == 0 || $node->sort == 10 || $node->sort == 12 || $node->sort == 13)) {
                                 $api = new Api();
                                 $api->setApiKey(Config::get('cloudxns_apikey'));
                                 //修改成自己API KEY

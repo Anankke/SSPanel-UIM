@@ -28,7 +28,7 @@ class Boot
         // Init Eloquent ORM Connection
         $capsule = new Capsule();
         $capsule->addConnection(Config::getDbConfig());
-        if (Config::get('enable_radius') == 'true') {
+        if (Config::get('enable_radius') == true) {
             $capsule->addConnection(Config::getRadiusDbConfig(), 'radius');
         }
         $capsule->bootEloquent();

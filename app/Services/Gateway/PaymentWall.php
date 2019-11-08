@@ -64,7 +64,7 @@ class PaymentWall extends AbstractPayment
                     $Payback->save();
                 }
                 echo 'OK'; // Paymentwall expects response to be OK, otherwise the pingback will be resent
-                if (Config::get('enable_donate') == 'true') {
+                if (Config::get('enable_donate') == true) {
                     if ($user->is_hide == 1) {
                         Telegram::Send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
                     } else {

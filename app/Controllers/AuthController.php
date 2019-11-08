@@ -29,7 +29,7 @@ class AuthController extends BaseController
     {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('enable_login_captcha') === 'true') {
+        if (Config::get('enable_login_captcha') === true) {
             switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
@@ -41,7 +41,7 @@ class AuthController extends BaseController
             }
         }
 
-        if (Config::get('enable_telegram') === 'true') {
+        if (Config::get('enable_telegram') === true) {
             $login_text = TelegramSessionManager::add_login_session();
             $login = explode('|', $login_text);
             $login_token = $login[0];
@@ -93,7 +93,7 @@ class AuthController extends BaseController
         $code = $request->getParam('code');
         $rememberMe = $request->getParam('remember_me');
 
-        if (Config::get('enable_login_captcha') === 'true') {
+        if (Config::get('enable_login_captcha') === true) {
             switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha = $request->getParam('recaptcha');
@@ -218,7 +218,7 @@ class AuthController extends BaseController
 
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('enable_reg_captcha') === 'true') {
+        if (Config::get('enable_reg_captcha') === true) {
             switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
@@ -242,7 +242,7 @@ class AuthController extends BaseController
 
     public function sendVerify($request, $response, $next)
     {
-        if (Config::get('enable_email_verify') === 'true') {
+        if (Config::get('enable_email_verify') == true) {
             $email = $request->getParam('email');
             $email = trim($email);
 
@@ -335,7 +335,7 @@ class AuthController extends BaseController
         // check code
 
 
-        if (Config::get('enable_reg_captcha') === 'true') {
+        if (Config::get('enable_reg_captcha') === true) {
             switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha = $request->getParam('recaptcha');
@@ -402,7 +402,7 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if (Config::get('enable_email_verify') === 'true') {
+        if (Config::get('enable_email_verify') == true) {
             $mailcount = EmailVerify::where('email', '=', $email)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount == null) {
                 $res['ret'] = 0;
@@ -437,7 +437,7 @@ class AuthController extends BaseController
             $res['msg'] = '此联络方式已注册';
             return $response->getBody()->write(json_encode($res));
         }
-        if (Config::get('enable_email_verify') === 'true') {
+        if (Config::get('enable_email_verify') == true) {
             EmailVerify::where('email', '=', $email)->delete();
         }
         // do reg user
@@ -530,7 +530,7 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if (Config::get('enable_telegram') === 'true') {
+        if (Config::get('enable_telegram') === true) {
             $ret = TelegramSessionManager::check_login_session($token, $number);
             $res['ret'] = $ret;
             return $response->getBody()->write(json_encode($res));
@@ -542,7 +542,7 @@ class AuthController extends BaseController
 
     public function telegram_oauth($request, $response, $args)
     {
-        if (Config::get('enable_telegram') === 'true') {
+        if (Config::get('enable_telegram') === true) {
             $auth_data = $request->getQueryParams();
             if ($this->telegram_oauth_check($auth_data) === true) { // Looks good, proceed.
                 $telegram_id = $auth_data['id'];

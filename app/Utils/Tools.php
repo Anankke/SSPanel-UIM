@@ -280,7 +280,7 @@ class Tools
 
         $relay_able_list = Config::getSupportParam('relay_able_protocol');
 
-        return in_array($user->protocol, $relay_able_list) || Config::get('relay_insecure_mode') == 'true';
+        return in_array($user->protocol, $relay_able_list) || Config::get('relay_insecure_mode') == true;
     }
 
     public static function has_conflict_rule($input_rule, $ruleset, $edit_rule_id = 0, $origin_node_id = 0, $user_id = 0)

@@ -58,7 +58,7 @@ class UserController extends BaseController
 
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('enable_checkin_captcha') == 'true') {
+        if (Config::get('enable_checkin_captcha') == true) {
             switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha_sitekey = Config::get('recaptcha_sitekey');
@@ -112,7 +112,7 @@ class UserController extends BaseController
 
     public function donate($request, $response, $args)
     {
-        if (Config::get('enable_donate') != 'true') {
+        if (Config::get('enable_donate') != true) {
             exit(0);
         }
 
@@ -268,7 +268,7 @@ class UserController extends BaseController
             $res['ret'] = 1;
             $res['msg'] = '充值成功，充值的金额为' . $codeq->number . '元。';
 
-            if (Config::get('enable_donate') == 'true') {
+            if (Config::get('enable_donate') == true) {
                 if ($this->user->is_hide == 1) {
                     Telegram::Send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
                 } else {
@@ -648,7 +648,7 @@ class UserController extends BaseController
 
                 $node_prefix[$name_cheif][] = $node;
 
-                if (Config::get('enable_flag') == 'true') {
+                if (Config::get('enable_flag') == true) {
                     $regex = Config::get('flag_regex');
                     $matches = array();
                     preg_match($regex, $name_cheif, $matches);
@@ -1176,7 +1176,7 @@ class UserController extends BaseController
 
     public function ticket($request, $response, $args)
     {
-        if (Config::get('enable_ticket') != 'true') {
+        if (Config::get('enable_ticket') != true) {
             exit(0);
         }
         $pageNum = $request->getQueryParams()['page'] ?? 1;
@@ -1219,7 +1219,7 @@ class UserController extends BaseController
         $ticket->datetime = time();
         $ticket->save();
 
-        if (Config::get('mail_ticket') == 'true' && $markdown != '') {
+        if (Config::get('mail_ticket') == true && $markdown != '') {
             $adminUser = User::where('is_admin', '=', '1')->get();
             foreach ($adminUser as $user) {
                 $subject = Config::get('appName') . '-新工单被开启';
@@ -1236,7 +1236,7 @@ class UserController extends BaseController
             }
         }
 
-        if (Config::get('useScFtqq') == 'true' && $markdown != '') {
+        if (Config::get('useScFtqq') == true && $markdown != '') {
             $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
             $postdata = http_build_query(
                 array(
@@ -1286,7 +1286,7 @@ class UserController extends BaseController
         }
 
         if ($status == 1 && $ticket_main->status != $status) {
-            if (Config::get('mail_ticket') == 'true' && $markdown != '') {
+            if (Config::get('mail_ticket') == true && $markdown != '') {
                 $adminUser = User::where('is_admin', '=', '1')->get();
                 foreach ($adminUser as $user) {
                     $subject = Config::get('appName') . '-工单被重新开启';
@@ -1302,7 +1302,7 @@ class UserController extends BaseController
                     }
                 }
             }
-            if (Config::get('useScFtqq') == 'true' && $markdown != '') {
+            if (Config::get('useScFtqq') == true && $markdown != '') {
                 $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
                 $postdata = http_build_query(
                     array(
@@ -1321,7 +1321,7 @@ class UserController extends BaseController
                 $useScFtqq = Config::get('ScFtqq_SCKEY');
             }
         } else {
-            if (Config::get('mail_ticket') == 'true' && $markdown != '') {
+            if (Config::get('mail_ticket') == true && $markdown != '') {
                 $adminUser = User::where('is_admin', '=', '1')->get();
                 foreach ($adminUser as $user) {
                     $subject = Config::get('appName') . '-工单被回复';
@@ -1337,7 +1337,7 @@ class UserController extends BaseController
                     }
                 }
             }
-            if (Config::get('useScFtqq') == 'true' && $markdown != '') {
+            if (Config::get('useScFtqq') == true && $markdown != '') {
                 $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
                 $postdata = http_build_query(
                     array(
@@ -1649,7 +1649,7 @@ class UserController extends BaseController
 
     public function doCheckIn($request, $response, $args)
     {
-        if (Config::get('enable_checkin_captcha') == 'true') {
+        if (Config::get('enable_checkin_captcha') == true) {
             switch (Config::get('captcha_provider')) {
                 case 'recaptcha':
                     $recaptcha = $request->getParam('recaptcha');
@@ -1718,7 +1718,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-        if (Config::get('enable_kill') == 'true') {
+        if (Config::get('enable_kill') == true) {
             Auth::logout();
             $user->kill_user();
             $res['ret'] = 1;

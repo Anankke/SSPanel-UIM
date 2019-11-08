@@ -243,7 +243,7 @@ class URL
         if (strtotime($user->expire_in) < time()) {
             return $return_url;
         }
-        if (Config::get('mergeSub') == 'true') {
+        if (Config::get('mergeSub') == true) {
             $items = array_merge(self::getAllItems($user, 1, $is_ss), self::getAllItems($user, 0, $is_ss));
         } else {
             $items = self::getAllItems($user, $is_mu, $is_ss);
@@ -531,7 +531,7 @@ class URL
             $mu_user->obfs_param = $user->getMuMd5();
             $mu_user->protocol_param = $user->id . ':' . $user->passwd;
             $user = $mu_user;
-            if (Config::get('mergeSub') != 'true') {
+            if (Config::get('mergeSub') != true) {
                 $node_name .= ' - ' . $mu_port . ' 单端口';
             }
         }
@@ -571,7 +571,7 @@ class URL
         $return_array['method'] = $user->method;
         $return_array['remark'] = $node_name;
         $return_array['group'] = Config::get('appName');
-        if ($mu_port != 0 && Config::get('mergeSub') != 'true') {
+        if ($mu_port != 0 && Config::get('mergeSub') != true) {
             $return_array['group'] .= ' - 单端口';
         }
         $return_array['ratio'] = ($relay_rule != null
@@ -588,7 +588,7 @@ class URL
     public static function getUserTraffic($user, $is_mu = 0)
     {
         $group_name = Config::get('appName');
-        if ($is_mu == 1 && Config::get('mergeSub') != 'true') {
+        if ($is_mu == 1 && Config::get('mergeSub') != true) {
             $group_name .= ' - 单端口';
         }
         if (strtotime($user->expire_in) > time()) {
@@ -607,7 +607,7 @@ class URL
     public static function getUserClassExpiration($user, $is_mu = 0)
     {
         $group_name = Config::get('appName');
-        if ($is_mu == 1 && Config::get('mergeSub') != 'true') {
+        if ($is_mu == 1 && Config::get('mergeSub') != true) {
             $group_name .= ' - 单端口';
         }
         if (strtotime($user->expire_in) > time()) {
