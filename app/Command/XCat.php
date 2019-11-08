@@ -12,7 +12,6 @@ use App\Models\Relay;
 use App\Services\Gateway\ChenPay;
 use App\Utils\Hash;
 use App\Utils\Tools;
-use App\Utils\Discord;
 use App\Services\Config;
 
 use App\Utils\GA;
@@ -39,8 +38,6 @@ class XCat
                 return $this->createAdmin();
             case ('resetTraffic'):
                 return $this->resetTraffic();
-            case ('setDiscord'):
-                return Discord::set();
             case ('setTelegram'):
                 return $this->setTelegram();
             case ('initQQWry'):
@@ -111,7 +108,6 @@ class XCat
         echo(PHP_EOL . '用法： php xcat [选项]' . PHP_EOL);
         echo('常用选项:' . PHP_EOL);
         echo('  createAdmin - 创建管理员帐号' . PHP_EOL);
-        echo('  setDiscord - 设置 Discord 机器人' . PHP_EOL);
         echo('  setTelegram - 设置 Telegram 机器人' . PHP_EOL);
         echo('  cleanRelayRule - 清除所有中转规则' . PHP_EOL);
         echo('  resetPort - 重置单个用户端口' . PHP_EOL);

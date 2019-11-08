@@ -356,7 +356,7 @@
                     </div>
                 {/if}
 
-                {if $config['enable_telegram'] == 'true' || $config['enable_discord'] == 'true'}
+                {if $config['enable_telegram'] == 'true'}
                     <div class="card margin-bottom-no">
                         <div class="card-main">
                             <div class="card-inner">
@@ -369,25 +369,12 @@
                                             </div>
                                         </div>
                                     {/if}
-                                    {if $user->discord != 0}
-                                        <div class="cardbtn-edit">
-                                            <div class="card-heading">Discord 绑定</div>
-                                            <div>
-                                                <a class="btn btn-flat btn-brand-accent" href="/user/discord_reset">
-                                                <span class="icon">not_interested</span>&nbsp;
-                                                </a>
-                                            </div>
-                                        </div>
-                                    {/if}
 
-                                    {if $user->telegram_id == 0 || $user->discord == 0}
+                                    {if $user->telegram_id == 0}
                                         <p>复制保存下方的二维码图片（有效期10分钟，超时请刷新本页面以重新获取，每张二维码只能使用一次）</p>
                                         {if $user->telegram_id == 0}
                                             <p>私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 以绑定
                                                 Telegram</p>
-                                        {/if}
-                                        {if $user->discord == 0}
-                                            <p>私聊发给 Discord 机器人 以绑定 Discord</p>
                                         {/if}
                                     {/if}
                                     <div class="form-group form-group-label">
@@ -396,9 +383,6 @@
                                             {if $user->telegram_id != 0}
                                                 <p>当前绑定Telegram账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
                                                 </p>
-                                            {/if}
-                                            {if $user->discord != 0}
-                                                <p>当前绑定Telegram账户：{$user->im_value}</p>
                                             {/if}
                                         </div>
                                     </div>

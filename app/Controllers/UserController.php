@@ -1409,12 +1409,6 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($user->discord != 0) {
-            $res['ret'] = 0;
-            $res['msg'] = '您绑定了 Discord ，所以此项并不能被修改。';
-            return $response->getBody()->write(json_encode($res));
-        }
-
         if ($wechat == '' || $type == '') {
             $res['ret'] = 0;
             $res['msg'] = '非法输入';

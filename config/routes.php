@@ -128,7 +128,6 @@ $app->group('/user', function () {
     $this->post('/gaset', App\Controllers\UserController::class . ':GaSet');
     $this->get('/gareset', App\Controllers\UserController::class . ':GaReset');
     $this->get('/telegram_reset', App\Controllers\UserController::class . ':telegram_reset');
-    $this->get('/discord_reset', App\Controllers\UserController::class . ':discord_reset');
     $this->post('/resetport', App\Controllers\UserController::class . ':ResetPort');
     $this->post('/specifyport', App\Controllers\UserController::class . ':SpecifyPort');
     $this->post('/pacset', App\Controllers\UserController::class . ':PacSet');

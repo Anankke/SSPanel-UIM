@@ -120,11 +120,6 @@ $_ENV['qrcode']='zxing_local';				//二维码解码方式，online，phpzbar，z
 $_ENV['finance_public']='false';			//财务报告是否向群公开
 $_ENV['enable_welcome_message']='true';	//机器人发送欢迎消息
 
-#Discord
-$_ENV['enable_discord']='false';	//是否开启Discord bot（仍未完成）
-$_ENV['discord_token']='';			//Discord bot,bot 的 token，在 https://discordapp.com/developers/applications/ 申请
-
-
 #Telegram
 $_ENV['enable_telegram']='false';			//是否开启Telegram bot
 $_ENV['telegram_token']='';				//Telegram bot,bot 的 token ，跟 father bot 申请
