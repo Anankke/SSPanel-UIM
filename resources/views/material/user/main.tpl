@@ -45,7 +45,7 @@
                                 class="icon icon-lg margin-right">exit_to_app</span>登出</a>
                 </li>
                 <li> 
-                    <a href="//en.gravatar.com/" target="view_window"><i class="icon icon-md t4-text">insert_photo</i>设置头像</a>
+                    <a href="//en.gravatar.com/" target="view_window"><i class="icon icon-lg margin-right">insert_photo</i>设置头像</a>
                 </li>
             </ul>
             {else}
