@@ -668,7 +668,9 @@ class Job
             }
 
             if (Config::get('account_expire_delete_days') >= 0 &&
-                strtotime($user->expire_in) + Config::get('account_expire_delete_days') * 86400 < time()
+                strtotime($user->expire_in) + Config::get('account_expire_delete_days') * 86400 < time() &&
+                $user->money <= Config::get('auto_clean_min_money')
+
             ) {
                 $subject = Config::get('appName') . '-您的用户账户已经被删除了';
                 $to = $user->email;
