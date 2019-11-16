@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Services\Auth\Cookie;
 use App\Services\Auth\Redis;
 use App\Services\Auth\JwtToken;
-use App\Services\Token\DB;
-use App\Services\Token\Dynamodb;
 
 class Factory
 {
@@ -22,25 +20,5 @@ class Factory
                 return new JwtToken();
         }
         return new Redis();
-    }
-
-    public static function createCache()
-    {
-    }
-
-    public static function createMail()
-    {
-    }
-
-    public static function createTokenStorage()
-    {
-        switch (Config::get('tokenDriver')) {
-            case 'db':
-                return new DB();
-            case 'dynamodb':
-                return new Dynamodb();
-            default:
-                return new DB();
-        }
     }
 }
