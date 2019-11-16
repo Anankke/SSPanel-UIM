@@ -116,7 +116,6 @@ $_ENV['mergeSub'] = true;						//合并订阅设置 可选项 false / true
 
 //Bot 设置--------------------------------------------------------------------------------------------
 #通用
-$_ENV['qrcode'] = 'zxing_local';				//二维码解码方式，online，phpzbar，zxing_online，zxing_local
 $_ENV['finance_public'] = true;			//财务报告是否向群公开
 $_ENV['enable_welcome_message'] = true;	//机器人发送欢迎消息
 
