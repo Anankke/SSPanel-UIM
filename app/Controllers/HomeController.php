@@ -37,7 +37,7 @@ class HomeController extends BaseController
             }
         }
 
-        if (Config::get('enable_telegram') == 'true') {
+        if (Config::get('enable_telegram') == true) {
             $login_text = TelegramSessionManager::add_login_session();
             $login = explode('|', $login_text);
             $login_token = $login[0];

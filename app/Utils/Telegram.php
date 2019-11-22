@@ -14,7 +14,7 @@ class Telegram
      */
     public static function Send($messageText)
     {
-        if (Config::get('enable_telegram') == 'true') {
+        if (Config::get('enable_telegram') == true) {
             $bot = new BotApi(Config::get('telegram_token'));
             try {
                 $bot->sendMessage(Config::get('telegram_chatid'), $messageText);
@@ -27,7 +27,7 @@ class Telegram
 
     public static function SendMarkdown($messageText)
     {
-        if (Config::get('enable_telegram') == 'true') {
+        if (Config::get('enable_telegram') == true) {
             $bot = new BotApi(Config::get('telegram_token'));
             try {
                 $bot->sendMessage(Config::get('telegram_chatid'), $messageText, 'Markdown');

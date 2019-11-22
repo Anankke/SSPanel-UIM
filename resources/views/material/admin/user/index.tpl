@@ -147,6 +147,7 @@
                 {"data": "method"},
                 {"data": "protocol"},
                 {"data": "obfs"},
+                {"data": "obfs_param"},
                 {"data": "online_ip_count", "orderable": false},
                 {"data": "last_ss_time", "orderable": false},
                 {"data": "used_traffic"},

@@ -9,10 +9,10 @@
         "firebase/php-jwt": "~3.0",
         "aws/aws-sdk-php": "3.*",
         "gregwar/captcha": "1.*",
-        "cloudxns/cloud-xns-api-sdk-php": "*",
         "voku/anti-xss": "^1.2",
         "paymentwall/paymentwall-php": "^2.1",
         "telegram-bot/api": "^2.2",
+        "illuminate/pagination": "5.2.*",
         "illuminate/database": "5.2.*",
         "sendgrid/sendgrid": "^5.1",
         "esdeathlove/datatables": "^1.6",
@@ -21,7 +21,6 @@
         "chen-see/chen-pay": "^1.0@dev",
         "league/omnipay": "^3",
         "lokielse/omnipay-alipay": "*",
-        "charlottedunois/yasmin": "*",
         "khanamiryan/qrcode-detector-decoder": "*"
     },
     "autoload": {

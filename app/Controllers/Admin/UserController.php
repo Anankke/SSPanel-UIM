@@ -2,40 +2,58 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\User;
-use App\Models\Ip;
-use App\Models\Bought;
-use App\Models\Relay;
 use App\Controllers\AdminController;
-use App\Services\Config;
+use App\Models\Bought;
+use App\Models\Ip;
+use App\Models\Relay;
+use App\Models\User;
 use App\Services\Auth;
+use App\Services\Config;
 use App\Services\Mail;
 use App\Utils;
-use App\Utils\Hash;
-use App\Utils\Radius;
-use App\Utils\QQWry;
-use App\Utils\Check;
-use App\Utils\Tools;
 use App\Utils\GA;
+use App\Utils\Hash;
+use App\Utils\QQWry;
+use App\Utils\Radius;
+use App\Utils\Tools;
 use Exception;
 
 class UserController extends AdminController
 {
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = array('op' => '操作', 'id' => 'ID', 'user_name' => '用户名',
-            'remark' => '备注', 'email' => '邮箱', 'money' => '金钱',
-            'im_type' => '联络方式类型', 'im_value' => '联络方式详情',
-            'node_group' => '群组', 'expire_in' => '账户过期时间',
-            'class' => '等级', 'class_expire' => '等级过期时间',
-            'passwd' => '连接密码', 'port' => '连接端口', 'method' => '加密方式',
-            'protocol' => '连接协议', 'obfs' => '连接混淆方式',
-            'online_ip_count' => '在线IP数', 'last_ss_time' => '上次使用时间',
-            'used_traffic' => '已用流量/GB', 'enable_traffic' => '总流量/GB',
-            'last_checkin_time' => '上次签到时间', 'today_traffic' => '今日流量/MB',
-            'enable' => '是否启用', 'reg_date' => '注册时间',
-            'reg_ip' => '注册IP', 'auto_reset_day' => '自动重置流量日',
-            'auto_reset_bandwidth' => '自动重置流量/GB', 'ref_by' => '邀请人ID', 'ref_by_user_name' => '邀请人用户名',
+        $table_config['total_column'] = array(
+            'op' => '操作',
+            'id' => 'ID',
+            'user_name' => '用户名',
+            'remark' => '备注',
+            'email' => '邮箱',
+            'money' => '金钱',
+            'im_type' => '联络方式类型',
+            'im_value' => '联络方式详情',
+            'node_group' => '群组',
+            'expire_in' => '账户过期时间',
+            'class' => '等级',
+            'class_expire' => '等级过期时间',
+            'passwd' => '连接密码',
+            'port' => '连接端口',
+            'method' => '加密方式',
+            'protocol' => '连接协议',
+            'obfs' => '混淆方式',
+            'obfs_param' => '混淆参数',
+            'online_ip_count' => '在线IP数',
+            'last_ss_time' => '上次使用时间',
+            'used_traffic' => '已用流量/GB',
+            'enable_traffic' => '总流量/GB',
+            'last_checkin_time' => '上次签到时间',
+            'today_traffic' => '今日流量/MB',
+            'enable' => '是否启用',
+            'reg_date' => '注册时间',
+            'reg_ip' => '注册IP',
+            'auto_reset_day' => '自动重置流量日',
+            'auto_reset_bandwidth' => '自动重置流量/GB',
+            'ref_by' => '邀请人ID',
+            'ref_by_user_name' => '邀请人用户名',
             'top_up' => '累计充值');
         $table_config['default_show_column'] = array('op', 'id', 'user_name', 'remark', 'email');
         $table_config['ajax_url'] = 'user/ajax';
@@ -114,7 +132,7 @@ class UserController extends AdminController
             $text = '您好，管理员已经为您生成账户，用户名: ' . $email . '，登录密码为：' . $pass . '，感谢您的支持。 ';
             try {
                 Mail::send($to, $subject, 'newuser.tpl', [
-                    'user' => $user, 'text' => $text
+                    'user' => $user, 'text' => $text,
                 ], [
                 ]);
             } catch (Exception $e) {
@@ -175,7 +193,6 @@ class UserController extends AdminController
         return $response->getBody()->write(json_encode($result));
     }
 
-
     public function search($request, $response, $args)
     {
         $pageNum = 1;
@@ -187,10 +204,8 @@ class UserController extends AdminController
         $users = User::where('email', 'LIKE', '%' . $text . '%')->orWhere('user_name', 'LIKE', '%' . $text . '%')->orWhere('im_value', 'LIKE', '%' . $text . '%')->orWhere('port', 'LIKE', '%' . $text . '%')->orWhere('remark', 'LIKE', '%' . $text . '%')->paginate(20, ['*'], 'page', $pageNum);
         $users->setPath('/admin/user/search/' . $text);
 
-
         //Ip::where("datetime","<",time()-90)->get()->delete();
         $total = Ip::where('datetime', '>=', time() - 90)->orderBy('userid', 'desc')->get();
-
 
         $userip = array();
         $useripcount = array();
@@ -205,7 +220,6 @@ class UserController extends AdminController
             $regloc[$user->id] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
         }
 
-
         foreach ($total as $single) {
             if (isset($useripcount[$single->userid]) && !isset($userip[$single->userid][$single->ip])) {
                 ++$useripcount[$single->userid];
@@ -213,7 +227,6 @@ class UserController extends AdminController
                 $userip[$single->userid][$single->ip] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
             }
         }
-
 
         return $this->view()->assign('users', $users)->assign('regloc', $regloc)->assign('useripcount', $useripcount)->assign('userip', $userip)->display('admin/user/index.tpl');
     }
@@ -227,13 +240,10 @@ class UserController extends AdminController
             $pageNum = $request->getQueryParams()['page'];
         }
 
-
         $users->setPath('/admin/user/sort/' . $text . '/' . $asc);
-
 
         //Ip::where("datetime","<",time()-90)->get()->delete();
         $total = Ip::where('datetime', '>=', time() - 90)->orderBy('userid', 'desc')->get();
-
 
         $userip = array();
         $useripcount = array();
@@ -248,7 +258,6 @@ class UserController extends AdminController
             $regloc[$user->id] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
         }
 
-
         foreach ($total as $single) {
             if (isset($useripcount[$single->userid]) && !isset($userip[$single->userid][$single->ip])) {
                 ++$useripcount[$single->userid];
@@ -257,10 +266,8 @@ class UserController extends AdminController
             }
         }
 
-
         return $this->view()->assign('users', $users)->assign('regloc', $regloc)->assign('useripcount', $useripcount)->assign('userip', $userip)->display('admin/user/index.tpl');
     }
-
 
     public function edit($request, $response, $args)
     {
@@ -283,7 +290,6 @@ class UserController extends AdminController
         $passwd = $request->getParam('passwd');
 
         Radius::ChangeUserName($email1, $email2, $passwd);
-
 
         if ($request->getParam('pass') != '') {
             $user->pass = Hash::passwordHash($request->getParam('pass'));
@@ -378,7 +384,7 @@ class UserController extends AdminController
             'old_key' => Utils\Cookie::get('key'),
             'old_ip' => Utils\Cookie::get('ip'),
             'old_expire_in' => Utils\Cookie::get('expire_in'),
-            'old_local' => $request->getParam('local')
+            'old_local' => $request->getParam('local'),
         ], $expire_in);
         $rs['ret'] = 1;
         $rs['msg'] = '切换成功';
@@ -511,6 +517,7 @@ class UserController extends AdminController
             $tempdata['method'] = $user->method;
             $tempdata['protocol'] = $user->protocol;
             $tempdata['obfs'] = $user->obfs;
+            $tempdata['obfs_param'] = $user->obfs_param;
             $tempdata['online_ip_count'] = $user->online_ip_count();
             $tempdata['last_ss_time'] = $user->lastSsTime();
             $tempdata['used_traffic'] = Tools::flowToGB($user->u + $user->d);

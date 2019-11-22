@@ -83,7 +83,7 @@ class FinanceMail
             }
         }
 
-        if (Config::get('finance_public') == 'true') {
+        if (Config::get('finance_public') == true) {
             $sts = new Analytics();
             Telegram::Send(
                 '新鲜出炉的财务日报~' . PHP_EOL .
@@ -150,7 +150,7 @@ class FinanceMail
             }
         }
 
-        if (Config::get('finance_public') == 'true') {
+        if (Config::get('finance_public') == true) {
             $sts = new Analytics();
             Telegram::Send(
                 '新鲜出炉的财务周报~' . PHP_EOL .
@@ -197,7 +197,7 @@ class FinanceMail
             }
         }
 
-        if (Config::get('finance_public') == 'true') {
+        if (Config::get('finance_public') == true) {
             $sts = new Analytics();
             Telegram::Send(
                 '新鲜出炉的财务月报~' . PHP_EOL .

@@ -87,7 +87,7 @@
                             </div>
                         </div>
                     {/if}
-                    {if $enable_email_verify == 'true'}
+                    {if $enable_email_verify == true}
                         <div class="rowtocol">
                             <div class="rowtocol">
                                 <div class="form-group form-group-label">
@@ -276,7 +276,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         {/if}
 
                         imtype: $$getValue('imtype'),
-                        code{if $enable_email_verify == 'true'},
+                        code{if $enable_email_verify == true},
                         emailcode: $$getValue('email_code'){/if}{if $geetest_html != null},
                         geetest_challenge: validate.geetest_challenge,
                         geetest_validate: validate.geetest_validate,
@@ -351,7 +351,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
     </script>
 {/if}
 
-{if $enable_email_verify == 'true'}
+{if $enable_email_verify == true}
     <script>
         var wait = 60;
 

@@ -1,51 +1,42 @@
 <?php
 
-
 namespace App\Middleware;
 
 use App\Services\Config;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use App\Utils\Helper;
 use App\Models\Node;
 
 class Mod_Mu
 {
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
+    /**
+     * @param \Slim\Http\Request    $request
+     * @param \Slim\Http\Response   $response
+     * @param callable              $next
+     *
+     * @return \Slim\Http\Response
+     */
+    public function __invoke($request, $response, $next)
     {
-        $key = Helper::getParam($request, 'key');
+        $key = $request->getQueryParam('key');
         if ($key === null) {
-            $res['ret'] = 0;
-            $res['data'] = 'null';
-            $response->getBody()->write(json_encode($res));
-            return $response;
+            return $response->withjson([
+                'ret' => 0,
+                'data' => 'Your key is null.'
+            ]);
         }
 
-        $auth = false;
         $keys = Config::getMuKey();
-        foreach ($keys as $k) {
-            if ($key == $k) {
-                $auth = true;
-                break;
-            }
-        }
+        $auth = in_array($key, $keys);
 
         $node = Node::where('node_ip', 'LIKE', $_SERVER['REMOTE_ADDR'] . '%')->first();
-        if ($node == null && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
-            $res['ret'] = 0;
-            $res['data'] = 'token or source is invalid, Your ip address is ' . $_SERVER['REMOTE_ADDR'];
-            $response->getBody()->write(json_encode($res));
-            return $response;
+        if ($auth === false
+            || ($node === null && $_SERVER['REMOTE_ADDR'] != '127.0.0.1')
+            ) {
+            return $response->withJson([
+                'ret' => 0,
+                'data' => 'Token or IP is invalid. Now, your IP address is ' . $_SERVER['REMOTE_ADDR']
+            ]);
         }
 
-        if ($auth == false) {
-            $res['ret'] = 0;
-            $res['data'] = 'token or source is invalid';
-            $response->getBody()->write(json_encode($res));
-            return $response;
-        }
-
-        $response = $next($request, $response);
-        return $response;
+        return $next($request, $response);
     }
 }

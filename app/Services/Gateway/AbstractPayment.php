@@ -14,18 +14,39 @@ use App\Models\User;
 use App\Models\Code;
 use App\Services\Config;
 use App\Utils\Telegram;
+use Slim\Http\{Request, Response};
 
 abstract class AbstractPayment
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     abstract public function purchase($request, $response, $args);
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     abstract public function notify($request, $response, $args);
 
-    abstract public function getPurchaseHTML();
-
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     abstract public function getReturnHTML($request, $response, $args);
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     abstract public function getStatus($request, $response, $args);
+
+    abstract public function getPurchaseHTML();
 
     public function postPayment($pid, $method)
     {
@@ -62,7 +83,7 @@ abstract class AbstractPayment
             $Payback->save();
         }
 
-        if (Config::get('enable_donate') == 'true') {
+        if (Config::get('enable_donate') == true) {
             if ($user->is_hide == 1) {
                 Telegram::Send('一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元!');
             } else {

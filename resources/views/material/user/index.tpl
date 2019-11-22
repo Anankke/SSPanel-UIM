@@ -467,7 +467,7 @@ table tr td:first-child {
                                 <div class="card-inner">
                                     <div class="tab-content">
                                         <div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="all_ssr_client">
-                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/ssr-win.7z" target="_blank">ShadowsocksRR Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
+                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="{if $config['subscribe_client']!='true'}/ssr-download/ssr-win.7z{else}/user/getPcClient?type=ssr-win{/if}" target="_blank">ShadowsocksRR Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
                                             <p><i class="icon icon-lg">laptop_mac</i> macOS：<a href="/ssr-download/ssr-mac.dmg" target="_blank">下载 ShadowsocksX-NG-R8</a></p>
                                             <p><i class="icon icon-lg">laptop_windows</i> Linux（GUI）：<a href="/ssr-download/ssr-linux.AppImage" target="_blank">下载 Electron SSR</a></p>
                                             <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ssrr-android.apk">SSRR</a> 或 <a href="/ssr-download/ssr-android.apk">SSR</a></p>
@@ -475,7 +475,7 @@ table tr td:first-child {
                                             <p><i class="icon icon-lg">router</i> Koolshare 固件路由器/软路由：前往 <a href="https://github.com/hq450/fancyss_history_package" target="_blank">FancySS 下载页面</a></p>
                                         </div>
                                         <div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ss_client">
-                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="/ssr-download/ssd-win.7z" target="_blank">SSD Windows</a>，<a href="/ssr-download/ss-win.zip" target="_blank">Shadowsocks Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
+                                            <p><i class="icon icon-lg">laptop_windows</i> Windows：下载 <a href="{if $config['subscribe_client']!='true'}/ssr-download/ssd-win.7z{else}/user/getPcClient?type=ssd-win{/if}" target="_blank">SSD Windows</a>，<a href="{if $config['subscribe_client']!='true'}/ssr-download/ss-win.zip{else}/user/getPcClient?type=ss-win{/if}" target="_blank">Shadowsocks Windows</a> 或 <a href="/ssr-download/SSTap.7z" target="_blank">SSTap</a></p>
                                             <p><i class="icon icon-lg">laptop_mac</i> macOS：<a href="/ssr-download/ss-mac.zip" target="_blank">下载 ShadowsocksX-NG</a></p>
                                             <p><i class="icon icon-lg">laptop_windows</i> Linux（GUI）：<a href="/ssr-download/ssr-linux.AppImage" target="_blank">下载 Electron SSR</a></p>
                                             <p><i class="icon icon-lg">android</i> Android：下载 <a href="/ssr-download/ss-android.apk">Shadowsocks Android</a> 或 <a href="/ssr-download/ssd-android.apk">SSD Android</a>。如果需要启用混淆还需要下载 <a href="/ssr-download/ss-android-obfs.apk">Simple-Obfs 混淆插件</a>。</p>
@@ -638,7 +638,7 @@ table tr td:first-child {
                         $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.traffic;
+                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
@@ -671,7 +671,7 @@ table tr td:first-child {
                         $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.traffic;
+                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
@@ -731,7 +731,7 @@ table tr td:first-child {
                         $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.traffic;
+                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
                         $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
                     } else {
                         $("#result").modal();
