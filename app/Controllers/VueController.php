@@ -438,4 +438,103 @@ class VueController extends BaseController
 
         return $response->getBody()->write(json_encode($res));
     }
+
+    public function getNodeInfo($request, $response, $args)
+    {
+        $user = Auth::getUser();
+        $id = $args['id'];
+        $mu = $request->getQueryParams()['ismu'];
+        $relay_rule_id = $request->getQueryParams()['relay_rule'];
+        $node = Node::find($id);
+
+        if ($node == null) {
+            return null;
+        }
+
+
+        switch ($node->sort) {
+            case 0:
+                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+
+                    $res['nodeInfo'] = array(
+                        'node' => $node,
+                        'user' => $user,
+                        'mu' => $mu,
+                        'relay_rule_id' => $relay_rule_id,
+                        'URL' => URL::class,
+                    );
+                    $res['ret'] = 1;
+            
+                    return $response->getBody()->write(json_encode($res));
+                }
+                break;
+            case 1:
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
+                    $json_show = 'VPN 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
+
+                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfovpn.tpl');
+                }
+                break;
+            case 2:
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
+                    $json_show = 'SSH 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
+
+                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfossh.tpl');
+                }
+                break;
+            case 5:
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
+
+                    $json_show = 'Anyconnect 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
+
+                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoanyconnect.tpl');
+                }
+                break;
+            case 10:
+                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+
+                    $res['nodeInfo'] = array(
+                        'node' => $node,
+                        'user' => $user,
+                        'mu' => $mu,
+                        'relay_rule_id' => $relay_rule_id,
+                        'URL' => URL::class,
+                    );
+                    $res['ret'] = 1;
+            
+                    return $response->getBody()->write(json_encode($res));
+                }
+                break;
+            case 13:
+                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass('URL', URL::class)->display('user/nodeinfo.tpl');
+
+                    $res['nodeInfo'] = array(
+                        'node' => $node,
+                        'user' => $user,
+                        'mu' => $mu,
+                        'relay_rule_id' => $relay_rule_id,
+                        'URL' => URL::class,
+                    );
+                    $res['ret'] = 1;
+            
+                    return $response->getBody()->write(json_encode($res));
+                }
+                break;
+            default:
+
+                $res['nodeInfo'] = array(
+                    'message' => '微笑',
+                );
+                $res['ret'] = 1;
+
+                return $response->getBody()->write(json_encode($res));
+        }
+    }
 }
