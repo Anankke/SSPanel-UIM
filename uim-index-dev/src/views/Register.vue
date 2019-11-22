@@ -253,7 +253,6 @@ export default {
     document.addEventListener('keyup', this.registerBindEnter, false)
 
     // 验证加载
-    console.log(this.globalConfig.enableRegCaptcha);
     if (this.globalConfig.enableRegCaptcha === false) {
       return
     }

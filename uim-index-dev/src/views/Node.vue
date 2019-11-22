@@ -179,7 +179,7 @@ export default {
     enterCurrentNode(index, id) {
       this.setCurrentNode(index);
       _get(`/nodeinfo/${id}`, "include").then(r => {
-        console.log(r);
+        window.console.log(r);
       });
     }
   },
