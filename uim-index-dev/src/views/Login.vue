@@ -15,7 +15,7 @@
         <label for="stepcode">两步验证（未设置请忽略）</label>
         <input v-model="stepcode" type="stepcode" name="stepcode">
       </div>
-      <div class="input-control flex wrap">
+      <div v-if="globalConfig.enableLoginCaptcha === true" class="input-control flex wrap">
         <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-login"></div>
         <form action="?" method="POST">
           <div
@@ -127,7 +127,7 @@ export default {
         time: 1000
       };
 
-      if (this.globalConfig.enableLoginCaptcha !== "false") {
+      if (this.globalConfig.enableLoginCaptcha === true) {
         switch (this.globalConfig.captchaProvider) {
           case "recaptcha":
             ajaxCon.recaptcha = window.grecaptcha.getResponse();
@@ -250,7 +250,7 @@ export default {
       }, 2500);
     }
 
-    if (this.globalConfig.enableLoginCaptcha === "false") {
+    if (this.globalConfig.enableLoginCaptcha === false) {
       return;
     }
     this.loadCaptcha("g-recaptcha-login");

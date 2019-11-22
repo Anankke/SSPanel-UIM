@@ -104,7 +104,7 @@ export default {
         time: 0
       }
 
-      if (this.globalConfig.enableCheckinCaptcha !== 'false') {
+      if (this.globalConfig.enableCheckinCaptcha === true) {
         switch (this.globalConfig.captchaProvider) {
           case 'recaptcha':
             body.recaptcha = window.grecaptcha.getResponse()
@@ -158,7 +158,7 @@ export default {
     let app = document.getElementById('app')
     app.addEventListener('click', this.hideSigner, false)
 
-    if (this.globalConfig.enableCheckinCaptcha === 'false') {
+    if (this.globalConfig.enableCheckinCaptcha === false) {
       return
     }
     this.loadCaptcha('g-recaptcha-user')

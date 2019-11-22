@@ -36,7 +36,7 @@
         <label for="code">邀请码(必填)</label>
         <input v-model="code" type="text" name="code">
       </div>
-      <div v-if="globalConfig.isEmailVeryify === 'true'" class="input-control flex twin">
+      <div v-if="globalConfig.isEmailVeryify === true" class="input-control flex twin">
         <div class="input-control-inner flex">
           <label for="email_code">邮箱验证码</label>
           <input v-model="email_code" type="text" name="email_code">
@@ -44,7 +44,7 @@
 
         <button class="auth-submit" @click="sendVerifyMail" :disabled="isVmDisabled">{{vmText}}</button>
       </div>
-      <div class="input-control wrap flex align-center">
+      <div v-if="globalConfig.enableRegCaptcha === true" class="input-control wrap flex align-center">
         <div v-if="globalConfig.captchaProvider === 'geetest'" id="embed-captcha-reg"></div>
         <form action="?" method="POST">
           <div
@@ -124,7 +124,7 @@ export default {
         }
       }
 
-      if (this.globalConfig.enableRegCaptcha !== 'false') {
+      if (this.globalConfig.enableRegCaptcha === true) {
         switch (this.globalConfig.captchaProvider) {
           case 'recaptcha':
             ajaxCon.recaptcha = window.grecaptcha.getResponse()
@@ -253,7 +253,8 @@ export default {
     document.addEventListener('keyup', this.registerBindEnter, false)
 
     // 验证加载
-    if (this.globalConfig.enableRegCaptcha === 'false') {
+    console.log(this.globalConfig.enableRegCaptcha);
+    if (this.globalConfig.enableRegCaptcha === false) {
       return
     }
     this.loadCaptcha('g-recaptcha-reg')

@@ -82,12 +82,12 @@
                   :class="{ 'nodeitem-avtive':currentNode.id === node.id }"
                   class="nodeitem"
                   :key="node.id"
-                  @click="setCurrentNode(index)"
+                  @click="enterCurrentNode(index,node.id)"
                 >
                   <div class="flex space-between align-center">
                     <div class="nodename">
                       <img
-                        v-if="globalConfig.enableFlag === 'true'"
+                        v-if="globalConfig.enableFlag === true"
                         class="flag"
                         :src="'/images/prefix/' + node.flag"
                         alt
@@ -175,6 +175,12 @@ export default {
     },
     setCurrentNode(index) {
       this.currentNode = this.nodeFilter[index];
+    },
+    enterCurrentNode(index, id) {
+      this.setCurrentNode(index);
+      _get(`/nodeinfo/${id}`, "include").then(r => {
+        console.log(r);
+      });
     }
   },
   mounted() {
@@ -261,6 +267,7 @@ export default {
   padding: 0.6rem;
   transition: 0.3s all;
   flex-basis: 100%;
+  cursor: pointer;
 }
 .nodeitem:hover,
 .nodeitem-avtive {
@@ -303,7 +310,7 @@ export default {
 }
 .flag {
   width: 35px;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 
 @media screen and (min-width: 35.5em) {
