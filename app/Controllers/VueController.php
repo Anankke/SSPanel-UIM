@@ -10,15 +10,15 @@ use App\Models\Ann;
 use App\Models\Shop;
 use App\Services\Auth;
 use App\Services\Config;
-use App\Utils\AliPay;
 use App\Utils\Tools;
 use App\Utils\TelegramSessionManager;
-use App\Utils\Spay_tool;
 use App\Utils\Geetest;
 
 use App\Utils\URL;
 use App\Models\Node;
 use App\Models\Relay;
+use Slim\Http\{Request, Response};
+use Psr\Http\Message\ResponseInterface;
 
 class VueController extends BaseController
 {
@@ -439,102 +439,127 @@ class VueController extends BaseController
         return $response->getBody()->write(json_encode($res));
     }
 
-    public function getNodeInfo($request, $response, $args)
+    /**
+     * @param Request   $requesr
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function getNodeInfo($request, $response, $args): ResponseInterface
     {
-        $user = Auth::getUser();
+        $user = $this->user;
         $id = $args['id'];
-        $mu = $request->getQueryParams()['ismu'];
-        $relay_rule_id = $request->getQueryParams()['relay_rule'];
+        $mu = $request->getQueryParam('ismu');
+        $relay_rule_id = $request->getQueryParam('relay_rule');
         $node = Node::find($id);
 
         if ($node == null) {
-            return null;
+            return $response->withJson([null]);
         }
-
 
         switch ($node->sort) {
             case 0:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-
-                    $res['nodeInfo'] = array(
-                        'node' => $node,
-                        'user' => $user,
-                        'mu' => $mu,
-                        'relay_rule_id' => $relay_rule_id,
-                        'URL' => URL::class,
-                    );
-                    $res['ret'] = 1;
-            
-                    return $response->getBody()->write(json_encode($res));
+                if ((($user->class >= $node->node_class
+                        && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
+                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)
+                ) {
+                    return $response->withJson([
+                        'ret' => 1,
+                        'nodeInfo' => [
+                            'node' => $node,
+                            'user' => $user,
+                            'mu' => $mu,
+                            'relay_rule_id' => $relay_rule_id,
+                            'URL' => URL::class,
+                        ],
+                    ]);
                 }
                 break;
             case 1:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
+                if ($user->class >= $node->node_class
+                    && ($user->node_group == $node->node_group || $node->node_group == 0)
+                ) {
+                    $email = $user->email;
                     $email = Radius::GetUserName($email);
-                    $json_show = 'VPN 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
+                    $json_show = 'VPN 信息<br>地址：' . $node->server
+                        . '<br>用户名：' . $email . '<br>密码：' . $this->user->passwd
+                        . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfovpn.tpl');
+                    return $response->write(
+                        $this->view()->assign('json_show', $json_show)->fetch('user/nodeinfovpn.tpl')
+                    );
                 }
                 break;
             case 2:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
+                if ($user->class >= $node->node_class
+                    && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $user->email;
                     $email = Radius::GetUserName($email);
-                    $json_show = 'SSH 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
+                    $json_show = 'SSH 信息<br>地址：' . $node->server
+                        . '<br>用户名：' . $email . '<br>密码：' . $this->user->passwd
+                        . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfossh.tpl');
+                    return $response->write(
+                        $this->view()->assign('json_show', $json_show)->fetch('user/nodeinfossh.tpl')
+                    );
                 }
                 break;
             case 5:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
+                if ($user->class >= $node->node_class
+                    && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $user->email;
                     $email = Radius::GetUserName($email);
 
-                    $json_show = 'Anyconnect 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
+                    $json_show = 'Anyconnect 信息<br>地址：' . $node->server
+                        . '<br>用户名：' . $email . '<br>密码：' . $this->user->passwd
+                        . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoanyconnect.tpl');
+                    return $response->write(
+                        $this->view()->assign('json_show', $json_show)->fetch('user/nodeinfoanyconnect.tpl')
+                    );
                 }
                 break;
             case 10:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+                if ((($user->class >= $node->node_class
+                        && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
+                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
 
-                    $res['nodeInfo'] = array(
-                        'node' => $node,
-                        'user' => $user,
-                        'mu' => $mu,
-                        'relay_rule_id' => $relay_rule_id,
-                        'URL' => URL::class,
-                    );
-                    $res['ret'] = 1;
-            
-                    return $response->getBody()->write(json_encode($res));
+                    return $response->withJson([
+                        'ret' => 1,
+                        'nodeInfo' => [
+                            'node' => $node,
+                            'user' => $user,
+                            'mu' => $mu,
+                            'relay_rule_id' => $relay_rule_id,
+                            'URL' => URL::class,
+                        ],
+                    ]);
                 }
                 break;
             case 13:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass('URL', URL::class)->display('user/nodeinfo.tpl');
+                if ((($user->class >= $node->node_class
+                        && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
+                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
 
-                    $res['nodeInfo'] = array(
-                        'node' => $node,
-                        'user' => $user,
-                        'mu' => $mu,
-                        'relay_rule_id' => $relay_rule_id,
-                        'URL' => URL::class,
-                    );
-                    $res['ret'] = 1;
-            
-                    return $response->getBody()->write(json_encode($res));
+                    return $response->withJson([
+                        'ret' => 1,
+                        'nodeInfo' => [
+                            'node' => $node,
+                            'user' => $user,
+                            'mu' => $mu,
+                            'relay_rule_id' => $relay_rule_id,
+                            'URL' => URL::class,
+                        ],
+                    ]);
                 }
                 break;
-            default:
-
-                $res['nodeInfo'] = array(
-                    'message' => '微笑',
-                );
-                $res['ret'] = 1;
-
-                return $response->getBody()->write(json_encode($res));
         }
+
+        // Default and judgement fail return
+        return $response->getBody()->write([
+            'ret' => 0,
+            'nodeInfo' => [
+                'message' => ':)',
+            ],
+        ]);
     }
 }
