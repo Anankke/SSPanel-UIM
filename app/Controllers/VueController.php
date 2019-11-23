@@ -522,7 +522,6 @@ class VueController extends BaseController
                 if ((($user->class >= $node->node_class
                         && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
                     && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-
                     return $response->withJson([
                         'ret' => 1,
                         'nodeInfo' => [
@@ -539,7 +538,6 @@ class VueController extends BaseController
                 if ((($user->class >= $node->node_class
                         && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
                     && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-
                     return $response->withJson([
                         'ret' => 1,
                         'nodeInfo' => [
@@ -555,7 +553,7 @@ class VueController extends BaseController
         }
 
         // Default and judgement fail return
-        return $response->getBody()->write([
+        return $response->withJson([
             'ret' => 0,
             'nodeInfo' => [
                 'message' => ':)',
