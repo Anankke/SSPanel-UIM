@@ -19,6 +19,7 @@ class Smtp extends Base
         $mail->isSMTP();                                      // Set mailer to use SMTP
         $mail->Host = $this->config['host'];  // Specify main and backup SMTP servers
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->FromName = $this->config['sender'];                   // SMTP Sender Name
         $mail->Username = $this->config['username'];                 // SMTP username
         $mail->Password = $this->config['passsword'];                    // SMTP password
         if ($_ENV['smtp_ssl'] == true) {
