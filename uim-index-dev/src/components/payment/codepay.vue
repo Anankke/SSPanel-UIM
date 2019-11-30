@@ -1,23 +1,28 @@
 <template>
-  <div>
+  <div v-if="showbtn">
     <div class="charge-btngroup">
       <button
         @click="setChargeType('alipay')"
         class="btn-user"
-        :class="{ 'index-btn-active':chargeType === 'alipay' }"
+        :class="{ 'index-btn-active': chargeType === 'alipay' }"
       >
-        <font-awesome-icon :icon="['fab','alipay']"/>&nbsp;支付宝
+        <font-awesome-icon :icon="['fab', 'alipay']" />&nbsp;支付宝
       </button>
       <button
         @click="setChargeType('wechat')"
         class="btn-user"
-        :class="{ 'index-btn-active':chargeType === 'wechat' }"
+        :class="{ 'index-btn-active': chargeType === 'wechat' }"
       >
-        <font-awesome-icon icon="comments"/>&nbsp;微信
+        <font-awesome-icon icon="comments" />&nbsp;微信
       </button>
     </div>
 
-    <input type="text" v-model="price" class="tips tips-blue" placeholder="输入充值金额">
+    <input
+      type="text"
+      v-model="price"
+      class="tips tips-blue"
+      placeholder="输入充值金额"
+    />
     <button @click="charge" class="tips tips-gold">充值</button>
   </div>
 </template>
@@ -31,7 +36,8 @@ export default {
   data: function() {
     return {
       chargeType: "alipay",
-      price: ""
+      price: "",
+      showbtn: true
     };
   },
   methods: {

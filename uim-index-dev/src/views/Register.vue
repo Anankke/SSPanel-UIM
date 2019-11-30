@@ -113,7 +113,7 @@ export default {
         time: 1000
       }
 
-      if (this.globalConfig.isEmailVeryify === 'true') {
+      if (this.globalConfig.isEmailVeryify === true) {
         ajaxCon.emailcode = this.email_code
       }
 

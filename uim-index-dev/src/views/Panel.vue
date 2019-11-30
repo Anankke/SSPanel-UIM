@@ -126,7 +126,7 @@
                       </span>
                     </div>
                     <div
-                      v-if="currentDlType === 'SSR' && mergeSub !== 'true'"
+                      v-if="currentDlType === 'SSR' && mergeSub !== true"
                       class="pure-g align-center relative"
                     >
                       <span class="pure-u-6-24">单端口:</span>
@@ -265,7 +265,7 @@ export default {
   props: ["routermsg"],
   computed: {
     ssrlinkTitle: function() {
-      if (this.mergeSub === "true") {
+      if (this.mergeSub === true) {
         return "订阅链接:";
       } else {
         if (this.currentDlType === "SSR") {

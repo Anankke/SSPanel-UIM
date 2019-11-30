@@ -323,7 +323,7 @@ table tr td:first-child {
 
                                                 <br>
 
-                                                {if $mergeSub!='true'}
+                                                {if $mergeSub!= true}
                                                 <div>
                                                     <span class="icon icon-lg text-white">flash_auto</span> 普通节点订阅地址：
                                                 </div>
@@ -351,7 +351,7 @@ table tr td:first-child {
 
                                                 <br>
 
-                                                    {if $mergeSub!='true'}
+                                                    {if $mergeSub!= true }
                                                         <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$ssr_url_all}">点击复制 SSR 普通端口节点链接</button>
                                                         <button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$ssr_url_all_mu}">点击复制 SSR 单端口多用户链接</button>
                                                     {else}
