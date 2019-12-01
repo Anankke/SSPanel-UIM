@@ -133,11 +133,11 @@ $_ENV['telegram_request_token'] = '';		//Telegram 机器人请求Key，随意设
 
 //沟通设置--------------------------------------------------------------------------------------------
 #客服系统设置，注册地址 https://www.mylivechat.com
-$_ENV['enable_mylivechat'] = true;		//是否开启客服系统
+$_ENV['enable_mylivechat'] = false;		//是否开启客服系统
 $_ENV['mylivechat_id'] = '';			//客服系统ID
 
 # PushBear  基于微信模板的向关注了二维码的用户以微信方式推送消息 https://pushbear.ftqq.com/
-$_ENV['usePushBear'] = true;		// true 启用	false 禁用
+$_ENV['usePushBear'] = false;		// true 启用	false 禁用
 $_ENV['PushBear_sendkey'] = '';	//请填写您在PushBear获取的sendkey  请仔细检查勿粘贴错
 
 #工单系统设置
@@ -145,11 +145,11 @@ $_ENV['enable_ticket'] = true;		//是否开启工单系统
 $_ENV['mail_ticket'] = true;		//是否开启工单邮件提醒
 
 # Server酱  用户提交新工单或者回复工单时用微信提醒机场主 http://sc.ftqq.com/
-$_ENV['useScFtqq'] = true;		//是否开启工单Server酱提醒
+$_ENV['useScFtqq'] = false;		//是否开启工单Server酱提醒
 $_ENV['ScFtqq_SCKEY'] = '';	//请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
 
 #管理员联系方式设置
-$_ENV['enable_admin_contact'] = true;			//是否开启管理员联系方式
+$_ENV['enable_admin_contact'] = false;			//是否开启管理员联系方式
 $_ENV['admin_contact1'] = 'QQ：1233456';		//QQ、邮箱、微信仅用于举例
 $_ENV['admin_contact2'] = '邮箱123456@qq.com';	//也可以写电话、tg等其他联系方式
 $_ENV['admin_contact3'] = '微信～123456';		//没有格式要求，想怎么写就怎么写，可留空
@@ -165,9 +165,9 @@ $_ENV['recaptcha_secret'] = '';
 $_ENV['geetest_id'] = '';
 $_ENV['geetest_key'] = '';
 
-$_ENV['enable_reg_captcha'] = true;		//启用注册验证码
-$_ENV['enable_login_captcha'] = true;	//启用登录验证码
-$_ENV['enable_checkin_captcha'] = true;	//启用签到验证码
+$_ENV['enable_reg_captcha'] = false;		//启用注册验证码
+$_ENV['enable_login_captcha'] = false;	        //启用登录验证码
+$_ENV['enable_checkin_captcha'] = false;	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
