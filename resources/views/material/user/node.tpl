@@ -155,10 +155,6 @@
                                                 {continue}
                                             {/if}
 
-                                            {if !($single_muport['user']->class >= $node['class'] && ($node['group'] == 0 || $single_muport['user']->node_group == $node['group']))}
-                                                {continue}
-                                            {/if}
-
                                             {$relay_rule = null}
 
                                             {if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
@@ -289,10 +285,6 @@
                                                                         {foreach $nodes_muport as $single_muport}
 
                                                                             {if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
-                                                                                {continue}
-                                                                            {/if}
-
-                                                                            {if !($single_muport['user']->class >= $node['class'] && ($node['group'] == 0 || $single_muport['user']->node_group == $node['group']))}
                                                                                 {continue}
                                                                             {/if}
 
