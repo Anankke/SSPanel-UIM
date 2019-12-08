@@ -28,6 +28,8 @@ class Payment
                 return new AopF2F();
             case ('chenAlipay'):
                 return new ChenPay();
+            case ('sfpay'):
+                return new SfPay(Config::get('sf_secret'));
             case ('payjs'):
                 return new PAYJS(Config::get('payjs_key'));
             case ('yftpay'):
