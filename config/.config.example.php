@@ -174,6 +174,14 @@ $_ENV['enable_checkin_captcha'] = false;	//启用签到验证码
 #取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yftpay
 $_ENV['payment_system'] = 'none';
 
+#sfpay支付设置
+#速付地址https://p.spay.xin
+$System_Config['sf_appid']='';		          //sfpay  商户ID		                             
+$System_Config['sf_secret']='';			 //sf商户秘钥	
+$System_Config['sfgatewayUri']='';              //sf个人网关
+
+
+
 #yft支付设置
 $_ENV['yft_secret'] = '';
 $_ENV['yft_accesskey'] = '';
