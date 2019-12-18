@@ -34,8 +34,20 @@ class UserController extends BaseController
         }
         $node->node_heartbeat = time();
         $node->save();
-        
-        if ($node->mu_only != 0) {
+
+        if ($node->node_group != 0) {
+            $users_raw = User::where(
+                static function ($query) use ($node) {
+                    $query->where(
+                        static function ($query1) use ($node) {
+                            $query1->where('class', '>=', $node->node_class)
+                                ->where('node_group', '=', $node->node_group);
+                        }
+                    )->orwhere('is_admin', 1);
+                }
+            )
+                ->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
+        } else {
             $users_raw = User::where(
                 static function ($query) use ($node) {
                     $query->where(
@@ -45,32 +57,7 @@ class UserController extends BaseController
                     )->orwhere('is_admin', 1);
                 }
             )->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
-        } else {
-            if ($node->node_group != 0) {
-                $users_raw = User::where(
-                    static function ($query) use ($node) {
-                        $query->where(
-                            static function ($query1) use ($node) {
-                                $query1->where('class', '>=', $node->node_class)
-                                    ->where('node_group', '=', $node->node_group);
-                            }
-                        )->orwhere('is_admin', 1);
-                    }
-                )
-                    ->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
-            } else {
-                $users_raw = User::where(
-                    static function ($query) use ($node) {
-                        $query->where(
-                            static function ($query1) use ($node) {
-                                $query1->where('class', '>=', $node->node_class);
-                            }
-                        )->orwhere('is_admin', 1);
-                    }
-                )->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
-            }
         }
-        
         if (($node->node_bandwidth_limit != 0) && $node->node_bandwidth_limit < $node->node_bandwidth) {
             $users = null;
 
