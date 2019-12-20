@@ -23,9 +23,9 @@ $_ENV['subUrl'] = $_ENV['baseUrl'].'/link/';	//订阅地址，如需和站点名
 $_ENV['muKey'] = 'NimaQu';								//用于校验魔改后端请求，可以随意修改，但请保持前后端一致，否则节点不能工作！
 $_ENV['db_driver'] = 'mysql';							//数据库程序
 $_ENV['db_host'] = 'localhost';						//数据库地址
-$_ENV['db_database'] = 'sspanel';						//数据库名
-$_ENV['db_username'] = 'root';							//数据库用户名
-$_ENV['db_password'] = 'sspanel';						//用户名对应的密码
+$_ENV['db_database'] = 'db_database_a';						//数据库名
+$_ENV['db_username'] = 'db_username_a';							//数据库用户名
+$_ENV['db_password'] = 'db_password_a';						//用户名对应的密码
 
 
 //邮件设置--------------------------------------------------------------------------------------------
