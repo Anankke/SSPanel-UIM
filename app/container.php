@@ -11,9 +11,9 @@ use Slim\Container;
 
 $configuration = [
     'settings' => [
-        'debug' => DEBUG,
+        'debug' => $_ENV['debug'],
         'whoops.editor' => 'sublime',
-        'displayErrorDetails' => DEBUG,
+        'displayErrorDetails' => $_ENV['debug'],
     ]
 ];
 $container = new Container($configuration);

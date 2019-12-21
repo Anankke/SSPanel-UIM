@@ -13,8 +13,7 @@ require __DIR__ . '/../app/predefine.php';
 
 // TODO: legacy boot function
 use App\Services\Boot;
-Boot::setDebug();
-Boot::setTimezone();
+Boot::setTime();
 Boot::bootDb();
 
 /** @var Slim\Container $container */

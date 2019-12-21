@@ -6,21 +6,10 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Boot
 {
-    public static function setDebug()
+    public static function setTime()
     {
-        define('DEBUG', Config::get('debug'));
-        View::$beginTime = microtime(true);
-    }
-
-    public static function setVersion($version)
-    {
-        $System_Config['version'] = $version;
-    }
-
-    public static function setTimezone()
-    {
-        // config time zone
         date_default_timezone_set(Config::get('timeZone'));
+        View::$beginTime = microtime(true);
     }
 
     public static function bootDb()
