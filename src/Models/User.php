@@ -396,7 +396,7 @@ class User extends Model
     			$number = Code::whereMonth('usedatetime', '=', date('m'))->sum('number');
     			break;
     		case "last month":
-    			$number = Code::whereMonth('usedatetime', '=', date('m',strtotime('last month')))->sum('number');
+    			$number = Code::whereMonth('usedatetime', '=', date('m',strtotime('first day of last month')))->sum('number');
     			break;
     		default:
     			$number = Code::sum('number');
