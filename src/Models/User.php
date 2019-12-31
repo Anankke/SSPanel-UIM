@@ -393,10 +393,15 @@ class User extends Model
     			$number = Code::whereDate('usedatetime', '=', date('Y-m-d'))->sum('number');
     			break;
     		case "this month":
-    			$number = Code::whereMonth('usedatetime', '=', date('m'))->sum('number');
+    			$number = Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m'))->sum('number');
     			break;
     		case "last month":
-    			$number = Code::whereMonth('usedatetime', '=', date('m',strtotime('first day of last month')))->sum('number');
+    			if (date('m') == '1'){
+    				$number = Code::whereYear('usedatetime', '=', date('Y',strtotime('-1 year')))->whereMonth('usedatetime', '=', '12')->sum('number');
+    			}
+    			else{
+    				$number = Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m',strtotime('first day of last month')))->sum('number');
+    			}
     			break;
     		default:
     			$number = Code::sum('number');
