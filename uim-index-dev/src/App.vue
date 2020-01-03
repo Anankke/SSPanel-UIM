@@ -140,24 +140,24 @@ export default {
       }
     },
     getPublicResouce() {
-      fetch("https://api.lwl12.com/hitokoto/v1")
-        .then(r => {
-          return r.text();
-        })
-        .then(r => {
-          this.setHitokoto(r);
-        });
-      _get("https://v2.jinrishici.com/one.json", "include").then(r => {
-        this.setJinRiShiCi(r.data.content);
-      });
+      // fetch("https://api.lwl12.com/hitokoto/v1")
+      //   .then(r => {
+      //     return r.text();
+      //   })
+      //   .then(r => {
+      //     this.setHitokoto(r);
+      //   });
+      // _get("https://v2.jinrishici.com/one.json", "include").then(r => {
+      //   this.setJinRiShiCi(r.data.content);
+      // });
     }
   },
   watch: {
     $route(to, from) {
       this.routeJudge();
-      if (this.globalConfig.indexMsg.hitokoto === "") {
-        this.getPublicResouce();
-      }
+      // if (this.globalConfig.indexMsg.hitokoto === "") {
+      //   this.getPublicResouce();
+      // }
       if (to.path === "/password/reset" || from.path === "/password/reset") {
         this.transType = "rotate-fade";
       } else {
