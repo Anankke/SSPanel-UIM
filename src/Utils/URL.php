@@ -407,6 +407,9 @@ class URL
             )->orderBy('priority', 'DESC')->orderBy('id')->first();
             if ($relay_rule != null) {
                 //是中转起源节点
+                if ($relay_rule->dist_node() === null) {
+                    continue;
+                }
                 $server['remarks'] = $node->name . ' => ' . $relay_rule->dist_node()->name;
                 $server['ratio'] = $node->traffic_rate + $relay_rule->dist_node()->traffic_rate;
                 $array_server[] = $server;
