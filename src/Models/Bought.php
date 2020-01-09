@@ -2,6 +2,18 @@
 
 namespace App\Models;
 
+/**
+ * Bought Model
+ *
+ * @property-read   int     $id         id
+ * @property        int     $userid     User id
+ * @property        int     $shopid     Shop id
+ * @property        string  $datetime   Bought complete datetime
+ * @property        int     $renew      Time to renew this bought
+ * @property        string  $coupon     Coupon applied to this bought
+ * @property        float   $price      Price after coupon applied
+ * @property        bool    $is_renewed If this bought is renewed
+ */
 class Bought extends Model
 {
     protected $connection = 'default';
@@ -9,7 +21,7 @@ class Bought extends Model
 
     public function renew_date()
     {
-        return date('Y-m-d H:i:s', $this->attributes['renew']);
+        return date('Y-m-d H:i:s', $this->attributes['renew_time']);
     }
 
     public function datetime()

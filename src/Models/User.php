@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-/**
- * User Model
- */
-
 use App\Utils\Tools;
 use App\Utils\Hash;
 use App\Services\Config;
@@ -13,6 +9,15 @@ use App\Utils\GA;
 use App\Utils\QQWry;
 use App\Utils\Radius;
 use Ramsey\Uuid\Uuid;
+
+/**
+ * User Model
+ *
+ * @property-read   int     $id         ID
+ * @todo More property
+ * @property        bool    $expired    If account expired
+ * @property        bool    $traffic_notified   If user is noticed for low traffic
+ */
 
 class User extends Model
 {

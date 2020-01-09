@@ -348,8 +348,8 @@ class Job
         //自动续费
         $boughts = Bought::where('renew', '<', time())->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {
+            /** @var Bought $bought */
             $user = User::where('id', $bought->userid)->first();
-
             if ($user == null) {
                 $bought->delete();
                 continue;
@@ -395,16 +395,13 @@ class Job
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         'user' => $user,
                         'text' => $text
-                    ], [
                     ]);
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-
-                if (file_exists(BASE_PATH . '/storage/' . $bought->id . '.renew')) {
-                    unlink(BASE_PATH . '/storage/' . $bought->id . '.renew');
-                }
-            } elseif (!file_exists(BASE_PATH . '/storage/' . $bought->id . '.renew')) {
+                $bought->is_renewed = true;
+                $bought->save();
+            } elseif ($bought->is_renewed == false) {
                 $subject = Config::get('appName') . '-续费失败';
                 $to = $user->email;
                 $text = '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。';
@@ -412,15 +409,10 @@ class Job
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         'user' => $user,
                         'text' => $text
-                    ], [
                     ]);
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-                $myfile = fopen(BASE_PATH . '/storage/' . $bought->id . '.renew', 'wb+') or die('Unable to open file!');
-                $txt = '1';
-                fwrite($myfile, $txt);
-                fclose($myfile);
             }
         }
 
@@ -436,7 +428,7 @@ class Job
             $nodes = Node::all();
 
             foreach ($nodes as $node) {
-                if ($node->isNodeOnline() === false && !file_exists(BASE_PATH . '/storage/' . $node->id . '.offline')) {
+                if ($node->isNodeOnline() === false && $node->online == true) {
                     if (Config::get('useScFtqq') == true && Config::get('enable_detect_offline_useScFtqq') == true) {
                         $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
@@ -477,14 +469,9 @@ class Job
 
                     Telegram::Send($notice_text);
 
-                    $myfile = fopen(
-                        BASE_PATH . '/storage/' . $node->id . '.offline',
-                        'wb+'
-                    ) or die('Unable to open file!');
-                    $txt = '1';
-                    fwrite($myfile, $txt);
-                    fclose($myfile);
-                } elseif ($node->isNodeOnline() === true && file_exists(BASE_PATH . '/storage/' . $node->id . '.offline')) {
+                    $node->online = false;
+                    $node->save();
+                } elseif ($node->isNodeOnline() === true && $node->online == false) {
                     if (Config::get('useScFtqq') == true && Config::get('enable_detect_offline_useScFtqq') == true) {
                         $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
@@ -524,8 +511,8 @@ class Job
                     }
 
                     Telegram::Send($notice_text);
-
-                    unlink(BASE_PATH . '/storage/' . $node->id . '.offline');
+                    $node->online == true;
+                    $node->save();
                 }
             }
         }
@@ -610,15 +597,11 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-                $myfile = fopen(
-                    BASE_PATH . '/storage/' . $user->id . '.expire_in',
-                    'wb+'
-                ) or die('Unable to open file!');
-                $txt = '1';
-                fwrite($myfile, $txt);
-                fclose($myfile);
-            } elseif (strtotime($user->expire_in) > time() && file_exists(BASE_PATH . '/storage/' . $user->id . '.expire_in')) {
-                unlink(BASE_PATH . '/storage/' . $user->id . '.expire_in');
+                $user->expired == true;
+                $user->save();
+            } elseif (strtotime($user->expire_in) > time() && $user->expired == true) {
+                $user->expired == false;
+                $user->save();
             }
 
 
@@ -628,21 +611,21 @@ class Job
             }
             if (Config::get('notify_limit_mode') != false) {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
-                $under_limit = 'false';
+                $under_limit = false;
 
                 if ($user->transfer_enable != 0) {
                     if (Config::get('notify_limit_mode') == 'per' &&
                         $user_traffic_left / $user->transfer_enable * 100 < Config::get('notify_limit_value')) {
-                        $under_limit = 'true';
+                        $under_limit = true;
                         $unit_text = '%';
                     }
                 } elseif (Config::get('notify_limit_mode') == 'mb' &&
                     Tools::flowToMB($user_traffic_left) < Config::get('notify_limit_value')) {
-                    $under_limit = 'true';
+                    $under_limit = true;
                     $unit_text = 'MB';
                 }
 
-                if ($under_limit == 'true' && !file_exists(BASE_PATH . '/storage/traffic_notified/' . $user->id . '.userid')) {
+                if ($under_limit == true && !file_exists(BASE_PATH . '/storage/traffic_notified/' . $user->id . '.userid')) {
                     $subject = Config::get('appName') . ' - 您的剩余流量过低';
                     $to = $user->email;
                     $text = '您好，系统发现您剩余流量已经低于 ' . Config::get('notify_limit_value') . $unit_text . ' 。';
@@ -650,20 +633,15 @@ class Job
                         Mail::send($to, $subject, 'news/warn.tpl', [
                             'user' => $user,
                             'text' => $text
-                        ], [
                         ]);
-                        $myfile = fopen(
-                            BASE_PATH . '/storage/traffic_notified/' . $user->id . '.userid',
-                            'wb+'
-                        ) or die('Unable to open file!');
-                        $txt = '1';
-                        fwrite($myfile, $txt);
-                        fclose($myfile);
+                        $user->traffic_noticed == true;
+                        $user->save();
                     } catch (Exception $e) {
                         echo $e->getMessage();
                     }
-                } elseif (($under_limit == 'false') && file_exists(BASE_PATH . '/storage/traffic_notified/' . $user->id . '.userid')) {
-                    unlink(BASE_PATH . '/storage/traffic_notified/' . $user->id . '.userid');
+                } elseif ($under_limit == false && $user->traffic_noticed == true) {
+                    $user->traffic_noticed == false;
+                    $user->save();
                 }
             }
 
@@ -839,12 +817,12 @@ class Job
                             $notice_text = '喵喵喵~ ' . $node->name . ' 节点被墙了喵~';
                         }
                         Telegram::Send($notice_text);
-                        $file_node = fopen(BASE_PATH . '/storage/' . $node->id . '.gfw', 'wb+');
-                        fclose($file_node);
+                        $node->gfw_block = true;
+                        $node->save();
                     } else {
                         //没有被墙
                         echo($node->id . ':true' . PHP_EOL);
-                        if (file_exists(BASE_PATH . '/storage/' . $node->id . '.gfw') == false) {
+                        if ($node->gfw_block == false) {
                             continue;
                         }
                         foreach ($adminUser as $user) {
@@ -864,7 +842,8 @@ class Job
                             $notice_text = '喵喵喵~ ' . $node->name . ' 节点恢复了喵~';
                         }
                         Telegram::Send($notice_text);
-                        unlink(BASE_PATH . '/storage/' . $node->id . '.gfw');
+                        $node->gfw_block = false;
+                        $node->save();
                     }
                 }
                 break;

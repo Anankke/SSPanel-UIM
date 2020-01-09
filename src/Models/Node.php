@@ -4,6 +4,20 @@ namespace App\Models;
 
 /**
  * Node Model
+ *
+ * @property-read   int     $id         id
+ * @property        string  $name       Display name
+ * @property        int     $type       If node display @todo Correct column name and type
+ * @property        string  $server     Domain
+ * @property        string  $method     Crypt method @deprecated
+ * @property        string  $info       Infomation
+ * @property        string  $status     Status description
+ * @property        int     $sort       Node type @todo Correct column name to `type`
+ * @property        int     $custom_method  Customs node crypt @deprecated
+ * @property        float   $traffic_rate   Node traffic rate
+ * @todo More property
+ * @property        bool    $online     If node is online
+ * @property        bool    $gfw_block  If node is blocked by GFW
  */
 
 use App\Utils\Tools;
