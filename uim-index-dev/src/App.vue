@@ -64,7 +64,7 @@ import storeMap from "@/mixins/storeMap";
 import Messager from "@/components/messager.vue";
 import Signer from "@/components/sign.vue";
 
-import { _get } from "./js/fetch";
+// import { _get } from "./js/fetch";
 
 export default {
   router: Router,
