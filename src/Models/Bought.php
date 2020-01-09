@@ -21,7 +21,7 @@ class Bought extends Model
 
     public function renew_date()
     {
-        return date('Y-m-d H:i:s', $this->attributes['renew_time']);
+        return date('Y-m-d H:i:s', $this->attributes['renew']);
     }
 
     public function datetime()
