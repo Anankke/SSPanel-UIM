@@ -13,25 +13,28 @@ class SendGrid extends Base
     private $config;
     private $sg;
     private $sender;
+    private $name;
 
     public function __construct()
     {
         $this->config = $this->getConfig();
         $this->sg = new \SendGrid($this->config['key']);
         $this->sender = $this->config['sender'];
+        $this->name = $this->config['name'];
     }
 
     public function getConfig()
     {
         return [
             'key' => Config::get('sendgrid_key'),
-            'sender' => Config::get('sendgrid_sender')
+            'sender' => Config::get('sendgrid_sender'),
+            'name' => Config::get('sendgrid_name')
         ];
     }
 
     public function send($to_address, $subject_raw, $text, $files)
     {
-        $from = new Email(null, $this->sender);
+        $from = new Email($this->name, $this->sender);
         $subject = $subject_raw;
         $to = new Email(null, $to_address);
         $content = new Content('text/html', $text);
