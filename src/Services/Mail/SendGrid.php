@@ -27,7 +27,7 @@ class SendGrid extends Base
     {
         return [
             'key' => Config::get('sendgrid_key'),
-            'sender' => Config::get('sendgrid_sender')
+            'sender' => Config::get('sendgrid_sender'),
             'name' => Config::get('sendgrid_name')
         ];
     }
