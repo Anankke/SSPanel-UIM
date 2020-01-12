@@ -48,7 +48,8 @@ $_ENV['smtp_ssl'] = true;
 
 # sendgrid
 $_ENV['sendgrid_key'] = '';
-$_ENV['sendgrid_sender'] = '';
+$_ENV['sendgrid_sender'] = '';     //发件邮箱
+$_ENV['sendgrid_name'] = '';       //发件人名称
 
 
 //备份设置--------------------------------------------------------------------------------------------
