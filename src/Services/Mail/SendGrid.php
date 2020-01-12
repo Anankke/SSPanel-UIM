@@ -13,7 +13,7 @@ class SendGrid extends Base
     private $config;
     private $sg;
     private $sender;
-    private $sendername;
+    private $name;
 
     public function __construct()
     {
@@ -34,7 +34,7 @@ class SendGrid extends Base
 
     public function send($to_address, $subject_raw, $text, $files)
     {
-        $from = new Email($this->sendername, $this->sender);
+        $from = new Email($this->name, $this->sender);
         $subject = $subject_raw;
         $to = new Email(null, $to_address);
         $content = new Content('text/html', $text);
