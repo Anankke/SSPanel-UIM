@@ -20,7 +20,7 @@ class SendGrid extends Base
         $this->config = $this->getConfig();
         $this->sg = new \SendGrid($this->config['key']);
         $this->sender = $this->config['sender'];
-        $this->sendername = $this->config['appName'];
+        $this->name = $this->config['name'];
     }
 
     public function getConfig()
@@ -28,7 +28,7 @@ class SendGrid extends Base
         return [
             'key' => Config::get('sendgrid_key'),
             'sender' => Config::get('sendgrid_sender')
-            'sendername' => Config::get('appName')
+            'name' => Config::get('sendgrid_name')
         ];
     }
 
