@@ -511,7 +511,7 @@ class Job
                     }
 
                     Telegram::Send($notice_text);
-                    $node->online == true;
+                    $node->online = true;
                     $node->save();
                 }
             }
@@ -597,10 +597,10 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-                $user->expired == true;
+                $user->expired = true;
                 $user->save();
             } elseif (strtotime($user->expire_in) > time() && $user->expired == true) {
-                $user->expired == false;
+                $user->expired = false;
                 $user->save();
             }
 
@@ -634,13 +634,13 @@ class Job
                             'user' => $user,
                             'text' => $text
                         ]);
-                        $user->traffic_noticed == true;
+                        $user->traffic_noticed = true;
                         $user->save();
                     } catch (Exception $e) {
                         echo $e->getMessage();
                     }
                 } elseif ($under_limit == false && $user->traffic_noticed == true) {
-                    $user->traffic_noticed == false;
+                    $user->traffic_noticed = false;
                     $user->save();
                 }
             }
