@@ -579,7 +579,7 @@ class Job
                 Radius::Delete($user->email);
             }
 
-            if (strtotime($user->expire_in) < time() && !file_exists(BASE_PATH . '/storage/' . $user->id . '.expire_in')) {
+            if (strtotime($user->expire_in) < time() && $user->expired == false) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
@@ -606,9 +606,6 @@ class Job
 
 
             //余量不足检测
-            if (!file_exists(BASE_PATH . '/storage/traffic_notified/') && !mkdir($concurrentDirectory = BASE_PATH . '/storage/traffic_notified/') && !is_dir($concurrentDirectory)) {
-                throw new RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
-            }
             if (Config::get('notify_limit_mode') != false) {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = false;
@@ -625,7 +622,7 @@ class Job
                     $unit_text = 'MB';
                 }
 
-                if ($under_limit == true && !file_exists(BASE_PATH . '/storage/traffic_notified/' . $user->id . '.userid')) {
+                if ($under_limit == true && $user->traffic_notified == false) {
                     $subject = Config::get('appName') . ' - 您的剩余流量过低';
                     $to = $user->email;
                     $text = '您好，系统发现您剩余流量已经低于 ' . Config::get('notify_limit_value') . $unit_text . ' 。';
@@ -774,7 +771,7 @@ class Job
                 foreach ($nodes as $node) {
                     if ($node->node_ip == '' ||
                         $node->node_ip == null ||
-                        file_exists(BASE_PATH . '/storage/' . $node->id . 'offline') == true) {
+                        $node->online == false) {
                         continue;
                     }
                     $api_url = Config::get('detect_gfw_url');
@@ -797,7 +794,7 @@ class Job
                         //被墙了
                         echo($node->id . ':false' . PHP_EOL);
                         //判断有没有发送过邮件
-                        if (file_exists(BASE_PATH . '/storage/' . $node->id . '.gfw')) {
+                        if ($node->gfw_block == true) {
                             continue;
                         }
                         foreach ($adminUser as $user) {
