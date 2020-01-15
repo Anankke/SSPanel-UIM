@@ -370,6 +370,8 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
+                $bought->is_notified = true;
+                $bought->save();
                 continue;
             }
             if ($user->money >= $shop->price) {
@@ -399,9 +401,9 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-                $bought->is_renewed = true;
+                $bought->is_notified = true;
                 $bought->save();
-            } elseif ($bought->is_renewed == false) {
+            } elseif ($bought->is_notified == false) {
                 $subject = Config::get('appName') . '-续费失败';
                 $to = $user->email;
                 $text = '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。';
@@ -413,6 +415,8 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
+                $bought->is_notified = true;
+                $bought->save();
             }
         }
 

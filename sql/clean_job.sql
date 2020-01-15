@@ -1,5 +1,12 @@
-ALTER TABLE `bought` ADD `is_renewed` BOOLEAN NOT NULL DEFAULT FALSE AFTER `price`;
-ALTER TABLE `ss_node` ADD `online` BOOLEAN NOT NULL DEFAULT FALSE AFTER `mu_only`
-    ,ADD `gfw_block` BOOLEAN NOT NULL DEFAULT FALSE AFTER `online`;
-ALTER TABLE `user` ADD `expired` BOOLEAN NOT NULL DEFAULT FALSE AFTER `telegram_id`
-    ,ADD `traffic_notified` BOOLEAN NULL DEFAULT FALSE AFTER `expired`;
+DELIMITER //
+CREATE PROCEDURE alter_table_procedure()
+BEGIN
+      DECLARE CONTINUE HANDLER FOR SQLEXCEPTION BEGIN END;
+    ALTER TABLE `bought` ADD `is_renewed` BOOLEAN NOT NULL DEFAULT FALSE AFTER `price`
+        ,CHANGE `is_renewed` `is_notified` BOOLEAN NOT NULL DEFAULT FALSE;
+    ALTER TABLE `ss_node` ADD `online` BOOLEAN NOT NULL DEFAULT FALSE AFTER `mu_only`
+        ,ADD `gfw_block` BOOLEAN NOT NULL DEFAULT FALSE AFTER `online`;
+    ALTER TABLE `user` ADD `expired` BOOLEAN NOT NULL DEFAULT FALSE AFTER `telegram_id`
+        ,ADD `traffic_notified` BOOLEAN NULL DEFAULT FALSE AFTER `expired`;
+    END //
+DELIMITER ;
