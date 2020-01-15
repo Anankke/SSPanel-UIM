@@ -45,7 +45,7 @@ $offline_c = function ($ids) use ($processed) {
             unlink(__DIR__ . '/../storage/' . $id . 'offline');
             $processed['offline'] = $id;
         } else {
-            $node->offline = true;
+            $node->online = true;
             if ($node->save() == true) {
                 unlink(__DIR__ . '/../storage/' . $id . 'offline');
                 echo 'Offline Process successed for node' . $id . PHP_EOL;
