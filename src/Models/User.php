@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
  *
  * @property-read   int     $id         ID
  * @todo More property
- * @property        bool    $expired    If account expired
+ * @property        bool    $expire_notified    If user is notified for expire
  * @property        bool    $traffic_notified   If user is noticed for low traffic
  */
 

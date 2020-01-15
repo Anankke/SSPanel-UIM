@@ -16,7 +16,6 @@ $processed = [];
 $renew = [];
 $renew_c = function ($ids) use ($processed) {
     echo 'Renew Process START.';
-    \App\Models\Bought::where('renew', '=', 0)->update(array('is_renewed' => true));
     foreach ($ids as $id) {
         $bought = \App\Models\Bought::find($id);
         if ($bought == null) {
@@ -24,7 +23,7 @@ $renew_c = function ($ids) use ($processed) {
             unlink(__DIR__ . '/../storage/' . $id . '.renew');
             $processed['renew'] = $id;
         } else {
-            $bought->is_renewed = true;
+            $bought->is_notified = true;
             if ($bought->save() == true) {
                 unlink(__DIR__ . '/../storage/' . $id . '.renew');
                 echo 'Renew Process successed for bought' . $id . PHP_EOL;
