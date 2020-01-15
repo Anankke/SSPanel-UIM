@@ -45,7 +45,7 @@ $offline_c = function ($ids) use ($processed) {
             unlink(__DIR__ . '/../storage/' . $id . '.offline');
             $processed['offline'] = $id;
         } else {
-            $node->online = true;
+            $node->online = false;
             if ($node->save() == true) {
                 unlink(__DIR__ . '/../storage/' . $id . '.offline');
                 echo 'Offline Process successed for node' . $id . PHP_EOL;
@@ -66,7 +66,7 @@ $expire_c = function ($ids) use ($processed) {
             unlink(__DIR__ . '/../storage/' . $id . '.expire_in');
             $processed['expire'] = $id;
         } else {
-            $user->online = false;
+            $user->expired = true;
             if ($user->save() == true) {
                 unlink(__DIR__ . '/../storage/' . $id . '.expire_in');
                 echo 'Expire Process successed for user' . $id . PHP_EOL;
