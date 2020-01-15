@@ -583,7 +583,7 @@ class Job
                 Radius::Delete($user->email);
             }
 
-            if (strtotime($user->expire_in) < time() && $user->expired == false) {
+            if (strtotime($user->expire_in) < time() && $user->expire_notified == false) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
@@ -601,10 +601,10 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-                $user->expired = true;
+                $user->expire_notified = true;
                 $user->save();
-            } elseif (strtotime($user->expire_in) > time() && $user->expired == true) {
-                $user->expired = false;
+            } elseif (strtotime($user->expire_in) > time() && $user->expire_notified == true) {
+                $user->expire_notified = false;
                 $user->save();
             }
 
