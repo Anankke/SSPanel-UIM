@@ -12,7 +12,7 @@ namespace App\Models;
  * @property        int     $renew      Time to renew this bought
  * @property        string  $coupon     Coupon applied to this bought
  * @property        float   $price      Price after coupon applied
- * @property        bool    $is_renewed If this bought is renewed
+ * @property        bool    $is_notified If this bought is notified for renew
  */
 class Bought extends Model
 {

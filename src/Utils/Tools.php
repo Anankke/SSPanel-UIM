@@ -377,9 +377,17 @@ class Tools
         return $pathset;
     }
 
+    /**
+     * Filter key in `App\Models\Model` object
+     *
+     * @param \App\Models\Model $object
+     * @param array             $filter_array
+     *
+     * @return \App\Models\Model
+     */
     public static function keyFilter($object, $filter_array)
     {
-        foreach ($object['attributes'] as $key => $value) {
+        foreach ($object->toArray() as $key => $value) {
             if (!in_array($key, $filter_array)) {
                 unset($object->$key);
             }

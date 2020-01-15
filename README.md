@@ -155,6 +155,8 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 #### Anankke
 
 - [Anankke 很可爱请给 Anankke 钱](https://t.me/anankke/5)
+- 在[EVE Online](https://www.eveonline.com/)中向 [`SSPANEL UIM`](https://evewho.com/character/2116183484) 发送 ISK
+
 
 #### dumplin
 

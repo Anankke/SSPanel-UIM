@@ -370,6 +370,8 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
+                $bought->is_notified = true;
+                $bought->save();
                 continue;
             }
             if ($user->money >= $shop->price) {
@@ -399,9 +401,9 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-                $bought->is_renewed = true;
+                $bought->is_notified = true;
                 $bought->save();
-            } elseif ($bought->is_renewed == false) {
+            } elseif ($bought->is_notified == false) {
                 $subject = Config::get('appName') . '-续费失败';
                 $to = $user->email;
                 $text = '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。';
@@ -413,6 +415,8 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
+                $bought->is_notified = true;
+                $bought->save();
             }
         }
 
@@ -511,7 +515,7 @@ class Job
                     }
 
                     Telegram::Send($notice_text);
-                    $node->online == true;
+                    $node->online = true;
                     $node->save();
                 }
             }
@@ -579,7 +583,7 @@ class Job
                 Radius::Delete($user->email);
             }
 
-            if (strtotime($user->expire_in) < time() && !file_exists(BASE_PATH . '/storage/' . $user->id . '.expire_in')) {
+            if (strtotime($user->expire_in) < time() && $user->expire_notified == false) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
@@ -597,18 +601,15 @@ class Job
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
-                $user->expired == true;
+                $user->expire_notified = true;
                 $user->save();
-            } elseif (strtotime($user->expire_in) > time() && $user->expired == true) {
-                $user->expired == false;
+            } elseif (strtotime($user->expire_in) > time() && $user->expire_notified == true) {
+                $user->expire_notified = false;
                 $user->save();
             }
 
 
             //余量不足检测
-            if (!file_exists(BASE_PATH . '/storage/traffic_notified/') && !mkdir($concurrentDirectory = BASE_PATH . '/storage/traffic_notified/') && !is_dir($concurrentDirectory)) {
-                throw new RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
-            }
             if (Config::get('notify_limit_mode') != false) {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = false;
@@ -625,7 +626,7 @@ class Job
                     $unit_text = 'MB';
                 }
 
-                if ($under_limit == true && !file_exists(BASE_PATH . '/storage/traffic_notified/' . $user->id . '.userid')) {
+                if ($under_limit == true && $user->traffic_notified == false) {
                     $subject = Config::get('appName') . ' - 您的剩余流量过低';
                     $to = $user->email;
                     $text = '您好，系统发现您剩余流量已经低于 ' . Config::get('notify_limit_value') . $unit_text . ' 。';
@@ -634,13 +635,13 @@ class Job
                             'user' => $user,
                             'text' => $text
                         ]);
-                        $user->traffic_noticed == true;
+                        $user->traffic_noticed = true;
                         $user->save();
                     } catch (Exception $e) {
                         echo $e->getMessage();
                     }
                 } elseif ($under_limit == false && $user->traffic_noticed == true) {
-                    $user->traffic_noticed == false;
+                    $user->traffic_noticed = false;
                     $user->save();
                 }
             }
@@ -774,7 +775,7 @@ class Job
                 foreach ($nodes as $node) {
                     if ($node->node_ip == '' ||
                         $node->node_ip == null ||
-                        file_exists(BASE_PATH . '/storage/' . $node->id . 'offline') == true) {
+                        $node->online == false) {
                         continue;
                     }
                     $api_url = Config::get('detect_gfw_url');
@@ -797,7 +798,7 @@ class Job
                         //被墙了
                         echo($node->id . ':false' . PHP_EOL);
                         //判断有没有发送过邮件
-                        if (file_exists(BASE_PATH . '/storage/' . $node->id . '.gfw')) {
+                        if ($node->gfw_block == true) {
                             continue;
                         }
                         foreach ($adminUser as $user) {

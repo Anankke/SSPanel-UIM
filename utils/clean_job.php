@@ -16,17 +16,16 @@ $processed = [];
 $renew = [];
 $renew_c = function ($ids) use ($processed) {
     echo 'Renew Process START.';
-    \App\Models\Bought::where('renew', '=', 0)->update(array('is_renewed' => true));
     foreach ($ids as $id) {
         $bought = \App\Models\Bought::find($id);
         if ($bought == null) {
             echo 'Bought not found:' . $id . PHP_EOL;
-            unlink(__DIR__ . '/../storage/' . $id . 'renew');
+            unlink(__DIR__ . '/../storage/' . $id . '.renew');
             $processed['renew'] = $id;
         } else {
-            $bought->is_renewed = true;
+            $bought->is_notified = true;
             if ($bought->save() == true) {
-                unlink(__DIR__ . '/../storage/' . $id . 'renew');
+                unlink(__DIR__ . '/../storage/' . $id . '.renew');
                 echo 'Renew Process successed for bought' . $id . PHP_EOL;
                 $processed['renew'] = $id;
             }
@@ -42,12 +41,12 @@ $offline_c = function ($ids) use ($processed) {
         $node = \App\Models\Node::find($id);
         if ($node == null) {
             echo 'Node not found:' . $id . PHP_EOL;
-            unlink(__DIR__ . '/../storage/' . $id . 'offline');
+            unlink(__DIR__ . '/../storage/' . $id . '.offline');
             $processed['offline'] = $id;
         } else {
-            $node->offline = true;
+            $node->online = false;
             if ($node->save() == true) {
-                unlink(__DIR__ . '/../storage/' . $id . 'offline');
+                unlink(__DIR__ . '/../storage/' . $id . '.offline');
                 echo 'Offline Process successed for node' . $id . PHP_EOL;
                 $processed['offline'] = $id;
             }
@@ -63,12 +62,12 @@ $expire_c = function ($ids) use ($processed) {
         $user = \App\Models\User::find($id);
         if ($user == null) {
             echo 'User not found:' . $id . PHP_EOL;
-            unlink(__DIR__ . '/../storage/' . $id . 'expire_in');
+            unlink(__DIR__ . '/../storage/' . $id . '.expire_in');
             $processed['expire'] = $id;
         } else {
-            $user->online = false;
+            $user->expired = true;
             if ($user->save() == true) {
-                unlink(__DIR__ . '/../storage/' . $id . 'expire_in');
+                unlink(__DIR__ . '/../storage/' . $id . '.expire_in');
                 echo 'Expire Process successed for user' . $id . PHP_EOL;
                 $processed['expire'] = $id;
             }
@@ -84,12 +83,12 @@ $gfw_c = function ($ids) use ($processed) {
         $node = \App\Models\Node::find($id);
         if ($node == null) {
             echo 'Node not found:' . $id . PHP_EOL;
-            unlink(__DIR__ . '/../storage/' . $id . 'gfw');
+            unlink(__DIR__ . '/../storage/' . $id . '.gfw');
             $processed['gfw'] = $id;
         } else {
             $node->gfw_block = true;
             if ($node->save() == true) {
-                unlink(__DIR__ . '/../storage/' . $id . 'gfw');
+                unlink(__DIR__ . '/../storage/' . $id . '.gfw');
                 echo 'GFW Process successed for node' . $id . PHP_EOL;
                 $processed['gfw'] = $id;
             }
@@ -147,12 +146,12 @@ if (file_exists(__DIR__ . '/../storage/traffic_notified') == true) {
             $user = \App\Models\User::find($id);
             if ($user == null) {
                 echo 'User not found:' . $id . PHP_EOL;
-                unlink(__DIR__ . '/../storage/traffic_notified/' . $id . 'gfw');
+                unlink(__DIR__ . '/../storage/traffic_notified/' . $id . '.userid');
                 $processed['notified'] = $id;
             } else {
                 $user->traffic_notified = true;
                 if ($user->save() == true) {
-                    unlink(__DIR__ . '/../storage/traffic_notified/' . $id . 'gfw');
+                    unlink(__DIR__ . '/../storage/traffic_notified/' . $id . '.userid');
                     echo 'Notified Process successed for node' . $id . PHP_EOL;
                     $processed['notified'] = $id;
                 }
