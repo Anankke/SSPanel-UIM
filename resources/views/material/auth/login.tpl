@@ -69,7 +69,11 @@
                 </div>
                 <div class="auth-bottom auth-row">
                     <div class="tgauth">
-                        {if $config['enable_telegram'] == 'true'}
+                        {if $config['enable_social_login'] == 'true'}
+                            <span>Telegram</span>
+                            <button class="btn" id="socialauth" onclick="socialRedirect()"><i class="icon icon-lg">near_me</i></button>
+                            <span>社交帐号登录</span>
+                        {else if $config['enable_telegram'] == 'true'}
                             <span>Telegram</span>
                             <button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button>
                             <span>快捷登录</span>
@@ -298,6 +302,73 @@
     </script>
 {/if}
 
+{if $config['enable_social_login'] == 'true'}
+    <script>
+        function socialRedirect() {
+            var url = location.href;
+            location.href= 'https://wallet.mugglepay.com/connect?scope=snsapi_login&redirect_uri=' + url;
+        }
+        $(document).ready(function () {
+            sociallogin();
+            // TODO (Utils)
+            function getQueryVariable(variable) {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == variable) {
+                        return pair[1];
+                    }
+                }
+                return "";
+            }
+            // TODO (Utils)
+            function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+                }
+                return "";
+            }
+            function sociallogin() {
+                tidsocial = setTimeout(sociallogin, 3000);
+                var connectcode = getQueryVariable('connectcode');
+                if (!connectcode) {
+                    return;
+                }
+                var code = getCookie('code');
+                $.ajax({
+                    type: "POST",
+                    url: "/auth/social_login",
+                    dataType: "json",
+                    data: {
+                        connectcode,
+                        code
+                    },
+                    success: (data) => {
+                        clearTimeout(tidsocial);
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        if (data.ret) {
+                            window.setTimeout("location.href='/user/'", {$config['jump_delay']});
+                        } else {
+                            window.setTimeout("location.href='/auth/login'", {$config['jump_delay']});
+                        }
+                    },
+                    error: (jqXHR) => {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = `发生错误：${
+                            jqXHR.status
+                        }，请重新登录。`;
+                        // window.setTimeout("location.href=/auth/login", {$config['jump_delay']});
+                    }
+                });
+            }
+        })
+    </script>
+{/if}
 
 {if $geetest_html != null}
     <script>

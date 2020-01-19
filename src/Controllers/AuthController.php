@@ -312,6 +312,93 @@ class AuthController extends BaseController
         return $response->getBody()->write(json_encode($res));
     }
 
+    private function social_login_auth($connectcode)
+    {
+        $curl = curl_init();
+        $socialConnectUri = 'https://mgxapi.mugglepay.com/api/tokens/' . $connectcode . '/connectstatus';
+        curl_setopt($curl, CURLOPT_URL, $socialConnectUri);
+        curl_setopt($curl, CURLOPT_HTTPGET, 1);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        $data = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($data, true);
+    }
+
+    public function social_login($request, $response)
+    {
+        $connectcode = $request->getParam('connectcode');
+        $connectcode = trim($connectcode);
+        $code = $request->getParam('code');
+        $code = trim($code);
+
+        if ( !$connectcode ) {
+            $res['ret'] = 0;
+            $res['msg'] = 'Telegram认证失败，请重新再试。';
+            return $response->getBody()->write(json_encode($res));
+        }
+        $result = $this->social_login_auth($connectcode);
+        // file_put_contents(BASE_PATH.'/social_login.log', " Debug ". $connectcode . "\r\n", FILE_APPEND);
+
+        if (!$result || !$result['user']) {
+            $res['ret'] = 0;
+            $res['msg'] = 'Telegram认证失败或超时，请重新再试。';
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        $tguser = $result['user'];
+        $telegram_id = $tguser['uid'];
+        $telegram_name = $tguser['username'];
+        $name = $tguser['nickname'];
+        $name = trim($name);
+
+        $telegram_id = trim($telegram_id);
+        $telegram_name = trim($telegram_name);
+        $passwd = Tools::genRandomChar(18);
+        $email = 'tg.' . $telegram_id . '@mugglepay.com';
+        $imtype = $telegram_name; // Telegram
+        $imvalue = 4; // Telegram
+
+        if ( !$telegram_id ) {
+            $res['ret'] = 0;
+            $res['msg'] = 'Telegram认证信息获取失败，请重新再试。';
+            return $response->getBody()->write(json_encode($res));
+        }
+        if ( !$name ) {
+            $name = 'tg.' . $telegram_id;
+        }
+
+        $user = User::where('email', $email)->first();
+        if ($user != null) {
+            if ($user->telegram_id == null || $telegram_id == null
+                || strval($user->telegram_id) !== strval($telegram_id)) {
+                $res['ret'] = 0;
+                $res['msg'] = '您的Telegram与注册邮箱不匹配，请使用邮箱登录。';
+                return $response->getBody()->write(json_encode($res));
+            };
+
+            Auth::login($user->id, 3600);
+            $this->logUserIp($user->id, $_SERVER['REMOTE_ADDR']);
+
+            // 登录成功！
+            $res['ret'] = 1;
+            $res['msg'] = '登录成功，正在前往用户界面。';
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        $tguser = User::where('telegram_id', intval($telegram_id))->first();
+        if ($tguser != null) {
+            Auth::login($tguser->id, 3600);
+            $this->logUserIp($tguser->id, $_SERVER['REMOTE_ADDR']);
+            $res['ret'] = 1;
+            $res['msg'] = '登录成功，正在前往用户界面。';
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id);
+    }
+
     public function registerHandle($request, $response)
     {
         if (Config::get('register_mode') === 'close') {
@@ -319,6 +406,7 @@ class AuthController extends BaseController
             $res['msg'] = '未开放注册。';
             return $response->getBody()->write(json_encode($res));
         }
+
         $name = $request->getParam('name');
         $email = $request->getParam('email');
         $email = trim($email);
@@ -330,10 +418,10 @@ class AuthController extends BaseController
         $imtype = $request->getParam('imtype');
         $emailcode = $request->getParam('emailcode');
         $emailcode = trim($emailcode);
-        $wechat = $request->getParam('wechat');
-        $wechat = trim($wechat);
-        // check code
 
+        // 前端传入参数为wechat, 后续作为 im_value使用，变量改名为 im_value
+        $imvalue = $request->getParam('wechat');
+        $imvalue = trim($imvalue);
 
         if (Config::get('enable_reg_captcha') === true) {
             switch (Config::get('captcha_provider')) {
@@ -356,37 +444,6 @@ class AuthController extends BaseController
                 return $response->getBody()->write(json_encode($res));
             }
         }
-
-
-        //dumplin：1、邀请人等级为0则邀请码不可用；2、邀请人invite_num为可邀请次数，填负数则为无限
-        $c = InviteCode::where('code', $code)->first();
-        if ($c == null) {
-            if (Config::get('register_mode') === 'invite') {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请码无效';
-                return $response->getBody()->write(json_encode($res));
-            }
-        } elseif ($c->user_id != 0) {
-            $gift_user = User::where('id', '=', $c->user_id)->first();
-            if ($gift_user == null) {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请人不存在';
-                return $response->getBody()->write(json_encode($res));
-            }
-
-            if ($gift_user->class == 0) {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请人不是VIP';
-                return $response->getBody()->write(json_encode($res));
-            }
-
-            if ($gift_user->invite_num == 0) {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请人可用邀请次数为0';
-                return $response->getBody()->write(json_encode($res));
-            }
-        }
-
 
         // check email format
         if (!Check::isEmailLegal($email)) {
@@ -425,13 +482,13 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($imtype == '' || $wechat == '') {
+        if ($imtype == '' || $imvalue == '') {
             $res['ret'] = 0;
             $res['msg'] = '请填上你的联络方式';
             return $response->getBody()->write(json_encode($res));
         }
 
-        $user = User::where('im_value', $wechat)->where('im_type', $imtype)->first();
+        $user = User::where('im_value', $imvalue)->where('im_type', $imtype)->first();
         if ($user != null) {
             $res['ret'] = 0;
             $res['msg'] = '此联络方式已注册';
@@ -440,11 +497,50 @@ class AuthController extends BaseController
         if (Config::get('enable_email_verify') == true) {
             EmailVerify::where('email', '=', $email)->delete();
         }
+        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0);
+    }
+
+    private function registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id)
+    {
+        if (Config::get('register_mode') === 'close') {
+            $res['ret'] = 0;
+            $res['msg'] = '未开放注册。';
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        //dumplin：1、邀请人等级为0则邀请码不可用；2、邀请人invite_num为可邀请次数，填负数则为无限
+        $c = InviteCode::where('code', $code)->first();
+        if ($c == null) {
+            if (Config::get('register_mode') === 'invite') {
+                $res['ret'] = 0;
+                $res['msg'] = '邀请码无效';
+                return $response->getBody()->write(json_encode($res));
+            }
+        } elseif ($c->user_id != 0) {
+            $gift_user = User::where('id', '=', $c->user_id)->first();
+            if ($gift_user == null) {
+                $res['ret'] = 0;
+                $res['msg'] = '邀请人不存在';
+                return $response->getBody()->write(json_encode($res));
+            }
+
+            if ($gift_user->class == 0) {
+                $res['ret'] = 0;
+                $res['msg'] = '邀请人不是VIP';
+                return $response->getBody()->write(json_encode($res));
+            }
+
+            if ($gift_user->invite_num == 0) {
+                $res['ret'] = 0;
+                $res['msg'] = '邀请人可用邀请次数为0';
+                return $response->getBody()->write(json_encode($res));
+            }
+        }
+
         // do reg user
         $user = new User();
 
         $antiXss = new AntiXSS();
-
 
         $user->user_name = $antiXss->xss_clean($name);
         $user->email = $email;
@@ -462,7 +558,7 @@ class AuthController extends BaseController
         $user->forbidden_ip = Config::get('reg_forbidden_ip');
         $user->forbidden_port = Config::get('reg_forbidden_port');
         $user->im_type = $imtype;
-        $user->im_value = $antiXss->xss_clean($wechat);
+        $user->im_value = $antiXss->xss_clean($imvalue);
         $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
         $user->invite_num = Config::get('inviteNum');
         $user->auto_reset_day = Config::get('reg_auto_reset_day');
@@ -479,7 +575,9 @@ class AuthController extends BaseController
             --$gift_user->invite_num;
             $gift_user->save();
         }
-
+        if ( $telegram_id ) {
+            $user->telegram_id = $telegram_id;
+        }
 
         $user->class_expire = date('Y-m-d H:i:s', time() + Config::get('user_class_expire_default') * 3600);
         $user->class = Config::get('user_class_default');
@@ -500,15 +598,18 @@ class AuthController extends BaseController
 
         $user->ga_token = $secret;
         $user->ga_enable = 0;
-
+        // file_put_contents(BASE_PATH.'/social_login.log', " 1.a ". $connectcode . "\r\n", FILE_APPEND);
 
         if ($user->save()) {
+            Auth::login($user->id, 3600);
+            $this->logUserIp($user->id, $_SERVER['REMOTE_ADDR']);
+
             $res['ret'] = 1;
             $res['msg'] = '注册成功！正在进入登录界面';
+
             Radius::Add($user, $user->passwd);
             return $response->getBody()->write(json_encode($res));
         }
-
         $res['ret'] = 0;
         $res['msg'] = '未知错误';
         return $response->getBody()->write(json_encode($res));

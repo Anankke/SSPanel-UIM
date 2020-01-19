@@ -127,8 +127,17 @@
                     <div class="rowtocol">
                         <div class="btn-auth auth-row">
                             <button id="tos" type="submit"
-                                    class="btn-reg btn btn-block btn-brand waves-attach waves-light">确认注册
+                                    class="btn-reg btn btn-block btn-brand waves-attach waves-light">邮箱注册
                             </button>
+                            {if $config['enable_social_login'] == 'true'}
+                            <button id="socialauth"
+                                    style="width: 40%; margin-top: 20px;"
+                                    class="btn-reg btn btn-block btn-brand waves-attach waves-light"
+                                    onclick="socialRedirect()">
+                                    <img src="https://dcdn.mugglepay.com/pay/media/icons/telegram20.svg?v=ssp" />
+                                    一键注册
+                            </button>
+                            {/if}
                         </div>
                     </div>
                 {else}
@@ -476,7 +485,19 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
     }
     {/if}
 
-
+    function socialRedirect() {
+        var code = 0;
+        {if $config['register_mode'] == 'invite'}
+        code = $$getValue('code');
+        {else}
+        code = 0;
+        if ((getCookie('code')) != '') {
+            code = getCookie('code');
+        }
+        {/if}
+        var url = location.origin + '/auth/login';
+        location.href= 'https://wallet.mugglepay.com/connect?scope=snsapi_login&redirect_uri=' + url;
+    }
 </script>
 {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
