@@ -5,6 +5,7 @@ namespace App\Utils;
 use App\Models\User;
 use App\Services\Config;
 use App\Controllers\LinkController;
+use App\Controllers\AuthController;
 use TelegramBot\Api\Client;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
@@ -130,6 +131,27 @@ class TelegramProcess
                             break;
                         }
 
+                        if ($user == null) {
+                            $telegram_id = $message->getFrom()->getId();
+                            $username = $message->getFrom()->getUsername();
+
+                            $email = Tools::genRandomChar(6) . '.' . $telegram_id . '@telegram.org';
+                            $passwd = Tools::genRandomChar(18); // Random Password
+                            $imtype = 4; // Telegram
+                            $imvalue = $username;
+                            $name = $username;
+                            if ( !$name ) {
+                                $name = 'telegram.' . $telegram_id;
+                            }
+                            $code = 0; // TODO: Refer Code
+                            $res = AuthController::register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id);
+
+                            if ($res['ret'] == 0) {
+                                $reply['message'] = $res['msg'];
+                                break;
+                            }
+                            $user = User::where('telegram_id', $telegram_id)->first();
+                        }
                         if ($user != null) {
                             $uid = TelegramSessionManager::verify_login_number($message->getText(), $user->id);
                             if ($uid != 0) {

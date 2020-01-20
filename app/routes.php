@@ -124,7 +124,6 @@ return function (SlimApp $app) {
     // Auth
     $app->group('/auth', function () {
         $this->get('/login', App\Controllers\AuthController::class . ':login');
-        $this->post('/social_login', App\Controllers\AuthController::class . ':social_login');
         $this->post('/qrcode_check', App\Controllers\AuthController::class . ':qrcode_check');
         $this->post('/login', App\Controllers\AuthController::class . ':loginHandle');
         $this->post('/qrcode_login', App\Controllers\AuthController::class . ':qrcode_loginHandle');

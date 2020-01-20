@@ -127,17 +127,8 @@
                     <div class="rowtocol">
                         <div class="btn-auth auth-row">
                             <button id="tos" type="submit"
-                                    class="btn-reg btn btn-block btn-brand waves-attach waves-light">邮箱注册
+                                    class="btn-reg btn btn-block btn-brand waves-attach waves-light">确认注册
                             </button>
-                            {if $config['enable_social_login'] == 'true'}
-                            <button id="socialauth"
-                                    style="width: 40%; margin-top: 20px;"
-                                    class="btn-reg btn btn-block btn-brand waves-attach waves-light"
-                                    onclick="socialRedirect()">
-                                    <img src="https://dcdn.mugglepay.com/pay/media/icons/telegram20.svg?v=ssp" />
-                                    一键注册
-                            </button>
-                            {/if}
                         </div>
                     </div>
                 {else}
@@ -150,7 +141,9 @@
 
                         <p>注册即代表同意<a href="/tos">服务条款</a>，以及保证所录入信息的真实性，如有不实信息会导致账号被删除。</p>
 
-                        <!-- <span>Telegram</span><button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button><span>快捷登录</span> -->
+                        {if $config['enable_telegram'] == 'true'}
+                        <span>Telegram</span><button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button><span>快捷登录</span>
+                        {/if}
                     </div>
                 </div>
             </div>
@@ -160,6 +153,7 @@
 
             </div>
         </div>
+        {include file='./telegram_modal.tpl'}
     </div>
 </div>
 
@@ -255,6 +249,16 @@ const showStrong = () => {
 document.getElementById('passwd').addEventListener('input', checkStrong);
 </script>
 
+{literal}
+    <script>
+        let calltgbtn = document.querySelector('#calltgauth');
+        let tgboard = document.querySelector('.card.auth-tg.cust-model');
+        if (calltgbtn && tgboard) {
+            custModal(calltgbtn, tgboard);
+        }
+    </script>
+{/literal}
+
 {if $config['register_mode']!='close'}
     <script>
         $(document).ready(function () {
@@ -296,7 +300,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         if (data.ret == 1) {
                             $("#result").modal();
                             $$.getElementById('msg').innerHTML = data.msg;
-                            window.setTimeout("location.href='/auth/login'", {$config['jump_delay']});
+                            window.setTimeout("location.href='/user'", {$config['jump_delay']});
                         } else {
                             $("#result").modal();
                             $$.getElementById('msg').innerHTML = data.msg;
@@ -414,6 +418,8 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
     </script>
 {/if}
 
+{include file='./telegram.tpl'}
+
 {if $geetest_html != null}
     <script>
         var handlerEmbed = function (captchaObj) {
@@ -485,19 +491,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
     }
     {/if}
 
-    function socialRedirect() {
-        var code = 0;
-        {if $config['register_mode'] == 'invite'}
-        code = $$getValue('code');
-        {else}
-        code = 0;
-        if ((getCookie('code')) != '') {
-            code = getCookie('code');
-        }
-        {/if}
-        var url = location.origin + '/auth/login';
-        location.href= 'https://wallet.mugglepay.com/connect?scope=snsapi_login&redirect_uri=' + url;
-    }
+
 </script>
 {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
