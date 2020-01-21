@@ -426,9 +426,7 @@ class AuthController extends BaseController
 
         if ($user->save()) {
             Auth::login($user->id, 3600);
-            if ( !$telegram_id ) { // Telegram does not provide user's IP.
-                $this->logUserIp($user->id, $_SERVER['REMOTE_ADDR']);
-            }
+            $this->logUserIp($user->id, $_SERVER['REMOTE_ADDR']);
 
             $res['ret'] = 1;
             $res['msg'] = '注册成功！正在进入登录界面';
