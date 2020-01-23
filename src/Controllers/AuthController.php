@@ -230,12 +230,25 @@ class AuthController extends BaseController
             }
         }
 
+        if (Config::get('enable_telegram') === true) {
+            $login_text = TelegramSessionManager::add_login_session();
+            $login = explode('|', $login_text);
+            $login_token = $login[0];
+            $login_number = $login[1];
+        } else {
+            $login_token = '';
+            $login_number = '';
+        }
 
         return $this->view()
             ->assign('geetest_html', $GtSdk)
             ->assign('enable_email_verify', Config::get('enable_email_verify'))
             ->assign('code', $code)
             ->assign('recaptcha_sitekey', $recaptcha_sitekey)
+            ->assign('telegram_bot', Config::get('telegram_bot'))
+            ->assign('base_url', Config::get('baseUrl'))
+            ->assign('login_token', $login_token)
+            ->assign('login_number', $login_number)
             ->display('auth/register.tpl');
     }
 
@@ -312,6 +325,120 @@ class AuthController extends BaseController
         return $response->getBody()->write(json_encode($res));
     }
 
+    public function register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id)
+    {
+        if (Config::get('register_mode') === 'close') {
+            $res['ret'] = 0;
+            $res['msg'] = '未开放注册。';
+            return $res;
+        }
+
+        //dumplin：1、邀请人等级为0则邀请码不可用；2、邀请人invite_num为可邀请次数，填负数则为无限
+        $c = InviteCode::where('code', $code)->first();
+        if ($c == null) {
+            if (Config::get('register_mode') === 'invite') {
+                $res['ret'] = 0;
+                $res['msg'] = '邀请码无效';
+                return $res;
+            }
+        } elseif ($c->user_id != 0) {
+            $gift_user = User::where('id', '=', $c->user_id)->first();
+            if ($gift_user == null) {
+                $res['ret'] = 0;
+                $res['msg'] = '邀请人不存在';
+                return $res;
+            }
+
+            if ($gift_user->class == 0) {
+                $res['ret'] = 0;
+                $res['msg'] = '邀请人不是VIP';
+                return $res;
+            }
+
+            if ($gift_user->invite_num == 0) {
+                $res['ret'] = 0;
+                $res['msg'] = '邀请人可用邀请次数为0';
+                return $res;
+            }
+        }
+
+        // do reg user
+        $user = new User();
+
+        $antiXss = new AntiXSS();
+
+        $user->user_name = $antiXss->xss_clean($name);
+        $user->email = $email;
+        $user->pass = Hash::passwordHash($passwd);
+        $user->passwd = Tools::genRandomChar(6);
+        $user->port = Tools::getAvPort();
+        $user->t = 0;
+        $user->u = 0;
+        $user->d = 0;
+        $user->method = Config::get('reg_method');
+        $user->protocol = Config::get('reg_protocol');
+        $user->protocol_param = Config::get('reg_protocol_param');
+        $user->obfs = Config::get('reg_obfs');
+        $user->obfs_param = Config::get('reg_obfs_param');
+        $user->forbidden_ip = Config::get('reg_forbidden_ip');
+        $user->forbidden_port = Config::get('reg_forbidden_port');
+        $user->im_type = $imtype;
+        $user->im_value = $antiXss->xss_clean($imvalue);
+        $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
+        $user->invite_num = Config::get('inviteNum');
+        $user->auto_reset_day = Config::get('reg_auto_reset_day');
+        $user->auto_reset_bandwidth = Config::get('reg_auto_reset_bandwidth');
+        $user->money = 0;
+
+        //dumplin：填写邀请人，写入邀请奖励
+        $user->ref_by = 0;
+        if (($c != null) && $c->user_id != 0) {
+            $gift_user = User::where('id', '=', $c->user_id)->first();
+            $user->ref_by = $c->user_id;
+            $user->money = Config::get('invite_get_money');
+            $gift_user->transfer_enable += Config::get('invite_gift') * 1024 * 1024 * 1024;
+            --$gift_user->invite_num;
+            $gift_user->save();
+        }
+        if ( $telegram_id ) {
+            $user->telegram_id = $telegram_id;
+        }
+
+        $user->class_expire = date('Y-m-d H:i:s', time() + Config::get('user_class_expire_default') * 3600);
+        $user->class = Config::get('user_class_default');
+        $user->node_connector = Config::get('user_conn');
+        $user->node_speedlimit = Config::get('user_speedlimit');
+        $user->expire_in = date('Y-m-d H:i:s', time() + Config::get('user_expire_in_default') * 86400);
+        $user->reg_date = date('Y-m-d H:i:s');
+        $user->reg_ip = $_SERVER['REMOTE_ADDR'];
+        $user->plan = 'A';
+        $user->theme = Config::get('theme');
+
+        $groups = explode(',', Config::get('ramdom_group'));
+
+        $user->node_group = $groups[array_rand($groups)];
+
+        $ga = new GA();
+        $secret = $ga->createSecret();
+
+        $user->ga_token = $secret;
+        $user->ga_enable = 0;
+
+        if ($user->save()) {
+            Auth::login($user->id, 3600);
+            $this->logUserIp($user->id, $_SERVER['REMOTE_ADDR']);
+
+            $res['ret'] = 1;
+            $res['msg'] = '注册成功！正在进入登录界面';
+
+            Radius::Add($user, $user->passwd);
+            return $res;
+        }
+        $res['ret'] = 0;
+        $res['msg'] = '未知错误';
+        return $res;
+    }
+
     public function registerHandle($request, $response)
     {
         if (Config::get('register_mode') === 'close') {
@@ -319,6 +446,7 @@ class AuthController extends BaseController
             $res['msg'] = '未开放注册。';
             return $response->getBody()->write(json_encode($res));
         }
+
         $name = $request->getParam('name');
         $email = $request->getParam('email');
         $email = trim($email);
@@ -330,10 +458,10 @@ class AuthController extends BaseController
         $imtype = $request->getParam('imtype');
         $emailcode = $request->getParam('emailcode');
         $emailcode = trim($emailcode);
-        $wechat = $request->getParam('wechat');
-        $wechat = trim($wechat);
-        // check code
 
+        // 前端传入参数为wechat, 后续作为 im_value使用，变量改名为 im_value
+        $imvalue = $request->getParam('wechat');
+        $imvalue = trim($imvalue);
 
         if (Config::get('enable_reg_captcha') === true) {
             switch (Config::get('captcha_provider')) {
@@ -356,37 +484,6 @@ class AuthController extends BaseController
                 return $response->getBody()->write(json_encode($res));
             }
         }
-
-
-        //dumplin：1、邀请人等级为0则邀请码不可用；2、邀请人invite_num为可邀请次数，填负数则为无限
-        $c = InviteCode::where('code', $code)->first();
-        if ($c == null) {
-            if (Config::get('register_mode') === 'invite') {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请码无效';
-                return $response->getBody()->write(json_encode($res));
-            }
-        } elseif ($c->user_id != 0) {
-            $gift_user = User::where('id', '=', $c->user_id)->first();
-            if ($gift_user == null) {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请人不存在';
-                return $response->getBody()->write(json_encode($res));
-            }
-
-            if ($gift_user->class == 0) {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请人不是VIP';
-                return $response->getBody()->write(json_encode($res));
-            }
-
-            if ($gift_user->invite_num == 0) {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请人可用邀请次数为0';
-                return $response->getBody()->write(json_encode($res));
-            }
-        }
-
 
         // check email format
         if (!Check::isEmailLegal($email)) {
@@ -425,13 +522,13 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($imtype == '' || $wechat == '') {
+        if ($imtype == '' || $imvalue == '') {
             $res['ret'] = 0;
             $res['msg'] = '请填上你的联络方式';
             return $response->getBody()->write(json_encode($res));
         }
 
-        $user = User::where('im_value', $wechat)->where('im_type', $imtype)->first();
+        $user = User::where('im_value', $imvalue)->where('im_type', $imtype)->first();
         if ($user != null) {
             $res['ret'] = 0;
             $res['msg'] = '此联络方式已注册';
@@ -440,77 +537,7 @@ class AuthController extends BaseController
         if (Config::get('enable_email_verify') == true) {
             EmailVerify::where('email', '=', $email)->delete();
         }
-        // do reg user
-        $user = new User();
-
-        $antiXss = new AntiXSS();
-
-
-        $user->user_name = $antiXss->xss_clean($name);
-        $user->email = $email;
-        $user->pass = Hash::passwordHash($passwd);
-        $user->passwd = Tools::genRandomChar(6);
-        $user->port = Tools::getAvPort();
-        $user->t = 0;
-        $user->u = 0;
-        $user->d = 0;
-        $user->method = Config::get('reg_method');
-        $user->protocol = Config::get('reg_protocol');
-        $user->protocol_param = Config::get('reg_protocol_param');
-        $user->obfs = Config::get('reg_obfs');
-        $user->obfs_param = Config::get('reg_obfs_param');
-        $user->forbidden_ip = Config::get('reg_forbidden_ip');
-        $user->forbidden_port = Config::get('reg_forbidden_port');
-        $user->im_type = $imtype;
-        $user->im_value = $antiXss->xss_clean($wechat);
-        $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
-        $user->invite_num = Config::get('inviteNum');
-        $user->auto_reset_day = Config::get('reg_auto_reset_day');
-        $user->auto_reset_bandwidth = Config::get('reg_auto_reset_bandwidth');
-        $user->money = 0;
-
-        //dumplin：填写邀请人，写入邀请奖励
-        $user->ref_by = 0;
-        if (($c != null) && $c->user_id != 0) {
-            $gift_user = User::where('id', '=', $c->user_id)->first();
-            $user->ref_by = $c->user_id;
-            $user->money = Config::get('invite_get_money');
-            $gift_user->transfer_enable += Config::get('invite_gift') * 1024 * 1024 * 1024;
-            --$gift_user->invite_num;
-            $gift_user->save();
-        }
-
-
-        $user->class_expire = date('Y-m-d H:i:s', time() + Config::get('user_class_expire_default') * 3600);
-        $user->class = Config::get('user_class_default');
-        $user->node_connector = Config::get('user_conn');
-        $user->node_speedlimit = Config::get('user_speedlimit');
-        $user->expire_in = date('Y-m-d H:i:s', time() + Config::get('user_expire_in_default') * 86400);
-        $user->reg_date = date('Y-m-d H:i:s');
-        $user->reg_ip = $_SERVER['REMOTE_ADDR'];
-        $user->plan = 'A';
-        $user->theme = Config::get('theme');
-
-        $groups = explode(',', Config::get('ramdom_group'));
-
-        $user->node_group = $groups[array_rand($groups)];
-
-        $ga = new GA();
-        $secret = $ga->createSecret();
-
-        $user->ga_token = $secret;
-        $user->ga_enable = 0;
-
-
-        if ($user->save()) {
-            $res['ret'] = 1;
-            $res['msg'] = '注册成功！正在进入登录界面';
-            Radius::Add($user, $user->passwd);
-            return $response->getBody()->write(json_encode($res));
-        }
-
-        $res['ret'] = 0;
-        $res['msg'] = '未知错误';
+        $res = $this->register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0);
         return $response->getBody()->write(json_encode($res));
     }
 
