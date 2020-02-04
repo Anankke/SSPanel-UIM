@@ -310,7 +310,7 @@ $_ENV['redis_database'] = '';
 $_ENV['redis_password']= '';
 
 #Radius设置
-$_ENV['enable_radius'] = true;			//是否开启Radius
+$_ENV['enable_radius'] = false;			//是否开启Radius
 $_ENV['radius_db_host'] = '';				//以下4项为Radius数据库设置
 $_ENV['radius_db_database'] = '';
 $_ENV['radius_db_user'] = '';
