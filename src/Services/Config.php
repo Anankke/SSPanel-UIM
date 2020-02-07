@@ -52,14 +52,15 @@ class Config
     public static function getDbConfig()
     {
         return [
-            'driver' => self::get('db_driver'),
-            'host' => self::get('db_host'),
-            'database' => self::get('db_database'),
-            'username' => self::get('db_username'),
-            'password' => self::get('db_password'),
-            'charset' => self::get('db_charset'),
-            'collation' => self::get('db_collation'),
-            'prefix' => self::get('db_prefix')
+            'driver'        => $_ENV['db_driver'],
+            'host'          => $_ENV['db_host'],
+            'unix_socket'   => $_ENV['db_socket'],
+            'database'      => $_ENV['db_database'],
+            'username'      => $_ENV['db_username'],
+            'password'      => $_ENV['db_password'],
+            'charset'       => $_ENV['db_charset'],
+            'collation'     => $_ENV['db_collation'],
+            'prefix'        => $_ENV['db_prefix'],
         ];
     }
 

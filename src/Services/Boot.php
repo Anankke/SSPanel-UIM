@@ -16,10 +16,22 @@ class Boot
     {
         // Init Eloquent ORM Connection
         $capsule = new Capsule();
-        $capsule->addConnection(Config::getDbConfig());
-        if (Config::get('enable_radius') == true) {
-            $capsule->addConnection(Config::getRadiusDbConfig(), 'radius');
+        try {
+            $capsule->addConnection(Config::getDbConfig());
+            $capsule->getConnection()->getPdo();
+        } catch (\Exception $e) {
+            die('Could not connect to main database: ' . $e->getMessage());
         }
+
+        if ($_ENV['enable_radius'] === true) {
+            try {
+                $capsule->addConnection(Config::getRadiusDbConfig(), 'radius');
+                $capsule->getConnection('radius')->getPdo();
+            } catch (\Exception $e) {
+                die('Could not connect to radius database: ' . $e->getMessage());
+            }
+        }
+        
         $capsule->bootEloquent();
 
         View::$connection = $capsule->getDatabaseManager();

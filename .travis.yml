@@ -52,21 +52,12 @@ install:
   # I don't need npm audit when npm i. I will do it myself.
   - npm set audit false
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
-      npm i -g npm@latest && npm i -g phplint;
+      npm i -g phplint;
     fi
-  - cd uim-index-dev
-  - npm i
-  - cd ..
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
       cd test && git clone https://github.com/biinari/smarty-lint && cd .. ;
     fi
 before_script:
-  - cd uim-index-dev
-  - npm audit > npm-audit.log || true
-  - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
-      npm run lint && npm run build;
-    fi
-  - cd ..
   - if [[ ! -n "$(git log -1 --pretty=%B | grep 'skip lint')" ]]; then
       phplint '**/*.php' '!vendor/**';
     fi
@@ -90,7 +81,6 @@ script:
   - ./test/test.sh ${arrcookie[0]} ${arrcookie[1]}
   - sudo cat /var/log/nginx/access.log
   - sudo cat /var/log/nginx/error.log
-  - cat uim-index-dev/npm-audit.log
 cache:
   directories:
     - uim-index-dev/node_modules

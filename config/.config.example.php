@@ -22,7 +22,12 @@ $_ENV['baseUrl'] = 'http://url.com';					//站点地址
 $_ENV['subUrl'] = $_ENV['baseUrl'] . '/link/';	//订阅地址，如需和站点名称相同，请不要修改
 $_ENV['muKey'] = 'default_mu_key';								//用于校验魔改后端请求，可以随意修改，但请保持前后端一致，否则节点不能工作！
 $_ENV['db_driver'] = 'mysql';							//数据库程序
-$_ENV['db_host'] = 'localhost';						//数据库地址
+// 数据库网络地址(在本机上推荐用 Unix Socket, 与下面二选一, 不用则留空)
+// 例: localhost(可解析主机名), 127.0.0.1(IP 地址)
+$_ENV['db_host'] = '';
+// 数据库 Unix Socket 地址(优先级高于网络地址, 与上面二选一, 不用则留空)
+// 例: /var/run/mysqld/mysqld.sock(绝对地址)
+$_ENV['db_socket'] = '';
 $_ENV['db_database'] = 'sspanel';						//数据库名
 $_ENV['db_username'] = 'root';							//数据库用户名
 $_ENV['db_password'] = 'sspanel';						//用户名对应的密码
@@ -207,7 +212,8 @@ $_ENV['zfbjk_pid'] = '';
 $_ENV['zfbjk_key'] = '';
 $_ENV['zfbjk_qrcodeurl'] = '';
 
-# BitPay 数字货币支付（比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
+# BitPay 数字货币支付（USDT、比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
+#   注册即可使用USDT收款，无需任何费用
 #   客服和技术 24x7 在线支持： https://t.me/joinchat/GLKSKhUnE4GvEAPgqtChAQ
 $_ENV['bitpay_secret'] = '';
 
@@ -304,7 +310,7 @@ $_ENV['redis_database'] = '';
 $_ENV['redis_password']= '';
 
 #Radius设置
-$_ENV['enable_radius'] = true;			//是否开启Radius
+$_ENV['enable_radius'] = false;			//是否开启Radius
 $_ENV['radius_db_host'] = '';				//以下4项为Radius数据库设置
 $_ENV['radius_db_database'] = '';
 $_ENV['radius_db_user'] = '';
