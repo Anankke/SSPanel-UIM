@@ -14,7 +14,7 @@
         "telegram-bot/api": "^2.2",
         "illuminate/pagination": "5.2.*",
         "illuminate/database": "5.2.*",
-        "sendgrid/sendgrid": "^5.1",
+        "sendgrid/sendgrid": "~7",
         "esdeathlove/datatables": "^1.6",
         "ramsey/uuid": "^3.0@dev",
         "cloudflare/sdk": "1.1.1",
