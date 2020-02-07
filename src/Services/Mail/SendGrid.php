@@ -34,12 +34,15 @@ class SendGrid extends Base
 
     public function send($to_address, $subject_raw, $text, $files)
     {
-        $from = new Email($this->name, $this->sender);
+        $from = new From($this->sender, $this->name);
         $subject = $subject_raw;
-        $to = new Email(null, $to_address);
+        $to = new To($to_address, null);
         $content = new Content('text/html', $text);
-        $mail = new Mail($from, $subject, $to, $content);
+        $mail = new Mail($from, $to, $subject, $content);
 
+        //$reply_to = new ReplyTo("test@example.com", "Optional Name");
+        //$mail->setReplyTo($reply_to);		
+		
         foreach ($files as $file) {
             $attachment = new Attachment();
             $attachment->setContent(base64_encode(file_get_contents($file)));
