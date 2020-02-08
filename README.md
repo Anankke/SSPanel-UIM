@@ -72,9 +72,9 @@ SSPanel UIM 使用 MIT License 开源、不提供任何担保。使用 SSPanel U
 
 ## 鸣谢
 
-### [HKServerSolution](https://www.hkserversolution.com/cart.php)
+### [HKServerSolution](https://www.hkserversolution.com/aff.php?aff=53)
 
-Demo 演示站服务器赞助。
+Demo 演示站由 HKServerSolution 高性能服务器赞助。
 
 ### [贡献者](https://github.com/Anankke/SSPanel-Uim/graphs/contributors)
 
@@ -154,9 +154,7 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 #### Anankke
 
-- [Anankke 很可爱请给 Anankke 钱](https://t.me/anankke/5)
-- 在[EVE Online](https://www.eveonline.com/)中向 [`SSPANEL UIM`](https://evewho.com/character/2116183484) 发送 ISK
-
+- [Anankke 很可爱请给 Anankke 钱](https://t.me/anankke/7)
 
 #### dumplin
 
