@@ -635,13 +635,13 @@ class Job
                             'user' => $user,
                             'text' => $text
                         ]);
-                        $user->traffic_noticed = true;
+                        $user->traffic_notified = true;
                         $user->save();
                     } catch (Exception $e) {
                         echo $e->getMessage();
                     }
-                } elseif ($under_limit == false && $user->traffic_noticed == true) {
-                    $user->traffic_noticed = false;
+                } elseif ($under_limit == false && $user->traffic_notified == true) {
+                    $user->traffic_notified = false;
                     $user->save();
                 }
             }
