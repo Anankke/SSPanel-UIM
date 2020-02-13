@@ -19,16 +19,16 @@
                                     <p>
                                         禁用原因：{$user->disableReason()}
                                     </p>
-                                    {if $config["enable_admin_contact"] == 'true'}
+                                    {if $config['enable_admin_contact'] === true}
                                         <p>管理员联系方式：</p>
-                                        {if $config["admin_contact1"]!=null}
-                                            <li>{$config["admin_contact1"]}</li>
+                                        {if $config['admin_contact1']!=''}
+                                            <li>{$config['admin_contact1']}</li>
                                         {/if}
-                                        {if $config["admin_contact2"]!=null}
-                                            <li>{$config["admin_contact2"]}</li>
+                                        {if $config['admin_contact2']!=''}
+                                            <li>{$config['admin_contact2']}</li>
                                         {/if}
-                                        {if $config["admin_contact3"]!=null}
-                                            <li>{$config["admin_contact3"]}</li>
+                                        {if $config['admin_contact3']!=''}
+                                            <li>{$config['admin_contact3']}</li>
                                         {/if}
                                     {/if}
                                 </div>

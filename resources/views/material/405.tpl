@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>您的访问方式不正确 - {$config["appName"]} </title>
+    <title>您的访问方式不正确 - {$config['appName']} </title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <meta charset="utf-8"/>
@@ -35,7 +35,7 @@
             </ul>
         </nav>
     </header>
-    <footer id="footer"><p class="copyright">&copy;{date("Y")} {$config["appName"]} </p></footer>
+    <footer id="footer"><p class="copyright">&copy;{date("Y")} {$config['appName']} </p></footer>
 </div>
 <div id="bg"></div>
 

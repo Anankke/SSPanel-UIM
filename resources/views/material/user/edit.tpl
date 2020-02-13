@@ -356,7 +356,7 @@
                     </div>
                 {/if}
 
-                {if $config['enable_telegram'] == 'true'}
+                {if $config['enable_telegram'] === true}
                     <div class="card margin-bottom-no">
                         <div class="card-main">
                             <div class="card-inner">
@@ -611,7 +611,7 @@
     qrcode1.clear();
     qrcode1.makeCode(ga_qrcode);
 
-    {if $config['enable_telegram'] == 'true' || $config['enable_discord'] == 'true'}
+    {if $config['enable_telegram'] === true}
 
     var telegram_qrcode = 'mod://bind/{$bind_token}';
 

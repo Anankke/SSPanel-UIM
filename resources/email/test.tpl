@@ -5,7 +5,7 @@
 </head>
 <body>
 <p>This is a testing mail.</p>
-<p>Send from {$config["appName"]}</p>
+<p>Send from {$config['appName']}</p>
 <p>{$time}</p>
 </body>
 </html>

@@ -84,7 +84,7 @@
                             <div class="node-card node-flex" cardindex="{$node@index}">
                                 <div class="nodemain">
                                     <div class="nodehead node-flex">
-                                        {if $config['enable_flag']=='true'}
+                                        {if $config['enable_flag']===true}
                                             <div class="flag"><img src="/images/prefix/{$node['flag']}">
                                             </div>{/if}
                                         <div class="nodename">{$node['name']}</div>
@@ -207,7 +207,7 @@
                                                 <div class="tile-inner">
                                                     <div class="text-overflow node-textcolor">
 														<span class="enable-flag">
-															{if $config['enable_flag']=='true'}
+															{if $config['enable_flag']===true}
                                                                 <img src="/images/prefix/{$node['flag']}" height="22"
                                                                      width="40"/>
                                                             {/if}

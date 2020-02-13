@@ -15,7 +15,7 @@
                         <div class="card-main">
                             <div class="card-inner">
                                 <div class="card-inner">
-                                    {if $config['enable_kill']=="true"}
+                                    {if $config['enable_kill']===true}
                                         <div class="cardbtn-edit">
                                             <div class="card-heading">我的帐号</div>
                                             <div class="account-flex">

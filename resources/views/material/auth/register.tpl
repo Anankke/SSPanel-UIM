@@ -133,7 +133,7 @@
                     </div>
                 {else}
                     <div class="form-group">
-                        <p>{$config["appName"]} 已停止新用户注册，请联系网站管理员</p>
+                        <p>{$config['appName']} 已停止新用户注册，请联系网站管理员</p>
                     </div>
                 {/if}
                 <div class="auth-bottom auth-row auth-reg">
@@ -141,7 +141,7 @@
 
                         <p>注册即代表同意<a href="/tos">服务条款</a>，以及保证所录入信息的真实性，如有不实信息会导致账号被删除。</p>
 
-                        {if $config['enable_telegram'] == 'true'}
+                        {if $config['enable_telegram'] === true}
                         <span>Telegram</span><button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button><span>快捷登录</span>
                         {/if}
                     </div>

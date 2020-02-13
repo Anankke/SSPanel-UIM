@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>{$config["appName"]}</title>
+    <title>{$config['appName']}</title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <meta charset="utf-8"/>
@@ -102,7 +102,7 @@
 
     <!-- 版权底部 -->
     <footer id="footer">
-        <p class="copyright">&copy;2015-2018 {$config["appName"]}</p>
+        <p class="copyright">&copy;2015-{date('Y')} {$config['appName']}</p>
     </footer>
     <!-- 版权结束 -->
 </div>
