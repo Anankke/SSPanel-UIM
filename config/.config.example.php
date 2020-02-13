@@ -331,9 +331,13 @@ $_ENV['enable_analytics_code'] = true;
 $_ENV['sspanelAnalysis'] = true;
 
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
-if ( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
-$list = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-$_SERVER['REMOTE_ADDR'] = $list[0];
+$_ENV['cdn_forwarded_ip'] = array('HTTP_X_FORWARDED_FOR', 'HTTP_ALI_CDN_REAL_IP', 'X-Real-IP', 'True-Client-Ip');
+foreach($_ENV['cdn_forwarded_ip'] as $cdn_forwarded_ip) {
+    if(isset($_SERVER[$cdn_forwarded_ip])){
+        $list = explode(',', $_SERVER[$cdn_forwarded_ip]);
+        $_SERVER['REMOTE_ADDR'] = $list[0];
+        break;
+    }
 }
 
 
