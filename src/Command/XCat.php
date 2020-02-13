@@ -206,11 +206,11 @@ class XCat
             $user->t = 0;
             $user->u = 0;
             $user->d = 0;
-            $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
-            $user->invite_num = Config::get('inviteNum');
+            $user->transfer_enable = Tools::toGB($_ENV['defaultTraffic']);
+            $user->invite_num = $_ENV['inviteNum'];
             $user->ref_by = 0;
             $user->is_admin = 1;
-            $user->expire_in = date('Y-m-d H:i:s', time() + Config::get('user_expire_in_default') * 86400);
+            $user->expire_in = date('Y-m-d H:i:s', time() + $_ENV['user_expire_in_default'] * 86400);
             $user->reg_date = date('Y-m-d H:i:s');
             $user->money = 0;
             $user->im_type = 1;
@@ -218,7 +218,7 @@ class XCat
             $user->class = 0;
             $user->plan = 'A';
             $user->node_speedlimit = 0;
-            $user->theme = Config::get('theme');
+            $user->theme = $_ENV['theme'];
 
             $ga = new GA();
             $secret = $ga->createSecret();
@@ -253,14 +253,14 @@ class XCat
 
     public function setTelegram()
     {
-        $bot = new BotApi(Config::get('telegram_token'));
+        $bot = new BotApi($_ENV['telegram_token']);
         $ch= curl_init();
-        curl_setopt ($ch, CURLOPT_URL, sprintf('https://api.telegram.org/bot%s/deleteWebhook', Config::get('telegram_token')));
+        curl_setopt ($ch, CURLOPT_URL, sprintf('https://api.telegram.org/bot%s/deleteWebhook', $_ENV['telegram_token']));
         curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 5);
         $deleteWebhookReturn = json_decode(curl_exec($ch));
         curl_close($ch);
-        if ($deleteWebhookReturn->ok && $deleteWebhookReturn->result && $bot->setWebhook(Config::get('baseUrl') . '/telegram_callback?token=' . Config::get('telegram_request_token')) == 1) {
+        if ($deleteWebhookReturn->ok && $deleteWebhookReturn->result && $bot->setWebhook($_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token']) == 1) {
             echo('设置成功！' . PHP_EOL);
         }
     }
@@ -285,7 +285,7 @@ class XCat
 
     public function sendDailyUsageByTG()
     {
-        $bot = new BotApi(Config::get('telegram_token'));
+        $bot = new BotApi($_ENV['telegram_token']);
         $users = User::where('telegram_id', '>', 0)->get();
         foreach ($users as $user) {
             $u = $user->u;

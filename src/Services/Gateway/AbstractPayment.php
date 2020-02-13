@@ -72,18 +72,18 @@ abstract class AbstractPayment
 
         if ($user->ref_by >= 1) {
             $gift_user = User::where('id', '=', $user->ref_by)->first();
-            $gift_user->money += ($codeq->number * (Config::get('code_payback') / 100));
+            $gift_user->money += ($codeq->number * ($_ENV['code_payback'] / 100));
             $gift_user->save();
             $Payback = new Payback();
             $Payback->total = $codeq->number;
             $Payback->userid = $user->id;
             $Payback->ref_by = $user->ref_by;
-            $Payback->ref_get = $codeq->number * (Config::get('code_payback') / 100);
+            $Payback->ref_get = $codeq->number * ($_ENV['code_payback'] / 100);
             $Payback->datetime = time();
             $Payback->save();
         }
 
-        if (Config::get('enable_donate') == true) {
+        if ($_ENV['enable_donate'] == true) {
             if ($user->is_hide == 1) {
                 Telegram::Send('一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元!');
             } else {

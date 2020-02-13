@@ -25,7 +25,7 @@ class PAYJS extends AbstractPayment
      */
     public function prepareSign($data)
     {
-        $data['mchid'] = Config::get('payjs_mchid');
+        $data['mchid'] = $_ENV['payjs_mchid'];
         $data = array_filter($data);
         ksort($data);
         return http_build_query($data);
@@ -87,12 +87,12 @@ class PAYJS extends AbstractPayment
         //if ($type != 'alipay') {
             //$type = '';
         //}
-        $data['mchid'] = Config::get('payjs_mchid');
+        $data['mchid'] = $_ENV['payjs_mchid'];
         //$data['type'] = $type;
         $data['out_trade_no'] = $pl->tradeno;
         $data['total_fee'] = (float) $price * 100;
-        $data['notify_url'] = Config::get('baseUrl') . '/payment/notify?way=payjs';
-        //$data['callback_url'] = Config::get('baseUrl') . '/user/code';
+        $data['notify_url'] = $_ENV['baseUrl'] . '/payment/notify?way=payjs';
+        //$data['callback_url'] = $_ENV['baseUrl'] . '/user/code';
         $params = $this->prepareSign($data);
         $data['sign'] = $this->sign($params);
         $url = 'https://payjs.cn/api/cashier?' . http_build_query($data);

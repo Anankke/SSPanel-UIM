@@ -129,7 +129,7 @@ class Tools
 
     public static function genSID()
     {
-        $unid = uniqid(Config::get('key'), true);
+        $unid = uniqid($_ENV['key'], true);
         return Hash::sha256WithSalt($unid);
     }
 
@@ -152,7 +152,7 @@ class Tools
     {
         //检索User数据表现有port
         $det = User::pluck('port')->toArray();
-        $port = array_diff(range(Config::get('min_port'), Config::get('max_port')), $det);
+        $port = array_diff(range($_ENV['min_port'], $_ENV['max_port']), $det);
         shuffle($port);
         return $port[0];
     }
@@ -280,7 +280,7 @@ class Tools
 
         $relay_able_list = Config::getSupportParam('relay_able_protocol');
 
-        return in_array($user->protocol, $relay_able_list) || Config::get('relay_insecure_mode') == true;
+        return in_array($user->protocol, $relay_able_list) || $_ENV['relay_insecure_mode'] == true;
     }
 
     public static function has_conflict_rule($input_rule, $ruleset, $edit_rule_id = 0, $origin_node_id = 0, $user_id = 0)

@@ -51,29 +51,29 @@ class Job
     public static function backup($full = false)
     {
         ini_set('memory_limit', '-1');
-        $to = Config::get('auto_backup_email');
+        $to = $_ENV['auto_backup_email'];
         if ($to == null) {
             return false;
         }
         if (!mkdir('/tmp/ssmodbackup/') && !is_dir('/tmp/ssmodbackup/')) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', '/tmp/ssmodbackup/'));
         }
-        $db_address_array = explode(':', Config::get('db_host'));
+        $db_address_array = explode(':', $_ENV['db_host']);
         if ($full) {
-            system('mysqldump --user=' . Config::get('db_username') . ' --password=' . Config::get('db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . Config::get('db_database') . ' > /tmp/ssmodbackup/mod.sql');
+            system('mysqldump --user=' . $_ENV['db_username'] . ' --password=' . $_ENV['db_password'] . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . $_ENV['db_database'] . ' > /tmp/ssmodbackup/mod.sql');
         } else {
             system(
-                'mysqldump --user=' . Config::get('db_username') . ' --password=' . Config::get('db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . Config::get('db_database') . ' announcement auto blockip bought code coupon disconnect_ip link login_ip payback radius_ban shop speedtest ss_invite_code ss_node ss_password_reset ticket unblockip user user_token email_verify detect_list relay paylist> /tmp/ssmodbackup/mod.sql',
+                'mysqldump --user=' . $_ENV['db_username'] . ' --password=' . $_ENV['db_password'] . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . $_ENV['db_database'] . ' announcement auto blockip bought code coupon disconnect_ip link login_ip payback radius_ban shop speedtest ss_invite_code ss_node ss_password_reset ticket unblockip user user_token email_verify detect_list relay paylist> /tmp/ssmodbackup/mod.sql',
                 $ret
             );
             system(
-                'mysqldump --opt --user=' . Config::get('db_username') . ' --password=' . Config::get('db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' -d ' . Config::get('db_database') . ' alive_ip ss_node_info ss_node_online_log user_traffic_log detect_log telegram_session >> /tmp/ssmodbackup/mod.sql',
+                'mysqldump --opt --user=' . $_ENV['db_username'] . ' --password=' . $_ENV['db_password'] . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' -d ' . $_ENV['db_database'] . ' alive_ip ss_node_info ss_node_online_log user_traffic_log detect_log telegram_session >> /tmp/ssmodbackup/mod.sql',
                 $ret
             );
-            if (Config::get('enable_radius') == true) {
-                $db_address_array = explode(':', Config::get('radius_db_host'));
+            if ($_ENV['enable_radius'] == true) {
+                $db_address_array = explode(':', $_ENV['radius_db_host']);
                 system(
-                    'mysqldump --user=' . Config::get('radius_db_user') . ' --password=' . Config::get('radius_db_password') . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . '' . Config::get('radius_db_database') . '> /tmp/ssmodbackup/radius.sql',
+                    'mysqldump --user=' . $_ENV['radius_db_user'] . ' --password=' . $_ENV['radius_db_password'] . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . '' . $_ENV['radius_db_database'] . '> /tmp/ssmodbackup/radius.sql',
                     $ret
                 );
             }
@@ -81,8 +81,8 @@ class Job
 
         system('cp ' . BASE_PATH . '/config/.config.php /tmp/ssmodbackup/configbak.php', $ret);
         echo $ret;
-        system('zip -r /tmp/ssmodbackup.zip /tmp/ssmodbackup/* -P ' . Config::get('auto_backup_passwd'), $ret);
-        $subject = Config::get('appName') . '-备份成功';
+        system('zip -r /tmp/ssmodbackup.zip /tmp/ssmodbackup/* -P ' . $_ENV['auto_backup_passwd'], $ret);
+        $subject = $_ENV['appName'] . '-备份成功';
         $text = '您好，系统已经为您自动备份，请查看附件，用您设定的密码解压。';
         try {
             Mail::send($to, $subject, 'news/backup.tpl', [
@@ -96,7 +96,7 @@ class Job
         system('rm -rf /tmp/ssmodbackup', $ret);
         system('rm /tmp/ssmodbackup.zip', $ret);
 
-        if (Config::get('backup_notify') == true) {
+        if ($_ENV['backup_notify'] == true) {
             Telegram::Send('备份完毕了喵~今天又是安全祥和的一天呢。');
         }
     }
@@ -179,7 +179,7 @@ class Job
                     $user->last_day_t = 0;
                     $user->save();
 
-                    $subject = Config::get('appName') . '-您的流量被重置了';
+                    $subject = $_ENV['appName'] . '-您的流量被重置了';
                     $to = $user->email;
                     $text = '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB';
                     try {
@@ -210,7 +210,7 @@ class Job
                 $user->transfer_enable = $user->auto_reset_bandwidth * 1024 * 1024 * 1024;
                 $user->save();
 
-                $subject = Config::get('appName') . '-您的流量被重置了';
+                $subject = $_ENV['appName'] . '-您的流量被重置了';
                 $to = $user->email;
                 $text = '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB';
                 try {
@@ -358,7 +358,7 @@ class Job
             $shop = Shop::where('id', $bought->shopid)->first();
             if ($shop == null) {
                 $bought->delete();
-                $subject = Config::get('appName') . '-续费失败';
+                $subject = $_ENV['appName'] . '-续费失败';
                 $to = $user->email;
                 $text = '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。';
                 try {
@@ -390,7 +390,7 @@ class Job
                 $bought_new->coupon = '';
                 $bought_new->save();
 
-                $subject = Config::get('appName') . '-续费成功';
+                $subject = $_ENV['appName'] . '-续费成功';
                 $to = $user->email;
                 $text = '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。';
                 try {
@@ -404,7 +404,7 @@ class Job
                 $bought->is_notified = true;
                 $bought->save();
             } elseif ($bought->is_notified == false) {
-                $subject = Config::get('appName') . '-续费失败';
+                $subject = $_ENV['appName'] . '-续费失败';
                 $to = $user->email;
                 $text = '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。';
                 try {
@@ -428,17 +428,17 @@ class Job
         $adminUser = User::where('is_admin', '=', '1')->get();
 
         //节点掉线检测
-        if (Config::get('enable_detect_offline') == true) {
+        if ($_ENV['enable_detect_offline'] == true) {
             $nodes = Node::all();
 
             foreach ($nodes as $node) {
                 if ($node->isNodeOnline() === false && $node->online == true) {
-                    if (Config::get('useScFtqq') == true && Config::get('enable_detect_offline_useScFtqq') == true) {
-                        $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
+                    if ($_ENV['useScFtqq'] == true && $_ENV['enable_detect_offline_useScFtqq'] == true) {
+                        $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
                         $postdata = http_build_query(
                             array(
-                                'text' => Config::get('appName') . '-节点掉线了',
+                                'text' => $_ENV['appName'] . '-节点掉线了',
                                 'desp' => $text
                             )
                         );
@@ -456,7 +456,7 @@ class Job
 
                     foreach ($adminUser as $user) {
                         echo 'Send offline mail to user: ' . $user->id;
-                        $subject = Config::get('appName') . '-系统警告';
+                        $subject = $_ENV['appName'] . '-系统警告';
                         $to = $user->email;
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
                         try {
@@ -476,12 +476,12 @@ class Job
                     $node->online = false;
                     $node->save();
                 } elseif ($node->isNodeOnline() === true && $node->online == false) {
-                    if (Config::get('useScFtqq') == true && Config::get('enable_detect_offline_useScFtqq') == true) {
-                        $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
+                    if ($_ENV['useScFtqq'] == true && $_ENV['enable_detect_offline_useScFtqq'] == true) {
+                        $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
                         $postdata = http_build_query(
                             array(
-                                'text' => Config::get('appName') . '-节点恢复上线了',
+                                'text' => $_ENV['appName'] . '-节点恢复上线了',
                                 'desp' => $text
                             )
                         );
@@ -499,7 +499,7 @@ class Job
                     }
                     foreach ($adminUser as $user) {
                         echo 'Send offline mail to user: ' . $user->id;
-                        $subject = Config::get('appName') . '-系统提示';
+                        $subject = $_ENV['appName'] . '-系统提示';
                         $to = $user->email;
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
                         try {
@@ -523,7 +523,7 @@ class Job
 
 
         //登录地检测
-        if (Config::get('login_warn') == true) {
+        if ($_ENV['login_warn'] == true) {
             $iplocation = new QQWry();
             $Logs = LoginIp::where('datetime', '>', time() - 60)->get();
             foreach ($Logs as $log) {
@@ -548,7 +548,7 @@ class Job
                                     'utf-8//IGNORE',
                                     $Userlocation
                                 ) . '-' . iconv('gbk', 'utf-8//IGNORE', $location['country']);
-                                $subject = Config::get('appName') . '-系统警告';
+                                $subject = $_ENV['appName'] . '-系统警告';
                                 $to = $user->email;
                                 $text = '您好，系统发现您的账号在 ' . iconv(
                                     'gbk',
@@ -589,7 +589,7 @@ class Job
                 $user->d = 0;
                 $user->last_day_t = 0;
 
-                $subject = Config::get('appName') . '-您的用户账户已经过期了';
+                $subject = $_ENV['appName'] . '-您的用户账户已经过期了';
                 $to = $user->email;
                 $text = '您好，系统发现您的账号已经过期了。';
                 try {
@@ -610,26 +610,26 @@ class Job
 
 
             //余量不足检测
-            if (Config::get('notify_limit_mode') != false) {
+            if ($_ENV['notify_limit_mode'] != false) {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = false;
 
                 if ($user->transfer_enable != 0) {
-                    if (Config::get('notify_limit_mode') == 'per' &&
-                        $user_traffic_left / $user->transfer_enable * 100 < Config::get('notify_limit_value')) {
+                    if ($_ENV['notify_limit_mode'] == 'per' &&
+                        $user_traffic_left / $user->transfer_enable * 100 < $_ENV['notify_limit_value']) {
                         $under_limit = true;
                         $unit_text = '%';
                     }
-                } elseif (Config::get('notify_limit_mode') == 'mb' &&
-                    Tools::flowToMB($user_traffic_left) < Config::get('notify_limit_value')) {
+                } elseif ($_ENV['notify_limit_mode'] == 'mb' &&
+                    Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']) {
                     $under_limit = true;
                     $unit_text = 'MB';
                 }
 
                 if ($under_limit == true && $user->traffic_notified == false) {
-                    $subject = Config::get('appName') . ' - 您的剩余流量过低';
+                    $subject = $_ENV['appName'] . ' - 您的剩余流量过低';
                     $to = $user->email;
-                    $text = '您好，系统发现您剩余流量已经低于 ' . Config::get('notify_limit_value') . $unit_text . ' 。';
+                    $text = '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。';
                     try {
                         Mail::send($to, $subject, 'news/warn.tpl', [
                             'user' => $user,
@@ -646,14 +646,14 @@ class Job
                 }
             }
 
-            if (Config::get('account_expire_delete_days') >= 0 &&
-                strtotime($user->expire_in) + Config::get('account_expire_delete_days') * 86400 < time() &&
-                $user->money <= Config::get('auto_clean_min_money')
+            if ($_ENV['account_expire_delete_days'] >= 0 &&
+                strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < time() &&
+                $user->money <= $_ENV['auto_clean_min_money']
 
             ) {
-                $subject = Config::get('appName') . '-您的用户账户已经被删除了';
+                $subject = $_ENV['appName'] . '-您的用户账户已经被删除了';
                 $to = $user->email;
-                $text = '您好，系统发现您的账户已经过期 ' . Config::get('account_expire_delete_days') . ' 天了，帐号已经被删除。';
+                $text = '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         'user' => $user,
@@ -669,17 +669,17 @@ class Job
             }
 
 
-            if (Config::get('auto_clean_uncheck_days') > 0 &&
+            if ($_ENV['auto_clean_uncheck_days'] > 0 &&
                 max(
                     $user->last_check_in_time,
                     strtotime($user->reg_date)
-                ) + (Config::get('auto_clean_uncheck_days') * 86400) < time() &&
+                ) + ($_ENV['auto_clean_uncheck_days'] * 86400) < time() &&
                 $user->class == 0 &&
-                $user->money <= Config::get('auto_clean_min_money')
+                $user->money <= $_ENV['auto_clean_min_money']
             ) {
-                $subject = Config::get('appName') . '-您的用户账户已经被删除了';
+                $subject = $_ENV['appName'] . '-您的用户账户已经被删除了';
                 $to = $user->email;
-                $text = '您好，系统发现您的账号已经 ' . Config::get('auto_clean_uncheck_days') . ' 天没签到了，帐号已经被删除。';
+                $text = '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         'user' => $user,
@@ -693,14 +693,14 @@ class Job
                 continue;
             }
 
-            if (Config::get('auto_clean_unused_days') > 0 &&
-                max($user->t, strtotime($user->reg_date)) + (Config::get('auto_clean_unused_days') * 86400) < time() &&
+            if ($_ENV['auto_clean_unused_days'] > 0 &&
+                max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < time() &&
                 $user->class == 0 &&
-                $user->money <= Config::get('auto_clean_min_money')
+                $user->money <= $_ENV['auto_clean_min_money']
             ) {
-                $subject = Config::get('appName') . '-您的用户账户已经被删除了';
+                $subject = $_ENV['appName'] . '-您的用户账户已经被删除了';
                 $to = $user->email;
-                $text = '您好，系统发现您的账号已经 ' . Config::get('auto_clean_unused_days') . ' 天没使用了，帐号已经被删除。';
+                $text = '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。';
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         'user' => $user,
@@ -719,7 +719,7 @@ class Job
                 strtotime($user->class_expire) > 1420041600
             ) {
                 $text = '您好，系统发现您的账号等级已经过期了。';
-                $reset_traffic = Config::get('class_expire_reset_traffic');
+                $reset_traffic = $_ENV['class_expire_reset_traffic'];
                 if ($reset_traffic >= 0) {
                     $user->transfer_enable = Tools::toGB($reset_traffic);
                     $user->u = 0;
@@ -727,7 +727,7 @@ class Job
                     $user->last_day_t = 0;
                     $text .= '流量已经被重置为' . $reset_traffic . 'GB';
                 }
-                $subject = Config::get('appName') . '-您的账户等级已经过期了';
+                $subject = $_ENV['appName'] . '-您的账户等级已经过期了';
                 $to = $user->email;
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
@@ -766,7 +766,7 @@ class Job
         //节点被墙检测
         $last_time = file_get_contents(BASE_PATH . '/storage/last_detect_gfw_time');
         for ($count = 1; $count <= 12; $count++) {
-            if (time() - $last_time >= Config::get('detect_gfw_interval')) {
+            if (time() - $last_time >= $_ENV['detect_gfw_interval']) {
                 $file_interval = fopen(BASE_PATH . '/storage/last_detect_gfw_time', 'wb');
                 fwrite($file_interval, time());
                 fclose($file_interval);
@@ -778,18 +778,18 @@ class Job
                         $node->online == false) {
                         continue;
                     }
-                    $api_url = Config::get('detect_gfw_url');
+                    $api_url = $_ENV['detect_gfw_url'];
                     $api_url = str_replace(
                         array('{ip}', '{port}'),
-                        array($node->node_ip, Config::get('detect_gfw_port')),
+                        array($node->node_ip, $_ENV['detect_gfw_port']),
                         $api_url
                     );
                     //因为考虑到有v2ray之类的节点，所以不得不使用ip作为参数
                     $result_tcping = false;
-                    $detect_time = Config::get('detect_gfw_count');
+                    $detect_time = $_ENV['detect_gfw_count'];
                     for ($i = 1; $i <= $detect_time; $i++) {
                         $json_tcping = json_decode(file_get_contents($api_url), true);
-                        if (eval('return ' . Config::get('detect_gfw_judge') . ';')) {
+                        if (eval('return ' . $_ENV['detect_gfw_judge'] . ';')) {
                             $result_tcping = true;
                             break;
                         }
@@ -803,7 +803,7 @@ class Job
                         }
                         foreach ($adminUser as $user) {
                             echo 'Send gfw mail to user: ' . $user->id . '-';
-                            $subject = Config::get('appName') . '-系统警告';
+                            $subject = $_ENV['appName'] . '-系统警告';
                             $to = $user->email;
                             $text = '管理员您好，系统发现节点 ' . $node->name . ' 被墙了，请您及时处理。';
                             try {
@@ -828,7 +828,7 @@ class Job
                         }
                         foreach ($adminUser as $user) {
                             echo 'Send gfw mail to user: ' . $user->id . '-';
-                            $subject = Config::get('appName') . '-系统提示';
+                            $subject = $_ENV['appName'] . '-系统提示';
                             $to = $user->email;
                             $text = '管理员您好，系统发现节点 ' . $node->name . ' 溜出墙了。';
                             try {

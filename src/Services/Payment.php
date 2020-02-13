@@ -16,7 +16,7 @@ class Payment
 {
     public static function getClient()
     {
-        $method = Config::get('payment_system');
+        $method = $_ENV['payment_system'];
         switch ($method) {
             case ('codepay'):
                 return new Codepay();
@@ -29,7 +29,7 @@ class Payment
             case ('chenAlipay'):
                 return new ChenPay();
             case ('payjs'):
-                return new PAYJS(Config::get('payjs_key'));
+                return new PAYJS($_ENV['payjs_key']);
             case ('yftpay'):
                 return new YftPay();
             default:

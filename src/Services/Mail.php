@@ -20,7 +20,7 @@ class Mail
      */
     public static function getClient()
     {
-        $driver = Config::get('mailDriver');
+        $driver = $_ENV['mailDriver'];
         switch ($driver) {
             case 'mailgun':
                 return new Mailgun();

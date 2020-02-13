@@ -69,7 +69,7 @@ class FinanceMail
         $adminUser = User::where('is_admin', '=', '1')->get();
         foreach ($adminUser as $user) {
             echo 'Send offline mail to user: ' . $user->id;
-            $subject = Config::get('appName') . '-财务日报';
+            $subject = $_ENV['appName'] . '-财务日报';
             $to = $user->email;
             $title = '财务日报';
             $text = $text_html;
@@ -83,7 +83,7 @@ class FinanceMail
             }
         }
 
-        if (Config::get('finance_public') == true) {
+        if ($_ENV['finance_public'] == true) {
             $sts = new Analytics();
             Telegram::Send(
                 '新鲜出炉的财务日报~' . PHP_EOL .
@@ -136,7 +136,7 @@ class FinanceMail
         $adminUser = User::where('is_admin', '=', '1')->get();
         foreach ($adminUser as $user) {
             echo 'Send offline mail to user: ' . $user->id;
-            $subject = Config::get('appName') . '-财务周报';
+            $subject = $_ENV['appName'] . '-财务周报';
             $to = $user->email;
             $title = '财务周报';
             $text = $text_html;
@@ -150,7 +150,7 @@ class FinanceMail
             }
         }
 
-        if (Config::get('finance_public') == true) {
+        if ($_ENV['finance_public'] == true) {
             $sts = new Analytics();
             Telegram::Send(
                 '新鲜出炉的财务周报~' . PHP_EOL .
@@ -183,7 +183,7 @@ class FinanceMail
         $adminUser = User::where('is_admin', '=', '1')->get();
         foreach ($adminUser as $user) {
             echo 'Send offline mail to user: ' . $user->id;
-            $subject = Config::get('appName') . '-财务月报';
+            $subject = $_ENV['appName'] . '-财务月报';
             $to = $user->email;
             $title = '财务月报';
             $text = $text_html;
@@ -197,7 +197,7 @@ class FinanceMail
             }
         }
 
-        if (Config::get('finance_public') == true) {
+        if ($_ENV['finance_public'] == true) {
             $sts = new Analytics();
             Telegram::Send(
                 '新鲜出炉的财务月报~' . PHP_EOL .

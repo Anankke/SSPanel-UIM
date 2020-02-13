@@ -63,8 +63,8 @@ class User extends Model
     {
         $str = str_replace(
             array('%id', '%suffix'),
-            array($this->attributes['id'], Config::get('mu_suffix')),
-            Config::get('mu_regex')
+            array($this->attributes['id'], $_ENV['mu_suffix']),
+            $_ENV['mu_regex']
         );
         preg_match_all("|%-?[1-9]\d*m|U", $str, $matches, PREG_PATTERN_ORDER);
         foreach ($matches[0] as $key) {
@@ -212,7 +212,7 @@ class User extends Model
     {
         $ga = new GA();
         $url = $ga->getUrl(
-            urlencode(Config::get('appName') . '-' . $this->attributes['user_name'] . '-两步验证码'),
+            urlencode($_ENV['appName'] . '-' . $this->attributes['user_name'] . '-两步验证码'),
             $this->attributes['ga_token']
         );
         return $url;

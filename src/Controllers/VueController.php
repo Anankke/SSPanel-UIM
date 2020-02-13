@@ -27,10 +27,10 @@ class VueController extends BaseController
         $GtSdk = null;
         $recaptcha_sitekey = null;
         $user = $this->user;
-        if (Config::get('captcha_provider') != '') {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['captcha_provider'] != '') {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     break;
                 case 'geetest':
                     $uid = time() . random_int(1, 10000);
@@ -39,7 +39,7 @@ class VueController extends BaseController
             }
         }
 
-        if (Config::get('enable_telegram') == true) {
+        if ($_ENV['enable_telegram'] == true) {
             $login_text = TelegramSessionManager::add_login_session();
             $login = explode('|', $login_text);
             $login_token = $login[0];
@@ -53,23 +53,23 @@ class VueController extends BaseController
             'geetest_html' => $GtSdk,
             'login_token' => $login_token,
             'login_number' => $login_number,
-            'telegram_bot' => Config::get('telegram_bot'),
-            'enable_logincaptcha' => Config::get('enable_login_captcha'),
-            'enable_regcaptcha' => Config::get('enable_reg_captcha'),
-            'enable_checkin_captcha' => Config::get('enable_checkin_captcha'),
-            'base_url' => Config::get('baseUrl'),
+            'telegram_bot' => $_ENV['telegram_bot'],
+            'enable_logincaptcha' => $_ENV['enable_login_captcha'],
+            'enable_regcaptcha' => $_ENV['enable_reg_captcha'],
+            'enable_checkin_captcha' => $_ENV['enable_checkin_captcha'],
+            'base_url' => $_ENV['baseUrl'],
             'recaptcha_sitekey' => $recaptcha_sitekey,
-            'captcha_provider' => Config::get('captcha_provider'),
-            'jump_delay' => Config::get('jump_delay'),
-            'register_mode' => Config::get('register_mode'),
-            'enable_email_verify' => Config::get('enable_email_verify'),
-            'appName' => Config::get('appName'),
+            'captcha_provider' => $_ENV['captcha_provider'],
+            'jump_delay' => $_ENV['jump_delay'],
+            'register_mode' => $_ENV['register_mode'],
+            'enable_email_verify' => $_ENV['enable_email_verify'],
+            'appName' => $_ENV['appName'],
             'dateY' => date('Y'),
             'isLogin' => $user->isLogin,
-            'enable_telegram' => Config::get('enable_telegram'),
-            'enable_mylivechat' => Config::get('enable_mylivechat'),
-            'enable_flag' => Config::get('enable_flag'),
-            'payment_type' => Config::get('payment_system'),
+            'enable_telegram' => $_ENV['enable_telegram'],
+            'enable_mylivechat' => $_ENV['enable_mylivechat'],
+            'enable_flag' => $_ENV['enable_flag'],
+            'payment_type' => $_ENV['payment_system'],
         );
 
         $res['ret'] = 1;
@@ -103,10 +103,10 @@ class VueController extends BaseController
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('captcha_provider') != '') {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['captcha_provider'] != '') {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     break;
                 case 'geetest':
                     $uid = time() . random_int(1, 10000);
@@ -115,12 +115,12 @@ class VueController extends BaseController
             }
         }
         $Ann = Ann::orderBy('date', 'desc')->first();
-        $display_ios_class = Config::get('display_ios_class');
-        $ios_account = Config::get('ios_account');
-        $ios_password = Config::get('ios_password');
-        $mergeSub = Config::get('mergeSub');
-        $subUrl = Config::get('subUrl');
-        $baseUrl = Config::get('baseUrl');
+        $display_ios_class = $_ENV['display_ios_class'];
+        $ios_account = $_ENV['ios_account'];
+        $ios_password = $_ENV['ios_password'];
+        $mergeSub = $_ENV['mergeSub'];
+        $subUrl = $_ENV['subUrl'];
+        $baseUrl = $_ENV['baseUrl'];
         $user['online_ip_count'] = $user->online_ip_count();
 
         $res['info'] = array(
@@ -170,11 +170,11 @@ class VueController extends BaseController
             'paybacks' => $paybacks,
             'paybacks_sum' => $paybacks_sum,
             'invite_num' => $user->invite_num,
-            'invitePrice' => Config::get('invite_price'),
-            'customPrice' => Config::get('custom_invite_price'),
-            'invite_gift' => Config::get('invite_gift'),
-            'invite_get_money' => Config::get('invite_get_money'),
-            'code_payback' => Config::get('code_payback'),
+            'invitePrice' => $_ENV['invite_price'],
+            'customPrice' => $_ENV['custom_invite_price'],
+            'invite_gift' => $_ENV['invite_gift'],
+            'invite_get_money' => $_ENV['invite_get_money'],
+            'code_payback' => $_ENV['code_payback'],
         );
 
         $res['ret'] = 1;
@@ -294,10 +294,10 @@ class VueController extends BaseController
     {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('captcha_provider') != '') {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['captcha_provider'] != '') {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     $res['recaptchaKey'] = $recaptcha_sitekey;
                     break;
                 case 'geetest':
@@ -380,7 +380,7 @@ class VueController extends BaseController
             $array_node['group'] = $node->node_group;
 
             $array_node['raw_node'] = $node;
-            $regex = Config::get('flag_regex');
+            $regex = $_ENV['flag_regex'];
             $matches = array();
             preg_match($regex, $node->name, $matches);
             if (isset($matches[0])) {

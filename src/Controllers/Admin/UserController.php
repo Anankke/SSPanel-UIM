@@ -90,31 +90,31 @@ class UserController extends AdminController
         $user->t = 0;
         $user->u = 0;
         $user->d = 0;
-        $user->method = Config::get('reg_method');
-        $user->protocol = Config::get('reg_protocol');
-        $user->protocol_param = Config::get('reg_protocol_param');
-        $user->obfs = Config::get('reg_obfs');
-        $user->obfs_param = Config::get('reg_obfs_param');
-        $user->forbidden_ip = Config::get('reg_forbidden_ip');
-        $user->forbidden_port = Config::get('reg_forbidden_port');
+        $user->method = $_ENV['reg_method'];
+        $user->protocol = $_ENV['reg_protocol'];
+        $user->protocol_param = $_ENV['reg_protocol_param'];
+        $user->obfs = $_ENV['reg_obfs'];
+        $user->obfs_param = $_ENV['reg_obfs_param'];
+        $user->forbidden_ip = $_ENV['reg_forbidden_ip'];
+        $user->forbidden_port = $_ENV['reg_forbidden_port'];
         $user->im_type = 2;
         $user->im_value = $email;
-        $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
-        $user->invite_num = Config::get('inviteNum');
-        $user->auto_reset_day = Config::get('reg_auto_reset_day');
-        $user->auto_reset_bandwidth = Config::get('reg_auto_reset_bandwidth');
+        $user->transfer_enable = Tools::toGB($_ENV['defaultTraffic']);
+        $user->invite_num = $_ENV['inviteNum'];
+        $user->auto_reset_day = $_ENV['reg_auto_reset_day'];
+        $user->auto_reset_bandwidth = $_ENV['reg_auto_reset_bandwidth'];
         $user->money = 0;
-        $user->class_expire = date('Y-m-d H:i:s', time() + Config::get('user_class_expire_default') * 3600);
-        $user->class = Config::get('user_class_default');
-        $user->node_connector = Config::get('user_conn');
-        $user->node_speedlimit = Config::get('user_speedlimit');
-        $user->expire_in = date('Y-m-d H:i:s', time() + Config::get('user_expire_in_default') * 86400);
+        $user->class_expire = date('Y-m-d H:i:s', time() + $_ENV['user_class_expire_default'] * 3600);
+        $user->class = $_ENV['user_class_default'];
+        $user->node_connector = $_ENV['user_conn'];
+        $user->node_speedlimit = $_ENV['user_speedlimit'];
+        $user->expire_in = date('Y-m-d H:i:s', time() + $_ENV['user_expire_in_default'] * 86400);
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->plan = 'A';
-        $user->theme = Config::get('theme');
+        $user->theme = $_ENV['theme'];
 
-        $groups = explode(',', Config::get('ramdom_group'));
+        $groups = explode(',', $_ENV['ramdom_group']);
 
         $user->node_group = $groups[array_rand($groups)];
 
@@ -127,7 +127,7 @@ class UserController extends AdminController
             $res['ret'] = 1;
             $res['msg'] = '新用户注册成功 用户名: ' . $email . ' 随机初始密码: ' . $pass;
             $res['email_error'] = 'success';
-            $subject = Config::get('appName') . '-新用户注册通知';
+            $subject = $_ENV['appName'] . '-新用户注册通知';
             $to = $user->email;
             $text = '您好，管理员已经为您生成账户，用户名: ' . $email . '，登录密码为：' . $pass . '，感谢您的支持。 ';
             try {
@@ -377,7 +377,7 @@ class UserController extends AdminController
             'uid' => $user->id,
             'email' => $user->email,
             'key' => Hash::cookieHash($user->pass, $expire_in),
-            'ip' => md5($_SERVER['REMOTE_ADDR'] . Config::get('key') . $user->id . $expire_in),
+            'ip' => md5($_SERVER['REMOTE_ADDR'] . $_ENV['key'] . $user->id . $expire_in),
             'expire_in' => $expire_in,
             'old_uid' => Utils\Cookie::get('uid'),
             'old_email' => Utils\Cookie::get('email'),

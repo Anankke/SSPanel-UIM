@@ -31,7 +31,7 @@ class TelegramProcess
             switch (true) {
                 case (strpos($callback_data, 'mu')):
                     $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id, 0);
-                    $subUrl = Config::get('subUrl');
+                    $subUrl = $_ENV['subUrl'];
                     $reply_message = self::$all_rss[$callback_data] . ': ' . $subUrl . $ssr_sub_token . $callback_data . PHP_EOL;
                     break;
                 case ($callback_data == 'clean_link'):
@@ -62,7 +62,7 @@ class TelegramProcess
                         $reply['message'] = '您今天已经签过到了！';
                         break;
                     }
-                    $traffic = random_int(Config::get('checkinMin'), Config::get('checkinMax'));
+                    $traffic = random_int($_ENV['checkinMin'], $_ENV['checkinMax']);
                     $user->transfer_enable += Tools::toMB($traffic);
                     $user->last_check_in_time = time();
                     $user->save();
@@ -196,12 +196,12 @@ class TelegramProcess
 
                     foreach ($photo_id_array as $key => $value) {
                         $file = $bot->getFile($value);
-                        $qrcode_text = QRcode::decode('https://api.telegram.org/file/bot' . Config::get('telegram_token') . '/' . $file->getFilePath());
+                        $qrcode_text = QRcode::decode('https://api.telegram.org/file/bot' . $_ENV['telegram_token'] . '/' . $file->getFilePath());
 
                         if ($qrcode_text == null) {
                             foreach ($photo_id_list_array[$key] as $fail_key => $fail_value) {
                                 $fail_file = $bot->getFile($fail_value);
-                                $qrcode_text = QRcode::decode('https://api.telegram.org/file/bot' . Config::get('telegram_token') . '/' . $fail_file->getFilePath());
+                                $qrcode_text = QRcode::decode('https://api.telegram.org/file/bot' . $_ENV['telegram_token'] . '/' . $fail_file->getFilePath());
                                 if ($qrcode_text != null) {
                                     break;
                                 }
@@ -243,7 +243,7 @@ class TelegramProcess
             }
         } else {
             //群组
-            if (Config::get('telegram_group_quiet') == true) {
+            if ($_ENV['telegram_group_quiet'] == true) {
                 return;
             }
             $bot->sendChatAction($message->getChat()->getId(), 'typing');
@@ -273,13 +273,13 @@ class TelegramProcess
                     break;
                 default:
                     if ($message->getText() != null) {
-                        if ($message->getChat()->getId() == Config::get('telegram_chatid')) {
+                        if ($message->getChat()->getId() == $_ENV['telegram_chatid']) {
                             $reply['message'] = Tuling::chat($message->getFrom()->getId(), $message->getText());
                         } else {
                             $reply['message'] = '不约，叔叔我们不约';
                         }
                     }
-                    if ($message->getNewChatMember() != null && Config::get('enable_welcome_message') == true) {
+                    if ($message->getNewChatMember() != null && $_ENV['enable_welcome_message'] == true) {
                         $reply['message'] = '欢迎 ' . $message->getNewChatMember()->getFirstName() . ' ' . $message->getNewChatMember()->getLastName();
                     } else {
                         $reply['message'] = null;
@@ -294,7 +294,7 @@ class TelegramProcess
     public static function process()
     {
         try {
-            $bot = new Client(Config::get('telegram_token'));
+            $bot = new Client($_ENV['telegram_token']);
             // or initialize with botan.io tracker api key
             // $bot = new \TelegramBot\Api\Client('YOUR_BOT_API_TOKEN', 'YOUR_BOTAN_TRACKER_API_KEY');
 

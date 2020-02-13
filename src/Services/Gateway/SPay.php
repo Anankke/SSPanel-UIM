@@ -41,9 +41,9 @@ class SPay extends AbstractPayment
 
 
         $data['total_fee'] = $total_fee;    //支付金额
-        $data['partner'] = Config::get('alipay_id');    //spay合作者id
-        $data['notify_url'] = Config::get('baseUrl') . '/spay_back';    //不能有get参数 也就是?xxx=xxx&    xxx=xxx
-        $data['return_url'] = Config::get('baseUrl') . '/spay_back';    //不能有get参数 也就是?xxx=xxx&    xxx=xxx
+        $data['partner'] = $_ENV['alipay_id'];    //spay合作者id
+        $data['notify_url'] = $_ENV['baseUrl'] . '/spay_back';    //不能有get参数 也就是?xxx=xxx&    xxx=xxx
+        $data['return_url'] = $_ENV['baseUrl'] . '/spay_back';    //不能有get参数 也就是?xxx=xxx&    xxx=xxx
         $data['out_trade_no'] = $out_trade_no;    //商户唯一订单号
         $data['service'] = 'create_direct_pay_by_user';
         $i = 0;
@@ -58,7 +58,7 @@ class SPay extends AbstractPayment
                 $jk .= '&';
             }
         }
-        $data['sign'] = md5($jk . Config::get('alipay_key'));
+        $data['sign'] = md5($jk . $_ENV['alipay_key']);
         //header("Location: http://www.dayyun.com/pay/pay/alipay.php?".http_build_query($data));
 
 
@@ -91,7 +91,7 @@ class SPay extends AbstractPayment
                 $jk .= '&';
             }
         }
-        $newsign = md5($jk . Config::get('alipay_key'));
+        $newsign = md5($jk . $_ENV['alipay_key']);
         if ($newsign != $sign) {
             die('false');
         }

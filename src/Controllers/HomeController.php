@@ -25,10 +25,10 @@ class HomeController extends BaseController
     {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('captcha_provider') != '') {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['captcha_provider'] != '') {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     break;
                 case 'geetest':
                     $uid = time() . random_int(1, 10000);
@@ -37,7 +37,7 @@ class HomeController extends BaseController
             }
         }
 
-        if (Config::get('enable_telegram') == true) {
+        if ($_ENV['enable_telegram'] == true) {
             $login_text = TelegramSessionManager::add_login_session();
             $login = explode('|', $login_text);
             $login_token = $login[0];
@@ -51,10 +51,10 @@ class HomeController extends BaseController
             ->assign('geetest_html', $GtSdk)
             ->assign('login_token', $login_token)
             ->assign('login_number', $login_number)
-            ->assign('telegram_bot', Config::get('telegram_bot'))
-            ->assign('enable_logincaptcha', Config::get('enable_login_captcha'))
-            ->assign('enable_regcaptcha', Config::get('enable_reg_captcha'))
-            ->assign('base_url', Config::get('baseUrl'))
+            ->assign('telegram_bot', $_ENV['telegram_bot'])
+            ->assign('enable_logincaptcha', $_ENV['enable_login_captcha'])
+            ->assign('enable_regcaptcha', $_ENV['enable_reg_captcha'])
+            ->assign('base_url', $_ENV['baseUrl'])
             ->assign('recaptcha_sitekey', $recaptcha_sitekey)
             ->fetch('index.tpl'));
     }
@@ -108,7 +108,7 @@ class HomeController extends BaseController
     public function telegram($request, $response, $args): ResponseInterface
     {
         $token = $request->getQueryParam('token');
-        if ($token == Config::get('telegram_request_token')) {
+        if ($token == $_ENV['telegram_request_token']) {
             TelegramProcess::process();
             $result = '1';
         } else {
@@ -155,7 +155,7 @@ class HomeController extends BaseController
     public function getOrderList($request, $response, $args): ResponseInterface
     {
         $key = $request->getParam('key');
-        if (!$key || $key != Config::get('key')) {
+        if (!$key || $key != $_ENV['key']) {
             $res['ret'] = 0;
             $res['msg'] = '错误';
             return $response->write(json_encode($res));
@@ -173,7 +173,7 @@ class HomeController extends BaseController
         $key = $request->getParam('key');
         $sn = $request->getParam('sn');
         $url = $request->getParam('url');
-        if (!$key || $key != Config::get('key')) {
+        if (!$key || $key != $_ENV['key']) {
             $res['ret'] = 0;
             $res['msg'] = '错误';
             return $response->write(json_encode($res));

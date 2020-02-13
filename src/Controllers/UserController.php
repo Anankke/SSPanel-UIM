@@ -58,10 +58,10 @@ class UserController extends BaseController
 
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('enable_checkin_captcha') == true) {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['enable_checkin_captcha'] == true) {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     break;
                 case 'geetest':
                     $uid = time() . random_int(1, 10000);
@@ -75,26 +75,26 @@ class UserController extends BaseController
 
         return $this->view()
             ->assign('ssr_sub_token', $ssr_sub_token)
-            ->assign('display_ios_class', Config::get('display_ios_class'))
-            ->assign('display_ios_topup', Config::get('display_ios_topup'))
-            ->assign('ios_account', Config::get('ios_account'))
-            ->assign('ios_password', Config::get('ios_password'))
+            ->assign('display_ios_class', $_ENV['display_ios_class'])
+            ->assign('display_ios_topup', $_ENV['display_ios_topup'])
+            ->assign('ios_account', $_ENV['ios_account'])
+            ->assign('ios_password', $_ENV['ios_password'])
             ->assign('ann', $Ann)
             ->assign('geetest_html', $GtSdk)
-            ->assign('mergeSub', Config::get('mergeSub'))
-            ->assign('subUrl', Config::get('subUrl'))
+            ->assign('mergeSub', $_ENV['mergeSub'])
+            ->assign('subUrl', $_ENV['subUrl'])
             ->assign('user', $this->user)
             ->registerClass('URL', URL::class)
-            ->assign('baseUrl', Config::get('baseUrl'))
+            ->assign('baseUrl', $_ENV['baseUrl'])
             ->assign('recaptcha_sitekey', $recaptcha_sitekey)
             ->display('user/index.tpl');
     }
 
     public function lookingglass($request, $response, $args)
     {
-        $Speedtest = Speedtest::where('datetime', '>', time() - Config::get('Speedtest_duration') * 3600)->orderBy('datetime', 'desc')->get();
+        $Speedtest = Speedtest::where('datetime', '>', time() - $_ENV['Speedtest_duration'] * 3600)->orderBy('datetime', 'desc')->get();
 
-        return $this->view()->assign('speedtest', $Speedtest)->assign('hour', Config::get('Speedtest_duration'))->display('user/lookingglass.tpl');
+        return $this->view()->assign('speedtest', $Speedtest)->assign('hour', $_ENV['Speedtest_duration'])->display('user/lookingglass.tpl');
     }
 
     public function code($request, $response, $args)
@@ -112,7 +112,7 @@ class UserController extends BaseController
 
     public function donate($request, $response, $args)
     {
-        if (Config::get('enable_donate') != true) {
+        if ($_ENV['enable_donate'] != true) {
             exit(0);
         }
 
@@ -253,14 +253,14 @@ class UserController extends BaseController
 
             if ($user->ref_by != '' && $user->ref_by != 0 && $user->ref_by != null) {
                 $gift_user = User::where('id', '=', $user->ref_by)->first();
-                $gift_user->money += ($codeq->number * (Config::get('code_payback') / 100));
+                $gift_user->money += ($codeq->number * ($_ENV['code_payback'] / 100));
                 $gift_user->save();
 
                 $Payback = new Payback();
                 $Payback->total = $codeq->number;
                 $Payback->userid = $this->user->id;
                 $Payback->ref_by = $this->user->ref_by;
-                $Payback->ref_get = $codeq->number * (Config::get('code_payback') / 100);
+                $Payback->ref_get = $codeq->number * ($_ENV['code_payback'] / 100);
                 $Payback->datetime = time();
                 $Payback->save();
             }
@@ -268,7 +268,7 @@ class UserController extends BaseController
             $res['ret'] = 1;
             $res['msg'] = '充值成功，充值的金额为' . $codeq->number . '元。';
 
-            if (Config::get('enable_donate') == true) {
+            if ($_ENV['enable_donate'] == true) {
                 if ($this->user->is_hide == 1) {
                     Telegram::Send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
                 } else {
@@ -354,7 +354,7 @@ class UserController extends BaseController
 
     public function ResetPort($request, $response, $args)
     {
-        $price = Config::get('port_price');
+        $price = $_ENV['port_price'];
         $user = $this->user;
 
         if ($user->money < $price) {
@@ -384,7 +384,7 @@ class UserController extends BaseController
 
     public function SpecifyPort($request, $response, $args)
     {
-        $price = Config::get('port_price_specify');
+        $price = $_ENV['port_price_specify'];
         $user = $this->user;
 
         if ($user->money < $price) {
@@ -395,7 +395,7 @@ class UserController extends BaseController
 
         $port = $request->getParam('port');
 
-        if ($port < Config::get('min_port') || $port > Config::get('max_port') || Tools::isInt($port) == false) {
+        if ($port < $_ENV['min_port'] || $port > $_ENV['max_port'] || Tools::isInt($port) == false) {
             $res['ret'] = 0;
             $res['msg'] = '端口不在要求范围内';
             return $response->getBody()->write(json_encode($res));
@@ -490,7 +490,7 @@ class UserController extends BaseController
             $array_node['group'] = $node->node_group;
 
             $array_node['raw_node'] = $node;
-            $regex = Config::get('flag_regex');
+            $regex = $_ENV['flag_regex'];
             $matches = array();
             preg_match($regex, $node->name, $matches);
             if (isset($matches[0])) {
@@ -648,8 +648,8 @@ class UserController extends BaseController
 
                 $node_prefix[$name_cheif][] = $node;
 
-                if (Config::get('enable_flag') == true) {
-                    $regex = Config::get('flag_regex');
+                if ($_ENV['enable_flag'] == true) {
+                    $regex = $_ENV['flag_regex'];
                     $matches = array();
                     preg_match($regex, $name_cheif, $matches);
                     $node_flag_file[$name_cheif] = $matches[0] ?? 'null';
@@ -806,7 +806,7 @@ class UserController extends BaseController
 
         $config_service = new Config();
 
-        return $this->view()->assign('user', $this->user)->assign('themes', $themes)->assign('isBlock', $isBlock)->assign('Block', $Block)->assign('bind_token', $bind_token)->assign('telegram_bot', Config::get('telegram_bot'))->assign('config_service', $config_service)
+        return $this->view()->assign('user', $this->user)->assign('themes', $themes)->assign('isBlock', $isBlock)->assign('Block', $Block)->assign('bind_token', $bind_token)->assign('telegram_bot', $_ENV['telegram_bot'])->assign('config_service', $config_service)
             ->registerClass('URL', URL::class)->display('user/edit.tpl');
     }
 
@@ -831,7 +831,7 @@ class UserController extends BaseController
 
     public function buyInvite($request, $response, $args)
     {
-        $price = Config::get('invite_price');
+        $price = $_ENV['invite_price'];
         $num = $request->getParam('num');
         $num = trim($num);
 
@@ -866,7 +866,7 @@ class UserController extends BaseController
 
     public function customInvite($request, $response, $args)
     {
-        $price = Config::get('custom_invite_price');
+        $price = $_ENV['custom_invite_price'];
         $customcode = $request->getParam('customcode');
         $customcode = trim($customcode);
 
@@ -1176,7 +1176,7 @@ class UserController extends BaseController
 
     public function ticket($request, $response, $args)
     {
-        if (Config::get('enable_ticket') != true) {
+        if ($_ENV['enable_ticket'] != true) {
             exit(0);
         }
         $pageNum = $request->getQueryParams()['page'] ?? 1;
@@ -1219,10 +1219,10 @@ class UserController extends BaseController
         $ticket->datetime = time();
         $ticket->save();
 
-        if (Config::get('mail_ticket') == true && $markdown != '') {
+        if ($_ENV['mail_ticket'] == true && $markdown != '') {
             $adminUser = User::where('is_admin', '=', '1')->get();
             foreach ($adminUser as $user) {
-                $subject = Config::get('appName') . '-新工单被开启';
+                $subject = $_ENV['appName'] . '-新工单被开启';
                 $to = $user->email;
                 $text = '管理员，有人开启了新的工单，请您及时处理。';
                 try {
@@ -1236,11 +1236,11 @@ class UserController extends BaseController
             }
         }
 
-        if (Config::get('useScFtqq') == true && $markdown != '') {
-            $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
+        if ($_ENV['useScFtqq'] == true && $markdown != '') {
+            $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
             $postdata = http_build_query(
                 array(
-                    'text' => Config::get('appName') . '-新工单被开启',
+                    'text' => $_ENV['appName'] . '-新工单被开启',
                     'desp' => $markdown
                 )
             );
@@ -1286,12 +1286,12 @@ class UserController extends BaseController
         }
 
         if ($status == 1 && $ticket_main->status != $status) {
-            if (Config::get('mail_ticket') == true && $markdown != '') {
+            if ($_ENV['mail_ticket'] == true && $markdown != '') {
                 $adminUser = User::where('is_admin', '=', '1')->get();
                 foreach ($adminUser as $user) {
-                    $subject = Config::get('appName') . '-工单被重新开启';
+                    $subject = $_ENV['appName'] . '-工单被重新开启';
                     $to = $user->email;
-                    $text = '管理员，有人重新开启了<a href="' . Config::get('baseUrl') . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。';
+                    $text = '管理员，有人重新开启了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。';
                     try {
                         Mail::send($to, $subject, 'news/warn.tpl', [
                             'user' => $user, 'text' => $text
@@ -1302,11 +1302,11 @@ class UserController extends BaseController
                     }
                 }
             }
-            if (Config::get('useScFtqq') == true && $markdown != '') {
-                $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
+            if ($_ENV['useScFtqq'] == true && $markdown != '') {
+                $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                 $postdata = http_build_query(
                     array(
-                        'text' => Config::get('appName') . '-工单被重新开启',
+                        'text' => $_ENV['appName'] . '-工单被重新开启',
                         'desp' => $markdown
                     )
                 );
@@ -1318,15 +1318,15 @@ class UserController extends BaseController
                     ));
                 $context = stream_context_create($opts);
                 file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
-                $useScFtqq = Config::get('ScFtqq_SCKEY');
+                $useScFtqq = $_ENV['ScFtqq_SCKEY'];
             }
         } else {
-            if (Config::get('mail_ticket') == true && $markdown != '') {
+            if ($_ENV['mail_ticket'] == true && $markdown != '') {
                 $adminUser = User::where('is_admin', '=', '1')->get();
                 foreach ($adminUser as $user) {
-                    $subject = Config::get('appName') . '-工单被回复';
+                    $subject = $_ENV['appName'] . '-工单被回复';
                     $to = $user->email;
-                    $text = '管理员，有人回复了<a href="' . Config::get('baseUrl') . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。';
+                    $text = '管理员，有人回复了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。';
                     try {
                         Mail::send($to, $subject, 'news/warn.tpl', [
                             'user' => $user, 'text' => $text
@@ -1337,11 +1337,11 @@ class UserController extends BaseController
                     }
                 }
             }
-            if (Config::get('useScFtqq') == true && $markdown != '') {
-                $ScFtqq_SCKEY = Config::get('ScFtqq_SCKEY');
+            if ($_ENV['useScFtqq'] == true && $markdown != '') {
+                $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                 $postdata = http_build_query(
                     array(
-                        'text' => Config::get('appName') . '-工单被回复',
+                        'text' => $_ENV['appName'] . '-工单被回复',
                         'desp' => $markdown
                     )
                 );
@@ -1649,14 +1649,14 @@ class UserController extends BaseController
 
     public function doCheckIn($request, $response, $args)
     {
-        if (Config::get('enable_checkin_captcha') == true) {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['enable_checkin_captcha'] == true) {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
                     $recaptcha = $request->getParam('recaptcha');
                     if ($recaptcha == '') {
                         $ret = false;
                     } else {
-                        $json = file_get_contents('https://recaptcha.net/recaptcha/api/siteverify?secret=' . Config::get('recaptcha_secret') . '&response=' . $recaptcha);
+                        $json = file_get_contents('https://recaptcha.net/recaptcha/api/siteverify?secret=' . $_ENV['recaptcha_secret'] . '&response=' . $recaptcha);
                         $ret = json_decode($json)->success;
                     }
                     break;
@@ -1682,7 +1682,7 @@ class UserController extends BaseController
             $res['msg'] = '您似乎已经签到过了...';
             return $response->getBody()->write(json_encode($res));
         }
-        $traffic = random_int(Config::get('checkinMin'), Config::get('checkinMax'));
+        $traffic = random_int($_ENV['checkinMin'], $_ENV['checkinMax']);
         $this->user->transfer_enable += Tools::toMB($traffic);
         $this->user->last_check_in_time = time();
         $this->user->save();
@@ -1718,7 +1718,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-        if (Config::get('enable_kill') == true) {
+        if ($_ENV['enable_kill'] == true) {
             Auth::logout();
             $user->kill_user();
             $res['ret'] = 1;
@@ -1863,11 +1863,11 @@ class UserController extends BaseController
             unlink($temp_file_path);
         }
         // 超链接文件内容
-        $site_url_content = '[InternetShortcut]' . PHP_EOL . 'URL=' . Config::get('baseUrl');
+        $site_url_content = '[InternetShortcut]' . PHP_EOL . 'URL=' . $_ENV['baseUrl'];
         // 创建 zip 并添加内容
         $zipArc->open($temp_file_path, \ZipArchive::CREATE);
         $zipArc->addFromString($user_config_file_name, $content);
-        $zipArc->addFromString('点击访问_' . Config::get('appName') . '.url', $site_url_content);
+        $zipArc->addFromString('点击访问_' . $_ENV['appName'] . '.url', $site_url_content);
         Tools::folderToZip($client_path, $zipArc, strlen($client_path));
         $zipArc->close();
 

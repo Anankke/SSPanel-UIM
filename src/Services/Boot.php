@@ -8,7 +8,7 @@ class Boot
 {
     public static function setTime()
     {
-        date_default_timezone_set(Config::get('timeZone'));
+        date_default_timezone_set($_ENV['timeZone']);
         View::$beginTime = microtime(true);
     }
 

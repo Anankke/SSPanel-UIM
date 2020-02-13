@@ -260,7 +260,7 @@ class ShopController extends AdminController
 
         $datatables->edit('period_sales', static function ($data) {
             $shop = Shop::find($data['id']);
-            $period = Config::get('sales_period');
+            $period = $_ENV['sales_period'];
 
             if ($period == 'expire') {
                 $period = json_decode($shop->content, true)['class_expire'];

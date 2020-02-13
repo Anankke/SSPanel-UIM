@@ -84,7 +84,7 @@ class YftPay extends AbstractPayment
         //页面跳转同步通知页面路径
         $return_url = $request->getUri()->getScheme() . "://" . $request->getUri()->getHost() . $pay_config->pay_config["return_url"];
         //需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
-        $secret = Config::get('yft_secret');
+        $secret = $_ENV['yft_secret'];
         $ss_order_no = self::genOrderNumber();
         /************************************************************/
         //构造要请求的参数数组，无需改动

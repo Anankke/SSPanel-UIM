@@ -57,9 +57,9 @@ class TicketController extends AdminController
         {
             $adminUser = User::where('id', '=', $ticket_main->userid)->get();
         foreach ($adminUser as $user) {
-            $subject = Config::get('appName') . '-工单被回复';
+            $subject = $_ENV['appName'] . '-工单被回复';
             $to = $user->email;
-            $text = '您好，有人回复了<a href="' . Config::get('baseUrl') . '/user/ticket/' . $ticket_main->id . '/view">工单</a>，请您查看。';
+            $text = '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket_main->id . '/view">工单</a>，请您查看。';
             try {
                 Mail::send($to, $subject, 'news/warn.tpl', [
                     'user' => $user, 'text' => $text

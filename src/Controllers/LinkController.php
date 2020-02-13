@@ -293,7 +293,7 @@ class LinkController extends BaseController
                 'password' => $item['passwd'],
                 'tcp_over_udp' => false,
                 'udp_over_tcp' => false,
-                'group' => Config::get('appName'),
+                'group' => $_ENV['appName'],
                 'protocol' => $item['protocol'],
                 'protocolparam' => $item['protocol_param'],
                 'obfs_udp' => false,
@@ -332,8 +332,8 @@ class LinkController extends BaseController
             'nodeFeedAutoUpdate' => true,
             'serverSubscribes' => [
                 [
-                    'URL' => (Config::get('subUrl') . self::GenerateSSRSubCode($user->id, 0) . '?mu=0'),
-                    'Group' => Config::get('appName'),
+                    'URL' => ($_ENV['subUrl'] . self::GenerateSSRSubCode($user->id, 0) . '?mu=0'),
+                    'Group' => $_ENV['appName'],
                     'LastUpdateTime' => 0
                 ]
             ],
@@ -381,7 +381,7 @@ class LinkController extends BaseController
                 'timeout' => 5,
                 'id' => $id,
                 'ratio' => $item['ratio'],
-                'subscription_url' => (Config::get('subUrl') . self::GenerateSSRSubCode($user->id, 0) . '?mu=3')
+                'subscription_url' => ($_ENV['subUrl'] . self::GenerateSSRSubCode($user->id, 0) . '?mu=3')
             ];
             $id++;
         }
@@ -447,14 +447,14 @@ class LinkController extends BaseController
             ],
             'subscriptions' => [
               [
-                'airport' => Config::get('appName'),
+                'airport' => $_ENV['appName'],
                 'encryption' => $user->method,
                 'password' => $user->passwd,
                 'port' => $user->port,
                 'expiry' => $user->class_expire,
                 'traffic_used' => Tools::flowToGB($user->u + $user->d),
                 'traffic_total' => Tools::flowToGB($user->transfer_enable),
-                'url' => (Config::get('subUrl') . self::GenerateSSRSubCode($user->id, 0) . '?mu=3'),
+                'url' => ($_ENV['subUrl'] . self::GenerateSSRSubCode($user->id, 0) . '?mu=3'),
                 'plugin' => $plugin,
                 'plugin_options' => $plugin_opts,
                 'plugin_arguments' => '',
