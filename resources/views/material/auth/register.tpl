@@ -87,7 +87,7 @@
                             </div>
                         </div>
                     {/if}
-                    {if $enable_email_verify == 'true'}
+                    {if $enable_email_verify == true}
                         <div class="rowtocol">
                             <div class="rowtocol">
                                 <div class="form-group form-group-label">
@@ -141,7 +141,9 @@
 
                         <p>注册即代表同意<a href="/tos">服务条款</a>，以及保证所录入信息的真实性，如有不实信息会导致账号被删除。</p>
 
-                        <!-- <span>Telegram</span><button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button><span>快捷登录</span> -->
+                        {if $config['enable_telegram'] == 'true'}
+                        <span>Telegram</span><button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button><span>快捷登录</span>
+                        {/if}
                     </div>
                 </div>
             </div>
@@ -151,6 +153,7 @@
 
             </div>
         </div>
+        {include file='./telegram_modal.tpl'}
     </div>
 </div>
 
@@ -246,6 +249,16 @@ const showStrong = () => {
 document.getElementById('passwd').addEventListener('input', checkStrong);
 </script>
 
+{literal}
+    <script>
+        let calltgbtn = document.querySelector('#calltgauth');
+        let tgboard = document.querySelector('.card.auth-tg.cust-model');
+        if (calltgbtn && tgboard) {
+            custModal(calltgbtn, tgboard);
+        }
+    </script>
+{/literal}
+
 {if $config['register_mode']!='close'}
     <script>
         $(document).ready(function () {
@@ -276,7 +289,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         {/if}
 
                         imtype: $$getValue('imtype'),
-                        code{if $enable_email_verify == 'true'},
+                        code{if $enable_email_verify == true},
                         emailcode: $$getValue('email_code'){/if}{if $geetest_html != null},
                         geetest_challenge: validate.geetest_challenge,
                         geetest_validate: validate.geetest_validate,
@@ -287,7 +300,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         if (data.ret == 1) {
                             $("#result").modal();
                             $$.getElementById('msg').innerHTML = data.msg;
-                            window.setTimeout("location.href='/auth/login'", {$config['jump_delay']});
+                            window.setTimeout("location.href='/user'", {$config['jump_delay']});
                         } else {
                             $("#result").modal();
                             $$.getElementById('msg').innerHTML = data.msg;
@@ -351,7 +364,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
     </script>
 {/if}
 
-{if $enable_email_verify == 'true'}
+{if $enable_email_verify == true}
     <script>
         var wait = 60;
 
@@ -404,6 +417,8 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
         })
     </script>
 {/if}
+
+{include file='./telegram.tpl'}
 
 {if $geetest_html != null}
     <script>

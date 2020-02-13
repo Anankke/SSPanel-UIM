@@ -6,10 +6,8 @@
 //如需换行，直接换行即可，无需换行符
 //【新增/删除】config无需写入迁移附注
 $_ENV['config_migrate_notice'] =
-    'enable_geetest_* 已变更为 enable_*_captcha
-crisp已被替换为mylivechat
-telegrma_qrcode被重命名为qrcode
-
+'调整account_expire_delete_days：
+当余额高于auto_clean_min_money时，即使账户到期后也不会被删除，避免歧义
 ';
 $_ENV['version'] = '1';    //仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
@@ -44,7 +42,7 @@ $_ENV['smtp_port'] = '465';
 $_ENV['smtp_name'] = '';
 $_ENV['smtp_sender'] = '';
 $_ENV['smtp_passsword'] = '';
-$_ENV['smtp_ssl'] = 'true';
+$_ENV['smtp_ssl'] = true;
 
 # sendgrid
 $_ENV['sendgrid_key'] = '';
@@ -54,7 +52,7 @@ $_ENV['sendgrid_sender'] = '';
 //备份设置--------------------------------------------------------------------------------------------
 $_ENV['auto_backup_email'] = '';        //接收备份的邮箱
 $_ENV['auto_backup_passwd'] = '';    //备份的压缩密码
-$_ENV['backup_notify'] = 'false';        //备份通知到TG群中
+$_ENV['backup_notify'] = false;        //备份通知到TG群中
 
 
 //用户注册设置-----------------------------------------------------------------------------------------
@@ -87,7 +85,7 @@ $_ENV['invite_price'] = '-1';        //用户购买邀请码所需要的价格�
 $_ENV['custom_invite_price'] = '-1';        //用户定制邀请码所需要的价格，价格小于0时视为不开放购买
 
 #邮箱验证
-$_ENV['enable_email_verify'] = 'false';        //是否启用注册邮箱验证码
+$_ENV['enable_email_verify'] = false;        //是否启用注册邮箱验证码
 $_ENV['email_verify_ttl'] = '3600';            //邮箱验证码有效期
 $_ENV['email_verify_iplimit'] = '10';        //验证码有效期内，单IP可请求验证码次数
 
@@ -98,64 +96,60 @@ $_ENV['checkinMin'] = '1';            //用户签到最少流量 单位MB
 $_ENV['checkinMax'] = '50';            //用户签到最多流量
 $_ENV['auto_clean_uncheck_days'] = '-1';            //自动清理多少天没签到的0级用户，小于等于0时关闭
 $_ENV['auto_clean_unused_days'] = '-1';            //自动清理多少天没使用的0级用户，小于等于0时关闭
+$_ENV['account_expire_delete_days'] = '-1';        //账户到期几天之后会清理，小于0时不清理（余额高于auto_clean_min_money时不会被清理）
 $_ENV['auto_clean_min_money'] = '1';        //余额低于多少的0级用户可以被清理
 $_ENV['code_payback'] = '20';            //充值返利百分比
 $_ENV['invite_gift'] = '2';            //邀请新用户获得流量奖励，单位G
-$_ENV['enable_bought_reset'] = 'true';            //购买时是否重置流量
-$_ENV['enable_bought_extend'] = 'true';            //购买时是否延长等级期限（同等级配套）
+$_ENV['enable_bought_reset'] = true;            //购买时是否重置流量
+$_ENV['enable_bought_extend'] = true;            //购买时是否延长等级期限（同等级配套）
 $_ENV['port_price'] = '-1';            //用户随机重置端口所需要的价格，价格小于0时视为不开放购买
 $_ENV['port_price_specify'] = '-1';        //用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
 
 #高级
 $_ENV['class_expire_reset_traffic'] = '0';        //等级到期时重置为的流量值，单位GB，小于0时不重置
-$_ENV['account_expire_delete_days'] = '-1';        //账户到期几天之后会删除账户，小于0时不删除
-$_ENV['enable_kill'] = 'true';                    //是否允许用户注销账户
-$_ENV['notify_limit_mode'] = 'false';            //false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
+$_ENV['enable_kill'] = true;                    //是否允许用户注销账户
+$_ENV['notify_limit_mode'] = false;            //false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
 $_ENV['notify_limit_value'] = '20';            //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
-$_ENV['mergeSub'] = 'false';                        //合并订阅设置 可选项 false / true
+$_ENV['mergeSub'] = false;                        //合并订阅设置 可选项 false / true
 
 //Bot 设置--------------------------------------------------------------------------------------------
 #通用
 $_ENV['qrcode'] = 'zxing_local';                //二维码解码方式，online，phpzbar，zxing_online，zxing_local
-$_ENV['finance_public'] = 'false';            //财务报告是否向群公开
-$_ENV['enable_welcome_message'] = 'true';    //机器人发送欢迎消息
-
-#Discord
-$_ENV['enable_discord'] = 'false';    //是否开启Discord bot（仍未完成）
-$_ENV['discord_token'] = '';            //Discord bot,bot 的 token，在 https://discordapp.com/developers/applications/ 申请
+$_ENV['finance_public'] = false;            //财务报告是否向群公开
+$_ENV['enable_welcome_message'] = true;    //机器人发送欢迎消息
 
 
 #Telegram
-$_ENV['enable_telegram'] = 'false';            //是否开启Telegram bot
+$_ENV['enable_telegram'] = false;            //是否开启Telegram bot
 $_ENV['telegram_token'] = '';                //Telegram bot,bot 的 token ，跟 father bot 申请
 $_ENV['telegram_chatid'] = '';                //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到。
-$_ENV['enable_tuling'] = 'false';            //是否开启图灵机器人
+$_ENV['enable_tuling'] = false;            //是否开启图灵机器人
 $_ENV['tuling_apikey'] = '';                    //图灵机器人API Key
 $_ENV['tuling_apisecert'] = '';                //图灵机器人密钥
 $_ENV['telegram_bot'] = '_bot';                //Telegram 机器人账号
-$_ENV['telegram_group_quiet'] = 'false';        //Telegram 机器人在群组中不回应
+$_ENV['telegram_group_quiet'] = false;        //Telegram 机器人在群组中不回应
 $_ENV['telegram_request_token'] = '';        //Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat setTelegram
 
 
 //沟通设置--------------------------------------------------------------------------------------------
 #客服系统设置，注册地址 https://www.mylivechat.com
-$_ENV['enable_mylivechat'] = 'false';        //是否开启客服系统
+$_ENV['enable_mylivechat'] = false;        //是否开启客服系统
 $_ENV['mylivechat_id'] = 'null';            //客服系统ID
 
 # PushBear  基于微信模板的向关注了二维码的用户以微信方式推送消息 https://pushbear.ftqq.com/
-$_ENV['usePushBear'] = 'false';        // true 启用	false 禁用
+$_ENV['usePushBear'] = false;        // true 启用	false 禁用
 $_ENV['PushBear_sendkey'] = '';    //请填写您在PushBear获取的sendkey  请仔细检查勿粘贴错
 
 #工单系统设置
-$_ENV['enable_ticket'] = 'true';        //是否开启工单系统
-$_ENV['mail_ticket'] = 'true';        //是否开启工单邮件提醒
+$_ENV['enable_ticket'] = true;        //是否开启工单系统
+$_ENV['mail_ticket'] = true;        //是否开启工单邮件提醒
 
 # Server酱  用户提交新工单或者回复工单时用微信提醒机场主 http://sc.ftqq.com/
-$_ENV['useScFtqq'] = 'false';        //是否开启工单Server酱提醒
+$_ENV['useScFtqq'] = false;        //是否开启工单Server酱提醒
 $_ENV['ScFtqq_SCKEY'] = '';    //请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
 
 #管理员联系方式设置
-$_ENV['enable_admin_contact'] = 'false';            //是否开启管理员联系方式
+$_ENV['enable_admin_contact'] = false;            //是否开启管理员联系方式
 $_ENV['admin_contact1'] = 'QQ：1233456';        //QQ、邮箱、微信仅用于举例
 $_ENV['admin_contact2'] = '邮箱123456@qq.com';    //也可以写电话、tg等其他联系方式
 $_ENV['admin_contact3'] = '微信～123456';        //没有格式要求，想怎么写就怎么写，可留空
@@ -171,9 +165,9 @@ $_ENV['recaptcha_secret'] = '';
 $_ENV['geetest_id'] = '';
 $_ENV['geetest_key'] = '';
 
-$_ENV['enable_reg_captcha'] = 'false';        //启用注册验证码
-$_ENV['enable_login_captcha'] = 'false';    //启用登录验证码
-$_ENV['enable_checkin_captcha'] = 'false';    //启用签到验证码
+$_ENV['enable_reg_captcha'] = false;        //启用注册验证码
+$_ENV['enable_login_captcha'] = false;    //启用登录验证码
+$_ENV['enable_checkin_captcha'] = false;    //启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
@@ -222,11 +216,11 @@ $_ENV['bitpay_secret'] = '';
 $_ENV['sales_period'] = '30';    //统计指定周期内的销量，值为【expire/任意大于0的整数】
 
 #国旗
-$_ENV['enable_flag'] = 'false';            //启用该项之前务必先仔细阅读教程
+$_ENV['enable_flag'] = false;            //启用该项之前务必先仔细阅读教程
 $_ENV['flag_regex'] = '/.*?(?=\s)/';        //从站点全名中匹配【国家/地区】的正则表达式(php版)
 
 #捐赠
-$_ENV['enable_donate'] = 'false';    //是否显示用户捐赠（所有收入将被公开）
+$_ENV['enable_donate'] = false;    //是否显示用户捐赠（所有收入将被公开）
 
 #iOS账户显示
 $_ENV['display_ios_class'] = '-1';    //至少等级为多少的用户可以看见，小于0时关闭此功能
@@ -244,9 +238,9 @@ $_ENV['detect_gfw_judge'] = '$json_tcping[\'status\']=="true"';                /
 $_ENV['detect_gfw_count'] = '3';                                                //尝试次数
 
 #离线检测
-$_ENV['enable_detect_offline'] = 'true';
+$_ENV['enable_detect_offline'] = true;
 #离线检测是否推送到Server酱 请配置好上文的Server配置
-$_ENV['enable_detect_offline_useScFtqq'] = 'true';
+$_ENV['enable_detect_offline_useScFtqq'] = true;
 
 
 //V2Ray相关设置------------------------------------------------------------------------------------------
@@ -257,7 +251,7 @@ $_ENV['v2ray_level'] = '0';
 
 //以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
 #杂项
-$_ENV['enable_login_bind_ip'] = 'false';        //是否将登陆线程和IP绑定
+$_ENV['enable_login_bind_ip'] = false;        //是否将登陆线程和IP绑定
 $_ENV['rememberMeDuration'] = '7';           //登录时记住账号时长天数
 $_ENV['authDriver'] = 'cookie';            //不能更改此项
 $_ENV['pwdMethod'] = 'md5';                //密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
@@ -270,7 +264,7 @@ $_ENV['theme']    = 'material';            //主题
 $_ENV['pacp_offset'] = '-20000';                //VPN 端口偏移
 $_ENV['pacpp_offset'] = '-20000';
 $_ENV['Speedtest_duration'] = '6';            //显示多长时间的测速记录
-$_ENV['login_warn'] = 'false';                //异地登陆提示
+$_ENV['login_warn'] = false;                //异地登陆提示
 $_ENV['timeZone'] = 'PRC';                    //PRC 天朝时间  UTC 格林时间
 $_ENV['db_charset'] = 'utf8';
 $_ENV['db_collation'] = 'utf8_general_ci';
@@ -289,7 +283,7 @@ $_ENV['redis_database'] = '0';
 $_ENV['redis_password'] = '';
 
 #Radius设置
-$_ENV['enable_radius'] = 'false';            //是否开启Radius
+$_ENV['enable_radius'] = false;            //是否开启Radius
 $_ENV['radius_db_host'] = '';                //以下4项为Radius数据库设置
 $_ENV['radius_db_database'] = '';
 $_ENV['radius_db_user'] = '';
@@ -297,20 +291,20 @@ $_ENV['radius_db_password'] = '';
 $_ENV['radius_secret'] = '';                    //Radius连接密钥
 
 #Cloudxns
-$_ENV['enable_cloudxns'] = 'false';            //是否开启Cloudxns
+$_ENV['enable_cloudxns'] = false;            //是否开启Cloudxns
 $_ENV['cloudxns_apikey'] = '';                //自己去 cloudxns.net 申请
 $_ENV['cloudxns_apisecret'] = '';
 $_ENV['cloudxns_domain'] = '';        //你的域名
 
 #Cloudflare
-$_ENV['cloudflare_enable'] = 'false';                                        //是否开启 Cloudflare 解析
+$_ENV['cloudflare_enable'] = false;                                        //是否开启 Cloudflare 解析
 $_ENV['cloudflare_email'] = 'user@example.com';                                //Cloudflare 邮箱地址
 $_ENV['cloudflare_key'] = 'c2547eb745079dac9320b638f5e225cf483cc5cfdda41';    //Cloudflare API Key
 $_ENV['cloudflare_name'] = 'example.com';                                    //域名
 
 #不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转
-$_ENV['relay_insecure_mode'] = 'false';        //强烈推荐不开启
+$_ENV['relay_insecure_mode'] = false;        //强烈推荐不开启
 
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
-$_ENV['enable_analytics_code'] = 'false';
-$_ENV['sspanelAnalysis'] = 'true';
+$_ENV['enable_analytics_code'] = false;
+$_ENV['sspanelAnalysis'] = true;
