@@ -3,7 +3,7 @@
 
 namespace App\Services\Mail;
 
-use PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer;
 use App\Services\Config;
 
 class Smtp extends Base
@@ -21,11 +21,12 @@ class Smtp extends Base
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
         $mail->Username = $this->config['username'];                 // SMTP username
         $mail->Password = $this->config['passsword'];                    // SMTP password
-        if ($_ENV['smtp_ssl'] == true) {
-            $mail->SMTPSecure = (Config::get('smtp_port') == '587' ? 'tls' : 'ssl');                            // Enable TLS encryption, `ssl` also accepted
+        if ($_ENV['smtp_ssl']) {
+            $mail->SMTPSecure = Config::get('smtp_port') == '587' ? 'tls' : 'ssl';                            // Enable TLS encryption, `ssl` also accepted
         }
         $mail->Port = $this->config['port'];                                    // TCP port to connect to
-        $mail->setFrom($this->config['sender'], $this->config['name']);
+        $mail->setFrom($this->config['username'], $this->config['sender']);
+        $mail->addReplyTo($this->config['reply_to'], $this->config['reply_to_name']);
         $mail->CharSet = 'UTF-8';
         $this->mail = $mail;
     }
@@ -33,12 +34,13 @@ class Smtp extends Base
     public function getConfig()
     {
         return [
-            'host' => Config::get('smtp_host'),
-            'username' => Config::get('smtp_username'),
-            'port' => Config::get('smtp_port'),
-            'sender' => Config::get('smtp_sender'),
-            'name' => Config::get('smtp_name'),
-            'passsword' => Config::get('smtp_passsword')
+            'host' => $_ENV['smtp_host'],
+            'username' => $_ENV['smtp_username'],
+            'port' => $_ENV['smtp_port'],
+            'sender' => $_ENV['smtp_sender'],
+            'passsword' => $_ENV['smtp_passsword'],
+            'reply_to' => $_ENV['smtp_reply_to'],
+            'reply_to_name' => $_ENV['smtp_reply_to_name']
         ];
     }
 

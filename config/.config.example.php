@@ -43,13 +43,14 @@ $_ENV['mailgun_domain'] = '';
 $_ENV['mailgun_sender'] = '';
 
 # smtp
-$_ENV['smtp_host'] = '';
-$_ENV['smtp_username'] = '';
-$_ENV['smtp_port'] = 465;
-$_ENV['smtp_name'] = '';
-$_ENV['smtp_sender'] = '';
-$_ENV['smtp_passsword'] = '';
-$_ENV['smtp_ssl'] = true;
+$_ENV['smtp_host'] = '';                                // smtp 邮局服务器域
+$_ENV['smtp_username'] = '';                            // smtp 账户名
+$_ENV['smtp_port'] = 465;                               // smtp 端口(常见端口 25, 587 465)
+$_ENV['smtp_sender'] = '';                              // smtp 账户自定义显示名
+$_ENV['smtp_passsword'] = '';                           // stmp 账户密码
+$_ENV['smtp_ssl'] = true;                               // 支持 TLS/SSL 发信
+$_ENV['smtp_reply_to'] = $_ENV['smtp_username'];        // 当用户回复通知邮件时回复改地址
+$_ENV['smtp_reply_to_name'] = $_ENV['smtp_sender'];     // 回复地址显示名
 
 # sendgrid
 $_ENV['sendgrid_key'] = '';
