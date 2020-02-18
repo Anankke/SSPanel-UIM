@@ -39,10 +39,11 @@ $_ENV['mailgun_sender'] = '';
 $_ENV['smtp_host'] = '';
 $_ENV['smtp_username'] = '';
 $_ENV['smtp_port'] = '465';
-$_ENV['smtp_name'] = '';
 $_ENV['smtp_sender'] = '';
 $_ENV['smtp_passsword'] = '';
 $_ENV['smtp_ssl'] = true;
+$_ENV['smtp_reply_to'] = $_ENV['smtp_username'];
+$_ENV['smtp_reply_to_name'] = $_ENV['smtp_sender'];
 
 # sendgrid
 $_ENV['sendgrid_key'] = '';
