@@ -99,6 +99,7 @@ class VueController extends BaseController
         $user->ss_url_all = URL::getAllUrl($pre_user, 0, 2);
         $ssinfo = URL::getSSConnectInfo($pre_user);
         $user->ssd_url_all = URL::getAllSSDUrl($ssinfo);
+        $user->vmess_url_all = URL::getAllVMessUrl($user);
         $user->isAbleToCheckin = $user->isAbleToCheckin();
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
         $GtSdk = null;
@@ -456,13 +457,17 @@ class VueController extends BaseController
             return $response->withJson([null]);
         }
 
+        $ssr_item = URL::getItem($user, $node, $mu, $relay_rule_id, 0);
+        $ss_item = URL::getItem($user, $node, $mu, $relay_rule_id, 1);
+
         switch ($node->sort) {
             case 0:
                 if ((($user->class >= $node->node_class
                         && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
                     && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)
                 ) {
-                    return $response->withJson([
+
+                    $res = [
                         'ret' => 1,
                         'nodeInfo' => [
                             'node' => $node,
@@ -471,7 +476,18 @@ class VueController extends BaseController
                             'relay_rule_id' => $relay_rule_id,
                             'URL' => URL::class,
                         ],
-                    ]);
+                    ];
+
+                    if (URL::SSRCanConnect($user, $mu)) {
+                        $res['ssrlink'] = URL::getItemUrl($ssr_item, 0);
+                    }
+
+                    if (URL::SSCanConnect($user, $mu)) {
+                        $res['sslink'] = URL::getItemUrl($ss_item, 1);
+                        $res['ssQrWin'] = URL::getItemUrl($ss_item, 2);
+                    }
+
+                    return $response->withJson($res);
                 }
                 break;
             case 1:
@@ -522,7 +538,8 @@ class VueController extends BaseController
                 if ((($user->class >= $node->node_class
                         && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
                     && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-                    return $response->withJson([
+
+                    $res = [
                         'ret' => 1,
                         'nodeInfo' => [
                             'node' => $node,
@@ -531,14 +548,26 @@ class VueController extends BaseController
                             'relay_rule_id' => $relay_rule_id,
                             'URL' => URL::class,
                         ],
-                    ]);
+                    ];
+
+                    if (URL::SSRCanConnect($user, $mu)) {
+                        $res['ssrlink'] = URL::getItemUrl($ssr_item, 0);
+                    }
+
+                    if (URL::SSCanConnect($user, $mu)) {
+                        $res['sslink'] = URL::getItemUrl($ss_item, 1);
+                        $res['ssQrWin'] = URL::getItemUrl($ss_item, 2);
+                    }
+
+                    return $response->withJson($res);
                 }
                 break;
             case 13:
                 if ((($user->class >= $node->node_class
                         && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
                     && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-                    return $response->withJson([
+
+                    $res = [
                         'ret' => 1,
                         'nodeInfo' => [
                             'node' => $node,
@@ -547,7 +576,18 @@ class VueController extends BaseController
                             'relay_rule_id' => $relay_rule_id,
                             'URL' => URL::class,
                         ],
-                    ]);
+                    ];
+
+                    if (URL::SSRCanConnect($user, $mu)) {
+                        $res['ssrlink'] = URL::getItemUrl($ssr_item, 0);
+                    }
+
+                    if (URL::SSCanConnect($user, $mu)) {
+                        $res['sslink'] = URL::getItemUrl($ss_item, 1);
+                        $res['ssQrWin'] = URL::getItemUrl($ss_item, 2);
+                    }
+
+                    return $response->withJson($res);
                 }
                 break;
         }
