@@ -522,7 +522,7 @@ class URL
                     ->orWhere('user_id', '=', 0);
             }
         )->orderBy('priority', 'DESC')->orderBy('id')->first();
-        // $node_name = $node->name;
+        $node_name = $node->name;
         /***节点描述后加#偏移值***/
         $temp = explode("#", $node->info);
         $offset = 0;
