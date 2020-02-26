@@ -1088,9 +1088,8 @@ class UserController extends BaseController
         }
 
         $price = $shop->price * ((100 - $credit) / 100);
-        $user = $this->user;
-
-        if (!$user->isLogin) {
+        $user = User::where(['id'=>$this->user->id])->sharedLock()->first();
+        if (!$this->user->isLogin) {
             $res['ret'] = -1;
             return $response->getBody()->write(json_encode($res));
         }
@@ -1101,8 +1100,7 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        $user->money = bcsub($user->money, $price, 2);
-        $user->save();
+        
 
         if ($disableothers == 1) {
             $boughts = Bought::where('userid', $user->id)->get();
@@ -1132,7 +1130,8 @@ class UserController extends BaseController
         $bought->save();
 
         $shop->buy($user);
-
+        $user->money = bcsub($user->money, $price, 2);
+        $user->save();
         $res['ret'] = 1;
         $res['msg'] = '购买成功';
 
