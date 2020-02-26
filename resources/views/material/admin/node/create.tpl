@@ -120,6 +120,7 @@
                                     <label class="floating-label" for="info">节点描述</label>
                                     <input class="form-control maxwidth-edit" id="info" type="text" name="info"
                                            value="无描述">
+                                    <p class="form-control-guide"><i class="material-icons">info</i>设置单端口偏移请在描述最后加"#偏移值",正加负减</p>
                                 </div>
 
                                 <div class="form-group form-group-label">

@@ -523,8 +523,8 @@ class URL
             }
         )->orderBy('priority', 'DESC')->orderBy('id')->first();
         // $node_name = $node->name;
-        /***节点名字后加#偏移值***/
-        $temp = explode("#", $node->name);
+        /***节点描述后加#偏移值***/
+        $temp = explode("#", $node->info);
         $offset = 0;
         if ($temp[1]!=null){
             $node_name = $temp[0];
