@@ -527,12 +527,9 @@ class URL
         $temp = explode("#", $node->info);
         $offset = 0;
         if ($temp[1]!=null){
-            $node_name = $temp[0];
             if (is_numeric($temp[1])) {
                 $offset = $temp[1];
             }
-        } else {
-            $node_name = $node->name;
         }
         /************/
         if ($relay_rule != null) {
