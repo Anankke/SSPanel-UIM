@@ -50,7 +50,7 @@ abstract class AbstractPayment
 
     public function postPayment($pid, $method)
     {
-        $p = Paylist::where('tradeno', $pid)->first();
+        $p = Paylist::where('tradeno', $pid)->sharedLock()->first();
 
         if ($p->status == 1) {
             return json_encode(['errcode' => 0]);
