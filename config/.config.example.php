@@ -296,7 +296,11 @@ $_ENV['timeZone'] = 'PRC';					//PRC 天朝时间  UTC 格林时间
 $_ENV['db_charset'] = 'utf8';
 $_ENV['db_collation'] = 'utf8_general_ci';
 $_ENV['db_prefix'] = '';
-$_ENV['muKeyList'] = [];                //多 key 列表
+//多 key 列表, 式例为节点 ID (1,3) 使用 WEBKEY (Ananke), 节点 ID (2) 使用 WEBKEY (demo)
+$_ENV['muKeyList'] = array(
+    'Anankke' => [1, 3],
+    'demo' => [2],
+);
 $_ENV['subscribe_client'] = true;        //下载协议客户端时附带节点和订阅信息
 
 #aws

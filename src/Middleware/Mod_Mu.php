@@ -17,6 +17,7 @@ class Mod_Mu
     public function __invoke($request, $response, $next)
     {
         $key = $request->getQueryParam('key');
+        $nodeId = $request->getQueryParam('node_id');
         if ($key === null) {
             return $response->withjson([
                 'ret' => 0,
@@ -24,8 +25,21 @@ class Mod_Mu
             ]);
         }
 
-        $keys = Config::getMuKey();
-        $auth = in_array($key, $keys);
+        $inMuKeyList = false;
+        $keys = Config::get('muKeyList');
+
+        foreach ($keys as $muKey => $nodes) {
+            if (in_array($node_id, $nodes)) {
+                $inMuKeyList = true;
+                if ($muKey == $key) {
+                    $auth = true;
+                }
+                return;
+            }
+        }
+        if (!$inMuKeyList) {
+            $auth = $key == Config::get('muKey');
+        }
 
         $node = Node::where('node_ip', 'LIKE', $_SERVER['REMOTE_ADDR'] . '%')->first();
         if ($auth === false
