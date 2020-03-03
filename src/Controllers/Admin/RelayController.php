@@ -294,7 +294,7 @@ class RelayController extends AdminController
         )->get();
 
         foreach ($nodes as $node) {
-            if ($node->mu_only == 0) {
+            if ($node->mu_only == 0 || $node->mu_only == -1) {
                 $relay_rule = Tools::pick_out_relay_rule($node->id, $user->port, $relay_rules);
 
                 if ($relay_rule != null) {
@@ -302,7 +302,7 @@ class RelayController extends AdminController
                 }
             }
 
-            if ($node->custom_rss == 1) {
+            if ($node->custom_rss == 1 || $node->mu_only == -1) {
                 foreach ($mu_nodes as $mu_node) {
                     $mu_user = User::where('port', '=', $mu_node->server)->first();
 
