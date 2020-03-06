@@ -156,9 +156,14 @@
                                             {foreach $paybacks as $payback}
                                                 <tr>
 
-                                                    <!--       <td>#{$payback->id}</td> -->
                                                     <td>{$payback->id}</td>
-                                                    <td>{$payback->userid}</td>
+                                                    {if $payback->user()!=null}
+                                                        <td>{$payback->user()->user_name}
+                                                        </td>
+                                                    {else}
+                                                        <td>已注销
+                                                        </td>
+                                                    {/if}
                                                     <td>{$payback->ref_get} 元</td>
 
                                                 </tr>
