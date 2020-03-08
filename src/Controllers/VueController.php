@@ -70,6 +70,7 @@ class VueController extends BaseController
             'enable_mylivechat' => Config::get('enable_mylivechat'),
             'enable_flag' => Config::get('enable_flag'),
             'payment_type' => Config::get('payment_system'),
+            'mylivechat_id' => Config::get('mylivechat_id'),
         );
 
         $res['ret'] = 1;
@@ -165,6 +166,10 @@ class VueController extends BaseController
             $paybacks_sum = 0;
         }
         $paybacks->setPath('/#/user/panel');
+        foreach ($paybacks as $payback)
+        {
+            $payback['user_name'] = $payback->user()->user_name;
+        };
 
         $res['inviteInfo'] = array(
             'code' => $code,
