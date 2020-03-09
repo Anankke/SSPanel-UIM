@@ -74,7 +74,7 @@ $_ENV['user_conn'] = 0;							//用户注册客户端数量限制，0为不限�
 $_ENV['user_speedlimit'] = 0;						//用户注册速度默认限制，0为不限制
 $_ENV['reg_auto_reset_day'] = 0;					//注册时的流量重置日，0为不重置
 $_ENV['reg_auto_reset_bandwidth'] = 0;				//需要重置的流量，0为不重置
-$_ENV['ramdom_group'] = 0;							//注册时随机分组，注册时随机分配到的分组，多个分组请用英文半角逗号分隔。
+$_ENV['ramdom_group'] = '0';							//注册时随机分组，注册时随机分配到的分组，多个分组请用英文半角逗号分隔。
 $_ENV['reg_method'] = 'chacha20-ietf';						//注册时默认加密方式
 $_ENV['reg_protocol'] = 'auth_aes128_sha1';					//注册时默认协议
 $_ENV['reg_protocol_param'] = '';					//注册时默认协议参数
@@ -127,10 +127,10 @@ $_ENV['finance_public'] = true;			//财务报告是否向群公开
 $_ENV['enable_welcome_message'] = true;	//机器人发送欢迎消息
 
 #Telegram
-$_ENV['enable_telegram'] = true;			//是否开启Telegram bot
+$_ENV['enable_telegram'] = false;			//是否开启Telegram bot
 $_ENV['telegram_token'] = '';				//Telegram bot,bot 的 token ，跟 father bot 申请
 $_ENV['telegram_chatid'] = '';				//Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到。
-$_ENV['enable_tuling'] = true;			//是否开启图灵机器人
+$_ENV['enable_tuling'] = false;			//是否开启图灵机器人
 $_ENV['tuling_apikey'] = '';					//图灵机器人API Key
 $_ENV['tuling_apisecert'] = '';				//图灵机器人密钥
 $_ENV['telegram_bot'] = '_bot';				//Telegram 机器人账号
@@ -267,7 +267,7 @@ $_ENV['detect_gfw_count'] = '3';												//尝试次数
 #离线检测
 $_ENV['enable_detect_offline'] = true;
 #离线检测是否推送到Server酱 请配置好上文的Server配置
-$_ENV['enable_detect_offline_useScFtqq'] = true;
+$_ENV['enable_detect_offline_useScFtqq'] = false;
 
 
 //V2Ray相关设置------------------------------------------------------------------------------------------
@@ -319,16 +319,16 @@ $_ENV['radius_db_password'] = '';
 $_ENV['radius_secret'] = '';					//Radius连接密钥
 
 #Cloudflare
-$_ENV['cloudflare_enable'] = true;										//是否开启 Cloudflare 解析
+$_ENV['cloudflare_enable'] = false;										//是否开启 Cloudflare 解析
 $_ENV['cloudflare_email'] = 'user@example.com';								//Cloudflare 邮箱地址
 $_ENV['cloudflare_key'] = 'c2547eb745079dac9320b638f5e225cf483cc5cfdda41';	//Cloudflare API Key
 $_ENV['cloudflare_name'] = 'example.com';									//域名
 
 #不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转
-$_ENV['relay_insecure_mode'] = true;		//强烈推荐不开启
+$_ENV['relay_insecure_mode'] = false;		//强烈推荐不开启
 
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
-$_ENV['enable_analytics_code'] = true;
+$_ENV['enable_analytics_code'] = false;
 $_ENV['sspanelAnalysis'] = true;
 
 #在套了CDN之后获取用户真实ip，如果您不知道这是什么，请不要乱动
