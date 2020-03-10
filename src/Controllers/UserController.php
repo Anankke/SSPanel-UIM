@@ -770,7 +770,6 @@ class UserController extends BaseController
 
         return $this->view()
             ->assign('user', $this->user)
-            ->assign('schemes', $_ENV['user_agreement_scheme'])
             ->assign('themes', $themes)
             ->assign('isBlock', $isBlock)
             ->assign('Block', $Block)
