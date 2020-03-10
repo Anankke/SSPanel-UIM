@@ -603,6 +603,7 @@ class LinkController extends BaseController
             'id'              => $user->getUuid(),
             'aid'             => 0,
             'net'             => 'tcp',
+            'headerType'      => 'none',
             'protocol'        => 'origin',
             'protocol_param'  => '',
             'obfs'            => 'plain',

@@ -15,18 +15,19 @@ use App\Utils\Tools;
 
 class UserController extends BaseController
 {
-    // User List
+    /**
+     * User List
+     * 
+     * @param \Slim\Http\Request    $request
+     * @param \Slim\Http\Response   $response
+     * @param array                 $args
+     *
+     * @return \Slim\Http\Response
+     */
     public function index($request, $response, $args)
     {
-        $params = $request->getQueryParams();
+        $node_id = $request->getQueryParam('node_id', '0');
 
-        if (isset($params['node_id'])) {
-            $node_id = $params['node_id'];
-        }else {
-            $node_id = '0';
-        }
-
-        $node = new Node();
         if ($node_id == '0') {
             $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
             $node_id = $node->id;
