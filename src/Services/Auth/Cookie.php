@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Node;
 use App\Utils;
 use App\Utils\Hash;
-use App\Services\Config;
 
 class Cookie extends Base
 {

@@ -58,6 +58,9 @@
             <nav>
                 <ul>
                     <li><a href="#1">简介</a></li>
+                    {if $user->is_admin}
+                    <li><a href="/admin">管理后台</a></li>
+                    {/if}
                     <li><a href="/user">用户中心</a></li>
                     <li><a href="/user/logout">退出登录</a></li>
                 </ul>
@@ -70,7 +73,7 @@
                     如果想自定义文本请删除下面这段script代码,格式为
                     <p>自定义文本</p>
                     -->
-                    <p>够了，我无法忍受你的行为，现在你将成为我们中的一员</p>
+                    {$config['old_index_DESC']}
                 </div>
             </div>
             <nav>

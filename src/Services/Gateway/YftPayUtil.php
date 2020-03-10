@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Administrator
@@ -115,5 +116,4 @@ class YftPayUtil
         }
         return $arg;
     }
-
 }

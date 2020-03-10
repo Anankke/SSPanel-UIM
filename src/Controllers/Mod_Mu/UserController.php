@@ -2,13 +2,15 @@
 
 namespace App\Controllers\Mod_Mu;
 
-use App\Models\Node;
-use App\Models\TrafficLog;
-use App\Models\User;
-use App\Models\NodeOnlineLog;
-use App\Models\Ip;
-use App\Models\DetectLog;
 use App\Controllers\BaseController;
+use App\Models\{
+    Ip,
+    Node,
+    User,
+    DetectLog,
+    TrafficLog,
+    NodeOnlineLog
+};
 use App\Utils\Tools;
 
 class UserController extends BaseController
@@ -35,29 +37,7 @@ class UserController extends BaseController
         $node->node_heartbeat = time();
         $node->save();
 
-        if ($node->node_group != 0) {
-            $users_raw = User::where(
-                static function ($query) use ($node) {
-                    $query->where(
-                        static function ($query1) use ($node) {
-                            $query1->where('class', '>=', $node->node_class)
-                                ->where('node_group', '=', $node->node_group);
-                        }
-                    )->orwhere('is_admin', 1);
-                }
-            )
-                ->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
-        } else {
-            $users_raw = User::where(
-                static function ($query) use ($node) {
-                    $query->where(
-                        static function ($query1) use ($node) {
-                            $query1->where('class', '>=', $node->node_class);
-                        }
-                    )->orwhere('is_admin', 1);
-                }
-            )->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
-        }
+        // 节点流量耗尽则返回 null
         if (($node->node_bandwidth_limit != 0) && $node->node_bandwidth_limit < $node->node_bandwidth) {
             $users = null;
 
@@ -68,18 +48,63 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
+        if (in_array($node->sort, [0, 10]) && $node->mu_only != -1) {
+            $mu_port_migration = $_ENV['mu_port_migration'];
+            $muPort = Tools::get_MuOutPortArray($node->server);
+        } else {
+            $mu_port_migration = false;
+        }
+
+        /*
+         * 1. 请不要把管理员作为单端口承载用户
+         * 2. 请不要把真实用户作为单端口承载用户
+         */
+        $users_raw = User::where(
+            static function ($query) use ($node) {
+                $query->where(
+                    static function ($query1) use ($node) {
+                        if ($node->node_group != 0) {
+                            $query1->where('class', '>=', $node->node_class)
+                                ->where('node_group', '=', $node->node_group);
+                        } else {
+                            $query1->where('class', '>=', $node->node_class);
+                        }
+                    }
+                )->orwhere('is_admin', 1);
+            }
+        )
+            ->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
+
         $users = array();
 
-        $key_list = array('email', 'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param',
+        $key_list = array(
+            'email', 'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param',
             'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
-            'is_multi_user', 'id', 'port', 'passwd', 'u', 'd', 'node_connector');
+            'is_multi_user', 'id', 'port', 'passwd', 'u', 'd', 'node_connector'
+        );
 
         foreach ($users_raw as $user_raw) {
-            if ($user_raw->transfer_enable > $user_raw->u + $user_raw->d) {
-                $user_raw = Tools::keyFilter($user_raw, $key_list);
-                $user_raw->uuid = $user_raw->getUuid();
-                $users[] = $user_raw;
+            if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
+                if ($_ENV['keep_connect'] === true) {
+                    // 流量耗尽用户限速至 1Mbps
+                    $user_raw->node_speedlimit = 1;
+                } else {
+                    continue;
+                }
             }
+            if ($mu_port_migration === true && $user_raw->is_multi_user != 0) {
+                // 下发偏移后端口
+                if ($muPort['type'] == 0) {
+                    if (in_array($user_raw->port, array_keys($muPort['port']))) {
+                        $user_raw->port = $muPort['port'][$user_raw->port];
+                    }
+                } else {
+                    $user_raw->port = ($user_raw->port + $muPort['type']);
+                }
+            }
+            $user_raw = Tools::keyFilter($user_raw, $key_list);
+            $user_raw->uuid = $user_raw->getUuid();
+            $users[] = $user_raw;
         }
 
         $res = [

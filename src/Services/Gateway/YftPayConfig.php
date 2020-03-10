@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Administrator
@@ -7,7 +8,9 @@
  */
 
 namespace App\Services\Gateway;
-class YftPayConfig{
+
+class YftPayConfig
+{
     public $pay_config;
     public function init()
     {

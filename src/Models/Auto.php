@@ -7,7 +7,6 @@ class Auto extends Model
     protected $connection = 'default';
     protected $table = 'auto';
 
-
     public function datetime()
     {
         return date('Y-m-d H:i:s', $this->attributes['datetime']);

@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\User;
-use App\Services\View;
-use App\Services\Auth;
+use App\Services\{
+    Auth,
+    View
+};
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
 use Smarty;

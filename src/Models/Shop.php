@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\Config;
-
 class Shop extends Model
 {
     protected $connection = 'default';

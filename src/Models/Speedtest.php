@@ -12,7 +12,6 @@ class Speedtest extends Model
         return Node::find($this->attributes['nodeid']);
     }
 
-
     public function getTelecomPing()
     {
         $load = $this->attributes['telecomping'];
@@ -33,7 +32,6 @@ class Speedtest extends Model
         $exp = explode(' ', $load);
         return $exp[0];
     }
-
 
     public function getTelecomUpload()
     {

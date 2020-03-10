@@ -3,7 +3,6 @@
 namespace App\Services\Aws;
 
 use Aws\Sdk;
-use App\Services\Config;
 
 class Factory
 {

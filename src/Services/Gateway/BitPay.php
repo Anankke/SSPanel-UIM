@@ -10,7 +10,6 @@ namespace App\Services\Gateway;
 
 use App\Models\Paylist;
 use App\Services\Auth;
-use App\Services\Config;
 use App\Services\View;
 
 class BitPay extends AbstractPayment

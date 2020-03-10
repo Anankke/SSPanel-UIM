@@ -9,7 +9,6 @@
 namespace App\Services\Gateway;
 
 use App\Services\Auth;
-use App\Services\Config;
 
 use App\Models\Paylist;
 
@@ -150,7 +149,7 @@ class SPay extends AbstractPayment
                 });
             });
         });
-    };</script>                        
+    };</script>
 ';
     }
 

@@ -13,7 +13,7 @@ class ResController
         $builder = new CaptchaBuilder();
         $builder->build();
         //$builder->getPhrase();
-        $newResponse = $response->withHeader('Content-type', ' image/jpeg');//->getBody()->write($builder->output());
+        $newResponse = $response->withHeader('Content-type', ' image/jpeg'); //->getBody()->write($builder->output());
         $newResponse->getBody()->write($builder->output());
         return $newResponse;
     }

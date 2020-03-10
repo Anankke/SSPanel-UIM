@@ -2,23 +2,28 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\Code;
-use App\Models\User;
 use App\Controllers\AdminController;
-use App\Utils\Tools;
+use App\Models\{
+    Code,
+    User
+};
+use App\Utils\{
+    Tools,
+    DatatablesHelper
+};
 use App\Services\Auth;
-
 use Ozdemir\Datatables\Datatables;
-use App\Utils\DatatablesHelper;
 
 class CodeController extends AdminController
 {
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID', 'code' => '内容',
+        $table_config['total_column'] = array(
+            'id' => 'ID', 'code' => '内容',
             'type' => '类型', 'number' => '操作',
             'isused' => '是否已经使用', 'userid' => '用户ID',
-            'user_name' => '用户名', 'usedatetime' => '使用时间');
+            'user_name' => '用户名', 'usedatetime' => '使用时间'
+        );
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             $table_config['default_show_column'][] = $column;
@@ -60,12 +65,10 @@ class CodeController extends AdminController
             $code->save();
         }
 
-
         $rs['ret'] = 1;
         $rs['msg'] = '充值码添加成功';
         return $response->getBody()->write(json_encode($rs));
     }
-
 
     public function donate_add($request, $response, $args)
     {

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 /**
- * DetectLog Model
+ * Relay Model
  */
 class Relay extends Model
 {

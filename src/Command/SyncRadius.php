@@ -8,12 +8,10 @@ use App\Models\Node;
 use App\Models\RadiusRadPostauth;
 use App\Models\RadiusRadAcct;
 use App\Models\RadiusNas;
-use App\Services\Config;
 use App\Services\Mail;
 use App\Models\TrafficLog;
 use App\Utils\Tools;
 use App\Utils\Radius;
-use App\Utils\Da;
 use Exception;
 
 class SyncRadius

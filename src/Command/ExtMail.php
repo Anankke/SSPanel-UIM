@@ -4,7 +4,6 @@
 namespace App\Command;
 
 use App\Models\User;
-use App\Services\Config;
 use App\Services\Mail;
 use Exception;
 

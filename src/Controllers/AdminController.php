@@ -2,16 +2,20 @@
 
 namespace App\Controllers;
 
-use App\Models\Node;
-use App\Models\Coupon;
-use App\Models\User;
-use App\Services\Gateway\ChenPay;
-use App\Utils\AliPay;
-use App\Utils\Tools;
-use App\Services\Analytics;
-
+use App\Models\{
+    Node,
+    User,
+    Coupon
+};
+use App\Utils\{
+    Tools,
+    DatatablesHelper
+};
+use App\Services\{
+    Analytics,
+    Gateway\ChenPay
+};
 use Ozdemir\Datatables\Datatables;
-use App\Utils\DatatablesHelper;
 
 /**
  *  Admin Controller
@@ -30,7 +34,6 @@ class AdminController extends UserController
         return $this->view()->assign('nodes', $nodes)->display('admin/node.tpl');
     }
 
-
     public function editConfig($request, $response, $args)
     {
         return (new ChenPay())->editConfig();
@@ -48,11 +51,13 @@ class AdminController extends UserController
 
     public function invite($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID',
+        $table_config['total_column'] = array(
+            'id' => 'ID',
             'total' => '原始金额', 'event_user_id' => '发起用户ID',
             'event_user_name' => '发起用户名', 'ref_user_id' => '获利用户ID',
             'ref_user_name' => '获利用户名', 'ref_get' => '获利金额',
-            'datetime' => '时间');
+            'datetime' => '时间'
+        );
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             $table_config['default_show_column'][] = $column;
@@ -60,34 +65,34 @@ class AdminController extends UserController
         $table_config['ajax_url'] = 'payback/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/invite.tpl');
     }
-    
+
     public function chgInvite($request, $response, $args)
     {
         $prefix = $request->getParam('prefix');
 
-        if ($request->getParam('userid')!=NULL && $request->getParam('refid')!=NULL) {
-            if (strpos($request->getParam('userid'), "@")!=false) {
-                $user=User::where("email", "=", $request->getParam('userid'))->first();
+        if ($request->getParam('userid') != NULL && $request->getParam('refid') != NULL) {
+            if (strpos($request->getParam('userid'), '@') != false) {
+                $user = User::where('email', '=', $request->getParam('userid'))->first();
             } else {
-                $user=User::Where("id", "=", $request->getParam('userid'))->first();
+                $user = User::Where('id', '=', $request->getParam('userid'))->first();
             }
 
-            if ($user==null) {
+            if ($user == null) {
                 $res['ret'] = 0;
-                $res['msg'] = "邀请者更改失败，检查用户id是否输入正确";
+                $res['msg'] = '邀请者更改失败，检查用户id是否输入正确';
                 return $response->getBody()->write(json_encode($res));
             }
             $uid = $user->id;
         } else {
-            $uid=0;
+            $uid = 0;
         }
-		$user->ref_by = $request->getParam('refid');
-		$user->save();
+        $user->ref_by = $request->getParam('refid');
+        $user->save();
         $res['ret'] = 1;
-        $res['msg'] = "邀请者更改成功";
+        $res['msg'] = '邀请者更改成功';
         return $response->getBody()->write(json_encode($res));
     }
-    
+
     public function addInvite($request, $response, $args)
     {
         $num = $request->getParam('num');
@@ -122,12 +127,13 @@ class AdminController extends UserController
         return $response->getBody()->write(json_encode($res));
     }
 
-
     public function coupon($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID', 'code' => '优惠码',
+        $table_config['total_column'] = array(
+            'id' => 'ID', 'code' => '优惠码',
             'expire' => '过期时间', 'shop' => '限定商品ID',
-            'credit' => '额度', 'onetime' => '次数');
+            'credit' => '额度', 'onetime' => '次数'
+        );
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             $table_config['default_show_column'][] = $column;
@@ -184,15 +190,19 @@ class AdminController extends UserController
 
     public function trafficLog($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID', 'user_id' => '用户ID',
+        $table_config['total_column'] = array(
+            'id' => 'ID', 'user_id' => '用户ID',
             'user_name' => '用户名', 'node_name' => '使用节点',
             'rate' => '倍率', 'origin_traffic' => '实际使用流量',
             'traffic' => '结算流量',
-            'log_time' => '记录时间');
-        $table_config['default_show_column'] = array('id', 'user_id',
+            'log_time' => '记录时间'
+        );
+        $table_config['default_show_column'] = array(
+            'id', 'user_id',
             'user_name', 'node_name',
             'rate', 'origin_traffic',
-            'traffic', 'log_time');
+            'traffic', 'log_time'
+        );
         $table_config['ajax_url'] = 'trafficlog/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/trafficlog.tpl');
     }

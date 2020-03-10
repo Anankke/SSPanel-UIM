@@ -2,23 +2,28 @@
 
 namespace App\Controllers;
 
-use App\Models\InviteCode;
-use App\Services\Config;
-use App\Utils\Check;
-use App\Utils\Tools;
-use App\Utils\Radius;
-use Exception;
+use App\Models\{
+    User,
+    LoginIp,
+    InviteCode,
+    EmailVerify
+};
+use App\Utils\{
+    GA,
+    Hash,
+    Check,
+    Tools,
+    Radius,
+    Geetest,
+    TelegramSessionManager
+};
+use App\Services\{
+    Auth,
+    Mail,
+    Config
+};
 use voku\helper\AntiXSS;
-use App\Utils\Hash;
-use App\Utils\Da;
-use App\Services\Auth;
-use App\Services\Mail;
-use App\Models\User;
-use App\Models\LoginIp;
-use App\Models\EmailVerify;
-use App\Utils\GA;
-use App\Utils\Geetest;
-use App\Utils\TelegramSessionManager;
+use Exception;
 
 /**
  *  AuthController
@@ -242,7 +247,7 @@ class AuthController extends BaseController
 
         return $this->view()
             ->assign('geetest_html', $GtSdk)
-            ->assign('enable_email_verify', $_ENV['enable_email_verify'])
+            ->assign('enable_email_verify', Config::getconfig('Register.bool.Enable_email_verify'))
             ->assign('code', $code)
             ->assign('recaptcha_sitekey', $recaptcha_sitekey)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
@@ -252,10 +257,9 @@ class AuthController extends BaseController
             ->display('auth/register.tpl');
     }
 
-
     public function sendVerify($request, $response, $next)
     {
-        if ($_ENV['enable_email_verify'] == true) {
+        if (Config::getconfig('Register.bool.Enable_email_verify')) {
             $email = $request->getParam('email');
             $email = trim($email);
 
@@ -280,7 +284,7 @@ class AuthController extends BaseController
             }
 
             $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])->where('expire_in', '>', time())->count();
-            if ($ipcount >= (int)$_ENV['email_verify_iplimit']) {
+            if ($ipcount >= (int) Config::getconfig('Register.string.Email_verify_iplimit')) {
                 $res['ret'] = 0;
                 $res['msg'] = '此IP请求次数过多';
                 return $response->getBody()->write(json_encode($res));
@@ -297,7 +301,7 @@ class AuthController extends BaseController
             $code = Tools::genRandomNum(6);
 
             $ev = new EmailVerify();
-            $ev->expire_in = time() + $_ENV['email_verify_ttl'];
+            $ev->expire_in = time() + (int) Config::getconfig('Register.string.Email_verify_ttl');
             $ev->ip = $_SERVER['REMOTE_ADDR'];
             $ev->email = $email;
             $ev->code = $code;
@@ -307,7 +311,7 @@ class AuthController extends BaseController
 
             try {
                 Mail::send($email, $subject, 'auth/verify.tpl', [
-                    'code' => $code, 'expire' => date('Y-m-d H:i:s', time() + $_ENV['email_verify_ttl'])
+                    'code' => $code, 'expire' => date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.Email_verify_ttl'))
                 ], [
                     //BASE_PATH.'/public/assets/email/styles.css'
                 ]);
@@ -327,7 +331,7 @@ class AuthController extends BaseController
 
     public function register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id)
     {
-        if ($_ENV['register_mode'] === 'close') {
+        if (Config::getconfig('Register.string.Mode') === 'close') {
             $res['ret'] = 0;
             $res['msg'] = '未开放注册。';
             return $res;
@@ -336,7 +340,7 @@ class AuthController extends BaseController
         //dumplin：1、邀请人等级为0则邀请码不可用；2、邀请人invite_num为可邀请次数，填负数则为无限
         $c = InviteCode::where('code', $code)->first();
         if ($c == null) {
-            if ($_ENV['register_mode'] === 'invite') {
+            if (Config::getconfig('Register.string.Mode') === 'invite') {
                 $res['ret'] = 0;
                 $res['msg'] = '邀请码无效';
                 return $res;
@@ -363,60 +367,60 @@ class AuthController extends BaseController
         }
 
         // do reg user
-        $user = new User();
+        $user                       = new User();
 
-        $antiXss = new AntiXSS();
+        $antiXss                    = new AntiXSS();
 
-        $user->user_name = $antiXss->xss_clean($name);
-        $user->email = $email;
-        $user->pass = Hash::passwordHash($passwd);
-        $user->passwd = Tools::genRandomChar(6);
-        $user->port = Tools::getAvPort();
-        $user->t = 0;
-        $user->u = 0;
-        $user->d = 0;
-        $user->method = $_ENV['reg_method'];
-        $user->protocol = $_ENV['reg_protocol'];
-        $user->protocol_param = $_ENV['reg_protocol_param'];
-        $user->obfs = $_ENV['reg_obfs'];
-        $user->obfs_param = $_ENV['reg_obfs_param'];
-        $user->forbidden_ip = $_ENV['reg_forbidden_ip'];
-        $user->forbidden_port = $_ENV['reg_forbidden_port'];
-        $user->im_type = $imtype;
-        $user->im_value = $antiXss->xss_clean($imvalue);
-        $user->transfer_enable = Tools::toGB($_ENV['defaultTraffic']);
-        $user->invite_num = $_ENV['inviteNum'];
-        $user->auto_reset_day = $_ENV['reg_auto_reset_day'];
+        $user->user_name            = $antiXss->xss_clean($name);
+        $user->email                = $email;
+        $user->pass                 = Hash::passwordHash($passwd);
+        $user->passwd               = Tools::genRandomChar(6);
+        $user->port                 = Tools::getAvPort();
+        $user->t                    = 0;
+        $user->u                    = 0;
+        $user->d                    = 0;
+        $user->method               = Config::getconfig('Register.string.defaultMethod');
+        $user->protocol             = Config::getconfig('Register.string.defaultProtocol');
+        $user->protocol_param       = Config::getconfig('Register.string.defaultProtocol_param');
+        $user->obfs                 = Config::getconfig('Register.string.defaultObfs');
+        $user->obfs_param           = Config::getconfig('Register.string.defaultObfs_param');
+        $user->forbidden_ip         = $_ENV['reg_forbidden_ip'];
+        $user->forbidden_port       = $_ENV['reg_forbidden_port'];
+        $user->im_type              = $imtype;
+        $user->im_value             = $antiXss->xss_clean($imvalue);
+        $user->transfer_enable      = Tools::toGB((int) Config::getconfig('Register.string.defaultTraffic'));
+        $user->invite_num           = (int) Config::getconfig('Register.string.defaultInviteNum');
+        $user->auto_reset_day       = $_ENV['reg_auto_reset_day'];
         $user->auto_reset_bandwidth = $_ENV['reg_auto_reset_bandwidth'];
-        $user->money = 0;
+        $user->money                = 0;
 
         //dumplin：填写邀请人，写入邀请奖励
         $user->ref_by = 0;
         if (($c != null) && $c->user_id != 0) {
             $gift_user = User::where('id', '=', $c->user_id)->first();
             $user->ref_by = $c->user_id;
-            $user->money = $_ENV['invite_get_money'];
+            $user->money = (int) Config::getconfig('Register.string.defaultInvite_get_money');
             $gift_user->transfer_enable += $_ENV['invite_gift'] * 1024 * 1024 * 1024;
             --$gift_user->invite_num;
             $gift_user->save();
         }
-        if ( $telegram_id ) {
+        if ($telegram_id) {
             $user->telegram_id = $telegram_id;
         }
 
-        $user->class_expire = date('Y-m-d H:i:s', time() + $_ENV['user_class_expire_default'] * 3600);
-        $user->class = $_ENV['user_class_default'];
-        $user->node_connector = $_ENV['user_conn'];
-        $user->node_speedlimit = $_ENV['user_speedlimit'];
-        $user->expire_in = date('Y-m-d H:i:s', time() + $_ENV['user_expire_in_default'] * 86400);
-        $user->reg_date = date('Y-m-d H:i:s');
-        $user->reg_ip = $_SERVER['REMOTE_ADDR'];
-        $user->plan = 'A';
-        $user->theme = $_ENV['theme'];
+        $user->class_expire     = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultClass_expire') * 3600);
+        $user->class            = (int) Config::getconfig('Register.string.defaultClass');
+        $user->node_connector   = (int) Config::getconfig('Register.string.defaultConn');
+        $user->node_speedlimit  = (int) Config::getconfig('Register.string.defaultSpeedlimit');
+        $user->expire_in        = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultExpire_in') * 86400);
+        $user->reg_date         = date('Y-m-d H:i:s');
+        $user->reg_ip           = $_SERVER['REMOTE_ADDR'];
+        $user->plan             = 'A';
+        $user->theme            = $_ENV['theme'];
 
-        $groups = explode(',', $_ENV['ramdom_group']);
+        $groups                 = explode(',', $_ENV['ramdom_group']);
 
-        $user->node_group = $groups[array_rand($groups)];
+        $user->node_group       = $groups[array_rand($groups)];
 
         $ga = new GA();
         $secret = $ga->createSecret();
@@ -441,7 +445,7 @@ class AuthController extends BaseController
 
     public function registerHandle($request, $response)
     {
-        if ($_ENV['register_mode'] === 'close') {
+        if (Config::getconfig('Register.string.Mode') === 'close') {
             $res['ret'] = 0;
             $res['msg'] = '未开放注册。';
             return $response->getBody()->write(json_encode($res));
@@ -499,7 +503,7 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($_ENV['enable_email_verify'] == true) {
+        if (Config::getconfig('Register.bool.Enable_email_verify')) {
             $mailcount = EmailVerify::where('email', '=', $email)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount == null) {
                 $res['ret'] = 0;
@@ -534,7 +538,7 @@ class AuthController extends BaseController
             $res['msg'] = '此联络方式已注册';
             return $response->getBody()->write(json_encode($res));
         }
-        if ($_ENV['enable_email_verify'] == true) {
+        if (Config::getconfig('Register.bool.Enable_email_verify')) {
             EmailVerify::where('email', '=', $email)->delete();
         }
         $res = $this->register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0);

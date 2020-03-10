@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tonyzou
@@ -9,7 +10,16 @@
 namespace App\Services;
 
 use App\Services\Gateway\{
-    AopF2F, Codepay,  PaymentWall, ChenPay, SPay, PAYJS, YftPay
+    AopF2F,
+    Codepay,
+    PaymentWall,
+    ChenPay,
+    SPay,
+    PAYJS,
+    YftPay,
+    BitPayX,
+    TomatoPay,
+    IDtPay
 };
 
 class Payment
@@ -32,6 +42,12 @@ class Payment
                 return new PAYJS($_ENV['payjs_key']);
             case ('yftpay'):
                 return new YftPay();
+            case ('bitpayx'):
+                return new BitPayX($_ENV['bitpay_secret']);
+            case ("tomatopay"):
+                return new TomatoPay();
+            case ("idtpay"):
+                return new IDtPay();
             default:
                 return null;
         }

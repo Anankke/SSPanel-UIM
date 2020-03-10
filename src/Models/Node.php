@@ -20,18 +20,19 @@ namespace App\Models;
  * @property        bool    $gfw_block  If node is blocked by GFW
  */
 
-use App\Utils\Tools;
+use App\Utils\{Tools, URL};
 
 class Node extends Model
 {
     protected $connection = 'default';
+
     protected $table = 'ss_node';
 
     protected $casts = [
         'node_speedlimit' => 'float',
-        'traffic_rate' => 'float',
-        'mu_only' => 'int',
-        'sort' => 'int',
+        'traffic_rate'    => 'float',
+        'mu_only'         => 'int',
+        'sort'            => 'int',
     ];
 
     public function getLastNodeInfoLog()
@@ -50,7 +51,7 @@ class Node extends Model
         if ($log == null) {
             return '暂无数据';
         }
-        return Tools::secondsToTime((int)$log->uptime);
+        return Tools::secondsToTime((int) $log->uptime);
     }
 
 
@@ -167,12 +168,9 @@ class Node extends Model
     public function changeNodeIp($server_name)
     {
         $ip = gethostbyname($server_name);
-        $node_id = $this->attributes['id'];
-
         if ($ip == '') {
             return false;
         }
-
         $this->attributes['node_ip'] = $ip;
         return true;
     }
@@ -182,5 +180,23 @@ class Node extends Model
         $node_ip_str = $this->attributes['node_ip'];
         $node_ip_array = explode(',', $node_ip_str);
         return $node_ip_array[0];
+    }
+
+
+    public function getServer()
+    {
+        $out = '';
+        $explode = explode(';', $this->attributes['server']);
+        if (in_array($this->attributes['sort'], [0, 10])) {
+            if (isset($explode[1]) && stripos($explode[1], 'server=') !== false) {
+                $out = URL::parse_args($explode[1])['server'];
+            }
+        }
+        return ($out != '' ? $out : $explode[0]);
+    }
+
+    public function getOffsetPort($port)
+    {
+        return Tools::OutPort($this->attributes['server'], $this->attributes['name'], $port)['port'];
     }
 }

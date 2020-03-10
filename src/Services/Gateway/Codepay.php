@@ -9,9 +9,7 @@
 namespace App\Services\Gateway;
 
 use App\Services\Auth;
-use App\Services\Config;
 use App\Models\Paylist;
-
 
 class Codepay extends AbstractPayment
 {

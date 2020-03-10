@@ -2,12 +2,16 @@
 
 namespace App\Controllers;
 
-use App\Models\Relay;
-use App\Models\Node;
-use App\Models\User;
-use App\Services\Auth;
+use App\Models\{
+    Node,
+    User,
+    Relay
+};
+use App\Services\{
+    Auth,
+    Config
+};
 use App\Utils\Tools;
-use App\Services\Config;
 use ArrayObject;
 
 class RelayController extends UserController
@@ -20,7 +24,6 @@ class RelayController extends UserController
             $pageNum = $request->getQueryParams()['page'];
         }
         $logs = Relay::where('user_id', $user->id)->orwhere('user_id', 0)->paginate(15, ['*'], 'page', $pageNum);
-        $logs->setPath('/user/relay');
 
         $is_relay_able = Tools::is_protocol_relay($user);
 
@@ -126,15 +129,10 @@ class RelayController extends UserController
             }
         )->where('type', 1)->where(
             static function ($query) {
-                $query->Where('sort', 10)
-                    ->orWhere('sort', 12);
+                $query->Where('sort', 10);
             }
         )->where('node_class', '<=', $user->class)->orderBy('name')->get();
-        foreach ($source_nodes as $node) {
-            if ($node->sort == 12) {
-                $node->name .= ' 正在使用V2ray后端 ';
-            }
-        }
+
         $dist_nodes = Node::where(
             static function ($query) use ($user) {
                 $query->Where('node_group', '=', $user->node_group)
@@ -143,9 +141,7 @@ class RelayController extends UserController
         )->where('type', 1)->where(
             static function ($query) {
                 $query->Where('sort', 0)
-                    ->orWhere('sort', 10)
-                    ->orWhere('sort', 11)
-                    ->orWhere('sort', 12);
+                    ->orWhere('sort', 10);
             }
         )->where('node_class', '<=', $user->class)->orderBy('name')->get();
 
@@ -161,16 +157,6 @@ class RelayController extends UserController
             $mu_user = User::where('port', $port_raw->server)->first();
             if ($mu_user->is_multi_user == 1) {
                 $ports[] = $port_raw->server;
-            }
-        }
-
-        foreach ($dist_nodes as $node) {
-            if ($node->sort == 11 || $node->sort == 12) {
-                $node_explode = Tools::ssv2Array($node->server);
-                $ports[] = $node_explode['port'];
-                $node->name = $node->name . ' 如果是V2ray后端 请设置成 ' . $node_explode['port'];
-            } else {
-                $node->name = $node->name . ' 如果是V2ray后端 请设置成 ' . $user->port;
             }
         }
 
@@ -195,8 +181,7 @@ class RelayController extends UserController
             }
         )->where('type', 1)->where(
             static function ($query) {
-                $query->Where('sort', 10)
-                    ->orWhere('sort', 12);
+                $query->Where('sort', 10);
             }
         )->where('node_class', '<=', $user->class)->first();
         if ($source_node == null) {
@@ -209,7 +194,7 @@ class RelayController extends UserController
             foreach ($rules as $rule) {
                 if ($rule['user_id'] == 0 || $rule['user_id'] = $user->id) {
                     $rs['ret'] = 0;
-                    $rs['msg'] = 'v2ray中转一个起点一个rule';
+                    $rs['msg'] = 'V2Ray 中转一个起点一个 Rule';
                     return $response->getBody()->write(json_encode($rs));
                 }
             }
@@ -223,8 +208,7 @@ class RelayController extends UserController
             static function ($query) {
                 $query->Where('sort', 0)
                     ->orWhere('sort', 10)
-                    ->orWhere('sort', 11)
-                    ->orWhere('sort', 12);
+                    ->orWhere('sort', 11);
             }
         )->where('node_class', '<=', $user->class)->first();
 
@@ -247,12 +231,7 @@ class RelayController extends UserController
                     ->orWhere('node_group', '=', 0);
             }
         )->where('type', 1)->where('sort', 9)->where('node_class', '<=', $user->class)->first();
-        $v2ray_port_raw = '';
-        if ($dist_node->sort == 12 || $dist_node->sort == 11) {
-            $node_explode = Tools::ssv2Array($dist_node->server);
-            $v2ray_port_raw = $node_explode['port'];
-        }
-        if (($port_raw == null && $port != $user->port && $v2ray_port_raw == '') || ($v2ray_port_raw != '' && ($port != $user->port && $port != $v2ray_port_raw))) {
+        if (($port_raw == null && $port != $user->port)) {
             $rs['ret'] = 0;
             $rs['msg'] = '端口错误';
             return $response->getBody()->write(json_encode($rs));
@@ -260,7 +239,7 @@ class RelayController extends UserController
 
         if (!Tools::is_protocol_relay($user)) {
             $rs['ret'] = 0;
-            $rs['msg'] = "为了中转的稳定，您需要在<a href='/user/edit'>资料编辑</a>处设置协议为 auth_aes128_md5 或 auth_aes128_sha1 后方可设置中转规则！";
+            $rs['msg'] = '为了中转的稳定，您需要在<a href="/user/edit">资料编辑</a>处设置协议为 auth_aes128_md5 或 auth_aes128_sha1 后方可设置中转规则！';
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -316,15 +295,10 @@ class RelayController extends UserController
             }
         )->where('type', 1)->where(
             static function ($query) {
-                $query->Where('sort', 10)
-                    ->orWhere('sort', 12);
+                $query->Where('sort', 10);
             }
         )->where('node_class', '<=', $user->class)->orderBy('name')->get();
-        foreach ($source_nodes as $node) {
-            if ($node->sort == 12) {
-                $node->name .= ' 正在使用V2ray后端 ';
-            }
-        }
+
         $dist_nodes = Node::where(
             static function ($query) use ($user) {
                 $query->Where('node_group', '=', $user->node_group)
@@ -334,8 +308,7 @@ class RelayController extends UserController
             static function ($query) {
                 $query->Where('sort', 0)
                     ->orWhere('sort', 10)
-                    ->orWhere('sort', 11)
-                    ->orWhere('sort', 12);
+                    ->orWhere('sort', 11);
             }
         )->where('node_class', '<=', $user->class)->orderBy('name')->get();
 
@@ -351,15 +324,6 @@ class RelayController extends UserController
             $mu_user = User::where('port', $port_raw->server)->first();
             if ($mu_user->is_multi_user == 1) {
                 $ports[] = $port_raw->server;
-            }
-        }
-        foreach ($dist_nodes as $node) {
-            if ($node->sort == 11 || $node->sort == 12) {
-                $node_explode = Tools::ssv2Array($node->server);
-                $ports[] = $node_explode['port'];
-                $node->name = $node->name . ' 如果是V2ray后端 请设置成: ' . $node_explode['port'];
-            } else {
-                $node->name = $node->name . ' 如果是V2ray后端 请设置成 ' . $user->port;
             }
         }
 
@@ -390,8 +354,7 @@ class RelayController extends UserController
             }
         )->where('type', 1)->where(
             static function ($query) {
-                $query->Where('sort', 10)
-                    ->orWhere('sort', 12);
+                $query->Where('sort', 10);
             }
         )->where('node_class', '<=', $user->class)->first();
         if ($source_node == null) {
@@ -409,8 +372,7 @@ class RelayController extends UserController
             static function ($query) {
                 $query->Where('sort', 0)
                     ->orWhere('sort', 10)
-                    ->orWhere('sort', 11)
-                    ->orWhere('sort', 12);
+                    ->orWhere('sort', 11);
             }
         )->where('node_class', '<=', $user->class)->first();
 
@@ -446,7 +408,7 @@ class RelayController extends UserController
 
         if (!Tools::is_protocol_relay($user)) {
             $rs['ret'] = 0;
-            $rs['msg'] = "为了中转的稳定，您需要在<a href='/user/edit'>资料编辑</a>处设置协议为 auth_aes128_md5 或 auth_aes128_sha1 后方可设置中转规则！";
+            $rs['msg'] = '为了中转的稳定，您需要在<a href="/user/edit">资料编辑</a>处设置协议为 auth_aes128_md5 或 auth_aes128_sha1 后方可设置中转规则！';
             return $response->getBody()->write(json_encode($rs));
         }
 

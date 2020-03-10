@@ -2,24 +2,29 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\BlockIp;
-use App\Models\UnblockIp;
-use App\Models\Node;
 use App\Controllers\AdminController;
-use App\Utils\QQWry;
-use App\Utils\Tools;
+use App\Models\{
+    Node,
+    BlockIp,
+    UnblockIp
+};
+use App\Utils\{
+    QQWry,
+    Tools,
+    DatatablesHelper
+};
 use App\Services\Auth;
-
 use Ozdemir\Datatables\Datatables;
-use App\Utils\DatatablesHelper;
 
 class IpController extends AdminController
 {
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID', 'userid' => '用户ID',
+        $table_config['total_column'] = array(
+            'id' => 'ID', 'userid' => '用户ID',
             'user_name' => '用户名', 'ip' => 'IP',
-            'location' => '归属地', 'datetime' => '时间', 'type' => '类型');
+            'location' => '归属地', 'datetime' => '时间', 'type' => '类型'
+        );
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             $table_config['default_show_column'][] = $column;
@@ -30,10 +35,12 @@ class IpController extends AdminController
 
     public function alive($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID', 'userid' => '用户ID',
+        $table_config['total_column'] = array(
+            'id' => 'ID', 'userid' => '用户ID',
             'user_name' => '用户名', 'nodeid' => '节点ID',
             'node_name' => '节点名', 'ip' => 'IP',
-            'location' => '归属地', 'datetime' => '时间', 'is_node' => '是否为中转连接');
+            'location' => '归属地', 'datetime' => '时间', 'is_node' => '是否为中转连接'
+        );
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             $table_config['default_show_column'][] = $column;
@@ -44,9 +51,11 @@ class IpController extends AdminController
 
     public function block($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID',
+        $table_config['total_column'] = array(
+            'id' => 'ID',
             'name' => '节点名称', 'ip' => 'IP',
-            'location' => '归属地', 'datetime' => '时间');
+            'location' => '归属地', 'datetime' => '时间'
+        );
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             $table_config['default_show_column'][] = $column;
@@ -57,9 +66,11 @@ class IpController extends AdminController
 
     public function unblock($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID', 'userid' => '用户ID',
+        $table_config['total_column'] = array(
+            'id' => 'ID', 'userid' => '用户ID',
             'user_name' => '用户名', 'ip' => 'IP',
-            'location' => '归属地', 'datetime' => '时间');
+            'location' => '归属地', 'datetime' => '时间'
+        );
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             $table_config['default_show_column'][] = $column;
@@ -83,7 +94,6 @@ class IpController extends AdminController
         $UIP->ip = $ip;
         $UIP->datetime = time();
         $UIP->save();
-
 
         $res['ret'] = 1;
         $res['msg'] = '发送解封命令解封 ' . $ip . ' 成功';
@@ -139,7 +149,6 @@ class IpController extends AdminController
             return date('Y-m-d H:i:s', $data['datetime']);
         });
 
-
         $iplocation = new QQWry();
         $datatables->edit('location', static function ($data) use ($iplocation) {
             $location = $iplocation->getlocation($data['location']);
@@ -153,7 +162,6 @@ class IpController extends AdminController
         $body = $response->getBody();
         $body->write($datatables->generate());
     }
-
 
     public function ajax_alive($request, $response, $args)
     {

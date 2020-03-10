@@ -2,21 +2,26 @@
 
 namespace App\Controllers;
 
-use App\Models\InviteCode;
-use App\Models\User;
-use App\Models\Code;
-use App\Models\Payback;
-use App\Models\Ann;
-use App\Models\Shop;
-use App\Services\Auth;
-use App\Services\Config;
-use App\Utils\Tools;
-use App\Utils\TelegramSessionManager;
-use App\Utils\Geetest;
-
-use App\Utils\URL;
-use App\Models\Node;
-use App\Models\Relay;
+use App\Models\{
+    Ann,
+    Code,
+    Node,
+    User,
+    Shop,
+    Relay,
+    Payback,
+    InviteCode
+};
+use App\Utils\{
+    URL,
+    Tools,
+    Geetest,
+    TelegramSessionManager
+};
+use App\Services\{
+    Auth,
+    Config
+};
 use Slim\Http\{Request, Response};
 use Psr\Http\Message\ResponseInterface;
 
@@ -50,26 +55,26 @@ class VueController extends BaseController
         }
 
         $res['globalConfig'] = array(
-            'geetest_html' => $GtSdk,
-            'login_token' => $login_token,
-            'login_number' => $login_number,
-            'telegram_bot' => $_ENV['telegram_bot'],
-            'enable_logincaptcha' => $_ENV['enable_login_captcha'],
-            'enable_regcaptcha' => $_ENV['enable_reg_captcha'],
-            'enable_checkin_captcha' => $_ENV['enable_checkin_captcha'],
-            'base_url' => $_ENV['baseUrl'],
-            'recaptcha_sitekey' => $recaptcha_sitekey,
-            'captcha_provider' => $_ENV['captcha_provider'],
-            'jump_delay' => $_ENV['jump_delay'],
-            'register_mode' => $_ENV['register_mode'],
-            'enable_email_verify' => $_ENV['enable_email_verify'],
-            'appName' => $_ENV['appName'],
-            'dateY' => date('Y'),
-            'isLogin' => $user->isLogin,
-            'enable_telegram' => $_ENV['enable_telegram'],
-            'enable_mylivechat' => $_ENV['enable_mylivechat'],
-            'enable_flag' => $_ENV['enable_flag'],
-            'payment_type' => $_ENV['payment_system'],
+            'geetest_html'            => $GtSdk,
+            'login_token'             => $login_token,
+            'login_number'            => $login_number,
+            'telegram_bot'            => $_ENV['telegram_bot'],
+            'enable_logincaptcha'     => $_ENV['enable_login_captcha'],
+            'enable_regcaptcha'       => $_ENV['enable_reg_captcha'],
+            'enable_checkin_captcha'  => $_ENV['enable_checkin_captcha'],
+            'base_url'                => $_ENV['baseUrl'],
+            'recaptcha_sitekey'       => $recaptcha_sitekey,
+            'captcha_provider'        => $_ENV['captcha_provider'],
+            'jump_delay'              => $_ENV['jump_delay'],
+            'register_mode'           => Config::getconfig('Register.string.Mode'),
+            'enable_email_verify'     => Config::getconfig('Register.bool.Enable_email_verify'),
+            'appName'                 => $_ENV['appName'],
+            'dateY'                   => date('Y'),
+            'isLogin'                 => $user->isLogin,
+            'enable_telegram'         => $_ENV['enable_telegram'],
+            'enable_mylivechat'       => $_ENV['enable_mylivechat'],
+            'enable_flag'             => $_ENV['enable_flag'],
+            'payment_type'            => $_ENV['payment_system'],
         );
 
         $res['ret'] = 1;
@@ -94,11 +99,11 @@ class VueController extends BaseController
         }
 
         $pre_user = URL::cloneUser($user);
-        $user->ssr_url_all = URL::getAllUrl($pre_user, 0, 0);
-        $user->ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0);
-        $user->ss_url_all = URL::getAllUrl($pre_user, 0, 2);
+        $user->ssr_url_all = URL::get_NewAllUrl($pre_user, ['type' => 'ssr']);
+        $user->ssr_url_all_mu = URL::get_NewAllUrl($pre_user, ['type' => 'ssr', 'is_mu' => 1]);
+        $user->ss_url_all = URL::get_NewAllUrl($pre_user, ['type' => 'ss']);
         $ssinfo = URL::getSSConnectInfo($pre_user);
-        $user->ssd_url_all = URL::getAllSSDUrl($ssinfo);
+        $user->ssd_url_all = LinkController::getSSD($ssinfo, 1, [], ['type' => 'ss']);
         $user->isAbleToCheckin = $user->isAbleToCheckin();
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
         $GtSdk = null;
@@ -166,15 +171,15 @@ class VueController extends BaseController
         $paybacks->setPath('/#/user/panel');
 
         $res['inviteInfo'] = array(
-            'code' => $code,
-            'paybacks' => $paybacks,
-            'paybacks_sum' => $paybacks_sum,
-            'invite_num' => $user->invite_num,
-            'invitePrice' => $_ENV['invite_price'],
-            'customPrice' => $_ENV['custom_invite_price'],
-            'invite_gift' => $_ENV['invite_gift'],
-            'invite_get_money' => $_ENV['invite_get_money'],
-            'code_payback' => $_ENV['code_payback'],
+            'code'              => $code,
+            'paybacks'          => $paybacks,
+            'paybacks_sum'      => $paybacks_sum,
+            'invite_num'        => $user->invite_num,
+            'invitePrice'       => $_ENV['invite_price'],
+            'customPrice'       => $_ENV['custom_invite_price'],
+            'invite_gift'       => $_ENV['invite_gift'],
+            'invite_get_money'  => (int) Config::getconfig('Register.string.defaultInvite_get_money'),
+            'code_payback'      => $_ENV['code_payback'],
         );
 
         $res['ret'] = 1;
@@ -411,8 +416,8 @@ class VueController extends BaseController
                 $array_node['latest_load'] = -1;
             }
 
-            $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);
-            $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit);
+            $array_node['traffic_used'] = (int) Tools::flowToGB($node->node_bandwidth);
+            $array_node['traffic_limit'] = (int) Tools::flowToGB($node->node_bandwidth_limit);
             if ($node->node_speedlimit == 0.0) {
                 $array_node['bandwidth'] = 0;
             } elseif ($node->node_speedlimit >= 1024.00) {
@@ -475,7 +480,8 @@ class VueController extends BaseController
                 }
                 break;
             case 1:
-                if ($user->class >= $node->node_class
+                if (
+                    $user->class >= $node->node_class
                     && ($user->node_group == $node->node_group || $node->node_group == 0)
                 ) {
                     $email = $user->email;
@@ -490,8 +496,10 @@ class VueController extends BaseController
                 }
                 break;
             case 2:
-                if ($user->class >= $node->node_class
-                    && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if (
+                    $user->class >= $node->node_class
+                    && ($user->node_group == $node->node_group || $node->node_group == 0)
+                ) {
                     $email = $user->email;
                     $email = Radius::GetUserName($email);
                     $json_show = 'SSH 信息<br>地址：' . $node->server
@@ -504,8 +512,10 @@ class VueController extends BaseController
                 }
                 break;
             case 5:
-                if ($user->class >= $node->node_class
-                    && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if (
+                    $user->class >= $node->node_class
+                    && ($user->node_group == $node->node_group || $node->node_group == 0)
+                ) {
                     $email = $user->email;
                     $email = Radius::GetUserName($email);
 
@@ -521,7 +531,8 @@ class VueController extends BaseController
             case 10:
                 if ((($user->class >= $node->node_class
                         && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
-                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)
+                ) {
                     return $response->withJson([
                         'ret' => 1,
                         'nodeInfo' => [
@@ -537,7 +548,8 @@ class VueController extends BaseController
             case 13:
                 if ((($user->class >= $node->node_class
                         && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
-                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)
+                ) {
                     return $response->withJson([
                         'ret' => 1,
                         'nodeInfo' => [

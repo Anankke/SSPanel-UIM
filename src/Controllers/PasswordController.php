@@ -2,10 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\User;
-use App\Models\PasswordReset;
-use App\Services\Password;
+use App\Models\{
+    User,
+    PasswordReset
+};
 use App\Utils\Hash;
+use App\Services\Password;
 
 /***
  * Class Password
@@ -65,17 +67,17 @@ class PasswordController extends BaseController
         }
 
         // check token
-        $token = PasswordReset::where('token', $tokenStr)->orderBy('id', 'desc')->first();
-        if ($token == null || $token->expire_time < time()) {
+        $token = PasswordReset::where('token', $tokenStr)->where('expire_time', '>', time())->orderBy('id', 'desc')->first();
+        if ($token == null) {
             $rs['ret'] = 0;
-            $rs['msg'] = '链接已经失效,请重新获取';
+            $rs['msg'] = '链接已经失效，请重新获取';
             return $response->getBody()->write(json_encode($rs));
         }
 
         $user = User::where('email', $token->email)->first();
         if ($user == null) {
             $rs['ret'] = 0;
-            $rs['msg'] = '链接已经失效,请重新获取';
+            $rs['msg'] = '链接已经失效，请重新获取';
             return $response->getBody()->write(json_encode($rs));
         }
 
@@ -83,16 +85,20 @@ class PasswordController extends BaseController
         $hashPassword = Hash::passwordHash($password);
         $user->pass = $hashPassword;
         $user->ga_enable = 0;
+
         if (!$user->save()) {
             $rs['ret'] = 0;
-            $rs['msg'] = '重置失败,请重试';
-            return $response->getBody()->write(json_encode($rs));
+            $rs['msg'] = '重置失败，请重试';
+        } else {
+            $rs['ret'] = 1;
+            $rs['msg'] = '重置成功';
+            $user->clean_link();
+
+            // 禁止链接多次使用
+            $token->expire_time = time();
+            $token->save();
         }
-        $rs['ret'] = 1;
-        $rs['msg'] = '重置成功';
 
-        $user->clean_link();
-
-        return $response->getBody()->write(json_encode($rs));
+        return $response->write(json_encode($rs));
     }
 }

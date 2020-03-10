@@ -9,7 +9,6 @@
 namespace App\Services\Gateway;
 
 use App\Services\Auth;
-use App\Services\Config;
 use App\Models\Paylist;
 use App\Services\View;
 use Exception;
