@@ -940,15 +940,6 @@ class URL
             }
         )->orderBy('priority', 'DESC')->orderBy('id')->first();
         $node_name = $node->name;
-        /***节点描述后加#偏移值***/
-        $temp = explode("#", $node->info);
-        $offset = 0;
-        if ($temp[1]!=null){
-            if (is_numeric($temp[1])) {
-                $offset = $temp[1];
-            }
-        }
-        /************/
         if ($relay_rule != null) {
             $node_name .= ' - ' . $relay_rule->dist_node()->name;
         }
