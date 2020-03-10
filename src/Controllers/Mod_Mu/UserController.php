@@ -20,7 +20,12 @@ class UserController extends BaseController
     {
         $params = $request->getQueryParams();
 
-        $node_id = $params['node_id'];
+        if (isset($params['node_id'])) {
+            $node_id = $params['node_id'];
+        }else {
+            $node_id = '0';
+        }
+
         $node = new Node();
         if ($node_id == '0') {
             $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
