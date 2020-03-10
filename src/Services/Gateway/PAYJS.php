@@ -4,7 +4,6 @@ namespace App\Services\Gateway;
 
 use App\Services\View;
 use App\Services\Auth;
-use App\Services\Config;
 use App\Models\Paylist;
 
 class PAYJS extends AbstractPayment
@@ -25,7 +24,7 @@ class PAYJS extends AbstractPayment
      */
     public function prepareSign($data)
     {
-        $data['mchid'] = Config::get('payjs_mchid');
+        $data['mchid'] = $_ENV['payjs_mchid'];
         $data = array_filter($data);
         ksort($data);
         return http_build_query($data);
@@ -85,14 +84,14 @@ class PAYJS extends AbstractPayment
         $pl->tradeno = self::generateGuid();
         $pl->save();
         //if ($type != 'alipay') {
-            //$type = '';
+        //$type = '';
         //}
-        $data['mchid'] = Config::get('payjs_mchid');
+        $data['mchid'] = $_ENV['payjs_mchid'];
         //$data['type'] = $type;
         $data['out_trade_no'] = $pl->tradeno;
         $data['total_fee'] = (float) $price * 100;
-        $data['notify_url'] = Config::get('baseUrl') . '/payment/notify?way=payjs';
-        //$data['callback_url'] = Config::get('baseUrl') . '/user/code';
+        $data['notify_url'] = $_ENV['baseUrl'] . '/payment/notify?way=payjs';
+        //$data['callback_url'] = $_ENV['baseUrl'] . '/user/code';
         $params = $this->prepareSign($data);
         $data['sign'] = $this->sign($params);
         $url = 'https://payjs.cn/api/cashier?' . http_build_query($data);
@@ -111,8 +110,8 @@ class PAYJS extends AbstractPayment
     public function notify($request, $response, $args)
     {
         $data = $_POST;
-        
-        if($data['return_code'] == 1){
+
+        if ($data['return_code'] == 1) {
             // 验证签名
             $in_sign = $data['sign'];
             unset($data['sign']);
@@ -120,7 +119,7 @@ class PAYJS extends AbstractPayment
             ksort($data);
             $sign = strtoupper(md5(urldecode(http_build_query($data) . '&key=' . $this->appSecret)));
             $resultVerify = $sign ? true : false;
-        
+
             //$str_to_sign = $this->prepareSign($data);
             //$resultVerify = $this->verify($str_to_sign, $request->getParam('sign'));
 
@@ -161,7 +160,7 @@ class PAYJS extends AbstractPayment
             $success = 1;
         } else {
             $data = $_POST;
-            
+
             $in_sign = $data['sign'];
             unset($data['sign']);
             $data = array_filter($data);

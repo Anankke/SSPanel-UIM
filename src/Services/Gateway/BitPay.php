@@ -10,7 +10,6 @@ namespace App\Services\Gateway;
 
 use App\Models\Paylist;
 use App\Services\Auth;
-use App\Services\Config;
 use App\Services\View;
 
 class BitPay extends AbstractPayment
@@ -102,8 +101,8 @@ class BitPay extends AbstractPayment
         $data['title'] = '支付单号' . $pl->tradeno;
         $data['description'] = '充值：' . $price;
         $data['description'] .= '  元';
-        $data['callback_url'] = Config::get('baseUrl') . '/payment/bitpay/notify';
-        $data['success_url'] = Config::get('baseUrl') . '/user/payment/bitpay/return?merchantTradeNo=';
+        $data['callback_url'] = $_ENV['baseUrl'] . '/payment/bitpay/notify';
+        $data['success_url'] = $_ENV['baseUrl'] . '/user/payment/bitpay/return?merchantTradeNo=';
         $data['success_url'] .= $pl->tradeno;
         $data['cancel_url'] = $data['success_url'];
         if ($type === 'Alipay') {

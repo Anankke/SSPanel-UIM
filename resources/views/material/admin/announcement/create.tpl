@@ -35,7 +35,7 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label" for="vip">VIP等级</label>
                                             <input class="form-control maxwidth-edit" id="vip" type="text" name="vip">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>发送给高于这个等级的用户
+                                            <p class="form-control-guide"><i class="material-icons">info</i>发送给等于或高于这个等级的用户
                                                 0为不分级</p>
                                             <div class="checkbox switch">
                                                 <label for="issend">

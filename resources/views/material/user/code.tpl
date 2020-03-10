@@ -20,16 +20,16 @@
                                     <p class="card-heading">注意!</p>
                                     <p>充值完成后需刷新网页以查看余额，通常一分钟内到账。</p>
                                     <p>因余额不足而未能完成的自动续费，在余额足够时会自动划扣续费。</p>
-                                    {if $config["enable_admin_contact"] == 'true'}
+                                    {if $config['enable_admin_contact'] === true}
                                         <p class="card-heading">如果没有到账请立刻联系管理员：</p>
-                                        {if $config["admin_contact1"]!=null}
-                                            <li>{$config["admin_contact1"]}</li>
+                                        {if $config['admin_contact1']!=''}
+                                            <li>{$config['admin_contact1']}</li>
                                         {/if}
-                                        {if $config["admin_contact2"]!=null}
-                                            <li>{$config["admin_contact2"]}</li>
+                                        {if $config['admin_contact2']!=''}
+                                            <li>{$config['admin_contact2']}</li>
                                         {/if}
-                                        {if $config["admin_contact3"]!=null}
-                                            <li>{$config["admin_contact3"]}</li>
+                                        {if $config['admin_contact3']!=''}
+                                            <li>{$config['admin_contact3']}</li>
                                         {/if}
                                     {/if}
                                     <br/>

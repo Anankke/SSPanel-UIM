@@ -10,7 +10,6 @@ namespace App\Services\Gateway;
 
 use App\Models\Paylist;
 use App\Services\Auth;
-use App\Services\Config;
 
 class YftPay extends AbstractPayment
 {
@@ -84,7 +83,7 @@ class YftPay extends AbstractPayment
         //页面跳转同步通知页面路径
         $return_url = $request->getUri()->getScheme() . "://" . $request->getUri()->getHost() . $pay_config->pay_config["return_url"];
         //需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
-        $secret = Config::get('yft_secret');
+        $secret = $_ENV['yft_secret'];
         $ss_order_no = self::genOrderNumber();
         /************************************************************/
         //构造要请求的参数数组，无需改动
@@ -148,32 +147,32 @@ class YftPay extends AbstractPayment
                     <script>
             //jquery控制只输入数字或小数点后几位
             $(function () {
-        
+
                 $.fn.decimalinput = function (intLen, decimallen, isNegative) {
                     curIntLen = intLen || 11;
                     decimallen = decimallen || 0;
                     isNegative = typeof isNegative == \'boolean\' ? isNegative : false;
-        
+
                     $(this).css("ime-mode", "disabled");
-        
+
                     /*
-                     KeyPress (主要用来接收字母、数字等ANSI字符)          
+                     KeyPress (主要用来接收字母、数字等ANSI字符)
                          1.不区分小键盘和主键盘的数字字符。
                          2.区分大小写。
-                         
+
                      数字 1
                      主键盘区keyCode:49
                      小键盘区keyCode:49
-                     
-                       KeyDown 、KeyUp  (可以捕获键盘上除了PrScrn（在键盘右上角）之外的所有按键,可以捕获组合键) 
+
+                       KeyDown 、KeyUp  (可以捕获键盘上除了PrScrn（在键盘右上角）之外的所有按键,可以捕获组合键)
                            1.区分小键盘和主键盘的数字字符。
                            2.不区分大小写。
-                       
+
                        数字 1
                      主键盘区keyCode:49
                      小键盘区keyCode:97
                      */
-        
+
                     this.bind("keypress", function (e) {
                         //微软中文输入法 状态下，无法监听 keypress
                         var _v = this.value;
@@ -184,7 +183,7 @@ class YftPay extends AbstractPayment
                         var dotPos = _v.indexOf(".");
                         var curLength = _v.length;
                         console.log(curPos)
-        
+
                         if (isNegative && keyCode == 45 && curPos == 0) {
                             curIntLen = intLen + 1;
                             return true;
@@ -211,7 +210,7 @@ class YftPay extends AbstractPayment
                             }
                             return true;
                         }
-        
+
                         //输入"."
                         // 输入的是小数点，并且参数可以有小数，不可在字符首位输入小数点，不存在小数点
                         if (keyCode == 46 && decimallen > 0 && curPos > 0 && _v.indexOf(".") < 0) {
@@ -224,7 +223,7 @@ class YftPay extends AbstractPayment
                         var dotPos = _v.indexOf(".");
                         var curPos = getCurPosition(this);
                         var selText = getSelectedText(this);
-        
+
                         //只能全选删除
                         if (e.keyCode == 8 && selText.length > 0 && selText.length != _v.length) {
                             return false;
@@ -236,7 +235,7 @@ class YftPay extends AbstractPayment
                             (_v.length - 1) > curIntLen) {
                             return false;
                         }
-        
+
                     })
                     this.bind("blur", function () {
                         if (this.value.lastIndexOf(".") == (this.value.length - 1)) {
@@ -257,7 +256,7 @@ class YftPay extends AbstractPayment
                         return false;
                     });
                     this.bind("dragenter", function () { return false; });
-        
+
                     this.bind("propertychange", function (e) {
                         if (isNaN(this.value))
                             this.value = this.value.replace(/[^0-9\.-]/g, "");
@@ -295,9 +294,9 @@ class YftPay extends AbstractPayment
                             return sel.text;
                         } else return \'\';
                     }
-        
+
                 };
-        
+
                 $(\'#total_fee\').decimalinput(5, 2, true);
             })
 

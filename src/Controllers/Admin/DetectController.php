@@ -2,20 +2,23 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\DetectRule;
-use App\Utils\Telegram;
 use App\Controllers\AdminController;
-
+use App\Models\DetectRule;
+use App\Utils\{
+    Telegram,
+    DatatablesHelper
+};
 use Ozdemir\Datatables\Datatables;
-use App\Utils\DatatablesHelper;
 
 class DetectController extends AdminController
 {
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = array('op' => '操作', 'id' => 'ID', 'name' => '名称',
+        $table_config['total_column'] = array(
+            'op' => '操作', 'id' => 'ID', 'name' => '名称',
             'text' => '介绍', 'regex' => '正则表达式',
-            'type' => '类型');
+            'type' => '类型'
+        );
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             $table_config['default_show_column'][] = $column;
@@ -26,12 +29,14 @@ class DetectController extends AdminController
 
     public function log($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID', 'user_id' => '用户ID',
+        $table_config['total_column'] = array(
+            'id' => 'ID', 'user_id' => '用户ID',
             'user_name' => '用户名', 'node_id' => '节点ID',
             'node_name' => '节点名', 'rule_id' => '规则ID',
             'rule_name' => '规则名', 'rule_text' => '规则描述',
             'rule_regex' => '规则正则表达式', 'rule_type' => '规则类型',
-            'datetime' => '时间');
+            'datetime' => '时间'
+        );
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
             $table_config['default_show_column'][] = $column;
@@ -95,7 +100,6 @@ class DetectController extends AdminController
         $rs['msg'] = '修改成功';
         return $response->getBody()->write(json_encode($rs));
     }
-
 
     public function delete($request, $response, $args)
     {

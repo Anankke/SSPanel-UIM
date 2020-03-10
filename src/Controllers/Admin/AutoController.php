@@ -2,19 +2,23 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\Auto;
 use App\Controllers\AdminController;
-use Ozdemir\Datatables\Datatables;
+use App\Models\Auto;
 use App\Utils\DatatablesHelper;
+use Ozdemir\Datatables\Datatables;
 
 class AutoController extends AdminController
 {
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = array('id' => 'ID',
-            'datetime' => '时间', 'type' => '类型', 'value' => '内容');
-        $table_config['default_show_column'] = array('op', 'id',
-            'datetime', 'type', 'value');
+        $table_config['total_column'] = array(
+            'id' => 'ID',
+            'datetime' => '时间', 'type' => '类型', 'value' => '内容'
+        );
+        $table_config['default_show_column'] = array(
+            'op', 'id',
+            'datetime', 'type', 'value'
+        );
         $table_config['ajax_url'] = 'auto/ajax';
         return $this->view()->assign('table_config', $table_config)->display('admin/auto/index.tpl');
     }
@@ -41,7 +45,6 @@ class AutoController extends AdminController
         $rs['msg'] = '添加成功';
         return $response->getBody()->write(json_encode($rs));
     }
-
 
     public function delete($request, $response, $args)
     {

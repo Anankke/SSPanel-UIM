@@ -2,15 +2,16 @@
 
 namespace App\Utils;
 
-use App\Models\User;
-use App\Models\Node;
-use App\Models\Relay;
+use App\Models\{
+    User,
+    Node,
+    Relay
+};
 use App\Services\Config;
 use DateTime;
 
 class Tools
 {
-
     /**
      * 根据流量值自动转换单位输出
      */
@@ -44,6 +45,45 @@ class Tools
         return round($value, 2) . 'B';
     }
 
+    /**
+     * 根据含单位的流量值转换 B 输出
+     */
+    public static function flowAutoShowZ($Value)
+    {
+        $number = substr($Value, 0, strlen($Value) - 2);
+        if (!is_numeric($number)) return null;
+        $unit = strtoupper(substr($Value, -2));
+        $kb = 1024;
+        $mb = 1048576;
+        $gb = 1073741824;
+        $tb = $gb * 1024;
+        $pb = $tb * 1024;
+        switch ($unit) {
+            case 'B':
+                $number = round($number, 2);
+                break;
+            case 'KB':
+                $number = round($number * $kb, 2);
+                break;
+            case 'MB':
+                $number = round($number * $mb, 2);
+                break;
+            case 'GB':
+                $number = round($number * $gb, 2);
+                break;
+            case 'TB':
+                $number = round($number * $tb, 2);
+                break;
+            case 'PB':
+                $number = round($number * $pb, 2);
+                break;
+            default:
+                return null;
+                break;
+        }
+        return $number;
+    }
+
     //虽然名字是toMB，但是实际上功能是from MB to B
     public static function toMB($traffic)
     {
@@ -57,7 +97,6 @@ class Tools
         $gb = 1048576 * 1024;
         return $traffic * $gb;
     }
-
 
     /**
      * @param $traffic
@@ -113,7 +152,6 @@ class Tools
         return preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/", $a);
     }
 
-
     // Unix time to Date Time
     public static function toDateTime($time)
     {
@@ -129,7 +167,7 @@ class Tools
 
     public static function genSID()
     {
-        $unid = uniqid(Config::get('key'), true);
+        $unid = uniqid($_ENV['key'], true);
         return Hash::sha256WithSalt($unid);
     }
 
@@ -152,7 +190,7 @@ class Tools
     {
         //检索User数据表现有port
         $det = User::pluck('port')->toArray();
-        $port = array_diff(range(Config::get('min_port'), Config::get('max_port')), $det);
+        $port = array_diff(range($_ENV['min_port'], $_ENV['max_port']), $det);
         shuffle($port);
         return $port[0];
     }
@@ -182,7 +220,6 @@ class Tools
         }
         return $dirArray;
     }
-
 
     public static function is_validate($str)
     {
@@ -280,7 +317,7 @@ class Tools
 
         $relay_able_list = Config::getSupportParam('relay_able_protocol');
 
-        return in_array($user->protocol, $relay_able_list) || Config::get('relay_insecure_mode') == true;
+        return in_array($user->protocol, $relay_able_list) || $_ENV['relay_insecure_mode'] == true;
     }
 
     public static function has_conflict_rule($input_rule, $ruleset, $edit_rule_id = 0, $origin_node_id = 0, $user_id = 0)
@@ -395,6 +432,15 @@ class Tools
         return $object;
     }
 
+    public static function relayRulePortCheck($rules)
+    {
+        $res = [];
+        foreach ($rules as $value) {
+            $res[$value->port][] = $value->port;
+        }
+        return count($res) == count($rules);
+    }
+
     public static function getRelayNodeIp($source_node, $dist_node)
     {
         $dist_ip_str = $dist_node->node_ip;
@@ -452,17 +498,18 @@ class Tools
         $item = [
             'host' => '',
             'path' => '',
-            'tls' => ''
+            'tls' => '',
+            'verify_cert' => true
         ];
         $item['add'] = $server[0];
         if ($server[1] == '0' || $server[1] == '') {
             $item['port'] = 443;
         } else {
-            $item['port'] = (int)$server[1];
+            $item['port'] = (int) $server[1];
         }
-        $item['aid'] = (int)$server[2];
+        $item['aid'] = (int) $server[2];
         $item['net'] = 'tcp';
-        $item['type'] = 'none';
+        $item['headerType'] = 'none';
         if (count($server) >= 4) {
             $item['net'] = $server[3];
             if ($item['net'] == 'ws') {
@@ -472,21 +519,34 @@ class Tools
             }
         }
         if (count($server) >= 5) {
-            if (in_array($item['net'], array('kcp', 'http'))) {
-                $item['type'] = $server[4];
+            if (in_array($item['net'], array('kcp', 'http', 'mkcp'))) {
+                $item['headerType'] = $server[4];
             } elseif ($server[4] == 'ws') {
                 $item['net'] = 'ws';
+            } elseif ($server[4] == 'tls') {
+                $item['tls'] = 'tls';
             }
         }
-        if (count($server) >= 6) {
+        if (count($server) >= 6 && $server[5] != '') {
             $item = array_merge($item, URL::parse_args($server[5]));
             if (array_key_exists('server', $item)) {
                 $item['add'] = $item['server'];
                 unset($item['server']);
             }
+            if (array_key_exists('relayserver', $item)) {
+                $item['localserver'] = $item['add'];
+                $item['add'] = $item['relayserver'];
+                unset($item['relayserver']);
+                if ($item['tls'] == 'tls') {
+                    $item['verify_cert'] = false;
+                }
+            }
             if (array_key_exists('outside_port', $item)) {
-                $item['port'] = (int)$item['outside_port'];
+                $item['port'] = (int) $item['outside_port'];
                 unset($item['outside_port']);
+            }
+            if (isset($item['inside_port'])) {
+                unset($item['inside_port']);
             }
         }
         return $item;
@@ -502,7 +562,7 @@ class Tools
     {
         $server = explode(';', $node);
         $item = [
-            'host' => '',
+            'host' => 'microsoft.com',
             'path' => '',
             'net' => 'ws',
             'tls' => ''
@@ -511,7 +571,7 @@ class Tools
         if ($server[1] == '0' || $server[1] == '') {
             $item['port'] = 443;
         } else {
-            $item['port'] = (int)$server[1];
+            $item['port'] = (int) $server[1];
         }
         if (count($server) >= 4) {
             $item['net'] = $server[3];
@@ -532,20 +592,262 @@ class Tools
                 $item['add'] = $item['server'];
                 unset($item['server']);
             }
+            if (array_key_exists('relayserver', $item)) {
+                $item['add'] = $item['relayserver'];
+                unset($item['relayserver']);
+            }
             if (array_key_exists('outside_port', $item)) {
-                $item['port'] = (int)$item['outside_port'];
+                $item['port'] = (int) $item['outside_port'];
                 unset($item['outside_port']);
+            }
+        }
+        if ($item['net'] == 'obfs') {
+            if (stripos($server[4], 'http') !== false) {
+                $item['obfs'] = 'simple_obfs_http';
+            }
+            if (stripos($server[4], 'tls') !== false) {
+                $item['obfs'] = 'simple_obfs_tls';
             }
         }
         return $item;
     }
 
-    /** 
-     * Add files and sub-directories in a folder to zip file. 
-     * 
-     * @param string     $folder 
-     * @param ZipArchive $zipFile 
-     * @param int        $exclusiveLength Number of text to be exclusived from the file path. 
+    public static function OutPort($server, $node_name, $mu_port)
+    {
+        $node_server = explode(';', $server);
+        $node_port = $mu_port;
+        if (strpos($node_server[1], 'port') !== false) {
+            $item = URL::parse_args($node_server[1]);
+            if (strpos($item['port'], '#') !== false) { // 端口偏移，指定端口，格式：8.8.8.8;port=80#1080
+                if (strpos($item['port'], '+') !== false) { // 多个单端口节点，格式：8.8.8.8;port=80#1080+443#8443
+                    $args_explode = explode('+', $item['port']);
+                    foreach ($args_explode as $arg) {
+                        if ((int) substr($arg, 0, strpos($arg, '#')) == $mu_port) {
+                            $node_port = (int) substr($arg, strpos($arg, '#') + 1);
+                        }
+                    }
+                } else {
+                    if ((int) substr($item['port'], 0, strpos($item['port'], '#')) == $mu_port) {
+                        $node_port = (int) substr($item['port'], strpos($item['port'], '#') + 1);
+                    }
+                }
+            } else { // 端口偏移，偏移端口，格式：8.8.8.8;port=1000 or 8.8.8.8;port=-1000
+                $node_port = ($mu_port + (int) $item['port']);
+            }
+        }
+
+        return [
+            'name' => ($_ENV['disable_sub_mu_port'] ? $node_name : $node_name . ' - ' . $node_port . ' 单端口'),
+            'address' => $node_server[0],
+            'port' => $node_port
+        ];
+    }
+
+    public static function get_MuOutPortArray($server)
+    {
+        $type = 0; //偏移
+        $port = []; //指定
+        $node_server = explode(';', $server);
+        if (strpos($node_server[1], 'port') !== false) {
+            $item = URL::parse_args($node_server[1]);
+            if (strpos($item['port'], '#') !== false) {
+                if (strpos($item['port'], '+') !== false) {
+                    $args_explode = explode('+', $item['port']);
+                    foreach ($args_explode as $arg) {
+                        $port[substr($arg, 0, strpos($arg, '#'))] = (int) substr($arg, strpos($arg, '#') + 1);
+                    }
+                } else {
+                    $port[substr($item['port'], 0, strpos($item['port'], '#'))] = (int) substr($item['port'], strpos($item['port'], '#') + 1);
+                }
+            } else {
+                $type = (int) $item['port'];
+            }
+        }
+
+        return [
+            'type' => $type,
+            'port' => $port
+        ];
+    }
+
+    // 请将冷门的国家或地区放置在上方，热门的中继起源放置在下方
+    // 以便于兼容如：【上海 -> 美国】等节点名称
+    private static $emoji = [
+        "🇦🇷" => [
+            "阿根廷"
+        ],
+        "🇦🇹" => [
+            "奥地利",
+            "维也纳"
+        ],
+        "🇦🇺" => [
+            "澳大利亚",
+            "悉尼"
+        ],
+        "🇧🇷" => [
+            "巴西",
+            "圣保罗"
+        ],
+        "🇨🇦" => [
+            "加拿大",
+            "蒙特利尔",
+            "温哥华"
+        ],
+        "🇨🇭" => [
+            "瑞士",
+            "苏黎世"
+        ],
+        "🇩🇪" => [
+            "德国",
+            "法兰克福"
+        ],
+        "🇫🇮" => [
+            "芬兰",
+            "赫尔辛基"
+        ],
+        "🇫🇷" => [
+            "法国",
+            "巴黎"
+        ],
+        "🇬🇧" => [
+            "英国",
+            "伦敦"
+        ],
+        "🇮🇩" => [
+            "印尼",
+            "印度尼西亚",
+            "雅加达"
+        ],
+        "🇮🇪" => [
+            "爱尔兰",
+            "都柏林"
+        ],
+        "🇮🇳" => [
+            "印度",
+            "孟买"
+        ],
+        "🇮🇹" => [
+            "意大利",
+            "米兰"
+        ],
+        "🇰🇵" => [
+            "朝鲜"
+        ],
+        "🇲🇾" => [
+            "马来西亚"
+        ],
+        "🇳🇱" => [
+            "荷兰",
+            "阿姆斯特丹"
+        ],
+        "🇵🇭" => [
+            "菲律宾"
+        ],
+        "🇷🇴" => [
+            "罗马尼亚"
+        ],
+        "🇷🇺" => [
+            "俄罗斯",
+            "伯力",
+            "莫斯科",
+            "圣彼得堡",
+            "西伯利亚",
+            "新西伯利亚"
+        ],
+        "🇸🇬" => [
+            "新加坡"
+        ],
+        "🇹🇭" => [
+            "泰国",
+            "曼谷"
+        ],
+        "🇹🇷" => [
+            "土耳其",
+            "伊斯坦布尔"
+        ],
+        "🇺🇲" => [
+            "美国",
+            "波特兰",
+            "俄勒冈",
+            "凤凰城",
+            "费利蒙",
+            "硅谷",
+            "拉斯维加斯",
+            "洛杉矶",
+            "圣克拉拉",
+            "西雅图",
+            "芝加哥",
+            "沪美"
+        ],
+        "🇻🇳" => [
+            "越南"
+        ],
+        "🇿🇦" => [
+            "南非"
+        ],
+        "🇰🇷" => [
+            "韩国",
+            "首尔"
+        ],
+        "🇲🇴" => [
+            "澳门"
+        ],
+        "🇯🇵" => [
+            "日本",
+            "东京",
+            "大阪",
+            "埼玉",
+            "沪日"
+        ],
+        "🇹🇼" => [
+            "台湾",
+            "台北",
+            "台中"
+        ],
+        "🇭🇰" => [
+            "香港",
+            "深港"
+        ],
+        "🇨🇳" => [
+            "中国",
+            "江苏",
+            "北京",
+            "上海",
+            "深圳",
+            "杭州",
+            "徐州",
+            "宁波",
+            "镇江"
+        ]
+    ];
+
+    public static function addEmoji($Name)
+    {
+        $done = [
+            'index' => -1,
+            'emoji' => ''
+        ];
+        foreach (self::$emoji as $key => $value) {
+            foreach ($value as $item) {
+                $index = strpos($Name, $item);
+                if ($index !== false) {
+                    $done['index'] = $index;
+                    $done['emoji'] = $key;
+                    continue 2;
+                }
+            }
+        }
+        return ($done['index'] == -1
+            ? $Name
+            : ($done['emoji'] . ' ' . $Name));
+    }
+
+    /**
+     * Add files and sub-directories in a folder to zip file.
+     *
+     * @param string     $folder
+     * @param ZipArchive $zipFile
+     * @param int        $exclusiveLength Number of text to be exclusived from the file path.
      */
     public static function folderToZip($folder, &$zipFile, $exclusiveLength)
     {
@@ -553,17 +855,38 @@ class Tools
         while (false !== $f = readdir($handle)) {
             if ($f != '.' && $f != '..') {
                 $filePath = "$folder/$f";
-                // Remove prefix from file path before add to zip. 
+                // Remove prefix from file path before add to zip.
                 $localPath = substr($filePath, $exclusiveLength);
                 if (is_file($filePath)) {
                     $zipFile->addFile($filePath, $localPath);
                 } elseif (is_dir($filePath)) {
-                    // Add sub-directory. 
+                    // Add sub-directory.
                     $zipFile->addEmptyDir($localPath);
                     self::folderToZip($filePath, $zipFile, $exclusiveLength);
                 }
             }
         }
         closedir($handle);
+    }
+
+    /**
+     * 清空文件夹
+     *
+     * @param string $dirName
+     */
+    public static function delDirAndFile($dirPath)
+    {
+        if ($handle = opendir($dirPath)) {
+            while (false !== ($item = readdir($handle))) {
+                if ($item != '.' && $item != '..') {
+                    if (is_dir($dirPath . '/' . $item)) {
+                        self::delDirAndFile($dirPath . '/' . $item);
+                    } else {
+                        unlink($dirPath . '/' . $item);
+                    }
+                }
+            }
+            closedir($handle);
+        }
     }
 }

@@ -18,23 +18,39 @@ class Mod_Mu
     {
         $key = $request->getQueryParam('key');
         if ($key === null) {
+            // 未提供 key
             return $response->withjson([
-                'ret' => 0,
+                'ret'  => 0,
                 'data' => 'Your key is null.'
             ]);
         }
 
-        $keys = Config::getMuKey();
-        $auth = in_array($key, $keys);
-
-        $node = Node::where('node_ip', 'LIKE', $_SERVER['REMOTE_ADDR'] . '%')->first();
-        if ($auth === false
-            || ($node === null && $_SERVER['REMOTE_ADDR'] != '127.0.0.1')
-            ) {
+        if (!in_array($key, Config::getMuKey())) {
+            // key 不存在
             return $response->withJson([
-                'ret' => 0,
-                'data' => 'Token or IP is invalid. Now, your IP address is ' . $_SERVER['REMOTE_ADDR']
+                'ret'  => 0,
+                'data' => 'Token is invalid'
             ]);
+        }
+
+        if ($_ENV['Webapi'] === false) {
+            // 主站不提供 Webapi
+            return $response->withJson([
+                'ret'  => 0,
+                'data' => 'We regret this service is temporarily unavailable'
+            ]);
+        }
+
+        if ($_ENV['checkNodeIp'] === true) {
+            if ($_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
+                $node = Node::where('node_ip', 'LIKE', $_SERVER['REMOTE_ADDR'] . '%')->first();
+                if ($node === null) {
+                    return $response->withJson([
+                        'ret'  => 0,
+                        'data' => 'IP is invalid. Now, your IP address is ' . $_SERVER['REMOTE_ADDR']
+                    ]);
+                }
+            }
         }
 
         return $next($request, $response);

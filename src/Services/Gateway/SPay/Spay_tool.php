@@ -203,21 +203,21 @@ class Spay_tool
     {
         $alipay_config = array();
 
-        $alipay_config['partner'] = Config::get('alipay_id');
+        $alipay_config['partner'] = $_ENV['alipay_id'];
 
         //收款支付宝账号，以2088开头由16位纯数字组成的字符串，一般情况下收款账号就是签约账号
         $alipay_config['seller_id'] = $alipay_config['partner'];
 
         // MD5密钥，安全检验码，由数字和字母组成的32位字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
-        $alipay_config['key'] = Config::get('alipay_key');
+        $alipay_config['key'] = $_ENV['alipay_key'];
 
         // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-        $alipay_config['notify_url'] = Config::get('baseUrl') . '/purchase/notify';
+        $alipay_config['notify_url'] = $_ENV['baseUrl'] . '/purchase/notify';
 
         // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
 
         //此处请填 访问地址+"/user/code"
-        $alipay_config['return_url'] = Config::get('baseUrl') . '/user/code';
+        $alipay_config['return_url'] = $_ENV['baseUrl'] . '/user/code';
 
         //签名方式
         $alipay_config['sign_type'] = strtoupper('MD5');

@@ -8,7 +8,7 @@ class Jwt
 {
     private static function getKey()
     {
-        return Config::get('key');
+        return $_ENV['key'];
     }
 
     public static function encode($input)

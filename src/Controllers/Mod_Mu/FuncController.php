@@ -2,14 +2,16 @@
 
 namespace App\Controllers\Mod_Mu;
 
-use App\Models\DetectRule;
-use App\Models\Relay;
-use App\Models\BlockIp;
-use App\Models\UnblockIp;
-use App\Models\Speedtest;
-use App\Models\Node;
-use App\Models\Auto;
 use App\Controllers\BaseController;
+use App\Models\{
+    Auto,
+    Node,
+    Relay,
+    BlockIp,
+    UnblockIp,
+    Speedtest,
+    DetectRule
+};
 
 class FuncController extends BaseController
 {

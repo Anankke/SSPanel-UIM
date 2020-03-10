@@ -2,23 +2,28 @@
 
 namespace App\Controllers;
 
-use App\Models\InviteCode;
-use App\Services\Config;
-use App\Utils\Check;
-use App\Utils\Tools;
-use App\Utils\Radius;
-use Exception;
+use App\Models\{
+    User,
+    LoginIp,
+    InviteCode,
+    EmailVerify
+};
+use App\Utils\{
+    GA,
+    Hash,
+    Check,
+    Tools,
+    Radius,
+    Geetest,
+    TelegramSessionManager
+};
+use App\Services\{
+    Auth,
+    Mail,
+    Config
+};
 use voku\helper\AntiXSS;
-use App\Utils\Hash;
-use App\Utils\Da;
-use App\Services\Auth;
-use App\Services\Mail;
-use App\Models\User;
-use App\Models\LoginIp;
-use App\Models\EmailVerify;
-use App\Utils\GA;
-use App\Utils\Geetest;
-use App\Utils\TelegramSessionManager;
+use Exception;
 
 /**
  *  AuthController
@@ -29,10 +34,10 @@ class AuthController extends BaseController
     {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('enable_login_captcha') === true) {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['enable_login_captcha'] === true) {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     break;
                 case 'geetest':
                     $uid = time() . random_int(1, 10000);
@@ -41,7 +46,7 @@ class AuthController extends BaseController
             }
         }
 
-        if (Config::get('enable_telegram') === true) {
+        if ($_ENV['enable_telegram'] === true) {
             $login_text = TelegramSessionManager::add_login_session();
             $login = explode('|', $login_text);
             $login_token = $login[0];
@@ -55,8 +60,8 @@ class AuthController extends BaseController
             ->assign('geetest_html', $GtSdk)
             ->assign('login_token', $login_token)
             ->assign('login_number', $login_number)
-            ->assign('telegram_bot', Config::get('telegram_bot'))
-            ->assign('base_url', Config::get('baseUrl'))
+            ->assign('telegram_bot', $_ENV['telegram_bot'])
+            ->assign('base_url', $_ENV['baseUrl'])
             ->assign('recaptcha_sitekey', $recaptcha_sitekey)
             ->display('auth/login.tpl');
     }
@@ -65,10 +70,10 @@ class AuthController extends BaseController
     {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('captcha_provider') != '') {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['captcha_provider'] != '') {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     $res['recaptchaKey'] = $recaptcha_sitekey;
                     break;
                 case 'geetest':
@@ -93,14 +98,14 @@ class AuthController extends BaseController
         $code = $request->getParam('code');
         $rememberMe = $request->getParam('remember_me');
 
-        if (Config::get('enable_login_captcha') === true) {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['enable_login_captcha'] === true) {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
                     $recaptcha = $request->getParam('recaptcha');
                     if ($recaptcha == '') {
                         $ret = false;
                     } else {
-                        $json = file_get_contents('https://recaptcha.net/recaptcha/api/siteverify?secret=' . Config::get('recaptcha_secret') . '&response=' . $recaptcha);
+                        $json = file_get_contents('https://recaptcha.net/recaptcha/api/siteverify?secret=' . $_ENV['recaptcha_secret'] . '&response=' . $recaptcha);
                         $ret = json_decode($json)->success;
                     }
                     break;
@@ -141,7 +146,7 @@ class AuthController extends BaseController
 
         $time = 3600 * 24;
         if ($rememberMe) {
-            $time = 3600 * 24 * (Config::get('rememberMeDuration') ?: 7);
+            $time = 3600 * 24 * ($_ENV['rememberMeDuration'] ?: 7);
         }
 
         if ($user->ga_enable == 1) {
@@ -218,10 +223,10 @@ class AuthController extends BaseController
 
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('enable_reg_captcha') === true) {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['enable_reg_captcha'] === true) {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     break;
                 case 'geetest':
                     $uid = time() . random_int(1, 10000);
@@ -230,7 +235,7 @@ class AuthController extends BaseController
             }
         }
 
-        if (Config::get('enable_telegram') === true) {
+        if ($_ENV['enable_telegram'] === true) {
             $login_text = TelegramSessionManager::add_login_session();
             $login = explode('|', $login_text);
             $login_token = $login[0];
@@ -242,20 +247,19 @@ class AuthController extends BaseController
 
         return $this->view()
             ->assign('geetest_html', $GtSdk)
-            ->assign('enable_email_verify', Config::get('enable_email_verify'))
+            ->assign('enable_email_verify', Config::getconfig('Register.bool.Enable_email_verify'))
             ->assign('code', $code)
             ->assign('recaptcha_sitekey', $recaptcha_sitekey)
-            ->assign('telegram_bot', Config::get('telegram_bot'))
-            ->assign('base_url', Config::get('baseUrl'))
+            ->assign('telegram_bot', $_ENV['telegram_bot'])
+            ->assign('base_url', $_ENV['baseUrl'])
             ->assign('login_token', $login_token)
             ->assign('login_number', $login_number)
             ->display('auth/register.tpl');
     }
 
-
     public function sendVerify($request, $response, $next)
     {
-        if (Config::get('enable_email_verify') == true) {
+        if (Config::getconfig('Register.bool.Enable_email_verify')) {
             $email = $request->getParam('email');
             $email = trim($email);
 
@@ -280,7 +284,7 @@ class AuthController extends BaseController
             }
 
             $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])->where('expire_in', '>', time())->count();
-            if ($ipcount >= (int)Config::get('email_verify_iplimit')) {
+            if ($ipcount >= (int) Config::getconfig('Register.string.Email_verify_iplimit')) {
                 $res['ret'] = 0;
                 $res['msg'] = '此IP请求次数过多';
                 return $response->getBody()->write(json_encode($res));
@@ -297,17 +301,17 @@ class AuthController extends BaseController
             $code = Tools::genRandomNum(6);
 
             $ev = new EmailVerify();
-            $ev->expire_in = time() + Config::get('email_verify_ttl');
+            $ev->expire_in = time() + (int) Config::getconfig('Register.string.Email_verify_ttl');
             $ev->ip = $_SERVER['REMOTE_ADDR'];
             $ev->email = $email;
             $ev->code = $code;
             $ev->save();
 
-            $subject = Config::get('appName') . '- 验证邮件';
+            $subject = $_ENV['appName'] . '- 验证邮件';
 
             try {
                 Mail::send($email, $subject, 'auth/verify.tpl', [
-                    'code' => $code, 'expire' => date('Y-m-d H:i:s', time() + Config::get('email_verify_ttl'))
+                    'code' => $code, 'expire' => date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.Email_verify_ttl'))
                 ], [
                     //BASE_PATH.'/public/assets/email/styles.css'
                 ]);
@@ -327,7 +331,7 @@ class AuthController extends BaseController
 
     public function register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id)
     {
-        if (Config::get('register_mode') === 'close') {
+        if (Config::getconfig('Register.string.Mode') === 'close') {
             $res['ret'] = 0;
             $res['msg'] = '未开放注册。';
             return $res;
@@ -336,7 +340,7 @@ class AuthController extends BaseController
         //dumplin：1、邀请人等级为0则邀请码不可用；2、邀请人invite_num为可邀请次数，填负数则为无限
         $c = InviteCode::where('code', $code)->first();
         if ($c == null) {
-            if (Config::get('register_mode') === 'invite') {
+            if (Config::getconfig('Register.string.Mode') === 'invite') {
                 $res['ret'] = 0;
                 $res['msg'] = '邀请码无效';
                 return $res;
@@ -363,60 +367,60 @@ class AuthController extends BaseController
         }
 
         // do reg user
-        $user = new User();
+        $user                       = new User();
 
-        $antiXss = new AntiXSS();
+        $antiXss                    = new AntiXSS();
 
-        $user->user_name = $antiXss->xss_clean($name);
-        $user->email = $email;
-        $user->pass = Hash::passwordHash($passwd);
-        $user->passwd = Tools::genRandomChar(6);
-        $user->port = Tools::getAvPort();
-        $user->t = 0;
-        $user->u = 0;
-        $user->d = 0;
-        $user->method = Config::get('reg_method');
-        $user->protocol = Config::get('reg_protocol');
-        $user->protocol_param = Config::get('reg_protocol_param');
-        $user->obfs = Config::get('reg_obfs');
-        $user->obfs_param = Config::get('reg_obfs_param');
-        $user->forbidden_ip = Config::get('reg_forbidden_ip');
-        $user->forbidden_port = Config::get('reg_forbidden_port');
-        $user->im_type = $imtype;
-        $user->im_value = $antiXss->xss_clean($imvalue);
-        $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
-        $user->invite_num = Config::get('inviteNum');
-        $user->auto_reset_day = Config::get('reg_auto_reset_day');
-        $user->auto_reset_bandwidth = Config::get('reg_auto_reset_bandwidth');
-        $user->money = 0;
+        $user->user_name            = $antiXss->xss_clean($name);
+        $user->email                = $email;
+        $user->pass                 = Hash::passwordHash($passwd);
+        $user->passwd               = Tools::genRandomChar(6);
+        $user->port                 = Tools::getAvPort();
+        $user->t                    = 0;
+        $user->u                    = 0;
+        $user->d                    = 0;
+        $user->method               = Config::getconfig('Register.string.defaultMethod');
+        $user->protocol             = Config::getconfig('Register.string.defaultProtocol');
+        $user->protocol_param       = Config::getconfig('Register.string.defaultProtocol_param');
+        $user->obfs                 = Config::getconfig('Register.string.defaultObfs');
+        $user->obfs_param           = Config::getconfig('Register.string.defaultObfs_param');
+        $user->forbidden_ip         = $_ENV['reg_forbidden_ip'];
+        $user->forbidden_port       = $_ENV['reg_forbidden_port'];
+        $user->im_type              = $imtype;
+        $user->im_value             = $antiXss->xss_clean($imvalue);
+        $user->transfer_enable      = Tools::toGB((int) Config::getconfig('Register.string.defaultTraffic'));
+        $user->invite_num           = (int) Config::getconfig('Register.string.defaultInviteNum');
+        $user->auto_reset_day       = $_ENV['reg_auto_reset_day'];
+        $user->auto_reset_bandwidth = $_ENV['reg_auto_reset_bandwidth'];
+        $user->money                = 0;
 
         //dumplin：填写邀请人，写入邀请奖励
         $user->ref_by = 0;
         if (($c != null) && $c->user_id != 0) {
             $gift_user = User::where('id', '=', $c->user_id)->first();
             $user->ref_by = $c->user_id;
-            $user->money = Config::get('invite_get_money');
-            $gift_user->transfer_enable += Config::get('invite_gift') * 1024 * 1024 * 1024;
+            $user->money = (int) Config::getconfig('Register.string.defaultInvite_get_money');
+            $gift_user->transfer_enable += $_ENV['invite_gift'] * 1024 * 1024 * 1024;
             --$gift_user->invite_num;
             $gift_user->save();
         }
-        if ( $telegram_id ) {
+        if ($telegram_id) {
             $user->telegram_id = $telegram_id;
         }
 
-        $user->class_expire = date('Y-m-d H:i:s', time() + Config::get('user_class_expire_default') * 3600);
-        $user->class = Config::get('user_class_default');
-        $user->node_connector = Config::get('user_conn');
-        $user->node_speedlimit = Config::get('user_speedlimit');
-        $user->expire_in = date('Y-m-d H:i:s', time() + Config::get('user_expire_in_default') * 86400);
-        $user->reg_date = date('Y-m-d H:i:s');
-        $user->reg_ip = $_SERVER['REMOTE_ADDR'];
-        $user->plan = 'A';
-        $user->theme = Config::get('theme');
+        $user->class_expire     = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultClass_expire') * 3600);
+        $user->class            = (int) Config::getconfig('Register.string.defaultClass');
+        $user->node_connector   = (int) Config::getconfig('Register.string.defaultConn');
+        $user->node_speedlimit  = (int) Config::getconfig('Register.string.defaultSpeedlimit');
+        $user->expire_in        = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultExpire_in') * 86400);
+        $user->reg_date         = date('Y-m-d H:i:s');
+        $user->reg_ip           = $_SERVER['REMOTE_ADDR'];
+        $user->plan             = 'A';
+        $user->theme            = $_ENV['theme'];
 
-        $groups = explode(',', Config::get('ramdom_group'));
+        $groups                 = explode(',', $_ENV['ramdom_group']);
 
-        $user->node_group = $groups[array_rand($groups)];
+        $user->node_group       = $groups[array_rand($groups)];
 
         $ga = new GA();
         $secret = $ga->createSecret();
@@ -441,7 +445,7 @@ class AuthController extends BaseController
 
     public function registerHandle($request, $response)
     {
-        if (Config::get('register_mode') === 'close') {
+        if (Config::getconfig('Register.string.Mode') === 'close') {
             $res['ret'] = 0;
             $res['msg'] = '未开放注册。';
             return $response->getBody()->write(json_encode($res));
@@ -463,14 +467,14 @@ class AuthController extends BaseController
         $imvalue = $request->getParam('wechat');
         $imvalue = trim($imvalue);
 
-        if (Config::get('enable_reg_captcha') === true) {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['enable_reg_captcha'] === true) {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
                     $recaptcha = $request->getParam('recaptcha');
                     if ($recaptcha == '') {
                         $ret = false;
                     } else {
-                        $json = file_get_contents('https://recaptcha.net/recaptcha/api/siteverify?secret=' . Config::get('recaptcha_secret') . '&response=' . $recaptcha);
+                        $json = file_get_contents('https://recaptcha.net/recaptcha/api/siteverify?secret=' . $_ENV['recaptcha_secret'] . '&response=' . $recaptcha);
                         $ret = json_decode($json)->success;
                     }
                     break;
@@ -499,7 +503,7 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if (Config::get('enable_email_verify') == true) {
+        if (Config::getconfig('Register.bool.Enable_email_verify')) {
             $mailcount = EmailVerify::where('email', '=', $email)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount == null) {
                 $res['ret'] = 0;
@@ -534,7 +538,7 @@ class AuthController extends BaseController
             $res['msg'] = '此联络方式已注册';
             return $response->getBody()->write(json_encode($res));
         }
-        if (Config::get('enable_email_verify') == true) {
+        if (Config::getconfig('Register.bool.Enable_email_verify')) {
             EmailVerify::where('email', '=', $email)->delete();
         }
         $res = $this->register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0);
@@ -557,7 +561,7 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if (Config::get('enable_telegram') === true) {
+        if ($_ENV['enable_telegram'] === true) {
             $ret = TelegramSessionManager::check_login_session($token, $number);
             $res['ret'] = $ret;
             return $response->getBody()->write(json_encode($res));
@@ -569,7 +573,7 @@ class AuthController extends BaseController
 
     public function telegram_oauth($request, $response, $args)
     {
-        if (Config::get('enable_telegram') === true) {
+        if ($_ENV['enable_telegram'] === true) {
             $auth_data = $request->getQueryParams();
             if ($this->telegram_oauth_check($auth_data) === true) { // Looks good, proceed.
                 $telegram_id = $auth_data['id'];
@@ -592,7 +596,7 @@ class AuthController extends BaseController
     private function telegram_oauth_check($auth_data)
     {
         $check_hash = $auth_data['hash'];
-        $bot_token = Config::get('telegram_token');
+        $bot_token = $_ENV['telegram_token'];
         unset($auth_data['hash']);
         $data_check_arr = [];
         foreach ($auth_data as $key => $value) {

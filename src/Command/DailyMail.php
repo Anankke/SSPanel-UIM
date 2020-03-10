@@ -34,7 +34,7 @@ class DailyMail
 
             if ($user->sendDailyMail == 1) {
                 echo 'Send daily mail to user: ' . $user->id;
-                $subject = Config::get('appName') . '-每日流量报告以及公告';
+                $subject = $_ENV['appName'] . '-每日流量报告以及公告';
                 $to = $user->email;
                 $text = '下面是系统中目前的公告:<br><br>' . $text1 . '<br><br>晚安！';
 
@@ -52,13 +52,22 @@ class DailyMail
 
         $sts = new Analytics();
 
-        Telegram::Send('各位老爷少奶奶，我来为大家报告一下系统今天的运行状况哈~' .
-            PHP_EOL .
-            '今日签到人数:' . $sts->getTodayCheckinUser() . PHP_EOL .
-            '今日使用总流量:' . Tools::flowAutoShow($lastday_total) . PHP_EOL .
-            '晚安~');
+        if (Config::getconfig('Telegram.bool.Diary')) {
+            Telegram::Send(
+                str_replace(
+                    array(
+                        '%getTodayCheckinUser%',
+                        '%lastday_total%'
+                    ),
+                    array(
+                        $sts->getTodayCheckinUser(),
+                        Tools::flowAutoShow($lastday_total)
+                    ),
+                    Config::getconfig('Telegram.string.Diary')
+                )
+            );
+        }
     }
-
 
     public static function reall()
     {

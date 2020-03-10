@@ -23,9 +23,9 @@ class Mailgun extends Base
     public function getConfig()
     {
         return [
-            'key' => Config::get('mailgun_key'),
-            'domain' => Config::get('mailgun_domain'),
-            'sender' => Config::get('mailgun_sender')
+            'key' => $_ENV['mailgun_key'],
+            'domain' => $_ENV['mailgun_domain'],
+            'sender' => $_ENV['mailgun_sender']
         ];
     }
 

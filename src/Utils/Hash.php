@@ -9,7 +9,7 @@ class Hash
 {
     public static function passwordHash($pass)
     {
-        $method = Config::get('pwdMethod');
+        $method = $_ENV['pwdMethod'];
         switch ($method) {
             case 'md5':
                 return self::md5WithSalt($pass);
@@ -34,24 +34,24 @@ class Hash
 
     public static function cookieHash($passHash, $expire_in)
     {
-        return substr(hash('sha256', $passHash . Config::get('key') . $expire_in), 5, 45);
+        return substr(hash('sha256', $passHash . $_ENV['key'] . $expire_in), 5, 45);
     }
 
     public static function md5WithSalt($pwd)
     {
-        $salt = Config::get('salt');
+        $salt = $_ENV['salt'];
         return md5($pwd . $salt);
     }
 
     public static function sha256WithSalt($pwd)
     {
-        $salt = Config::get('salt');
+        $salt = $_ENV['salt'];
         return hash('sha256', $pwd . $salt);
     }
 
     public static function checkPassword($hashedPassword, $password)
     {
-        if (in_array(Config::get('pwdMethod'), ['bcrypt', 'argon2i', 'argon2id'])) {
+        if (in_array($_ENV['pwdMethod'], ['bcrypt', 'argon2i', 'argon2id'])) {
             return password_verify($password, $hashedPassword);
         }
         return ($hashedPassword == self::passwordHash($password));

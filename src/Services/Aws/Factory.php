@@ -3,7 +3,6 @@
 namespace App\Services\Aws;
 
 use Aws\Sdk;
-use App\Services\Config;
 
 class Factory
 {
@@ -11,13 +10,13 @@ class Factory
     {
         $sdk = new Sdk([
             'credentials' => array(
-                'key' => Config::get('aws_access_key_id'),
-                'secret' => Config::get('aws_secret_access_key'),
+                'key' => $_ENV['aws_access_key_id'],
+                'secret' => $_ENV['aws_secret_access_key'],
             ),
-            'region' => Config::get('aws_region'),
+            'region' => $_ENV['aws_region'],
             'version' => 'latest',
             'DynamoDb' => [
-                'region' => Config::get('aws_region')
+                'region' => $_ENV['aws_region']
             ]
         ]);
         return $sdk;

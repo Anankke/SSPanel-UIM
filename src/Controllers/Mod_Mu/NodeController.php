@@ -4,8 +4,10 @@
 namespace App\Controllers\Mod_Mu;
 
 use App\Controllers\BaseController;
-use App\Models\NodeInfoLog;
-use App\Models\Node;
+use App\Models\{
+    Node,
+    NodeInfoLog
+};
 use App\Services\Config;
 
 class NodeController extends BaseController
@@ -52,6 +54,12 @@ class NodeController extends BaseController
             ];
             return $this->echoJson($response, $res);
         }
+        if (in_array($node->sort, [0, 10])) {
+            $node_explode = explode(';', $node->server);
+            $node_server = $node_explode[0];
+        } else {
+            $node_server = $node->server;
+        }
         $res = [
             'ret' => 1,
             'data' => [
@@ -61,7 +69,7 @@ class NodeController extends BaseController
                 'traffic_rate' => $node->traffic_rate,
                 'mu_only' => $node->mu_only,
                 'sort' => $node->sort,
-                'server' => $node->server,
+                'server' => $node_server,
                 'type' => 'ss-panel-v3-mod_Uim'
             ],
         ];
@@ -74,7 +82,8 @@ class NodeController extends BaseController
             static function ($query) {
                 $query->where('sort', '=', 0)
                     ->orWhere('sort', '=', 10)
-                    ->orWhere('sort', '=', 12);
+                    ->orWhere('sort', '=', 12)
+                    ->orWhere('sort', '=', 13);
             }
         )->get();
         $res = [

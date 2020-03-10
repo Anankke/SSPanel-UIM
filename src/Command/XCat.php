@@ -13,6 +13,7 @@ use App\Services\Gateway\ChenPay;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Services\Config;
+use App\Services\DefaultConfig;
 
 use App\Utils\GA;
 use Exception;
@@ -98,6 +99,12 @@ class XCat
                 return $this->npmbuild();
             case ('getCookie'):
                 return $this->getCookie();
+            case ('detectConfigs'):
+                return $this->detectConfigs();
+            case ('portAutoChange'):
+                return PortAutoChange::index();
+            case ('initdocuments'):
+                return $this->initdocuments();
             default:
                 return $this->defaultAction();
         }
@@ -105,17 +112,20 @@ class XCat
 
     public function defaultAction()
     {
-        echo(PHP_EOL . '用法： php xcat [选项]' . PHP_EOL);
-        echo('常用选项:' . PHP_EOL);
-        echo('  createAdmin - 创建管理员帐号' . PHP_EOL);
-        echo('  setTelegram - 设置 Telegram 机器人' . PHP_EOL);
-        echo('  cleanRelayRule - 清除所有中转规则' . PHP_EOL);
-        echo('  resetPort - 重置单个用户端口' . PHP_EOL);
-        echo('  resetAllPort - 重置所有用户端口' . PHP_EOL);
-        echo('  initdownload - 下载 SSR 程序至服务器' . PHP_EOL);
-        echo('  initQQWry - 下载 IP 解析库' . PHP_EOL);
-        echo('  resetTraffic - 重置所有用户流量' . PHP_EOL);
-        echo('  update - 更新并迁移配置' . PHP_EOL);
+        echo (PHP_EOL . '用法： php xcat [选项]' . PHP_EOL);
+        echo ('常用选项:' . PHP_EOL);
+        echo ('  createAdmin - 创建管理员帐号' . PHP_EOL);
+        echo ('  setTelegram - 设置 Telegram 机器人' . PHP_EOL);
+        echo ('  cleanRelayRule - 清除所有中转规则' . PHP_EOL);
+        echo ('  resetPort - 重置单个用户端口' . PHP_EOL);
+        echo ('  resetAllPort - 重置所有用户端口' . PHP_EOL);
+        echo ('  initdownload - 下载 SSR 程序至服务器' . PHP_EOL);
+        echo ('  initQQWry - 下载 IP 解析库' . PHP_EOL);
+        echo ('  resetTraffic - 重置所有用户流量' . PHP_EOL);
+        echo ('  update - 更新并迁移配置' . PHP_EOL);
+        echo ('  detectConfigs - 检查数据库内新增的配置' . PHP_EOL);
+        echo ('  initdocuments - 下载用户使用文档至服务器' . PHP_EOL);
+        echo ('  portAutoChange - [实验]  SS 单端口被墙自动换' . PHP_EOL);
     }
 
     public function resetPort()
@@ -152,9 +162,9 @@ class XCat
     {
         $rules = Relay::all();
         foreach ($rules as $rule) {
-            echo($rule->id . "\n");
+            echo ($rule->id . "\n");
             if ($rule->source_node_id == 0) {
-                echo($rule->id . "被删除！\n");
+                echo ($rule->id . "被删除！\n");
                 $rule->delete();
                 continue;
             }
@@ -162,7 +172,7 @@ class XCat
             $ruleset = Relay::where('user_id', $rule->user_id)->orwhere('user_id', 0)->get();
             $maybe_rule_id = Tools::has_conflict_rule($rule, $ruleset, $rule->id);
             if ($maybe_rule_id != 0) {
-                echo($rule->id . "被删除！\n");
+                echo ($rule->id . "被删除！\n");
                 $rule->delete();
             }
         }
@@ -189,7 +199,7 @@ class XCat
             fwrite(STDOUT, "Press [y] to create admin..... 按下[Y]确认来确认创建管理员账户..... \n");
             $y = trim(fgets(STDIN));
         } elseif (count($this->argv) === 4) {
-            [, , $email, $passwd] = $this->argv;
+            [,, $email, $passwd] = $this->argv;
             $y = 'y';
         }
 
@@ -197,33 +207,33 @@ class XCat
             echo 'start create admin account';
             // create admin user
             // do reg user
-            $user = new User();
-            $user->user_name = 'admin';
-            $user->email = $email;
-            $user->pass = Hash::passwordHash($passwd);
-            $user->passwd = Tools::genRandomChar(6);
-            $user->port = Tools::getLastPort() + 1;
-            $user->t = 0;
-            $user->u = 0;
-            $user->d = 0;
-            $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
-            $user->invite_num = Config::get('inviteNum');
-            $user->ref_by = 0;
-            $user->is_admin = 1;
-            $user->expire_in = date('Y-m-d H:i:s', time() + Config::get('user_expire_in_default') * 86400);
-            $user->reg_date = date('Y-m-d H:i:s');
-            $user->money = 0;
-            $user->im_type = 1;
-            $user->im_value = '';
-            $user->class = 0;
-            $user->plan = 'A';
-            $user->node_speedlimit = 0;
-            $user->theme = Config::get('theme');
+            $user                   = new User();
+            $user->user_name        = 'admin';
+            $user->email            = $email;
+            $user->pass             = Hash::passwordHash($passwd);
+            $user->passwd           = Tools::genRandomChar(6);
+            $user->port             = Tools::getLastPort() + 1;
+            $user->t                = 0;
+            $user->u                = 0;
+            $user->d                = 0;
+            $user->transfer_enable  = Tools::toGB((int) Config::getconfig('Register.string.defaultTraffic'));
+            $user->invite_num       = (int) Config::getconfig('Register.string.defaultInviteNum');
+            $user->ref_by           = 0;
+            $user->is_admin         = 1;
+            $user->expire_in        = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultExpire_in') * 86400);
+            $user->reg_date         = date('Y-m-d H:i:s');
+            $user->money            = 0;
+            $user->im_type          = 1;
+            $user->im_value         = '';
+            $user->class            = 0;
+            $user->plan             = 'A';
+            $user->node_speedlimit  = 0;
+            $user->theme            = $_ENV['theme'];
 
-            $ga = new GA();
-            $secret = $ga->createSecret();
-            $user->ga_token = $secret;
-            $user->ga_enable = 0;
+            $ga                     = new GA();
+            $secret                 = $ga->createSecret();
+            $user->ga_token         = $secret;
+            $user->ga_enable        = 0;
 
             if ($user->save()) {
                 echo "Successful/添加成功!\n";
@@ -253,39 +263,48 @@ class XCat
 
     public function setTelegram()
     {
-        $bot = new BotApi(Config::get('telegram_token'));
-        $ch= curl_init();
-        curl_setopt ($ch, CURLOPT_URL, sprintf('https://api.telegram.org/bot%s/deleteWebhook', Config::get('telegram_token')));
-        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        $deleteWebhookReturn = json_decode(curl_exec($ch));
-        curl_close($ch);
-        if ($deleteWebhookReturn->ok && $deleteWebhookReturn->result && $bot->setWebhook(Config::get('baseUrl') . '/telegram_callback?token=' . Config::get('telegram_request_token')) == 1) {
-            echo('设置成功！' . PHP_EOL);
+        if ($_ENV['use_new_telegram_bot'] === true) {
+            $WebhookUrl = ($_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token']);
+            $telegram = new \Telegram\Bot\Api($_ENV['telegram_token']);
+            $telegram->removeWebhook();
+            if ($telegram->setWebhook(['url' => $WebhookUrl])) {
+                echo ('New Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！');
+            }
+        } else {
+            $bot = new BotApi($_ENV['telegram_token']);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, sprintf('https://api.telegram.org/bot%s/deleteWebhook', $_ENV['telegram_token']));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+            $deleteWebhookReturn = json_decode(curl_exec($ch));
+            curl_close($ch);
+            if ($deleteWebhookReturn->ok && $deleteWebhookReturn->result && $bot->setWebhook($_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token']) == 1) {
+                echo ('Old Bot 设置成功！' . PHP_EOL);
+            }
         }
     }
 
     public function initQQWry()
     {
-        echo('开始下载纯真 IP 数据库....');
+        echo ('开始下载纯真 IP 数据库....');
         $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
         if ($qqwry != '') {
             $fp = fopen(BASE_PATH . '/storage/qqwry.dat', 'wb');
             if ($fp) {
                 fwrite($fp, $qqwry);
                 fclose($fp);
-                echo('纯真 IP 数据库下载成功！');
+                echo ('纯真 IP 数据库下载成功！');
             } else {
-                echo('纯真 IP 数据库保存失败！');
+                echo ('纯真 IP 数据库保存失败！');
             }
         } else {
-            echo('下载失败！请重试，或在 https://github.com/SukkaW/qqwry-mirror/issues/new 反馈！');
+            echo ('下载失败！请重试，或在 https://github.com/SukkaW/qqwry-mirror/issues/new 反馈！');
         }
     }
 
     public function sendDailyUsageByTG()
     {
-        $bot = new BotApi(Config::get('telegram_token'));
+        $bot = new BotApi($_ENV['telegram_token']);
         $users = User::where('telegram_id', '>', 0)->get();
         foreach ($users as $user) {
             $u = $user->u;
@@ -333,5 +352,16 @@ class XCat
             $expire_in = 86400 + time();
             echo Hash::cookieHash($user->pass, $expire_in) . ' ' . $expire_in;
         }
+    }
+
+    public function initdocuments()
+    {
+        system('git clone https://github.com/GeekQu/PANEL_DOC.git ' . BASE_PATH . "/public/docs/", $ret);
+        echo $ret;
+    }
+
+    public function detectConfigs()
+    {
+        echo DefaultConfig::detectConfigs();
     }
 }

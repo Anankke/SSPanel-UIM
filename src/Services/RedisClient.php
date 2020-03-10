@@ -12,11 +12,11 @@ class RedisClient
     public function __construct()
     {
         $config = [
-            'scheme' => Config::get('redis_scheme'),
-            'password' => Config::get('redis_password'),
-            'host' => Config::get('redis_host'),
-            'port' => Config::get('redis_port'),
-            'database' => Config::get('redis_database'),
+            'scheme' => $_ENV['redis_scheme'],
+            'password' => $_ENV['redis_password'],
+            'host' => $_ENV['redis_host'],
+            'port' => $_ENV['redis_port'],
+            'database' => $_ENV['redis_database'],
         ];
         $this->client = new Client($config);
     }

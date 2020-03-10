@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Node;
 use App\Utils;
 use App\Utils\Hash;
-use App\Services\Config;
 
 class Cookie extends Base
 {
@@ -19,7 +18,7 @@ class Cookie extends Base
             'uid' => $uid,
             'email' => $user->email,
             'key' => $key,
-            'ip' => md5($_SERVER['REMOTE_ADDR'] . Config::get('key') . $uid . $expire_in),
+            'ip' => md5($_SERVER['REMOTE_ADDR'] . $_ENV['key'] . $uid . $expire_in),
             'expire_in' => $expire_in
         ], $expire_in);
     }
@@ -43,9 +42,9 @@ class Cookie extends Base
             return $user;
         }
 
-        if (Config::get('enable_login_bind_ip') == true) {
+        if ($_ENV['enable_login_bind_ip'] == true) {
             $nodes = Node::where('node_ip', '=', $_SERVER['REMOTE_ADDR'])->first();
-            if (($nodes == null) && $ipHash != md5($_SERVER['REMOTE_ADDR'] . Config::get('key') . $uid . $expire_in)) {
+            if (($nodes == null) && $ipHash != md5($_SERVER['REMOTE_ADDR'] . $_ENV['key'] . $uid . $expire_in)) {
                 return $user;
             }
         }

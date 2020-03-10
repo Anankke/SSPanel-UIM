@@ -2,30 +2,34 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\Node;
-use App\Utils\Radius;
-use App\Utils\Telegram;
-use App\Utils\Tools;
 use App\Controllers\AdminController;
-use App\Utils\CloudflareDriver;
+use App\Models\Node;
+use App\Utils\{
+    Tools,
+    Radius,
+    Telegram,
+    CloudflareDriver,
+    DatatablesHelper
+};
 use App\Services\Config;
 use Ozdemir\Datatables\Datatables;
-use App\Utils\DatatablesHelper;
 
 class NodeController extends AdminController
 {
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = array('op' => '操作', 'id' => 'ID', 'name' => '节点名称',
+        $table_config['total_column'] = array(
+            'op' => '操作', 'id' => 'ID', 'name' => '节点名称',
             'type' => '显示与隐藏', 'sort' => '类型',
-            'server' => '节点地址', 'node_ip' => '节点IP',
+            'server' => '节点地址', 'outaddress' => '出口地址', 'node_ip' => '节点IP',
             'info' => '节点信息',
             'status' => '状态', 'traffic_rate' => '流量比率', 'node_group' => '节点群组',
             'node_class' => '节点等级', 'node_speedlimit' => '节点限速/Mbps',
             'node_bandwidth' => '已走流量/GB', 'node_bandwidth_limit' => '流量限制/GB',
             'bandwidthlimit_resetday' => '流量重置日', 'node_heartbeat' => '上一次活跃时间',
             'custom_method' => '自定义加密', 'custom_rss' => '自定义协议以及混淆',
-            'mu_only' => '只启用单端口多用户');
+            'mu_only' => '只启用单端口多用户'
+        );
         $table_config['default_show_column'] = array('op', 'id', 'name', 'sort');
         $table_config['ajax_url'] = 'node/ajax';
 
@@ -84,12 +88,20 @@ class NodeController extends AdminController
 
         $node->save();
 
-        $domain_name = explode('.' . Config::get('cloudflare_name'), $node->server);
-        if (Config::get('cloudflare_enable') == true) {
+        $domain_name = explode('.' . $_ENV['cloudflare_name'], $node->server);
+        if ($_ENV['cloudflare_enable'] == true) {
             CloudflareDriver::updateRecord($domain_name[0], $node->node_ip);
         }
 
-        Telegram::Send('新节点添加~' . $request->getParam('name'));
+        if (Config::getconfig('Telegram.bool.AddNode')) {
+            Telegram::Send(
+                str_replace(
+                    '%node_name%',
+                    $request->getParam('name'),
+                    Config::getconfig('Telegram.string.AddNode')
+                )
+            );
+        }
 
         $rs['ret'] = 1;
         $rs['msg'] = '节点添加成功';
@@ -166,13 +178,20 @@ class NodeController extends AdminController
 
         $node->save();
 
-        Telegram::Send('节点信息被修改~' . $request->getParam('name'));
+        if (Config::getconfig('Telegram.bool.UpdateNode')) {
+            Telegram::Send(
+                str_replace(
+                    '%node_name%',
+                    $request->getParam('name'),
+                    Config::getconfig('Telegram.string.UpdateNode')
+                )
+            );
+        }
 
         $rs['ret'] = 1;
         $rs['msg'] = '修改成功';
         return $response->getBody()->write(json_encode($rs));
     }
-
 
     public function delete($request, $response, $args)
     {
@@ -182,15 +201,21 @@ class NodeController extends AdminController
             Radius::DelNas($node->node_ip);
         }
 
-        $name = $node->name;
-
         if (!$node->delete()) {
             $rs['ret'] = 0;
             $rs['msg'] = '删除失败';
             return $response->getBody()->write(json_encode($rs));
         }
 
-        Telegram::Send('节点被删除~' . $name);
+        if (Config::getconfig('Telegram.bool.DeleteNode')) {
+            Telegram::Send(
+                str_replace(
+                    '%node_name%',
+                    $node->name,
+                    Config::getconfig('Telegram.string.DeleteNode')
+                )
+            );
+        }
 
         $rs['ret'] = 1;
         $rs['msg'] = '删除成功';
@@ -201,21 +226,26 @@ class NodeController extends AdminController
     {
         $datatables = new Datatables(new DatatablesHelper());
 
-
-        $total_column = array('op' => '操作', 'id' => 'ID', 'name' => '节点名称',
+        $total_column = array(
+            'op' => '操作', 'id' => 'ID', 'name' => '节点名称',
             'type' => '显示与隐藏', 'sort' => '类型',
-            'server' => '节点地址', 'node_ip' => '节点IP',
+            'server' => '节点地址', 'outaddress' => '出口地址', 'node_ip' => '节点IP',
             'info' => '节点信息',
             'status' => '状态', 'traffic_rate' => '流量比率', 'node_group' => '节点群组',
             'node_class' => '节点等级', 'node_speedlimit' => '节点限速/Mbps',
             'node_bandwidth' => '已走流量/GB', 'node_bandwidth_limit' => '流量限制/GB',
             'bandwidthlimit_resetday' => '流量重置日', 'node_heartbeat' => '上一次活跃时间',
             'custom_method' => '自定义加密', 'custom_rss' => '自定义协议以及混淆',
-            'mu_only' => '只启用单端口多用户');
+            'mu_only' => '只启用单端口多用户'
+        );
         $key_str = '';
         foreach ($total_column as $single_key => $single_value) {
             if ($single_key == 'op') {
                 $key_str .= 'id as op';
+                continue;
+            }
+            if ($single_key == 'outaddress') {
+                $key_str .= ',server as ' . $single_key;
                 continue;
             }
 
@@ -226,6 +256,10 @@ class NodeController extends AdminController
         $datatables->edit('op', static function ($data) {
             return '<a class="btn btn-brand" ' . ($data['sort'] == 999 ? 'disabled' : 'href="/admin/node/' . $data['id'] . '/edit"') . '>编辑</a>
                     <a class="btn btn-brand-accent" ' . ($data['sort'] == 999 ? 'disabled' : 'id="delete" value="' . $data['id'] . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $data['id'] . '\')"') . '>删除</a>';
+        });
+
+        $datatables->edit('outaddress', static function ($data) {
+            return (in_array($data['sort'], [0, 10, 11, 12, 13]) ? explode(';', $data['server'])[0] : '');
         });
 
         $datatables->edit('node_bandwidth', static function ($data) {

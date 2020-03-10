@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\GConfig;
+
 class Config
 {
     // TODO: remove
@@ -10,42 +12,76 @@ class Config
         return $_ENV[$key];
     }
 
+    public static function getconfig($key)
+    {
+        $value = GConfig::where('key', '=', $key)->first();
+        if ($value === null) {
+            $value = DefaultConfig::firstOrCreate($key);
+        }
+        return $value->getValue();
+    }
+
     public static function getPublicConfig()
     {
         return [
-            'appName' => self::get('appName'),
-            'version' => VERSION,
-            'baseUrl' => self::get('baseUrl'),
-            'min_port' => self::get('min_port'),
-            'max_port' => self::get('max_port'),
-            'checkinMin' => self::get('checkinMin'),
-            'checkinMax' => self::get('checkinMax'),
-            'invite_price' => self::get('invite_price'),
-            'invite_get_money' => self::get('invite_get_money'),
-            'code_payback' => self::get('code_payback'),
-            'invite_gift' => self::get('invite_gift'),
-            'port_price' => self::get('port_price'),
-            'port_price_specify' => self::get('port_price_specify'),
-            'jump_delay' => self::get('jump_delay'),
-            'enable_analytics_code' => self::get('enable_analytics_code'),
-            'sspanelAnalysis' => self::get('sspanelAnalysis'),
-            'enable_donate' => self::get('enable_donate'),
-            'enable_telegram' => self::get('enable_telegram'),
-            'payment_system' => self::get('payment_system'),
-            'enable_mylivechat' => self::get('enable_mylivechat'),
-            'mylivechat_id' => self::get('mylivechat_id'),
-            'enable_ticket' => self::get('enable_ticket'),
-            'enable_admin_contact' => self::get('enable_admin_contact'),
-            'admin_contact1' => self::get('admin_contact1'),
-            'admin_contact2' => self::get('admin_contact2'),
-            'admin_contact3' => self::get('admin_contact3'),
-            'register_mode' => self::get('register_mode'),
-            'enable_flag' => self::get('enable_flag'),
-            'enable_kill' => self::get('enable_kill'),
-            'custom_invite_price' => self::get('custom_invite_price'),
-            'captcha_provider' => self::get('captcha_provider'),
-            'enable_email_verify' => self::get('enable_email_verify'),
-            'subscribe_client' => self::get('subscribe_client')
+            'appName'                 => $_ENV['appName'],
+            'version'                 => VERSION,
+            'baseUrl'                 => $_ENV['baseUrl'],
+            'min_port'                => $_ENV['min_port'],
+            'max_port'                => $_ENV['max_port'],
+            'checkinMin'              => $_ENV['checkinMin'],
+            'checkinMax'              => $_ENV['checkinMax'],
+            'invite_price'            => $_ENV['invite_price'],
+            'invite_get_money'        => (int) self::getconfig('Register.string.defaultInvite_get_money'),
+            'code_payback'            => $_ENV['code_payback'],
+            'invite_gift'             => $_ENV['invite_gift'],
+            'port_price'              => $_ENV['port_price'],
+            'port_price_specify'      => $_ENV['port_price_specify'],
+            'jump_delay'              => $_ENV['jump_delay'],
+            'enable_analytics_code'   => $_ENV['enable_analytics_code'],
+            'sspanelAnalysis'         => $_ENV['sspanelAnalysis'],
+            'enable_donate'           => $_ENV['enable_donate'],
+            'enable_telegram'         => $_ENV['enable_telegram'],
+            'payment_system'          => $_ENV['payment_system'],
+            'enable_mylivechat'       => $_ENV['enable_mylivechat'],
+            'mylivechat_id'           => $_ENV['mylivechat_id'],
+            'enable_ticket'           => $_ENV['enable_ticket'],
+            'enable_admin_contact'    => $_ENV['enable_admin_contact'],
+            'admin_contact1'          => $_ENV['admin_contact1'],
+            'admin_contact2'          => $_ENV['admin_contact2'],
+            'admin_contact3'          => $_ENV['admin_contact3'],
+            'register_mode'           => self::getconfig('Register.string.Mode'),
+            'enable_flag'             => $_ENV['enable_flag'],
+            'enable_kill'             => $_ENV['enable_kill'],
+            'custom_invite_price'     => $_ENV['custom_invite_price'],
+            'captcha_provider'        => $_ENV['captcha_provider'],
+            'enable_email_verify'     => self::getconfig('Register.bool.Enable_email_verify'),
+
+            'telegram_bot'            => $_ENV['telegram_bot'],
+
+            'subscribe_client'        => $_ENV['subscribe_client'],
+            'subscribe_client_url'    => $_ENV['subscribe_client_url'],
+
+            'subscribeLog'            => $_ENV['subscribeLog'],
+            'subscribeLog_show'       => $_ENV['subscribeLog_show'],
+            'subscribeLog_keep_days'  => $_ENV['subscribeLog_keep_days'],
+
+            'enable_auto_detect_ban'  => $_ENV['enable_auto_detect_ban'],
+            'auto_detect_ban_type'    => $_ENV['auto_detect_ban_type'],
+            'auto_detect_ban_number'  => $_ENV['auto_detect_ban_number'],
+            'auto_detect_ban_time'    => $_ENV['auto_detect_ban_time'],
+            'auto_detect_ban'         => $_ENV['auto_detect_ban'],
+
+            'use_new_telegram_bot'    => $_ENV['use_new_telegram_bot'],
+
+            'use_this_doc'            => $_ENV['use_this_doc'],
+            'documents_name'          => $_ENV['documents_name'],
+            'remote_documents'        => $_ENV['remote_documents'],
+            'documents_source'        => $_ENV['documents_source'],
+
+            'userCenterClient'        => $_ENV['userCenterClient'],
+
+            'old_index_DESC'          => $_ENV['old_index_DESC'],
         ];
     }
 
@@ -67,13 +103,13 @@ class Config
     public static function getRadiusDbConfig()
     {
         return [
-            'driver' => self::get('db_driver'),
-            'host' => self::get('radius_db_host'),
-            'database' => self::get('radius_db_database'),
-            'username' => self::get('radius_db_user'),
-            'password' => self::get('radius_db_password'),
-            'charset' => self::get('db_charset'),
-            'collation' => self::get('db_collation')
+            'driver'    => $_ENV['db_driver'],
+            'host'      => $_ENV['radius_db_host'],
+            'database'  => $_ENV['radius_db_database'],
+            'username'  => $_ENV['radius_db_user'],
+            'password'  => $_ENV['radius_db_password'],
+            'charset'   => $_ENV['db_charset'],
+            'collation' => $_ENV['db_collation']
         ];
     }
 

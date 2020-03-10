@@ -13,7 +13,7 @@ class BitPayment
 {
     public static function getClient()
     {
-        return new BitPay(Config::get('bitpay_secret'));
+        return new BitPay($_ENV['bitpay_secret']);
     }
     public static function notify($request, $response, $args)
     {
@@ -25,7 +25,7 @@ class BitPayment
     }
     public static function purchaseHTML()
     {
-        $bitpayConfig = Config::get('bitpay_secret');
+        $bitpayConfig = $_ENV['bitpay_secret'];
         if (self::getClient() != null && $bitpayConfig != '') {
             return self::getClient()->getPurchaseHTML();
         }

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\Config;
-
 class Shop extends Model
 {
     protected $connection = 'default';
@@ -135,7 +133,7 @@ class Shop extends Model
             switch ($key) {
                 case 'bandwidth':
                     if ($is_renew == 0) {
-                        if (Config::get('enable_bought_reset') == true) {
+                        if ($_ENV['enable_bought_reset'] == true) {
                             $user->transfer_enable = $value * 1024 * 1024 * 1024;
                             $user->u = 0;
                             $user->d = 0;
@@ -160,7 +158,7 @@ class Shop extends Model
                     }
                     break;
                 case 'class':
-                    if (Config::get('enable_bought_extend') == true) {
+                    if ($_ENV['enable_bought_extend'] == true) {
                         if ($user->class == $value) {
                             $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + $content['class_expire'] * 86400);
                         } else {

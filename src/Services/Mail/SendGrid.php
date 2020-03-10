@@ -23,9 +23,9 @@ class SendGrid extends Base
     public function getConfig()
     {
         return [
-            'key' => Config::get('sendgrid_key'),
-            'sender' => Config::get('sendgrid_sender'),
-            'name' => Config::get('sendgrid_name')
+            'key' => $_ENV['sendgrid_key'],
+            'sender' => $_ENV['sendgrid_sender'],
+            'name' => $_ENV['sendgrid_name']
         ];
     }
 

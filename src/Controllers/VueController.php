@@ -2,21 +2,26 @@
 
 namespace App\Controllers;
 
-use App\Models\InviteCode;
-use App\Models\User;
-use App\Models\Code;
-use App\Models\Payback;
-use App\Models\Ann;
-use App\Models\Shop;
-use App\Services\Auth;
-use App\Services\Config;
-use App\Utils\Tools;
-use App\Utils\TelegramSessionManager;
-use App\Utils\Geetest;
-
-use App\Utils\URL;
-use App\Models\Node;
-use App\Models\Relay;
+use App\Models\{
+    Ann,
+    Code,
+    Node,
+    User,
+    Shop,
+    Relay,
+    Payback,
+    InviteCode
+};
+use App\Utils\{
+    URL,
+    Tools,
+    Geetest,
+    TelegramSessionManager
+};
+use App\Services\{
+    Auth,
+    Config
+};
 use Slim\Http\{Request, Response};
 use Psr\Http\Message\ResponseInterface;
 
@@ -27,10 +32,10 @@ class VueController extends BaseController
         $GtSdk = null;
         $recaptcha_sitekey = null;
         $user = $this->user;
-        if (Config::get('captcha_provider') != '') {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['captcha_provider'] != '') {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     break;
                 case 'geetest':
                     $uid = time() . random_int(1, 10000);
@@ -39,7 +44,7 @@ class VueController extends BaseController
             }
         }
 
-        if (Config::get('enable_telegram') == true) {
+        if ($_ENV['enable_telegram'] == true) {
             $login_text = TelegramSessionManager::add_login_session();
             $login = explode('|', $login_text);
             $login_token = $login[0];
@@ -50,27 +55,27 @@ class VueController extends BaseController
         }
 
         $res['globalConfig'] = array(
-            'geetest_html' => $GtSdk,
-            'login_token' => $login_token,
-            'login_number' => $login_number,
-            'telegram_bot' => Config::get('telegram_bot'),
-            'enable_logincaptcha' => Config::get('enable_login_captcha'),
-            'enable_regcaptcha' => Config::get('enable_reg_captcha'),
-            'enable_checkin_captcha' => Config::get('enable_checkin_captcha'),
-            'base_url' => Config::get('baseUrl'),
-            'recaptcha_sitekey' => $recaptcha_sitekey,
-            'captcha_provider' => Config::get('captcha_provider'),
-            'jump_delay' => Config::get('jump_delay'),
-            'register_mode' => Config::get('register_mode'),
-            'enable_email_verify' => Config::get('enable_email_verify'),
-            'appName' => Config::get('appName'),
-            'dateY' => date('Y'),
-            'isLogin' => $user->isLogin,
-            'enable_telegram' => Config::get('enable_telegram'),
-            'enable_mylivechat' => Config::get('enable_mylivechat'),
-            'enable_flag' => Config::get('enable_flag'),
-            'payment_type' => Config::get('payment_system'),
-            'mylivechat_id' => Config::get('mylivechat_id'),
+            'geetest_html'            => $GtSdk,
+            'login_token'             => $login_token,
+            'login_number'            => $login_number,
+            'telegram_bot'            => $_ENV['telegram_bot'],
+            'enable_logincaptcha'     => $_ENV['enable_login_captcha'],
+            'enable_regcaptcha'       => $_ENV['enable_reg_captcha'],
+            'enable_checkin_captcha'  => $_ENV['enable_checkin_captcha'],
+            'base_url'                => $_ENV['baseUrl'],
+            'recaptcha_sitekey'       => $recaptcha_sitekey,
+            'captcha_provider'        => $_ENV['captcha_provider'],
+            'jump_delay'              => $_ENV['jump_delay'],
+            'register_mode'           => Config::getconfig('Register.string.Mode'),
+            'enable_email_verify'     => Config::getconfig('Register.bool.Enable_email_verify'),
+            'appName'                 => $_ENV['appName'],
+            'dateY'                   => date('Y'),
+            'isLogin'                 => $user->isLogin,
+            'enable_telegram'         => $_ENV['enable_telegram'],
+            'enable_mylivechat'       => $_ENV['enable_mylivechat'],
+            'enable_flag'             => $_ENV['enable_flag'],
+            'payment_type'            => $_ENV['payment_system'],
+            'mylivechat_id'           => $_ENV['mylivechat_id'],
         );
 
         $res['ret'] = 1;
@@ -95,20 +100,20 @@ class VueController extends BaseController
         }
 
         $pre_user = URL::cloneUser($user);
-        $user->ssr_url_all = URL::getAllUrl($pre_user, 0, 0);
-        $user->ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0);
-        $user->ss_url_all = URL::getAllUrl($pre_user, 0, 2);
+        $user->ssr_url_all = URL::get_NewAllUrl($pre_user, ['type' => 'ssr']);
+        $user->ssr_url_all_mu = URL::get_NewAllUrl($pre_user, ['type' => 'ssr', 'is_mu' => 1]);
+        $user->ss_url_all = URL::get_NewAllUrl($pre_user, ['type' => 'ss']);
         $ssinfo = URL::getSSConnectInfo($pre_user);
-        $user->ssd_url_all = URL::getAllSSDUrl($ssinfo);
+        $user->ssd_url_all = LinkController::getSSD($ssinfo, 1, [], ['type' => 'ss']);
         $user->vmess_url_all = URL::getAllVMessUrl($user);
         $user->isAbleToCheckin = $user->isAbleToCheckin();
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('captcha_provider') != '') {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['captcha_provider'] != '') {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     break;
                 case 'geetest':
                     $uid = time() . random_int(1, 10000);
@@ -117,12 +122,12 @@ class VueController extends BaseController
             }
         }
         $Ann = Ann::orderBy('date', 'desc')->first();
-        $display_ios_class = Config::get('display_ios_class');
-        $ios_account = Config::get('ios_account');
-        $ios_password = Config::get('ios_password');
-        $mergeSub = Config::get('mergeSub');
-        $subUrl = Config::get('subUrl');
-        $baseUrl = Config::get('baseUrl');
+        $display_ios_class = $_ENV['display_ios_class'];
+        $ios_account = $_ENV['ios_account'];
+        $ios_password = $_ENV['ios_password'];
+        $mergeSub = $_ENV['mergeSub'];
+        $subUrl = $_ENV['subUrl'];
+        $baseUrl = $_ENV['baseUrl'];
         $user['online_ip_count'] = $user->online_ip_count();
         $bind_token = TelegramSessionManager::add_bind_session($this->user);
 
@@ -185,15 +190,15 @@ class VueController extends BaseController
         };
 
         $res['inviteInfo'] = array(
-            'code' => $code,
-            'paybacks' => $paybacks,
-            'paybacks_sum' => $paybacks_sum,
-            'invite_num' => $user->invite_num,
-            'invitePrice' => Config::get('invite_price'),
-            'customPrice' => Config::get('custom_invite_price'),
-            'invite_gift' => Config::get('invite_gift'),
-            'invite_get_money' => Config::get('invite_get_money'),
-            'code_payback' => Config::get('code_payback'),
+            'code'              => $code,
+            'paybacks'          => $paybacks,
+            'paybacks_sum'      => $paybacks_sum,
+            'invite_num'        => $user->invite_num,
+            'invitePrice'       => $_ENV['invite_price'],
+            'customPrice'       => $_ENV['custom_invite_price'],
+            'invite_gift'       => $_ENV['invite_gift'],
+            'invite_get_money'  => (int) Config::getconfig('Register.string.defaultInvite_get_money'),
+            'code_payback'      => $_ENV['code_payback'],
         );
 
         $res['ret'] = 1;
@@ -313,10 +318,10 @@ class VueController extends BaseController
     {
         $GtSdk = null;
         $recaptcha_sitekey = null;
-        if (Config::get('captcha_provider') != '') {
-            switch (Config::get('captcha_provider')) {
+        if ($_ENV['captcha_provider'] != '') {
+            switch ($_ENV['captcha_provider']) {
                 case 'recaptcha':
-                    $recaptcha_sitekey = Config::get('recaptcha_sitekey');
+                    $recaptcha_sitekey = $_ENV['recaptcha_sitekey'];
                     $res['recaptchaKey'] = $recaptcha_sitekey;
                     break;
                 case 'geetest':
@@ -399,7 +404,7 @@ class VueController extends BaseController
             $array_node['group'] = $node->node_group;
 
             $array_node['raw_node'] = $node;
-            $regex = Config::get('flag_regex');
+            $regex = $_ENV['flag_regex'];
             $matches = array();
             preg_match($regex, $node->name, $matches);
             if (isset($matches[0])) {
@@ -430,8 +435,8 @@ class VueController extends BaseController
                 $array_node['latest_load'] = -1;
             }
 
-            $array_node['traffic_used'] = (int)Tools::flowToGB($node->node_bandwidth);
-            $array_node['traffic_limit'] = (int)Tools::flowToGB($node->node_bandwidth_limit);
+            $array_node['traffic_used'] = (int) Tools::flowToGB($node->node_bandwidth);
+            $array_node['traffic_limit'] = (int) Tools::flowToGB($node->node_bandwidth_limit);
             if ($node->node_speedlimit == 0.0) {
                 $array_node['bandwidth'] = 0;
             } elseif ($node->node_speedlimit >= 1024.00) {
@@ -509,7 +514,8 @@ class VueController extends BaseController
                 }
                 break;
             case 1:
-                if ($user->class >= $node->node_class
+                if (
+                    $user->class >= $node->node_class
                     && ($user->node_group == $node->node_group || $node->node_group == 0)
                 ) {
                     $email = $user->email;
@@ -524,8 +530,10 @@ class VueController extends BaseController
                 }
                 break;
             case 2:
-                if ($user->class >= $node->node_class
-                    && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if (
+                    $user->class >= $node->node_class
+                    && ($user->node_group == $node->node_group || $node->node_group == 0)
+                ) {
                     $email = $user->email;
                     $email = Radius::GetUserName($email);
                     $json_show = 'SSH 信息<br>地址：' . $node->server
@@ -538,8 +546,10 @@ class VueController extends BaseController
                 }
                 break;
             case 5:
-                if ($user->class >= $node->node_class
-                    && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if (
+                    $user->class >= $node->node_class
+                    && ($user->node_group == $node->node_group || $node->node_group == 0)
+                ) {
                     $email = $user->email;
                     $email = Radius::GetUserName($email);
 

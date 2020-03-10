@@ -37,11 +37,11 @@ class CloudflareDriver
 
     public static function updateRecord($name, $content, $proxied = false)
     {
-        $key = new APIKey(Config::get('cloudflare_email'), Config::get('cloudflare_key'));
+        $key = new APIKey($_ENV['cloudflare_email'], $_ENV['cloudflare_key']);
         $adapter = new Guzzle($key);
         $zones = new Zones($adapter);
 
-        $zoneID = $zones->getZoneID(Config::get('cloudflare_name'));
+        $zoneID = $zones->getZoneID($_ENV['cloudflare_name']);
 
         $dns = new DNS($adapter);
 

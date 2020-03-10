@@ -21,7 +21,9 @@
         "chen-see/chen-pay": "^1.0@dev",
         "league/omnipay": "^3",
         "lokielse/omnipay-alipay": "*",
-        "khanamiryan/qrcode-detector-decoder": "*"
+        "khanamiryan/qrcode-detector-decoder": "*",
+        "symfony/yaml": "^4.4@dev",
+        "irazasyed/telegram-bot-sdk": "^2.0"
     },
     "autoload": {
         "psr-4": {

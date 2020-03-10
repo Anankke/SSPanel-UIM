@@ -2,15 +2,18 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\Ann;
 use App\Controllers\AdminController;
-use App\Utils\Telegram;
-use App\Services\Config;
+use App\Models\{
+    Ann,
+    User
+};
+use App\Utils\{
+    Telegram,
+    DatatablesHelper
+};
 use App\Services\Mail;
-use App\Models\User;
-use Exception;
 use Ozdemir\Datatables\Datatables;
-use App\Utils\DatatablesHelper;
+use Exception;
 
 class AnnController extends AdminController
 {
@@ -35,7 +38,7 @@ class AnnController extends AdminController
         $PushBear = $request->getParam('PushBear');
         $vip = $request->getParam('vip');
         $content = $request->getParam('content');
-        $subject = Config::get('appName') . '-公告';
+        $subject = $_ENV['appName'] . '-公告';
 
         if ($request->getParam('page') == 1) {
             $ann = new Ann();
@@ -50,7 +53,7 @@ class AnnController extends AdminController
             }
         }
         if ($PushBear == 1) {
-            $PushBear_sendkey = Config::get('PushBear_sendkey');
+            $PushBear_sendkey = $_ENV['PushBear_sendkey'];
             $postdata = http_build_query(
                 array(
                     'text' => $subject,
@@ -61,8 +64,8 @@ class AnnController extends AdminController
             file_get_contents('https://pushbear.ftqq.com/sub?' . $postdata, false);
         }
         if ($issend == 1) {
-            $beginSend = ($request->getParam('page') - 1) * Config::get('sendPageLimit');
-            $users = User::where('class', '>=', $vip)->skip($beginSend)->limit(Config::get('sendPageLimit'))->get();
+            $beginSend = ($request->getParam('page') - 1) * $_ENV['sendPageLimit'];
+            $users = User::where('class', '>=', $vip)->skip($beginSend)->limit($_ENV['sendPageLimit'])->get();
             foreach ($users as $user) {
                 $to = $user->email;
                 if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
@@ -78,7 +81,7 @@ class AnnController extends AdminController
                     continue;
                 }
             }
-            if (count($users) == Config::get('sendPageLimit')) {
+            if (count($users) == $_ENV['sendPageLimit']) {
                 $rs['ret'] = 2;
                 $rs['msg'] = $request->getParam('page') + 1;
                 return $response->getBody()->write(json_encode($rs));

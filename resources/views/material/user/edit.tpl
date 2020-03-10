@@ -10,6 +10,7 @@
         <section class="content-inner margin-top-no">
 
             <div class="col-xx-12 col-sm-6">
+
                 <div class="card margin-bottom-no">
                     <div class="card-main">
                         <div class="card-inner">
@@ -131,6 +132,22 @@
 
                         </div>
                     </div>
+                </div>
+
+				<div class="card margin-bottom-no">
+					<div class="card-main">
+						<div class="card-inner">
+							<div class="card-inner">
+								<div class="cardbtn-edit">
+									<div class="card-heading">重置订阅链接</div>
+									<div class="reset-flex">
+										<a class="reset-link btn btn-brand-accent btn-flat" ><i class="icon">autorenew</i>&nbsp;</a>
+									</div>
+								</div>
+                                <p>点击会重置您的订阅链接，此操作不可逆，请谨慎。</p>
+							</div>
+						</div>
+					</div>
                 </div>
 
             </div>
@@ -356,36 +373,35 @@
                     </div>
                 {/if}
 
-                {if $config['enable_telegram'] == 'true'}
+                {if $config['enable_telegram'] === true}
                     <div class="card margin-bottom-no">
                         <div class="card-main">
                             <div class="card-inner">
                                 <div class="card-inner">
+                                    <div class="cardbtn-edit">
+                                        <div class="card-heading">Telegram 绑定</div>
                                     {if $user->telegram_id != 0}
-                                        <div class="cardbtn-edit">
-                                            <div class="card-heading">Telegram 绑定</div>
-                                            <div><a class="btn btn-flat btn-brand-accent"
-                                                    href="/user/telegram_reset"><span class="icon">not_interested</span>&nbsp;</a>
-                                            </div>
+                                        <div><a class="btn btn-flat btn-brand-accent" href="/user/telegram_reset"><span class="icon">not_interested</span>&nbsp;</a></div>
+                                    </div>
+                                        <div class="text-center">
+                                            <p>当前绑定的 Telegram 账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a></p>
                                         </div>
-                                    {/if}
-
-                                    {if $user->telegram_id == 0}
-                                        <p>复制保存下方的二维码图片（有效期10分钟，超时请刷新本页面以重新获取，每张二维码只能使用一次）</p>
-                                        {if $user->telegram_id == 0}
-                                            <p>私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 以绑定
-                                                Telegram</p>
+                                    {else}
+                                    </div>
+                                        <p>二维码或绑定码有效期 10 分钟，超时请刷新本页面以重新获取，每个只能使用一次</p>
+                                        {if $config['use_new_telegram_bot'] === true}
+                                            <p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$bind_token}">点击拷贝绑定码</button> 私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 以绑定 Telegram</p>
+                                            <p><a class="btn btn-subscription" type="button" href="https://t.me/{$telegram_bot}?start={$bind_token}">一键绑定至账户</a> 手机电脑平板等如已安装 Telegram 可点击</p>
+                                        {else}
+                                            <p>截图保存下方的二维码图片，切勿拍照保存否则会导致解码失败</p>
+                                            <p>私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 以绑定 Telegram</p>
+                                            <div class="form-group form-group-label">
+                                                <div class="text-center">
+                                                    <div id="telegram-qr" class="qr-center"></div>
+                                                </div>
+                                            </div>
                                         {/if}
                                     {/if}
-                                    <div class="form-group form-group-label">
-                                        <div class="text-center">
-                                            <div id="telegram-qr" class="qr-center"></div>
-                                            {if $user->telegram_id != 0}
-                                                <p>当前绑定Telegram账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
-                                                </p>
-                                            {/if}
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -420,6 +436,8 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
 
                 {include file='dialog.tpl'}
 
@@ -521,6 +539,7 @@
         })
     })
 </script>
+
 <script>
     $(document).ready(function () {
         $("#portspecify").click(function () {
@@ -611,7 +630,7 @@
     qrcode1.clear();
     qrcode1.makeCode(ga_qrcode);
 
-    {if $config['enable_telegram'] == 'true' || $config['enable_discord'] == 'true'}
+    {if $config['enable_telegram'] === true}
 
     var telegram_qrcode = 'mod://bind/{$bind_token}';
 
@@ -688,7 +707,6 @@
     })
 </script>
 
-
 <script>
     $(document).ready(function () {
         $("#relay-update").click(function () {
@@ -744,7 +762,6 @@
     })
 </script>
 
-
 <script>
     $(document).ready(function () {
         $("#ga-test").click(function () {
@@ -767,7 +784,6 @@
         })
     })
 </script>
-
 
 <script>
     $(document).ready(function () {
@@ -821,7 +837,6 @@
         })
     })
 </script>
-
 
 <script>
     $(document).ready(function () {
@@ -884,7 +899,6 @@
     })
 </script>
 
-
 <script>
     $(document).ready(function () {
         $("#method-update").click(function () {
@@ -915,4 +929,16 @@
         })
     })
 </script>
+
 {/literal}
+
+<script>
+    $(function () {
+        new Clipboard('.reset-link');
+    });
+    $(".reset-link").click(function () {
+        $("#result").modal();
+        $$.getElementById('msg').innerHTML = '已重置您的订阅链接，请变更或添加您的订阅链接！';
+        window.setTimeout("location.href='/user/url_reset'", {$config['jump_delay']});
+    });
+</script>

@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Services\Config;
+use App\Services\DefaultConfig;
 
 class Update
 {
@@ -18,6 +18,9 @@ class Update
         }
 
         echo(PHP_EOL);
+
+        // 检查并创建新增的配置项
+        echo DefaultConfig::detectConfigs();
 
         echo('开始升级客户端...' . PHP_EOL);
         Job::updatedownload();
