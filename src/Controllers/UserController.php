@@ -436,7 +436,7 @@ class UserController extends BaseController
 
             $array_node['id'] = $node->id;
             $array_node['class'] = $node->node_class;
-            $array_node['name'] = $node->name;
+            $array_node['name'] = explode("#",$node->name)[0];
             if ($node->sort == 13) {
                 $server = Tools::ssv2Array($node->server);
                 $array_node['server'] = $server['add'];
@@ -444,7 +444,7 @@ class UserController extends BaseController
                 $array_node['server'] = $node->getServer();
             }
             $array_node['sort'] = $node->sort;
-            $array_node['info'] = $node->info;
+            $array_node['info'] = explode("#", $node->info)[0];
             $array_node['mu_only'] = $node->mu_only;
             $array_node['group'] = $node->node_group;
 
@@ -727,6 +727,14 @@ class UserController extends BaseController
         }
 
         $boughts = Bought::where('userid', $this->user->id)->orderBy('id', 'desc')->get();
+
+        if ($request->getParam('json') == 1) {
+            $res['userip']      = $userip;
+            $res['userloginip'] = $userloginip;
+            $res['paybacks']    = $paybacks;
+            $res['ret']         = 1;
+            return $response->getBody()->write(json_encode($res));
+        };
 
         return $this->view()->assign('boughts', $boughts)->assign('userip', $userip)->assign('userloginip', $userloginip)->assign('paybacks', $paybacks)->display('user/profile.tpl');
     }
@@ -1013,6 +1021,22 @@ class UserController extends BaseController
         $autorenew = $request->getParam('autorenew');
 
         $shop = Shop::where('id', $shop)->where('status', 1)->first();
+
+        $orders = Bought::where('userid', $this->user->id)->get();
+        foreach ($orders as $order) 
+        {
+            $shop_item = Shop::where('id',$order['shopid'])->first();
+            $shop_item = json_decode($shop_item['content']);
+            $shop_item->datetime = $order['datetime'];
+            if (array_key_exists('reset',$shop_item) || array_key_exists('reset_value',$shop_item) || array_key_exists('reset_exp',$shop_item))
+            {
+                if (time() < ($shop_item->datetime + $shop_item->reset_exp * 86400) ) {
+                    $res['ret'] = 0;
+                    $res['msg'] = '您购买的含有自动重置系统的套餐还未过期，无法购买新套餐';
+                    return $response->getBody()->write(json_encode($res));
+                }
+            } 
+        };
 
         if ($shop == null) {
             $res['ret'] = 0;

@@ -371,6 +371,7 @@ return function (SlimApp $app) {
     $app->post('/getChargeLog',         App\Controllers\VueController::class . ':getChargeLog');
     $app->get('/getnodelist',           App\Controllers\VueController::class . ':getNodeList');
     $app->get('/nodeinfo/{id}',         App\Controllers\VueController::class . ':getNodeInfo');
+    $app->get('/resettelegram',         App\Controllers\VueController::class . ':telegramReset');
 
     /**
      * chenPay

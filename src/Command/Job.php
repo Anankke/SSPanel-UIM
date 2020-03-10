@@ -34,7 +34,8 @@ use App\Utils\{
     QQWry,
     Tools,
     Radius,
-    Telegram
+    Telegram,
+    DatatablesHelper
 };
 use Exception;
 use ArrayObject;
@@ -45,7 +46,10 @@ class Job
     public static function syncnode()
     {
         $nodes = Node::all();
+        $allNodeID = [];
+
         foreach ($nodes as $node) {
+            $allNodeID[] = $node->id;
             if (in_array($node->sort, array(0, 1, 10, 11, 12, 13))) {
                 $server_list = explode(';', $node->server);
                 if (!Tools::is_ip($server_list[0]) && $node->changeNodeIp($server_list[0])) {
@@ -56,6 +60,11 @@ class Job
                 }
             }
         }
+
+        // 删除无效的中转
+        $allNodeID = implode(', ', $allNodeID);
+        $datatables = new DatatablesHelper();
+        $datatables->query('DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')');
     }
 
     public static function backup($full = false)

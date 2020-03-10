@@ -65,7 +65,7 @@ $expire_c = function ($ids) use ($processed) {
             unlink(__DIR__ . '/../storage/' . $id . '.expire_in');
             $processed['expire'] = $id;
         } else {
-            $user->expired = true;
+            $user->expire_notified = true;
             if ($user->save() == true) {
                 unlink(__DIR__ . '/../storage/' . $id . '.expire_in');
                 echo 'Expire Process successed for user' . $id . PHP_EOL;
