@@ -639,7 +639,6 @@ class Tools
             }
         }
 
-
         return [
             'name' => ($_ENV['disable_sub_mu_port'] ? $node_name : $node_name . ' - ' . $node_port . ' 单端口'),
             'address' => $node_server[0],
@@ -652,19 +651,21 @@ class Tools
         $type = 0; //偏移
         $port = []; //指定
         $node_server = explode(';', $server);
-        if (strpos($node_server[1], 'port') !== false) {
-            $item = URL::parse_args($node_server[1]);
-            if (strpos($item['port'], '#') !== false) {
-                if (strpos($item['port'], '+') !== false) {
-                    $args_explode = explode('+', $item['port']);
-                    foreach ($args_explode as $arg) {
-                        $port[substr($arg, 0, strpos($arg, '#'))] = (int) substr($arg, strpos($arg, '#') + 1);
+        if (isset($node_server[1])) {
+            if (strpos($node_server[1], 'port') !== false) {
+                $item = URL::parse_args($node_server[1]);
+                if (strpos($item['port'], '#') !== false) {
+                    if (strpos($item['port'], '+') !== false) {
+                        $args_explode = explode('+', $item['port']);
+                        foreach ($args_explode as $arg) {
+                            $port[substr($arg, 0, strpos($arg, '#'))] = (int) substr($arg, strpos($arg, '#') + 1);
+                        }
+                    } else {
+                        $port[substr($item['port'], 0, strpos($item['port'], '#'))] = (int) substr($item['port'], strpos($item['port'], '#') + 1);
                     }
                 } else {
-                    $port[substr($item['port'], 0, strpos($item['port'], '#'))] = (int) substr($item['port'], strpos($item['port'], '#') + 1);
+                    $type = (int) $item['port'];
                 }
-            } else {
-                $type = (int) $item['port'];
             }
         }
 
