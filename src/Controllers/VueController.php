@@ -124,6 +124,7 @@ class VueController extends BaseController
         $subUrl = Config::get('subUrl');
         $baseUrl = Config::get('baseUrl');
         $user['online_ip_count'] = $user->online_ip_count();
+        $bind_token = TelegramSessionManager::add_bind_session($this->user);
 
         $res['info'] = array(
             'user' => $user,
@@ -137,10 +138,22 @@ class VueController extends BaseController
             'ann' => $Ann,
             'recaptchaSitekey' => $recaptcha_sitekey,
             'GtSdk' => $GtSdk,
+            'GaUrl' => $user->getGAurl(),
+            'bind_token' => $bind_token
         );
 
         $res['ret'] = 1;
 
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function telegramReset($request, $response, $args)
+    {
+        $user = $this->user;
+        $user->telegram_id = 0;
+        $user->save();
+        $res['ret'] = 1;
+        $res['msg'] = '解绑成功';
         return $response->getBody()->write(json_encode($res));
     }
 

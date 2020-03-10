@@ -770,6 +770,15 @@ class UserController extends BaseController
             }
         }
 
+        if ($request->getParam('json') == 1)
+        {
+            $res['userip'] = $userip;
+            $res['userloginip'] = $userloginip;
+            $res['paybacks'] = $paybacks;
+            $res['ret'] = 1;
+            return $response->getBody()->write(json_encode($res));
+        };
+
 
         return $this->view()->assign('userip', $userip)->assign('userloginip', $userloginip)->assign('paybacks', $paybacks)->display('user/profile.tpl');
     }
