@@ -39,7 +39,7 @@
                                         {foreach $shops as $shop}
                                             <tr>
                                                 <td>#{$shop->id}</td>
-                                                <td>{$shop->datetime("Y/m/d",$date_unix)}</td>
+                                                <td>{$shop->datetime()}</td>
                                                 <td>{$shop->shop()->name}</td>
                                                 <td>{$shop->shop()->content()}</td>
                                                 <td>{$shop->price} 元</td>
