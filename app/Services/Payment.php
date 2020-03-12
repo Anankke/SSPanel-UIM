@@ -9,7 +9,7 @@
 namespace App\Services;
 
 use App\Services\Gateway\{
-    AopF2F, Codepay,  PaymentWall, ChenPay, SPay, PAYJS, YftPay
+    AopF2F, Codepay,  PaymentWall, ChenPay, SPay, PAYJS, YftPay, MaterialPay
 };
 
 class Payment
@@ -32,6 +32,8 @@ class Payment
                 return new PAYJS(Config::get('payjs_key'));
             case ('yftpay'):
                 return new YftPay();
+            case ('materialpay'):
+            	return new MaterialPay(Config::get('materialpay_secret'));
             default:
                 return null;
         }

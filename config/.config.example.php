@@ -171,8 +171,14 @@ $_ENV['enable_checkin_captcha'] = false;	//启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yftpay
+#取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yftpay | materialpay
 $_ENV['payment_system'] = 'none';
+
+#materialpay设置
+#https://www.materialpay.com
+#API文档:https://daihao18.gitbook.io/materialpay/
+$_ENV['materialpay_appid']='';			//AppID
+$_ENV['materialpay_secret']='';			//AppSecret
 
 #yft支付设置
 $_ENV['yft_secret'] = '';
