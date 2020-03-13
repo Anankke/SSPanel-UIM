@@ -48,6 +48,7 @@ return function (SlimApp $app) {
         $this->get('/shop',                     App\Controllers\UserController::class . ':shop');
         $this->post('/coupon_check',            App\Controllers\UserController::class . ':CouponCheck');
         $this->post('/buy',                     App\Controllers\UserController::class . ':buy');
+        $this->post('/buy_traffic_package',     App\Controllers\UserController::class . ':buy_traffic_package');
 
         // Relay Mange
         $this->get('/relay',                    App\Controllers\RelayController::class . ':index');

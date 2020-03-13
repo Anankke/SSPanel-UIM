@@ -1016,6 +1016,53 @@ class UserController extends BaseController
         return $response->getBody()->write(json_encode($res));
     }
 
+    public function buy_traffic_package ($request, $response, $args)
+    {
+        $user = $this->user;
+        $shop = $request->getParam('shop');
+        $price = $shop->price;
+
+        if ($shop == null || $shop->traffic_package() == 0) {
+            $res['ret'] = 0;
+            $res['msg'] = '非法请求';
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if ($user->class < $shop->traffic_package()['class']['min'] || $user->class > $shop->traffic_package()['class']['max']) {
+            $res['ret'] = 0;
+            $res['msg'] = '您当前的会员等级无法购买此流量包';
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if (!$user->isLogin) {
+            $res['ret'] = -1;
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if (bccomp($user->money, $price, 2) == -1) {
+            $res['ret'] = 0;
+            $res['msg'] = '喵喵喵~ 当前余额不足，总价为' . $price . '元。</br><a href="/user/code">点击进入充值界面</a>';
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        $user->money = bcsub($user->money, $price, 2);
+        $user->save();
+
+        $bought = new Bought();
+        $bought->userid = $user->id;
+        $bought->shopid = $shop->id;
+        $bought->datetime = time();
+        $bought->price = $price;
+        $bought->save();
+
+        $shop->buy($user);
+
+        $res['ret'] = 1;
+        $res['msg'] = '购买成功';
+
+        return $response->getBody()->write(json_encode($res));
+    }
+
     public function buy($request, $response, $args)
     {
         $coupon = $request->getParam('coupon');
