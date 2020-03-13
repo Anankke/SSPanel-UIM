@@ -743,6 +743,12 @@ class UserController extends BaseController
     {
         $Anns = Ann::orderBy('date', 'desc')->get();
 
+        if ($request->getParam('json') == 1) {
+            $res['Anns']      = $Anns;
+            $res['ret']         = 1;
+            return $this->echoJson($response, $res);
+        };
+
         return $this->view()->assign('anns', $Anns)->display('user/announcement.tpl');
     }
 
@@ -1128,7 +1134,18 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $shops = Bought::where('userid', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $shops->setPath('/user/bought');
-
+        if($request->getParam('json') == 1)
+        {
+            $res['ret'] = 1;
+            foreach ($shops as $shop) 
+            {
+                $shop->datetime = $shop->datetime("Y/m/d",$date_unix);
+                $shop->name = $shop->shop()->name;
+                $shop->content = $shop->shop()->content();
+            };
+            $res['shops'] = $shops;
+            return $response->getBody()->write(json_encode($res));
+        };
         return $this->view()->assign('shops', $shops)->display('user/bought.tpl');
     }
 
@@ -1703,6 +1720,20 @@ class UserController extends BaseController
     public function trafficLog($request, $response, $args)
     {
         $traffic = TrafficLog::where('user_id', $this->user->id)->where('log_time', '>', time() - 3 * 86400)->orderBy('id', 'desc')->get();
+
+        if($request->getParam('json') == 1)
+        {
+            $res['ret'] = 1;
+            foreach ($traffic as $trafficdata)
+            {
+                $trafficdata->total_used = $trafficdata->totalUsedRaw();
+                $trafficdata->name = $trafficdata->node()->name;
+            }
+            $res['traffic'] = $traffic;
+            
+            return $this->echoJson($response, $res);
+        }
+
         return $this->view()->assign('logs', $traffic)->display('user/trafficlog.tpl');
     }
 
@@ -1710,6 +1741,14 @@ class UserController extends BaseController
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectRule::paginate(15, ['*'], 'page', $pageNum);
+
+        if($request->getParam('json') == 1)
+        {
+            $res['ret'] = 1;
+            $res['logs'] = $logs;
+            return $this->echoJson($response, $res);
+        }
+
         return $this->view()->assign('rules', $logs)->display('user/detect_index.tpl');
     }
 
@@ -1717,6 +1756,23 @@ class UserController extends BaseController
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
+
+        if($request->getParam('json') == 1)
+        {
+            $res['ret'] = 1;
+            foreach ($logs as $log)
+            {
+                $log->node_name = $log->Node()->name;
+                $log->detect_rule_name = $log->DetectRule()->name;
+                $log->detect_rule_text = $log->DetectRule()->text;
+                $log->detect_rule_regex = $log->DetectRule()->regex;
+                $log->detect_rule_type = $log->DetectRule()->type;
+                $log->detect_rule_date = date('Y-m-d H:i:s',$log->datetime);
+            }
+            $res['logs'] = $logs;
+            return $this->echoJson($response, $res);
+        }
+
         return $this->view()->assign('logs', $logs)->display('user/detect_log.tpl');
     }
 

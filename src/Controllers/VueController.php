@@ -16,7 +16,8 @@ use App\Utils\{
     URL,
     Tools,
     Geetest,
-    TelegramSessionManager
+    TelegramSessionManager,
+    Cookie
 };
 use App\Services\{
     Auth,
@@ -121,6 +122,10 @@ class VueController extends BaseController
                     break;
             }
         }
+        $can_backtoadmin = 0;
+        if (Cookie::get('old_uid') && Cookie::get('old_email') && Cookie::get('old_key') && Cookie::get('old_ip') && Cookie::get('old_expire_in') && Cookie::get('old_local')) {
+            $can_backtoadmin = 1;
+        }
         $Ann = Ann::orderBy('date', 'desc')->first();
         $display_ios_class = $_ENV['display_ios_class'];
         $ios_account = $_ENV['ios_account'];
@@ -140,6 +145,7 @@ class VueController extends BaseController
             'mergeSub' => $mergeSub,
             'subUrl' => $subUrl,
             'baseUrl' => $baseUrl,
+            'can_backtoadmin' => $can_backtoadmin,
             'ann' => $Ann,
             'recaptchaSitekey' => $recaptcha_sitekey,
             'GtSdk' => $GtSdk,
