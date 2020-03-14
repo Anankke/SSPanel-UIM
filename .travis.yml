@@ -69,6 +69,7 @@ script:
   - chmod +x test/test.sh
   - sudo chmod -R 755 *
   - cp test/config.php config/.config.php
+  - cp config/appprofile.example.php config/appprofile.php
   - php xcat createAdmin test@example.com test
   - php xcat syncusers
   - php xcat initdownload
