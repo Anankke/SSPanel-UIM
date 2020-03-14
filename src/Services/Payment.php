@@ -19,7 +19,8 @@ use App\Services\Gateway\{
     YftPay,
     BitPayX,
     TomatoPay,
-    IDtPay
+    IDtPay,
+    PayTaro
 };
 
 class Payment
@@ -48,6 +49,8 @@ class Payment
                 return new TomatoPay();
             case ("idtpay"):
                 return new IDtPay();
+            case ("paytaro"):
+                return new PayTaro(Config::get('paytaro_app_secret'));
             default:
                 return null;
         }
