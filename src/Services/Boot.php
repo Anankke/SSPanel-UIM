@@ -23,6 +23,8 @@ class Boot
             die('Could not connect to main database: ' . $e->getMessage());
         }
 
+        $capsule->setAsGlobal();
+
         if ($_ENV['enable_radius'] === true) {
             try {
                 $capsule->addConnection(Config::getRadiusDbConfig(), 'radius');
