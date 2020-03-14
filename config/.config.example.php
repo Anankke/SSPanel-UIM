@@ -293,7 +293,7 @@ $_ENV['enable_checkin_captcha'] = false;        //启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yftpay
+#取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yftpay | paytaro
 $_ENV['payment_system']       = 'none';
 
 #yft支付设置
@@ -352,6 +352,9 @@ $_ENV['tomatopay'] = [
     ],
 ];
 
+#paytaro
+$_ENV['paytaro_app_id'] = '';
+$_ENV['paytaro_app_secret'] = '';
 
 //其他面板显示设置------------------------------------------------------------------------------------------
 $_ENV['old_index_DESC']       = '<p>够了，我无法忍受你的行为，现在你将成为我们中的一员</p>';	    //旧版本首页的文字讯息
