@@ -229,7 +229,7 @@ class Update
                     }
                 );
             }
-            // hasColumn 方法存在异常
+            // hasColumn 方法在 MySQL 8.0 存在永远返回 false，故不使用
             // if (!Capsule::schema()->hasColumn('user', 'last_detect_ban_time')) {
             //     Capsule::schema()->table(
             //         'user',
@@ -257,6 +257,15 @@ class Update
                     }
                 );
             }
+            /*
+             * 避免表中无记录而导致导致添加失败
+             */
+            $DetectLog = new \App\Models\DetectLog();
+            $DetectLog->user_id = 0;
+            $DetectLog->list_id = 0;
+            $DetectLog->node_id = 0;
+            $DetectLog->datetime = 0;
+            $DetectLog->save();
             $DetectlogAttributes = array_keys((new \App\Models\DetectLog())->first()->getAttributes());
             if (!in_array('status', $DetectlogAttributes)) {
                 echo ('添加 status 到 detect_log 表.' . PHP_EOL);
@@ -267,6 +276,10 @@ class Update
                     }
                 );
             }
+            /*
+             * 删除该记录
+             */
+            $DetectLog->delete();
             // 版本 2 结束
         }
     }
