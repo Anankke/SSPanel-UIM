@@ -72,7 +72,7 @@
                         <div class="ui-switch node-switch">
                             <div class="card">
                                 <div class="card-main">
-                                    <div class="card-inner ui-switch">
+                                    <div class="card-inner ui-switch-inner">
                                         <div class="switch-btn" id="switch-cards">
                                             <a href="#" onclick="return false">
                                                 <i class="mdui-icon material-icons">apps</i>

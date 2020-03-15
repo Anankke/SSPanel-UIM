@@ -1022,6 +1022,8 @@ class UserController extends BaseController
         $shop = $request->getParam('shop');
         $price = $shop->price;
 
+        $shop = Shop::where('id', $shop)->where('status', 1)->first();
+
         if ($shop == null || $shop->traffic_package() == 0) {
             $res['ret'] = 0;
             $res['msg'] = '非法请求';
