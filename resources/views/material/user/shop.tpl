@@ -188,6 +188,7 @@
                         <div class="card">
                             <div>
                                 <div class="shop-name"><span>{$shop->name}</span></div>
+                                <div class="card-tag tag-orange">¥ {$shop->price}</div>
                                 <div class="card-tag tag-cyan">{$shop->bandwidth()} G</div>
                             </div>
                             <div>
