@@ -468,8 +468,8 @@
         }
 
         //UI切换
-        let elNodeCard = $$.querySelector(".node-cardgroup");
-        let elNodeTable = $$.querySelector(".node-table");
+        let elNodeCard = $$.querySelectorAll(".node-cardgroup");
+        let elNodeTable = $$.querySelectorAll(".node-table");
 
         let switchToCard = new UIswitch('switch-cards', elNodeTable, elNodeCard, 'grid', 'tempnode');
         switchToCard.listenSwitch();

@@ -1020,9 +1020,8 @@ class UserController extends BaseController
     {
         $user = $this->user;
         $shop = $request->getParam('shop');
-        $price = $shop->price;
-
         $shop = Shop::where('id', $shop)->where('status', 1)->first();
+        $price = $shop->price;
 
         if ($shop == null || $shop->traffic_package() == 0) {
             $res['ret'] = 0;
@@ -1030,7 +1029,9 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($user->class < $shop->traffic_package()['class']['min'] || $user->class > $shop->traffic_package()['class']['max']) {
+        $content = json_decode($shop->content);
+
+        if ($user->class < $content->traffic_package->class->min || $user->class > $content->traffic_package->class->max) {
             $res['ret'] = 0;
             $res['msg'] = '您当前的会员等级无法购买此流量包';
             return $response->getBody()->write(json_encode($res));
@@ -1054,6 +1055,8 @@ class UserController extends BaseController
         $bought->userid = $user->id;
         $bought->shopid = $shop->id;
         $bought->datetime = time();
+        $bought->renew = 0;
+        $bought->coupon = 0;
         $bought->price = $price;
         $bought->save();
 

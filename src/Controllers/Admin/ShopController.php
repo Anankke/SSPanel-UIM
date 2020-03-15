@@ -70,6 +70,10 @@ class ShopController extends AdminController
             $content['reset_exp'] = $request->getParam('reset_exp');
         }
 
+        if ($request->getParam('traffic_package') != 0) {
+            $content['traffic_package'] = $request->getParam('traffic_package');
+        }
+
         //if ($request->getParam('speedlimit')!=0) {
         $content['speedlimit'] = $request->getParam('speedlimit');
         //}
@@ -149,6 +153,10 @@ class ShopController extends AdminController
 
         if ($request->getParam('reset_exp') != 0) {
             $content['reset_exp'] = $request->getParam('reset_exp');
+        }
+
+        if ($request->getParam('traffic_package') != 0) {
+            $content['traffic_package'] = $request->getParam('traffic_package');
         }
 
         //if ($request->getParam('speedlimit')!=0) {

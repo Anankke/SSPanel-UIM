@@ -316,7 +316,7 @@
     let trafficPackageId;
     function buyTraffic(id) {
         trafficPackageId = id
-        $("#coupon_modal").modal('traffic_package_modal');
+        $("#traffic_package_modal").modal();
     }
 
     $('#traffic_package_confirm').click(function() {

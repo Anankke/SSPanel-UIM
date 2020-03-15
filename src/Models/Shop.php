@@ -82,7 +82,7 @@ class Shop extends Model
     public function traffic_package()
     {
         $content = json_decode($this->attributes['content']);
-        return $content->traffic_package ?? 0;
+        return isset($content->traffic_package);
     }
 
     public function content_extra()

@@ -104,6 +104,7 @@
 .shop-table {
     margin-top: 14px;
     position: relative;
+    width: 100%;
 }
 .shop-table .card {
     width: 100%;

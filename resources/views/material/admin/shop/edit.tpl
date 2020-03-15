@@ -62,6 +62,38 @@
                     </div>
                 </div>
 
+                <div class="card">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            {$content = json_decode($shop->content)}
+                            <div class="form-group form-group-label">
+                                <label class="floating-label" for="traffic-package-min">最低可购买用户等级</label>
+                                <input class="form-control maxwidth-edit" id="traffic-package-min" type="text"
+                                value="{$content->traffic_package->class->min}">
+                            </div>
+
+                            <div class="form-group form-group-label">
+                                <label class="floating-label" for="traffic-package-max">最高可购买用户等级</label>
+                                <input class="form-control maxwidth-edit" id="traffic-package-max" type="text"
+                                value="{$content->traffic_package->class->max}">
+                            </div>
+
+                            <div class="form-group form-group-label">
+                                <div class="checkbox switch">
+                                    <label for="traffic-package-enable">
+                                        <input {if $shop->traffic_package()}checked{/if} class="access-hide" id="traffic-package-enable" type="checkbox">
+                                        <span class="switch-toggle"></span>是否设置此商品为流量叠加包
+                                    </label>
+                                    <p class="form-control-guide">
+                                        <i class="material-icons">info</i>
+                                        设置为流量叠加包后除购买时获得流量外的设置无效
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card">
                     <div class="card-main">
@@ -200,26 +232,37 @@
                 contentExtra = 'check-全球节点分布;check-快速客服响应;check-全平台客户端';
             }
 
+            let data = {
+                name: $$getValue('name'),
+                auto_reset_bandwidth,
+                price: $$getValue('price'),
+                auto_renew: $$getValue('auto_renew'),
+                bandwidth: $$getValue('bandwidth'),
+                speedlimit: $$getValue('speedlimit'),
+                connector: $$getValue('connector'),
+                expire: $$getValue('expire'),
+                class: $$getValue('class'),
+                class_expire: $$getValue('class_expire'),
+                reset: $$getValue('reset'),
+                reset_value: $$getValue('reset_value'),
+                reset_exp: $$getValue('reset_exp'),
+                content_extra: contentExtra,
+            }
+
+            if ($$.getElementById('traffic-package-enable').checked) {
+                data.traffic_package = {
+                    class: {
+                        min: $$getValue('traffic-package-min'),
+                        max: $$getValue('traffic-package-max')
+                    }
+                }
+            } 
+
             $.ajax({
                 type: "PUT",
                 url: "/admin/shop/{$shop->id}",
                 dataType: "json",
-                data: {
-                    name: $$getValue('name'),
-                    auto_reset_bandwidth,
-                    price: $$getValue('price'),
-                    auto_renew: $$getValue('auto_renew'),
-                    bandwidth: $$getValue('bandwidth'),
-                    speedlimit: $$getValue('speedlimit'),
-                    connector: $$getValue('connector'),
-                    expire: $$getValue('expire'),
-                    class: $$getValue('class'),
-                    class_expire: $$getValue('class_expire'),
-                    reset: $$getValue('reset'),
-                    reset_value: $$getValue('reset_value'),
-                    reset_exp: $$getValue('reset_exp'),
-                    content_extra: contentExtra,
-                },
+                data,
                 success: data => {
                     if (data.ret) {
                         $("#result").modal();
