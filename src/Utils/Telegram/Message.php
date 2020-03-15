@@ -2,7 +2,7 @@
 
 namespace App\Utils\Telegram;
 
-use App\Models\Config;
+use App\Services\Config;
 use App\Utils\TelegramSessionManager;
 
 class Message
