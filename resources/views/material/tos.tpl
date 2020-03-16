@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>{$config["appName"]}</title>
-    <meta name="keywords" content="{$config["appName"]}"/>
-    <meta name="description" content="{$config["appName"]}"/>
+    <title>{$config['appName']}</title>
+    <meta name="keywords" content="{$config['appName']}"/>
+    <meta name="description" content="{$config['appName']}"/>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="bookmark" href="/favicon.ico"/>
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <p>{$config["appName"]}，以下简称本站。</p>
+    <p>{$config['appName']}，以下简称本站。</p>
     <div class="table-wrapper">
         <table>
 
@@ -90,7 +90,7 @@
     </div>
     <!-- 版权底部 -->
     <footer id="footer">
-        <p class="copyright">&copy;{date("Y")} {$config["appName"]}</p>
+        <p class="copyright">&copy;{date("Y")} {$config['appName']}</p>
     </footer>
     <!-- 版权结束 -->
 </div>

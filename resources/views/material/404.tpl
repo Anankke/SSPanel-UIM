@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>页面无法找到哦 - {$config["appName"]} </title>
+    <title>页面无法找到哦 - {$config['appName']} </title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <meta charset="utf-8"/>
@@ -34,7 +34,7 @@
             </ul>
         </nav>
     </header>
-    <footer id="footer"><p class="copyright">&copy;{date("Y")} {$config["appName"]}</p></footer>
+    <footer id="footer"><p class="copyright">&copy;{date("Y")} {$config['appName']}</p></footer>
 </div>
 <div id="bg"></div>
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>

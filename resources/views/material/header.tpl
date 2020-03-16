@@ -7,7 +7,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
     <meta name="theme-color" content="#4285f4">
-    <title>{$config["appName"]}</title>
+    <title>{$config['appName']}</title>
     <!-- css -->
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
@@ -90,4 +90,4 @@
 </nav>
 *}
 
-{if $config["enable_mylivechat"] == 'true'}{include file='mylivechat.tpl'}{/if}
+{if $config['enable_mylivechat'] === true}{include file='mylivechat.tpl'}{/if}

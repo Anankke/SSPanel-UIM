@@ -4,7 +4,7 @@
         "smarty/smarty": "3.*",
         "mailgun/mailgun-php": "^2.6.0",
         "predis/predis": "~1.0",
-        "phpmailer/phpmailer": "~5.2",
+        "phpmailer/phpmailer": "~6.0",
         "zeuxisoo/slim-whoops": "0.5.*",
         "firebase/php-jwt": "~3.0",
         "aws/aws-sdk-php": "3.*",
@@ -14,18 +14,20 @@
         "telegram-bot/api": "^2.2",
         "illuminate/pagination": "5.2.*",
         "illuminate/database": "5.2.*",
-        "sendgrid/sendgrid": "^5.1",
+        "sendgrid/sendgrid": "~7",
         "esdeathlove/datatables": "^1.6",
         "ramsey/uuid": "^3.0@dev",
         "cloudflare/sdk": "1.1.1",
         "chen-see/chen-pay": "^1.0@dev",
         "league/omnipay": "^3",
         "lokielse/omnipay-alipay": "*",
-        "khanamiryan/qrcode-detector-decoder": "*"
+        "khanamiryan/qrcode-detector-decoder": "*",
+        "symfony/yaml": "^4.4@dev",
+        "irazasyed/telegram-bot-sdk": "^2.0"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "src/"
         }
     }
 }

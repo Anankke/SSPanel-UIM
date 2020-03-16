@@ -1,12 +1,12 @@
 <footer class="ui-footer">
     <div class="container">
-        &copy;{date("Y")} {$config["appName"]} | Powered by <a href="/staff">SSPANEL</a>
-        {if $config["enable_analytics_code"] == 'true'}{include file='analytics.tpl'}{/if}
+        &copy;{date("Y")} {$config['appName']} | Powered by <a href="/staff">SSPANEL</a>
+        {if $config['enable_analytics_code'] === true}{include file='analytics.tpl'}{/if}
     </div>
 </footer>
 
 <!-- js -->
-{if $config["sspanelAnalysis"] == 'true'}
+{if $config['sspanelAnalysis'] === true}
     <!-- Google Analytics -->
     <script>
         window.ga = window.ga || function () {

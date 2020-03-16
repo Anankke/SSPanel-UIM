@@ -1,9 +1,16 @@
 /* 卡片式商店样式 */
 
-.ui-switch {
+.ui-switch,.ui-switch-inner {
 	display: flex;
-	flex-direction: row-reverse;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    min-height: 29px;
 }
+
+.ui-switch-inner {
+    height: 100%;
+}
+
 .ui-switch.node-switch {
 	position: absolute;
 	right: 2.5em;
@@ -13,13 +20,38 @@
 
 .switch-btn {
 	width: 50%;
-	box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.dropdown .btn-dropdown-toggle.dropdown-toggle {
+    min-height: 36px;
+    border-radius: 10px;
+    background-color: white;
+    color: inherit;
+    transition: all .5s;
+}
+
+.btn-dropdown-toggle.dropdown-toggle:hover,
+.btn-dropdown-toggle.dropdown-toggle:active {
+    background-color: white;
+    color: inherit;
+    border-radius: 4px;
+    transform: translate(0,0);
+}
+
+.btn-dropdown-toggle.dropdown-toggle::after {
+    background-color: white;
 }
 
 .ui-switch a {
 	color: #000;
 	display: inline-block;
-	padding: 0 10px;
+    padding: 0 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
 }
 
 .ui-switch div.switch-btn:first-of-type a {
@@ -41,11 +73,6 @@
 .ui-switch a:hover {
 	color: white;
 	background: gray;
-}
-
-.ui-switch a i {
-	position: relative;
-	top: 3px;
 }
 
 .ui-switch .card,.ui-switch .card-inner {
@@ -77,6 +104,7 @@
 .shop-table {
     margin-top: 14px;
     position: relative;
+    width: 100%;
 }
 .shop-table .card {
     width: 100%;

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>正在跳转用户中心 - {$config["appName"]} </title>
+    <title>正在跳转用户中心 - {$config['appName']} </title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <meta charset="utf-8"/>
@@ -207,7 +207,7 @@
         <footer class="section section-footer">
             <div id="copyright" class="grid-footer container grid-lg">©
                 <span year="">{date("Y")}</span>
-                <a href="{$config["baseUrl"]}" target="_blank">{$config["appName"]}</a>
+                <a href="{$config['baseUrl']}" target="_blank">{$config['appName']}</a>
             </div>
         </footer>
     </div>
