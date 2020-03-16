@@ -153,7 +153,7 @@ class AppURI
                         break;
                     case 'v2ray';
                         $return .= ($item['tls'] == 'tls' ? ', obfs=wss' : ', obfs=ws');
-                        $return .= ', obfs-uri=' . $item['path'];
+                        $return .= ', obfs-uri=' . $item['path'] . ', obfs-host=' . $item['host'];
                         break;
                 }
                 $return .= (', tag=' . $item['remark']);
