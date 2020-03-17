@@ -481,6 +481,7 @@ class VueController extends BaseController
         $mu = $request->getQueryParam('ismu');
         $relay_rule_id = $request->getQueryParam('relay_rule');
         $node = Node::find($id);
+        
 
         if ($node == null) {
             return $response->withJson([null]);
@@ -594,6 +595,34 @@ class VueController extends BaseController
                     }
 
                     return $response->withJson($res);
+                }
+                break;
+            case 11:
+                if ((($user->class >= $node->node_class
+                        && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
+                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+
+                        $res = [
+                            'ret' => 1,
+                            'nodeInfo' => URL::getV2Url($user, $node, true),
+                            'vmessUrl' => URL::getV2Url($user, $node, false)
+                        ];
+
+                        return $response->withJson($res);
+                }
+                break;
+            case 12:
+                if ((($user->class >= $node->node_class
+                        && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
+                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+
+                        $res = [
+                            'ret' => 1,
+                            'nodeInfo' => URL::getV2Url($user, $node, true),
+                            'vmessUrl' => URL::getV2Url($user, $node, false)
+                        ];
+
+                        return $response->withJson($res);
                 }
                 break;
             case 13:
