@@ -1186,12 +1186,10 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $shops = Bought::where('userid', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $shops->setPath('/user/bought');
-        if($request->getParam('json') == 1)
-        {
+        if ($request->getParam('json') == 1) {
             $res['ret'] = 1;
-            foreach ($shops as $shop) 
-            {
-                $shop->datetime = $shop->datetime("Y/m/d",$date_unix);
+            foreach ($shops as $shop) {
+                $shop->datetime = $shop->datetime();
                 $shop->name = $shop->shop()->name;
                 $shop->content = $shop->shop()->content();
             };
@@ -1773,11 +1771,9 @@ class UserController extends BaseController
     {
         $traffic = TrafficLog::where('user_id', $this->user->id)->where('log_time', '>', time() - 3 * 86400)->orderBy('id', 'desc')->get();
 
-        if($request->getParam('json') == 1)
-        {
+        if ($request->getParam('json') == 1) {
             $res['ret'] = 1;
-            foreach ($traffic as $trafficdata)
-            {
+            foreach ($traffic as $trafficdata) {
                 $trafficdata->total_used = $trafficdata->totalUsedRaw();
                 $trafficdata->name = $trafficdata->node()->name;
             }
@@ -1794,8 +1790,7 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectRule::paginate(15, ['*'], 'page', $pageNum);
 
-        if($request->getParam('json') == 1)
-        {
+        if ($request->getParam('json') == 1) {
             $res['ret'] = 1;
             $res['logs'] = $logs;
             return $this->echoJson($response, $res);
@@ -1809,11 +1804,9 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
 
-        if($request->getParam('json') == 1)
-        {
+        if ($request->getParam('json') == 1) {
             $res['ret'] = 1;
-            foreach ($logs as $log)
-            {
+            foreach ($logs as $log) {
                 $log->node_name = $log->Node()->name;
                 $log->detect_rule_name = $log->DetectRule()->name;
                 $log->detect_rule_text = $log->DetectRule()->text;
