@@ -604,7 +604,10 @@ class VueController extends BaseController
 
                         $res = [
                             'ret' => 1,
-                            'nodeInfo' => URL::getV2Url($user, $node, true),
+                            'nodeInfo' => [
+                                'node' => URL::getV2Url($user, $node, true),
+                                'user' => $user,
+                            ],
                             'vmessUrl' => URL::getV2Url($user, $node, false)
                         ];
 
@@ -618,7 +621,10 @@ class VueController extends BaseController
 
                         $res = [
                             'ret' => 1,
-                            'nodeInfo' => URL::getV2Url($user, $node, true),
+                            'nodeInfo' => [
+                                'node' => URL::getV2Url($user, $node, true),
+                                'user' => $user,
+                            ],
                             'vmessUrl' => URL::getV2Url($user, $node, false)
                         ];
 
