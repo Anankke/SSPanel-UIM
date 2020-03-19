@@ -68,17 +68,17 @@ class Callback
     public function __construct($bot, $Callback)
     {
         $this->bot              = $bot;
+        $this->triggerUser      = [
+            'id'       => $Callback->getFrom()->getId(),
+            'name'     => $Callback->getFrom()->getFirstName() . ' ' . $Callback->getFrom()->getLastName(),
+            'username' => $Callback->getFrom()->getUsername(),
+        ];
         $this->User             = TelegramTools::getUser($this->triggerUser['id']);
         $this->ChatID           = $Callback->getMessage()->getChat()->getId();
         $this->Callback         = $Callback;
         $this->MessageID        = $Callback->getMessage()->getMessageId();
         $this->CallbackData     = $Callback->getData();
         $this->AllowEditMessage = time() < $Callback->getMessage()->getDate() + 172800;
-        $this->triggerUser      = [
-            'id'       => $Callback->getFrom()->getId(),
-            'name'     => $Callback->getFrom()->getFirstName() . ' ' . $Callback->getFrom()->getLastName(),
-            'username' => $Callback->getFrom()->getUsername(),
-        ];
 
         if ($this->ChatID < 0 && $_ENV['telegram_group_quiet'] === true) {
             // 群组中不回应
