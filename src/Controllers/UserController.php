@@ -1234,6 +1234,12 @@ class UserController extends BaseController
         $tickets = Ticket::where('userid', $this->user->id)->where('rootid', 0)->orderBy('datetime', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $tickets->setPath('/user/ticket');
 
+        if ($request->getParam('json') == 1) {
+            $res['ret'] = 1;
+            $res['tickets'] = $tickets;
+            return $response->getBody()->write(json_encode($res));
+        }
+
         return $this->view()->assign('tickets', $tickets)->display('user/ticket.tpl');
     }
 
@@ -1427,7 +1433,13 @@ class UserController extends BaseController
     {
         $id = $args['id'];
         $ticket_main = Ticket::where('id', '=', $id)->where('rootid', '=', 0)->first();
+
         if ($ticket_main->userid != $this->user->id) {
+            if ($request->getParam('json') == 1) {
+                $res['ret'] = 0;
+                $res['msg'] = '这不是你的工单！';
+                return $response->getBody()->write(json_encode($res));
+            }
             $newResponse = $response->withStatus(302)->withHeader('Location', '/user/ticket');
             return $newResponse;
         }
@@ -1438,6 +1450,15 @@ class UserController extends BaseController
         $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
         $ticketset->setPath('/user/ticket/' . $id . '/view');
 
+        if ($request->getParam('json') == 1) {
+            foreach ($ticketset as $set) {
+                $set->username = $set->User()->user_name;
+                $set->datetime = $set->datetime();
+            }
+            $res['ret'] = 1;
+            $res['tickets'] = $ticketset;
+            return $response->getBody()->write(json_encode($res));
+        }
 
         return $this->view()->assign('ticketset', $ticketset)->assign('id', $id)->display('user/ticket_view.tpl');
     }
