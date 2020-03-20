@@ -81,9 +81,11 @@ class Bought extends Model
     {
         $shop = $this->shop();
         if ($this->use_loop()) {
-            $day = $shop->reset() - ($this->used_days() % $shop->reset());
+            $day = 24 * 60 * 60;
+            $resetIndex = 1 +  (int)((time() - $this->datetime - $day) / ($shop->reset() * $day));
+            $restTime = $resetIndex * $shop->reset() * $day + $this->datetime;
             $time = time() + ($day * 86400);
-            return ($unix == false ? date('Y-m-d', $time) : $time);
+            return ($unix == false ? date("Y-m-d",strtotime("+1 day", strtotime(date('Y-m-d', $restTime)))) : $time);
         }
         return ($unix == false ? '-' : 0);
     }
