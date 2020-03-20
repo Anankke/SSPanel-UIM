@@ -46,7 +46,7 @@ $_ENV['db_prefix']    = '';
 
 
 //邮件设置--------------------------------------------------------------------------------------------
-$_ENV['mailDriver']      = 'none';      //发送邮件方式：none / mailgun / smtp / sendgrid
+$_ENV['mailDriver']      = 'none';      //发送邮件方式：none / mailgun / smtp / sendgrid / aliyun
 $_ENV['sendPageLimit']   = 50;          //发信分页 解决大站发公告超时问题
 
 # mailgun
@@ -68,6 +68,13 @@ $_ENV['smtp_reply_to_name'] = $_ENV['smtp_sender'];        // 回复地址显示
 $_ENV['sendgrid_key']    = '';
 $_ENV['sendgrid_sender'] = '';       //发件邮箱
 $_ENV['sendgrid_name']   = '';       //发件人名称
+
+#aliyun 暂时不支持发送文件
+$_ENV['aliyun_accesskeyid'] = '';      //阿里云AccessKeyID
+$_ENV['aliyun_accesskeysecret'] = '';      //阿里云AccessKeySecret
+$_ENV['aliyun_regionid'] = 'cn-hangzhou';    //阿里云地区
+$_ENV['aliyun_sender'] = ''; //阿里云发件邮箱
+$_ENV['aliyun_name'] = ''; //发件人名称
 
 
 //备份设置--------------------------------------------------------------------------------------------

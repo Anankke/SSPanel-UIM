@@ -5,7 +5,7 @@ namespace App\Services;
 /***
  * Mail Service
  */
-
+use App\Services\Mail\Aliyun;
 use App\Services\Mail\Mailgun;
 use App\Services\Mail\Ses;
 use App\Services\Mail\Smtp;
@@ -16,12 +16,14 @@ use Smarty;
 class Mail
 {
     /**
-     * @return Mailgun|NullMail|SendGrid|Ses|Smtp|null
+     * @return Aliyun|Mailgun|NullMail|SendGrid|Ses|Smtp|null
      */
     public static function getClient()
     {
         $driver = $_ENV['mailDriver'];
         switch ($driver) {
+            case 'aliyun':
+                return new Aliyun();
             case 'mailgun':
                 return new Mailgun();
             case 'ses':
