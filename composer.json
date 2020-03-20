@@ -23,7 +23,7 @@
         "lokielse/omnipay-alipay": "*",
         "khanamiryan/qrcode-detector-decoder": "*",
         "symfony/yaml": "^4.4@dev",
-        "irazasyed/telegram-bot-sdk": "^2.0"
+        "irazasyed/telegram-bot-sdk": "^2.0",
         "alibabacloud/sdk": "^1.8"
     },
     "autoload": {
