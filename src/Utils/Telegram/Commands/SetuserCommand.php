@@ -68,8 +68,8 @@ class SetuserCommand extends Command
                         'chatid'      => $ChatID,
                         'messageid'   => $response->getMessageId(),
                     ]);
-                    return;
                 }
+                return;
             }
         }
 

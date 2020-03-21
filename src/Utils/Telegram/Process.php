@@ -29,7 +29,7 @@ class Process
                 new Callbacks\Callback($bot, $update->getCallbackQuery());
             }
             if ($update->getMessage() !== null) {
-                Message::MessageMethod($bot, $update->getMessage());
+                new Message($bot, $update->getMessage());
             }
         } catch (Exception $e) {
             $e->getMessage();

@@ -205,21 +205,26 @@
                         <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
-                                    <div class="card-heading">每日邮件接收设置</div>
+                                    <div class="card-heading">每日使用报告设置</div>
                                     <button class="btn btn-flat" id="mail-update"><span class="icon">check</span>&nbsp;
                                     </button>
                                 </div>
                                 <p class="card-heading"></p>
-                                <p>当前设置：<code id="ajax-mail" data-default="mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}</code></p>
+                                <p>当前设置：<code id="ajax-mail" data-default="mail">{if $user->sendDailyMail == 2}TelegramBot接收{elseif $user->sendDailyMail == 1}邮件接收{else}不发送{/if}</code></p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
-                                    <label class="floating-label" for="mail">发送设置</label>
+                                    <label class="floating-label" for="mail">接收设置</label>
                                     <button type="button" id="mail" class="form-control maxwidth-edit"
                                             data-toggle="dropdown" value="{$user->sendDailyMail}"></button>
                                     <ul class="dropdown-menu" aria-labelledby="mail">
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="1"
-                                               data="mail">发送</a></li>
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="0"
-                                               data="mail">不发送</a></li>
+                                        <li>
+                                            <a href="#" class="dropdown-option" onclick="return false;" val="0" data="mail">不发送</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="dropdown-option" onclick="return false;" val="1" data="mail">邮件接收</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="dropdown-option" onclick="return false;" val="2" data="mail">TelegramBot接收</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -837,7 +842,7 @@
         })
     })
 </script>
-
+{/literal}
 <script>
     $(document).ready(function () {
         $("#mail-update").click(function () {
@@ -851,22 +856,24 @@
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $$.getElementById('ajax-mail').innerHTML = ($$getValue('mail') === '1') ? '发送' : '不发送'
                         $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
+                {literal}
                 error: (jqXHR) => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
                 }
+                {/literal}
             })
         })
     })
 </script>
-{/literal}
+
 <script>
     $(document).ready(function () {
         $("#theme-update").click(function () {

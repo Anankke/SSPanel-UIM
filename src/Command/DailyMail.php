@@ -6,11 +6,9 @@ namespace App\Command;
 use App\Models\User;
 use App\Models\Ann;
 use App\Services\Config;
-use App\Services\Mail;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use App\Services\Analytics;
-use Exception;
 
 class DailyMail
 {
@@ -29,25 +27,8 @@ class DailyMail
         $lastday_total = 0;
 
         foreach ($users as $user) {
-            $lastday = (($user->u + $user->d) - $user->last_day_t) / 1024 / 1024;
             $lastday_total += (($user->u + $user->d) - $user->last_day_t);
-
-            if ($user->sendDailyMail == 1) {
-                echo 'Send daily mail to user: ' . $user->id;
-                $subject = $_ENV['appName'] . '-每日流量报告以及公告';
-                $to = $user->email;
-                $text = '下面是系统中目前的公告:<br><br>' . $text1 . '<br><br>晚安！';
-
-                try {
-                    Mail::send($to, $subject, 'news/daily-traffic-report.tpl', [
-                        'user' => $user, 'text' => $text, 'lastday' => $lastday
-                    ], [
-                    ]);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
-                $text = '';
-            }
+            $user->sendDailyNotification($text1);
         }
 
         $sts = new Analytics();

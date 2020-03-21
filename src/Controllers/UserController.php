@@ -1586,21 +1586,22 @@ class UserController extends BaseController
 
     public function updateMail($request, $response, $args)
     {
-        $mail = $request->getParam('mail');
-        $mail = trim($mail);
-        $user = $this->user;
-
-        if (!($mail == '1' || $mail == '0')) {
+        $value = (int) $request->getParam('mail');
+        if (in_array($value, [0, 1, 2])) {
+            $user = $this->user;
+            if ($value == 2 && $_ENV['enable_telegram'] === false) {
+                $res['ret'] = 0;
+                $res['msg'] = '修改失败，当前无法使用 Telegram 接收每日报告';
+                return $this->echoJson($response, $res);
+            }
+            $user->sendDailyMail = $value;
+            $user->save();
+            $res['ret'] = 1;
+            $res['msg'] = '修改成功';
+        } else {
             $res['ret'] = 0;
             $res['msg'] = '非法输入';
-            return $response->getBody()->write(json_encode($res));
         }
-
-        $user->sendDailyMail = $mail;
-        $user->save();
-
-        $res['ret'] = 1;
-        $res['msg'] = '修改成功';
         return $this->echoJson($response, $res);
     }
 
@@ -1952,7 +1953,7 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
         $iplocation = new QQWry();
-
+        $logs->setPath('/user/subscribe_log');
         return $this->view()->assign('logs', $logs)->assign('iplocation', $iplocation)->fetch('user/subscribe_log.tpl');
     }
 
