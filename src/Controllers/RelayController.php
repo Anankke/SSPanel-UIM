@@ -116,6 +116,22 @@ class RelayController extends UserController
             }
         }
 
+        if ($request->getParam('json') == 1) {
+            $res['ret'] = 1;
+            foreach ($logs as $log) {
+                $log->name = $log->source_node_id == 0 ? '所有节点' : $log->Source_Node()->name;
+                $log->dist_name = $log->Dist_Node() == null ? '不进行中转' : $log->Dist_Node()->name;
+                $log->port = $log->port == 0 ? '所有端口' : $log->port;
+                $log->source_class = $log->Source_Node()->node_class;
+                $log->dist_class = $log->Dist_Node()->node_class;
+            }
+            $res['rules'] = $logs;
+            $res['relay_able_protocol_list'] = Config::getSupportParam('relay_able_protocol');
+            $res['is_relay_able'] = $is_relay_able;
+            $res['pathset'] = $pathset;
+            return $this->echoJson($response, $res);
+        }
+
         return $this->view()->assign('rules', $logs)->assign('relay_able_protocol_list', Config::getSupportParam('relay_able_protocol'))->assign('is_relay_able', $is_relay_able)->assign('pathset', $pathset)->display('user/relay/index.tpl');
     }
 
@@ -162,6 +178,15 @@ class RelayController extends UserController
 
         $ports[] = $user->port;
         $ports = array_unique($ports);
+
+        if ($request->getParam('json') == 1) {
+            $res['ret'] = 1;
+            $res['source_nodes'] = $source_nodes;
+            $res['dist_nodes'] = $dist_nodes;
+            $res['ports'] = $ports;
+            return $this->echoJson($response, $res);
+        }
+
         return $this->view()->assign('source_nodes', $source_nodes)->assign('dist_nodes', $dist_nodes)->assign('ports', $ports)->display('user/relay/add.tpl');
     }
 
@@ -329,6 +354,16 @@ class RelayController extends UserController
 
         $ports[] = $user->port;
         $ports = array_unique($ports);
+
+        if ($request->getParam('json') == 1) {
+            $res['ret'] = 1;
+            $res['source_nodes'] = $source_nodes;
+            $res['dist_nodes'] = $dist_nodes;
+            $res['ports'] = $ports;
+            $res['rule'] = $rule;
+            return $this->echoJson($response, $res);
+        }
+
         return $this->view()->assign('rule', $rule)->assign('source_nodes', $source_nodes)->assign('dist_nodes', $dist_nodes)->assign('ports', $ports)->display('user/relay/edit.tpl');
     }
 
