@@ -8,9 +8,11 @@ use App\Utils\{
     GA,
     QQWry,
     Radius,
+    Telegram,
     URL
 };
-use App\Services\Config;
+use App\Services\{Config, Mail};
+use Exception;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -42,6 +44,7 @@ class User extends Model
         'is_admin'        => 'boolean',
         'is_multi_user'   => 'int',
         'node_speedlimit' => 'float',
+        'sendDailyMail'   => 'int'
     ];
 
     public function getGravatarAttribute()
@@ -846,6 +849,86 @@ class User extends Model
             $codeq->usedatetime = date('Y-m-d H:i:s');
             $codeq->userid      = $this->id;
             $codeq->save();
+        }
+    }
+
+    /**
+     * 发送邮件
+     *
+     * @param string $subject
+     * @param string $template
+     * @param array  $ary
+     * @param array  $files
+     */
+    public function sendMail(string $subject, string $template, array $ary = [], array $files = []): void
+    {
+        // 验证邮箱地址是否正确
+        if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            // 发送邮件
+            try {
+                Mail::send(
+                    $this->email,
+                    $subject,
+                    $template,
+                    $ary,
+                    $files
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+    }
+
+    /**
+     * 发送 Telegram 讯息
+     *
+     * @param string $text
+     */
+    public function sendTelegram(string $text): void
+    {
+        if ($this->telegram_id > 0) {
+            Telegram::Send(
+                $text,
+                $this->telegram_id
+            );
+        }
+    }
+
+    /**
+     * 发送每日流量报告
+     *
+     * @param string $ann 公告
+     */
+    public function sendDailyNotification(string $ann = ''): void
+    {
+        $lastday = (($this->u + $this->d) - $this->last_day_t) / 1024 / 1024;
+        switch ($this->sendDailyMail) {
+            case 0:
+                return;
+            case 1:
+                echo 'Send daily mail to user: ' . $this->id;
+                    $this->sendMail(
+                    $_ENV['appName'] . '-每日流量报告以及公告',
+                    'news/daily-traffic-report.tpl',
+                    [
+                        'user'    => $this,
+                        'text'    => '下面是系统中目前的公告:<br><br>' . $ann . '<br><br>晚安！',
+                        'lastday' => $lastday
+                    ],
+                    []
+                );
+                break;
+            case 2:
+                echo 'Send daily Telegram message to user: ' . $this->id;
+                $text  = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
+                $text .= '流量总计：' . $this->enableTraffic() . PHP_EOL;
+                $text .= '已用流量：' . $this->usedTraffic() . PHP_EOL;
+                $text .= '剩余流量：' . $this->unusedTraffic() . PHP_EOL;
+                $text .= '今日使用：' . $lastday . 'MB';
+                $this->sendTelegram(
+                    $text
+                );
+                break;
         }
     }
 }
