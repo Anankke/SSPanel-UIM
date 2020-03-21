@@ -1685,7 +1685,7 @@ class UserController extends BaseController
         $user->updateMethod($method);
 
         if (!URL::SSCanConnect($user)) {
-            $res['ret'] = 0;
+            $res['ret'] = 1;
             $res['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
             return $this->echoJson($response, $res);
         }
