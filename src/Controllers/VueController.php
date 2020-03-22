@@ -135,6 +135,11 @@ class VueController extends BaseController
         $baseUrl = $_ENV['baseUrl'];
         $user['online_ip_count'] = $user->online_ip_count();
         $bind_token = TelegramSessionManager::add_bind_session($this->user);
+        $subInfo = LinkController::getSubinfo($this->user, 0);
+        $url_subinfo = array();
+        foreach ($subInfo as $key => $value) {
+            $url_subinfo[$key] = urlencode($value);
+        }
 
         $res['info'] = array(
             'user' => $user,
@@ -144,6 +149,8 @@ class VueController extends BaseController
             'iosPassword' => $ios_password,
             'mergeSub' => $mergeSub,
             'subUrl' => $subUrl,
+            'subInfo' => $subInfo,
+            'url_subinfo' => $url_subinfo,
             'baseUrl' => $baseUrl,
             'can_backtoadmin' => $can_backtoadmin,
             'ann' => $Ann,
