@@ -25,6 +25,7 @@ use App\Utils\{
     Cookie
 };
 use Exception;
+use App\Utils\DatatablesHelper;
 
 class UserController extends AdminController
 {
@@ -466,72 +467,42 @@ class UserController extends AdminController
         $users = array();
         $count_filtered = 0;
 
+        $query = User::query();
         if ($search) {
-            $users = User::where(
-                static function ($query) use ($search) {
-                    $query->where('id', 'LIKE', "%$search%")
-                        ->orwhere('user_name', 'LIKE', "%$search%")
-                        ->orwhere('email', 'LIKE', "%$search%")
-                        ->orwhere('passwd', 'LIKE', "%$search%")
-                        ->orwhere('port', 'LIKE', "%$search%")
-                        ->orwhere('reg_date', 'LIKE', "%$search%")
-                        ->orwhere('invite_num', 'LIKE', "%$search%")
-                        ->orwhere('money', 'LIKE', "%$search%")
-                        ->orwhere('ref_by', 'LIKE', "%$search%")
-                        ->orwhere('method', 'LIKE', "%$search%")
-                        ->orwhere('reg_ip', 'LIKE', "%$search%")
-                        ->orwhere('node_speedlimit', 'LIKE', "%$search%")
-                        ->orwhere('im_value', 'LIKE', "%$search%")
-                        ->orwhere('class', 'LIKE', "%$search%")
-                        ->orwhere('class_expire', 'LIKE', "%$search%")
-                        ->orwhere('expire_in', 'LIKE', "%$search%")
-                        ->orwhere('remark', 'LIKE', "%$search%")
-                        ->orwhere('node_group', 'LIKE', "%$search%")
-                        ->orwhere('auto_reset_day', 'LIKE', "%$search%")
-                        ->orwhere('auto_reset_bandwidth', 'LIKE', "%$search%")
-                        ->orwhere('protocol', 'LIKE', "%$search%")
-                        ->orwhere('protocol_param', 'LIKE', "%$search%")
-                        ->orwhere('obfs', 'LIKE', "%$search%")
-                        ->orwhere('obfs_param', 'LIKE', "%$search%");
-                }
-            )
-                ->orderByRaw($order_field . ' ' . $order)
-                ->skip($limit_start)->limit($limit_length)
-                ->get();
-            $count_filtered = User::where(
-                static function ($query) use ($search) {
-                    $query->where('id', 'LIKE', "%$search%")
-                        ->orwhere('user_name', 'LIKE', "%$search%")
-                        ->orwhere('email', 'LIKE', "%$search%")
-                        ->orwhere('passwd', 'LIKE', "%$search%")
-                        ->orwhere('port', 'LIKE', "%$search%")
-                        ->orwhere('reg_date', 'LIKE', "%$search%")
-                        ->orwhere('invite_num', 'LIKE', "%$search%")
-                        ->orwhere('money', 'LIKE', "%$search%")
-                        ->orwhere('ref_by', 'LIKE', "%$search%")
-                        ->orwhere('method', 'LIKE', "%$search%")
-                        ->orwhere('reg_ip', 'LIKE', "%$search%")
-                        ->orwhere('node_speedlimit', 'LIKE', "%$search%")
-                        ->orwhere('im_value', 'LIKE', "%$search%")
-                        ->orwhere('class', 'LIKE', "%$search%")
-                        ->orwhere('class_expire', 'LIKE', "%$search%")
-                        ->orwhere('expire_in', 'LIKE', "%$search%")
-                        ->orwhere('remark', 'LIKE', "%$search%")
-                        ->orwhere('node_group', 'LIKE', "%$search%")
-                        ->orwhere('auto_reset_day', 'LIKE', "%$search%")
-                        ->orwhere('auto_reset_bandwidth', 'LIKE', "%$search%")
-                        ->orwhere('protocol', 'LIKE', "%$search%")
-                        ->orwhere('protocol_param', 'LIKE', "%$search%")
-                        ->orwhere('obfs', 'LIKE', "%$search%")
-                        ->orwhere('obfs_param', 'LIKE', "%$search%");
-                }
-            )->count();
-        } else {
-            $users = User::orderByRaw($order_field . ' ' . $order)
-                ->skip($limit_start)->limit($limit_length)
-                ->get();
-            $count_filtered = User::count();
+            $query->where('id', 'LIKE', "%$search%")
+                ->orwhere('user_name', 'LIKE', "%$search%")
+                ->orwhere('email', 'LIKE', "%$search%")
+                ->orwhere('passwd', 'LIKE', "%$search%")
+                ->orwhere('port', 'LIKE', "%$search%")
+                ->orwhere('invite_num', 'LIKE', "%$search%")
+                ->orwhere('money', 'LIKE', "%$search%")
+                ->orwhere('ref_by', 'LIKE', "%$search%")
+                ->orwhere('method', 'LIKE', "%$search%")
+                ->orwhere('reg_ip', 'LIKE', "%$search%")
+                ->orwhere('node_speedlimit', 'LIKE', "%$search%")
+                ->orwhere('im_value', 'LIKE', "%$search%")
+                ->orwhere('class', 'LIKE', "%$search%")
+                ->orwhere('remark', 'LIKE', "%$search%")
+                ->orwhere('node_group', 'LIKE', "%$search%")
+                ->orwhere('auto_reset_day', 'LIKE', "%$search%")
+                ->orwhere('auto_reset_bandwidth', 'LIKE', "%$search%")
+                ->orwhere('protocol', 'LIKE', "%$search%")
+                ->orwhere('protocol_param', 'LIKE', "%$search%")
+                ->orwhere('obfs', 'LIKE', "%$search%")
+                ->orwhere('obfs_param', 'LIKE', "%$search%");
+            $v = (int) (new DatatablesHelper())->query('select version()')[0]['version()'];
+            if ($v < 8) {
+                // 暂时，MySQL 8.0 以上不查询 DATETIME
+                $query->orwhere('reg_date', 'LIKE', "%$search%")
+                    ->orwhere('class_expire', 'LIKE', "%$search%")
+                    ->orwhere('expire_in', 'LIKE', "%$search%");
+            }
         }
+        $query_count = clone $query;
+        $users = $query->orderByRaw($order_field . ' ' . $order)
+            ->skip($limit_start)->limit($limit_length)
+            ->get();
+        $count_filtered = $query_count->count();
 
         $data = array();
         foreach ($users as $user) {
