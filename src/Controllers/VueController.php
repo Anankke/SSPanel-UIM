@@ -150,7 +150,8 @@ class VueController extends BaseController
             'recaptchaSitekey' => $recaptcha_sitekey,
             'GtSdk' => $GtSdk,
             'GaUrl' => $user->getGAurl(),
-            'bind_token' => $bind_token
+            'bind_token' => $bind_token,
+            'gravatar' => $user->gravatar
         );
 
         $res['ret'] = 1;
