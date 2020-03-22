@@ -1186,12 +1186,10 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $shops = Bought::where('userid', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $shops->setPath('/user/bought');
-        if($request->getParam('json') == 1)
-        {
+        if ($request->getParam('json') == 1) {
             $res['ret'] = 1;
-            foreach ($shops as $shop) 
-            {
-                $shop->datetime = $shop->datetime("Y/m/d",$date_unix);
+            foreach ($shops as $shop) {
+                $shop->datetime = $shop->datetime();
                 $shop->name = $shop->shop()->name;
                 $shop->content = $shop->shop()->content();
             };
@@ -1235,6 +1233,12 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $tickets = Ticket::where('userid', $this->user->id)->where('rootid', 0)->orderBy('datetime', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $tickets->setPath('/user/ticket');
+
+        if ($request->getParam('json') == 1) {
+            $res['ret'] = 1;
+            $res['tickets'] = $tickets;
+            return $response->getBody()->write(json_encode($res));
+        }
 
         return $this->view()->assign('tickets', $tickets)->display('user/ticket.tpl');
     }
@@ -1429,7 +1433,13 @@ class UserController extends BaseController
     {
         $id = $args['id'];
         $ticket_main = Ticket::where('id', '=', $id)->where('rootid', '=', 0)->first();
+
         if ($ticket_main->userid != $this->user->id) {
+            if ($request->getParam('json') == 1) {
+                $res['ret'] = 0;
+                $res['msg'] = '这不是你的工单！';
+                return $response->getBody()->write(json_encode($res));
+            }
             $newResponse = $response->withStatus(302)->withHeader('Location', '/user/ticket');
             return $newResponse;
         }
@@ -1440,6 +1450,15 @@ class UserController extends BaseController
         $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
         $ticketset->setPath('/user/ticket/' . $id . '/view');
 
+        if ($request->getParam('json') == 1) {
+            foreach ($ticketset as $set) {
+                $set->username = $set->User()->user_name;
+                $set->datetime = $set->datetime();
+            }
+            $res['ret'] = 1;
+            $res['tickets'] = $ticketset;
+            return $response->getBody()->write(json_encode($res));
+        }
 
         return $this->view()->assign('ticketset', $ticketset)->assign('id', $id)->display('user/ticket_view.tpl');
     }
@@ -1567,21 +1586,22 @@ class UserController extends BaseController
 
     public function updateMail($request, $response, $args)
     {
-        $mail = $request->getParam('mail');
-        $mail = trim($mail);
-        $user = $this->user;
-
-        if (!($mail == '1' || $mail == '0')) {
+        $value = (int) $request->getParam('mail');
+        if (in_array($value, [0, 1, 2])) {
+            $user = $this->user;
+            if ($value == 2 && $_ENV['enable_telegram'] === false) {
+                $res['ret'] = 0;
+                $res['msg'] = '修改失败，当前无法使用 Telegram 接收每日报告';
+                return $this->echoJson($response, $res);
+            }
+            $user->sendDailyMail = $value;
+            $user->save();
+            $res['ret'] = 1;
+            $res['msg'] = '修改成功';
+        } else {
             $res['ret'] = 0;
             $res['msg'] = '非法输入';
-            return $response->getBody()->write(json_encode($res));
         }
-
-        $user->sendDailyMail = $mail;
-        $user->save();
-
-        $res['ret'] = 1;
-        $res['msg'] = '修改成功';
         return $this->echoJson($response, $res);
     }
 
@@ -1666,7 +1686,7 @@ class UserController extends BaseController
         $user->updateMethod($method);
 
         if (!URL::SSCanConnect($user)) {
-            $res['ret'] = 0;
+            $res['ret'] = 1;
             $res['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
             return $this->echoJson($response, $res);
         }
@@ -1773,11 +1793,9 @@ class UserController extends BaseController
     {
         $traffic = TrafficLog::where('user_id', $this->user->id)->where('log_time', '>', time() - 3 * 86400)->orderBy('id', 'desc')->get();
 
-        if($request->getParam('json') == 1)
-        {
+        if ($request->getParam('json') == 1) {
             $res['ret'] = 1;
-            foreach ($traffic as $trafficdata)
-            {
+            foreach ($traffic as $trafficdata) {
                 $trafficdata->total_used = $trafficdata->totalUsedRaw();
                 $trafficdata->name = $trafficdata->node()->name;
             }
@@ -1794,8 +1812,7 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectRule::paginate(15, ['*'], 'page', $pageNum);
 
-        if($request->getParam('json') == 1)
-        {
+        if ($request->getParam('json') == 1) {
             $res['ret'] = 1;
             $res['logs'] = $logs;
             return $this->echoJson($response, $res);
@@ -1809,11 +1826,9 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
 
-        if($request->getParam('json') == 1)
-        {
+        if ($request->getParam('json') == 1) {
             $res['ret'] = 1;
-            foreach ($logs as $log)
-            {
+            foreach ($logs as $log) {
                 $log->node_name = $log->Node()->name;
                 $log->detect_rule_name = $log->DetectRule()->name;
                 $log->detect_rule_text = $log->DetectRule()->text;
@@ -1938,7 +1953,7 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
         $iplocation = new QQWry();
-
+        $logs->setPath('/user/subscribe_log');
         return $this->view()->assign('logs', $logs)->assign('iplocation', $iplocation)->fetch('user/subscribe_log.tpl');
     }
 

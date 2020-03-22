@@ -481,6 +481,7 @@ class VueController extends BaseController
         $mu = $request->getQueryParam('ismu');
         $relay_rule_id = $request->getQueryParam('relay_rule');
         $node = Node::find($id);
+        
 
         if ($node == null) {
             return $response->withJson([null]);
@@ -596,6 +597,40 @@ class VueController extends BaseController
                     return $response->withJson($res);
                 }
                 break;
+            case 11:
+                if ((($user->class >= $node->node_class
+                        && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
+                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+
+                        $res = [
+                            'ret' => 1,
+                            'nodeInfo' => [
+                                'node' => URL::getV2Url($user, $node, true),
+                                'user' => $user,
+                            ],
+                            'vmessUrl' => URL::getV2Url($user, $node, false)
+                        ];
+
+                        return $response->withJson($res);
+                }
+                break;
+            case 12:
+                if ((($user->class >= $node->node_class
+                        && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
+                    && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+
+                        $res = [
+                            'ret' => 1,
+                            'nodeInfo' => [
+                                'node' => URL::getV2Url($user, $node, true),
+                                'user' => $user,
+                            ],
+                            'vmessUrl' => URL::getV2Url($user, $node, false)
+                        ];
+
+                        return $response->withJson($res);
+                }
+                break;
             case 13:
                 if ((($user->class >= $node->node_class
                         && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin)
@@ -633,5 +668,25 @@ class VueController extends BaseController
                 'message' => ':)',
             ],
         ]);
+    }
+
+    public function getConnectSettings($request, $response, $args)
+    {
+        $config_service = new Config();
+
+        $res['ret'] = 1;
+        $res['methods'] = $config_service->getSupportParam('methods');
+        $res['protocol'] = $config_service->getSupportParam('protocol');
+        $res['obfs'] = $config_service->getSupportParam('obfs');
+        $res['allow_none_protocol'] = $config_service->getSupportParam('allow_none_protocol');
+        $res['relay_able_protocol'] = $config_service->getSupportParam('relay_able_protocol');
+        $res['ss_aead_method'] = $config_service->getSupportParam('ss_aead_method');
+        $res['ss_obfs'] = $config_service->getSupportParam('ss_obfs');
+        $res['port_price'] = $_ENV['invite_gift'];
+        $res['port_price_specify'] = $_ENV['port_price_specify'];
+        $res['min_port'] = $_ENV['min_port'];
+        $res['max_port'] = $_ENV['max_port'];
+        
+        return $response->withJson($res);
     }
 }

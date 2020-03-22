@@ -70,8 +70,8 @@ class InfoCommand extends Command
                             'chatid'      => $ChatID,
                             'messageid'   => $response->getMessageId(),
                         ]);
-                        return;
                     }
+                    return;
                 }
             }
             if ($Message->getReplyToMessage() != null) {

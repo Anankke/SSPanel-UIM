@@ -373,6 +373,7 @@ return function (SlimApp $app) {
     $app->get('/getnodelist',           App\Controllers\VueController::class . ':getNodeList');
     $app->get('/nodeinfo/{id}',         App\Controllers\VueController::class . ':getNodeInfo');
     $app->get('/resettelegram',         App\Controllers\VueController::class . ':telegramReset');
+    $app->get('/getconnectsettings',         App\Controllers\VueController::class . ':getConnectSettings');
 
     /**
      * chenPay
