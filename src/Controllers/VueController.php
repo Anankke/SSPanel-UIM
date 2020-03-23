@@ -75,6 +75,7 @@ class VueController extends BaseController
             'enable_telegram'         => $_ENV['enable_telegram'],
             'enable_mylivechat'       => $_ENV['enable_mylivechat'],
             'enable_flag'             => $_ENV['enable_flag'],
+            'enable_ticket'           => $_ENV['enable_ticket'],
             'payment_type'            => $_ENV['payment_system'],
             'mylivechat_id'           => $_ENV['mylivechat_id'],
         );
