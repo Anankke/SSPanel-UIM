@@ -78,6 +78,7 @@ class VueController extends BaseController
             'enable_ticket'           => $_ENV['enable_ticket'],
             'payment_type'            => $_ENV['payment_system'],
             'mylivechat_id'           => $_ENV['mylivechat_id'],
+            'enable_kill'             => $_ENV['enable_kill']
         );
 
         $res['ret'] = 1;
