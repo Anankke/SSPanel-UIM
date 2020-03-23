@@ -135,6 +135,11 @@ class VueController extends BaseController
         $baseUrl = $_ENV['baseUrl'];
         $user['online_ip_count'] = $user->online_ip_count();
         $bind_token = TelegramSessionManager::add_bind_session($this->user);
+        $subInfo = LinkController::getSubinfo($this->user, 0);
+        $url_subinfo = array();
+        foreach ($subInfo as $key => $value) {
+            $url_subinfo[$key] = urlencode($value);
+        }
 
         $res['info'] = array(
             'user' => $user,
@@ -144,13 +149,16 @@ class VueController extends BaseController
             'iosPassword' => $ios_password,
             'mergeSub' => $mergeSub,
             'subUrl' => $subUrl,
+            'subInfo' => $subInfo,
+            'url_subinfo' => $url_subinfo,
             'baseUrl' => $baseUrl,
             'can_backtoadmin' => $can_backtoadmin,
             'ann' => $Ann,
             'recaptchaSitekey' => $recaptcha_sitekey,
             'GtSdk' => $GtSdk,
             'GaUrl' => $user->getGAurl(),
-            'bind_token' => $bind_token
+            'bind_token' => $bind_token,
+            'gravatar' => $user->gravatar
         );
 
         $res['ret'] = 1;
@@ -668,5 +676,25 @@ class VueController extends BaseController
                 'message' => ':)',
             ],
         ]);
+    }
+
+    public function getConnectSettings($request, $response, $args)
+    {
+        $config_service = new Config();
+
+        $res['ret'] = 1;
+        $res['methods'] = $config_service->getSupportParam('methods');
+        $res['protocol'] = $config_service->getSupportParam('protocol');
+        $res['obfs'] = $config_service->getSupportParam('obfs');
+        $res['allow_none_protocol'] = $config_service->getSupportParam('allow_none_protocol');
+        $res['relay_able_protocol'] = $config_service->getSupportParam('relay_able_protocol');
+        $res['ss_aead_method'] = $config_service->getSupportParam('ss_aead_method');
+        $res['ss_obfs'] = $config_service->getSupportParam('ss_obfs');
+        $res['port_price'] = $_ENV['invite_gift'];
+        $res['port_price_specify'] = $_ENV['port_price_specify'];
+        $res['min_port'] = $_ENV['min_port'];
+        $res['max_port'] = $_ENV['max_port'];
+        
+        return $response->withJson($res);
     }
 }
