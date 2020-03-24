@@ -469,6 +469,8 @@ class UserController extends AdminController
 
         $query = User::query();
         if ($search) {
+            $v          = (int) (new DatatablesHelper())->query('select version()')[0]['version()'];
+            $like_str   = ($v < 8 ? 'LIKE' : 'LIKE binary');
             $query->where('id', 'LIKE', "%$search%")
                 ->orwhere('user_name', 'LIKE', "%$search%")
                 ->orwhere('email', 'LIKE', "%$search%")
@@ -489,14 +491,10 @@ class UserController extends AdminController
                 ->orwhere('protocol', 'LIKE', "%$search%")
                 ->orwhere('protocol_param', 'LIKE', "%$search%")
                 ->orwhere('obfs', 'LIKE', "%$search%")
-                ->orwhere('obfs_param', 'LIKE', "%$search%");
-            $v = (int) (new DatatablesHelper())->query('select version()')[0]['version()'];
-            if ($v < 8) {
-                // 暂时，MySQL 8.0 以上不查询 DATETIME
-                $query->orwhere('reg_date', 'LIKE', "%$search%")
-                    ->orwhere('class_expire', 'LIKE', "%$search%")
-                    ->orwhere('expire_in', 'LIKE', "%$search%");
-            }
+                ->orwhere('obfs_param', 'LIKE', "%$search%")
+                ->orwhere('reg_date', $like_str, "%$search%")
+                ->orwhere('class_expire', $like_str, "%$search%")
+                ->orwhere('expire_in', $like_str, "%$search%");
         }
         $query_count = clone $query;
         $users = $query->orderByRaw($order_field . ' ' . $order)
