@@ -520,11 +520,13 @@ class VueController extends BaseController
 
                     if (URL::SSRCanConnect($user, $mu)) {
                         $res['ssrlink'] = URL::getItemUrl($ssr_item, 0);
+                        $res['ssritem'] = $ssr_item;
                     }
 
                     if (URL::SSCanConnect($user, $mu)) {
                         $res['sslink'] = URL::getItemUrl($ss_item, 1);
                         $res['ssQrWin'] = URL::getItemUrl($ss_item, 2);
+                        $res['ss_item'] = $ss_item;
                     }
 
                     return $response->withJson($res);
@@ -597,11 +599,13 @@ class VueController extends BaseController
 
                     if (URL::SSRCanConnect($user, $mu)) {
                         $res['ssrlink'] = URL::getItemUrl($ssr_item, 0);
+                        $res['ssritem'] = $ssr_item;
                     }
 
                     if (URL::SSCanConnect($user, $mu)) {
                         $res['sslink'] = URL::getItemUrl($ss_item, 1);
                         $res['ssQrWin'] = URL::getItemUrl($ss_item, 2);
+                        $res['ss_item'] = $ss_item;
                     }
 
                     return $response->withJson($res);
@@ -659,11 +663,13 @@ class VueController extends BaseController
 
                     if (URL::SSRCanConnect($user, $mu)) {
                         $res['ssrlink'] = URL::getItemUrl($ssr_item, 0);
+                        $res['ssritem'] = $ssr_item;
                     }
 
                     if (URL::SSCanConnect($user, $mu)) {
                         $res['sslink'] = URL::getItemUrl($ss_item, 1);
                         $res['ssQrWin'] = URL::getItemUrl($ss_item, 2);
+                        $res['ss_item'] = $ss_item;
                     }
 
                     return $response->withJson($res);
