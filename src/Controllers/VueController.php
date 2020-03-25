@@ -54,6 +54,7 @@ class VueController extends BaseController
             $login_token = '';
             $login_number = '';
         }
+        $themes = Tools::getDir(BASE_PATH . '/resources/views');
 
         $res['globalConfig'] = array(
             'geetest_html'            => $GtSdk,
@@ -78,7 +79,11 @@ class VueController extends BaseController
             'enable_ticket'           => $_ENV['enable_ticket'],
             'payment_type'            => $_ENV['payment_system'],
             'mylivechat_id'           => $_ENV['mylivechat_id'],
-            'enable_kill'             => $_ENV['enable_kill']
+            'enable_kill'             => $_ENV['enable_kill'],
+            'subscribeLog'            => $_ENV['subscribeLog'],
+            'subscribeLog_show'       => $_ENV['subscribeLog_show'],
+            'themes'                  => $themes,
+            'use_new_telegram_bot'    => $_ENV['use_new_telegram_bot']
         );
 
         $res['ret'] = 1;
