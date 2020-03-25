@@ -13,16 +13,18 @@ function findKeyName($name)
     return NULL;
 }
 
-foreach (getenv() as $envKey => $envValue) {
-    global $_ENV;
-    $envUpKey = strtoupper($envKey);
-    // Key starts with UIM_
-    if (substr($envUpKey, 0, 4) == "UIM_") {
-        // Vaild env key, set to _ENV
-        $configKey = substr($envUpKey, 4);
-        $realKey = findKeyName($configKey);
-        if ($realKey != NULL) {
-            $_ENV[$realKey] = $envValue;
+if (getenv('UIM_ENV_REPLACE_ENABLE')) {
+    foreach (getenv() as $envKey => $envValue) {
+        global $_ENV;
+        $envUpKey = strtoupper($envKey);
+        // Key starts with UIM_
+        if (substr($envUpKey, 0, 4) == "UIM_") {
+            // Vaild env key, set to _ENV
+            $configKey = substr($envUpKey, 4);
+            $realKey = findKeyName($configKey);
+            if ($realKey != NULL) {
+                $_ENV[$realKey] = $envValue;
+            }
         }
     }
 }
