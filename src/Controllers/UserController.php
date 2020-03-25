@@ -1954,6 +1954,19 @@ class UserController extends BaseController
         $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
         $iplocation = new QQWry();
         $logs->setPath('/user/subscribe_log');
+        
+        if (($request->getParam('json') == 1)) {
+            $res['ret'] = 1;
+            $res['logs'] = $logs;
+            foreach ($logs as $log) {
+                $location = $iplocation->getlocation($log->request_ip);
+                $log->country = iconv("gbk", "utf-8//IGNORE", $location['country']);
+                $log->area = iconv("gbk", "utf-8//IGNORE", $location['area']);
+            }
+            $res['subscribeLog_keep_days'] = $_ENV['subscribeLog_keep_days'];
+            return $this->echoJson($response, $res);
+        }
+
         return $this->view()->assign('logs', $logs)->assign('iplocation', $iplocation)->fetch('user/subscribe_log.tpl');
     }
 
