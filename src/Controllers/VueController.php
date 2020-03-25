@@ -202,7 +202,7 @@ class VueController extends BaseController
         $paybacks->setPath('/#/user/panel');
         foreach ($paybacks as $payback)
         {
-            $payback['user_name'] = $payback->user()->user_name;
+            $payback['user_name'] = $payback->user() != null ? $payback->user()->user_name : '已注销';
         };
 
         $res['inviteInfo'] = array(
