@@ -259,7 +259,7 @@ class NodeController extends AdminController
         });
 
         $datatables->edit('outaddress', static function ($data) {
-            return (in_array($data['sort'], [0, 10, 11, 12, 13]) ? explode(';', $data['server'])[0] : '');
+            return (in_array($data['sort'], [0, 10, 11, 12, 13, 14]) ? explode(';', $data['server'])[0] : '');
         });
 
         $datatables->edit('node_bandwidth', static function ($data) {
@@ -298,7 +298,10 @@ class NodeController extends AdminController
                     $sort = 'V2Ray - 中转';
                     break;
                 case 13:
-                    $sort = 'Shadowsocks - V2Ray-Plugin';
+                    $sort = 'Shadowsocks - V2Ray-Plugin&Obfs';
+                    break;
+                case 14:
+                    $sort = 'Trojan';
                     break;
                 default:
                     $sort = '系统保留';

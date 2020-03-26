@@ -931,4 +931,14 @@ class User extends Model
                 break;
         }
     }
+
+    /**
+     * 获取转发规则
+     */
+    public function getRelays()
+    {
+        return (!Tools::is_protocol_relay($this)
+            ? []
+            : Relay::where('user_id', $this->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get());
+    }
 }
