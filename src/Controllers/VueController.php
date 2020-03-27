@@ -54,6 +54,7 @@ class VueController extends BaseController
             $login_token = '';
             $login_number = '';
         }
+        $themes = Tools::getDir(BASE_PATH . '/resources/views');
 
         $res['globalConfig'] = array(
             'geetest_html'            => $GtSdk,
@@ -75,8 +76,14 @@ class VueController extends BaseController
             'enable_telegram'         => $_ENV['enable_telegram'],
             'enable_mylivechat'       => $_ENV['enable_mylivechat'],
             'enable_flag'             => $_ENV['enable_flag'],
+            'enable_ticket'           => $_ENV['enable_ticket'],
             'payment_type'            => $_ENV['payment_system'],
             'mylivechat_id'           => $_ENV['mylivechat_id'],
+            'enable_kill'             => $_ENV['enable_kill'],
+            'subscribeLog'            => $_ENV['subscribeLog'],
+            'subscribeLog_show'       => $_ENV['subscribeLog_show'],
+            'themes'                  => $themes,
+            'use_new_telegram_bot'    => $_ENV['use_new_telegram_bot']
         );
 
         $res['ret'] = 1;
@@ -200,7 +207,7 @@ class VueController extends BaseController
         $paybacks->setPath('/#/user/panel');
         foreach ($paybacks as $payback)
         {
-            $payback['user_name'] = $payback->user()->user_name;
+            $payback['user_name'] = $payback->user() != null ? $payback->user()->user_name : '已注销';
         };
 
         $res['inviteInfo'] = array(
@@ -518,11 +525,13 @@ class VueController extends BaseController
 
                     if (URL::SSRCanConnect($user, $mu)) {
                         $res['ssrlink'] = URL::getItemUrl($ssr_item, 0);
+                        $res['ssritem'] = $ssr_item;
                     }
 
                     if (URL::SSCanConnect($user, $mu)) {
                         $res['sslink'] = URL::getItemUrl($ss_item, 1);
                         $res['ssQrWin'] = URL::getItemUrl($ss_item, 2);
+                        $res['ss_item'] = $ss_item;
                     }
 
                     return $response->withJson($res);
@@ -595,11 +604,13 @@ class VueController extends BaseController
 
                     if (URL::SSRCanConnect($user, $mu)) {
                         $res['ssrlink'] = URL::getItemUrl($ssr_item, 0);
+                        $res['ssritem'] = $ssr_item;
                     }
 
                     if (URL::SSCanConnect($user, $mu)) {
                         $res['sslink'] = URL::getItemUrl($ss_item, 1);
                         $res['ssQrWin'] = URL::getItemUrl($ss_item, 2);
+                        $res['ss_item'] = $ss_item;
                     }
 
                     return $response->withJson($res);
@@ -657,11 +668,13 @@ class VueController extends BaseController
 
                     if (URL::SSRCanConnect($user, $mu)) {
                         $res['ssrlink'] = URL::getItemUrl($ssr_item, 0);
+                        $res['ssritem'] = $ssr_item;
                     }
 
                     if (URL::SSCanConnect($user, $mu)) {
                         $res['sslink'] = URL::getItemUrl($ss_item, 1);
                         $res['ssQrWin'] = URL::getItemUrl($ss_item, 2);
+                        $res['ss_item'] = $ss_item;
                     }
 
                     return $response->withJson($res);

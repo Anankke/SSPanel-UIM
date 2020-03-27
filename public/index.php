@@ -12,6 +12,7 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/.config.php';
 require __DIR__ . '/../config/appprofile.php';
 require __DIR__ . '/../app/predefine.php';
+require __DIR__ . '/../app/envload.php';
 
 // TODO: legacy boot function
 use App\Services\Boot;
