@@ -54,7 +54,6 @@ class Node extends Model
         return Tools::secondsToTime((int) $log->uptime);
     }
 
-
     public function getNodeUpRate()
     {
         $id = $this->attributes['id'];
@@ -104,7 +103,6 @@ class Node extends Model
             return '暂无数据';
         }
 
-
         return '电信延迟：' . $log->telecomping . ' 下载：' . $log->telecomeupload . ' 上传：' . $log->telecomedownload . '<br>
 		联通延迟：' . $log->unicomping . ' 下载：' . $log->unicomupload . ' 上传：' . $log->unicomdownload . '<br>
 		移动延迟：' . $log->cmccping . ' 下载：' . $log->cmccupload . ' 上传：' . $log->cmccdownload . '<br>定时测试，仅供参考';
@@ -117,7 +115,6 @@ class Node extends Model
         if ($log == null) {
             return '暂无数据';
         }
-
 
         return $log;
     }
@@ -138,18 +135,16 @@ class Node extends Model
     public function isNodeOnline()
     {
         $delay = 300;
-        if ($this->attributes['node_heartbeat'] === 0) {
+        if ($this->node_heartbeat === 0) {
             return false;
         }
 
-        if (!in_array($this->attributes['sort'], [0, 7, 8, 10, 11, 12, 13])) {
+        $nodeSort = [1, 2, 5, 9, 999];
+        if (in_array($this->sort, $nodeSort)) {
             return null;
         }
 
-        if ($this->attributes['node_heartbeat'] > time() - $delay) {
-            return true;
-        }
-        return false;
+        return ($this->node_heartbeat > time() - $delay);
     }
 
     public function isNodeTrafficOut()
@@ -182,8 +177,18 @@ class Node extends Model
         return $node_ip_array[0];
     }
 
+    /**
+     * 获取出口地址
+     */
+    public function getOutServer(): string
+    {
+        return explode(';', $this->server)[0];
+    }
 
-    public function getServer()
+    /**
+     * 获取入口地址
+     */
+    public function getServer(): string
     {
         $out = '';
         $explode = explode(';', $this->attributes['server']);
@@ -195,6 +200,11 @@ class Node extends Model
         return ($out != '' ? $out : $explode[0]);
     }
 
+    /**
+     * 获取偏移后的端口
+     *
+     * @param mixed $port
+     */
     public function getOffsetPort($port)
     {
         return Tools::OutPort($this->attributes['server'], $this->attributes['name'], $port)['port'];

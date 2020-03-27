@@ -50,9 +50,10 @@ class Job
 
         foreach ($nodes as $node) {
             $allNodeID[] = $node->id;
-            if (in_array($node->sort, array(0, 1, 10, 11, 12, 13))) {
-                $server_list = explode(';', $node->server);
-                if (!Tools::is_ip($server_list[0]) && $node->changeNodeIp($server_list[0])) {
+            $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
+            if (!in_array($node->sort, $nodeSort)) {
+                $server = $node->getOutServer();
+                if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
                     $node->save();
                 }
                 if (in_array($node->sort, array(0, 10, 12))) {
@@ -153,7 +154,8 @@ class Job
         ini_set('memory_limit', '-1');
         $nodes = Node::all();
         foreach ($nodes as $node) {
-            if (in_array($node->sort, array(0, 10, 11, 12, 13))) {
+            $nodeSort = [1, 2, 5, 9, 999];     // 无需重置流量的节点类型
+            if (!in_array($node->sort, $nodeSort)) {
                 if (date('d') == $node->bandwidthlimit_resetday) {
                     $node->node_bandwidth = 0;
                     $node->save();
@@ -241,8 +243,6 @@ class Job
                 );
             }
         }
-
-        $adminUser = User::where('is_admin', '=', '1')->get();
 
         $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
         if ($qqwry != '') {
