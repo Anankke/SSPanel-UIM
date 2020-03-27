@@ -115,7 +115,7 @@ class MaterialPay extends AbstractPayment
         // 验证签名
         $resultVerify = $this->verify($str_to_sign, $request->getParam('sign'));
         if ($resultVerify) {
-            $this->postPayment($data['outTradeNo'], 'MaterialPay');
+            $this->postPayment($data['outTradeNo'], 'MaterialPay - ' . $data['outTradeNo']);
             echo 'success';
         } else {
             echo 'fail';
