@@ -1080,7 +1080,7 @@ class UserController extends BaseController
         $shop = Shop::where('id', $shop)->where('status', 1)->first();
 
         $orders = Bought::where('userid', $this->user->id)->get();
-        foreach ($orders as $order) 
+        foreach ($orders as $order)
         {
             $shop_item = Shop::where('id',$order['shopid'])->first();
             $shop_item = json_decode($shop_item['content']);
@@ -1092,7 +1092,7 @@ class UserController extends BaseController
                     $res['msg'] = '您购买的含有自动重置系统的套餐还未过期，无法购买新套餐';
                     return $response->getBody()->write(json_encode($res));
                 }
-            } 
+            }
         };
 
         if ($shop == null) {
@@ -1279,16 +1279,14 @@ class UserController extends BaseController
         if ($_ENV['mail_ticket'] == true && $markdown != '') {
             $adminUser = User::where('is_admin', '=', '1')->get();
             foreach ($adminUser as $user) {
-                $subject = $_ENV['appName'] . '-新工单被开启';
-                $to = $user->email;
-                $text = '管理员，有人开启了新的工单，请您及时处理。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-新工单被开启',
+                    'news/warn.tpl',
+                    [
+                        'text' => '管理员，有人开启了新的工单，请您及时处理。'
+                    ]
+                    []
+                );
             }
         }
 
@@ -1334,7 +1332,6 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-
         $ticket_main = Ticket::where('id', '=', $id)->where('rootid', '=', 0)->first();
         if ($ticket_main->userid != $this->user->id) {
             $newResponse = $response->withStatus(302)->withHeader('Location', '/user/ticket');
@@ -1345,16 +1342,14 @@ class UserController extends BaseController
             if ($_ENV['mail_ticket'] == true && $markdown != '') {
                 $adminUser = User::where('is_admin', '=', '1')->get();
                 foreach ($adminUser as $user) {
-                    $subject = $_ENV['appName'] . '-工单被重新开启';
-                    $to = $user->email;
-                    $text = '管理员，有人重新开启了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。';
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            'user' => $user, 'text' => $text
-                        ], []);
-                    } catch (Exception $e) {
-                        echo $e->getMessage();
-                    }
+                    $user->sendMail(
+                        $_ENV['appName'] . '-工单被重新开启',
+                        'news/warn.tpl',
+                        [
+                            'text' => '管理员，有人重新开启了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。'
+                        ]
+                        []
+                    );
                 }
             }
             if ($_ENV['useScFtqq'] == true && $markdown != '') {
@@ -1379,16 +1374,14 @@ class UserController extends BaseController
             if ($_ENV['mail_ticket'] == true && $markdown != '') {
                 $adminUser = User::where('is_admin', '=', '1')->get();
                 foreach ($adminUser as $user) {
-                    $subject = $_ENV['appName'] . '-工单被回复';
-                    $to = $user->email;
-                    $text = '管理员，有人回复了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。';
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            'user' => $user, 'text' => $text
-                        ], []);
-                    } catch (Exception $e) {
-                        echo $e->getMessage();
-                    }
+                    $user->sendMail(
+                        $_ENV['appName'] . '-工单被回复',
+                        'news/warn.tpl',
+                        [
+                            'text' => '管理员，有人回复了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。'
+                        ]
+                        []
+                    );
                 }
             }
             if ($_ENV['useScFtqq'] == true && $markdown != '') {
@@ -1800,7 +1793,7 @@ class UserController extends BaseController
                 $trafficdata->name = $trafficdata->node()->name;
             }
             $res['traffic'] = $traffic;
-            
+
             return $this->echoJson($response, $res);
         }
 
