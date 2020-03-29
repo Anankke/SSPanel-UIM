@@ -12,7 +12,7 @@
 </script>
 
 {function displayV2rayNode node=null}
-    {$v2server=URL::getV2Url($user, $node['raw_node'], true)}
+    {$v2server = $node['raw_node']->getV2RayItem($user)}
     <p>节点地址：<span class="card-tag tag-blue">{$v2server['add']}</span></p>
     <p>节点端口：<span class="card-tag tag-volcano">{$v2server['port']}</span></p>
     <p>AlterId：<span class="card-tag tag-purple">{$v2server['aid']}</span></p>
@@ -37,7 +37,7 @@
 {/function}
 
 {function displaySort13Node node=null}
-    {$sort13Node = URL::getV2RayPluginItem($user, $node['raw_node'], false)}
+    {$sort13Node = $node['raw_node']->getV2RayPluginItem($user)}
     {if $sort13Node === null}
         <p>您的加密方式非 AEAD 系列，无法使用此节点.</p>
     {else}
@@ -51,7 +51,7 @@
 {/function}
 
 {function displaySort14Node node=null}
-    {$sort14Node = URL::getTrojanItem($user, $node['raw_node'], false)}
+    {$sort14Node = $node['raw_node']->getTrojanItem($user)}
     <p>节点地址：<span class="card-tag tag-blue">{$sort14Node['address']}</span></p>
     <p>节点端口：<span class="card-tag tag-volcano">{$sort14Node['port']}</span></p>
     <p>连接密码：<span class="card-tag tag-geekblue">{$sort14Node['passwd']}</span></p>

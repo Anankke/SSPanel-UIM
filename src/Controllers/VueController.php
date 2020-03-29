@@ -496,14 +496,14 @@ class VueController extends BaseController
         $mu = $request->getQueryParam('ismu');
         $relay_rule_id = $request->getQueryParam('relay_rule');
         $node = Node::find($id);
-        
+
 
         if ($node == null) {
             return $response->withJson([null]);
         }
 
-        $ssr_item = URL::getItem($user, $node, $mu, $relay_rule_id, 0);
-        $ss_item = URL::getItem($user, $node, $mu, $relay_rule_id, 1);
+        $ssr_item = $node->getItem($user, $mu, $relay_rule_id, 0);
+        $ss_item = $node->getItem($user, $mu, $relay_rule_id, 1);
 
         switch ($node->sort) {
             case 0:
@@ -707,7 +707,7 @@ class VueController extends BaseController
         $res['port_price_specify'] = $_ENV['port_price_specify'];
         $res['min_port'] = $_ENV['min_port'];
         $res['max_port'] = $_ENV['max_port'];
-        
+
         return $response->withJson($res);
     }
 }
