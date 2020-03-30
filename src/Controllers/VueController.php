@@ -135,8 +135,14 @@ class VueController extends BaseController
         }
         $Ann = Ann::orderBy('date', 'desc')->first();
         $display_ios_class = $_ENV['display_ios_class'];
-        $ios_account = $_ENV['ios_account'];
-        $ios_password = $_ENV['ios_password'];
+        $display_ios_topup = $_ENV['display_ios_topup'];
+        $ios_account = null;
+        $ios_password = null;
+        if ($user->class >= $display_ios_class && $user->get_top_up() >= $display_ios_topup || $user->is_admin) {
+            $ios_account = $_ENV['ios_account'];
+            $ios_password = $_ENV['ios_password'];
+            $show_ios_account = true;
+        }
         $mergeSub = $_ENV['mergeSub'];
         $subUrl = $_ENV['subUrl'];
         $baseUrl = $_ENV['baseUrl'];
@@ -152,6 +158,8 @@ class VueController extends BaseController
             'user' => $user,
             'ssrSubToken' => $ssr_sub_token,
             'displayIosClass' => $display_ios_class,
+            'display_ios_topup' => $display_ios_topup,
+            'show_ios_account' => $show_ios_account,
             'iosAccount' => $ios_account,
             'iosPassword' => $ios_password,
             'mergeSub' => $mergeSub,
