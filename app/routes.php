@@ -29,21 +29,24 @@ return function (SlimApp $app) {
     $app->group('/user', function () {
         $this->get('',                          App\Controllers\UserController::class . ':index');
         $this->get('/',                         App\Controllers\UserController::class . ':index');
+
         $this->post('/checkin',                 App\Controllers\UserController::class . ':doCheckin');
-        $this->get('/node',                     App\Controllers\UserController::class . ':node');
+
         $this->get('/tutorial',                 App\Controllers\UserController::class . ':tutorial');
         $this->get('/announcement',             App\Controllers\UserController::class . ':announcement');
+
         $this->get('/donate',                   App\Controllers\UserController::class . ':donate');
         $this->get('/lookingglass',             App\Controllers\UserController::class . ':lookingglass');
-        $this->get('/node/{id}',                App\Controllers\UserController::class . ':nodeInfo');
-        $this->get('/node/{id}/ajax',           App\Controllers\UserController::class . ':nodeAjax');
         $this->get('/profile',                  App\Controllers\UserController::class . ':profile');
         $this->get('/invite',                   App\Controllers\UserController::class . ':invite');
+        $this->get('/disable',                  App\Controllers\UserController::class . ':disable');
+
+        $this->get('/node',                     App\Controllers\User\NodeController::class . ':node');
+        $this->get('/node/{id}',                App\Controllers\User\NodeController::class . ':nodeInfo');
+        $this->get('/node/{id}/ajax',           App\Controllers\User\NodeController::class . ':nodeAjax');
 
         $this->get('/detect',                   App\Controllers\UserController::class . ':detect_index');
         $this->get('/detect/log',               App\Controllers\UserController::class . ':detect_log');
-
-        $this->get('/disable',                  App\Controllers\UserController::class . ':disable');
 
         $this->get('/shop',                     App\Controllers\UserController::class . ':shop');
         $this->post('/coupon_check',            App\Controllers\UserController::class . ':CouponCheck');

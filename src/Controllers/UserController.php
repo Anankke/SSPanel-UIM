@@ -399,288 +399,6 @@ class UserController extends BaseController
         return $response->withStatus(302)->withHeader('Location', '/user/edit');
     }
 
-    public function nodeAjax($request, $response, $args)
-    {
-        $id = $args['id'];
-        $point_node = Node::find($id);
-        $prefix = explode(' - ', $point_node->name);
-        return $this->view()->assign('point_node', $point_node)->assign('prefix', $prefix[0])->assign('id', $id)->display('user/nodeajax.tpl');
-    }
-
-    public function node($request, $response, $args)
-    {
-        $user = Auth::getUser();
-        $nodes = Node::where('type', 1)->orderBy('node_class')->orderBy('name')->get();
-        $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
-        if (!Tools::is_protocol_relay($user)) {
-            $relay_rules = array();
-        }
-
-        $array_nodes = array();
-        $nodes_muport = array();
-        $db = new DatatablesHelper();
-        $infoLogs = $db->query('SELECT * FROM ( SELECT * FROM `ss_node_info` WHERE log_time > ' . (time() - 300) . ' ORDER BY id DESC LIMIT 999999999999 ) t GROUP BY node_id ORDER BY id DESC');
-        $onlineLogs = $db->query('SELECT * FROM ( SELECT * FROM `ss_node_online_log` WHERE log_time > ' . (time() - 300) . ' ORDER BY id DESC LIMIT 999999999999 ) t GROUP BY node_id ORDER BY id DESC');
-
-        foreach ($nodes as $node) {
-            if ($user->is_admin == 0 && $node->node_group != $user->node_group && $node->node_group != 0) {
-                continue;
-            }
-            if ($node->sort == 9) {
-                $mu_user = User::where('port', '=', $node->server)->first();
-                $mu_user->obfs_param = $this->user->getMuMd5();
-                $nodes_muport[] = array('server' => $node, 'user' => $mu_user);
-                continue;
-            }
-            $array_node = array();
-
-            $array_node['id'] = $node->id;
-            $array_node['class'] = $node->node_class;
-            $array_node['name'] = $node->name;
-            if ($node->sort == 13) {
-                $server = Tools::ssv2Array($node->server);
-                $array_node['server'] = $server['add'];
-            } else {
-                $array_node['server'] = $node->getServer();
-            }
-            $array_node['sort'] = $node->sort;
-            $array_node['info'] = $node->info;
-            $array_node['mu_only'] = $node->mu_only;
-            $array_node['group'] = $node->node_group;
-
-            $array_node['raw_node'] = $node;
-            $regex = $_ENV['flag_regex'];
-            $matches = array();
-            preg_match($regex, $node->name, $matches);
-            if (isset($matches[0])) {
-                $array_node['flag'] = $matches[0] . '.png';
-            } else {
-                $array_node['flag'] = 'unknown.png';
-            }
-
-            $sort = $array_node['sort'];
-            $array_node['online_user'] = 0;
-
-            foreach ($onlineLogs as $log) {
-                if ($log['node_id'] != $node->id) {
-                    continue;
-                }
-                if (in_array($sort, array(0, 7, 8, 10, 11, 12, 13))) {
-                    $array_node['online_user'] = $log['online_user'];
-                } else {
-                    $array_node['online_user'] = -1;
-                }
-                break;
-            }
-
-            // check node status
-            // 0: new node; -1: offline; 1: online
-            $node_heartbeat = $node->node_heartbeat + 300;
-            $array_node['online'] = -1;
-            if (!in_array($sort, array(0, 7, 8, 10, 11, 12, 13)) || $node_heartbeat == 300) {
-                $array_node['online'] = 0;
-            } elseif ($node_heartbeat > time()) {
-                $array_node['online'] = 1;
-            }
-
-            $array_node['latest_load'] = -1;
-            foreach ($infoLogs as $log) {
-                if ($log['node_id'] == $node->id) {
-                    $array_node['latest_load'] = (explode(' ', $log['load']))[0] * 100;
-                    break;
-                }
-            }
-
-            $array_node['traffic_used'] = (int) Tools::flowToGB($node->node_bandwidth);
-            $array_node['traffic_limit'] = (int) Tools::flowToGB($node->node_bandwidth_limit);
-            if ($node->node_speedlimit == 0.0) {
-                $array_node['bandwidth'] = 0;
-            } elseif ($node->node_speedlimit >= 1024.00) {
-                $array_node['bandwidth'] = round($node->node_speedlimit / 1024.00, 1) . 'Gbps';
-            } else {
-                $array_node['bandwidth'] = $node->node_speedlimit . 'Mbps';
-            }
-
-            $array_node['traffic_rate'] = $node->traffic_rate;
-            $array_node['status'] = $node->status;
-
-            $array_nodes[] = $array_node;
-        }
-        return $this->view()->assign('nodes', $array_nodes)->assign('nodes_muport', $nodes_muport)->assign('relay_rules', $relay_rules)->assign('tools', new Tools())->assign('user', $user)->registerClass('URL', URL::class)->display('user/node.tpl');
-    }
-
-    public function node_old($request, $response, $args)
-    {
-        $user = Auth::getUser();
-        $nodes = Node::where('type', 1)->orderBy('name')->get();
-        $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
-
-        if (!Tools::is_protocol_relay($user)) {
-            $relay_rules = array();
-        }
-
-        $node_prefix = array();
-        $node_flag_file = array();
-        $node_method = array();
-        $a = 0; //命名的什么JB变量
-        $node_order = array();
-        $node_alive = array();
-        $node_prealive = array();
-        $node_heartbeat = array();
-        $node_bandwidth = array();
-        $node_muport = array();
-        $node_isv6 = array();
-        $node_class = array();
-        $node_latestload = array();
-
-        $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();
-
-
-        ++$ports_count;
-
-        foreach ($nodes as $node) {
-            if (($user->node_group == $node->node_group || $node->node_group == 0 || $user->is_admin) && (!$node->isNodeTrafficOut())) {
-                if ($node->sort == 9) {
-                    $mu_user = User::where('port', '=', $node->server)->first();
-                    $mu_user->obfs_param = $this->user->getMuMd5();
-                    $node_muport[] = array('server' => $node, 'user' => $mu_user);
-                    continue;
-                }
-
-                $temp = explode(' - ', $node->name);
-                $name_cheif = $temp[0];
-
-                $node_isv6[$name_cheif] = $node->isv6;
-                $node_class[$name_cheif] = $node->node_class;
-
-                if (!isset($node_prefix[$name_cheif])) {
-                    $node_prefix[$name_cheif] = array();
-                    $node_order[$name_cheif] = $a;
-                    $node_alive[$name_cheif] = 0;
-
-                    $node_method[$name_cheif] = $temp[1] ?? '';
-
-                    $a++;
-                }
-
-
-                if (in_array($node->sort, array(0, 7, 8, 10, 11, 12, 13))) {
-                    $node_tempalive = $node->getOnlineUserCount();
-                    $node_prealive[$node->id] = $node_tempalive;
-                    if ($node->isNodeOnline() !== null) {
-                        if ($node->isNodeOnline() === false) {
-                            $node_heartbeat[$name_cheif] = '离线';
-                        } else {
-                            $node_heartbeat[$name_cheif] = '在线';
-                        }
-                    } elseif (!isset($node_heartbeat[$name_cheif])) {
-                        $node_heartbeat[$name_cheif] = '暂无数据';
-                    }
-
-                    if ($node->node_bandwidth_limit == 0) {
-                        $node_bandwidth[$name_cheif] = (int) ($node->node_bandwidth / 1024 / 1024 / 1024) . ' GB 已用';
-                    } else {
-                        $node_bandwidth[$name_cheif] = (int) ($node->node_bandwidth / 1024 / 1024 / 1024) . ' GB / ' . (int) ($node->node_bandwidth_limit / 1024 / 1024 / 1024) . ' GB - ' . $node->bandwidthlimit_resetday . ' 日重置';
-                    }
-
-                    if ($node_tempalive != '暂无数据') {
-                        $node_alive[$name_cheif] += $node_tempalive;
-                    }
-                } else {
-                    $node_prealive[$node->id] = '暂无数据';
-                    if (!isset($node_heartbeat[$temp[0]])) {
-                        $node_heartbeat[$name_cheif] = '暂无数据';
-                    }
-                }
-
-                if (isset($temp[1]) && strpos($node_method[$name_cheif], $temp[1]) === false) {
-                    $node_method[$name_cheif] = $node_method[$name_cheif] . ' ' . $temp[1];
-                }
-
-                $nodeLoad = $node->getNodeLoad();
-                if (isset($nodeLoad[0]['load'])) {
-                    $node_latestload[$name_cheif] = ((float) (explode(' ', $nodeLoad[0]['load']))[0]) * 100;
-                } else {
-                    $node_latestload[$name_cheif] = null;
-                }
-
-                $node_prefix[$name_cheif][] = $node;
-
-                if ($_ENV['enable_flag'] == true) {
-                    $regex = $_ENV['flag_regex'];
-                    $matches = array();
-                    preg_match($regex, $name_cheif, $matches);
-                    $node_flag_file[$name_cheif] = $matches[0] ?? 'null';
-                }
-            }
-        }
-        $node_prefix = (object) $node_prefix;
-        $node_order = (object) $node_order;
-        $tools = new Tools();
-        return $this->view()->assign('relay_rules', $relay_rules)->assign('node_class', $node_class)->assign('node_isv6', $node_isv6)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_flag_file', $node_flag_file)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->assign('node_latestload', $node_latestload)->registerClass('URL', URL::class)->display('user/node.tpl');
-    }
-
-    public function nodeInfo($request, $response, $args)
-    {
-        $user = Auth::getUser();
-        $id = $args['id'];
-        $mu = $request->getQueryParams()['ismu'];
-        $relay_rule_id = $request->getQueryParams()['relay_rule'];
-        $node = Node::find($id);
-
-        if ($node == null) {
-            return null;
-        }
-
-        switch ($node->sort) {
-            case 0:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass('URL', URL::class)->display('user/nodeinfo.tpl');
-                }
-                break;
-            case 1:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $json_show = 'VPN 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfovpn.tpl');
-                }
-                break;
-            case 2:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $json_show = 'SSH 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfossh.tpl');
-                }
-                break;
-            case 5:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-
-                    $json_show = 'Anyconnect 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoanyconnect.tpl');
-                }
-                break;
-            case 10:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass('URL', URL::class)->display('user/nodeinfo.tpl');
-                }
-                break;
-            case 13:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass('URL', URL::class)->display('user/nodeinfo.tpl');
-                }
-                break;
-            default:
-                echo '微笑';
-        }
-    }
-
     public function profile($request, $response, $args)
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
@@ -1080,7 +798,7 @@ class UserController extends BaseController
         $shop = Shop::where('id', $shop)->where('status', 1)->first();
 
         $orders = Bought::where('userid', $this->user->id)->get();
-        foreach ($orders as $order) 
+        foreach ($orders as $order)
         {
             $shop_item = Shop::where('id',$order['shopid'])->first();
             $shop_item = json_decode($shop_item['content']);
@@ -1092,7 +810,7 @@ class UserController extends BaseController
                     $res['msg'] = '您购买的含有自动重置系统的套餐还未过期，无法购买新套餐';
                     return $response->getBody()->write(json_encode($res));
                 }
-            } 
+            }
         };
 
         if ($shop == null) {
@@ -1279,16 +997,14 @@ class UserController extends BaseController
         if ($_ENV['mail_ticket'] == true && $markdown != '') {
             $adminUser = User::where('is_admin', '=', '1')->get();
             foreach ($adminUser as $user) {
-                $subject = $_ENV['appName'] . '-新工单被开启';
-                $to = $user->email;
-                $text = '管理员，有人开启了新的工单，请您及时处理。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-新工单被开启',
+                    'news/warn.tpl',
+                    [
+                        'text' => '管理员，有人开启了新的工单，请您及时处理。'
+                    ]
+                    []
+                );
             }
         }
 
@@ -1334,7 +1050,6 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-
         $ticket_main = Ticket::where('id', '=', $id)->where('rootid', '=', 0)->first();
         if ($ticket_main->userid != $this->user->id) {
             $newResponse = $response->withStatus(302)->withHeader('Location', '/user/ticket');
@@ -1345,16 +1060,14 @@ class UserController extends BaseController
             if ($_ENV['mail_ticket'] == true && $markdown != '') {
                 $adminUser = User::where('is_admin', '=', '1')->get();
                 foreach ($adminUser as $user) {
-                    $subject = $_ENV['appName'] . '-工单被重新开启';
-                    $to = $user->email;
-                    $text = '管理员，有人重新开启了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。';
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            'user' => $user, 'text' => $text
-                        ], []);
-                    } catch (Exception $e) {
-                        echo $e->getMessage();
-                    }
+                    $user->sendMail(
+                        $_ENV['appName'] . '-工单被重新开启',
+                        'news/warn.tpl',
+                        [
+                            'text' => '管理员，有人重新开启了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。'
+                        ]
+                        []
+                    );
                 }
             }
             if ($_ENV['useScFtqq'] == true && $markdown != '') {
@@ -1379,16 +1092,14 @@ class UserController extends BaseController
             if ($_ENV['mail_ticket'] == true && $markdown != '') {
                 $adminUser = User::where('is_admin', '=', '1')->get();
                 foreach ($adminUser as $user) {
-                    $subject = $_ENV['appName'] . '-工单被回复';
-                    $to = $user->email;
-                    $text = '管理员，有人回复了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。';
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            'user' => $user, 'text' => $text
-                        ], []);
-                    } catch (Exception $e) {
-                        echo $e->getMessage();
-                    }
+                    $user->sendMail(
+                        $_ENV['appName'] . '-工单被回复',
+                        'news/warn.tpl',
+                        [
+                            'text' => '管理员，有人回复了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。'
+                        ]
+                        []
+                    );
                 }
             }
             if ($_ENV['useScFtqq'] == true && $markdown != '') {
@@ -1800,7 +1511,7 @@ class UserController extends BaseController
                 $trafficdata->name = $trafficdata->node()->name;
             }
             $res['traffic'] = $traffic;
-            
+
             return $this->echoJson($response, $res);
         }
 

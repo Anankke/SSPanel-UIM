@@ -860,8 +860,9 @@ class User extends Model
      * @param array  $ary
      * @param array  $files
      */
-    public function sendMail(string $subject, string $template, array $ary = [], array $files = []): void
+    public function sendMail(string $subject, string $template, array $ary = [], array $files = []): bool
     {
+        $result = false;
         // 验证邮箱地址是否正确
         if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             // 发送邮件
@@ -870,13 +871,20 @@ class User extends Model
                     $this->email,
                     $subject,
                     $template,
-                    $ary,
+                    array_merge(
+                        [
+                            'user' => $this
+                        ],
+                        $ary
+                    ),
                     $files
                 );
+                $result = true;
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
         }
+        return $result;
     }
 
     /**
@@ -884,14 +892,17 @@ class User extends Model
      *
      * @param string $text
      */
-    public function sendTelegram(string $text): void
+    public function sendTelegram(string $text): bool
     {
+        $result = false;
         if ($this->telegram_id > 0) {
             Telegram::Send(
                 $text,
                 $this->telegram_id
             );
+            $result = true;
         }
+        return $result;
     }
 
     /**
@@ -930,5 +941,15 @@ class User extends Model
                 );
                 break;
         }
+    }
+
+    /**
+     * 获取转发规则
+     */
+    public function getRelays()
+    {
+        return (!Tools::is_protocol_relay($this)
+            ? []
+            : Relay::where('user_id', $this->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get());
     }
 }

@@ -8,11 +8,9 @@ use App\Models\Node;
 use App\Models\RadiusRadPostauth;
 use App\Models\RadiusRadAcct;
 use App\Models\RadiusNas;
-use App\Services\Mail;
 use App\Models\TrafficLog;
 use App\Utils\Tools;
 use App\Utils\Radius;
-use Exception;
 
 class SyncRadius
 {
@@ -162,19 +160,15 @@ class SyncRadius
         $users = User::all();
         foreach ($users as $user) {
             Radius::Add($user, $user->passwd);
-
             echo 'Send sync mail to user: ' . $user->id;
-            $subject = $_ENV['appName'] . '-密码更新通知';
-            $to = $user->email;
-            $text = '您好，为了保证密码系统的统一，刚刚系统已经将您 vpn 等连接方式的用户名已经重置为：' . Radius::GetUserName($user->email) . '，密码自动重置为您 ss 的密码：' . $user->passwd . '  了，以后您修改 ss 密码就会自动修改 vpn 等连接方式的密码了，感谢您的支持。 ';
-            try {
-                Mail::send($to, $subject, 'password/vpn.tpl', [
-                    'user' => $user, 'text' => $text
-                ], [
-                ]);
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
+            $user->sendMail(
+                $_ENV['appName'] . '-密码更新通知',
+                'password/vpn.tpl',
+                [
+                    'text'  => '您好，为了保证密码系统的统一，刚刚系统已经将您 vpn 等连接方式的用户名已经重置为：' . Radius::GetUserName($user->email) . '，密码自动重置为您 ss 的密码：' . $user->passwd . '  了，以后您修改 ss 密码就会自动修改 vpn 等连接方式的密码了，感谢您的支持。 '
+                ],
+                []
+            );
         }
     }
 

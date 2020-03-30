@@ -50,9 +50,10 @@ class Job
 
         foreach ($nodes as $node) {
             $allNodeID[] = $node->id;
-            if (in_array($node->sort, array(0, 1, 10, 11, 12, 13))) {
-                $server_list = explode(';', $node->server);
-                if (!Tools::is_ip($server_list[0]) && $node->changeNodeIp($server_list[0])) {
+            $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
+            if (!in_array($node->sort, $nodeSort)) {
+                $server = $node->getOutServer();
+                if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
                     $node->save();
                 }
                 if (in_array($node->sort, array(0, 10, 12))) {
@@ -153,7 +154,8 @@ class Job
         ini_set('memory_limit', '-1');
         $nodes = Node::all();
         foreach ($nodes as $node) {
-            if (in_array($node->sort, array(0, 10, 11, 12, 13))) {
+            $nodeSort = [1, 2, 5, 9, 999];     // 无需重置流量的节点类型
+            if (!in_array($node->sort, $nodeSort)) {
                 if (date('d') == $node->bandwidthlimit_resetday) {
                     $node->node_bandwidth = 0;
                     $node->save();
@@ -205,18 +207,14 @@ class Job
                     $user->d = 0;
                     $user->last_day_t = 0;
                     $user->save();
-
-                    $subject = $_ENV['appName'] . '-您的流量被重置了';
-                    $to = $user->email;
-                    $text = '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB';
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            'user' => $user,
-                            'text' => $text
-                        ], []);
-                    } catch (Exception $e) {
-                        echo $e->getMessage();
-                    }
+                    $user->sendMail(
+                        $_ENV['appName'] . '-您的流量被重置了',
+                        'news/warn.tpl',
+                        [
+                            'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB'
+                        ],
+                        []
+                    );
                 }
             }
         }
@@ -235,22 +233,16 @@ class Job
                 $user->last_day_t = 0;
                 $user->transfer_enable = $user->auto_reset_bandwidth * 1024 * 1024 * 1024;
                 $user->save();
-
-                $subject = $_ENV['appName'] . '-您的流量被重置了';
-                $to = $user->email;
-                $text = '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user,
-                        'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-您的流量被重置了',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB'
+                    ],
+                    []
+                );
             }
         }
-
-        $adminUser = User::where('is_admin', '=', '1')->get();
 
         $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
         if ($qqwry != '') {
@@ -382,17 +374,14 @@ class Job
             $shop = Shop::where('id', $bought->shopid)->first();
             if ($shop == null) {
                 $bought->delete();
-                $subject = $_ENV['appName'] . '-续费失败';
-                $to = $user->email;
-                $text = '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user,
-                        'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-续费失败',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。'
+                    ],
+                    []
+                );
                 $bought->is_notified = true;
                 $bought->save();
                 continue;
@@ -413,31 +402,26 @@ class Job
                 $bought_new->coupon = '';
                 $bought_new->save();
 
-                $subject = $_ENV['appName'] . '-续费成功';
-                $to = $user->email;
-                $text = '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user,
-                        'text' => $text
-                    ]);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-续费成功',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。'
+                    ],
+                    []
+                );
+
                 $bought->is_notified = true;
                 $bought->save();
             } elseif ($bought->is_notified == false) {
-                $subject = $_ENV['appName'] . '-续费失败';
-                $to = $user->email;
-                $text = '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user,
-                        'text' => $text
-                    ]);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-续费失败',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。'
+                    ],
+                    []
+                );
                 $bought->is_notified = true;
                 $bought->save();
             }
@@ -479,18 +463,14 @@ class Job
 
                     foreach ($adminUser as $user) {
                         echo 'Send offline mail to user: ' . $user->id . PHP_EOL;
-                        $subject = $_ENV['appName'] . '-系统警告';
-                        $to = $user->email;
-                        $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
-                        try {
-                            Mail::send($to, $subject, 'news/warn.tpl', [
-                                'user' => $user,
-                                'text' => $text
-                            ]);
-                        } catch (Exception $e) {
-                            echo $e->getMessage();
-                        }
-
+                        $user->sendMail(
+                            $_ENV['appName'] . '-系统警告',
+                            'news/warn.tpl',
+                            [
+                                'text' => '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。'
+                            ],
+                            []
+                        );
                         $notice_text = str_replace(
                             '%node_name%',
                             $node->name,
@@ -528,18 +508,14 @@ class Job
                     }
                     foreach ($adminUser as $user) {
                         echo 'Send offline mail to user: ' . $user->id . PHP_EOL;
-                        $subject = $_ENV['appName'] . '-系统提示';
-                        $to = $user->email;
-                        $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
-                        try {
-                            Mail::send($to, $subject, 'news/warn.tpl', [
-                                'user' => $user,
-                                'text' => $text
-                            ]);
-                        } catch (Exception $e) {
-                            echo $e->getMessage();
-                        }
-
+                        $user->sendMail(
+                            $_ENV['appName'] . '-系统提示',
+                            'news/warn.tpl',
+                            [
+                                'text' => '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。'
+                            ],
+                            []
+                        );
                         $notice_text = str_replace(
                             '%node_name%',
                             $node->name,
@@ -586,21 +562,19 @@ class Job
                                     'utf-8//IGNORE',
                                     $Userlocation
                                 ) . '-' . iconv('gbk', 'utf-8//IGNORE', $location['country']);
-                                $subject = $_ENV['appName'] . '-系统警告';
-                                $to = $user->email;
                                 $text = '您好，系统发现您的账号在 ' . iconv(
                                     'gbk',
                                     'utf-8//IGNORE',
                                     $Userlocation
                                 ) . ' 有异常登录，请您自己自行核实登录行为。有异常请及时修改密码。';
-                                try {
-                                    Mail::send($to, $subject, 'news/warn.tpl', [
-                                        'user' => $user,
+                                $user->sendMail(
+                                    $_ENV['appName'] . '-系统警告',
+                                    'news/warn.tpl',
+                                    [
                                         'text' => $text
-                                    ], []);
-                                } catch (Exception $e) {
-                                    echo $e->getMessage();
-                                }
+                                    ],
+                                    []
+                                );
                             }
                         }
                     }
@@ -626,18 +600,14 @@ class Job
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;
-
-                $subject = $_ENV['appName'] . '-您的用户账户已经过期了';
-                $to = $user->email;
-                $text = '您好，系统发现您的账号已经过期了。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user,
-                        'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-您的用户账户已经过期了',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统发现您的账号已经过期了。'
+                    ],
+                    []
+                );
                 $user->expire_notified = true;
                 $user->save();
             } elseif (strtotime($user->expire_in) > time() && $user->expire_notified == true) {
@@ -668,18 +638,17 @@ class Job
                 }
 
                 if ($under_limit == true && $user->traffic_notified == false) {
-                    $subject = $_ENV['appName'] . ' - 您的剩余流量过低';
-                    $to = $user->email;
-                    $text = '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。';
-                    try {
-                        Mail::send($to, $subject, 'news/warn.tpl', [
-                            'user' => $user,
-                            'text' => $text
-                        ]);
+                    $result = $user->sendMail(
+                        $_ENV['appName'] . '-您的剩余流量过低',
+                        'news/warn.tpl',
+                        [
+                            'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。'
+                        ],
+                        []
+                    );
+                    if ($result) {
                         $user->traffic_notified = true;
                         $user->save();
-                    } catch (Exception $e) {
-                        echo $e->getMessage();
                     }
                 } elseif ($under_limit == false && $user->traffic_notified == true) {
                     $user->traffic_notified = false;
@@ -691,24 +660,18 @@ class Job
                 $_ENV['account_expire_delete_days'] >= 0 &&
                 strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < time() &&
                 $user->money <= $_ENV['auto_clean_min_money']
-
             ) {
-                $subject = $_ENV['appName'] . '-您的用户账户已经被删除了';
-                $to = $user->email;
-                $text = '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user,
-                        'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
-
+                $user->sendMail(
+                    $_ENV['appName'] . '-您的用户账户已经被删除了',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。'
+                    ],
+                    []
+                );
                 $user->kill_user();
                 continue;
             }
-
 
             if (
                 $_ENV['auto_clean_uncheck_days'] > 0 &&
@@ -719,17 +682,14 @@ class Job
                 $user->class == 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
-                $subject = $_ENV['appName'] . '-您的用户账户已经被删除了';
-                $to = $user->email;
-                $text = '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user,
-                        'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-您的用户账户已经被删除了',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。'
+                    ],
+                    []
+                );
                 $user->kill_user();
                 continue;
             }
@@ -740,17 +700,14 @@ class Job
                 $user->class == 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
-                $subject = $_ENV['appName'] . '-您的用户账户已经被删除了';
-                $to = $user->email;
-                $text = '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user,
-                        'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-您的用户账户已经被删除了',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。'
+                    ],
+                    []
+                );
                 $user->kill_user();
                 continue;
             }
@@ -769,17 +726,14 @@ class Job
                     $user->last_day_t = 0;
                     $text .= '流量已经被重置为' . $reset_traffic . 'GB';
                 }
-                $subject = $_ENV['appName'] . '-您的账户等级已经过期了';
-                $to = $user->email;
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user,
+                $user->sendMail(
+                    $_ENV['appName'] . '-您的账户等级已经过期了',
+                    'news/warn.tpl',
+                    [
                         'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
-
+                    ],
+                    []
+                );
                 $user->class = 0;
             }
 
@@ -975,17 +929,14 @@ class Job
                         }
                         foreach ($adminUser as $user) {
                             echo 'Send gfw mail to user: ' . $user->id . '-';
-                            $subject = $_ENV['appName'] . '-系统警告';
-                            $to = $user->email;
-                            $text = '管理员您好，系统发现节点 ' . $node->name . ' 被墙了，请您及时处理。';
-                            try {
-                                Mail::send($to, $subject, 'news/warn.tpl', [
-                                    'user' => $user,
-                                    'text' => $text
-                                ], []);
-                            } catch (Exception $e) {
-                                echo $e->getMessage();
-                            }
+                            $user->sendMail(
+                                $_ENV['appName'] . '-系统警告',
+                                'news/warn.tpl',
+                                [
+                                    'text' => '管理员您好，系统发现节点 ' . $node->name . ' 被墙了，请您及时处理。'
+                                ],
+                                []
+                            );
                             $notice_text = str_replace(
                                 '%node_name%',
                                 $node->name,
@@ -1005,17 +956,14 @@ class Job
                         }
                         foreach ($adminUser as $user) {
                             echo 'Send gfw mail to user: ' . $user->id . '-';
-                            $subject = $_ENV['appName'] . '-系统提示';
-                            $to = $user->email;
-                            $text = '管理员您好，系统发现节点 ' . $node->name . ' 溜出墙了。';
-                            try {
-                                Mail::send($to, $subject, 'news/warn.tpl', [
-                                    'user' => $user,
-                                    'text' => $text
-                                ], []);
-                            } catch (Exception $e) {
-                                echo $e->getMessage();
-                            }
+                            $user->sendMail(
+                                $_ENV['appName'] . '-系统提示',
+                                'news/warn.tpl',
+                                [
+                                    'text' => '管理员您好，系统发现节点 ' . $node->name . ' 溜出墙了。'
+                                ],
+                                []
+                            );
                             $notice_text = str_replace(
                                 '%node_name%',
                                 $node->name,

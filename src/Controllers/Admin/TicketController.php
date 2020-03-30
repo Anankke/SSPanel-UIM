@@ -7,14 +7,10 @@ use App\Models\{
     User,
     Ticket
 };
-use App\Services\{
-    Auth,
-    Mail
-};
+use App\Services\Auth;
 use App\Utils\DatatablesHelper;
 use voku\helper\AntiXSS;
 use Ozdemir\Datatables\Datatables;
-use Exception;
 
 class TicketController extends AdminController
 {
@@ -57,16 +53,14 @@ class TicketController extends AdminController
         {
             $adminUser = User::where('id', '=', $ticket_main->userid)->get();
             foreach ($adminUser as $user) {
-                $subject = $_ENV['appName'] . '-工单被回复';
-                $to = $user->email;
-                $text = '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket_main->id . '/view">工单</a>，请您查看。';
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
-                    ], []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $user->sendMail(
+                    $_ENV['appName'] . '-工单被回复',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket_main->id . '/view">工单</a>，请您查看。'
+                    ],
+                    []
+                );
             }
         }
 
