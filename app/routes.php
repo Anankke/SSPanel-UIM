@@ -61,11 +61,11 @@ return function (SlimApp $app) {
         $this->put('/relay/{id}',               App\Controllers\RelayController::class . ':update');
         $this->delete('/relay',                 App\Controllers\RelayController::class . ':delete');
 
-        $this->get('/ticket',                   App\Controllers\UserController::class . ':ticket');
-        $this->get('/ticket/create',            App\Controllers\UserController::class . ':ticket_create');
-        $this->post('/ticket',                  App\Controllers\UserController::class . ':ticket_add');
-        $this->get('/ticket/{id}/view',         App\Controllers\UserController::class . ':ticket_view');
-        $this->put('/ticket/{id}',              App\Controllers\UserController::class . ':ticket_update');
+        $this->get('/ticket',                   App\Controllers\User\TicketController::class . ':ticket');
+        $this->get('/ticket/create',            App\Controllers\User\TicketController::class . ':ticket_create');
+        $this->post('/ticket',                  App\Controllers\User\TicketController::class . ':ticket_add');
+        $this->get('/ticket/{id}/view',         App\Controllers\User\TicketController::class . ':ticket_view');
+        $this->put('/ticket/{id}',              App\Controllers\User\TicketController::class . ':ticket_update');
 
         $this->post('/buy_invite',              App\Controllers\UserController::class . ':buyInvite');
         $this->post('/custom_invite',           App\Controllers\UserController::class . ':customInvite');
