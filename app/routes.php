@@ -54,12 +54,12 @@ return function (SlimApp $app) {
         $this->post('/buy_traffic_package',     App\Controllers\UserController::class . ':buy_traffic_package');
 
         // Relay Mange
-        $this->get('/relay',                    App\Controllers\RelayController::class . ':index');
-        $this->get('/relay/create',             App\Controllers\RelayController::class . ':create');
-        $this->post('/relay',                   App\Controllers\RelayController::class . ':add');
-        $this->get('/relay/{id}/edit',          App\Controllers\RelayController::class . ':edit');
-        $this->put('/relay/{id}',               App\Controllers\RelayController::class . ':update');
-        $this->delete('/relay',                 App\Controllers\RelayController::class . ':delete');
+        $this->get('/relay',                    App\Controllers\User\RelayController::class . ':index');
+        $this->get('/relay/create',             App\Controllers\User\RelayController::class . ':create');
+        $this->post('/relay',                   App\Controllers\User\RelayController::class . ':add');
+        $this->get('/relay/{id}/edit',          App\Controllers\User\RelayController::class . ':edit');
+        $this->put('/relay/{id}',               App\Controllers\User\RelayController::class . ':update');
+        $this->delete('/relay',                 App\Controllers\User\RelayController::class . ':delete');
 
         $this->get('/ticket',                   App\Controllers\User\TicketController::class . ':ticket');
         $this->get('/ticket/create',            App\Controllers\User\TicketController::class . ':ticket_create');
