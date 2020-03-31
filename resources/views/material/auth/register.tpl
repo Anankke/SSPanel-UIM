@@ -28,7 +28,7 @@
                         <div class="auth-row">
                             <div class="form-group-label auth-row">
                                 <label class="floating-label" for="email">邮箱(唯一凭证请认真对待)</label>
-                                <input class="form-control maxwidth-auth" id="email" type="text" maxlength="32">
+                                <input class="form-control maxwidth-auth" id="email" type="email" maxlength="32" inputmode="email" autocomplete="username">
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="auth-row">
                             <div class="form-group-label auth-row">
                                 <label class="floating-label" for="passwd">密码</label>
-                                <input class="form-control maxwidth-auth" id="passwd" type="password">
+                                <input class="form-control maxwidth-auth" id="passwd" type="password" autocomplete="new-password">
                                 <p id="passwd-strong" style="text-align: left; margin: 3px; font-size: 80%"></p>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                         <div class="auth-row">
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="repasswd">重复密码</label>
-                                <input class="form-control maxwidth-auth" id="repasswd" type="password">
+                                <input class="form-control maxwidth-auth" id="repasswd" type="password" autocomplete="new-password">
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="email_code">邮箱验证码</label>
                                     <input class="form-control maxwidth-auth" id="email_code" type="text"
-                                           onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;">
+                                           onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" autocomplete="one-time-code">
                                 </div>
                             </div>
                             <div class="rowtocol">
