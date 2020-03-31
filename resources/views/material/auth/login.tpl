@@ -19,13 +19,13 @@
                 <div class="auth-row">
                     <div class="form-group-label auth-row row-login">
                         <label class="floating-label" for="email">邮箱</label>
-                        <input class="form-control maxwidth-auth" id="email" type="text" name="Email">
+                        <input class="form-control maxwidth-auth" id="email" type="email" name="Email" inputmode="email" autocomplete="username">
                     </div>
                 </div>
                 <div class="auth-row">
                     <div class="form-group-label auth-row row-login">
                         <label class="floating-label" for="passwd">密码</label>
-                        <input class="form-control maxwidth-auth" id="passwd" type="password" name="Password">
+                        <input class="form-control maxwidth-auth" id="passwd" type="password" name="Password" autocomplete="current-password">
                     </div>
                 </div>
                 <div class="auth-row">
