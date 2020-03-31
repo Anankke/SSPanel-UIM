@@ -138,6 +138,7 @@ class VueController extends BaseController
         $display_ios_topup = $_ENV['display_ios_topup'];
         $ios_account = null;
         $ios_password = null;
+        $show_ios_account = false;
         if ($user->class >= $display_ios_class && $user->get_top_up() >= $display_ios_topup || $user->is_admin) {
             $ios_account = $_ENV['ios_account'];
             $ios_password = $_ENV['ios_password'];
