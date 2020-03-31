@@ -501,8 +501,8 @@ class VueController extends BaseController
     {
         $user = $this->user;
         $id = $args['id'];
-        $mu = $request->getQueryParam('ismu');
-        $relay_rule_id = $request->getQueryParam('relay_rule');
+        $mu = $request->getQueryParam('ismu', 0);
+        $relay_rule_id = $request->getQueryParam('relay_rule', 0);
         $node = Node::find($id);
 
 
