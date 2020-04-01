@@ -314,12 +314,8 @@ class NodeController extends AdminController
         $limit_length = $request->getParam('length');
         $search       = $request->getParam('search')['value'];
 
-        $fields = [
-            'op'         => 'id',
-            'outaddress' => 'server',
-        ];
-        if (isset($fields[$order_field])) {
-            $order_field = $fields[$order_field];
+        if ($order_field == 'outaddress') {
+            $order_field = 'server';
         }
 
         $nodes          = [];
