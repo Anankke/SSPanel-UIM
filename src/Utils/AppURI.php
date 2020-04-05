@@ -6,7 +6,7 @@ use App\Services\Config;
 
 class AppURI
 {
-    public static function getItemUrl($item, $is_ss)
+    public static function getItemUrl(array $item, int $is_ss)
     {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
         if (!$is_ss) {
@@ -51,7 +51,33 @@ class AppURI
         return $ssurl;
     }
 
-    public static function getSurgeURI($item, $version)
+    public static function getV2RayNURI(array $item)
+    {
+        $return = null;
+        switch ($item['type']) {
+            case 'vmess':
+                $node = [
+                    'v'     => 2,
+                    'ps'    => $item['remark'],
+                    'add'   => $item['add'],
+                    'port'  => $item['port'],
+                    'id'    => $item['id'],
+                    'aid'   => $item['aid'],
+                    'net'   => $item['net'],
+                    'type'  => $item['headerType'],
+                    'host'  => $item['host'],
+                    'path'  => $item['path'],
+                    'tls'   => $item['tls']
+                ];
+                $return = ('vmess://' . base64_encode(
+                    json_encode($node, 320)
+                ));
+                break;
+        }
+        return $return;
+    }
+
+    public static function getSurgeURI(array $item, int $version)
     {
         $return = null;
         switch ($version) {
@@ -83,13 +109,16 @@ class AppURI
                             : '');
                         $return = $item['remark'] . ' = vmess, ' . $item['add'] . ', ' . $item['port'] . ', username = ' . $item['id'] . $ws . $tls;
                         break;
+                    case 'trojan':
+                        $return = ($item['remark'] . ' = trojan, ' . $item['address'] . ', ' . $item['port'] . ', password=' . $item['passwd']) . ", sni=" . $item['host'];
+                        break;
                 }
                 break;
         }
         return $return;
     }
 
-    public static function getQuantumultURI($item, $base64_encode = false)
+    public static function getQuantumultURI(array $item, bool $base64_encode = false)
     {
         $return = null;
         switch ($item['type']) {
@@ -128,7 +157,7 @@ class AppURI
         return $return;
     }
 
-    public static function getQuantumultXURI($item)
+    public static function getQuantumultXURI(array $item)
     {
         $return = null;
         switch ($item['type']) {
@@ -188,11 +217,17 @@ class AppURI
                 }
                 $return .= (', tag=' . $item['remark']);
                 break;
+            case 'trojan':
+                // ;trojan=example.com:443, password=pwd, over-tls=true, tls-verification=true, fast-open=false, udp-relay=false, tag=trojan-tls-01
+                $return  = ('trojan=' . $item['address'] . ':' . $item['port'] . ', password=' . $item['passwd'] . ', tls-host=' . $item['host']);
+                $return .= ', over-tls=true, tls-verification=true';
+                $return .= (', tag=' . $item['remark']);
+                break;
         }
         return $return;
     }
 
-    public static function getSurfboardURI($item)
+    public static function getSurfboardURI(array $item)
     {
         $return = null;
         switch ($item['type']) {
@@ -218,7 +253,7 @@ class AppURI
         return $return;
     }
 
-    public static function getClashURI($item, $ssr_support = false)
+    public static function getClashURI(array $item, bool $ssr_support = false)
     {
         $return = null;
         if ($item['type'] == 'ssr' && $ssr_support === false) {
@@ -232,13 +267,13 @@ class AppURI
                     break;
                 }
                 $return = [
-                    'name' => $item['remark'],
-                    'type' => 'ss',
-                    'server' => $item['address'],
-                    'port' => $item['port'],
-                    'cipher' => $item['method'],
-                    'password' => $item['passwd'],
-                    'udp' => true
+                    'name'        => $item['remark'],
+                    'type'        => 'ss',
+                    'server'      => $item['address'],
+                    'port'        => $item['port'],
+                    'cipher'      => $item['method'],
+                    'password'    => $item['passwd'],
+                    'udp'         => true
                 ];
                 if ($item['obfs'] != 'plain') {
                     switch ($item['obfs']) {
@@ -273,27 +308,27 @@ class AppURI
                 }
                 break;
             case 'ssr':
-                if (
-                    in_array($item['method'], ['rc4-md5-6', 'des-ede3-cfb', 'xsalsa20', 'none'])
-                    ||
-                    in_array($item['protocol'], array_merge(Config::getSupportParam('allow_none_protocol'), ['verify_deflate']))
-                    ||
-                    in_array($item['obfs'], ['tls1.2_ticket_fastauth'])
-                ) {
-                    // 不支持的
-                    break;
-                }
+                // if (
+                //     in_array($item['method'], ['rc4-md5-6', 'des-ede3-cfb', 'xsalsa20', 'none'])
+                //     ||
+                //     in_array($item['protocol'], array_merge(Config::getSupportParam('allow_none_protocol'), ['verify_deflate']))
+                //     ||
+                //     in_array($item['obfs'], ['tls1.2_ticket_fastauth'])
+                // ) {
+                //     // 不支持的
+                //     break;
+                // }
                 $return = [
-                    'name' => $item['remark'],
-                    'type' => 'ssr',
-                    'server' => $item['address'],
-                    'port' => $item['port'],
-                    'cipher' => $item['method'],
-                    'password' => $item['passwd'],
-                    'protocol' => $item['protocol'],
-                    'protocolparam' => $item['protocol_param'],
-                    'obfs' => $item['obfs'],
-                    'obfsparam' => $item['obfs_param']
+                    'name'            => $item['remark'],
+                    'type'            => 'ssr',
+                    'server'          => $item['address'],
+                    'port'            => $item['port'],
+                    'cipher'          => $item['method'],
+                    'password'        => $item['passwd'],
+                    'protocol'        => $item['protocol'],
+                    'protocolparam'   => $item['protocol_param'],
+                    'obfs'            => $item['obfs'],
+                    'obfsparam'       => $item['obfs_param']
                 ];
                 break;
             case 'vmess':
@@ -301,14 +336,14 @@ class AppURI
                     break;
                 }
                 $return = [
-                    'name' => $item['remark'],
-                    'type' => 'vmess',
-                    'server' => $item['add'],
-                    'port' => $item['port'],
-                    'uuid' => $item['id'],
+                    'name'    => $item['remark'],
+                    'type'    => 'vmess',
+                    'server'  => $item['add'],
+                    'port'    => $item['port'],
+                    'uuid'    => $item['id'],
                     'alterId' => $item['aid'],
-                    'cipher' => 'auto',
-                    'udp' => true
+                    'cipher'  => 'auto',
+                    'udp'     => true
                 ];
                 if ($item['net'] == 'ws') {
                     $return['network'] = 'ws';
@@ -322,11 +357,21 @@ class AppURI
                     }
                 }
                 break;
+            case 'trojan':
+                $return = [
+                    'name'        => $item['remark'],
+                    'type'        => 'trojan',
+                    'server'      => $item['address'],
+                    'port'        => $item['port'],
+                    'password'    => $item['passwd'],
+                    'sni'         => $item['host']
+                ];
+                break;
         }
         return $return;
     }
 
-    public static function getShadowrocketURI($item)
+    public static function getShadowrocketURI(array $item)
     {
         $return = null;
         switch ($item['type']) {
@@ -336,11 +381,11 @@ class AppURI
                 } else {
                     if ($item['obfs'] == 'v2ray') {
                         $v2rayplugin = [
-                            'address' => $item['address'],
-                            'port' => (string) $item['port'],
-                            'path' => $item['path'],
-                            'host' => $item['host'],
-                            'mode' => 'websocket',
+                            'address'   => $item['address'],
+                            'port'      => (string) $item['port'],
+                            'path'      => $item['path'],
+                            'host'      => $item['host'],
+                            'mode'      => 'websocket',
                         ];
                         $v2rayplugin['tls'] = $item['tls'] == 'tls' ? true : false;
                         $return = ('ss://' . Tools::base64_url_encode($item['method'] . ':' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']) . '?v2ray-plugin=' . base64_encode(json_encode($v2rayplugin)) . '#' . rawurlencode($item['remark']));
@@ -391,11 +436,15 @@ class AppURI
                 }
                 $return = ('vmess://' . Tools::base64_url_encode('chacha20-poly1305:' . $item['id'] . '@' . $item['add'] . ':' . $item['port']) . '?remarks=' . rawurlencode($item['remark']) . $obfs . $tls);
                 break;
+            case 'trojan':
+                $return  = ('trojan://' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']);
+                $return .= ('?peer=' . $item['host'] . '#' . rawurlencode($item['remark']));
+                break;
         }
         return $return;
     }
 
-    public static function getKitsunebiURI($item)
+    public static function getKitsunebiURI(array $item)
     {
         $return = null;
         switch ($item['type']) {
@@ -434,7 +483,7 @@ class AppURI
         return $return;
     }
 
-    public static function getSSDURI($item)
+    public static function getSSDURI(array $item)
     {
         $return = null;
         switch ($item['type']) {
@@ -482,7 +531,7 @@ class AppURI
         return $return;
     }
 
-    public static function getSSJSON($item)
+    public static function getSSJSON(array $item)
     {
         $return = null;
         switch ($item['type']) {
@@ -524,6 +573,18 @@ class AppURI
                     }
                     $return['plugin_opts'] = $plugin_options;
                 }
+                break;
+        }
+        return $return;
+    }
+
+    public static function getTrojanURI(array $item)
+    {
+        $return = null;
+        switch ($item['type']) {
+            case 'trojan':
+                $return  = ('trojan://' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']);
+                $return .= ('?peer=' . $item['host'] . '#' .  rawurlencode($item['remark']));
                 break;
         }
         return $return;

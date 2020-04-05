@@ -48,7 +48,7 @@
                                         </nav>
                                         <div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_info">
                                             {if URL::SSRCanConnect($user, $mu)}
-                                                {$ssr_item = URL::getItem($user, $node, $mu, $relay_rule_id, 0)}
+                                                {$ssr_item = $node->getItem($user, $mu, $relay_rule_id, 0)}
                                                     <p>服务器地址：{$ssr_item['address']}<br>
                                                         服务器端口：{$ssr_item['port']}<br>
                                                         加密方式：{$ssr_item['method']}<br>
@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_info">
                                             {if URL::SSCanConnect($user, $mu)}
-                                                {$ss_item = URL::getItem($user, $node, $mu, $relay_rule_id, 1)}
+                                                {$ss_item = $node->getItem($user, $mu, $relay_rule_id, 1)}
                                                     <p>服务器地址：{$ss_item['address']}<br>
                                                         服务器端口：{$ss_item['port']}<br>
                                                         加密方式：{$ss_item['method']}<br>

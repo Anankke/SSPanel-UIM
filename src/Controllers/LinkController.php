@@ -152,7 +152,7 @@ class LinkController extends BaseController
                 if ($query_value != '0' && $query_value != '') {
 
                     // 兼容代码开始
-                    if ($key == 'sub' && $query_value > 3) {
+                    if ($key == 'sub' && $query_value > 4) {
                         $query_value = 1;
                     }
                     // 兼容代码结束
@@ -227,13 +227,14 @@ class LinkController extends BaseController
                 ];
                 break;
             case 'sub':
-                if ($value == 3) {
-                    $return = self::getSubscribeExtend('v2rayn');
-                } elseif ($value == 2) {
-                    $return = self::getSubscribeExtend('ss');
-                } else {
-                    $return = self::getSubscribeExtend('ssr');
-                }
+                $strArray = [
+                    1 => 'ssr',
+                    2 => 'ss',
+                    3 => 'v2rayn',
+                    4 => 'trojan',
+                ];
+                $str = (!in_array($value, $strArray) ? $strArray[$value] : $strArray[1]);
+                $return = self::getSubscribeExtend($str);
                 break;
             case 'clash':
                 if ($value !== null) {
@@ -444,6 +445,7 @@ class LinkController extends BaseController
             'ss'              => '?sub=2',
             'ssr'             => '?sub=1',
             'v2ray'           => '?sub=3',
+            'trojan'          => '?sub=4',
             // apps
             'ssa'             => '?list=ssa',
             'ssd'             => '?ssd=1',
@@ -497,9 +499,10 @@ class LinkController extends BaseController
                 $return = AppURI::getClashURI($item, true);
                 break;
             case 'v2rayn':
-                $item['ps'] = $item['remark'];
-                $item['type'] = $item['headerType'];
-                $return = 'vmess://' . base64_encode(json_encode($item, 320));
+                $return = AppURI::getV2RayNURI($item);
+                break;
+            case 'trojan':
+                $return = AppURI::getTrojanURI($item);
                 break;
             case 'kitsunebi':
                 $return = AppURI::getKitsunebiURI($item);
@@ -617,6 +620,9 @@ class LinkController extends BaseController
             $Extend['remark'] = $remark;
             if (in_array($list, ['kitsunebi', 'quantumult', 'v2rayn'])) {
                 $Extend['type'] = 'vmess';
+                $out = self::getListItem($Extend, $list);
+            } elseif ($list == 'trojan') {
+                $Extend['type'] = 'trojan';
                 $out = self::getListItem($Extend, $list);
             } elseif ($list == 'ssr') {
                 $Extend['type'] = 'ssr';
@@ -896,6 +902,10 @@ class LinkController extends BaseController
             case 3: // V2
                 $Rule['type'] = 'vmess';
                 $getListExtend = $Rule['extend'] ? self::getListExtend($user, 'v2rayn') : [];
+                break;
+            case 4: // Trojan
+                $Rule['type'] = 'trojan';
+                $getListExtend = $Rule['extend'] ? self::getListExtend($user, 'trojan') : [];
                 break;
             default: // SSR
                 $Rule['type'] = 'ssr';
