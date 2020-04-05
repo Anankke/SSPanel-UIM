@@ -110,7 +110,7 @@ class AppURI
                         $return = $item['remark'] . ' = vmess, ' . $item['add'] . ', ' . $item['port'] . ', username = ' . $item['id'] . $ws . $tls;
                         break;
                     case 'trojan':
-                        $return = ($item['remark'] . ' = trojan, ' . $item['address'] . ', ' . $item['port'] . ', password=' . $item['passwd']);
+                        $return = ($item['remark'] . ' = trojan, ' . $item['address'] . ', ' . $item['port'] . ', password=' . $item['passwd']) . ", sni=" . $item['host'];
                         break;
                 }
                 break;
@@ -219,7 +219,7 @@ class AppURI
                 break;
             case 'trojan':
                 // ;trojan=example.com:443, password=pwd, over-tls=true, tls-verification=true, fast-open=false, udp-relay=false, tag=trojan-tls-01
-                $return  = ('trojan=' . $item['address'] . ':' . $item['port'] . ', password=' . $item['passwd']);
+                $return  = ('trojan=' . $item['address'] . ':' . $item['port'] . ', password=' . $item['passwd'] . ', tls-host=' . $item['host']);
                 $return .= ', over-tls=true, tls-verification=true';
                 $return .= (', tag=' . $item['remark']);
                 break;
@@ -363,7 +363,8 @@ class AppURI
                     'type'        => 'trojan',
                     'server'      => $item['address'],
                     'port'        => $item['port'],
-                    'password'    => $item['passwd']
+                    'password'    => $item['passwd'],
+                    'sni'         => $item['host']
                 ];
                 break;
         }
@@ -437,7 +438,7 @@ class AppURI
                 break;
             case 'trojan':
                 $return  = ('trojan://' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']);
-                $return .= ('#' . rawurlencode($item['remark']));
+                $return .= ('?peer=' . $item['host'] . '#' . rawurlencode($item['remark']));
                 break;
         }
         return $return;
@@ -583,7 +584,7 @@ class AppURI
         switch ($item['type']) {
             case 'trojan':
                 $return  = ('trojan://' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']);
-                $return .= ('#' . rawurlencode($item['remark']));
+                $return .= ('?peer=' . $item['host'] . '#' .  rawurlencode($item['remark']));
                 break;
         }
         return $return;

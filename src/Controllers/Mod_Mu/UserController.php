@@ -86,7 +86,8 @@ class UserController extends BaseController
         $key_list = array(
             'email', 'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param',
             'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
-            'is_multi_user', 'id', 'port', 'passwd', 'u', 'd', 'node_connector'
+            'is_multi_user', 'id', 'port', 'passwd', 'u', 'd', 'node_connector',
+            'sort', 'uuid'
         );
 
         foreach ($users_raw as $user_raw) {
@@ -109,7 +110,9 @@ class UserController extends BaseController
                 }
             }
             $user_raw = Tools::keyFilter($user_raw, $key_list);
-            $user_raw->uuid = $user_raw->getUuid();
+            if ($node->sort == 14) {
+                $user_raw->sha224uuid = hash('sha224', $user_raw->uuid);
+            }
             $users[] = $user_raw;
         }
 
