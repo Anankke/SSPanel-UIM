@@ -5,6 +5,8 @@ namespace App\Command;
 use App\Services\DefaultConfig;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
+use App\Services\Config;
+use App\Utils\DatatablesHelper;
 
 class Update
 {
@@ -40,6 +42,7 @@ class Update
         //执行版本升级
         $version_old = $_ENV['version'] ?? 0;
         self::old_to_new($version_old);
+        self::addColumns('user', 'uuid', 'TEXT', TRUE, 'NULL', 'uuid', 'passwd');
 
         //将旧config迁移到新config上
         $migrated = array();
@@ -135,6 +138,17 @@ class Update
         echo ('升级composer依赖结束，请自行根据上方输出确认是否升级成功' . PHP_EOL);
         system('rm -rf ' . BASE_PATH . '/storage/framework/smarty/compile/*');
         system('chown -R www:www ' . BASE_PATH . '/storage');
+    }
+
+    public static function addColumns($table, $columu, $type, $isnull, $default, $comment, $after)
+    {
+        $datatables = new DatatablesHelper();
+        $exists = $datatables->query("SELECT COUNT(*) as cc FROM information_schema.columns WHERE `table_schema` = '" . $_ENV['db_database'] . "' AND `table_name` = '" . $table . "' AND `column_name` = '" . $columu . "'");
+        if ($exists[0]['cc'] >0) {
+            return;
+        }
+        $isnull = $isnull ? " NULL " : " NOT NULL ";
+        $datatables->query("ALTER TABLE `" . $table . "` ADD COLUMN `" . $columu . "` " . $type . $isnull . "DEFAULT " . $default . " COMMENT '" . $comment . "' AFTER `" . $after . "`");
     }
 
     public static function old_to_new($version_old)
