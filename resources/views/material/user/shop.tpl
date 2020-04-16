@@ -24,7 +24,7 @@
                 <div class="ui-switch">
                     <div class="card">
                         <div class="card-main">
-                            <div class="card-inner ui-switch">
+                            <div class="card-inner ui-switch-inner">
                                 <div class="switch-btn" id="switch-cards">
                                     <a href="#" onclick="return false">
                                         <i class="mdui-icon material-icons">apps</i>
@@ -38,11 +38,26 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-main">
+                            <div class="dropdown btn-group">
+                                <a href="javascript:void(0);" type="button" class="btn btn-dropdown-toggle dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  选择商品类型 <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                  <li class="order-type"><a href="javascript:void(0)" id="orders">套餐购买</a></li>
+                                  <li class="order-type"><a href="javascript:void(0)" id="traffice-packages">叠加流量包</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+            <div data-areatype="orders">
                 <div class="shop-flex">
 
                     {foreach $shops as $shop}
+                    {if $shop->traffic_package() == 0}
                         <div class="card">
                             <div class="card-main">
                                 <div class="shop-name">{$shop->name}</div>
@@ -104,6 +119,7 @@
                                    onClick="buy('{$shop->id}',{$shop->auto_renew})">购买</a>
                             </div>
                         </div>
+                    {/if}
                     {/foreach}
 
                     <div class="flex-fix3"></div>
@@ -113,6 +129,7 @@
                 <div class="shop-table">
 
                     {foreach $shops as $shop}
+                    {if $shop->traffic_package() == 0}
                         <div class="shop-gridarea">
                             <div class="card">
                                 <div>
@@ -157,10 +174,39 @@
                                 {/if}
                             </div>
                         </div>
+                    {/if}
                     {/foreach}
 
                 </div>
+            </div>
 
+            <div style="display: none;" data-areatype="trafficePackages">
+                <div class="shop-table" style="display: flex">
+                    {foreach $shops as $shop}
+                    {if $shop->traffic_package() != 0}
+                    <div class="shop-gridarea">
+                        <div class="card">
+                            <div>
+                                <div class="shop-name"><span>{$shop->name}</span></div>
+                                <div class="card-tag tag-orange">¥ {$shop->price}</div>
+                                <div class="card-tag tag-cyan">{$shop->bandwidth()} G</div>
+                            </div>
+                            <div>
+                                <i class="material-icons">expand_more</i>
+                            </div>
+                        </div>
+                        <a class="btn btn-brand-accent shop-btn" href="javascript:void(0);"
+                        onClick="buyTraffic('{$shop->id}')">购买</a>
+
+                        <div class="shop-drop dropdown-area">
+                            <div class="card-tag tag-black">流量包流量</div>
+                            <div class="card-tag tag-blue">{$shop->bandwidth()} G</div>
+                        </div>
+                    </div>
+                {/if}
+                {/foreach}
+                </div>
+            </div>
 
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="coupon_modal" role="dialog"
                      tabindex="-1">
@@ -187,6 +233,24 @@
                     </div>
                 </div>
 
+                <div aria-hidden="true" class="modal modal-va-middle fade" id="traffic_package_modal" role="dialog"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-xs">
+                        <div class="modal-content">
+                            <div class="modal-heading">
+                                <a class="modal-close" data-dismiss="modal">×</a>
+                                <h2 class="modal-title">确认购买流量包吗？</h2>
+                            </div>
+                            <div class="modal-footer">
+                                <p class="text-right">
+                                    <button class="btn btn-flat btn-brand waves-attach" data-dismiss="modal"
+                                            id="traffic_package_confirm" type="button">确定
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="order_modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog modal-xs">
@@ -250,11 +314,44 @@
         $("#coupon_modal").modal();
     }
 
+    let trafficPackageId;
+    function buyTraffic(id) {
+        trafficPackageId = id
+        $("#traffic_package_modal").modal();
+    }
+
+    $('#traffic_package_confirm').click(function() {
+        $.ajax({
+            type: "POST",
+            url: "buy_traffic_package",
+            dataType: "json",
+            data: {
+                shop: trafficPackageId
+            },
+            success: (data) => {
+                if (data.ret) {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    window.setTimeout("location.href='/user/shop'", {$config['jump_delay']});
+                } else {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                }
+            },
+            error: (jqXHR) => {
+                $("#result").modal();
+                $$.getElementById('msg').innerHTML = `${
+                        data.msg
+                        } 发生了错误`;
+            }
+        })
+    })
+
     ;(function () {
 
         //UI切换
-        let elShopCard = $$.querySelector(".shop-flex");
-        let elShopTable = $$.querySelector(".shop-table");
+        let elShopCard = $$.querySelectorAll(".shop-flex");
+        let elShopTable = $$.querySelectorAll("[data-areatype=orders] .shop-table");
 
         let switchToCard = new UIswitch('switch-cards', elShopTable, elShopCard, 'flex', 'tempshop');
         switchToCard.listenSwitch();
@@ -266,14 +363,28 @@
         switchToTable.setDefault();
 
         //手风琴
-        let dropDownButton = document.querySelectorAll('.shop-table .card');
-        let dropDownArea = document.querySelectorAll('.dropdown-area');
-        let arrows = document.querySelectorAll('.shop-table .card i');
+        let dropDownButton = $$.querySelectorAll('.shop-table .card');
+        let dropDownArea = $$.querySelectorAll('.dropdown-area');
+        let arrows = $$.querySelectorAll('.shop-table .card i');
 
         for (let i = 0; i < dropDownButton.length; i++) {
             rotatrArrow(dropDownButton[i], arrows[i]);
             custDropdown(dropDownButton[i], dropDownArea[i]);
         }
+
+        //商品类型
+        let orderType = "orders"
+        let orders = $$.querySelectorAll('[data-areatype=orders]')
+        let trafficePackages = $$.querySelectorAll('[data-areatype=trafficePackages]')
+
+        let switchToOrders = new UIswitch('orders', trafficePackages, orders, 'flex', 'tempordertype');
+        switchToOrders.listenSwitch();
+
+        let switchToTrafficePackages = new UIswitch('traffice-packages', orders, trafficePackages, 'flex', 'tempordertype');
+        switchToTrafficePackages.listenSwitch();
+
+        switchToOrders.setDefault();
+        switchToTrafficePackages.setDefault();
 
     })();
 

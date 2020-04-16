@@ -22,8 +22,14 @@
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="server">节点地址</label>
                                     <input class="form-control maxwidth-edit" id="server" type="text" name="server">
-                                    <p class="form-control-guide"><i class="material-icons">info</i>如果填写为域名，“节点IP”会自动设置为解析的IP
-                                    </p>
+                                    <p class="form-control-guide"><i class="material-icons">info</i>如果填写为域名，“节点IP”会自动设置为解析的IP</p>
+
+                                    <p class="form-control-guide"><i class="material-icons">info</i>附加说明，适用于 SS 节点以及 SS 中转，即 sort 为 0 或 10</p>
+                                    <p class="form-control-guide"><i class="material-icons">info</i>单个端口偏移格式：8.8.8.8;port=80#10080</p>
+                                    <p class="form-control-guide"><i class="material-icons">info</i>多个端口偏移格式：8.8.8.8;port=80#10080+443#10443</p>
+                                    <p class="form-control-guide"><i class="material-icons">info</i>重写节点入口地址：8.8.8.8;server=in.nodeserver.com</p>
+                                    <p class="form-control-guide"><i class="material-icons">info</i>以上两项同时使用：8.8.8.8;server=in.nodeserver.com|port=80#10080+443#10443</p>
+
                                 </div>
 
                                 <div class="form-group form-group-label">
@@ -111,7 +117,8 @@
                                             <option value="10">Shadowsocks 中转</option>
                                             <option value="11">V2Ray</option>
                                             <option value="12">V2Ray 中转</option>
-                                            <option value="13">Shadowsocks V2Ray-Plugin</option>
+                                            <option value="13">Shadowsocks V2Ray-Plugin&Obfs</option>
+                                            <option value="14">Trojan</option>
                                         </select>
                                     </div>
                                 </div>

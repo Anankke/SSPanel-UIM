@@ -19,19 +19,19 @@
                 <div class="auth-row">
                     <div class="form-group-label auth-row row-login">
                         <label class="floating-label" for="email">邮箱</label>
-                        <input class="form-control maxwidth-auth" id="email" type="text" name="Email">
+                        <input class="form-control maxwidth-auth" id="email" type="email" name="Email" inputmode="email" autocomplete="username">
                     </div>
                 </div>
                 <div class="auth-row">
                     <div class="form-group-label auth-row row-login">
                         <label class="floating-label" for="passwd">密码</label>
-                        <input class="form-control maxwidth-auth" id="passwd" type="password" name="Password">
+                        <input class="form-control maxwidth-auth" id="passwd" type="password" name="Password" autocomplete="current-password">
                     </div>
                 </div>
                 <div class="auth-row">
                     <div class="form-group-label auth-row row-login">
                         <label class="floating-label" for="code">两步验证码（未设置请忽略）</label>
-                        <input class="form-control maxwidth-auth" id="code" type="text" name="Code">
+                        <input class="form-control maxwidth-auth" id="code" type="number" name="Code" inputmode="numeric" autocomplete="one-time-code">
                     </div>
                 </div>
 
@@ -69,7 +69,7 @@
                 </div>
                 <div class="auth-bottom auth-row">
                     <div class="tgauth">
-                        {if $config['enable_telegram'] == 'true'}
+                        {if $config['enable_telegram'] === true}
                             <span>Telegram</span>
                             <button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button>
                             <span>快捷登录</span>
@@ -80,57 +80,7 @@
                 </div>
             </div>
         </form>
-        <div class="card auth-tg cust-model">
-            <div class="card-main">
-                <nav class="tab-nav margin-top-no margin-bottom-no">
-                    <ul class="nav nav-justified">
-                        <li class="active">
-                            <a class="waves-attach" data-toggle="tab" href="#number_login">一键/验证码登录</a>
-                        </li>
-                        <li>
-                            <a class="waves-attach" data-toggle="tab" href="#qrcode_login">二维码登录</a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="tab-pane fade active in" id="number_login">
-                    <div class="card-header">
-                        <div class="card-inner">
-                            <h1 class="card-heading" style=" text-align:center;font-weight:bold;">Telegram 登录</h1>
-                        </div>
-                    </div>
-                    <div class="card-inner">
-                        <div class="text-center">
-                            <p>一键登陆</p>
-                        </div>
-                        <p id="telegram-alert">正在载入 Telegram，如果长时间未显示请刷新页面或检查代理</p>
-                        <div class="text-center" id="telegram-login-box"></div>
-                        <p>或者添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的数字给它。
-                        </p>
-                        <div class="text-center">
-                            <h2><code id="code_number">{$login_number}</code></h2>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="qrcode_login">
-                    <div class="card-header">
-                        <div class="card-inner">
-                            <h1 class="card-heading" style=" text-align:center;font-weight:bold;">Telegram扫码登录</h1>
-                        </div>
-                    </div>
-                    <div class="card-inner">
-                        <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。
-                        </p>
-                        <div class="form-group form-group-label">
-                            <div class="text-center qr-center">
-                                <div id="telegram-qr"></div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+        {include file='./telegram_modal.tpl'}
     </div>
 </div>
 
@@ -222,82 +172,7 @@
     })
 </script>
 
-{if $config['enable_telegram'] == 'true'}
-    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
-    <script>
-        var telegram_qrcode = 'mod://login/{$login_token}';
-        var qrcode = new QRCode(document.getElementById("telegram-qr"));
-        qrcode.clear();
-        qrcode.makeCode(telegram_qrcode);
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("#calltgauth").click(
-                    function () {
-                        f();
-                    }
-            );
-
-            function f() {
-                $.ajax({
-                    type: "POST",
-                    url: "qrcode_check",
-                    dataType: "json",
-                    data: {
-                        token: "{$login_token}",
-                        number: "{$login_number}"
-                    },
-                    success: (data) => {
-                        if (data.ret > 0) {
-                            clearTimeout(tid);
-
-                            $.ajax({
-                                type: "POST",
-                                url: "/auth/qrcode_login",
-                                dataType: "json",
-                                data: {
-                                    token: "{$login_token}",
-                                    number: "{$login_number}"
-                                },
-                                success: (data) => {
-                                    if (data.ret) {
-                                        $("#result").modal();
-                                        $$.getElementById('msg').innerHTML = '登录成功！';
-                                        window.setTimeout("location.href=/user/", {$config['jump_delay']});
-                                    }
-                                },
-                                error: (jqXHR) => {
-                                    $("#result").modal();
-                                    $$.getElementById('msg').innerHTML = `发生错误：${
-                                            jqXHR.status
-                                            }`;
-                                }
-                            });
-
-                        } else {
-                            if (data.ret === -1) {
-                                $('#telegram-qr').replaceWith('此二维码已经过期，请刷新页面后重试。');
-                                $('#code_number').replaceWith('<code id="code_number">此数字已经过期，请刷新页面后重试。</code>');
-                            }
-                        }
-                    },
-                    error: (jqXHR) => {
-                        if (jqXHR.status !== 200 && jqXHR.status !== 0) {
-                            $("#result").modal();
-                            $$.getElementById('msg').innerHTML = `发生错误：${
-                                    jqXHR.status
-                                    }`;
-                        }
-                    }
-                });
-                tid = setTimeout(f, 2500); //循环调用触发setTimeout
-            }
-
-
-        })
-    </script>
-{/if}
-
+{include file='./telegram.tpl'}
 
 {if $geetest_html != null}
     <script>
@@ -322,22 +197,7 @@
         }, handlerEmbed);
     </script>
 {/if}
-{if $config['enable_telegram'] == 'true'}
-    <script>
-        $(document).ready(function () {
-            var el = document.createElement('script');
-            document.getElementById('telegram-login-box').append(el);
-            el.onload = function () {
-                $('#telegram-alert').remove()
-            }
-            el.src = 'https://telegram.org/js/telegram-widget.js?4';
-            el.setAttribute('data-size', 'large')
-            el.setAttribute('data-telegram-login', '{$telegram_bot}')
-            el.setAttribute('data-auth-url', '{$base_url}/auth/telegram_oauth')
-            el.setAttribute('data-request-access', 'write')
-        });
-    </script>
-{/if}
+
 {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
 {/if}

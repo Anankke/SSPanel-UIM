@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>该网页无法正常运作 - {$config["appName"]}</title>
+    <title>该网页无法正常运作 - {$config['appName']}</title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <meta charset="utf-8"/>
@@ -37,7 +37,7 @@
         </nav>
     </header>
     <footer id="footer">
-        <p class="copyright">&copy;{date("Y")} {$config["appName"]} </p>
+        <p class="copyright">&copy;{date("Y")} {$config['appName']} </p>
     </footer>
 </div>
 <div id="bg"></div>

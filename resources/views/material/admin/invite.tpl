@@ -16,11 +16,11 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card">
 				<div class="card-main">
 					<div class="card-inner">
-					
+
 						<div class="form-group form-group-label">
 							<label class="floating-label" for="userid">需要修改邀请者的用户</label>
 							<input class="form-control maxwidth-edit" id="userid" type="text">
@@ -129,7 +129,7 @@
             }
         })
     })
-    
+
     $$.getElementById('confirm').addEventListener('click', () => {
         $.ajax({
             type: "POST",

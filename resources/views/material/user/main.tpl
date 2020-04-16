@@ -5,7 +5,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
     <meta name="theme-color" content="#4285f4">
-    <title>{$config["appName"]}</title>
+    <title>{$config['appName']}</title>
 
     <!-- css -->
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
@@ -44,7 +44,7 @@
                     <a class="padding-right-cd waves-attach" href="/user/logout"><span
                                 class="icon icon-lg margin-right">exit_to_app</span>登出</a>
                 </li>
-                <li> 
+                <li>
                     <a href="//en.gravatar.com/" target="view_window"><i class="icon icon-lg margin-right">insert_photo</i>设置头像</a>
                 </li>
             </ul>
@@ -67,7 +67,7 @@
 <nav aria-hidden="true" class="menu menu-left nav-drawer nav-drawer-md" id="ui_menu" tabindex="-1">
     <div class="menu-scroll">
         <div class="menu-content">
-            <a class="menu-logo" href="/"><i class="icon icon-lg">language</i>&nbsp;{$config["appName"]}</a>
+            <a class="menu-logo" href="/"><i class="icon icon-lg">language</i>&nbsp;{$config['appName']}</a>
             <ul class="nav">
                 <li>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_me">我的</a>
@@ -88,7 +88,13 @@
                             <a href="/user/trafficlog"><i class="icon icon-lg">hourglass_empty</i>&nbsp;流量记录</a>
                         </li>
 
-                        {if $config['enable_ticket']=='true'}
+                    {if $config['subscribeLog']===true && $config['subscribeLog_show']===true}
+                        <li>
+                            <a href="/user/subscribe_log"><i class="icon icon-lg">important_devices</i>&nbsp;订阅记录</a>
+                        </li>
+                    {/if}
+
+                        {if $config['enable_ticket']===true}
                             <li>
                                 <a href="/user/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单系统</a>
                             </li>
@@ -119,7 +125,7 @@
                         </li>
 
                         <li>
-                            <a href="/user/tutorial"><i class="icon icon-lg">start</i>&nbsp;使用教程</a>
+                            <a href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/{/if}"><i class="icon icon-lg">start</i>&nbsp;使用教程</a>
                         </li>
                     </ul>
 
@@ -141,7 +147,7 @@
 
                         <li><a href="/user/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>
 
-                        {if $config['enable_donate']=='true'}
+                        {if $config['enable_donate']===true}
                             <li>
                                 <a href="/user/donate"><i class="icon icon-lg">attach_money</i>&nbsp;捐赠公示</a>
                             </li>
@@ -166,4 +172,4 @@
     </div>
 </nav>
 
-{if $config["enable_mylivechat"] == 'true'}{include file='mylivechat.tpl'}{/if}
+{if $config['enable_mylivechat'] === true}{include file='mylivechat.tpl'}{/if}

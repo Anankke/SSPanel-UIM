@@ -8,33 +8,59 @@
 
     function hideURLbar() {
         window.scrollTo(0, 1);
-    } </script>
+    }
+</script>
 
 {function displayV2rayNode node=null}
-    {$v2server=URL::getV2Url($user, $node['raw_node'], 1)}
-    <p>地址：<span class="card-tag tag-blue">{$v2server['add']}</span></p>
-    <p>端口：<span class="card-tag tag-volcano">{$v2server['port']}</span></p>
+    {$v2server = $node['raw_node']->getV2RayItem($user)}
+    <p>节点地址：<span class="card-tag tag-blue">{$v2server['add']}</span></p>
+    <p>节点端口：<span class="card-tag tag-volcano">{$v2server['port']}</span></p>
     <p>AlterId：<span class="card-tag tag-purple">{$v2server['aid']}</span></p>
-    <p>用户 UUID：<span class="card-tag tag-geekblue">{$user->getUuid()}</span></p>
-    <p>传输协议：<span class="card-tag tag-green">{if $v2server['net']=="tls"}tcp{else}{$v2server['net']}{/if}</span></p>
-    {if $v2server['net']=="ws"}
-        <p>路径：<span class="card-tag tag-green">{$v2server['path']}</span></p>
+    <p>UUID：<span class="card-tag tag-geekblue">{$user->getUuid()}</span></p>
+    <p>传输协议：<span class="card-tag tag-green">{$v2server['net']}</span></p>
+    {if $v2server['net'] == 'ws'}
+        <p>伪装路径：<span class="card-tag tag-green">{$v2server['path']}</span></p>
+        <p>HOST：<span class="card-tag tag-green">{$v2server['host']}</span></p>
     {/if}
 
-    {if $v2server['net']=="kcp"}
+    {if $v2server['net'] == 'kcp'}
         <p>伪装方式：<span class="card-tag tag-green">{$v2server['type']}</span></p>
     {/if}
 
-    {if ($v2server['net']=="ws" && $v2server['tls']=="tls")||$v2server['net']=="tls"}
+    {if $v2server['tls'] == 'tls'}
         <p>TLS：<span class="card-tag tag-green">TLS</span></p>
     {/if}
-    <p>流量比例：<span class="card-tag tag-red">{$node['traffic_rate']}</span></p>
-    <p>VMess链接：
+
+    <p>V2RayN 链接：
         <a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node['raw_node'])}">点击复制</a>
     </p>
 {/function}
 
-{function displayNodeLinkV2 node=null}
+{function displaySort13Node node=null}
+    {$sort13Node = $node['raw_node']->getV2RayPluginItem($user)}
+    {if $sort13Node === null}
+        <p>您的加密方式非 AEAD 系列，无法使用此节点.</p>
+    {else}
+        <p>节点地址：<span class="card-tag tag-blue">{$sort13Node['address']}</span></p>
+        <p>节点端口：<span class="card-tag tag-volcano">{$sort13Node['port']}</span></p>
+        <p>节点加密：<span class="card-tag tag-purple">{$sort13Node['method']}</span></p>
+        <p>连接密码：<span class="card-tag tag-geekblue">{$sort13Node['passwd']}</span></p>
+        <p>混淆方式：<span class="card-tag tag-green">{$sort13Node['obfs']}</span></p>
+        <p>混淆参数：<span class="card-tag tag-volcano">{$sort13Node['obfs_param']}</span></p>
+    {/if}
+{/function}
+
+{function displaySort14Node node=null}
+    {$sort14Node = $node['raw_node']->getTrojanItem($user)}
+    <p>节点地址：<span class="card-tag tag-blue">{$sort14Node['address']}</span></p>
+    <p>节点端口：<span class="card-tag tag-volcano">{$sort14Node['port']}</span></p>
+    <p>连接密码：<span class="card-tag tag-geekblue">{$sort14Node['passwd']}</span></p>
+    {if $sort14Node['host'] != $sort14Node['address']}
+        <p>HOST&PEER：<span class="card-tag tag-green">{$sort14Node['host']}</span></p>
+    {/if}
+{/function}
+
+{function displayNodeLink node=null}
     <div class="tiptitle">
         <a href="javascript:void(0);">{$node['name']}</a>
     </div>
@@ -56,162 +82,196 @@
                         <div class="ui-switch node-switch">
                             <div class="card">
                                 <div class="card-main">
-                                    <div class="card-inner ui-switch">
-                                        <div class="switch-btn" id="switch-cards"><a href="#" onclick="return false"><i
-                                                        class="mdui-icon material-icons">apps</i></a></div>
-                                        <div class="switch-btn" id="switch-table"><a href="#" onclick="return false"><i
-                                                        class="mdui-icon material-icons">dehaze</i></a></div>
+                                    <div class="card-inner ui-switch-inner">
+                                        <div class="switch-btn" id="switch-cards">
+                                            <a href="#" onclick="return false">
+                                                <i class="mdui-icon material-icons">apps</i>
+                                            </a>
+                                        </div>
+                                        <div class="switch-btn" id="switch-table">
+                                            <a href="#" onclick="return false">
+                                                <i class="mdui-icon material-icons">dehaze</i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+
+
+
                         <div class="node-cardgroup">
-                            {$class=-1}
-                            {foreach $nodes as $node}
-                            {if $node['class']!=$class}
-                            {$class=$node['class']}
+                    {$class=-1}
+                    {foreach $nodes as $node}
+                        {if $node['class'] != $class}
+                            {$class = $node['class']}
                             {if !$node@first}</div>{/if}
+
                         <div class="nodetitle">
-                            <a class="waves-effect waves-button" data-toggle="collapse" href="#cardgroup{$class}"
-                               aria-expanded="true" aria-controls="cardgroup{$class}">
-                                <span>{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</span><i
-                                        class="material-icons">expand_more</i>
+                            <a class="waves-effect waves-button" data-toggle="collapse" href="#cardgroup{$class}" aria-expanded="true" aria-controls="cardgroup{$class}">
+                                <span>{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</span>
+                                <i class="material-icons">expand_more</i>
                             </a>
                         </div>
                         <div class="card-row collapse in" id="cardgroup{$class}">
-                            {/if}
+                        {/if}
+
                             <div class="node-card node-flex" cardindex="{$node@index}">
                                 <div class="nodemain">
                                     <div class="nodehead node-flex">
-                                        {if $config['enable_flag']=='true'}
-                                            <div class="flag"><img src="/images/prefix/{$node['flag']}">
-                                            </div>{/if}
+                                        {if $config['enable_flag'] === true}
+                                            <div class="flag">
+                                                <img src="/images/prefix/{$node['flag']}">
+                                            </div>
+                                        {/if}
                                         <div class="nodename">{$node['name']}</div>
                                     </div>
+
+                                    <!-- 在线人数 -->
                                     <div class="nodemiddle node-flex">
-                                        <div class="onlinemember node-flex"><i class="material-icons node-icon">flight_takeoff</i><span>{if $node['online_user'] == -1} N/A{else} {$node['online_user']}{/if}</span>
+                                        <div class="onlinemember node-flex">
+                                            <i class="material-icons node-icon">flight_takeoff</i>
+                                            <span>{if $node['online_user'] == -1} N/A{else} {$node['online_user']}{/if}</span>
                                         </div>
                                         <div class="nodetype">{$node['status']}</div>
                                     </div>
+
                                     <div class="nodeinfo node-flex">
-                                        <div class="nodetraffic node-flex"><i
-                                                    class="material-icons node-icon">equalizer</i><span>{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}GB{else}{$node['traffic_used']}GB{/if}</span>
+
+                                        <!-- 节点已用流量 -->
+                                        <div class="nodetraffic node-flex">
+                                            <i class="material-icons node-icon">equalizer</i>
+                                            <span>{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}GB{else}{$node['traffic_used']}GB{/if}</span>
                                         </div>
+
+                                        <!-- 节点流量倍率 -->
                                         <div class="nodecheck node-flex">
-                                            <i class="material-icons node-icon">network_check</i><span>x{$node['traffic_rate']}</span>
+                                            <i class="material-icons node-icon">network_check</i>
+                                            <span>x{$node['traffic_rate']}</span>
                                         </div>
-                                        <div class="nodeband node-flex"><i class="material-icons node-icon">flash_on</i><span>{if {$node['bandwidth']}==0}N/A{else}{$node['bandwidth']}{/if}</span>
+
+                                        <!-- 节点速率 -->
+                                        <div class="nodeband node-flex">
+                                            <i class="material-icons node-icon">flash_on</i>
+                                            <span>{if {$node['bandwidth']}==0}N/A{else}{$node['bandwidth']}{/if}</span>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="nodestatus">
-                                    <div class="{if $node['online']=="1"}nodeonline{elseif $node['online']=='0'}nodeunset{else}nodeoffline{/if}">
-                                        <i class="material-icons">{if $node['online']=="1"}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</i>
+                                    <div class="{if $node['online'] == '1'}nodeonline{elseif $node['online'] == '0'}nodeunset{else}nodeoffline{/if}">
+                                        <i class="material-icons">{if $node['online']=='1'}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</i>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="node-tip cust-model" tipindex="{$node@index}">
                                 {if $node['class'] > $user->class}
-                                    <p class="card-heading" align="center"><b> <i
-                                                    class="icon icon-lg">visibility_off</i>
-                                            您当前等级不足以使用该节点，如需升级请<a href="/user/shop">点击这里</a>升级套餐</b></p>
+                                    <p class="card-heading" align="center">
+                                        <b>
+                                            <i class="icon icon-lg">visibility_off</i>
+                                            您当前等级不足以使用该节点，如需升级请<a href="/user/shop">点击这里</a>升级套餐
+                                        </b>
+                                    </p>
                                 {else}
 
-                                    {$relay_rule = null}
+                                    {if in_array($node['sort'], [0, 10])}
+                                        {$relay_rule = null}
 
-                                    {if $node['sort'] == 10}
-                                        {$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
-                                    {/if}
+                                        {if $node['sort'] == 10}
+                                            {$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
+                                        {/if}
 
-                                    {if $node['mu_only'] != 1 && ($node['sort'] != 11 || $node['sort']!=12)}
-                                        <div class="tiptitle">
-                                            <a href="javascript:void(0);"
-                                               onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">
-                                                {$node['name']}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}
-                                            </a>
-                                            <div class="nodeload">
-                                                <div class="label label-brand-accent"> ↑点击节点查看配置信息</div>
-                                                <div>
-                                                    <span class="node-icon"><i class="icon icon-lg">cloud</i></span>
-                                                    <span class="node-load">负载：<code>{if $node['latest_load'] == -1}N/A{else}{$node['latest_load']}%{/if}</code></span>
+                                        {if $node['mu_only'] != 1}
+                                            <div class="tiptitle">
+                                                <a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">
+                                                    {$node['name']}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}
+                                                </a>
+                                                <div class="nodeload">
+                                                    <div class="label label-brand-accent"> ↑点击节点查看配置信息</div>
+                                                    <div>
+                                                        <span class="node-icon"><i class="icon icon-lg">cloud</i></span>
+                                                        <span class="node-load">负载：<code>{if $node['latest_load'] == -1}N/A{else}{$node['latest_load']}%{/if}</code></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    {elseif $node['sort'] == 11 || $node['sort']==12}
-                                        {displayNodeLinkV2 node=$node}
-                                        {$point_node=$node}
+                                        {/if}
+
+                                        {if $node['mu_only'] != -1}
+                                            {foreach $nodes_muport as $single_muport}
+
+                                                {if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
+                                                    {continue}
+                                                {/if}
+
+                                                {$relay_rule = null}
+
+                                                {if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
+                                                    {$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
+                                                {/if}
+                                                <div class="tiptitle">
+                                                    <a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
+                                                        {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} -
+                                                        单端口 Shadowsocks - {$node['raw_node']->getOffsetPort($single_muport['server']->server)} 端口
+                                                    </a>
+                                                </div>
+                                            {/foreach}
+                                        {/if}
+                                    {else}
+                                        {displayNodeLink node=$node}
                                     {/if}
 
-                                    {if $node['sort'] == 0 || $node['sort'] == 10||$node['sort']==13}
-                                        {$point_node=$node}
-                                    {/if}
-
-                                    {if ($node['sort'] == 0 || $node['sort'] == 10) && $node['mu_only'] != -1}
-                                        {foreach $nodes_muport as $single_muport}
-
-                                            {if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
-                                                {continue}
-                                            {/if}
-
-                                            {if !($single_muport['user']->class >= $node['class'] && ($node['group'] == 0 || $single_muport['user']->node_group == $node['group']))}
-                                                {continue}
-                                            {/if}
-
-                                            {$relay_rule = null}
-
-                                            {if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
-                                                {$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
-                                            {/if}
-                                            <div class="tiptitle">
-                                                <a href="javascript:void(0);"
-                                                   onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-                                                    {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} -
-                                                    单端口 Shadowsocks - {$single_muport['server']->server} 端口
-                                                </a>
-                                            </div>
-                                        {/foreach}
-                                    {/if}
                                     <div class="tipmiddle">
-                                        <div><span class="node-icon"><i
-                                                        class="icon icon-lg">chat</i> </span>{$node['info']}</div>
+                                        <div>
+                                            <span class="node-icon"><i class="icon icon-lg">chat</i> </span>{$node['info']}
+                                        </div>
                                     </div>
+
                                     {if $node['sort'] == 11 || $node['sort'] == 12}
                                         {displayV2rayNode node=$node}
                                     {/if}
 
+                                    {if $node['sort'] == 13}
+                                        {displaySort13Node node=$node}
+                                    {/if}
+
+                                    {if $node['sort'] == 14}
+                                        {displaySort14Node node=$node}
+                                    {/if}
 
                                 {/if}
+
                             </div>
-                            {$point_node=null}
+
                             {if $node@last}</div>{/if}
-                        {/foreach}
+                    {/foreach}
                     </div>
+
+
 
                     <div class="card node-table">
                         <div class="card-main">
                             <div class="card-inner margin-bottom-no">
                                 <div class="tile-wrap">
-                                    {$class=-1}
+                                    {$class = -1}
                                     {foreach $nodes as $node}
 
-                                        {if $node['class']!=$class}
-                                            {$class=$node['class']}
-                                            <p class="card-heading">{if $class == 0}普通{else}VIP {$node['class']} {/if}
-                                                用户节点</p>
+                                        {if $node['class'] != $class}
+                                            {$class = $node['class']}
+                                            <p class="card-heading">{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</p>
                                         {/if}
                                         <div class="tile tile-collapse">
                                             <div data-toggle="tile" data-target="#heading{$node['id']}">
                                                 <div class="tile-side pull-left" data-ignore="tile">
-                                                    <div class="avatar avatar-sm {if $node['online']=="1"}nodeonline{elseif $node['online']=='0'}nodeunset{else}nodeoffline{/if}">
-                                                        <span class="material-icons">{if $node['online']=="1"}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</span>
+                                                    <div class="avatar avatar-sm {if $node['online']=='1'}nodeonline{elseif $node['online']=='0'}nodeunset{else}nodeoffline{/if}">
+                                                        <span class="material-icons">{if $node['online']=='1'}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</span>
                                                     </div>
                                                 </div>
                                                 <div class="tile-inner">
                                                     <div class="text-overflow node-textcolor">
 														<span class="enable-flag">
-															{if $config['enable_flag']=='true'}
+															{if $config['enable_flag'] === true}
                                                                 <img src="/images/prefix/{$node['flag']}" height="22"
                                                                      width="40"/>
                                                             {/if}
@@ -260,70 +320,81 @@
                                                         </div>
                                                     {else}
 
-                                                        {$relay_rule = null}
-                                                        <!-- 用户等级不小于节点等级 -->
 
-                                                        {if $node['sort'] == 10}
-                                                            {$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
-                                                        {/if}
+
                                                         <div class="card nodetip-table">
                                                             <div class="card-main">
                                                                 <div class="card-inner">
-                                                                    {if $node['mu_only'] != 1 && ($node['sort'] != 11 || $node['sort']!=12)}
-                                                                        <p class="card-heading">
-                                                                            <a href="javascript:void(0);"
-                                                                               onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-                                                                                {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
-                                                                            <span class="label label-brand-accent">←点击节点查看配置信息</span>
-                                                                        </p>
-                                                                    {elseif $node['sort'] == 11|| $node['sort']==12}
-                                                                        {displayNodeLinkV2 node=$node}
-                                                                        {$point_node=$node}
+
+                                                        {if in_array($node['sort'], [0, 10])}
+
+                                                            {$relay_rule = null}
+                                                            <!-- 用户等级不小于节点等级 -->
+                                                            {if $node['sort'] == 10}
+                                                                {$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
+                                                            {/if}
+
+                                                            {if $node['mu_only'] != 1}
+                                                                    <p class="card-heading">
+                                                                        <a href="javascript:void(0);"
+                                                                            onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
+                                                                            {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
+                                                                        <span class="label label-brand-accent">←点击节点查看配置信息</span>
+                                                                    </p>
+                                                            {/if}
+
+                                                            {if $node['mu_only'] != -1}
+                                                                {foreach $nodes_muport as $single_muport}
+
+                                                                    {if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
+                                                                        {continue}
                                                                     {/if}
 
-                                                                    {if $node['sort'] == 0 || $node['sort'] == 10||$node['sort']==13}
-                                                                        {$point_node=$node}
+                                                                    {$relay_rule = null}
+
+                                                                    {if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
+                                                                        {$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
                                                                     {/if}
+                                                                    <p class="card-heading">
+                                                                        <a href="javascript:void(0);"
+                                                                           onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
+                                                                            {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}
+                                                                            - 单端口 Shadowsocks -
+                                                                            {$node['raw_node']->getOffsetPort($single_muport['server']->server)}
+                                                                            端口</a><span
+                                                                                class="label label-brand-accent">←点击节点查看配置信息</span>
+                                                                    </p>
+                                                                {/foreach}
+                                                            {/if}
 
-                                                                    {if ($node['sort'] == 0 || $node['sort'] == 10) && $node['mu_only'] != -1}
-                                                                        {foreach $nodes_muport as $single_muport}
-
-                                                                            {if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
-                                                                                {continue}
-                                                                            {/if}
-
-                                                                            {if !($single_muport['user']->class >= $node['class'] && ($node['group'] == 0 || $single_muport['user']->node_group == $node['group']))}
-                                                                                {continue}
-                                                                            {/if}
-
-                                                                            {$relay_rule = null}
-
-                                                                            {if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
-                                                                                {$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
-                                                                            {/if}
-                                                                            <p class="card-heading">
-                                                                                <a href="javascript:void(0);"
-                                                                                   onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-                                                                                    {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}
-                                                                                    - 单端口 Shadowsocks -
-                                                                                    {$single_muport['server']->server}
-                                                                                    端口</a><span
-                                                                                        class="label label-brand-accent">←点击节点查看配置信息</span>
-                                                                            </p>
-                                                                        {/foreach}
-                                                                    {/if}
+                                                        {else}
+                                                            {displayNodeLink node=$node}
+                                                        {/if}
 
                                                                     <div>
                                                                         <i class="icon icon-lg node-icon">chat</i> {$node['info']}
                                                                     </div>
 
-                                                                    {if $node['sort'] == 11 ||$node['sort']==12}
+                                                                    {if $node['sort'] == 11 || $node['sort'] == 12}
                                                                         {displayV2rayNode node=$node}
                                                                     {/if}
+
+                                                                    {if $node['sort'] == 13}
+                                                                        {displaySort13Node node=$node}
+                                                                    {/if}
+
+                                                                    {if $node['sort'] == 14}
+                                                                        {displaySort14Node node=$node}
+                                                                    {/if}
+
                                                                 </div>
                                                             </div>
 
                                                         </div>
+                                                    {/if}
+
+                                                    {if !in_array($node['sort'], [1, 2, 5, 9, 999])}
+                                                        {$point_node = $node}
                                                     {/if}
 
                                                     {if isset($point_node)}
@@ -359,6 +430,10 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
                 </div>
 
                 {include file='dialog.tpl'}
@@ -418,8 +493,8 @@
         }
 
         //UI切换
-        let elNodeCard = $$.querySelector(".node-cardgroup");
-        let elNodeTable = $$.querySelector(".node-table");
+        let elNodeCard = $$.querySelectorAll(".node-cardgroup");
+        let elNodeTable = $$.querySelectorAll(".node-table");
 
         let switchToCard = new UIswitch('switch-cards', elNodeTable, elNodeCard, 'grid', 'tempnode');
         switchToCard.listenSwitch();

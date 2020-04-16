@@ -1,10 +1,18 @@
 #!/usr/bin/env php
 <?php
-define('PUBLIC_PATH', __DIR__."/public");
-require __DIR__.'/bootstrap.php';
-/***
- * ss-panel xcat script
- */
+
+declare(strict_types=1);
+
+use App\Services\Boot;
+
+require __DIR__ . '/app/predefine.php';
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/config/.config.php';
+require __DIR__ . '/app/envload.php';
+
+Boot::setTime();
+Boot::bootDb();
+
 use App\Command\XCat;
 
 $cat = new XCat($argv);

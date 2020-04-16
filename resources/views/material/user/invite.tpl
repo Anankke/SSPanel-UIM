@@ -17,9 +17,9 @@
                                 <div class="card-inner">
                                     <p class="card-heading">说明</p>
                                     <p>您每邀请1位用户注册：</p>
-                                    <p>您会获得<code>{$config["invite_gift"]} G</code>流量奖励。</p>
-                                    <p>对方将获得<code>{$config["invite_get_money"]}</code>元奖励作为初始资金。</p>
-                                    <p>对方充值时您还会获得对方充值金额的 <code>{$config["code_payback"]} %</code> 的返利。</p>
+                                    <p>您会获得<code>{$config['invite_gift']} G</code>流量奖励。</p>
+                                    <p>对方将获得<code>{$config['invite_get_money']}</code>元奖励作为初始资金。</p>
+                                    <p>对方充值时您还会获得对方充值金额的 <code>{$config['code_payback']} %</code> 的返利。</p>
                                     <p class="card-heading">已获得返利：<code>{$paybacks_sum}</code> 元</p>
                                 </div>
 
@@ -49,9 +49,9 @@
                                                 <input type="text"
                                                        class="input form-control form-control-monospace cust-link"
                                                        name="input1" readonly=""
-                                                       value="{$config["baseUrl"]}/auth/register?code={$code->code}">
+                                                       value="{$config['baseUrl']}/auth/register?code={$code->code}">
                                                 <button class="copy-text btn btn-subscription" type="button"
-                                                        data-clipboard-text="{$config["baseUrl"]}/auth/register?code={$code->code}">
+                                                        data-clipboard-text="{$config['baseUrl']}/auth/register?code={$code->code}">
                                                     点击复制
                                                 </button>
                                             </div>
@@ -59,9 +59,9 @@
                                                 <input type="text"
                                                        class="input form-control form-control-monospace cust-link"
                                                        name="input2" readonly=""
-                                                       value="{$config["baseUrl"]}/#/auth/register?code={$code->code}">
+                                                       value="{$config['baseUrl']}/#/auth/register?code={$code->code}">
                                                 <button class="copy-text btn btn-subscription" type="button"
-                                                        data-clipboard-text="{$config["baseUrl"]}/#/auth/register?code={$code->code}">
+                                                        data-clipboard-text="{$config['baseUrl']}/#/auth/register?code={$code->code}">
                                                     点击复制
                                                 </button>
                                             </div>
@@ -84,7 +84,7 @@
                                                                 class="icon">check</span>&nbsp;
                                                     </button>
                                                 </div>
-                                                <p>例:输入<code>vip</code>则链接变为<code>{$config["baseUrl"]}
+                                                <p>例:输入<code>vip</code>则链接变为<code>{$config['baseUrl']}
                                                         /auth/register?code=vip</code></p>
                                                 <div class="form-group form-group-label">
                                                     <label class="floating-label"
@@ -156,9 +156,14 @@
                                             {foreach $paybacks as $payback}
                                                 <tr>
 
-                                                    <!--       <td>#{$payback->id}</td> -->
                                                     <td>{$payback->id}</td>
-                                                    <td>{$payback->userid}</td>
+                                                    {if $payback->user()!=null}
+                                                        <td>{$payback->user()->user_name}
+                                                        </td>
+                                                    {else}
+                                                        <td>已注销
+                                                        </td>
+                                                    {/if}
                                                     <td>{$payback->ref_get} 元</td>
 
                                                 </tr>
