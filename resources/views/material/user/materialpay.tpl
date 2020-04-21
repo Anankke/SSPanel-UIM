@@ -54,7 +54,7 @@
                     if (data.code == 200) {
                         $("#readytopay").modal('hide');
                         if (type === 'ALIPAY_WAP' || type === 'ALIPAY_WEB') {
-                            window.location.href = data.data.url;
+                            window.location.href = data.result.url;
                         } else {
                             pid = data.pid;
                             $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>';
@@ -62,7 +62,8 @@
                                 render: "canvas",
                                 width: 200,
                                 height: 200,
-                                text: data.data.url
+                                text: data.result.url,
+                                correctLevel: QRCode.CorrectLevel.Q
                             });
                             tid = setTimeout(f, 1000); //循环调用触发setTimeout
                         }
