@@ -775,3 +775,4 @@ CREATE TABLE IF NOT EXISTS `telegram_tasks` (
 
 ALTER TABLE `detect_log` ADD `status` int(2) NOT NULL DEFAULT '0' AFTER `node_id`;
 
+ALTER TABLE `user` ADD COLUMN `uuid` TEXT NULL DEFAULT NULL COMMENT 'uuid' AFTER `passwd`;

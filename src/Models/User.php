@@ -12,6 +12,7 @@ use App\Utils\{
     URL
 };
 use App\Services\{Config, Mail};
+use Ramsey\Uuid\Uuid;
 use Exception;
 
 /**
@@ -143,11 +144,15 @@ class User extends Model
 
     public function getUuid()
     {
-        // return Uuid::uuid3(
-        //     Uuid::NAMESPACE_DNS,
-        //     $this->attributes['id'] . '|' . $this->attributes['passwd']
-        // )->toString();
-        return $this->attributes['uuid'];
+        $uuid = $this->attributes['uuid'];
+        if ($uuid == '') {
+            $uuid =  Uuid::uuid3(
+                Uuid::NAMESPACE_DNS,
+                $this->attributes['id'] . '|' . $this->attributes['passwd']
+            )->toString();
+        }
+        
+        return $uuid;
     }
 
     /*
