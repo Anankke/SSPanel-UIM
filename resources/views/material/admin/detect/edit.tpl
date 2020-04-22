@@ -111,7 +111,7 @@
                         $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                error: jqXHR => {
+                error: data => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
                 }
