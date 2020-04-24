@@ -339,13 +339,15 @@ class AuthController extends BaseController
 
         //dumplin：1、邀请人等级为0则邀请码不可用；2、邀请人invite_num为可邀请次数，填负数则为无限
         $c = InviteCode::where('code', $code)->first();
+        if ($c->user_id != 0) {
+            $gift_user = User::where('id', '=', $c->user_id)->first();
+        }
         if (Config::getconfig('Register.string.Mode') === 'invite') {
             $res['ret'] = 0;
             $res['msg'] = '邀请码无效';
             if ($c == null) {
                 return $res;
             }
-            $gift_user = User::where('id', '=', $c->user_id)->first();
             if ($gift_user == null) {
                 $res['msg'] = '邀请人不存在';
                 return $res;
