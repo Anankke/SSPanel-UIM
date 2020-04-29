@@ -12,8 +12,29 @@ use App\Models\TrafficLog;
 use App\Utils\Tools;
 use App\Utils\Radius;
 
-class SyncRadius
+class SyncRadius extends Command
 {
+    public $description = ''
+        . '├─=: php xcat SyncRadius [选项]' . PHP_EOL
+        . '│ ├─ syncnas  ' . PHP_EOL
+        . '│ ├─ syncvpn  ' . PHP_EOL
+        . '│ ├─ syncusers' . PHP_EOL
+        . '│ ├─ synclogin' . PHP_EOL;
+
+    public function boot()
+    {
+        if (count($this->argv) === 2) {
+            echo $this->description;
+        } else {
+            $methodName = $this->argv[2];
+            if (method_exists($this, $methodName)) {
+                $this->$methodName();
+            } else {
+                echo '方法不存在.' . PHP_EOL;
+            }
+        }
+    }
+
     public static function synclogin()
     {
         if ($_ENV['enable_radius'] == false) {
@@ -82,7 +103,6 @@ class SyncRadius
             $user->save();
         }  */
     }
-
 
     public static function syncvpn()
     {
@@ -194,9 +214,9 @@ class SyncRadius
             if ($oldmd5 != $md5) {
                 //Restart radius
                 $myfile = fopen(BASE_PATH . '/storage/nas.md5', 'wb+') or die('Unable to open file!');
-                echo('Restarting...');
+                echo ('Restarting...');
                 system('/bin/bash /sbin/service radiusd restart', $retval);
-                echo($retval);
+                echo ($retval);
                 $txt = $md5;
                 fwrite($myfile, $txt);
                 fclose($myfile);

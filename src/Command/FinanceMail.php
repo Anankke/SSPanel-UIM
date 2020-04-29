@@ -1,16 +1,35 @@
 <?php
 
-
 namespace App\Command;
 
 use App\Models\User;
 use App\Utils\Telegram;
-use Ozdemir\Datatables\Datatables;
 use App\Utils\DatatablesHelper;
+use Ozdemir\Datatables\Datatables;
 
-class FinanceMail
+class FinanceMail extends Command
 {
-    public static function sendFinanceMail_day()
+    public $description = ''
+        . '├─=: php xcat FinanceMail [选项]' . PHP_EOL
+        . '│ ├─ day                     - 日报' . PHP_EOL
+        . '│ ├─ week                    - 周报' . PHP_EOL
+        . '│ ├─ month                   - 月报' . PHP_EOL;
+
+    public function boot()
+    {
+        if (count($this->argv) === 2) {
+            echo $this->description;
+        } else {
+            $methodName = $this->argv[2];
+            if (method_exists($this, $methodName)) {
+                $this->$methodName();
+            } else {
+                echo '方法不存在.' . PHP_EOL;
+            }
+        }
+    }
+
+    public function day()
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query(
@@ -85,7 +104,7 @@ class FinanceMail
         }
     }
 
-    public static function sendFinanceMail_week()
+    public function week()
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query(
@@ -148,7 +167,7 @@ class FinanceMail
         }
     }
 
-    public static function sendFinanceMail_month()
+    public function month()
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query(
