@@ -72,7 +72,8 @@ class Tool extends Command
      */
     public function initdocuments()
     {
-        system('git clone https://github.com/GeekQuerxy/PANEL_DOC.git ' . BASE_PATH . "/public/docs/", $ret);
+        $docs_path = BASE_PATH . '/public/docs/';
+        system('(ls ' . $docs_path . ' || git clone ' . $_ENV['documents_source'] . ' ' . $docs_path . ') && (cd ' . $docs_path . ' && git fetch --all && git reset --hard ' . $_ENV['docs_branche'] . ')', $ret);
         echo $ret;
     }
 
