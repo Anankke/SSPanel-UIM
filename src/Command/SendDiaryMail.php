@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Command;
 
 use App\Models\User;
@@ -10,9 +9,11 @@ use App\Utils\Telegram;
 use App\Utils\Tools;
 use App\Services\Analytics;
 
-class DailyMail
+class SendDiaryMail extends Command
 {
-    public static function sendDailyMail()
+    public $description = '├─=: php xcat SendDiaryMail  - 每日流量报告' . PHP_EOL;
+
+    public function boot()
     {
         $users = User::all();
         $logs = Ann::orderBy('id', 'desc')->get();
@@ -47,15 +48,6 @@ class DailyMail
                     Config::getconfig('Telegram.string.Diary')
                 )
             );
-        }
-    }
-
-    public static function reall()
-    {
-        $users = User::all();
-        foreach ($users as $user) {
-            $user->last_day_t = ($user->u + $user->d);
-            $user->save();
         }
     }
 }

@@ -15,12 +15,14 @@ use App\Models\{
 };
 use App\Utils\URL;
 
-class PortAutoChange
+class PortAutoChange extends Command
 {
+    public $description = '├─=: php xcat PortAutoChange - 端口被墙则自动更换端口' . PHP_EOL;
+
     /**
      *  配置
      */
-    private const Config = [
+    private $Config = [
         // 取端口范围最小值，新的端口将是之间的随机数
         'port_min' => 23333,
 
@@ -38,7 +40,7 @@ class PortAutoChange
         'exception_node_id' => array(),
     ];
 
-    public static function index()
+    public function boot()
     {
         $gfw_port_nodes = [];
         $nodes = Node::where(
@@ -63,14 +65,14 @@ class PortAutoChange
             foreach ($mu_nodes as $mu_node) {
                 $mu_user = User::where('enable', 1)->where('is_multi_user', '<>', 0)->where('port', '=', $mu_node->server)->first();
                 if ($mu_user == null) continue;
-                $port = self::OutPort($node->server, $mu_node->server);
+                $port = $this->OutPort($node->server, $mu_node->server);
                 $api_url = $_ENV['detect_gfw_url'];
                 $api_url = str_replace(
                     array('{ip}', '{port}'),
                     array($node->node_ip, $port),
                     $api_url
                 );
-                $result_tcping = self::DetectPort($api_url);
+                $result_tcping = $this->DetectPort($api_url);
                 if ($result_tcping) continue;
                 $gfw_port_nodes[$mu_node->server][] = $node->id;
                 echo ('#' . $node->id . ' --- ' . $node->name . ' --- ' . $port . ' 端口不通' . PHP_EOL);
@@ -100,14 +102,14 @@ class PortAutoChange
                 ->where('type', '1')
                 ->get();
             for ($i = 0; $i <= 10; $i++) {
-                $new_port = rand((int) self::Config['port_min'], (int) self::Config['port_max']);
+                $new_port = rand((int) $this->Config['port_min'], (int) $this->Config['port_max']);
                 if (Node::where('sort', 9)->where('server', '=', $new_port)->first() == null && User::where('port', '=', $new_port)->first() == null) {
                     break;
                 }
             }
             $number = (count($array) / count($mu_port_nodes)) * 100;
-            if ($number >= self::Config['mu_node_port_change_percent']) {
-                echo ('超过百分比：' . $number . '%'. PHP_EOL);
+            if ($number >= $this->Config['mu_node_port_change_percent']) {
+                echo ('超过百分比：' . $number . '%' . PHP_EOL);
                 echo ('#' . $mu_node->id . ' - 单端口承载节点 - ' . $mu_node->name . ' - 更换了新的端口 ' . $new_port . PHP_EOL);
                 $mu_node->server = $new_port;
                 $mu_node->save();
@@ -115,13 +117,13 @@ class PortAutoChange
                 $mu_user->port = $new_port;
                 $mu_user->save();
                 foreach ($mu_port_nodes as $mu_port_node) {
-                    $node_port = self::OutPort($mu_port_node->server, $port);
-                    if (in_array($mu_port_node->id, $array) && !in_array($mu_port_node->id, self::Config['exception_node_id'])) {
+                    $node_port = $this->OutPort($mu_port_node->server, $port);
+                    if (in_array($mu_port_node->id, $array) && !in_array($mu_port_node->id, $this->Config['exception_node_id'])) {
                         if ($node_port != $port) {
                             if ($node_port == $new_port) {
                                 if (strpos($mu_port_node->server, ($port . '#')) !== false) {
                                     for ($i = 0; $i <= 10; $i++) {
-                                        $new_mu_node_port = rand((int) self::Config['port_min'], (int) self::Config['port_max']);
+                                        $new_mu_node_port = rand((int) $this->Config['port_min'], (int) $this->Config['port_max']);
                                         if ($new_mu_node_port != $new_port && Node::where('port', '=', $new_mu_node_port)->first() == null && User::where('port', '=', $new_mu_node_port)->first() == null) {
                                             break;
                                         }
@@ -160,9 +162,9 @@ class PortAutoChange
                 }
             } else {
                 foreach ($array as $node_id) {
-                    if (in_array($node_id, self::Config['exception_node_id'])) continue;
+                    if (in_array($node_id, $this->Config['exception_node_id'])) continue;
                     $node = Node::find($node_id);
-                    $node_port = self::OutPort($node->server, $port);
+                    $node_port = $this->OutPort($node->server, $port);
                     if ($node_port != $port) {
                         if (strpos($node->server, ('#' . $node_port)) !== false) {
                             echo ('#' . $node->id . ' - 节点 - ' . $node->name . ' - 端口从' . $node_port . '偏移到了新的端口 ' . $new_port . PHP_EOL);
@@ -186,7 +188,7 @@ class PortAutoChange
         }
     }
 
-    public static function OutPort($server, $mu_port)
+    public function OutPort($server, $mu_port)
     {
         $node_port = $mu_port;
         if (strpos($server, ';') !== false) {
@@ -215,7 +217,7 @@ class PortAutoChange
         return $node_port;
     }
 
-    public static function DetectPort($api_url)
+    public function DetectPort($api_url)
     {
         $result_tcping = false;
         $detect_time = $_ENV['detect_gfw_count'];

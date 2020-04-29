@@ -3,14 +3,15 @@
 namespace App\Command;
 
 use App\Services\DefaultConfig;
+use App\Utils\DatatablesHelper;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
-use App\Services\Config;
-use App\Utils\DatatablesHelper;
 
-class Update
+class Update extends Command
 {
-    public static function update($xcat)
+    public $description = '├─=: php xcat Update         - 更新并迁移配置' . PHP_EOL;
+
+    public function boot()
     {
         global $_ENV;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
@@ -31,7 +32,7 @@ class Update
         echo ('客户端升级结束' . PHP_EOL);
 
         echo ('开始升级 QQWry...' . PHP_EOL);
-        $xcat->initQQWry();
+        (new Tool($this->argv))->initQQWry();
         echo ('升级 QQWry结束' . PHP_EOL);
 
         echo (PHP_EOL);
@@ -41,8 +42,8 @@ class Update
 
         //执行版本升级
         $version_old = $_ENV['version'] ?? 0;
-        self::old_to_new($version_old);
-        self::addColumns('user', 'uuid', 'TEXT', TRUE, 'NULL', 'uuid', 'passwd');
+        $this->old_to_new($version_old);
+        $this->addColumns('user', 'uuid', 'TEXT', TRUE, 'NULL', 'uuid', 'passwd');
 
         //将旧config迁移到新config上
         $migrated = array();
@@ -140,7 +141,7 @@ class Update
         system('chown -R www:www ' . BASE_PATH . '/storage');
     }
 
-    public static function addColumns($table, $columu, $type, $isnull, $default, $comment, $after)
+    public function addColumns($table, $columu, $type, $isnull, $default, $comment, $after)
     {
         $datatables = new DatatablesHelper();
         $exists = $datatables->query("SELECT COUNT(*) as cc FROM information_schema.columns WHERE `table_schema` = '" . $_ENV['db_database'] . "' AND `table_name` = '" . $table . "' AND `column_name` = '" . $columu . "'");
@@ -151,7 +152,7 @@ class Update
         $datatables->query("ALTER TABLE `" . $table . "` ADD COLUMN `" . $columu . "` " . $type . $isnull . "DEFAULT " . $default . " COMMENT '" . $comment . "' AFTER `" . $after . "`");
     }
 
-    public static function old_to_new($version_old)
+    public function old_to_new($version_old)
     {
         if ($version_old < 2) {
             // 版本 2 开始

@@ -5,9 +5,28 @@ namespace App\Command;
 
 use App\Models\User;
 
-class ExtMail
+class ExtMail extends Command
 {
-    public static function sendNoMail()
+    public $description = ''
+        . '├─=: php xcat ExtMail [选项]' . PHP_EOL
+        . '│ ├─ sendNoMail ' . PHP_EOL
+        . '│ ├─ sendOldMail' . PHP_EOL;
+
+    public function boot()
+    {
+        if (count($this->argv) === 2) {
+            echo $this->description;
+        } else {
+            $methodName = $this->argv[2];
+            if (method_exists($this, $methodName)) {
+                $this->$methodName();
+            } else {
+                echo '方法不存在.' . PHP_EOL;
+            }
+        }
+    }
+
+    public function sendNoMail()
     {
         $users = User::all();
         foreach ($users as $user) {
@@ -25,7 +44,7 @@ class ExtMail
         }
     }
 
-    public static function sendOldMail()
+    public function sendOldMail()
     {
         $users = User::all();
         foreach ($users as $user) {
