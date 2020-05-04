@@ -25,7 +25,7 @@ class Smtp extends Base
             $mail->SMTPSecure = ($_ENV['smtp_port'] == 587 ? 'tls' : 'ssl');                            // Enable TLS encryption, `ssl` also accepted
         }
         $mail->Port = $this->config['port'];                                    // TCP port to connect to
-        $mail->setFrom($this->config['username'], $this->config['sender']);
+        $mail->setFrom($this->config['sender'], $this->config['name']);
         $mail->addReplyTo($this->config['reply_to'], $this->config['reply_to_name']);
         $mail->CharSet = 'UTF-8';
         $this->mail = $mail;
@@ -38,6 +38,7 @@ class Smtp extends Base
             'username' => $_ENV['smtp_username'],
             'port' => $_ENV['smtp_port'],
             'sender' => $_ENV['smtp_sender'],
+            'name' => $_ENV['smtp_name'],
             'passsword' => $_ENV['smtp_passsword'],
             'reply_to' => $_ENV['smtp_reply_to'],
             'reply_to_name' => $_ENV['smtp_reply_to_name']

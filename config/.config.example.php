@@ -9,7 +9,6 @@ $_ENV['config_migrate_notice'] =
 'enable_geetest_* 已变更为 enable_*_captcha
 crisp已被替换为mylivechat
 telegrma_qrcode被重命名为qrcode
-
 ';
 $_ENV['version'] = 2;    //仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
@@ -58,6 +57,7 @@ $_ENV['mailgun_sender']  = '';
 $_ENV['smtp_host']          = '';                          // smtp 邮局服务器域
 $_ENV['smtp_username']      = '';                          // smtp 账户名
 $_ENV['smtp_port']          = 465;                         // smtp 端口(常见端口 25, 587 465)
+$_ENV['smtp_name']          = '';
 $_ENV['smtp_sender']        = '';                          // smtp 账户自定义显示名
 $_ENV['smtp_passsword']     = '';                          // stmp 账户密码
 $_ENV['smtp_ssl']           = true;                        // 支持 TLS/SSL 发信
