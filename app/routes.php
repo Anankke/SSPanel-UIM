@@ -21,7 +21,11 @@ return function (SlimApp $app) {
     $app->get('/tomato_back/{type}',    App\Services\Payment::class . ':notify');
     $app->post('/tomato_back/{type}',   App\Services\Payment::class . ':notify');
     $app->post('/notify',               App\Controllers\HomeController::class . ':notify');
-
+    
+    // wolfpay
+    $app->get('/wolfpay/{type}',    App\Services\Payment::class . ':notify');
+    $app->post('/wolfpay/{type}',   App\Services\Payment::class . ':notify');
+    
     // Telegram
     $app->post('/telegram_callback',    App\Controllers\HomeController::class . ':telegram');
 
