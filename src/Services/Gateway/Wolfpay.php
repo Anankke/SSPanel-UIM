@@ -1,8 +1,7 @@
 <?php
 namespace App\Services\Gateway;
-use App\Services\View;
+
 use App\Services\Auth;
-use App\Services\Config;
 use App\Models\Paylist;
 function ensy($data, $key) {
     $key = md5($key);
@@ -102,7 +101,7 @@ class Wolfpay extends AbstractPayment {
             return json_encode(['errcode' => - 1, 'errmsg' => "非法的金额."]);
         }
         $user = Auth::getUser();
-        $settings = Config::get("wolfpay") ['config'];
+        $settings = $_ENV["wolfpay"]['config'];
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
@@ -136,7 +135,7 @@ class Wolfpay extends AbstractPayment {
     }
     public function notify($request, $response, $args) {
         $type = $args['type'];
-        $settings = Config::get("wolfpay") ['config'];
+        $settings = $_ENV["wolfpay"]['config'];
         $security['orderid'] = $_REQUEST['out_trade_no'];
         if ($security['orderid'] == '' OR $security['orderid'] == null) {
             header("Location: /user/code");
@@ -151,7 +150,7 @@ class Wolfpay extends AbstractPayment {
             if ($pay->verify($data)) {
                 //验证支付状态
                 if ($data['trade_status'] == 'TRADE_SUCCESS') {
-                    $this->postPayment($data['out_trade_no'], "在线支付");
+                    $this->postPayment($data['out_trade_no'], "wolfpay在线支付");
                     echo "success";
                     header("Location: /user/code");
                 }
