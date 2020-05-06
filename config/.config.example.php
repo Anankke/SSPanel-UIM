@@ -353,9 +353,9 @@ $_ENV['tomatopay'] = [
 ];
 
 #wolfpay野狼支付
-#TG群:https://t.me/wolfpays 本支付平台註冊為邀請審核制!   
-#可使境內外收款功能(包含虛擬貨幣/信用卡/銀聯)，可USDT提現!
-#費率一律2.5%
+#TG群:https://t.me/wolfpays 本支付平台注册为邀请审核制!   
+#可使境内外收款功能(包含虚拟货币/信用卡/银联)，可USDT提现!
+#费率一律2.5%
 $_ENV['wolfpay']=[
     'config'=>[
         'hid'=>'',//商户ID
