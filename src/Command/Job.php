@@ -44,7 +44,6 @@ class Job extends Command
         . '│ ├─ UserGa                  - 二次验证' . PHP_EOL
         . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
         . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
-        . '│ ├─ syncnasnode             - ？？？' . PHP_EOL
         . '│ ├─ updatedownload          - 检查客户端更新' . PHP_EOL;
 
     public function boot()
@@ -753,20 +752,5 @@ class Job extends Command
             $user->save();
         }
         echo 'ok';
-    }
-
-    public function syncnasnode()
-    {
-        $nodes = Node::all();
-        foreach ($nodes as $node) {
-            $rule = preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/", $node->server);
-            if (!$rule && (in_array($node->sort, array(0, 10, 12, 13)))) {
-                $ip = gethostbyname($node->server);
-                $node->node_ip = $ip;
-                $node->save();
-
-                Radius::AddNas($node->node_ip, $node->server);
-            }
-        }
     }
 }
