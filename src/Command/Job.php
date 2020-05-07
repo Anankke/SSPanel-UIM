@@ -36,7 +36,7 @@ use Ramsey\Uuid\Uuid;
 
 class Job extends Command
 {
-    public string $description = ''
+    public $description = ''
     . '├─=: php xcat Job [选项]' . PHP_EOL
     . '│ ├─ UserGa                  - 二次验证' . PHP_EOL
     . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
