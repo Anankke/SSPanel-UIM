@@ -2,49 +2,46 @@
 
 namespace App\Command;
 
-use App\Models\{
-    Ip,
-    Node,
-    User,
-    Shop,
-    Token,
-    Bought,
-    BlockIp,
-    LoginIp,
-    DetectLog,
-    UnblockIp,
-    Speedtest,
-    RadiusBan,
-    TrafficLog,
-    Disconnect,
-    EmailVerify,
-    DetectBanLog,
-    NodeInfoLog,
-    NodeOnlineLog,
-    TelegramTasks,
-    TelegramSession,
-    UserSubscribeLog
-};
+use App\Models\Ip;
+use App\Models\Node;
+use App\Models\User;
+use App\Models\Shop;
+use App\Models\Token;
+use App\Models\Bought;
+use App\Models\BlockIp;
+use App\Models\LoginIp;
+use App\Models\DetectLog;
+use App\Models\UnblockIp;
+use App\Models\Speedtest;
+use App\Models\RadiusBan;
+use App\Models\TrafficLog;
+use App\Models\Disconnect;
+use App\Models\EmailVerify;
+use App\Models\DetectBanLog;
+use App\Models\NodeInfoLog;
+use App\Models\NodeOnlineLog;
+use App\Models\TelegramTasks;
+use App\Models\TelegramSession;
+use App\Models\UserSubscribeLog;
 use App\Services\Config;
-use App\Utils\{
-    GA,
-    QQWry,
-    Tools,
-    Radius,
-    Telegram,
-    DatatablesHelper
-};
+use App\Utils\GA;
+use App\Utils\QQWry;
+use App\Utils\Telegram\TelegramTools;
+use App\Utils\Tools;
+use App\Utils\Radius;
+use App\Utils\Telegram;
+use App\Utils\DatatablesHelper;
 use ArrayObject;
 use Ramsey\Uuid\Uuid;
 
 class Job extends Command
 {
-    public $description = ''
-        . '├─=: php xcat Job [选项]' . PHP_EOL
-        . '│ ├─ UserGa                  - 二次验证' . PHP_EOL
-        . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
-        . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
-        . '│ ├─ updatedownload          - 检查客户端更新' . PHP_EOL;
+    public string $description = ''
+    . '├─=: php xcat Job [选项]' . PHP_EOL
+    . '│ ├─ UserGa                  - 二次验证' . PHP_EOL
+    . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
+    . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
+    . '│ ├─ updatedownload          - 检查客户端更新' . PHP_EOL;
 
     public function boot()
     {
@@ -80,10 +77,13 @@ class Job extends Command
         }
 
         // 清理订阅记录
-        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
+        UserSubscribeLog::where(
+            'request_time',
+            '<',
+            date('Y-m-d H:i:s', time() - 86400 * (int)$_ENV['subscribeLog_keep_days'])
+        )->delete();
 
         Token::where('expire_time', '<', time())->delete();
-
         NodeInfoLog::where('log_time', '<', time() - 86400 * 3)->delete();
         NodeOnlineLog::where('log_time', '<', time() - 86400 * 3)->delete();
         TrafficLog::where('log_time', '<', time() - 86400 * 3)->delete();
@@ -98,7 +98,7 @@ class Job extends Command
 
         //auto reset
         $boughts = Bought::all();
-        $boughted_users = array();
+        $bought_users = array();
         foreach ($boughts as $bought) {
             $user = User::where('id', $bought->userid)->first();
 
@@ -115,9 +115,11 @@ class Job extends Command
             }
 
             if ($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0) {
-                $boughted_users[] = $bought->userid;
-                if ((time() - $shop->reset_exp() * 86400 < $bought->datetime) && (int) ((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && (int) ((time() - $bought->datetime) / 86400) != 0) {
-                    echo ('流量重置-' . $user->id . "\n");
+                $bought_users[] = $bought->userid;
+                if ((time() - $shop->reset_exp() * 86400 < $bought->datetime) && (int)((time(
+                            ) - $bought->datetime) / 86400) % $shop->reset() == 0 && (int)((time(
+                            ) - $bought->datetime) / 86400) != 0) {
+                    echo('流量重置-' . $user->id . "\n");
                     $user->transfer_enable = Tools::toGB($shop->reset_value());
                     $user->u = 0;
                     $user->d = 0;
@@ -140,7 +142,7 @@ class Job extends Command
         foreach ($users as $user) {
             $user->last_day_t = ($user->u + $user->d);
             $user->save();
-            if (in_array($user->id, $boughted_users)) {
+            if (in_array($user->id, $bought_users)) {
                 continue;
             }
             if (date('d') == $user->auto_reset_day) {
@@ -173,7 +175,7 @@ class Job extends Command
         $iplocation = new QQWry();
         $location = $iplocation->getlocation('8.8.8.8');
         $Userlocation = $location['country'];
-        if (iconv('gbk', 'utf-8//IGNORE', $Userlocation) != '美国') {
+        if (iconv('gbk', 'utf-8//IGNORE', $Userlocation) !== '美国') {
             unlink(BASE_PATH . '/storage/qqwry.dat');
             rename(BASE_PATH . '/storage/qqwry.dat.bak', BASE_PATH . '/storage/qqwry.dat');
         }
@@ -366,11 +368,11 @@ class Job extends Command
                         );
                         $opts = array(
                             'http' =>
-                            array(
-                                'method' => 'POST',
-                                'header' => 'Content-type: application/x-www-form-urlencoded',
-                                'content' => $postdata
-                            )
+                                array(
+                                    'method' => 'POST',
+                                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                                    'content' => $postdata
+                                )
                         );
                         $context = stream_context_create($opts);
                         file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
@@ -412,11 +414,11 @@ class Job extends Command
 
                         $opts = array(
                             'http' =>
-                            array(
-                                'method' => 'POST',
-                                'header' => 'Content-type: application/x-www-form-urlencoded',
-                                'content' => $postdata
-                            )
+                                array(
+                                    'method' => 'POST',
+                                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                                    'content' => $postdata
+                                )
                         );
                         $context = stream_context_create($opts);
                         file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
@@ -473,15 +475,15 @@ class Job extends Command
                             if ($Userlocation != $location['country'] && $nodes == null && $nodes2 == null) {
                                 $user = User::where('id', '=', $userlog->userid)->first();
                                 echo 'Send warn mail to user: ' . $user->id . '-' . iconv(
-                                    'gbk',
-                                    'utf-8//IGNORE',
-                                    $Userlocation
-                                ) . '-' . iconv('gbk', 'utf-8//IGNORE', $location['country']);
+                                        'gbk',
+                                        'utf-8//IGNORE',
+                                        $Userlocation
+                                    ) . '-' . iconv('gbk', 'utf-8//IGNORE', $location['country']);
                                 $text = '您好，系统发现您的账号在 ' . iconv(
-                                    'gbk',
-                                    'utf-8//IGNORE',
-                                    $Userlocation
-                                ) . ' 有异常登录，请您自己自行核实登录行为。有异常请及时修改密码。';
+                                        'gbk',
+                                        'utf-8//IGNORE',
+                                        $Userlocation
+                                    ) . ' 有异常登录，请您自己自行核实登录行为。有异常请及时修改密码。';
                                 $user->sendMail(
                                     $_ENV['appName'] . '-系统警告',
                                     'news/warn.tpl',
@@ -502,13 +504,15 @@ class Job extends Command
         foreach ($users as $user) {
             $user->uuid = Uuid::uuid3(
                 Uuid::NAMESPACE_DNS,
-                strval($user->id) . '|' . $user->passwd
-            )->toString();
+                $user->id . '|' . $user->passwd
+            );
             $user->save();
-            if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime($user->expire_in) < time() && strtotime($user->expire_in) > 644447105)) && RadiusBan::where(
-                'userid',
-                $user->id
-            )->first() == null) {
+            if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime(
+                            $user->expire_in
+                        ) < time() && strtotime($user->expire_in) > 644447105)) && RadiusBan::where(
+                    'userid',
+                    $user->id
+                )->first() == null) {
                 $rb = new RadiusBan();
                 $rb->userid = $user->id;
                 $rb->save();
@@ -542,15 +546,13 @@ class Job extends Command
                 $under_limit = false;
 
                 if ($user->transfer_enable != 0) {
-                    if (
-                        $_ENV['notify_limit_mode'] == 'per' &&
+                    if ($_ENV['notify_limit_mode'] == 'per' &&
                         $user_traffic_left / $user->transfer_enable * 100 < $_ENV['notify_limit_value']
                     ) {
                         $under_limit = true;
                         $unit_text = '%';
                     }
-                } elseif (
-                    $_ENV['notify_limit_mode'] == 'mb' &&
+                } elseif ($_ENV['notify_limit_mode'] == 'mb' &&
                     Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']
                 ) {
                     $under_limit = true;
@@ -576,8 +578,7 @@ class Job extends Command
                 }
             }
 
-            if (
-                $_ENV['account_expire_delete_days'] >= 0 &&
+            if ($_ENV['account_expire_delete_days'] >= 0 &&
                 strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < time() &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
@@ -593,8 +594,7 @@ class Job extends Command
                 continue;
             }
 
-            if (
-                $_ENV['auto_clean_uncheck_days'] > 0 &&
+            if ($_ENV['auto_clean_uncheck_days'] > 0 &&
                 max(
                     $user->last_check_in_time,
                     strtotime($user->reg_date)
@@ -614,8 +614,7 @@ class Job extends Command
                 continue;
             }
 
-            if (
-                $_ENV['auto_clean_unused_days'] > 0 &&
+            if ($_ENV['auto_clean_unused_days'] > 0 &&
                 max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < time() &&
                 $user->class == 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
@@ -632,8 +631,7 @@ class Job extends Command
                 continue;
             }
 
-            if (
-                $user->class != 0 &&
+            if ($user->class != 0 &&
                 strtotime($user->class_expire) < time() &&
                 strtotime($user->class_expire) > 1420041600
             ) {
@@ -679,7 +677,9 @@ class Job extends Command
                 continue;
             }
 
-            if ($user->enable == 1 && (strtotime($user->expire_in) > time() || strtotime($user->expire_in) < 644447105) && $user->transfer_enable > $user->u + $user->d) {
+            if ($user->enable == 1 && (strtotime($user->expire_in) > time() || strtotime(
+                        $user->expire_in
+                    ) < 644447105) && $user->transfer_enable > $user->u + $user->d) {
                 $sinuser->delete();
                 Radius::Add($user, $user->passwd);
             }
@@ -709,7 +709,9 @@ class Job extends Command
         // 删除无效的中转
         $allNodeID = implode(', ', $allNodeID);
         $datatables = new DatatablesHelper();
-        $datatables->query('DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')');
+        $datatables->query(
+            'DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')'
+        );
     }
 
     /**
@@ -720,8 +722,14 @@ class Job extends Command
         # 删除 tg 消息
         $TelegramTasks = TelegramTasks::where('type', 1)->where('executetime', '<', time())->get();
         foreach ($TelegramTasks as $Task) {
-            \App\Utils\Telegram\TelegramTools::SendPost('deleteMessage', ['chat_id' => $Task->chatid, 'message_id' => $Task->messageid]);
-            TelegramTasks::where('chatid', $Task->chatid)->where('type', '<>', 1)->where('messageid', $Task->messageid)->delete();
+            TelegramTools::SendPost(
+                'deleteMessage',
+                ['chat_id' => $Task->chatid, 'message_id' => $Task->messageid]
+            );
+            TelegramTasks::where('chatid', $Task->chatid)->where('type', '<>', 1)->where(
+                'messageid',
+                $Task->messageid
+            )->delete();
             $Task->delete();
         }
     }
@@ -733,7 +741,9 @@ class Job extends Command
      */
     public function updatedownload()
     {
-        system('cd ' . BASE_PATH . '/public/ssr-download/ && git pull https://github.com/xcxnig/ssr-download.git && git gc');
+        system(
+            'cd ' . BASE_PATH . '/public/ssr-download/ && git pull https://github.com/xcxnig/ssr-download.git && git gc'
+        );
     }
 
     /**
