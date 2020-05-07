@@ -42,7 +42,6 @@ class Job extends Command
     public $description = ''
         . '├─=: php xcat Job [选项]' . PHP_EOL
         . '│ ├─ UserGa                  - 二次验证' . PHP_EOL
-        . '│ ├─ syncnode                - 更新节点 IP，每分钟' . PHP_EOL
         . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
         . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
         . '│ ├─ syncnasnode             - ？？？' . PHP_EOL
@@ -60,34 +59,6 @@ class Job extends Command
                 echo '方法不存在.' . PHP_EOL;
             }
         }
-    }
-
-    /**
-     * 更新节点 IP，每分钟
-     *
-     * @return void
-     */
-    public function syncnode()
-    {
-        $nodes = Node::all();
-        $allNodeID = [];
-        foreach ($nodes as $node) {
-            $allNodeID[] = $node->id;
-            $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
-            if (!in_array($node->sort, $nodeSort)) {
-                $server = $node->getOutServer();
-                if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
-                    $node->save();
-                }
-                if (in_array($node->sort, array(0, 10, 12))) {
-                    Tools::updateRelayRuleIp($node);
-                }
-            }
-        }
-        // 删除无效的中转
-        $allNodeID = implode(', ', $allNodeID);
-        $datatables = new DatatablesHelper();
-        $datatables->query('DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')');
     }
 
     /**
@@ -718,6 +689,28 @@ class Job extends Command
         if ($_ENV['enable_telegram'] === true) {
             $this->Telegram();
         }
+
+        //更新节点 IP，每分钟
+        $nodes = Node::all();
+        $allNodeID = [];
+        foreach ($nodes as $node) {
+            $allNodeID[] = $node->id;
+            $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
+            if (!in_array($node->sort, $nodeSort)) {
+                $server = $node->getOutServer();
+                if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
+                    $node->save();
+                }
+                if (in_array($node->sort, array(0, 10, 12))) {
+                    Tools::updateRelayRuleIp($node);
+                }
+            }
+        }
+
+        // 删除无效的中转
+        $allNodeID = implode(', ', $allNodeID);
+        $datatables = new DatatablesHelper();
+        $datatables->query('DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')');
     }
 
     /**
