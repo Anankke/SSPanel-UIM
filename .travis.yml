@@ -2,7 +2,7 @@ language: php
 services:
   - mysql
 php:
-  - 7.3
+  - 7.4
 sudo: enabled
 dist: xenial
 addons:
