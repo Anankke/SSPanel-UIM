@@ -18,7 +18,7 @@ $_ENV['key']        = '1145141919810';                //!!! 瞎 jb 修改此key�
 $_ENV['debug']      = false;                          //正式环境请确保为 false
 $_ENV['appName']    = 'sspanel';                      //站点名称
 $_ENV['baseUrl']    = 'http://url.com';               //站点地址
-$_ENV['muKey']      = 'default_mu_key';               //用于校验魔改后端请求，可以随意修改，但请保持前后端一致，否则节点不能工作！
+$_ENV['muKey']      = 'NimaQu';                       //用于校验魔改后端请求，可以随意修改，但请保持前后端一致，否则节点不能工作！
 
 // 主站是否提供 WEBAPI
 // - 如果您全部节点使用数据库连接，则保持为 false
