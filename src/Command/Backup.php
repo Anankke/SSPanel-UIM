@@ -61,7 +61,7 @@ class Backup extends Command
 
         system('cp ' . BASE_PATH . '/config/.config.php /tmp/ssmodbackup/configbak.php', $ret);
         echo $ret;
-        $backup_passwd = $_ENV["auto_backup_passwd"] == "" ? "" : " -P " . $_ENV["auto_backup_passwd"];
+        $backup_passwd = $_ENV["auto_backup_password"] == "" ? "" : " -P " . $_ENV["auto_backup_password"];
         system('zip -r /tmp/ssmodbackup.zip /tmp/ssmodbackup/* ' . $backup_passwd, $ret);
         $subject = $_ENV['appName'] . '-备份成功';
         $text = '您好，系统已经为您自动备份，请查看附件，用您设定的密码解压。';

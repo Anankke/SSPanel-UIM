@@ -39,7 +39,7 @@ class Smtp extends Base
             'port' => $_ENV['smtp_port'],
             'sender' => $_ENV['smtp_sender'],
             'name' => $_ENV['smtp_name'],
-            'passsword' => $_ENV['smtp_passsword'],
+            'passsword' => $_ENV['smtp_password'],
             'reply_to' => $_ENV['smtp_reply_to'],
             'reply_to_name' => $_ENV['smtp_reply_to_name']
         ];
