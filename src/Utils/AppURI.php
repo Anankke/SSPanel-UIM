@@ -584,7 +584,7 @@ class AppURI
         switch ($item['type']) {
             case 'trojan':
                 $return  = ('trojan://' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']);
-                $return .= ('?peer=' . $item['host'] . '#' .  rawurlencode($item['remark']));
+                $return .= ('?peer=' . $item['host'] . '&sni=' . $item['host'] . '#' .  rawurlencode($item['remark']));
                 break;
         }
         return $return;
