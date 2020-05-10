@@ -800,7 +800,9 @@ table tr td:first-child {
                                                         .
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝 V2Ray 订阅链接</a>
                                                         .
-                                                        <a class="btn-dl" onclick=AddSub("{$subInfo['shadowrocket']}","sub://")><i class="material-icons icon-sm">send</i> 拷贝该应用专属订阅链接</a>
+                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['shadowrocket']}"><i class="material-icons icon-sm">send</i> 拷贝该应用专属订阅链接</a>
+                                                        .
+                                                        <a class="btn-dl" onclick=AddSub("{$subInfo['shadowrocket']}","sub://")><i class="material-icons icon-sm">send</i> 一键导入 Shadowrocket</a>
                                                     </p>
                                             {if array_key_exists('iOS',$config['userCenterClient'])}
                                                 {if count($config['userCenterClient']['iOS']) != 0}
