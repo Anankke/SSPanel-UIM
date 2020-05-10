@@ -60,11 +60,11 @@
     {/if}
     {if $sort14Node['host'] != $sort14Node['address']}
     <p>Trojan 链接：
-        <a class="copy-text" data-clipboard-text="trojan://{$sort14Node['passwd']}@{$sort14Node['address']}:{$sort14Node['port']}?peer={$sort14Node['host']}&sni={$sort14Node['host']}#{urlencode($node['name'])}">点击复制</a>
+        <a class="copy-text" data-clipboard-text="trojan://{$sort14Node['passwd']}@{$sort14Node['address']}:{$sort14Node['port']}?peer={$sort14Node['host']}&sni={$sort14Node['host']}#{rawurlencode($node['name'])}">点击复制</a>
     </p>
     {else}
     <p>Trojan 链接：
-        <a class="copy-text" data-clipboard-text="trojan://{$sort14Node['passwd']}@{$sort14Node['address']}:{$sort14Node['port']}#{$node['name']}">点击复制</a>
+        <a class="copy-text" data-clipboard-text="trojan://{$sort14Node['passwd']}@{$sort14Node['address']}:{$sort14Node['port']}#{rawurlencode($node['name'])}">点击复制</a>
     </p>
     {/if}
 {/function}
