@@ -103,6 +103,13 @@
                 }
             });
         }
+
+        $("html").keydown(event => {
+            if (event.keyCode == 13) {
+                submit();
+            }
+        });
+
         $$.getElementById('submit').addEventListener('click', submit);
     })
 </script>
