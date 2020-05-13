@@ -63,27 +63,4 @@
         });
     }
 
-    function f() {
-        $.ajax({
-            type: "POST",
-            url: "/payment/status",
-            dataType: "json",
-            data: {
-                pid: pid
-            },
-            success: function (data) {
-                if (data.result) {
-                    console.log(data);
-                    $("#result").modal();
-                    $("#msg").html("充值成功！");
-                    window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
-                }
-            },
-            error: function (jqXHR) {
-                console.log(jqXHR);
-            }
-        });
-        tid = setTimeout(f, 1000); //循环调用触发setTimeout
-    }
-
 </script>

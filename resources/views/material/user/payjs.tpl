@@ -14,7 +14,7 @@
 </div>
 <script>
     var pid = 0;
-
+    var flag = false;
     function pay(type) {
         if (type = 'wechat') {
         }
@@ -50,7 +50,12 @@
                                 height: 200,
                                 text: data.url      //使用encodeURI()函数报会调低至错误
                             });
-                            tid = setTimeout(f, 1000); //循环调用触发setTimeout
+                            if(flag == false){
+                                tid = setTimeout(f, 1000); //循环调用触发setTimeout
+                                flag = true;
+                            }else{
+                                return 0;
+                            }
                         }
                     } else {
                         $("#result").modal();
