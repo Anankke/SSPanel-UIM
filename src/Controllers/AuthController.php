@@ -393,6 +393,7 @@ class AuthController extends BaseController
         $user->auto_reset_day       = $_ENV['reg_auto_reset_day'];
         $user->auto_reset_bandwidth = $_ENV['reg_auto_reset_bandwidth'];
         $user->money                = 0;
+        $user->sendDailyMail        = Config::getconfig('Register.bool.send_dailyEmail');
 
         //dumplin：填写邀请人，写入邀请奖励
         $user->ref_by = 0;
