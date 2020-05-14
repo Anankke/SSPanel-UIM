@@ -580,9 +580,12 @@ INSERT INTO `ss_node` (`id`, `name`, `type`, `server`, `method`, `info`, `status
 
 
 ALTER TABLE `user` ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `remark`;
+
+ALTER TABLE `user` ADD `expire_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `telegram_id`, ADD `traffic_notified` BOOLEAN NULL DEFAULT FALSE AFTER `expire_notified`;
+
 ALTER TABLE `ss_node` ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `node_ip`;
 
-
+ALTER TABLE `ss_node` ADD `online` BOOLEAN NOT NULL DEFAULT TRUE AFTER `mu_only`, ADD `gfw_block` BOOLEAN NOT NULL DEFAULT FALSE AFTER `online`;
 
 
 CREATE TABLE `payback` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `total` DECIMAL(12,2) NOT NULL , `userid` BIGINT NOT NULL , `ref_by` BIGINT NOT NULL , `ref_get` DECIMAL(12,2) NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
@@ -592,7 +595,7 @@ CREATE TABLE `bought` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `userid` BIGINT NO
 
 ALTER TABLE `bought` ADD `coupon` TEXT NOT NULL AFTER `renew`, ADD `price` DECIMAL(12,2) NOT NULL AFTER `coupon`;
 
-
+ALTER TABLE `bought` ADD `is_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `price`;
 
 ALTER TABLE `bought` CHANGE `renew` `renew` BIGINT(11) NOT NULL;
 
