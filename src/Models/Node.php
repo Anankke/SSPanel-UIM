@@ -367,7 +367,7 @@ class Node extends Model
         $item['passwd']   = $user->getUuid();
         $item['host']     = $item['address'];
         if (isset($opt['host'])) {
-            $item['host'] = $opt['address'];
+            $item['host'] = $opt['host'];
         }
         return $item;
     }

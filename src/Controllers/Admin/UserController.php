@@ -133,7 +133,7 @@ class UserController extends AdminController
         $user->plan                 = 'A';
         $user->theme                = $_ENV['theme'];
 
-        $groups = explode(',', $_ENV['ramdom_group']);
+        $groups = explode(',', $_ENV['random_group']);
 
         $user->node_group = $groups[array_rand($groups)];
 

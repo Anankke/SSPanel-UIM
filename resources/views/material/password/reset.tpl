@@ -20,7 +20,7 @@
             <div class="auth-row">
                 <div class="form-group-label auth-row row-login">
                     <label class="floating-label" for="email">邮箱</label>
-                    <input class="form-control maxwidth-auth" id="email" type="text">
+                    <input class="form-control maxwidth-auth" id="email" type="email" inputmode="email" autocomplete="username">
                 </div>
             </div>
 

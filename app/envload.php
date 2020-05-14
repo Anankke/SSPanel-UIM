@@ -5,12 +5,11 @@ function searchEnvName($name)
 {
     global $_ENV;
     foreach ($_ENV as $configKey => $configValue) {
-        if (strtoupper($configKey) == $name) {
+        if (strtoupper($configKey) === $name) {
             return $configKey;
         }
     }
-
-    return NULL;
+    return null;
 }
 
 if (getenv('UIM_ENV_REPLACE_ENABLE')) {
@@ -18,11 +17,11 @@ if (getenv('UIM_ENV_REPLACE_ENABLE')) {
         global $_ENV;
         $envUpKey = strtoupper($envKey);
         // Key starts with UIM_
-        if (substr($envUpKey, 0, 4) == "UIM_") {
-            // Vaild env key, set to _ENV
+        if (strpos($envUpKey, "UIM_") === 0) {
+            // Valid env key, set to _ENV
             $configKey = substr($envUpKey, 4);
             $realKey = searchEnvName($configKey);
-            if ($realKey != NULL) {
+            if ($realKey !== null) {
                 $_ENV[$realKey] = $envValue;
             }
         }

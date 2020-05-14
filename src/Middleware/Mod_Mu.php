@@ -33,8 +33,8 @@ class Mod_Mu
             ]);
         }
 
-        if ($_ENV['Webapi'] === false) {
-            // 主站不提供 Webapi
+        if ($_ENV['WebAPI'] === false) {
+            // 主站不提供 WebAPI
             return $response->withJson([
                 'ret'  => 0,
                 'data' => 'We regret this service is temporarily unavailable'

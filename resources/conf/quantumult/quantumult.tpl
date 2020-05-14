@@ -981,6 +981,10 @@ DOMAIN-SUFFIX,beatsbydre.com,🍂 Domestic
 DOMAIN-SUFFIX,bet365.com,🍂 Domestic
 DOMAIN-SUFFIX,bilibili.cn,🍂 Domestic
 DOMAIN-SUFFIX,bilibili.com,🍂 Domestic
+DOMAIN-SUFFIX,bilibili.tv,🍂 Domestic
+DOMAIN-SUFFIX,bilivideo.com,🍂 Domestic
+DOMAIN-SUFFIX,biliapi.net,🍂 Domestic
+DOMAIN-SUFFIX,biliapi.com,🍂 Domestic
 DOMAIN-SUFFIX,caiyunapp.com,🍂 Domestic
 DOMAIN-SUFFIX,ccgslb.com,🍂 Domestic
 DOMAIN-SUFFIX,ccgslb.net,🍂 Domestic

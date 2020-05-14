@@ -314,7 +314,7 @@ class NodeController extends AdminController
         $limit_length = $request->getParam('length');
         $search       = $request->getParam('search')['value'];
 
-        if ($order_field == 'outaddress') {
+        if ($order_field == 'outaddress' || $order_field == 'op') {
             $order_field = 'server';
         }
 

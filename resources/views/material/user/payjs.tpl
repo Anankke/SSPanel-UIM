@@ -14,7 +14,7 @@
 </div>
 <script>
     var pid = 0;
-
+    var flag = false;
     function pay(type) {
         if (type = 'wechat') {
         }
@@ -27,38 +27,41 @@
             return;
         }
         $('#readytopay').modal();
-        $("#readytopay").on('shown.bs.modal', function () {
-            $.ajax({
-                url: "/user/payment/purchase",
-                data: {
-                    price,
-                    type,
-                },
-                dataType: 'json',
-                type: "POST",
-                success: (data) => {
-                    if (data.code == 0) {
-                        //console.log(data);
-                        $("#readytopay").modal('hide');
-                        {
-                            pid = data.pid;
-                            $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>';
-                            var qrcode = new QRCode("qrcode", {
-                                correctLevel: 3,  //解决超过200字符的二维码生成问题
-                                render: "canvas",
-                                width: 200,
-                                height: 200,
-                                text: data.url      //使用encodeURI()函数报会调低至错误
-                            });
+        $.ajax({
+            url: "/user/payment/purchase",
+            data: {
+                price,
+                type,
+            },
+            dataType: 'json',
+            type: "POST",
+            success: (data) => {
+                if (data.code == 0) {
+                    //console.log(data);
+                    $("#readytopay").modal('hide');
+                    {
+                        pid = data.pid;
+                        $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>';
+                        var qrcode = new QRCode("qrcode", {
+                            correctLevel: 3,  //解决超过200字符的二维码生成问题
+                            render: "canvas",
+                            width: 200,
+                            height: 200,
+                            text: data.url      //使用encodeURI()函数报会调低至错误
+                        });
+                        if(flag == false){
                             tid = setTimeout(f, 1000); //循环调用触发setTimeout
+                            flag = true;
+                        }else{
+                            return 0;
                         }
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        //console.log(data);
                     }
+                } else {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    //console.log(data);
                 }
-            });
+            }
         });
     }
 

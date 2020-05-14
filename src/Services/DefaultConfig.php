@@ -312,6 +312,15 @@ class DefaultConfig
                 'operator_id'   => 0,
                 'operator_name' => '系统默认',
             ],
+            'Register.bool.send_dailyEmail' => [
+                'key'           => $key,
+                'type'          => 'bool',
+                'value'         => '1',
+                'name'          => '注册时是否开启每日邮件',
+                'comment'       => '',
+                'operator_id'   => 0,
+                'operator_name' => '系统默认',
+            ],
             'Register.string.Email_verify_ttl' => [
                 'key'           => $key,
                 'type'          => 'string',

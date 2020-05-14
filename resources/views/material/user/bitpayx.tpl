@@ -40,50 +40,25 @@
         }
 
         $('#readytopay').modal();
-        $("#readytopay").on('shown.bs.modal', function () {
-            $.ajax({
-                'url': "/user/payment/purchase",
-                'data': {
-                    'price': price,
-                    'type': type,
-                },
-                'dataType': 'json',
-                'type': "POST",
-                success: function (data) {
-                    if (data.errcode == 0) {
-                        $("#readytopay").modal('hide');
-                        $("#msg").html("正在跳转到支付页面...");
-                        window.location.href = data.url;
-                    } else {
-                        $("#result").modal();
-                        $("#msg").html(data.errmsg);
-                    }
-                }
-            });
-        });
-    }
-
-    function f() {
         $.ajax({
-            type: "POST",
-            url: "/payment/status",
-            dataType: "json",
-            data: {
-                pid: pid
+            'url': "/user/payment/purchase",
+            'data': {
+                'price': price,
+                'type': type,
             },
+            'dataType': 'json',
+            'type': "POST",
             success: function (data) {
-                if (data.result) {
-                    console.log(data);
+                if (data.errcode == 0) {
+                    $("#readytopay").modal('hide');
+                    $("#msg").html("正在跳转到支付页面...");
+                    window.location.href = data.url;
+                } else {
                     $("#result").modal();
-                    $("#msg").html("充值成功！");
-                    window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
+                    $("#msg").html(data.errmsg);
                 }
-            },
-            error: function (jqXHR) {
-                console.log(jqXHR);
             }
         });
-        tid = setTimeout(f, 1000); //循环调用触发setTimeout
     }
 
 </script>
