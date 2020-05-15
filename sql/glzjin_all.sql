@@ -581,8 +581,6 @@ INSERT INTO `ss_node` (`id`, `name`, `type`, `server`, `method`, `info`, `status
 
 ALTER TABLE `user` ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `remark`;
 
-ALTER TABLE `user` ADD `expire_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `telegram_id`, ADD `traffic_notified` BOOLEAN NULL DEFAULT FALSE AFTER `expire_notified`;
-
 ALTER TABLE `ss_node` ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `node_ip`;
 
 ALTER TABLE `ss_node` ADD `online` BOOLEAN NOT NULL DEFAULT TRUE AFTER `mu_only`, ADD `gfw_block` BOOLEAN NOT NULL DEFAULT FALSE AFTER `online`;
@@ -670,6 +668,8 @@ ALTER TABLE `relay`
 CREATE TABLE `telegram_session` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `user_id` BIGINT NOT NULL , `type` INT NOT NULL , `session_content` TEXT NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 ALTER TABLE `user` ADD `telegram_id` BIGINT NULL AFTER `is_multi_user`;
+
+ALTER TABLE `user` ADD `expire_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `telegram_id`, ADD `traffic_notified` BOOLEAN NULL DEFAULT FALSE AFTER `expire_notified`;
 
 CREATE TABLE IF NOT EXISTS `paylist` (
   `id` bigint(20) NOT NULL,
