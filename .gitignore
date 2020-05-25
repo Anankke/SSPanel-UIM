@@ -1,6 +1,7 @@
 .idea
 .vs/
 .htaccess
+!public/.htaccess
 */.DS_Store
 .DS_Store
 composer.lock
