@@ -166,7 +166,7 @@
 
         $("html").keydown(event => {
             if (event.keyCode == 13) {
-                login();
+                submit();
             }
         });
 

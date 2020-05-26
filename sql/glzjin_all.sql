@@ -580,10 +580,8 @@ INSERT INTO `ss_node` (`id`, `name`, `type`, `server`, `method`, `info`, `status
 
 
 ALTER TABLE `user` ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `remark`;
+
 ALTER TABLE `ss_node` ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `node_ip`;
-
-
-
 
 CREATE TABLE `payback` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `total` DECIMAL(12,2) NOT NULL , `userid` BIGINT NOT NULL , `ref_by` BIGINT NOT NULL , `ref_get` DECIMAL(12,2) NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `shop` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `name` TEXT NOT NULL , `price` DECIMAL(12,2) NOT NULL , `content` TEXT NOT NULL , `auto_renew` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
@@ -592,7 +590,7 @@ CREATE TABLE `bought` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `userid` BIGINT NO
 
 ALTER TABLE `bought` ADD `coupon` TEXT NOT NULL AFTER `renew`, ADD `price` DECIMAL(12,2) NOT NULL AFTER `coupon`;
 
-
+ALTER TABLE `bought` ADD `is_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `price`;
 
 ALTER TABLE `bought` CHANGE `renew` `renew` BIGINT(11) NOT NULL;
 
@@ -649,6 +647,8 @@ ALTER TABLE `user` ADD `is_multi_user` INT NOT NULL DEFAULT '0' AFTER `is_hide`;
 
 ALTER TABLE `ss_node` ADD `mu_only` INT NULL DEFAULT '0' AFTER `custom_rss`;
 
+ALTER TABLE `ss_node` ADD `online` BOOLEAN NOT NULL DEFAULT TRUE AFTER `mu_only`, ADD `gfw_block` BOOLEAN NOT NULL DEFAULT FALSE AFTER `online`;
+
 CREATE TABLE IF NOT EXISTS `relay` (
   `id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
@@ -667,6 +667,8 @@ ALTER TABLE `relay`
 CREATE TABLE `telegram_session` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `user_id` BIGINT NOT NULL , `type` INT NOT NULL , `session_content` TEXT NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 ALTER TABLE `user` ADD `telegram_id` BIGINT NULL AFTER `is_multi_user`;
+
+ALTER TABLE `user` ADD `expire_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `telegram_id`, ADD `traffic_notified` BOOLEAN NULL DEFAULT FALSE AFTER `expire_notified`;
 
 CREATE TABLE IF NOT EXISTS `paylist` (
   `id` bigint(20) NOT NULL,

@@ -187,7 +187,7 @@ $_ENV['telegram_token']                     = '';           //Telegram bot,bot �
 $_ENV['telegram_chatid']                    = '';           //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到
 $_ENV['telegram_bot']                       = '_bot';       //Telegram 机器人账号
 $_ENV['telegram_group_quiet']               = false;        //Telegram 机器人在群组中不回应
-$_ENV['telegram_request_token']             = '';           //Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat setTelegram
+$_ENV['telegram_request_token']             = '';           //Telegram 机器人请求Key，随意设置，由大小写英文和数字组成，更新这个参数之后请 php xcat Tool setTelegram
 
 # 通用
 $_ENV['finance_public']                     = true;         //财务报告是否向群公开
@@ -346,7 +346,7 @@ $_ENV['old_index_DESC']       = '<p>够了，我无法忍受你的行为，现�
 $_ENV['use_this_doc']         = false;	    //使用此文档
 $_ENV['enable_documents']     = false;	    //是否允许未登陆用户查看文档中心
 $_ENV['documents_name']       = $_ENV['appName'] . ' 文档中心';	    //文档中心名称
-$_ENV['remote_documents']     = true;	    //是否从远程加载文档中心，否的话请执行 php xcat initdocuments
+$_ENV['remote_documents']     = true;	    //是否从远程加载文档中心，否的话请执行 php xcat Tool initdocuments
 $_ENV['documents_source']     = 'https://raw.githubusercontent.com/GeekQu/PANEL_DOC/master/SSPanel';	    //远程文档加载地址
 
 #后台商品列表 销量统计
@@ -480,11 +480,11 @@ $_ENV['sessionDriver']          = 'cookie';            //可选: cookie,redis
 $_ENV['cacheDriver']            = 'cookie';            //可选: cookie,redis
 $_ENV['tokenDriver']            = 'db';                //可选: db,redis
 
-$_ENV['enable_login_bind_ip']   = true;        //是否将登陆线程和IP绑定
+$_ENV['enable_login_bind_ip']   = false;        //是否将登陆线程和IP绑定
 $_ENV['rememberMeDuration']     = 7;           //登录时记住账号时长天数
 $_ENV['Speedtest_duration']     = 6;           //显示多长时间的测速记录
 
-$_ENV['login_warn']             = true;                  //异地登陆提示
+$_ENV['login_warn']             = false;                  //异地登陆提示
 $_ENV['timeZone']               = 'PRC';                 //PRC 天朝时间  UTC 格林时间
 $_ENV['theme']                  = 'material';            //默认主题
 $_ENV['jump_delay']             = 1200;                  //跳转延时，单位ms，不建议太长

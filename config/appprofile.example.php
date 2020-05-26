@@ -92,6 +92,16 @@ $_ENV['Surge_Profiles'] = [
                 ]
             ],
             [
+                'name' => '🎬哔哩哔哩',
+                'type' => 'select',
+                'content' => [
+                    'left-proxies' => [
+                        '🚀直接连接'
+                    ],
+                    'regex' => '(.*)',
+                ]
+            ],
+            [
                 'name' => '🎬国外媒体',
                 'type' => 'select',
                 'content' => [
@@ -189,6 +199,16 @@ $_ENV['Surge2_Profiles'] = [
                 ]
             ],
             [
+                'name' => '🎬哔哩哔哩',
+                'type' => 'select',
+                'content' => [
+                    'left-proxies' => [
+                        '🚀直接连接'
+                    ],
+                    'regex' => '(.*)',
+                ]
+            ],
+            [
                 'name' => '🎬国外媒体',
                 'type' => 'select',
                 'content' => [
@@ -279,6 +299,16 @@ $_ENV['Clash_Profiles'] = [
                 'content' => [
                     'left-proxies' => [
                         '🔰国外流量'
+                    ],
+                    'regex' => '(.*)',
+                ]
+            ],
+            [
+                'name' => '🎬哔哩哔哩',
+                'type' => 'select',
+                'content' => [
+                    'left-proxies' => [
+                        '🚀直接连接'
                     ],
                     'regex' => '(.*)',
                 ]
@@ -380,6 +410,16 @@ $_ENV['Surfboard_Profiles'] = [
                 'content' => [
                     'left-proxies' => [
                         '🔰国外流量'
+                    ],
+                    'regex' => '(.*)',
+                ]
+            ],
+            [
+                'name' => '🎬哔哩哔哩',
+                'type' => 'select',
+                'content' => [
+                    'left-proxies' => [
+                        '🚀直接连接'
                     ],
                     'regex' => '(.*)',
                 ]

@@ -410,7 +410,9 @@
         }
 
         $("html").keydown(event => {
-            if (event.keyCode == 13) login();
+            if (event.keyCode == 13) {
+                submit();
+            }
         });
 
         $$.getElementById('submit').addEventListener('click', submit);

@@ -82,6 +82,7 @@
                 $pay_type = 0,
                 $order_id = 0,
                 qrcode = new QRCode(document.getElementById("qrcode"));
+        var flag = false;
 
         if ('{$QRcodeUrl}'.indexOf('|') > 0) {
             var $alipayUrl = '{$QRcodeUrl}'.split('|'),
@@ -135,9 +136,14 @@
                         $id = setInterval(function () {
                             getCountdown()
                         }, 1000);
-                        setTimeout(function () {
-                            checkPayTime(data.id)
-                        }, 1000);
+                        if(flag == false){
+                            setTimeout(function () {
+                                checkPayTime(data.id)
+                            }, 1000);
+                            flag = true;
+                        }else{
+                            return 0;
+                        }
                         if (data.url) {
                             if ($type == 2) {
                                 $('.pay').attr('href', $wxpayApp);

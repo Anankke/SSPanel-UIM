@@ -810,6 +810,11 @@ USER-AGENT,YouTube*,🎬国外媒体
 DOMAIN-SUFFIX,googlevideo.com,🎬国外媒体
 DOMAIN-SUFFIX,youtube.com,🎬国外媒体
 DOMAIN,youtubei.googleapis.com,🎬国外媒体
+DOMAIN-SUFFIX,biliapi.com,🎬哔哩哔哩
+DOMAIN-SUFFIX,biliapi.net,🎬哔哩哔哩
+DOMAIN-SUFFIX,bilibili.com,🎬哔哩哔哩
+DOMAIN-SUFFIX,bilibili.tv,🎬哔哩哔哩
+DOMAIN-SUFFIX,bilivideo.com,🎬哔哩哔哩
 
 DOMAIN-SUFFIX,local,DIRECT
 IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
@@ -869,11 +874,6 @@ DOMAIN-SUFFIX,baidubcr.com,DIRECT
 DOMAIN-SUFFIX,bdstatic.com,DIRECT
 DOMAIN-SUFFIX,yunjiasu-cdn.net,DIRECT
 DOMAIN-SUFFIX,acgvideo.com,DIRECT
-DOMAIN-SUFFIX,biliapi.com,DIRECT
-DOMAIN-SUFFIX,biliapi.net,DIRECT
-DOMAIN-SUFFIX,bilibili.com,DIRECT
-DOMAIN-SUFFIX,bilibili.tv,DIRECT
-DOMAIN-SUFFIX,bilivideo.com,DIRECT
 DOMAIN-SUFFIX,hdslb.com,DIRECT
 DOMAIN-SUFFIX,blizzard.com,DIRECT
 DOMAIN-SUFFIX,battle.net,DIRECT

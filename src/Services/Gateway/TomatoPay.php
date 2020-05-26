@@ -131,7 +131,6 @@ class TomatoPay extends AbstractPayment
                 }
             }
         });
-        setTimeout(f, 1000);
     });
 </script>
 ';
