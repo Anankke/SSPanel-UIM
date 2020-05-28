@@ -803,7 +803,7 @@ class UserController extends BaseController
             $shop_item = Shop::where('id',$order['shopid'])->first();
             $shop_item = json_decode($shop_item['content']);
             $shop_item->datetime = $order['datetime'];
-            if (array_key_exists('reset',$shop_item) || array_key_exists('reset_value',$shop_item) || array_key_exists('reset_exp',$shop_item))
+            if (property_exists($shop_item,'reset') || property_exists($shop_item,'reset_value') || property_exists($shop_item,'reset_exp'))
             {
                 if (time() < ($shop_item->datetime + $shop_item->reset_exp * 86400) ) {
                     $res['ret'] = 0;
