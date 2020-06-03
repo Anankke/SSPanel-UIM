@@ -217,7 +217,7 @@ class User extends Model
         if ($transferEnable == 0) {
             return 0;
         }
-        $unusedTraffic = $transferEnable - ($thiFs->attributes['u'] + $this->attributes['d']);
+        $unusedTraffic = $transferEnable - ($this->attributes['u'] + $this->attributes['d']);
         $percent = $unusedTraffic / $transferEnable;
         $percent = round($percent, 2);
         $percent *= 100;
