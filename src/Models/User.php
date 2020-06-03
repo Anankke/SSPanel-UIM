@@ -217,7 +217,7 @@ class User extends Model
         if ($transferEnable == 0) {
             return 0;
         }
-        $unusedTraffic = $transferEnable - ($this->attributes['u'] + $this->attributes['d']);
+        $unusedTraffic = $transferEnable - ($thiFs->attributes['u'] + $this->attributes['d']);
         $percent = $unusedTraffic / $transferEnable;
         $percent = round($percent, 2);
         $percent *= 100;
@@ -483,10 +483,10 @@ class User extends Model
                 $number = Code::whereDate('usedatetime', '=', date('Y-m-d'))->sum('number');
                 break;
             case "this month":
-                $number = Code::whereMonth('usedatetime', '=', date('m'))->sum('number');
+                $number = Code::whereYear('usedatetime','=',date('Y'))->whereMonth('usedatetime', '=', date('m'))->sum('number');
                 break;
             case "last month":
-                $number = Code::whereMonth('usedatetime', '=', date('m', strtotime('last month')))->sum('number');
+                $number = Code::whereYear('usedatetime','=',date('Y'))->whereMonth('usedatetime', '=', date('m', strtotime('last month')))->sum('number');
                 break;
             default:
                 $number = Code::sum('number');
