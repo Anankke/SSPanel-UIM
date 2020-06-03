@@ -69,13 +69,13 @@
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="traffic-package-min">最低可购买用户等级</label>
                                 <input class="form-control maxwidth-edit" id="traffic-package-min" type="text"
-                                value="{$content->traffic_package->class->min}">
+                                value="{if property_exists($content,'traffic_package')}{$content->traffic_package->class->min}{else}0{/if}">
                             </div>
 
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="traffic-package-max">最高可购买用户等级</label>
                                 <input class="form-control maxwidth-edit" id="traffic-package-max" type="text"
-                                value="{$content->traffic_package->class->max}">
+                                value="{if property_exists($content,'traffic_package')}{$content->traffic_package->class->max}{else}0{/if}">
                             </div>
 
                             <div class="form-group form-group-label">
