@@ -91,6 +91,12 @@ class Job extends Command
         Speedtest::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
         system('rm ' . BASE_PATH . '/storage/*.png', $ret);
+        
+        $db = new DatatablesHelper();
+        
+        Tools::reset_auto_increment($db, 'user_traffic_log');
+        Tools::reset_auto_increment($db, 'ss_node_online_log');
+        Tools::reset_auto_increment($db, 'ss_node_info');
 
         if (Config::getconfig('Telegram.bool.DailyJob')) {
             Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));
