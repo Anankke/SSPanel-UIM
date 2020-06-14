@@ -551,7 +551,7 @@ class Job extends Command
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = false;
 
-                if ($user->transfer_enable != 0) {
+                if ($user->transfer_enable != 0 && $user->class !=0) {
                     if ($_ENV['notify_limit_mode'] == 'per' &&
                         $user_traffic_left / $user->transfer_enable * 100 < $_ENV['notify_limit_value']
                     ) {
