@@ -845,6 +845,16 @@ class UserController extends BaseController
                 $res['msg'] = '此优惠码已过期';
                 return $response->getBody()->write(json_encode($res));
             }
+
+            $use_limit = $coupon->onetime;
+            if ($use_limit > 0) {
+                $use_count = Bought::where('userid', $user->id)->where('coupon', $coupon->code)->count();
+                if ($use_count >= $use_limit) {
+                    $res['ret'] = 0;
+                    $res['msg'] = '优惠码次数已用完';
+                    return $response->getBody()->write(json_encode($res));
+                }
+            }
         }
 
         $price = $shop->price * ((100 - $credit) / 100);
