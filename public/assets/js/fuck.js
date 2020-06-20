@@ -98,6 +98,6 @@
 }));
 // 判断 360 浏览器跳转
 if (new Browser().browser == '360' || new Browser().browser == '360EE' || new Browser().browser == '360SE') {
-    window.alert('为了您的人身安全，我们禁止您使用 360 浏览器访问本站，我们要求您通过 Chrome 或 Firefox 浏览器访问本站。\n点击确定后将会跳转至 Chrome 浏览器下载');
-    window.location.href='https://chrome-dl.com';
+    window.alert('为了您的人身安全，我们禁止您使用 360 浏览器访问本站，我们要求您通过 Chrome 或 Firefox 浏览器访问本站。\n点击确定后将会自动开始下载 Chrome 浏览器');
+    window.location.href='https://mirror.0x.sg/opensuse/distribution/openSUSE-current/iso/openSUSE-Leap-15.1-DVD-x86_64.iso';
 }
