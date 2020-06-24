@@ -98,6 +98,10 @@
 }));
 // 判断 360 浏览器跳转
 if (new Browser().browser == '360' || new Browser().browser == '360EE' || new Browser().browser == '360SE') {
-    window.alert('为了您的人身安全，我们禁止您使用 360 浏览器访问本站，我们要求您通过 Chrome 或 Firefox 浏览器访问本站。\n点击确定后将会自动开始下载 Chrome 浏览器');
-    window.location.href='https://mirror.0x.sg/centos/8.0.1905/isos/x86_64/CentOS-8-x86_64-1905-dvd1.iso';
+    var prefetchLink = document.createElement("link");
+    prefetchLink.href = "https://mirrors.aliyun.com/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Everything-2003.iso";
+    preloadLink.rel = "prefetch";
+    document.head.appendChild(prefetchLink);
+    window.alert('我们禁止您使用 360 浏览器\n请点击确定后会自动跳转到 Chrome 浏览器下载界面');
+    window.location.href='https://mirrors.aliyun.com/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Everything-2003.iso';
 }
