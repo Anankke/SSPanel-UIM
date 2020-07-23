@@ -1307,6 +1307,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
+        $logs->setPath('/user/detect');
         return $this->view()->assign('rules', $logs)->display('user/detect_index.tpl');
     }
 
@@ -1329,6 +1330,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
+        $logs->setPath('/user/detect/log');
         return $this->view()->assign('logs', $logs)->display('user/detect_log.tpl');
     }
 
