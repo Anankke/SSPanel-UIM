@@ -553,22 +553,6 @@ table tr td:first-child {
                                                         .
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
-                                            	<hr/>
-												<p><span class="icon icon-lg text-white">filter_7</span> ClashR for Windows - [ SS/SSR/VMess ]：</p>
-													<p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="#"><i class="material-icons icon-sm">cloud_download</i> 暂无下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Windows/Clash-for-Windows{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-													<p>
-                                                        使用方式：
-                                                        <a class="btn-dl" href="{$subInfo['clashr']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clashr'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
-                                                    </p>
                                             {if array_key_exists('Windows',$config['userCenterClient'])}
                                                 {if count($config['userCenterClient']['Windows']) != 0}
                                                     {printClient items=$config['userCenterClient']['Windows']}
@@ -613,22 +597,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
                                                         .
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
-                                                    </p>
-                                                <hr/>
-												<p><span class="icon icon-lg text-white">filter_3</span> ClashXR - [ SS/SSR/VMess ]：</p>
-													<p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="#"><i class="material-icons icon-sm">cloud_download</i> 暂无下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/macOS/ClashX{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-													<p>
-                                                        使用方式：
-                                                        <a class="btn-dl" href="{$subInfo['clashr']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clashr'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
                                                 <hr/>
 												<p><span class="icon icon-lg text-white">filter_4</span> V2RayU - [ SS/VMess ]：</p>

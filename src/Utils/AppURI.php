@@ -253,12 +253,9 @@ class AppURI
         return $return;
     }
 
-    public static function getClashURI(array $item, bool $ssr_support = false)
+    public static function getClashURI(array $item)
     {
         $return = null;
-        if ($item['type'] == 'ssr' && $ssr_support === false) {
-            return $return;
-        }
         switch ($item['type']) {
             case 'ss':
                 $method = ['rc4-md5-6', 'camellia-128-cfb', 'camellia-192-cfb', 'camellia-256-cfb', 'bf-cfb', 'cast5-cfb', 'des-cfb', 'des-ede3-cfb', 'idea-cfb', 'rc2-cfb', 'seed-cfb', 'salsa20', 'chacha20', 'xsalsa20', 'none'];
@@ -308,16 +305,14 @@ class AppURI
                 }
                 break;
             case 'ssr':
-                // if (
-                //     in_array($item['method'], ['rc4-md5-6', 'des-ede3-cfb', 'xsalsa20', 'none'])
-                //     ||
-                //     in_array($item['protocol'], array_merge(Config::getSupportParam('allow_none_protocol'), ['verify_deflate']))
-                //     ||
-                //     in_array($item['obfs'], ['tls1.2_ticket_fastauth'])
-                // ) {
-                //     // 不支持的
-                //     break;
-                // }
+                if (
+                    in_array($item['method'], ['chacha20', 'camellia-128-cfb', 'camellia-192-cfb', 'camellia-256-cfb', 'rc4-md5-6', 'bf-cfb', 'cast5-cfb', 'des-cfb', 'des-ede3-cfb', 'idea-cfb', 'rc2-cfb', 'seed-cfb', 'salsa20', 'xsalsa20', 'none'])
+                    ||
+                    in_array($item['protocol'], ['auth_chain_c', 'auth_chain_d', 'auth_chain_e', 'auth_chain_f','verify_deflate'])
+                ) {
+                    // 不支持的
+                    break;
+                }
                 $return = [
                     'name'            => $item['remark'],
                     'type'            => 'ssr',
@@ -326,9 +321,9 @@ class AppURI
                     'cipher'          => $item['method'],
                     'password'        => $item['passwd'],
                     'protocol'        => $item['protocol'],
-                    'protocolparam'   => $item['protocol_param'],
+                    'protocol-param'  => $item['protocol_param'],
                     'obfs'            => $item['obfs'],
-                    'obfsparam'       => $item['obfs_param']
+                    'obfs-param'      => $item['obfs_param'],
                 ];
                 break;
             case 'vmess':
