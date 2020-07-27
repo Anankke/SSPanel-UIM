@@ -162,7 +162,6 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 #### galaxychuck
 
-- [hkserversolution-推荐UIM面板服务器放置](https://www.hkserversolution.com/aff.php?aff=60)
 - [moecloud-美國VPS](https://lite.moe/aff.php?aff=56)
 
 #### laurieryayoi
