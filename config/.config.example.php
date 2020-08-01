@@ -38,7 +38,7 @@ $_ENV['db_prefix']    = '';
 
 
 //邮件设置--------------------------------------------------------------------------------------------
-$_ENV['mailDriver']      = 'smtp';      //发送邮件方式：none / mailgun / smtp / sendgrid
+$_ENV['mailDriver']      = 'none';      //发送邮件方式：none / mailgun / smtp / sendgrid
 $_ENV['sendPageLimit']   = 50;          //发信分页 解决大站发公告超时问题
 
 # mailgun
