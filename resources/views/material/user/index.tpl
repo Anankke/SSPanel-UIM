@@ -442,7 +442,7 @@ table tr td:first-child {
 													<a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>.<a id="general_ssr" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ssr","#general_ssr","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
 												</p>
 												<hr/>
-												<p>如您使用 V2Ray/Trojan 节点，请确认您的服务内包含该类协议的节点，若您所使用的客户端不在我们的支持内，那么请您考虑更换客户端或与我们的客服联系.</p>
+												<p>如您使用 V2Ray/Trojan 订阅，请确认您的服务内包含该类协议的节点，若您所使用的客户端不在我们的支持内，那么请您考虑更换客户端或与我们的客服联系.</p>
 												<p><span class="icon icon-lg text-white">filter_3</span> [ V2RayN ]：
 													<a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>.<a id="general_v2ray" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#general_v2ray","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
 												</p>
