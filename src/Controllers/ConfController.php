@@ -327,11 +327,11 @@ class ConfController extends BaseController
         }
 
         $tmp = $Configs['General'];
-        $tmp['Proxy'] = $Proxys;
+        $tmp['proxies'] = $Proxys;
         if (isset($Configs['Proxy Group'])) {
             $Configs['ProxyGroup'] = $Configs['Proxy Group'];
         }
-        $tmp['Proxy Group'] = self::getClashConfProxyGroup(
+        $tmp['proxy-groups'] = self::getClashConfProxyGroup(
             $AllProxys,
             $Configs['ProxyGroup']
         );
@@ -345,7 +345,7 @@ class ConfController extends BaseController
             '',
             Yaml::dump($tmp, 4, 2),
             '',
-            'Rule:',
+            'rules:',
             self::getRule($Configs['Rule'])
         ];
 

@@ -91,6 +91,12 @@ class Job extends Command
         Speedtest::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
         system('rm ' . BASE_PATH . '/storage/*.png', $ret);
+        
+        $db = new DatatablesHelper();
+        
+        Tools::reset_auto_increment($db, 'user_traffic_log');
+        Tools::reset_auto_increment($db, 'ss_node_online_log');
+        Tools::reset_auto_increment($db, 'ss_node_info');
 
         if (Config::getconfig('Telegram.bool.DailyJob')) {
             Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));
@@ -545,7 +551,7 @@ class Job extends Command
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = false;
 
-                if ($user->transfer_enable != 0) {
+                if ($user->transfer_enable != 0 && $user->class !=0) {
                     if ($_ENV['notify_limit_mode'] == 'per' &&
                         $user_traffic_left / $user->transfer_enable * 100 < $_ENV['notify_limit_value']
                     ) {

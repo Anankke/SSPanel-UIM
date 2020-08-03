@@ -894,4 +894,18 @@ class Tools
             closedir($handle);
         }
     }
+
+    /**
+     * 重置自增列 ID
+     *
+     * @param DatatablesHelper  $db
+     * @param string            $table
+     */
+    public function reset_auto_increment($db, $table)
+    {
+        $maxid = $db->query("SELECT `auto_increment` AS `maxid` FROM `information_schema`.`tables` WHERE `table_schema` = '" . $_ENV['db_database']. "' AND `table_name` = '". $table ."'")[0]['maxid'];
+        if ($maxid >= 2000000000) {
+            $db->query('ALTER TABLE `' . $table . '` auto_increment = 1');
+        }
+    }
 }
