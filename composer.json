@@ -1,5 +1,9 @@
 {
     "require": {
+        "php": "^7.2",
+        "ext-curl": "*",
+        "ext-mysqli": "*",
+        "ext-xml": "*",
         "slim/slim": "~3.0",
         "smarty/smarty": "3.*",
         "mailgun/mailgun-php": "^2.6.0",
