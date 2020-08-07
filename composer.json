@@ -7,7 +7,6 @@
         "phpmailer/phpmailer": "~6.0",
         "firebase/php-jwt": "~3.0",
         "aws/aws-sdk-php": "3.*",
-        "gregwar/captcha": "1.*",
         "voku/anti-xss": "^1.2",
         "paymentwall/paymentwall-php": "^2.1",
         "telegram-bot/api": "^2.2",
