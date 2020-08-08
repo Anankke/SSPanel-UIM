@@ -19,6 +19,7 @@ require __DIR__ . '/../app/envload.php';
 use App\Services\Boot;
 
 Boot::setTime();
+Boot::bootSentry();
 Boot::bootDb();
 
 /** @var Slim\Container $container */
