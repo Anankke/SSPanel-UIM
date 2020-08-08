@@ -538,3 +538,6 @@ foreach ($_ENV['cdn_forwarded_ip'] as $cdn_forwarded_ip) {
         break;
     }
 }
+
+// https://sentry.io for production debugging
+$_ENV['sentry_dsn'] = '';
