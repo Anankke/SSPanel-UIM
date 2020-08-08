@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Slim\Container;
+use App\Services\View;
 
 /**
  * Container Builder
