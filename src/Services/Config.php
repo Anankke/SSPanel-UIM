@@ -83,7 +83,7 @@ class Config
 
             'old_index_DESC'          => $_ENV['old_index_DESC'],
 
-            'sentry_dsn'              => $_ENV['sentry_dsn'],
+            'sentry_dsn'              => !empty($_ENV['sentry_dsn']) ? $_ENV['sentry_dsn'] : null,
         ];
     }
 
