@@ -452,7 +452,7 @@ table tr td:first-child {
 												</p>
 												<hr/>
 												<p><span class="icon icon-lg text-white">filter_5</span> [ Clash ]：
-													<a class="copy-text btn-dl" data-clipboard-text="{$subInfo['Clash']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
+													<a class="copy-text btn-dl" data-clipboard-text="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
 												</p>
 											</div>
 
