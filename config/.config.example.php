@@ -32,8 +32,8 @@ $_ENV['db_database']  = 'sspanel';           //数据库名
 $_ENV['db_username']  = 'root';              //数据库用户名
 $_ENV['db_password']  = 'sspanel';           //用户名对应的密码
 #高级
-$_ENV['db_charset']   = 'utf8';
-$_ENV['db_collation'] = 'utf8_general_ci';
+$_ENV['db_charset']   = 'utf8mb4';
+$_ENV['db_collation'] = 'utf8mb4_unicode_ci';
 $_ENV['db_prefix']    = '';
 
 
@@ -538,3 +538,6 @@ foreach ($_ENV['cdn_forwarded_ip'] as $cdn_forwarded_ip) {
         break;
     }
 }
+
+// https://sentry.io for production debugging
+$_ENV['sentry_dsn'] = '';

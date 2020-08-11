@@ -70,11 +70,11 @@ script:
   - sudo chmod -R 755 *
   - cp test/config.php config/.config.php
   - cp config/appprofile.example.php config/appprofile.php
-  - php xcat createAdmin test@example.com test
-  - php xcat syncusers
-  - php xcat initdownload
-  - php xcat initQQWry
-  - arrcookie=($(php xcat getCookie 1 | sed 's| |\n|g'))
+  - php xcat User createAdmin test@example.com test
+  - php xcat SyncRadius syncusers
+  - php xcat Tool initdownload
+  - php xcat Tool initQQWry
+  - arrcookie=($(php xcat User getCookie 1 | sed 's| |\n|g'))
   - sudo service php7.3-fpm restart
   - sudo nginx -c /etc/nginx/nginx.conf
   - sudo chmod -R 777 $TRAVIS_BUILD_DIR

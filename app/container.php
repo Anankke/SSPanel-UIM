@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Slim\Container;
+use App\Services\View;
 
 /**
  * Container Builder
@@ -21,20 +22,33 @@ $container = new Container($configuration);
 
 $container['notFoundHandler'] = static function ($c) {
     return static function ($request, $response) use ($c) {
-        return $response->withAddedHeader('Location', '/404');
+        $view = View::getSmarty();
+        return $response->withStatus(404)->write($view->fetch('404.tpl'));
     };
 };
 
 $container['notAllowedHandler'] = static function ($c) {
     return static function ($request, $response, $methods) use ($c) {
-        return $response->withAddedHeader('Location', '/405');
+        $view = View::getSmarty();
+        return $response->withStatus(405)->write($view->fetch('405.tpl'));
     };
 };
 
 if ($_ENV['debug'] === false) {
-    $container['errorHandler'] = static function ($c) {
-        return static function ($request, $response, $exception) use ($c) {
-            return $response->withAddedHeader('Location', '/500');
+    $container['errorHandler'] = function ($c) {
+        return function ($request, $response, $exception) use ($c) {
+            $view = View::getSmarty();
+            $exceptionId = empty($_ENV['sentry_dsn']) ? null : Sentry\captureException($exception);
+            return $response->withStatus(500)
+                ->write($view->assign('exceptionId', $exceptionId)->fetch('500.tpl'));
+        };
+    };
+    $container['phpErrorHandler'] = function ($c) {
+        return function ($request, $response, $exception) use ($c) {
+            $view = View::getSmarty();
+            $exceptionId = empty($_ENV['sentry_dsn']) ? null : Sentry\captureException($exception);
+            return $response->withStatus(500)
+                ->write($view->assign('exceptionId', $exceptionId)->fetch('500.tpl'));
         };
     };
 }
