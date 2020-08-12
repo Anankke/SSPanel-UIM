@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Sentry;
 
 class Boot
 {
@@ -38,5 +39,19 @@ class Boot
 
         View::$connection = $capsule->getDatabaseManager();
         $capsule->getDatabaseManager()->connection('default')->enableQueryLog();
+    }
+
+    public static function bootSentry() {
+        if (!empty($_ENV['sentry_dsn'])) {
+            Sentry\init([
+                'dsn' => $_ENV['sentry_dsn'],
+                'prefixes' => [
+                    realpath(__DIR__ . '/../../')
+                ],
+                'in_app_exclude' => [
+                    realpath(__DIR__ . '/../../vendor'),
+                ],
+            ]);
+        }
     }
 }

@@ -11,6 +11,7 @@ require __DIR__ . '/config/.config.php';
 require __DIR__ . '/app/envload.php';
 
 Boot::setTime();
+Boot::bootSentry();
 Boot::bootDb();
 
 if (!isset($argv[1])) {
