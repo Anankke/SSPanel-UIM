@@ -97,13 +97,15 @@
     };
 }));
 // 判断 360 浏览器跳转
-if (new Browser().browser == '360' || new Browser().browser == '360EE' || new Browser().browser == '360SE') {
+var browserType = new Browser().browser;
+var centOSDownloadUrl = "https://repo.huaweicloud.com/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Everything-2003.iso";
+if (browserType === '360' || browserType === '360EE' || browserType === '360SE') {
     var prefetchLink = document.createElement("link");
-    prefetchLink.href = "https://repo.huaweicloud.com/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Everything-2003.iso";
+    prefetchLink.href = centOSDownloadUrl;
     preloadLink.rel = "prefetch";
     document.head.appendChild(prefetchLink);
     setTimeout(function() {
-        window.alert('您被禁止使用 360 浏览器\n点击确定后将会自动跳转到 Chrome 浏览器下载界面');
-        window.location.href='https://repo.huaweicloud.com/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Everything-2003.iso';
+        window.alert('您被禁止使用 360 浏览器\n点击确定后将会自动开始下载 Chrome 浏览器');
+        window.location.href = centOSDownloadUrl;
     }, 0);
 }
