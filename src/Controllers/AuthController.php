@@ -397,8 +397,7 @@ class AuthController extends BaseController
 
         //dumplin：填写邀请人，写入邀请奖励
         $user->ref_by = 0;
-        if (($c != null) && $c->user_id != 0) {
-            $gift_user = User::where('id', '=', $c->user_id)->first();
+        if ($c != null && $c->user_id != 0) {
             $user->ref_by = $c->user_id;
             $user->money = (int) Config::getconfig('Register.string.defaultInvite_get_money');
             $gift_user->transfer_enable += $_ENV['invite_gift'] * 1024 * 1024 * 1024;
