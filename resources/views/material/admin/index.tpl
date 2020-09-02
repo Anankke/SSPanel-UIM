@@ -14,6 +14,18 @@
                         <div class="card-main">
                             <div class="card-inner">
                                 <p>下面是系统运行情况简报。</p>
+                                <p>
+                                    付费用户：{$user->paidUserCount()}<br/>
+                                    总共用户：{$user->count()}<br/>
+                                    总转换率：{round($user->paidUserCount()/$user->count()*100,2)}%
+                                </p>
+                                <p>
+                                    今日流水：￥{$user->calIncome("today")}<br/>
+                                    昨日流水：￥{$user->calIncome("yesterday")}<br/>
+                                    这月流水：￥{$user->calIncome("this month")}<br/>
+                                    上月流水：￥{$user->calIncome("last month")}<br/>
+                                    总共流水：￥{$user->calIncome("total")}
+                                </p>
                             </div>
                         </div>
                     </div>
