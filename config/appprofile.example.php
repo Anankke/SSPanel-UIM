@@ -260,11 +260,11 @@ $_ENV['Clash_Profiles'] = [
             'enable'              => true,
             'nameserver'=>[
                 '114.114.114.114',
-                'tcp://1.1.1.1'
+                'tcp://223.5.5.5'
             ],
             'fallback'=>[
                 'tls://223.5.5.5:853',
-                'https://1.1.1.1/dns-query'
+                'https://223.5.5.5/dns-query'
             ],
             'fallback-filter'=>[
                 'geoip'=> true,
