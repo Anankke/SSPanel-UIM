@@ -327,6 +327,7 @@ class ConfController extends BaseController
         }
 
         $tmp = $Configs['General'];
+        $tmp['dns'] = $Configs['DNS'];
         $tmp['proxies'] = $Proxys;
         if (isset($Configs['Proxy Group'])) {
             $Configs['ProxyGroup'] = $Configs['Proxy Group'];
