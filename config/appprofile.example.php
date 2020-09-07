@@ -263,7 +263,7 @@ $_ENV['Clash_Profiles'] = [
                 'tcp://1.1.1.1'
             ],
             'fallback'=>[
-                'tls://dns.rubyfish.cn:853',
+                'tls://223.5.5.5:853',
                 'https://1.1.1.1/dns-query'
             ],
             'fallback-filter'=>[
