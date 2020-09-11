@@ -58,7 +58,7 @@
             </tr>
             <tr>
                 <td>现阶段维护</td>
-                <td><a href="https://github.com/Talocan">Anankke</a>，<a
+                <td><a href="https://github.com/Anankke">Anankke</a>，<a
                             href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a
                             href="https://github.com/mxihan">Rin SAMA</a>，<a
                             href="https://github.com/xcxnig">Miku</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a
