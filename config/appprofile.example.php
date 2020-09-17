@@ -257,7 +257,6 @@ $_ENV['Clash_Profiles'] = [
             'listen'              => '0.0.0.0:53',
             'enhanced-mode'       => 'fake-ip',
             'fake-ip-range'       => '198.18.0.1/16',
-            'enable'              => true,
             'nameserver'=>[
                 '114.114.114.114',
                 'tcp://223.5.5.5'
