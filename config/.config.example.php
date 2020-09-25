@@ -283,7 +283,7 @@ $_ENV['enable_checkin_captcha'] = false;        //启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay |tomatopay | payjs | yftpay
+#取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay | payjs | yftpay
 $_ENV['payment_system']       = 'none';
 
 #yft支付设置
@@ -326,21 +326,6 @@ $_ENV['bitpay_secret']        = '';
 #PayJs
 $_ENV['payjs_mchid']          = '';
 $_ENV['payjs_key']            = '';
-
-#tomatopay番茄云支付
-#使用教程:https://swapidc.fanqieui.com/?t/329.html  tg群 https://t.me/fanqiepay
-$_ENV['tomatopay'] = [
-    'wxpay'  => [
-        'mchid'               => '',    // 商户号
-        'account'             => '',    //您在番茄云支付的登录邮箱
-        'token'               => ''     // 安全验证码
-    ],
-    'alipay' => [
-        'mchid'               => '',    // 商户号
-        'account'             => '',    //您在番茄云支付的登录邮箱
-        'token'               => ''     // 安全验证码
-    ],
-];
 
 
 //其他面板显示设置------------------------------------------------------------------------------------------
