@@ -14,9 +14,8 @@ RUN cp config/.config.example.php config/.config.php && \
     php xcat initQQWry && \
     php xcat initdownload && \
     crontab -l | { cat; echo "30 22 * * * php /var/www/xcat sendDiaryMail"; } | crontab - && \
-    crontab -l | { cat; echo "0 0 * * * php /var/www/xcat dailyjob"; } | crontab - && \
-    crontab -l | { cat; echo "*/1 * * * * php /var/www/xcat checkjob"; } | crontab - && \
-    crontab -l | { cat; echo "*/1 * * * * php /var/www/xcat syncnode"; } | crontab - && \
+    crontab -l | { cat; echo "0 0 * * * php /var/www/xcat Job DailyJob"; } | crontab - && \
+    crontab -l | { cat; echo "*/1 * * * * php /var/www/xcat Job CheckJob"; } | crontab - && \
     { \
         echo '[program:crond]'; \
         echo 'command=cron -f'; \
