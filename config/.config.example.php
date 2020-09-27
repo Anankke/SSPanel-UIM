@@ -247,7 +247,7 @@ $_ENV['live_chat']    = 'none';   //是否开启客服系统 none  crisp  mylive
 $_ENV['mylivechat_id']        = '';      //客服系统ID
 
 #客服系统设置，注册地址 https://crisp.chat/en/
-$_ENV['cisp_id']        = '';      //客服系统ID
+$_ENV['crisp_id']        = '';      //客服系统ID
 
 # PushBear  基于微信模板的向关注了二维码的用户以微信方式推送消息 https://pushbear.ftqq.com/，目前仅用户推送新公告
 $_ENV['usePushBear']          = false;
