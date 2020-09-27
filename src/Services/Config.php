@@ -46,6 +46,7 @@ class Config
             'live_chat'               => $_ENV['live_chat'],
             'crisp_id'                => $_ENV['crisp_id'],
             'mylivechat_id'           => $_ENV['mylivechat_id'],
+            'tawk_id'                 => $_ENV['tawk_id'],
             'enable_ticket'           => $_ENV['enable_ticket'],
             'enable_admin_contact'    => $_ENV['enable_admin_contact'],
             'admin_contact1'          => $_ENV['admin_contact1'],
