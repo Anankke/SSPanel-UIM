@@ -2,11 +2,7 @@
 
 namespace App\Utils;
 
-use App\Models\{
-    User,
-    Node,
-    Relay
-};
+use App\Models\{Model, User, Node, Relay};
 use App\Services\Config;
 use DateTime;
 
@@ -50,8 +46,10 @@ class Tools
      */
     public static function flowAutoShowZ($Value)
     {
-        $number = substr($Value, 0, strlen($Value) - 2);
-        if (!is_numeric($number)) return null;
+        $number = substr($Value, 0, -2);
+        if (!is_numeric($number)) {
+            return null;
+        }
         $unit = strtoupper(substr($Value, -2));
         $kb = 1024;
         $mb = 1048576;
@@ -242,7 +240,6 @@ class Tools
 
     public static function pick_out_relay_rule($relay_node_id, $port, $ruleset)
     {
-
         /*
         for id in self.relay_rule_list:
             if ((self.relay_rule_list[id]['user_id'] == user_id or self.relay_rule_list[id]['user_id'] == 0) or row['is_multi_user'] != 0) and (self.relay_rule_list[id]['port'] == 0 or self.relay_rule_list[id]['port'] == port):
@@ -320,8 +317,13 @@ class Tools
         return in_array($user->protocol, $relay_able_list) || $_ENV['relay_insecure_mode'] == true;
     }
 
-    public static function has_conflict_rule($input_rule, $ruleset, $edit_rule_id = 0, $origin_node_id = 0, $user_id = 0)
-    {
+    public static function has_conflict_rule(
+        $input_rule,
+        $ruleset,
+        $edit_rule_id = 0,
+        $origin_node_id = 0,
+        $user_id = 0
+    ) {
         foreach ($ruleset as $rule) {
             if (($rule->source_node_id == $input_rule->dist_node_id) && (($rule->port == $input_rule->port || $input_rule->port == 0) || $rule->port == 0)) {
                 if ($rule->dist_node_id == $origin_node_id && $rule->id != $edit_rule_id) {
@@ -329,7 +331,13 @@ class Tools
                 }
 
                 //递归处理这个节点
-                $maybe_rule_id = self::has_conflict_rule($rule, $ruleset, $edit_rule_id, $origin_node_id, $rule->user_id);
+                $maybe_rule_id = self::has_conflict_rule(
+                    $rule,
+                    $ruleset,
+                    $edit_rule_id,
+                    $origin_node_id,
+                    $rule->user_id
+                );
                 if ($maybe_rule_id != 0) {
                     return $maybe_rule_id;
                 }
@@ -363,12 +371,13 @@ class Tools
             return $pathset;
         }
 
-        foreach ($pathset as &$path) {
+        foreach ($pathset as $path) {
             if ($path->port == $port) {
                 if ($single_rule->dist_node_id == $path->begin_node->id) {
                     $path->begin_node = $single_rule->Source_Node();
                     if ($path->begin_node->isNodeAccessable() == false) {
-                        $path->path = '<font color="#FF0000">' . $single_rule->Source_Node()->name . '</font>' . ' → ' . $path->path;
+                        $path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node(
+                            )->name . '</span>' . ' → ' . $path->path;
                         $path->status = '阻断';
                     } else {
                         $path->path = $single_rule->Source_Node()->name . ' → ' . $path->path;
@@ -380,10 +389,11 @@ class Tools
                 if ($path->end_node->id == $single_rule->source_node_id) {
                     $path->end_node = $single_rule->Dist_Node();
                     if ($path->end_node->isNodeAccessable() == false) {
-                        $path->path = $path->path . ' → ' . '<font color="#FF0000">' . $single_rule->Dist_Node()->name . '</font>';
+                        $path->path .= ' → ' . '<span style="color: #FF0000; ">' . $single_rule->Dist_Node(
+                            )->name . '</span>';
                         $path->status = '阻断';
                     } else {
-                        $path->path = $path->path . ' → ' . $single_rule->Dist_Node()->name;
+                        $path->path .= ' → ' . $single_rule->Dist_Node()->name;
                     }
                     return $pathset;
                 }
@@ -393,7 +403,7 @@ class Tools
         $new_path = new \stdClass();
         $new_path->begin_node = $single_rule->Source_Node();
         if ($new_path->begin_node->isNodeAccessable() == false) {
-            $new_path->path = '<font color="#FF0000">' . $single_rule->Source_Node()->name . '</font>';
+            $new_path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node()->name . '</span>';
             $new_path->status = '阻断';
         } else {
             $new_path->path = $single_rule->Source_Node()->name;
@@ -402,7 +412,7 @@ class Tools
 
         $new_path->end_node = $single_rule->Dist_Node();
         if ($new_path->end_node->isNodeAccessable() == false) {
-            $new_path->path .= ' -> ' . '<font color="#FF0000">' . $single_rule->Dist_Node()->name . '</font>';
+            $new_path->path .= ' -> ' . '<span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
             $new_path->status = '阻断';
         } else {
             $new_path->path .= ' -> ' . $single_rule->Dist_Node()->name;
@@ -417,10 +427,10 @@ class Tools
     /**
      * Filter key in `App\Models\Model` object
      *
-     * @param \App\Models\Model $object
-     * @param array             $filter_array
+     * @param Model $object
+     * @param array $filter_array
      *
-     * @return \App\Models\Model
+     * @return Model
      */
     public static function keyFilter($object, $filter_array)
     {
@@ -505,9 +515,9 @@ class Tools
         if ($server[1] == '0' || $server[1] == '') {
             $item['port'] = 443;
         } else {
-            $item['port'] = (int) $server[1];
+            $item['port'] = (int)$server[1];
         }
-        $item['aid'] = (int) $server[2];
+        $item['aid'] = (int)$server[2];
         $item['net'] = 'tcp';
         $item['headerType'] = 'none';
         if (count($server) >= 4) {
@@ -542,7 +552,7 @@ class Tools
                 }
             }
             if (array_key_exists('outside_port', $item)) {
-                $item['port'] = (int) $item['outside_port'];
+                $item['port'] = (int)$item['outside_port'];
                 unset($item['outside_port']);
             }
             if (isset($item['inside_port'])) {
@@ -571,7 +581,7 @@ class Tools
         if ($server[1] == '0' || $server[1] == '') {
             $item['port'] = 443;
         } else {
-            $item['port'] = (int) $server[1];
+            $item['port'] = (int)$server[1];
         }
         if (count($server) >= 4) {
             $item['net'] = $server[3];
@@ -597,7 +607,7 @@ class Tools
                 unset($item['relayserver']);
             }
             if (array_key_exists('outside_port', $item)) {
-                $item['port'] = (int) $item['outside_port'];
+                $item['port'] = (int)$item['outside_port'];
                 unset($item['outside_port']);
             }
         }
@@ -624,17 +634,17 @@ class Tools
                     if (strpos($item['port'], '+') !== false) { // 多个单端口节点，格式：8.8.8.8;port=80#1080+443#8443
                         $args_explode = explode('+', $item['port']);
                         foreach ($args_explode as $arg) {
-                            if ((int) substr($arg, 0, strpos($arg, '#')) == $mu_port) {
-                                $node_port = (int) substr($arg, strpos($arg, '#') + 1);
+                            if ((int)substr($arg, 0, strpos($arg, '#')) == $mu_port) {
+                                $node_port = (int)substr($arg, strpos($arg, '#') + 1);
                             }
                         }
                     } else {
-                        if ((int) substr($item['port'], 0, strpos($item['port'], '#')) == $mu_port) {
-                            $node_port = (int) substr($item['port'], strpos($item['port'], '#') + 1);
+                        if ((int)substr($item['port'], 0, strpos($item['port'], '#')) == $mu_port) {
+                            $node_port = (int)substr($item['port'], strpos($item['port'], '#') + 1);
                         }
                     }
                 } else { // 端口偏移，偏移端口，格式：8.8.8.8;port=1000 or 8.8.8.8;port=-1000
-                    $node_port = ($mu_port + (int) $item['port']);
+                    $node_port = ($mu_port + (int)$item['port']);
                 }
             }
         }
@@ -658,13 +668,19 @@ class Tools
                     if (strpos($item['port'], '+') !== false) {
                         $args_explode = explode('+', $item['port']);
                         foreach ($args_explode as $arg) {
-                            $port[substr($arg, 0, strpos($arg, '#'))] = (int) substr($arg, strpos($arg, '#') + 1);
+                            $port[substr($arg, 0, strpos($arg, '#'))] = (int)substr($arg, strpos($arg, '#') + 1);
                         }
                     } else {
-                        $port[substr($item['port'], 0, strpos($item['port'], '#'))] = (int) substr($item['port'], strpos($item['port'], '#') + 1);
+                        $port[substr($item['port'], 0, strpos($item['port'], '#'))] = (int)substr(
+                            $item['port'],
+                            strpos(
+                                $item['port'],
+                                '#'
+                            ) + 1
+                        );
                     }
                 } else {
-                    $type = (int) $item['port'];
+                    $type = (int)$item['port'];
                 }
             }
         }
@@ -850,9 +866,9 @@ class Tools
     /**
      * Add files and sub-directories in a folder to zip file.
      *
-     * @param string     $folder
+     * @param string $folder
      * @param ZipArchive $zipFile
-     * @param int        $exclusiveLength Number of text to be exclusived from the file path.
+     * @param int $exclusiveLength Number of text to be exclusived from the file path.
      */
     public static function folderToZip($folder, &$zipFile, $exclusiveLength)
     {
@@ -898,12 +914,14 @@ class Tools
     /**
      * 重置自增列 ID
      *
-     * @param DatatablesHelper  $db
-     * @param string            $table
+     * @param DatatablesHelper $db
+     * @param string $table
      */
     public function reset_auto_increment($db, $table)
     {
-        $maxid = $db->query("SELECT `auto_increment` AS `maxid` FROM `information_schema`.`tables` WHERE `table_schema` = '" . $_ENV['db_database']. "' AND `table_name` = '". $table ."'")[0]['maxid'];
+        $maxid = $db->query(
+            "SELECT `auto_increment` AS `maxid` FROM `information_schema`.`tables` WHERE `table_schema` = '" . $_ENV['db_database'] . "' AND `table_name` = '" . $table . "'"
+        )[0]['maxid'];
         if ($maxid >= 2000000000) {
             $db->query('ALTER TABLE `' . $table . '` auto_increment = 1');
         }
