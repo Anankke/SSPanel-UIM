@@ -338,7 +338,9 @@ class AuthController extends BaseController
         }
 
         //dumplin：1、邀请人等级为0则邀请码不可用；2、邀请人invite_num为可邀请次数，填负数则为无限
-        $c = InviteCode::where('code', $code)->first();
+        if ($code != null){
+            $c = InviteCode::where('code', $code)->first();
+        }
         if ($c == null) {
             if (Config::getconfig('Register.string.Mode') === 'invite') {
                 $res['ret'] = 0;
@@ -457,8 +459,7 @@ class AuthController extends BaseController
         $email = strtolower($email);
         $passwd = $request->getParam('passwd');
         $repasswd = $request->getParam('repasswd');
-        $code = $request->getParam('code');
-        $code = trim($code);
+        $code = trim($request->getParam('code'));
         $imtype = $request->getParam('imtype');
         $emailcode = $request->getParam('emailcode');
         $emailcode = trim($emailcode);
