@@ -112,7 +112,7 @@ $_ENV['account_expire_delete_days'] = -1;           //账户到期几天之后�
 $_ENV['enable_kill']                = true;         //是否允许用户注销账户
 
 #用户流量余量不足邮件提醒
-$_ENV['notify_limit_mode']          = true;         //false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
+$_ENV['notify_limit_mode']          = 'none';         //none为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
 $_ENV['notify_limit_value']         = 20;           //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
 
