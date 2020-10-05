@@ -769,12 +769,12 @@ class Job extends Command
         }
         echo 'ok';
     }
-
+    
     public function CheckJobWithMail()
     {
-
+        
         //自动续费
-        $boughts = Bought::where('renew', '<', time())->where('renew', '<>', 0)->where('usedd', 1)->get();
+        $boughts = Bought::where('renew', '<', time())->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {
             /** @var Bought $bought */
             $user = User::where('id', $bought->userid)->first();
@@ -843,6 +843,7 @@ class Job extends Command
 
         //节点掉线检测
         if ($_ENV['enable_detect_offline'] == true) {
+            echo '节点掉线检测开始' . PHP_EOL;
             $nodes = Node::all();
             foreach ($nodes as $node) {
                 if ($node->isNodeOnline() === false && $node->online == true) {
@@ -984,12 +985,17 @@ class Job extends Command
                     }
                 }
             }
-
+            echo '异常登录检测结束' . PHP_EOL;
         }
 
         $users = User::all();
         foreach ($users as $user) {
-
+            $user->uuid = Uuid::uuid3(
+                Uuid::NAMESPACE_DNS,
+                $user->id . '|' . $user->passwd
+            );
+            $user->save();
+            
             if (strtotime($user->expire_in) < time() && $user->expire_notified == false) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
@@ -1009,7 +1015,8 @@ class Job extends Command
                 $user->expire_notified = false;
                 $user->save();
             }
-            
+
+
             //余量不足检测
             if ($_ENV['notify_limit_mode'] != 'none') {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
@@ -1047,7 +1054,7 @@ class Job extends Command
                     $user->save();
                 }
             }
-            
+
             if ($_ENV['account_expire_delete_days'] >= 0 &&
                 strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < time() &&
                 $user->money <= $_ENV['auto_clean_min_money']
@@ -1067,8 +1074,7 @@ class Job extends Command
             if ($_ENV['auto_clean_uncheck_days'] > 0 &&
                 max(
                     $user->last_check_in_time,
-                    strtotime($user->reg_date),
-                    strtotime($user->class_expire)
+                    strtotime($user->reg_date)
                 ) + ($_ENV['auto_clean_uncheck_days'] * 86400) < time() &&
                 $user->class == 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
@@ -1086,7 +1092,7 @@ class Job extends Command
             }
 
             if ($_ENV['auto_clean_unused_days'] > 0 &&
-                max($user->t, strtotime($user->reg_date), strtotime($user->class_expire)) + ($_ENV['auto_clean_unused_days'] * 86400) < time() &&
+                max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < time() &&
                 $user->class == 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
@@ -1124,15 +1130,18 @@ class Job extends Command
                     []
                 );
                 $user->class = 0;
-                $bought = Bought::where('userid', $user->id)->where('usedd', 1)->first();
-                if ($bought != null) {
-                    $bought->usedd = 0;
-                    $bought->save();
-                }
             }
+
             
+
             $user->save();
         }
+
+        
+
+        
+
+        
         
     }
 
