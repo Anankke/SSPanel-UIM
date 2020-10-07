@@ -558,11 +558,12 @@ class Job extends Command
                         $under_limit = true;
                         $unit_text = '%';
                     }
-                } elseif ($_ENV['notify_limit_mode'] == 'mb' &&
-                    Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']
-                ) {
-                    $under_limit = true;
-                    $unit_text = 'MB';
+                    elseif ($_ENV['notify_limit_mode'] == 'mb' &&
+                        Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']
+                    ) {
+                        $under_limit = true;
+                        $unit_text = 'MB';
+                    }
                 }
 
                 if ($under_limit == true && $user->traffic_notified == false) {
