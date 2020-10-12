@@ -133,7 +133,7 @@ class User extends Model
         $code = new InviteCode();
         while (true) {
             $temp_code = Tools::genRandomChar(4);
-            if (InviteCode::where('user_id', $uid)->count() == 0) {
+            if (InviteCode::where('code', $temp_code)->count() == 0) {
                 break;
             }
         }
