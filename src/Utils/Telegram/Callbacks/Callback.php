@@ -910,11 +910,7 @@ class Callback
                 [
                     'text'          => 'SSR 订阅',
                     'callback_data' => 'user.subscribe|?sub=1'
-                ],
-                [
-                    'text'          => 'SSD 订阅',
-                    'callback_data' => 'user.subscribe|?ssd=1'
-                ],
+                ],        
             ],
             [
                 [

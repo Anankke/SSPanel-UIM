@@ -16,7 +16,6 @@ class TelegramProcess
         'clean_link' => '重置订阅',
         '?mu=0' => 'SSR普通订阅',
         '?mu=1' => 'SSR单端口订阅',
-        '?mu=3' => 'SS/SSD订阅',
         '?mu=2' => 'V2ray订阅',
         '?mu=4' => 'Clash订阅'];
 

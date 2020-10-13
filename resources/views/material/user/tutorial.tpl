@@ -82,7 +82,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换。Tab 条目位于 ul.nav.n
                                             <a class="" data-toggle="tab" href="#tutorial_ssr"><i class="icon icon-lg">airplanemode_active</i>&nbsp;SSR</a>
                                         </li>
                                         <li>
-                                            <a class="" data-toggle="tab" href="#tutorial_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;SS/SSD</a>
+                                            <a class="" data-toggle="tab" href="#tutorial_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;SS</a>
                                         </li>
                                         <li>
                                             <a class="" data-toggle="tab" href="#tutorial_v2ray"><i class="icon icon-lg">flight_land</i>&nbsp;V2RAY</a>
@@ -233,21 +233,6 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换。Tab 条目位于 ul.nav.n
                                 <div class="tab-pane fade page-course" id="tutorial_ss">
 
                                     <div class="tile tile-collapse">
-                                        <div data-toggle="tile" data-target="#tutorial-heading-ssdwin">
-                                            <div class="tile-inner">
-                                                <div class="text-overflow">ShadowsocksD Windows</div>
-                                            </div>
-                                        </div>
-                                        <div class="collapsible-region collapse" id="tutorial-heading-ssdwin">
-                                            <div class="tile-sub markdown-body">
-                                                <div id="tutorial-ssdwin-content"></div>
-                                                <script>
-                                                    document.getElementById('tutorial-ssdwin-content').innerHTML = marked(`{include file='user/markdown/ssd-windows.md'}`);
-                                                </script>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tile tile-collapse">
                                         <div data-toggle="tile" data-target="#tutorial-heading-ssxng">
                                             <div class="tile-inner">
                                                 <div class="text-overflow">ShadowsocksX-NG macOS</div>
@@ -273,21 +258,6 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换。Tab 条目位于 ul.nav.n
                                                 <div id="tutorial-ssqt5-content"></div>
                                                 <script>
                                                     document.getElementById('tutorial-ssqt5-content').innerHTML = marked(`{include file='user/markdown/ss-qt5.md'}`);
-                                                </script>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tile tile-collapse">
-                                        <div data-toggle="tile" data-target="#tutorial-heading-ssd-android">
-                                            <div class="tile-inner">
-                                                <div class="text-overflow">ShadowsocksD Android</div>
-                                            </div>
-                                        </div>
-                                        <div class="collapsible-region collapse" id="tutorial-heading-ssd-android">
-                                            <div class="tile-sub markdown-body">
-                                                <div id="tutorial-ssd-android-content"></div>
-                                                <script>
-                                                    document.getElementById('tutorial-ssd-android-content').innerHTML = marked(`{include file='user/markdown/ssd-android.md'}`);
                                                 </script>
                                             </div>
                                         </div>

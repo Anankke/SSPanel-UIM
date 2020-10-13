@@ -1412,9 +1412,6 @@ class UserController extends BaseController
             case 'ssr':
                 $return .= URL::get_NewAllUrl($user, ['type' => 'ssr']) . PHP_EOL;
                 break;
-            case 'ssd':
-                $return .= LinkController::getSSD($user, 1, [], ['type' => 'ss']) . PHP_EOL;
-                break;
             case 'v2ray':
                 $return .= URL::get_NewAllUrl($user, ['type' => 'vmess']) . PHP_EOL;
                 break;
@@ -1481,10 +1478,6 @@ class UserController extends BaseController
             case 'ss-win':
                 $user_config_file_name = 'gui-config.json';
                 $content = ClientProfiles::getSSPcConf($this->user);
-                break;
-            case 'ssd-win':
-                $user_config_file_name = 'gui-config.json';
-                $content = ClientProfiles::getSSDPcConf($this->user);
                 break;
             case 'ssr-win':
                 $user_config_file_name = 'gui-config.json';

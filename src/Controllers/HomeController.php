@@ -240,14 +240,6 @@ class HomeController extends BaseController
                         '```'
                     ];
                     break;
-                case 'ssd':
-                    $msg = [
-                        '**订阅链接：**',
-                        '```',
-                        $subInfo['ssd'],
-                        '```'
-                    ];
-                    break;
                 case 'clash':
                     $msg = [
                         '**订阅链接：**[[点击下载配置]](' . $subInfo['clash'] . ')',

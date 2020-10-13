@@ -112,7 +112,6 @@ class VueController extends BaseController
         $user->ssr_url_all_mu = URL::get_NewAllUrl($pre_user, ['type' => 'ssr', 'is_mu' => 1]);
         $user->ss_url_all = URL::get_NewAllUrl($pre_user, ['type' => 'ss']);
         $ssinfo = URL::getSSConnectInfo($pre_user);
-        $user->ssd_url_all = LinkController::getSSD($ssinfo, 1, [], ['type' => 'ss']);
         $user->vmess_url_all = URL::getAllVMessUrl($user);
         $user->isAbleToCheckin = $user->isAbleToCheckin();
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);

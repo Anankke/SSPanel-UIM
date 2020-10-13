@@ -123,10 +123,9 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 - 添加 Telegram OAuth
 
-[**CGDF**](https://github.com/CGDF-GitHub)
+[**CGDF**](https://github.com/TheCGDF)
 
 - xcat 一键 update
-- 适配 SSD
 - 用户列表分页加载
 
 [**CHEN**](https://github.com/ChenSee)
