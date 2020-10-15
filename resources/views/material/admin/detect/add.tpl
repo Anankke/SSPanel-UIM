@@ -38,22 +38,8 @@
                                     </div>
                                 </div>
 
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-inner">
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-10 col-md-push-1">
-                                            <button id="submit" type="submit"
-                                                    class="btn btn-block btn-brand waves-attach waves-light">添加
-                                            </button>
-                                        </div>
-                                    </div>
+                                <div class="form-group form-group-label">
+                                    <button id="submit" type="submit" class="btn btn-block btn-brand waves-attach waves-light">添加</button>
                                 </div>
                             </div>
                         </div>
