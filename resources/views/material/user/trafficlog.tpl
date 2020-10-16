@@ -30,7 +30,7 @@
                                 <div class="card-inner">
                                     <div id="log_chart" style="height: 300px; width: 100%;"></div>
 
-                                    <script src="/assets/js/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.1/canvasjs.min.js"></script>
 
                                     <script type="text/javascript">
                                         window.onload = function () {
