@@ -72,10 +72,6 @@ SSPanel UIM 使用 MIT License 开源、不提供任何担保。使用 SSPanel U
 
 ## 鸣谢
 
-### [HKServerSolution](https://www.hkserversolution.net/aff.php?aff=5)
-
-Demo 演示站由 HKServerSolution 高性能服务器赞助。
-
 ### [贡献者](https://github.com/Anankke/SSPanel-Uim/graphs/contributors)
 
 SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Uim/graphs/contributors) 和提交 Issue 的人。
