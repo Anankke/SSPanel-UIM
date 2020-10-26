@@ -67,19 +67,13 @@ class AnnController extends AdminController
             $beginSend = ($request->getParam('page') - 1) * $_ENV['sendPageLimit'];
             $users = User::where('class', '>=', $vip)->skip($beginSend)->limit($_ENV['sendPageLimit'])->get();
             foreach ($users as $user) {
-                $to = $user->email;
-                if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
-                    continue;
-                }
-                $text = $content;
-                try {
-                    Mail::send($to, $subject, 'news/warn.tpl', [
-                        'user' => $user, 'text' => $text
-                    ], [
-                    ]);
-                } catch (Exception $e) {
-                    continue;
-                }
+                $user->sendMail(
+                    $subject,
+                    'news/warn.tpl',
+                    [
+                    'user' => $user, 'text' => $content],
+                    [],$_ENV['email_queue']
+                );
             }
             if (count($users) == $_ENV['sendPageLimit']) {
                 $rs['ret'] = 2;

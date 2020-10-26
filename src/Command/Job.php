@@ -56,7 +56,33 @@ class Job extends Command
             }
         }
     }
-
+    /**
+     * 发邮件
+     *
+     * @return void
+     */
+    public function SendMail(){
+        if(file_exists(BASE_PATH . '/storage/email_queue')){
+            echo "程序正在运行中".PHP_EOL;
+            return false;
+        }
+        $myfile = fopen(BASE_PATH . '/storage/email_queue', 'wb+') or die('Unable to open file!');
+                $txt = '1';
+                fwrite($myfile, $txt);
+                fclose($myfile);
+        $email_queues = EmailQueue::all();
+        foreach($email_queues as $email_queue){
+            try {
+                    Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, json_decode($email_queue->array), [
+                    ]);
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            echo '发送邮件至 '.$email_queue->to_email.PHP_EOL;
+            $email_queue->delete();
+        }
+        unlink(BASE_PATH . '/storage/email_queue');
+    }
     /**
      * 每日任务
      *
@@ -137,7 +163,7 @@ class Job extends Command
                         [
                             'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB'
                         ],
-                        []
+                        [],$_ENV['email_queue']
                     );
                 }
             }
@@ -163,7 +189,7 @@ class Job extends Command
                     [
                         'text' => '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB'
                     ],
-                    []
+                    [],$_ENV['email_queue']
                 );
             }
         }
@@ -303,7 +329,7 @@ class Job extends Command
                     [
                         'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。'
                     ],
-                    []
+                    [],$_ENV['email_queue']
                 );
                 $bought->is_notified = true;
                 $bought->save();
@@ -331,7 +357,7 @@ class Job extends Command
                     [
                         'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。'
                     ],
-                    []
+                    [],$_ENV['email_queue']
                 );
 
                 $bought->is_notified = true;
@@ -343,7 +369,7 @@ class Job extends Command
                     [
                         'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。'
                     ],
-                    []
+                    [],$_ENV['email_queue']
                 );
                 $bought->is_notified = true;
                 $bought->save();
@@ -392,7 +418,7 @@ class Job extends Command
                             [
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。'
                             ],
-                            []
+                            [],$_ENV['email_queue']
                         );
                         $notice_text = str_replace(
                             '%node_name%',
@@ -437,7 +463,7 @@ class Job extends Command
                             [
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。'
                             ],
-                            []
+                            [],$_ENV['email_queue']
                         );
                         $notice_text = str_replace(
                             '%node_name%',
@@ -496,7 +522,7 @@ class Job extends Command
                                     [
                                         'text' => $text
                                     ],
-                                    []
+                                    [],$_ENV['email_queue']
                                 );
                             }
                         }
@@ -536,7 +562,7 @@ class Job extends Command
                     [
                         'text' => '您好，系统发现您的账号已经过期了。'
                     ],
-                    []
+                    [],$_ENV['email_queue']
                 );
                 $user->expire_notified = true;
                 $user->save();
@@ -573,7 +599,7 @@ class Job extends Command
                         [
                             'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。'
                         ],
-                        []
+                        [],$_ENV['email_queue']
                     );
                     if ($result) {
                         $user->traffic_notified = true;
@@ -595,7 +621,7 @@ class Job extends Command
                     [
                         'text' => '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。'
                     ],
-                    []
+                    [],$_ENV['email_queue']
                 );
                 $user->kill_user();
                 continue;
@@ -615,7 +641,7 @@ class Job extends Command
                     [
                         'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。'
                     ],
-                    []
+                    [],$_ENV['email_queue']
                 );
                 $user->kill_user();
                 continue;
@@ -632,7 +658,7 @@ class Job extends Command
                     [
                         'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。'
                     ],
-                    []
+                    [],$_ENV['email_queue']
                 );
                 $user->kill_user();
                 continue;
@@ -657,7 +683,7 @@ class Job extends Command
                     [
                         'text' => $text
                     ],
-                    []
+                    [],$_ENV['email_queue']
                 );
                 $user->class = 0;
             }

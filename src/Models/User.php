@@ -865,9 +865,19 @@ class User extends Model
      * @param array  $ary
      * @param array  $files
      */
-    public function sendMail(string $subject, string $template, array $ary = [], array $files = []): bool
+    public function sendMail(string $subject, string $template, array $ary = [], array $files = [],$is_queue = false): bool
     {
         $result = false;
+        if($is_queue){
+            $new_emailqueue = new EmailQueue;
+            $new_emailqueue->to_email = $this->email;
+            $new_emailqueue -> subject = $subject;
+            $new_emailqueue->template = $template;
+            $new_emailqueue->time = time();
+            $new_emailqueue->array = json_encode($ary);
+            $new_emailqueue->save();
+            return true;
+        }
         // 验证邮箱地址是否正确
         if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             // 发送邮件

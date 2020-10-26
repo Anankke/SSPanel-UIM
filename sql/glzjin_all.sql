@@ -749,3 +749,31 @@ CREATE TABLE IF NOT EXISTS `telegram_tasks` (
 ALTER TABLE `detect_log` ADD `status` int(2) NOT NULL DEFAULT '0' AFTER `node_id`;
 
 ALTER TABLE `user` ADD COLUMN `uuid` TEXT NULL DEFAULT NULL COMMENT 'uuid' AFTER `passwd`;
+
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `email_queue`
+--
+
+CREATE TABLE `email_queue` (
+  `id` bigint(20) NOT NULL,
+  `to_email` varchar(32) NOT NULL,
+  `subject` longtext NOT NULL,
+  `template` longtext NOT NULL,
+  `array` longtext NOT NULL,
+  `time` int(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 表的索引 `email_queue`
+--
+ALTER TABLE `email_queue`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- 使用表AUTO_INCREMENT `email_queue`
+--
+ALTER TABLE `email_queue`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
