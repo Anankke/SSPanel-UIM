@@ -40,6 +40,7 @@ $_ENV['db_prefix']    = '';
 //邮件设置--------------------------------------------------------------------------------------------
 $_ENV['mailDriver']      = 'none';      //发送邮件方式：none / mailgun / smtp / sendgrid
 $_ENV['sendPageLimit']   = 50;          //发信分页 解决大站发公告超时问题
+$_ENV['email_queue']     = true;        //如题，自动计划任务邮件使用队列 需要每分钟执行 php xcat Job SendMail
 
 # mailgun
 $_ENV['mailgun_key']     = '';
