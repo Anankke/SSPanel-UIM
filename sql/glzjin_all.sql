@@ -1,17 +1,10 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `alive_ip`
---
 
 CREATE TABLE IF NOT EXISTS `alive_ip` (
   `id` bigint(20) NOT NULL,
@@ -21,23 +14,11 @@ CREATE TABLE IF NOT EXISTS `alive_ip` (
   `datetime` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `announcement`
---
-
 CREATE TABLE IF NOT EXISTS `announcement` (
   `id` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `blockip`
---
 
 CREATE TABLE IF NOT EXISTS `blockip` (
   `id` bigint(20) NOT NULL,
@@ -45,12 +26,6 @@ CREATE TABLE IF NOT EXISTS `blockip` (
   `ip` text NOT NULL,
   `datetime` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `code`
---
 
 CREATE TABLE IF NOT EXISTS `code` (
   `id` bigint(20) NOT NULL,
@@ -61,12 +36,6 @@ CREATE TABLE IF NOT EXISTS `code` (
   `userid` bigint(20) NOT NULL,
   `usedatetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `link`
---
 
 CREATE TABLE IF NOT EXISTS `link` (
   `id` bigint(20) NOT NULL,
@@ -81,12 +50,6 @@ CREATE TABLE IF NOT EXISTS `link` (
   `method` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `login_ip`
---
-
 CREATE TABLE IF NOT EXISTS `login_ip` (
   `id` bigint(20) NOT NULL,
   `userid` bigint(20) NOT NULL,
@@ -95,23 +58,10 @@ CREATE TABLE IF NOT EXISTS `login_ip` (
   `type` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `radius_ban`
---
-
 CREATE TABLE IF NOT EXISTS `radius_ban` (
   `id` int(11) NOT NULL,
   `userid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
-
---
--- 表的结构 `speedtest`
---
 
 CREATE TABLE IF NOT EXISTS `speedtest` (
   `id` bigint(20) NOT NULL,
@@ -128,12 +78,6 @@ CREATE TABLE IF NOT EXISTS `speedtest` (
   `cmccdownload` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `ss_invite_code`
---
-
 CREATE TABLE IF NOT EXISTS `ss_invite_code` (
   `id` int(11) NOT NULL,
   `code` varchar(128) NOT NULL,
@@ -141,12 +85,6 @@ CREATE TABLE IF NOT EXISTS `ss_invite_code` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '2016-06-01 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ss_node`
---
 
 CREATE TABLE IF NOT EXISTS `ss_node` (
   `id` int(11) NOT NULL,
@@ -169,12 +107,6 @@ CREATE TABLE IF NOT EXISTS `ss_node` (
   `node_ip` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `ss_node_info`
---
-
 CREATE TABLE IF NOT EXISTS `ss_node_info` (
   `id` int(11) NOT NULL,
   `node_id` int(11) NOT NULL,
@@ -183,24 +115,12 @@ CREATE TABLE IF NOT EXISTS `ss_node_info` (
   `log_time` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `ss_node_online_log`
---
-
 CREATE TABLE IF NOT EXISTS `ss_node_online_log` (
   `id` int(11) NOT NULL,
   `node_id` int(11) NOT NULL,
   `online_user` int(11) NOT NULL,
   `log_time` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ss_password_reset`
---
 
 CREATE TABLE IF NOT EXISTS `ss_password_reset` (
   `id` int(11) NOT NULL,
@@ -210,24 +130,12 @@ CREATE TABLE IF NOT EXISTS `ss_password_reset` (
   `expire_time` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `unblockip`
---
-
 CREATE TABLE IF NOT EXISTS `unblockip` (
   `id` bigint(20) NOT NULL,
   `ip` text NOT NULL,
   `datetime` bigint(20) NOT NULL,
   `userid` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `user`
---
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL,
@@ -272,12 +180,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `remark` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `user_token`
---
-
 CREATE TABLE IF NOT EXISTS `user_token` (
   `id` int(11) NOT NULL,
   `token` varchar(256) NOT NULL,
@@ -285,12 +187,6 @@ CREATE TABLE IF NOT EXISTS `user_token` (
   `create_time` int(11) NOT NULL,
   `expire_time` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `user_traffic_log`
---
 
 CREATE TABLE IF NOT EXISTS `user_traffic_log` (
   `id` int(11) NOT NULL,
@@ -303,222 +199,78 @@ CREATE TABLE IF NOT EXISTS `user_traffic_log` (
   `log_time` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Indexes for table `alive_ip`
---
 ALTER TABLE `alive_ip`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `announcement`
---
 ALTER TABLE `announcement`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `blockip`
---
+  ADD PRIMARY KEY (`id`);-
 ALTER TABLE `blockip`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `code`
---
 ALTER TABLE `code`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `link`
---
 ALTER TABLE `link`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `login_ip`
---
 ALTER TABLE `login_ip`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `radius_ban`
---
 ALTER TABLE `radius_ban`
   ADD PRIMARY KEY (`id`);
-
-
---
--- Indexes for table `speedtest`
---
 ALTER TABLE `speedtest`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `ss_invite_code`
---
 ALTER TABLE `ss_invite_code`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `ss_node`
---
 ALTER TABLE `ss_node`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `ss_node_info`
---
 ALTER TABLE `ss_node_info`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `ss_node_online_log`
---
 ALTER TABLE `ss_node_online_log`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `ss_password_reset`
---
 ALTER TABLE `ss_password_reset`
   ADD PRIMARY KEY (`id`);
-
-
---
--- Indexes for table `unblockip`
---
 ALTER TABLE `unblockip`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user`
---
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_name` (`user_name`),
   ADD KEY `uid` (`id`),
   ADD KEY `email` (`email`);
-
---
--- Indexes for table `user_token`
---
 ALTER TABLE `user_token`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_traffic_log`
---
 ALTER TABLE `user_traffic_log`
   ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `alive_ip`
---
 ALTER TABLE `alive_ip`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `announcement`
---
 ALTER TABLE `announcement`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `blockip`
---
 ALTER TABLE `blockip`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `code`
---
 ALTER TABLE `code`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `link`
---
 ALTER TABLE `link`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `login_ip`
---
 ALTER TABLE `login_ip`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `radius_ban`
---
 ALTER TABLE `radius_ban`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `speedtest`
---
 ALTER TABLE `speedtest`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `ss_invite_code`
---
 ALTER TABLE `ss_invite_code`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `ss_node`
---
 ALTER TABLE `ss_node`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `ss_node_info`
---
 ALTER TABLE `ss_node_info`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `ss_node_online_log`
---
 ALTER TABLE `ss_node_online_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `ss_password_reset`
---
 ALTER TABLE `ss_password_reset`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
---
--- AUTO_INCREMENT for table `unblockip`
---
 ALTER TABLE `unblockip`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user`
---
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user_token`
---
 ALTER TABLE `user_token`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user_traffic_log`
---
 ALTER TABLE `user_traffic_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ss_node`
---
 
 CREATE TABLE IF NOT EXISTS `ss_node` (
   `id` int(11) NOT NULL,
@@ -541,84 +293,157 @@ CREATE TABLE IF NOT EXISTS `ss_node` (
   `node_ip` text
 ) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- 转存表中的数据 `ss_node`
---
-
 INSERT INTO `ss_node` (`id`, `name`, `type`, `server`, `method`, `info`, `status`, `sort`, `custom_method`, `traffic_rate`, `node_class`, `node_speedlimit`, `node_connector`, `node_bandwidth`, `node_bandwidth_limit`, `bandwidthlimit_resetday`, `node_heartbeat`, `node_ip`) VALUES
 (NULL, '统一验证登陆', 0, 'zhaojin97.cn', 'radius', '统一登陆验证', '可用', 999, 0, 1, 0, 0, 0, 0, 0, 0, 0, ''),
 (NULL, 'VPN 统一流量结算', 0, 'zhaojin97.cn', 'radius', 'VPN 统一流量结算', '可用', 999, 0, 1, 0, 0, 0, 0, 0, 0, 0, NULL);
 
+ALTER TABLE `user`
+  ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `remark`;
+ALTER TABLE `ss_node`
+  ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `node_ip`;
 
-ALTER TABLE `user` ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `remark`;
+CREATE TABLE `payback` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `total` DECIMAL(12,2) NOT NULL,
+  `userid` BIGINT NOT NULL,
+  `ref_by` BIGINT NOT NULL,
+  `ref_get` DECIMAL(12,2) NOT NULL,
+  `datetime` BIGINT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `ss_node` ADD `node_group` INT NOT NULL DEFAULT '0' AFTER `node_ip`;
+CREATE TABLE `shop` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` TEXT NOT NULL,
+  `price` DECIMAL(12,2) NOT NULL,
+  `content` TEXT NOT NULL,
+  `auto_renew` INT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `payback` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `total` DECIMAL(12,2) NOT NULL , `userid` BIGINT NOT NULL , `ref_by` BIGINT NOT NULL , `ref_get` DECIMAL(12,2) NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-CREATE TABLE `shop` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `name` TEXT NOT NULL , `price` DECIMAL(12,2) NOT NULL , `content` TEXT NOT NULL , `auto_renew` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-CREATE TABLE `coupon` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `code` TEXT NOT NULL , `onetime` INT NOT NULL , `expire` BIGINT NOT NULL , `shop` TEXT NOT NULL , `credit` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-CREATE TABLE `bought` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `userid` BIGINT NOT NULL , `shopid` BIGINT NOT NULL , `datetime` BIGINT NOT NULL , `renew` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `coupon` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT, 
+  `code` TEXT NOT NULL,
+  `onetime` INT NOT NULL,
+  `expire` BIGINT NOT NULL,
+  `shop` TEXT NOT NULL,
+  `credit` INT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `bought` ADD `coupon` TEXT NOT NULL AFTER `renew`, ADD `price` DECIMAL(12,2) NOT NULL AFTER `coupon`;
+CREATE TABLE `bought` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `userid` BIGINT NOT NULL,
+  `shopid` BIGINT NOT NULL,
+  `datetime` BIGINT NOT NULL,
+  `renew` INT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `bought` ADD `is_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `price`;
+ALTER TABLE `bought`
+  ADD `coupon` TEXT NOT NULL AFTER `renew`, ADD `price` DECIMAL(12,2) NOT NULL AFTER `coupon`;
+ALTER TABLE `bought`
+  ADD `is_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `price`;
+ALTER TABLE `bought`
+  CHANGE `renew` `renew` BIGINT(11) NOT NULL;
+ALTER TABLE `announcement`
+  ADD `markdown` LONGTEXT NOT NULL AFTER `content`;
+ALTER TABLE `announcement`
+  CHANGE `content` `content` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 
-ALTER TABLE `bought` CHANGE `renew` `renew` BIGINT(11) NOT NULL;
+CREATE TABLE `ticket` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `title` LONGTEXT NOT NULL,
+  `content` LONGTEXT NOT NULL,
+  `rootid` BIGINT NOT NULL,`userid` BIGINT NOT NULL,
+  `datetime` BIGINT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `announcement` ADD `markdown` LONGTEXT NOT NULL AFTER `content`;
+ALTER TABLE `ticket`
+  ADD `status` INT NOT NULL DEFAULT '1' AFTER `datetime`;
+ALTER TABLE `shop`
+  ADD `status` INT NOT NULL DEFAULT '1' AFTER `auto_renew`;
+ALTER TABLE `user`
+  ADD `auto_reset_day` INT NOT NULL DEFAULT '0' AFTER `node_group`, ADD `auto_reset_bandwidth` DECIMAL(12,2) NOT NULL DEFAULT '0.00' AFTER `auto_reset_day`;
+ALTER TABLE `shop`
+  ADD `auto_reset_bandwidth` INT NOT NULL DEFAULT '0' AFTER `auto_renew`;
+ALTER TABLE `code`
+  CHANGE `number` `number` DECIMAL(11,2) NOT NULL;
 
-ALTER TABLE `announcement` CHANGE `content` `content` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+CREATE TABLE `auto` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `type` INT NOT NULL,
+  `value` LONGTEXT NOT NULL,
+  `datetime` BIGINT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `ticket` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `title` LONGTEXT NOT NULL , `content` LONGTEXT NOT NULL , `rootid` BIGINT NOT NULL , `userid` BIGINT NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+ALTER TABLE `auto`
+  ADD `sign` LONGTEXT NOT NULL AFTER `value`;ALTER TABLE `user` ADD `relay_enable` INT NOT NULL DEFAULT '0' AFTER `auto_reset_bandwidth`, ADD `relay_info` LONGTEXT NULL AFTER `relay_enable`;
+ALTER TABLE `ss_node`
+  ADD `custom_rss` INT NOT NULL DEFAULT '0' AFTER `node_group`;
+ALTER TABLE `user`
+  ADD `protocol` VARCHAR(128) NOT NULL DEFAULT 'origin' AFTER `relay_info`, ADD `protocol_param` VARCHAR(128) NULL DEFAULT NULL AFTER `protocol`, ADD `obfs` VARCHAR(128) NOT NULL DEFAULT 'plain' AFTER `protocol_param`, ADD `obfs_param` VARCHAR(128) NULL DEFAULT NULL AFTER `obfs`;
+ALTER TABLE `user`
+  ADD `forbidden_ip` LONGTEXT NULL DEFAULT '' AFTER `obfs_param`, ADD `forbidden_port` LONGTEXT NULL DEFAULT '' AFTER `forbidden_ip`, ADD `disconnect_ip` LONGTEXT NULL DEFAULT '' AFTER `forbidden_port`;
 
-ALTER TABLE `ticket` ADD `status` INT NOT NULL DEFAULT '1' AFTER `datetime`;
+CREATE TABLE `disconnect_ip` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `userid` BIGINT NOT NULL,
+  `ip` TEXT NOT NULL,
+  `datetime` BIGINT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `shop` ADD `status` INT NOT NULL DEFAULT '1' AFTER `auto_renew`;
-
-ALTER TABLE `user` ADD `auto_reset_day` INT NOT NULL DEFAULT '0' AFTER `node_group`, ADD `auto_reset_bandwidth` DECIMAL(12,2) NOT NULL DEFAULT '0.00' AFTER `auto_reset_day`;
-
-ALTER TABLE `shop` ADD `auto_reset_bandwidth` INT NOT NULL DEFAULT '0' AFTER `auto_renew`;
-
-ALTER TABLE `code` CHANGE `number` `number` DECIMAL(11,2) NOT NULL;
-
-CREATE TABLE `auto` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `type` INT NOT NULL , `value` LONGTEXT NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-ALTER TABLE `auto` ADD `sign` LONGTEXT NOT NULL AFTER `value`;ALTER TABLE `user` ADD `relay_enable` INT NOT NULL DEFAULT '0' AFTER `auto_reset_bandwidth`, ADD `relay_info` LONGTEXT NULL AFTER `relay_enable`;
-ALTER TABLE `ss_node` ADD `custom_rss` INT NOT NULL DEFAULT '0' AFTER `node_group`;
-
-ALTER TABLE `user` ADD `protocol` VARCHAR(128) NOT NULL DEFAULT 'origin' AFTER `relay_info`, ADD `protocol_param` VARCHAR(128) NULL DEFAULT NULL AFTER `protocol`, ADD `obfs` VARCHAR(128) NOT NULL DEFAULT 'plain' AFTER `protocol_param`, ADD `obfs_param` VARCHAR(128) NULL DEFAULT NULL AFTER `obfs`;
-
-
-
-ALTER TABLE `user` ADD `forbidden_ip` LONGTEXT NULL DEFAULT '' AFTER `obfs_param`, ADD `forbidden_port` LONGTEXT NULL DEFAULT '' AFTER `forbidden_ip`, ADD `disconnect_ip` LONGTEXT NULL DEFAULT '' AFTER `forbidden_port`;
-
-CREATE TABLE `disconnect_ip` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `userid` BIGINT NOT NULL , `ip` TEXT NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-ALTER TABLE `user` CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
-
-ALTER TABLE `ss_node` CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
-
+ALTER TABLE `user`
+  CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
+ALTER TABLE `ss_node` 
+  CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
 ALTER TABLE `user`
   DROP `relay_enable`,
   DROP `relay_info`;
-ALTER TABLE `user` CHANGE `protocol` `protocol` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'origin', CHANGE `obfs` `obfs` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'plain';
-CREATE TABLE `email_verify` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `email` TEXT NOT NULL , `ip` TEXT NOT NULL , `code` TEXT NOT NULL , `expire_in` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;ALTER TABLE `user` ADD `is_hide` INT NOT NULL DEFAULT '0' AFTER `disconnect_ip`;
+ALTER TABLE `user` 
+  CHANGE `protocol` `protocol` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'origin', CHANGE `obfs` `obfs` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'plain';
 
+CREATE TABLE `email_verify` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `email` TEXT NOT NULL,
+  `ip` TEXT NOT NULL,
+  `code` TEXT NOT NULL,
+  `expire_in` BIGINT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `detect_list` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `name` LONGTEXT NOT NULL , `text` LONGTEXT NOT NULL , `regex` LONGTEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+ALTER TABLE `user` 
+  ADD `is_hide` INT NOT NULL DEFAULT '0' AFTER `disconnect_ip`;
 
-CREATE TABLE `detect_log` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `user_id` BIGINT NOT NULL , `list_id` BIGINT NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `detect_list` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` LONGTEXT NOT NULL,
+  `text` LONGTEXT NOT NULL,
+  `regex` LONGTEXT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `detect_list` ADD `type` INT NOT NULL AFTER `regex`;
+CREATE TABLE `detect_log` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT, 
+  `user_id` BIGINT NOT NULL, 
+  `list_id` BIGINT NOT NULL, 
+  `datetime` BIGINT NOT NULL, 
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `detect_log` ADD `node_id` INT NOT NULL AFTER `datetime`;
-
-
-ALTER TABLE `user` ADD `is_multi_user` INT NOT NULL DEFAULT '0' AFTER `is_hide`;
-
-ALTER TABLE `ss_node` ADD `mu_only` INT NULL DEFAULT '0' AFTER `custom_rss`;
-
-ALTER TABLE `ss_node` ADD `online` BOOLEAN NOT NULL DEFAULT TRUE AFTER `mu_only`, ADD `gfw_block` BOOLEAN NOT NULL DEFAULT FALSE AFTER `online`;
+ALTER TABLE `detect_list`
+  ADD `type` INT NOT NULL AFTER `regex`;
+ALTER TABLE `detect_log` 
+  ADD `node_id` INT NOT NULL AFTER `datetime`;
+ALTER TABLE `user` 
+  ADD `is_multi_user` INT NOT NULL DEFAULT '0' AFTER `is_hide`;
+ALTER TABLE `ss_node` 
+  ADD `mu_only` INT NULL DEFAULT '0' AFTER `custom_rss`;
+ALTER TABLE `ss_node` 
+  ADD `online` BOOLEAN NOT NULL DEFAULT TRUE AFTER `mu_only`, ADD `gfw_block` BOOLEAN NOT NULL DEFAULT FALSE AFTER `online`;
 
 CREATE TABLE IF NOT EXISTS `relay` (
   `id` bigint(20) NOT NULL,
@@ -632,14 +457,22 @@ CREATE TABLE IF NOT EXISTS `relay` (
 
 ALTER TABLE `relay`
   ADD PRIMARY KEY (`id`);
-
 ALTER TABLE `relay`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-CREATE TABLE `telegram_session` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `user_id` BIGINT NOT NULL , `type` INT NOT NULL , `session_content` TEXT NOT NULL , `datetime` BIGINT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `user` ADD `telegram_id` BIGINT NULL AFTER `is_multi_user`;
+CREATE TABLE `telegram_session` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT, 
+  `user_id` BIGINT NOT NULL, 
+  `type` INT NOT NULL, 
+  `session_content` TEXT NOT NULL, 
+  `datetime` BIGINT NOT NULL, 
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `user` ADD `expire_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `telegram_id`, ADD `traffic_notified` BOOLEAN NULL DEFAULT FALSE AFTER `expire_notified`;
+ALTER TABLE `user` 
+  ADD `telegram_id` BIGINT NULL AFTER `is_multi_user`;
+ALTER TABLE `user` 
+  ADD `expire_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `telegram_id`, ADD `traffic_notified` BOOLEAN NULL DEFAULT FALSE AFTER `expire_notified`;
 
 CREATE TABLE IF NOT EXISTS `paylist` (
   `id` bigint(20) NOT NULL,
@@ -650,26 +483,10 @@ CREATE TABLE IF NOT EXISTS `paylist` (
   `datetime` bigint(20) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `paylist`
---
 ALTER TABLE `paylist`
   ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `paylist`
---
 ALTER TABLE `paylist`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;ALTER TABLE `user_traffic_log` CHANGE `u` `u` BIGINT(20) NOT NULL, CHANGE `d` `d` BIGINT(20) NOT NULL;
-
 
 --
 -- 用户订阅日志
@@ -685,7 +502,6 @@ CREATE TABLE IF NOT EXISTS `user_subscribe_log` (
   `request_user_agent` text                      COMMENT '请求 UA 信息',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户订阅日志';
-
 
 --
 -- 审计封禁日志
@@ -703,10 +519,8 @@ CREATE TABLE IF NOT EXISTS `detect_ban_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='审计封禁日志';
 
-
 ALTER TABLE `user` ADD `last_detect_ban_time` datetime DEFAULT '1989-06-04 00:05:00' AFTER `enable`;
 ALTER TABLE `user` ADD `all_detect_number` int(11) NOT NULL DEFAULT '0' AFTER `last_detect_ban_time`;
-
 
 --
 -- 网站配置
@@ -746,17 +560,14 @@ CREATE TABLE IF NOT EXISTS `telegram_tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Telegram 任务列表';
 
 
-ALTER TABLE `detect_log` ADD `status` int(2) NOT NULL DEFAULT '0' AFTER `node_id`;
-
-ALTER TABLE `user` ADD COLUMN `uuid` TEXT NULL DEFAULT NULL COMMENT 'uuid' AFTER `passwd`;
-
-
--- --------------------------------------------------------
+ALTER TABLE `detect_log` 
+  ADD `status` int(2) NOT NULL DEFAULT '0' AFTER `node_id`;
+ALTER TABLE `user` 
+  ADD COLUMN `uuid` TEXT NULL DEFAULT NULL COMMENT 'uuid' AFTER `passwd`;
 
 --
--- 表的结构 `email_queue`
+-- Email Queue 發件列表
 --
-
 CREATE TABLE `email_queue` (
   `id` bigint(20) NOT NULL,
   `to_email` varchar(32) NOT NULL,
@@ -764,16 +575,9 @@ CREATE TABLE `email_queue` (
   `template` longtext NOT NULL,
   `array` longtext NOT NULL,
   `time` int(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Email Queue 發件列表';
 
---
--- 表的索引 `email_queue`
---
 ALTER TABLE `email_queue`
   ADD PRIMARY KEY (`id`);
-
---
--- 使用表AUTO_INCREMENT `email_queue`
---
 ALTER TABLE `email_queue`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
