@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `user_traffic_log` (
 ALTER TABLE `alive_ip`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `announcement`
-  ADD PRIMARY KEY (`id`);-
+  ADD PRIMARY KEY (`id`);
 ALTER TABLE `blockip`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `code`
