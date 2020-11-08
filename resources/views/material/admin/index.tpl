@@ -33,17 +33,12 @@
             </div>
             <div class="ui-card-wrap">
                 <div class="row">
-
                     <div class="col-xx-12 col-sm-6">
-
-
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-
                                     <div id="check_chart" style="height: 300px; width: 100%;"></div>
-
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.1/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2/canvasjs.min.js"></script>
                                     <script>
                                         var chart = new CanvasJS.Chart("check_chart",
                                                 {
@@ -87,15 +82,12 @@
                                                         }
                                                     ]
                                                 });
-
                                         chart.render();
-
                                         function chartRender(chart) {
                                             chart.render();
                                             chart.ctx.shadowBlur = 8;
                                             chart.ctx.shadowOffsetX = 4;
                                             chart.ctx.shadowColor = "black";
-
                                             for (let i in chart.plotInfo.plotTypes) {
                                                 let plotType = chart.plotInfo.plotTypes[i];
                                                 for (let j in plotType.plotUnits) {
@@ -114,20 +106,14 @@
                                             chart.ctx.shadowColor = "transparent";
                                         }
                                     </script>
-
                                 </div>
-
                             </div>
                         </div>
-
-
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-
                                     <div id="alive_chart" style="height: 300px; width: 100%;"></div>
-
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.1/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2/canvasjs.min.js"></script>
                                     <script type="text/javascript">
                                         var chart = new CanvasJS.Chart("alive_chart",
                                                 {
@@ -136,7 +122,6 @@
                                                         fontFamily: "Impact",
                                                         fontWeight: "normal"
                                                     },
-
                                                     legend: {
                                                         verticalAlign: "bottom",
                                                         horizontalAlign: "center"
@@ -181,29 +166,18 @@
                                                         }
                                                     ]
                                                 });
-
                                         chart.render();
                                     </script>
-
                                 </div>
-
                             </div>
                         </div>
-
-
                     </div>
-
-
                     <div class="col-xx-12 col-sm-6">
-
-
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-
                                     <div id="node_chart" style="height: 300px; width: 100%;"></div>
-
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.1/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2/canvasjs.min.js"></script>
                                     <script type="text/javascript">
                                         var chart = new CanvasJS.Chart("node_chart",
                                                 {
@@ -212,7 +186,6 @@
                                                         fontFamily: "Impact",
                                                         fontWeight: "normal"
                                                     },
-
                                                     legend: {
                                                         verticalAlign: "bottom",
                                                         horizontalAlign: "center"
@@ -243,24 +216,17 @@
                                                             ]
                                                         }
                                                     ]
-                                                });
-
+                                                });           
                                         chart.render();
                                     </script>
-
                                 </div>
-
                             </div>
                         </div>
-
-
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-
                                     <div id="traffic_chart" style="height: 300px; width: 100%;"></div>
-
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.1/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2/canvasjs.min.js"></script>
                                     <script type="text/javascript">
                                         var chart = new CanvasJS.Chart("traffic_chart",
                                                 {
@@ -312,20 +278,14 @@
 
                                         chart.render();
                                     </script>
-
                                 </div>
-
                             </div>
                         </div>
-
-
                     </div>
-
                 </div>
             </div>
         </section>
     </div>
 </main>
-
 
 {include file='admin/footer.tpl'}
