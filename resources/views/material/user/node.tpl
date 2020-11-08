@@ -1,7 +1,6 @@
 ﻿{include file='user/main.tpl'}
 
-<script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.1/canvasjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1"></script>
+<script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2/canvasjs.min.js"></script>
 <script type="application/x-javascript"> addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
     }, false);
