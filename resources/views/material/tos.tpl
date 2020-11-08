@@ -8,10 +8,10 @@
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="bookmark" href="/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" href="/assets/css/main.css"/>
+    <link rel="stylesheet" href="/assets/css/main.min.css"/>
     <link href="/bootstrap" type="text/html" rel="stylesheet">
     <noscript>
-        <link rel="stylesheet" href="/assets/css/noscript.css"/>
+        <link rel="stylesheet" href="/assets/css/noscript.min.css"/>
     </noscript>
 </head>
 
@@ -75,13 +75,11 @@
         </table>
     </div>
 
-
     <nav>
         <ul>
             <a href="javascript:history.back();" class="button">返回上一页</a>
         </ul>
     </nav>
-
 
     <!--首页结束-->
     <div id="main">
@@ -99,7 +97,7 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
 <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
-<script src="/assets/js/util.js"></script>
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/util.min.js"></script>
+<script src="/assets/js/main.min.js"></script>
 </body>
 </html>
