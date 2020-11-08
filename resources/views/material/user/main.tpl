@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/theme/material/css/user.min.css">
     <!-- jquery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1"></script>
-    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
     <!-- js -->
     <script src="/assets/js/fuck.min.js"></script>
 </head>
