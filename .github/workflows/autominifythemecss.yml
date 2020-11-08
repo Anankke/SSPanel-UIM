@@ -33,5 +33,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v3.0.0
         with:
           repository: 'public/theme/material/css'
-          commit_message: "Github Action: Auto Minified CSS file"
+          commit_message: "Github Action: Auto Minified Theme CSS file"
           branch: ${{ github.ref }}
