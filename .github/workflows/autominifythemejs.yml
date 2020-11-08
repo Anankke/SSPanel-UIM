@@ -1,0 +1,37 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Auto Minify Theme JS file
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the dev branch
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Auto Minify Theme JS file
+        uses: nizarmah/auto-minify@master
+        with:
+          directory: 'public/theme/material/js'
+
+      # Runs a set of commands using the runners shell
+      - name: Auto committing minified files
+        uses: stefanzweifel/git-auto-commit-action@v3.0.0
+        with:
+          repository: 'public/theme/material/js'
+          commit_message: "Github Action: Auto Minified Theme JS file"
+          branch: ${{ github.ref }}
