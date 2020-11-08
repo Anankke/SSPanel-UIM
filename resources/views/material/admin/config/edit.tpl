@@ -61,6 +61,7 @@
                     </div>
                 </div>
                 {include file='dialog.tpl'}
+            </section>
         </div>
     </div>
 </main>
@@ -90,8 +91,8 @@
                 error: jqXHR => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `发生错误：${
-                            jqXHR.status
-                            }`;
+                        jqXHR.status
+                    }`;
                 }
             });
         }

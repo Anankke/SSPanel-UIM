@@ -26,7 +26,6 @@
                     <div class="fbtn-inner">
                         <a class="fbtn fbtn-lg fbtn-brand-accent waves-attach waves-circle waves-light"
                            href="/admin/auto/create">+</a>
-
                     </div>
                 </div>
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
@@ -54,6 +53,7 @@
                     </div>
                 </div>
                 {include file='dialog.tpl'}
+            </section>
         </div>
     </div>
 </main>

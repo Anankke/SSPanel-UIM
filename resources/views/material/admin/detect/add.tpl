@@ -42,6 +42,7 @@
                     </div>
                 </form>
                 {include file='dialog.tpl'}
+            <
         </div>
     </div>
 </main>

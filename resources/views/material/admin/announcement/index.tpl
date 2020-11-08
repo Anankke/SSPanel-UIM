@@ -54,6 +54,7 @@
                     </div>
                 </div>
                 {include file='dialog.tpl'}
+            </section>
         </div>
     </div>
 </main>

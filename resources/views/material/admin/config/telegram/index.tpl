@@ -19,6 +19,7 @@
                 <div class="table-responsive">
                     {include file='table/table.tpl'}
                 </div>
+            </section>
         </div>
     </div>
 </main>

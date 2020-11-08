@@ -45,6 +45,7 @@
                     </div>
                 </div>
                 {include file='dialog.tpl'}
+            </section>
         </div>
     </div>
 </main>
@@ -76,8 +77,8 @@
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
                     $$.getElementById('msg-error-p').innerHTML = `发生错误：${
-                            jqXHR.status
-                            }`;
+                        jqXHR.status
+                    }`;
                 }
             });
         }

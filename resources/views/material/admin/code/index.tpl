@@ -33,7 +33,6 @@
                     <div class="fbtn-inner">
                         <a class="fbtn fbtn-lg fbtn-brand-accent waves-attach waves-circle waves-light"
                            href="/admin/code/create">+</a>
-
                     </div>
                 </div>
                 <div class="fbtn-container">
@@ -51,6 +50,7 @@
                         </div>
                     </div>
                 </div>
+            </section>
         </div>
     </div>
 </main>
