@@ -38,6 +38,7 @@ use App\Utils\{
     Pay,
     URL,
     Hash,
+    Check,
     QQWry,
     Tools,
     Radius,
@@ -629,6 +630,40 @@ class UserController extends BaseController
         $user->save();
 
         $user->clean_link();
+
+        $res['ret'] = 1;
+        $res['msg'] = '修改成功';
+        return $this->echoJson($response, $res);
+    }
+
+    public function updateEmail($request, $response, $args)
+    {
+        $user = $this->user;
+        $newemail = $request->getParam('newemail');
+        $oldemail = $user->email;
+        $otheruser = User::where('email', $newemail)->first();
+        if ($newemail == '') {
+            $res['ret'] = 0;
+            $res['msg'] = '未填写邮箱';
+            return $response->getBody()->write(json_encode($res));
+        }
+        if (!Check::isEmailLegal($newemail)) {
+            $res['ret'] = 0;
+            $res['msg'] = '邮箱无效';
+            return $response->getBody()->write(json_encode($res));
+        }
+        if ($otheruser != null) {
+            $res['ret'] = 0;
+            $res['msg'] = '邮箱已经被使用了';
+            return $response->getBody()->write(json_encode($res));
+        }
+        if ($newemail == $oldemail) {
+            $res['ret'] = 0;
+            $res['msg'] = '新邮箱不能和旧邮箱一样';
+            return $response->getBody()->write(json_encode($res));
+        }
+        $user->email = $newemail;
+        $user->save();
 
         $res['ret'] = 1;
         $res['msg'] = '修改成功';

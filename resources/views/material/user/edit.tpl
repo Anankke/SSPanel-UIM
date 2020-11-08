@@ -145,6 +145,23 @@
                         <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
+                                    <div class="card-heading">账户邮箱修改</div>
+                                    <button class="btn btn-flat" id="email-update"><span class="icon">check</span>&nbsp;
+                                    </button>
+                                </div>
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="newemail">新邮箱</label>
+                                    <input class="form-control maxwidth-edit" id="newemail" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card margin-bottom-no">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div class="card-inner">
+                                <div class="cardbtn-edit">
                                     <div class="card-heading">账号登录密码修改</div>
                                     <button class="btn btn-flat" id="pwd-update"><span class="icon">check</span>&nbsp;
                                     </button>
@@ -566,6 +583,30 @@
                     oldpwd: $$getValue('oldpwd'),
                     pwd: $$getValue('pwd'),
                     repwd: $$getValue('repwd')
+                },
+                success: (data) => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                },
+                error: (jqXHR) => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = `${
+                            data.msg
+                            } 出现了一些错误`;
+                }
+            })
+        })
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $("#email-update").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "email",
+                dataType: "json",
+                data: {
+                    newemail: $$getValue('newemail')
                 },
                 success: (data) => {
                     $("#result").modal();
