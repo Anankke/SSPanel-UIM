@@ -436,7 +436,7 @@
 
 <script>
     $(function () {
-        new Clipboard('.copy-text');
+        new ClipboardJS('.copy-text');
     });
     $(".copy-text").click(function () {
         $("#result").modal();
@@ -921,7 +921,7 @@
 {/literal}
 <script>
     $(function () {
-        new Clipboard('.reset-link');
+        new ClipboardJS('.reset-link');
     });
     $(".reset-link").click(function () {
         $("#result").modal();

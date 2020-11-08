@@ -929,18 +929,15 @@ table tr td:first-child {
 
 <script src="https://cdn.jsdelivr.net/npm/shake.js@1.2.2/shake.min.js"></script>
 <script>
-
     function DateParse(str_date) {
         var str_date_splited = str_date.split(/[^0-9]/);
         return new Date(str_date_splited[0], str_date_splited[1] - 1, str_date_splited[2], str_date_splited[3], str_date_splited[4], str_date_splited[5]);
     }
-
 </script>
 <script>
     $(function () {
-        new Clipboard('.copy-text');
+        new ClipboardJS('.copy-text');
     });
-
     $(".copy-text").click(function () {
         $("#result").modal();
         $$.getElementById('msg').innerHTML = '已复制，请您继续接下来的操作';
@@ -966,7 +963,7 @@ table tr td:first-child {
                }
             }
         });
-        const clipboard = new Clipboard('.copy-config', {
+        const clipboard = new ClipboardJS('.copy-config', {
             text: function() {
                 return $(id).data('data');
             }

@@ -414,7 +414,7 @@
         $("#nodeinfo").modal();
     }
     $(function () {
-        new Clipboard('.copy-text');
+        new ClipboardJS('.copy-text');
     });
     $(".copy-text").click(function () {
         $("#result").modal();

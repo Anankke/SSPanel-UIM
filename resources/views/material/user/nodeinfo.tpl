@@ -268,7 +268,7 @@
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
 <script>
 	$(function(){
-		new Clipboard('.copy-text');
+		new ClipboardJS('.copy-text');
 	});
 	$(".copy-text").click(function () {
 		$("#result").modal();
@@ -277,7 +277,7 @@
 </script>
 <script>
     $(function () {
-        new Clipboard('.copy-text');
+        new ClipboardJS('.copy-text');
     });
     $(".copy-text").click(function () {
         $("#result").modal();
