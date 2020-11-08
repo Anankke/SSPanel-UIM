@@ -6,17 +6,16 @@
     <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
     <meta name="theme-color" content="#4285f4">
     <title>{$config['appName']}</title>
-
     <!-- css -->
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/material/css/user.css">
+    <link rel="stylesheet" href="/theme/material/css/user.min.css">
     <!-- jquery -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1"></script>
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
     <!-- js -->
-    <script src="/assets/js/fuck.js"></script>
+    <script src="/assets/js/fuck.min.js"></script>
 </head>
 <body class="page-orange">
 <header class="header header-orange header-transparent header-waterfall ui-header">
