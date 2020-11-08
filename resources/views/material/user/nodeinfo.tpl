@@ -285,8 +285,7 @@
     });
     {if URL::SSCanConnect($user, $mu)}
     var text_qrcode = '{URL::getItemUrl($ss_item, 1)}',
-            text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';
-
+        text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';
     var qrcode1 = new QRCode(document.getElementById("ss-qr"), {
             correctLevel: 3
         }),

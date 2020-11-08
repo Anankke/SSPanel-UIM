@@ -25,7 +25,6 @@
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
-
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-10">
@@ -131,8 +130,8 @@
                     $("#msg-error").hide(10);
                     $("#msg-error").show(100);
                     $$.getElementById('msg-error-p').innerHTML = `发生错误：${
-                            jqXHR.status
-                            }`;
+                        jqXHR.status
+                    }`;
                 }
             });
         });
