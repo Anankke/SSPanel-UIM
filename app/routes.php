@@ -16,10 +16,6 @@ return function (SlimApp $app) {
     $app->get('/indexold',  App\Controllers\HomeController::class . ':indexold');
 
     // other
-    $app->get('/spay_back',             App\Services\Payment::class . ':notify');
-    $app->post('/spay_back',            App\Services\Payment::class . ':notify');
-    $app->get('/tomato_back/{type}',    App\Services\Payment::class . ':notify');
-    $app->post('/tomato_back/{type}',   App\Services\Payment::class . ':notify');
     $app->post('/notify',               App\Controllers\HomeController::class . ':notify');
 
     // Telegram
