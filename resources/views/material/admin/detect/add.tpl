@@ -17,17 +17,14 @@
                                     <label class="floating-label" for="name">规则名称</label>
                                     <input class="form-control maxwidth-edit" id="name" name="name" type="text">
                                 </div>
-
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="text">规则描述</label>
                                     <input class="form-control maxwidth-edit" id="text" name="text" type="text">
                                 </div>
-
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="regex">规则正则表达式</label>
                                     <input class="form-control maxwidth-edit" id="regex" name="regex" type="text">
                                 </div>
-
                                 <div class="form-group form-group-label">
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="type">规则类型</label>
@@ -37,7 +34,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="form-group form-group-label">
                                     <button id="submit" type="submit" class="btn btn-block btn-brand waves-attach waves-light">添加</button>
                                 </div>
@@ -46,17 +42,13 @@
                     </div>
                 </form>
                 {include file='dialog.tpl'}
-
         </div>
-
     </div>
 </main>
 
 {include file='admin/footer.tpl'}
 
-
 <script>
-
     {literal}
     $('#main_form').validate({
         rules: {
@@ -95,6 +87,4 @@
             });
         }
     });
-
 </script>
-

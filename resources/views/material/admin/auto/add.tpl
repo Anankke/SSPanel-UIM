@@ -1,6 +1,5 @@
 {include file='admin/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -10,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-md-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -18,13 +16,9 @@
                                 <label class="floating-label" for="content">命令</label>
                                 <textarea class="form-control maxwidth-edit" id="content" rows="15"></textarea>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -32,17 +26,12 @@
                                 <label class="floating-label" for="sign">GPG签名</label>
                                 <textarea class="form-control maxwidth-edit" id="sign" rows="15"></textarea>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
-
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-10 col-md-push-1">
@@ -55,13 +44,10 @@
                         </div>
                     </div>
                 </div>
-
                 {include file='dialog.tpl'}
         </div>
-
     </div>
 </main>
-
 
 {include file='admin/footer.tpl'}
 
@@ -95,7 +81,6 @@
                 }
             });
         }
-
         $$.getElementById('submit').addEventListener('click', submit);
     });
 </script>

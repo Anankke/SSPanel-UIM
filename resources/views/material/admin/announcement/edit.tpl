@@ -23,11 +23,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
-
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-10 col-md-push-1">
@@ -40,9 +38,7 @@
                         </div>
                     </div>
                 </div>
-
                 {include file='dialog.tpl'}
-
         </div>
     </div>
 </main>
@@ -58,7 +54,6 @@
             saveHTMLToTextarea: true,
             emoji: true
         });
-
         /*
         // or
         var editor = editormd({
@@ -67,7 +62,6 @@
         });
         */
     })();
-
     window.addEventListener('load', () => {
         function submit() {
             $.ajax({
@@ -96,9 +90,6 @@
                 }
             });
         }
-
         $$.getElementById('submit').addEventListener('click', submit);
-
     });
-
 </script>

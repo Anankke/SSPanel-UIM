@@ -1,6 +1,5 @@
 {include file='admin/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -10,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-sm-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -21,25 +19,17 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive">
                     {include file='table/table.tpl'}
                 </div>
-
-
         </div>
-
-
     </div>
 </main>
 
-
 {include file='admin/footer.tpl'}
-
 
 <script>
     {include file='table/js_1.tpl'}
-
     window.addEventListener('load', () => {
         table = $('#table_tickets').DataTable({
             ajax: 'ticket/ajax',
@@ -47,7 +37,6 @@
             serverSide: true,
             order: [[1, 'desc']]
         })
-
         {include file='table/js_2.tpl'}
     });
 </script>

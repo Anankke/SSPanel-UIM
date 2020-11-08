@@ -9,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-md-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -24,11 +23,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
-
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-10 col-md-push-1">
@@ -43,7 +40,6 @@
                                                            name="issend"><span class="switch-toggle"></span>是否发送邮件
                                                 </label>
                                             </div>
-
                                             <div class="checkbox switch">
                                                 <label for="PushBear">
                                                     <input class="access-hide" id="PushBear" type="checkbox"
@@ -53,7 +49,6 @@
                                             <p class="form-control-guide"><i class="material-icons">info</i>向关注了二维码的用户以微信方式推送消息
                                             </p>
                                         </div>
-
                                         <button id="submit" type="submit"
                                                 class="btn btn-block btn-brand waves-attach waves-light">添加
                                         </button>
@@ -63,12 +58,8 @@
                         </div>
                     </div>
                 </div>
-
-
                 {include file='dialog.tpl'}
         </div>
-
-
     </div>
 </main>
 
@@ -82,7 +73,6 @@
             height: 720,
             saveHTMLToTextarea: true
         });
-
         /*
         // or
         var editor = editormd({
@@ -91,10 +81,8 @@
         });
         */
     })();
-
     window.addEventListener('load', () => {
         function submit(page = -1) {
-
             if ($$.getElementById('issend').checked) {
                 var issend = 1;
             } else {
@@ -110,7 +98,6 @@
             } else {
                 sedPage = page;
                 var PushBear = 0;
-
             }
             $.ajax({
                 type: "POST",
@@ -144,11 +131,8 @@
                 }
             });
         }
-
         $$.getElementById('submit').addEventListener('click', () => {
             submit();
         });
     });
-
-
 </script>

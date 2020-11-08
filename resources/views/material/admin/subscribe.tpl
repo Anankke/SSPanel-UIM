@@ -18,15 +18,10 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive">
                     {include file='table/table.tpl'}
                 </div>
-
-
         </div>
-
-
     </div>
 </main>
 

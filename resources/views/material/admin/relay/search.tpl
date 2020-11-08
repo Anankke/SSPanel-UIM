@@ -9,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-md-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -17,7 +16,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -33,7 +31,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive">
                     <table class="mdl-data-table" id="table_1" cellspacing="0" width="100%">
                         <thead>
@@ -67,20 +64,14 @@
                         </tbody>
                     </table>
                 </div>
-
-
+            </section>
         </div>
-
-
     </div>
 </main>
 
-
 {include file='admin/footer.tpl'}
 
-
 <script>
-
     window.addEventListener('load', () => {
         table = $('#table_1').DataTable({
             "columnDefs": [{
@@ -89,16 +80,13 @@
             }],
             {include file='table/lang_chinese.tpl'}
         });
-
         let search = () => {
             window.location = `/admin/relay/path_search/${ldelim}$$.getElementById('search').value{rdelim}`
         };
-
         $$.getElementById('search_button').addEventListener('click', () => {
             if ($$.getElementById('search').value !== "") {
                 search();
             }
         })
     })
-
 </script>

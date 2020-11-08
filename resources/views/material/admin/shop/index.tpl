@@ -1,6 +1,5 @@
 {include file='admin/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -10,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-sm-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -21,11 +19,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive">
                     {include file='table/table.tpl'}
                 </div>
-
                 <div class="fbtn-container">
                     <div class="fbtn-inner">
                         <a class="fbtn fbtn-lg fbtn-brand-accent waves-attach waves-circle waves-light"
@@ -33,7 +29,6 @@
 
                     </div>
                 </div>
-
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
                      tabindex="-1">
                     <div class="modal-dialog modal-xs">
@@ -59,27 +54,19 @@
                         </div>
                     </div>
                 </div>
-
                 {include file='dialog.tpl'}
-
         </div>
-
-
     </div>
 </main>
-
 
 {include file='admin/footer.tpl'}
 
 <script>
-
     function delete_modal_show(id) {
         deleteid = id;
         $("#delete_modal").modal();
     }
-
     {include file='table/js_1.tpl'}
-
     window.addEventListener('load', () => {
         table_1 = $('#table_1').DataTable({
             ajax: {
@@ -102,8 +89,6 @@
             ],
             {include file='table/lang_chinese.tpl'}
         })
-
-
         var has_init = JSON.parse(localStorage.getItem(`${ldelim}window.location.href{rdelim}-hasinit`));
         if (has_init !== true) {
             localStorage.setItem(`${ldelim}window.location.href{rdelim}-hasinit`, true);
@@ -117,12 +102,9 @@
             }
             {/foreach}
         }
-
         {foreach $table_config['total_column'] as $key => $value}
         modify_table_visible('checkbox_{$key}', '{$key}');
         {/foreach}
-
-
         function delete_id() {
             $.ajax({
                 type: "DELETE",
@@ -147,8 +129,6 @@
                 }
             });
         }
-
         $$.getElementById('delete_input').addEventListener('click', delete_id);
     })
-
 </script>

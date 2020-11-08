@@ -9,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-sm-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -32,7 +31,6 @@
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
-
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-10 col-md-push-1">
@@ -45,7 +43,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -53,15 +50,11 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive">
                     {include file='table/table.tpl'}
                 </div>
-
                 {include file='dialog.tpl'}
         </div>
-
-
     </div>
 </main>
 
@@ -69,12 +62,10 @@
 
 <script>
     {include file='table/js_1.tpl'}
-
     window.addEventListener('load', () => {
         {include file='table/js_2.tpl'}
     });
 </script>
-
 <script>
     window.addEventListener('load', () => {
         function submit() {
@@ -103,13 +94,11 @@
                 }
             });
         }
-
         $("html").keydown(event => {
             if (event.keyCode == 13) {
                 submit();
             }
         });
-
         $$.getElementById('submit').addEventListener('click', submit);
     })
 </script>

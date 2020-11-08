@@ -9,12 +9,10 @@
     <div class="container">
         <div class="col-lg-12 col-sm-12">
             <section class="content-inner margin-top-no">
-
                 <form id="main_form">
                     <div class="card">
                         <div class="card-main">
                             <div class="card-inner">
-
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="buy_shop">选择套餐</label>
                                     <button id="buy_shop" class="form-control maxwidth-edit" name="buy_shop"
@@ -30,7 +28,6 @@
                                         {/foreach}
                                     </ul>
                                 </div>
-
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="buy_type">类型</label>
                                     <button id="buy_type" class="form-control maxwidth-edit" name="buy_type"
@@ -52,11 +49,9 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="card">
                         <div class="card-main">
                             <div class="card-inner">
-
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-10 col-md-push-1">
@@ -65,12 +60,10 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </form>
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -78,11 +71,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive">
                     {include file='table/table.tpl'}
                 </div>
-
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
                      tabindex="-1">
                     <div class="modal-dialog modal-xs">
@@ -107,12 +98,8 @@
                         </div>
                     </div>
                 </div>
-
                 {include file='dialog.tpl'}
-
         </div>
-
-
     </div>
 </main>
 
@@ -124,14 +111,11 @@
     window.addEventListener('load', () => {
         {include file='table/js_2.tpl'}
     });
-
     function delete_modal_show(id) {
         deleteid = id;
         $("#delete_modal").modal();
     }
-
     $$.getElementById('delete_input').addEventListener('click', delete_id);
-
     function delete_id() {
         $.ajax({
             type: "DELETE",
@@ -194,5 +178,4 @@
         }
     });
 </script>
-
 {/literal}

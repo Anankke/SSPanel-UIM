@@ -20,19 +20,15 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive">
                     {include file='table/table.tpl'}
                 </div>
-
                 <div class="fbtn-container">
                     <div class="fbtn-inner">
                         <a class="fbtn fbtn-lg fbtn-brand-accent waves-attach waves-circle waves-light"
                            href="/admin/node/create">+</a>
-
                     </div>
                 </div>
-
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
                      tabindex="-1">
                     <div class="modal-dialog modal-xs">
@@ -57,32 +53,21 @@
                         </div>
                     </div>
                 </div>
-
                 {include file='dialog.tpl'}
-
-
         </div>
-
-
     </div>
 </main>
-
 
 {include file='admin/footer.tpl'}
 
 <script>
-
     function delete_modal_show(id) {
         deleteid = id;
         $("#delete_modal").modal();
     }
-
     {include file='table/js_1.tpl'}
-
     window.addEventListener('load', () => {
         {include file='table/js_2.tpl'}
-
-
         function delete_id() {
             $.ajax({
                 type: "DELETE",
@@ -107,7 +92,6 @@
                 }
             });
         }
-
         $$.getElementById('delete_input').addEventListener('click', delete_id);
     })
 </script>
