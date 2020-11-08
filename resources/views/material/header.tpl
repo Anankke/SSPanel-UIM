@@ -11,7 +11,7 @@
     <!-- css -->
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
-    <link href="/theme/material/css/auth.css" rel="stylesheet">
+    <link href="/theme/material/css/auth.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <style>
         .divcss5 {
@@ -21,7 +21,7 @@
     </style>
     <!-- favicon -->
     <!-- js -->
-    <script src="/assets/js/fuck.js"></script>
+    <script src="/assets/js/fuck.min.js"></script>
     <!-- ... -->
 </head>
 
