@@ -662,7 +662,8 @@ class UserController extends BaseController
             $res['msg'] = '新邮箱不能和旧邮箱一样';
             return $response->getBody()->write(json_encode($res));
         }
-        $user->email = $newemail;
+        $antiXss = new AntiXSS();
+        $user->email = $antiXss->xss_clean($newemail);
         $user->save();
 
         $res['ret'] = 1;
