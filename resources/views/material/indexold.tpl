@@ -84,7 +84,6 @@
                 </ul>
             </nav>
         {/if}
-
     </header>
     <!--首页结束-->
     <div id="main">
@@ -122,26 +121,21 @@
                     <label for="passwd">密码</label>
                     <input type="password" name="Password" id="passwd"/>
                 </div>
-
                 <ul class="actions">
                     <li><input id="login" type="submit" value="登录" class="special"/></li>
                     <li><input type="reset" value="清空"/></li>
                 </ul>
             </form>
-
             <div class="field half">
                 <input value="week" id="remember_me" name="remember_me" type="checkbox" checked>
                 <label for="remember_me">记住我</label>
             </div>
-
             <br>
-
             <div id="result" role="dialog">
                 <p color class="h5 margin-top-sm text-black-hint" id="msg"></p>
             </div>
         </article>
         <!--全部标签结束-->
-
     </div>
     <!-- 版权底部 -->
     <footer id="footer">
@@ -165,7 +159,6 @@
     } catch (e) {
     }
 </script>
-
 <!-- 進度條 -->
 <script>
     {literal}
@@ -185,7 +178,6 @@
         });
     });
     {/literal}
-
     /*window.addEventListener('load', () => {
         fetch('https://api.lwl12.com/hitokoto/v1?encode=realjson', {
             method: 'GET',

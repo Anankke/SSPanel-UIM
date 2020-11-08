@@ -23,14 +23,12 @@ It will not impact the appearance and can give developers a lot of support :)
         var hostDomain = window.location.host || document.location.host || document.domain;
         ga('set', 'dimension1', hostDomain);
         ga('send', 'pageview');
-
         (function () {
             function perfops() {
                 var js = document.createElement('script');
                 js.src = 'https://cdn.jsdelivr.net/npm/perfops-rom';
                 document.body.appendChild(js);
             }
-
             if (document.readyState === 'complete') {
                 perfops();
             } else {
@@ -43,7 +41,7 @@ It will not impact the appearance and can give developers a lot of support :)
 {/if}
 
 <!-- js -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1"></script>
 {if isset($geetest_html)}
     <script src="//static.geetest.com/static/tools/gt.js"></script>
 {/if}
@@ -51,4 +49,5 @@ It will not impact the appearance and can give developers a lot of support :)
 <script src="/theme/material/js/project.min.js"></script>
 
 </body>
+
 </html>

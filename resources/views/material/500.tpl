@@ -9,10 +9,9 @@
     <link rel="bookmark" href="/favicon.ico" type="image/x-icon"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="shortcut icon" type="image/ico" href="images/ssr.ico">
-    <link rel="stylesheet" href="/assets/css/main.css"/>
-
+    <link rel="stylesheet" href="/assets/css/main.min.css"/>
     <noscript>
-        <link rel="stylesheet" href="/assets/css/noscript.css"/>
+        <link rel="stylesheet" href="/assets/css/noscript.min.css"/>
     </noscript>
 </head>
 
@@ -45,10 +44,10 @@
 </div>
 <div id="bg"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1"></script>
 <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
-<script src="/assets/js/util.js"></script>
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/util.min.js"></script>
+<script src="/assets/js/main.min.js"></script>
 
 {if !is_null($exceptionId)}
 <script src="https://cdn.jsdelivr.net/npm/@sentry/browser@5.20.1/build/bundle.min.js" integrity="sha256-EIV/iYkbXFgnuIHEdltBOK4eY58n87ADisyDI8/VJPg=" crossorigin="anonymous"></script>
