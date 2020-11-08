@@ -38,13 +38,10 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         }
                     ]
                 });
-
-
         up_chart{$id} = new CanvasJS.Chart("up{$id}_chart",
                 {
                     title: {
@@ -78,7 +75,6 @@
                         }
                     ]
                 });
-
         {$load=$point_node->getNodeAlive()}
         alive_chart{$id} = new CanvasJS.Chart("alive{$id}_chart",
                 {
@@ -115,14 +111,10 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         }
                     ]
                 });
-
-
-
         {$speedtests=$point_node->getSpeedtestResult()}
         speedtest_chart{$id} = new CanvasJS.Chart("speedtest{$id}_chart",
                 {
@@ -164,7 +156,6 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         },
                         {
@@ -198,7 +189,6 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         },
                         {
@@ -232,12 +222,10 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         }
                     ]
                 });
-
         speedtest_ping_chart{$id} = new CanvasJS.Chart("speedtest{$id}_ping_chart",
                 {
                     title: {
@@ -283,7 +271,6 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         },
                         {
@@ -318,7 +305,6 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         },
                         {
@@ -353,7 +339,6 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         },
                         {
@@ -388,7 +373,6 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         },
                         {
@@ -423,7 +407,6 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         },
                         {
@@ -458,21 +441,14 @@
                                 {/literal}
                                 {/if}
                                 {/foreach}
-
                             ]
                         }
                     ]
                 });
-
-
         chart{$id}.render();
         up_chart{$id}.render();
         alive_chart{$id}.render();
         speedtest_chart{$id}.render();
         speedtest_ping_chart{$id}.render();
-
-
     });
-
-
 </script>

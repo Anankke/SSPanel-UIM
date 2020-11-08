@@ -1,6 +1,8 @@
 {include file='user/main.tpl'}
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sukka/markdown.css">
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <style>
 .tile-sub div {
     padding: 16px;
@@ -66,15 +68,12 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换。Tab 条目位于 ul.nav.n
             <h1 class="content-heading">使用教程</h1>
         </div>
     </div>
-
     <div class="container">
         <section class="content-inner margin-top-no">
             <div class="ui-card-wrap">
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-main">
-
                             <div class="card-inner">
                                 <nav class="tab-nav margin-top-no">
                                     <ul class="nav nav-list">
@@ -89,9 +88,7 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换。Tab 条目位于 ul.nav.n
                                         </li>
                                     </ul>
                                 </nav>
-
                                 <div class="tab-pane fade active in page-course" id="tutorial_ssr">
-
                                     <div class="tile tile-collapse">
                                         <div data-toggle="tile" data-target="#tutorial-heading-ssrwin">
                                             <div class="tile-inner">
@@ -227,11 +224,8 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换。Tab 条目位于 ul.nav.n
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
                                 <div class="tab-pane fade page-course" id="tutorial_ss">
-
                                     <div class="tile tile-collapse">
                                         <div data-toggle="tile" data-target="#tutorial-heading-ssxng">
                                             <div class="tile-inner">
@@ -277,11 +271,8 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换。Tab 条目位于 ul.nav.n
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
                                 <div class="tab-pane fade page-course" id="tutorial_v2ray">
-
                                     <div class="tile tile-collapse">
                                         <div data-toggle="tile" data-target="#tutorial-heading-v2rayn">
                                             <div class="tile-inner">
@@ -312,26 +303,15 @@ Tab 负责控制 SSR / SS / V2Ray 的容器的切换。Tab 条目位于 ul.nav.n
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
-
                     {include file='dialog.tpl'}
-
                 </div>
-
-
             </div>
         </section>
     </div>
 </main>
 
-
 {include file='user/footer.tpl'}
-
-
-

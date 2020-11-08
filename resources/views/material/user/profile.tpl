@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -37,7 +36,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-main">
@@ -45,7 +43,6 @@
                                 <div class="card-doubleinner">
                                     <p class="card-heading">当前生效中的套餐</p>
                                 </div>
-
                                 <div class="card-table">
                                     <div class="table-responsive table-user">
                                         <table class="table">
@@ -78,7 +75,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6 col-md-6">
                     <div class="card">
                         <div class="card-main">
@@ -91,13 +87,11 @@
                                     <div class="table-responsive table-user">
                                         <table class="table table-fixed">
                                             <tr>
-
                                                 <th>IP</th>
                                                 <th>归属地</th>
                                             </tr>
                                             {foreach $userip as $single=>$location}
                                                 <tr>
-
                                                     <td>{$single}</td>
                                                     <td>{$location}</td>
                                                 </tr>
@@ -109,7 +103,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6 col-md-6">
                     <div class="card">
                         <div class="card-main">
@@ -122,13 +115,11 @@
                                     <div class="table-responsive table-user">
                                         <table class="table table-fixed">
                                             <tr>
-
                                                 <th>IP</th>
                                                 <th>归属地</th>
                                             </tr>
                                             {foreach $userloginip as $single=>$location}
                                                 <tr>
-
                                                     <td>{$single}</td>
                                                     <td>{$location}</td>
                                                 </tr>
@@ -140,11 +131,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
     </div>
 </main>
-
 
 {include file='user/footer.tpl'}

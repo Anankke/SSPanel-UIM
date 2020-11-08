@@ -18,11 +18,9 @@
 </div>
 <script>
     var pid = 0;
-
     function selectPayment(type) {
         // TODO - make it easier - ALIPAY_WAP, ALIPAY_WEB
         var price = parseFloat($("#bitpayx-amount").val());
-
         console.log("将要使用 " + type + " 充值" + price + "元");
         if (isNaN(price) || price < 1 || price >= 500) {
             $("#readytopay").modal('hide');
@@ -38,7 +36,6 @@
             }
             return;
         }
-
         $('#readytopay').modal();
         $.ajax({
             'url': "/user/payment/purchase",
@@ -60,5 +57,4 @@
             }
         });
     }
-
 </script>

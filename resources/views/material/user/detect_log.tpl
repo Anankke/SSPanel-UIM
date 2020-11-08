@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -10,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-md-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -19,7 +17,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -37,7 +34,6 @@
                                             <th>正则表达式</th>
                                             <th>类型</th>
                                             <th>时间</th>
-
                                         </tr>
                                         {foreach $logs as $log}
                                             {if $log->DetectRule() != null}
@@ -66,11 +62,8 @@
                         </div>
                     </div>
                 </div>
-
         </div>
-
     </div>
 </main>
-
 
 {include file='user/footer.tpl'}

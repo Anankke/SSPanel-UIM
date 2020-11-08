@@ -11,7 +11,6 @@
                     <div class="card">
                         <div class="card-main">
                             <div class="card-inner">
-
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="source_node">起源节点</label>
                                     <button id="source_node" class="form-control maxwidth-edit" name="source_node"
@@ -27,7 +26,6 @@
                                         {/foreach}
                                     </ul>
                                 </div>
-
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="dist_node">目标节点</label>
                                     <button id="dist_node" class="form-control maxwidth-edit" name="dist_node"
@@ -39,7 +37,6 @@
                                             <a href="#" class="dropdown-option" onclick="return false;" val="-1"
                                                data="dist_node">不进行中转</a>
                                         </li>
-
                                         {foreach $dist_nodes as $dist_node}
                                             <li>
                                                 <a href="#" class="dropdown-option" onclick="return false;"
@@ -48,7 +45,6 @@
                                         {/foreach}
                                     </ul>
                                 </div>
-
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="port">端口</label>
                                     <button id="port" class="form-control maxwidth-edit" name="port"
@@ -62,21 +58,17 @@
                                         {/foreach}
                                     </ul>
                                 </div>
-
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="priority">优先级</label>
                                     <input class="form-control maxwidth-edit" id="priority" name="priority" type="text"
                                            value="0">
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                     <div class="card">
                         <div class="card-main">
                             <div class="card-inner">
-
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-10 col-md-push-1">
@@ -85,32 +77,24 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </form>
                 {include file='dialog.tpl'}
                 <section>
-
         </div>
-
     </div>
 </main>
 
-
 {include file='user/footer.tpl'}
-
 
 {literal}
 <script>
-
     $('#main_form').validate({
         rules: {
             priority: {required: true}
         },
-
-
         submitHandler: () => {
             $.ajax({
                 type: "POST",
@@ -145,7 +129,5 @@
             });
         }
     });
-
 </script>
-
 {/literal}

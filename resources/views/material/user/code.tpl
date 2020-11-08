@@ -4,14 +4,11 @@
     <div class="content-header ui-content-header">
         <div class="container">
             <h1 class="content-heading">充值</h1>
-
-
         </div>
     </div>
     <div class="container">
         <section class="content-inner margin-top-no">
             <div class="row">
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card margin-bottom-no">
                         <div class="card-main">
@@ -39,8 +36,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 {if $pmw!=''}
                     <div class="col-lg-12 col-md-12">
                         <div class="card margin-bottom-no">
@@ -52,7 +47,6 @@
                         </div>
                     </div>
                 {/if}
-
                 {if $bitpay!=''}
                     <div class="col-lg-12 col-md-12">
                         <div class="card margin-bottom-no">
@@ -64,7 +58,6 @@
                         </div>
                     </div>
                 {/if}
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card margin-bottom-no">
                         <div class="card-main">
@@ -85,12 +78,10 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card margin-bottom-no">
                         <div class="card-main">
                             <div class="card-inner">
-
                                 <div class="card-table">
                                     <div class="table-responsive table-user">
                                         {$codes->render()}
@@ -101,7 +92,6 @@
                                                 <th>类型</th>
                                                 <th>操作</th>
                                                 <th>使用时间</th>
-
                                             </tr>
                                             {foreach $codes as $code}
                                                 {if $code->type!=-2}
@@ -140,8 +130,6 @@
                                         {$codes->render()}
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -159,7 +147,6 @@
                         </div>
                     </div>
                 </div>
-
                 {include file='dialog.tpl'}
             </div>
         </section>

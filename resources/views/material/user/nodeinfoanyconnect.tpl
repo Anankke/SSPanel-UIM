@@ -1,6 +1,5 @@
 {include file='user/header_info.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -33,7 +32,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-12 col-sm-12">
                         <div class="card">
                             <div class="card-main">
@@ -44,7 +42,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-12 col-sm-12">
                         <div class="card">
                             <div class="card-main">
@@ -64,24 +61,15 @@
                                         VPN一行中有个开关，点击开关将其打开，如出现安全警告，点击继续即可，之后在弹出的认证框中输入用户名密码，连接即可。</p>
                                     <p>windows
                                         Phone：在应用商店中下载客户端安装后打开设置-网络-VPN-添加VPN连接，VPN提供商一栏选择anyconnect，连接名称任意，服务器名称或地址中填写如配置信息所示的地址，之后点击保存即可，连接时点击对应的新建的VPN，点击连接，之后会提示输入用户名与密码，分别输入后即可。</p>
-
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
+        </div>
     </div>
-    </div>
-    </section>
-    </div>
+</div>
 </main>
 
-
 {include file='user/footer.tpl'}
-
-
-
-

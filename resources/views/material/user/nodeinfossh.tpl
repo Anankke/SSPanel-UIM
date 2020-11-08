@@ -1,6 +1,5 @@
 {include file='user/header_info.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -33,7 +32,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-12 col-sm-12">
                         <div class="card">
                             <div class="card-main">
@@ -41,20 +39,13 @@
                                     <p class="card-heading">配置方法</p>
                                     <p>未完待续</p>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
     </div>
 </main>
 
-
 {include file='user/footer.tpl'}
-
-
-
-

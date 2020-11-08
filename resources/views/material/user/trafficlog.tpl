@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -23,15 +22,12 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-12 col-sm-12">
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
                                     <div id="log_chart" style="height: 300px; width: 100%;"></div>
-
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.1/canvasjs.min.js"></script>
-
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2/canvasjs.min.js"></script>
                                     <script type="text/javascript">
                                         window.onload = function () {
                                             var log_chart = new CanvasJS.Chart("log_chart",
@@ -40,7 +36,6 @@
                                                         title: {
                                                             text: "您的最近72小时流量消耗",
                                                             fontSize: 20
-
                                                         },
                                                         animationEnabled: true,
                                                         axisX: {
@@ -54,17 +49,13 @@
                                                             labelFontSize: 14,
                                                             titleFontSize: 18
                                                         },
-
                                                         data: [
                                                             {
                                                                 type: "scatter",
                                                                 {literal}
                                                                 toolTipContent: "<span style='\"'color: {color};'\"'><strong>产生时间: </strong></span>{x} <br/><span style='\"'color: {color};'\"'><strong>流量: </strong></span>{y} KB <br/><span style='\"'color: {color};'\"'><strong>产生节点: </strong></span>{jd}",
                                                                 {/literal}
-
                                                                 dataPoints: [
-
-
                                                                     {$i=0}
                                                                     {foreach $logs as $single_log}
                                                                     {if $i==0}
@@ -90,28 +81,21 @@
                                                                     {/literal}
                                                                     {/if}
                                                                     {/foreach}
-
                                                                 ]
                                                             }
-
                                                         ]
                                                     });
-
                                             log_chart.render();
                                         }
                                     </script>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
     </div>
 </main>
-
 
 {include file='user/footer.tpl'}

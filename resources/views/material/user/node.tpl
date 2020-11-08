@@ -34,7 +34,6 @@
         <a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node['raw_node'])}">点击复制</a>
     </p>
 {/function}
-
 {function displaySort13Node node=null}
     {$sort13Node = $node['raw_node']->getV2RayPluginItem($user)}
     {if $sort13Node === null}
@@ -48,7 +47,6 @@
         <p>混淆参数：<span class="card-tag tag-volcano">{$sort13Node['obfs_param']}</span></p>
     {/if}
 {/function}
-
 {function displaySort14Node node=null}
     {$sort14Node = $node['raw_node']->getTrojanItem($user)}
     <p>节点地址：<span class="card-tag tag-blue">{$sort14Node['address']}</span></p>
@@ -67,7 +65,6 @@
     </p>
     {/if}
 {/function}
-
 {function displayNodeLink node=null}
     <div class="tiptitle">
         <a href="javascript:void(0);">{$node['name']}</a>
@@ -80,7 +77,6 @@
             <h1 class="content-heading">节点列表</h1>
         </div>
     </div>
-
     <div class="container">
         <section class="content-inner margin-top-no">
             <div class="ui-card-wrap">
@@ -105,17 +101,12 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
                         <div class="node-cardgroup">
                     {$class=-1}
                     {foreach $nodes as $node}
                         {if $node['class'] != $class}
                             {$class = $node['class']}
                             {if !$node@first}</div>{/if}
-
                         <div class="nodetitle">
                             <a class="waves-effect waves-button" data-toggle="collapse" href="#cardgroup{$class}" aria-expanded="true" aria-controls="cardgroup{$class}">
                                 <span>{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</span>
@@ -124,7 +115,6 @@
                         </div>
                         <div class="card-row collapse in" id="cardgroup{$class}">
                         {/if}
-
                             <div class="node-card node-flex" cardindex="{$node@index}">
                                 <div class="nodemain">
                                     <div class="nodehead node-flex">
@@ -135,7 +125,6 @@
                                         {/if}
                                         <div class="nodename">{$node['name']}</div>
                                     </div>
-
                                     <!-- 在线人数 -->
                                     <div class="nodemiddle node-flex">
                                         <div class="onlinemember node-flex">
@@ -144,27 +133,22 @@
                                         </div>
                                         <div class="nodetype">{$node['status']}</div>
                                     </div>
-
                                     <div class="nodeinfo node-flex">
-
                                         <!-- 节点已用流量 -->
                                         <div class="nodetraffic node-flex">
                                             <i class="material-icons node-icon">equalizer</i>
                                             <span>{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}GB{else}{$node['traffic_used']}GB{/if}</span>
                                         </div>
-
                                         <!-- 节点流量倍率 -->
                                         <div class="nodecheck node-flex">
                                             <i class="material-icons node-icon">network_check</i>
                                             <span>x{$node['traffic_rate']}</span>
                                         </div>
-
                                         <!-- 节点速率 -->
                                         <div class="nodeband node-flex">
                                             <i class="material-icons node-icon">flash_on</i>
                                             <span>{if {$node['bandwidth']}==0}N/A{else}{$node['bandwidth']}{/if}</span>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="nodestatus">
@@ -172,7 +156,6 @@
                                         <i class="material-icons">{if $node['online']=='1'}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</i>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="node-tip cust-model" tipindex="{$node@index}">
                                 {if $node['class'] > $user->class}
@@ -183,14 +166,12 @@
                                         </b>
                                     </p>
                                 {else}
-
                                     {if in_array($node['sort'], [0, 10])}
                                         {$relay_rule = null}
 
                                         {if $node['sort'] == 10}
                                             {$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
                                         {/if}
-
                                         {if $node['mu_only'] != 1}
                                             <div class="tiptitle">
                                                 <a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">
@@ -205,16 +186,12 @@
                                                 </div>
                                             </div>
                                         {/if}
-
                                         {if $node['mu_only'] != -1}
                                             {foreach $nodes_muport as $single_muport}
-
                                                 {if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
                                                     {continue}
                                                 {/if}
-
                                                 {$relay_rule = null}
-
                                                 {if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
                                                     {$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
                                                 {/if}
@@ -229,13 +206,11 @@
                                     {else}
                                         {displayNodeLink node=$node}
                                     {/if}
-
                                     <div class="tipmiddle">
                                         <div>
                                             <span class="node-icon"><i class="icon icon-lg">chat</i> </span>{$node['info']}
                                         </div>
                                     </div>
-
                                     {if $node['sort'] == 11 || $node['sort'] == 12}
                                         {displayV2rayNode node=$node}
                                     {/if}
@@ -247,24 +222,17 @@
                                     {if $node['sort'] == 14}
                                         {displaySort14Node node=$node}
                                     {/if}
-
                                 {/if}
-
                             </div>
-
                             {if $node@last}</div>{/if}
                     {/foreach}
                     </div>
-
-
-
                     <div class="card node-table">
                         <div class="card-main">
                             <div class="card-inner margin-bottom-no">
                                 <div class="tile-wrap">
                                     {$class = -1}
                                     {foreach $nodes as $node}
-
                                         {if $node['class'] != $class}
                                             {$class = $node['class']}
                                             <p class="card-heading">{if $class == 0}普通{else}VIP {$node['class']} {/if}用户节点</p>
@@ -278,13 +246,13 @@
                                                 </div>
                                                 <div class="tile-inner">
                                                     <div class="text-overflow node-textcolor">
-														<span class="enable-flag">
-															{if $config['enable_flag'] === true}
+                                                        <span class="enable-flag">
+                                                            {if $config['enable_flag'] === true}
                                                                 <img src="/images/prefix/{$node['flag']}" height="22"
                                                                      width="40"/>
                                                             {/if}
                                                             {$node['name']}
-														</span>
+                                                        </span>
                                                         |
                                                         <span class="node-icon">
                                                             <i class="icon icon-lg">flight_takeoff</i></span>
@@ -310,7 +278,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="collapsible-region collapse" id="heading{$node['id']}">
                                                 <div class="tile-sub">
                                                     <br>
@@ -327,21 +294,15 @@
                                                             </div>
                                                         </div>
                                                     {else}
-
-
-
                                                         <div class="card nodetip-table">
                                                             <div class="card-main">
                                                                 <div class="card-inner">
-
                                                         {if in_array($node['sort'], [0, 10])}
-
                                                             {$relay_rule = null}
                                                             <!-- 用户等级不小于节点等级 -->
                                                             {if $node['sort'] == 10}
                                                                 {$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
                                                             {/if}
-
                                                             {if $node['mu_only'] != 1}
                                                                     <p class="card-heading">
                                                                         <a href="javascript:void(0);"
@@ -350,16 +311,12 @@
                                                                         <span class="label label-brand-accent">←点击节点查看配置信息</span>
                                                                     </p>
                                                             {/if}
-
                                                             {if $node['mu_only'] != -1}
                                                                 {foreach $nodes_muport as $single_muport}
-
                                                                     {if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
                                                                         {continue}
                                                                     {/if}
-
                                                                     {$relay_rule = null}
-
                                                                     {if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
                                                                         {$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
                                                                     {/if}
@@ -374,43 +331,33 @@
                                                                     </p>
                                                                 {/foreach}
                                                             {/if}
-
                                                         {else}
                                                             {displayNodeLink node=$node}
                                                         {/if}
-
                                                                     <div>
                                                                         <i class="icon icon-lg node-icon">chat</i> {$node['info']}
                                                                     </div>
-
                                                                     {if $node['sort'] == 11 || $node['sort'] == 12}
                                                                         {displayV2rayNode node=$node}
                                                                     {/if}
-
                                                                     {if $node['sort'] == 13}
                                                                         {displaySort13Node node=$node}
                                                                     {/if}
-
                                                                     {if $node['sort'] == 14}
                                                                         {displaySort14Node node=$node}
                                                                     {/if}
-
                                                                 </div>
                                                             </div>
-
                                                         </div>
                                                     {/if}
-
                                                     {if !in_array($node['sort'], [1, 2, 5, 9, 999])}
                                                         {$point_node = $node}
                                                     {/if}
-
                                                     {if isset($point_node)}
                                                         {if $point_node!=null}
                                                             <div class="card">
                                                                 <div class="card-main">
                                                                     <div class="card-inner" id="info{$node@index}">
-
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -423,27 +370,16 @@
                                                             </script>
                                                         {/if}
                                                     {/if}
-
                                                 </div>
                                             </div>
-
-
                                             {$point_node=null}
-
                                         </div>
                                     {/foreach}
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
-
                 </div>
-
                 {include file='dialog.tpl'}
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="nodeinfo" role="dialog" tabindex="-1">
                     <div class="modal-dialog modal-full">
@@ -456,12 +392,9 @@
     </div>
 </main>
 
-
 {include file='user/footer.tpl'}
 
-
 <script>
-
     function urlChange(id, is_mu, rule_id) {
         var site = `./node/${
                 id
@@ -480,7 +413,6 @@
         }
         $("#nodeinfo").modal();
     }
-
     $(function () {
         new Clipboard('.copy-text');
     });
@@ -488,7 +420,6 @@
         $("#result").modal();
         $$.getElementById('msg').innerHTML = '已复制，请进入软件添加。';
     });
-
     {literal}
     ;(function () {
         'use strict'
@@ -499,30 +430,21 @@
         for (let i = 0; i < rotateTrigger.length; i++) {
             rotatrArrow(rotateTrigger[i], arrows[i]);
         }
-
         //UI切换
         let elNodeCard = $$.querySelectorAll(".node-cardgroup");
         let elNodeTable = $$.querySelectorAll(".node-table");
-
         let switchToCard = new UIswitch('switch-cards', elNodeTable, elNodeCard, 'grid', 'tempnode');
         switchToCard.listenSwitch();
-
         let switchToTable = new UIswitch('switch-table', elNodeCard, elNodeTable, 'flex', 'tempnode');
         switchToTable.listenSwitch();
-
         switchToCard.setDefault();
         switchToTable.setDefault();
-
         //遮罩
         let buttongroup = document.querySelectorAll('.node-card');
         let modelgroup = document.querySelectorAll('.node-tip');
-
         for (let i = 0; i < buttongroup.length; i++) {
             custModal(buttongroup[i], modelgroup[i]);
         }
-
     })();
     {/literal}
-
 </script>
-

@@ -12,9 +12,7 @@
         </div>
     </div>
 </div>
-
 <a class="btn btn-flat waves-attach" id="pay" onclick="pay();"><span class="icon">check</span>&nbsp;充值</a>
-
 <script>
     var pid = 0; 
     var flag = false;
@@ -61,7 +59,6 @@
             }
         })
     }
-
     function f() {
         $.ajax({
             type: "POST",
@@ -85,5 +82,4 @@
         });
         tid = setTimeout(f, 1000); //循环调用触发setTimeout
     }
-
 </script>

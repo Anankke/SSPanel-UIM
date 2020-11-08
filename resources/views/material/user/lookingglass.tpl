@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -19,11 +18,9 @@
                                     <p>此处只展示最近{$hour}小时的记录。<b>测试节点来自 <a href="http://speedtest.net">Speedtest</a>，数据仅供参考~</b>
                                     </p>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-12 col-sm-12">
                         <div class="card">
                             <div class="card-main">
@@ -31,7 +28,6 @@
                                     <div class="card-doubleinner">
                                         <p class="card-heading">三网延迟检测</p>
                                     </div>
-
                                     <div class="card-table">
                                         <div class="table-responsive table-user">
                                             <table class="table">
@@ -65,12 +61,9 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </section>

@@ -64,7 +64,6 @@
             }
         });
     }
-
     function f() {
         $.ajax({
             type: "POST",

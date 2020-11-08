@@ -8,10 +8,8 @@
     <div class="container">
         <section class="content-inner margin-top-no">
             <div class="ui-card-wrap">
-
                 <div class="col-lg-12 col-md-12">
                     <section class="content-inner margin-top-no">
-
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
@@ -34,11 +32,9 @@
                                 </div>
                             </div>
                         </div>
-
                 </div>
             </div>
-    </div>
-    </section>
+        </div>
     </div>
 </main>
 

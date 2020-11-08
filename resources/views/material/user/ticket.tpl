@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -18,7 +17,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -27,7 +25,6 @@
                                     {$tickets->render()}
                                     <table class="table">
                                         <tr>
-
                                             <!--  <th>ID</th>   -->
                                             <th>发起日期</th>
                                             <th>工单标题</th>
@@ -36,7 +33,6 @@
                                         </tr>
                                         {foreach $tickets as $ticket}
                                             <tr>
-
                                                 <!--   <td>#{$ticket->id}</td>  -->
                                                 <td>{$ticket->datetime()}</td>
                                                 <td>{$ticket->title}</td>
@@ -58,26 +54,22 @@
                         </div>
                     </div>
                 </div>
-
-
-                 <div class="card">
-							<div class="card-main">
-								<div class="card-inner">
-
-									<div class="form-group">
-										<div class="row">
-											<div class="col-md-10 col-md-push-1">
-												<button class="btn btn-block btn-brand waves-attach waves-light" onclick="location.href='/user/ticket/create'">创建新工单</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                <div class="card">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-10 col-md-push-1">
+                                        <button class="btn btn-block btn-brand waves-attach waves-light" onclick="location.href='/user/ticket/create'">创建新工单</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     </div>
 </main>
-
 
 {include file='user/footer.tpl'}

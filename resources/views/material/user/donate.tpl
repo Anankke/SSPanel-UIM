@@ -9,8 +9,6 @@
     <div class="container">
         <section class="content-inner margin-top-no">
             <div class="row">
-
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card margin-bottom-no">
                         <div class="card-main">
@@ -24,7 +22,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card margin-bottom-no">
                         <div class="card-main">
@@ -44,7 +41,6 @@
                                                    data="hide">不匿名</a></li>
                                         </ul>
                                     </div>
-
                                 </div>
                                 <div class="card-action">
                                     <div class="card-action-btn pull-left">
@@ -56,13 +52,10 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="col-lg-12 col-md-12">
                     <div class="card margin-bottom-no">
                         <div class="card-main">
                             <div class="card-inner">
-
                                 <div class="card-table">
                                     <div class="table-responsive table-user">
                                         {$codes->render()}
@@ -74,7 +67,6 @@
                                                 <th>操作</th>
                                                 <th>备注</th>
                                                 <th>时间</th>
-
                                             </tr>
                                             {foreach $codes as $code}
                                                 <tr>
@@ -104,19 +96,15 @@
                                         {$codes->render()}
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
-
                 {include file='dialog.tpl'}
             </div>
         </section>
     </div>
 </main>
-
 
 {include file='user/footer.tpl'}
 

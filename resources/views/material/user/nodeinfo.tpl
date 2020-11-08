@@ -1,8 +1,6 @@
 {include file='user/header_info.tpl'}
 
-
 {$ssr_prefer = URL::SSRCanConnect($user, $mu)}
-
 
 <main class="content">
     <div class="content-header ui-content-header">
@@ -25,15 +23,12 @@
                             </div>
                         </div>
                     </div>
-
-
                     <div class="col-lg-12 col-sm-12">
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
                                     <p class="card-heading">配置信息</p>
                                     <div class="tab-content">
-
                                         <nav class="tab-nav">
                                             <ul class="nav nav-list">
                                                 <li {if $ssr_prefer}class="active"{/if}>
@@ -82,13 +77,11 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-12 col-sm-12">
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
                                     <p class="card-heading">配置Json</p>
-
                                     <nav class="tab-nav">
                                         <ul class="nav nav-list">
                                             <li {if $ssr_prefer}class="active"{/if}>
@@ -102,20 +95,20 @@
                                     <div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_json">
                                         {if URL::SSRCanConnect($user, $mu)}
                                                 <pre>
-{
-    "server": "{$ssr_item['address']}",
-    "local_address": "127.0.0.1",
-    "local_port": 1080,
-    "timeout": 300,
-    "workers": 1,
-    "server_port": {$ssr_item['port']},
-    "password": "{$ssr_item['passwd']}",
-    "method": "{$ssr_item['method']}",
-    "obfs": "{$ssr_item['obfs']}",
-    "obfs_param": "{$ssr_item['obfs_param']}",
-    "protocol": "{$ssr_item['protocol']}",
-    "protocol_param": "{$ssr_item['protocol_param']}"
-}
+                                                    {
+                                                        "server": "{$ssr_item['address']}",
+                                                        "local_address": "127.0.0.1",
+                                                        "local_port": 1080,
+                                                        "timeout": 300,
+                                                        "workers": 1,
+                                                        "server_port": {$ssr_item['port']},
+                                                        "password": "{$ssr_item['passwd']}",
+                                                        "method": "{$ssr_item['method']}",
+                                                        "obfs": "{$ssr_item['obfs']}",
+                                                        "obfs_param": "{$ssr_item['obfs_param']}",
+                                                        "protocol": "{$ssr_item['protocol']}",
+                                                        "protocol_param": "{$ssr_item['protocol_param']}"
+                                                    }
                                                </pre>
                                         {else}
                                             <p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到
@@ -124,37 +117,35 @@
                                     </div>
                                     <div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_json">
                                         {if URL::SSCanConnect($user, $mu)}
-                                                <pre>
-{
-        "server": "{$ss_item['address']}",
-        "local_address": "127.0.0.1",
-        "local_port": 1080,
-        "timeout": 300,
-        "workers": 1,
-        "server_port": {$ss_item['port']},
-        "password": "{$ss_item['passwd']}",
-        "method": "{$ss_item['method']}",
-        "plugin": "{URL::getJsonObfs($ss_item)}"
-}
-</pre>
+                                                <pre>{
+                                                        "server": "{$ssr_item['address']}",
+                                                        "local_address": "127.0.0.1",
+                                                        "local_port": 1080,
+                                                        "timeout": 300,
+                                                        "workers": 1,
+                                                        "server_port": {$ssr_item['port']},
+                                                        "password": "{$ssr_item['passwd']}",
+                                                        "method": "{$ssr_item['method']}",
+                                                        "obfs": "{$ssr_item['obfs']}",
+                                                        "obfs_param": "{$ssr_item['obfs_param']}",
+                                                        "protocol": "{$ssr_item['protocol']}",
+                                                        "protocol_param": "{$ssr_item['protocol_param']}"
+                                                    }
+                                                </pre>
                                         {else}
                                             <p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到
                                                 资料编辑 页面修改后再来查看此处。</p>
                                         {/if}
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-12 col-sm-12">
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
                                     <p class="card-heading">配置链接</p>
-
                                     <nav class="tab-nav">
                                         <ul class="nav nav-list">
                                             <li {if $ssr_prefer}class="active"{/if}>
@@ -196,7 +187,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-12 col-sm-12">
                         <div class="card">
                             <div class="card-main">
@@ -263,29 +253,23 @@
                                         {/if}
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                     {include file='dialog.tpl'}
-
                 </div>
             </div>
         </section>
     </div>
 </main>
 
-
 {include file='user/footer.tpl'}
-
 
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
 <script>
 	$(function(){
 		new Clipboard('.copy-text');
 	});
-
 	$(".copy-text").click(function () {
 		$("#result").modal();
 		$("#msg").html("已复制到您的剪贴板，请您继续接下来的操作。");
@@ -299,24 +283,21 @@
         $("#result").modal();
         $$.getElementById('msg').innerHTML = '已拷贝订阅链接，请您继续接下来的操作'
     });
-
     {if URL::SSCanConnect($user, $mu)}
     var text_qrcode = '{URL::getItemUrl($ss_item, 1)}',
             text_qrcode_win = '{URL::getItemUrl($ss_item, 2)}';
 
     var qrcode1 = new QRCode(document.getElementById("ss-qr"), {
-                correctLevel: 3
-            }),
-            qrcode2 = new QRCode(document.getElementById("ss-qr-win"), {
-                correctLevel: 3
-            });
-
+            correctLevel: 3
+        }),
+        qrcode2 = new QRCode(document.getElementById("ss-qr-win"), {
+            correctLevel: 3
+        });
     qrcode1.clear();
     qrcode1.makeCode(text_qrcode);
     qrcode2.clear();
     qrcode2.makeCode(text_qrcode_win);
     {/if}
-
     {if URL::SSRCanConnect($user, $mu)}
     var text_qrcode2 = '{URL::getItemUrl($ssr_item, 0)}';
     var qrcode3 = new QRCode(document.getElementById("ss-qr-n"), {

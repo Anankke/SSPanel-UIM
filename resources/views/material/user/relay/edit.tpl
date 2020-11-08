@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -22,7 +21,6 @@
                                             {if $rule->source_node_id == $source_node->id}{$source_node->name}{/if}
                                         {/foreach}
                                     </button>
-
                                     <ul class="dropdown-menu" aria-labelledby="source_node">
                                         {foreach $source_nodes as $source_node}
                                             <li>
@@ -32,7 +30,6 @@
                                         {/foreach}
                                     </ul>
                                 </div>
-
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="dist_node">目标节点</label>
                                     <button id="dist_node" class="form-control maxwidth-edit" name="dist_node"
@@ -44,14 +41,12 @@
                                     <ul class="dropdown-menu" aria-labelledby="dist_node">
                                         <li><a href="#" class="dropdown-option" onclick="return false;" val="-1"
                                                data="dist_node">不进行中转</a></li>
-
                                         {foreach $dist_nodes as $dist_node}
                                             <li><a href="#" class="dropdown-option" onclick="return false;"
                                                    val="{$dist_node->id}" data="dist_node">{$dist_node->name}</a></li>
                                         {/foreach}
                                     </ul>
                                 </div>
-
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="port">端口</label>
                                     <button id="port" class="form-control maxwidth-edit" name="port"
@@ -67,24 +62,17 @@
                                         {/foreach}
                                     </ul>
                                 </div>
-
-
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="priority">优先级</label>
                                     <input class="form-control maxwidth-edit" id="priority" name="priority" type="text"
                                            value="{$rule->priority}">
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
-
-
                     <div class="card">
                         <div class="card-main">
                             <div class="card-inner">
-
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-10 col-md-push-1">
@@ -100,7 +88,6 @@
                 {include file='dialog.tpl'}
                 <section>
         </div>
-
     </div>
 </main>
 
@@ -146,7 +133,5 @@
             });
         }
     });
-
 </script>
-
 {/literal}

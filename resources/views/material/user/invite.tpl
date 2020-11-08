@@ -9,7 +9,6 @@
     <div class="container">
         <section class="content-inner margin-top-no">
             <div class="row">
-
                 <div class="col-lg-6 col-md-6">
                     <div class="card margin-bottom-no">
                         <div class="card-main">
@@ -22,14 +21,11 @@
                                     <p>对方充值时您还会获得对方充值金额的 <code>{$config['code_payback']} %</code> 的返利。</p>
                                     <p class="card-heading">已获得返利：<code>{$paybacks_sum}</code> 元</p>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
-
                 {if $user->class!=0}
-
                     {if $user->invite_num!=-1}
                         <div class="col-lg-6 col-md-6">
                             <div class="card margin-bottom-no">
@@ -99,7 +95,6 @@
                             </div>
                         {/if}
                     {/if}
-
                     {if $config['invite_price']>=0}
                         <div class="col-lg-6 col-md-6">
                             <div class="card margin-bottom-no">
@@ -125,7 +120,6 @@
                             </div>
                         </div>
                     {/if}
-
                 {else}
                     <div class="col-xx-12">
                         <div class="card margin-bottom-no">
@@ -147,15 +141,12 @@
                                         {$paybacks->render()}
                                         <table class="table">
                                             <tr>
-
-                                                <!--   <th>ID</th> -->
                                                 <th>ID</th>
                                                 <th>被邀请用户ID</th>
                                                 <th>获得返利</th>
                                             </tr>
                                             {foreach $paybacks as $payback}
                                                 <tr>
-
                                                     <td>{$payback->id}</td>
                                                     {if $payback->user()!=null}
                                                         <td>{$payback->user()->user_name}
@@ -165,7 +156,6 @@
                                                         </td>
                                                     {/if}
                                                     <td>{$payback->ref_get} 元</td>
-
                                                 </tr>
                                             {/foreach}
                                         </table>
@@ -175,11 +165,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
                 {include file='dialog.tpl'}
-
             </div>
         </section>
     </div>
@@ -191,12 +178,10 @@
     $(function () {
         new Clipboard('.copy-text');
     });
-
     $(".copy-text").click(function () {
         $("#result").modal();
         $$.getElementById('msg').innerHTML = '已复制到您的剪贴板，请您继续接下来的操作。';
     });
-
     $(document).ready(function () {
         $("#invite").click(function () {
             $.ajax({
@@ -216,9 +201,7 @@
         })
     })
 </script>
-
 <script>
-
     $("#buy-invite").click(function () {
         $.ajax({
             type: "POST",
@@ -245,7 +228,6 @@
             }
         })
     });
-
     $("#custom-invite-confirm").click(function () {
         $.ajax({
             type: "POST",
@@ -272,15 +254,11 @@
             }
         })
     });
-
 </script>
-
 <script>
-
     $(".reset-link").click(function () {
         $("#result").modal();
         $$.getElementById('msg').innerHTML = '已重置您的邀请链接，复制您的邀请链接发送给其他人！';
         window.setTimeout("location.href='/user/inviteurl_reset'", {$config['jump_delay']});
     });
-
 </script>

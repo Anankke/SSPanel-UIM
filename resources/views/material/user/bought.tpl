@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -18,7 +17,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -43,24 +41,20 @@
                                                 <td>{$shop->shop()->name}</td>
                                                 <td>{$shop->shop()->content()}</td>
                                                 <td>{$shop->price} 元</td>
-
                                                 {if $shop->renew==0}
                                                     <td>不自动续费</td>
                                                 {else}
                                                     <td>在 {$shop->renew_date()} 续费</td>
                                                 {/if}
-
                                                 {if $shop->shop()->auto_reset_bandwidth==0}
                                                     <td>不自动重置</td>
                                                 {else}
                                                     <td>自动重置</td>
                                                 {/if}
-
                                                 <td>
                                                     <a class="btn btn-brand"
                                                        {if $shop->renew==0}disabled{else}href="javascript:void(0);" onClick="delete_modal_show('{$shop->id}')"{/if}>关闭自动续费</a>
                                                 </td>
-
                                             </tr>
                                         {/foreach}
                                     </table>
@@ -70,7 +64,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
                      tabindex="-1">
                     <div class="modal-dialog modal-xs">
@@ -97,24 +90,18 @@
                         </div>
                     </div>
                 </div>
-
                 {include file='dialog.tpl'}
-
         </div>
-
     </div>
 </main>
 
-
 {include file='user/footer.tpl'}
-
 
 <script>
     function delete_modal_show(id) {
         $("#delete_modal").modal();
         document.getElementById('delete_input').setAttribute('data-id', id);
     }
-
     $(document).ready(function () {
         function delete_id(id) {
             $.ajax({
@@ -142,10 +129,8 @@
                 }
             });
         }
-
         $$.getElementById('delete_input').addEventListener('click', () => {
             delete_id($$.getElementById('delete_input').getAttribute('data-id'));
         });
     })
-
 </script>

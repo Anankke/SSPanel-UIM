@@ -9,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-md-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -18,12 +17,10 @@
                         </div>
                     </div>
                 </div>
-
                 {if $config['enable_auto_detect_ban']===true}
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
-
                         {if $config['auto_detect_ban_type']==1}
                             <p>请注意，每当您触发审计规则达 <strong>{$config['auto_detect_ban_number']}</strong> 次，将会被停止使用服务 <strong>{$config['auto_detect_ban_time']}</strong> 分钟</p>
                         {else}
@@ -42,7 +39,6 @@
                     </div>
                 </div>
                 {/if}
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -78,11 +74,8 @@
                         </div>
                     </div>
                 </div>
-
         </div>
-
     </div>
 </main>
-
 
 {include file='user/footer.tpl'}

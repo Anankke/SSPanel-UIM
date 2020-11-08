@@ -1,5 +1,4 @@
 <div class="row">
-
     <div class="col-lg-6 col-md-6">
         <p class="card-heading">数字货币充值</p>
         <div class="form-group form-group-label">
@@ -8,7 +7,6 @@
         </div>
     </div>
 </div>
-
 <div class="card-action">
     <div class="card-action-btn pull-left">
         <button class="btn btn-flat waves-attach" id="bitpaySubmit" name="type" onclick="bitpay('Crypto')">
@@ -16,13 +14,10 @@
         </button>
     </div>
 </div>
-
 <script>
     var pid = 0;
-
     function bitpay(type) {
         var price = parseFloat($$getValue('bitpayamount'));
-
         //console.log("将要使用 " + type + " 充值" + price + "元");
         if (isNaN(price)) {
             $("#readytopay").modal('hide');
@@ -53,7 +48,6 @@
             }
         });
     }
-
     function bitpayf() {
         $.ajax({
             type: "POST",

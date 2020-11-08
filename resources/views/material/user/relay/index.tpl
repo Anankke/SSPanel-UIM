@@ -1,6 +1,5 @@
 {include file='user/main.tpl'}
 
-
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -10,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-md-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -89,7 +87,6 @@
                                             <th>途径节点</th>
                                             <th>状态</th>
                                         </tr>
-
                                         {foreach $pathset as $path}
                                             <tr>
                                                 <td>{$path->port}</td>
@@ -103,16 +100,12 @@
                                 </div>
                             </div>
                         </div>
-
                         {/if}
-
                     </div>
                 </div>
-
                  <div class="card">
 							<div class="card-main">
 								<div class="card-inner">
-
 									<div class="form-group">
 										<div class="row">
 											<div class="col-md-10 col-md-push-1">
@@ -123,7 +116,6 @@
 								</div>
 							</div>
 						</div>
-
                 <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
                      tabindex="-1">
                     <div class="modal-dialog modal-xs">
@@ -150,34 +142,23 @@
                         </div>
                     </div>
                 </div>
-
                 {include file='dialog.tpl'}
-
-
         </div>
-
-
     </div>
 </main>
 
-
 {include file='user/footer.tpl'}
-
 
 <script>
     function delete_modal_show(id) {
         deleteid = id;
         $("#delete_modal").modal();
     }
-
-
     $(document).ready(() => {
-
         {if !$is_relay_able}
         $("#result").modal();
         $$.getElementById('msg').innerHTML = `为了中转的稳定，您需要在<a href='/user/edit'>资料编辑</a>处设置协议为以下协议之一： <br>{foreach $relay_able_protocol_list as $single_text}{$single_text}<br>{/foreach}后方可设置中转规则！`
         {/if}
-
         function delete_id() {
             $.ajax({
                 type: "DELETE",
@@ -204,10 +185,8 @@
                 }
             });
         }
-
         $("#delete_input").click(() => {
             delete_id();
         });
     })
-
 </script>
