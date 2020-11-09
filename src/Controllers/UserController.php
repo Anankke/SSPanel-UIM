@@ -31,6 +31,7 @@ use App\Models\{
     DetectRule,
     TrafficLog,
     InviteCode,
+    EmailVerify,
     UserSubscribeLog
 };
 use App\Utils\{
@@ -642,6 +643,15 @@ class UserController extends BaseController
         $newemail = $request->getParam('newemail');
         $oldemail = $user->email;
         $otheruser = User::where('email', $newemail)->first();
+        if (Config::getconfig('Register.bool.Enable_email_verify')) {
+            $emailcode = $request->getParam('emailcode');
+            $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
+            if ($mailcount == null) {
+                $res['ret'] = 0;
+                $res['msg'] = '您的邮箱验证码不正确';
+                return $response->getBody()->write(json_encode($res));
+            }
+        }
         if ($newemail == '') {
             $res['ret'] = 0;
             $res['msg'] = '未填写邮箱';

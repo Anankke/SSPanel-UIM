@@ -121,7 +121,7 @@
                                         valign="top">
                                         <h2 class="aligncenter"
                                             style="font-family: 'Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif; box-sizing: border-box; font-size: 24px; color: #000; line-height: 1.2em; font-weight: 400; text-align: center; margin: 40px 0 0;"
-                                            align="center">注册验证码</h2>
+                                            align="center">邮箱验证</h2>
                                     </td>
                                 </tr>
                                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -140,8 +140,8 @@
                                             <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                 <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 5px 0;"
                                                     valign="top">
-                                                    <p>您的邮箱验证代码为: <b>{$code}</b>，请在网页中填写，完成验证。<br>(本验证代码在 {$expire}
-                                                        之前有效)</p><br>
+                                                    <p>您请求的邮箱验证代码为: <b>{$code}</b>，请在网页中填写，完成验证。<br>(本验证代码在 {$expire}
+                                                        之前有效)</p>如果此验证码非您本人所请求，请直接忽视。<br>
                                                 </td>
                                             </tr>
 

@@ -153,6 +153,19 @@
                                     <label class="floating-label" for="newemail">新邮箱</label>
                                     <input class="form-control maxwidth-edit" id="newemail" type="text">
                                 </div>
+                                {if $config['enable_email_verify'] == true}
+                                    <div class="form-group form-group-label">
+                                        <label class="floating-label" for="email_code">邮箱验证码</label>
+                                        <input class="form-control maxwidth-auth" id="email_code" type="text"
+                                            onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" autocomplete="one-time-code">
+                                    </div>
+                                    <div class="form-group form-group-label">
+                                        <button id="email_verify"
+                                            class="btn-reg btn btn-block btn-brand-accent waves-attach waves-light">
+                                            获取验证码
+                                        </button>
+                                    </div>
+                                {/if}
                             </div>
                         </div>
                     </div>
@@ -598,14 +611,67 @@
         })
     })
 </script>
+{if $config['enable_email_verify'] == true}
+    <script>
+        var wait = 60;
+        function time(o) {
+            if (wait == 0) {
+                o.removeAttr("disabled");
+                o.text("获取验证码");
+                wait = 60;
+            } else {
+                o.attr("disabled", "disabled");
+                o.text("重新发送(" + wait + ")");
+                wait--;
+                setTimeout(function () {
+                            time(o)
+                        },
+                        1000)
+            }
+        }
+        $(document).ready(function () {
+            $("#email_verify").click(function () {
+                time($("#email_verify"));
+                $.ajax({
+                    type: "POST",
+                    url: "send",
+                    dataType: "json",
+                    data: {
+                        email: $$getValue('newemail')
+                    },
+                    success: (data) => {
+                        if (data.ret) {
+                            $("#result").modal();
+                            $$.getElementById('msg').innerHTML = data.msg;
+                        } else {
+                            $("#result").modal();
+                            $$.getElementById('msg').innerHTML = data.msg;
+                        }
+                    },
+                    error: (jqXHR) => {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                                } 出现了一些错误`;
+                    }
+                })
+            })
+        })
+    </script>
+{/if}
+{/literal}
 <script>
     $(document).ready(function () {
         $("#email-update").click(function () {
+
             $.ajax({
                 type: "POST",
                 url: "email",
                 dataType: "json",
                 data: {
+                    {if $config['enable_email_verify'] == true}
+                        emailcode: $$getValue('email_code'),
+                    {/if}
                     newemail: $$getValue('newemail')
                 },
                 success: (data) => {
@@ -615,14 +681,13 @@
                 error: (jqXHR) => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                        data.msg
+                    } 出现了一些错误`;
                 }
             })
         })
     })
 </script>
-{/literal}
 <script>
     var ga_qrcode = '{$user->getGAurl()}',
             qrcode1 = new QRCode(document.getElementById("ga-qr"));
