@@ -55,6 +55,7 @@ class Config
             'register_mode'           => self::getconfig('Register.string.Mode'),
             'enable_flag'             => $_ENV['enable_flag'],
             'enable_kill'             => $_ENV['enable_kill'],
+            'enable_change_email'     => $_ENV['enable_change_email'],
             'custom_invite_price'     => $_ENV['custom_invite_price'],
             'captcha_provider'        => $_ENV['captcha_provider'],
             'enable_email_verify'     => self::getconfig('Register.bool.Enable_email_verify'),

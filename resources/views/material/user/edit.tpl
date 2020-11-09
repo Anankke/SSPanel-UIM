@@ -140,36 +140,38 @@
                 </div>
             </div>
             <div class="col-xx-12 col-sm-6">
-                <div class="card margin-bottom-no">
-                    <div class="card-main">
-                        <div class="card-inner">
+                {if $config['enable_change_email'] == true}
+                    <div class="card margin-bottom-no">
+                        <div class="card-main">
                             <div class="card-inner">
-                                <div class="cardbtn-edit">
-                                    <div class="card-heading">账户邮箱修改</div>
-                                    <button class="btn btn-flat" id="email-update"><span class="icon">check</span>&nbsp;
-                                    </button>
-                                </div>
-                                <div class="form-group form-group-label">
-                                    <label class="floating-label" for="newemail">新邮箱</label>
-                                    <input class="form-control maxwidth-edit" id="newemail" type="text">
-                                </div>
-                                {if $config['enable_email_verify'] == true}
-                                    <div class="form-group form-group-label">
-                                        <label class="floating-label" for="email_code">邮箱验证码</label>
-                                        <input class="form-control maxwidth-auth" id="email_code" type="text"
-                                            onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" autocomplete="one-time-code">
-                                    </div>
-                                    <div class="form-group form-group-label">
-                                        <button id="email_verify"
-                                            class="btn-reg btn btn-block btn-brand-accent waves-attach waves-light">
-                                            获取验证码
+                                <div class="card-inner">
+                                    <div class="cardbtn-edit">
+                                        <div class="card-heading">账户邮箱修改</div>
+                                        <button class="btn btn-flat" id="email-update"><span class="icon">check</span>&nbsp;
                                         </button>
                                     </div>
-                                {/if}
+                                    <div class="form-group form-group-label">
+                                        <label class="floating-label" for="newemail">新邮箱</label>
+                                        <input class="form-control maxwidth-edit" id="newemail" type="text">
+                                    </div>
+                                    {if $config['enable_email_verify'] == true}
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label" for="email_code">邮箱验证码</label>
+                                            <input class="form-control maxwidth-auth" id="email_code" type="text"
+                                                onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" autocomplete="one-time-code">
+                                        </div>
+                                        <div class="form-group form-group-label">
+                                            <button id="email_verify"
+                                                class="btn-reg btn btn-block btn-brand-accent waves-attach waves-light">
+                                                获取验证码
+                                            </button>
+                                        </div>
+                                    {/if}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {/if}
                 <div class="card margin-bottom-no">
                     <div class="card-main">
                         <div class="card-inner">
@@ -611,83 +613,84 @@
         })
     })
 </script>
-{if $config['enable_email_verify'] == true}
+{/literal}
+{if $config['enable_change_email'] == true}
     <script>
-        var wait = 60;
-        function time(o) {
-            if (wait == 0) {
-                o.removeAttr("disabled");
-                o.text("获取验证码");
-                wait = 60;
-            } else {
-                o.attr("disabled", "disabled");
-                o.text("重新发送(" + wait + ")");
-                wait--;
-                setTimeout(function () {
-                            time(o)
-                        },
-                        1000)
-            }
-        }
         $(document).ready(function () {
-            $("#email_verify").click(function () {
-                time($("#email_verify"));
+            $("#email-update").click(function () {
                 $.ajax({
                     type: "POST",
-                    url: "send",
+                    url: "email",
                     dataType: "json",
                     data: {
-                        email: $$getValue('newemail')
+                        {if $config['enable_email_verify'] == true}
+                            emailcode: $$getValue('email_code'),
+                        {/if}
+                        newemail: $$getValue('newemail')
                     },
                     success: (data) => {
-                        if (data.ret) {
-                            $("#result").modal();
-                            $$.getElementById('msg').innerHTML = data.msg;
-                        } else {
-                            $("#result").modal();
-                            $$.getElementById('msg').innerHTML = data.msg;
-                        }
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
                     },
                     error: (jqXHR) => {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = `${
-                                data.msg
-                                } 出现了一些错误`;
+                            data.msg
+                        } 出现了一些错误`;
                     }
                 })
             })
         })
     </script>
-{/if}
-{/literal}
-<script>
-    $(document).ready(function () {
-        $("#email-update").click(function () {
-
-            $.ajax({
-                type: "POST",
-                url: "email",
-                dataType: "json",
-                data: {
-                    {if $config['enable_email_verify'] == true}
-                        emailcode: $$getValue('email_code'),
-                    {/if}
-                    newemail: $$getValue('newemail')
-                },
-                success: (data) => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                },
-                error: (jqXHR) => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                        data.msg
-                    } 出现了一些错误`;
+    {if $config['enable_email_verify'] == true}
+        <script>
+            var wait = 60;
+            function time(o) {
+                if (wait == 0) {
+                    o.removeAttr("disabled");
+                    o.text("获取验证码");
+                    wait = 60;
+                } else {
+                    o.attr("disabled", "disabled");
+                    o.text("重新发送(" + wait + ")");
+                    wait--;
+                    setTimeout(function () {
+                        time(o)
+                    },
+                    1000)
                 }
+            }
+            $(document).ready(function () {
+                $("#email_verify").click(function () {
+                    time($("#email_verify"));
+                    $.ajax({
+                        type: "POST",
+                        url: "send",
+                        dataType: "json",
+                        data: {
+                            email: $$getValue('newemail')
+                        },
+                        success: (data) => {
+                            if (data.ret) {
+                                $("#result").modal();
+                                $$.getElementById('msg').innerHTML = data.msg;
+                            } else {
+                                $("#result").modal();
+                                $$.getElementById('msg').innerHTML = data.msg;
+                            }
+                        },
+                        error: (jqXHR) => {
+                            $("#result").modal();
+                            $$.getElementById('msg').innerHTML = `${
+                                data.msg
+                            } 出现了一些错误`;
+                        }
+                    })
+                })
             })
-        })
-    })
-</script>
+        </script>
+    {/if}
+{/if}
 <script>
     var ga_qrcode = '{$user->getGAurl()}',
             qrcode1 = new QRCode(document.getElementById("ga-qr"));
