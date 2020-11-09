@@ -686,6 +686,19 @@ class UserController extends BaseController
         return $this->echoJson($response, $res);
     }
 
+    public function updateUsername($request, $response, $args)
+    {
+        $newusername = $request->getParam('newusername');
+        $user = $this->user;
+        $antiXss = new AntiXSS();
+        $user->user_name = $antiXss->xss_clean($newusername);
+        $user->save();
+
+        $res['ret'] = 1;
+        $res['msg'] = '修改成功';
+        return $this->echoJson($response, $res);
+    }
+
     public function updateHide($request, $response, $args)
     {
         $hide = $request->getParam('hide');

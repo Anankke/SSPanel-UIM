@@ -67,6 +67,7 @@ return function (SlimApp $app) {
         $this->post('/custom_invite',           App\Controllers\UserController::class . ':customInvite');
         $this->get('/edit',                     App\Controllers\UserController::class . ':edit');
         $this->post('/email',                   App\Controllers\UserController::class . ':updateEmail');
+        $this->post('/username',                App\Controllers\UserController::class . ':updateUsername');
         $this->post('/password',                App\Controllers\UserController::class . ':updatePassword');
         $this->post('/send',                    App\Controllers\AuthController::class . ':sendVerify');
         $this->post('/wechat',                  App\Controllers\UserController::class . ':updateWechat');

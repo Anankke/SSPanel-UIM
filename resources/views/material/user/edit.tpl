@@ -177,6 +177,23 @@
                         <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
+                                    <div class="card-heading">用戶名修改</div>
+                                    <button class="btn btn-flat" id="username-update"><span class="icon">check</span>&nbsp;
+                                    </button>
+                                </div>
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="newusername">新用戶名</label>
+                                    <input class="form-control maxwidth-edit" id="newusername" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card margin-bottom-no">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div class="card-inner">
+                                <div class="cardbtn-edit">
                                     <div class="card-heading">账号登录密码修改</div>
                                     <button class="btn btn-flat" id="pwd-update"><span class="icon">check</span>&nbsp;
                                     </button>
@@ -614,6 +631,30 @@
     })
 </script>
 {/literal}
+<script>
+    $(document).ready(function () {
+        $("#username-update").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "username",
+                dataType: "json",
+                data: {
+                    newusername: $$getValue('newusername')
+                },
+                success: (data) => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                },
+                error: (jqXHR) => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = `${
+                        data.msg
+                    } 出现了一些错误`;
+                }
+            })
+        })
+    })
+</script>
 {if $config['enable_change_email'] == true}
     <script>
         $(document).ready(function () {
