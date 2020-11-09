@@ -144,6 +144,7 @@
                                                 <th>ID</th>
                                                 <th>被邀请用户ID</th>
                                                 <th>获得返利</th>
+                                                <th>返利時間</th>
                                             </tr>
                                             {foreach $paybacks as $payback}
                                                 <tr>
@@ -156,6 +157,7 @@
                                                         </td>
                                                     {/if}
                                                     <td>{$payback->ref_get} 元</td>
+                                                    <td>{$payback->datetime}</td>
                                                 </tr>
                                             {/foreach}
                                         </table>
