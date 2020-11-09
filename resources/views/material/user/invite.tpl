@@ -157,7 +157,7 @@
                                                         </td>
                                                     {/if}
                                                     <td>{$payback->ref_get} 元</td>
-                                                    <td>{$payback->datetime}</td>
+                                                    <td class='payback-datetime'>{$payback->datetime}</td>
                                                 </tr>
                                             {/foreach}
                                         </table>
@@ -202,6 +202,18 @@
             })
         })
     })
+</script>
+<script>
+    $(".payback-datetime").each(function() {
+        var $this = $(this);
+        $this.text(() => {
+            var unix_timestamp = parseFloat($this.text());
+            var date = new Date(unix_timestamp*1000).toLocaleDateString("zh-CN");
+            var time = new Date(unix_timestamp).toLocaleTimeString("zh-CN");
+            var formattedTime = date + ' ' + time;
+            return formattedTime;
+        });
+    });
 </script>
 <script>
     $("#buy-invite").click(function () {

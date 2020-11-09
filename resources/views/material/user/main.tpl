@@ -140,15 +140,16 @@
                         {/if}
                     </ul>
                     {if $user->isAdmin()}
-                <li>
-                    <a href="/admin"><i class="icon icon-lg">person_pin</i>&nbsp;管理面板</a>
+                        <li>
+                            <a href="/admin"><i class="icon icon-lg">person_pin</i>&nbsp;管理面板</a>
+                        </li>
+                    {/if}
+                    {if $can_backtoadmin}
+                        <li>
+                            <a class="padding-right-cd waves-attach" href="/user/backtoadmin"><span>class="icon icon-lg margin-right">backtoadmin</span>返回管理员身份</a>
+                        </li>
+                    {/if}
                 </li>
-                {/if}
-                {if $can_backtoadmin}
-                    <li>
-                        <a class="padding-right-cd waves-attach" href="/user/backtoadmin"><span>class="icon icon-lg margin-right">backtoadmin</span>返回管理员身份</a>
-                    </li>
-                {/if}
             </ul>
         </div>
     </div>
