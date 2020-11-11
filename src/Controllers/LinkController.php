@@ -17,6 +17,10 @@ use App\Utils\{
 };
 use voku\helper\AntiXSS;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 /**
  *  LinkController
@@ -36,26 +40,28 @@ class LinkController extends BaseController
         return "couldn't alloc token";
     }
 
-    public static function GenerateSSRSubCode($userid, $without_mu)
+    /**
+     * @param int $userid
+     */
+    public static function GenerateSSRSubCode(int $userid): string
     {
-        $Elink = Link::where('type', 11)->where('userid', $userid)->where('geo', $without_mu)->first();
+        $Elink = Link::where('userid', $userid)->first();
         if ($Elink != null) {
             return $Elink->token;
         }
-        $NLink = new Link();
-        $NLink->type = 11;
-        $NLink->address = '';
-        $NLink->port = 0;
-        $NLink->ios = 0;
-        $NLink->geo = $without_mu;
-        $NLink->method = '';
+        $NLink         = new Link();
         $NLink->userid = $userid;
-        $NLink->token = self::GenerateRandomLink();
+        $NLink->token  = self::GenerateRandomLink();
         $NLink->save();
 
         return $NLink->token;
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public static function GetContent($request, $response, $args)
     {
         if (!$_ENV['Subscribe']) {
@@ -64,13 +70,12 @@ class LinkController extends BaseController
 
         $token = $args['token'];
 
-        //$builder->getPhrase();
-        $Elink = Link::where('type', 11)->where('token', $token)->first();
+        $Elink = Link::where('token', $token)->first();
         if ($Elink == null) {
             return null;
         }
 
-        $user = User::where('id', $Elink->userid)->first();
+        $user = $Elink->getUser();
         if ($user == null) {
             return null;
         }
@@ -132,7 +137,7 @@ class LinkController extends BaseController
                     $opts['sub'] = 3;
                     break;
                 case 3:
-                    $opts['ssd'] = 1;//deprecated
+                    $opts['ssd'] = 1; //deprecated
                     break;
                 case 4:
                     $opts['clash'] = 1;
@@ -431,7 +436,7 @@ class LinkController extends BaseController
         if ($int == 0) {
             $int = '';
         }
-        $userapiUrl = $_ENV['subUrl'] . self::GenerateSSRSubCode($user->id, 0);
+        $userapiUrl = $_ENV['subUrl'] . self::GenerateSSRSubCode($user->id);
         $return_info = [
             'link'            => '',
             // sub

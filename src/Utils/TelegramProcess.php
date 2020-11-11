@@ -29,7 +29,7 @@ class TelegramProcess
         if ($user != null) {
             switch (true) {
                 case (strpos($callback_data, 'mu')):
-                    $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id, 0);
+                    $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id);
                     $subUrl = $_ENV['subUrl'];
                     $reply_message = self::$all_rss[$callback_data] . ': ' . $subUrl . $ssr_sub_token . $callback_data . PHP_EOL;
                     break;

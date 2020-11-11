@@ -910,7 +910,7 @@ class Callback
                 [
                     'text'          => 'SSR 订阅',
                     'callback_data' => 'user.subscribe|?sub=1'
-                ],        
+                ],
             ],
             [
                 [
@@ -1028,7 +1028,7 @@ class Callback
                     ]
                 ]
             ];
-            $token      = LinkController::GenerateSSRSubCode($this->User->id, 0);
+            $token      = LinkController::GenerateSSRSubCode($this->User->id);
             $UserApiUrl = LinkController::getSubinfo($this->User, 0)['link'];
             switch ($CallbackDataExplode[1]) {
                 case '?clash=1':
