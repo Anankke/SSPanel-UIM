@@ -11,7 +11,7 @@
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/material-design-lite@1.3.0/dist/material.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.21/media/css/dataTables.material.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.19/media/css/dataTables.material.min.css" rel="stylesheet">
     <!-- js -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1"></script>
     <!-- favicon -->
