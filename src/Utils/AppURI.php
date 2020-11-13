@@ -434,7 +434,7 @@ class AppURI
                         $tls .= '&peer=' . $item['localserver'];
                     }
                 }
-                $return = ('vmess://' . Tools::base64_url_encode('chacha20-poly1305:' . $item['id'] . '@' . $item['add'] . ':' . $item['port']) . '?remarks=' . rawurlencode($item['remark']) . $obfs . $tls);
+                $return = ('vmess://' . Tools::base64_url_encode('chacha20-poly1305:' . $item['id'] . '@' . $item['add'] . ':' . $item['port']) . '?remarks=' . rawurlencode($item['remark']) . $obfs . $tls . '&alterId=' . $item['aid']);
                 break;
             case 'trojan':
                 $return  = ('trojan://' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']);
