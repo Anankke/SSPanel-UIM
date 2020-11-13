@@ -60,7 +60,7 @@ class UserController extends BaseController
 {
     public function index($request, $response, $args)
     {
-        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
+        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id);
 
         $GtSdk = null;
         $recaptcha_sitekey = null;
@@ -1532,7 +1532,7 @@ class UserController extends BaseController
     public function getPcClient($request, $response, $args)
     {
         $zipArc = new \ZipArchive();
-        $user_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
+        $user_token = LinkController::GenerateSSRSubCode($this->user->id);
         $type = trim($request->getQueryParams()['type']);
         // 临时文件存放路径
         $temp_file_path = BASE_PATH . '/storage/';

@@ -39,15 +39,8 @@ CREATE TABLE IF NOT EXISTS `code` (
 
 CREATE TABLE IF NOT EXISTS `link` (
   `id` bigint(20) NOT NULL,
-  `type` int(11) NOT NULL,
-  `address` text NOT NULL,
-  `port` int(11) NOT NULL,
   `token` text NOT NULL,
-  `ios` int(11) NOT NULL DEFAULT '0',
-  `userid` bigint(20) NOT NULL,
-  `isp` text,
-  `geo` int(11) DEFAULT NULL,
-  `method` text
+  `userid` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `login_ip` (
@@ -322,7 +315,7 @@ CREATE TABLE `shop` (
 ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `coupon` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT, 
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `code` TEXT NOT NULL,
   `onetime` INT NOT NULL,
   `expire` BIGINT NOT NULL,
@@ -398,12 +391,12 @@ CREATE TABLE `disconnect_ip` (
 
 ALTER TABLE `user`
   CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
-ALTER TABLE `ss_node` 
+ALTER TABLE `ss_node`
   CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
 ALTER TABLE `user`
   DROP `relay_enable`,
   DROP `relay_info`;
-ALTER TABLE `user` 
+ALTER TABLE `user`
   CHANGE `protocol` `protocol` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'origin', CHANGE `obfs` `obfs` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'plain';
 
 CREATE TABLE `email_verify` (
@@ -415,7 +408,7 @@ CREATE TABLE `email_verify` (
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `user` 
+ALTER TABLE `user`
   ADD `is_hide` INT NOT NULL DEFAULT '0' AFTER `disconnect_ip`;
 
 CREATE TABLE `detect_list` (
@@ -427,22 +420,22 @@ CREATE TABLE `detect_list` (
 ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `detect_log` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT, 
-  `user_id` BIGINT NOT NULL, 
-  `list_id` BIGINT NOT NULL, 
-  `datetime` BIGINT NOT NULL, 
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `user_id` BIGINT NOT NULL,
+  `list_id` BIGINT NOT NULL,
+  `datetime` BIGINT NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ALTER TABLE `detect_list`
   ADD `type` INT NOT NULL AFTER `regex`;
-ALTER TABLE `detect_log` 
+ALTER TABLE `detect_log`
   ADD `node_id` INT NOT NULL AFTER `datetime`;
-ALTER TABLE `user` 
+ALTER TABLE `user`
   ADD `is_multi_user` INT NOT NULL DEFAULT '0' AFTER `is_hide`;
-ALTER TABLE `ss_node` 
+ALTER TABLE `ss_node`
   ADD `mu_only` INT NULL DEFAULT '0' AFTER `custom_rss`;
-ALTER TABLE `ss_node` 
+ALTER TABLE `ss_node`
   ADD `online` BOOLEAN NOT NULL DEFAULT TRUE AFTER `mu_only`, ADD `gfw_block` BOOLEAN NOT NULL DEFAULT FALSE AFTER `online`;
 
 CREATE TABLE IF NOT EXISTS `relay` (
@@ -461,17 +454,17 @@ ALTER TABLE `relay`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 CREATE TABLE `telegram_session` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT, 
-  `user_id` BIGINT NOT NULL, 
-  `type` INT NOT NULL, 
-  `session_content` TEXT NOT NULL, 
-  `datetime` BIGINT NOT NULL, 
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `user_id` BIGINT NOT NULL,
+  `type` INT NOT NULL,
+  `session_content` TEXT NOT NULL,
+  `datetime` BIGINT NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `user` 
+ALTER TABLE `user`
   ADD `telegram_id` BIGINT NULL AFTER `is_multi_user`;
-ALTER TABLE `user` 
+ALTER TABLE `user`
   ADD `expire_notified` BOOLEAN NOT NULL DEFAULT FALSE AFTER `telegram_id`, ADD `traffic_notified` BOOLEAN NULL DEFAULT FALSE AFTER `expire_notified`;
 
 CREATE TABLE IF NOT EXISTS `paylist` (
@@ -560,9 +553,9 @@ CREATE TABLE IF NOT EXISTS `telegram_tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Telegram 任务列表';
 
 
-ALTER TABLE `detect_log` 
+ALTER TABLE `detect_log`
   ADD `status` int(2) NOT NULL DEFAULT '0' AFTER `node_id`;
-ALTER TABLE `user` 
+ALTER TABLE `user`
   ADD COLUMN `uuid` TEXT NULL DEFAULT NULL COMMENT 'uuid' AFTER `passwd`;
 
 --

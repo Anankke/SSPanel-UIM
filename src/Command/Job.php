@@ -18,12 +18,14 @@ use App\Models\TrafficLog;
 use App\Models\Disconnect;
 use App\Models\EmailVerify;
 use App\Models\DetectBanLog;
+use App\Models\EmailQueue;
 use App\Models\NodeInfoLog;
 use App\Models\NodeOnlineLog;
 use App\Models\TelegramTasks;
 use App\Models\TelegramSession;
 use App\Models\UserSubscribeLog;
 use App\Services\Config;
+use App\Services\Mail;
 use App\Utils\GA;
 use App\Utils\QQWry;
 use App\Utils\Telegram\TelegramTools;
@@ -32,16 +34,17 @@ use App\Utils\Radius;
 use App\Utils\Telegram;
 use App\Utils\DatatablesHelper;
 use ArrayObject;
+use Exception;
 use Ramsey\Uuid\Uuid;
 
 class Job extends Command
 {
     public $description = ''
-    . '├─=: php xcat Job [选项]' . PHP_EOL
-    . '│ ├─ UserGa                  - 二次验证' . PHP_EOL
-    . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
-    . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
-    . '│ ├─ updatedownload          - 检查客户端更新' . PHP_EOL;
+        . '├─=: php xcat Job [选项]' . PHP_EOL
+        . '│ ├─ UserGa                  - 二次验证' . PHP_EOL
+        . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
+        . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
+        . '│ ├─ updatedownload          - 检查客户端更新' . PHP_EOL;
 
     public function boot()
     {
@@ -56,33 +59,35 @@ class Job extends Command
             }
         }
     }
+
     /**
      * 发邮件
      *
      * @return void
      */
-    public function SendMail(){
-        if(file_exists(BASE_PATH . '/storage/email_queue')){
-            echo "程序正在运行中".PHP_EOL;
+    public function SendMail()
+    {
+        if (file_exists(BASE_PATH . '/storage/email_queue')) {
+            echo "程序正在运行中" . PHP_EOL;
             return false;
         }
         $myfile = fopen(BASE_PATH . '/storage/email_queue', 'wb+') or die('Unable to open file!');
-                $txt = '1';
-                fwrite($myfile, $txt);
-                fclose($myfile);
+        $txt = '1';
+        fwrite($myfile, $txt);
+        fclose($myfile);
         $email_queues = EmailQueue::all();
-        foreach($email_queues as $email_queue){
+        foreach ($email_queues as $email_queue) {
             try {
-                    Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, json_decode($email_queue->array), [
-                    ]);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
-            echo '发送邮件至 '.$email_queue->to_email.PHP_EOL;
+                Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, json_decode($email_queue->array), []);
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+            echo '发送邮件至 ' . $email_queue->to_email . PHP_EOL;
             $email_queue->delete();
         }
         unlink(BASE_PATH . '/storage/email_queue');
     }
+
     /**
      * 每日任务
      *
@@ -117,9 +122,9 @@ class Job extends Command
         Speedtest::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
         system('rm ' . BASE_PATH . '/storage/*.png', $ret);
-        
+
         $db = new DatatablesHelper();
-        
+
         Tools::reset_auto_increment($db, 'user_traffic_log');
         Tools::reset_auto_increment($db, 'ss_node_online_log');
         Tools::reset_auto_increment($db, 'ss_node_info');
@@ -148,10 +153,8 @@ class Job extends Command
 
             if ($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0) {
                 $bought_users[] = $bought->userid;
-                if ((time() - $shop->reset_exp() * 86400 < $bought->datetime) && (int)((time(
-                            ) - $bought->datetime) / 86400) % $shop->reset() == 0 && (int)((time(
-                            ) - $bought->datetime) / 86400) != 0) {
-                    echo('流量重置-' . $user->id . "\n");
+                if ((time() - $shop->reset_exp() * 86400 < $bought->datetime) && (int)((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && (int)((time() - $bought->datetime) / 86400) != 0) {
+                    echo ('流量重置-' . $user->id . "\n");
                     $user->transfer_enable = Tools::toGB($shop->reset_value());
                     $user->u = 0;
                     $user->d = 0;
@@ -163,7 +166,8 @@ class Job extends Command
                         [
                             'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB'
                         ],
-                        [],$_ENV['email_queue']
+                        [],
+                        $_ENV['email_queue']
                     );
                 }
             }
@@ -189,7 +193,8 @@ class Job extends Command
                     [
                         'text' => '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB'
                     ],
-                    [],$_ENV['email_queue']
+                    [],
+                    $_ENV['email_queue']
                 );
             }
         }
@@ -329,7 +334,8 @@ class Job extends Command
                     [
                         'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。'
                     ],
-                    [],$_ENV['email_queue']
+                    [],
+                    $_ENV['email_queue']
                 );
                 $bought->is_notified = true;
                 $bought->save();
@@ -357,7 +363,8 @@ class Job extends Command
                     [
                         'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。'
                     ],
-                    [],$_ENV['email_queue']
+                    [],
+                    $_ENV['email_queue']
                 );
 
                 $bought->is_notified = true;
@@ -369,7 +376,8 @@ class Job extends Command
                     [
                         'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。'
                     ],
-                    [],$_ENV['email_queue']
+                    [],
+                    $_ENV['email_queue']
                 );
                 $bought->is_notified = true;
                 $bought->save();
@@ -400,11 +408,11 @@ class Job extends Command
                         );
                         $opts = array(
                             'http' =>
-                                array(
-                                    'method' => 'POST',
-                                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                                    'content' => $postdata
-                                )
+                            array(
+                                'method' => 'POST',
+                                'header' => 'Content-type: application/x-www-form-urlencoded',
+                                'content' => $postdata
+                            )
                         );
                         $context = stream_context_create($opts);
                         file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
@@ -418,7 +426,8 @@ class Job extends Command
                             [
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。'
                             ],
-                            [],$_ENV['email_queue']
+                            [],
+                            $_ENV['email_queue']
                         );
                         $notice_text = str_replace(
                             '%node_name%',
@@ -446,11 +455,11 @@ class Job extends Command
 
                         $opts = array(
                             'http' =>
-                                array(
-                                    'method' => 'POST',
-                                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                                    'content' => $postdata
-                                )
+                            array(
+                                'method' => 'POST',
+                                'header' => 'Content-type: application/x-www-form-urlencoded',
+                                'content' => $postdata
+                            )
                         );
                         $context = stream_context_create($opts);
                         file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
@@ -463,7 +472,8 @@ class Job extends Command
                             [
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。'
                             ],
-                            [],$_ENV['email_queue']
+                            [],
+                            $_ENV['email_queue']
                         );
                         $notice_text = str_replace(
                             '%node_name%',
@@ -507,22 +517,23 @@ class Job extends Command
                             if ($Userlocation != $location['country'] && $nodes == null && $nodes2 == null) {
                                 $user = User::where('id', '=', $userlog->userid)->first();
                                 echo 'Send warn mail to user: ' . $user->id . '-' . iconv(
-                                        'gbk',
-                                        'utf-8//IGNORE',
-                                        $Userlocation
-                                    ) . '-' . iconv('gbk', 'utf-8//IGNORE', $location['country']);
+                                    'gbk',
+                                    'utf-8//IGNORE',
+                                    $Userlocation
+                                ) . '-' . iconv('gbk', 'utf-8//IGNORE', $location['country']);
                                 $text = '您好，系统发现您的账号在 ' . iconv(
-                                        'gbk',
-                                        'utf-8//IGNORE',
-                                        $Userlocation
-                                    ) . ' 有异常登录，请您自己自行核实登录行为。有异常请及时修改密码。';
+                                    'gbk',
+                                    'utf-8//IGNORE',
+                                    $Userlocation
+                                ) . ' 有异常登录，请您自己自行核实登录行为。有异常请及时修改密码。';
                                 $user->sendMail(
                                     $_ENV['appName'] . '-系统警告',
                                     'news/warn.tpl',
                                     [
                                         'text' => $text
                                     ],
-                                    [],$_ENV['email_queue']
+                                    [],
+                                    $_ENV['email_queue']
                                 );
                             }
                         }
@@ -540,11 +551,11 @@ class Job extends Command
             );
             $user->save();
             if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime(
-                            $user->expire_in
-                        ) < time() && strtotime($user->expire_in) > 644447105)) && RadiusBan::where(
-                    'userid',
-                    $user->id
-                )->first() == null) {
+                $user->expire_in
+            ) < time() && strtotime($user->expire_in) > 644447105)) && RadiusBan::where(
+                'userid',
+                $user->id
+            )->first() == null) {
                 $rb = new RadiusBan();
                 $rb->userid = $user->id;
                 $rb->save();
@@ -562,7 +573,8 @@ class Job extends Command
                     [
                         'text' => '您好，系统发现您的账号已经过期了。'
                     ],
-                    [],$_ENV['email_queue']
+                    [],
+                    $_ENV['email_queue']
                 );
                 $user->expire_notified = true;
                 $user->save();
@@ -577,14 +589,15 @@ class Job extends Command
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = false;
 
-                if ($user->transfer_enable != 0 && $user->class !=0) {
-                    if ($_ENV['notify_limit_mode'] == 'per' &&
+                if ($user->transfer_enable != 0 && $user->class != 0) {
+                    if (
+                        $_ENV['notify_limit_mode'] == 'per' &&
                         $user_traffic_left / $user->transfer_enable * 100 < $_ENV['notify_limit_value']
                     ) {
                         $under_limit = true;
                         $unit_text = '%';
-                    }
-                    elseif ($_ENV['notify_limit_mode'] == 'mb' &&
+                    } elseif (
+                        $_ENV['notify_limit_mode'] == 'mb' &&
                         Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']
                     ) {
                         $under_limit = true;
@@ -599,7 +612,8 @@ class Job extends Command
                         [
                             'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。'
                         ],
-                        [],$_ENV['email_queue']
+                        [],
+                        $_ENV['email_queue']
                     );
                     if ($result) {
                         $user->traffic_notified = true;
@@ -611,7 +625,8 @@ class Job extends Command
                 }
             }
 
-            if ($_ENV['account_expire_delete_days'] >= 0 &&
+            if (
+                $_ENV['account_expire_delete_days'] >= 0 &&
                 strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < time() &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
@@ -621,13 +636,15 @@ class Job extends Command
                     [
                         'text' => '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。'
                     ],
-                    [],$_ENV['email_queue']
+                    [],
+                    $_ENV['email_queue']
                 );
                 $user->kill_user();
                 continue;
             }
 
-            if ($_ENV['auto_clean_uncheck_days'] > 0 &&
+            if (
+                $_ENV['auto_clean_uncheck_days'] > 0 &&
                 max(
                     $user->last_check_in_time,
                     strtotime($user->reg_date)
@@ -641,13 +658,15 @@ class Job extends Command
                     [
                         'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。'
                     ],
-                    [],$_ENV['email_queue']
+                    [],
+                    $_ENV['email_queue']
                 );
                 $user->kill_user();
                 continue;
             }
 
-            if ($_ENV['auto_clean_unused_days'] > 0 &&
+            if (
+                $_ENV['auto_clean_unused_days'] > 0 &&
                 max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < time() &&
                 $user->class == 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
@@ -658,13 +677,15 @@ class Job extends Command
                     [
                         'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。'
                     ],
-                    [],$_ENV['email_queue']
+                    [],
+                    $_ENV['email_queue']
                 );
                 $user->kill_user();
                 continue;
             }
 
-            if ($user->class != 0 &&
+            if (
+                $user->class != 0 &&
                 strtotime($user->class_expire) < time() &&
                 strtotime($user->class_expire) > 1420041600
             ) {
@@ -683,7 +704,8 @@ class Job extends Command
                     [
                         'text' => $text
                     ],
-                    [],$_ENV['email_queue']
+                    [],
+                    $_ENV['email_queue']
                 );
                 $user->class = 0;
             }
@@ -711,8 +733,8 @@ class Job extends Command
             }
 
             if ($user->enable == 1 && (strtotime($user->expire_in) > time() || strtotime(
-                        $user->expire_in
-                    ) < 644447105) && $user->transfer_enable > $user->u + $user->d) {
+                $user->expire_in
+            ) < 644447105) && $user->transfer_enable > $user->u + $user->d) {
                 $sinuser->delete();
                 Radius::Add($user, $user->passwd);
             }

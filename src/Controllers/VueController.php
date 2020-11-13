@@ -114,7 +114,7 @@ class VueController extends BaseController
         $ssinfo = URL::getSSConnectInfo($pre_user);
         $user->vmess_url_all = URL::getAllVMessUrl($user);
         $user->isAbleToCheckin = $user->isAbleToCheckin();
-        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
+        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id);
         $GtSdk = null;
         $recaptcha_sitekey = null;
         if ($_ENV['captcha_provider'] != '') {
@@ -287,7 +287,7 @@ class VueController extends BaseController
         }
 
         $user->clean_link();
-        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
+        $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id);
 
         $res['arr'] = array(
             'ssr_sub_token' => $ssr_sub_token,
