@@ -592,6 +592,7 @@ class LinkController extends BaseController
             $info_array[] = $expire_in;
         }
         $baseUrl = explode('//', $_ENV['baseUrl'])[1];
+        $baseUrl = explode('/', $baseUrl)[0];
         $Extend = [
             'remark'          => '',
             'type'            => '',
