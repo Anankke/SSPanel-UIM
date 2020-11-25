@@ -16,6 +16,7 @@ index.html
 
 config/.config.php
 config/.config.php.bak
+config/appprofile.php
 
 public/ssr-download/
 public/images/*.*
