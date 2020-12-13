@@ -33,8 +33,8 @@ $_ENV['Surge_Profiles'] = [
             'socks5-listen'               => '0.0.0.0:8235',
             'wifi-access-http-port'       => 6152,
             'wifi-access-socks5-port'     => 6153,
-            'internet-test-url'           => 'https://wifi.vivo.com.cn/generate_204',
-            'proxy-test-url'              => 'https://cp.cloudflare.com',
+            'internet-test-url'           => 'http://wifi.vivo.com.cn/generate_204',
+            'proxy-test-url'              => 'http://cp.cloudflare.com',
             'test-timeout'                => 3
         ],
         'Proxy' => [
