@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-cn">
 <head>
     <title>页面无法找到哦 - {$config['appName']} </title>
     <meta name="keywords" content=""/>

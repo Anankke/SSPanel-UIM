@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-cn">
 <head>
     <title>该网页无法正常运作 - {$config['appName']}</title>
     <meta name="keywords" content=""/>

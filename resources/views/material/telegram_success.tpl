@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-cn">
 <head>
     <title>正在跳转用户中心 - {$config['appName']} </title>
     <meta name="keywords" content=""/>
