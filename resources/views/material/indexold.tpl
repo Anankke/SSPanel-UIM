@@ -4,7 +4,7 @@
     html5up.net | @ajlkn
     Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-<html>
+<html lang="zh-cn">
 <head>
     <meta charset="utf-8"/>
     <title>{$config['appName']}</title>

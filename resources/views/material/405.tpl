@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-cn">
 <head>
     <title>您的访问方式不正确 - {$config['appName']} </title>
     <meta name="keywords" content=""/>

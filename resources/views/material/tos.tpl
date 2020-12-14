@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-cn">
 <head>
     <title>{$config['appName']}</title>
     <meta name="keywords" content="{$config['appName']}"/>

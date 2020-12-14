@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="zh-cn">
 
 <head>
     <title>{$config['appName']}</title>
