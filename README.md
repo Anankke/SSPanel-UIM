@@ -68,6 +68,7 @@ SSPanel UIM 使用 MIT License 开源、不提供任何担保。使用 SSPanel U
 
 - 您在使用 SSPanel UIM 时，必须保留 Staff 页面（该页面包含了 MIT License）和页脚的 Staff 入口
 - SSPanel UIM 不会对您的任何损失负责，包括但不限于服务中断、Kernel Panic、机器无法开机或正常使用、数据丢失或硬件损坏、原子弹爆炸、第三次世界大战、SCP 基金会无法阻止 SCP-3125 引发的全球 MK 级现实重构等
+- UIM 原创软件图标、图像、SVG 矢量图形均不遵循以上协议，UIM 保留所有权利，您不可以将这些内容用于其他用途。
 
 
 ## 鸣谢
