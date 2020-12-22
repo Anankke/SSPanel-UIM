@@ -14,17 +14,19 @@
                         <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
-                                    <div class="card-heading">节点连接密码修改</div>
-                                    <button class="btn btn-flat" id="ss-pwd-update"><span class="icon">check</span>&nbsp;</button>
+                                    <div class="card-heading">节点连接密码重置</div>
                                 </div>
+                                <div class="reset-flex">
+								    <a class="reset-link btn btn-brand-accent btn-flat" ><i class="icon">autorenew</i>&nbsp;</a>
+								</div>
                                 <p>当前连接密码：<code id="ajax-user-passwd">{$user->passwd}</code>
                                     <button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">
                                         点击拷贝
                                     </button>
                                 </p>
-                                <p>为了确保您的安全，节点连接密码不允许自定义，点击提交按钮将会自动生成由随机字母和数字组成的连接密码。</p>
-                                <p>修改连接密码同时也会自动为您重新生成 V2Ray & Trojan 节点的 UUID。</p>
-                                <p>修改密码后，请立刻更新各个客户端上的连接信息。</p>
+                                <p>点击重置按钮将会自动生成由随机字母和数字组成的连接密码。</p>
+                                <p>修改连接密码同时也会自动为您重新生成 V2Ray 和 Trojan 节点的 UUID。</p>
+                                <p>修改连接密码后，您需要更新订阅或修改客户端配置方可继续使用。</p>
                             </div>
                         </div>
                     </div>
@@ -128,7 +130,7 @@
 										<a class="reset-link btn btn-brand-accent btn-flat" ><i class="icon">autorenew</i>&nbsp;</a>
 									</div>
 								</div>
-                                <p>点击会重置您的订阅链接，此操作不可逆，请谨慎。</p>
+                                <p>点击会重置您的订阅链接，您需要更新客户端中所配置的订阅地址方可继续使用。</p>
 							</div>
 						</div>
 					</div>
