@@ -145,13 +145,6 @@ class User extends Model
     public function getUuid()
     {
         $uuid = $this->attributes['uuid'];
-        if ($uuid == '') {
-            $uuid =  Uuid::uuid3(
-                Uuid::NAMESPACE_DNS,
-                $this->attributes['id'] . '|' . $this->attributes['passwd']
-            )->toString();
-        }
-        
         return $uuid;
     }
 

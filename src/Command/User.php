@@ -9,6 +9,7 @@ use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Exception;
+use Ramsey\Uuid\Uuid;
 
 class User extends Command
 {
@@ -146,6 +147,7 @@ class User extends Command
 
         if (strtolower($y) == 'y') {
             echo 'start create admin account';
+            $current_timestamp          = time();
             // create admin user
             // do reg user
             $user                   = new ModelsUser();
@@ -153,6 +155,7 @@ class User extends Command
             $user->email            = $email;
             $user->pass             = Hash::passwordHash($passwd);
             $user->passwd           = Tools::genRandomChar(6);
+            $user->uuid             = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
             $user->port             = Tools::getLastPort() + 1;
             $user->t                = 0;
             $user->u                = 0;
