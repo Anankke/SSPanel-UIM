@@ -1204,7 +1204,7 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        $user->uuid = $new_uuid
+        $user->uuid = $new_uuid;
         $user->save();
         $user->updateSsPwd($pwd);
         $res['ret'] = 1;
