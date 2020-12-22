@@ -14,10 +14,10 @@
                         <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
-                                    <div class="card-heading">节点连接密码重置</div>
-                                </div>
-                                <div class="reset-flex">
-								    <a class="reset-link btn btn-brand-accent btn-flat" ><i class="icon">autorenew</i>&nbsp;</a>
+									<div class="card-heading">节点连接密码重置</div>
+									<div class="reset-flex">
+										<a class="reset-link btn btn-brand-accent btn-flat" ><i class="icon">autorenew</i>&nbsp;</a>
+									</div>
 								</div>
                                 <p>当前连接密码：<code id="ajax-user-passwd">{$user->passwd}</code>
                                     <button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">
