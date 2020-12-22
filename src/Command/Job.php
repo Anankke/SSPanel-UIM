@@ -35,7 +35,6 @@ use App\Utils\Telegram;
 use App\Utils\DatatablesHelper;
 use ArrayObject;
 use Exception;
-use Ramsey\Uuid\Uuid;
 
 class Job extends Command
 {
@@ -545,11 +544,6 @@ class Job extends Command
 
         $users = User::all();
         foreach ($users as $user) {
-            $user->uuid = Uuid::uuid3(
-                Uuid::NAMESPACE_DNS,
-                $user->id . '|' . $user->passwd
-            );
-            $user->save();
             if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime(
                 $user->expire_in
             ) < time() && strtotime($user->expire_in) > 644447105)) && RadiusBan::where(

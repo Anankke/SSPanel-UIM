@@ -22,13 +22,8 @@
                                         点击拷贝
                                     </button>
                                 </p>
-                                <!--<div class="form-group form-group-label">
-                                    <label class="floating-label" for="sspwd">新连接密码</label>
-                                    <input class="form-control maxwidth-edit" id="sspwd" type="text">
-                                </div>
-                                <br>-->
                                 <p>为了确保您的安全，节点连接密码不允许自定义，点击提交按钮将会自动生成由随机字母和数字组成的连接密码。</p>
-                                <p>修改连接密码同时也会自动为您重新生成 V2Ray 节点的 UUID。</p>
+                                <p>修改连接密码同时也会自动为您重新生成 V2Ray & Trojan 节点的 UUID。</p>
                                 <p>修改密码后，请立刻更新各个客户端上的连接信息。</p>
                             </div>
                         </div>

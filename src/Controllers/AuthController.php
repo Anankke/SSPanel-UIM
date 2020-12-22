@@ -24,6 +24,7 @@ use App\Services\{
 };
 use voku\helper\AntiXSS;
 use Exception;
+use Ramsey\Uuid\Uuid;
 
 /**
  *  AuthController
@@ -370,13 +371,14 @@ class AuthController extends BaseController
 
         // do reg user
         $user                       = new User();
-
         $antiXss                    = new AntiXSS();
+        $current_timestamp          = time();
 
         $user->user_name            = $antiXss->xss_clean($name);
         $user->email                = $email;
         $user->pass                 = Hash::passwordHash($passwd);
         $user->passwd               = Tools::genRandomChar(6);
+        $user->uuid                 = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
         $user->port                 = Tools::getAvPort();
         $user->t                    = 0;
         $user->u                    = 0;
