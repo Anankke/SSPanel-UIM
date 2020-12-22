@@ -905,19 +905,15 @@
 </script>
 <script>
     $(document).ready(function () {
-        let newsspwd = Math.random().toString(36).substr(2);
         $("#ss-pwd-update").click(function () {
             $.ajax({
                 type: "POST",
                 url: "sspwd",
                 dataType: "json",
-                data: {
-                    sspwd: newsspwd
-                },
+                data: {},
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $$.getElementById('ajax-user-passwd').innerHTML = newsspwd;
                         $$.getElementById('msg').innerHTML = '修改成功';
                     } else {
                         $("#result").modal();
@@ -926,7 +922,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
