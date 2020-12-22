@@ -134,7 +134,7 @@ class Job extends Command
         }
 
         //auto reset
-        $boughts = Bought::all();
+        $boughts = Bought::whereIn('id', Bought::groupBy(userid)->where('renew','=','1')->max('id'));
         $bought_users = array();
         foreach ($boughts as $bought) {
             $user = User::where('id', $bought->userid)->first();
