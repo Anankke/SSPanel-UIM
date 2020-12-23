@@ -17,38 +17,38 @@ namespace App\Models;
 class Bought extends Model
 {
     protected $connection = 'default';
+
     protected $table = 'bought';
 
     public function renew_date()
     {
-        return date('Y-m-d H:i:s', $this->attributes['renew']);
+        return date('Y-m-d H:i:s', $this->renew);
     }
 
     public function datetime()
     {
-        return date('Y-m-d H:i:s', $this->attributes['datetime']);
+        return date('Y-m-d H:i:s', $this->datetime);
     }
 
-    public function user()
+    public function user(): ?User
     {
-        $user = User::where('id', $this->attributes['userid'])->first();
+        $user = User::where('id', $this->userid)->first();
         if ($user == null) {
-            self::where('id', '=', $this->attributes['id'])->delete();
+            $this->delete();
             return null;
         }
-
         return $user;
     }
 
-    public function shop()
+    public function shop(): Shop
     {
-        return Shop::where('id', $this->attributes['shopid'])->first();
+        return Shop::where('id', $this->shopid)->first();
     }
 
     /*
      * 套餐已使用的天数
      */
-    public function used_days()
+    public function used_days(): int
     {
         return (int) ((time() - $this->datetime) / 86400);
     }
@@ -56,22 +56,13 @@ class Bought extends Model
     /*
      * 是否有效期内
      */
-    public function valid()
+    public function valid(): bool
     {
         $shop = $this->shop();
-        if ($this->use_loop()) {
+        if ($shop->use_loop()) {
             return (time() - $shop->reset_exp() * 86400 < $this->datetime);
         }
         return false;
-    }
-
-    /*
-     * 是否周期内循环重置性商品
-     */
-    public function use_loop()
-    {
-        $shop = $this->shop();
-        return ($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0);
     }
 
     /*
@@ -80,14 +71,14 @@ class Bought extends Model
     public function reset_time($unix = false)
     {
         $shop = $this->shop();
-        if ($this->use_loop()) {
+        if ($shop->use_loop()) {
             $day = 24 * 60 * 60;
             $resetIndex = 1 +  (int)((time() - $this->datetime - $day) / ($shop->reset() * $day));
             $restTime = $resetIndex * $shop->reset() * $day + $this->datetime;
             $time = time() + ($day * 86400);
-            return ($unix == false ? date("Y-m-d",strtotime("+1 day", strtotime(date('Y-m-d', $restTime)))) : $time);
+            return (!$unix ? date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d', $restTime)))) : $time);
         }
-        return ($unix == false ? '-' : 0);
+        return (!$unix ? '-' : 0);
     }
 
     /*
@@ -96,10 +87,10 @@ class Bought extends Model
     public function exp_time($unix = false)
     {
         $shop = $this->shop();
-        if ($this->use_loop()) {
+        if ($shop->use_loop()) {
             $time = $this->datetime + ($shop->reset_exp() * 86400);
-            return ($unix == false ? date('Y-m-d H:i:s', $time) : $time);
+            return (!$unix ? date('Y-m-d H:i:s', $time) : $time);
         }
-        return ($unix == false ? '-' : 0);
+        return (!$unix ? '-' : 0);
     }
 }

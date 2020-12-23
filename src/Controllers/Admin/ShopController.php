@@ -74,19 +74,15 @@ class ShopController extends AdminController
             $content['traffic_package'] = $request->getParam('traffic_package');
         }
 
-        //if ($request->getParam('speedlimit')!=0) {
         $content['speedlimit'] = $request->getParam('speedlimit');
-        //}
 
-        //if ($request->getParam('connector')!=0) {
         $content['connector'] = $request->getParam('connector');
-        //}
 
         if ($request->getParam('content_extra') != '') {
             $content['content_extra'] = $request->getParam('content_extra');
         }
 
-        $shop->content = json_encode($content);
+        $shop->content = $content;
 
         if (!$shop->save()) {
             $rs['ret'] = 0;
@@ -126,7 +122,7 @@ class ShopController extends AdminController
         $shop->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
         $shop->status = 1;
 
-        $content = array();
+        $content = [];
         if ($request->getParam('bandwidth') != 0) {
             $content['bandwidth'] = $request->getParam('bandwidth');
         }
@@ -159,19 +155,15 @@ class ShopController extends AdminController
             $content['traffic_package'] = $request->getParam('traffic_package');
         }
 
-        //if ($request->getParam('speedlimit')!=0) {
         $content['speedlimit'] = $request->getParam('speedlimit');
-        //}
 
-        //if ($request->getParam('connector')!=0) {
         $content['connector'] = $request->getParam('connector');
-        //}
 
         if ($request->getParam('content_extra') != '') {
             $content['content_extra'] = $request->getParam('content_extra');
         }
 
-        $shop->content = json_encode($content);
+        $shop->content = $content;
 
         if (!$shop->save()) {
             $rs['ret'] = 0;
@@ -274,7 +266,7 @@ class ShopController extends AdminController
             $period = $_ENV['sales_period'];
 
             if ($period == 'expire') {
-                $period = json_decode($shop->content, true)['class_expire'];
+                $period = $shop->content['class_expire'];
             }
 
             $period = $period * 24 * 60 * 60;

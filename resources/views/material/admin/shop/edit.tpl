@@ -53,16 +53,15 @@
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
-                            {$content = json_decode($shop->content)}
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="traffic-package-min">最低可购买用户等级</label>
                                 <input class="form-control maxwidth-edit" id="traffic-package-min" type="text"
-                                value="{if property_exists($content,'traffic_package')}{$content->traffic_package->class->min}{else}0{/if}">
+                                value="{if isset($shop->content['traffic_package'])}{$shop->content['traffic_package']['class']['min']}{else}0{/if}">
                             </div>
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="traffic-package-max">最高可购买用户等级</label>
                                 <input class="form-control maxwidth-edit" id="traffic-package-max" type="text"
-                                value="{if property_exists($content,'traffic_package')}{$content->traffic_package->class->max}{else}0{/if}">
+                                value="{if $shop->content['traffic_package']}{$shop->content['traffic_package']['class']['max']}{else}0{/if}">
                             </div>
                             <div class="form-group form-group-label">
                                 <div class="checkbox switch">
@@ -217,7 +216,7 @@
                         max: $$getValue('traffic-package-max')
                     }
                 }
-            } 
+            }
             $.ajax({
                 type: "PUT",
                 url: "/admin/shop/{$shop->id}",

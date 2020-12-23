@@ -2,17 +2,29 @@
 
 namespace App\Models;
 
+/**
+ * @property-read   int     $id
+ * @property        string  $name
+ * @property        float   $price
+ * @property        array   $content
+ * @property        int     $auto_renew
+ * @property        int     $auto_reset_bandwidth
+ * @property        int     $status
+ */
 class Shop extends Model
 {
     protected $connection = 'default';
+
     protected $table = 'shop';
+
+    protected $casts = [
+        'content' => 'array',
+    ];
 
     public function content()
     {
-        $content = json_decode($this->attributes['content'], true);
         $content_text = '';
-        $i = 0;
-        foreach ($content as $key => $value) {
+        foreach ($this->content as $key => $value) {
             switch ($key) {
                 case 'bandwidth':
                     $content_text .= '添加流量 ' . $value . ' G ';
@@ -21,10 +33,10 @@ class Shop extends Model
                     $content_text .= ', 为账号的有效期添加 ' . $value . ' 天 ';
                     break;
                 case 'class':
-                    $content_text .= ', 为账号升级为等级 ' . $value . ' , 有效期 ' . $content['class_expire'] . ' 天 ';
+                    $content_text .= ', 为账号升级为等级 ' . $value . ' , 有效期 ' . $this->content['class_expire'] . ' 天 ';
                     break;
                 case 'reset':
-                    $content_text .= ', 在 ' . $content['reset_exp'] . ' 天内 ，每 ' . $value . ' 天重置流量为 ' . $content['reset_value'] . ' G ';
+                    $content_text .= ', 在 ' . $this->content['reset_exp'] . ' 天内 ，每 ' . $value . ' 天重置流量为 ' . $this->content['reset_value'] . ' G ';
                     break;
                 case 'speedlimit':
                     if ($value == 0) {
@@ -51,47 +63,39 @@ class Shop extends Model
 
     public function bandwidth()
     {
-        $content = json_decode($this->attributes['content']);
-        return $content->bandwidth ?? 0;
+        return $this->content['bandwidth'] ?? 0;
     }
 
     public function expire()
     {
-        $content = json_decode($this->attributes['content']);
-        return $content->expire ?? 0;
+        return $this->content['expire'] ?? 0;
     }
 
     public function reset()
     {
-        $content = json_decode($this->attributes['content']);
-        return $content->reset ?? 0;
+        return $this->content['reset'] ?? 0;
     }
 
     public function reset_value()
     {
-        $content = json_decode($this->attributes['content']);
-        return $content->reset_value ?? 0;
+        return $this->content['reset_value'] ?? 0;
     }
 
     public function reset_exp()
     {
-        $content = json_decode($this->attributes['content']);
-        return $content->reset_exp ?? 0;
+        return $this->content['reset_exp'] ?? 0;
     }
 
     public function traffic_package()
     {
-        $content = json_decode($this->attributes['content']);
-        return isset($content->traffic_package);
+        return isset($this->content['traffic_package']);
     }
 
     public function content_extra()
     {
-        $content = json_decode($this->attributes['content']);
-        if (isset($content->content_extra)) {
-            $content_extra = $content->content_extra;
-            $content_extra = explode(';', $content_extra);
-            $content_extra_new = array();
+        if (isset($this->content['content_extra'])) {
+            $content_extra = explode(';', $this->content['content_extra']);
+            $content_extra_new = [];
             foreach ($content_extra as $innerContent) {
                 if (false === strpos($innerContent, '-')) {
                     $innerContent = 'check-' . $innerContent;
@@ -108,40 +112,33 @@ class Shop extends Model
 
     public function user_class()
     {
-        $content = json_decode($this->attributes['content']);
-        return $content->class ?? 0;
+        return $this->content['class'] ?? 0;
     }
 
     public function class_expire()
     {
-        $content = json_decode($this->attributes['content']);
-        return $content->class_expire ?? 0;
+        return $this->content['class_expire'] ?? 0;
     }
 
     public function speedlimit()
     {
-        $content = json_decode($this->attributes['content']);
-        return $content->speedlimit ?? 0;
+        return $this->content['speedlimit'] ?? 0;
     }
 
     public function connector()
     {
-        $content = json_decode($this->attributes['content']);
-        return $content->connector ?? 0;
+        return $this->content['connector'] ?? 0;
     }
 
     public function buy($user, $is_renew = 0)
     {
-        $content = json_decode($this->attributes['content'], true);
-        $content_text = '';
-
-        if (array_key_exists('traffic_package', $content)) {
-            $user->transfer_enable += $content['bandwidth'] * 1024 * 1024 * 1024;
+        if (isset($this->content['traffic_package'])) {
+            $user->transfer_enable += $this->content['bandwidth'] * 1024 * 1024 * 1024;
             $user->save();
             return;
         }
 
-        foreach ($content as $key => $value) {
+        foreach ($this->content as $key => $value) {
             switch ($key) {
                 case 'bandwidth':
                     if ($is_renew == 0) {
@@ -153,7 +150,7 @@ class Shop extends Model
                         } else {
                             $user->transfer_enable += $value * 1024 * 1024 * 1024;
                         }
-                    } elseif ($this->attributes['auto_reset_bandwidth'] == 1) {
+                    } elseif ($this->auto_reset_bandwidth == 1) {
                         $user->transfer_enable = $value * 1024 * 1024 * 1024;
                         $user->u = 0;
                         $user->d = 0;
@@ -172,14 +169,14 @@ class Shop extends Model
                 case 'class':
                     if ($_ENV['enable_bought_extend'] == true) {
                         if ($user->class == $value) {
-                            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + $content['class_expire'] * 86400);
+                            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + $this->content['class_expire'] * 86400);
                         } else {
-                            $user->class_expire = date('Y-m-d H:i:s', time() + $content['class_expire'] * 86400);
+                            $user->class_expire = date('Y-m-d H:i:s', time() + $this->content['class_expire'] * 86400);
                         }
                         $user->class = $value;
                     } else {
                         $user->class = $value;
-                        $user->class_expire = date('Y-m-d H:i:s', time() + $content['class_expire'] * 86400);
+                        $user->class_expire = date('Y-m-d H:i:s', time() + $this->content['class_expire'] * 86400);
                         break;
                     }
                 case 'speedlimit':
@@ -193,5 +190,13 @@ class Shop extends Model
         }
 
         $user->save();
+    }
+
+    /*
+     * 是否周期内循环重置性商品
+     */
+    public function use_loop(): bool
+    {
+        return ($this->reset() != 0 && $this->reset_value() != 0 && $this->reset_exp() != 0);
     }
 }
