@@ -133,7 +133,8 @@ class Job extends Command
         }
 
         //auto reset
-        $boughts = Bought::whereIn('id', Bought::groupBy('userid')->where('renew','=','1')->max('id'));
+        $shopRenew = Shop::where('status','=','1')->where('content','like','%reset_value%')->where('content','like','%reset_exp%')->get('id');
+        $boughts = Bought::whereIn('id', Bought::groupBy(userid)->where('shopid',$shopRenew->id)->max('id'));
         $bought_users = array();
         foreach ($boughts as $bought) {
             $user = User::where('id', $bought->userid)->first();
