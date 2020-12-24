@@ -799,7 +799,7 @@ class UserController extends BaseController
         return $response->getBody()->write(json_encode($res));
     }
 
-    public function buy_traffic_package ($request, $response, $args)
+    public function buy_traffic_package($request, $response, $args)
     {
         $user = $this->user;
         $shop = $request->getParam('shop');
@@ -812,9 +812,7 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        $content = json_decode($shop->content);
-
-        if ($user->class < $content->traffic_package->class->min || $user->class > $content->traffic_package->class->max) {
+        if ($user->class < $shop->content['traffic_package']['class']['min'] || $user->class > $shop->content['traffic_package']['class']['max']) {
             $res['ret'] = 0;
             $res['msg'] = '您当前的会员等级无法购买此流量包';
             return $response->getBody()->write(json_encode($res));
@@ -863,14 +861,9 @@ class UserController extends BaseController
         $shop = Shop::where('id', $shop)->where('status', 1)->first();
 
         $orders = Bought::where('userid', $this->user->id)->get();
-        foreach ($orders as $order)
-        {
-            $shop_item = Shop::where('id',$order['shopid'])->first();
-            $shop_item = json_decode($shop_item['content']);
-            $shop_item->datetime = $order['datetime'];
-            if (property_exists($shop_item,'reset') || property_exists($shop_item,'reset_value') || property_exists($shop_item,'reset_exp'))
-            {
-                if (time() < ($shop_item->datetime + $shop_item->reset_exp * 86400) ) {
+        foreach ($orders as $order) {
+            if ($order->shop()->use_loop()) {
+                if ($order->valid()) {
                     $res['ret'] = 0;
                     $res['msg'] = '您购买的含有自动重置系统的套餐还未过期，无法购买新套餐';
                     return $response->getBody()->write(json_encode($res));
