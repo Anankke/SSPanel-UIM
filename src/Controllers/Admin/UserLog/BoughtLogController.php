@@ -76,7 +76,7 @@ class BoughtLogController extends AdminController
             $tempdata['content']     = $shop->content();
             $tempdata['auto_renew']  = ($bought->renew == 0 ? '不自动续费' : $bought->renew_date());
             $tempdata['buy_time']    = $bought->datetime();
-            if ($bought->use_loop()) {
+            if ($bought->valid()) {
                 $tempdata['valid'] = ($bought->valid() ? '有效' : '已过期');
             } else {
                 $tempdata['valid'] = '-';

@@ -132,27 +132,32 @@ class Job extends Command
             Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));
         }
 
-        //auto reset
-        $boughts = Bought::whereIn('id', Bought::groupBy('userid')->where('renew','=','1')->max('id'));
-        $bought_users = array();
-        foreach ($boughts as $bought) {
-            $user = User::where('id', $bought->userid)->first();
+        $shopid = [];
+        $shops  = Shop::where('status',1)->get();    //已下架的商品不支持重置使用
+        foreach ($shops as $auto_reset_shop) {
+            if ($auto_reset_shop->use_loop()) {
+                $shopid[] = $auto_reset_shop->id;
+            }
+        }
 
+        //auto reset
+        $boughts      = Bought::whereIn('shopid', $shopid)->get();
+        $bought_users = [];
+        foreach ($boughts as $bought) {
+            $user = $bought->user();
             if ($user == null) {
-                $bought->delete();
                 continue;
             }
 
-            $shop = Shop::where('id', $bought->shopid)->first();
-
+            $shop = $bought->shop();
             if ($shop == null) {
                 $bought->delete();
                 continue;
             }
 
-            if ($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0) {
+            if ($shop->use_loop()) {
                 $bought_users[] = $bought->userid;
-                if ((time() - $shop->reset_exp() * 86400 < $bought->datetime) && (int)((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && (int)((time() - $bought->datetime) / 86400) != 0) {
+                if ($bought->valid() && $bought->used_days() % $shop->reset() == 0 && $bought->used_days() != 0) {
                     echo ('流量重置-' . $user->id . "\n");
                     $user->transfer_enable = Tools::toGB($shop->reset_value());
                     $user->u = 0;
@@ -318,13 +323,12 @@ class Job extends Command
         $boughts = Bought::where('renew', '<', time())->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {
             /** @var Bought $bought */
-            $user = User::where('id', $bought->userid)->first();
+            $user = $bought->user();
             if ($user == null) {
-                $bought->delete();
                 continue;
             }
 
-            $shop = Shop::where('id', $bought->shopid)->first();
+            $shop = $bought->shop();
             if ($shop == null) {
                 $bought->delete();
                 $user->sendMail(
@@ -347,13 +351,13 @@ class Job extends Command
                 $bought->renew = 0;
                 $bought->save();
 
-                $bought_new = new Bought();
-                $bought_new->userid = $user->id;
-                $bought_new->shopid = $shop->id;
+                $bought_new           = new Bought();
+                $bought_new->userid   = $user->id;
+                $bought_new->shopid   = $shop->id;
                 $bought_new->datetime = time();
-                $bought_new->renew = time() + $shop->auto_renew * 86400;
-                $bought_new->price = $shop->price;
-                $bought_new->coupon = '';
+                $bought_new->renew    = time() + $shop->auto_renew * 86400;
+                $bought_new->price    = $shop->price;
+                $bought_new->coupon   = '';
                 $bought_new->save();
 
                 $user->sendMail(
