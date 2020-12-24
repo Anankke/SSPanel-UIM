@@ -141,8 +141,10 @@ class Job extends Command
         }
 
         //auto reset
-        $boughts      = Bought::whereIn('shopid', $shopid)->get();
-        $bought_users = [];
+        $shopRenew = Shop::where('status','1')->where('content','like','%reset_value%')->get(['id'])->toArray();
+        $shopRenewId = Bought::whereIn('shopid',array_filter(array_column($shopRenew, 'id')))->groupBy('userid')->orderBy("id","desc")->get(['id']);
+        $boughts = Bought::whereIn('id', array_filter(array_column(json_decode($shopRenewId), 'id')))->get();
+        $bought_users = array();
         foreach ($boughts as $bought) {
             $user = $bought->user();
             if ($user == null) {
