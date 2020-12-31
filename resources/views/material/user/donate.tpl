@@ -58,7 +58,7 @@
                             <div class="card-inner">
                                 <div class="card-table">
                                     <div class="table-responsive table-user">
-                                        {$codes->render()}
+                                        {$render}
                                         <table class="table table-hover">
                                             <tr>
                                                 <th>ID</th>
@@ -93,7 +93,7 @@
                                                 </tr>
                                             {/foreach}
                                         </table>
-                                        {$codes->render()}
+                                        {$render}
                                     </div>
                                 </div>
                             </div>

@@ -926,4 +926,76 @@ class Tools
             $db->query('ALTER TABLE `' . $table . '` auto_increment = 1');
         }
     }
+
+    /**
+     * Eloquent 分页链接渲染
+     *
+     * @param mixed $data
+     */
+    public static function paginate_render($data): string
+    {
+        $totalPage   = $data->lastPage();
+        $currentPage = $data->currentPage();
+        $html = '<ul class="pagination">';
+        for ($i = 1; $i <= $totalPage; $i++) {
+            $active = '<li class="active"><span>' . $i . '</span></li>';
+            $page   = '<li><a href="' . $data->url($i) . '">' . $i . '</a></li>';
+            if ($i == 1) {
+                // 当前为第一页
+                if ($currentPage == $i) {
+                    $html .= '<li class="disabled"><span>«</span></li>';
+                    $html .= $active;
+                    if ($i == $totalPage) {
+                        $html .= '<li class="disabled"><span>»</span></li>';
+                        continue;
+                    }
+                } else {
+                    $html .= '<li><a href="' . $data->url($currentPage - 1) . '" rel="prev">«</a></li>';
+                    if ($currentPage > 4) {
+                        $html .= '<li><a href="javascript:void(0)">...</a></li>';
+                    } else {
+                        $html .= $page;
+                    }
+                }
+            }
+            if ($i == $totalPage) {
+                // 当前为最后一页
+                if ($currentPage == $i) {
+                    $html .= $active;
+                    $html .= '<li class="disabled"><span>»</span></li>';
+                } else {
+                    if ($totalPage - $currentPage > 3) {
+                        $html .= '<li><a href="javascript:void(0)">...</a></li>';
+                    } else {
+                        $html .= $page;
+                    }
+                    $html .= '<li><a href="' . $data->url($currentPage + 1) . '" rel="next">»</a></li>';
+                }
+            }
+            if ($i > 1 && $i < $totalPage) {
+                // 其他页
+                if ($currentPage == $i) {
+                    $html .= $active;
+                } else {
+                    if ($totalPage > 10) {
+                        if (
+                            ($currentPage > 4 && $i < $currentPage && $i > $currentPage - 3)
+                            ||
+                            ($totalPage - $currentPage > 4 && $i > $currentPage && $i < $currentPage + 4)
+                            ||
+                            ($currentPage <= 4 && $i <= 4)
+                            ||
+                            ($totalPage - $currentPage <= 4 && $i > $currentPage)
+                        ) {
+                            $html .= $page;
+                        }
+                        continue;
+                    }
+                    $html .= $page;
+                }
+            }
+        }
+        $html .= '</ul>';
+        return $html;
+    }
 }

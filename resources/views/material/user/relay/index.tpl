@@ -37,7 +37,7 @@
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="rule_table">
                                 <div class="table-responsive table-user">
-                                    {$rules->render()}
+                                    {$render}
                                     <table class="table table-user">
                                         <tr>
                                             <!--	<th>ID</th>   -->
@@ -74,7 +74,7 @@
                                             </tr>
                                         {/foreach}
                                     </table>
-                                    {$rules->render()}
+                                    {$render}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="link_table">
