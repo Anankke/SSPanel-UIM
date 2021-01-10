@@ -9,6 +9,7 @@ use App\Models\{
 };
 use App\Services\Auth;
 use App\Utils\DatatablesHelper;
+use App\Utils\Tools;
 use voku\helper\AntiXSS;
 use Ozdemir\Datatables\Datatables;
 
@@ -92,7 +93,12 @@ class TicketController extends AdminController
         $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
         $ticketset->setPath('/admin/ticket/' . $id . '/view');
 
-        return $this->view()->assign('ticketset', $ticketset)->assign('id', $id)->display('admin/ticket/view.tpl');
+        $render = Tools::paginate_render($ticketset);
+        return $this->view()
+            ->assign('ticketset', $ticketset)
+            ->assign('id', $id)
+            ->assign('render', $render)
+            ->display('admin/ticket/view.tpl');
     }
 
     public function ajax($request, $response, $args)

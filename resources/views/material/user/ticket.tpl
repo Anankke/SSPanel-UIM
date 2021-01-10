@@ -21,7 +21,7 @@
                         <div class="card-inner">
                             <div class="card-table">
                                 <div class="table-responsive table-user">
-                                    {$tickets->render()}
+                                    {$render}
                                     <table class="table">
                                         <tr>
                                             <!--  <th>ID</th>   -->
@@ -47,7 +47,7 @@
                                             </tr>
                                         {/foreach}
                                     </table>
-                                    {$tickets->render()}
+                                    {$render}
                                 </div>
                             </div>
                         </div>

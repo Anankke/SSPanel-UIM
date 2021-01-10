@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                {$ticketset->render()}
+                {$render}
                 {foreach $ticketset as $ticket}
                     <div class="card">
                         <aside class="card-side pull-left" style="padding: 16px; text-align: center">
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 {/foreach}
-                {$ticketset->render()}
+                {$render}
                 {include file='dialog.tpl'}
             </section>
         </div>

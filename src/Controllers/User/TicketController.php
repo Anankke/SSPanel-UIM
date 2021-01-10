@@ -7,6 +7,7 @@ use App\Models\{
     User,
     Ticket
 };
+use App\Utils\Tools;
 use voku\helper\AntiXSS;
 use Slim\Http\{
     Request,
@@ -41,10 +42,12 @@ class TicketController extends UserController
                 ]
             );
         }
+        $render = Tools::paginate_render($tickets);
 
         return $response->write(
             $this->view()
                 ->assign('tickets', $tickets)
+                ->assign('render', $render)
                 ->display('user/ticket.tpl')
         );
     }
@@ -308,11 +311,12 @@ class TicketController extends UserController
                 ]
             );
         }
-
+        $render = Tools::paginate_render($ticketset);
         return $response->write(
             $this->view()
                 ->assign('ticketset', $ticketset)
                 ->assign('id', $id)
+                ->assign('render', $render)
                 ->display('user/ticket_view.tpl')
         );
     }

@@ -126,7 +126,13 @@ class UserController extends BaseController
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
-        return $this->view()->assign('codes', $codes)->assign('pmw', Payment::purchaseHTML())->assign('bitpay', BitPayment::purchaseHTML())->display('user/code.tpl');
+        $render = Tools::paginate_render($codes);
+        return $this->view()
+            ->assign('codes', $codes)
+            ->assign('pmw', Payment::purchaseHTML())
+            ->assign('bitpay', BitPayment::purchaseHTML())
+            ->assign('render', $render)
+            ->display('user/code.tpl');
     }
 
     public function orderDelete($request, $response, $args)
@@ -148,7 +154,13 @@ class UserController extends BaseController
             }
         )->where('isused', 1)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/donate');
-        return $this->view()->assign('codes', $codes)->assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))->assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))->display('user/donate.tpl');
+        $render = Tools::paginate_render($codes);
+        return $this->view()
+            ->assign('codes', $codes)
+            ->assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))
+            ->assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))
+            ->assign('render', $render)
+            ->display('user/donate.tpl');
     }
 
     public function isHTTPS()
@@ -521,8 +533,13 @@ class UserController extends BaseController
             $paybacks_sum = 0;
         }
         $paybacks->setPath('/user/invite');
-
-        return $this->view()->assign('code', $code)->assign('paybacks', $paybacks)->assign('paybacks_sum', $paybacks_sum)->display('user/invite.tpl');
+        $render = Tools::paginate_render($paybacks);
+        return $this->view()
+            ->assign('code', $code)
+            ->assign('paybacks', $paybacks)
+            ->assign('paybacks_sum', $paybacks_sum)
+            ->assign('render', $render)
+            ->display('user/invite.tpl');
     }
 
     public function buyInvite($request, $response, $args)
@@ -982,7 +999,11 @@ class UserController extends BaseController
             $res['shops'] = $shops;
             return $response->getBody()->write(json_encode($res));
         };
-        return $this->view()->assign('shops', $shops)->display('user/bought.tpl');
+        $render = Tools::paginate_render($shops);
+        return $this->view()
+            ->assign('shops', $shops)
+            ->assign('render', $render)
+            ->display('user/bought.tpl');
     }
 
     public function deleteBoughtGet($request, $response, $args)
@@ -1374,7 +1395,11 @@ class UserController extends BaseController
         }
 
         $logs->setPath('/user/detect');
-        return $this->view()->assign('rules', $logs)->display('user/detect_index.tpl');
+        $render = Tools::paginate_render($logs);
+        return $this->view()
+            ->assign('rules', $logs)
+            ->assign('render', $render)
+            ->display('user/detect_index.tpl');
     }
 
     public function detect_log($request, $response, $args)
@@ -1397,7 +1422,11 @@ class UserController extends BaseController
         }
 
         $logs->setPath('/user/detect/log');
-        return $this->view()->assign('logs', $logs)->display('user/detect_log.tpl');
+        $render = Tools::paginate_render($logs);
+        return $this->view()
+            ->assign('logs', $logs)
+            ->assign('render', $render)
+            ->display('user/detect_log.tpl');
     }
 
     public function disable($request, $response, $args)
@@ -1520,8 +1549,12 @@ class UserController extends BaseController
             $res['subscribeLog_keep_days'] = $_ENV['subscribeLog_keep_days'];
             return $this->echoJson($response, $res);
         }
-
-        return $this->view()->assign('logs', $logs)->assign('iplocation', $iplocation)->fetch('user/subscribe_log.tpl');
+        $render = Tools::paginate_render($logs);
+        return $this->view()
+            ->assign('logs', $logs)
+            ->assign('iplocation', $iplocation)
+            ->assign('render', $render)
+            ->fetch('user/subscribe_log.tpl');
     }
 
     /**

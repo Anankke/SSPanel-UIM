@@ -146,12 +146,16 @@ class RelayController extends UserController
             return $response->withJson($res);
         }
 
+        $logs->setPath('/user/relay');
+        $render = Tools::paginate_render($logs);
+
         return $response->write(
             $this->view()
                 ->assign('rules', $logs)
                 ->assign('relay_able_protocol_list', Config::getSupportParam('relay_able_protocol'))
                 ->assign('is_relay_able', $is_relay_able)
                 ->assign('pathset', $pathset)
+                ->assign('render', $render)
                 ->display('user/relay/index.tpl')
         );
     }

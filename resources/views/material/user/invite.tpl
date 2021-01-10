@@ -138,7 +138,7 @@
                             <div class="card-inner">
                                 <div class="card-table">
                                     <div class="table-responsive bgc-fix table-user">
-                                        {$paybacks->render()}
+                                        {$render}
                                         <table class="table">
                                             <tr>
                                                 <th>ID</th>
@@ -161,7 +161,7 @@
                                                 </tr>
                                             {/foreach}
                                         </table>
-                                        {$paybacks->render()}
+                                        {$render}
                                     </div>
                                 </div>
                             </div>
