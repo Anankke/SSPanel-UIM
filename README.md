@@ -20,13 +20,13 @@ SSPanel UIM 是一款专为 Shadowsocks / ShadowsocksR / V2Ray 设计的多用�
 
 ## 特性
 
-- 集成超过 8 种支付系统
+- 集成支付宝当面付，PAYJS，码支付，Paymentwall等超过 8 种支付系统
 - 重构面板首页、节点列表、商品列表；新增 SPA（Single Page Apps）版 UI
 - 商品增加同时连接设备数，用户限速属性
 - 新用户注册现金奖励、用户常规端口切换与指定
 - 公共库文件加载使用 jsDelivr
-- 支持 V2Ray
-- 巨量性能优化
+- 支持 V2Ray & Trojan
+- 性能优化，程序逻辑改善，代码质量修正
 - 更多新功能写不下了
 
 ## 安装
@@ -38,7 +38,7 @@ SSPanel UIM 的需要以下程序才能正常的安装和运行：
 - PHP 7.2+
 - Composer
 
-SSPanel UIM 支持安装在 LNMP、宝塔面板、Plesk 面板、oneinstack 等集成环境中。安装教程请参阅 [文档](https://wiki.sspanel.host)。
+SSPanel UIM 支持安装在 LNMP、宝塔面板、Plesk、Oneinstack 等集成环境中。安装教程请参阅 [文档](https://wiki.sspanel.host)。
 
 ## 演示
 
@@ -80,15 +80,15 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 <details>
 <summary>查看贡献者</summary>
 
-#### [Anankke](https://github.com/Anankke)
+[**Anankke**](https://github.com/Anankke)
 
 - 面板现 **维护者**
 
-#### [galaxychuck](https://github.com/galaxychuck)
+[**galaxychuck**](https://github.com/galaxychuck)
 
 - 面板 **原作者**
 
-##### [dumplin](https://github.com/dumplin233)
+[**dumplin**](https://github.com/dumplin233)
 
 - 码支付对接 + 码支付当面付二合一
 - 为面板加入 AFF 链接功能
@@ -96,17 +96,17 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 - 多端口订阅
 - 解决用户列表加载缓慢历史遗留问题
 
-##### [RinSAMA](https://github.com/mxihan)
+[**RinSAMA**](https://github.com/mxihan)
 
 - 整理分类 config.php
 - 美观性调整
 - 客服系统优化
 
-##### [miku](https://github.com/xcxnig)
+[**miku**](https://github.com/xcxnig)
 
 - 美观和性能优化
 
-##### [Tony Zou](https://github.com/ZJY2003)
+[**Tony Zou**](https://github.com/ZJY2003)
 
 - 为公告增加群发邮件功能
 - 节点负载情况显示&用户账户过期在首页弹窗提醒
@@ -141,6 +141,16 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 - 单元测试
 - 全站 JavaScript 重写
 - 新版 Wiki 的搭建和维护
+
+[**GeekQu**](https://github.com/GeekQu)
+
+- 面板 Bug 修复与维护
+
+[**M1Screw**](https://github.com/M1Screw)
+
+- Wiki 维护与重写部分安装教程
+- 面板 Bug 修复与维护
+- 前端公共库版本更新
 
 </details>
 
