@@ -100,11 +100,13 @@ class UserController extends AdminController
         }
         // do reg user
         $user                       = new User();
+        $current_timestamp          = time();
         $pass                       = Tools::genRandomChar();
         $user->user_name            = $email;
         $user->email                = $email;
         $user->pass                 = Hash::passwordHash($pass);
         $user->passwd               = Tools::genRandomChar(6);
+        $user->uuid                 = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
         $user->port                 = Tools::getAvPort();
         $user->t                    = 0;
         $user->u                    = 0;
