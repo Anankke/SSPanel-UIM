@@ -168,75 +168,39 @@ class TelegramProcess
                     $bot->sendMessage($message->getChat()->getId(), '正在解码，请稍候。。。');
                     $bot->sendChatAction($message->getChat()->getId(), 'typing');
                     $photos = $message->getPhoto();
+                    $file_path = $bot->getFile($photos[0]->getFileId())->getFilePath();
+                    $qrcode_text = QRcode::decode('https://api.telegram.org/file/bot' . Config::get('telegram_token') . '/' . $file_path);
 
-                    $photo_size_array = array();
-                    $photo_id_array = array();
-                    $photo_id_list_array = array();
-
-                    foreach ($photos as $photo) {
-                        $file = $bot->getFile($photo->getFileId());
-                        $real_id = substr($file->getFileId(), 0, 36);
-                        if (!isset($photo_size_array[$real_id])) {
-                            $photo_size_array[$real_id] = 0;
+                    if (strpos($qrcode_text, 'mod://bind/') === 0 && strlen($qrcode_text) == 27) {
+                        $uid = TelegramSessionManager::verify_bind_session(substr($qrcode_text, 11));
+                        if ($uid == 0) {
+                            $reply['message'] = '绑定失败，二维码无效：' . substr($qrcode_text, 11) . '二维码的有效期为10分钟，请尝试刷新网站的“资料编辑”页面以更新二维码';
+                            break;
                         }
-
-                        if ($photo_size_array[$real_id] >= $file->getFileSize()) {
-                            continue;
+                        if(User::where('telegram_id', $message->getFrom()->getId())->count()>0){
+                            $reply['message'] = '该Telegram已绑定其他账户';
+                            break;
                         }
-
-                        $photo_size_array[$real_id] = $file->getFileSize();
-                        $photo_id_array[$real_id] = $file->getFileId();
-                        if (!isset($photo_id_list_array[$real_id])) {
-                            $photo_id_list_array[$real_id] = array();
-                        }
-
-                        $photo_id_list_array[$real_id][] = $file->getFileId();
+                        $user = User::where('id', $uid)->first();
+                        $user->telegram_id = $message->getFrom()->getId();
+                        $user->im_type = 4;
+                        $user->im_value = $message->getFrom()->getUsername();
+                        $user->save();
+                        $reply['message'] = '绑定成功，邮箱：' . $user->email;
+                        break;
                     }
 
-                    foreach ($photo_id_array as $key => $value) {
-                        $file = $bot->getFile($value);
-                        $qrcode_text = QRcode::decode('https://api.telegram.org/file/bot' . $_ENV['telegram_token'] . '/' . $file->getFilePath());
-
-                        if ($qrcode_text == null) {
-                            foreach ($photo_id_list_array[$key] as $fail_key => $fail_value) {
-                                $fail_file = $bot->getFile($fail_value);
-                                $qrcode_text = QRcode::decode('https://api.telegram.org/file/bot' . $_ENV['telegram_token'] . '/' . $fail_file->getFilePath());
-                                if ($qrcode_text != null) {
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (strpos($qrcode_text, 'mod://bind/') === 0 && strlen($qrcode_text) == 27) {
-                            $uid = TelegramSessionManager::verify_bind_session(substr($qrcode_text, 11));
-                            if ($uid == 0) {
-                                $reply['message'] = '绑定失败，二维码无效：' . substr($qrcode_text, 11) . '二维码的有效期为10分钟，请尝试刷新网站的“资料编辑”页面以更新二维码';
-                                continue;
-                            }
-                            $user = User::where('id', $uid)->first();
-                            $user->telegram_id = $message->getFrom()->getId();
-                            $user->im_type = 4;
-                            $user->im_value = $message->getFrom()->getUsername();
-                            $user->save();
-                            $reply['message'] = '绑定成功，邮箱：' . $user->email;
+                    if (strpos($qrcode_text, 'mod://login/') === 0 && strlen($qrcode_text) == 28) {
+                        if ($user == null) {
+                            $reply['message'] = '登录验证失败，您未绑定本站账号' . substr($qrcode_text, 12);
                             break;
                         }
-
-                        if (strpos($qrcode_text, 'mod://login/') === 0 && strlen($qrcode_text) == 28) {
-                            if ($user == null) {
-                                $reply['message'] = '登录验证失败，您未绑定本站账号' . substr($qrcode_text, 12);
-                                break;
-                            }
-
-                            $uid = TelegramSessionManager::verify_login_session(substr($qrcode_text, 12), $user->id);
-                            if ($uid != 0) {
-                                $reply['message'] = '登录验证成功，邮箱：' . $user->email;
-                            } else {
-                                $reply['message'] = '登录验证失败，二维码无效' . substr($qrcode_text, 12);
-                            }
-                            break;
+                        $uid = TelegramSessionManager::verify_login_session(substr($qrcode_text, 12), $user->id);
+                        if ($uid != 0) {
+                            $reply['message'] = '登录验证成功，邮箱：' . $user->email;
+                        } else {
+                            $reply['message'] = '登录验证失败，二维码无效' . substr($qrcode_text, 12);
                         }
-
                         break;
                     }
             }
