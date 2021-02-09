@@ -233,10 +233,6 @@ class Job extends Command
      */
     public function CheckJob()
     {
-        if (file_exists(BASE_PATH . '/storage/checkjob.lock')){
-            return;
-        }
-        file_put_contents(BASE_PATH . '/storage/checkjob.lock', '');
         //在线人数检测
         $users = User::where('node_connector', '>', 0)->get();
         $full_alive_ips = Ip::where('datetime', '>=', time() - 60)->orderBy('ip')->get();
@@ -767,9 +763,7 @@ class Job extends Command
         $datatables = new DatatablesHelper();
         $datatables->query(
             'DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')'
-        );
-        
-        unlink(BASE_PATH . '/storage/checkjob.lock');
+        );       
     }
 
     /**
