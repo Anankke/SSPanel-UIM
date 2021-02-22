@@ -325,9 +325,9 @@ class AppURI
                     'cipher'          => $item['method'],
                     'password'        => $item['passwd'],
                     'protocol'        => $item['protocol'],
-                    'protocolparam'   => $item['protocol_param'],
+                    'protocol-param'   => $item['protocol_param'],
                     'obfs'            => $item['obfs'],
-                    'obfsparam'       => $item['obfs_param']
+                    'obfs-param'       => $item['obfs_param']
                 ];
                 break;
             case 'vmess':
