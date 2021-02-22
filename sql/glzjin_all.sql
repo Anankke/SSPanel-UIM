@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email`               varchar(32)   NOT NULL,
   `pass`                varchar(256)  NOT NULL,
   `passwd`              varchar(16)   NOT NULL,
+  `uuid`                varchar(146)  NOT NULL COMMENT 'UUID',
   `t`                   int(11)       NOT NULL DEFAULT '0',
   `u`                   bigint(20)    NOT NULL,
   `d`                   bigint(20)    NOT NULL,
@@ -264,6 +265,8 @@ ALTER TABLE `user_token`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `user_traffic_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `user`
+  ADD COLUMN `uuid` varchar(146) NOT NULL COMMENT 'UUID' AFTER `passwd`;
 
 CREATE TABLE IF NOT EXISTS `ss_node` (
   `id`                      int(11)      NOT NULL,
@@ -297,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `payback` (
   `userid`   BIGINT        NOT NULL,
   `ref_by`   BIGINT        NOT NULL,
   `ref_get`  DECIMAL(12,2) NOT NULL,
-  `datetime` BIGINT NOT NULL,
+  `datetime` BIGINT        NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -551,8 +554,6 @@ CREATE TABLE IF NOT EXISTS `telegram_tasks` (
 
 ALTER TABLE `detect_log`
   ADD `status` int(2) NOT NULL DEFAULT '0' AFTER `node_id`;
-ALTER TABLE `user`
-  ADD COLUMN `uuid` TEXT NULL DEFAULT NULL COMMENT 'uuid' AFTER `passwd`;
 
 --
 -- Email Queue 發件列表
