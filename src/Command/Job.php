@@ -319,7 +319,7 @@ class Job extends Command
         }
 
         //自动续费
-        $boughts = Bought::where('renew', '<', time())->where('renew', '<>', 0)->get();
+        $boughts = Bought::where('renew', '<', time() + 60)->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {
             /** @var Bought $bought */
             $user = $bought->user();
