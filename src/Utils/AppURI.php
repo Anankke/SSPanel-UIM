@@ -57,12 +57,12 @@ class AppURI
         switch ($item['type']) {
             case 'vmess':
                 $node = [
-                    'v'     => 2,
+                    'v'     => "2",
                     'ps'    => $item['remark'],
                     'add'   => $item['add'],
-                    'port'  => $item['port'],
+                    'port'  => (string)$item['port'],
                     'id'    => $item['id'],
-                    'aid'   => $item['aid'],
+                    'aid'   => (string)$item['aid'],
                     'net'   => $item['net'],
                     'type'  => $item['headerType'],
                     'host'  => $item['host'],
