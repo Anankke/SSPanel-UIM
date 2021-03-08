@@ -265,8 +265,6 @@ ALTER TABLE `user_token`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `user_traffic_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `user`
-  ADD COLUMN `uuid` varchar(146) NOT NULL COMMENT 'UUID' AFTER `passwd`;
 
 CREATE TABLE IF NOT EXISTS `ss_node` (
   `id`                      int(11)      NOT NULL,
