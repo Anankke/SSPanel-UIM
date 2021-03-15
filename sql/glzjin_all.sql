@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_name`           varchar(128)  NOT NULL,
   `email`               varchar(32)   NOT NULL,
   `pass`                varchar(256)  NOT NULL,
-  `passwd`              varchar(16)   NOT NULL,
+  `passwd`              varchar(256)   NOT NULL,
   `uuid`                varchar(146)  NOT NULL COMMENT 'UUID',
   `t`                   int(11)       NOT NULL DEFAULT '0',
   `u`                   bigint(20)    NOT NULL,

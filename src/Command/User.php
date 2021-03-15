@@ -174,7 +174,7 @@ class User extends Command
             $user->user_name        = 'admin';
             $user->email            = $email;
             $user->pass             = Hash::passwordHash($passwd);
-            $user->passwd           = Tools::genRandomChar(6);
+            $user->passwd           = Tools::genRandomChar(16);
             $user->uuid             = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
             $user->port             = Tools::getLastPort() + 1;
             $user->t                = 0;
