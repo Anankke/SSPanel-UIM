@@ -117,9 +117,6 @@ return function (SlimApp $app) {
         $this->post('/payment/purchase',        App\Services\Payment::class . ':purchase');
         $this->get('/payment/return',           App\Services\Payment::class . ':returnHTML');
 
-        // Crypto Payment - BTC, ETH, EOS, BCH, LTC etch
-        $this->post('/payment/bitpay/purchase', App\Services\BitPayment::class . ':purchase');
-        $this->get('/payment/bitpay/return',    App\Services\BitPayment::class . ':returnHTML');
     })->add(new Auth());
 
     $app->group('/payment', function () {
@@ -127,9 +124,6 @@ return function (SlimApp $app) {
         $this->post('/notify',          App\Services\Payment::class . ':notify');
         $this->post('/notify/{type}',   App\Services\Payment::class . ':notify');
         $this->post('/status',          App\Services\Payment::class . ':getStatus');
-
-        $this->post('/bitpay/notify',   App\Services\BitPayment::class . ':notify');
-        $this->post('/bitpay/status',   App\Services\BitPayment::class . ':getStatus');
     });
 
     // Auth
@@ -353,12 +347,6 @@ return function (SlimApp $app) {
     $app->group('/user', function () {
         $this->post('/doiam',           App\Services\Payment::class . ':purchase');
     })->add(new Auth());
-
-    $app->group('/doiam', function () {
-        $this->post('/callback/{type}', App\Services\Payment::class . ':notify');
-        $this->get('/return/alipay',    App\Services\Payment::class . ':returnHTML');
-        $this->post('/status',          App\Services\Payment::class . ':getStatus');
-    });
 
     // Vue
     $app->get('/logout',                App\Controllers\VueController::class . ':vuelogout');

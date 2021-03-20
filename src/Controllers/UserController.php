@@ -7,7 +7,6 @@ use App\Services\{
     Mail,
     Config,
     Payment,
-    BitPayment,
     Gateway\ChenPay,
 };
 use App\Models\{
@@ -130,7 +129,6 @@ class UserController extends BaseController
         return $this->view()
             ->assign('codes', $codes)
             ->assign('pmw', Payment::purchaseHTML())
-            ->assign('bitpay', BitPayment::purchaseHTML())
             ->assign('render', $render)
             ->display('user/code.tpl');
     }
