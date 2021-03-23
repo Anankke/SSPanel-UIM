@@ -67,7 +67,7 @@
                         <a href="/password/reset">忘记密码？</a>
                     </div>
                 </div>
-                {if $config['enable_telegram'] === true}
+                {if $config['enable_telegram_login'] === true}
                     <div class="auth-bottom auth-row">
                         <div class="tgauth">
                             <span>Telegram</span>
@@ -78,7 +78,7 @@
                 {/if}
             </div>
         </form>
-        {if $config['enable_telegram'] === true}
+        {if $config['enable_telegram_login'] === true}
             {include file='./telegram_modal.tpl'}
         {/if}
     </div>
@@ -88,7 +88,7 @@
 
 {include file='footer.tpl'}
 
-{if $config['enable_telegram'] === true}
+{if $config['enable_telegram_login'] === true}
     {include file='./telegram.tpl'}
 {/if}
 

@@ -180,9 +180,9 @@ $_ENV['auto_detect_ban'] = [
 
 
 //Bot 设置--------------------------------------------------------------------------------------------
-# Telegram BOT
-$_ENV['enable_telegram']                    = false;        //是否开启Telegram bot
-$_ENV['use_new_telegram_bot']               = true;         //是否使用新的 Telegram Bot
+# Telegram bot
+$_ENV['enable_telegram']                    = false;        //是否开启 Telegram bot
+$_ENV['use_new_telegram_bot']               = true;         //是否使用新的 Telegram bot
 $_ENV['telegram_token']                     = '';           //Telegram bot,bot 的 token ，跟 father bot 申请
 $_ENV['telegram_chatid']                    = '';           //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到
 $_ENV['telegram_bot']                       = '_bot';       //Telegram 机器人账号
@@ -239,6 +239,9 @@ $_ENV['user_not_bind_reply']                = '您未绑定本站账号，您可
 $_ENV['telegram_general_pricing']           = '产品介绍.';                  //面向游客的产品介绍
 $_ENV['telegram_general_terms']             = '服务条款.';                  //面向游客的服务条款
 
+//社交登录设置
+#Telegram
+$_ENV['enable_telegram_login']              = false;   //开启这个设置前请先配置 Telegram bot 否则不会生效
 
 //沟通设置--------------------------------------------------------------------------------------------
 $_ENV['live_chat']            = 'none';   //是否开启客服系统 none  crisp  mylivechat
@@ -280,7 +283,7 @@ $_ENV['enable_checkin_captcha'] = false;        //启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay | payjs | yftpay
+#取值 none | codepay | f2fpay | chenAlipay | paymentwall | spay | payjs | yftpay | bitpayx
 $_ENV['payment_system']       = 'none';
 
 #yft支付设置
@@ -315,15 +318,14 @@ $_ENV['zfbjk_pid']            = '';
 $_ENV['zfbjk_key']            = '';
 $_ENV['zfbjk_qrcodeurl']      = '';
 
-# BitPay 数字货币支付（USDT、比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
+# MugglePay 麻瓜宝（USDT、比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
 #   注册即可使用USDT收款，无需任何费用
-#   客服和技术 24x7 在线支持： https://t.me/joinchat/GLKSKhUnE4GvEAPgqtChAQ
+#   客服和技术 24x7 在线支持： https://t.me/mugglepay
 $_ENV['bitpay_secret']        = '';
 
 #PayJs
 $_ENV['payjs_mchid']          = '';
 $_ENV['payjs_key']            = '';
-
 
 //其他面板显示设置------------------------------------------------------------------------------------------
 $_ENV['old_index_DESC']       = '<p>够了，我无法忍受你的行为，现在你将成为我们中的一员</p>';	    //旧版本首页的文字讯息
@@ -425,10 +427,8 @@ $_ENV['userCenterClient']     = [
     ]
 ];
 
-
 //新旧首页设置--------------------------------------------------------------------------------------------
 $_ENV['newIndex'] = false;	//使用新的 Node.js 开发的首页请填写 true，其他值为使用先前的首页，如您使用其他主题请保持 true
-
 
 //节点检测-----------------------------------------------------------------------------------------------
 #GFW检测，请通过crontab进行【开启/关闭】
@@ -443,13 +443,11 @@ $_ENV['enable_detect_offline']           = true;
 #离线检测是否推送到Server酱 请配置好上文的Server配置
 $_ENV['enable_detect_offline_useScFtqq'] = false;
 
-
 //V2Ray相关设置------------------------------------------------------------------------------------------
 $_ENV['v2ray_port']     = 443;                  //V2Ray端口
 $_ENV['v2ray_protocol'] = 'HTTP/2 + TLS';       //V2Ray协议
 $_ENV['v2ray_alter_id'] = 32;
 $_ENV['v2ray_level']    = 0;
-
 
 //以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
 

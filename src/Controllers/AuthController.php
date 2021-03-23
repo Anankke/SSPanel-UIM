@@ -47,7 +47,7 @@ class AuthController extends BaseController
             }
         }
 
-        if ($_ENV['enable_telegram'] === true) {
+        if ($_ENV['enable_telegram_login'] === true) {
             $login_text = TelegramSessionManager::add_login_session();
             $login = explode('|', $login_text);
             $login_token = $login[0];
@@ -236,7 +236,7 @@ class AuthController extends BaseController
             }
         }
 
-        if ($_ENV['enable_telegram'] === true) {
+        if ($_ENV['enable_telegram_login'] === true) {
             $login_text = TelegramSessionManager::add_login_session();
             $login = explode('|', $login_text);
             $login_token = $login[0];
@@ -564,7 +564,7 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($_ENV['enable_telegram'] === true) {
+        if ($_ENV['enable_telegram_login'] === true) {
             $ret = TelegramSessionManager::check_login_session($token, $number);
             $res['ret'] = $ret;
             return $response->getBody()->write(json_encode($res));
@@ -576,7 +576,7 @@ class AuthController extends BaseController
 
     public function telegram_oauth($request, $response, $args)
     {
-        if ($_ENV['enable_telegram'] === true) {
+        if ($_ENV['enable_telegram_login'] === true) {
             $auth_data = $request->getQueryParams();
             if ($this->telegram_oauth_check($auth_data) === true) { // Looks good, proceed.
                 $telegram_id = $auth_data['id'];
