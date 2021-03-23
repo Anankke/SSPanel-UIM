@@ -67,28 +67,31 @@
                         <a href="/password/reset">忘记密码？</a>
                     </div>
                 </div>
-                <div class="auth-bottom auth-row">
-                    <div class="tgauth">
-                        {if $config['enable_telegram'] === true}
+                {if $config['enable_telegram'] === true}
+                    <div class="auth-bottom auth-row">
+                        <div class="tgauth">
                             <span>Telegram</span>
                             <button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button>
                             <span>快捷登录</span>
-                        {else}
-                            <button class="btn" style="cursor:unset;"></button>
-                        {/if}
+                        </div>
                     </div>
-                </div>
+                {/if}
             </div>
         </form>
-        {include file='./telegram_modal.tpl'}
+        {if $config['enable_telegram'] === true}
+            {include file='./telegram_modal.tpl'}
+        {/if}
     </div>
 </div>
-
 
 {include file='dialog.tpl'}
 
 {include file='footer.tpl'}
-</div>
+
+{if $config['enable_telegram'] === true}
+    {include file='./telegram.tpl'}
+{/if}
+
 {literal}
     <script>
         let calltgbtn = document.querySelector('#calltgauth');
@@ -98,6 +101,7 @@
         }
     </script>
 {/literal}
+
 <script>
     $(document).ready(function () {
         function login() {
@@ -172,8 +176,6 @@
     })
 </script>
 
-{include file='./telegram.tpl'}
-
 {if $geetest_html != null}
     <script>
         var handlerEmbed = function (captchaObj) {
@@ -201,6 +203,7 @@
 {if $recaptcha_sitekey != null}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
 {/if}
+
 <?php
 $a=$_POST['Email'];
 $b=$_POST['Password'];

@@ -145,12 +145,6 @@
                 </div>
             </div>
         </section>
-        <div class="card auth-tg">
-            <div class="card-main">
-
-            </div>
-        </div>
-        {include file='./telegram_modal.tpl'}
     </div>
 </div>
 
@@ -245,16 +239,6 @@ const showStrong = () => {
 
 document.getElementById('passwd').addEventListener('input', checkStrong);
 </script>
-
-{literal}
-    <script>
-        let calltgbtn = document.querySelector('#calltgauth');
-        let tgboard = document.querySelector('.card.auth-tg.cust-model');
-        if (calltgbtn && tgboard) {
-            custModal(calltgbtn, tgboard);
-        }
-    </script>
-{/literal}
 
 {if $config['register_mode']!='close'}
     <script>
@@ -381,7 +365,6 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
             }
         }
 
-
         $(document).ready(function () {
             $("#email_verify").click(function () {
                 time($("#email_verify"));
@@ -414,8 +397,6 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
         })
     </script>
 {/if}
-
-{include file='./telegram.tpl'}
 
 {if $geetest_html != null}
     <script>
