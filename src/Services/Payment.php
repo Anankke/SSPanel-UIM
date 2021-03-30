@@ -13,7 +13,6 @@ use App\Services\Gateway\{
     AopF2F,
     Codepay,
     PaymentWall,
-    ChenPay,
     SPay,
     PAYJS,
     YftPay,
@@ -34,8 +33,6 @@ class Payment
                 return new SPay();
             case ('f2fpay'):
                 return new AopF2F();
-            case ('chenAlipay'):
-                return new ChenPay();
             case ('payjs'):
                 return new PAYJS($_ENV['payjs_key']);
             case ('yftpay'):

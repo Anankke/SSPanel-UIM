@@ -6,8 +6,7 @@ use App\Services\{
     Auth,
     Mail,
     Config,
-    Payment,
-    Gateway\ChenPay,
+    Payment
 };
 use App\Models\{
     Ip,
@@ -131,11 +130,6 @@ class UserController extends BaseController
             ->assign('pmw', Payment::purchaseHTML())
             ->assign('render', $render)
             ->display('user/code.tpl');
-    }
-
-    public function orderDelete($request, $response, $args)
-    {
-        return (new ChenPay())->orderDelete($request);
     }
 
     public function donate($request, $response, $args)

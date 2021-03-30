@@ -12,8 +12,7 @@ use App\Utils\{
     DatatablesHelper
 };
 use App\Services\{
-    Analytics,
-    Gateway\ChenPay
+    Analytics
 };
 use Ozdemir\Datatables\Datatables;
 
@@ -32,16 +31,6 @@ class AdminController extends UserController
     {
         $nodes = Node::all();
         return $this->view()->assign('nodes', $nodes)->display('admin/node.tpl');
-    }
-
-    public function editConfig($request, $response, $args)
-    {
-        return (new ChenPay())->editConfig();
-    }
-
-    public function saveConfig($request, $response, $args)
-    {
-        return (new ChenPay())->saveConfig($request);
     }
 
     public function sys()

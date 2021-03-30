@@ -348,22 +348,6 @@ return function (SlimApp $app) {
         $this->post('/doiam',           App\Services\Payment::class . ':purchase');
     })->add(new Auth());
 
-    /**
-     * chenPay
-     */
-    $app->group('/user', function () {
-        $this->get('/chenPay',      App\Services\Payment::class . ':purchase');
-        $this->get('/orderDelete',  App\Controllers\UserController::class . ':orderDelete');
-    })->add(new Auth());
-    $app->group('/chenPay', function () {
-        $this->get('/status',       App\Services\Payment::class . ':getStatus');
-    });
-    $app->group('/admin', function () {
-        $this->get('/editConfig',   App\Controllers\AdminController::class . ':editConfig');
-        $this->post('/saveConfig',  App\Controllers\AdminController::class . ':saveConfig');
-    })->add(new Admin());
-    // chenPay end
-
     //doc
     $app->group('/doc', function () {
         $this->get('',      App\Controllers\HomeController::class . ':getDocCenter');
