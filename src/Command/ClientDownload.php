@@ -50,13 +50,8 @@ class ClientDownload extends Command
             'savePath'  => 'public/clients/',
             'downloads' => [
                 [
-                    'sourceName' => 'Netch.x64-%tagName%.zip',
-                    'saveName'   => 'Netch-x64.zip',
-                    'apkpureUrl' => ''
-                ],
-                [
-                    'sourceName' => 'Netch.x86-%tagName%.zip',
-                    'saveName'   => 'Netch-x86.zip',
+                    'sourceName' => 'Netch.7z',
+                    'saveName'   => 'Netch.7z',
                     'apkpureUrl' => ''
                 ]
             ],
@@ -138,8 +133,23 @@ class ClientDownload extends Command
             'savePath'  => 'public/clients/',
             'downloads' => [
                 [
-                    'sourceName' => 'v2rayNG_%tagName%.apk',
+                    'sourceName' => 'v2rayNG_%tagName%_arm64-v8a.apk',
                     'saveName'   => 'v2rayng.apk',
+                    'apkpureUrl' => ''
+                ],
+                [
+                    'sourceName' => 'v2rayNG_%tagName%_armeabi-v7a.apk',
+                    'saveName'   => 'v2rayng_armeabi-v7a.apk',
+                    'apkpureUrl' => ''
+                ],
+                [
+                    'sourceName' => 'v2rayNG_%tagName%_x86.apk',
+                    'saveName'   => 'v2rayng_x86.apk',
+                    'apkpureUrl' => ''
+                ],
+                [
+                    'sourceName' => 'v2rayNG_%tagName%_x86_64.apk',
+                    'saveName'   => 'v2rayng_x86_64.apk',
                     'apkpureUrl' => ''
                 ],
             ],
