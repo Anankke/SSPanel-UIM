@@ -760,24 +760,4 @@ class Job extends Command
             'DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')'
         );       
     }
-
-    /**
-     * Telegram 任务
-     */
-    public function Telegram(): void
-    {
-        # 删除 tg 消息
-        $TelegramTasks = TelegramTasks::where('type', 1)->where('executetime', '<', time())->get();
-        foreach ($TelegramTasks as $Task) {
-            TelegramTools::SendPost(
-                'deleteMessage',
-                ['chat_id' => $Task->chatid, 'message_id' => $Task->messageid]
-            );
-            TelegramTasks::where('chatid', $Task->chatid)->where('type', '<>', 1)->where(
-                'messageid',
-                $Task->messageid
-            )->delete();
-            $Task->delete();
-        }
-    }
 }

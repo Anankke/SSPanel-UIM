@@ -231,6 +231,10 @@ class ClientDownload extends Command
     private function getSourceFile(string $fileName, string $savePath, string $url): bool
     {
         try {
+            if (!file_exists($savePath)) {
+                echo '目标文件夹 ' . $savePath . ' 不存在，创建中...' . PHP_EOL;
+                system('mkdir ' . $savePath);
+            }
             echo '- 开始下载 ' . $fileName . '...' . PHP_EOL;
             $request  = $this->client->get($url);
             echo '- 下载 ' . $fileName . ' 成功，正在保存...' . PHP_EOL;
