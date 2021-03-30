@@ -8,7 +8,6 @@ class Tool extends Command
         . '├─=: php xcat Tool [选项]' . PHP_EOL
         . '│ ├─ initQQWry               - 下载 IP 解析库' . PHP_EOL
         . '│ ├─ setTelegram             - 设置 Telegram 机器人' . PHP_EOL
-        . '│ ├─ initdownload            - 下载 SSR 程序至服务器' . PHP_EOL
         . '│ ├─ detectConfigs           - 检查数据库内新增的配置' . PHP_EOL
         . '│ ├─ initdocuments           - 下载用户使用文档至服务器' . PHP_EOL;
 
@@ -52,17 +51,6 @@ class Tool extends Command
                 echo ('Old Bot 设置成功！' . PHP_EOL);
             }
         }
-    }
-
-    /**
-     * 下载客户端
-     *
-     * @return void
-     */
-    public function initdownload()
-    {
-        system('git clone --depth=3 https://github.com/xcxnig/ssr-download.git ' . BASE_PATH . '/public/ssr-download/ && git gc', $ret);
-        echo $ret;
     }
 
     /**

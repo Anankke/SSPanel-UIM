@@ -42,8 +42,7 @@ class Job extends Command
         . '├─=: php xcat Job [选项]' . PHP_EOL
         . '│ ├─ UserGa                  - 二次验证' . PHP_EOL
         . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
-        . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
-        . '│ ├─ updatedownload          - 检查客户端更新' . PHP_EOL;
+        . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL;
 
     public function boot()
     {
@@ -222,8 +221,6 @@ class Job extends Command
             unlink(BASE_PATH . '/storage/qqwry.dat');
             rename(BASE_PATH . '/storage/qqwry.dat.bak', BASE_PATH . '/storage/qqwry.dat');
         }
-
-        $this->updatedownload();
     }
 
     /**
@@ -784,18 +781,6 @@ class Job extends Command
             )->delete();
             $Task->delete();
         }
-    }
-
-    /**
-     * 定时任务开启的情况下，每天自动检测有没有最新版的后端，github源来自Miku
-     *
-     * @return void
-     */
-    public function updatedownload()
-    {
-        system(
-            'cd ' . BASE_PATH . '/public/ssr-download/ && git pull https://github.com/xcxnig/ssr-download.git --rebase && git gc'
-        );
     }
 
     /**
