@@ -348,23 +348,6 @@ return function (SlimApp $app) {
         $this->post('/doiam',           App\Services\Payment::class . ':purchase');
     })->add(new Auth());
 
-    // Vue
-    $app->get('/logout',                App\Controllers\VueController::class . ':vuelogout');
-    $app->get('/globalconfig',          App\Controllers\VueController::class . ':getGlobalConfig');
-    $app->get('/getuserinfo',           App\Controllers\VueController::class . ':getUserInfo');
-    $app->post('/getuserinviteinfo',    App\Controllers\VueController::class . ':getUserInviteInfo');
-    $app->get('/getusershops',          App\Controllers\VueController::class . ':getUserShops');
-    $app->get('/getallresourse',        App\Controllers\VueController::class . ':getAllResourse');
-    $app->get('/getnewsubtoken',        App\Controllers\VueController::class . ':getNewSubToken');
-    $app->get('/getnewinvotecode',      App\Controllers\VueController::class . ':getNewInviteCode');
-    $app->get('/gettransfer',           App\Controllers\VueController::class . ':getTransfer');
-    $app->get('/getCaptcha',            App\Controllers\VueController::class . ':getCaptcha');
-    $app->post('/getChargeLog',         App\Controllers\VueController::class . ':getChargeLog');
-    $app->get('/getnodelist',           App\Controllers\VueController::class . ':getNodeList');
-    $app->get('/nodeinfo/{id}',         App\Controllers\VueController::class . ':getNodeInfo');
-    $app->get('/resettelegram',         App\Controllers\VueController::class . ':telegramReset');
-    $app->get('/getconnectsettings',         App\Controllers\VueController::class . ':getConnectSettings');
-
     /**
      * chenPay
      */

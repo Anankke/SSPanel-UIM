@@ -29,10 +29,7 @@ class HomeController extends BaseController
      */
     public function index($request, $response, $args): ResponseInterface
     {
-        if ($_ENV['newIndex'] === false && $_ENV['theme'] == 'material') {
-            return $response->write($this->view()->fetch('indexold.tpl'));
-        }
-
+        return $response->write($this->view()->fetch('index.tpl'));
         $GtSdk = null;
         $recaptcha_sitekey = null;
         if ($_ENV['captcha_provider'] != '') {
@@ -76,7 +73,7 @@ class HomeController extends BaseController
      */
     public function indexold($request, $response, $args): ResponseInterface
     {
-        return $response->write($this->view()->fetch('indexold.tpl'));
+        return $response->write($this->view()->fetch('index.tpl'));
     }
 
     /**
