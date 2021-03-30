@@ -20,7 +20,8 @@ class User extends Command
         . '│ ├─ createAdmin             - 创建管理员帐号' . PHP_EOL
         . '│ ├─ resetAllPort            - 重置所有用户端口' . PHP_EOL
         . '│ ├─ resetTraffic            - 重置所有用户流量' . PHP_EOL
-        . '│ ├─ generateUUID            - 为所有用户生成新的UUID' . PHP_EOL
+        . '│ ├─ generateUUID            - 为所有用户生成新的 UUID' . PHP_EOL
+        . '│ ├─ generateGa              - 为所有用户生成新的 Ga Secret' . PHP_EOL
         . '│ ├─ cleanRelayRule          - 清除所有中转规则' . PHP_EOL;
 
     public function boot()
@@ -115,6 +116,24 @@ class User extends Command
             $user->save();
         }
         echo 'generate UUID successful' . PHP_EOL;
+    }
+
+    /**
+     * 二次验证
+     *
+     * @return void
+     */
+    public function generateGa()
+    {
+        $users = User::all();
+        foreach ($users as $user) {
+            $ga = new GA();
+            $secret = $ga->createSecret();
+
+            $user->ga_token = $secret;
+            $user->save();
+        }
+        echo 'generate Ga Secret successful' . PHP_EOL;
     }
 
     /**

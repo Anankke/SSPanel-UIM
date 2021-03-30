@@ -26,7 +26,6 @@ use App\Models\TelegramSession;
 use App\Models\UserSubscribeLog;
 use App\Services\Config;
 use App\Services\Mail;
-use App\Utils\GA;
 use App\Utils\QQWry;
 use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
@@ -40,7 +39,6 @@ class Job extends Command
 {
     public $description = ''
         . '├─=: php xcat Job [选项]' . PHP_EOL
-        . '│ ├─ UserGa                  - 二次验证' . PHP_EOL
         . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
         . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL;
 
@@ -781,23 +779,5 @@ class Job extends Command
             )->delete();
             $Task->delete();
         }
-    }
-
-    /**
-     * 二次验证
-     *
-     * @return void
-     */
-    public function UserGa()
-    {
-        $users = User::all();
-        foreach ($users as $user) {
-            $ga = new GA();
-            $secret = $ga->createSecret();
-
-            $user->ga_token = $secret;
-            $user->save();
-        }
-        echo 'ok';
     }
 }
