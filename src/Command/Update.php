@@ -198,28 +198,6 @@ class Update extends Command
                     }
                 );
             }
-            if (!Capsule::schema()->hasTable('telegram_tasks')) {
-                echo ('创建 telegram_tasks 表.' . PHP_EOL);
-                Capsule::schema()->create(
-                    'telegram_tasks',
-                    function (Blueprint $table) {
-                        $table->engine    = 'InnoDB';
-                        $table->charset   = 'utf8mb4';
-                        $table->collation = 'utf8mb4_unicode_ci';
-                        $table->integer('id', true, true);
-                        $table->integer('type')->comment('任务类型');
-                        $table->integer('status')->default(0)->comment('任务状态');
-                        $table->string('chatid', 128)->default(0)->comment('Telegram Chat ID');
-                        $table->string('messageid', 128)->default(0)->comment('Telegram Message ID');
-                        $table->text('content')->default(null)->comment('任务详细内容');
-                        $table->string('process', 32)->default(null)->comment('临时任务进度');
-                        $table->integer('userid', false, true)->default(0)->comment('网站用户 ID');
-                        $table->string('tguserid', 32)->default(0)->comment('Telegram User ID');
-                        $table->bigInteger('executetime', false, true)->comment('任务执行时间');
-                        $table->bigInteger('datetime', false, true)->comment('任务产生时间');
-                    }
-                );
-            }
             if (!Capsule::schema()->hasTable('detect_ban_log')) {
                 echo ('创建 detect_ban_log 表.' . PHP_EOL);
                 Capsule::schema()->create(
