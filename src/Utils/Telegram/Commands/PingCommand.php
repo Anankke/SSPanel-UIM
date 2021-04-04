@@ -51,15 +51,6 @@ class PingCommand extends Command
                 ]
             );
         } else {
-            // 群组
-
-            if ($_ENV['enable_delete_user_cmd'] === true) {
-                TelegramTools::DeleteMessage([
-                    'chatid'      => $ChatID,
-                    'messageid'   => $Message->getMessageId(),
-                ]);
-            }
-
             if ($_ENV['telegram_group_quiet'] === true) {
                 // 群组中不回应
                 return;
@@ -80,11 +71,6 @@ class PingCommand extends Command
                     'text' => implode(PHP_EOL, $text),
                 ]
             );
-            // 消息删除任务
-            TelegramTools::DeleteMessage([
-                'chatid'      => $ChatID,
-                'messageid'   => $response->getMessageId(),
-            ]);
         }
     }
 }

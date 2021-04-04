@@ -91,13 +91,6 @@ class UnbindCommand extends Command
                     'parse_mode'            => 'Markdown',
                 ]
             );
-        } else {
-            if ($_ENV['enable_delete_user_cmd'] === true) {
-                TelegramTools::DeleteMessage([
-                    'chatid'      => $ChatID,
-                    'messageid'   => $MessageID,
-                ]);
-            }
         }
     }
 

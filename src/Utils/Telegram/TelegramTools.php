@@ -2,7 +2,7 @@
 
 namespace App\Utils\Telegram;
 
-use App\Models\{TelegramTasks, User};
+use App\Models\User;
 use App\Utils\Tools;
 
 class TelegramTools
@@ -527,62 +527,5 @@ class TelegramTools
                 $strArray
             )
         );
-    }
-
-    /**
-     * 删除消息
-     *
-     * <code>
-     * $Params = [
-     *   'chatid'      => '',
-     *   'messageid'   => '',
-     *   'executetime' => '',
-     * ];
-     * </code>
-     *
-     * @return void
-     */
-    public static function DeleteMessage($Params)
-    {
-        if (isset($Params['executetime']) && is_numeric($Params['executetime'])) {
-            $executetime = $Params['executetime'];
-        } else {
-            $executetime = $_ENV['delete_message_time'];
-        }
-        if ($executetime != 0) {
-            $executetime += time();
-            $task = new TelegramTasks();
-            $task->type          = 1;
-            $task->chatid        = $Params['chatid'];
-            $task->messageid     = $Params['messageid'];
-            $task->executetime   = $executetime;
-            $task->datetime      = time();
-            $task->save();
-        }
-    }
-
-    /**
-     * 储存 /setuser 操作产生的 messageid
-     *
-     * <code>
-     * $Params = [
-     *   'chatid'      => '',
-     *   'messageid'   => '',
-     *   'userid'      => '',
-     * ];
-     * </code>
-     *
-     * @return void
-     */
-    public static function FindUserSave($Params)
-    {
-        $task = new TelegramTasks();
-        $task->type          = 2;
-        $task->chatid        = $Params['chatid'];
-        $task->messageid     = $Params['messageid'];
-        $task->executetime   = 0;
-        $task->userid        = $Params['userid'];
-        $task->datetime      = time();
-        $task->save();
     }
 }

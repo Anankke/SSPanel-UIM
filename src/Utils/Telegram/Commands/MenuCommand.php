@@ -69,13 +69,6 @@ class MenuCommand extends Command
                     ),
                 ]
             );
-        } else {
-            if ($_ENV['enable_delete_user_cmd'] === true) {
-                TelegramTools::DeleteMessage([
-                    'chatid'      => $ChatID,
-                    'messageid'   => $MessageID,
-                ]);
-            }
         }
     }
 }

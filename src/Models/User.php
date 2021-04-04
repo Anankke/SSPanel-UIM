@@ -362,7 +362,6 @@ class User extends Model
         PasswordReset::where('email', '=', $email)->delete();
         UserSubscribeLog::where('user_id', '=', $uid)->delete();
         DetectBanLog::where('user_id', '=', $uid)->delete();
-        TelegramTasks::where('userid', '=', $uid)->delete();
 
         $this->delete();
 

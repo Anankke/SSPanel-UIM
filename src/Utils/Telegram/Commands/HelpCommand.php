@@ -30,12 +30,6 @@ class HelpCommand extends Command
         $Update  = $this->getUpdate();
         $Message = $Update->getMessage();
         if ($Message->getChat()->getId() < 0) {
-            if ($_ENV['enable_delete_user_cmd'] === true) {
-                TelegramTools::DeleteMessage([
-                    'chatid'      => $Message->getChat()->getId(),
-                    'messageid'   => $Message->getMessageId(),
-                ]);
-            }
             if ($_ENV['telegram_group_quiet'] === true) {
                 return;
             }
@@ -61,11 +55,5 @@ class HelpCommand extends Command
                 'reply_markup'              => null,
             ]
         );
-        if ($Message->getChat()->getId() < 0) {
-            TelegramTools::DeleteMessage([
-                'chatid'      => $Message->getChat()->getId(),
-                'messageid'   => $response->getMessageId(),
-            ]);
-        }
     }
 }
