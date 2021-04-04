@@ -90,16 +90,14 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 [**dumplin**](https://github.com/dumplin233)
 
 - 码支付对接 + 码支付当面付二合一
-- 为面板加入 AFF 链接功能
+- 邀请链接
 - 商品增加限速和限制 ip 属性
 - 多端口订阅
-- 解决用户列表加载缓慢历史遗留问题
 
 [**RinSAMA**](https://github.com/mxihan)
 
 - 整理分类 config.php
 - 美观性调整
-- 客服系统优化
 
 [**miku**](https://github.com/xcxnig)
 
@@ -113,7 +111,7 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 [**Indexyz**](https://github.com/Indexyz)
 
-- 为面板增加 v2Ray 功能
+- 为面板增加 V2Ray 功能
 
 [**NeverBehave**](https://github.com/NeverBehave)
 
@@ -121,22 +119,15 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 [**CGDF**](https://github.com/TheCGDF)
 
-- xcat 一键 update
 - 用户列表分页加载
-
-[**CHEN**](https://github.com/ChenSee)
-
-- 免签约支付宝与微信，自带监听，不需第三方软件，直接到个人账户
 
 [**laurieryayoi**](https://github.com/laurieryayoi)
 
 - 重做美化UI（~~援交~~圆角化）
-- 新版 Vue(SPA) 版界面
 - 重写节点列表，支持分级显示所有级别节点
 
 [**Sukka**](https://github.com/SukkaW)
 
-- Travis CI 持续集成
 - 单元测试
 - 全站 JavaScript 重写
 - 新版 Wiki 的搭建和维护
@@ -171,5 +162,5 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 #### laurieryayoi
 
-[dmit-美国香港服务器](https://www.dmit.io/aff.php?aff=912)
+- [dmit-美国香港服务器](https://www.dmit.io/aff.php?aff=912)
 
