@@ -100,7 +100,8 @@ class Analytics
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 11)
                     ->orWhere('sort', '=', 12)
-                    ->orWhere('sort', '=', 13);
+                    ->orWhere('sort', '=', 13)
+                    ->orWhere('sort', '=', 14);
             }
         )->count();
     }
@@ -113,7 +114,8 @@ class Analytics
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 11)
                     ->orWhere('sort', '=', 12)
-                    ->orWhere('sort', '=', 13);
+                    ->orWhere('sort', '=', 13)
+                    ->orWhere('sort', '=', 14);
             }
         )->where('node_heartbeat', '>', time() - 90)->count();
     }

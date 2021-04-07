@@ -37,7 +37,7 @@ class Tool extends Command
             $telegram = new \Telegram\Bot\Api($_ENV['telegram_token']);
             $telegram->removeWebhook();
             if ($telegram->setWebhook(['url' => $WebhookUrl])) {
-                echo ('New Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！');
+                echo ('New Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL);
             }
         } else {
             $bot = new \TelegramBot\Api\BotApi($_ENV['telegram_token']);
