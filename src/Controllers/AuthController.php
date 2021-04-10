@@ -469,6 +469,18 @@ class AuthController extends BaseController
         if ($_ENV['enable_reg_im'] == true) {
             $imtype  = $request->getParam('im_type');
             $imvalue = $request->getParam('im_value');
+            if ($imtype == '' || $imvalue == '') {
+                $res['ret'] = 0;
+                $res['msg'] = '请填上你的联络方式';
+                return $response->getBody()->write(json_encode($res));
+            }
+    
+            $user = User::where('im_value', $imvalue)->where('im_type', $imtype)->first();
+            if ($user != null) {
+                $res['ret'] = 0;
+                $res['msg'] = '此联络方式已注册';
+                return $response->getBody()->write(json_encode($res));
+            }
         } else {
             $imtype  = 1;
             $imvalue = '';
@@ -530,19 +542,6 @@ class AuthController extends BaseController
         if ($passwd != $repasswd) {
             $res['ret'] = 0;
             $res['msg'] = '两次密码输入不符';
-            return $response->getBody()->write(json_encode($res));
-        }
-
-        if ($imtype == '' || $imvalue == '') {
-            $res['ret'] = 0;
-            $res['msg'] = '请填上你的联络方式';
-            return $response->getBody()->write(json_encode($res));
-        }
-
-        $user = User::where('im_value', $imvalue)->where('im_type', $imtype)->first();
-        if ($user != null) {
-            $res['ret'] = 0;
-            $res['msg'] = '此联络方式已注册';
             return $response->getBody()->write(json_encode($res));
         }
         
