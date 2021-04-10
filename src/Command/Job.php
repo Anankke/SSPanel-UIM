@@ -489,56 +489,6 @@ class Job extends Command
             echo '节点掉线检测结束' . PHP_EOL;
         }
 
-
-        //登录地检测
-        if ($_ENV['login_warn'] == true) {
-            echo '异常登录检测开始' . PHP_EOL;
-            $iplocation = new QQWry();
-            $Logs = LoginIp::where('datetime', '>', time() - 60)->get();
-            foreach ($Logs as $log) {
-                $UserLogs = LoginIp::where('userid', '=', $log->userid)->orderBy('id', 'desc')->take(2)->get();
-                if ($UserLogs->count() == 2) {
-                    $i = 0;
-                    $Userlocation = '';
-                    foreach ($UserLogs as $userlog) {
-                        if ($i == 0) {
-                            $location = $iplocation->getlocation($userlog->ip);
-                            $ip = $userlog->ip;
-                            $Userlocation = $location['country'];
-                            $i++;
-                        } else {
-                            $location = $iplocation->getlocation($userlog->ip);
-                            $nodes = Node::where('node_ip', 'LIKE', $ip . '%')->first();
-                            $nodes2 = Node::where('node_ip', 'LIKE', $userlog->ip . '%')->first();
-                            if ($Userlocation != $location['country'] && $nodes == null && $nodes2 == null) {
-                                $user = User::where('id', '=', $userlog->userid)->first();
-                                echo 'Send warn mail to user: ' . $user->id . '-' . iconv(
-                                    'gbk',
-                                    'utf-8//IGNORE',
-                                    $Userlocation
-                                ) . '-' . iconv('gbk', 'utf-8//IGNORE', $location['country']);
-                                $text = '您好，系统发现您的账号在 ' . iconv(
-                                    'gbk',
-                                    'utf-8//IGNORE',
-                                    $Userlocation
-                                ) . ' 有异常登录，请您自己自行核实登录行为。有异常请及时修改密码。';
-                                $user->sendMail(
-                                    $_ENV['appName'] . '-系统警告',
-                                    'news/warn.tpl',
-                                    [
-                                        'text' => $text
-                                    ],
-                                    [],
-                                    $_ENV['email_queue']
-                                );
-                            }
-                        }
-                    }
-                }
-            }
-            echo '异常登录检测结束' . PHP_EOL;
-        }
-
         $users = User::all();
         foreach ($users as $user) {
             if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime(

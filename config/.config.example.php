@@ -467,7 +467,6 @@ $_ENV['enable_login_bind_ip']   = false;        //是否将登陆线程和IP绑�
 $_ENV['rememberMeDuration']     = 7;           //登录时记住账号时长天数
 $_ENV['Speedtest_duration']     = 6;           //显示多长时间的测速记录
 
-$_ENV['login_warn']             = false;                  //异地登陆提示
 $_ENV['timeZone']               = 'PRC';                 //PRC 天朝时间  UTC 格林时间
 $_ENV['theme']                  = 'material';            //默认主题
 $_ENV['jump_delay']             = 1200;                  //跳转延时，单位ms，不建议太长
