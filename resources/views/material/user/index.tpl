@@ -903,7 +903,7 @@ table tr td:first-child {
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_1</span> Qv2ray - [ SS/VMess ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_2</span> Qv2ray - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Qv2ray.AppImage"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>

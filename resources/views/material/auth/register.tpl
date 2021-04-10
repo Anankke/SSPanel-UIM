@@ -49,34 +49,36 @@
                             </div>
                         </div>
                     </div>
-                    <div class="rowtocol">
-                        <div class="auth-row">
-                            <div class="form-group form-group-label dropdown">
-                                <label class="floating-label" for="imtype">选择您的联络方式</label>
-                                <button class="form-control maxwidth-auth" id="imtype" data-toggle="dropdown">
+                    {if $enable_reg_im == true}
+                        <div class="rowtocol">
+                            <div class="auth-row">
+                                <div class="form-group form-group-label dropdown">
+                                    <label class="floating-label" for="im_type">选择您的联络方式</label>
+                                    <button class="form-control maxwidth-auth" id="im_type" data-toggle="dropdown">
 
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="imtype">
-                                    <li><a href="#" class="dropdown-option" onclick="return false;" val="1"
-                                           data="imtype">微信</a></li>
-                                    <li><a href="#" class="dropdown-option" onclick="return false;" val="2"
-                                           data="imtype">QQ</a></li>
-                                    <li><a href="#" class="dropdown-option" onclick="return false;" val="3"
-                                           data="imtype">Facebook</a></li>
-                                    <li><a href="#" class="dropdown-option" onclick="return false;" val="4"
-                                           data="imtype">Telegram</a></li>
-                                </ul>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="im_type">
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="1"
+                                           data="im_type">微信</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="2"
+                                           data="im_type">QQ</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="3"
+                                           data="im_type">Facebook</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="4"
+                                           data="im_type">Telegram</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="rowtocol">
-                        <div class="auth-row">
-                            <div class="form-group form-group-label">
-                                <label class="floating-label" for="wechat">在这输入联络方式账号</label>
-                                <input class="form-control maxwidth-auth" id="wechat" type="text">
+                        <div class="rowtocol">
+                            <div class="auth-row">
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="im_value">在这输入联络方式账号</label>
+                                    <input class="form-control maxwidth-auth" id="im_value" type="text">
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {/if}
                     {if $config['register_mode'] == 'invite'}
                         <div class="rowtocol">
                             <div class="auth-row">
@@ -263,13 +265,16 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         name: $$getValue('name'),
                         passwd: $$getValue('passwd'),
                         repasswd: $$getValue('repasswd'),
-                        wechat: $$getValue('wechat'),
-
+                        
                         {if $recaptcha_sitekey != null}
                         recaptcha: grecaptcha.getResponse(),
                         {/if}
 
-                        imtype: $$getValue('imtype'),
+                        {if $enable_reg_im == true}
+                        im_value: $$getValue('im_value'),
+                        im_type: $$getValue('im_type'),
+                        {/if}
+                        
                         code{if $enable_email_verify == true},
                         emailcode: $$getValue('email_code'){/if}{if $geetest_html != null},
                         geetest_challenge: validate.geetest_challenge,

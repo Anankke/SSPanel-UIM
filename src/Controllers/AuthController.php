@@ -392,6 +392,7 @@ class AuthController extends BaseController
         $user->forbidden_port       = $_ENV['reg_forbidden_port'];
         $user->im_type              = $imtype;
         $user->im_value             = $antiXss->xss_clean($imvalue);
+        
         $user->transfer_enable      = Tools::toGB((int) Config::getconfig('Register.string.defaultTraffic'));
         $user->invite_num           = (int) Config::getconfig('Register.string.defaultInviteNum');
         $user->auto_reset_day       = $_ENV['reg_auto_reset_day'];
@@ -455,20 +456,23 @@ class AuthController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        $name = $request->getParam('name');
-        $email = $request->getParam('email');
-        $email = trim($email);
-        $email = strtolower($email);
-        $passwd = $request->getParam('passwd');
-        $repasswd = $request->getParam('repasswd');
-        $code = trim($request->getParam('code'));
-        $imtype = $request->getParam('imtype');
+        $name      = $request->getParam('name');
+        $email     = $request->getParam('email');
+        $email     = trim($email);
+        $email     = strtolower($email);
+        $passwd    = $request->getParam('passwd');
+        $repasswd  = $request->getParam('repasswd');
+        $code      = trim($request->getParam('code'));
         $emailcode = $request->getParam('emailcode');
         $emailcode = trim($emailcode);
-
-        // 前端传入参数为wechat, 后续作为 im_value使用，变量改名为 im_value
-        $imvalue = $request->getParam('wechat');
-        $imvalue = trim($imvalue);
+        
+        if ($_ENV['enable_reg_im'] == true) {
+            $imtype  = $request->getParam('im_type');
+            $imvalue = $request->getParam('im_value');
+        } else {
+            $imtype  = 1;
+            $imvalue = '';
+        }
 
         if ($_ENV['enable_reg_captcha'] === true) {
             switch ($_ENV['captcha_provider']) {
@@ -541,9 +545,11 @@ class AuthController extends BaseController
             $res['msg'] = '此联络方式已注册';
             return $response->getBody()->write(json_encode($res));
         }
+        
         if (Config::getconfig('Register.bool.Enable_email_verify')) {
             EmailVerify::where('email', '=', $email)->delete();
         }
+
         $res = $this->register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0);
         return $response->getBody()->write(json_encode($res));
     }

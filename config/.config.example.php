@@ -73,6 +73,8 @@ $_ENV['reg_auto_reset_day']        = 0;                         //注册时的�
 $_ENV['reg_auto_reset_bandwidth']  = 0;                         //需要重置的流量，0为不重置
 $_ENV['random_group']              = '0';                       //注册时随机分组，注册时随机分配到的分组，多个分组请用英文半角逗号分隔
 
+$_ENV['enable_reg_im']             = true;                      //注册时是否要求用户输入IM联系方式
+
 $_ENV['reg_forbidden_ip']          = '127.0.0.0/8,::1/128';     //注册时默认禁止访问IP列表，半角英文逗号分割
 $_ENV['min_port']                  = 10000;                     //用户端口池最小值
 $_ENV['max_port']                  = 65535;                     //用户端口池最大值

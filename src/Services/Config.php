@@ -51,6 +51,7 @@ class Config
             'admin_contact2'          => $_ENV['admin_contact2'],
             'admin_contact3'          => $_ENV['admin_contact3'],
             'register_mode'           => self::getconfig('Register.string.Mode'),
+            'enable_reg_im'           => $_ENV['enable_reg_im'],
             'enable_flag'             => $_ENV['enable_flag'],
             'enable_kill'             => $_ENV['enable_kill'],
             'enable_change_email'     => $_ENV['enable_change_email'],
@@ -62,7 +63,7 @@ class Config
             'telegram_bot'            => $_ENV['telegram_bot'],
             'use_new_telegram_bot'    => $_ENV['use_new_telegram_bot'],
 
-            'enable_telegram_login'            => $_ENV['enable_telegram_login'],
+            'enable_telegram_login'   => $_ENV['enable_telegram_login'],
 
             'subscribe_client'        => $_ENV['subscribe_client'],
             'subscribe_client_url'    => $_ENV['subscribe_client_url'],
