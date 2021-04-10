@@ -81,7 +81,7 @@ class ClientDownload extends Command
                     'apkpureUrl' => ''
                 ],
                 [
-                    'sourceName' => 'Clash.for.Windows.%tagName%.dmg',
+                    'sourceName' => 'Clash.for.Windows-%tagName%.dmg',
                     'saveName'   => 'Clash-Windows.dmg',
                     'apkpureUrl' => ''
                 ],
