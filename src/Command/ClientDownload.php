@@ -81,7 +81,7 @@ class ClientDownload extends Command
                     'apkpureUrl' => ''
                 ],
                 [
-                    'sourceName' => 'Clash.for.Windows.Setup.%tagName%.dmg',
+                    'sourceName' => 'Clash.for.Windows.%tagName%.dmg',
                     'saveName'   => 'Clash-Windows.dmg',
                     'apkpureUrl' => ''
                 ],
@@ -197,7 +197,7 @@ class ClientDownload extends Command
                     'apkpureUrl' => ''
                 ],
                 [
-                    'sourceName' => 'Qv2ray.%tagName%.macOS-x64.dmg',
+                    'sourceName' => 'Qv2ray-%tagName%.macOS-x64.dmg',
                     'saveName'   => 'Qv2ray.dmg',
                     'apkpureUrl' => ''
                 ],
