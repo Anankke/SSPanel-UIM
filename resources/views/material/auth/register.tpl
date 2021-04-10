@@ -49,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    {if $enable_reg_im == true}
+                    {if $config['enable_reg_im'] == true}
                         <div class="rowtocol">
                             <div class="auth-row">
                                 <div class="form-group form-group-label dropdown">
