@@ -26,7 +26,7 @@
                             <div class="card-main">
                                 <div class="card-inner">
                                     <div id="log_chart" style="height: 300px; width: 100%;"></div>
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2.9/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
                                     <script type="text/javascript">
                                         window.onload = function () {
                                             var log_chart = new CanvasJS.Chart("log_chart",

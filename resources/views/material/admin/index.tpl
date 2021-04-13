@@ -38,7 +38,7 @@
                             <div class="card-main">
                                 <div class="card-inner">
                                     <div id="check_chart" style="height: 300px; width: 100%;"></div>
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2.9/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
                                     <script>
                                         var chart = new CanvasJS.Chart("check_chart",
                                                 {
@@ -113,7 +113,7 @@
                             <div class="card-main">
                                 <div class="card-inner">
                                     <div id="alive_chart" style="height: 300px; width: 100%;"></div>
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2.9/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
                                     <script type="text/javascript">
                                         var chart = new CanvasJS.Chart("alive_chart",
                                                 {
@@ -177,7 +177,7 @@
                             <div class="card-main">
                                 <div class="card-inner">
                                     <div id="node_chart" style="height: 300px; width: 100%;"></div>
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2.9/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
                                     <script type="text/javascript">
                                         var chart = new CanvasJS.Chart("node_chart",
                                                 {
@@ -226,7 +226,7 @@
                             <div class="card-main">
                                 <div class="card-inner">
                                     <div id="traffic_chart" style="height: 300px; width: 100%;"></div>
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js@v3.2.9/canvasjs.min.js"></script>
+                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
                                     <script type="text/javascript">
                                         var chart = new CanvasJS.Chart("traffic_chart",
                                                 {
