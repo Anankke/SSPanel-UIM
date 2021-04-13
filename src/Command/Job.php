@@ -40,6 +40,7 @@ class Job extends Command
         . '├─=: php xcat Job [选项]' . PHP_EOL
         . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
         . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL;
+        . '│ ├─ UserJob                 - 用户账户相关任务，每小时' . PHP_EOL;
 
     public function boot()
     {
@@ -312,79 +313,10 @@ class Job extends Command
             $disconnected->delete();
         }
 
-        //自动续费
-        $boughts = Bought::where('renew', '<', time() + 60)->where('renew', '<>', 0)->get();
-        foreach ($boughts as $bought) {
-            /** @var Bought $bought */
-            $user = $bought->user();
-            if ($user == null) {
-                continue;
-            }
-
-            $shop = $bought->shop();
-            if ($shop == null) {
-                $bought->delete();
-                $user->sendMail(
-                    $_ENV['appName'] . '-续费失败',
-                    'news/warn.tpl',
-                    [
-                        'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。'
-                    ],
-                    [],
-                    $_ENV['email_queue']
-                );
-                $bought->is_notified = true;
-                $bought->save();
-                continue;
-            }
-            if ($user->money >= $shop->price) {
-                $user->money -= $shop->price;
-                $user->save();
-                $shop->buy($user, 1);
-                $bought->renew = 0;
-                $bought->save();
-
-                $bought_new           = new Bought();
-                $bought_new->userid   = $user->id;
-                $bought_new->shopid   = $shop->id;
-                $bought_new->datetime = time();
-                $bought_new->renew    = time() + $shop->auto_renew * 86400;
-                $bought_new->price    = $shop->price;
-                $bought_new->coupon   = '';
-                $bought_new->save();
-
-                $user->sendMail(
-                    $_ENV['appName'] . '-续费成功',
-                    'news/warn.tpl',
-                    [
-                        'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。'
-                    ],
-                    [],
-                    $_ENV['email_queue']
-                );
-
-                $bought->is_notified = true;
-                $bought->save();
-            } elseif ($bought->is_notified == false) {
-                $user->sendMail(
-                    $_ENV['appName'] . '-续费失败',
-                    'news/warn.tpl',
-                    [
-                        'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。'
-                    ],
-                    [],
-                    $_ENV['email_queue']
-                );
-                $bought->is_notified = true;
-                $bought->save();
-            }
-        }
-
         Ip::where('datetime', '<', time() - 300)->delete();
         UnblockIp::where('datetime', '<', time() - 300)->delete();
         BlockIp::where('datetime', '<', time() - 86400)->delete();
         TelegramSession::where('datetime', '<', time() - 900)->delete();
-
         $adminUser = User::where('is_admin', '=', '1')->get();
 
         //节点掉线检测
@@ -489,6 +421,58 @@ class Job extends Command
             echo '节点掉线检测结束' . PHP_EOL;
         }
 
+        $rbusers = RadiusBan::all();
+        foreach ($rbusers as $sinuser) {
+            $user = User::find($sinuser->userid);
+
+            if ($user == null) {
+                $sinuser->delete();
+                continue;
+            }
+
+            if ($user->enable == 1 && (strtotime($user->expire_in) > time() || strtotime(
+                $user->expire_in
+            ) < 644447105) && $user->transfer_enable > $user->u + $user->d) {
+                $sinuser->delete();
+                Radius::Add($user, $user->passwd);
+            }
+        }
+
+        if ($_ENV['enable_telegram'] === true) {
+            $this->Telegram();
+        }
+
+        //更新节点 IP，每分钟
+        $nodes = Node::all();
+        $allNodeID = [];
+        foreach ($nodes as $node) {
+            $allNodeID[] = $node->id;
+            $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
+            if (!in_array($node->sort, $nodeSort)) {
+                $server = $node->getOutServer();
+                if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
+                    $node->save();
+                }
+                if (in_array($node->sort, array(0, 10, 12))) {
+                    Tools::updateRelayRuleIp($node);
+                }
+            }
+        }
+
+        // 删除无效的中转
+        $allNodeID = implode(', ', $allNodeID);
+        $datatables = new DatatablesHelper();
+        $datatables->query(
+            'DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')'
+        );       
+    }
+    /**
+     * 用户账户相关任务，每小时
+     *
+     * @return void
+     */
+    public function UserJob()
+    {
         $users = User::all();
         foreach ($users as $user) {
             if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime(
@@ -663,50 +647,72 @@ class Job extends Command
 
             $user->save();
         }
-
-        $rbusers = RadiusBan::all();
-        foreach ($rbusers as $sinuser) {
-            $user = User::find($sinuser->userid);
-
+        //自动续费
+        $boughts = Bought::where('renew', '<', time() + 60)->where('renew', '<>', 0)->get();
+        foreach ($boughts as $bought) {
+            /** @var Bought $bought */
+            $user = $bought->user();
             if ($user == null) {
-                $sinuser->delete();
                 continue;
             }
 
-            if ($user->enable == 1 && (strtotime($user->expire_in) > time() || strtotime(
-                $user->expire_in
-            ) < 644447105) && $user->transfer_enable > $user->u + $user->d) {
-                $sinuser->delete();
-                Radius::Add($user, $user->passwd);
+            $shop = $bought->shop();
+            if ($shop == null) {
+                $bought->delete();
+                $user->sendMail(
+                    $_ENV['appName'] . '-续费失败',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。'
+                    ],
+                    [],
+                    $_ENV['email_queue']
+                );
+                $bought->is_notified = true;
+                $bought->save();
+                continue;
+            }
+            if ($user->money >= $shop->price) {
+                $user->money -= $shop->price;
+                $user->save();
+                $shop->buy($user, 1);
+                $bought->renew = 0;
+                $bought->save();
+
+                $bought_new           = new Bought();
+                $bought_new->userid   = $user->id;
+                $bought_new->shopid   = $shop->id;
+                $bought_new->datetime = time();
+                $bought_new->renew    = time() + $shop->auto_renew * 86400;
+                $bought_new->price    = $shop->price;
+                $bought_new->coupon   = '';
+                $bought_new->save();
+
+                $user->sendMail(
+                    $_ENV['appName'] . '-续费成功',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。'
+                    ],
+                    [],
+                    $_ENV['email_queue']
+                );
+
+                $bought->is_notified = true;
+                $bought->save();
+            } elseif ($bought->is_notified == false) {
+                $user->sendMail(
+                    $_ENV['appName'] . '-续费失败',
+                    'news/warn.tpl',
+                    [
+                        'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。'
+                    ],
+                    [],
+                    $_ENV['email_queue']
+                );
+                $bought->is_notified = true;
+                $bought->save();
             }
         }
-
-        if ($_ENV['enable_telegram'] === true) {
-            $this->Telegram();
-        }
-
-        //更新节点 IP，每分钟
-        $nodes = Node::all();
-        $allNodeID = [];
-        foreach ($nodes as $node) {
-            $allNodeID[] = $node->id;
-            $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
-            if (!in_array($node->sort, $nodeSort)) {
-                $server = $node->getOutServer();
-                if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
-                    $node->save();
-                }
-                if (in_array($node->sort, array(0, 10, 12))) {
-                    Tools::updateRelayRuleIp($node);
-                }
-            }
-        }
-
-        // 删除无效的中转
-        $allNodeID = implode(', ', $allNodeID);
-        $datatables = new DatatablesHelper();
-        $datatables->query(
-            'DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')'
-        );       
     }
 }
