@@ -36,5 +36,3 @@ storage/*.*
 public/.user.ini
 
 resources/views/material/analytics.tpl
-
-test/tpl_files.txt

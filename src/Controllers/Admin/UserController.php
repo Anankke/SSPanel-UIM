@@ -21,7 +21,6 @@ use App\Utils\{
     Hash,
     Tools,
     QQWry,
-    Radius,
     Cookie
 };
 use Exception;
@@ -325,8 +324,6 @@ class UserController extends AdminController
         $email2 = $request->getParam('email');
 
         $passwd = $request->getParam('passwd');
-
-        Radius::ChangeUserName($email1, $email2, $passwd);
 
         if ($request->getParam('pass') != '') {
             $user->pass = Hash::passwordHash($request->getParam('pass'));

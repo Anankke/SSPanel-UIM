@@ -11,7 +11,6 @@ use App\Models\{
 use App\Utils\{
     URL,
     Tools,
-    Radius,
     DatatablesHelper
 };
 use Slim\Http\{
@@ -184,34 +183,6 @@ class NodeController extends UserController
             case 0:
                 if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
                     return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass('URL', URL::class)->display('user/nodeinfo.tpl');
-                }
-                break;
-            case 1:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $json_show = 'VPN 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfovpn.tpl');
-                }
-                break;
-            case 2:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $json_show = 'SSH 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfossh.tpl');
-                }
-                break;
-            case 5:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-
-                    $json_show = 'Anyconnect 信息<br>地址：' . $node->server . '<br>' . '用户名：' . $email . '<br>密码：' . $this->user->passwd . '<br>支持方式：' . $node->method . '<br>备注：' . $node->info;
-
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoanyconnect.tpl');
                 }
                 break;
             case 10:

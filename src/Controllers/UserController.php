@@ -40,7 +40,6 @@ use App\Utils\{
     Check,
     QQWry,
     Tools,
-    Radius,
     Cookie,
     Geetest,
     Telegram,
@@ -1213,8 +1212,6 @@ class UserController extends BaseController
         $user->save();
         $user->updateSsPwd($pwd);
         $res['ret'] = 1;
-
-        Radius::Add($user, $pwd);
 
         return $this->echoJson($response, $res);
     }

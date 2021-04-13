@@ -6,7 +6,6 @@ use App\Controllers\AdminController;
 use App\Models\Node;
 use App\Utils\{
     Tools,
-    Radius,
     Telegram,
     CloudflareDriver,
     DatatablesHelper
@@ -120,9 +119,6 @@ class NodeController extends AdminController
             $node->node_ip = '';
         }
 
-        if ($node->sort == 1) {
-            Radius::AddNas($node->node_ip, $request->getParam('server'));
-        }
         $node->node_class                 = $request->getParam('class');
         $node->node_bandwidth_limit       = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
         $node->bandwidthlimit_resetday    = $request->getParam('bandwidthlimit_resetday');
@@ -221,17 +217,6 @@ class NodeController extends AdminController
             Tools::updateRelayRuleIp($node);
         }
 
-        if ($node->sort == 1) {
-            $SS_Node = Node::where('sort', '=', 0)->where('server', '=', $request->getParam('server'))->first();
-            if ($SS_Node != null) {
-                if ($SS_Node->node_heartbeat == 0 || time() - $SS_Node->node_heartbeat < 300) {
-                    Radius::AddNas(gethostbyname($request->getParam('server')), $request->getParam('server'));
-                }
-            } else {
-                Radius::AddNas(gethostbyname($request->getParam('server')), $request->getParam('server'));
-            }
-        }
-
         $node->status                     = $request->getParam('status');
         $node->node_class                 = $request->getParam('class');
         $node->node_bandwidth_limit       = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
@@ -266,9 +251,6 @@ class NodeController extends AdminController
     {
         $id = $request->getParam('id');
         $node = Node::find($id);
-        if ($node->sort == 1) {
-            Radius::DelNas($node->node_ip);
-        }
 
         if (!$node->delete()) {
             return $response->withJson(
@@ -360,15 +342,6 @@ class NodeController extends AdminController
             switch ($node->sort) {
                 case 0:
                     $sort = 'Shadowsocks';
-                    break;
-                case 1:
-                    $sort = 'VPN/Radius基础';
-                    break;
-                case 2:
-                    $sort = 'SSH';
-                    break;
-                case 5:
-                    $sort = 'Anyconnect';
                     break;
                 case 9:
                     $sort = 'Shadowsocks - 单端口多用户';

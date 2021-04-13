@@ -51,11 +51,6 @@ CREATE TABLE IF NOT EXISTS `login_ip` (
   `type`     int(11)      NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `radius_ban` (
-  `id`     int(11) NOT NULL,
-  `userid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `speedtest` (
   `id`               bigint(20) NOT NULL,
   `nodeid`           int(11)    NOT NULL,
@@ -205,8 +200,6 @@ ALTER TABLE `link`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `login_ip`
   ADD PRIMARY KEY (`id`);
-ALTER TABLE `radius_ban`
-  ADD PRIMARY KEY (`id`);
 ALTER TABLE `speedtest`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `ss_invite_code`
@@ -243,8 +236,6 @@ ALTER TABLE `link`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `login_ip`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `radius_ban`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `speedtest`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ss_invite_code`

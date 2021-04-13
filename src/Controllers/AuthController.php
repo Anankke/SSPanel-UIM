@@ -13,7 +13,6 @@ use App\Utils\{
     Hash,
     Check,
     Tools,
-    Radius,
     Geetest,
     TelegramSessionManager
 };
@@ -440,7 +439,6 @@ class AuthController extends BaseController
             $res['ret'] = 1;
             $res['msg'] = '注册成功！正在进入登录界面';
 
-            Radius::Add($user, $user->passwd);
             return $res;
         }
         $res['ret'] = 0;

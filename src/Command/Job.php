@@ -13,7 +13,6 @@ use App\Models\LoginIp;
 use App\Models\DetectLog;
 use App\Models\UnblockIp;
 use App\Models\Speedtest;
-use App\Models\RadiusBan;
 use App\Models\TrafficLog;
 use App\Models\Disconnect;
 use App\Models\EmailVerify;
@@ -28,7 +27,6 @@ use App\Services\Mail;
 use App\Utils\QQWry;
 use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
-use App\Utils\Radius;
 use App\Utils\Telegram;
 use App\Utils\DatatablesHelper;
 use ArrayObject;
@@ -421,23 +419,6 @@ class Job extends Command
             echo '节点掉线检测结束' . PHP_EOL;
         }
 
-        $rbusers = RadiusBan::all();
-        foreach ($rbusers as $sinuser) {
-            $user = User::find($sinuser->userid);
-
-            if ($user == null) {
-                $sinuser->delete();
-                continue;
-            }
-
-            if ($user->enable == 1 && (strtotime($user->expire_in) > time() || strtotime(
-                $user->expire_in
-            ) < 644447105) && $user->transfer_enable > $user->u + $user->d) {
-                $sinuser->delete();
-                Radius::Add($user, $user->passwd);
-            }
-        }
-
         if ($_ENV['enable_telegram'] === true) {
             $this->Telegram();
         }
@@ -475,18 +456,6 @@ class Job extends Command
     {
         $users = User::all();
         foreach ($users as $user) {
-            if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime(
-                $user->expire_in
-            ) < time() && strtotime($user->expire_in) > 644447105)) && RadiusBan::where(
-                'userid',
-                $user->id
-            )->first() == null) {
-                $rb = new RadiusBan();
-                $rb->userid = $user->id;
-                $rb->save();
-                Radius::Delete($user->email);
-            }
-
             if (strtotime($user->expire_in) < time() && $user->expire_notified == false) {
                 $user->transfer_enable = 0;
                 $user->u = 0;

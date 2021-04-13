@@ -107,20 +107,7 @@ class Config
             'prefix'        => $_ENV['db_prefix'],
         ];
     }
-
-    public static function getRadiusDbConfig()
-    {
-        return [
-            'driver'    => $_ENV['db_driver'],
-            'host'      => $_ENV['radius_db_host'],
-            'database'  => $_ENV['radius_db_database'],
-            'username'  => $_ENV['radius_db_user'],
-            'password'  => $_ENV['radius_db_password'],
-            'charset'   => $_ENV['db_charset'],
-            'collation' => $_ENV['db_collation']
-        ];
-    }
-
+    
     public static function getMuKey()
     {
         $muKeyList = array_key_exists('muKeyList', $_ENV) ? $_ENV['muKeyList'] : ['　'];

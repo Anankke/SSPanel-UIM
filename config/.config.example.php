@@ -490,14 +490,6 @@ $_ENV['redis_port']             = 6379;
 $_ENV['redis_database']         = '';
 $_ENV['redis_password']         = '';
 
-#Radius设置
-$_ENV['enable_radius']          = false;            //是否开启Radius
-$_ENV['radius_db_host']         = '';               //以下4项为Radius数据库设置
-$_ENV['radius_db_database']     = '';
-$_ENV['radius_db_user']         = '';
-$_ENV['radius_db_password']     = '';
-$_ENV['radius_secret']          = '';               //Radius连接密钥
-
 #Cloudflare
 $_ENV['cloudflare_enable']      = false;         //是否开启 Cloudflare 解析
 $_ENV['cloudflare_email']       = '';            //Cloudflare 邮箱地址

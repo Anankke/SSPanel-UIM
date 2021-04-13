@@ -7,7 +7,6 @@ use App\Utils\{
     Hash,
     GA,
     QQWry,
-    Radius,
     Telegram,
     URL
 };
@@ -344,9 +343,6 @@ class User extends Model
         $uid = $this->attributes['id'];
         $email = $this->attributes['email'];
 
-        Radius::Delete($email);
-
-        RadiusBan::where('userid', '=', $uid)->delete();
         Disconnect::where('userid', '=', $uid)->delete();
         Bought::where('userid', '=', $uid)->delete();
         Ip::where('userid', '=', $uid)->delete();
