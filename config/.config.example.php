@@ -251,7 +251,7 @@ $_ENV['mylivechat_id']        = '';      //客服系统ID，注册地址 https:/
 $_ENV['crisp_id']             = '';      //客服系统ID，注册地址 https://crisp.chat/en/
 $_ENV['tawk_id']              = '';      //客服系统ID，注册地址 https://tawk.to/
 
-# PushBear  基于微信模板的向关注了二维码的用户以微信方式推送消息 https://pushbear.ftqq.com/，目前仅用户推送新公告
+# PushBear 基于微信模板的向关注了二维码的用户以微信方式推送消息 https://pushbear.ftqq.com/，目前仅用户推送新公告
 $_ENV['usePushBear']          = false;
 $_ENV['PushBear_sendkey']     = '';       //请填写您在PushBear获取的sendkey，请仔细检查勿粘贴错
 
@@ -259,7 +259,7 @@ $_ENV['PushBear_sendkey']     = '';       //请填写您在PushBear获取的send
 $_ENV['enable_ticket']        = true;        //是否开启工单系统
 $_ENV['mail_ticket']          = true;        //是否开启工单邮件提醒
 
-# Server酱  用户提交新工单或者回复工单时用微信提醒机场主 http://sc.ftqq.com/
+# Server酱 用户提交新工单或者回复工单时用微信提醒机场主 https://sct.ftqq.com/
 $_ENV['useScFtqq']            = false;        //是否开启工单Server酱提醒
 $_ENV['ScFtqq_SCKEY']         = '';           //请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
 

@@ -341,7 +341,7 @@ class Job extends Command
                             )
                         );
                         $context = stream_context_create($opts);
-                        file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
+                        file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
                     }
 
                     foreach ($adminUser as $user) {
@@ -388,7 +388,7 @@ class Job extends Command
                             )
                         );
                         $context = stream_context_create($opts);
-                        file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
+                        file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
                     }
                     foreach ($adminUser as $user) {
                         echo 'Send offline mail to user: ' . $user->id . PHP_EOL;

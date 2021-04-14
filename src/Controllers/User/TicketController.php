@@ -134,7 +134,7 @@ class TicketController extends UserController
                 ]
             ];
             $context = stream_context_create($opts);
-            file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
+            file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
         }
 
         return $response->withJson(
@@ -212,7 +212,7 @@ class TicketController extends UserController
                     ]
                 ];
                 $context = stream_context_create($opts);
-                file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
+                file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
                 $useScFtqq = $_ENV['ScFtqq_SCKEY'];
             }
         } else {
@@ -246,7 +246,7 @@ class TicketController extends UserController
                     ]
                 ];
                 $context = stream_context_create($opts);
-                file_get_contents('https://sc.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
+                file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
             }
         }
 
