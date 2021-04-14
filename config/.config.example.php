@@ -471,9 +471,6 @@ $_ENV['timeZone']               = 'PRC';                 //PRC 天朝时间  UTC
 $_ENV['theme']                  = 'material';            //默认主题
 $_ENV['jump_delay']             = 1200;                  //跳转延时，单位ms，不建议太长
 
-$_ENV['pacp_offset']            = -20000;              //VPN 端口偏移
-$_ENV['pacpp_offset']           = -20000;
-
 $_ENV['checkNodeIp']            = true;                 //是否webapi验证节点ip
 $_ENV['muKeyList']              = [];                   //多 key 列表
 $_ENV['keep_connect']           = false;               // 流量耗尽用户限速至 1Mbps

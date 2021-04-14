@@ -58,7 +58,7 @@
                         href="https://github.com/mxihan">Rin SAMA</a>，<a
                         href="https://github.com/xcxnig">Miku</a>，<a 
                         href="https://github.com/ZJY2003">Tony Zou</a>，<a
-                        href="https://github.com/laurieryayoi">Nymph</a>，
+                        href="https://github.com/laurieryayoi">Nymph</a>，<a
                         href="https://github.com/M1Screw">兩足貓</a></td>
             </tr>
             <tr>
