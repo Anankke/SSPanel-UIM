@@ -328,8 +328,6 @@ return function (SlimApp $app) {
         $this->get('/func/block_ip',        App\Controllers\Mod_Mu\FuncController::class . ':get_blockip');
         $this->get('/func/unblock_ip',      App\Controllers\Mod_Mu\FuncController::class . ':get_unblockip');
         $this->post('/func/speedtest',      App\Controllers\Mod_Mu\FuncController::class . ':addSpeedtest');
-        $this->get('/func/autoexec',        App\Controllers\Mod_Mu\FuncController::class . ':get_autoexec');
-        $this->post('/func/autoexec',       App\Controllers\Mod_Mu\FuncController::class . ':addAutoexec');
 
         $this->get('/func/ping',            App\Controllers\Mod_Mu\FuncController::class . ':ping');
         //============================================
