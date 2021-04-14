@@ -93,19 +93,6 @@ class ClientDownload extends Command
             ],
         ],
         [
-            'name'      => 'ClashRforWindows',
-            'tagMethod' => 'github_release',
-            'gitRepo'   => 'BROBIRD/clash',
-            'savePath'  => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'clash-windows-amd64-%tagName%.zip',
-                    'saveName'   => 'ClashR-Windows.zip',
-                    'apkpureUrl' => ''
-                ],
-            ],
-        ],
-        [
             'name'      => 'ClashX',
             'tagMethod' => 'github_release',
             'gitRepo'   => 'yichengchen/clashX',

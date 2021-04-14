@@ -937,19 +937,11 @@ class Callback
                     'text'          => 'Clash',
                     'callback_data' => 'user.subscribe|?clash=1'
                 ],
-                [
-                    'text'          => 'ClashR',
-                    'callback_data' => 'user.subscribe|?clash=2'
-                ],
             ],
             [
                 [
                     'text'          => 'Clash Provider',
                     'callback_data' => 'user.subscribe|?list=clash'
-                ],
-                [
-                    'text'          => 'ClashR Provider',
-                    'callback_data' => 'user.subscribe|?list=clashr'
                 ],
             ],
             [
@@ -1037,23 +1029,6 @@ class Callback
                     $filepath     = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh           = fopen($filepath, 'w+');
                     $string       = LinkController::getClash($this->User, 1, [], [], false);
-                    fwrite($fh, $string);
-                    fclose($fh);
-                    $this->bot->sendDocument(
-                        [
-                            'chat_id'  => $this->ChatID,
-                            'document' => $filepath,
-                            'caption'  => $temp['text'],
-                        ]
-                    );
-                    unlink($filepath);
-                    break;
-                case '?clash=2':
-                    $temp['text'] = '您的 ClashR 配置文件.' . PHP_EOL . '同时，您也可使用该订阅链接：' . $UserApiUrl . $CallbackDataExplode[1];
-                    $filename     = 'ClashR_' . $token . '_' . time() . '.yaml';
-                    $filepath     = BASE_PATH . '/storage/SendTelegram/' . $filename;
-                    $fh           = fopen($filepath, 'w+');
-                    $string       = LinkController::getClash($this->User, 2, [], [], false);
                     fwrite($fh, $string);
                     fclose($fh);
                     $this->bot->sendDocument(

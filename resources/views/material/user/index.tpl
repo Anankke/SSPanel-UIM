@@ -492,25 +492,7 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_6</span> ClashR for Windows - [ SS/SSR/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/ClashR-Windows.zip"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/Fndroid/clash_for_windows_pkg/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Windows/Clash-for-Windows{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="btn-dl" href="{$subInfo['clashr']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clashr'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_7</span> Qv2ray - [ SS/VMess ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_6</span> Qv2ray - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Qv2ray.7z"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
@@ -568,23 +550,7 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> ClashXR - [ SS/SSR/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="#"><i class="material-icons icon-sm">cloud_download</i> 暂无下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/macOS/ClashX{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="btn-dl" href="{$subInfo['clashr']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clashr'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_4</span> V2RayU - [ SS/VMess ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_3</span> V2RayU - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/V2rayU.dmg"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
@@ -598,7 +564,7 @@ table tr td:first-child {
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_5</span> ShadowsocksX-NG - [ SS ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_4</span> ShadowsocksX-NG - [ SS ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/ss-mac.zip"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
@@ -612,7 +578,7 @@ table tr td:first-child {
                                                         <a id="mac_ss" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ss","#mac_ss","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_6</span> ShadowsocksX-NG-R - [ SS/SSR ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_5</span> ShadowsocksX-NG-R - [ SS/SSR ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/ssr-mac.dmg"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
@@ -626,7 +592,7 @@ table tr td:first-child {
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_7</span> Qv2ray - [ SS/VMess ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_6</span> Qv2ray - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Qv2ray.dmg"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
