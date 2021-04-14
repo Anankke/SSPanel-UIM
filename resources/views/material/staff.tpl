@@ -55,7 +55,6 @@
                 <td>
                     <a href="https://github.com/Anankke">Anankke</a>，
                     <a href="https://github.com/ZJY2003">Tony Zou</a>，
-                    <a href="https://github.com/laurieryayoi">Nymph</a>，
                     <a href="https://github.com/M1Screw">兩足貓</a>
                 </td>
             </tr>
@@ -80,6 +79,7 @@
                 <td>怀念</td>
                 <a href="https://github.com/dumplin233">dumplin</a>，
                 <a href="https://github.com/mxihan">Rin SAMA</a>，
+                <a href="https://github.com/laurieryayoi">Nymph</a>，
                 <a href="https://github.com/xcxnig">Miku</a>，
                 <a href="https://github.com/galaxychuck">galaxyq</a>，
             </tr>
