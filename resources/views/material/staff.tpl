@@ -53,10 +53,13 @@
             <tr>
                 <td>现阶段维护</td>
                 <td><a href="https://github.com/Anankke">Anankke</a>，<a
-                            href="https://github.com/galaxychuck">galaxyq</a>，<a href="https://github.com/dumplin233">dumplin</a>，<a
-                            href="https://github.com/mxihan">Rin SAMA</a>，<a
-                            href="https://github.com/xcxnig">Miku</a>，<a href="https://github.com/ZJY2003">Tony Zou</a>，<a
-                            href="https://github.com/laurieryayoi">Nymph</a></td>
+                        href="https://github.com/galaxychuck">galaxyq</a>，<a 
+                        href="https://github.com/dumplin233">dumplin</a>，<a
+                        href="https://github.com/mxihan">Rin SAMA</a>，<a
+                        href="https://github.com/xcxnig">Miku</a>，<a 
+                        href="https://github.com/ZJY2003">Tony Zou</a>，<a
+                        href="https://github.com/laurieryayoi">Nymph</a>，
+                        href="https://github.com/M1Screw">兩足貓</a></td>
             </tr>
             <tr>
                 <td>监督</td>
@@ -81,7 +84,7 @@
             </tr>
             <tr>
                 <td>本程序的参与人员列表</td>
-                <td>此列表为参与到 <a href="https://github.com/Anankke/SSPanel-Uim">SSPanel V3 Mod UIM</a> 中的人员，在此表示感谢。</td>
+                <td>此列表为参与到 <a href="https://github.com/Anankke/SSPanel-Uim">SSPanel-UIM</a> 中的人员，在此表示感谢。</td>
             </tr>
             </tbody>
         </table>
@@ -100,7 +103,7 @@
 <!-- BG -->
 <div id="bg"></div>
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
 <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
 <script src="/assets/js/util.js"></script>
 <script src="/assets/js/main.js"></script>

@@ -38,7 +38,7 @@
 </div>
 <div id="bg"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
 <script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
 <script src="/assets/js/util.min.js"></script>
 <script src="/assets/js/main.min.js"></script>
