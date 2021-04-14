@@ -52,14 +52,11 @@
             </tr>
             <tr>
                 <td>现阶段维护</td>
-                <td><a href="https://github.com/Anankke">Anankke</a>，<a
-                        href="https://github.com/galaxychuck">galaxyq</a>，<a 
-                        href="https://github.com/dumplin233">dumplin</a>，<a
-                        href="https://github.com/mxihan">Rin SAMA</a>，<a
-                        href="https://github.com/xcxnig">Miku</a>，<a 
-                        href="https://github.com/ZJY2003">Tony Zou</a>，<a
-                        href="https://github.com/laurieryayoi">Nymph</a>，<a
-                        href="https://github.com/M1Screw">兩足貓</a></td>
+                <td>
+                    <a href="https://github.com/Anankke">Anankke</a>，
+                    <a href="https://github.com/ZJY2003">Tony Zou</a>，
+                    <a href="https://github.com/M1Screw">兩足貓</a>
+                </td>
             </tr>
             <tr>
                 <td>监督</td>
@@ -77,6 +74,14 @@
             <tr>
                 <td>出演</td>
                 <td><a href="http://mengyang.wang/">mengyang</a>，<a href="http://tony.ecy.ren/">tony</a></td>
+            </tr>
+            <tr>
+                <td>怀念</td>
+                <a href="https://github.com/dumplin233">dumplin</a>，
+                <a href="https://github.com/mxihan">Rin SAMA</a>，
+                <a href="https://github.com/laurieryayoi">Nymph</a>，
+                <a href="https://github.com/xcxnig">Miku</a>，
+                <a href="https://github.com/galaxychuck">galaxyq</a>，
             </tr>
             <tr>
                 <td>鸣谢</td>
