@@ -195,6 +195,7 @@ class ClientDownload extends Command
                 ],
             ],
         ],
+        /*
         [
             'name'      => 'Surfboard',
             'tagMethod' => 'apkpure',
@@ -208,6 +209,7 @@ class ClientDownload extends Command
                 ],
             ],
         ],
+        */
         [
             'name'      => 'ClashforAndroid',
             'tagMethod' => 'github_pre_release',
