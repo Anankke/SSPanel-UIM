@@ -361,11 +361,11 @@ CREATE TABLE IF NOT EXISTS `auto` (
 ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ALTER TABLE `auto`
-  ADD `sign` LONGTEXT NOT NULL AFTER `value`;ALTER TABLE `user` ADD `relay_enable` INT NOT NULL DEFAULT '0' AFTER `auto_reset_bandwidth`, ADD `relay_info` LONGTEXT NULL AFTER `relay_enable`;
+  ADD `sign` LONGTEXT NOT NULL AFTER `value`;
 ALTER TABLE `ss_node`
   ADD `custom_rss` INT NOT NULL DEFAULT '0' AFTER `node_group`;
 ALTER TABLE `user`
-  ADD `protocol` VARCHAR(128) NOT NULL DEFAULT 'origin' AFTER `relay_info`, ADD `protocol_param` VARCHAR(128) NULL DEFAULT NULL AFTER `protocol`, ADD `obfs` VARCHAR(128) NOT NULL DEFAULT 'plain' AFTER `protocol_param`, ADD `obfs_param` VARCHAR(128) NULL DEFAULT NULL AFTER `obfs`;
+  ADD `protocol` VARCHAR(128) NOT NULL DEFAULT 'origin' AFTER `node_group`, ADD `protocol_param` VARCHAR(128) NULL DEFAULT NULL AFTER `protocol`, ADD `obfs` VARCHAR(128) NOT NULL DEFAULT 'plain' AFTER `protocol_param`, ADD `obfs_param` VARCHAR(128) NULL DEFAULT NULL AFTER `obfs`;
 ALTER TABLE `user`
   ADD `forbidden_ip` varchar(182) NULL DEFAULT '' AFTER `obfs_param`, ADD `forbidden_port` LONGTEXT NULL DEFAULT '' AFTER `forbidden_ip`;
 
@@ -373,9 +373,6 @@ ALTER TABLE `user`
   CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
 ALTER TABLE `ss_node`
   CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
-ALTER TABLE `user`
-  DROP `relay_enable`,
-  DROP `relay_info`;
 ALTER TABLE `user`
   CHANGE `protocol` `protocol` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'origin', CHANGE `obfs` `obfs` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'plain';
 
@@ -417,21 +414,6 @@ ALTER TABLE `ss_node`
   ADD `mu_only` INT NULL DEFAULT '0' AFTER `custom_rss`;
 ALTER TABLE `ss_node`
   ADD `online` BOOLEAN NOT NULL DEFAULT TRUE AFTER `mu_only`, ADD `gfw_block` BOOLEAN NOT NULL DEFAULT FALSE AFTER `online`;
-
-CREATE TABLE IF NOT EXISTS `relay` (
-  `id`             bigint(20)   NOT NULL,
-  `user_id`        bigint(20)   NOT NULL,
-  `source_node_id` bigint(20)   NOT NULL,
-  `dist_node_id`   bigint(20)   NOT NULL,
-  `dist_ip`        varchar(182) NOT NULL,
-  `port`           int(11)      NOT NULL,
-  `priority`       int(11)      NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-ALTER TABLE `relay`
-  ADD PRIMARY KEY (`id`);
-ALTER TABLE `relay`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 CREATE TABLE IF NOT EXISTS `telegram_session` (
   `id`              BIGINT NOT NULL AUTO_INCREMENT,

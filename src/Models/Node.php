@@ -216,26 +216,12 @@ class Node extends Model
      *
      * @param User $user
      * @param int  $mu_port
-     * @param int  $relay_rule_id
      * @param int  $is_ss
      * @param bool $emoji
      */
-    public function getItem(User $user, int $mu_port = 0, int $relay_rule_id = 0, int $is_ss = 0, bool $emoji = false):? array
+    public function getItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false):? array
     {
-        $relay_rule = Relay::where('id', $relay_rule_id)
-            ->where(
-                static function ($query) use ($user) {
-                    $query->Where('user_id', '=', $user->id)
-                        ->orWhere('user_id', '=', 0);
-                }
-            )
-            ->orderBy('priority', 'DESC')
-            ->orderBy('id')
-            ->first();
         $node_name = $this->name;
-        if ($relay_rule != null) {
-            $node_name .= ' - ' . $relay_rule->dist_node()->name;
-        }
         if ($mu_port != 0) {
             $mu_user = User::where('port', '=', $mu_port)->where('is_multi_user', '<>', 0)->first();
             if ($mu_user == null) {
@@ -282,7 +268,7 @@ class Node extends Model
         $return_array['remark'] = ($emoji ? Tools::addEmoji($node_name) : $node_name);
         $return_array['class']  = $this->node_class;
         $return_array['group']  = $_ENV['appName'];
-        $return_array['ratio']  = ($relay_rule != null ? $this->traffic_rate + $relay_rule->dist_node()->traffic_rate : $this->traffic_rate);
+        $return_array['ratio']  = $this->traffic_rate;
 
         return $return_array;
     }
@@ -292,11 +278,10 @@ class Node extends Model
      *
      * @param User $user
      * @param int  $mu_port
-     * @param int  $relay_rule_id
      * @param int  $is_ss
      * @param bool $emoji
      */
-    public function getV2RayItem(User $user, int $mu_port = 0, int $relay_rule_id = 0, int $is_ss = 0, bool $emoji = false): array
+    public function getV2RayItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): array
     {
         $item           = Tools::v2Array($this->server);
         $item['type']   = 'vmess';
@@ -311,13 +296,12 @@ class Node extends Model
      *
      * @param User $user 用户
      * @param int  $mu_port
-     * @param int  $relay_rule_id
      * @param int  $is_ss
      * @param bool $emoji
      *
      * @return array|null
      */
-    public function getV2RayPluginItem(User $user, int $mu_port = 0, int $relay_rule_id = 0, int $is_ss = 0, bool $emoji = false)
+    public function getV2RayPluginItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false)
     {
         $return_array = Tools::ssv2Array($this->server);
         // 非 AEAD 加密无法使用
@@ -356,11 +340,10 @@ class Node extends Model
      *
      * @param User $user 用户
      * @param int  $mu_port
-     * @param int  $relay_rule_id
      * @param int  $is_ss
      * @param bool $emoji
      */
-    public function getTrojanItem(User $user, int $mu_port = 0, int $relay_rule_id = 0, int $is_ss = 0, bool $emoji = false): array
+    public function getTrojanItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): array
     {
         $server = explode(';', $this->server);
         $opt    = [];

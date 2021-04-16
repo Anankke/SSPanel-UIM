@@ -16,7 +16,6 @@ use App\Models\{
     Shop,
     User,
     Token,
-    Relay,
     Bought,
     Coupon,
     Ticket,

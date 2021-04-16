@@ -494,9 +494,6 @@ $_ENV['cloudflare_email']       = '';            //Cloudflare 邮箱地址
 $_ENV['cloudflare_key']         = '';            //Cloudflare API Key
 $_ENV['cloudflare_name']        = '';            //域名
 
-#不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转
-$_ENV['relay_insecure_mode']    = false;       //强烈推荐不开启
-
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
 $_ENV['enable_analytics_code']  = false;
 $_ENV['sspanelAnalysis']        = true;

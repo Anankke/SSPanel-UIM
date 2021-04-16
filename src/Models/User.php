@@ -734,11 +734,6 @@ class User extends Model
         }
         $origin_port    = $this->port;
         $this->port     = $Port;
-        $relay_rules    = Relay::where('user_id', $this->id)->where('port', $origin_port)->get();
-        foreach ($relay_rules as $rule) {
-            $rule->port = $this->port;
-            $rule->save();
-        }
         $this->save();
         return [
             'ok'  => true,
@@ -944,15 +939,5 @@ class User extends Model
                 );
                 break;
         }
-    }
-
-    /**
-     * 获取转发规则
-     */
-    public function getRelays()
-    {
-        return (!Tools::is_protocol_relay($this)
-            ? []
-            : Relay::where('user_id', $this->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get());
     }
 }

@@ -49,14 +49,6 @@ return function (SlimApp $app) {
         $this->post('/buy',                     App\Controllers\UserController::class . ':buy');
         $this->post('/buy_traffic_package',     App\Controllers\UserController::class . ':buy_traffic_package');
 
-        // Relay Mange
-        $this->get('/relay',                    App\Controllers\User\RelayController::class . ':index');
-        $this->get('/relay/create',             App\Controllers\User\RelayController::class . ':create');
-        $this->post('/relay',                   App\Controllers\User\RelayController::class . ':add');
-        $this->get('/relay/{id}/edit',          App\Controllers\User\RelayController::class . ':edit');
-        $this->put('/relay/{id}',               App\Controllers\User\RelayController::class . ':update');
-        $this->delete('/relay',                 App\Controllers\User\RelayController::class . ':delete');
-
         $this->get('/ticket',                   App\Controllers\User\TicketController::class . ':ticket');
         $this->get('/ticket/create',            App\Controllers\User\TicketController::class . ':ticket_create');
         $this->post('/ticket',                  App\Controllers\User\TicketController::class . ':ticket_add');
@@ -170,16 +162,6 @@ return function (SlimApp $app) {
         $this->get('/ticket/{id}/view',         App\Controllers\Admin\TicketController::class . ':show');
         $this->put('/ticket/{id}',              App\Controllers\Admin\TicketController::class . ':update');
         $this->post('/ticket/ajax',             App\Controllers\Admin\TicketController::class . ':ajax');
-
-        // Relay Mange
-        $this->get('/relay',                    App\Controllers\Admin\RelayController::class . ':index');
-        $this->get('/relay/create',             App\Controllers\Admin\RelayController::class . ':create');
-        $this->post('/relay',                   App\Controllers\Admin\RelayController::class . ':add');
-        $this->get('/relay/{id}/edit',          App\Controllers\Admin\RelayController::class . ':edit');
-        $this->put('/relay/{id}',               App\Controllers\Admin\RelayController::class . ':update');
-        $this->delete('/relay',                 App\Controllers\Admin\RelayController::class . ':delete');
-        $this->get('/relay/path_search/{id}',   App\Controllers\Admin\RelayController::class . ':path_search');
-        $this->post('/relay/ajax',              App\Controllers\Admin\RelayController::class . ':ajax_relay');
 
         // Shop Mange
         $this->get('/shop',                     App\Controllers\Admin\ShopController::class . ':index');
@@ -323,7 +305,6 @@ return function (SlimApp $app) {
         $this->post('/nodes/config',        App\Controllers\Mod_Mu\NodeController::class . ':getConfig');
 
         $this->get('/func/detect_rules',    App\Controllers\Mod_Mu\FuncController::class . ':get_detect_logs');
-        $this->get('/func/relay_rules',     App\Controllers\Mod_Mu\FuncController::class . ':get_relay_rules');
         $this->post('/func/block_ip',       App\Controllers\Mod_Mu\FuncController::class . ':addBlockIp');
         $this->get('/func/block_ip',        App\Controllers\Mod_Mu\FuncController::class . ':get_blockip');
         $this->get('/func/unblock_ip',      App\Controllers\Mod_Mu\FuncController::class . ':get_unblockip');

@@ -349,18 +349,8 @@ class Job extends Command
                 if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
                     $node->save();
                 }
-                if (in_array($node->sort, array(0, 10, 12))) {
-                    Tools::updateRelayRuleIp($node);
-                }
             }
         }
-
-        // 删除无效的中转
-        $allNodeID = implode(', ', $allNodeID);
-        $datatables = new DatatablesHelper();
-        $datatables->query(
-            'DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')'
-        );       
     }
     /**
      * 用户账户相关任务，每小时
