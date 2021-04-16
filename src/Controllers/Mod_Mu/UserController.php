@@ -84,20 +84,16 @@ class UserController extends BaseController
         $users = array();
 
         $key_list_ss_ssr = array(
-            'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param',
-            'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
-            'is_multi_user', 'u', 'd', 'transfer_enable', 'id', 'port', 'passwd',
-            'node_connector', 'alive_ip'
+            'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param', 'node_speedlimit', 'is_multi_user', 'u', 'd',
+            'transfer_enable', 'id', 'port', 'passwd', 'node_connector', 'alive_ip'
         );
 
         $key_list_v2ray = array(
-            'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
-            'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip'
+            'node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip'
         );
 
         $key_list_trojan = array(
-            'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
-            'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'sha224uuid', 'alive_ip'
+            'node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'sha224uuid', 'alive_ip'
         );
 
         foreach ($users_raw as $user_raw) {
