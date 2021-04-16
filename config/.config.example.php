@@ -36,7 +36,7 @@ $_ENV['db_prefix']    = '';
 
 
 //邮件设置--------------------------------------------------------------------------------------------
-$_ENV['mailDriver']      = 'none';      //发送邮件方式：none / mailgun / smtp / sendgrid
+$_ENV['mailDriver']      = 'none';      //发送邮件方式：none / mailgun / smtp / sendgrid / ses
 $_ENV['sendPageLimit']   = 50;          //发信分页 解决大站发公告超时问题
 $_ENV['email_queue']     = true;        //如题，自动计划任务邮件使用队列 需要每分钟执行 php xcat Job SendMail
 
@@ -60,6 +60,10 @@ $_ENV['smtp_reply_to_name'] = $_ENV['smtp_sender'];        // 回复地址显示
 $_ENV['sendgrid_key']    = '';
 $_ENV['sendgrid_sender'] = '';       //发件邮箱
 $_ENV['sendgrid_name']   = '';       //发件人名称
+
+#aws ses
+$_ENV['aws_access_key_id']      = '';
+$_ENV['aws_secret_access_key']  = '';
 
 
 //备份设置--------------------------------------------------------------------------------------------
@@ -476,10 +480,6 @@ $_ENV['checkNodeIp']            = true;                 //是否webapi验证节�
 $_ENV['muKeyList']              = [];                   //多 key 列表
 $_ENV['keep_connect']           = false;               // 流量耗尽用户限速至 1Mbps
 $_ENV['money_from_admin']       = false;            //是否开启管理员修改用户余额时创建充值记录
-
-#aws
-$_ENV['aws_access_key_id']      = '';
-$_ENV['aws_secret_access_key']  = '';
 
 #redis
 $_ENV['redis_scheme']           = 'tcp';
