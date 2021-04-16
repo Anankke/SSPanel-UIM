@@ -367,15 +367,7 @@ ALTER TABLE `ss_node`
 ALTER TABLE `user`
   ADD `protocol` VARCHAR(128) NOT NULL DEFAULT 'origin' AFTER `relay_info`, ADD `protocol_param` VARCHAR(128) NULL DEFAULT NULL AFTER `protocol`, ADD `obfs` VARCHAR(128) NOT NULL DEFAULT 'plain' AFTER `protocol_param`, ADD `obfs_param` VARCHAR(128) NULL DEFAULT NULL AFTER `obfs`;
 ALTER TABLE `user`
-  ADD `forbidden_ip` varchar(182) NULL DEFAULT '' AFTER `obfs_param`, ADD `forbidden_port` LONGTEXT NULL DEFAULT '' AFTER `forbidden_ip`, ADD `disconnect_ip` varchar(182) NULL DEFAULT '' AFTER `forbidden_port`;
-
-CREATE TABLE IF NOT EXISTS `disconnect_ip` (
-  `id`       BIGINT       NOT NULL AUTO_INCREMENT,
-  `userid`   BIGINT       NOT NULL,
-  `ip`       varchar(182) NOT NULL,
-  `datetime` BIGINT       NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  ADD `forbidden_ip` varchar(182) NULL DEFAULT '' AFTER `obfs_param`, ADD `forbidden_port` LONGTEXT NULL DEFAULT '' AFTER `forbidden_ip`;
 
 ALTER TABLE `user`
   CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
@@ -397,7 +389,7 @@ CREATE TABLE IF NOT EXISTS `email_verify` (
 ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ALTER TABLE `user`
-  ADD `is_hide` INT NOT NULL DEFAULT '0' AFTER `disconnect_ip`;
+  ADD `is_hide` INT NOT NULL DEFAULT '0' AFTER `obfs_param`;
 
 CREATE TABLE IF NOT EXISTS `detect_list` (
   `id`    BIGINT   NOT NULL AUTO_INCREMENT,

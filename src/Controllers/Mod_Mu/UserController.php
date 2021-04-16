@@ -97,7 +97,9 @@ class UserController extends BaseController
         );
 
         foreach ($users_raw as $user_raw) {
-            $user_raw->alive_ip = (new \App\Models\Ip)->getUserAliveIpCount($user_raw->id);
+            if ($user_raw->node_connector != 0) {
+                $user_raw->alive_ip = (new \App\Models\Ip)->getUserAliveIpCount($user_raw->id);
+            }
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect'] === true) {
                     // 流量耗尽用户限速至 1Mbps
