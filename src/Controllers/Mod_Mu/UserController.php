@@ -97,7 +97,7 @@ class UserController extends BaseController
 
         $key_list_trojan = array(
             'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
-            'u', 'd', 'transfer_enable', 'id', 'node_connector', 'sha224uuid', 'alive_ip'
+            'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'sha224uuid', 'alive_ip'
         );
 
         foreach ($users_raw as $user_raw) {
