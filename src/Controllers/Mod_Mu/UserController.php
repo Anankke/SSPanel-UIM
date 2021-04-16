@@ -93,10 +93,11 @@ class UserController extends BaseController
         );
 
         $key_list_trojan = array(
-            'node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'sha224uuid', 'alive_ip'
+            'node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip'
         );
 
         foreach ($users_raw as $user_raw) {
+            $user_raw->alive_ip = (new \App\Models\Ip)->getUserAliveIpCount($user_raw->id);
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect'] === true) {
                     // 流量耗尽用户限速至 1Mbps
@@ -116,7 +117,6 @@ class UserController extends BaseController
                 }
             }
             if ($node->sort == 14) {
-                $user_raw->sha224uuid = hash('sha224', $user_raw->uuid);
                 $user_raw = Tools::keyFilter($user_raw, $key_list_trojan);
             } elseif ($node->sort == 11) {
                 $user_raw = Tools::keyFilter($user_raw, $key_list_v2ray);
