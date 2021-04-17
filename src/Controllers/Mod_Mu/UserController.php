@@ -82,18 +82,14 @@ class UserController extends BaseController
 
         $users = array();
 
-        $key_list_ss_ssr = array(
-            'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param', 'node_speedlimit', 'is_multi_user', 'u', 'd',
-            'transfer_enable', 'id', 'port', 'passwd', 'node_connector', 'alive_ip'
-        );
-
-        $key_list_v2ray = array(
-            'node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip'
-        );
-
-        $key_list_trojan = array(
-            'node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip'
-        );
+        if ($node->sort == 14) {
+            $key_list = array('node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip');
+        } elseif ($node->sort == 11) {
+            $key_list = array('node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip');
+        } else {
+            $key_list = array('method', 'obfs', 'obfs_param', 'protocol', 'protocol_param', 'node_speedlimit',
+                'is_multi_user', 'u', 'd', 'transfer_enable', 'id', 'port', 'passwd', 'node_connector', 'alive_ip');
+        }
 
         foreach ($users_raw as $user_raw) {
             if ($user_raw->node_connector != 0) {
@@ -117,13 +113,7 @@ class UserController extends BaseController
                     $user_raw->port = ($user_raw->port + $muPort['type']);
                 }
             }
-            if ($node->sort == 14) {
-                $user_raw = Tools::keyFilter($user_raw, $key_list_trojan);
-            } elseif ($node->sort == 11) {
-                $user_raw = Tools::keyFilter($user_raw, $key_list_v2ray);
-            } else {
-                $user_raw = Tools::keyFilter($user_raw, $key_list_ss_ssr);
-            }
+            $user_raw = Tools::keyFilter($user_raw, $key_list);
             $users[] = $user_raw;
         }
 
