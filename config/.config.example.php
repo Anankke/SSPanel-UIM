@@ -464,9 +464,9 @@ $_ENV['WebAPI']     = true;
 $_ENV['authDriver']             = 'cookie';            //不能更改此项
 $_ENV['pwdMethod']              = 'md5';               //密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
 $_ENV['salt']                   = '';                  //推荐配合 md5/sha256， bcrypt/argon2i/argon2id 会忽略此项
-$_ENV['sessionDriver']          = 'cookie';            //可选: cookie,redis
-$_ENV['cacheDriver']            = 'cookie';            //可选: cookie,redis
-$_ENV['tokenDriver']            = 'db';                //可选: db,redis
+$_ENV['sessionDriver']          = 'cookie';            //可选: cookie
+$_ENV['cacheDriver']            = 'cookie';            //可选: cookie
+$_ENV['tokenDriver']            = 'db';                //可选: db
 
 $_ENV['enable_login_bind_ip']   = false;        //是否将登陆线程和IP绑定
 $_ENV['rememberMeDuration']     = 7;           //登录时记住账号时长天数
@@ -480,13 +480,6 @@ $_ENV['checkNodeIp']            = true;                 //是否webapi验证节�
 $_ENV['muKeyList']              = [];                   //多 key 列表
 $_ENV['keep_connect']           = false;               // 流量耗尽用户限速至 1Mbps
 $_ENV['money_from_admin']       = false;            //是否开启管理员修改用户余额时创建充值记录
-
-#redis
-$_ENV['redis_scheme']           = 'tcp';
-$_ENV['redis_host']             = '127.0.0.1';
-$_ENV['redis_port']             = 6379;
-$_ENV['redis_database']         = '';
-$_ENV['redis_password']         = '';
 
 #Cloudflare
 $_ENV['cloudflare_enable']      = false;         //是否开启 Cloudflare 解析

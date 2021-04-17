@@ -343,7 +343,6 @@ class User extends Model
         $uid = $this->attributes['id'];
         $email = $this->attributes['email'];
 
-        Disconnect::where('userid', '=', $uid)->delete();
         Bought::where('userid', '=', $uid)->delete();
         Ip::where('userid', '=', $uid)->delete();
         Code::where('userid', '=', $uid)->delete();

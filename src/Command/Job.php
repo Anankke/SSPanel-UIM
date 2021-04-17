@@ -14,7 +14,6 @@ use App\Models\DetectLog;
 use App\Models\UnblockIp;
 use App\Models\Speedtest;
 use App\Models\TrafficLog;
-use App\Models\Disconnect;
 use App\Models\EmailVerify;
 use App\Models\DetectBanLog;
 use App\Models\EmailQueue;
@@ -119,9 +118,9 @@ class Job extends Command
 
         $db = new DatatablesHelper();
 
-        Tools::reset_auto_increment($db, 'user_traffic_log');
-        Tools::reset_auto_increment($db, 'ss_node_online_log');
-        Tools::reset_auto_increment($db, 'ss_node_info');
+        (new \App\Utils\Tools)->reset_auto_increment($db, 'user_traffic_log');
+        (new \App\Utils\Tools)->reset_auto_increment($db, 'ss_node_online_log');
+        (new \App\Utils\Tools)->reset_auto_increment($db, 'ss_node_info');
 
         if (Config::getconfig('Telegram.bool.DailyJob')) {
             Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));

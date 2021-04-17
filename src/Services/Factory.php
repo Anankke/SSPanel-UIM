@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Services\Auth\Cookie;
-use App\Services\Auth\Redis;
 use App\Services\Auth\JwtToken;
 
 class Factory
@@ -14,8 +13,6 @@ class Factory
         switch ($method) {
             case 'cookie':
                 return new Cookie();
-            case 'redis':
-                return new Redis();
             case 'jwt':
                 return new JwtToken();
         }
