@@ -13,7 +13,6 @@ use App\Models\LoginIp;
 use App\Models\DetectLog;
 use App\Models\UnblockIp;
 use App\Models\Speedtest;
-use App\Models\TrafficLog;
 use App\Models\EmailVerify;
 use App\Models\DetectBanLog;
 use App\Models\EmailQueue;
@@ -110,7 +109,6 @@ class Job extends Command
         Token::where('expire_time', '<', time())->delete();
         NodeInfoLog::where('log_time', '<', time() - 86400 * 3)->delete();
         NodeOnlineLog::where('log_time', '<', time() - 86400 * 3)->delete();
-        TrafficLog::where('log_time', '<', time() - 86400 * 3)->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         Speedtest::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();

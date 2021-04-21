@@ -120,19 +120,6 @@ class Node extends Model
         return $log;
     }
 
-    public function getTrafficFromLogs()
-    {
-        $id = $this->attributes['id'];
-
-        $traffic = TrafficLog::where('node_id', $id)->sum('u') + TrafficLog::where('node_id', $id)->sum('d');
-
-        if ($traffic == 0) {
-            return '暂无数据';
-        }
-
-        return Tools::flowAutoShow($traffic);
-    }
-
     public function isNodeOnline()
     {
         $delay = 300;

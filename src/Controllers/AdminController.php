@@ -177,42 +177,6 @@ class AdminController extends UserController
         return $response->getBody()->write(json_encode($res));
     }
 
-    public function trafficLog($request, $response, $args)
-    {
-        $table_config['total_column'] = array(
-            'id' => 'ID', 'user_id' => '用户ID',
-            'user_name' => '用户名', 'node_name' => '使用节点',
-            'rate' => '倍率', 'origin_traffic' => '实际使用流量',
-            'traffic' => '结算流量',
-            'log_time' => '记录时间'
-        );
-        $table_config['default_show_column'] = array(
-            'id', 'user_id',
-            'user_name', 'node_name',
-            'rate', 'origin_traffic',
-            'traffic', 'log_time'
-        );
-        $table_config['ajax_url'] = 'trafficlog/ajax';
-        return $this->view()->assign('table_config', $table_config)->display('admin/trafficlog.tpl');
-    }
-
-    public function ajax_trafficLog($request, $response, $args)
-    {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select log.id,log.user_id,user.user_name,node.name as node_name,log.rate,(log.u + log.d) as origin_traffic,log.traffic,log.log_time from user_traffic_log as log,user,ss_node as node WHERE log.user_id = user.id AND log.node_id = node.id');
-
-        $datatables->edit('log_time', static function ($data) {
-            return date('Y-m-d H:i:s', $data['log_time']);
-        });
-
-        $datatables->edit('origin_traffic', static function ($data) {
-            return Tools::flowAutoShow($data['origin_traffic']);
-        });
-
-        $body = $response->getBody();
-        $body->write($datatables->generate());
-    }
-
     public function ajax_payback($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());

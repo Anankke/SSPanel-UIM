@@ -26,7 +26,6 @@ use App\Models\{
     Speedtest,
     DetectLog,
     DetectRule,
-    TrafficLog,
     InviteCode,
     EmailVerify,
     UserSubscribeLog
@@ -1351,24 +1350,6 @@ class UserController extends BaseController
             $res['msg'] = '管理员不允许删除，如需删除请联系管理员。';
         }
         return $this->echoJson($response, $res);
-    }
-
-    public function trafficLog($request, $response, $args)
-    {
-        $traffic = TrafficLog::where('user_id', $this->user->id)->where('log_time', '>', time() - 3 * 86400)->orderBy('id', 'desc')->get();
-
-        if ($request->getParam('json') == 1) {
-            $res['ret'] = 1;
-            foreach ($traffic as $trafficdata) {
-                $trafficdata->total_used = $trafficdata->totalUsedRaw();
-                $trafficdata->name = $trafficdata->node()->name;
-            }
-            $res['traffic'] = $traffic;
-
-            return $this->echoJson($response, $res);
-        }
-
-        return $this->view()->assign('logs', $traffic)->display('user/trafficlog.tpl');
     }
 
     public function detect_index($request, $response, $args)

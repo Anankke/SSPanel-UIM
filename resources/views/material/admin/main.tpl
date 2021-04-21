@@ -89,12 +89,10 @@
                         <li><a href="/admin"><i class="icon icon-lg">business_center</i>&nbsp;系统概览</a></li>
                         <li><a href="/admin/announcement"><i class="icon icon-lg">announcement</i>&nbsp;公告管理</a></li>
                         <li><a href="/admin/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单管理</a></li>
-                        <li><a href="/admin/auto"><i class="icon icon-lg">flash_auto</i>&nbsp;下发命令</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_node">节点</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_node">
                         <li><a href="/admin/node"><i class="icon icon-lg">router</i>&nbsp;节点列表</a></li>
-                        <li><a href="/admin/trafficlog"><i class="icon icon-lg">traffic</i>&nbsp;流量记录</a></li>
                         <li><a href="/admin/block"><i class="icon icon-lg">dialer_sip</i>&nbsp;已封禁IP</a></li>
                         <li><a href="/admin/unblock"><i class="icon icon-lg">dialer_sip</i>&nbsp;已解封IP</a></li>
                     </ul>

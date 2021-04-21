@@ -177,17 +177,6 @@ CREATE TABLE IF NOT EXISTS `user_token` (
   `expire_time` int(11)      NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `user_traffic_log` (
-  `id`       int(11)     NOT NULL,
-  `user_id`  int(11)     NOT NULL,
-  `u`        int(11)     NOT NULL,
-  `d`        int(11)     NOT NULL,
-  `node_id`  int(11)     NOT NULL,
-  `rate`     float       NOT NULL,
-  `traffic`  varchar(32) NOT NULL,
-  `log_time` int(11)     NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 ALTER TABLE `alive_ip`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `announcement`
@@ -222,8 +211,6 @@ ALTER TABLE `user`
   ADD KEY `email` (`email`);
 ALTER TABLE `user_token`
   ADD PRIMARY KEY (`id`);
-ALTER TABLE `user_traffic_log`
-  ADD PRIMARY KEY (`id`);
 ALTER TABLE `alive_ip`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `announcement`
@@ -253,8 +240,6 @@ ALTER TABLE `unblockip`
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `user_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `user_traffic_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 CREATE TABLE IF NOT EXISTS `ss_node` (
@@ -431,7 +416,7 @@ CREATE TABLE IF NOT EXISTS `paylist` (
 ALTER TABLE `paylist`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `paylist`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;ALTER TABLE `user_traffic_log` CHANGE `u` `u` BIGINT(20) NOT NULL, CHANGE `d` `d` BIGINT(20) NOT NULL;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- 用户订阅日志

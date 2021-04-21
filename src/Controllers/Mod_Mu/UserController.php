@@ -8,7 +8,6 @@ use App\Models\{
     Node,
     User,
     DetectLog,
-    TrafficLog,
     NodeOnlineLog
 };
 use App\Utils\Tools;
@@ -168,17 +167,6 @@ class UserController extends BaseController
                     ];
                     return $this->echoJson($response, $res);
                 }
-
-                // log
-                $traffic = new TrafficLog();
-                $traffic->user_id = $user_id;
-                $traffic->u = $u;
-                $traffic->d = $d;
-                $traffic->node_id = $node_id;
-                $traffic->rate = $node->traffic_rate;
-                $traffic->traffic = Tools::flowAutoShow(($u + $d) * $node->traffic_rate);
-                $traffic->log_time = time();
-                $traffic->save();
             }
         }
 
