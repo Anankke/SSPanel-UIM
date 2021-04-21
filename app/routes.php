@@ -197,12 +197,6 @@ return function (SlimApp $app) {
         $this->post('/detect/ajax',             App\Controllers\Admin\DetectController::class . ':ajax_rule');
         $this->post('/detect/log/ajax',         App\Controllers\Admin\DetectController::class . ':ajax_log');
 
-        $this->get('/auto',                     App\Controllers\Admin\AutoController::class . ':index');
-        $this->get('/auto/create',              App\Controllers\Admin\AutoController::class . ':create');
-        $this->post('/auto',                    App\Controllers\Admin\AutoController::class . ':add');
-        $this->delete('/auto',                  App\Controllers\Admin\AutoController::class . ':delete');
-        $this->post('/auto/ajax',               App\Controllers\Admin\AutoController::class . ':ajax');
-
         // IP Mange
         $this->get('/block',                    App\Controllers\Admin\IpController::class . ':block');
         $this->get('/unblock',                  App\Controllers\Admin\IpController::class . ':unblock');

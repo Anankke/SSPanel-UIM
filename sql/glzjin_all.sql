@@ -352,16 +352,6 @@ ALTER TABLE `shop`
 ALTER TABLE `code`
   CHANGE `number` `number` DECIMAL(11,2) NOT NULL;
 
-CREATE TABLE IF NOT EXISTS `auto` (
-  `id`       BIGINT   NOT NULL AUTO_INCREMENT,
-  `type`     INT      NOT NULL,
-  `value`    LONGTEXT NOT NULL,
-  `datetime` BIGINT   NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-ALTER TABLE `auto`
-  ADD `sign` LONGTEXT NOT NULL AFTER `value`;
 ALTER TABLE `ss_node`
   ADD `custom_rss` INT NOT NULL DEFAULT '0' AFTER `node_group`;
 ALTER TABLE `user`
