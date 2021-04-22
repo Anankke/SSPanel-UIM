@@ -191,61 +191,6 @@ class UserController extends BaseController
         return $response->getBody()->write(json_encode($res));
     }
 
-    public function f2fpayget($request, $response, $args)
-    {
-        $time = $request->getQueryParams()['time'];
-        $res['ret'] = 1;
-        return $response->getBody()->write(json_encode($res));
-    }
-
-    public function f2fpay($request, $response, $args)
-    {
-        $amount = $request->getParam('amount');
-        if ($amount == '') {
-            $res['ret'] = 0;
-            $res['msg'] = '订单金额错误：' . $amount;
-            return $response->getBody()->write(json_encode($res));
-        }
-        $user = $this->user;
-
-        //生成二维码
-        $qrPayResult = Pay::alipay_get_qrcode($user, $amount, $qrPay);
-        //  根据状态值进行业务处理
-        switch ($qrPayResult->getTradeStatus()) {
-            case 'SUCCESS':
-                $aliresponse = $qrPayResult->getResponse();
-                $res['ret'] = 1;
-                $res['msg'] = '二维码生成成功';
-                $res['amount'] = $amount;
-                $res['qrcode'] = $qrPay->create_erweima($aliresponse->qr_code);
-
-                break;
-            case 'FAILED':
-                $res['ret'] = 0;
-                $res['msg'] = '支付宝创建订单二维码失败! 请使用其他方式付款。';
-
-                break;
-            case 'UNKNOWN':
-                $res['ret'] = 0;
-                $res['msg'] = '系统异常，状态未知! 请使用其他方式付款。';
-
-                break;
-            default:
-                $res['ret'] = 0;
-                $res['msg'] = '创建订单二维码返回异常! 请使用其他方式付款。';
-
-                break;
-        }
-
-        return $response->getBody()->write(json_encode($res));
-    }
-
-    public function alipay($request, $response, $args)
-    {
-        $amount = $request->getQueryParams()['amount'];
-        Pay::getGen($this->user, $amount);
-    }
-
     public function codepost($request, $response, $args)
     {
         $code = $request->getParam('code');

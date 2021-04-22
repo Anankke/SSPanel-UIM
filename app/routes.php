@@ -13,7 +13,6 @@ return function (SlimApp $app) {
     $app->get('/500',       App\Controllers\HomeController::class . ':page500');
     $app->get('/tos',       App\Controllers\HomeController::class . ':tos');
     $app->get('/staff',     App\Controllers\HomeController::class . ':staff');
-    $app->get('/indexold',  App\Controllers\HomeController::class . ':indexold');
 
     // other
     $app->post('/notify',               App\Controllers\HomeController::class . ':notify');
@@ -76,7 +75,6 @@ return function (SlimApp $app) {
         $this->get('/logout',                   App\Controllers\UserController::class . ':logout');
         $this->get('/backtoadmin',              App\Controllers\UserController::class . ':backtoadmin');
         $this->get('/code',                     App\Controllers\UserController::class . ':code');
-        $this->get('/alipay',                   App\Controllers\UserController::class . ':alipay');
 
         $this->get('/code_check',               App\Controllers\UserController::class . ':code_check');
         $this->post('/code',                    App\Controllers\UserController::class . ':codepost');

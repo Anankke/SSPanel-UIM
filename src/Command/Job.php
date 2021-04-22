@@ -9,7 +9,6 @@ use App\Models\Shop;
 use App\Models\Token;
 use App\Models\Bought;
 use App\Models\BlockIp;
-use App\Models\LoginIp;
 use App\Models\DetectLog;
 use App\Models\UnblockIp;
 use App\Models\Speedtest;
@@ -329,10 +328,6 @@ class Job extends Command
                 }
             }
             echo '节点掉线检测结束' . PHP_EOL;
-        }
-
-        if ($_ENV['enable_telegram'] === true) {
-            $this->Telegram();
         }
 
         //更新节点 IP，每分钟
