@@ -107,7 +107,7 @@ class Config
             'prefix'        => $_ENV['db_prefix'],
         ];
     }
-    
+
     public static function getMuKey()
     {
         $muKeyList = array_key_exists('muKeyList', $_ENV) ? $_ENV['muKeyList'] : ['　'];
@@ -152,18 +152,6 @@ class Config
                 return $list;
             case 'allow_none_protocol':
                 $list = array(
-                    'auth_chain_a',
-                    'auth_chain_b',
-                    'auth_chain_c',
-                    'auth_chain_d',
-                    'auth_chain_e',
-                    'auth_chain_f'
-                );
-                return $list;
-            case 'relay_able_protocol':
-                $list = array(
-                    'auth_aes128_md5',
-                    'auth_aes128_sha1',
                     'auth_chain_a',
                     'auth_chain_b',
                     'auth_chain_c',

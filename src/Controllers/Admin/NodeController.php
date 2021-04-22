@@ -213,10 +213,6 @@ class NodeController extends AdminController
             );
         }
 
-        if (in_array($node->sort, array(0, 10, 11, 12))) {
-            Tools::updateRelayRuleIp($node);
-        }
-
         $node->status                     = $request->getParam('status');
         $node->node_class                 = $request->getParam('class');
         $node->node_bandwidth_limit       = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
@@ -346,14 +342,8 @@ class NodeController extends AdminController
                 case 9:
                     $sort = 'Shadowsocks - 单端口多用户';
                     break;
-                case 10:
-                    $sort = 'Shadowsocks - 中转';
-                    break;
                 case 11:
                     $sort = 'V2Ray 节点';
-                    break;
-                case 12:
-                    $sort = 'V2Ray - 中转';
                     break;
                 case 13:
                     $sort = 'Shadowsocks - V2Ray-Plugin&Obfs';

@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-use App\Models\{Model, User, Node, Relay};
+use App\Models\{Model, User, Node};
 use App\Services\Config;
 use DateTime;
 
@@ -225,65 +225,6 @@ class Tools
         return !preg_match($pattern, $str);
     }
 
-    public static function is_relay_rule_avaliable($rule, $ruleset, $node_id)
-    {
-        $cur_id = $rule->id;
-
-        foreach ($ruleset as $single_rule) {
-            if (($rule->port == $single_rule->port || $single_rule->port == 0) && ($node_id == $single_rule->source_node_id || $single_rule->source_node_id == 0) && (($rule->id != $single_rule->id && $rule->priority < $single_rule->priority) || ($rule->id < $single_rule->id && $rule->priority == $single_rule->priority))) {
-                $cur_id = $single_rule->id;
-            }
-        }
-
-        return !($cur_id != $rule->id);
-    }
-
-    public static function pick_out_relay_rule($relay_node_id, $port, $ruleset)
-    {
-        /*
-        for id in self.relay_rule_list:
-            if ((self.relay_rule_list[id]['user_id'] == user_id or self.relay_rule_list[id]['user_id'] == 0) or row['is_multi_user'] != 0) and (self.relay_rule_list[id]['port'] == 0 or self.relay_rule_list[id]['port'] == port):
-                has_higher_priority = False
-                for priority_id in self.relay_rule_list:
-                    if ((self.relay_rule_list[priority_id]['priority'] > self.relay_rule_list[id]['priority'] and self.relay_rule_list[id]['id'] != self.relay_rule_list[priority_id]['id']) or (self.relay_rule_list[priority_id]['priority'] == self.relay_rule_list[id]['priority'] and self.relay_rule_list[id]['id'] > self.relay_rule_list[priority_id]['id'])) and (self.relay_rule_list[id]['user_id'] == self.relay_rule_list[priority_id]['user_id'] or self.relay_rule_list[priority_id]['user_id'] == 0) and (self.relay_rule_list[id]['port'] == self.relay_rule_list[priority_id]['port'] or self.relay_rule_list[priority_id]['port'] == 0):
-                        has_higher_priority = True
-                        continue
-
-                if has_higher_priority:
-                    continue
-
-            temp_relay_rules[id] = self.relay_rule_list[id]
-        */
-
-        $match_rule = null;
-
-        foreach ($ruleset as $single_rule) {
-            if (($single_rule->port == $port || $single_rule->port == 0) && ($single_rule->source_node_id == 0 || $single_rule->source_node_id == $relay_node_id)) {
-                $has_higher_priority = false;
-                foreach ($ruleset as $priority_rule) {
-                    if (($priority_rule->port == $port || $priority_rule->port == 0) && ($priority_rule->source_node_id == 0 || $priority_rule->source_node_id == $relay_node_id)) {
-                        if (($priority_rule->priority > $single_rule->priority && $priority_rule->id != $single_rule->id) || ($priority_rule->priority == $single_rule->priority && $priority_rule->id < $single_rule->id)) {
-                            $has_higher_priority = true;
-                            continue;
-                        }
-                    }
-                }
-
-                if ($has_higher_priority) {
-                    continue;
-                }
-
-                $match_rule = $single_rule;
-            }
-        }
-
-        if (($match_rule != null) && $match_rule->dist_node_id == -1) {
-            return null;
-        }
-
-        return $match_rule;
-    }
-
     public static function get_middle_text($origin_text, $begin_text, $end_text)
     {
         $begin_pos = strpos($origin_text, $begin_text);
@@ -306,15 +247,6 @@ class Tools
             return true;
         }
         return false;
-    }
-
-    public static function is_protocol_relay($user)
-    {
-        return true;
-
-        $relay_able_list = Config::getSupportParam('relay_able_protocol');
-
-        return in_array($user->protocol, $relay_able_list) || $_ENV['relay_insecure_mode'] == true;
     }
 
     public static function has_conflict_rule(
@@ -440,47 +372,6 @@ class Tools
             }
         }
         return $object;
-    }
-
-    public static function relayRulePortCheck($rules)
-    {
-        $res = [];
-        foreach ($rules as $value) {
-            $res[$value->port][] = $value->port;
-        }
-        return count($res) == count($rules);
-    }
-
-    public static function getRelayNodeIp($source_node, $dist_node)
-    {
-        $dist_ip_str = $dist_node->node_ip;
-        $dist_ip_array = explode(',', $dist_ip_str);
-        $return_ip = null;
-        foreach ($dist_ip_array as $single_dist_ip_str) {
-            $child1_array = explode('#', $single_dist_ip_str);
-            if ($child1_array[0] == $single_dist_ip_str) {
-                $return_ip = $child1_array[0];
-            } elseif (isset($child1_array[1])) {
-                $node_id_array = explode('|', $child1_array[1]);
-                if (in_array($source_node->id, $node_id_array)) {
-                    $return_ip = $child1_array[0];
-                }
-            }
-        }
-
-        return $return_ip;
-    }
-
-    public static function updateRelayRuleIp($dist_node)
-    {
-        $rules = Relay::where('dist_node_id', $dist_node->id)->get();
-
-        foreach ($rules as $rule) {
-            $source_node = Node::where('id', $rule->source_node_id)->first();
-
-            $rule->dist_ip = self::getRelayNodeIp($source_node, $dist_node);
-            $rule->save();
-        }
     }
 
     public static function checkNoneProtocol($user)

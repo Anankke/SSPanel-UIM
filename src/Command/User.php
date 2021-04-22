@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Models\Relay;
 use App\Models\User as ModelsUser;
 use App\Services\Config;
 use App\Utils\GA;
@@ -21,8 +20,7 @@ class User extends Command
         . '│ ├─ resetAllPort            - 重置所有用户端口' . PHP_EOL
         . '│ ├─ resetTraffic            - 重置所有用户流量' . PHP_EOL
         . '│ ├─ generateUUID            - 为所有用户生成新的 UUID' . PHP_EOL
-        . '│ ├─ generateGa              - 为所有用户生成新的 Ga Secret' . PHP_EOL
-        . '│ ├─ cleanRelayRule          - 清除所有中转规则' . PHP_EOL;
+        . '│ ├─ generateGa              - 为所有用户生成新的 Ga Secret' . PHP_EOL;
 
     public function boot()
     {
@@ -50,11 +48,6 @@ class User extends Command
         if ($user !== null) {
             $origin_port = $user->port;
             $user->port  = Tools::getAvPort();
-            $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
-            foreach ($relay_rules as $rule) {
-                $rule->port = $user->port;
-                $rule->save();
-            }
             if ($user->save()) {
                 echo '重置成功!' . PHP_EOL;
             }
@@ -134,30 +127,6 @@ class User extends Command
             $user->save();
         }
         echo 'generate Ga Secret successful' . PHP_EOL;
-    }
-
-    /**
-     * 清理所有中转规则
-     *
-     * @return void
-     */
-    public function cleanRelayRule()
-    {
-        $rules = Relay::all();
-        foreach ($rules as $rule) {
-            echo ($rule->id . "\n");
-            if ($rule->source_node_id == 0) {
-                echo ($rule->id . "被删除！\n");
-                $rule->delete();
-                continue;
-            }
-            $ruleset = Relay::where('user_id', $rule->user_id)->orwhere('user_id', 0)->get();
-            $maybe_rule_id = Tools::has_conflict_rule($rule, $ruleset, $rule->id);
-            if ($maybe_rule_id != 0) {
-                echo ($rule->id . "被删除！\n");
-                $rule->delete();
-            }
-        }
     }
 
     /**

@@ -21,6 +21,11 @@ class Ip extends Model
         return $user;
     }
 
+    public function getUserAliveIpCount($userid)
+    {
+        return count(self::where('userid', '=', $userid)->where('datetime', '>=', time() - 60)->get());
+    }
+
     public function Node()
     {
         $node = Node::where('id', $this->attributes['nodeid'])->first();

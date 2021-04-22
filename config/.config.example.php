@@ -36,7 +36,7 @@ $_ENV['db_prefix']    = '';
 
 
 //邮件设置--------------------------------------------------------------------------------------------
-$_ENV['mailDriver']      = 'none';      //发送邮件方式：none / mailgun / smtp / sendgrid
+$_ENV['mailDriver']      = 'none';      //发送邮件方式：none / mailgun / smtp / sendgrid / ses
 $_ENV['sendPageLimit']   = 50;          //发信分页 解决大站发公告超时问题
 $_ENV['email_queue']     = true;        //如题，自动计划任务邮件使用队列 需要每分钟执行 php xcat Job SendMail
 
@@ -60,6 +60,10 @@ $_ENV['smtp_reply_to_name'] = $_ENV['smtp_sender'];        // 回复地址显示
 $_ENV['sendgrid_key']    = '';
 $_ENV['sendgrid_sender'] = '';       //发件邮箱
 $_ENV['sendgrid_name']   = '';       //发件人名称
+
+#aws ses
+$_ENV['aws_access_key_id']      = '';
+$_ENV['aws_secret_access_key']  = '';
 
 
 //备份设置--------------------------------------------------------------------------------------------
@@ -106,6 +110,8 @@ $_ENV['enable_bought_extend']       = true;         //购买时是否延长等�
 $_ENV['port_price']                 = -1;           //用户随机重置端口所需要的价格，价格小于0时视为不开放购买
 $_ENV['port_price_specify']         = -1;           //用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
 
+$_ENV['disconnect_time']        = 60;            //在用戶超过套餐连接IP数后多久才会拒绝新连接
+
 #高级
 $_ENV['class_expire_reset_traffic'] = 0;            //等级到期时重置为的流量值，单位GB，小于0时不重置
 $_ENV['account_expire_delete_days'] = -1;           //账户到期几天之后会删除账户，小于0时不删除
@@ -123,7 +129,6 @@ $_ENV['Subscribe']                  = true;                         //本站是�
 $_ENV['subUrl']                     = $_ENV['baseUrl'] . '/link/';  //订阅地址，如需和站点名称相同，请不要修改
 $_ENV['mergeSub']                   = true;                         //合并订阅设置 可选项 false / true
 $_ENV['enable_sub_extend']          = true;                         // 是否开启订阅中默认显示流量剩余以及账户到期时间以及 sub_message 中的信息
-
 
 // 订阅中的营销信息
 // 使用数组形式，将会添加在订阅列表的顶端
@@ -459,9 +464,9 @@ $_ENV['WebAPI']     = true;
 $_ENV['authDriver']             = 'cookie';            //不能更改此项
 $_ENV['pwdMethod']              = 'md5';               //密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
 $_ENV['salt']                   = '';                  //推荐配合 md5/sha256， bcrypt/argon2i/argon2id 会忽略此项
-$_ENV['sessionDriver']          = 'cookie';            //可选: cookie,redis
-$_ENV['cacheDriver']            = 'cookie';            //可选: cookie,redis
-$_ENV['tokenDriver']            = 'db';                //可选: db,redis
+$_ENV['sessionDriver']          = 'cookie';            //可选: cookie
+$_ENV['cacheDriver']            = 'cookie';            //可选: cookie
+$_ENV['tokenDriver']            = 'db';                //可选: db
 
 $_ENV['enable_login_bind_ip']   = false;        //是否将登陆线程和IP绑定
 $_ENV['rememberMeDuration']     = 7;           //登录时记住账号时长天数
@@ -476,25 +481,11 @@ $_ENV['muKeyList']              = [];                   //多 key 列表
 $_ENV['keep_connect']           = false;               // 流量耗尽用户限速至 1Mbps
 $_ENV['money_from_admin']       = false;            //是否开启管理员修改用户余额时创建充值记录
 
-#aws
-$_ENV['aws_access_key_id']      = '';
-$_ENV['aws_secret_access_key']  = '';
-
-#redis
-$_ENV['redis_scheme']           = 'tcp';
-$_ENV['redis_host']             = '127.0.0.1';
-$_ENV['redis_port']             = 6379;
-$_ENV['redis_database']         = '';
-$_ENV['redis_password']         = '';
-
 #Cloudflare
 $_ENV['cloudflare_enable']      = false;         //是否开启 Cloudflare 解析
 $_ENV['cloudflare_email']       = '';            //Cloudflare 邮箱地址
 $_ENV['cloudflare_key']         = '';            //Cloudflare API Key
 $_ENV['cloudflare_name']        = '';            //域名
-
-#不安全中转模式，这个开启之后使用除了 auth_aes128_md5 或者 auth_aes128_sha1 以外的协议地用户也可以设置和使用中转
-$_ENV['relay_insecure_mode']    = false;       //强烈推荐不开启
 
 #是否夹带统计代码，自己在 resources/views/{主题名} 下创建一个 analytics.tpl ，如果有必要就用 literal 界定符
 $_ENV['enable_analytics_code']  = false;

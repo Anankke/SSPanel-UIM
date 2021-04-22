@@ -4,8 +4,7 @@ namespace App\Utils;
 
 use App\Models\{
     User,
-    Node,
-    Relay
+    Node
 };
 use App\Services\Config;
 use App\Controllers\{
@@ -242,9 +241,6 @@ class URL
             $mu_nodes = $mu_node_query->get();
         }
 
-        // 获取适用于用户的中转规则
-        $relay_rules = $user->getRelays();
-
         $return_array = [];
         foreach ($nodes as $node) {
             if (isset($Rule['content']['regex']) && $Rule['content']['regex'] != '') {
@@ -288,18 +284,7 @@ class URL
                 // 节点非只启用单端口 && 只获取普通端口
                 if ($node->mu_only != 1 && ($is_mu == 0 || ($is_mu != 0 && $_ENV['mergeSub'] === true))) {
                     foreach ($is_ss as $ss) {
-                        if ($node->sort == 10) {
-                            // SS 中转
-                            $relay_rule_id = 0;
-                            $relay_rule = Tools::pick_out_relay_rule($node->id, $user->port, $relay_rules);
-                            if ($relay_rule != null && $relay_rule->dist_node() != null) {
-                                $relay_rule_id = $relay_rule->id;
-                            }
-                            $item = $node->getItem($user, 0, $relay_rule_id, $ss, $emoji);
-                        } else {
-                            // SS 非中转
-                            $item = $node->getItem($user, 0, 0, $ss, $emoji);
-                        }
+                        $item = $node->getItem($user, 0, 0, $ss, $emoji);
                         if ($item != null) {
                             $return_array[] = $item;
                         }
@@ -311,18 +296,7 @@ class URL
                 if ($node->mu_only != -1 && $is_mu != 0) {
                     foreach ($is_ss as $ss) {
                         foreach ($mu_nodes as $mu_node) {
-                            if ($node->sort == 10) {
-                                // SS 中转
-                                $relay_rule_id = 0;
-                                $relay_rule = Tools::pick_out_relay_rule($node->id, $mu_node->server, $relay_rules);
-                                if ($relay_rule != null && $relay_rule->dist_node() != null) {
-                                    $relay_rule_id = $relay_rule->id;
-                                }
-                                $item = $node->getItem($user, $mu_node->server, $relay_rule_id, $ss, $emoji);
-                            } else {
-                                // SS 非中转
-                                $item = $node->getItem($user, $mu_node->server, 0, $ss, $emoji);
-                            }
+                            $item = $node->getItem($user, $mu_node->server, 0, $ss, $emoji);
                             if ($item != null) {
                                 $return_array[] = $item;
                             }
@@ -457,25 +431,6 @@ class URL
         $tmp_nodes = array();
         foreach ($nodes as $node) {
             $tmp_nodes[] = $node;
-            if ($node->sort == 12) {
-                $relay_rule = Relay::where('source_node_id', $node->id)->where(
-                    static function ($query) {
-                        $query->Where('user_id', '=', 0);
-                    }
-                )->orderBy('priority', 'DESC')->orderBy('id')->first();
-                if ($relay_rule != null) {
-                    //是中转起源节点
-                    $tmp_node = $relay_rule->dist_node();
-                    $server = explode(';', $tmp_node->server);
-                    $source_server = Tools::v2Array($node->server);
-                    if (count($server) < 6) {
-                        $tmp_node->server .= str_repeat(';', 6 - count($server));
-                    }
-                    $tmp_node->server .= 'relayserver=' . $source_server['add'] . '|' . 'outside_port=' . $source_server['port'];
-                    $tmp_node->name = $node->name . '=>' . $tmp_node->name;
-                    $tmp_nodes[] = $tmp_node;
-                }
-            }
         }
         $nodes = $tmp_nodes;
         if (!$arrout) {

@@ -70,7 +70,8 @@ class NodeController extends BaseController
                 'mu_only' => $node->mu_only,
                 'sort' => $node->sort,
                 'server' => $node_server,
-                'type' => 'ss-panel-v3-mod_Uim'
+                'disconnect_time' => $_ENV['disconnect_time'],
+                'type' => 'SSPanel-UIM'
             ],
         ];
         return $this->echoJson($response, $res);

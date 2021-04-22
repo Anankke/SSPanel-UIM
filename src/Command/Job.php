@@ -13,8 +13,6 @@ use App\Models\LoginIp;
 use App\Models\DetectLog;
 use App\Models\UnblockIp;
 use App\Models\Speedtest;
-use App\Models\TrafficLog;
-use App\Models\Disconnect;
 use App\Models\EmailVerify;
 use App\Models\DetectBanLog;
 use App\Models\EmailQueue;
@@ -111,7 +109,6 @@ class Job extends Command
         Token::where('expire_time', '<', time())->delete();
         NodeInfoLog::where('log_time', '<', time() - 86400 * 3)->delete();
         NodeOnlineLog::where('log_time', '<', time() - 86400 * 3)->delete();
-        TrafficLog::where('log_time', '<', time() - 86400 * 3)->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         Speedtest::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
@@ -119,9 +116,9 @@ class Job extends Command
 
         $db = new DatatablesHelper();
 
-        Tools::reset_auto_increment($db, 'user_traffic_log');
-        Tools::reset_auto_increment($db, 'ss_node_online_log');
-        Tools::reset_auto_increment($db, 'ss_node_info');
+        (new \App\Utils\Tools)->reset_auto_increment($db, 'user_traffic_log');
+        (new \App\Utils\Tools)->reset_auto_increment($db, 'ss_node_online_log');
+        (new \App\Utils\Tools)->reset_auto_increment($db, 'ss_node_info');
 
         if (Config::getconfig('Telegram.bool.DailyJob')) {
             Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));
@@ -226,91 +223,6 @@ class Job extends Command
      */
     public function CheckJob()
     {
-        //在线人数检测
-        $users = User::where('node_connector', '>', 0)->get();
-        $full_alive_ips = Ip::where('datetime', '>=', time() - 60)->orderBy('ip')->get();
-        $alive_ipset = array();
-        foreach ($full_alive_ips as $full_alive_ip) {
-            $full_alive_ip->ip = Tools::getRealIp($full_alive_ip->ip);
-            $is_node = Node::where('node_ip', $full_alive_ip->ip)->first();
-            if ($is_node) {
-                continue;
-            }
-
-            if (!isset($alive_ipset[$full_alive_ip->userid])) {
-                $alive_ipset[$full_alive_ip->userid] = new ArrayObject();
-            }
-
-            $alive_ipset[$full_alive_ip->userid]->append($full_alive_ip);
-        }
-
-        foreach ($users as $user) {
-            $alive_ips = ($alive_ipset[$user->id] ?? new ArrayObject());
-            $ips = array();
-
-            $disconnected_ips = explode(',', $user->disconnect_ip);
-
-            foreach ($alive_ips as $alive_ip) {
-                if (!isset($ips[$alive_ip->ip]) && !in_array($alive_ip->ip, $disconnected_ips)) {
-                    $ips[$alive_ip->ip] = 1;
-                    if ($user->node_connector < count($ips)) {
-                        //暂时封禁
-                        $isDisconnect = Disconnect::where('id', '=', $alive_ip->ip)->where(
-                            'userid',
-                            '=',
-                            $user->id
-                        )->first();
-
-                        if ($isDisconnect == null) {
-                            $disconnect = new Disconnect();
-                            $disconnect->userid = $user->id;
-                            $disconnect->ip = $alive_ip->ip;
-                            $disconnect->datetime = time();
-                            $disconnect->save();
-
-                            if ($user->disconnect_ip == null || $user->disconnect_ip == '') {
-                                $user->disconnect_ip = $alive_ip->ip;
-                            } else {
-                                $user->disconnect_ip .= ',' . $alive_ip->ip;
-                            }
-                            $user->save();
-                        }
-                    }
-                }
-            }
-        }
-
-        //解封
-        $disconnecteds = Disconnect::where('datetime', '<', time() - 300)->get();
-        foreach ($disconnecteds as $disconnected) {
-            $user = User::where('id', '=', $disconnected->userid)->first();
-
-            $ips = explode(',', $user->disconnect_ip);
-            $new_ips = '';
-            $first = 1;
-
-            foreach ($ips as $ip) {
-                if ($ip != $disconnected->ip && $ip != '') {
-                    if ($first == 1) {
-                        $new_ips .= $ip;
-                        $first = 0;
-                    } else {
-                        $new_ips .= ',' . $ip;
-                    }
-                }
-            }
-
-            $user->disconnect_ip = $new_ips;
-
-            if ($new_ips == '') {
-                $user->disconnect_ip = null;
-            }
-
-            $user->save();
-
-            $disconnected->delete();
-        }
-
         Ip::where('datetime', '<', time() - 300)->delete();
         UnblockIp::where('datetime', '<', time() - 300)->delete();
         BlockIp::where('datetime', '<', time() - 86400)->delete();
@@ -434,18 +346,8 @@ class Job extends Command
                 if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
                     $node->save();
                 }
-                if (in_array($node->sort, array(0, 10, 12))) {
-                    Tools::updateRelayRuleIp($node);
-                }
             }
         }
-
-        // 删除无效的中转
-        $allNodeID = implode(', ', $allNodeID);
-        $datatables = new DatatablesHelper();
-        $datatables->query(
-            'DELETE FROM `relay` WHERE `source_node_id` NOT IN(' . $allNodeID . ') OR `dist_node_id` NOT IN(' . $allNodeID . ')'
-        );       
     }
     /**
      * 用户账户相关任务，每小时

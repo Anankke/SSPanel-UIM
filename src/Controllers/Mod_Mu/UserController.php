@@ -8,7 +8,6 @@ use App\Models\{
     Node,
     User,
     DetectLog,
-    TrafficLog,
     NodeOnlineLog
 };
 use App\Utils\Tools;
@@ -17,7 +16,7 @@ class UserController extends BaseController
 {
     /**
      * User List
-     * 
+     *
      * @param \Slim\Http\Request    $request
      * @param \Slim\Http\Response   $response
      * @param array                 $args
@@ -78,19 +77,23 @@ class UserController extends BaseController
                     }
                 )->orwhere('is_admin', 1);
             }
-        )
-            ->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
+        )->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
 
         $users = array();
 
-        $key_list = array(
-            'email', 'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param',
-            'forbidden_ip', 'forbidden_port', 'node_speedlimit', 'disconnect_ip',
-            'is_multi_user', 'id', 'port', 'passwd', 'u', 'd', 'node_connector',
-            'sort', 'uuid'
-        );
+        if ($node->sort == 14) {
+            $key_list = array('node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip');
+        } elseif ($node->sort == 11) {
+            $key_list = array('node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip');
+        } else {
+            $key_list = array('method', 'obfs', 'obfs_param', 'protocol', 'protocol_param', 'node_speedlimit',
+                'is_multi_user', 'u', 'd', 'transfer_enable', 'id', 'port', 'passwd', 'node_connector', 'alive_ip');
+        }
 
         foreach ($users_raw as $user_raw) {
+            if ($user_raw->node_connector != 0) {
+                $user_raw->alive_ip = (new \App\Models\Ip)->getUserAliveIpCount($user_raw->id);
+            }
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect'] === true) {
                     // 流量耗尽用户限速至 1Mbps
@@ -110,9 +113,6 @@ class UserController extends BaseController
                 }
             }
             $user_raw = Tools::keyFilter($user_raw, $key_list);
-            if ($node->sort == 14) {
-                $user_raw->sha224uuid = hash('sha224', $user_raw->uuid);
-            }
             $users[] = $user_raw;
         }
 
@@ -167,17 +167,6 @@ class UserController extends BaseController
                     ];
                     return $this->echoJson($response, $res);
                 }
-
-                // log
-                $traffic = new TrafficLog();
-                $traffic->user_id = $user_id;
-                $traffic->u = $u;
-                $traffic->d = $d;
-                $traffic->node_id = $node_id;
-                $traffic->rate = $node->traffic_rate;
-                $traffic->traffic = Tools::flowAutoShow(($u + $d) * $node->traffic_rate);
-                $traffic->log_time = time();
-                $traffic->save();
             }
         }
 

@@ -167,15 +167,10 @@
                                     </p>
                                 {else}
                                     {if in_array($node['sort'], [0, 10])}
-                                        {$relay_rule = null}
-
-                                        {if $node['sort'] == 10}
-                                            {$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
-                                        {/if}
                                         {if $node['mu_only'] != 1}
                                             <div class="tiptitle">
-                                                <a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">
-                                                    {$node['name']}{if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}
+                                                <a href="javascript:void(0);" onClick="urlChange('{$node['id']}',0)">
+                                                    {$node['name']}
                                                 </a>
                                                 <div class="nodeload">
                                                     <div class="label label-brand-accent"> ↑点击节点查看配置信息</div>
@@ -191,13 +186,9 @@
                                                 {if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
                                                     {continue}
                                                 {/if}
-                                                {$relay_rule = null}
-                                                {if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
-                                                    {$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
-                                                {/if}
                                                 <div class="tiptitle">
-                                                    <a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-                                                        {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} -
+                                                    <a href="javascript:void(0);" onClick="urlChange('{$node['id']}',{$single_muport['server']->server})">{$node['name']}
+                                                        -
                                                         单端口 Shadowsocks - {$node['raw_node']->getOffsetPort($single_muport['server']->server)} 端口
                                                     </a>
                                                 </div>
@@ -298,16 +289,11 @@
                                                             <div class="card-main">
                                                                 <div class="card-inner">
                                                         {if in_array($node['sort'], [0, 10])}
-                                                            {$relay_rule = null}
                                                             <!-- 用户等级不小于节点等级 -->
-                                                            {if $node['sort'] == 10}
-                                                                {$relay_rule = $tools->pick_out_relay_rule($node['id'], $user->port, $relay_rules)}
-                                                            {/if}
                                                             {if $node['mu_only'] != 1}
                                                                     <p class="card-heading">
                                                                         <a href="javascript:void(0);"
-                                                                            onClick="urlChange('{$node['id']}',0,{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-                                                                            {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}</a>
+                                                                            onClick="urlChange('{$node['id']}',0)">{$node['name']}</a>
                                                                         <span class="label label-brand-accent">←点击节点查看配置信息</span>
                                                                     </p>
                                                             {/if}
@@ -316,14 +302,9 @@
                                                                     {if !($single_muport['server']->node_class <= $user->class && ($single_muport['server']->node_group == 0 || $single_muport['server']->node_group == $user->node_group))}
                                                                         {continue}
                                                                     {/if}
-                                                                    {$relay_rule = null}
-                                                                    {if $node['sort'] == 10 && $single_muport['user']['is_multi_user'] != 2}
-                                                                        {$relay_rule = $tools->pick_out_relay_rule($node['id'], $single_muport['server']->server, $relay_rules)}
-                                                                    {/if}
                                                                     <p class="card-heading">
                                                                         <a href="javascript:void(0);"
-                                                                           onClick="urlChange('{$node['id']}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$node['name']}
-                                                                            {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if}
+                                                                           onClick="urlChange('{$node['id']}',{$single_muport['server']->server}">{$node['name']}
                                                                             - 单端口 Shadowsocks -
                                                                             {$node['raw_node']->getOffsetPort($single_muport['server']->server)}
                                                                             端口</a><span
@@ -395,13 +376,11 @@
 {include file='user/footer.tpl'}
 
 <script>
-    function urlChange(id, is_mu, rule_id) {
+    function urlChange(id, is_mu) {
         var site = `./node/${
                 id
                 }?ismu=${
                 is_mu
-                }&relay_rule=${
-                rule_id
                 }`;
         if (id == 'guide') {
             var doc = document.getElementById('infoifram').contentWindow.document;

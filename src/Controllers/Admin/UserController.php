@@ -7,7 +7,6 @@ use App\Models\{
     Ip,
     User,
     Shop,
-    Relay,
     Bought,
     DetectBanLog
 };
@@ -334,12 +333,6 @@ class UserController extends AdminController
         $user->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
         $origin_port = $user->port;
         $user->port = $request->getParam('port');
-
-        $relay_rules = Relay::where('user_id', $user->id)->where('port', $origin_port)->get();
-        foreach ($relay_rules as $rule) {
-            $rule->port = $user->port;
-            $rule->save();
-        }
 
         $user->addMoneyLog($request->getParam('money') - $user->money);
 
