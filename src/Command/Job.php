@@ -22,11 +22,9 @@ use App\Models\UserSubscribeLog;
 use App\Services\Config;
 use App\Services\Mail;
 use App\Utils\QQWry;
-use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
 use App\Utils\Telegram;
 use App\Utils\DatatablesHelper;
-use ArrayObject;
 use Exception;
 
 class Job extends Command
@@ -87,6 +85,8 @@ class Job extends Command
     public function DailyJob()
     {
         ini_set('memory_limit', '-1');
+
+        // ------- 重置节点流量
         $nodes = Node::all();
         foreach ($nodes as $node) {
             $nodeSort = [1, 2, 5, 9, 999];     // 无需重置流量的节点类型
@@ -97,32 +97,39 @@ class Job extends Command
                 }
             }
         }
+        // ------- 重置节点流量
 
-        // 清理订阅记录
-        UserSubscribeLog::where(
-            'request_time',
-            '<',
-            date('Y-m-d H:i:s', time() - 86400 * (int)$_ENV['subscribeLog_keep_days'])
-        )->delete();
-
+        // ------- 清理各表记录
+        UserSubscribeLog::where('request_time','<',date('Y-m-d H:i:s', time() - 86400 * (int)$_ENV['subscribeLog_keep_days']))->delete();
         Token::where('expire_time', '<', time())->delete();
         NodeInfoLog::where('log_time', '<', time() - 86400 * 3)->delete();
         NodeOnlineLog::where('log_time', '<', time() - 86400 * 3)->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         Speedtest::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
+        Ip::where('datetime', '<', time() - 300)->delete();
+        UnblockIp::where('datetime', '<', time() - 300)->delete();
+        BlockIp::where('datetime', '<', time() - 86400)->delete();
+        TelegramSession::where('datetime', '<', time() - 900)->delete();
+        // ------- 清理各表记录
+
+        // ------- 清理 TG 二维码登录的图片
         system('rm ' . BASE_PATH . '/storage/*.png', $ret);
+        // ------- 清理 TG 二维码登录的图片
 
+        // ------- 重置自增 ID
         $db = new DatatablesHelper();
+        Tools::reset_auto_increment($db, 'user_traffic_log');
+        Tools::reset_auto_increment($db, 'ss_node_online_log');
+        Tools::reset_auto_increment($db, 'ss_node_info');
+        // ------- 重置自增 ID
 
-        (new \App\Utils\Tools)->reset_auto_increment($db, 'user_traffic_log');
-        (new \App\Utils\Tools)->reset_auto_increment($db, 'ss_node_online_log');
-        (new \App\Utils\Tools)->reset_auto_increment($db, 'ss_node_info');
-
+        // ------- 发送每日系统运行报告
         if (Config::getconfig('Telegram.bool.DailyJob')) {
             Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));
         }
 
+        // ------- 用户流量重置
         $shopid = [];
         $shops  = Shop::where('status',1)->get();    //已下架的商品不支持重置使用
         foreach ($shops as $auto_reset_shop) {
@@ -130,8 +137,6 @@ class Job extends Command
                 $shopid[] = $auto_reset_shop->id;
             }
         }
-
-        //auto reset
         $shopRenew = Shop::where('status','1')->where('content','like','%reset_value%')->get(['id'])->toArray();
         $shopRenewId = Bought::whereIn('shopid',array_filter(array_column($shopRenew, 'id')))->groupBy('userid')->orderBy("id","desc")->get(['id']);
         $boughts = Bought::whereIn('id', array_filter(array_column(json_decode($shopRenewId), 'id')))->get();
@@ -169,7 +174,7 @@ class Job extends Command
                 }
             }
         }
-
+        // ------- 用户流量重置
 
         $users = User::all();
         foreach ($users as $user) {
@@ -204,14 +209,13 @@ class Job extends Command
                 fwrite($fp, $qqwry);
                 fclose($fp);
             }
-        }
-
-        $iplocation = new QQWry();
-        $location = $iplocation->getlocation('8.8.8.8');
-        $Userlocation = $location['country'];
-        if (iconv('gbk', 'utf-8//IGNORE', $Userlocation) !== '美国') {
-            unlink(BASE_PATH . '/storage/qqwry.dat');
-            rename(BASE_PATH . '/storage/qqwry.dat.bak', BASE_PATH . '/storage/qqwry.dat');
+            $iplocation   = new QQWry();
+            $location     = $iplocation->getlocation('8.8.8.8');
+            $Userlocation = $location['country'];
+            if (iconv('gbk', 'utf-8//IGNORE', $Userlocation) !== '美国') {
+                unlink(BASE_PATH . '/storage/qqwry.dat');
+                rename(BASE_PATH . '/storage/qqwry.dat.bak', BASE_PATH . '/storage/qqwry.dat');
+            }
         }
     }
 
@@ -222,15 +226,10 @@ class Job extends Command
      */
     public function CheckJob()
     {
-        Ip::where('datetime', '<', time() - 300)->delete();
-        UnblockIp::where('datetime', '<', time() - 300)->delete();
-        BlockIp::where('datetime', '<', time() - 86400)->delete();
-        TelegramSession::where('datetime', '<', time() - 900)->delete();
-        $adminUser = User::where('is_admin', '=', '1')->get();
-
         //节点掉线检测
         if ($_ENV['enable_detect_offline'] == true) {
             echo '节点掉线检测开始' . PHP_EOL;
+            $adminUser = User::where('is_admin', '=', '1')->get();
             $nodes = Node::all();
             foreach ($nodes as $node) {
                 if ($node->isNodeOnline() === false && $node->online == true) {
@@ -331,19 +330,16 @@ class Job extends Command
         }
 
         //更新节点 IP，每分钟
-        $nodes = Node::all();
-        $allNodeID = [];
+        $nodes = Node::whereNotIn('id', [2, 5, 9, 999])->get();
         foreach ($nodes as $node) {
-            $allNodeID[] = $node->id;
-            $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
-            if (!in_array($node->sort, $nodeSort)) {
-                $server = $node->getOutServer();
-                if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
-                    $node->save();
-                }
+            /** @var Node $node */
+            $server = $node->getOutServer();
+            if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
+                $node->save();
             }
         }
     }
+
     /**
      * 用户账户相关任务，每小时
      *
@@ -513,6 +509,7 @@ class Job extends Command
 
             $user->save();
         }
+
         //自动续费
         $boughts = Bought::where('renew', '<', time() + 60)->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {
