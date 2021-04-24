@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Services\{
     Auth,
-    Mail,
     Config,
     Payment
 };
@@ -18,7 +17,6 @@ use App\Models\{
     Token,
     Bought,
     Coupon,
-    Ticket,
     Payback,
     BlockIp,
     LoginIp,
@@ -32,7 +30,6 @@ use App\Models\{
 };
 use App\Utils\{
     GA,
-    Pay,
     URL,
     Hash,
     Check,
@@ -42,12 +39,14 @@ use App\Utils\{
     Geetest,
     Telegram,
     ClientProfiles,
-    DatatablesHelper,
     TelegramSessionManager
 };
 use voku\helper\AntiXSS;
-use Exception;
 use Ramsey\Uuid\Uuid;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 /**
  *  HomeController
@@ -802,6 +801,7 @@ class UserController extends BaseController
 
     public function buy($request, $response, $args)
     {
+        $user   = $this->user;
         $coupon = $request->getParam('coupon');
         $coupon = trim($coupon);
         $code = $coupon;
@@ -867,7 +867,6 @@ class UserController extends BaseController
         }
 
         $price = $shop->price * ((100 - $credit) / 100);
-        $user = $this->user;
 
         if (!$user->isLogin) {
             $res['ret'] = -1;
@@ -1159,55 +1158,18 @@ class UserController extends BaseController
         return $this->echoJson($response, $res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function updateMethod($request, $response, $args)
     {
-        $user = Auth::getUser();
-        $method = $request->getParam('method');
-        $method = strtolower($method);
-
-        if ($method == '') {
-            $res['ret'] = 0;
-            $res['msg'] = '非法输入';
-            return $response->getBody()->write(json_encode($res));
-        }
-
-        if (!Tools::is_param_validate('method', $method)) {
-            $res['ret'] = 0;
-            $res['msg'] = '加密无效';
-            return $response->getBody()->write(json_encode($res));
-        }
-
-        $user->method = $method;
-
-        if (!Tools::checkNoneProtocol($user)) {
-            $res['ret'] = 0;
-            $res['msg'] = '系统检测到您将要设置的加密方式为 none ，但您的协议并不在以下协议<br>' . implode(',', Config::getSupportParam('allow_none_protocol')) . '<br>之内，请您先修改您的协议，再来修改此处设置。';
-            return $this->echoJson($response, $res);
-        }
-
-        if (!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
-            $res['ret'] = 0;
-            $res['msg'] = '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。';
-            return $this->echoJson($response, $res);
-        }
-
-        $user->updateMethod($method);
-
-        if (!URL::SSCanConnect($user)) {
-            $res['ret'] = 1;
-            $res['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
-            return $this->echoJson($response, $res);
-        }
-
-        if (!URL::SSRCanConnect($user)) {
-            $res['ret'] = 1;
-            $res['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
-            return $this->echoJson($response, $res);
-        }
-
-        $res['ret'] = 1;
-        $res['msg'] = '设置成功，您可自由选用两种客户端来进行连接。';
-        return $this->echoJson($response, $res);
+        $user          = $this->user;
+        $method        = strtolower($request->getParam('method'));
+        $result        = $user->updateMethod($method);
+        $result['ret'] = $result['ok'] ? 1 : 0;
+        return $response->withJson($result);
     }
 
     public function logout($request, $response, $args)

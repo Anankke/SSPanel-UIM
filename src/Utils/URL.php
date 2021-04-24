@@ -407,7 +407,7 @@ class URL
         $item['type'] = 'vmess';
         $item['ps'] = ($emoji ? Tools::addEmoji($node->name) : $node->name);
         $item['remark'] = $item['ps'];
-        $item['id'] = $user->getUuid();
+        $item['id'] = $user->uuid;
         $item['class'] = $node->node_class;
         if (!$arrout) {
             return 'vmess://' . base64_encode(

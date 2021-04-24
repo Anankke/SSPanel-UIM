@@ -112,7 +112,6 @@ class Job extends Command
 
         // ------- 重置自增 ID
         $db = new DatatablesHelper();
-        Tools::reset_auto_increment($db, 'user_traffic_log');
         Tools::reset_auto_increment($db, 'ss_node_online_log');
         Tools::reset_auto_increment($db, 'ss_node_info');
         // ------- 重置自增 ID
@@ -183,22 +182,7 @@ class Job extends Command
         });
 
         // ------- 更新 IP 库
-        $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
-        if ($qqwry != '') {
-            rename(BASE_PATH . '/storage/qqwry.dat', BASE_PATH . '/storage/qqwry.dat.bak');
-            $fp = fopen(BASE_PATH . '/storage/qqwry.dat', 'wb');
-            if ($fp) {
-                fwrite($fp, $qqwry);
-                fclose($fp);
-            }
-            $iplocation   = new QQWry();
-            $location     = $iplocation->getlocation('8.8.8.8');
-            $Userlocation = $location['country'];
-            if (iconv('gbk', 'utf-8//IGNORE', $Userlocation) !== '美国') {
-                unlink(BASE_PATH . '/storage/qqwry.dat');
-                rename(BASE_PATH . '/storage/qqwry.dat.bak', BASE_PATH . '/storage/qqwry.dat');
-            }
-        }
+        (new Tool($this->argv))->initQQWry();
         // ------- 更新 IP 库
 
         // ------- 发送每日系统运行报告

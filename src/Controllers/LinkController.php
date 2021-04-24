@@ -575,7 +575,7 @@ class LinkController extends BaseController
             'port'            => 10086,
             'method'          => 'chacha20-ietf',
             'passwd'          => $user->passwd,
-            'id'              => $user->getUuid(),
+            'id'              => $user->uuid,
             'aid'             => 0,
             'net'             => 'tcp',
             'headerType'      => 'none',

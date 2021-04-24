@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Utils\QQWry;
+
 class Tool extends Command
 {
     public $description = ''
@@ -71,14 +73,27 @@ class Tool extends Command
      */
     public function initQQWry()
     {
-        echo ('开始下载纯真 IP 数据库....');
+        echo ('开始下载或更新纯真 IP 数据库....');
+        $path  = BASE_PATH . '/storage/qqwry.dat';
         $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
         if ($qqwry != '') {
-            $fp = fopen(BASE_PATH . '/storage/qqwry.dat', 'wb');
+            if (is_file($path)) {
+                rename($path, $path . '.bak');
+            }
+            $fp = fopen($path, 'wb');
             if ($fp) {
                 fwrite($fp, $qqwry);
                 fclose($fp);
                 echo ('纯真 IP 数据库下载成功！');
+                $iplocation   = new QQWry();
+                $location     = $iplocation->getlocation('8.8.8.8');
+                $Userlocation = $location['country'];
+                if (iconv('gbk', 'utf-8//IGNORE', $Userlocation) !== '美国') {
+                    unlink($path);
+                    if (is_file($path . '.bak')) {
+                        rename($path . '.bak', $path);
+                    }
+                }
             } else {
                 echo ('纯真 IP 数据库保存失败！');
             }

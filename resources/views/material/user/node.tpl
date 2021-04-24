@@ -15,7 +15,7 @@
     <p>节点地址：<span class="card-tag tag-blue">{$v2server['add']}</span></p>
     <p>节点端口：<span class="card-tag tag-volcano">{$v2server['port']}</span></p>
     <p>AlterId：<span class="card-tag tag-purple">{$v2server['aid']}</span></p>
-    <p>UUID：<span class="card-tag tag-geekblue">{$user->getUuid()}</span></p>
+    <p>UUID：<span class="card-tag tag-geekblue">{$user->uuid}</span></p>
     <p>传输协议：<span class="card-tag tag-green">{$v2server['net']}</span></p>
     {if $v2server['net'] == 'ws'}
         <p>伪装路径：<span class="card-tag tag-green">{$v2server['path']}</span></p>
