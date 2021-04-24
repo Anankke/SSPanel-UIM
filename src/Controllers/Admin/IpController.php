@@ -15,9 +15,18 @@ use App\Utils\{
 };
 use App\Services\Auth;
 use Ozdemir\Datatables\Datatables;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class IpController extends AdminController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -33,6 +42,11 @@ class IpController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/ip/login.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function alive($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -49,6 +63,11 @@ class IpController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/ip/alive.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function block($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -64,6 +83,11 @@ class IpController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/ip/block.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function unblock($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -79,6 +103,11 @@ class IpController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/ip/unblock.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function doUnblock($request, $response, $args)
     {
         $ip = $request->getParam('ip');
@@ -97,9 +126,14 @@ class IpController extends AdminController
 
         $res['ret'] = 1;
         $res['msg'] = '发送解封命令解封 ' . $ip . ' 成功';
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_block($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
@@ -120,6 +154,11 @@ class IpController extends AdminController
         $body->write($datatables->generate());
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_unblock($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
@@ -140,6 +179,11 @@ class IpController extends AdminController
         $body->write($datatables->generate());
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_login($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
@@ -163,6 +207,11 @@ class IpController extends AdminController
         $body->write($datatables->generate());
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_alive($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());

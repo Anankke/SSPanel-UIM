@@ -9,6 +9,10 @@ use App\Utils\{
 };
 use Ozdemir\Datatables\Datatables;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class SubscribeLogController extends AdminController
 {

@@ -5,6 +5,10 @@ namespace App\Controllers\Admin;
 use App\Controllers\AdminController;
 use App\Models\GConfig;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class GConfigController extends AdminController
 {

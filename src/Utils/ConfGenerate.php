@@ -6,19 +6,18 @@
  * PHP version 7.2+
  */
 
-namespace App\Controllers;
+namespace App\Utils;
 
-use App\Utils\ConfRender;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
- * ConfController
+ * ConfGenerate
  *
  * @category GeekQu
- * @package  App/Controllers/ConfController
+ * @package  App/Utils/ConfGenerate
  */
-class ConfController extends BaseController
+class ConfGenerate
 {
     /**
      * 获取匹配的节点

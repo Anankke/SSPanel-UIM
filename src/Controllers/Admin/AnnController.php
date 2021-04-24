@@ -11,12 +11,19 @@ use App\Utils\{
     Telegram,
     DatatablesHelper
 };
-use App\Services\Mail;
 use Ozdemir\Datatables\Datatables;
-use Exception;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class AnnController extends AdminController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array('op' => '操作', 'id' => 'ID',
@@ -27,11 +34,21 @@ class AnnController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/announcement/index.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function create($request, $response, $args)
     {
         return $this->view()->display('admin/announcement/create.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function add($request, $response, $args)
     {
         $issend = $request->getParam('issend');
@@ -99,6 +116,11 @@ class AnnController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function edit($request, $response, $args)
     {
         $id = $args['id'];
@@ -106,6 +128,11 @@ class AnnController extends AdminController
         return $this->view()->assign('ann', $ann)->display('admin/announcement/edit.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function update($request, $response, $args)
     {
         $id = $args['id'];
@@ -128,7 +155,11 @@ class AnnController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
-
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function delete($request, $response, $args)
     {
         $id = $request->getParam('id');
@@ -143,6 +174,11 @@ class AnnController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());

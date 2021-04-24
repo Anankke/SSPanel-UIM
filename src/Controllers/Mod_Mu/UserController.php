@@ -11,6 +11,10 @@ use App\Models\{
     NodeOnlineLog
 };
 use App\Utils\Tools;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class UserController extends BaseController
 {
@@ -36,7 +40,7 @@ class UserController extends BaseController
                 $res = [
                     'ret' => 0
                 ];
-                return $this->echoJson($response, $res);
+                return $response->withJson($res);
             }
         }
         $node->node_heartbeat = time();
@@ -50,7 +54,7 @@ class UserController extends BaseController
                 'ret' => 1,
                 'data' => $users
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
 
         if (in_array($node->sort, [0, 10]) && $node->mu_only != -1) {
@@ -120,10 +124,14 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => $users
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
-    //   Update Traffic
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function addTraffic($request, $response, $args)
     {
         $params = $request->getQueryParams();
@@ -141,7 +149,7 @@ class UserController extends BaseController
             $res = [
                 'ret' => 0
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
 
         if (count($data) > 0) {
@@ -165,7 +173,7 @@ class UserController extends BaseController
                         'ret' => 0,
                         'data' => 'update failed',
                     ];
-                    return $this->echoJson($response, $res);
+                    return $response->withJson($res);
                 }
             }
         }
@@ -183,9 +191,14 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function addAliveIp($request, $response, $args)
     {
         $params = $request->getQueryParams();
@@ -202,7 +215,7 @@ class UserController extends BaseController
             $res = [
                 'ret' => 0
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
         if (count($data) > 0) {
             foreach ($data as $log) {
@@ -223,9 +236,14 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function addDetectLog($request, $response, $args)
     {
         $params = $request->getQueryParams();
@@ -242,7 +260,7 @@ class UserController extends BaseController
             $res = [
                 'ret' => 0
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
 
         if (count($data) > 0) {
@@ -264,6 +282,6 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 }

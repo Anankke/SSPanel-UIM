@@ -137,7 +137,7 @@ class HomeController extends BaseController
         $type = trim($request->getParam('type'));
         $user = Auth::getUser();
         if (!$user->isLogin) {
-            return $msg = '!> ₍₍ ◝(・ω・)◟ ⁾⁾ 您没有登录噢，[点击此处登录](/auth/login \':ignore target=_blank\') 之后再刷新就阔以了啦';
+            return $response->write('!> ₍₍ ◝(・ω・)◟ ⁾⁾ 您没有登录噢，[点击此处登录](/auth/login \':ignore target=_blank\') 之后再刷新就阔以了啦');
         } else {
             $subInfo = LinkController::getSubinfo($user, 0);
             switch ($type) {
@@ -240,6 +240,6 @@ class HomeController extends BaseController
                     break;
             }
         }
-        return implode(PHP_EOL, $msg);
+        return $response->write(implode(PHP_EOL, $msg));
     }
 }

@@ -15,29 +15,53 @@ use App\Services\{
     Analytics
 };
 use Ozdemir\Datatables\Datatables;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 /**
  *  Admin Controller
  */
 class AdminController extends UserController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function index($request, $response, $args)
     {
         $sts = new Analytics();
         return $this->view()->assign('sts', $sts)->display('admin/index.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function node($request, $response, $args)
     {
         $nodes = Node::all();
         return $this->view()->assign('nodes', $nodes)->display('admin/node.tpl');
     }
 
-    public function sys()
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function sys($request, $response, $args)
     {
         return $this->view()->display('admin/index.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function invite($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -55,6 +79,11 @@ class AdminController extends UserController
         return $this->view()->assign('table_config', $table_config)->display('admin/invite.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function chgInvite($request, $response, $args)
     {
         $prefix = $request->getParam('prefix');
@@ -82,6 +111,11 @@ class AdminController extends UserController
         return $response->getBody()->write(json_encode($res));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function addInvite($request, $response, $args)
     {
         $num = $request->getParam('num');
@@ -116,6 +150,11 @@ class AdminController extends UserController
         return $response->getBody()->write(json_encode($res));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function coupon($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -131,6 +170,11 @@ class AdminController extends UserController
         return $this->view()->assign('table_config', $table_config)->display('admin/coupon.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function addCoupon($request, $response, $args)
     {
         $code = new Coupon();
@@ -177,6 +221,11 @@ class AdminController extends UserController
         return $response->getBody()->write(json_encode($res));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_payback($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
@@ -190,6 +239,11 @@ class AdminController extends UserController
         $body->write($datatables->generate());
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_coupon($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());

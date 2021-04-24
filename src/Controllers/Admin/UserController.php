@@ -25,9 +25,18 @@ use App\Utils\{
 use Exception;
 use App\Utils\DatatablesHelper;
 use Ramsey\Uuid\Uuid;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class UserController extends AdminController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -74,6 +83,11 @@ class UserController extends AdminController
             ->display('admin/user/index.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function createNewUser($request, $response, $args)
     {
         # 需要一个 userEmail
@@ -181,6 +195,11 @@ class UserController extends AdminController
         return $response->getBody()->write(json_encode($res));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function buy($request, $response, $args)
     {
         #shop 信息可以通过 App\Controllers\UserController:shop 获得
@@ -229,6 +248,11 @@ class UserController extends AdminController
         return $response->getBody()->write(json_encode($result));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function search($request, $response, $args)
     {
         $pageNum = 1;
@@ -266,44 +290,11 @@ class UserController extends AdminController
         return $this->view()->assign('users', $users)->assign('regloc', $regloc)->assign('useripcount', $useripcount)->assign('userip', $userip)->display('admin/user/index.tpl');
     }
 
-    public function sort($request, $response, $args)
-    {
-        $pageNum = 1;
-        $text = $args['text'];
-        $asc = $args['asc'];
-        if (isset($request->getQueryParams()['page'])) {
-            $pageNum = $request->getQueryParams()['page'];
-        }
-
-        $users->setPath('/admin/user/sort/' . $text . '/' . $asc);
-
-        //Ip::where("datetime","<",time()-90)->get()->delete();
-        $total = Ip::where('datetime', '>=', time() - 90)->orderBy('userid', 'desc')->get();
-
-        $userip = array();
-        $useripcount = array();
-        $regloc = array();
-
-        $iplocation = new QQWry();
-        foreach ($users as $user) {
-            $useripcount[$user->id] = 0;
-            $userip[$user->id] = array();
-
-            $location = $iplocation->getlocation($user->reg_ip);
-            $regloc[$user->id] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-        }
-
-        foreach ($total as $single) {
-            if (isset($useripcount[$single->userid]) && !isset($userip[$single->userid][$single->ip])) {
-                ++$useripcount[$single->userid];
-                $location = $iplocation->getlocation($single->ip);
-                $userip[$single->userid][$single->ip] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-            }
-        }
-
-        return $this->view()->assign('users', $users)->assign('regloc', $regloc)->assign('useripcount', $useripcount)->assign('userip', $userip)->display('admin/user/index.tpl');
-    }
-
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function edit($request, $response, $args)
     {
         $id = $args['id'];
@@ -311,6 +302,11 @@ class UserController extends AdminController
         return $this->view()->assign('edit_user', $user)->display('admin/user/edit.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function update($request, $response, $args)
     {
         $id = $args['id'];
@@ -389,6 +385,11 @@ class UserController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function delete($request, $response, $args)
     {
         $id = $request->getParam('id');
@@ -403,6 +404,11 @@ class UserController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function changetouser($request, $response, $args)
     {
         $userid     = $request->getParam('userid');
@@ -435,6 +441,11 @@ class UserController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax($request, $response, $args)
     {
         //得到排序的方式

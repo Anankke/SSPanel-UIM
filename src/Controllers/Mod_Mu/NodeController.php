@@ -9,9 +9,18 @@ use App\Models\{
     NodeInfoLog
 };
 use App\Services\Config;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class NodeController extends BaseController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function info($request, $response, $args)
     {
         $node_id = $args['id'];
@@ -31,15 +40,20 @@ class NodeController extends BaseController
                 'ret' => 0,
                 'data' => 'update failed',
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
         $res = [
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function get_info($request, $response, $args)
     {
         $node_id = $args['id'];
@@ -52,7 +66,7 @@ class NodeController extends BaseController
             $res = [
                 'ret' => 0
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
         if (in_array($node->sort, [0, 10])) {
             $node_explode = explode(';', $node->server);
@@ -74,9 +88,14 @@ class NodeController extends BaseController
                 'type' => 'SSPanel-UIM'
             ],
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function get_all_info($request, $response, $args)
     {
         $nodes = Node::where('node_ip', '<>', null)->where(
@@ -91,9 +110,14 @@ class NodeController extends BaseController
             'ret' => 1,
             'data' => $nodes
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function getConfig($request, $response, $args)
     {
         $data = $request->getParsedBody();
@@ -110,7 +134,7 @@ class NodeController extends BaseController
                 $webapiConfig = [];
                 #todo
         }
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
     private function getServerIP()

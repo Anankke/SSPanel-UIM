@@ -9,9 +9,18 @@ use App\Models\{
 };
 use App\Utils\DatatablesHelper;
 use Ozdemir\Datatables\Datatables;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class ShopController extends AdminController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -28,11 +37,21 @@ class ShopController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/shop/index.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function create($request, $response, $args)
     {
         return $this->view()->display('admin/shop/create.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function add($request, $response, $args)
     {
         $shop = new Shop();
@@ -94,6 +113,11 @@ class ShopController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function edit($request, $response, $args)
     {
         $id = $args['id'];
@@ -101,6 +125,11 @@ class ShopController extends AdminController
         return $this->view()->assign('shop', $shop)->display('admin/shop/edit.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function update($request, $response, $args)
     {
         $id = $args['id'];
@@ -175,6 +204,11 @@ class ShopController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function deleteGet($request, $response, $args)
     {
         $id = $request->getParam('id');
@@ -198,6 +232,11 @@ class ShopController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function bought($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -215,6 +254,11 @@ class ShopController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/shop/bought.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function deleteBoughtGet($request, $response, $args)
     {
         $id = $request->getParam('id');
@@ -230,6 +274,11 @@ class ShopController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_shop($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
@@ -278,6 +327,11 @@ class ShopController extends AdminController
         $body->write($datatables->generate());
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_bought($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());

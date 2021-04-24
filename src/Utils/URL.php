@@ -7,10 +7,7 @@ use App\Models\{
     Node
 };
 use App\Services\Config;
-use App\Controllers\{
-    LinkController,
-    ConfController
-};
+use App\Controllers\LinkController;
 
 class URL
 {
@@ -246,7 +243,7 @@ class URL
             if (isset($Rule['content']['regex']) && $Rule['content']['regex'] != '') {
                 // 节点名称筛选
                 if (
-                    ConfController::getMatchProxy(
+                    ConfGenerate::getMatchProxy(
                         [
                             'remark' => $node->name
                         ],

@@ -13,9 +13,18 @@ use App\Utils\{
 };
 use App\Services\Auth;
 use Ozdemir\Datatables\Datatables;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class CodeController extends AdminController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -32,16 +41,31 @@ class CodeController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/code/index.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function create($request, $response, $args)
     {
         return $this->view()->display('admin/code/add.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function donate_create($request, $response, $args)
     {
         return $this->view()->display('admin/code/add_donate.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function add($request, $response, $args)
     {
         $n = $request->getParam('amount');
@@ -70,6 +94,11 @@ class CodeController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function donate_add($request, $response, $args)
     {
         $amount = $request->getParam('amount');
@@ -91,6 +120,11 @@ class CodeController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_code($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());

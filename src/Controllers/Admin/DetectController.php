@@ -9,9 +9,18 @@ use App\Utils\{
     DatatablesHelper
 };
 use Ozdemir\Datatables\Datatables;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class DetectController extends AdminController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -27,6 +36,11 @@ class DetectController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/detect/index.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function log($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -45,11 +59,21 @@ class DetectController extends AdminController
         return $this->view()->assign('table_config', $table_config)->display('admin/detect/log.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function create($request, $response, $args)
     {
         return $this->view()->display('admin/detect/add.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function add($request, $response, $args)
     {
         $rule = new DetectRule();
@@ -71,6 +95,11 @@ class DetectController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function edit($request, $response, $args)
     {
         $id = $args['id'];
@@ -78,6 +107,11 @@ class DetectController extends AdminController
         return $this->view()->assign('rule', $rule)->display('admin/detect/edit.tpl');
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function update($request, $response, $args)
     {
         $id = $args['id'];
@@ -101,6 +135,11 @@ class DetectController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function delete($request, $response, $args)
     {
         $id = $request->getParam('id');
@@ -115,6 +154,11 @@ class DetectController extends AdminController
         return $response->getBody()->write(json_encode($rs));
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_rule($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
@@ -133,6 +177,11 @@ class DetectController extends AdminController
         $body->write($datatables->generate());
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax_log($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());

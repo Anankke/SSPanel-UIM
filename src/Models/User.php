@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Controllers\LinkController;
 use App\Utils\{
     Tools,
     Hash,
@@ -21,7 +22,6 @@ use Exception;
  * @property        bool    $expire_notified    If user is notified for expire
  * @property        bool    $traffic_notified   If user is noticed for low traffic
  */
-
 class User extends Model
 {
     protected $connection = 'default';
@@ -50,7 +50,8 @@ class User extends Model
         'is_admin'        => 'boolean',
         'is_multi_user'   => 'int',
         'node_speedlimit' => 'float',
-        'sendDailyMail'   => 'int'
+        'sendDailyMail'   => 'int',
+        'ref_by'          => 'int'
     ];
 
     /**
@@ -365,6 +366,14 @@ class User extends Model
     public function clean_link()
     {
         Link::where('userid', $this->id)->delete();
+    }
+
+    /**
+     * 获取用户的订阅链接
+     */
+    public function getSublink()
+    {
+        return LinkController::GenerateSSRSubCode($this->id);
     }
 
     /**
@@ -882,5 +891,22 @@ class User extends Model
                 );
                 break;
         }
+    }
+
+    /**
+     * 记录登录 IP
+     *
+     * @param string $ip
+     * @param int    $type 登录失败为 1
+     */
+    public function collectLoginIP(string $ip, int $type = 0): bool
+    {
+        $loginip           = new LoginIp();
+        $loginip->ip       = $ip;
+        $loginip->userid   = $this->id;
+        $loginip->datetime = time();
+        $loginip->type     = $type;
+
+        return $loginip->save();
     }
 }
