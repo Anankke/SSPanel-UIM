@@ -256,7 +256,7 @@ class UserController extends BaseController
                 $gift_user = $user->ref_by_user();
                 if ($gift_user != null) {
                     $ref_get            = $codeq->number * ($_ENV['code_payback'] / 100);
-                    $gift_user->money  += $ref_get);
+                    $gift_user->money  += $ref_get;
                     $gift_user->save();
                     $Payback            = new Payback();
                     $Payback->total     = $codeq->number;

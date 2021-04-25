@@ -187,7 +187,7 @@ class User extends Model
     }
 
     /**
-     * 添加邀请码
+     * 生成邀请码
      */
     public function addInviteCode(): string
     {
@@ -205,6 +205,15 @@ class User extends Model
                 }
             }
         }
+    }
+
+    /**
+     * 添加邀请次数
+     */
+    public function addInviteNum(int $num): bool
+    {
+        $this->invite_num += $num;
+        return $this->save();
     }
 
     /**
