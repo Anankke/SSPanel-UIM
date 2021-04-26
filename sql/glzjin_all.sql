@@ -143,7 +143,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `invite_num`          int(8)        NOT NULL,
   `money`               decimal(12,2) NOT NULL,
   `ref_by`              int(11)       NOT NULL DEFAULT '0',
-  `expire_time`         int(11)       NOT NULL DEFAULT '0',
   `method`              varchar(64)   NOT NULL DEFAULT 'rc4-md5',
   `is_email_verify`     tinyint(4)    NOT NULL DEFAULT '0',
   `reg_ip`              varchar(182)  NOT NULL DEFAULT '127.0.0.1',
