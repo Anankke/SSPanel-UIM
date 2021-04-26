@@ -144,7 +144,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `money`               decimal(12,2) NOT NULL,
   `ref_by`              int(11)       NOT NULL DEFAULT '0',
   `method`              varchar(64)   NOT NULL DEFAULT 'rc4-md5',
-  `is_email_verify`     tinyint(4)    NOT NULL DEFAULT '0',
   `reg_ip`              varchar(182)  NOT NULL DEFAULT '127.0.0.1',
   `node_speedlimit`     text          NOT NULL,
   `node_connector`      int(11)       NOT NULL DEFAULT '0',
