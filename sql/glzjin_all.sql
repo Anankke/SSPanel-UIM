@@ -138,7 +138,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `transfer_enable`     bigint(20)    NOT NULL,
   `port`                int(11)       NOT NULL,
   `enable`              tinyint(4)    NOT NULL DEFAULT '1',
-  `last_get_gift_time`  int(11)       NOT NULL DEFAULT '0',
   `last_check_in_time`  int(11)       NOT NULL DEFAULT '0',
   `last_rest_pass_time` int(11)       NOT NULL DEFAULT '0',
   `reg_date`            datetime      NOT NULL,
