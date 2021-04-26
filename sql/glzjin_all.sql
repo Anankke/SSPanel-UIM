@@ -137,7 +137,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `d`                   bigint(20)    NOT NULL,
   `transfer_enable`     bigint(20)    NOT NULL,
   `port`                int(11)       NOT NULL,
-  `switch`              tinyint(4)    NOT NULL DEFAULT '1',
   `enable`              tinyint(4)    NOT NULL DEFAULT '1',
   `type`                tinyint(4)    NOT NULL DEFAULT '1',
   `last_get_gift_time`  int(11)       NOT NULL DEFAULT '0',
