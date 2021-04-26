@@ -422,9 +422,10 @@ class AuthController extends BaseController
     public function registerHandle($request, $response, $args)
     {
         if (Config::getconfig('Register.string.Mode') === 'close') {
-            $res['ret'] = 0;
-            $res['msg'] = '未开放注册。';
-            return $response->withJson($res);
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '未开放注册。'
+            ]);
         }
 
         $name      = $request->getParam('name');
@@ -514,8 +515,9 @@ class AuthController extends BaseController
             EmailVerify::where('email', $email)->delete();
         }
 
-        $res = $this->register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0);
-        return $response->withJson($res);
+        return $response->withJson(
+            $this->register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0)
+        );
     }
 
     /**
