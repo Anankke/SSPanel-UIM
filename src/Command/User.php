@@ -175,7 +175,6 @@ class User extends Command
             $user->im_type          = 1;
             $user->im_value         = '';
             $user->class            = 0;
-            $user->plan             = 'A';
             $user->node_speedlimit  = 0;
             $user->theme            = $_ENV['theme'];
 

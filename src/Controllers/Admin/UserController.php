@@ -146,7 +146,6 @@ class UserController extends AdminController
         $user->expire_in            = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultExpire_in') * 86400);
         $user->reg_date             = date('Y-m-d H:i:s');
         $user->reg_ip               = $_SERVER['REMOTE_ADDR'];
-        $user->plan                 = 'A';
         $user->theme                = $_ENV['theme'];
 
         $groups = explode(',', $_ENV['random_group']);
