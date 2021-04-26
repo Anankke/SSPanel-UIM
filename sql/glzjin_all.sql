@@ -164,7 +164,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `theme`               text          NOT NULL,
   `ga_token`            text          NOT NULL,
   `ga_enable`           int(11)       NOT NULL DEFAULT '0',
-  `pac`                 longtext,
   `remark`              text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

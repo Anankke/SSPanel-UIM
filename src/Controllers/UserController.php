@@ -1289,31 +1289,6 @@ class UserController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function PacSet($request, $response, $args)
-    {
-        $pac = $request->getParam('pac');
-
-        $user = $this->user;
-
-        if ($pac == '') {
-            $res['ret'] = 0;
-            $res['msg'] = '输入不能为空';
-            return $response->withJson($res);
-        }
-
-        $user->pac = $pac;
-        $user->save();
-
-        $res['ret'] = 1;
-        $res['msg'] = '修改成功';
-        return $response->withJson($res);
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
     public function updateSsPwd($request, $response, $args)
     {
         $user = Auth::getUser();
