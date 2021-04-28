@@ -265,16 +265,16 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         name: $$getValue('name'),
                         passwd: $$getValue('passwd'),
                         repasswd: $$getValue('repasswd'),
-                        
+
                         {if $recaptcha_sitekey != null}
                         recaptcha: grecaptcha.getResponse(),
                         {/if}
 
-                        {if $enable_reg_im == true}
+                        {if $config['enable_reg_im'] == true}
                         im_value: $$getValue('im_value'),
                         im_type: $$getValue('im_type'),
                         {/if}
-                        
+
                         code{if $enable_email_verify == true},
                         emailcode: $$getValue('email_code'){/if}{if $geetest_html != null},
                         geetest_challenge: validate.geetest_challenge,
