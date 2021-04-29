@@ -105,18 +105,4 @@ class NodeController extends BaseController
         }
         return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
-
-    private function getServerIP()
-    {
-        if (isset($_SERVER)) {
-            if ($_SERVER['SERVER_ADDR']) {
-                $serverIP = $_SERVER['SERVER_ADDR'];
-            } else {
-                $serverIP = $_SERVER['LOCAL_ADDR'];
-            }
-        } else {
-            $serverIP = getenv('SERVER_ADDR');
-        }
-        return $serverIP;
-    }
 }

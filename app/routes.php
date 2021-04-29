@@ -289,13 +289,13 @@ return function (SlimApp $app) {
     // mu
     $app->group('/mod_mu', function () {
         $this->get('/nodes/{id}/info',      App\Controllers\Mod_Mu\NodeController::class . ':get_info');
+        $this->post('/nodes/{id}/info',     App\Controllers\Mod_Mu\NodeController::class . ':info');
+        $this->get('/nodes',                App\Controllers\Mod_Mu\NodeController::class . ':get_all_info');
+
         $this->get('/users',                App\Controllers\Mod_Mu\UserController::class . ':index');
         $this->post('/users/traffic',       App\Controllers\Mod_Mu\UserController::class . ':addTraffic');
         $this->post('/users/aliveip',       App\Controllers\Mod_Mu\UserController::class . ':addAliveIp');
         $this->post('/users/detectlog',     App\Controllers\Mod_Mu\UserController::class . ':addDetectLog');
-        $this->post('/nodes/{id}/info',     App\Controllers\Mod_Mu\NodeController::class . ':info');
-
-        $this->get('/nodes',                App\Controllers\Mod_Mu\NodeController::class . ':get_all_info');
 
         $this->get('/func/detect_rules',    App\Controllers\Mod_Mu\FuncController::class . ':get_detect_logs');
         $this->post('/func/block_ip',       App\Controllers\Mod_Mu\FuncController::class . ':addBlockIp');
