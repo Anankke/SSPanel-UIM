@@ -270,6 +270,6 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $response, $res);
+        return $this->echoJson($response, $res);
     }
 }
