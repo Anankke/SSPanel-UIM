@@ -120,7 +120,12 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => $users
         ];
-        return $this->echoJson($response, $res);
+        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $etag = Tools::etag($users);
+        if ($header_etag == $etag){
+            return $response->withStatus(304);
+        }
+        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 
     //   Update Traffic
@@ -264,6 +269,6 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $this->echoJson($response, $res);
+        return $response, $res);
     }
 }

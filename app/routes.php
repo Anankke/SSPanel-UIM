@@ -296,14 +296,12 @@ return function (SlimApp $app) {
         $this->post('/nodes/{id}/info',     App\Controllers\Mod_Mu\NodeController::class . ':info');
 
         $this->get('/nodes',                App\Controllers\Mod_Mu\NodeController::class . ':get_all_info');
-        $this->post('/nodes/config',        App\Controllers\Mod_Mu\NodeController::class . ':getConfig');
 
         $this->get('/func/detect_rules',    App\Controllers\Mod_Mu\FuncController::class . ':get_detect_logs');
         $this->post('/func/block_ip',       App\Controllers\Mod_Mu\FuncController::class . ':addBlockIp');
         $this->get('/func/block_ip',        App\Controllers\Mod_Mu\FuncController::class . ':get_blockip');
         $this->get('/func/unblock_ip',      App\Controllers\Mod_Mu\FuncController::class . ':get_unblockip');
         $this->post('/func/speedtest',      App\Controllers\Mod_Mu\FuncController::class . ':addSpeedtest');
-
         $this->get('/func/ping',            App\Controllers\Mod_Mu\FuncController::class . ':ping');
         //============================================
     })->add(new Mod_Mu());

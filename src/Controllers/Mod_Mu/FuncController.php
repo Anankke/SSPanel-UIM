@@ -3,6 +3,7 @@
 namespace App\Controllers\Mod_Mu;
 
 use App\Controllers\BaseController;
+use App\Utils\Tools;
 use App\Models\{
     Auto,
     Node,
@@ -31,17 +32,12 @@ class FuncController extends BaseController
             'ret' => 1,
             'data' => $rules
         ];
-        return $this->echoJson($response, $res);
-    }
-
-    public function get_dis_node_info($nodeid)
-    {
-        $node = Node::where('id', $nodeid)->first();
-        if ($node == null) {
-            return null;
+        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $etag = Tools::etag($rules);
+        if ($header_etag == $etag){
+            return $response->withStatus(304);
         }
-
-        return $node;
+        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 
     public function get_blockip($request, $response, $args)
@@ -52,7 +48,12 @@ class FuncController extends BaseController
             'ret' => 1,
             'data' => $block_ips
         ];
-        return $this->echoJson($response, $res);
+        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $etag = Tools::etag($block_ips);
+        if ($header_etag == $etag){
+            return $response->withStatus(304);
+        }
+        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 
     public function get_unblockip($request, $response, $args)
@@ -63,7 +64,12 @@ class FuncController extends BaseController
             'ret' => 1,
             'data' => $unblock_ips
         ];
-        return $this->echoJson($response, $res);
+        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $etag = Tools::etag($unblock_ips);
+        if ($header_etag == $etag){
+            return $response->withStatus(304);
+        }
+        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 
     public function addBlockIp($request, $response, $args)
