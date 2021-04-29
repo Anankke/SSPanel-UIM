@@ -12,6 +12,7 @@ use App\Models\{
     Speedtest,
     DetectRule
 };
+use Psr\Http\Message\ResponseInterface;
 
 class FuncController extends BaseController
 {
@@ -24,7 +25,7 @@ class FuncController extends BaseController
         return $this->echoJson($response, $res);
     }
 
-    public function get_detect_logs($request, $response, $args)
+    public function get_detect_logs($request, $response, $args): ResponseInterface
     {
         $rules = DetectRule::all();
 
@@ -40,7 +41,7 @@ class FuncController extends BaseController
         return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 
-    public function get_blockip($request, $response, $args)
+    public function get_blockip($request, $response, $args): ResponseInterface
     {
         $block_ips = BlockIp::Where('datetime', '>', time() - 60)->get();
 
@@ -56,7 +57,7 @@ class FuncController extends BaseController
         return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 
-    public function get_unblockip($request, $response, $args)
+    public function get_unblockip($request, $response, $args): ResponseInterface
     {
         $unblock_ips = UnblockIp::Where('datetime', '>', time() - 60)->get();
 

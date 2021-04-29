@@ -11,6 +11,7 @@ use App\Models\{
     NodeOnlineLog
 };
 use App\Utils\Tools;
+use Psr\Http\Message\ResponseInterface;
 
 class UserController extends BaseController
 {
@@ -23,7 +24,7 @@ class UserController extends BaseController
      *
      * @return \Slim\Http\Response
      */
-    public function index($request, $response, $args)
+    public function index($request, $response, $args): ResponseInterface
     {
         $node_id = $request->getQueryParam('node_id', '0');
 

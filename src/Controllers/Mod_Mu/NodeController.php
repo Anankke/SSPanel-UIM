@@ -84,14 +84,15 @@ class NodeController extends BaseController
         return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 
-    public function get_all_info($request, $response, $args)
+    public function get_all_info($request, $response, $args): ResponseInterface
     {
         $nodes = Node::where('node_ip', '<>', null)->where(
             static function ($query) {
                 $query->where('sort', '=', 0)
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 12)
-                    ->orWhere('sort', '=', 13);
+                    ->orWhere('sort', '=', 13)
+                    ->orWhere('sort', '=', 14);
             }
         )->get();
         $res = [
