@@ -155,7 +155,6 @@ class UserController extends BaseController
                 $u = $log['u'];
                 $d = $log['d'];
                 $user_id = $log['user_id'];
-
                 $user = User::find($user_id);
 
                 if ($user == null) {
