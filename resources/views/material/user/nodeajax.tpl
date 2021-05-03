@@ -3,8 +3,6 @@
 <div id="load{$id}_chart" style="height: 300px; width: 100%;"></div>
 <div id="up{$id}_chart" style="height: 300px; width: 100%;"></div>
 <div id="alive{$id}_chart" style="height: 300px; width: 100%;"></div>
-<div id="speedtest{$id}_chart" style="height: 300px; width: 100%;"></div>
-<div id="speedtest{$id}_ping_chart" style="height: 300px; width: 100%;"></div>
 
 <script type="text/javascript">
     $().ready(function () {
