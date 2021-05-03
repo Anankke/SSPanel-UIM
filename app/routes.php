@@ -104,8 +104,8 @@ return function (SlimApp $app) {
 
         $this->post('/code/f2fpay',             App\Services\Payment::class . ':purchase');
         $this->get('/code/codepay',             App\Services\Payment::class . ':purchase');
-        $this->get('/code/unionpay       App\Services\Payment::class . ':purchase');
-        $this->get('/code/epay           App\Services\Payment::class . ':purchase');
+        $this->get('/code/unionpay',       App\Services\Payment::class . ':purchase');
+        $this->get('/code/epay',           App\Services\Payment::class . ':purchase');
 
         //Reconstructed Payment System
         $this->post('/payment/purchase',        App\Services\Payment::class . ':purchase');
