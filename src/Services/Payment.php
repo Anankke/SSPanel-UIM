@@ -39,6 +39,10 @@ class Payment
                 return new YftPay();
             case ('bitpayx'):
                 return new BitPayX($_ENV['bitpay_secret']);
+            case ('unionpay'):
+                return new UnionPay();
+            case ('epay'):
+                return new epay();
             default:
                 return null;
         }
