@@ -23,7 +23,6 @@ use App\Models\{
     BlockIp,
     LoginIp,
     UnblockIp,
-    Speedtest,
     DetectLog,
     DetectRule,
     InviteCode,
@@ -107,13 +106,6 @@ class UserController extends BaseController
             ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
             ->assign('getClient', $token)
             ->display('user/index.tpl');
-    }
-
-    public function lookingglass($request, $response, $args)
-    {
-        $Speedtest = Speedtest::where('datetime', '>', time() - $_ENV['Speedtest_duration'] * 3600)->orderBy('datetime', 'desc')->get();
-
-        return $this->view()->assign('speedtest', $Speedtest)->assign('hour', $_ENV['Speedtest_duration'])->display('user/lookingglass.tpl');
     }
 
     public function code($request, $response, $args)

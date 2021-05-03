@@ -9,7 +9,6 @@ use App\Models\{
     Node,
     BlockIp,
     UnblockIp,
-    Speedtest,
     DetectRule
 };
 use Psr\Http\Message\ResponseInterface;
@@ -106,52 +105,6 @@ class FuncController extends BaseController
                 $ip_block->nodeid = $node_id;
                 $ip_block->datetime = time();
                 $ip_block->save();
-            }
-        }
-
-        $res = [
-            'ret' => 1,
-            'data' => 'ok',
-        ];
-        return $this->echoJson($response, $res);
-    }
-
-    public function addSpeedtest($request, $response, $args)
-    {
-        $params = $request->getQueryParams();
-
-        $data = $request->getParam('data');
-        $node_id = $params['node_id'];
-        if ($node_id == '0') {
-            $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
-            $node_id = $node->id;
-        }
-        $node = Node::find($node_id);
-        if ($node == null) {
-            $res = [
-                'ret' => 0
-            ];
-            return $this->echoJson($response, $res);
-        }
-
-        if (count($data) > 0) {
-            foreach ($data as $log) {
-                // log
-                $speedtest_log = new Speedtest();
-                $speedtest_log->telecomping = $log['telecomping'];
-                $speedtest_log->telecomeupload = $log['telecomeupload'];
-                $speedtest_log->telecomedownload = $log['telecomedownload'];
-
-                $speedtest_log->unicomping = $log['unicomping'];
-                $speedtest_log->unicomupload = $log['unicomupload'];
-                $speedtest_log->unicomdownload = $log['unicomdownload'];
-
-                $speedtest_log->cmccping = $log['cmccping'];
-                $speedtest_log->cmccupload = $log['cmccupload'];
-                $speedtest_log->cmccdownload = $log['cmccdownload'];
-                $speedtest_log->nodeid = $node_id;
-                $speedtest_log->datetime = time();
-                $speedtest_log->save();
             }
         }
 
