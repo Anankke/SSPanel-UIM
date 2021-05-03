@@ -300,7 +300,7 @@ $_ENV['epay'] = [
         'epay_key'=>'商户密钥',
         'name'=>'技术服务',
         'sitename'=>'网站名',
-        'epaysite'=>'易支付接口网站' //例如https://xx.com/submit.php?  ,后边的/submit.php?一定要加
+        'epaysite'=>'易支付接口网站' //例如https://xx.com/submit.php  ,后边的/submit.php一定要加
     ]
 ];
 
