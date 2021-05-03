@@ -31,7 +31,7 @@ class Pays
             'money' => $money,
             'sitename' => $sitename
         ];
-        $epaysite = $_ENV['epay']['epaysite']
+        $epaysite = Config::get("epay")['config']['epaysite'];
         $string = http_build_query($data);
         $sign = $this->getsign($data);
         return $epaysite . '?' . $string . '&sign=' . $sign . '&sign_type=MD5';
