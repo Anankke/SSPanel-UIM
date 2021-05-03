@@ -290,8 +290,10 @@ $_ENV['enable_checkin_captcha'] = false;        //启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | f2fpay | paymentwall | spay | payjs | yftpay | bitpayx
+#取值 none | codepay | f2fpay | paymentwall | spay | payjs | yftpay | bitpayx | epay | UnionPay
 $_ENV['payment_system']       = 'none';
+
+#易支付设置
 $_ENV['epay'] = [
     'config' => [
         'epay_id'=>'商户ID',
@@ -301,6 +303,9 @@ $_ENV['epay'] = [
         'epaysite'=>'易支付接口网站' //例如https://xx.com/submit.php?  ,后边的/submit.php?一定要加
     ]
 ];
+
+#UnionPay设置
+#UnionPay.moe开户地址，非CN的银联
 $_ENV['unionpay'] = [
     'config' => [
         'unionpay_id'=>'商户ID',
