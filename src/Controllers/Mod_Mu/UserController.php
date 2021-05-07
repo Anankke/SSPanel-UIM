@@ -11,6 +11,7 @@ use App\Models\{
     NodeOnlineLog
 };
 use App\Utils\Tools;
+use Psr\Http\Message\ResponseInterface;
 
 class UserController extends BaseController
 {
@@ -23,7 +24,7 @@ class UserController extends BaseController
      *
      * @return \Slim\Http\Response
      */
-    public function index($request, $response, $args)
+    public function index($request, $response, $args): ResponseInterface
     {
         $node_id = $request->getQueryParam('node_id', '0');
 
@@ -120,7 +121,12 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => $users
         ];
-        return $this->echoJson($response, $res);
+        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $etag = Tools::etag($users);
+        if ($header_etag == $etag){
+            return $response->withStatus(304);
+        }
+        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 
     //   Update Traffic
@@ -149,7 +155,6 @@ class UserController extends BaseController
                 $u = $log['u'];
                 $d = $log['d'];
                 $user_id = $log['user_id'];
-
                 $user = User::find($user_id);
 
                 if ($user == null) {

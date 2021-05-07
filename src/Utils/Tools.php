@@ -889,4 +889,9 @@ class Tools
         $html .= '</ul>';
         return $html;
     }
+
+    public static function etag($data) {
+        $etag = sha1(json_encode($data));
+        return $etag;
+    }
 }

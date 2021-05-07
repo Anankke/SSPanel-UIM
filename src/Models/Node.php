@@ -96,30 +96,6 @@ class Node extends Model
         return $log->online_user;
     }
 
-    public function getSpeedtest()
-    {
-        $id = $this->attributes['id'];
-        $log = Speedtest::where('nodeid', $id)->orderBy('datetime', 'desc')->first();
-        if ($log == null) {
-            return '暂无数据';
-        }
-
-        return '电信延迟：' . $log->telecomping . ' 下载：' . $log->telecomeupload . ' 上传：' . $log->telecomedownload . '<br>
-		联通延迟：' . $log->unicomping . ' 下载：' . $log->unicomupload . ' 上传：' . $log->unicomdownload . '<br>
-		移动延迟：' . $log->cmccping . ' 下载：' . $log->cmccupload . ' 上传：' . $log->cmccdownload . '<br>定时测试，仅供参考';
-    }
-
-    public function getSpeedtestResult()
-    {
-        $id = $this->attributes['id'];
-        $log = Speedtest::where('nodeid', $id)->orderBy('id', 'desc')->limit(48)->get();
-        if ($log == null) {
-            return '暂无数据';
-        }
-
-        return $log;
-    }
-
     public function isNodeOnline()
     {
         $delay = 300;

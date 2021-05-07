@@ -391,7 +391,7 @@ class AuthController extends BaseController
         $user->forbidden_port       = $_ENV['reg_forbidden_port'];
         $user->im_type              = $imtype;
         $user->im_value             = $antiXss->xss_clean($imvalue);
-        
+
         $user->transfer_enable      = Tools::toGB(Config::getconfig('Register.string.defaultTraffic'));
         $user->invite_num           = (int) Config::getconfig('Register.string.defaultInviteNum');
         $user->auto_reset_day       = $_ENV['reg_auto_reset_day'];
@@ -463,8 +463,8 @@ class AuthController extends BaseController
         $code      = trim($request->getParam('code'));
         $emailcode = $request->getParam('emailcode');
         $emailcode = trim($emailcode);
-        
-        if ($_ENV['enable_reg_im'] == true) {
+
+        if ($_ENV['enable_reg_im'] === true) {
             $imtype  = $request->getParam('im_type');
             $imvalue = $request->getParam('im_value');
             if ($imtype == '' || $imvalue == '') {
@@ -472,7 +472,7 @@ class AuthController extends BaseController
                 $res['msg'] = '请填上你的联络方式';
                 return $response->getBody()->write(json_encode($res));
             }
-    
+
             $user = User::where('im_value', $imvalue)->where('im_type', $imtype)->first();
             if ($user != null) {
                 $res['ret'] = 0;
@@ -542,7 +542,7 @@ class AuthController extends BaseController
             $res['msg'] = '两次密码输入不符';
             return $response->getBody()->write(json_encode($res));
         }
-        
+
         if (Config::getconfig('Register.bool.Enable_email_verify')) {
             EmailVerify::where('email', '=', $email)->delete();
         }

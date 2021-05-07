@@ -8,7 +8,8 @@ use App\Models\{
     Node,
     NodeInfoLog
 };
-use App\Services\Config;
+use App\Utils\Tools;
+use Psr\Http\Message\ResponseInterface;
 
 class NodeController extends BaseController
 {
@@ -40,7 +41,7 @@ class NodeController extends BaseController
         return $this->echoJson($response, $res);
     }
 
-    public function get_info($request, $response, $args)
+    public function get_info($request, $response, $args): ResponseInterface
     {
         $node_id = $args['id'];
         if ($node_id == '0') {
@@ -60,70 +61,49 @@ class NodeController extends BaseController
         } else {
             $node_server = $node->server;
         }
+        $data = [
+            'node_group' => $node->node_group,
+            'node_class' => $node->node_class,
+            'node_speedlimit' => $node->node_speedlimit,
+            'traffic_rate' => $node->traffic_rate,
+            'mu_only' => $node->mu_only,
+            'sort' => $node->sort,
+            'server' => $node_server,
+            'disconnect_time' => $_ENV['disconnect_time'],
+            'type' => 'SSPanel-UIM'
+        ];
         $res = [
             'ret' => 1,
-            'data' => [
-                'node_group' => $node->node_group,
-                'node_class' => $node->node_class,
-                'node_speedlimit' => $node->node_speedlimit,
-                'traffic_rate' => $node->traffic_rate,
-                'mu_only' => $node->mu_only,
-                'sort' => $node->sort,
-                'server' => $node_server,
-                'disconnect_time' => $_ENV['disconnect_time'],
-                'type' => 'SSPanel-UIM'
-            ],
+            'data' => $data
         ];
-        return $this->echoJson($response, $res);
+        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $etag = Tools::etag($data);
+        if ($header_etag == $etag){
+            return $response->withStatus(304);
+        }
+        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 
-    public function get_all_info($request, $response, $args)
+    public function get_all_info($request, $response, $args): ResponseInterface
     {
         $nodes = Node::where('node_ip', '<>', null)->where(
             static function ($query) {
                 $query->where('sort', '=', 0)
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 12)
-                    ->orWhere('sort', '=', 13);
+                    ->orWhere('sort', '=', 13)
+                    ->orWhere('sort', '=', 14);
             }
         )->get();
         $res = [
             'ret' => 1,
             'data' => $nodes
         ];
-        return $this->echoJson($response, $res);
-    }
-
-    public function getConfig($request, $response, $args)
-    {
-        $data = $request->getParsedBody();
-        switch ($data['type']) {
-            case ('database'):
-                $db_config = Config::getDbConfig();
-                $db_config['host'] = $this->getServerIP();
-                $res = [
-                    'ret' => 1,
-                    'data' => $db_config,
-                ];
-                break;
-            case ('webapi'):
-                $webapiConfig = [];
-                #todo
+        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $etag = Tools::etag($nodes);
+        if ($header_etag == $etag){
+            return $response->withStatus(304);
         }
-        return $this->echoJson($response, $res);
-    }
-
-    private function getServerIP()
-    {
-        if (isset($_SERVER)) {
-            if ($_SERVER['SERVER_ADDR']) {
-                $serverIP = $_SERVER['SERVER_ADDR'];
-            } else {
-                $serverIP = $_SERVER['LOCAL_ADDR'];
-            }
-        } else {
-            $serverIP = getenv('SERVER_ADDR');
-        }
-        return $serverIP;
+        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
     }
 }
