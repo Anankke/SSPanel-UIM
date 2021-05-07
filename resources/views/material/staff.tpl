@@ -77,11 +77,13 @@
             </tr>
             <tr>
                 <td>怀念</td>
-                <a href="https://github.com/dumplin233">dumplin</a>，
-                <a href="https://github.com/mxihan">Rin SAMA</a>，
-                <a href="https://github.com/laurieryayoi">Nymph</a>，
-                <a href="https://github.com/xcxnig">Miku</a>，
-                <a href="https://github.com/galaxychuck">galaxyq</a>
+                <td>
+                    <a href="https://github.com/dumplin233">dumplin</a>，
+                    <a href="https://github.com/mxihan">Rin SAMA</a>，
+                    <a href="https://github.com/laurieryayoi">Nymph</a>，
+                    <a href="https://github.com/xcxnig">Miku</a>，
+                    <a href="https://github.com/galaxychuck">galaxyq</a>
+                </td>
             </tr>
             <tr>
                 <td>鸣谢</td>
