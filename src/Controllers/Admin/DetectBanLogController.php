@@ -6,6 +6,10 @@ use App\Controllers\AdminController;
 use App\Utils\DatatablesHelper;
 use Ozdemir\Datatables\Datatables;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class DetectBanLogController extends AdminController
 {

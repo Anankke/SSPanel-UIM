@@ -5,6 +5,10 @@ namespace App\Controllers\Admin;
 use App\Controllers\AdminController;
 use App\Models\GConfig;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class GConfigController extends AdminController
 {
@@ -19,23 +23,15 @@ class GConfigController extends AdminController
         $user   = $this->user;
         $config = GConfig::where('key', '=', $key)->first();
         if ($config != null && $config->setValue($request->getParam('value'), $user) === true) {
-            return $response->write(
-                json_encode(
-                    [
-                    'ret' => 1,
-                    'msg' => '修改成功'
-                    ]
-                )
-            );
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => '修改成功'
+            ]);
         }
-        return $response->write(
-            json_encode(
-                [
-                    'ret' => 0,
-                    'msg' => '修改失败'
-                ]
-            )
-        );
+        return $response->withJson([
+            'ret' => 0,
+            'msg' => '修改失败'
+        ]);
     }
 
     /**
@@ -79,7 +75,7 @@ class GConfigController extends AdminController
         $edit_config = GConfig::where('key', '=', 'Register.string.Mode')->first();
         return $response->write(
             $this->view()
-                ->assign('edit_config', $edit_config)
+                ->assign('edit_config',  $edit_config)
                 ->assign('table_config', $table_config)
                 ->fetch('admin/config/user/register.tpl')
         );
@@ -121,9 +117,7 @@ class GConfigController extends AdminController
             'data'            => $data
         ];
 
-        return $response->write(
-            json_encode($info)
-        );
+        return $response->withJson($info);
     }
 
     /**
@@ -191,8 +185,8 @@ class GConfigController extends AdminController
             'data'            => $data
         ];
 
-        return $response->write(
-            json_encode($info, true)
+        return $response->withJson(
+            $info
         );
     }
 }

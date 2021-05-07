@@ -8,11 +8,21 @@ use App\Models\{
     Node,
     NodeInfoLog
 };
+use App\Services\Config;
+use Slim\Http\{
+    Request,
+    Response
+};
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 
 class NodeController extends BaseController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function info($request, $response, $args)
     {
         $node_id = $args['id'];
@@ -32,15 +42,20 @@ class NodeController extends BaseController
                 'ret' => 0,
                 'data' => 'update failed',
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
         $res = [
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function get_info($request, $response, $args): ResponseInterface
     {
         $node_id = $args['id'];
@@ -53,7 +68,7 @@ class NodeController extends BaseController
             $res = [
                 'ret' => 0
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
         if (in_array($node->sort, [0, 10])) {
             $node_explode = explode(';', $node->server);
@@ -78,12 +93,18 @@ class NodeController extends BaseController
         ];
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($data);
-        if ($header_etag == $etag){
+        if ($header_etag == $etag) {
             return $response->withStatus(304);
         }
-        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
+
+        return $response->withHeader('ETAG', $etag)->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function get_all_info($request, $response, $args): ResponseInterface
     {
         $nodes = Node::where('node_ip', '<>', null)->where(
@@ -99,11 +120,51 @@ class NodeController extends BaseController
             'ret' => 1,
             'data' => $nodes
         ];
+
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($nodes);
-        if ($header_etag == $etag){
+        if ($header_etag == $etag) {
             return $response->withStatus(304);
         }
-        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
+
+        return $response->withHeader('ETAG', $etag)->withJson($res);
+    }
+
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function getConfig($request, $response, $args)
+    {
+        $data = $request->getParsedBody();
+        switch ($data['type']) {
+            case ('database'):
+                $db_config = Config::getDbConfig();
+                $db_config['host'] = $this->getServerIP();
+                $res = [
+                    'ret' => 1,
+                    'data' => $db_config,
+                ];
+                break;
+            case ('webapi'):
+                $webapiConfig = [];
+                #todo
+        }
+        return $response->withJson($res);
+    }
+
+    private function getServerIP()
+    {
+        if (isset($_SERVER)) {
+            if ($_SERVER['SERVER_ADDR']) {
+                $serverIP = $_SERVER['SERVER_ADDR'];
+            } else {
+                $serverIP = $_SERVER['LOCAL_ADDR'];
+            }
+        } else {
+            $serverIP = getenv('SERVER_ADDR');
+        }
+        return $serverIP;
     }
 }

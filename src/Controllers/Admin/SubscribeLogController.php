@@ -9,10 +9,16 @@ use App\Utils\{
 };
 use Ozdemir\Datatables\Datatables;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class SubscribeLogController extends AdminController
 {
     /**
+     * 后台订阅记录页面
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -43,6 +49,8 @@ class SubscribeLogController extends AdminController
     }
 
     /**
+     * 后台订阅记录页面 AJAX
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -51,13 +59,11 @@ class SubscribeLogController extends AdminController
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query('Select user_subscribe_log.id,user_subscribe_log.user_name,user_subscribe_log.user_id,user_subscribe_log.email,user_subscribe_log.subscribe_type,user_subscribe_log.request_ip,user_subscribe_log.request_ip as location,user_subscribe_log.request_time,user_subscribe_log.request_user_agent from user_subscribe_log');
-
         $iplocation = new QQWry();
         $datatables->edit('location', static function ($data) use ($iplocation) {
             $location = $iplocation->getlocation($data['location']);
             return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
         });
-
         return $response->write(
             $datatables->generate()
         );

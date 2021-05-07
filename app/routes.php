@@ -13,7 +13,6 @@ return function (SlimApp $app) {
     $app->get('/500',       App\Controllers\HomeController::class . ':page500');
     $app->get('/tos',       App\Controllers\HomeController::class . ':tos');
     $app->get('/staff',     App\Controllers\HomeController::class . ':staff');
-    $app->get('/indexold',  App\Controllers\HomeController::class . ':indexold');
 
     // other
     $app->post('/notify',               App\Controllers\HomeController::class . ':notify');
@@ -32,7 +31,6 @@ return function (SlimApp $app) {
         $this->get('/announcement',             App\Controllers\UserController::class . ':announcement');
 
         $this->get('/donate',                   App\Controllers\UserController::class . ':donate');
-        $this->get('/lookingglass',             App\Controllers\UserController::class . ':lookingglass');
         $this->get('/profile',                  App\Controllers\UserController::class . ':profile');
         $this->get('/invite',                   App\Controllers\UserController::class . ':invite');
         $this->get('/disable',                  App\Controllers\UserController::class . ':disable');
@@ -76,7 +74,6 @@ return function (SlimApp $app) {
         $this->get('/logout',                   App\Controllers\UserController::class . ':logout');
         $this->get('/backtoadmin',              App\Controllers\UserController::class . ':backtoadmin');
         $this->get('/code',                     App\Controllers\UserController::class . ':code');
-        $this->get('/alipay',                   App\Controllers\UserController::class . ':alipay');
 
         $this->get('/code_check',               App\Controllers\UserController::class . ':code_check');
         $this->post('/code',                    App\Controllers\UserController::class . ':codepost');
@@ -86,7 +83,6 @@ return function (SlimApp $app) {
         $this->get('/telegram_reset',           App\Controllers\UserController::class . ':telegram_reset');
         $this->post('/resetport',               App\Controllers\UserController::class . ':ResetPort');
         $this->post('/specifyport',             App\Controllers\UserController::class . ':SpecifyPort');
-        $this->post('/pacset',                  App\Controllers\UserController::class . ':PacSet');
         $this->post('/unblock',                 App\Controllers\UserController::class . ':Unblock');
         $this->get('/bought',                   App\Controllers\UserController::class . ':bought');
         $this->delete('/bought',                App\Controllers\UserController::class . ':deleteBoughtGet');
@@ -224,7 +220,6 @@ return function (SlimApp $app) {
         $this->post('/user/changetouser',       App\Controllers\Admin\UserController::class . ':changetouser');
         $this->post('/user/ajax',               App\Controllers\Admin\UserController::class . ':ajax');
         $this->post('/user/create',             App\Controllers\Admin\UserController::class . ':createNewUser');
-        $this->post('/user/buy',                App\Controllers\Admin\UserController::class . ':buy');
 
 
         $this->get('/coupon',                   App\Controllers\AdminController::class . ':coupon');
@@ -275,8 +270,8 @@ return function (SlimApp $app) {
 
         // Config Mange
         $this->group('/config', function () {
-            $this->put('/update/{key}',       App\Controllers\Admin\GConfigController::class . ':update');
-            $this->get('/update/{key}/edit',  App\Controllers\Admin\GConfigController::class . ':edit');
+            $this->put('/update/{key}',         App\Controllers\Admin\GConfigController::class . ':update');
+            $this->get('/update/{key}/edit',    App\Controllers\Admin\GConfigController::class . ':edit');
 
             $this->get('/telegram',             App\Controllers\Admin\GConfigController::class . ':telegram');
             $this->post('/telegram/ajax',       App\Controllers\Admin\GConfigController::class . ':telegram_ajax');
@@ -291,6 +286,7 @@ return function (SlimApp $app) {
         $this->get('/nodes/{id}/info',      App\Controllers\Mod_Mu\NodeController::class . ':get_info');
         $this->post('/nodes/{id}/info',     App\Controllers\Mod_Mu\NodeController::class . ':info');
         $this->get('/nodes',                App\Controllers\Mod_Mu\NodeController::class . ':get_all_info');
+        $this->post('/nodes/config',        App\Controllers\Mod_Mu\NodeController::class . ':getConfig');
 
         $this->get('/users',                App\Controllers\Mod_Mu\UserController::class . ':index');
         $this->post('/users/traffic',       App\Controllers\Mod_Mu\UserController::class . ':addTraffic');
