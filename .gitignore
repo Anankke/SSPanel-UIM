@@ -20,6 +20,7 @@ config/appprofile.php
 
 public/ssr-download/
 public/clients/
+public/images/*.*
 public/theme/material/css/images/bg
 
 storage/framework/smarty/cache/*
