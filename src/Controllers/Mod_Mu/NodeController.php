@@ -13,6 +13,8 @@ use Slim\Http\{
     Request,
     Response
 };
+use App\Utils\Tools;
+use Psr\Http\Message\ResponseInterface;
 
 class NodeController extends BaseController
 {
@@ -54,7 +56,7 @@ class NodeController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function get_info($request, $response, $args)
+    public function get_info($request, $response, $args): ResponseInterface
     {
         $node_id = $args['id'];
         if ($node_id == '0') {
@@ -74,21 +76,28 @@ class NodeController extends BaseController
         } else {
             $node_server = $node->server;
         }
+        $data = [
+            'node_group' => $node->node_group,
+            'node_class' => $node->node_class,
+            'node_speedlimit' => $node->node_speedlimit,
+            'traffic_rate' => $node->traffic_rate,
+            'mu_only' => $node->mu_only,
+            'sort' => $node->sort,
+            'server' => $node_server,
+            'disconnect_time' => $_ENV['disconnect_time'],
+            'type' => 'SSPanel-UIM'
+        ];
         $res = [
             'ret' => 1,
-            'data' => [
-                'node_group' => $node->node_group,
-                'node_class' => $node->node_class,
-                'node_speedlimit' => $node->node_speedlimit,
-                'traffic_rate' => $node->traffic_rate,
-                'mu_only' => $node->mu_only,
-                'sort' => $node->sort,
-                'server' => $node_server,
-                'disconnect_time' => $_ENV['disconnect_time'],
-                'type' => 'SSPanel-UIM'
-            ],
+            'data' => $data
         ];
-        return $response->withJson($res);
+        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $etag = Tools::etag($data);
+        if ($header_etag == $etag) {
+            return $response->withStatus(304);
+        }
+
+        return $response->withHeader('ETAG', $etag)->withJson($res);
     }
 
     /**
@@ -96,21 +105,29 @@ class NodeController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function get_all_info($request, $response, $args)
+    public function get_all_info($request, $response, $args): ResponseInterface
     {
         $nodes = Node::where('node_ip', '<>', null)->where(
             static function ($query) {
                 $query->where('sort', '=', 0)
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 12)
-                    ->orWhere('sort', '=', 13);
+                    ->orWhere('sort', '=', 13)
+                    ->orWhere('sort', '=', 14);
             }
         )->get();
         $res = [
             'ret' => 1,
             'data' => $nodes
         ];
-        return $response->withJson($res);
+
+        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $etag = Tools::etag($nodes);
+        if ($header_etag == $etag) {
+            return $response->withStatus(304);
+        }
+
+        return $response->withHeader('ETAG', $etag)->withJson($res);
     }
 
     /**

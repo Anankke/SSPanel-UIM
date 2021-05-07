@@ -437,7 +437,7 @@ class AuthController extends BaseController
         $emailcode = $request->getParam('emailcode');
         $emailcode = trim($emailcode);
 
-        if ($_ENV['enable_reg_im'] == true) {
+        if ($_ENV['enable_reg_im'] === true) {
             $imtype  = $request->getParam('im_type');
             $imvalue = $request->getParam('im_value');
             if ($imtype == '' || $imvalue == '') {

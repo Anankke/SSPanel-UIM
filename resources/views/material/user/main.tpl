@@ -78,14 +78,11 @@
                         <li>
                             <a href="/user/edit"><i class="icon icon-lg">sync_problem</i>&nbsp;资料编辑</a>
                         </li>
-                        <li>
-                            <a href="/user/trafficlog"><i class="icon icon-lg">hourglass_empty</i>&nbsp;流量记录</a>
-                        </li>
-                    {if $config['subscribeLog']===true && $config['subscribeLog_show']===true}
+                        {if $config['subscribeLog']===true && $config['subscribeLog_show']===true}
                         <li>
                             <a href="/user/subscribe_log"><i class="icon icon-lg">important_devices</i>&nbsp;订阅记录</a>
                         </li>
-                    {/if}
+                        {/if}
                         {if $config['enable_ticket']===true}
                             <li>
                                 <a href="/user/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单系统</a>
@@ -99,9 +96,6 @@
                     <ul class="menu-collapse collapse in" id="ui_menu_use">
                         <li>
                             <a href="/user/node"><i class="icon icon-lg">airplanemode_active</i>&nbsp;节点列表</a>
-                        </li>
-                        <li>
-                            <a href="/user/lookingglass"><i class="icon icon-lg">visibility</i>&nbsp;延迟检测</a>
                         </li>
                         <li>
                             <a href="/user/announcement"><i class="icon icon-lg">announcement</i>&nbsp;网站公告</a>

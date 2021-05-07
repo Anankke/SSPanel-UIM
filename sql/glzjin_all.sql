@@ -51,21 +51,6 @@ CREATE TABLE IF NOT EXISTS `login_ip` (
   `type`     int(11)      NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `speedtest` (
-  `id`               bigint(20) NOT NULL,
-  `nodeid`           int(11)    NOT NULL,
-  `datetime`         bigint(20) NOT NULL,
-  `telecomping`      text       NOT NULL,
-  `telecomeupload`   text       NOT NULL,
-  `telecomedownload` text       NOT NULL,
-  `unicomping`       text       NOT NULL,
-  `unicomupload`     text       NOT NULL,
-  `unicomdownload`   text       NOT NULL,
-  `cmccping`         text       NOT NULL,
-  `cmccupload`       text       NOT NULL,
-  `cmccdownload`     text       NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `ss_invite_code` (
   `id`         int(11)      NOT NULL,
   `code`       varchar(128) NOT NULL,
@@ -181,8 +166,6 @@ ALTER TABLE `link`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `login_ip`
   ADD PRIMARY KEY (`id`);
-ALTER TABLE `speedtest`
-  ADD PRIMARY KEY (`id`);
 ALTER TABLE `ss_invite_code`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
@@ -214,8 +197,6 @@ ALTER TABLE `code`
 ALTER TABLE `link`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `login_ip`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `speedtest`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ss_invite_code`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -328,20 +309,20 @@ ALTER TABLE `shop`
   ADD `auto_reset_bandwidth` INT NOT NULL DEFAULT '0' AFTER `auto_renew`;
 ALTER TABLE `code`
   CHANGE `number` `number` DECIMAL(11,2) NOT NULL;
-
 ALTER TABLE `ss_node`
   ADD `custom_rss` INT NOT NULL DEFAULT '0' AFTER `node_group`;
 ALTER TABLE `user`
   ADD `protocol` VARCHAR(128) NOT NULL DEFAULT 'origin' AFTER `node_group`, ADD `protocol_param` VARCHAR(128) NULL DEFAULT NULL AFTER `protocol`, ADD `obfs` VARCHAR(128) NOT NULL DEFAULT 'plain' AFTER `protocol_param`, ADD `obfs_param` VARCHAR(128) NULL DEFAULT NULL AFTER `obfs`;
 ALTER TABLE `user`
   ADD `forbidden_ip` varchar(182) NULL DEFAULT '' AFTER `obfs_param`, ADD `forbidden_port` LONGTEXT NULL DEFAULT '' AFTER `forbidden_ip`;
-
 ALTER TABLE `user`
   CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
 ALTER TABLE `ss_node`
   CHANGE `node_speedlimit` `node_speedlimit` DECIMAL(12,2) NOT NULL DEFAULT '0.00';
 ALTER TABLE `user`
   CHANGE `protocol` `protocol` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'origin', CHANGE `obfs` `obfs` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'plain';
+ALTER TABLE `user`
+    ADD `is_hide` INT NOT NULL DEFAULT '0' AFTER `obfs_param`;
 
 CREATE TABLE IF NOT EXISTS `email_verify` (
   `id`        BIGINT       NOT NULL AUTO_INCREMENT,
@@ -351,9 +332,6 @@ CREATE TABLE IF NOT EXISTS `email_verify` (
   `expire_in` BIGINT       NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-ALTER TABLE `user`
-  ADD `is_hide` INT NOT NULL DEFAULT '0' AFTER `obfs_param`;
 
 CREATE TABLE IF NOT EXISTS `detect_list` (
   `id`    BIGINT   NOT NULL AUTO_INCREMENT,
@@ -481,3 +459,12 @@ ALTER TABLE `email_queue`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `email_queue`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+CREATE TABLE IF NOT EXISTS `user_hourly_usage` (
+    `id`           int(11)     NOT NULL,
+    `user_id`      int(11)     NOT NULL,
+    `traffic`      varchar(32) NOT NULL,
+    `hourly_usage` varchar(32) NOT NULL,
+    `datetime`     int(11)     NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

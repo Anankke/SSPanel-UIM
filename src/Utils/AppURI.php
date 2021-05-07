@@ -102,7 +102,7 @@ class AppURI
                             break;
                         }
                         $tls = ($item['tls'] == 'tls'
-                            ? ', tls=true'
+                            ? ', tls=true, sni=' . $item['host']
                             : '');
                         $ws = ($item['net'] == 'ws'
                             ? ', ws=true, ws-path=' . $item['path'] . ', ws-headers=host:' . $item['host']
