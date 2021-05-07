@@ -120,7 +120,7 @@ class HomeController extends BaseController
     public function getDocCenter($request, $response, $args): ResponseInterface
     {
         $user = Auth::getUser();
-        if (!$user->isLogin && $_ENV['enable_documents'] === false) {
+        if (!$user->isLogin === false) {
             $response = $response->withStatus(302)->withHeader('Location', '/');
             return $response;
         }

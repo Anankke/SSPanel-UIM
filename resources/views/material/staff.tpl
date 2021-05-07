@@ -69,7 +69,7 @@
             </tr>
             <tr>
                 <td>永远喜欢</td>
-                <td>永远喜欢 <a href="https://t.me/Anankke">Anankke</a></td>
+                <td>永远喜欢 <a href="https://t.me/Anankke">芋头</a></td>
             </tr>
             <tr>
                 <td>出演</td>
@@ -81,7 +81,7 @@
                 <a href="https://github.com/mxihan">Rin SAMA</a>，
                 <a href="https://github.com/laurieryayoi">Nymph</a>，
                 <a href="https://github.com/xcxnig">Miku</a>，
-                <a href="https://github.com/galaxychuck">galaxyq</a>，
+                <a href="https://github.com/galaxychuck">galaxyq</a>
             </tr>
             <tr>
                 <td>鸣谢</td>

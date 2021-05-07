@@ -374,10 +374,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="{$download_url['url']}"><i class="material-icons icon-sm">cloud_download</i> {$download_url['name']}</a>
                                                         {/foreach}
                                                     </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}{$item['tutorial_url']}{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
                                                     {if isset($item['description'])}
                                                     <p>
                                                         相关说明：
@@ -386,7 +382,7 @@ table tr td:first-child {
                                                     {/if}
                                                     <p>
                                                         使用方式：
-                                                    {foreach $item['subscribe_urls'] as $subscribe_url}
+                                                        {foreach $item['subscribe_urls'] as $subscribe_url}
                                                         {if !$subscribe_url@first}.{/if}
                                                         {$url=$subscribe_url['url']|replace:'%userUrl%':$subInfo['link']}
                                                         {if $subscribe_url['type'] == 'href'}
@@ -394,7 +390,7 @@ table tr td:first-child {
                                                         {else}
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$url}"><i class="material-icons icon-sm">send</i> {$subscribe_url['name']}</a>
                                                         {/if}
-                                                    {/foreach}
+                                                        {/foreach}
                                                     </p>
                                                 {/foreach}
                                             {/function}
@@ -430,22 +426,14 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://github.com/shadowsocks/shadowsocks-windows/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Windows/Shadowsocks{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a id="win_ss" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ss","#win_ss","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
                                                     </p>
-                                                <hr/>                                            
+                                                <hr/>
                                                 <p><span class="icon icon-lg text-white">filter_2</span> ShadowsocksR Windows - [ SS/SSR ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="{if $config["subscribe_client"]===true}{if $config["subscribe_client_url"]==''}/user/getPcClient{else}{$config["subscribe_client_url"]}/getClient/{$getClient}{/if}?type=ssr-win{else}/clients/ssr-win.7z{/if}"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Windows/ShadowsocksR{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -462,10 +450,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://github.com/2dust/v2rayN/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Windows/V2RayN{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                         .
@@ -478,10 +462,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="/clients/Clash-Windows.exe"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
                                                         .
                                                         <a class="btn-dl" href="https://github.com/Fndroid/clash_for_windows_pkg/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Windows/Clash-for-Windows{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -516,10 +496,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://nssurge.com/mac/v3/Surge-latest.zip"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/macOS/Surge{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['surge4']}"><i class="material-icons icon-sm">send</i> 拷贝 4.x 托管链接</a>
                                                         .
@@ -538,10 +514,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://github.com/yichengchen/clashX/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/macOS/ClashX{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a class="btn-dl" href="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
                                                         .
@@ -554,10 +526,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="/clients/V2rayU.dmg"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/macOS/V2RayU{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                     </p>
@@ -568,10 +536,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="/clients/ss-mac.zip"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/macOS/ShadowsocksX-NG{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a id="mac_ss" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ss","#mac_ss","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
                                                     </p>
@@ -580,10 +544,6 @@ table tr td:first-child {
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/ssr-mac.dmg"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/macOS/ShadowsocksX-NG-R8{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -634,10 +594,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://itunes.apple.com/us/app/surge-3/id1442620678?ls=1&mt=8"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/iOS/Surge{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         相关说明：
                                                         Surge 4 托管配置中可能含有 VMess 节点，如您未订阅 Surge 4 请使用 3.x 一键.
                                                         其中 2 & 3 & 4 代表 Surge 的版本.
@@ -660,10 +616,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://itunes.apple.com/us/app/kitsunebi-proxy-utility/id1446584073?ls=1&mt=8"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/iOS/Kitsunebi{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ss']}"><i class="material-icons icon-sm">send</i> 拷贝 SS 订阅链接</a>
                                                         .
@@ -675,10 +627,6 @@ table tr td:first-child {
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="https://itunes.apple.com/us/app/quantumult/id1252015438?ls=1&mt=8"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/iOS/Quantumult_sub{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -702,10 +650,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://apps.apple.com/us/app/quantumult-x/id1443988620"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/iOS/QuantumultX{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝 SSR 订阅链接</a>
                                                         .
@@ -717,10 +661,6 @@ table tr td:first-child {
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="https://itunes.apple.com/us/app/shadowrocket/id932747118?mt=8"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/iOS/Shadowrocket{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -756,22 +696,14 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="/clients/ss-android-obfs.apk"><i class="material-icons icon-sm">cloud_download</i> 「必须」obfs 插件本站下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Android/Shadowsocks-Android{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssa']}"><i class="material-icons icon-sm">send</i> 拷贝该应用专属订阅链接</a>
                                                     </p>
-                                                <hr/>                                                
+                                                <hr/>
                                                 <p><span class="icon icon-lg text-white">filter_2</span> ShadowsocksR Android - [ SSR ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/ssr-android.apk"><i class="material-icons icon-sm">cloud_download</i> SSR 本站下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Android/ShadowsocksR{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -786,10 +718,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://github.com/2dust/v2rayNG/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Android/V2RayNG{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                     </p>
@@ -800,10 +728,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="/clients/Surfboard.apk"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
                                                         .
                                                         <a class="btn-dl" href="https://play.google.com/store/apps/details?id=com.getsurfboard"><i class="material-icons icon-sm">cloud_download</i> Google Play 下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Android/Surfboard{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -817,10 +741,6 @@ table tr td:first-child {
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="https://play.google.com/store/apps/details?id=fun.kitsunebi.kitsunebi4android"><i class="material-icons icon-sm">cloud_download</i> Google Play 下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Android/Kitsunebi{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -857,10 +777,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://github.com/shadowsocksrr/electron-ssr/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
                                                     </p>
                                                     <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Linux/ElectronSSR{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
-                                                    </p>
-                                                    <p>
                                                         使用方式：
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                     </p>
@@ -891,10 +807,6 @@ table tr td:first-child {
                                                         <a class="btn-dl" href="https://github.com/hq450/fancyss_history_package"><i class="material-icons icon-sm">cloud_download</i> FancySS 下载页面</a>
                                                         .
                                                         <a class="btn-dl" href="https://github.com/hq450/fancyss_history_package/tree/master/fancyss_X64"><i class="material-icons icon-sm">cloud_download</i> FancySS 历史下载页面下载 V2Ray 插件</a>
-                                                    </p>
-                                                    <p>
-                                                        使用教程：
-                                                        <a class="btn-dl" href="{if $config['use_this_doc'] === false}/user/tutorial{else}/doc/#/Router/Koolshare{/if}"><i class="material-icons icon-sm">turned_in_not</i> 点击查看</a>
                                                     </p>
                                                     <p>
                                                         使用方式：

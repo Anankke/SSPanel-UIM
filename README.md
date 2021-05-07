@@ -158,9 +158,13 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 #### galaxychuck
 
-- [moecloud-美國VPS](https://lite.moe/aff.php?aff=56)
+- [Moecloud-美國VPS](https://lite.moe/aff.php?aff=56)
 
 #### laurieryayoi
 
-- [dmit-美国香港服务器](https://www.dmit.io/aff.php?aff=912)
+- [Dmit-美国香港服务器](https://www.dmit.io/aff.php?aff=912)
+
+#### M1Screw
+
+- [Vultr-不用我多解釋了吧](https://www.vultr.com/?ref=8403120-6G)
 
