@@ -31,7 +31,6 @@ return function (SlimApp $app) {
         $this->get('/announcement',             App\Controllers\UserController::class . ':announcement');
 
         $this->get('/donate',                   App\Controllers\UserController::class . ':donate');
-        $this->get('/lookingglass',             App\Controllers\UserController::class . ':lookingglass');
         $this->get('/profile',                  App\Controllers\UserController::class . ':profile');
         $this->get('/invite',                   App\Controllers\UserController::class . ':invite');
         $this->get('/disable',                  App\Controllers\UserController::class . ':disable');
@@ -287,6 +286,7 @@ return function (SlimApp $app) {
         $this->get('/nodes/{id}/info',      App\Controllers\Mod_Mu\NodeController::class . ':get_info');
         $this->post('/nodes/{id}/info',     App\Controllers\Mod_Mu\NodeController::class . ':info');
         $this->get('/nodes',                App\Controllers\Mod_Mu\NodeController::class . ':get_all_info');
+        $this->post('/nodes/config',        App\Controllers\Mod_Mu\NodeController::class . ':getConfig');
 
         $this->get('/users',                App\Controllers\Mod_Mu\UserController::class . ':index');
         $this->post('/users/traffic',       App\Controllers\Mod_Mu\UserController::class . ':addTraffic');
