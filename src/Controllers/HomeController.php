@@ -117,21 +117,6 @@ class HomeController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function getDocCenter($request, $response, $args): ResponseInterface
-    {
-        $user = Auth::getUser();
-        if (!$user->isLogin === false) {
-            $response = $response->withStatus(302)->withHeader('Location', '/');
-            return $response;
-        }
-        return $response->write($this->view()->fetch('doc/index.tpl'));
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
     public function getSubLink($request, $response, $args): string
     {
         $type = trim($request->getParam('type'));
