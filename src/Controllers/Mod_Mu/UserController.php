@@ -11,6 +11,10 @@ use App\Models\{
     NodeOnlineLog
 };
 use App\Utils\Tools;
+use Slim\Http\{
+    Request,
+    Response
+};
 use Psr\Http\Message\ResponseInterface;
 
 class UserController extends BaseController
@@ -34,10 +38,9 @@ class UserController extends BaseController
         } else {
             $node = Node::where('id', '=', $node_id)->first();
             if ($node == null) {
-                $res = [
-                    'ret' => 0
-                ];
-                return $this->echoJson($response, $res);
+                return $response->withJson([
+                    'ret' => 0,
+                ]);
             }
         }
         $node->node_heartbeat = time();
@@ -46,12 +49,10 @@ class UserController extends BaseController
         // 节点流量耗尽则返回 null
         if (($node->node_bandwidth_limit != 0) && $node->node_bandwidth_limit < $node->node_bandwidth) {
             $users = null;
-
-            $res = [
-                'ret' => 1,
+            return $response->withJson([
+                'ret'  => 1,
                 'data' => $users
-            ];
-            return $this->echoJson($response, $res);
+            ]);
         }
 
         if (in_array($node->sort, [0, 10]) && $node->mu_only != -1) {
@@ -117,19 +118,22 @@ class UserController extends BaseController
             $users[] = $user_raw;
         }
 
-        $res = [
-            'ret' => 1,
-            'data' => $users
-        ];
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($users);
         if ($header_etag == $etag){
             return $response->withStatus(304);
         }
-        return $this->echoJson($response, $res)->withHeader('ETAG', $etag);
+        return $response->withHeader('ETAG', $etag)->withJson([
+            'ret'  => 1,
+            'data' => $users
+        ]);
     }
 
-    //   Update Traffic
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function addTraffic($request, $response, $args)
     {
         $params = $request->getQueryParams();
@@ -144,10 +148,9 @@ class UserController extends BaseController
         $node = Node::find($node_id);
 
         if ($node == null) {
-            $res = [
-                'ret' => 0
-            ];
-            return $this->echoJson($response, $res);
+            return $response->withJson([
+                'ret' => 0,
+            ]);
         }
 
         if (count($data) > 0) {
@@ -170,7 +173,7 @@ class UserController extends BaseController
                         'ret' => 0,
                         'data' => 'update failed',
                     ];
-                    return $this->echoJson($response, $res);
+                    return $response->withJson($res);
                 }
             }
         }
@@ -188,9 +191,14 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function addAliveIp($request, $response, $args)
     {
         $params = $request->getQueryParams();
@@ -207,7 +215,7 @@ class UserController extends BaseController
             $res = [
                 'ret' => 0
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
         if (count($data) > 0) {
             foreach ($data as $log) {
@@ -228,9 +236,14 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function addDetectLog($request, $response, $args)
     {
         $params = $request->getQueryParams();
@@ -247,7 +260,7 @@ class UserController extends BaseController
             $res = [
                 'ret' => 0
             ];
-            return $this->echoJson($response, $res);
+            return $response->withJson($res);
         }
 
         if (count($data) > 0) {
@@ -269,6 +282,6 @@ class UserController extends BaseController
             'ret' => 1,
             'data' => 'ok',
         ];
-        return $this->echoJson($response, $res);
+        return $response->withJson($res);
     }
 }

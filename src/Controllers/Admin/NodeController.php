@@ -20,6 +20,8 @@ use Psr\Http\Message\ResponseInterface;
 class NodeController extends AdminController
 {
     /**
+     * 后台节点页面
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -60,6 +62,8 @@ class NodeController extends AdminController
     }
 
     /**
+     * 后台创建节点页面
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -73,6 +77,8 @@ class NodeController extends AdminController
     }
 
     /**
+     * 后台添加节点
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -108,12 +114,10 @@ class NodeController extends AdminController
                 $node->node_ip = $req_node_ip;
             }
             if ($node->node_ip == '') {
-                return $response->withJson(
-                    [
-                        'ret' => 0,
-                        'msg' => '获取节点IP失败，请检查您输入的节点地址是否正确！'
-                    ]
-                );
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '获取节点IP失败，请检查您输入的节点地址是否正确！'
+                ]);
             }
         } else {
             $node->node_ip = '';
@@ -140,15 +144,15 @@ class NodeController extends AdminController
             );
         }
 
-        return $response->withJson(
-            [
-                'ret' => 1,
-                'msg' => '节点添加成功'
-            ]
-        );
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '节点添加成功'
+        ]);
     }
 
     /**
+     * 后台编辑指定节点页面
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -165,6 +169,8 @@ class NodeController extends AdminController
     }
 
     /**
+     * 后台更新指定节点内容
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -205,12 +211,10 @@ class NodeController extends AdminController
         }
 
         if (!$success) {
-            return $response->withJson(
-                [
-                    'ret' => 0,
-                    'msg' => '更新节点IP失败，请检查您输入的节点地址是否正确！'
-                ]
-            );
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '更新节点IP失败，请检查您输入的节点地址是否正确！'
+            ]);
         }
 
         $node->status                     = $request->getParam('status');
@@ -230,15 +234,15 @@ class NodeController extends AdminController
             );
         }
 
-        return $response->withJson(
-            [
-                'ret' => 1,
-                'msg' => '修改成功'
-            ]
-        );
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功'
+        ]);
     }
 
     /**
+     * 后台删除指定节点
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -249,12 +253,10 @@ class NodeController extends AdminController
         $node = Node::find($id);
 
         if (!$node->delete()) {
-            return $response->withJson(
-                [
-                    'ret' => 0,
-                    'msg' => '删除失败'
-                ]
-            );
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '删除失败'
+            ]);
         }
 
         if (Config::getconfig('Telegram.bool.DeleteNode')) {
@@ -267,15 +269,15 @@ class NodeController extends AdminController
             );
         }
 
-        return $response->withJson(
-            [
-                'ret' => 1,
-                'msg' => '删除成功'
-            ]
-        );
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '删除成功'
+        ]);
     }
 
     /**
+     * 后台节点页面 AJAX
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args

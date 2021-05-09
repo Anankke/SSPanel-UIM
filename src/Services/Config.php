@@ -78,14 +78,7 @@ class Config
             'auto_detect_ban_time'    => $_ENV['auto_detect_ban_time'],
             'auto_detect_ban'         => $_ENV['auto_detect_ban'],
 
-            'use_this_doc'            => $_ENV['use_this_doc'],
-            'documents_name'          => $_ENV['documents_name'],
-            'remote_documents'        => $_ENV['remote_documents'],
-            'documents_source'        => $_ENV['documents_source'],
-
             'userCenterClient'        => $_ENV['userCenterClient'],
-
-            'old_index_DESC'          => $_ENV['old_index_DESC'],
 
             'sspanelAnalysis'         => $_ENV['sspanelAnalysis'],
 

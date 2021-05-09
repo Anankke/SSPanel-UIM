@@ -249,7 +249,7 @@ class Node extends Model
         $item           = Tools::v2Array($this->server);
         $item['type']   = 'vmess';
         $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
-        $item['id']     = $user->getUuid();
+        $item['id']     = $user->uuid;
         $item['class']  = $this->node_class;
         return $item;
     }
@@ -317,7 +317,7 @@ class Node extends Model
         $item['type']     = 'trojan';
         $item['address']  = $server[0];
         $item['port']     = (isset($opt['port']) ? (int) $opt['port'] : 443);
-        $item['passwd']   = $user->getUuid();
+        $item['passwd']   = $user->uuid;
         $item['host']     = $item['address'];
         if (isset($opt['host'])) {
             $item['host'] = $opt['host'];

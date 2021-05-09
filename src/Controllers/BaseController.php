@@ -7,8 +7,6 @@ use App\Services\{
     Auth,
     View
 };
-use Slim\Http\Response;
-use Psr\Http\Message\ResponseInterface;
 use Smarty;
 
 /**
@@ -43,19 +41,5 @@ class BaseController
     public function view()
     {
         return $this->view;
-    }
-
-    // TODO: remove
-    /**
-     * Output JSON
-     *
-     * @param Response      $response
-     * @param array|object  $resource
-     *
-     * @return ResponseInterface
-     */
-    public function echoJson(Response $response, $resource)
-    {
-        return $response->withJson($resource);
     }
 }

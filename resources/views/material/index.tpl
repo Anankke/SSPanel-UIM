@@ -10,9 +10,6 @@
     <title>{$config['appName']}</title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
-    {if $config['appName'] == '跑路'}
-        <script>window.location.href = '{$config['baseUrl']}/paolu.html';</script>
-    {/if}
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="bookmark" href="/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
@@ -67,11 +64,6 @@
             <div class="content">
                 <div class="inner">
                     <h1>{$config['appName']}</h1>
-                    <!--
-                    如果想自定义文本请删除下面这段script代码,格式为
-                    <p>自定义文本</p>
-                    -->
-                    {$config['old_index_DESC']}
                 </div>
             </div>
             <nav>

@@ -9,7 +9,6 @@ use App\Models\Shop;
 use App\Models\Token;
 use App\Models\Bought;
 use App\Models\BlockIp;
-use App\Models\LoginIp;
 use App\Models\DetectLog;
 use App\Models\UnblockIp;
 use App\Models\EmailVerify;
@@ -22,11 +21,9 @@ use App\Models\UserSubscribeLog;
 use App\Services\Config;
 use App\Services\Mail;
 use App\Utils\QQWry;
-use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
 use App\Utils\Telegram;
 use App\Utils\DatatablesHelper;
-use ArrayObject;
 use Exception;
 
 class Job extends Command
@@ -66,16 +63,18 @@ class Job extends Command
         $txt = '1';
         fwrite($myfile, $txt);
         fclose($myfile);
-        $email_queues = EmailQueue::all();
-        foreach ($email_queues as $email_queue) {
-            try {
-                Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, json_decode($email_queue->array), []);
-            } catch (Exception $e) {
-                echo $e->getMessage();
+        // 分块处理，节省内存
+        EmailQueue::chunkById(1000, function ($email_queues) {
+            foreach ($email_queues as $email_queue) {
+                try {
+                    Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, json_decode($email_queue->array), []);
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+                echo '发送邮件至 ' . $email_queue->to_email . PHP_EOL;
+                $email_queue->delete();
             }
-            echo '发送邮件至 ' . $email_queue->to_email . PHP_EOL;
-            $email_queue->delete();
-        }
+        });
         unlink(BASE_PATH . '/storage/email_queue');
     }
 
@@ -87,131 +86,108 @@ class Job extends Command
     public function DailyJob()
     {
         ini_set('memory_limit', '-1');
-        $nodes = Node::all();
-        foreach ($nodes as $node) {
-            $nodeSort = [1, 2, 5, 9, 999];     // 无需重置流量的节点类型
-            if (!in_array($node->sort, $nodeSort)) {
-                if (date('d') == $node->bandwidthlimit_resetday) {
-                    $node->node_bandwidth = 0;
-                    $node->save();
-                }
-            }
-        }
 
-        // 清理订阅记录
-        UserSubscribeLog::where(
-            'request_time',
-            '<',
-            date('Y-m-d H:i:s', time() - 86400 * (int)$_ENV['subscribeLog_keep_days'])
-        )->delete();
+        // ------- 重置节点流量，排除无需重置流量的节点类型
+        Node::whereNotIn('id', [1, 2, 5, 9, 999])->where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
+        // ------- 重置节点流量
 
+        // ------- 清理各表记录
+        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int)$_ENV['subscribeLog_keep_days']))->delete();
         Token::where('expire_time', '<', time())->delete();
         NodeInfoLog::where('log_time', '<', time() - 86400 * 3)->delete();
         NodeOnlineLog::where('log_time', '<', time() - 86400 * 3)->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
+        Ip::where('datetime', '<', time() - 300)->delete();
+        UnblockIp::where('datetime', '<', time() - 300)->delete();
+        BlockIp::where('datetime', '<', time() - 86400)->delete();
+        TelegramSession::where('datetime', '<', time() - 900)->delete();
+        // ------- 清理各表记录
+
+        // ------- 清理 TG 二维码登录的图片
         system('rm ' . BASE_PATH . '/storage/*.png', $ret);
+        // ------- 清理 TG 二维码登录的图片
 
+        // ------- 重置自增 ID
         $db = new DatatablesHelper();
+        Tools::reset_auto_increment($db, 'ss_node_online_log');
+        Tools::reset_auto_increment($db, 'ss_node_info');
+        // ------- 重置自增 ID
 
-        (new \App\Utils\Tools)->reset_auto_increment($db, 'user_traffic_log');
-        (new \App\Utils\Tools)->reset_auto_increment($db, 'ss_node_online_log');
-        (new \App\Utils\Tools)->reset_auto_increment($db, 'ss_node_info');
-
-        if (Config::getconfig('Telegram.bool.DailyJob')) {
-            Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));
-        }
-
-        $shopid = [];
-        $shops  = Shop::where('status',1)->get();    //已下架的商品不支持重置使用
-        foreach ($shops as $auto_reset_shop) {
-            if ($auto_reset_shop->use_loop()) {
-                $shopid[] = $auto_reset_shop->id;
-            }
-        }
-
-        //auto reset
-        $shopRenew = Shop::where('status','1')->where('content','like','%reset_value%')->get(['id'])->toArray();
-        $shopRenewId = Bought::whereIn('shopid',array_filter(array_column($shopRenew, 'id')))->groupBy('userid')->orderBy("id","desc")->get(['id']);
-        $boughts = Bought::whereIn('id', array_filter(array_column(json_decode($shopRenewId), 'id')))->get();
+        // ------- 用户流量重置
+        // 取消已下架的商品不支持重置的限制，因为目前没有库存限制
+        $shopid  = Shop::where('content->reset', '<>', 0)->where('content->reset_value', '<>', 0)->where('content->reset_exp', '<>', 0)->pluck('id')->toArray();
+        // 用 UserID 分组倒序取最新一条包含周期重置商品的购买记录
+        $boughts = Bought::whereIn('shopid', $shopid)->orderBy('id', 'desc')->groupBy('userid')->get();
         $bought_users = array();
         foreach ($boughts as $bought) {
+            /** @var Bought $bought */
             $user = $bought->user();
             if ($user == null) {
                 continue;
             }
-
             $shop = $bought->shop();
             if ($shop == null) {
                 $bought->delete();
                 continue;
             }
-
-            if ($shop->use_loop()) {
-                $bought_users[] = $bought->userid;
-                if ($bought->valid() && $bought->used_days() % $shop->reset() == 0 && $bought->used_days() != 0) {
-                    echo ('流量重置-' . $user->id . "\n");
-                    $user->transfer_enable = Tools::toGB($shop->reset_value());
-                    $user->u = 0;
-                    $user->d = 0;
-                    $user->last_day_t = 0;
-                    $user->save();
-                    $user->sendMail(
-                        $_ENV['appName'] . '-您的流量被重置了',
-                        'news/warn.tpl',
-                        [
-                            'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB'
-                        ],
-                        [],
-                        $_ENV['email_queue']
-                    );
-                }
-            }
-        }
-
-
-        $users = User::all();
-        foreach ($users as $user) {
-            $user->last_day_t = ($user->u + $user->d);
-            $user->save();
-            if (in_array($user->id, $bought_users)) {
-                continue;
-            }
-            if (date('d') == $user->auto_reset_day) {
+            $bought_users[] = $bought->userid;
+            if ($bought->valid() && $bought->used_days() % $shop->reset() == 0 && $bought->used_days() != 0) {
+                echo ('流量重置-' . $user->id . "\n");
+                $user->transfer_enable = Tools::toGB($shop->reset_value());
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;
-                $user->transfer_enable = $user->auto_reset_bandwidth * 1024 * 1024 * 1024;
                 $user->save();
                 $user->sendMail(
                     $_ENV['appName'] . '-您的流量被重置了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB'
+                        'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB'
                     ],
                     [],
                     $_ENV['email_queue']
                 );
             }
         }
+        // ------- 用户流量重置
 
-        $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
-        if ($qqwry != '') {
-            rename(BASE_PATH . '/storage/qqwry.dat', BASE_PATH . '/storage/qqwry.dat.bak');
-            $fp = fopen(BASE_PATH . '/storage/qqwry.dat', 'wb');
-            if ($fp) {
-                fwrite($fp, $qqwry);
-                fclose($fp);
+        User::chunkById(1000, function ($users) use ($bought_users) {
+            foreach ($users as $user) {
+                /** @var User $user */
+                $user->last_day_t = ($user->u + $user->d);
+                $user->save();
+                if (in_array($user->id, $bought_users)) {
+                    continue;
+                }
+                if (date('d') == $user->auto_reset_day) {
+                    $user->u = 0;
+                    $user->d = 0;
+                    $user->last_day_t = 0;
+                    $user->transfer_enable = $user->auto_reset_bandwidth * 1024 * 1024 * 1024;
+                    $user->save();
+                    $user->sendMail(
+                        $_ENV['appName'] . '-您的流量被重置了',
+                        'news/warn.tpl',
+                        [
+                            'text' => '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB'
+                        ],
+                        [],
+                        $_ENV['email_queue']
+                    );
+                }
             }
-        }
+        });
 
-        $iplocation = new QQWry();
-        $location = $iplocation->getlocation('8.8.8.8');
-        $Userlocation = $location['country'];
-        if (iconv('gbk', 'utf-8//IGNORE', $Userlocation) !== '美国') {
-            unlink(BASE_PATH . '/storage/qqwry.dat');
-            rename(BASE_PATH . '/storage/qqwry.dat.bak', BASE_PATH . '/storage/qqwry.dat');
+        // ------- 更新 IP 库
+        (new Tool($this->argv))->initQQWry();
+        // ------- 更新 IP 库
+
+        // ------- 发送每日系统运行报告
+        if (Config::getconfig('Telegram.bool.DailyJob')) {
+            Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));
         }
+        // ------- 发送每日系统运行报告
     }
 
     /**
@@ -221,15 +197,10 @@ class Job extends Command
      */
     public function CheckJob()
     {
-        Ip::where('datetime', '<', time() - 300)->delete();
-        UnblockIp::where('datetime', '<', time() - 300)->delete();
-        BlockIp::where('datetime', '<', time() - 86400)->delete();
-        TelegramSession::where('datetime', '<', time() - 900)->delete();
-        $adminUser = User::where('is_admin', '=', '1')->get();
-
         //节点掉线检测
         if ($_ENV['enable_detect_offline'] == true) {
             echo '节点掉线检测开始' . PHP_EOL;
+            $adminUser = User::where('is_admin', '=', '1')->get();
             $nodes = Node::all();
             foreach ($nodes as $node) {
                 if ($node->isNodeOnline() === false && $node->online == true) {
@@ -329,24 +300,17 @@ class Job extends Command
             echo '节点掉线检测结束' . PHP_EOL;
         }
 
-        if ($_ENV['enable_telegram'] === true) {
-            $this->Telegram();
-        }
-
         //更新节点 IP，每分钟
-        $nodes = Node::all();
-        $allNodeID = [];
+        $nodes = Node::whereNotIn('id', [2, 5, 9, 999])->get();
         foreach ($nodes as $node) {
-            $allNodeID[] = $node->id;
-            $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
-            if (!in_array($node->sort, $nodeSort)) {
-                $server = $node->getOutServer();
-                if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
-                    $node->save();
-                }
+            /** @var Node $node */
+            $server = $node->getOutServer();
+            if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
+                $node->save();
             }
         }
     }
+
     /**
      * 用户账户相关任务，每小时
      *
@@ -376,7 +340,6 @@ class Job extends Command
                 $user->expire_notified = false;
                 $user->save();
             }
-
 
             //余量不足检测
             if ($_ENV['notify_limit_mode'] != false) {
@@ -516,6 +479,7 @@ class Job extends Command
 
             $user->save();
         }
+
         //自动续费
         $boughts = Bought::where('renew', '<', time() + 60)->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {

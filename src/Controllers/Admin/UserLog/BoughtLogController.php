@@ -109,7 +109,7 @@ class BoughtLogController extends AdminController
         if (!$Bought->delete()) {
             $rs['ret'] = 0;
             $rs['msg'] = '删除失败';
-            return $response->getBody()->write(json_encode($rs));
+            return $response->withJson($rs);
         }
         $rs['ret'] = 1;
         $rs['msg'] = '删除成功';
@@ -133,19 +133,19 @@ class BoughtLogController extends AdminController
         if ($shop_id == '') {
             $rs['ret'] = 0;
             $rs['msg'] = '请选择套餐';
-            return $response->getBody()->write(json_encode($rs));
+            return $response->withJson($rs);
         }
         $shop = Shop::find($shop_id);
         if ($shop == null) {
             $rs['ret'] = 0;
             $rs['msg'] = '套餐不存在';
-            return $response->getBody()->write(json_encode($rs));
+            return $response->withJson($rs);
         }
         if ($buy_type != 0) {
             if (bccomp($user->money, $shop->price, 2) == -1) {
                 $res['ret'] = 0;
                 $res['msg'] = '喵喵喵~ 该用户余额不足。';
-                return $response->getBody()->write(json_encode($res));
+                return $response->withJson($res);
             }
             $user->money = bcsub($user->money, $shop->price, 2);
             $user->save();

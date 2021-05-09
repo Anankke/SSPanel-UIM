@@ -102,11 +102,8 @@ class User extends Command
         $users = ModelsUser::all();
         $current_timestamp = time();
         foreach ($users as $user) {
-            $user->uuid = Uuid::uuid3(
-                Uuid::NAMESPACE_DNS,
-                $user->email . '|' . $current_timestamp
-            );
-            $user->save();
+            /** @var ModelsUser $user */
+            $user->generateUUID($current_timestamp);
         }
         echo 'generate UUID successful' . PHP_EOL;
     }
@@ -118,7 +115,7 @@ class User extends Command
      */
     public function generateGa()
     {
-        $users = User::all();
+        $users = ModelsUser::all();
         foreach ($users as $user) {
             $ga = new GA();
             $secret = $ga->createSecret();
@@ -178,7 +175,6 @@ class User extends Command
             $user->im_type          = 1;
             $user->im_value         = '';
             $user->class            = 0;
-            $user->plan             = 'A';
             $user->node_speedlimit  = 0;
             $user->theme            = $_ENV['theme'];
 

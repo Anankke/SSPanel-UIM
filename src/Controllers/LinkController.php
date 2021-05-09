@@ -13,6 +13,7 @@ use App\Utils\{
     URL,
     Tools,
     AppURI,
+    ConfGenerate,
     ConfRender
 };
 use voku\helper\AntiXSS;
@@ -374,7 +375,7 @@ class LinkController extends BaseController
      * 响应内容
      *
      * @param User   $user
-     * @param array  $response
+     * @param object $response
      * @param string $content  订阅内容
      * @param string $filename 文件名
      */
@@ -575,7 +576,7 @@ class LinkController extends BaseController
             'port'            => 10086,
             'method'          => 'chacha20-ietf',
             'passwd'          => $user->passwd,
-            'id'              => $user->getUuid(),
+            'id'              => $user->uuid,
             'aid'             => 0,
             'net'             => 'tcp',
             'headerType'      => 'none',
@@ -646,7 +647,7 @@ class LinkController extends BaseController
             $Profiles = ($surge == 2 ? $_ENV['Surge2_DefaultProfiles'] : $_ENV['Surge_DefaultProfiles']);
         }
 
-        return ConfController::getSurgeConfs($user, $All_Proxy, $Nodes, $_ENV[$variable][$Profiles]);
+        return ConfGenerate::getSurgeConfs($user, $All_Proxy, $Nodes, $_ENV[$variable][$Profiles]);
     }
 
     /**
@@ -763,7 +764,7 @@ class LinkController extends BaseController
             $Profiles = $_ENV['Surfboard_DefaultProfiles']; // 默认策略组
         }
 
-        return ConfController::getSurgeConfs($user, $All_Proxy, $Nodes, $_ENV['Surfboard_Profiles'][$Profiles]);
+        return ConfGenerate::getSurgeConfs($user, $All_Proxy, $Nodes, $_ENV['Surfboard_Profiles'][$Profiles]);
     }
 
     /**
@@ -795,7 +796,7 @@ class LinkController extends BaseController
             $Profiles = $_ENV['Clash_DefaultProfiles']; // 默认策略组
         }
 
-        return ConfController::getClashConfs($user, $Proxys, $_ENV['Clash_Profiles'][$Profiles]);
+        return ConfGenerate::getClashConfs($user, $Proxys, $_ENV['Clash_Profiles'][$Profiles]);
     }
 
     /**

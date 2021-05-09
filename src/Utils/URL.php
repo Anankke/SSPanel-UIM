@@ -7,10 +7,7 @@ use App\Models\{
     Node
 };
 use App\Services\Config;
-use App\Controllers\{
-    LinkController,
-    ConfController
-};
+use App\Controllers\LinkController;
 
 class URL
 {
@@ -246,7 +243,7 @@ class URL
             if (isset($Rule['content']['regex']) && $Rule['content']['regex'] != '') {
                 // 节点名称筛选
                 if (
-                    ConfController::getMatchProxy(
+                    ConfGenerate::getMatchProxy(
                         [
                             'remark' => $node->name
                         ],
@@ -407,7 +404,7 @@ class URL
         $item['type'] = 'vmess';
         $item['ps'] = ($emoji ? Tools::addEmoji($node->name) : $node->name);
         $item['remark'] = $item['ps'];
-        $item['id'] = $user->getUuid();
+        $item['id'] = $user->uuid;
         $item['class'] = $node->node_class;
         if (!$arrout) {
             return 'vmess://' . base64_encode(

@@ -4,7 +4,6 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
 use App\Models\{
-    Ip,
     User,
     Shop,
     Bought,
@@ -19,15 +18,23 @@ use App\Utils\{
     GA,
     Hash,
     Tools,
-    QQWry,
     Cookie
 };
 use Exception;
 use App\Utils\DatatablesHelper;
 use Ramsey\Uuid\Uuid;
+use Slim\Http\{
+    Request,
+    Response
+};
 
 class UserController extends AdminController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array(
@@ -67,13 +74,19 @@ class UserController extends AdminController
         );
         $table_config['default_show_column'] = array('op', 'id', 'user_name', 'remark', 'email');
         $table_config['ajax_url'] = 'user/ajax';
-        $shops = Shop::where('status', 1)->orderBy('name')->get();
-        return $this->view()
-            ->assign('shops', $shops)
-            ->assign('table_config', $table_config)
-            ->display('admin/user/index.tpl');
+        return $response->write(
+            $this->view()
+                ->assign('shops',        Shop::orderBy('name')->get())
+                ->assign('table_config', $table_config)
+                ->display('admin/user/index.tpl')
+        );
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function createNewUser($request, $response, $args)
     {
         # 需要一个 userEmail
@@ -85,17 +98,19 @@ class UserController extends AdminController
         $shop_id = (int) $request->getParam('userShop');
 
         // not really user input
-        //if (!Check::isEmailLegal($email)) {
-        //    $res['ret'] = 0;
-        //   $res['msg'] = '邮箱无效';
-        //   return $response->getBody()->write(json_encode($res));
-        //}
+        // if (!Check::isEmailLegal($email)) {
+        //     return $response->withJson([
+        //         'ret' => 0,
+        //         'msg' => '邮箱无效'
+        //     ]);
+        // }
         // check email
         $user = User::where('email', $email)->first();
         if ($user != null) {
-            $res['ret'] = 0;
-            $res['msg'] = '邮箱已经被注册了';
-            return $response->getBody()->write(json_encode($res));
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '邮箱已经被注册了'
+            ]);
         }
         // do reg user
         $user                       = new User();
@@ -131,7 +146,6 @@ class UserController extends AdminController
         $user->expire_in            = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultExpire_in') * 86400);
         $user->reg_date             = date('Y-m-d H:i:s');
         $user->reg_ip               = $_SERVER['REMOTE_ADDR'];
-        $user->plan                 = 'A';
         $user->theme                = $_ENV['theme'];
 
         $groups = explode(',', $_ENV['random_group']);
@@ -174,143 +188,34 @@ class UserController extends AdminController
             } catch (Exception $e) {
                 $res['email_error'] = $e->getMessage();
             }
-            return $response->getBody()->write(json_encode($res));
+            return $response->withJson($res);
         }
-        $res['ret'] = 0;
-        $res['msg'] = '未知错误';
-        return $response->getBody()->write(json_encode($res));
+        return $response->withJson([
+            'ret' => 0,
+            'msg' => '未知错误'
+        ]);
     }
 
-    public function buy($request, $response, $args)
-    {
-        #shop 信息可以通过 App\Controllers\UserController:shop 获得
-        # 需要shopId，disableothers，autorenew,userEmail
-
-        $shopId         = $request->getParam('shopId');
-        $shop           = Shop::where('id', $shopId)->where('status', 1)->first();
-        $disableothers  = $request->getParam('disableothers');
-        $autorenew      = $request->getParam('autorenew');
-        $email          = $request->getParam('userEmail');
-        $user           = User::where('email', '=', $email)->first();
-        if ($user == null) {
-            $result['ret'] = 0;
-            $result['msg'] = '未找到该用户';
-            return $response->getBody()->write(json_encode($result));
-        }
-        if ($shop == null) {
-            $result['ret'] = 0;
-            $result['msg'] = '请选择套餐';
-            return $response->getBody()->write(json_encode($result));
-        }
-        if ($disableothers == 1) {
-            $boughts = Bought::where('userid', $user->id)->get();
-            foreach ($boughts as $disable_bought) {
-                $disable_bought->renew = 0;
-                $disable_bought->save();
-            }
-        }
-        $bought           = new Bought();
-        $bought->userid   = $user->id;
-        $bought->shopid   = $shop->id;
-        $bought->datetime = time();
-        if ($autorenew == 0 || $shop->auto_renew == 0) {
-            $bought->renew = 0;
-        } else {
-            $bought->renew = time() + $shop->auto_renew * 86400;
-        }
-
-        $price = $shop->price;
-        $bought->price = $price;
-        $bought->save();
-
-        $shop->buy($user);
-        $result['ret'] = 1;
-        $result['msg'] = '套餐添加成功';
-        return $response->getBody()->write(json_encode($result));
-    }
-
-    public function search($request, $response, $args)
-    {
-        $pageNum = 1;
-        $text = $args['text'];
-        if (isset($request->getQueryParams()['page'])) {
-            $pageNum = $request->getQueryParams()['page'];
-        }
-
-        $users = User::where('email', 'LIKE', '%' . $text . '%')->orWhere('user_name', 'LIKE', '%' . $text . '%')->orWhere('im_value', 'LIKE', '%' . $text . '%')->orWhere('port', 'LIKE', '%' . $text . '%')->orWhere('remark', 'LIKE', '%' . $text . '%')->paginate(20, ['*'], 'page', $pageNum);
-
-        //Ip::where("datetime","<",time()-90)->get()->delete();
-        $total = Ip::where('datetime', '>=', time() - 90)->orderBy('userid', 'desc')->get();
-
-        $userip = array();
-        $useripcount = array();
-        $regloc = array();
-
-        $iplocation = new QQWry();
-        foreach ($users as $user) {
-            $useripcount[$user->id] = 0;
-            $userip[$user->id] = array();
-
-            $location = $iplocation->getlocation($user->reg_ip);
-            $regloc[$user->id] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-        }
-
-        foreach ($total as $single) {
-            if (isset($useripcount[$single->userid]) && !isset($userip[$single->userid][$single->ip])) {
-                ++$useripcount[$single->userid];
-                $location = $iplocation->getlocation($single->ip);
-                $userip[$single->userid][$single->ip] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-            }
-        }
-
-        return $this->view()->assign('users', $users)->assign('regloc', $regloc)->assign('useripcount', $useripcount)->assign('userip', $userip)->display('admin/user/index.tpl');
-    }
-
-    public function sort($request, $response, $args)
-    {
-        $pageNum = 1;
-        $text = $args['text'];
-        $asc = $args['asc'];
-        if (isset($request->getQueryParams()['page'])) {
-            $pageNum = $request->getQueryParams()['page'];
-        }
-
-        $users->setPath('/admin/user/sort/' . $text . '/' . $asc);
-
-        //Ip::where("datetime","<",time()-90)->get()->delete();
-        $total = Ip::where('datetime', '>=', time() - 90)->orderBy('userid', 'desc')->get();
-
-        $userip = array();
-        $useripcount = array();
-        $regloc = array();
-
-        $iplocation = new QQWry();
-        foreach ($users as $user) {
-            $useripcount[$user->id] = 0;
-            $userip[$user->id] = array();
-
-            $location = $iplocation->getlocation($user->reg_ip);
-            $regloc[$user->id] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-        }
-
-        foreach ($total as $single) {
-            if (isset($useripcount[$single->userid]) && !isset($userip[$single->userid][$single->ip])) {
-                ++$useripcount[$single->userid];
-                $location = $iplocation->getlocation($single->ip);
-                $userip[$single->userid][$single->ip] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-            }
-        }
-
-        return $this->view()->assign('users', $users)->assign('regloc', $regloc)->assign('useripcount', $useripcount)->assign('userip', $userip)->display('admin/user/index.tpl');
-    }
-
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function edit($request, $response, $args)
     {
-        $id = $args['id'];
-        $user = User::find($id);
-        return $this->view()->assign('edit_user', $user)->display('admin/user/edit.tpl');
+        $user = User::find($args['id']);
+        return $response->write(
+            $this->view()
+                ->assign('edit_user', $user)
+                ->display('admin/user/edit.tpl')
+        );
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function update($request, $response, $args)
     {
         $id = $args['id'];
@@ -380,41 +285,55 @@ class UserController extends AdminController
         }
 
         if (!$user->save()) {
-            $rs['ret'] = 0;
-            $rs['msg'] = '修改失败';
-            return $response->getBody()->write(json_encode($rs));
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '修改失败'
+            ]);
         }
-        $rs['ret'] = 1;
-        $rs['msg'] = '修改成功';
-        return $response->getBody()->write(json_encode($rs));
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功'
+        ]);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function delete($request, $response, $args)
     {
-        $id = $request->getParam('id');
-        $user = User::find($id);
+        $user = User::find((int) $request->getParam('id'));
         if (!$user->kill_user()) {
-            $rs['ret'] = 0;
-            $rs['msg'] = '删除失败';
-            return $response->getBody()->write(json_encode($rs));
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '删除失败'
+            ]);
         }
-        $rs['ret'] = 1;
-        $rs['msg'] = '删除成功';
-        return $response->getBody()->write(json_encode($rs));
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '删除成功'
+        ]);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function changetouser($request, $response, $args)
     {
-        $userid     = $request->getParam('userid');
-        $adminid    = $request->getParam('adminid');
-        $user       = User::find($userid);
-        $admin      = User::find($adminid);
-        $expire_in  = time() + 60 * 60;
+        $userid    = $request->getParam('userid');
+        $adminid   = $request->getParam('adminid');
+        $user      = User::find($userid);
+        $admin     = User::find($adminid);
+        $expire_in = time() + 60 * 60;
 
         if (!$admin->is_admin || !$user || !Auth::getUser()->isLogin) {
-            $rs['ret'] = 0;
-            $rs['msg'] = '非法请求';
-            return $response->getBody()->write(json_encode($rs));
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '非法请求'
+            ]);
         }
 
         Cookie::set([
@@ -430,11 +349,18 @@ class UserController extends AdminController
             'old_expire_in' => Cookie::get('expire_in'),
             'old_local'     => $request->getParam('local'),
         ], $expire_in);
-        $rs['ret'] = 1;
-        $rs['msg'] = '切换成功';
-        return $response->getBody()->write(json_encode($rs));
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '切换成功'
+        ]);
     }
 
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
     public function ajax($request, $response, $args)
     {
         //得到排序的方式
@@ -457,7 +383,7 @@ class UserController extends AdminController
             $order_field = 'id';
         }
 
-        $users = array();
+        $users          = [];
         $count_filtered = 0;
 
         $query = User::query();
@@ -572,6 +498,8 @@ class UserController extends AdminController
             'recordsFiltered' => $count_filtered,
             'data'            => $data,
         ];
-        return json_encode($info, true);
+        return $response->withJson(
+            $info
+        );
     }
 }
