@@ -127,7 +127,7 @@
                             </li>
                         {/if}
                     </ul>
-                    {if $user->isAdmin()}
+                    {if $user->is_admin}
                         <a href="/admin"><i class="icon icon-lg">person_pin</i>&nbsp;管理面板</a>
                     {/if}
                     {if $can_backtoadmin}

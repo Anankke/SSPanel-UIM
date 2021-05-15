@@ -65,9 +65,9 @@
                 {foreach $ticketset as $ticket}
                     <div class="card">
                         <aside class="card-side pull-left" style="padding: 16px; text-align: center">
-                            <img style="border-radius: 100%; width: 100%" src="{$ticket->User()->gravatar}">
+                            <img style="border-radius: 100%; width: 100%" src="{$ticket->user()->gravatar}">
                             <br>
-                            {$ticket->User()->user_name}
+                            {$ticket->user()->user_name}
                         </aside>
                         <div class="card-main">
                             <div class="card-inner">
@@ -164,7 +164,7 @@
                 url: "/admin/user/changetouser",
                 dataType: "json",
                 data: {
-                    userid: {$ticket->User()->id},
+                    userid: {$ticket->user()->id},
                     adminid: {$user->id},
                     local: '/admin/ticket/' + {$ticket->id} +'/view'
                 },

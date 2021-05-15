@@ -7,11 +7,7 @@ use App\Models\{
     Ann,
     User
 };
-use App\Utils\{
-    Telegram,
-    DatatablesHelper
-};
-use Ozdemir\Datatables\Datatables;
+use App\Utils\Telegram;
 use Slim\Http\{
     Request,
     Response
@@ -43,6 +39,45 @@ class AnnController extends AdminController
                 ->assign('table_config', $table_config)
                 ->display('admin/announcement/index.tpl')
         );
+    }
+
+    /**
+     * 后台公告页面 AJAX
+     *
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function ajax($request, $response, $args)
+    {
+        $query = Ann::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['op'])) {
+                    $order_field = 'id';
+                }
+            }
+        );
+
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var Ann $value */
+
+            $tempdata            = [];
+            $tempdata['op']      = '<a class="btn btn-brand" href="/admin/announcement/' . $value->id . '/edit">编辑</a> <a class="btn btn-brand-accent" id="delete" value="' . $value->id . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>';
+            $tempdata['id']      = $value->id;
+            $tempdata['date']    = $value->date;
+            $tempdata['content'] = $value->content;
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => Ann::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 
     /**
@@ -203,28 +238,5 @@ class AnnController extends AdminController
             'ret' => 1,
             'msg' => '删除成功'
         ]);
-    }
-
-    /**
-     * 后台公告页面 AJAX
-     *
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function ajax($request, $response, $args)
-    {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select id as op,id,date,content from announcement');
-        $datatables->edit('op', static function ($data) {
-            return '<a class="btn btn-brand" href="/admin/announcement/' . $data['id'] . '/edit">编辑</a>
-                    <a class="btn btn-brand-accent" id="delete" value="' . $data['id'] . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $data['id'] . '\')">删除</a>';
-        });
-        $datatables->edit('DT_RowId', static function ($data) {
-            return 'row_1_' . $data['id'];
-        });
-        return $response->write(
-            $datatables->generate()
-        );
     }
 }

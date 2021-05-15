@@ -72,7 +72,12 @@ class URL
         return 3;
     }
 
-    public static function parse_args($origin)
+    /**
+     * parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
+     *
+     * @param string $origin
+     */
+    public static function parse_args($origin): array
     {
         // parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
         $args_explode = explode('|', $origin);
@@ -462,6 +467,22 @@ class URL
         }
 
         return $return_array;
+    }
+
+    /**
+     * 获取 Trojan URL
+     *
+     * @param User $user 用户
+     * @param Node $node
+     */
+    public static function get_trojan_url($user, $node): string
+    {
+        $server = $node->getTrojanItem($user);
+        $return = 'trojan://' . $server['passwd'] . '@' . $server['address'] . ':' . $server['port'];
+        if ($server['host'] != $server['address']) {
+            $return .= '?peer=' . $server['host'] . '&sni=' . $server['host'];
+        }
+        return $return . '#' . rawurlencode($node->name);
     }
 
     public static function getJsonObfs(array $item): string

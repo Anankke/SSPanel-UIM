@@ -30,9 +30,9 @@ class BoughtLogController extends AdminController
             'id'         => 'ID',
             'name'       => '商品名称',
             'valid'      => '是否有效期内',
-            'auto_renew' => '自动续费时间',
+            'renew'      => '自动续费时间',
             'reset_time' => '流量重置时间',
-            'buy_time'   => '套餐购买时间',
+            'datetime'   => '套餐购买时间',
             'exp_time'   => '套餐过期时间',
             'content'    => '商品详细内容',
         );
@@ -56,45 +56,54 @@ class BoughtLogController extends AdminController
      */
     public function bought_ajax($request, $response, $args): ResponseInterface
     {
-        $start        = $request->getParam("start");
-        $limit_length = $request->getParam('length');
-        $id           = $args['id'];
-        $user         = User::find($id);
-        $boughts      = Bought::where('userid', $user->id)->skip($start)->limit($limit_length)->orderBy('id', 'desc')->get();
-        $total_conut  = Bought::where('userid', $user->id)->count();
-        $data         = [];
-        foreach ($boughts as $bought) {
-            $shop = $bought->shop();
-            if ($shop == null) {
-                $bought->delete();
+        $user  = User::find($args['id']);
+        $query = Bought::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['op', 'reset_time', 'valid', 'exp_time'])) {
+                    $order_field = 'id';
+                }
+                if (in_array($order_field, ['content', 'name'])) {
+                    $order_field = 'shopid';
+                }
+            },
+            static function ($query) use ($user) {
+                $query->where('userid', $user->id);
+            }
+        );
+
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var Bought $value */
+
+            if ($value->shop() == null) {
+                Bought::shop_is_null($value);
                 continue;
             }
-            $tempdata = [];
-            $tempdata['op']          = '<a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' . $bought->id . '\')">删除</a>';
-            $tempdata['id']          = $bought->id;
-            $tempdata['name']        = $shop->name;
-            $tempdata['content']     = $shop->content();
-            $tempdata['auto_renew']  = ($bought->renew == 0 ? '不自动续费' : $bought->renew_date());
-            $tempdata['buy_time']    = $bought->datetime();
-            if ($bought->valid()) {
-                $tempdata['valid'] = ($bought->valid() ? '有效' : '已过期');
+            $tempdata                = [];
+            $tempdata['op']          = '<a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>';
+            $tempdata['id']          = $value->id;
+            $tempdata['name']        = $value->shop()->name;
+            $tempdata['content']     = $value->content();
+            $tempdata['renew']       = $value->renew();
+            $tempdata['datetime']    = $value->datetime();
+            if ($value->shop()->use_loop()) {
+                $tempdata['valid'] = ($value->valid() ? '有效' : '已过期');
             } else {
                 $tempdata['valid'] = '-';
             }
-            $tempdata['reset_time']  = $bought->reset_time();
-            $tempdata['exp_time']    = $bought->exp_time();
+            $tempdata['reset_time']  = $value->reset_time();
+            $tempdata['exp_time']    = $value->exp_time();
+
             $data[] = $tempdata;
         }
-        $info = [
-            'draw'              => $request->getParam('draw'),
-            'recordsTotal'      => $total_conut,
-            'recordsFiltered'   => $total_conut,
-            'data'              => $data
-        ];
 
-        return $response->write(
-            json_encode($info)
-        );
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => Bought::where('userid', $user->id)->count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 
     /**
@@ -107,16 +116,15 @@ class BoughtLogController extends AdminController
         $id = $request->getParam('id');
         $Bought = Bought::find($id);
         if (!$Bought->delete()) {
-            $rs['ret'] = 0;
-            $rs['msg'] = '删除失败';
-            return $response->withJson($rs);
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '删除失败'
+            ]);
         }
-        $rs['ret'] = 1;
-        $rs['msg'] = '删除成功';
-
-        return $response->write(
-            json_encode($rs)
-        );
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '删除成功'
+        ]);
     }
 
     /**
@@ -131,21 +139,24 @@ class BoughtLogController extends AdminController
         $shop_id  = (int) $request->getParam('buy_shop');
         $buy_type = (int) $request->getParam('buy_type');
         if ($shop_id == '') {
-            $rs['ret'] = 0;
-            $rs['msg'] = '请选择套餐';
-            return $response->withJson($rs);
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '请选择套餐'
+            ]);
         }
         $shop = Shop::find($shop_id);
         if ($shop == null) {
-            $rs['ret'] = 0;
-            $rs['msg'] = '套餐不存在';
-            return $response->withJson($rs);
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '套餐不存在'
+            ]);
         }
         if ($buy_type != 0) {
             if (bccomp($user->money, $shop->price, 2) == -1) {
-                $res['ret'] = 0;
-                $res['msg'] = '喵喵喵~ 该用户余额不足。';
-                return $response->withJson($res);
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '喵喵喵~ 该用户余额不足。'
+                ]);
             }
             $user->money = bcsub($user->money, $shop->price, 2);
             $user->save();
@@ -164,11 +175,10 @@ class BoughtLogController extends AdminController
         $bought->price    = $shop->price;
         $bought->save();
         $shop->buy($user);
-        $rs['msg']        = ($buy_type != 0 ? '套餐购买成功' : '套餐添加成功');
-        $rs['ret']        = 1;
 
-        return $response->write(
-            json_encode($rs)
-        );
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => ($buy_type != 0 ? '套餐购买成功' : '套餐添加成功')
+        ]);
     }
 }

@@ -48,9 +48,10 @@ class PasswordController extends BaseController
             ]);
         }
         if (Password::sendResetEmail($email)) {
+            $msg = '重置邮件已经发送,请检查邮箱.';
+        } else {
             $msg = '邮件发送失败，请联系网站管理员。';
         }
-        $msg = '重置邮件已经发送,请检查邮箱.';
         return $response->withJson([
             'ret' => 1,
             'msg' => $msg

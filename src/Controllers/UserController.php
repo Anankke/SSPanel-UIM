@@ -1447,12 +1447,21 @@ class UserController extends BaseController
         if ($request->getParam('json') == 1) {
             $res['ret'] = 1;
             foreach ($logs as $log) {
-                $log->node_name = $log->Node()->name;
-                $log->detect_rule_name = $log->DetectRule()->name;
-                $log->detect_rule_text = $log->DetectRule()->text;
-                $log->detect_rule_regex = $log->DetectRule()->regex;
-                $log->detect_rule_type = $log->DetectRule()->type;
-                $log->detect_rule_date = date('Y-m-d H:i:s', $log->datetime);
+                /** @var DetectLog $log */
+                if ($log->node() == null) {
+                    DetectLog::node_is_null($log);
+                    continue;
+                }
+                if ($log->rule() == null) {
+                    DetectLog::rule_is_null($log);
+                    continue;
+                }
+                $log->node_name         = $log->node_name();
+                $log->detect_rule_name  = $log->rule_name();
+                $log->detect_rule_text  = $log->rule_text();
+                $log->detect_rule_regex = $log->rule_regex();
+                $log->detect_rule_type  = $log->rule_type();
+                $log->detect_rule_date  = $log->datetime();
             }
             $res['logs'] = $logs;
             return $response->withJson($res);
@@ -1625,7 +1634,7 @@ class UserController extends BaseController
     }
 
     /**
-     * 获取包含订阅信息的客户端压缩档
+     * 获取包含订阅信息的客户端压缩档，PHP 需安装 zip 扩展
      *
      * @param Request  $request
      * @param Response $response

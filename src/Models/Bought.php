@@ -20,29 +20,92 @@ class Bought extends Model
 
     protected $table = 'bought';
 
-    public function renew_date()
+    /**
+     * [静态方法] 删除不存在的用户的记录
+     *
+     * @param Bought $Bought
+     */
+    public static function user_is_null($Bought): void
     {
-        return date('Y-m-d H:i:s', $this->renew);
+        self::where('userid', $Bought->userid)->delete();
     }
 
-    public function datetime()
+    /**
+     * [静态方法] 删除不存在的商品的记录
+     *
+     * @param Bought $Bought
+     */
+    public static function shop_is_null($Bought): void
+    {
+        self::where('shopid', $Bought->shopid)->delete();
+    }
+
+    /**
+     * 自动续费时间
+     */
+    public function renew(): string
+    {
+        if ($this->renew == 0) {
+            return '不自动续费';
+        }
+        return date('Y-m-d H:i:s', $this->renew) . ' 时续费';
+    }
+
+    /**
+     * 购买日期
+     */
+    public function datetime(): string
     {
         return date('Y-m-d H:i:s', $this->datetime);
     }
 
+    /**
+     * 购买用户
+     */
     public function user(): ?User
     {
-        $user = User::where('id', $this->userid)->first();
-        if ($user == null) {
-            $this->delete();
-            return null;
-        }
-        return $user;
+        return User::find($this->userid);
     }
 
-    public function shop(): Shop
+    /**
+     * 购买用户名
+     */
+    public function user_name(): string
     {
-        return Shop::where('id', $this->shopid)->first();
+        if ($this->user() == null) {
+            return '用户已不存在';
+        }
+        return $this->user()->user_name;
+    }
+
+    /**
+     * 商品
+     */
+    public function shop(): ?Shop
+    {
+        return Shop::find($this->shopid);
+    }
+
+    /**
+     * 商品内容
+     */
+    public function content(): string
+    {
+        if ($this->shop() == null) {
+            return '商品已不存在';
+        }
+        return $this->shop()->content();
+    }
+
+    /**
+     * 流量是否自动重置
+     */
+    public function auto_reset_bandwidth(): string
+    {
+        if ($this->shop() == null) {
+            return '商品已不存在';
+        }
+        return $this->shop()->auto_reset_bandwidth == 0 ? '不自动重置' : '自动重置';
     }
 
     /*

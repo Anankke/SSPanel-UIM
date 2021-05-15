@@ -82,7 +82,7 @@ class Reply
                 $strArray = [];
                 $strArray[] = ' - 商品套餐名称：' . $shop->name;
                 $strArray[] = ' - 套餐购买时间：' . $bought->datetime();
-                $strArray[] = ' - 套餐自动续费：' . ($bought->renew == 0 ? '不自动续费' : $bought->renew_date());
+                $strArray[] = ' - 套餐自动续费：' . $bought->renew();
                 $strArray[] = ' - 下次流量重置：' . $bought->reset_time();
                 $strArray[] = ' - 套餐过期时间：' . $bought->exp_time();
                 $strArray[] = '';

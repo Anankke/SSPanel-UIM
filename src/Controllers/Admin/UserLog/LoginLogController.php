@@ -32,10 +32,7 @@ class LoginLogController extends AdminController
             'datetime'  => '时间',
             'type'      => '类型'
         );
-        $table_config['default_show_column'] = array();
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
+        $table_config['default_show_column'] = array_keys($table_config['total_column']);
         $table_config['ajax_url'] = 'login/ajax';
 
         return $response->write(
@@ -53,33 +50,38 @@ class LoginLogController extends AdminController
      */
     public function ajax($request, $response, $args): ResponseInterface
     {
-        $start        = $request->getParam("start");
-        $limit_length = $request->getParam('length');
-        $id           = $args['id'];
-        $user         = User::find($id);
-        $datas        = LoginIp::where('userid', $user->id)->skip($start)->limit($limit_length)->orderBy('id', 'desc')->get();
-        $total_conut  = LoginIp::where('userid', $user->id)->count();
-        $iplocation   = new QQWry();
-        $out_data     = [];
-        foreach ($datas as $data) {
-            $tempdata             = [];
-            $tempdata['id']       = $data->id;
-            $tempdata['ip']       = $data->ip;
-            $location             = $iplocation->getlocation($data->ip);
-            $tempdata['location'] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-            $tempdata['datetime'] = date('Y-m-d H:i:s', $data->datetime);
-            $tempdata['type']     = ($data->type == 0 ? '成功' : '失败');
-            $out_data[]           = $tempdata;
-        }
-        $info = [
-            'draw'              => $request->getParam('draw'),
-            'recordsTotal'      => $total_conut,
-            'recordsFiltered'   => $total_conut,
-            'data'              => $out_data
-        ];
-
-        return $response->write(
-            json_encode($info)
+        $user  = User::find($args['id']);
+        $query = LoginIp::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['location'])) {
+                    $order_field = 'ip';
+                }
+            },
+            static function ($query) use ($user) {
+                $query->where('userid', $user->id);
+            }
         );
+
+        $data  = [];
+        $QQWry = new QQWry();
+        foreach ($query['datas'] as $value) {
+            /** @var LoginIp $value */
+            $tempdata             = [];
+            $tempdata['id']        = $value->id;
+            $tempdata['ip']        = $value->ip;
+            $tempdata['location']  = $value->location($QQWry);
+            $tempdata['datetime']  = $value->datetime();
+            $tempdata['type']      = $value->type();
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => LoginIp::where('userid', $user->id)->count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 }

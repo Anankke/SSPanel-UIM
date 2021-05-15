@@ -7,8 +7,7 @@ use App\Models\Node;
 use App\Utils\{
     Tools,
     Telegram,
-    CloudflareDriver,
-    DatatablesHelper
+    CloudflareDriver
 };
 use App\Services\Config;
 use Slim\Http\{
@@ -47,8 +46,6 @@ class NodeController extends AdminController
             'node_bandwidth_limit'    => '流量限制/GB',
             'bandwidthlimit_resetday' => '流量重置日',
             'node_heartbeat'          => '上一次活跃时间',
-            'custom_method'           => '自定义加密',
-            'custom_rss'              => '自定义协议以及混淆',
             'mu_only'                 => '只启用单端口多用户'
         );
         $table_config['default_show_column'] = array('op', 'id', 'name', 'sort');
@@ -284,105 +281,51 @@ class NodeController extends AdminController
      */
     public function ajax($request, $response, $args): ResponseInterface
     {
-        //得到排序的方式
-        $order        = $request->getParam('order')[0]['dir'];
-        //得到排序字段的下标
-        $order_column = $request->getParam('order')[0]['column'];
-        //根据排序字段的下标得到排序字段
-        $order_field  = $request->getParam('columns')[$order_column]['data'];
-        $limit_start  = $request->getParam('start');
-        $limit_length = $request->getParam('length');
-        $search       = $request->getParam('search')['value'];
-
-        if ($order_field == 'outaddress' || $order_field == 'op') {
-            $order_field = 'server';
-        }
-
-        $nodes          = [];
-        $query = Node::query();
-        if ($search) {
-            $v          = (int) (new DatatablesHelper())->query('select version()')[0]['version()'];
-            $like_str   = ($v < 8 ? 'LIKE' : 'LIKE binary');
-            $query->where('id', 'LIKE', "%$search%")
-                ->orwhere('name', 'LIKE', "%$search%")
-                ->orwhere('type', 'LIKE', "%$search%")
-                ->orwhere('sort', 'LIKE', "%$search%")
-                ->orwhere('server', 'LIKE', "%$search%")
-                ->orwhere('node_ip', 'LIKE', "%$search%")
-                ->orwhere('info', 'LIKE', "%$search%")
-                ->orwhere('status', 'LIKE', "%$search%")
-                ->orwhere('traffic_rate', 'LIKE', "%$search%")
-                ->orwhere('node_group', 'LIKE', "%$search%")
-                ->orwhere('node_class', 'LIKE', "%$search%")
-                ->orwhere('node_speedlimit', 'LIKE', "%$search%")
-                ->orwhere('node_bandwidth', 'LIKE', "%$search%")
-                ->orwhere('node_bandwidth_limit', 'LIKE', "%$search%")
-                ->orwhere('bandwidthlimit_resetday', 'LIKE', "%$search%")
-                ->orwhere('node_heartbeat', $like_str, "%$search%")
-                ->orwhere('custom_method', 'LIKE', "%$search%")
-                ->orwhere('custom_rss', 'LIKE', "%$search%")
-                ->orwhere('mu_only', 'LIKE', "%$search%");
-        }
-        $query_count = clone $query;
-        $nodes = $query->orderByRaw($order_field . ' ' . $order)
-            ->skip($limit_start)->limit($limit_length)
-            ->get();
-        $count_filtered = $query_count->count();
-
-        $data = [];
-        foreach ($nodes as $node) {
-            $tempdata = [];
-            $tempdata['op']   = '<a class="btn btn-brand" ' . ($node->sort == 999 ? 'disabled' : 'href="/admin/node/' . $node->id . '/edit"') . '>编辑</a>
-                <a class="btn btn-brand-accent" ' . ($node->sort == 999 ? 'disabled' : 'id="delete" value="' . $node->id . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $node->id . '\')"') . '>删除</a>';
-            $tempdata['id']   = $node->id;
-            $tempdata['name'] = $node->name;
-            $tempdata['type'] = ((bool) $node->type ? '显示' : '隐藏');
-            switch ($node->sort) {
-                case 0:
-                    $sort = 'Shadowsocks';
-                    break;
-                case 9:
-                    $sort = 'Shadowsocks - 单端口多用户';
-                    break;
-                case 11:
-                    $sort = 'V2Ray 节点';
-                    break;
-                case 13:
-                    $sort = 'Shadowsocks - V2Ray-Plugin&Obfs';
-                    break;
-                case 14:
-                    $sort = 'Trojan';
-                    break;
-                default:
-                    $sort = '系统保留';
+        $query = Node::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['op'])) {
+                    $order_field = 'id';
+                }
+                if (in_array($order_field, ['outaddress'])) {
+                    $order_field = 'server';
+                }
             }
-            $tempdata['sort']                       = $sort;
-            $tempdata['server']                     = $node->server;
-            $tempdata['outaddress']                 = $node->getOutServer();
-            $tempdata['node_ip']                    = $node->node_ip;
-            $tempdata['info']                       = $node->info;
-            $tempdata['status']                     = $node->status;
-            $tempdata['traffic_rate']               = $node->traffic_rate;
-            $tempdata['node_group']                 = $node->node_group;
-            $tempdata['node_class']                 = $node->node_class;
-            $tempdata['node_speedlimit']            = $node->node_speedlimit;
-            $tempdata['node_bandwidth']             = Tools::flowToGB($node->node_bandwidth);
-            $tempdata['node_bandwidth_limit']       = Tools::flowToGB($node->node_bandwidth_limit);
-            $tempdata['bandwidthlimit_resetday']    = $node->bandwidthlimit_resetday;
-            $tempdata['node_heartbeat']             = date('Y-m-d H:i:s', $node->node_heartbeat);
-            $tempdata['custom_method']              = ((bool) $node->custom_method ? '启用' : '关闭');
-            $tempdata['custom_rss']                 = ((bool) $node->custom_rss ? '启用' : '关闭');
-            $tempdata['mu_only']                    = ($node->mu_only == 1 ? '启用' : '关闭');
+        );
+
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var Node $value */
+
+            $tempdata                            = [];
+            $tempdata['op']                      = '<a class="btn btn-brand" href="/admin/node/' . $value->id . '/edit">编辑</a> <a class="btn btn-brand-accent" id="delete" value="' . $value->id . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>';
+            $tempdata['id']                      = $value->id;
+            $tempdata['name']                    = $value->name;
+            $tempdata['type']                    = $value->type();
+            $tempdata['sort']                    = $value->sort();
+            $tempdata['server']                  = $value->server;
+            $tempdata['outaddress']              = $value->get_out_address();
+            $tempdata['node_ip']                 = $value->node_ip;
+            $tempdata['info']                    = $value->info;
+            $tempdata['status']                  = $value->status;
+            $tempdata['traffic_rate']            = $value->traffic_rate;
+            $tempdata['node_group']              = $value->node_group;
+            $tempdata['node_class']              = $value->node_class;
+            $tempdata['node_speedlimit']         = $value->node_speedlimit;
+            $tempdata['node_bandwidth']          = Tools::flowToGB($value->node_bandwidth);
+            $tempdata['node_bandwidth_limit']    = Tools::flowToGB($value->node_bandwidth_limit);
+            $tempdata['bandwidthlimit_resetday'] = $value->bandwidthlimit_resetday;
+            $tempdata['node_heartbeat']          = $value->node_heartbeat();
+            $tempdata['mu_only']                 = $value->mu_only();
 
             $data[] = $tempdata;
         }
-        $info = [
-            'draw'            => $request->getParam('draw'), // ajax请求次数，作为标识符
-            'recordsTotal'    => Node::count(),
-            'recordsFiltered' => $count_filtered,
-            'data'            => $data,
-        ];
 
-        return $response->withJson($info);
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => Node::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 }

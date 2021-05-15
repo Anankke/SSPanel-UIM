@@ -2,16 +2,18 @@
 -- 审计封禁日志
 --
 CREATE TABLE IF NOT EXISTS `detect_ban_log` (
-  `id`                int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_name`         varchar(128)     NOT NULL COMMENT '用户名',
-  `user_id`           int(11)          NOT NULL COMMENT '用户 ID',
-  `email`             varchar(32)      NOT NULL COMMENT '用户邮箱',
-  `detect_number`     int(11)          NOT NULL COMMENT '本次违规次数',
-  `ban_time`          int(11)          NOT NULL COMMENT '本次封禁时长',
-  `start_time`        bigint(20)       NOT NULL COMMENT '统计开始时间',
-  `end_time`          bigint(20)       NOT NULL COMMENT '统计结束时间',
-  `all_detect_number` int(11)          NOT NULL COMMENT '累计违规次数',
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
+  `user_id` bigint(20) unsigned NOT NULL COMMENT '用户 ID',
+  `email` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户邮箱',
+  `detect_number` int(11) NOT NULL COMMENT '本次违规次数',
+  `ban_time` int(11) NOT NULL COMMENT '本次封禁时长',
+  `start_time` bigint(20) NOT NULL COMMENT '统计开始时间',
+  `end_time` bigint(20) NOT NULL COMMENT '统计结束时间',
+  `all_detect_number` int(11) NOT NULL COMMENT '累计违规次数',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `detect_ban_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='审计封禁日志';
 
 

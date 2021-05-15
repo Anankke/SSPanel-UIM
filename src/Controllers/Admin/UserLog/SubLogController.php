@@ -33,10 +33,7 @@ class SubLogController extends AdminController
             'request_time'        => '时间',
             'request_user_agent'  => 'User-Agent'
         );
-        $table_config['default_show_column'] = array();
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
+        $table_config['default_show_column'] = array_keys($table_config['total_column']);
         $table_config['ajax_url'] = 'sublog/ajax';
 
         return $response->write(
@@ -54,34 +51,40 @@ class SubLogController extends AdminController
      */
     public function ajax($request, $response, $args): ResponseInterface
     {
-        $start        = $request->getParam("start");
-        $limit_length = $request->getParam('length');
-        $id           = $args['id'];
-        $user         = User::find($id);
-        $datas        = UserSubscribeLog::where('user_id', $user->id)->skip($start)->limit($limit_length)->orderBy('id', 'desc')->get();
-        $total_conut  = UserSubscribeLog::where('user_id', $user->id)->count();
-        $iplocation   = new QQWry();
-        $out_data     = [];
-        foreach ($datas as $data) {
-            $tempdata                       = [];
-            $tempdata['id']                 = $data->id;
-            $tempdata['subscribe_type']     = $data->subscribe_type;
-            $tempdata['request_ip']         = $data->request_ip;
-            $location                       = $iplocation->getlocation($data->request_ip);
-            $tempdata['location']           = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-            $tempdata['request_time']       = $data->request_time;
-            $tempdata['request_user_agent'] = $data->request_user_agent;
-            $out_data[]                     = $tempdata;
-        }
-        $info = [
-            'draw'              => $request->getParam('draw'),
-            'recordsTotal'      => $total_conut,
-            'recordsFiltered'   => $total_conut,
-            'data'              => $out_data
-        ];
-
-        return $response->write(
-            json_encode($info)
+        $user  = User::find($args['id']);
+        $query = UserSubscribeLog::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['location'])) {
+                    $order_field = 'request_ip';
+                }
+            },
+            static function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            }
         );
+
+        $data  = [];
+        $QQWry = new QQWry();
+        foreach ($query['datas'] as $value) {
+            /** @var UserSubscribeLog $value */
+
+            $tempdata                       = [];
+            $tempdata['id']                 = $value->id;
+            $tempdata['subscribe_type']     = $value->subscribe_type;
+            $tempdata['request_ip']         = $value->request_ip;
+            $tempdata['location']           = $value->location($QQWry);
+            $tempdata['request_time']       = $value->request_time;
+            $tempdata['request_user_agent'] = $value->request_user_agent;
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => UserSubscribeLog::where('user_id', $user->id)->count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 }

@@ -44,10 +44,9 @@ class User extends Command
     public function resetPort()
     {
         fwrite(STDOUT, '请输入用户id: ');
-        $user        = ModelsUser::Where('id', '=', trim(fgets(STDIN)))->first();
+        $user = ModelsUser::find(trim(fgets(STDIN)));
         if ($user !== null) {
-            $origin_port = $user->port;
-            $user->port  = Tools::getAvPort();
+            $user->port = Tools::getAvPort();
             if ($user->save()) {
                 echo '重置成功!' . PHP_EOL;
             }

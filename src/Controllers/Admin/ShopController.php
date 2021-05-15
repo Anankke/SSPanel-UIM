@@ -7,8 +7,6 @@ use App\Models\{
     Shop,
     Bought
 };
-use App\Utils\DatatablesHelper;
-use Ozdemir\Datatables\Datatables;
 use Slim\Http\{
     Request,
     Response
@@ -274,7 +272,7 @@ class ShopController extends AdminController
             'datetime'              => '购买日期',
             'content'               => '内容',
             'price'                 => '价格',
-            'user_id'               => '用户ID',
+            'userid'                => '用户ID',
             'user_name'             => '用户名',
             'renew'                 => '自动续费时间',
             'auto_reset_bandwidth'  => '续费时是否重置流量'
@@ -324,51 +322,39 @@ class ShopController extends AdminController
      */
     public function ajax_shop($request, $response, $args)
     {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select id as op,id,name,price,content,auto_renew,auto_reset_bandwidth,status,id as period_sales from shop');
-
-        $datatables->edit('op', static function ($data) {
-            return '<a class="btn btn-brand" href="/admin/shop/' . $data['id'] . '/edit">编辑</a>
-                    <a class="btn btn-brand-accent" ' . ($data['status'] == 0 ? 'disabled' : 'id="row_delete_' . $data['id'] . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $data['id'] . '\')"') . '>下架</a>';
-        });
-
-        $datatables->edit('content', static function ($data) {
-            $shop = Shop::find($data['id']);
-            return $shop->content();
-        });
-
-        $datatables->edit('auto_renew', static function ($data) {
-            if ($data['auto_renew'] == 0) {
-                return '不自动续费';
+        $query = Shop::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['op', 'period_sales'])) {
+                    $order_field = 'id';
+                }
             }
-
-            return $data['auto_renew'] . ' 天后续费';
-        });
-
-        $datatables->edit('auto_reset_bandwidth', static function ($data) {
-            return $data['auto_reset_bandwidth'] == 0 ? '不自动重置' : '自动重置';
-        });
-
-        $datatables->edit('status', static function ($data) {
-            return $data['status'] == 1 ? '上架' : '下架';
-        });
-
-        $datatables->edit('period_sales', static function ($data) {
-            $shop = Shop::find($data['id']);
-            $period = $_ENV['sales_period'];
-
-            if ($period == 'expire') {
-                $period = $shop->content['class_expire'];
-            }
-
-            $period = $period * 24 * 60 * 60;
-            $sales = Bought::where('shopid', $shop->id)->where('datetime', '>', time() - $period)->count();
-            return $sales;
-        });
-
-        return $response->write(
-            $datatables->generate()
         );
+
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var Shop $value */
+
+            $tempdata                         = [];
+            $tempdata['op']                   = '<a class="btn btn-brand" href="/admin/shop/' . $value->id . '/edit">编辑</a> <a class = "btn btn-brand-accent" ' . ($value->status == 0 ? 'disabled' : 'id="row_delete_' . $value->id . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')"') . '>下架</a>';
+            $tempdata['id']                   = $value->id;
+            $tempdata['name']                 = $value->name;
+            $tempdata['price']                = $value->price;
+            $tempdata['content']              = $value->content();
+            $tempdata['auto_renew']           = $value->auto_renew();
+            $tempdata['auto_reset_bandwidth'] = $value->auto_reset_bandwidth();
+            $tempdata['status']               = $value->status();
+            $tempdata['period_sales']         = $value->getSales();
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => Shop::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 
     /**
@@ -380,35 +366,44 @@ class ShopController extends AdminController
      */
     public function ajax_bought($request, $response, $args)
     {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select bought.id as op,bought.id as id,bought.datetime,shop.id as content,bought.price,user.id as user_id,user.user_name,renew,shop.auto_reset_bandwidth from bought,user,shop where bought.shopid = shop.id and bought.userid = user.id');
-
-        $datatables->edit('op', static function ($data) {
-            return '<a class="btn btn-brand-accent" ' . ($data['renew'] == 0 ? 'disabled' : ' id="row_delete_' . $data['id'] . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $data['id'] . '\')"') . '>中止</a>';
-        });
-
-        $datatables->edit('content', static function ($data) {
-            $shop = Shop::find($data['content']);
-            return $shop->content();
-        });
-
-        $datatables->edit('renew', static function ($data) {
-            if ($data['renew'] == 0) {
-                return '不自动续费';
+        $query = Bought::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['op'])) {
+                    $order_field = 'id';
+                }
+                if (in_array($order_field, ['content', 'auto_reset_bandwidth'])) {
+                    $order_field = 'shopid';
+                }
+                if (in_array($order_field, ['user_name'])) {
+                    $order_field = 'userid';
+                }
             }
-            return date('Y-m-d H:i:s', $data['renew']) . ' 续费';
-        });
-
-        $datatables->edit('auto_reset_bandwidth', static function ($data) {
-            return $data['auto_reset_bandwidth'] == 0 ? '不自动重置' : '自动重置';
-        });
-
-        $datatables->edit('datetime', static function ($data) {
-            return date('Y-m-d H:i:s', $data['datetime']);
-        });
-
-        return $response->write(
-            $datatables->generate()
         );
+
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var Bought $value */
+
+            $tempdata                         = [];
+            $tempdata['op']                   = '<a class="btn btn-brand-accent" ' . ($value->renew == 0 ? 'disabled' : ' id="row_delete_' . $value->id . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')"') . '>中止</a>';
+            $tempdata['id']                   = $value->id;
+            $tempdata['datetime']             = $value->datetime();
+            $tempdata['content']              = $value->content();
+            $tempdata['price']                = $value->price;
+            $tempdata['userid']               = $value->userid;
+            $tempdata['user_name']            = $value->user_name();
+            $tempdata['renew']                = $value->renew();
+            $tempdata['auto_reset_bandwidth'] = $value->auto_reset_bandwidth();
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => Bought::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 }

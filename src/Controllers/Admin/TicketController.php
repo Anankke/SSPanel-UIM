@@ -7,11 +7,8 @@ use App\Models\{
     User,
     Ticket
 };
-use App\Services\Auth;
-use App\Utils\DatatablesHelper;
 use App\Utils\Tools;
 use voku\helper\AntiXSS;
-use Ozdemir\Datatables\Datatables;
 use Slim\Http\{
     Request,
     Response
@@ -61,47 +58,39 @@ class TicketController extends AdminController
         $id      = $args['id'];
         $content = $request->getParam('content');
         $status  = $request->getParam('status');
-
         if ($content == '' || $status == '') {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '请填全'
             ]);
         }
-
-        if (strpos($content, 'admin') != false || strpos($content, 'user') != false) {
+        if (strpos($content, 'admin') !== false || strpos($content, 'user') !== false) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '请求中有不正当的词语。'
             ]);
         }
+        $main = Ticket::find($id);
+        $user = User::find($main->userid);
+        $user->sendMail(
+            $_ENV['appName'] . '-工单被回复',
+            'news/warn.tpl',
+            [
+                'text' => '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $main->id . '/view">工单</a>，请您查看。'
+            ],
+            []
+        );
 
-        $ticket_main = Ticket::where('id', '=', $id)->where('rootid', '=', 0)->first();
-
-        $adminUser = User::where('id', '=', $ticket_main->userid)->get();
-        foreach ($adminUser as $user) {
-            $user->sendMail(
-                $_ENV['appName'] . '-工单被回复',
-                'news/warn.tpl',
-                [
-                    'text' => '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket_main->id . '/view">工单</a>，请您查看。'
-                ],
-                []
-            );
-        }
-
-        $antiXss = new AntiXSS();
-
-        $ticket = new Ticket();
-        $ticket->title = $antiXss->xss_clean($ticket_main->title);
-        $ticket->content = $antiXss->xss_clean($content);
-        $ticket->rootid = $ticket_main->id;
-        $ticket->userid = Auth::getUser()->id;
-        $ticket->datetime = time();
-        $ticket_main->status = $status;
-
-        $ticket_main->save();
+        $antiXss                = new AntiXSS();
+        $ticket                 = new Ticket();
+        $ticket->title          = $antiXss->xss_clean($main->title);
+        $ticket->content        = $antiXss->xss_clean($content);
+        $ticket->rootid         = $main->id;
+        $ticket->userid         = $this->user->id;
+        $ticket->datetime       = time();
         $ticket->save();
+        $main->status           = $status;
+        $main->save();
 
         return $response->withJson([
             'ret' => 1,
@@ -142,23 +131,46 @@ class TicketController extends AdminController
      */
     public function ajax($request, $response, $args)
     {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select ticket.id as op,ticket.id,ticket.datetime,ticket.title,ticket.userid,user.user_name,ticket.status from ticket,user where ticket.userid = user.id and ticket.rootid = 0');
-
-        $datatables->edit('op', static function ($data) {
-            return '<a class="btn btn-brand" href="/admin/ticket/' . $data['id'] . '/view">查看</a>';
-        });
-
-        $datatables->edit('datetime', static function ($data) {
-            return date('Y-m-d H:i:s', $data['datetime']);
-        });
-
-        $datatables->edit('status', static function ($data) {
-            return $data['status'] == 1 ? '开启' : '关闭';
-        });
-
-        return $response->write(
-            $datatables->generate()
+        $query = Ticket::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['op'])) {
+                    $order_field = 'id';
+                }
+                if (in_array($order_field, ['user_name'])) {
+                    $order_field = 'userid';
+                }
+            },
+            static function ($query) {
+                $query->where('rootid', 0);
+            }
         );
+
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var Ticket $value */
+
+            if ($value->user() == null) {
+                Ticket::user_is_null($value);
+                continue;
+            }
+            $tempdata               = [];
+            $tempdata['op']         = '<a class="btn btn-brand" href="/admin/ticket/' . $value->id . '/view">查看</a>';
+            $tempdata['id']         = $value->id;
+            $tempdata['datetime']   = $value->datetime();
+            $tempdata['title']      = $value->title;
+            $tempdata['userid']     = $value->userid;
+            $tempdata['user_name']  = $value->user_name();
+            $tempdata['status']     = $value->status();
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => Ticket::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 }

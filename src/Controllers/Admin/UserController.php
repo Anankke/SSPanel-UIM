@@ -21,7 +21,6 @@ use App\Utils\{
     Cookie
 };
 use Exception;
-use App\Utils\DatatablesHelper;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\{
     Request,
@@ -62,7 +61,7 @@ class UserController extends AdminController
             'used_traffic'          => '已用流量/GB',
             'enable_traffic'        => '总流量/GB',
             'last_checkin_time'     => '上次签到时间',
-            'today_traffic'         => '今日流量/MB',
+            'today_traffic'         => '今日流量',
             'enable'                => '是否启用',
             'reg_date'              => '注册时间',
             'reg_ip'                => '注册IP',
@@ -363,143 +362,77 @@ class UserController extends AdminController
      */
     public function ajax($request, $response, $args)
     {
-        //得到排序的方式
-        $order        = $request->getParam('order')[0]['dir'];
-        //得到排序字段的下标
-        $order_column = $request->getParam('order')[0]['column'];
-        //根据排序字段的下标得到排序字段
-        $order_field  = $request->getParam('columns')[$order_column]['data'];
-        $limit_start  = $request->getParam('start');
-        $limit_length = $request->getParam('length');
-        $search       = $request->getParam('search')['value'];
-
-        if ($order_field == 'used_traffic') {
-            $order_field = 'u + d';
-        } elseif ($order_field == 'enable_traffic') {
-            $order_field = 'transfer_enable';
-        } elseif ($order_field == 'today_traffic') {
-            $order_field = 'u +d - last_day_t';
-        } elseif ($order_field == 'querys') {
-            $order_field = 'id';
-        }
-
-        $users          = [];
-        $count_filtered = 0;
-
-        $query = User::query();
-        if ($search) {
-            $v          = (int) (new DatatablesHelper())->query('select version()')[0]['version()'];
-            $like_str   = ($v < 8 ? 'LIKE' : 'LIKE binary');
-            $query->where('id', 'LIKE', "%$search%")
-                ->orwhere('user_name', 'LIKE', "%$search%")
-                ->orwhere('email', 'LIKE', "%$search%")
-                ->orwhere('passwd', 'LIKE', "%$search%")
-                ->orwhere('port', 'LIKE', "%$search%")
-                ->orwhere('invite_num', 'LIKE', "%$search%")
-                ->orwhere('money', 'LIKE', "%$search%")
-                ->orwhere('ref_by', 'LIKE', "%$search%")
-                ->orwhere('method', 'LIKE', "%$search%")
-                ->orwhere('reg_ip', 'LIKE', "%$search%")
-                ->orwhere('node_speedlimit', 'LIKE', "%$search%")
-                ->orwhere('im_value', 'LIKE', "%$search%")
-                ->orwhere('class', 'LIKE', "%$search%")
-                ->orwhere('remark', 'LIKE', "%$search%")
-                ->orwhere('node_group', 'LIKE', "%$search%")
-                ->orwhere('auto_reset_day', 'LIKE', "%$search%")
-                ->orwhere('auto_reset_bandwidth', 'LIKE', "%$search%")
-                ->orwhere('protocol', 'LIKE', "%$search%")
-                ->orwhere('protocol_param', 'LIKE', "%$search%")
-                ->orwhere('obfs', 'LIKE', "%$search%")
-                ->orwhere('obfs_param', 'LIKE', "%$search%")
-                ->orwhere('reg_date', $like_str, "%$search%")
-                ->orwhere('class_expire', $like_str, "%$search%")
-                ->orwhere('expire_in', $like_str, "%$search%");
-        }
-        $query_count = clone $query;
-        $users = $query->orderByRaw($order_field . ' ' . $order)
-            ->skip($limit_start)->limit($limit_length)
-            ->get();
-        $count_filtered = $query_count->count();
-
-        $data = array();
-        foreach ($users as $user) {
-            $tempdata = array();
-            //model里是casts所以没法直接 $tempdata=(array)$user
-            $tempdata['op']         = '<a class="btn btn-brand" href="/admin/user/' . $user->id . '/edit">编辑</a>
-                    <a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' . $user->id . '\')">删除</a>
-                    <a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\'' . $user->id . '\')">切换为该用户</a>';
-
-            $tempdata['querys']     = '<a class="btn btn-brand" href="/admin/user/' . $user->id . '/bought">套餐</a>
-                    <a class="btn btn-brand" href="/admin/user/' . $user->id . '/code">充值</a>
-                    <a class="btn btn-brand" href="/admin/user/' . $user->id . '/sublog">订阅</a>
-                    <a class="btn btn-brand" href="/admin/user/' . $user->id . '/detect">审计</a>
-                    <a class="btn btn-brand" href="/admin/user/' . $user->id . '/login">登录</a>';
-
-            $tempdata['id']         = $user->id;
-            $tempdata['user_name']  = $user->user_name;
-            $tempdata['remark']     = $user->remark;
-            $tempdata['email']      = $user->email;
-            $tempdata['money']      = $user->money;
-            $tempdata['im_value']   = $user->im_value;
-            switch ($user->im_type) {
-                case 1:
-                    $tempdata['im_type'] = '微信';
-                    break;
-                case 2:
-                    $tempdata['im_type'] = 'QQ';
-                    break;
-                case 3:
-                    $tempdata['im_type'] = 'Google+';
-                    break;
-                default:
-                    $tempdata['im_type'] = 'Telegram';
-                    $tempdata['im_value'] = '<a href="https://telegram.me/' . $user->im_value . '">' . $user->im_value . '</a>';
-            }
-            $tempdata['node_group']           = $user->node_group;
-            $tempdata['expire_in']            = $user->expire_in;
-            $tempdata['class']                = $user->class;
-            $tempdata['class_expire']         = $user->class_expire;
-            $tempdata['passwd']               = $user->passwd;
-            $tempdata['port']                 = $user->port;
-            $tempdata['method']               = $user->method;
-            $tempdata['protocol']             = $user->protocol;
-            $tempdata['obfs']                 = $user->obfs;
-            $tempdata['obfs_param']           = $user->obfs_param;
-            $tempdata['online_ip_count']      = $user->online_ip_count();
-            $tempdata['last_ss_time']         = $user->lastSsTime();
-            $tempdata['used_traffic']         = Tools::flowToGB($user->u + $user->d);
-            $tempdata['enable_traffic']       = Tools::flowToGB($user->transfer_enable);
-            $tempdata['last_checkin_time']    = $user->lastCheckInTime();
-            $tempdata['today_traffic']        = Tools::flowToMB($user->u + $user->d - $user->last_day_t);
-            $tempdata['enable']               = $user->enable == 1 ? '可用' : '禁用';
-            $tempdata['reg_date']             = $user->reg_date;
-            $tempdata['reg_ip']               = $user->reg_ip;
-            $tempdata['auto_reset_day']       = $user->auto_reset_day;
-            $tempdata['auto_reset_bandwidth'] = $user->auto_reset_bandwidth;
-            $tempdata['ref_by']               = $user->ref_by;
-            if ($user->ref_by == 0) {
-                $tempdata['ref_by_user_name'] = '系统邀请';
-            } else {
-                $ref_user = User::find($user->ref_by);
-                if ($ref_user == null) {
-                    $tempdata['ref_by_user_name'] = '邀请人已经被删除';
-                } else {
-                    $tempdata['ref_by_user_name'] = $ref_user->user_name;
+        $query = User::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if ($order_field == 'used_traffic') {
+                    $order_field = 'u + d';
+                } elseif ($order_field == 'enable_traffic') {
+                    $order_field = 'transfer_enable';
+                } elseif ($order_field == 'today_traffic') {
+                    $order_field = 'u + d - last_day_t';
+                } elseif ($order_field == 'querys') {
+                    $order_field = 'id';
                 }
             }
+        );
 
-            $tempdata['top_up'] = $user->get_top_up();
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var User $value */
+
+            $tempdata['op']                     = '' .
+                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/edit">编辑</a>' .
+                '<a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>' .
+                '<a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\'' . $value->id . '\')">切换为该用户</a>';
+
+            $tempdata['querys']                 = '' .
+                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/bought">套餐</a>' .
+                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/code">充值</a>' .
+                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/sublog">订阅</a>' .
+                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/detect">审计</a>' .
+                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/login">登录</a>';
+
+            $tempdata['id']                     = $value->id;
+            $tempdata['user_name']              = $value->user_name;
+            $tempdata['remark']                 = $value->remark;
+            $tempdata['email']                  = $value->email;
+            $tempdata['money']                  = $value->money;
+            $tempdata['im_type']                = $value->im_type();
+            $tempdata['im_value']               = $value->im_value();
+            $tempdata['node_group']             = $value->node_group;
+            $tempdata['expire_in']              = $value->expire_in;
+            $tempdata['class']                  = $value->class;
+            $tempdata['class_expire']           = $value->class_expire;
+            $tempdata['passwd']                 = $value->passwd;
+            $tempdata['port']                   = $value->port;
+            $tempdata['method']                 = $value->method;
+            $tempdata['protocol']               = $value->protocol;
+            $tempdata['obfs']                   = $value->obfs;
+            $tempdata['obfs_param']             = $value->obfs_param;
+            $tempdata['online_ip_count']        = $value->online_ip_count();
+            $tempdata['last_ss_time']           = $value->lastSsTime();
+            $tempdata['used_traffic']           = Tools::flowToGB($value->u + $value->d);
+            $tempdata['enable_traffic']         = Tools::flowToGB($value->transfer_enable);
+            $tempdata['last_checkin_time']      = $value->lastCheckInTime();
+            $tempdata['today_traffic']          = $value->TodayusedTraffic();
+            $tempdata['enable']                 = $value->enable == 1 ? '可用' : '禁用';
+            $tempdata['reg_date']               = $value->reg_date;
+            $tempdata['reg_ip']                 = $value->reg_ip;
+            $tempdata['auto_reset_day']         = $value->auto_reset_day;
+            $tempdata['auto_reset_bandwidth']   = $value->auto_reset_bandwidth;
+            $tempdata['ref_by']                 = $value->ref_by;
+            $tempdata['ref_by_user_name']       = $value->ref_by_user_name();
+            $tempdata['top_up']                 = $value->get_top_up();
 
             $data[] = $tempdata;
         }
-        $info = [
-            'draw'            => $request->getParam('draw'), // ajax请求次数，作为标识符
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
             'recordsTotal'    => User::count(),
-            'recordsFiltered' => $count_filtered,
+            'recordsFiltered' => $query['count'],
             'data'            => $data,
-        ];
-        return $response->withJson(
-            $info
-        );
+        ]);
     }
 }
