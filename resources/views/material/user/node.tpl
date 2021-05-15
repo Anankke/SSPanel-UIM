@@ -304,7 +304,7 @@
                                                                     {/if}
                                                                     <p class="card-heading">
                                                                         <a href="javascript:void(0);"
-                                                                           onClick="urlChange('{$node['id']}',{$single_muport['server']->server}">{$node['name']}
+                                                                           onClick="urlChange('{$node['id']}',{$single_muport['server']->server})">{$node['name']}
                                                                             - 单端口 Shadowsocks -
                                                                             {$node['raw_node']->getOffsetPort($single_muport['server']->server)}
                                                                             端口</a><span
