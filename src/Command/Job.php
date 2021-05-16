@@ -20,7 +20,6 @@ use App\Models\TelegramSession;
 use App\Models\UserSubscribeLog;
 use App\Services\Config;
 use App\Services\Mail;
-use App\Utils\QQWry;
 use App\Utils\Tools;
 use App\Utils\Telegram;
 use App\Utils\DatatablesHelper;
@@ -304,7 +303,7 @@ class Job extends Command
         $nodes = Node::whereNotIn('id', [2, 5, 9, 999])->get();
         foreach ($nodes as $node) {
             /** @var Node $node */
-            $server = $node->getOutServer();
+            $server = $node->get_out_address();
             if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
                 $node->save();
             }

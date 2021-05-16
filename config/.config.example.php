@@ -200,11 +200,6 @@ $_ENV['telegram_request_token']             = '';           //Telegram 机器人
 $_ENV['finance_public']                     = true;         //财务报告是否向群公开
 $_ENV['enable_welcome_message']             = true;         //机器人发送欢迎消息
 
-# 图灵
-$_ENV['enable_tuling']                      = false;         //是否开启图灵机器人
-$_ENV['tuling_apikey']                      = '';            //图灵机器人API Key
-$_ENV['tuling_apisecert']                   = '';            //图灵机器人密钥
-
 # Telegram BOT 其他选项
 $_ENV['allow_to_join_new_groups']           = true;         //允许 Bot 加入下方配置之外的群组
 $_ENV['group_id_allowed_to_join']           = [];           //允许加入的群组 ID，格式为 PHP 数组
@@ -492,3 +487,6 @@ foreach ($_ENV['cdn_forwarded_ip'] as $cdn_forwarded_ip) {
 
 // https://sentry.io for production debugging
 $_ENV['sentry_dsn'] = '';
+
+// ClientDownload 命令解决 API 访问频率高而被限制使用的 Github access token
+$_ENV['github_access_token'] = '';

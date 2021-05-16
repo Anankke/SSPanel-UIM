@@ -199,4 +199,40 @@ class Shop extends Model
     {
         return ($this->reset() != 0 && $this->reset_value() != 0 && $this->reset_exp() != 0);
     }
+
+    /*
+     * 获取周期商品销量
+     */
+    public function getSales(): int
+    {
+        $period = $_ENV['sales_period'];
+        if ($period == 'expire') {
+            $period = $this->content['class_expire'];
+        }
+        return Bought::where('shopid', $this->id)->where('datetime', '>', time() - $period * 86400)->count();
+    }
+
+    /*
+     * 自动续费时间
+     */
+    public function auto_renew(): string
+    {
+        return $this->auto_renew == 0 ? '不自动续费' : $this->auto_renew . ' 天后续费';
+    }
+
+    /*
+     * 流量是否自动重置
+     */
+    public function auto_reset_bandwidth(): string
+    {
+        return $this->auto_reset_bandwidth == 0 ? '不自动重置' : '自动重置';
+    }
+
+    /*
+     * 商品状态
+     */
+    public function status(): string
+    {
+        return $this->status == 1 ? '上架' : '下架';
+    }
 }

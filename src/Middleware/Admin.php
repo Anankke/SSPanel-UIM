@@ -19,7 +19,7 @@ class Admin
         if (!$user->isLogin) {
             return $response->withStatus(302)->withHeader('Location', '/auth/login');
         }
-        if (!$user->isAdmin()) {
+        if (!$user->is_admin) {
             return $response->withStatus(302)->withHeader('Location', '/user');
         }
         return $next($request, $response);

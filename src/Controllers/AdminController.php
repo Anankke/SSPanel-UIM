@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\{
-    Node,
     User,
     Coupon
 };
@@ -38,22 +37,6 @@ class AdminController extends UserController
             $this->view()
                 ->assign('sts', new Analytics())
                 ->display('admin/index.tpl')
-        );
-    }
-
-    /**
-     * 节点列表
-     *
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function node($request, $response, $args)
-    {
-        return $response->write(
-            $this->view()
-                ->assign('nodes', Node::all())
-                ->display('admin/node.tpl')
         );
     }
 

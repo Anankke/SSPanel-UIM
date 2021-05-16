@@ -9,8 +9,7 @@ use App\Models\{
 };
 use App\Utils\{
     URL,
-    Tools,
-    DatatablesHelper
+    Tools
 };
 use Slim\Http\{
     Request,
@@ -28,112 +27,65 @@ class NodeController extends UserController
      * @param Response  $response
      * @param array     $args
      */
-    public function node($request, $response, $args): ResponseInterface
+    public function user_node_page($request, $response, $args): ResponseInterface
     {
-        $user        = $this->user;
-        $nodes       = Node::where('type', 1)->orderBy('node_class')->orderBy('name')->get();
-
-        $db = new DatatablesHelper();
-        $infoLogs = $db->query('SELECT * FROM ( SELECT * FROM `ss_node_info` WHERE log_time > ' . (time() - 300) . ' ORDER BY id DESC LIMIT 999999999999 ) t GROUP BY node_id ORDER BY id DESC');
-        $onlineLogs = $db->query('SELECT * FROM ( SELECT * FROM `ss_node_online_log` WHERE log_time > ' . (time() - 300) . ' ORDER BY id DESC LIMIT 999999999999 ) t GROUP BY node_id ORDER BY id DESC');
-
-        $array_nodes = [];
-        $nodes_muport = [];
-
+        $user  = $this->user;
+        $query = Node::query();
+        $query->where('type', 1)->whereNotIn('sort', [9]);
+        if (!$user->is_admin) {
+            $group = ($user->node_group != 0 ? [0, $user->node_group] : [0]);
+            $query->whereIn('node_group', $group);
+        }
+        $nodes    = $query->orderBy('node_class')->orderBy('name')->get();
+        $all_node = [];
         foreach ($nodes as $node) {
-            if ($user->is_admin == 0 && $node->node_group != $user->node_group && $node->node_group != 0) {
-                continue;
-            }
+            /** @var Node $node */
 
-            if ($node->sort == 9) {
-                $mu_user             = User::where('port', '=', $node->server)->first();
-                $mu_user->obfs_param = $this->user->getMuMd5();
-                $nodes_muport[]      = ['server' => $node, 'user' => $mu_user];
-                continue;
-            }
+            $array_node                   = [];
+            $array_node['id']             = $node->id;
+            $array_node['name']           = $node->name;
+            $array_node['class']          = $node->node_class;
+            $array_node['info']           = $node->info;
+            $array_node['flag']           = $node->get_node_flag();
+            $array_node['online_user']    = $node->get_node_online_user_count();
+            $array_node['online']         = $node->get_node_online_status();
+            $array_node['latest_load']    = $node->get_node_latest_load_text();
+            $array_node['traffic_rate']   = $node->traffic_rate;
+            $array_node['status']         = $node->status;
+            $array_node['traffic_used']   = (int) Tools::flowToGB($node->node_bandwidth);
+            $array_node['traffic_limit']  = (int) Tools::flowToGB($node->node_bandwidth_limit);
+            $array_node['bandwidth']      = $node->get_node_speedlimit();
 
-            $array_node               = [];
-            $array_node['raw_node']   = $node;
-            $array_node['id']         = $node->id;
-            $array_node['class']      = $node->node_class;
-            $array_node['name']       = $node->name;
-            $array_node['sort']       = $node->sort;
-            $array_node['info']       = $node->info;
-            $array_node['mu_only']    = $node->mu_only;
-            $array_node['group']      = $node->node_group;
-
-            if ($node->sort == 13) {
-                $server = Tools::ssv2Array($node->server);
-                $array_node['server'] = $server['add'];
-            } else {
-                $array_node['server'] = $node->getServer();
-            }
-
-            $regex = $_ENV['flag_regex'];
-            $matches = [];
-            preg_match($regex, $node->name, $matches);
-            if (isset($matches[0])) {
-                $array_node['flag'] = $matches[0] . '.png';
-            } else {
-                $array_node['flag'] = 'unknown.png';
-            }
-
-            $array_node['online_user'] = 0;
-
-            foreach ($onlineLogs as $log) {
-                if ($log['node_id'] != $node->id) {
-                    continue;
+            $all_connect = [];
+            if (in_array($node->sort, [0, 10])) {
+                if ($node->mu_only != 1) {
+                    $all_connect[] = 0;
                 }
-                if (in_array($node->sort, array(0, 7, 8, 10, 11, 12, 13, 14))) {
-                    $array_node['online_user'] = $log['online_user'];
-                } else {
-                    $array_node['online_user'] = -1;
+                if ($node->mu_only != -1) {
+                    $mu_node_query = Node::query();
+                    $mu_node_query->where('sort', 9)->where('type', '1');
+                    if (!$user->is_admin) {
+                        $mu_node_query->where('node_class', '<=', $user->class)->whereIn('node_group', $group);
+                    }
+                    $mu_nodes = $mu_node_query->get();
+                    foreach ($mu_nodes as $mu_node) {
+                        if (User::where('port', $mu_node->server)->where('is_multi_user', '<>', 0)->first() != null) {
+                            $all_connect[] = $node->getOffsetPort($mu_node->server);
+                        }
+                    }
                 }
-                break;
-            }
-
-            // check node status
-            // 0: new node; -1: offline; 1: online
-            $node_heartbeat = $node->node_heartbeat + 300;
-            $array_node['online'] = -1;
-            if (!in_array($node->sort, array(0, 7, 8, 10, 11, 12, 13, 14)) || $node_heartbeat == 300) {
-                $array_node['online'] = 0;
-            } elseif ($node_heartbeat > time()) {
-                $array_node['online'] = 1;
-            }
-
-            $array_node['latest_load'] = -1;
-            foreach ($infoLogs as $log) {
-                if ($log['node_id'] == $node->id) {
-                    $array_node['latest_load'] = (explode(' ', $log['load']))[0] * 100;
-                    break;
-                }
-            }
-
-            $array_node['traffic_used'] = (int) Tools::flowToGB($node->node_bandwidth);
-            $array_node['traffic_limit'] = (int) Tools::flowToGB($node->node_bandwidth_limit);
-            if ($node->node_speedlimit == 0.0) {
-                $array_node['bandwidth'] = 0;
-            } elseif ($node->node_speedlimit >= 1024.00) {
-                $array_node['bandwidth'] = round($node->node_speedlimit / 1024.00, 1) . 'Gbps';
             } else {
-                $array_node['bandwidth'] = $node->node_speedlimit . 'Mbps';
+                $all_connect[] = 0;
             }
+            $array_node['connect'] = $all_connect;
 
-            $array_node['traffic_rate'] = $node->traffic_rate;
-            $array_node['status']       = $node->status;
-
-            $array_nodes[] = $array_node;
+            $all_node[$node->node_class + 1000][] = $array_node;
         }
 
         return $response->write(
             $this->view()
-                ->assign('nodes', $array_nodes)
-                ->assign('nodes_muport', $nodes_muport)
-                ->assign('tools', new Tools())
-                ->assign('user', $user)
-                ->registerClass('URL', URL::class)
-                ->display('user/node.tpl')
+                ->assign('nodes', $all_node)
+                ->display('user/node/index.tpl')
         );
     }
 
@@ -142,7 +94,7 @@ class NodeController extends UserController
      * @param Response  $response
      * @param array     $args
      */
-    public function nodeAjax($request, $response, $args): ResponseInterface
+    public function user_node_ajax($request, $response, $args): ResponseInterface
     {
         $id           = $args['id'];
         $point_node   = Node::find($id);
@@ -152,7 +104,7 @@ class NodeController extends UserController
                 ->assign('point_node', $point_node)
                 ->assign('prefix', $prefix[0])
                 ->assign('id', $id)
-                ->display('user/nodeajax.tpl')
+                ->display('user/node/nodeajax.tpl')
         );
     }
 
@@ -161,29 +113,104 @@ class NodeController extends UserController
      * @param Response  $response
      * @param array     $args
      */
-    public function nodeInfo($request, $response, $args)
+    public function user_node_info($request, $response, $args): ResponseInterface
     {
-        $user          = $this->user;
-        $id            = $args['id'];
-        $mu            = $request->getQueryParams()['ismu'];
-        $node          = Node::find($id);
+        $user = $this->user;
+        $node = Node::find($args['id']);
         if ($node == null) {
-            return null;
+            return $response->write('非法访问');
         }
-
+        if (!$user->is_admin) {
+            if ($user->node_group != $node->node_group && $node->node_group != 0) {
+                return $response->write('无权查看该分组的节点');
+            }
+            if ($user->class < $node->node_class) {
+                return $response->write('无权查看该等级的节点');
+            }
+        }
         switch ($node->sort) {
             case 0:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->registerClass('URL', URL::class)->display('user/nodeinfo.tpl');
+                return $response->write(
+                    $this->view()
+                        ->assign('node', $node)
+                        ->assign('mu', $request->getQueryParams()['ismu'])
+                        ->registerClass('URL', URL::class)
+                        ->display('user/node/node_ss_ssr.tpl')
+                );
+            case 11:
+                $server = $node->getV2RayItem($user);
+                $nodes  = [
+                    'url'  => URL::getV2Url($user, $node),
+                    'info' => [
+                        '连接地址：' => $server['add'],
+                        '连接端口：' => $server['port'],
+                        'UUID：'    => $user->uuid,
+                        'AlterID：' => $server['aid'],
+                        '传输协议：' => $server['net'],
+                    ],
+                ];
+                if ($server['net'] == 'ws') {
+                    $nodes['info']['PATH：'] = $server['path'];
+                    $nodes['info']['HOST：'] = $server['host'];
                 }
-                break;
+                if ($server['net'] == 'kcp') {
+                    $nodes['info']['伪装类型：'] = $server['type'];
+                }
+                if ($server['tls'] == 'tls') {
+                    $nodes['info']['TLS：'] = 'TLS';
+                }
+                return $response->write(
+                    $this->view()
+                        ->assign('node', $nodes)
+                        ->display('user/node/node_v2ray.tpl')
+                );
             case 13:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
-                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->registerClass('URL', URL::class)->display('user/nodeinfo.tpl');
+                $server = $node->getV2RayPluginItem($user);
+                if ($server != null) {
+                    $nodes  = [
+                        'url'  => URL::getItemUrl($server, 1),
+                        'info' => [
+                            '连接地址：' => $server['address'],
+                            '连接端口：' => $server['port'],
+                            '加密方式：' => $server['method'],
+                            '连接密码：' => $server['passwd'],
+                            '混淆方式：' => $server['obfs'],
+                            '混淆参数：' => $server['obfs_param'],
+                        ],
+                    ];
+                } else {
+                    $nodes  = [
+                        'url'  => '',
+                        'info' => [
+                            '您的加密方式非 AEAD 系列' => '无法使用此节点.',
+                        ],
+                    ];
                 }
-                break;
+                return $response->write(
+                    $this->view()
+                        ->assign('node', $nodes)
+                        ->display('user/node/node_ss_v2ray_plugin.tpl')
+                );
+            case 14:
+                $server = $node->getTrojanItem($user);
+                $nodes  = [
+                    'url'  => URL::get_trojan_url($user, $node),
+                    'info' => [
+                        '连接地址：' => $server['address'],
+                        '连接端口：' => $server['port'],
+                        '连接密码：' => $server['passwd'],
+                    ],
+                ];
+                if ($server['host'] != $server['address']) {
+                    $nodes['info']['HOST&PEER：'] = $server['host'];
+                }
+                return $response->write(
+                    $this->view()
+                        ->assign('node', $nodes)
+                        ->display('user/node/node_trojan.tpl')
+                );
             default:
-                echo '微笑';
+                return $response->write(404);
         }
     }
 }

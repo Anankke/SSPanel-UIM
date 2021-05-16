@@ -126,7 +126,6 @@ class TelegramProcess
                 default:
                     if ($message->getPhoto() == null) {
                         if (!is_numeric($message->getText()) || strlen($message->getText()) != 6) {
-                            $reply['message'] = Tuling::chat($message->getFrom()->getId(), $message->getText());
                             break;
                         }
 
@@ -237,7 +236,6 @@ class TelegramProcess
                 default:
                     if ($message->getText() != null) {
                         if ($message->getChat()->getId() == $_ENV['telegram_chatid']) {
-                            $reply['message'] = Tuling::chat($message->getFrom()->getId(), $message->getText());
                         } else {
                             $reply['message'] = '不约，叔叔我们不约';
                         }

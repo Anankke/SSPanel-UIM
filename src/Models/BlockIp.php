@@ -1,20 +1,53 @@
 <?php
 
-
 namespace App\Models;
+
+use App\Utils\QQWry;
 
 class BlockIp extends Model
 {
     protected $connection = 'default';
+
     protected $table = 'blockip';
 
-    public function node()
+    /**
+     * 节点
+     */
+    public function node(): ?Node
     {
-        return Node::where('id', $this->attributes['nodeid'])->first();
+        return Node::find($this->nodeid);
     }
 
-    public function time()
+    /**
+     * 节点名
+     */
+    public function node_name(): string
     {
-        return date('Y-m-d H:i:s', $this->attributes['datetime']);
+        if ($this->node() == null) {
+            return '节点已不存在';
+        }
+        return $this->node()->name;
+    }
+
+    /**
+     * 获取 IP 位置
+     *
+     * @param QQWry $QQWry
+     */
+    public function location(QQWry $QQWry = null): string
+    {
+        if ($QQWry === null) {
+            $QQWry = new QQWry();
+        }
+        $location = $QQWry->getlocation($this->ip);
+        return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
+    }
+
+    /**
+     * 时间
+     */
+    public function datetime(): string
+    {
+        return date('Y-m-d H:i:s', $this->datetime);
     }
 }

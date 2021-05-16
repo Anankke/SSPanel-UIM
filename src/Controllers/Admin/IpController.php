@@ -4,17 +4,15 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
 use App\Models\{
-    Node,
     BlockIp,
+    Ip,
+    LoginIp,
     UnblockIp
 };
 use App\Utils\{
     QQWry,
-    Tools,
-    DatatablesHelper
+    Tools
 };
-use App\Services\Auth;
-use Ozdemir\Datatables\Datatables;
 use Slim\Http\{
     Request,
     Response
@@ -23,6 +21,8 @@ use Slim\Http\{
 class IpController extends AdminController
 {
     /**
+     * 后台登录记录页面
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -38,10 +38,7 @@ class IpController extends AdminController
             'datetime'  => '时间',
             'type'      => '类型'
         );
-        $table_config['default_show_column'] = array();
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
+        $table_config['default_show_column'] = array_keys($table_config['total_column']);
         $table_config['ajax_url'] = 'login/ajax';
         return $response->write(
             $this->view()
@@ -51,6 +48,58 @@ class IpController extends AdminController
     }
 
     /**
+     * 后台登录记录页面 AJAX
+     *
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function ajax_login($request, $response, $args)
+    {
+        $query = LoginIp::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['user_name'])) {
+                    $order_field = 'userid';
+                }
+                if (in_array($order_field, ['location'])) {
+                    $order_field = 'ip';
+                }
+            }
+        );
+
+        $data  = [];
+        $QQWry = new QQWry();
+        foreach ($query['datas'] as $value) {
+            /** @var LoginIp $value */
+
+            if ($value->user() == null) {
+                LoginIp::user_is_null($value);
+                continue;
+            }
+            $tempdata              = [];
+            $tempdata['id']        = $value->id;
+            $tempdata['userid']    = $value->userid;
+            $tempdata['user_name'] = $value->user_name();
+            $tempdata['ip']        = $value->ip;
+            $tempdata['location']  = $value->location($QQWry);
+            $tempdata['datetime']  = $value->datetime();
+            $tempdata['type']      = $value->type();
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => LoginIp::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
+    }
+
+    /**
+     * 后台在线 IP 页面
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -68,10 +117,7 @@ class IpController extends AdminController
             'datetime'  => '时间',
             'is_node'   => '是否为中转连接'
         );
-        $table_config['default_show_column'] = array();
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
+        $table_config['default_show_column'] = array_keys($table_config['total_column']);
         $table_config['ajax_url'] = 'alive/ajax';
         return $response->write(
             $this->view()
@@ -81,6 +127,62 @@ class IpController extends AdminController
     }
 
     /**
+     * 后台在线 IP 页面 AJAX
+     *
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function ajax_alive($request, $response, $args)
+    {
+        $query = Ip::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['user_name'])) {
+                    $order_field = 'userid';
+                }
+                if (in_array($order_field, ['node_name', 'is_node'])) {
+                    $order_field = 'nodeid';
+                }
+                if (in_array($order_field, ['location'])) {
+                    $order_field = 'ip';
+                }
+            },
+            static function ($query) {
+                $query->where('datetime', time() - 60);
+            }
+        );
+
+        $data  = [];
+        $QQWry = new QQWry();
+        foreach ($query['datas'] as $value) {
+            /** @var Ip $value */
+
+            $tempdata              = [];
+            $tempdata['id']        = $value->id;
+            $tempdata['userid']    = $value->userid;
+            $tempdata['user_name'] = $value->user_name();
+            $tempdata['nodeid']    = $value->nodeid;
+            $tempdata['node_name'] = $value->node_name();
+            $tempdata['ip']        = Tools::getRealIp($value->ip);
+            $tempdata['location']  = $value->location($QQWry);
+            $tempdata['datetime']  = $value->datetime();
+            $tempdata['is_node']   = $value->is_node();
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => Ip::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
+    }
+
+    /**
+     * 节点被封IP
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -89,15 +191,12 @@ class IpController extends AdminController
     {
         $table_config['total_column'] = array(
             'id'        => 'ID',
-            'name'      => '节点名称',
+            'node_name' => '节点名称',
             'ip'        => 'IP',
             'location'  => '归属地',
             'datetime'  => '时间'
         );
-        $table_config['default_show_column'] = array();
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
+        $table_config['default_show_column'] = array_keys($table_config['total_column']);
         $table_config['ajax_url'] = 'block/ajax';
         return $response->write(
             $this->view()
@@ -107,6 +206,75 @@ class IpController extends AdminController
     }
 
     /**
+     * 节点被封IP AJAX
+     *
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function ajax_block($request, $response, $args)
+    {
+        $query = BlockIp::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['node_name'])) {
+                    $order_field = 'nodeid';
+                }
+                if (in_array($order_field, ['location'])) {
+                    $order_field = 'ip';
+                }
+            }
+        );
+
+        $data  = [];
+        $QQWry = new QQWry();
+        foreach ($query['datas'] as $value) {
+            /** @var BlockIp $value */
+
+            $tempdata              = [];
+            $tempdata['id']        = $value->id;
+            $tempdata['node_name'] = $value->node_name();
+            $tempdata['ip']        = $value->ip;
+            $tempdata['location']  = $value->location($QQWry);
+            $tempdata['datetime']  = $value->datetime();
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => BlockIp::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
+    }
+
+    /**
+     * 解封IP
+     *
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function doUnblock($request, $response, $args)
+    {
+        $ip            = trim($request->getParam('ip'));
+        $BIP           = BlockIp::where('ip', $ip)->delete();
+        $UIP           = new UnblockIp();
+        $UIP->userid   = $this->user->id;
+        $UIP->ip       = $ip;
+        $UIP->datetime = time();
+        $UIP->save();
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '发送解封命令解封 ' . $ip . ' 成功'
+        ]);
+    }
+
+    /**
+     * 解封IP记录
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -121,10 +289,7 @@ class IpController extends AdminController
             'location'  => '归属地',
             'datetime'  => '时间'
         );
-        $table_config['default_show_column'] = array();
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
+        $table_config['default_show_column'] = array_keys($table_config['total_column']);
         $table_config['ajax_url'] = 'unblock/ajax';
         return $response->write(
             $this->view()
@@ -134,136 +299,47 @@ class IpController extends AdminController
     }
 
     /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function doUnblock($request, $response, $args)
-    {
-        $ip = $request->getParam('ip');
-
-        $user = Auth::getUser();
-        $BIP = BlockIp::where('ip', $ip)->get();
-        foreach ($BIP as $bi) {
-            $bi->delete();
-        }
-
-        $UIP = new UnblockIp();
-        $UIP->userid = $user->id;
-        $UIP->ip = $ip;
-        $UIP->datetime = time();
-        $UIP->save();
-
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '发送解封命令解封 ' . $ip . ' 成功'
-        ]);
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function ajax_block($request, $response, $args)
-    {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select blockip.id,node.name,blockip.ip,blockip.ip as location,datetime from blockip,ss_node as node WHERE blockip.nodeid = node.id');
-        $datatables->edit('datetime', static function ($data) {
-            return date('Y-m-d H:i:s', $data['datetime']);
-        });
-        $iplocation = new QQWry();
-        $datatables->edit('location', static function ($data) use ($iplocation) {
-            $location = $iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-        });
-        return $response->write(
-            $datatables->generate()
-        );
-    }
-
-    /**
+     * 解封IP记录 AJAX
+     *
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
      */
     public function ajax_unblock($request, $response, $args)
     {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select unblockip.id,userid,user.user_name,unblockip.ip,unblockip.ip as location,datetime from unblockip,user WHERE unblockip.userid = user.id');
-        $datatables->edit('datetime', static function ($data) {
-            return date('Y-m-d H:i:s', $data['datetime']);
-        });
-        $iplocation = new QQWry();
-        $datatables->edit('location', static function ($data) use ($iplocation) {
-            $location = $iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-        });
-        $body = $response->getBody();
-        $body->write($datatables->generate());
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function ajax_login($request, $response, $args)
-    {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select login_ip.id,login_ip.userid,user.user_name,login_ip.ip,login_ip.ip as location,login_ip.datetime,login_ip.type from login_ip,user WHERE login_ip.userid = user.id');
-        $datatables->edit('datetime', static function ($data) {
-            return date('Y-m-d H:i:s', $data['datetime']);
-        });
-        $iplocation = new QQWry();
-        $datatables->edit('location', static function ($data) use ($iplocation) {
-            $location = $iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-        });
-        $datatables->edit('type', static function ($data) {
-            return $data['type'] == 0 ? '成功' : '失败';
-        });
-        return $response->write(
-            $datatables->generate()
-        );
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function ajax_alive($request, $response, $args)
-    {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select alive_ip.id,alive_ip.userid,user.user_name,alive_ip.nodeid,ss_node.name as node_name,alive_ip.ip,alive_ip.ip as location,alive_ip.datetime,alive_ip.id as is_node from alive_ip,user,ss_node WHERE alive_ip.userid = user.id and alive_ip.nodeid = ss_node.id and `datetime` > UNIX_TIMESTAMP() - 60');
-
-        $datatables->edit('datetime', static function ($data) {
-            return date('Y-m-d H:i:s', $data['datetime']);
-        });
-
-        $iplocation = new QQWry();
-
-        $datatables->edit('ip', static function ($data) {
-            return Tools::getRealIp($data['ip']);
-        });
-
-        $datatables->edit('is_node', static function ($data) {
-            $is_node = Node::where('node_ip', Tools::getRealIp($data['ip']))->first();
-            if ($is_node) {
-                return '是';
+        $query = UnblockIp::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['user_name'])) {
+                    $order_field = 'userid';
+                }
+                if (in_array($order_field, ['location'])) {
+                    $order_field = 'ip';
+                }
             }
-
-            return '否';
-        });
-
-        $datatables->edit('location', static function ($data) use ($iplocation) {
-            $location = $iplocation->getlocation(Tools::getRealIp($data['location']));
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-        });
-
-        return $response->write(
-            $datatables->generate()
         );
+
+        $data  = [];
+        $QQWry = new QQWry();
+        foreach ($query['datas'] as $value) {
+            /** @var UnblockIp $value */
+
+            $tempdata              = [];
+            $tempdata['id']        = $value->id;
+            $tempdata['userid']    = $value->userid;
+            $tempdata['user_name'] = $value->user_name();
+            $tempdata['ip']        = $value->ip;
+            $tempdata['location']  = $value->location($QQWry);
+            $tempdata['datetime']  = $value->datetime();
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => UnblockIp::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 }

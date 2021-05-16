@@ -31,10 +31,7 @@ class CodeLogController extends AdminController
             'number'      => '操作',
             'usedatetime' => '时间'
         );
-        $table_config['default_show_column'] = array();
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
+        $table_config['default_show_column'] = array_keys($table_config['total_column']);
         $table_config['ajax_url'] = 'code/ajax';
         return $response->write(
             $this->view()
@@ -51,42 +48,34 @@ class CodeLogController extends AdminController
      */
     public function ajax($request, $response, $args): ResponseInterface
     {
-        $start        = $request->getParam("start");
-        $limit_length = $request->getParam('length');
-        $id           = $args['id'];
-        $user         = User::find($id);
-        $datas        = Code::where('userid', $user->id)->skip($start)->limit($limit_length)->orderBy('id', 'desc')->get();
-        $total_conut  = Code::where('userid', $user->id)->count();
-        $out_data         = [];
-        foreach ($datas as $data) {
-            $tempdata                = [];
-            $tempdata['id']          = $data->id;
-            $tempdata['code']        = $data->code;
-            switch ($data->type) {
-                case -1:
-                    $type = '充值金额';
-                    break;
-                case -2:
-                    $type = '财务支出';
-                    break;
-                default:
-                    $type = '已经废弃';
-                    break;
+        $user  = User::find($args['id']);
+        $query = Code::getTableDataFromAdmin(
+            $request,
+            null,
+            static function ($query) use ($user) {
+                $query->where('userid', $user->id);
             }
-            $tempdata['type']        = $type;
-            $tempdata['number']      = $data->number;
-            $tempdata['usedatetime'] = $data->usedatetime;
-            $out_data[]              = $tempdata;
-        }
-        $info = [
-            'draw'              => $request->getParam('draw'),
-            'recordsTotal'      => $total_conut,
-            'recordsFiltered'   => $total_conut,
-            'data'              => $out_data
-        ];
-
-        return $response->write(
-            json_encode($info)
         );
+
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var Code $value */
+
+            $tempdata                = [];
+            $tempdata['id']          = $value->id;
+            $tempdata['code']        = $value->code;
+            $tempdata['type']        = $value->type();
+            $tempdata['number']      = $value->number();
+            $tempdata['usedatetime'] = $value->usedatetime;
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => Code::where('userid', $user->id)->count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 }

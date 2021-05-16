@@ -14,7 +14,7 @@
                         <div class="card-main">
                             <div class="card-inner">
                                 <p>感谢各位捐赠来支撑服务器的日常支出！您可以在<a href="/user/code">充值界面</a>进行充值，这样就等同于捐赠了。</p>
-                                {if $user->isAdmin()}
+                                {if $user->is_admin}
                                     <p>总收入：{$total_in} 元</p>
                                 {/if}
 

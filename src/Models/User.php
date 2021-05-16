@@ -19,6 +19,7 @@ use Exception;
  *
  * @property-read   int     $id         ID
  * @todo More property
+ * @property        bool    $is_admin           是否管理员
  * @property        bool    $expire_notified    If user is notified for expire
  * @property        bool    $traffic_notified   If user is noticed for low traffic
  */
@@ -64,11 +65,35 @@ class User extends Model
     }
 
     /**
-     * 是管理员
+     * 联系方式类型
      */
-    public function isAdmin(): bool
+    public function im_type(): string
     {
-        return $this->is_admin;
+        switch ($this->im_type) {
+            case 1:
+                return '微信';
+            case 2:
+                return 'QQ';
+            case 3:
+                return 'Google+';
+            default:
+                return 'Telegram';
+        }
+    }
+
+    /**
+     * 联系方式
+     */
+    public function im_value(): string
+    {
+        switch ($this->im_type) {
+            case 1:
+            case 2:
+            case 3:
+                return $this->im_value;
+            default:
+                return '<a href="https://telegram.me/' . $this->im_value . '">' . $this->im_value . '</a>';
+        }
     }
 
     public function getMuMd5()
@@ -105,14 +130,6 @@ class User extends Model
     public function lastCheckInTime(): string
     {
         return $this->last_check_in_time == 0 ? '从未签到' : Tools::toDateTime($this->last_check_in_time);
-    }
-
-    /**
-     * 注册时间
-     */
-    public function regDate(): string
-    {
-        return $this->reg_date;
     }
 
     /**
@@ -366,7 +383,23 @@ class User extends Model
      */
     public function ref_by_user(): ?User
     {
-        return self::where('id', $this->ref_by)->first();
+        return self::find($this->ref_by);
+    }
+
+    /**
+     * 用户邀请人的用户名
+     */
+    public function ref_by_user_name(): string
+    {
+        if ($this->ref_by == 0) {
+            return '系统邀请';
+        } else {
+            if ($this->ref_by_user() == null) {
+                return '邀请人已经被删除';
+            } else {
+                return $this->ref_by_user()->user_name;
+            }
+        }
     }
 
     /**
@@ -660,7 +693,7 @@ class User extends Model
                 &&
                 Config::getconfig('Telegram.bool.unbind_kick_member') === true
                 &&
-                !$this->isAdmin()
+                !$this->is_admin
             ) {
                 \App\Utils\Telegram\TelegramTools::SendPost(
                     'kickChatMember',

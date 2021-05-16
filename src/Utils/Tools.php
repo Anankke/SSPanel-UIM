@@ -541,9 +541,9 @@ class Tools
         }
 
         return [
-            'name' => ($_ENV['disable_sub_mu_port'] ? $node_name : $node_name . ' - ' . $node_port . ' 单端口'),
+            'name'    => ($_ENV['disable_sub_mu_port'] ? $node_name : $node_name . ' - ' . $node_port . ' 单端口'),
             'address' => $node_server[0],
-            'port' => $node_port
+            'port'    => (int) $node_port
         ];
     }
 

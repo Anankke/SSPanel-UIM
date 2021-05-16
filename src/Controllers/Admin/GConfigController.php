@@ -68,9 +68,6 @@ class GConfigController extends AdminController
             'last_update'    => '修改时间'
         );
         $table_config['default_show_column'] = array('op', 'name', 'value', 'last_update');
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
         $table_config['ajax_url'] = 'register/ajax';
         $edit_config = GConfig::where('key', '=', 'Register.string.Mode')->first();
         return $response->write(
@@ -88,36 +85,49 @@ class GConfigController extends AdminController
      */
     public function register_ajax($request, $response, $args): ResponseInterface
     {
-        $start        = $request->getParam("start");
-        $limit_length = $request->getParam('length');
-        $configs      = GConfig::skip($start)->where('key', 'LIKE', "%Register%")->limit($limit_length)->get();
-        $total_conut  = GConfig::where('key', 'LIKE', "%Register%")->count();
-        $data         = [];
-        foreach ($configs as $config) {
-            $tempdata = [];
-            $tempdata['op']             = '<a class="btn btn-brand" href="/admin/config/update/' . $config->key . '/edit">编辑</a>';
-            $tempdata['name']           = $config->name;
-            $tempdata['key']            = $config->key;
-            $tempdata['value']          = $config->getValue();
-            $tempdata['operator_id']    = $config->operator_id;
-            $tempdata['operator_name']  = $config->operator_name;
-            $tempdata['operator_email'] = $config->operator_email;
-            $tempdata['last_update']    = date('Y-m-d H:i:s', $config->last_update);
-            if (strpos($config->key, '.bool.')) {
-                $tempdata['value'] = ($config->getValue() ? '开启' : '关闭');
+        $query = GConfig::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['op'])) {
+                    $order_field = 'id';
+                }
+                if (in_array($order_field, ['key'])) {
+                    $order_field = 'name';
+                }
+            },
+            static function ($query) {
+                $query->where('key', 'LIKE binary', '%Register%');
+            }
+        );
+
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var GConfig $value */
+
+            $tempdata                   = [];
+            $tempdata['op']             = '<a class="btn btn-brand" href="/admin/config/update/' . $value->key . '/edit">编辑</a>';
+            $tempdata['name']           = $value->name;
+            $tempdata['key']            = $value->key;
+            $tempdata['value']          = $value->getValue();
+            $tempdata['operator_id']    = $value->operator_id;
+            $tempdata['operator_name']  = $value->operator_name;
+            $tempdata['operator_email'] = $value->operator_email;
+            $tempdata['last_update']    = date('Y-m-d H:i:s', $value->last_update);
+            if (strpos($value->key, '.bool.')) {
+                $tempdata['value'] = ($value->getValue() ? '开启' : '关闭');
             } else {
                 $tempdata['value'] = '(请在编辑页面查看)';
             }
+
             $data[] = $tempdata;
         }
-        $info = [
-            'draw'            => $request->getParam('draw'),
-            'recordsTotal'    => $total_conut,
-            'recordsFiltered' => $total_conut,
-            'data'            => $data
-        ];
 
-        return $response->withJson($info);
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => GConfig::where('key', 'LIKE', "%Register%")->count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 
     /**
@@ -156,37 +166,48 @@ class GConfigController extends AdminController
      */
     public function telegram_ajax($request, $response, $args): ResponseInterface
     {
-        $start        = $request->getParam("start");
-        $limit_length = $request->getParam('length');
-        $configs      = GConfig::skip($start)->where('key', 'LIKE', "%Telegram%")->limit($limit_length)->get();
-        $total_conut  = GConfig::where('key', 'LIKE', "%Telegram%")->count();
-        $data         = [];
-        foreach ($configs as $config) {
-            $tempdata = [];
-            $tempdata['op']             = '<a class="btn btn-brand" href="/admin/config/update/' . $config->key . '/edit">编辑</a>';
-            $tempdata['name']           = $config->name;
-            $tempdata['key']            = $config->key;
-            $tempdata['value']          = $config->value;
-            $tempdata['operator_id']    = $config->operator_id;
-            $tempdata['operator_name']  = $config->operator_name;
-            $tempdata['operator_email'] = $config->operator_email;
-            $tempdata['last_update']    = date('Y-m-d H:i:s', $config->last_update);
-            if (strpos($config->key, '.bool.')) {
-                $tempdata['value'] = ($config->getValue() ? '开启' : '关闭');
+        $query = GConfig::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['op'])) {
+                    $order_field = 'id';
+                }
+                if (in_array($order_field, ['key'])) {
+                    $order_field = 'name';
+                }
+            },
+            static function ($query) {
+                return $query->where('key', 'LIKE binary', '%Telegram%');
+            }
+        );
+
+        $data  = [];
+        foreach ($query['datas'] as $value) {
+            /** @var GConfig $value */
+
+            $tempdata                   = [];
+            $tempdata['op']             = '<a class="btn btn-brand" href="/admin/config/update/' . $value->key . '/edit">编辑</a>';
+            $tempdata['name']           = $value->name;
+            $tempdata['key']            = $value->key;
+            $tempdata['value']          = $value->getValue();
+            $tempdata['operator_id']    = $value->operator_id;
+            $tempdata['operator_name']  = $value->operator_name;
+            $tempdata['operator_email'] = $value->operator_email;
+            $tempdata['last_update']    = date('Y-m-d H:i:s', $value->last_update);
+            if (strpos($value->key, '.bool.')) {
+                $tempdata['value'] = ($value->getValue() ? '开启' : '关闭');
             } else {
                 $tempdata['value'] = '(请在编辑页面查看)';
             }
+
             $data[] = $tempdata;
         }
-        $info = [
-            'draw'            => $request->getParam('draw'),
-            'recordsTotal'    => $total_conut,
-            'recordsFiltered' => $total_conut,
-            'data'            => $data
-        ];
 
-        return $response->withJson(
-            $info
-        );
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => GConfig::where('key', 'LIKE', "%Telegram%")->count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 }

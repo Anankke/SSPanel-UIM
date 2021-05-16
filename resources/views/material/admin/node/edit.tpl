@@ -99,9 +99,9 @@
                                         <select id="sort" class="form-control maxwidth-edit" name="sort">
                                             <option value="0" {if $node->sort==0}selected{/if}>Shadowsocks</option>
                                             <option value="9" {if $node->sort==9}selected{/if}>Shadowsocks 单端口多用户</option>
-                                            <option value="10" {if $node->sort==10}selected{/if}>Shadowsocks 中转</option>
+                                            {* <option value="10" {if $node->sort==10}selected{/if}>Shadowsocks 中转</option> *}
                                             <option value="11" {if $node->sort==11}selected{/if}>V2Ray</option>
-                                            <option value="12" {if $node->sort==12}selected{/if}>V2Ray 中转</option>
+                                            {* <option value="12" {if $node->sort==12}selected{/if}>V2Ray 中转</option> *}
                                             <option value="13" {if $node->sort==13}selected{/if}>Shadowsocks V2Ray-Plugin&Obfs</option>
                                             <option value="14" {if $node->sort==14}selected{/if}>Trojan</option>
                                         </select>

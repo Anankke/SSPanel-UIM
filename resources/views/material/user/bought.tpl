@@ -41,16 +41,8 @@
                                                 <td>{$shop->shop()->name}</td>
                                                 <td>{$shop->shop()->content()}</td>
                                                 <td>{$shop->price} 元</td>
-                                                {if $shop->renew==0}
-                                                    <td>不自动续费</td>
-                                                {else}
-                                                    <td>在 {$shop->renew_date()} 续费</td>
-                                                {/if}
-                                                {if $shop->shop()->auto_reset_bandwidth==0}
-                                                    <td>不自动重置</td>
-                                                {else}
-                                                    <td>自动重置</td>
-                                                {/if}
+                                                <td>{$shop->renew()}</td>
+                                                <td>{$shop->auto_reset_bandwidth()}</td>
                                                 <td>
                                                     <a class="btn btn-brand"
                                                        {if $shop->renew==0}disabled{else}href="javascript:void(0);" onClick="delete_modal_show('{$shop->id}')"{/if}>关闭自动续费</a>

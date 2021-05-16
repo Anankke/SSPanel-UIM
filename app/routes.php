@@ -35,9 +35,9 @@ return function (SlimApp $app) {
         $this->get('/invite',                   App\Controllers\UserController::class . ':invite');
         $this->get('/disable',                  App\Controllers\UserController::class . ':disable');
 
-        $this->get('/node',                     App\Controllers\User\NodeController::class . ':node');
-        $this->get('/node/{id}',                App\Controllers\User\NodeController::class . ':nodeInfo');
-        $this->get('/node/{id}/ajax',           App\Controllers\User\NodeController::class . ':nodeAjax');
+        $this->get('/node',                     App\Controllers\User\NodeController::class . ':user_node_page');
+        $this->get('/node/{id}/ajax',           App\Controllers\User\NodeController::class . ':user_node_ajax');
+        $this->get('/node/{id}',                App\Controllers\User\NodeController::class . ':user_node_info');
 
         $this->get('/detect',                   App\Controllers\UserController::class . ':detect_index');
         $this->get('/detect/log',               App\Controllers\UserController::class . ':detect_log');
@@ -105,6 +105,8 @@ return function (SlimApp $app) {
         $this->post('/payment/purchase',        App\Services\Payment::class . ':purchase');
         $this->get('/payment/return',           App\Services\Payment::class . ':returnHTML');
 
+        $this->post('/doiam',                   App\Services\Payment::class . ':purchase');
+
     })->add(new Auth());
 
     $app->group('/payment', function () {
@@ -141,11 +143,14 @@ return function (SlimApp $app) {
         $this->get('',                          App\Controllers\AdminController::class . ':index');
         $this->get('/',                         App\Controllers\AdminController::class . ':index');
 
-        $this->get('/trafficlog',               App\Controllers\AdminController::class . ':trafficLog');
-        $this->post('/trafficlog/ajax',         App\Controllers\AdminController::class . ':ajax_trafficLog');
+        $this->get('/sys',                      App\Controllers\AdminController::class . ':sys');
+        $this->get('/invite',                   App\Controllers\AdminController::class . ':invite');
+        $this->post('/invite',                  App\Controllers\AdminController::class . ':addInvite');
+        $this->post('/chginvite',               App\Controllers\AdminController::class . ':chgInvite');
+        $this->post('/payback/ajax',            App\Controllers\AdminController::class . ':ajax_payback');
+
         // Node Mange
         $this->get('/node',                     App\Controllers\Admin\NodeController::class . ':index');
-
         $this->get('/node/create',              App\Controllers\Admin\NodeController::class . ':create');
         $this->post('/node',                    App\Controllers\Admin\NodeController::class . ':add');
         $this->get('/node/{id}/edit',           App\Controllers\Admin\NodeController::class . ':edit');
@@ -153,7 +158,7 @@ return function (SlimApp $app) {
         $this->delete('/node',                  App\Controllers\Admin\NodeController::class . ':delete');
         $this->post('/node/ajax',               App\Controllers\Admin\NodeController::class . ':ajax');
 
-
+        // Ticket Mange
         $this->get('/ticket',                   App\Controllers\Admin\TicketController::class . ':index');
         $this->get('/ticket/{id}/view',         App\Controllers\Admin\TicketController::class . ':show');
         $this->put('/ticket/{id}',              App\Controllers\Admin\TicketController::class . ':update');
@@ -162,16 +167,16 @@ return function (SlimApp $app) {
         // Shop Mange
         $this->get('/shop',                     App\Controllers\Admin\ShopController::class . ':index');
         $this->post('/shop/ajax',               App\Controllers\Admin\ShopController::class . ':ajax_shop');
-
-        $this->get('/bought',                   App\Controllers\Admin\ShopController::class . ':bought');
-        $this->delete('/bought',                App\Controllers\Admin\ShopController::class . ':deleteBoughtGet');
-        $this->post('/bought/ajax',             App\Controllers\Admin\ShopController::class . ':ajax_bought');
-
         $this->get('/shop/create',              App\Controllers\Admin\ShopController::class . ':create');
         $this->post('/shop',                    App\Controllers\Admin\ShopController::class . ':add');
         $this->get('/shop/{id}/edit',           App\Controllers\Admin\ShopController::class . ':edit');
         $this->put('/shop/{id}',                App\Controllers\Admin\ShopController::class . ':update');
         $this->delete('/shop',                  App\Controllers\Admin\ShopController::class . ':deleteGet');
+
+        // Bought Mange
+        $this->get('/bought',                   App\Controllers\Admin\ShopController::class . ':bought');
+        $this->delete('/bought',                App\Controllers\Admin\ShopController::class . ':deleteBoughtGet');
+        $this->post('/bought/ajax',             App\Controllers\Admin\ShopController::class . ':ajax_bought');
 
         // Ann Mange
         $this->get('/announcement',             App\Controllers\Admin\AnnController::class . ':index');
@@ -221,18 +226,10 @@ return function (SlimApp $app) {
         $this->post('/user/ajax',               App\Controllers\Admin\UserController::class . ':ajax');
         $this->post('/user/create',             App\Controllers\Admin\UserController::class . ':createNewUser');
 
-
+        // Coupon Mange
         $this->get('/coupon',                   App\Controllers\AdminController::class . ':coupon');
         $this->post('/coupon',                  App\Controllers\AdminController::class . ':addCoupon');
         $this->post('/coupon/ajax',             App\Controllers\AdminController::class . ':ajax_coupon');
-
-        $this->get('/profile',                  App\Controllers\AdminController::class . ':profile');
-        $this->get('/invite',                   App\Controllers\AdminController::class . ':invite');
-        $this->post('/invite',                  App\Controllers\AdminController::class . ':addInvite');
-        $this->post('/chginvite',               App\Controllers\AdminController::class . ':chgInvite');
-        $this->get('/sys',                      App\Controllers\AdminController::class . ':sys');
-        $this->get('/logout',                   App\Controllers\AdminController::class . ':logout');
-        $this->post('/payback/ajax',            App\Controllers\AdminController::class . ':ajax_payback');
 
         // Subscribe Log Mange
         $this->get('/subscribe',                App\Controllers\Admin\SubscribeLogController::class . ':index');
@@ -259,10 +256,6 @@ return function (SlimApp $app) {
         // 指定用户审计记录
         $this->get('/user/{id}/detect',         App\Controllers\Admin\UserLog\DetectLogController::class . ':index');
         $this->post('/user/{id}/detect/ajax',   App\Controllers\Admin\UserLog\DetectLogController::class . ':ajax');
-
-        // 指定用户流量记录
-        $this->get('/user/{id}/traffic',        App\Controllers\Admin\UserLog\TrafficLogController::class . ':index');
-        $this->post('/user/{id}/traffic/ajax',  App\Controllers\Admin\UserLog\TrafficLogController::class . ':ajax');
 
         // 指定用户登录记录
         $this->get('/user/{id}/login',          App\Controllers\Admin\UserLog\LoginLogController::class . ':index');
@@ -309,18 +302,6 @@ return function (SlimApp $app) {
     $app->group('/link', function () {
         $this->get('/{token}',          App\Controllers\LinkController::class . ':GetContent');
     });
-
-    $app->group('/user', function () {
-        $this->post('/doiam',           App\Services\Payment::class . ':purchase');
-    })->add(new Auth());
-
-    //doc
-    $app->group('/doc', function () {
-        $this->get('',      App\Controllers\HomeController::class . ':getDocCenter');
-        $this->get('/',     App\Controllers\HomeController::class . ':getDocCenter');
-    });
-    $app->get('/sublink',   App\Controllers\HomeController::class . ':getSubLink');
-    //doc end
 
     $app->group('/getClient', function () {
         $this->get('/{token}', App\Controllers\UserController::class . ':getClientfromToken');

@@ -3,11 +3,8 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
-use App\Utils\{
-    QQWry,
-    DatatablesHelper
-};
-use Ozdemir\Datatables\Datatables;
+use App\Models\UserSubscribeLog;
+use App\Utils\QQWry;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\{
     Request,
@@ -36,10 +33,7 @@ class SubscribeLogController extends AdminController
             'request_time'        => '时间',
             'request_user_agent'  => 'User-Agent'
         );
-        $table_config['default_show_column'] = array();
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
+        $table_config['default_show_column'] = ['id', 'user_name', 'subscribe_type', 'request_ip', 'location', 'request_time'];
         $table_config['ajax_url'] = 'subscribe/ajax';
         return $response->write(
             $this->view()
@@ -57,15 +51,43 @@ class SubscribeLogController extends AdminController
      */
     public function ajax_subscribe_log($request, $response, $args): ResponseInterface
     {
-        $datatables = new Datatables(new DatatablesHelper());
-        $datatables->query('Select user_subscribe_log.id,user_subscribe_log.user_name,user_subscribe_log.user_id,user_subscribe_log.email,user_subscribe_log.subscribe_type,user_subscribe_log.request_ip,user_subscribe_log.request_ip as location,user_subscribe_log.request_time,user_subscribe_log.request_user_agent from user_subscribe_log');
-        $iplocation = new QQWry();
-        $datatables->edit('location', static function ($data) use ($iplocation) {
-            $location = $iplocation->getlocation($data['location']);
-            return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-        });
-        return $response->write(
-            $datatables->generate()
+        $query = UserSubscribeLog::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['location'])) {
+                    $order_field = 'request_ip';
+                }
+            }
         );
+
+        $data  = [];
+        $QQWry = new QQWry();
+        foreach ($query['datas'] as $value) {
+            /** @var UserSubscribeLog $value */
+
+            if ($value->user() == null) {
+                UserSubscribeLog::user_is_null($value);
+                continue;
+            }
+            $tempdata                       = [];
+            $tempdata['id']                 = $value->id;
+            $tempdata['user_name']          = $value->user_name;
+            $tempdata['user_id']            = $value->user_id;
+            $tempdata['email']              = $value->email;
+            $tempdata['subscribe_type']     = $value->subscribe_type;
+            $tempdata['request_ip']         = $value->request_ip;
+            $tempdata['location']           = $value->location($QQWry);
+            $tempdata['request_time']       = $value->request_time;
+            $tempdata['request_user_agent'] = $value->request_user_agent;
+
+            $data[] = $tempdata;
+        }
+
+        return $response->withJson([
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => UserSubscribeLog::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
+        ]);
     }
 }

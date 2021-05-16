@@ -13,6 +13,7 @@ use Illuminate\Database\Query\Expression as QueryExpression;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\LazyCollection;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * All function below could be staticly called via this function.\
@@ -108,12 +109,12 @@ use Illuminate\Support\LazyCollection;
  * @method static $this             withSum(string|array $relation, string $column)                                                                                                                     Add subselect queries to include the sum of the relation's column.
  * @method static $this             withAvg(string|array $relation, string $column)                                                                                                                     Add subselect queries to include the average of the relation's column.
  * @method static $this|static      mergeConstraintsFrom(Builder $from)                                                                                                                                 Merge the where constraints from another query to the current query.
- * 
+ *
  * @package Illuminate\Database\Concerns\ExplainsQueries
  * @method SupportCollection explain() Explains the query.
- * 
+ *
  * @package Illuminate\Support\Traits\ForwardsCalls
- * 
+ *
  * @package Illuminate\Database\Concerns\BuildsQueries
  * @method static bool              chunk(int $count, callable $callback)                                                           Chunk the results of the query.
  * @method static SupportCollection chunkMap(callable $callback, int $count = 1000)                                                 Run a map over each item while chunking.
@@ -130,4 +131,64 @@ use Illuminate\Support\LazyCollection;
 class Model extends EloquentMedel
 {
     public $timestamps = false;
+
+    /**
+     * 获取表名
+     */
+    public static function getTableName(): string
+    {
+        $class = get_called_class();
+        return (new $class)->getTable();
+    }
+
+    /**
+     * 获取表数据
+     *
+     * @param \Slim\Http\Request $request
+     * @param callable           $callback
+     * @param callable           $precondition
+     *
+     * @return array
+     * [
+     *  'datas' => \Illuminate\Database\Eloquent\Collection,
+     *  'count' => int
+     * ]
+     */
+    public static function getTableDataFromAdmin(\Slim\Http\Request $request, $callback = null, $precondition = null): array
+    {
+        //得到排序的方式
+        $order        = $request->getParam('order')[0]['dir'];
+        //得到排序字段的下标
+        $order_column = $request->getParam('order')[0]['column'];
+        //根据排序字段的下标得到排序字段
+        $order_field  = $request->getParam('columns')[$order_column]['data'];
+        if ($callback !== null) {
+            call_user_func_array($callback, [&$order_field]);
+        }
+        $limit_start  = $request->getParam('start');
+        $limit_length = $request->getParam('length');
+        $search       = $request->getParam('search')['value'];
+
+        $query = self::query();
+        if ($precondition !== null) {
+            call_user_func($precondition, $query);
+        }
+        if ($search) {
+            $query->where(
+                function ($query) use ($search) {
+                    $query->where('id', 'LIKE binary', "%$search%");
+                    $attributes = Capsule::schema()->getColumnListing(self::getTableName());
+                    foreach ($attributes as $s) {
+                        if ($s != 'id') {
+                            $query->orwhere($s, 'LIKE binary', "%$search%");
+                        }
+                    }
+                }
+            );
+        }
+        return [
+            'count' => (clone $query)->count(),
+            'datas' => $query->orderByRaw($order_field . ' ' . $order)->skip($limit_start)->limit($limit_length)->get(),
+        ];
+    }
 }

@@ -1,26 +1,53 @@
 <?php
 
-
 namespace App\Models;
+
+use App\Utils\QQWry;
 
 class UnblockIp extends Model
 {
     protected $connection = 'default';
+
     protected $table = 'unblockip';
 
-    public function user()
+    /**
+     * 用户
+     */
+    public function user(): ?User
     {
-        $user = User::where('id', $this->attributes['userid'])->first();
-        if ($user == null) {
-            self::where('id', '=', $this->attributes['id'])->delete();
-            return null;
-        }
-
-        return $user;
+        return User::find($this->userid);
     }
 
-    public function time()
+    /**
+     * 用户名
+     */
+    public function user_name(): string
     {
-        return date('Y-m-d H:i:s', $this->attributes['datetime']);
+        if ($this->user() == null) {
+            return '用户已不存在';
+        }
+        return $this->user()->user_name;
+    }
+
+    /**
+     * 获取 IP 位置
+     *
+     * @param QQWry $QQWry
+     */
+    public function location(QQWry $QQWry = null): string
+    {
+        if ($QQWry === null) {
+            $QQWry = new QQWry();
+        }
+        $location = $QQWry->getlocation($this->ip);
+        return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
+    }
+
+    /**
+     * 时间
+     */
+    public function datetime(): string
+    {
+        return date('Y-m-d H:i:s', $this->datetime);
     }
 }
