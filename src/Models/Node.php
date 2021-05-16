@@ -223,9 +223,6 @@ class Node extends Model
         if ($this->node_heartbeat === 0) {
             return false;
         }
-        if (in_array($this->sort, [1, 2, 5, 9, 999])) {
-            return null;
-        }
         return $this->node_heartbeat > time() - 300;
     }
 
@@ -288,7 +285,7 @@ class Node extends Model
             return $server['add'];
         }
         $explode = explode(';', $this->server);
-        if (in_array($this->sort, [0, 10]) && isset($explode[1])) {
+        if (in_array($this->sort, [0]) && isset($explode[1])) {
             if (stripos($explode[1], 'server=') !== false) {
                 return URL::parse_args($explode[1])['server'];
             }

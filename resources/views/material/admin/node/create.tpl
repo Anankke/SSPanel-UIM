@@ -95,9 +95,7 @@
                                         <select id="sort" class="form-control maxwidth-edit" name="sort">
                                             <option value="0">Shadowsocks</option>
                                             <option value="9">Shadowsocks 单端口多用户</option>
-                                            {* <option value="10">Shadowsocks 中转</option> *}
                                             <option value="11">V2Ray</option>
-                                            {* <option value="12">V2Ray 中转</option> *}
                                             <option value="13">Shadowsocks V2Ray-Plugin&Obfs</option>
                                             <option value="14">Trojan</option>
                                         </select>

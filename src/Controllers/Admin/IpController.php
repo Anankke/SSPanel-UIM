@@ -149,7 +149,7 @@ class IpController extends AdminController
                 }
             },
             static function ($query) {
-                $query->where('datetime', time() - 60);
+                $query->where('datetime', '>=', time() - 60);
             }
         );
 

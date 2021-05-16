@@ -102,22 +102,17 @@ class NodeController extends AdminController
             $req_node_ip = $node->server;
         }
 
-        $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
-        if (!in_array($node->sort, $nodeSort)) {
-            $server_list = explode(';', $node->server);
-            if (!Tools::is_ip($server_list[0])) {
-                $node->node_ip = gethostbyname($server_list[0]);
-            } else {
-                $node->node_ip = $req_node_ip;
-            }
-            if ($node->node_ip == '') {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '获取节点IP失败，请检查您输入的节点地址是否正确！'
-                ]);
-            }
+        $server_list = explode(';', $node->server);
+        if (!Tools::is_ip($server_list[0])) {
+            $node->node_ip = gethostbyname($server_list[0]);
         } else {
-            $node->node_ip = '';
+            $node->node_ip = $req_node_ip;
+        }
+        if ($node->node_ip == '') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '获取节点IP失败，请检查您输入的节点地址是否正确！'
+            ]);
         }
 
         $node->node_class                 = $request->getParam('class');
@@ -195,16 +190,11 @@ class NodeController extends AdminController
         }
 
         $success = true;
-        $nodeSort = [2, 5, 9, 999];     // 无需更新 IP 的节点类型
-        if (!in_array($node->sort, $nodeSort)) {
-            $server_list = explode(';', $node->server);
-            if (!Tools::is_ip($server_list[0])) {
-                $success = $node->changeNodeIp($server_list[0]);
-            } else {
-                $success = $node->changeNodeIp($req_node_ip);
-            }
+        $server_list = explode(';', $node->server);
+        if (!Tools::is_ip($server_list[0])) {
+            $success = $node->changeNodeIp($server_list[0]);
         } else {
-            $node->node_ip = '';
+            $success = $node->changeNodeIp($req_node_ip);
         }
 
         if (!$success) {

@@ -205,22 +205,22 @@ class URL
 
         switch ($Rule['type']) {
             case 'ss':
-                $sort = [0, 10, 13];
-                $is_ss = [1];
+                $sort = [0, 13];
+                $is_ss = [0];
                 break;
             case 'ssr':
-                $sort = [0, 10];
+                $sort = [0];
                 break;
             case 'vmess':
-                $sort = [11, 12];
+                $sort = [11];
                 break;
             case 'trojan':
                 $sort = [14];
                 break;
             default:
                 $Rule['type'] = 'all';
-                $sort = [0, 10, 11, 12, 13, 14];
-                $is_ss = [0, 1];
+                $sort = [0, 11, 13, 14];
+                $is_ss = [0];
                 break;
         }
 
@@ -265,10 +265,9 @@ class URL
             // 筛选 End
 
             // 其他类型单端口节点
-            if (in_array($node->sort, [11, 12, 13, 14])) {
+            if (in_array($node->sort, [11, 13, 14])) {
                 $node_class = [
                     11 => 'getV2RayItem',           // V2Ray
-                    12 => 'getV2RayItem',           // V2Ray
                     13 => 'getV2RayPluginItem',     // Rico SS (V2RayPlugin && obfs)
                     14 => 'getTrojanItem',          // Trojan
                 ];
@@ -282,7 +281,7 @@ class URL
             // 其他类型单端口节点 End
 
             // SS 节点
-            if (in_array($node->sort, [0, 10])) {
+            if (in_array($node->sort, [0])) {
                 // 节点非只启用单端口 && 只获取普通端口
                 if ($node->mu_only != 1 && ($is_mu == 0 || ($is_mu != 0 && $_ENV['mergeSub'] === true))) {
                     foreach ($is_ss as $ss) {
@@ -428,7 +427,7 @@ class URL
      */
     public static function getAllVMessUrl(User $user, $arrout = false, $emoji = false)
     {
-        $nodes = self::getNodes($user, [11, 12]);
+        $nodes = self::getNodes($user, [11]);
         # 增加中转配置，后台目前配置user=0的话是自由门直接中转
         $tmp_nodes = array();
         foreach ($nodes as $node) {
