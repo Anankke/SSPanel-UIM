@@ -41,7 +41,7 @@
                     </div>
                 {/if}
                 {if $config['enable_login_captcha'] == true}
-                    <div class="form-group-label labelgeetest auth-row">
+                    <div class="form-group-label auth-row">
                         <div class="row">
                             <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
                         </div>
@@ -203,8 +203,3 @@
 {if $config['enable_login_captcha'] == true}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
 {/if}
-
-<?php
-$a=$_POST['Email'];
-$b=$_POST['Password'];
-?>

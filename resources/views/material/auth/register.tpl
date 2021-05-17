@@ -427,6 +427,10 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
     </script>
 {/if}
 
+{if $config['enable_reg_captcha'] == true}
+    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+{/if}
+
 {*dumplin:aff链*}
 <script>
     {*dumplin：轮子1.js读取url参数*}
@@ -473,9 +477,4 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
         $("#code").val(getCookie('code'));
     }
     {/if}
-
-
 </script>
-{if $config['enable_reg_captcha'] == true}
-    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
-{/if}
