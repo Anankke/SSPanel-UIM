@@ -10,8 +10,7 @@ class Tool extends Command
         . '├─=: php xcat Tool [选项]' . PHP_EOL
         . '│ ├─ initQQWry               - 下载 IP 解析库' . PHP_EOL
         . '│ ├─ setTelegram             - 设置 Telegram 机器人' . PHP_EOL
-        . '│ ├─ detectConfigs           - 检查数据库内新增的配置' . PHP_EOL
-        . '│ ├─ initdocuments           - 下载用户使用文档至服务器' . PHP_EOL;
+        . '│ ├─ detectConfigs           - 检查数据库内新增的配置' . PHP_EOL;
 
     public function boot()
     {
@@ -53,17 +52,6 @@ class Tool extends Command
                 echo ('Old Bot 设置成功！' . PHP_EOL);
             }
         }
-    }
-
-    /**
-     * 下载使用文档
-     *
-     * @return void
-     */
-    public function initdocuments()
-    {
-        system('git clone https://github.com/GeekQuerxy/PANEL_DOC.git ' . BASE_PATH . "/public/docs/", $ret);
-        echo $ret;
     }
 
     /**

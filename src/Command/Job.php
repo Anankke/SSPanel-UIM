@@ -29,6 +29,7 @@ class Job extends Command
 {
     public $description = ''
         . '├─=: php xcat Job [选项]' . PHP_EOL
+        . '│ ├─ SendMail                - 处理邮件队列' . PHP_EOL
         . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
         . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
         . '│ ├─ UserJob                 - 用户账户相关任务，每小时' . PHP_EOL;
@@ -87,7 +88,7 @@ class Job extends Command
         ini_set('memory_limit', '-1');
 
         // ------- 重置节点流量，排除无需重置流量的节点类型
-        Node::whereNotIn('id', [1, 2, 5, 9, 999])->where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
+        Node::where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
         // ------- 重置节点流量
 
         // ------- 清理各表记录
@@ -300,7 +301,7 @@ class Job extends Command
         }
 
         //更新节点 IP，每分钟
-        $nodes = Node::whereNotIn('id', [2, 5, 9, 999])->get();
+        $nodes = Node::get();
         foreach ($nodes as $node) {
             /** @var Node $node */
             $server = $node->get_out_address();
