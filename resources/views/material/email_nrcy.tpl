@@ -1,5 +1,4 @@
 <ul>
-    <img src="/images/email_nrcy.jpg" height="458" width="468">
     <br/>
     {if $config['enable_admin_contact'] === true}
         <p>如果发现“收信查询”中没有找到邮件，请联系管理员：</p>
