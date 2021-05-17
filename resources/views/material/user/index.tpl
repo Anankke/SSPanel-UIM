@@ -202,7 +202,7 @@ table tr td:first-child {
                                     {if $geetest_html != null}
                                         <div id="popup-captcha"></div>
                                     {/if}
-                                    {if $recaptcha_sitekey != null && $user->isAbleToCheckin()}
+                                    {if $config['enable_checkin_captcha'] == true && $user->isAbleToCheckin()}
                                         <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
                                     {/if}
                                     <div class="card-action">
@@ -917,7 +917,7 @@ table tr td:first-child {
             $.ajax({
                 type: "POST",
                 url: "/user/checkin",
-                dataType: "json",{if $recaptcha_sitekey != null}
+                dataType: "json",{if $config['enable_checkin_captcha'] == true}
                 data: {
                     recaptcha: grecaptcha.getResponse()
                 },{/if}
@@ -949,7 +949,7 @@ table tr td:first-child {
             $.ajax({
                 type: "POST",
                 url: "/user/checkin",
-                dataType: "json",{if $recaptcha_sitekey != null}
+                dataType: "json",{if $config['enable_checkin_captcha'] == true}
                 data: {
                     recaptcha: grecaptcha.getResponse()
                 },{/if}
@@ -1039,6 +1039,6 @@ table tr td:first-child {
     {/if}
 </script>
 
-{if $recaptcha_sitekey != null}
+{if $config['enable_checkin_captcha'] == true}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
 {/if}

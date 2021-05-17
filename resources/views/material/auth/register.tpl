@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     {/if}
-                    {if $recaptcha_sitekey != null}
+                    {if $config['enable_reg_captcha'] == true}
                         <div class="form-group form-group-label">
                             <div class="row">
                                 <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
@@ -266,7 +266,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         passwd: $$getValue('passwd'),
                         repasswd: $$getValue('repasswd'),
 
-                        {if $recaptcha_sitekey != null}
+                        {if $config['enable_reg_captcha'] == true}
                         recaptcha: grecaptcha.getResponse(),
                         {/if}
 
@@ -476,6 +476,6 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
 
 
 </script>
-{if $recaptcha_sitekey != null}
+{if $config['enable_reg_captcha'] == true}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
 {/if}
