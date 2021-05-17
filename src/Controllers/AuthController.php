@@ -234,6 +234,13 @@ class AuthController extends BaseController
                     'msg' => '邮箱无效'
                 ]);
             }
+            
+            if (!(Check::isGmailSmall($email) || $_ENV['enable_isGmailSmall'])) {
+                return $response->withJson([
+                    'ret' => 0,
+                    'msg' => '禁止使用带+号的Gmail虚拟邮箱'
+                ]);
+            }
             $user = User::where('email', $email)->first();
             if ($user != null) {
                 return $response->withJson([
