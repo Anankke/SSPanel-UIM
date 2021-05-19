@@ -70,7 +70,7 @@ class AppURI
                     'tls'   => $item['tls'],
                     'sni'	=> $item['sni']
                 ];
-				
+
                 $return = ('vmess://' . base64_encode(
                     json_encode($node, 320)
                 ));
@@ -103,11 +103,11 @@ class AppURI
                         if (!in_array($item['net'], ['ws', 'tcp'])) {
                             break;
                         }
-                        $tls = ($item['tls'] == 'tls' 
-                                ? ', tls=true' ,sni=' . $item['host']
+                        $tls = ($item['tls'] == 'tls'
+                                ? ', tls=true ,sni=' . $item['host']
                                 : '');
-                        /*$sni = ($item['sni'] 
-                            ? ', '.$item['sni'] 
+                        /*$sni = ($item['sni']
+                            ? ', '.$item['sni']
                             : '');*/
                         $ws = ($item['net'] == 'ws'
                             ? ', ws=true, ws-path=' . $item['path'] . ', ws-headers=host:' . $item['host']
@@ -433,7 +433,7 @@ class AppURI
                     if ($item['verify_cert'] == false) {
                         $tls .= '&allowInsecure=1';
                     }
-                    $tls .= ($item['sni'] 
+                    $tls .= ($item['sni']
                         ? ('&peer=' . $item['sni'])
                         : ('&peer=' . $item['host']));
                 }
