@@ -106,14 +106,13 @@ class AppURI
                         $tls = ($item['tls'] == 'tls'
                                 ? ', tls=true ,sni=' . $item['host']
                                 : '');
-                        /*$sni = ($item['sni']
+                        $sni = ($item['sni']
                             ? ', '.$item['sni']
-                            : '');*/
+                            : '');
                         $ws = ($item['net'] == 'ws'
                             ? ', ws=true, ws-path=' . $item['path'] . ', ws-headers=host:' . $item['host']
                             : '');
-                        #$return = $item['remark'] . ' = vmess, ' . $item['add'] . ', ' . $item['port'] . ', username = ' . $item['id'] . $ws . $tls . $sni; #未测试
-                        $return = $item['remark'] . ' = vmess, ' . $item['add'] . ', ' . $item['port'] . ', username = ' . $item['id'] . $ws . $tls;
+                        $return = $item['remark'] . ' = vmess, ' . $item['add'] . ', ' . $item['port'] . ', username = ' . $item['id'] . $ws . $tls . $sni;
                         break;
                     case 'trojan':
                         $return = ($item['remark'] . ' = trojan, ' . $item['address'] . ', ' . $item['port'] . ', password=' . $item['passwd']) . ", sni=" . $item['host'];
