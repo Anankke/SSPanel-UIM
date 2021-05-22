@@ -272,7 +272,7 @@ class URL
                     14 => 'getTrojanItem',          // Trojan
                 ];
                 $class = $node_class[$node->sort];
-                $item = $node->$class($user, 0, 0, 0, $emoji);
+                $item = $node->$class($user, 0, 0, $emoji);
                 if ($item != null) {
                     $return_array[] = $item;
                 }
@@ -285,7 +285,7 @@ class URL
                 // 节点非只启用单端口 && 只获取普通端口
                 if ($node->mu_only != 1 && ($is_mu == 0 || ($is_mu != 0 && $_ENV['mergeSub'] === true))) {
                     foreach ($is_ss as $ss) {
-                        $item = $node->getItem($user, 0, 0, $ss, $emoji);
+                        $item = $node->getItem($user, 0, $ss, $emoji);
                         if ($item != null) {
                             $return_array[] = $item;
                         }
@@ -297,7 +297,7 @@ class URL
                 if ($node->mu_only != -1 && $is_mu != 0) {
                     foreach ($is_ss as $ss) {
                         foreach ($mu_nodes as $mu_node) {
-                            $item = $node->getItem($user, $mu_node->server, 0, $ss, $emoji);
+                            $item = $node->getItem($user, $mu_node->server, $ss, $emoji);
                             if ($item != null) {
                                 $return_array[] = $item;
                             }
@@ -382,7 +382,7 @@ class URL
         $return_array = array();
         $nodes = self::getNodes($user, 13);
         foreach ($nodes as $node) {
-            $item = $node->getV2RayPluginItem($user, 0, 0, 0, $emoji);
+            $item = $node->getV2RayPluginItem($user, 0, 0, $emoji);
             if ($item != null) {
                 $return_array[] = $item;
             }
@@ -459,7 +459,7 @@ class URL
         $return_array = array();
         $nodes = self::getNodes($user, 14);
         foreach ($nodes as $node) {
-            $item = $node->getTrojanItem($user, 0, 0, 0, $emoji);
+            $item = $node->getTrojanItem($user, 0, 0, $emoji);
             if ($item != null) {
                 $return_array[] = $item;
             }
