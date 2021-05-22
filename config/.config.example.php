@@ -285,7 +285,7 @@ $_ENV['enable_checkin_captcha'] = false;        //启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | codepay | f2fpay | paymentwall | spay | payjs | yftpay | bitpayx
+#取值 none | codepay | f2fpay | paymentwall | spay | payjs | yftpay | bitpayx | theadpay
 $_ENV['payment_system']       = 'none';
 
 #yft支付设置
@@ -328,6 +328,11 @@ $_ENV['bitpay_secret']        = '';
 #PayJs
 $_ENV['payjs_mchid']          = '';
 $_ENV['payjs_key']            = '';
+
+# 平头哥支付 https://theadpay.com/
+$_ENV['theadpay_url']         = '';
+$_ENV['theadpay_mchid']       = '';
+$_ENV['theadpay_key']         = '';
 
 #后台商品列表 销量统计
 $_ENV['sales_period']         = 30;             //统计指定周期内的销量，值为【expire/任意大于0的整数】
