@@ -426,11 +426,11 @@ $_ENV['userCenterClient']     = [
 
 //节点检测-----------------------------------------------------------------------------------------------
 #GFW检测，请通过crontab进行【开启/关闭】
-$_ENV['detect_gfw_interval']             = 3600;                                                //检测间隔，单位：秒，低于推荐值会爆炸
-$_ENV['detect_gfw_port']                 = 22;                                                  //所有节点服务器都打开的TCP端口，常用的为22（SSH端口）
-$_ENV['detect_gfw_url']                  = 'https://cn-qz-tcping.torch.njs.app/{ip}/{port}';    //检测节点是否被gfw墙了的API的URL
-$_ENV['detect_gfw_judge']                = '$json_tcping[\'status\']=="true"';                  //判断是否被墙的依据，json_tcping为上方URL返回的json数组
-$_ENV['detect_gfw_count']                = '3';                                                 //尝试次数
+$_ENV['detect_gfw_interval']             = 3600;                                                               //检测间隔，单位：秒，低于推荐值会爆炸
+$_ENV['detect_gfw_port']                 = 22;                                                                 //所有节点服务器都打开的TCP端口，常用的为22（SSH端口）
+$_ENV['detect_gfw_url']                  = 'http://cn-sh-tcping.sspanel.org:8080/tcping?ip={ip}&port={port}'; //检测节点是否被gfw墙了的API的URL
+$_ENV['detect_gfw_judge']                = '$json_tcping[\'status\']=="true"';                                 //判断是否被墙的依据，json_tcping为上方URL返回的json数组
+$_ENV['detect_gfw_count']                = '3';                                                                //尝试次数
 
 #离线检测
 $_ENV['enable_detect_offline']           = true;
