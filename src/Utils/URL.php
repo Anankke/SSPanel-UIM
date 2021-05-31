@@ -206,7 +206,7 @@ class URL
         switch ($Rule['type']) {
             case 'ss':
                 $sort = [0, 13];
-                $is_ss = [0];
+                $is_ss = [1];
                 break;
             case 'ssr':
                 $sort = [0];
