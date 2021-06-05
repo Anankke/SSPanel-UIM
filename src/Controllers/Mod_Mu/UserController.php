@@ -92,9 +92,15 @@ class UserController extends BaseController
                 'is_multi_user', 'u', 'd', 'transfer_enable', 'id', 'port', 'passwd', 'node_connector', 'alive_ip');
         }
 
+        $alive_ips = (new \App\Models\Ip)->getUserAliveIp();
         foreach ($users_raw as $user_raw) {
             if ($user_raw->node_connector != 0) {
-                $user_raw->alive_ip = (new \App\Models\Ip)->getUserAliveIpCount($user_raw->id);
+                if (array_key_exists($user_raw->id, $alive_ips)) {
+                    $user_raw->alive_ip = $alive_ips[$user_raw->id]; # (new \App\Models\Ip)->getUserAliveIpCount($user_raw->id);
+                }
+                else {
+                    $user_raw->alive_ip = 0;
+                }
             }
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect'] === true) {

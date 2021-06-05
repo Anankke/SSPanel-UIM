@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Utils\QQWry;
 use App\Utils\Tools;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Ip Model
@@ -81,9 +82,14 @@ class Ip extends Model
         return Node::where('node_ip', Tools::getRealIp($this->ip))->first() ? '是' : '否';
     }
 
-    public function getUserAliveIpCount($userid)
+    public function getUserAliveIp(): array
     {
-        return count(self::where('userid', '=', $userid)->where('datetime', '>=', time() - 60)->get());
+        $user_ips = array();
+        $alive_ips = Ip::select('userid', Capsule::raw('count(ip) as ip_count'))->where('datetime', '>=', time() - 60)->groupBy("userid")->get();
+        foreach ($alive_ips as $ip) {
+            $user_ips[$ip->userid] = $ip->ip_count;
+        }
+        return $user_ips;
     }
 
     public function ip()
