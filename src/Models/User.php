@@ -444,6 +444,11 @@ class User extends Model
         return count($ip_list);
     }
 
+    public function online_ip()
+    {
+        return $this->hasMany(Ip::class, 'userid');
+    }
+
     /**
      * 销户
      */

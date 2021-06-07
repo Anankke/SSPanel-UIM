@@ -79,7 +79,7 @@ class UserController extends BaseController
                     }
                 )->orwhere('is_admin', 1);
             }
-        )->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
+        )->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->withCount(['online_ip as alive_ip' => function($query) {$query->where('datetime', '>=', time() - 60);}])->get();
 
         $users = array();
 
@@ -94,13 +94,8 @@ class UserController extends BaseController
 
         $alive_ips = (new \App\Models\Ip)->getUserAliveIp();
         foreach ($users_raw as $user_raw) {
-            if ($user_raw->node_connector != 0) {
-                if (array_key_exists($user_raw->id, $alive_ips)) {
-                    $user_raw->alive_ip = $alive_ips[$user_raw->id]; # (new \App\Models\Ip)->getUserAliveIpCount($user_raw->id);
-                }
-                else {
-                    $user_raw->alive_ip = 0;
-                }
+            if ($user_raw->node_connector == 0) {
+                $user_raw->alive_ip = 0;
             }
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect'] === true) {
