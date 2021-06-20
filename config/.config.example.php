@@ -286,7 +286,7 @@ $_ENV['enable_checkin_captcha'] = false;        //启用签到验证码
 
 //支付系统设置----------------------------------------------------------------------------------------
 #取值 none | f2fpay | paymentwall | spay | payjs | bitpayx | theadpay | coinpay
-$_ENV['payment_system']       = 'none';
+$_ENV['payment_system']       = 'none';     // todo: ['gateway1', 'gateway2']
 
 # codepay码支付
 $_ENV['codepay_id']           = '';          //码支付ID
@@ -315,9 +315,7 @@ $_ENV['zfbjk_pid']            = '';
 $_ENV['zfbjk_key']            = '';
 $_ENV['zfbjk_qrcodeurl']      = '';
 
-# MugglePay 麻瓜宝（USDT、比特币、以太坊、EOS等） 商户后台获取授权码 https://merchants.mugglepay.com/
-#   注册即可使用USDT收款，无需任何费用
-#   客服和技术 24x7 在线支持： https://t.me/mugglepay
+# MugglePay 麻瓜宝（USDT、比特币、以太坊、EOS等） https://merchants.mugglepay.com/
 $_ENV['bitpay_secret']        = '';
 
 # PayJs
@@ -332,8 +330,12 @@ $_ENV['theadpay_key']         = '';
 # CoinPay
 $_ENV['coinpay_appid']  ='';	// CoinPay 应用ID (*)
 $_ENV['coinpay_secret'] ='';	// CoinPay 验证密钥 (*)
-$_ENV['coinpay_notify'] ='';  // 异步回调URL
-$_ENV['coinpay_return'] ='';  // 同步返回URL
+$_ENV['coinpay_notify'] ='';    // 异步回调URL
+$_ENV['coinpay_return'] ='';    // 同步返回URL
+
+# EasyPay https://t.me/Easy_panel
+$_ENV['easypay_app_id'] = '';      // 商户APPID
+$_ENV['easypay_app_secret'] = '';  // 商户APPKEY
 
 #后台商品列表 销量统计
 $_ENV['sales_period']         = 30;             //统计指定周期内的销量，值为【expire/任意大于0的整数】
