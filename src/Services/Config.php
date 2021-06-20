@@ -84,8 +84,6 @@ class Config
 
             'userCenterClient'        => $_ENV['userCenterClient'],
 
-            'sspanelAnalysis'         => $_ENV['sspanelAnalysis'],
-
             'sentry_dsn'              => !empty($_ENV['sentry_dsn']) ? $_ENV['sentry_dsn'] : null,
         ];
     }
