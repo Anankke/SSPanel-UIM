@@ -161,6 +161,7 @@ return function (SlimApp $app) {
 
         // Ticket Mange
         $this->get('/ticket',                   App\Controllers\Admin\TicketController::class . ':index');
+        $this->post('/ticket',                  App\Controllers\Admin\TicketController::class . ':add');
         $this->get('/ticket/{id}/view',         App\Controllers\Admin\TicketController::class . ':show');
         $this->put('/ticket/{id}',              App\Controllers\Admin\TicketController::class . ':update');
         $this->post('/ticket/ajax',             App\Controllers\Admin\TicketController::class . ':ajax');

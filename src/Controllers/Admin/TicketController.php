@@ -47,6 +47,56 @@ class TicketController extends AdminController
     }
 
     /**
+     * 後臺創建新工單
+     *
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function add($request, $response, $args): ResponseInterface
+    {
+        $title    = $request->getParam('title');
+        $content  = $request->getParam('content');
+        $markdown = $request->getParam('markdown');
+        $userid   = $request->getParam('userid');
+        if ($title == '' || $content == '') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '非法输入'
+            ]);
+        }
+        if (strpos($content, 'admin') !== false || strpos($content, 'user') !== false) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '请求中有不当词语'
+            ]);
+        }
+
+        $ticket           = new Ticket();
+        $antiXss          = new AntiXSS();
+        $ticket->title    = $antiXss->xss_clean($title);
+        $ticket->content  = $antiXss->xss_clean($content);
+        $ticket->rootid   = 0;
+        $ticket->userid   = $userid;
+        $ticket->datetime = time();
+        $ticket->save();
+
+        $userid->sendMail(
+            $_ENV['appName'] . '-新管理员工单被开启',
+            'news/warn.tpl',
+            [
+                'text' => '管理员开启了新的工单，请您及时访问用户面板处理。'
+            ],
+            []
+        );
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '提交成功'
+        ]);
+    }
+
+    /**
      * 后台 更新工单内容
      *
      * @param Request   $request

@@ -60,7 +60,7 @@
     $(document).ready(function () {
         function submit() {
             $("#result").modal();
-            $$.getElementById('msg').innerHTML = '正在提交付...'
+            $$.getElementById('msg').innerHTML = '正在提交...'
             $.ajax({
                 type: "POST",
                 url: "/user/ticket",
