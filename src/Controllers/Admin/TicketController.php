@@ -53,7 +53,7 @@ class TicketController extends AdminController
      * @param Response  $response
      * @param array     $args
      */
-    public function add($request, $response, $args): ResponseInterface
+    public function add($request, $response, $args)
     {
         $title    = $request->getParam('title');
         $content  = $request->getParam('content');
@@ -81,7 +81,8 @@ class TicketController extends AdminController
         $ticket->datetime = time();
         $ticket->save();
 
-        $userid->sendMail(
+        $user = User::find($userid);
+        $user->sendMail(
             $_ENV['appName'] . '-新管理员工单被开启',
             'news/warn.tpl',
             [

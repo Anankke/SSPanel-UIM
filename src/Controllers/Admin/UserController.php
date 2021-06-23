@@ -96,14 +96,6 @@ class UserController extends AdminController
         $money   = (int) trim($request->getParam('userMoney'));
         $shop_id = (int) $request->getParam('userShop');
 
-        // not really user input
-        // if (!Check::isEmailLegal($email)) {
-        //     return $response->withJson([
-        //         'ret' => 0,
-        //         'msg' => '邮箱无效'
-        //     ]);
-        // }
-        // check email
         $user = User::where('email', $email)->first();
         if ($user != null) {
             return $response->withJson([

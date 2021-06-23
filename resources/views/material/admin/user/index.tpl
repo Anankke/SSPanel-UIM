@@ -36,9 +36,9 @@
                                     <label class="floating-label" for="new_user_add_shop"> 是否添加套餐 </label>
                                     <select id="new_user_add_shop" class="form-control maxwidth-edit">
                                         <option value="0">不添加</option>
-                                    {foreach $shops as $shop}
+                                        {foreach $shops as $shop}
                                         <option value="{$shop->id}">{$shop->name}</option>
-                                    {/foreach}
+                                        {/foreach}
                                     </select>
                                 </label>
                             </div>
@@ -220,9 +220,6 @@
             });
         }
         $$.getElementById('delete_input').addEventListener('click', delete_id);
-        // $$.getElementById('search_button').addEventListener('click', () => {
-        //     if ($$.getElementById('search') !== '') search();
-        // });
         function changetouser_id() {
             $.ajax({
                 type: "POST",
