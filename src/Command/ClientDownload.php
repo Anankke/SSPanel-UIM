@@ -278,7 +278,7 @@ class ClientDownload extends Command
                 echo '- 保存 ' . $fileName . ' 至 ' . $savePath . ' 失败.' . PHP_EOL;
             } else {
                 echo '- 保存 ' . $fileName . ' 至 ' . $savePath . ' 成功.' . PHP_EOL;
-                system('chown www:www ' . $savePath . $fileName);
+                system('chown ' . $_ENV['php_user_group'] . ' ' . $savePath . $fileName);
             }
             return true;
         } catch (Exception $e) {
