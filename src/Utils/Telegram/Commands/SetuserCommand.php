@@ -26,7 +26,7 @@ class SetuserCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function handle($arguments)
+    public function handle()
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
@@ -64,14 +64,14 @@ class SetuserCommand extends Command
         // 发送 '输入中' 会话状态
         $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-        return self::Reply($arguments, $SendUser, $Message, $MessageID, $ChatID);
+        return $this->Reply($SendUser, $Message, $MessageID, $ChatID);
     }
 
-    public function Reply($arguments, $SendUser, $Message, $MessageID, $ChatID)
+    public function Reply($SendUser, $Message, $MessageID, $ChatID)
     {
         $User = null;
         $FindUser = null;
-        $arguments = trim($arguments);
+        $arguments = implode(' ', array_splice(explode(' ', trim($Message->getText())), 1));
 
         if ($Message->getReplyToMessage() != null) {
             // 回复源消息用户

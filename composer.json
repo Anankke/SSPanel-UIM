@@ -10,7 +10,7 @@
         "firebase/php-jwt": "~3.0",
         "illuminate/database": "6.*",
         "illuminate/pagination": "6.*",
-        "irazasyed/telegram-bot-sdk": "^2.0",
+        "irazasyed/telegram-bot-sdk": "^3.4.1",
         "khanamiryan/qrcode-detector-decoder": "*",
         "league/omnipay": "^3",
         "lokielse/omnipay-alipay": "*",

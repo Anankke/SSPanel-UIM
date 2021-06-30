@@ -27,7 +27,7 @@ class MyCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function handle($arguments)
+    public function handle()
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
@@ -75,7 +75,7 @@ class MyCommand extends Command
                 $response = $this->triggerCommand('menu');
             } else {
                 // 群组
-                $response = self::Group($User, $SendUser, $ChatID, $Message, $MessageID);
+                $response = $this->Group($User, $SendUser, $ChatID, $Message, $MessageID);
             }
         }
 
