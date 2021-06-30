@@ -26,7 +26,7 @@ class StartCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function handle($arguments)
+    public function handle()
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
@@ -47,7 +47,7 @@ class StartCommand extends Command
                 'username' => $Message->getFrom()->getUsername(),
             ];
             // 消息内容
-            $MessageText = trim($arguments);
+            $MessageText = implode(' ', array_splice(explode(' ', trim($Message->getText())), 1));
             if (
                 $MessageText != ''
                 && TelegramTools::getUser($SendUser['id']) == null
