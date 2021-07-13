@@ -36,19 +36,20 @@
                                             <th>时间</th>
                                         </tr>
                                         {foreach $logs as $log}
-                                            {if $log->DetectRule() != null}
+                                            {assign var="rule" value=$log->rule()}
+                                            {if $rule != null}
                                                 <tr>
                                                     <td>#{$log->id}</td>
                                                     <td>{$log->node_id}</td>
                                                     <td>{$log->Node()->name}</td>
                                                     <td>{$log->list_id}</td>
-                                                    <td>{$log->DetectRule()->name}</td>
-                                                    <td>{$log->DetectRule()->text}</td>
-                                                    <td>{$log->DetectRule()->regex}</td>
-                                                    {if $log->DetectRule()->type == 1}
+                                                    <td>{$rule->name}</td>
+                                                    <td>{$rule->text}</td>
+                                                    <td>{$rule->regex}</td>
+                                                    {if $rule->type == 1}
                                                         <td>数据包明文匹配</td>
                                                     {/if}
-                                                    {if $log->DetectRule()->type == 2}
+                                                    {if $rule->type == 2}
                                                         <td>数据包 hex 匹配</td>
                                                     {/if}
                                                     <td>{date('Y-m-d H:i:s',$log->datetime)}</td>
