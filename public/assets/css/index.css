@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC');
+
+.center-xy {
+  // width: inherit;
+  top: 10%;
+  left: 20%;
+  right: 20%;
+  position: absolute;
+  padding-bottom: 5%;
+}
+
+html, body {
+  font-family: 'Roboto Mono', 'Noto Sans SC', monospace;
+  font-size: 16px;
+}
+
+html {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  background-color: #000;
+}
+
+.container {
+  width: 100%;
+}
+
+.copy-container {
+  text-align: center;
+}
+
+.logo img {
+	max-width: 100px;
+	border-radius: 50%;
+	margin: 1em 0 1em 0;
+	box-shadow: 0 0 5px 0 #afafaf;
+	user-select: none;
+}
+
+table, td, th {
+  color: white;
+  border: 2px solid white;
+  height: 60px;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  border-collapse: collapse;
+}
+
+.btn {
+  border: 2px solid white;
+  background-color: black;
+  color: black;
+  padding: 14px 28px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.white {
+  border-color: #e7e7e7;
+}
+
+.white:hover {
+  color: #000;
+  background: #e7e7e7;
+}
+
+.white:hover a {
+  color: #000;
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+h {
+  color: #fff;
+  font-size: 40px;
+  letter-spacing: .2px;
+  margin: 0;
+}
+
+h1 {
+  color: #fff;
+  font-size: 24px;
+  letter-spacing: .2px;
+  margin: 0;
+}
+
+h2 {
+  color: #fff;
+  font-size: 22px;
+  letter-spacing: .2px;
+  margin: 0;
+}
+
+li {
+   color: #fff;
+   font-size: 22px;
+   letter-spacing: .2px;
+   margin: 0;
+}
+
+p {
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: .2px;
+  margin: 0;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
