@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC');
 
 .center-xy {
   // width: inherit;
@@ -10,7 +11,7 @@
 }
 
 html, body {
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', 'Noto Sans SC', monospace;
   font-size: 16px;
 }
 
@@ -38,7 +39,7 @@ h1 {
   margin: 0;
 }
 
-h1 {
+h2 {
     color: #fff;
     font-size: 22px;
     letter-spacing: .2px;
