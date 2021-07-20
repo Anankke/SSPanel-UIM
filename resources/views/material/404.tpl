@@ -11,7 +11,7 @@
 <div class="container">
     <div class="copy-container center-xy">
         <p>
-            405, Not Found.
+            404, Not Found.
         </p>
     </div>
 </div>
