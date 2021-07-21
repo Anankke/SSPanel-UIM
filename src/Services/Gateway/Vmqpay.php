@@ -8,17 +8,17 @@ use App\Models\Paylist;
 class Vmqpay extends AbstractPayment
 {
 
-	public function purchase($request, $response, $args)
+    public function purchase($request, $response, $args)
     {
         $vmqpay_key = $_ENV['vmqpay_key'];
-		$vmqpay_gateway = $_ENV['vmqpay_gateway'];
-		$baseUrl = $_ENV['baseUrl'];
+        $vmqpay_gateway = $_ENV['vmqpay_gateway'];
+        $baseUrl = $_ENV['baseUrl'];
         $user = Auth::getUser();
         $price = $request->getParam('price');
         $type = $request->getParam('type');
-		$param = '';
-		$timestamp = time();
-		$sign = md5($timestamp.$param.$type.$price.$vmqpay_key);
+        $param = '';
+        $timestamp = time();
+        $sign = md5($timestamp.$param.$type.$price.$vmqpay_key);
 		
         $pl = new Paylist();
         $pl->userid = $user->id;
@@ -26,33 +26,32 @@ class Vmqpay extends AbstractPayment
         $pl->tradeno = $timestamp; //将订单发起时的时间戳作为流水号
         $pl->save();
 		
-		$post_url = "$vmqpay_gateway/createOrder?payId=$timestamp&type=$type&price=$price&sign=$sign&param=$param&isHtml=1&returnUrl=$baseUrl/payment/notify";
+        $post_url = "$vmqpay_gateway/createOrder?payId=$timestamp&type=$type&price=$price&sign=$sign&param=$param&isHtml=1&returnUrl=$baseUrl/payment/notify";
         header('Location:' . $post_url);
     }
 	
-	public function notify($request, $response, $args)
+    public function notify($request, $response, $args)
     {
-		$key = $_ENV['vmqpay_key'];
-		$baseUrl = $_ENV['baseUrl'];
-		$payId = $_GET['payId']; //被当成流水号的时间戳
-		$param = $_GET['param']; //创建订单时传入的自定义参数
-		$type = $_GET['type']; // alipay -> 2, wechat -> 1
-		$price = $_GET['price'];
-		$reallyPrice = $_GET['reallyPrice'];
+        $key = $_ENV['vmqpay_key'];
+        $baseUrl = $_ENV['baseUrl'];
+        $payId = $_GET['payId']; //被当成流水号的时间戳
+        $param = $_GET['param']; //创建订单时传入的自定义参数
+        $type = $_GET['type']; // alipay -> 2, wechat -> 1
+        $price = $_GET['price'];
+        $reallyPrice = $_GET['reallyPrice'];
 		
-		$sign = $_GET['sign'];
-		$_sign =  md5($payId.$param.$type.$price.$reallyPrice.$key);
-		if ($_sign != $sign) {
-			echo "error_sign";
-			exit();
-		}
+        $sign = $_GET['sign'];
+        $_sign =  md5($payId.$param.$type.$price.$reallyPrice.$key);
+        if ($_sign != $sign) {
+            echo "error_sign";
+            exit();
+        }
 		
-		$this->postPayment($payId, '在线支付');
-		
-		header('Location:' . $baseUrl."/user/code");
+        $this->postPayment($payId, '在线支付');
+        header('Location:' . $baseUrl."/user/code");
     }
 	
-	public function getPurchaseHTML()
+    public function getPurchaseHTML()
     {
         return '
                         <div class="card-inner">
