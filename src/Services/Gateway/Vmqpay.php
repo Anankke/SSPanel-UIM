@@ -26,7 +26,7 @@ class Vmqpay extends AbstractPayment
         $pl->tradeno = $timestamp; //将订单发起时的时间戳作为流水号
         $pl->save();
 		
-        $post_url = "$vmqpay_gateway/createOrder?payId=$timestamp&type=$type&price=$price&sign=$sign&param=$param&isHtml=1&returnUrl=$baseUrl/payment/notify";
+        $post_url = "$vmqpay_gateway/createOrder?payId=$timestamp&type=$type&price=$price&sign=$sign&param=$param&isHtml=1&notifyUrl=$baseUrl/payment/notify&returnUrl=$baseUrl/user/code";
         header('Location:' . $post_url);
     }
 	
@@ -47,8 +47,8 @@ class Vmqpay extends AbstractPayment
             exit();
         }
 		
+        echo "success";
         $this->postPayment($payId, '在线支付');
-        header('Location:' . $baseUrl."/user/code");
     }
 	
     public function getPurchaseHTML()
