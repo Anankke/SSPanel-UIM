@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Services\Gateway\{
     AopF2F,
     Codepay,
-	Vmqpay,
+    Vmqpay,
     PaymentWall,
     SPay,
     PAYJS,
