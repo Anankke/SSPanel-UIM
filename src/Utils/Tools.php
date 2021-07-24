@@ -421,6 +421,10 @@ class Tools
                 $item['path'] = '/';
             } elseif ($item['net'] == 'tls') {
                 $item['tls'] = 'tls';
+            }elseif ($server[3] == 'grpc') {
+                $item['net'] = 'grpc';
+            }elseif ($server[4] == 'grpc') {
+                $item['net'] = 'grpc';
             }
         }
         if (count($server) >= 5) {
@@ -430,6 +434,8 @@ class Tools
                 $item['net'] = 'ws';
             } elseif ($server[4] == 'tls') {
                 $item['tls'] = 'tls';
+            } elseif ($server[4] == 'xtls') {
+                $item['tls'] = 'xtls';
             }
         }
         if (count($server) >= 6 && $server[5] != '') {
@@ -453,6 +459,35 @@ class Tools
             if (isset($item['inside_port'])) {
                 unset($item['inside_port']);
             }
+			
+			if (array_key_exists('serviceName', $item)) {
+				$item['serviceName'] = $item['serviceName'];
+			}else{
+				$item['serviceName'] = "";
+			}
+			
+			if (array_key_exists('enable_xtls', $item)) {
+				$item['enable_xtls'] = $item['enable_xtls'];
+			}else{
+				$item['enable_xtls'] = "";
+			}		
+
+			if (array_key_exists('enable_xtls', $item)) {
+				$item['enable_xtls'] = $item['enable_xtls'];
+			}else{
+				$item['enable_xtls'] = "";
+			}	
+			
+			if (array_key_exists('enable_vless', $item)) {
+				$item['vtype'] = 'vless://';
+			}else{
+				$item['vtype'] = 'vmess://';
+			}
+			
+			if (array_key_exists('host', $item)) {
+				$item['sni'] = $item['host'];
+			}
+		
         }
         return $item;
     }
