@@ -151,7 +151,7 @@ class LinkController extends BaseController
 
         $getBody = '';
 
-        $sub_type_array = ['list', 'clash', 'surge', 'surfboard', 'quantumult', 'quantumultx', 'sub'];
+        $sub_type_array = ['list', 'clash', 'surge', 'surfboard','anxray', 'quantumult', 'quantumultx', 'sub'];
         foreach ($sub_type_array as $key) {
             if (isset($opts[$key])) {
                 $query_value = $opts[$key];
@@ -277,6 +277,13 @@ class LinkController extends BaseController
                     'class'    => 'Lists'
                 ];
                 break;
+			case 'anxray':
+                $return = [
+                    'filename' => 'AnXray',
+                    'suffix'   => 'txt',
+                    'class'    => 'AnXray'
+                ];
+                break;	
             case 'surfboard':
                 $return = [
                     'filename' => 'Surfboard',
@@ -428,6 +435,7 @@ class LinkController extends BaseController
             'trojan'          => '?sub=4',
             // apps
             'ssa'             => '?list=ssa',
+            'anxray'		  => '?anxray=1',
             'clash'           => '?clash=1',
             'clash_provider'  => '?list=clash',
             'surge'           => '?surge=' . $int,
@@ -466,6 +474,9 @@ class LinkController extends BaseController
             case 'ssa':
                 $return = AppURI::getSSJSON($item);
                 break;
+            case 'anxray':
+                $return = AppURI::getAnXrayURI($item);
+                break;	
             case 'surge':
                 $return = AppURI::getSurgeURI($item, 3);
                 break;
@@ -799,6 +810,20 @@ class LinkController extends BaseController
         return ConfGenerate::getClashConfs($user, $Proxys, $_ENV['Clash_Profiles'][$Profiles]);
     }
 
+    public static function getAnXray($user, $anxray, $opts, $Rule)
+    {
+        $subInfo = self::getSubinfo($user, $anxray);
+        $All_Proxy  = '';
+        $userapiUrl = $subInfo['anxray'];	
+        $items = URL::getNew_AllItems($user, $Rule); 
+        foreach ($items as $item) {
+                $out = AppURI::getAnXrayURI($item);	
+                if ($out !== null) {
+                  $All_Proxy .= $out . PHP_EOL;
+                }
+        }
+        return base64_encode($All_Proxy);
+    }
     /**
      * 通用订阅，ssr & v2rayn
      *
