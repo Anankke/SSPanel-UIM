@@ -277,7 +277,7 @@ class LinkController extends BaseController
                     'class'    => 'Lists'
                 ];
                 break;
-			case 'anxray':
+            case 'anxray':
                 $return = [
                     'filename' => 'AnXray',
                     'suffix'   => 'txt',
