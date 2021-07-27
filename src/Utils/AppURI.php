@@ -362,7 +362,7 @@ class AppURI
                     $return['network'] = 'grpc';
                     $return['servername'] = ($item['host'] != '' ? $item['host'] : $item['add']);
                     $return['grpc-opts']['grpc-service-name'] = ($item['servicename'] != '' ? $item['servicename'] : "");
-                }				
+                }
                 break;
             case 'trojan':
                 $return = [
@@ -371,12 +371,13 @@ class AppURI
                     'server'      => $item['address'],
                     'port'        => $item['port'],
                     'password'    => $item['passwd'],
-                    'sni'         => $item['host']
+                    'sni'         => $item['host'],
+                    'udp'         => true
                 ];
                 if ($item['net'] == 'grpc') {
                     $return['network'] = 'grpc';
                     $return['grpc-opts']['grpc-service-name'] = ($item['servicename'] != '' ? $item['servicename'] : "");
-                }				
+                }
                 break;
         }
         return $return;
@@ -555,7 +556,7 @@ class AppURI
         }
         return $return;
     }
-	
+
     public static function getAnXrayURI(array $item)
     {
         $return = null;
@@ -571,8 +572,8 @@ class AppURI
                 . '&protoparam=' . Tools::base64_url_encode($item['protocol_param'])
                 . '&remarks=' . Tools::base64_url_encode($item['remark'])
                 . '&group=' . Tools::base64_url_encode($item['group']);
-                return 'ssr://' . Tools::base64_url_encode($return);	
-                break;				
+                return 'ssr://' . Tools::base64_url_encode($return);
+                break;
             case 'vmess':
                 $return = $item['vtype'] . $item['id'] ."@".$item['add'].":".$item['port']."?encryption=auto";
                 $return.="&type=".$item['net'];
@@ -581,7 +582,7 @@ class AppURI
                    $return.="&flow=".$item['flow'];
                 }
                 if($item['host']!="")$return=$return."&host=". rawurlencode($item['host']);
-                if($item['host']!="")$return=$return."&sni=".$item['host'];	
+                if($item['host']!="")$return=$return."&sni=".$item['host'];
                 if($item['path']!="")$return=$return."&path=".rawurlencode($item['path']);
                 if($item['net'] == "grpc"){
                    if($item['net'] == "grpc")$return=$return."&mode=multi&serviceName=".$item['servicename'];
@@ -600,5 +601,5 @@ class AppURI
                 break;
         }
         return $return;
-    }	
+    }
 }
