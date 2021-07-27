@@ -459,31 +459,31 @@ class Tools
             if (isset($item['inside_port'])) {
                 unset($item['inside_port']);
             }
-			
-            if (array_key_exists('serviceName', $item)) {
-                $item['servicename'] = $item['serviceName'];
+
+            if (array_key_exists('servicename', $item)) {
+                $item['servicename'] = $item['servicename'];
             }else{
                 $item['servicename'] = "";
             }
-			
-            if (array_key_exists('enable_xtls', $item)) {
-                $item['enable_xtls'] = $item['enable_xtls'];
-            }else{
-                $item['enable_xtls'] = "";
-            }		
 
             if (array_key_exists('enable_xtls', $item)) {
                 $item['enable_xtls'] = $item['enable_xtls'];
             }else{
                 $item['enable_xtls'] = "";
-            }	
-			
+            }
+
+            if (array_key_exists('enable_xtls', $item)) {
+                $item['enable_xtls'] = $item['enable_xtls'];
+            }else{
+                $item['enable_xtls'] = "";
+            }
+
             if (array_key_exists('enable_vless', $item)) {
                 $item['vtype'] = 'vless://';
             }else{
                 $item['vtype'] = 'vmess://';
             }
-			
+
             if (array_key_exists('host', $item)) {
                 $item['sni'] = $item['host'];
             }
