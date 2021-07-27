@@ -278,7 +278,7 @@ class LinkController extends BaseController
                 ];
                 break;
 			case 'anxray':
-				$return = [
+                $return = [
                     'filename' => 'AnXray',
                     'suffix'   => 'txt',
                     'class'    => 'AnXray'
@@ -435,7 +435,7 @@ class LinkController extends BaseController
             'trojan'          => '?sub=4',
             // apps
             'ssa'             => '?list=ssa',
-			'anxray'		  => '?anxray=1',
+            'anxray'		  => '?anxray=1',
             'clash'           => '?clash=1',
             'clash_provider'  => '?list=clash',
             'surge'           => '?surge=' . $int,
@@ -474,8 +474,8 @@ class LinkController extends BaseController
             case 'ssa':
                 $return = AppURI::getSSJSON($item);
                 break;
-			case 'anxray':
-				$return = AppURI::getAnXrayURI($item);
+            case 'anxray':
+                $return = AppURI::getAnXrayURI($item);
                 break;	
             case 'surge':
                 $return = AppURI::getSurgeURI($item, 3);
@@ -810,17 +810,17 @@ class LinkController extends BaseController
         return ConfGenerate::getClashConfs($user, $Proxys, $_ENV['Clash_Profiles'][$Profiles]);
     }
 
-	public static function getAnXray($user, $anxray, $opts, $Rule)
+    public static function getAnXray($user, $anxray, $opts, $Rule)
     {
         $subInfo = self::getSubinfo($user, $anxray);
-		$All_Proxy  = '';
+        $All_Proxy  = '';
         $userapiUrl = $subInfo['anxray'];	
         $items = URL::getNew_AllItems($user, $Rule); 
-		foreach ($items as $item) {
-				$out = AppURI::getAnXrayURI($item);	
-				if ($out !== null) {
-					$All_Proxy .= $out . PHP_EOL;
-				}
+        foreach ($items as $item) {
+                $out = AppURI::getAnXrayURI($item);	
+                if ($out !== null) {
+                  $All_Proxy .= $out . PHP_EOL;
+                }
         }
         return base64_encode($All_Proxy);
     }

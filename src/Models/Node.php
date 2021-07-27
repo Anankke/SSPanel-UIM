@@ -450,16 +450,16 @@ class Node extends Model
         $item['passwd']   = $user->uuid;
         $item['host']     = $item['address'];
         $item['net']	  = (isset($opt['grpc']) ? "grpc" :'');
-        $item['serviceName'] = (isset($opt['serviceName']) ? $opt['serviceName'] :'');
-		$item['flow']	  = (isset($opt['flow']) ? $opt['flow'] :'');
-		$xtls			= (isset($opt['enable_xtls']) ? $opt['enable_xtls'] :'');
-		if($xtls == 'true'){
-			$item['tls'] =  'xtls';
-		}else {
-			$item['tls'] =  'tls';
-		}	
+        $item['servicename'] = (isset($opt['serviceName']) ? $opt['serviceName'] :'');
+        $item['flow']	  = (isset($opt['flow']) ? $opt['flow'] :'');
+        $xtls			= (isset($opt['enable_xtls']) ? $opt['enable_xtls'] :'');
+        if($xtls == 'true'){
+          $item['tls'] =  'xtls';
+        }else {
+          $item['tls'] =  'tls';
+        }	
         if (isset($opt['host'])) {
-            $item['host'] = $opt['host'];
+          $item['host'] = $opt['host'];
         }
         return $item;
     }
