@@ -91,22 +91,7 @@ class AppURI
                    }
                    if ($item['remark']!="")$return=$return."#". rawurlencode($item['remark']);					
 		}
-                break;
-            /*
-            case 'ss':
-                $personal_info = $item['method'] . ':' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port'];
-                $return = 'ss://' . Tools::base64_url_encode($personal_info);
-                $return .= '#' . rawurlencode($item['remark']);
-                break;
-            case 'trojan':
-                $return  = ('trojan://' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']);
-                $return .= ('?peer=' . $item['host'] . '&sni=' . $item['host'] );
-                if($item['tls'] == "xtls"){
-                    $return.=("&security=".$item['tls']."&flow=".$item['flow']);
-                }
-                $return.=('#' .  rawurlencode($item['remark']));
-                break;
-            */    
+                break; 
         }
         return $return;
     }
