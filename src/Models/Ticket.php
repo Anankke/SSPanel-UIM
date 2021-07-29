@@ -18,7 +18,7 @@ class Ticket extends Model
      */
     public static function user_is_null($Ticket): void
     {
-        $tickets = Ticket::where('userid', $Ticket->userid)->orwhere('rootid', 0)->get();
+        $tickets = Ticket::where('userid', $Ticket->userid)->where('rootid', 0)->get();
         foreach ($tickets as $ticket) {
             self::where('rootid', $ticket->id)->delete();
             $ticket->delete();
