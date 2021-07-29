@@ -472,10 +472,10 @@ class Tools
                 $item['enable_xtls'] = "";
             }
 
-            if (array_key_exists('enable_xtls', $item)) {
-                $item['enable_xtls'] = $item['enable_xtls'];
+            if (array_key_exists('flow', $item)) {
+                $item['flow'] = $item['flow'];
             }else{
-                $item['enable_xtls'] = "";
+                $item['flow'] = "xtls-rprx-direct";
             }
 
             if (array_key_exists('enable_vless', $item)) {
