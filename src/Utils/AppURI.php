@@ -92,6 +92,7 @@ class AppURI
                    if ($item['remark']!="")$return=$return."#". rawurlencode($item['remark']);					
 		}
                 break;
+            /*
             case 'ss':
                 $personal_info = $item['method'] . ':' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port'];
                 $return = 'ss://' . Tools::base64_url_encode($personal_info);
@@ -105,6 +106,7 @@ class AppURI
                 }
                 $return.=('#' .  rawurlencode($item['remark']));
                 break;
+            */    
         }
         return $return;
     }
