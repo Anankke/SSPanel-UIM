@@ -186,11 +186,15 @@ class Tools
 
     public static function getAvPort()
     {
-        //检索User数据表现有port
-        $det = User::pluck('port')->toArray();
-        $port = array_diff(range($_ENV['min_port'], $_ENV['max_port']), $det);
-        shuffle($port);
-        return $port[0];
+        if ($_ENV['min_port'] > 65535 || $_ENV['min_port'] <= 0 || $_ENV['max_port'] > 65535 || $_ENV['max_port'] <= 0) {
+            return 0;
+        }
+        else {
+            $det = User::pluck('port')->toArray();
+            $port = array_diff(range($_ENV['min_port'], $_ENV['max_port']), $det);
+            shuffle($port);
+            return $port[0];
+        }
     }
 
     public static function base64_url_encode($input)
@@ -417,6 +421,10 @@ class Tools
                 $item['path'] = '/';
             } elseif ($item['net'] == 'tls') {
                 $item['tls'] = 'tls';
+            }elseif ($server[3] == 'grpc') {
+                $item['net'] = 'grpc';
+            }elseif ($server[4] == 'grpc') {
+                $item['net'] = 'grpc';
             }
         }
         if (count($server) >= 5) {
@@ -426,6 +434,8 @@ class Tools
                 $item['net'] = 'ws';
             } elseif ($server[4] == 'tls') {
                 $item['tls'] = 'tls';
+            } elseif ($server[4] == 'xtls') {
+                $item['tls'] = 'xtls';
             }
         }
         if (count($server) >= 6 && $server[5] != '') {
@@ -448,6 +458,34 @@ class Tools
             }
             if (isset($item['inside_port'])) {
                 unset($item['inside_port']);
+            }
+
+            if (array_key_exists('servicename', $item)) {
+                $item['servicename'] = $item['servicename'];
+            }else{
+                $item['servicename'] = "";
+            }
+
+            if (array_key_exists('enable_xtls', $item)) {
+                $item['enable_xtls'] = $item['enable_xtls'];
+            }else{
+                $item['enable_xtls'] = "";
+            }
+
+            if (array_key_exists('flow', $item)) {
+                $item['flow'] = $item['flow'];
+            }else{
+                $item['flow'] = "xtls-rprx-direct";
+            }
+
+            if (array_key_exists('enable_vless', $item)) {
+                $item['vtype'] = 'vless://';
+            }else{
+                $item['vtype'] = 'vmess://';
+            }
+
+            if (!array_key_exists('sni', $item)) {
+                $item['sni'] = $item['host'];
             }
         }
         return $item;

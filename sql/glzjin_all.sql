@@ -54,7 +54,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   `auto_reset_bandwidth` decimal(12,2) NOT NULL DEFAULT 0.00,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `port` (`port`),
   UNIQUE KEY `uuid` (`uuid`),
   UNIQUE KEY `ga_token` (`ga_token`),
   KEY `user_name` (`user_name`)

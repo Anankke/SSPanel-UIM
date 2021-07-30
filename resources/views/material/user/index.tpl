@@ -722,6 +722,16 @@ table tr td:first-child {
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                     </p>
                                                 <hr/>
+                                                    <p><span class="icon icon-lg text-white">filter_3</span> AxXray - [ SS/SSR/VMess/Trojan ]：</p>
+                                                    <p>
+                                                        应用下载：
+                                                        <a class="btn-dl" href="https://github.com/XTLS/AnXray/releases" target="_blank"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
+                                                    </p>
+                                                    <p>
+                                                        使用方式：
+                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['anxray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
+                                                    </p>
+                                                <hr/>
                                                 <p><span class="icon icon-lg text-white">filter_4</span> Surfboard - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：

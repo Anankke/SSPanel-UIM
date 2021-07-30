@@ -158,9 +158,14 @@ class TicketController extends AdminController
      */
     public function show($request, $response, $args)
     {
-        $id        = $args['id'];
-        $pageNum   = $request->getQueryParams()['page'] ?? 1;
-        $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
+        $id            = $args['id'];
+        $ticket = Ticket::where('id','=', $id)->first();
+        if($ticket == null) {
+            return $response->withStatus(302)->withHeader('Location', '/user/ticket');
+        }
+
+        $pageNum       = $request->getQueryParams()['page'] ?? 1;
+        $ticketset     = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
         $ticketset->setPath('/admin/ticket/' . $id . '/view');
 
         $render = Tools::paginate_render($ticketset);
