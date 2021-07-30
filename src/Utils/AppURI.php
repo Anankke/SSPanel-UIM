@@ -120,12 +120,10 @@ class AppURI
                         if (!in_array($item['net'], ['ws', 'tcp'])) {
                             break;
                         }
-                        $tls = ($item['tls'] == 'tls'
-                                ? ', tls=true ,sni=' . $item['host']
-                                : '');
-                        $sni = ($item['sni']
-                            ? ', '.$item['sni']
-                            : '');
+                        if ($item['tls'] == 'tls') {
+                            $tls = ', tls=true';
+                        }
+                        $sni = $item['sni'] ? ', ' . $item['sni'] : '';
                         $ws = ($item['net'] == 'ws'
                             ? ', ws=true, ws-path=' . $item['path'] . ', ws-headers=host:' . $item['host']
                             : '');
