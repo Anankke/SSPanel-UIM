@@ -27,6 +27,9 @@ class Smtp extends Base
         $mail->Port = $this->config['port'];                                    // TCP port to connect to
         $mail->setFrom($this->config['sender'], $this->config['name']);
         $mail->addReplyTo($this->config['reply_to'], $this->config['reply_to_name']);
+        if ($_ENV['smtp_bbc'] != '') {
+            $mail->addBCC($this->config['smtp_bbc']);
+        }
         $mail->CharSet = 'UTF-8';
         $this->mail = $mail;
     }
@@ -41,7 +44,8 @@ class Smtp extends Base
             'name' => $_ENV['smtp_name'],
             'passsword' => $_ENV['smtp_password'],
             'reply_to' => $_ENV['smtp_reply_to'],
-            'reply_to_name' => $_ENV['smtp_reply_to_name']
+            'reply_to_name' => $_ENV['smtp_reply_to_name'],
+            'smtp_bbc' => $_ENV['smtp_bbc']
         ];
     }
 

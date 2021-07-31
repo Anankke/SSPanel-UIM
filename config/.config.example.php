@@ -6,7 +6,8 @@
 //如需换行，直接换行即可，无需换行符
 //【新增/删除】config无需写入迁移附注
 $_ENV['config_migrate_notice'] =
-'新增 enable_change_email 配置項
+    '新增 enable_change_email 配置項
+新增 smtp_bbc 配置項
 ';
 $_ENV['version'] = 2;    //仅当涉及【需要修改config以外的文件】时才需要+1，站长勿动
 
@@ -53,6 +54,7 @@ $_ENV['smtp_port']          = 465;                         // SMTP 端口(常见
 $_ENV['smtp_name']          = '';                          // SMTP 发信名称
 $_ENV['smtp_sender']        = '';                          // SMTP 账户发信地址
 $_ENV['smtp_ssl']           = true;                        // 是否使用 TLS/SSL 发信
+$_ENV['smtp_bbc']           = '';                          // 发给用户的邮件密送给指定邮箱备份
 $_ENV['smtp_reply_to']      = $_ENV['smtp_username'];      // 用户回复邮件的接受地址
 $_ENV['smtp_reply_to_name'] = $_ENV['smtp_sender'];        // 回复地址显示名
 
@@ -135,9 +137,9 @@ $_ENV['enable_sub_extend']          = true;                         // 是否开
 // 可用于为用户推送最新地址等信息，尽可能简短且数量不宜太多
 $_ENV['sub_message']                = [];
 $_ENV['disable_sub_mu_port']        = false;                        // 将订阅中单端口的信息去除
-$_ENV['subscribeLog']               = false;			            //是否记录用户订阅日志
+$_ENV['subscribeLog']               = false;                        //是否记录用户订阅日志
 $_ENV['subscribeLog_show']          = true;                         //是否允许用户查看订阅记录
-$_ENV['subscribeLog_keep_days']     = 7;		                    //订阅记录保留天数
+$_ENV['subscribeLog_keep_days']     = 7;                            //订阅记录保留天数
 $_ENV['mu_port_migration']          = false;                        //为后端直接下发偏移后的端口
 $_ENV['add_emoji_to_node_name']     = false;                        //为部分订阅中默认添加 emoji
 $_ENV['add_appName_to_ss_uri']      = true;                         //为 SS 节点名称中添加站点名
@@ -332,10 +334,10 @@ $_ENV['theadpay_mchid']       = '';
 $_ENV['theadpay_key']         = '';
 
 # CoinPay
-$_ENV['coinpay_appid']  ='';	// CoinPay 应用ID (*)
-$_ENV['coinpay_secret'] ='';	// CoinPay 验证密钥 (*)
-$_ENV['coinpay_notify'] ='';    // 异步回调URL
-$_ENV['coinpay_return'] ='';    // 同步返回URL
+$_ENV['coinpay_appid']  = '';    // CoinPay 应用ID (*)
+$_ENV['coinpay_secret'] = '';    // CoinPay 验证密钥 (*)
+$_ENV['coinpay_notify'] = '';    // 异步回调URL
+$_ENV['coinpay_return'] = '';    // 同步返回URL
 
 # EasyPay https://t.me/Easy_panel
 $_ENV['easypay_app_id'] = '';      // 商户APPID
