@@ -75,7 +75,7 @@ class AppURI
 			json_encode($node, 320)
 	           ));
 		}else{
-                   $return = 'vless://' . $item['id'] ."@".(string)$item['add'].":".$item['port']."?encryption=auto";
+                   $return = 'vless://' . $item['id'] ."@".(string)$item['add'].":".$item['port']."?encryption=none";
                    $return.="&type=".$item['net'];
                    $return.="&security=".$item['tls'];
                    if($item['tls'] == "xtls"){
@@ -590,7 +590,7 @@ class AppURI
                 return 'ssr://' . Tools::base64_url_encode($return);
                 break;
             case 'vmess':
-                $return = $item['vtype'] . $item['id'] ."@".$item['add'].":".$item['port']."?encryption=auto";
+                $return = $item['vtype'] . $item['id'] ."@".$item['add'].":".$item['port']."?encryption=none";
                 $return.="&type=".$item['net'];
                 $return.="&security=".$item['tls'];
                 if($item['tls'] == "xtls"){
