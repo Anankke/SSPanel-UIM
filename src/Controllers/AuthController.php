@@ -228,11 +228,9 @@ class AuthController extends BaseController
                 ]);
             }
             // check email format
-            if (!Check::isEmailLegal($email)) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '邮箱无效'
-                ]);
+            $check_res = Check::isEmailLegal($email);
+            if ($check_res['ret'] == 0) {
+                return $response->withJson($check_res);
             }
             $user = User::where('email', $email)->first();
             if ($user != null) {
@@ -469,11 +467,9 @@ class AuthController extends BaseController
         }
 
         // check email format
-        if (!Check::isEmailLegal($email)) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '邮箱无效'
-            ]);
+        $check_res = Check::isEmailLegal($email);
+        if ($check_res['ret'] == 0) {
+            return $response->withJson($check_res);
         }
         // check email
         $user = User::where('email', $email)->first();

@@ -706,10 +706,9 @@ class UserController extends BaseController
             $res['msg'] = '未填写邮箱';
             return $response->withJson($res);
         }
-        if (!Check::isEmailLegal($newemail)) {
-            $res['ret'] = 0;
-            $res['msg'] = '邮箱无效';
-            return $response->withJson($res);
+        $check_res = Check::isEmailLegal($email);
+        if ($check_res['ret'] == 0) {
+            return $response->withJson($check_res);
         }
         if ($otheruser != null) {
             $res['ret'] = 0;
