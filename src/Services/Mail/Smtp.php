@@ -49,6 +49,15 @@ class Smtp extends Base
         ];
     }
 
+    public function save_mail($mail)
+    {
+        $path = '{' . $mail->Host . ':' . strval($mail->SMTPSecure) . '/imap/ssl}/Sent';
+        $imapStream = imap_open($path, $mail->Username, $mail->Password);
+        $result = imap_append($imapStream, $path, $mail->getSentMIMEMessage());
+        imap_close($imapStream);
+        return $result;
+    }
+
     public function send($to, $subject, $text, $files)
     {
         $mail = $this->mail;
@@ -59,10 +68,12 @@ class Smtp extends Base
         foreach ($files as $file) {
             $mail->addAttachment($file);
         }
-        // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
         if (!$mail->send()) {
-            return true;
+            throw new \Exception($mail->ErrorInfo);
         }
-        return false;
+        if ($_ENV['smtp_save_sent']) {
+            $this->save_mail($mail);
+        }
     }
 }

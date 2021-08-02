@@ -60,6 +60,7 @@ $_ENV['smtp_ssl']           = true;                        // 是否使用 TLS/S
 $_ENV['smtp_bbc']           = '';                          // 发给用户的邮件密送给指定邮箱备份
 $_ENV['smtp_reply_to']      = $_ENV['smtp_username'];      // 用户回复邮件的接受地址
 $_ENV['smtp_reply_to_name'] = $_ENV['smtp_sender'];        // 回复地址显示名
+$_ENV['smtp_save_sent']     = false;                       // 将发送的邮件保存
 
 # sendgrid
 $_ENV['sendgrid_key']    = '';
