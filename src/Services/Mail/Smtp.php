@@ -51,7 +51,7 @@ class Smtp extends Base
 
     public function save_mail($mail)
     {
-        $path = '{' . $mail->Host . ':' . strval($mail->SMTPSecure) . '/imap/ssl}/Sent';
+        $path = $_ENV['smtp_save_path'];
         $imapStream = imap_open($path, $mail->Username, $mail->Password);
         $result = imap_append($imapStream, $path, $mail->getSentMIMEMessage());
         imap_close($imapStream);
