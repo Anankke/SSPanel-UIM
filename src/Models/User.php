@@ -851,6 +851,7 @@ class User extends Model
             $new_emailqueue->subject = $subject;
             $new_emailqueue->template = $template;
             $new_emailqueue->time = time();
+            $ary = array_merge(['user' => $this], $ary);
             $new_emailqueue->array = json_encode($ary);
             $new_emailqueue->save();
             return true;

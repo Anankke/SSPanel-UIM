@@ -143,8 +143,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的流量被重置了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB',
-                        'user' => $user
+                        'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB'
                     ],
                     [],
                     $_ENV['email_queue']
@@ -171,8 +170,7 @@ class Job extends Command
                         $_ENV['appName'] . '-您的流量被重置了',
                         'news/warn.tpl',
                         [
-                            'text' => '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB',
-                            'user' => $user
+                            'text' => '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB'
                         ],
                         [],
                         $_ENV['email_queue']
@@ -331,8 +329,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的用户账户已经过期了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账号已经过期了。',
-                        'user' => $user
+                        'text' => '您好，系统发现您的账号已经过期了。'
                     ],
                     [],
                     $_ENV['email_queue']
@@ -370,8 +367,7 @@ class Job extends Command
                         $_ENV['appName'] . '-您的剩余流量过低',
                         'news/warn.tpl',
                         [
-                            'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。',
-                            'user' => $user
+                            'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。'
                         ],
                         [],
                         $_ENV['email_queue']
@@ -395,8 +391,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的用户账户已经被删除了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。',
-                        'user' => $user
+                        'text' => '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。'
                     ],
                     [],
                     $_ENV['email_queue']
@@ -418,8 +413,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的用户账户已经被删除了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。',
-                        'user' => $user
+                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。'
                     ],
                     [],
                     $_ENV['email_queue']
@@ -438,8 +432,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的用户账户已经被删除了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。',
-                        'user' => $user
+                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。'
                     ],
                     [],
                     $_ENV['email_queue']
@@ -466,8 +459,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的账户等级已经过期了',
                     'news/warn.tpl',
                     [
-                        'text' => $text,
-                        'user' => $user
+                        'text' => $text
                     ],
                     [],
                     $_ENV['email_queue']
@@ -504,8 +496,7 @@ class Job extends Command
                     $_ENV['appName'] . '-续费失败',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。',
-                        'user' => $user
+                        'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。'
                     ],
                     [],
                     $_ENV['email_queue']
@@ -534,8 +525,7 @@ class Job extends Command
                     $_ENV['appName'] . '-续费成功',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。',
-                        'user' => $user
+                        'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。'
                     ],
                     [],
                     $_ENV['email_queue']
@@ -548,8 +538,7 @@ class Job extends Command
                     $_ENV['appName'] . '-续费失败',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。',
-                        'user' => $user
+                        'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。'
                     ],
                     [],
                     $_ENV['email_queue']
