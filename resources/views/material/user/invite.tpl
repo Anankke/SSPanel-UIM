@@ -44,9 +44,9 @@
                                                 <input type="text"
                                                        class="input form-control form-control-monospace cust-link"
                                                        name="input1" readonly=""
-                                                       value="{$config['baseUrl']}auth/register?code={$code->code}">
+                                                       value="{$config['baseUrl']}/auth/register?code={$code->code}">
                                                 <button class="copy-text btn btn-subscription" type="button"
-                                                        data-clipboard-text="{$config['baseUrl']}auth/register?code={$code->code}">
+                                                        data-clipboard-text="{$config['baseUrl']}/auth/register?code={$code->code}">
                                                     点击复制
                                                 </button>
                                             </div>

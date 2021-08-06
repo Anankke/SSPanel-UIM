@@ -53,7 +53,7 @@ class Smtp extends Base
     {
         $path = $_ENV['smtp_save_path'];
         $imapStream = imap_open($path, $mail->Username, $mail->Password);
-        $result = imap_append($imapStream, $path, $mail->getSentMIMEMessage());
+        $result = imap_append($imapStream, $path, $mail->getSentMIMEMessage(), '\\Seen');
         imap_close($imapStream);
         return $result;
     }
