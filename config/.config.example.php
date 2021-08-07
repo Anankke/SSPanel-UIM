@@ -327,9 +327,6 @@ $_ENV['zfbjk_pid']            = '';
 $_ENV['zfbjk_key']            = '';
 $_ENV['zfbjk_qrcodeurl']      = '';
 
-# MugglePay 麻瓜宝（USDT、比特币、以太坊、EOS等） https://merchants.mugglepay.com/
-$_ENV['bitpay_secret']        = '';
-
 # PayJs
 $_ENV['payjs_mchid']          = '';
 $_ENV['payjs_key']            = '';

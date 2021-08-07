@@ -33,8 +33,6 @@ class Payment
                 return new AopF2F();
             case ('payjs'):
                 return new PAYJS($_ENV['payjs_key']);
-            case ('bitpayx'):
-                return new BitPayX($_ENV['bitpay_secret']);
             case ('theadpay'):
                 return new THeadPay();
             case ('coinpay'):
