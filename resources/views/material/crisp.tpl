@@ -7,9 +7,10 @@
         s.async = 1;
         d.getElementsByTagName("head")[0].appendChild(s);
     })();
+    $crisp.push(["safe", true])
     $crisp.push(["set","user:nickname", "{$user->user_name}"],
               ["set","user:email","{$user->email}"],
-              ["set", "session:data", 
+              ["set", "session:data",
                 [[
                   ["ID","{$user->id}"],
                   ["Email","{$user->email}"],

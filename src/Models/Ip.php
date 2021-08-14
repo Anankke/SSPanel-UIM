@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Utils\QQWry;
 use App\Utils\Tools;
+use App\Utils\DatatablesHelper;
 
 /**
  * Ip Model
@@ -81,9 +82,14 @@ class Ip extends Model
         return Node::where('node_ip', Tools::getRealIp($this->ip))->first() ? '是' : '否';
     }
 
-    public function getUserAliveIpCount($userid)
+    public function getUserAliveIpCount()
     {
-        return count(self::where('userid', '=', $userid)->where('datetime', '>=', time() - 60)->get());
+        $db = new DatatablesHelper();
+        $res = [];
+        foreach ($db->query('SELECT `userid`, COUNT(`userid`) AS `count` FROM `alive_ip` WHERE `datetime` >= unix_timestamp(now()) - 60 GROUP BY `userid`') as $line) {
+            $res[strval($line->userid)] = $res[$line->count];
+        }
+        return $res;
     }
 
     public function ip()

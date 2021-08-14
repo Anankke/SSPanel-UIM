@@ -88,13 +88,16 @@ class UserController extends BaseController
         } elseif ($node->sort == 11) {
             $key_list = array('node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip');
         } else {
-            $key_list = array('method', 'obfs', 'obfs_param', 'protocol', 'protocol_param', 'node_speedlimit',
-                'is_multi_user', 'u', 'd', 'transfer_enable', 'id', 'port', 'passwd', 'node_connector', 'alive_ip');
+            $key_list = array(
+                'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param', 'node_speedlimit',
+                'is_multi_user', 'u', 'd', 'transfer_enable', 'id', 'port', 'passwd', 'node_connector', 'alive_ip'
+            );
         }
 
+        $alive_ip = (new \App\Models\Ip)->getUserAliveIpCount();
         foreach ($users_raw as $user_raw) {
             if ($user_raw->node_connector != 0) {
-                $user_raw->alive_ip = (new \App\Models\Ip)->getUserAliveIpCount($user_raw->id);
+                $user_raw->alive_ip = $alive_ip[strval($user_raw->id)];
             }
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect'] === true) {
@@ -120,7 +123,7 @@ class UserController extends BaseController
 
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($users);
-        if ($header_etag == $etag){
+        if ($header_etag == $etag) {
             return $response->withStatus(304);
         }
         return $response->withHeader('ETAG', $etag)->withJson([
