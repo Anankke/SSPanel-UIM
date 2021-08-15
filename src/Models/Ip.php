@@ -86,8 +86,8 @@ class Ip extends Model
     {
         $db = new DatatablesHelper();
         $res = [];
-        foreach ($db->query('SELECT `userid`, COUNT(`userid`) AS `count` FROM `alive_ip` WHERE `datetime` >= unix_timestamp(now()) - 60 GROUP BY `userid`') as $line) {
-            $res[strval($line->userid)] = $res[$line->count];
+        foreach ($db->query('SELECT `userid`, COUNT(DISTINCT `ip`) AS `count` FROM `alive_ip` WHERE `datetime` >= UNIX_TIMESTAMP(NOW()) - 60 GROUP BY `userid`') as $line) {
+            $res[strval($line['userid'])] = $line['count'];
         }
         return $res;
     }
