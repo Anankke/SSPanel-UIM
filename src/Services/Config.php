@@ -29,6 +29,7 @@ class Config
             'baseUrl'                 => $_ENV['baseUrl'],
             'min_port'                => $_ENV['min_port'],
             'max_port'                => $_ENV['max_port'],
+            'enable_checkin'          => $_ENV['enable_checkin'],
             'checkinMin'              => $_ENV['checkinMin'],
             'checkinMax'              => $_ENV['checkinMax'],
             'invite_price'            => $_ENV['invite_price'],

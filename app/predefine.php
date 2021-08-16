@@ -6,4 +6,4 @@ declare(strict_types=1);
  */
 
 define('BASE_PATH', __DIR__ . '/..');
-define('VERSION', '20180419');
+define('VERSION', '2021.8');

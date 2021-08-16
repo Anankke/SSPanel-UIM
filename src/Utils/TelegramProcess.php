@@ -57,6 +57,10 @@ class TelegramProcess
 未使用 ' . $user->unusedTraffic() . ' ' . number_format(($user->transfer_enable - ($user->u + $user->d)) / $user->transfer_enable * 100, 2) . '%';
                     break;
                 case 'checkin':
+                    if ($_ENV['enable_checkin'] === false) {
+                        $reply['message'] = '目前站点没有启用签到功能。';
+                        break;
+                    }
                     if (!$user->isAbleToCheckin()) {
                         $reply['message'] = '您今天已经签过到了！';
                         break;
@@ -70,6 +74,9 @@ class TelegramProcess
                 case 'prpr':
                     $prpr = array('⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄', '(≧ ﹏ ≦)', '(*/ω＼*)', 'ヽ(*。>Д<)o゜', '(つ ﹏ ⊂)', '( >  < )');
                     $reply['message'] = $prpr[random_int(0, 5)];
+                    break;
+                case 'taro':
+                    $reply['message'] = 'Anankke 是芋头';
                     break;
                 case 'rss':
                     $reply['message'] = '点击以下按钮获取对应订阅: ';

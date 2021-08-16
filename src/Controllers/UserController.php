@@ -1332,6 +1332,12 @@ class UserController extends BaseController
      */
     public function doCheckIn($request, $response, $args)
     {
+        if ($_ENV['enable_checkin'] === false) {
+            $res['ret'] = 0;
+            $res['msg'] = '目前站点没有启用签到功能。';
+            return $response->withJson($res);
+        }
+
         if ($_ENV['enable_checkin_captcha'] == true) {
             $ret = Captcha::verify($request->getParams());
             if (!$ret) {

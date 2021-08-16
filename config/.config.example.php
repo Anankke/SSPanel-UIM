@@ -102,6 +102,7 @@ $_ENV['custom_invite_price']       = -1;                        //用户定制�
 
 //已注册用户设置---------------------------------------------------------------------------------------
 #基础
+$_ENV['enable_checkin']             = true;         //是否啓用簽到功能
 $_ENV['checkinMin']                 = 1;            //用户签到最少流量 单位MB
 $_ENV['checkinMax']                 = 50;           //用户签到最多流量
 
@@ -293,7 +294,7 @@ $_ENV['enable_checkin_captcha'] = false;        //启用签到验证码
 
 
 //支付系统设置----------------------------------------------------------------------------------------
-#取值 none | f2fpay | paymentwall | spay | payjs | bitpayx | theadpay | coinpay | vmqpay
+#取值 none | f2fpay | paymentwall | spay | payjs | theadpay | coinpay | vmqpay
 $_ENV['payment_system']       = 'none';     // todo: ['gateway1', 'gateway2']
 
 # vmqpay

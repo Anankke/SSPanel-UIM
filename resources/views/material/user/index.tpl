@@ -195,34 +195,32 @@ table tr td:first-child {
                                     </div>
                                 </div>
                             </div>
+                            {if $config['enable_checkin'] == true}
                             <div class="card-inner margin-bottom-no">
                                 <p class="card-heading"><i class="icon icon-md">account_circle</i> 签到</p>
-                                    <p>上次签到时间：{$user->lastCheckInTime()}</p>
-                                    <p id="checkin-msg"></p>
-                                    {if $geetest_html != null}
-                                        <div id="popup-captcha"></div>
-                                    {/if}
-                                    {if $config['enable_checkin_captcha'] == true && $user->isAbleToCheckin()}
-                                        <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
-                                    {/if}
-                                    <div class="card-action">
-                                        <div class="usercheck pull-left">
-                                            {if $user->isAbleToCheckin() }
-                                                <div id="checkin-btn">
-                                                    <button id="checkin" class="btn btn-brand btn-flat"><span
-                                                                class="icon">check</span>&nbsp;点我签到&nbsp;
-                                                        <div><span class="icon">screen_rotation</span>&nbsp;或者摇动手机签到
-                                                        </div>
+                                <p>上次签到时间：{$user->lastCheckInTime()}</p>
+                                <p id="checkin-msg"></p>
+                                {if $geetest_html != null}
+                                    <div id="popup-captcha"></div>
+                                {/if}
+                                {if $config['enable_checkin_captcha'] == true && $user->isAbleToCheckin()}
+                                    <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+                                {/if}
+                                <div class="card-action">
+                                    <div class="usercheck pull-left">
+                                        {if $user->isAbleToCheckin() }
+                                            <div id="checkin-btn">
+                                                <button id="checkin" class="btn btn-brand btn-flat"><span class="icon">check</span>&nbsp;点我签到&nbsp;
+                                                    <div><span class="icon">screen_rotation</span>&nbsp;或者摇动手机签到</div>
                                                     </button>
-                                                </div>
-                                            {else}
-                                                <p><a class="btn btn-brand disabled btn-flat" href="#"><span
-                                                                class="icon">check</span>&nbsp;今日已签到</a></p>
-                                            {/if}
-                                        </div>
+                                            </div>
+                                        {else}
+                                            <p><a class="btn btn-brand disabled btn-flat" href="#"><span class="icon">check</span>&nbsp;今日已签到</a></p>
+                                        {/if}
                                     </div>
-                                </dl>
+                                </div>
                             </div>
+                            {/if}
                         </div>
                     </div>
                     <div class="card">
