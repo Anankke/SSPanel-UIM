@@ -2,27 +2,27 @@
 
 namespace App\Command;
 
+use App\Models\BlockIp;
+use App\Models\Bought;
+use App\Models\DetectBanLog;
+use App\Models\DetectLog;
+use App\Models\EmailQueue;
+use App\Models\EmailVerify;
 use App\Models\Ip;
 use App\Models\Node;
-use App\Models\User;
-use App\Models\Shop;
-use App\Models\Token;
-use App\Models\Bought;
-use App\Models\BlockIp;
-use App\Models\DetectLog;
-use App\Models\UnblockIp;
-use App\Models\EmailVerify;
-use App\Models\DetectBanLog;
-use App\Models\EmailQueue;
 use App\Models\NodeInfoLog;
 use App\Models\NodeOnlineLog;
+use App\Models\Shop;
 use App\Models\TelegramSession;
+use App\Models\Token;
+use App\Models\UnblockIp;
+use App\Models\User;
 use App\Models\UserSubscribeLog;
 use App\Services\Config;
 use App\Services\Mail;
-use App\Utils\Tools;
-use App\Utils\Telegram;
 use App\Utils\DatatablesHelper;
+use App\Utils\Telegram;
+use App\Utils\Tools;
 use Exception;
 
 class Job extends Command
@@ -87,9 +87,8 @@ class Job extends Command
     {
         ini_set('memory_limit', '-1');
 
-        // ------- 重置节点流量，排除无需重置流量的节点类型
-        Node::where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
         // ------- 重置节点流量
+        Node::where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
 
         // ------- 清理各表记录
         UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int)$_ENV['subscribeLog_keep_days']))->delete();
@@ -167,10 +166,10 @@ class Job extends Command
                     $user->transfer_enable = $user->auto_reset_bandwidth * 1024 * 1024 * 1024;
                     $user->save();
                     $user->sendMail(
-                        $_ENV['appName'] . '-您的流量被重置了',
+                        $_ENV['appName'] . '-您的免费流量被重置了',
                         'news/warn.tpl',
                         [
-                            'text' => '您好，根据管理员的设置，流量已经被重置为' . $user->auto_reset_bandwidth . 'GB'
+                            'text' => '您好，您的免费流量已经被重置为' . $user->auto_reset_bandwidth . 'GB'
                         ],
                         [],
                         $_ENV['email_queue']

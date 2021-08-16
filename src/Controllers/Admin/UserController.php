@@ -65,8 +65,8 @@ class UserController extends AdminController
             'enable'                => '是否启用',
             'reg_date'              => '注册时间',
             'reg_ip'                => '注册IP',
-            'auto_reset_day'        => '自动重置流量日',
-            'auto_reset_bandwidth'  => '自动重置流量/GB',
+            'auto_reset_day'        => '免费用户流量重置日',
+            'auto_reset_bandwidth'  => '重置的免费流量/GB',
             'ref_by'                => '邀请人ID',
             'ref_by_user_name'      => '邀请人用户名',
             'top_up'                => '累计充值'
@@ -127,8 +127,8 @@ class UserController extends AdminController
         $user->im_value             = $email;
         $user->transfer_enable      = Tools::toGB((int) Config::getconfig('Register.string.defaultTraffic'));
         $user->invite_num           = (int) Config::getconfig('Register.string.defaultInviteNum');
-        $user->auto_reset_day       = $_ENV['reg_auto_reset_day'];
-        $user->auto_reset_bandwidth = $_ENV['reg_auto_reset_bandwidth'];
+        $user->auto_reset_day       = $_ENV['free_user_reset_day'];
+        $user->auto_reset_bandwidth = $_ENV['free_user_reset_bandwidth'];
         $user->money                = ($money != -1 ? $money : 0);
         $user->class_expire         = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultClass_expire') * 3600);
         $user->class                = (int) Config::getconfig('Register.string.defaultClass');

@@ -358,8 +358,8 @@ class AuthController extends BaseController
 
         $user->transfer_enable      = Tools::toGB(Config::getconfig('Register.string.defaultTraffic'));
         $user->invite_num           = (int) Config::getconfig('Register.string.defaultInviteNum');
-        $user->auto_reset_day       = $_ENV['reg_auto_reset_day'];
-        $user->auto_reset_bandwidth = $_ENV['reg_auto_reset_bandwidth'];
+        $user->auto_reset_day       = $_ENV['free_user_reset_day'];
+        $user->auto_reset_bandwidth = $_ENV['free_user_reset_bandwidth'];
         $user->money                = 0;
         $user->sendDailyMail        = Config::getconfig('Register.bool.send_dailyEmail');
 
