@@ -272,9 +272,9 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         im_value: $$getValue('im_value'),
                         im_type: $$getValue('im_type'),
                         {/if}
-                        code,
+                        code
                         {if $enable_email_verify == true}
-                        emailcode: $$getValue('email_code')
+                        emailcode: $$getValue('email_code'),
                         {/if}
                         {if $geetest_html != null},
                         geetest_challenge: validate.geetest_challenge,
