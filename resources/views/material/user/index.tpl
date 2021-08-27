@@ -926,7 +926,7 @@ table tr td:first-child {
                 type: "POST",
                 url: "/user/checkin",
                 dataType: "json",
-                {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
                 data: {
                     recaptcha: grecaptcha.getResponse()
                 },
@@ -960,7 +960,7 @@ table tr td:first-child {
                 type: "POST",
                 url: "/user/checkin",
                 dataType: "json",
-                {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
                 data: {
                     recaptcha: grecaptcha.getResponse()
                 },
@@ -1052,6 +1052,6 @@ table tr td:first-child {
     {/if}
 </script>
 
-{if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+{if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
 {/if}
