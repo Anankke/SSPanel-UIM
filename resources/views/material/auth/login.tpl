@@ -39,7 +39,7 @@
                         <div id="embed-captcha"></div>
                     </div>
                 {/if}
-                {if $config['enable_login_captcha'] == true}
+                {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
                     <div class="form-group-label auth-row">
                         <div class="row">
                             <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
@@ -121,12 +121,16 @@
                 data: {
                     email: $$getValue('email'),
                     passwd: $$getValue('passwd'),
-                    code: $$getValue('code'),{if $config['enable_login_captcha'] == true}
-                    recaptcha: grecaptcha.getResponse(),{/if}
-                    remember_me: $("#remember_me:checked").val(){if $geetest_html != null},
+                    code: $$getValue('code'),
+                    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                    recaptcha: grecaptcha.getResponse(),
+                    {/if}
+                    remember_me: $("#remember_me:checked").val()
+                    {if $geetest_html != null},
                     geetest_challenge: validate.geetest_challenge,
                     geetest_validate: validate.geetest_validate,
-                    geetest_seccode: validate.geetest_seccode{/if}
+                    geetest_seccode: validate.geetest_seccode
+                    {/if}
                 },
                 success: (data) => {
                     if (data.ret == 1) {
@@ -199,6 +203,6 @@
     </script>
 {/if}
 
-{if $config['enable_login_captcha'] == true}
+{if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
 {/if}
