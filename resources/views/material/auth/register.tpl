@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     {/if}
-                    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                    {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
                         <div class="form-group form-group-label">
                             <div class="row">
                                 <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
@@ -265,7 +265,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         name: $$getValue('name'),
                         passwd: $$getValue('passwd'),
                         repasswd: $$getValue('repasswd'),
-                        {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                        {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
                         recaptcha: grecaptcha.getResponse(),
                         {/if}
                         {if $config['enable_reg_im'] == true}
@@ -426,7 +426,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
     </script>
 {/if}
 
-{if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+{if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
 {/if}
 
