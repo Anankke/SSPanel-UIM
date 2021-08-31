@@ -925,10 +925,12 @@ table tr td:first-child {
             $.ajax({
                 type: "POST",
                 url: "/user/checkin",
-                dataType: "json",{if $config['enable_checkin_captcha'] == true}
+                dataType: "json",
+                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
                 data: {
                     recaptcha: grecaptcha.getResponse()
-                },{/if}
+                },
+                {/if}
                 success: (data) => {
                     if (data.ret) {
 
@@ -957,10 +959,12 @@ table tr td:first-child {
             $.ajax({
                 type: "POST",
                 url: "/user/checkin",
-                dataType: "json",{if $config['enable_checkin_captcha'] == true}
+                dataType: "json",
+                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
                 data: {
                     recaptcha: grecaptcha.getResponse()
-                },{/if}
+                },
+                {/if}
                 success: (data) => {
                     if (data.ret) {
                         $$.getElementById('checkin-msg').innerHTML = data.msg;
@@ -997,6 +1001,7 @@ table tr td:first-child {
             c.show();
         }
     };
+    var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">check</span>&nbsp;已签到</a></p>';
     var handlerPopup = function (captchaObj) {
         c = captchaObj;
         captchaObj.onSuccess(function () {
@@ -1047,6 +1052,6 @@ table tr td:first-child {
     {/if}
 </script>
 
-{if $config['enable_checkin_captcha'] == true}
+{if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
     <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
 {/if}
