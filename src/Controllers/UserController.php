@@ -1270,7 +1270,7 @@ class UserController extends BaseController
      */
     public function updateSsPwd($request, $response, $args)
     {
-        $user = Auth::getUser();
+        $user = $this->user;
         $pwd = Tools::genRandomChar(16);
         $current_timestamp = time();
         $new_uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user->email . '|' . $current_timestamp);
@@ -1390,7 +1390,7 @@ class UserController extends BaseController
      */
     public function handleKill($request, $response, $args)
     {
-        $user = Auth::getUser();
+        $user = $this->user;
 
         $email = $user->email;
 
