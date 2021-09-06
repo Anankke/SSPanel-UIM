@@ -79,7 +79,7 @@
             $$.getElementById('msg').innerHTML = '发送中，请等待'
             $.ajax({
                 type: "POST",
-                url: "/password/reset",
+                url: location.pathname,
                 dataType: "json",
                 data: {
                     email: $$getValue('email'),

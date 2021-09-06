@@ -116,7 +116,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/auth/login",
+                url: location.pathname,
                 dataType: "json",
                 data: {
                     email: $$getValue('email'),

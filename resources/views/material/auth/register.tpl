@@ -258,7 +258,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
 
                 $.ajax({
                     type: "POST",
-                    url: "/auth/register",
+                    url: location.pathname,
                     dataType: "json",
                     data: {
                         email: $$getValue('email'),

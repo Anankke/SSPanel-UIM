@@ -68,7 +68,7 @@
         function reset() {
             $.ajax({
                 type: "POST",
-                url: "/password/token/{$token}",
+                url: location.pathname,
                 dataType: "json",
                 data: {
                     password: $$getValue('password'),
