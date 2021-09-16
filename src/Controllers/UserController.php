@@ -687,11 +687,13 @@ class UserController extends BaseController
         $newemail = $request->getParam('newemail');
         $oldemail = $user->email;
         $otheruser = User::where('email', $newemail)->first();
-        if ($_ENV['enable_telegram'] !== true) {
+        
+        if ($_ENV['enable_change_email'] != true) {
             $res['ret'] = 0;
-            $res['msg'] = '未啓用用戶自行修改郵箱功能';
+            $res['msg'] = '此项不允许自行修改，请联系管理员操作';
             return $response->withJson($res);
         }
+        
         if (Config::getconfig('Register.bool.Enable_email_verify')) {
             $emailcode = $request->getParam('emailcode');
             $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
@@ -701,25 +703,30 @@ class UserController extends BaseController
                 return $response->withJson($res);
             }
         }
+        
         if ($newemail == '') {
             $res['ret'] = 0;
             $res['msg'] = '未填写邮箱';
             return $response->withJson($res);
         }
-        $check_res = Check::isEmailLegal($email);
+        
+        $check_res = Check::isEmailLegal($newemail);
         if ($check_res['ret'] == 0) {
             return $response->withJson($check_res);
         }
+        
         if ($otheruser != null) {
             $res['ret'] = 0;
             $res['msg'] = '邮箱已经被使用了';
             return $response->withJson($res);
         }
+        
         if ($newemail == $oldemail) {
             $res['ret'] = 0;
             $res['msg'] = '新邮箱不能和旧邮箱一样';
             return $response->withJson($res);
         }
+        
         $antiXss = new AntiXSS();
         $user->email = $antiXss->xss_clean($newemail);
         $user->save();
