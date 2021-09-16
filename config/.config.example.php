@@ -136,7 +136,8 @@ $_ENV['notify_limit_value']         = 20;           //当上一项为per时，�
 $_ENV['Subscribe']                  = true;                         //本站是否提供订阅功能
 $_ENV['subUrl']                     = $_ENV['baseUrl'] . '/link/';  //订阅地址，如需和站点名称相同，请不要修改
 $_ENV['mergeSub']                   = true;                         //合并订阅设置 可选项 false / true
-$_ENV['enable_sub_extend']          = true;                         // 是否开启订阅中默认显示流量剩余以及账户到期时间以及 sub_message 中的信息
+$_ENV['enable_sub_extend']          = true;                         //是否开启订阅中默认显示流量剩余以及账户到期时间以及 sub_message 中的信息
+$_ENV['enable_forced_replacement']  = true;                         //用户修改账户登录密码时，是否强制更换订阅地址
 
 // 订阅中的营销信息
 // 使用数组形式，将会添加在订阅列表的顶端
