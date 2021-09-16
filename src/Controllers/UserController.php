@@ -669,8 +669,10 @@ class UserController extends BaseController
         $user->pass = $hashPwd;
         $user->save();
 
-        $user->clean_link();
-
+        if ($_ENV['enable_forced_replacement'] == true) {
+            $user->clean_link();
+        }
+        
         $res['ret'] = 1;
         $res['msg'] = '修改成功';
         return $response->withJson($res);
