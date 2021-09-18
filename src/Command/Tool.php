@@ -61,7 +61,7 @@ class Tool extends Command
      */
     public function initQQWry()
     {
-        echo ('开始下载或更新纯真 IP 数据库....');
+        echo ('正在下载或更新纯真ip数据库...') . PHP_EOL;
         $path  = BASE_PATH . '/storage/qqwry.dat';
         $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
         if ($qqwry != '') {
@@ -72,7 +72,7 @@ class Tool extends Command
             if ($fp) {
                 fwrite($fp, $qqwry);
                 fclose($fp);
-                echo ('纯真 IP 数据库下载成功！');
+                echo ('纯真ip数据库下载成功.') . PHP_EOL;
                 $iplocation   = new QQWry();
                 $location     = $iplocation->getlocation('8.8.8.8');
                 $Userlocation = $location['country'];
@@ -83,10 +83,10 @@ class Tool extends Command
                     }
                 }
             } else {
-                echo ('纯真 IP 数据库保存失败！');
+                echo ('纯真ip数据库保存失败，请检查权限') . PHP_EOL;
             }
         } else {
-            echo ('下载失败！请重试，或在 https://github.com/SukkaW/qqwry-mirror/issues/new 反馈！');
+            echo ('纯真ip数据库下载失败，请检查下载地址') . PHP_EOL;
         }
     }
 
