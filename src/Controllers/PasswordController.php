@@ -125,7 +125,10 @@ class PasswordController extends BaseController
         } else {
             $rs['ret'] = 1;
             $rs['msg'] = '重置成功';
-            $user->clean_link();
+            
+            if ($_ENV['enable_forced_replacement'] == true) {
+                $user->clean_link();
+            }
 
             // 禁止链接多次使用
             $token->expire_time = time();
