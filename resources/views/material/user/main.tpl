@@ -34,15 +34,28 @@
                 <span class="avatar avatar-sm"><img src="{$user->gravatar}"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
+                {if $user->is_admin}
                 <li>
-                    <a class="waves-attach" href="/user/"><span class="icon icon-lg margin-right">account_box</span>用户中心</a>
+                    <a class="padding-right-cd waves-attach" href="/admin">
+                        <span class="icon icon-lg margin-right">dashboard</span>管理中心
+                    </a>
+                </li>
+                {else}
+                <li>
+                    <a class="waves-attach" href="/user">
+                        <span class="icon icon-lg margin-right">account_box</span>用户中心
+                    </a>
+                </li>
+                {/if}
+                <li>
+                    <a class="padding-right-cd waves-attach" href="/user/logout">
+                        <span class="icon icon-lg margin-right">exit_to_app</span>登出
+                    </a>
                 </li>
                 <li>
-                    <a class="padding-right-cd waves-attach" href="/user/logout"><span
-                                class="icon icon-lg margin-right">exit_to_app</span>登出</a>
-                </li>
-                <li>
-                    <a href="//en.gravatar.com/" target="view_window"><i class="icon icon-lg margin-right">insert_photo</i>设置头像</a>
+                    <a href="//en.gravatar.com/" target="view_window">
+                        <i class="icon icon-lg margin-right">insert_photo</i>设置头像
+                    </a>
                 </li>
             </ul>
             {else}
@@ -50,11 +63,14 @@
             <span class="icon icon-lg margin-right">account_circle</span>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
-                    <a class="padding-right-lg waves-attach" href="/auth/login"><span class="icon icon-lg margin-right">account_box</span>登录</a>
+                    <a class="padding-right-lg waves-attach" href="/auth/login">
+                        <span class="icon icon-lg margin-right">account_box</span>登录
+                    </a>
                 </li>
                 <li>
-                    <a class="padding-right-lg waves-attach" href="/auth/register"><span
-                                class="icon icon-lg margin-right">pregnant_woman</span>注册</a>
+                    <a class="padding-right-lg waves-attach" href="/auth/register">
+                        <span class="icon icon-lg margin-right">pregnant_woman</span>注册
+                    </a>
                 </li>
             </ul>
             {/if}
