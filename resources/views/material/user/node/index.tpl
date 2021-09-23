@@ -77,13 +77,15 @@
                                             <!-- 节点流量倍率 -->
                                             <div class="nodecheck node-flex" title="节点流量倍率">
                                                 <i class="material-icons node-icon">stacked_line_chart</i>
-                                                <span>{$node['traffic_rate']}倍</span>
+                                                <span>{$node['traffic_rate']}x</span>
                                             </div>
                                             <!-- 节点速率 -->
+                                            {if {$node['bandwidth']}!=0}
                                             <div class="nodeband node-flex" title="节点速率">
                                                 <i class="material-icons node-icon">compare_arrows</i>
-                                                <span>{if {$node['bandwidth']}==0}不限速{else}{$node['bandwidth']}{/if}</span>
+                                                <span>{$node['bandwidth']}</span>
                                             </div>
+                                            {/if}
                                             <!-- 节点系统负载 -->
                                             <div class="nodeband node-flex" title="节点系统负载">
                                                 <i class="material-icons node-icon">dns</i>
