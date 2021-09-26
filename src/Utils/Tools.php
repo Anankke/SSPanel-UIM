@@ -564,12 +564,12 @@ class Tools
                         $args_explode = explode('+', $item['port']);
                         foreach ($args_explode as $arg) {
                             if ((int)substr($arg, 0, strpos($arg, '#')) == $mu_port) {
-                                $node_port = (int)substr($arg, strpos($arg, '#') + 1);
+                                $node_port = (int) substr($arg, strpos($arg, '#') + 1);
                             }
                         }
                     } else {
                         if ((int)substr($item['port'], 0, strpos($item['port'], '#')) == $mu_port) {
-                            $node_port = (int)substr($item['port'], strpos($item['port'], '#') + 1);
+                            $node_port = (int) substr($item['port'], strpos($item['port'], '#') + 1);
                         }
                     }
                 } else { // 端口偏移，偏移端口，格式：8.8.8.8;port=1000 or 8.8.8.8;port=-1000
@@ -597,16 +597,45 @@ class Tools
                     if (strpos($item['port'], '+') !== false) {
                         $args_explode = explode('+', $item['port']);
                         foreach ($args_explode as $arg) {
-                            $port[substr($arg, 0, strpos($arg, '#'))] = (int)substr($arg, strpos($arg, '#') + 1);
+                            $replace_port = substr($arg, strpos($arg, '#') + 1);
+
+                            if (strpos($replace_port, '@') !== false) {
+                                $display_port = substr($replace_port, 0, strpos($replace_port, '@'));
+                                $backend_port = substr($replace_port, strpos($replace_port, '@') + 1);
+
+                                $port[substr($arg, 0, strpos($arg, '#'))] = [
+                                    "backend" => (int) $backend_port,
+                                    "display" => (int) $display_port
+                                ];
+                            } else {
+                                $user_port = substr($arg, 0, strpos($arg, '#'));
+
+                                $port[$user_port] = [
+                                    "backend" => (int) $user_port,
+                                    "display" => (int) $user_port
+                                ];
+                            }
                         }
                     } else {
-                        $port[substr($item['port'], 0, strpos($item['port'], '#'))] = (int)substr(
-                            $item['port'],
-                            strpos(
-                                $item['port'],
-                                '#'
-                            ) + 1
-                        );
+                        $replace_port = substr($item['port'], strpos($item['port'], '#') + 1);
+
+                        if (strpos($replace_port, '@') !== false) {
+                            $display_port = substr($replace_port, 0, strpos($replace_port, '@'));
+                            $backend_port = substr($replace_port, strpos($replace_port, '@') + 1);
+
+                            $port[substr($item['port'], 0, strpos($item['port'], '#'))] = [
+                                "backend" => (int) $backend_port,
+                                "display" => (int) $display_port
+                            ];
+
+                        } else {
+                            $user_port = substr($item['port'], 0, strpos($item['port'], '#'));
+
+                            $port[$user_port] = [
+                                "backend" => (int) $user_port,
+                                "display" => (int) $user_port
+                            ];
+                        }
                     }
                 } else {
                     $type = (int)$item['port'];
