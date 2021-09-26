@@ -111,7 +111,7 @@ class UserController extends BaseController
                 // 下发偏移后端口
                 if ($muPort['type'] == 0) {
                     if (in_array($user_raw->port, array_keys($muPort['port']))) {
-                        $user_raw->port = $muPort['port'][$user_raw->port];
+                        $user_raw->port = $muPort['port'][$user_raw->port]['backend'];
                     }
                 } else {
                     $user_raw->port = ($user_raw->port + $muPort['type']);
