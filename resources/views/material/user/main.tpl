@@ -16,6 +16,14 @@
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
     <!-- js -->
     <script src="/assets/js/fuck.min.js"></script>
+    {if $config['user_center_bg'] == true}
+    <!-- style -->
+    <style>
+        .page-orange .ui-content-header {
+            background-image: url({$config['user_center_bg_addr']});
+        }
+    </style>
+    {/if}
 </head>
 <body class="page-orange">
 <header class="header header-orange header-transparent header-waterfall ui-header">
@@ -37,24 +45,24 @@
                 {if $user->is_admin}
                 <li>
                     <a class="padding-right-cd waves-attach" href="/admin">
-                        <span class="icon icon-lg margin-right">dashboard</span>管理中心
+                        <span class="icon icon-lg margin-right">settings</span>管理中心
                     </a>
                 </li>
                 {else}
                 <li>
                     <a class="waves-attach" href="/user">
-                        <span class="icon icon-lg margin-right">account_box</span>用户中心
+                        <span class="icon icon-lg margin-right">account_box</span>用户首页
                     </a>
                 </li>
                 {/if}
                 <li>
-                    <a class="padding-right-cd waves-attach" href="/user/logout">
-                        <span class="icon icon-lg margin-right">exit_to_app</span>登出
+                    <a href="//en.gravatar.com/" target="view_window">
+                        <i class="icon icon-lg margin-right">insert_photo</i>设置头像
                     </a>
                 </li>
                 <li>
-                    <a href="//en.gravatar.com/" target="view_window">
-                        <i class="icon icon-lg margin-right">insert_photo</i>设置头像
+                    <a class="padding-right-cd waves-attach" href="/user/logout">
+                        <span class="icon icon-lg margin-right">exit_to_app</span>登出
                     </a>
                 </li>
             </ul>
