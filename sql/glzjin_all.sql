@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_detect_ban_time` datetime DEFAULT '1989-06-04 00:05:00' COMMENT '最后一次被封禁的时间',
   `all_detect_number` int(11) NOT NULL DEFAULT 0 COMMENT '累计违规次数',
   `last_check_in_time` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '最后签到时间',
-  `reg_date` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '注册时间',
+  `reg_date` datetime NOT NULL COMMENT '注册时间',
   `invite_num` int(8) NOT NULL DEFAULT 0 COMMENT '可用邀请次数',
   `money` decimal(12,2) NOT NULL DEFAULT 0.00 COMMENT '钱包余额',
   `ref_by` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '邀请人ID',
