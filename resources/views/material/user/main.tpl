@@ -48,13 +48,13 @@
                 </li>
                 {/if}
                 <li>
-                    <a class="padding-right-cd waves-attach" href="/user/logout">
-                        <span class="icon icon-lg margin-right">exit_to_app</span>登出
+                    <a href="//en.gravatar.com/" target="view_window">
+                        <i class="icon icon-lg margin-right">insert_photo</i>设置头像
                     </a>
                 </li>
                 <li>
-                    <a href="//en.gravatar.com/" target="view_window">
-                        <i class="icon icon-lg margin-right">insert_photo</i>设置头像
+                    <a class="padding-right-cd waves-attach" href="/user/logout">
+                        <span class="icon icon-lg margin-right">exit_to_app</span>登出
                     </a>
                 </li>
             </ul>
