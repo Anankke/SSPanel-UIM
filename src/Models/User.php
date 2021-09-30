@@ -61,7 +61,7 @@ class User extends Model
     public function getGravatarAttribute(): string
     {
         $hash = md5(strtolower(trim($this->email)));
-        return 'https://cdn.v2ex.com/gravatar/' . $hash . '?&d=identicon';
+        return 'https://www.gravatar.com/avatar/' . $hash . '?&d=identicon';
     }
 
     /**

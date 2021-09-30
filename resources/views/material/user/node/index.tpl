@@ -44,7 +44,7 @@
 {*                    *}{foreach $nodes as $node_class => $class_group}
                             <div class="nodetitle">
                                 <a class="waves-effect waves-button" data-toggle="collapse" href="#cardgroup{$node_class - 1000}" aria-expanded="true" aria-controls="cardgroup{$node_class - 1000}">
-                                    <span>{if $node_class < 1000}试用{elseif $node_class == 1000}普通{else}VIP {$node_class - 1000} {/if}用户节点</span>
+                                    <span>{if $node_class < 1000}试用{elseif $node_class == 1000}免费{else}等级 {$node_class - 1000} {/if}用户节点</span>
                                     <i class="material-icons">expand_more</i>
                                 </a>
                             </div>
@@ -52,7 +52,7 @@
 {*                        *}{foreach $class_group as $node}
                                 <div class="node-card node-flex" cardindex="{$index}">
                                     <div class="nodemain">
-                                        <div class="nodehead node-flex">
+                                        <div class="nodehead node-flex" title="节点名称">
 {*                                        *}{if $config['enable_flag'] === true}
                                             <div class="flag">
                                                 <img src="/images/prefix/{$node['flag']}">
@@ -61,32 +61,34 @@
                                             <div class="nodename">{$node['name']}</div>
                                         </div>
                                         <!-- 在线人数 -->
-                                        <div class="nodemiddle node-flex">
+                                        <div class="nodemiddle node-flex" title="在线人数">
                                             <div class="onlinemember node-flex">
-                                                <i class="material-icons node-icon">flight_takeoff</i>
+                                                <i class="material-icons node-icon">people</i>
                                                 <span>{if $node['online_user'] == -1} N/A{else} {$node['online_user']}{/if}</span>
                                             </div>
-                                            <div class="nodetype">{$node['status']}</div>
+                                            <div class="nodetype" title="节点状态">{$node['status']}</div>
                                         </div>
                                         <div class="nodeinfo node-flex">
-                                            <!-- 节点已用流量 -->
-                                            <div class="nodetraffic node-flex">
-                                                <i class="material-icons node-icon">equalizer</i>
+                                            <!-- 节点已用/剩余可用流量 -->
+                                            <div class="nodetraffic node-flex" title="节点已用/剩余可用流量">
+                                                <i class="material-icons node-icon">swap_vertical_circle</i>
                                                 <span>{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}GB{else}{$node['traffic_used']}GB{/if}</span>
                                             </div>
                                             <!-- 节点流量倍率 -->
-                                            <div class="nodecheck node-flex">
-                                                <i class="material-icons node-icon">network_check</i>
-                                                <span>x{$node['traffic_rate']}</span>
+                                            <div class="nodecheck node-flex" title="节点流量倍率">
+                                                <i class="material-icons node-icon">stacked_line_chart</i>
+                                                <span>{$node['traffic_rate']}x</span>
                                             </div>
                                             <!-- 节点速率 -->
-                                            <div class="nodeband node-flex">
-                                                <i class="material-icons node-icon">flash_on</i>
-                                                <span>{if {$node['bandwidth']}==0}N/A{else}{$node['bandwidth']}{/if}</span>
+                                            {if {$node['bandwidth']}!=0}
+                                            <div class="nodeband node-flex" title="节点速率">
+                                                <i class="material-icons node-icon">compare_arrows</i>
+                                                <span>{$node['bandwidth']}</span>
                                             </div>
-                                            <!-- 节点负载 -->
-                                            <div class="nodeband node-flex">
-                                                <i class="material-icons node-icon">cloud</i>
+                                            {/if}
+                                            <!-- 节点系统负载 -->
+                                            <div class="nodeband node-flex" title="节点系统负载">
+                                                <i class="material-icons node-icon">dns</i>
                                                 <span>{$node['latest_load']}</span>
                                             </div>
                                         </div>
@@ -137,7 +139,7 @@
                                     <div class="tile-wrap">
 {*                                *}{$index = 0}
 {*                                *}{foreach $nodes as $node_class => $class_group}
-                                        <p class="card-heading">{if $node_class < 1000}试用{elseif $node_class == 1000}普通{else}VIP {$node_class - 1000} {/if}用户节点</p>
+                                        <p class="card-heading">{if $node_class < 1000}试用{elseif $node_class == 1000}免费{else}等级 {$node_class - 1000} {/if}用户节点</p>
 {*                                    *}{foreach $class_group as $node}
                                         <div class="tile tile-collapse">
                                             <div data-toggle="tile" data-target="#heading{$node['id']}">
@@ -148,30 +150,30 @@
                                                 </div>
                                                 <div class="tile-inner">
                                                     <div class="text-overflow node-textcolor">
-                                                        <span class="enable-flag">
+                                                        <span class="enable-flag" title="节点名称">
 {*                                                        *}{if $config['enable_flag'] === true}
-                                                            <img src="/images/prefix/{$node['flag']}" height="22" width="40" />
+                                                            <img src="/images/prefix/{$node['flag']}" height="22"/>
 {*                                                        *}{/if}
                                                             {$node['name']}
                                                         </span>
                                                         |
-                                                        <span class="node-icon"><i class="icon icon-lg">flight_takeoff</i></span>
-                                                        <strong><b><span class="node-alive">{if $node['online_user'] == -1}N/A{else}{$node['online_user']}{/if}</span></b></strong>
-                                                        |
-                                                        <span class="node-icon"><i class="icon icon-lg">cloud</i></span>
-                                                        <span class="node-load">负载：{$node['latest_load']}</span>
-                                                        |
-                                                        <span class="node-icon"><i class="icon icon-lg">import_export</i></span>
-                                                        <span class="node-mothed">{$node['bandwidth']}</span>
-                                                        |
-                                                        <span class="node-icon"><i class="icon icon-lg">equalizer</i></span>
-{*                                                    *}{if $node['traffic_limit']>0}<span class="node-band">{$node['traffic_used']}/{$node['traffic_limit']}</span>{else}{$node['traffic_used']}GB{/if}
-                                                        |
-                                                        <span class="node-icon"><i class="icon icon-lg">network_check</i></span>
-                                                        <span class="node-tr">{$node['traffic_rate']} 倍率</span>
+                                                        <span class="node-icon"><i class="icon icon-lg">people</i></span>
+                                                        <strong><b><span class="node-alive" title="在线人数">{if $node['online_user'] == -1}N/A{else}{$node['online_user']}{/if}</span></b></strong>
                                                         |
                                                         <span class="node-icon"><i class="icon icon-lg">notifications_none</i></span>
-                                                        <span class="node-status">{$node['status']}</span>
+                                                        <span class="node-status" title="节点状态">{$node['status']}</span>
+                                                        |
+                                                        <span class="node-icon"><i class="icon icon-lg">swap_vertical_circle</i></span>
+{*                                                    *}{if $node['traffic_limit']>0}<span class="node-band" title="节点已用/剩余可用流量">{$node['traffic_used']}/{$node['traffic_limit']}</span>{else}{$node['traffic_used']}GB{/if}
+                                                        |
+                                                        <span class="node-icon"><i class="icon icon-lg">stacked_line_chart</i></span>
+                                                        <span class="node-tr" title="节点流量倍率">{$node['traffic_rate']}倍</span>
+                                                        |
+                                                        <span class="node-icon"><i class="icon icon-lg">compare_arrows</i></span>
+                                                        <span class="node-mothed" title="节点速率">{if {$node['bandwidth']}==0}不限速{else}{$node['bandwidth']}{/if}</span>
+                                                        |
+                                                        <span class="node-icon"><i class="icon icon-lg">dns</i></span>
+                                                        <span class="node-load" title="节点系统负载">负载：{$node['latest_load']}</span>
                                                     </div>
                                                 </div>
                                             </div>
