@@ -29,7 +29,7 @@
     <ul class="nav nav-list pull-right">
         <div class="dropdown margin-right">
             <a class="dropdown-toggle padding-left-no padding-right-no" data-toggle="dropdown">
-                {if $user->isLogin}
+            {if $user->isLogin}
                 <span class="access-hide">{$user->user_name}</span>
                 <span class="avatar avatar-sm"><img src="{$user->gravatar}"></span>
             </a>
@@ -40,13 +40,12 @@
                         <span class="icon icon-lg margin-right">dashboard</span>管理中心
                     </a>
                 </li>
-                {else}
+                {/if}
                 <li>
                     <a class="waves-attach" href="/user">
                         <span class="icon icon-lg margin-right">account_box</span>用户中心
                     </a>
                 </li>
-                {/if}
                 <li>
                     <a href="//en.gravatar.com/" target="view_window">
                         <i class="icon icon-lg margin-right">insert_photo</i>设置头像
