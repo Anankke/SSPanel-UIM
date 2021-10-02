@@ -133,16 +133,22 @@ class User extends Command
     public function createAdmin()
     {
         if (count($this->argv) === 3) {
-            echo 'add admin/ 创建管理员帐号.....';
             // ask for input
-            fwrite(STDOUT, 'Enter your email/输入管理员邮箱: ');
+            fwrite(STDOUT, '(1/3) 请输入管理员邮箱：') . PHP_EOL;
             // get input
             $email = trim(fgets(STDIN));
+            if ($email == null) {
+                die("必须输入管理员邮箱.\r\n");
+            }
+
             // write input back
-            fwrite(STDOUT, "Enter password for: $email / 为 $email 添加密码: ");
+            fwrite(STDOUT, "(2/3) 请输入管理员账户密码：") . PHP_EOL;
             $passwd = trim(fgets(STDIN));
-            echo "Email: $email, Password: $passwd! ";
-            fwrite(STDOUT, "Press [y] to create admin..... 按下[Y]确认来确认创建管理员账户..... \n");
+            if ($passwd == null) {
+                die("必须输入管理员密码.\r\n");
+            }
+            
+            fwrite(STDOUT, "(3/3) 按 Y 或 y 确认创建：");
             $y = trim(fgets(STDIN));
         } elseif (count($this->argv) === 5) {
             [,,, $email, $passwd] = $this->argv;
@@ -150,7 +156,6 @@ class User extends Command
         }
 
         if (strtolower($y) == 'y') {
-            echo 'start create admin account';
             $current_timestamp          = time();
             // create admin user
             // do reg user
@@ -183,12 +188,12 @@ class User extends Command
             $user->ga_enable        = 0;
 
             if ($user->save()) {
-                echo 'Successful/添加成功!' . PHP_EOL;
+                echo '创建成功，请在主页登录' . PHP_EOL;
             } else {
-                echo '添加失败' . PHP_EOL;
+                echo '创建失败，请检查数据库配置' . PHP_EOL;
             }
         } else {
-            echo 'cancel' . PHP_EOL;
+            echo '已取消创建' . PHP_EOL;
         }
     }
 
