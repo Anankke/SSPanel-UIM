@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS `ss_node` (
+CREATE TABLE IF NOT EXISTS `node` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` int(3) NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `detect_log` (
   KEY `node_id` (`node_id`),
   KEY `list_id` (`list_id`),
   CONSTRAINT `detect_log_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `detect_log_ibfk_5` FOREIGN KEY (`node_id`) REFERENCES `ss_node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `detect_log_ibfk_5` FOREIGN KEY (`node_id`) REFERENCES `node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `detect_log_ibfk_6` FOREIGN KEY (`list_id`) REFERENCES `detect_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `shop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS `ss_invite_code` (
+CREATE TABLE IF NOT EXISTS `user_invite_code` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) unsigned NOT NULL,
@@ -300,11 +300,11 @@ CREATE TABLE IF NOT EXISTS `ss_invite_code` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   UNIQUE KEY `user_id` (`user_id`),
-  CONSTRAINT `ss_invite_code_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+  CONSTRAINT `user_invite_code_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS `ss_node_info` (
+CREATE TABLE IF NOT EXISTS `node_info` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `uptime` float NOT NULL,
@@ -312,22 +312,22 @@ CREATE TABLE IF NOT EXISTS `ss_node_info` (
   `log_time` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `node_id` (`node_id`),
-  CONSTRAINT `ss_node_info_ibfk_2` FOREIGN KEY (`node_id`) REFERENCES `ss_node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `node_info_ibfk_2` FOREIGN KEY (`node_id`) REFERENCES `node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS `ss_node_online_log` (
+CREATE TABLE IF NOT EXISTS `node_online_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `online_user` int(11) NOT NULL,
   `log_time` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `node_id` (`node_id`),
-  CONSTRAINT `ss_node_online_log_ibfk_3` FOREIGN KEY (`node_id`) REFERENCES `ss_node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `node_online_log_ibfk_3` FOREIGN KEY (`node_id`) REFERENCES `node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS `ss_password_reset` (
+CREATE TABLE IF NOT EXISTS `user_password_reset` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,

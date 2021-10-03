@@ -27,7 +27,7 @@ class Node extends Model
 {
     protected $connection = 'default';
 
-    protected $table = 'ss_node';
+    protected $table = 'node';
 
     protected $casts = [
         'node_speedlimit' => 'float',
