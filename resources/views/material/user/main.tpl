@@ -29,26 +29,13 @@
     <ul class="nav nav-list pull-right">
         <div class="dropdown margin-right">
             <a class="dropdown-toggle padding-left-no padding-right-no" data-toggle="dropdown">
-            {if $user->isLogin}
                 <span class="access-hide">{$user->user_name}</span>
                 <span class="avatar avatar-sm"><img src="{$user->gravatar}"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
-                {if $user->is_admin}
                 <li>
-                    <a class="padding-right-cd waves-attach" href="/admin">
-                        <span class="icon icon-lg margin-right">dashboard</span>管理中心
-                    </a>
-                </li>
-                {/if}
-                <li>
-                    <a class="waves-attach" href="/user">
-                        <span class="icon icon-lg margin-right">account_box</span>用户中心
-                    </a>
-                </li>
-                <li>
-                    <a href="//en.gravatar.com/" target="view_window">
-                        <i class="icon icon-lg margin-right">insert_photo</i>设置头像
+                    <a class="waves-attach" href="/user/edit">
+                        <span class="icon icon-lg margin-right">edit</span>资料编辑
                     </a>
                 </li>
                 <li>
@@ -57,22 +44,6 @@
                     </a>
                 </li>
             </ul>
-            {else}
-            <span class="access-hide">未登录</span>
-            <span class="icon icon-lg margin-right">account_circle</span>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li>
-                    <a class="padding-right-lg waves-attach" href="/auth/login">
-                        <span class="icon icon-lg margin-right">account_box</span>登录
-                    </a>
-                </li>
-                <li>
-                    <a class="padding-right-lg waves-attach" href="/auth/register">
-                        <span class="icon icon-lg margin-right">pregnant_woman</span>注册
-                    </a>
-                </li>
-            </ul>
-            {/if}
         </div>
     </ul>
 </header>
@@ -90,9 +61,6 @@
                         <li>
                             <a href="/user/profile"><i class="icon icon-lg">account_box</i>&nbsp;账户信息</a>
                         </li>
-                        <li>
-                            <a href="/user/edit"><i class="icon icon-lg">sync_problem</i>&nbsp;资料编辑</a>
-                        </li>
                         {if $config['subscribeLog']===true && $config['subscribeLog_show']===true}
                         <li>
                             <a href="/user/subscribe_log"><i class="icon icon-lg">important_devices</i>&nbsp;订阅记录</a>
@@ -100,7 +68,7 @@
                         {/if}
                         {if $config['enable_ticket']===true}
                             <li>
-                                <a href="/user/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单系统</a>
+                                <a href="/user/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单</a>
                             </li>
                         {/if}
                         <li>
@@ -113,18 +81,14 @@
                             <a href="/user/node"><i class="icon icon-lg">airplanemode_active</i>&nbsp;节点列表</a>
                         </li>
                         <li>
-                            <a href="/user/announcement"><i class="icon icon-lg">announcement</i>&nbsp;网站公告</a>
+                            <a href="/user/announcement"><i class="icon icon-lg">announcement</i>&nbsp;站点公告</a>
                         </li>
-                    </ul>
-                    <a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
-                    <ul class="menu-collapse collapse in" id="ui_menu_detect">
                         <li>
                             <a href="/user/detect"><i class="icon icon-lg">account_balance</i>&nbsp;审计规则</a>
                         </li>
                         <li>
                             <a href="/user/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a>
                         </li>
-                    </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_help">商店</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_help">
                         <li>
