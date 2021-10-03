@@ -89,6 +89,7 @@
                         <li>
                             <a href="/user/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a>
                         </li>
+                    </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_help">商店</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_help">
                         <li>
