@@ -11,14 +11,15 @@ class THeadPaySDK {
         $params = [
             'mchid' => $this->config['theadpay_mchid'],
             'out_trade_no' => $order['trade_no'],
-            'total_fee' => (string)$order['total_fee'],
+            'total_fee' => (string)$order['total_fee'], // in cents
             'notify_url' => $order['notify_url'],
+            'return_url' => $order['return_url'],
         ];
         $params['sign'] = $this->sign($params);
         $data = json_encode($params);
 
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $this->config['theadpay_url']);
+        curl_setopt($curl, CURLOPT_URL, $this->config['theadpay_url'] . "/{$this->config['theadpay_mchid']}");
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
@@ -30,16 +31,13 @@ class THeadPaySDK {
 
         $result = json_decode($data, true);
         if (!is_array($result) || !isset($result["status"])) {
-            throw new \Exception('未知错误');
+            throw new \Exception('网络连接异常: 无法连接支付网关');
         }
         if ($result["status"] !== "success") {
             throw new \Exception($result["message"]);
         }
 
-        return [
-            'type' => 0, // QRCode
-            'data' => $result["code_url"],
-        ];
+        return $result;
     }
 
     public function verify($params) {

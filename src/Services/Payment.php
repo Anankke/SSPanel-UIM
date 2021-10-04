@@ -11,8 +11,7 @@ use App\Services\Gateway\{
     PAYJS,
     BitPayX,
     THeadPay,
-    CoinPay,
-    EasyPay
+    CoinPay
 };
 
 class Payment
@@ -37,8 +36,6 @@ class Payment
                 return new THeadPay();
             case ('coinpay'):
                 return new CoinPay(Config::get('coinpay_secret'), Config::get('coinpay_appid'));
-            case ("easypay"):
-                return new EasyPay(Config::get('easypay_app_secret'));
             default:
                 return null;
         }

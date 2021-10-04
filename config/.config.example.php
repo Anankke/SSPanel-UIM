@@ -343,10 +343,6 @@ $_ENV['coinpay_secret'] = '';    // CoinPay 验证密钥 (*)
 $_ENV['coinpay_notify'] = '';    // 异步回调URL
 $_ENV['coinpay_return'] = '';    // 同步返回URL
 
-# EasyPay https://t.me/Easy_panel
-$_ENV['easypay_app_id'] = '';      // 商户APPID
-$_ENV['easypay_app_secret'] = '';  // 商户APPKEY
-
 #后台商品列表 销量统计
 $_ENV['sales_period']         = 30;             //统计指定周期内的销量，值为【expire/任意大于0的整数】
 
