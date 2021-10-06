@@ -8,5 +8,5 @@ namespace App\Models;
 class InviteCode extends Model
 {
     protected $connection = 'default';
-    protected $table = 'ss_invite_code';
+    protected $table = 'user_invite_code';
 }

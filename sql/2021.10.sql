@@ -1,0 +1,10 @@
+RENAME TABLE  `ss_invite_code` TO  `user_invite_code`;
+ALTER TABLE `user_invite_code` ADD CONSTRAINT `user_invite_code_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+RENAME TABLE  `ss_node` TO  `node`;
+ALTER TABLE `detect_log` ADD CONSTRAINT `detect_log_ibfk_5` FOREIGN KEY (`node_id`) REFERENCES `node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+RENAME TABLE  `ss_node_info` TO  `node_info`;
+TRUNCATE `node_info`;
+ALTER TABLE `node_info` ADD CONSTRAINT `node_info_ibfk_2` FOREIGN KEY (`node_id`) REFERENCES `node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+RENAME TABLE  `ss_node_online_log` TO  `node_online_log`;
+ALTER TABLE `node_online_log` ADD CONSTRAINT `node_online_log_ibfk_3` FOREIGN KEY (`node_id`) REFERENCES `node` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+RENAME TABLE  `ss_password_reset` TO  `user_password_reset`;

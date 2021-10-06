@@ -111,10 +111,10 @@ class ConfGenerate
         $Rule = self::getRule($Configs['Rule']);
 
         $Conf = [
-            '#!MANAGED-CONFIG ' . $_ENV['baseUrl'] . $_SERVER['REQUEST_URI'],
+            '#!MANAGED-CONFIG ' .((int)$_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
             '',
             '#---------------------------------------------------#',
-            '## 上次更新于：' . date("Y-m-d h:i:s"),
+            '## 上次更新于：' . date("Y-m-d H:i:s"),
             '#---------------------------------------------------#',
             '',
             '[General]',
@@ -337,10 +337,10 @@ class ConfGenerate
         );
 
         $Conf = [
-            '#!MANAGED-CONFIG ' . $_ENV['baseUrl'] . $_SERVER['REQUEST_URI'],
+            '#!MANAGED-CONFIG ' .((int)$_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
             '',
             '#---------------------------------------------------#',
-            '## 上次更新于：' . date("Y-m-d h:i:s"),
+            '## 上次更新于：' . date("Y-m-d H:i:s"),
             '#---------------------------------------------------#',
             '',
             Yaml::dump($tmp, 4, 2),

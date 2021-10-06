@@ -152,10 +152,6 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 - [Anankke 很可爱请给 Anankke 钱](https://t.me/anankke/7)
 
-#### dumplin
-
-- [码支付-微信收款功能开通](https://codepay.fateqq.com/i/39756)
-
 #### galaxychuck
 
 - [Moecloud-美國VPS](https://lite.moe/aff.php?aff=56)
@@ -166,5 +162,5 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 #### M1Screw
 
-- [Vultr-不用我多解釋了吧](https://www.vultr.com/?ref=8403120-6G)
+- [Vultr-不用我多解釋了吧](https://www.vultr.com/?ref=8941355-8H)
 

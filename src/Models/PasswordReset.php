@@ -5,7 +5,7 @@ namespace App\Models;
 class PasswordReset extends Model
 {
     protected $connection = 'default';
-    protected $table = 'ss_password_reset';
+    protected $table = 'user_password_reset';
 
     /**
      * 获取对应用户

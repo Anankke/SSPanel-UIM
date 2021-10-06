@@ -12,6 +12,7 @@ use App\Models\Ip;
 use App\Models\Node;
 use App\Models\NodeInfoLog;
 use App\Models\NodeOnlineLog;
+use App\Models\PasswordReset;
 use App\Models\Shop;
 use App\Models\TelegramSession;
 use App\Models\Token;
@@ -97,6 +98,7 @@ class Job extends Command
         NodeOnlineLog::where('log_time', '<', time() - 86400 * 3)->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
+        PasswordReset::where('expire_time', '<', time() - 86400 * 3)->delete();
         Ip::where('datetime', '<', time() - 300)->delete();
         UnblockIp::where('datetime', '<', time() - 300)->delete();
         BlockIp::where('datetime', '<', time() - 86400)->delete();

@@ -43,11 +43,13 @@ class THeadPay extends AbstractPayment
                 'trade_no'      => $pl->tradeno,
                 'total_fee'     => $pl->total*100,
                 'notify_url'    => rtrim($_ENV['baseUrl'], '/') . '/payment/notify',
+                'return_url'    => rtrim($_ENV['baseUrl'], '/') . '/payment/notify',
+                'return_url'    => rtrim($_ENV['baseUrl'], '/') . '/user/payment/return?out_trade_no=' . $pl->tradeno,
             ]);
 
             return $response->withJson([
                 'ret'       => 1,
-                'qrcode'    => $res['data'],
+                'qrcode'    => $res['code_url'],
                 'amount'    => $pl->total,
                 'pid'       => $pl->tradeno,
             ]);

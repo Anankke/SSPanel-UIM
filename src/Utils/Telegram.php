@@ -32,18 +32,10 @@ class Telegram
                     'reply_to_message_id'       => null,
                     'reply_markup'              => null
                 ];
-                try {
-                    $bot->sendMessage($sendMessage);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $bot->sendMessage($sendMessage);
             } else {
                 $bot = new BotApi($_ENV['telegram_token']);
-                try {
-                    $bot->sendMessage($chat_id, $messageText);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+                $bot->sendMessage($chat_id, $messageText);
             }
         }
     }
