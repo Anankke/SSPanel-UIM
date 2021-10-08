@@ -172,6 +172,7 @@
                 data: {
                     name: $$getValue('name'),
                     server: $$getValue('server'),
+                    custom_config: editor.get(),
                     node_ip: $$getValue('node_ip'),
                     rate: $$getValue('rate'),
                     info: $$getValue('info'),
