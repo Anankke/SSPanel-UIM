@@ -145,7 +145,6 @@
         mode: 'tree'
     };
     const editor = new JSONEditor(container, options);
-    editor.set("\'{}\'")
 {literal}
     $('#main_form').validate({
         rules: {
