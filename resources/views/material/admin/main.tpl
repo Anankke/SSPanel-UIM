@@ -9,11 +9,13 @@
     <!-- css -->
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/material-design-lite@1.3.0/dist/material.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.19/media/css/dataTables.material.min.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/material-design-lite@1.3.0/dist/material.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.19/media/css/dataTables.material.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/jsoneditor/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
     <!-- js -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
+    <script src="//cdn.jsdelivr.net/npm/jsoneditor/dist/jsoneditor.min.js"></script>
     <!-- favicon -->
     <!-- ... -->
     <style>
@@ -31,6 +33,10 @@
 
         a[href='#ui_menu'] {
             color: #212121;
+        }
+
+        #custom_config {
+            height: 500px;
         }
     </style>
 </head>

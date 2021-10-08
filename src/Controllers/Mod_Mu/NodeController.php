@@ -70,7 +70,7 @@ class NodeController extends BaseController
             ];
             return $response->withJson($res);
         }
-        if (in_array($node->sort, [0, 10])) {
+        if (in_array($node->sort, [0])) {
             $node_explode = explode(';', $node->server);
             $node_server = $node_explode[0];
         } else {
@@ -84,9 +84,12 @@ class NodeController extends BaseController
             'mu_only' => $node->mu_only,
             'sort' => $node->sort,
             'server' => $node_server,
+            'custom_config' => $node->custom_config,
             'disconnect_time' => $_ENV['disconnect_time'],
-            'type' => 'SSPanel-UIM'
+            'type' => 'SSPanel-UIM',
+            'version' => '2021.11'
         ];
+
         $res = [
             'ret' => 1,
             'data' => $data
