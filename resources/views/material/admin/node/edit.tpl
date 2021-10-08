@@ -153,6 +153,7 @@
     editor.set({$node->custom_config})
 {literal}
     $('#main_form').validate({
+        ignore: ".jsoneditor *",
         rules: {
             name: {required: true},
             server: {required: true},

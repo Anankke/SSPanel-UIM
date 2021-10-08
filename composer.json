@@ -25,7 +25,8 @@
         "symfony/yaml": "^4.4@dev",
         "telegram-bot/api": "^2.2",
         "voku/anti-xss": "^1.2",
-        "zeuxisoo/slim-whoops": "0.5.*"
+        "zeuxisoo/slim-whoops": "0.5.*",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

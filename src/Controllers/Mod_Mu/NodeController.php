@@ -84,7 +84,7 @@ class NodeController extends BaseController
             'mu_only' => $node->mu_only,
             'sort' => $node->sort,
             'server' => $node_server,
-            'custom_config' => $node->custom_config,
+            'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'disconnect_time' => $_ENV['disconnect_time'],
             'type' => 'SSPanel-UIM',
             'version' => '2021.11'

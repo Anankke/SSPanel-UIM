@@ -147,6 +147,7 @@
     const editor = new JSONEditor(container, options);
 {literal}
     $('#main_form').validate({
+        ignore: ".jsoneditor *",
         rules: {
             name: {required: true},
             rate: {required: true},
