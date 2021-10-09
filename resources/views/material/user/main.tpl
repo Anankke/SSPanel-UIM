@@ -30,7 +30,7 @@
         <div class="dropdown margin-right">
             <a class="dropdown-toggle padding-left-no padding-right-no" data-toggle="dropdown">
                 <span class="access-hide">{$user->user_name}</span>
-                <span class="avatar avatar-sm"><img src="{$user->gravatar}"></span>
+                <span class="avatar avatar-sm"><img src="/images/uim-logo-round.png"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
