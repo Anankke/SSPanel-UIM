@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `node` (
   `name` varchar(128) NOT NULL,
   `type` int(3) NOT NULL,
   `server` varchar(512) NOT NULL,
-  `custom_config` text NOT NULL DEFAULT '{}',
+  `custom_config` text NOT NULL,
   `info` varchar(128) NOT NULL DEFAULT '',
   `status` varchar(128) NOT NULL DEFAULT '',
   `sort` int(3) NOT NULL,
