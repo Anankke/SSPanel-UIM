@@ -4,12 +4,9 @@ namespace App\Services;
 
 use App\Services\Gateway\{
     AopF2F,
-    Codepay,
     Vmqpay,
     PaymentWall,
-    SPay,
     PAYJS,
-    BitPayX,
     THeadPay,
     CoinPay
 };
@@ -20,14 +17,10 @@ class Payment
     {
         $method = $_ENV['payment_system'];
         switch ($method) {
-            case ('codepay'):
-                return new Codepay();
             case ('vmqpay'):
                 return new Vmqpay();
             case ('paymentwall'):
                 return new PaymentWall();
-            case ('spay'):
-                return new SPay();
             case ('f2fpay'):
                 return new AopF2F();
             case ('payjs'):
