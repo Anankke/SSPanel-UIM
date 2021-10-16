@@ -301,10 +301,6 @@ $_ENV['payment_system']       = 'none';     // todo: ['gateway1', 'gateway2']
 $_ENV['vmqpay_key']           = '';          //v免签通讯密钥
 $_ENV['vmqpay_gateway']       = '';          //v免签网关地址如 https://pay.com
 
-# codepay码支付
-$_ENV['codepay_id']           = '';          //码支付ID
-$_ENV['codepay_key']          = '';          //码支付通信密钥
-
 # alipay,f2fpay
 $_ENV['f2fpay_app_id']        = '';
 $_ENV['f2fpay_p_id']          = '';
@@ -317,11 +313,6 @@ $_ENV['pmw_publickey']        = '';
 $_ENV['pmw_privatekey']       = '';
 $_ENV['pmw_widget']           = 'm2_1';
 $_ENV['pmw_height']           = '350px';
-
-# alipay,spay
-$_ENV['alipay_id']            = '';
-$_ENV['alipay_key']           = '';
-$_ENV['amount']               = [2, 23, 233, 2333, 23333];        //充值金额选项设定
 
 # alipay,zfbjk.com
 $_ENV['zfbjk_pid']            = '';
