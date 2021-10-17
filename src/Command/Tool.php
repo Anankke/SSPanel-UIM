@@ -63,7 +63,13 @@ class Tool extends Command
     {
         echo ('正在下载或更新纯真ip数据库...') . PHP_EOL;
         $path  = BASE_PATH . '/storage/qqwry.dat';
-        $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
+        $stream_opts = [
+        "ssl" => [
+        "verify_peer"=>false,
+        "verify_peer_name"=>false,
+        ]
+        ]; 
+        $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim',true, stream_context_create($stream_opts));
         if ($qqwry != '') {
             if (is_file($path)) {
                 rename($path, $path . '.bak');
