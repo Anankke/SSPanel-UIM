@@ -36,3 +36,6 @@ storage/*.*
 public/.user.ini
 
 resources/views/material/analytics.tpl
+
+.envrc.local
+.direnv/
