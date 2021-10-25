@@ -36,16 +36,18 @@
                         </div>
                     </div>
                 </div>
-                {if $pmw!=''}
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card margin-bottom-no">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    {$pmw}
+                {if count($payments) > 0}
+                    {foreach from=$payments item=payment}
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card margin-bottom-no">
+                                <div class="card-main" id="card-{$payment::_name()}">
+                                    <div class="card-inner">
+                                        {$payment::getPurchaseHTML()}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {/foreach}
                 {/if}
                 <div class="col-lg-12 col-md-12">
                     <div class="card margin-bottom-no">

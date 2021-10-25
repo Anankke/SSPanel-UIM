@@ -18,11 +18,24 @@ class CoinPay extends AbstractPayment
     private $coinPayGatewayUrl;
     private $coinPayAppId;
 
+    public static function _name() 
+    {
+        return 'coinpay';
+    }
+
+    public static function _enable() 
+    {
+        return $_ENV['coinpay_enable'];
+    }   
+
+    public static function _readableName() {
+        return "CoinPay 支持BTC、ETH、USDT等数十种数字货币";
+    }
 
     public function __construct($coinPaySecret, $coinPayAppId)
     {
-        $this->coinPaySecret = $coinPaySecret;
-        $this->coinPayAppId = $coinPayAppId;
+        $this->coinPaySecret = $_ENV['coinpay_secret'];
+        $this->coinPayAppId = $_ENV['coinpay_appid'];
         $this->coinPayGatewayUrl = "https://openapi.coinpay.la/"; // 网关地址
     }
 
@@ -53,7 +66,7 @@ class CoinPay extends AbstractPayment
         $report_data->SetTotal_amount($total_fee);
         $report_data->SetTimestamp(date('Y-m-d H:i:s', time()));
         $report_data->SetReturn_url(Config::get('baseUrl') . '/user/code');
-        $report_data->SetNotify_url(Config::get('baseUrl') . '/payment/coinpay/notify');
+        $report_data->SetNotify_url(self::getCallbackUrl());
 //        $report_data->SetBody(json_encode($pl));
 //        $report_data->SetTransCurrency("CNY");
 //        $report_data->SetAttach("");
@@ -137,22 +150,22 @@ class CoinPay extends AbstractPayment
         // TODO: Implement getStatus() method.
     }
 
-    public function getPurchaseHTML()
+    public static function getPurchaseHTML()
     {
         return '<div class="card-inner">
 						<div class="form-group pull-left">
                             <p class="modal-title">CoinPay 支持BTC、ETH、USDT等数十种数字货币</p>
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="price">充值金额</label>
-                                <input id="type" class="form-control maxwidth-edit" name="amount" />
+                                <label class="floating-label" for="amount-coinpay">充值金额</label>
+                                <input id="amount-coinpay" class="form-control maxwidth-edit" name="amount-coinpay" />
                             </div>
-                             <a class="btn btn-flat waves-attach" id="submitSpay" style="padding: 8px 24px;color: #fff;background: #1890ff;"><span class="icon">check</span>&nbsp;充&nbsp;值&nbsp;</a>
+                             <a class="btn btn-flat waves-attach" id="submitCoinPay" style="padding: 8px 24px;color: #fff;background: #1890ff;"><span class="icon">check</span>&nbsp;充&nbsp;值&nbsp;</a>
                         </div>
                     </div>
                         <script>
                         window.onload = function(){
-        $("#submitSpay").click(function() {
-            var price = parseFloat($("#type").val());
+        $("#submitCoinPay").click(function() {
+            var price = parseFloat($("#amount-coinpay").val());
             if (isNaN(price)) {
                 $("#result").modal();
                 $("#msg").html("非法的金额!");
@@ -161,7 +174,7 @@ class CoinPay extends AbstractPayment
             $(\'#readytopay\').modal();
             $("#readytopay").on(\'shown.bs.modal\', function () {
                 $.ajax({
-                    \'url\': "/user/payment/purchase",
+                    \'url\': "/user/payment/purchase/coinpay",
                     \'data\': {
                         \'price\': price,
                     },

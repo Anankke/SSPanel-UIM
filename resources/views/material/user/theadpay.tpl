@@ -3,8 +3,8 @@
         <div class="col-lg-6 col-md-6">
             <p class="card-heading">支付宝/微信在线充值</p>
             <div class="form-group form-group-label">
-                <label class="floating-label" for="amount">金额</label>
-                <input class="form-control" id="amount" type="text">
+                <label class="floating-label" for="amount-theadpay">金额</label>
+                <input class="form-control" id="amount-theadpay" type="text">
             </div>
         </div>
         <div class="col-lg-6 col-md-6">
@@ -12,18 +12,18 @@
         </div>
     </div>
 </div>
-<a class="btn btn-flat waves-attach" id="pay" onclick="pay();"><span class="icon">check</span>&nbsp;立即充值</a>
+<a class="btn btn-flat waves-attach" id="theadpay" onclick="theadpay();"><span class="icon">check</span>&nbsp;立即充值</a>
 <script>
     var pid = 0;
     var flag = false;
-    function pay() {
+    function theadpay() {
         $("#readytopay").modal('show');
         $.ajax({
             type: "POST",
-            url: "/user/payment/purchase",
+            url: "/user/payment/purchase/theadpay",
             dataType: "json",
             data: {
-                amount: $$getValue('amount')
+                amount: $$getValue('amount-theadpay')
             },
             success: (data) => {
                 if (data.ret) {
@@ -39,7 +39,7 @@
                     });
                     $$.getElementById('qrcode').setAttribute('href', data.qrcode);
                     if(flag == false){
-                        setTimeout(f, 1000);
+                        setTimeout(fthead, 1000);
                         flag = true;
                     }else{
                         return 0;
@@ -59,10 +59,10 @@
             }
         })
     }
-    function f() {
+    function fthead() {
         $.ajax({
             type: "POST",
-            url: "/payment/status",
+            url: "/payment/status/theadpay",
             dataType: "json",
             data: {
                 pid: pid

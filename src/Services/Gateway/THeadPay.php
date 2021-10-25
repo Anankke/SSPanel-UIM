@@ -9,6 +9,20 @@ use Exception;
 
 class THeadPay extends AbstractPayment
 {
+    public static function _name() 
+    {
+        return 'theadpay';
+    }
+
+    public static function _enable() 
+    {
+        return $_ENV['theadpay_enable'];
+    }
+
+    public static function _readableName() {
+        return "THeadPay 平头哥支付";
+    }
+
     protected $sdk;
 
     public function __construct()
@@ -42,9 +56,8 @@ class THeadPay extends AbstractPayment
             $res = $this->sdk->pay([
                 'trade_no'      => $pl->tradeno,
                 'total_fee'     => $pl->total*100,
-                'notify_url'    => rtrim($_ENV['baseUrl'], '/') . '/payment/notify',
-                'return_url'    => rtrim($_ENV['baseUrl'], '/') . '/payment/notify',
-                'return_url'    => rtrim($_ENV['baseUrl'], '/') . '/user/payment/return?out_trade_no=' . $pl->tradeno,
+                'notify_url'    => self::getCallbackUrl(),
+                'return_url'    => self::getUserReturnUrl(),
             ]);
 
             return $response->withJson([
@@ -77,7 +90,7 @@ class THeadPay extends AbstractPayment
     }
 
 
-    public function getPurchaseHTML()
+    public static function getPurchaseHTML()
     {
         return View::getSmarty()->fetch('user/theadpay.tpl');
     }

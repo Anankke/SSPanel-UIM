@@ -117,7 +117,8 @@ class UserController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('codes', $codes)
-                ->assign('pmw', Payment::purchaseHTML())
+                ->assign('payments', Payment::getPaymentsEnabled())
+                // ->assign('pmw', Payment::purchaseHTML())
                 ->assign('render', $render)
                 ->display('user/code.tpl')
         );

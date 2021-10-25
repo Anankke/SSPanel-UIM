@@ -3,8 +3,8 @@
         <div class="col-lg-6 col-md-6">
             <p class="card-heading">支付宝在线充值</p>
             <div class="form-group form-group-label">
-                <label class="floating-label" for="amount">金额</label>
-                <input class="form-control" id="amount" type="text">
+                <label class="floating-label" for="amount-f2fpay">金额</label>
+                <input class="form-control" id="amount-f2fpay" type="text">
             </div>
         </div>
         <div class="col-lg-6 col-md-6">
@@ -12,18 +12,18 @@
         </div>
     </div>
 </div>
-<a class="btn btn-flat waves-attach" id="pay" onclick="pay();"><span class="icon">check</span>&nbsp;充值</a>
+<a class="btn btn-flat waves-attach" id="f2fpay" onclick="f2fpay();"><span class="icon">check</span>&nbsp;充值</a>
 <script>
     var pid = 0; 
     var flag = false;
-    function pay() {
+    function f2fpay() {
         $("#readytopay").modal('show');
         $.ajax({
             type: "POST",
-            url: "/user/payment/purchase",
+            url: "/user/payment/purchase/f2fpay",
             dataType: "json",
             data: {
-                amount: $$getValue('amount')
+                amount: $$getValue('amount-f2fpay')
             },
             success: (data) => {
                 if (data.ret) {
@@ -39,7 +39,7 @@
                     });
                     $$.getElementById('qrcode').setAttribute('href', data.qrcode);
                     if(flag == false){
-                        setTimeout(f, 1000);
+                        setTimeout(ff2f, 1000);
                         flag = true;
                     }else{
                         return 0;
@@ -59,10 +59,10 @@
             }
         })
     }
-    function f() {
+    function ff2f() {
         $.ajax({
             type: "POST",
-            url: "/payment/status",
+            url: "/payment/status/f2fpay",
             dataType: "json",
             data: {
                 pid: pid

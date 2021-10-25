@@ -8,6 +8,16 @@ use App\Models\Paylist;
 class Vmqpay extends AbstractPayment
 {
 
+    public static function _name() 
+    {
+        return 'vmqpay';
+    }
+
+    public static function _enable() 
+    {
+        return $_ENV['vmqpay_enable'];
+    }
+
     public function purchase($request, $response, $args)
     {
         $vmqpay_key = $_ENV['vmqpay_key'];
@@ -51,19 +61,19 @@ class Vmqpay extends AbstractPayment
         $this->postPayment($payId, '在线支付');
     }
 	
-    public function getPurchaseHTML()
+    public static function getPurchaseHTML()
     {
         return '
-                        <div class="card-inner">
-                        <p class="card-heading">请输入充值金额</p>
-                        <form class="vmqpay" name="vmqpay" action="/user/code/vmqpay" method="get">
-                            <input class="form-control maxwidth-edit" id="price" name="price" placeholder="输入充值金额后，点击你要付款的应用图标即可" autofocus="autofocus" type="number" min="0.01" max="1000" step="0.01" required="required">
-                            <br>
-                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="2" ><img src="/images/alipay.jpg" width="50px" height="50px" /></button>
-                            <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="1" ><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
-                        </form>
-                        </div>
-';
+            <div class="card-inner">
+            <p class="card-heading">请输入充值金额</p>
+            <form class="vmqpay" name="vmqpay" action="/user/payment/purchase/vmqpay" method="get">
+                <input class="form-control maxwidth-edit" id="price" name="price" placeholder="输入充值金额后，点击你要付款的应用图标即可" autofocus="autofocus" type="number" min="0.01" max="1000" step="0.01" required="required">
+                <br>
+                <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="2" ><img src="/images/alipay.jpg" width="50px" height="50px" /></button>
+                <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="1" ><img src="/images/weixin.jpg" width="50px" height="50px" /></button>
+            </form>
+            </div>
+        ';
     }
 	
     public function getReturnHTML($request, $response, $args)
