@@ -19,6 +19,16 @@ use Paymentwall_Widget;
 
 class PaymentWall extends AbstractPayment
 {
+    public static function _name() 
+    {
+        return 'paymentwall';
+    }
+
+    public static function _enable() 
+    {
+        return $_ENV['pmw_enable'];
+    }
+
     public function purchase($request, $response, $args)
     {
         // TODO: Implement purchase() method.
@@ -80,7 +90,7 @@ class PaymentWall extends AbstractPayment
     }
 
 
-    public function getPurchaseHTML()
+    public static function getPurchaseHTML()
     {
         Paymentwall_Config::getInstance()->set(array(
             'api_type' => Paymentwall_Config::API_VC,

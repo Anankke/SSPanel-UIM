@@ -16,6 +16,20 @@ use Omnipay\Omnipay;
 
 class AopF2F extends AbstractPayment
 {
+    public static function _name() 
+    {
+        return 'f2fpay';
+    }
+
+    public static function _enable() 
+    {
+        return $_ENV['f2fpay_enable'];
+    }
+
+    public static function _readableName() {
+        return "支付宝在线充值";
+    }
+
     private function createGateway()
     {
         $gateway = Omnipay::create('Alipay_AopF2F');
@@ -23,7 +37,7 @@ class AopF2F extends AbstractPayment
         $gateway->setAppId($_ENV['f2fpay_app_id']);
         $gateway->setPrivateKey($_ENV['merchant_private_key']); // 可以是路径，也可以是密钥内容
         $gateway->setAlipayPublicKey($_ENV['alipay_public_key']); // 可以是路径，也可以是密钥内容
-        $notifyUrl = $_ENV['f2fNotifyUrl'] ?? ($_ENV['baseUrl'] . '/payment/notify');
+        $notifyUrl = $_ENV['f2fNotifyUrl'] ?? (self::getCallbackUrl());
         $gateway->setNotifyUrl($notifyUrl);
         return $gateway;
     }
@@ -89,7 +103,7 @@ class AopF2F extends AbstractPayment
     }
 
 
-    public function getPurchaseHTML()
+    public static function getPurchaseHTML()
     {
         return View::getSmarty()->fetch('user/aopf2f.tpl');
     }

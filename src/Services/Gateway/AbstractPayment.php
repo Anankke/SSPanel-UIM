@@ -32,6 +32,25 @@ abstract class AbstractPayment
     abstract public function notify($request, $response, $args);
 
     /**
+     * 支付网关的 codeName, 规则为 [0-9a-zA-Z_]*
+     */
+    abstract public static function _name();
+
+    /**
+     * 是否启用支付网关
+     * 
+     * TODO: 传入目前用户信, etc..
+     */
+    abstract public static function _enable();
+
+    /**
+     * 显示给用户的名称
+     */
+    public static function _readableName() {
+        return (get_called_class())::_name() . ' 充值';
+    }
+    
+    /**
      * @param Request   $request
      * @param Response  $response
      * @param array     $args
@@ -45,7 +64,15 @@ abstract class AbstractPayment
      */
     abstract public function getStatus($request, $response, $args);
 
-    abstract public function getPurchaseHTML();
+    abstract public static function getPurchaseHTML();
+
+    protected static function getCallbackUrl() {
+        return $_ENV['baseUrl'] . '/payment/notify/' . (get_called_class())::_name();
+    }
+
+    protected static function getUserReturnUrl() {
+        return $_ENV['baseUrl'] . '/user/payment/return/' . (get_called_class())::_name();
+    }
 
     public function postPayment($pid, $method)
     {
