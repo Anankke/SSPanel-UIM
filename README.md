@@ -37,7 +37,7 @@ SSPanel UIM 的需要以下程序才能正常的安装和运行：
 - PHP 7.2+
 - Composer
 
-SSPanel UIM 支持安装在 LNMP、宝塔面板、Plesk、Oneinstack 等集成环境中。安装教程请参阅 [文档](https://wiki.sspanel.host)。
+SSPanel UIM 支持安装在 LNMP、宝塔面板、Plesk、Oneinstack 等集成环境中。安装教程请参阅 [文档](https://wiki.sspanel.org)。
 
 ## 演示
 
@@ -53,7 +53,7 @@ mukey ShirakamiFubuki
 
 > 我们安装，我们更新，我们开发
 
-[SSPanel UIM 的文档](https://wiki.sspanel.host)，在这里你可以找到大部分问题的解答。
+[SSPanel UIM 的文档](https://wiki.sspanel.org)，在这里你可以找到大部分问题的解答。
 
 ## 贡献
 
