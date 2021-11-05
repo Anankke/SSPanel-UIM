@@ -2,7 +2,7 @@
 
 namespace App\Services\Gateway\CoinPay;
 
-use App\Services\Setting;
+use App\Models\Setting;
 
 class CoinPayConfig extends CoinPayConfigInterface
 {

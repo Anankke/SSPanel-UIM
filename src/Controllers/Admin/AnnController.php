@@ -105,7 +105,6 @@ class AnnController extends AdminController
     public function add($request, $response, $args)
     {
         $issend   = $request->getParam('issend');
-        $PushBear = $request->getParam('PushBear');
         $vip      = $request->getParam('vip');
         $content  = $request->getParam('content');
         $subject  = $_ENV['appName'] . '-公告';
@@ -122,17 +121,6 @@ class AnnController extends AdminController
                     'msg' => '添加失败'
                 ]);
             }
-        }
-        if ($PushBear == 1) {
-            $PushBear_sendkey = $_ENV['PushBear_sendkey'];
-            $postdata         = http_build_query(
-                array(
-                    'text'    => $subject,
-                    'desp'    => $request->getParam('markdown'),
-                    'sendkey' => $PushBear_sendkey
-                )
-            );
-            file_get_contents('https://pushbear.ftqq.com/sub?' . $postdata, false);
         }
         if ($issend == 1) {
             $beginSend = ($request->getParam('page') - 1) * $_ENV['sendPageLimit'];
@@ -157,16 +145,9 @@ class AnnController extends AdminController
             }
         }
         Telegram::SendMarkdown('新公告：' . PHP_EOL . $request->getParam('markdown'));
-        if ($issend == 1 && $PushBear == 1) {
-            $msg = '公告添加成功，邮件发送和PushBear推送成功';
-        }
-        if ($issend == 1 && $PushBear != 1) {
+        if ($issend == 1) {
             $msg = '公告添加成功，邮件发送成功';
-        }
-        if ($issend != 1 && $PushBear == 1) {
-            $msg = '公告添加成功，PushBear推送成功';
-        }
-        if ($issend != 1 && $PushBear != 1) {
+        } else {
             $msg = '公告添加成功';
         }
         return $response->withJson([

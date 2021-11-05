@@ -704,7 +704,7 @@ class UserController extends BaseController
             return $response->withJson($res);
         }
         
-        if (Setting::obtain('reg_mode')) {
+        if (Setting::obtain('reg_email_verify')) {
             $emailcode = $request->getParam('emailcode');
             $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount == null) {

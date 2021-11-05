@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Services\Setting;
+use App\Models\Setting;
 use App\Services\Gateway\CoinPay;
 
 class CoinPayment

@@ -100,7 +100,7 @@ return function (SlimApp $app) {
 
         //Reconstructed Payment System
         $this->post('/payment/purchase/{type}',        App\Services\Payment::class . ':purchase');
-        $this->get('/payment/purchase/{type}',        App\Services\Payment::class . ':purchase');
+        $this->get('/payment/purchase/{type}',         App\Services\Payment::class . ':purchase');
         $this->get('/payment/return/{type}',           App\Services\Payment::class . ':returnHTML');
 
         $this->post('/doiam',                   App\Services\Payment::class . ':purchase');

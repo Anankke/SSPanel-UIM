@@ -2,13 +2,14 @@
 
 namespace App\Command;
 
-use App\Models\User as ModelsUser;
-use App\Services\Config;
+use Exception;
 use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Tools;
-use Exception;
 use Ramsey\Uuid\Uuid;
+use App\Services\Config;
+use App\Models\Setting;
+use App\Models\User as ModelsUser;
 
 class User extends Command
 {

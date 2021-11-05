@@ -583,8 +583,9 @@
                                     </nav>
                                             
                                     <div class="tab-pane fade active in" id="custom_background_image">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>默认背景图片一地址：/theme/material/css/images/bg/amber.jpg</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>默认背景图片二地址：/theme/material/css/images/bg/streak.jpg</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>默认背景图片地址：/theme/material/css/images/bg/amber.jpg <a href="/theme/material/css/images/bg/amber.jpg">预览</a></p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>自带背景图片一地址：/theme/material/css/images/bg/streak.jpg <a href="/theme/material/css/images/bg/streak.jpg">预览</a></p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>自带背景图片二地址：/theme/material/css/images/bg/geometry.jpg <a href="/theme/material/css/images/bg/geometry.jpg">预览</a></p>
                                         <p class="form-control-guide"><i class="material-icons">info</i>如需自定义，图片地址可以指向 public 目录或图床图片地址</p>
                                         <!-- user_center_bg -->
                                         <div class="form-group form-group-label">

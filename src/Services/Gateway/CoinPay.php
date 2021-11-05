@@ -2,10 +2,10 @@
 
 namespace App\Services\Gateway;
 
-use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Config;
-use App\Services\Setting;
+use App\Models\Paylist;
+use App\Models\Setting;
 use App\Services\Gateway\CoinPay\CoinPayApi;
 use App\Services\Gateway\CoinPay\CoinPayConfig;
 use App\Services\Gateway\CoinPay\CoinPayException;
