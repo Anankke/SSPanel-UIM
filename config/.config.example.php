@@ -37,41 +37,10 @@ $_ENV['db_prefix']    = '';
 
 
 //邮件设置--------------------------------------------------------------------------------------------
-$_ENV['mailDriver']         = 'none';       //发送邮件方式：none / mailgun / smtp / sendgrid / ses
 $_ENV['sendPageLimit']      = 50;           //发信分页 解决大站发公告超时问题
 $_ENV['email_queue']        = true;         //如题，自动计划任务邮件使用队列 需要每分钟执行 php xcat Job SendMail
 $_ENV['mail_filter']        = 0;            //0: 关闭; 1: 白名单模式; 2; 黑名单模式;
 $_ENV['mail_filter_list']   = array("qq.com", "vip.qq.com", "foxmail.com");
-
-
-# mailgun
-$_ENV['mailgun_key']     = '';
-$_ENV['mailgun_domain']  = '';
-$_ENV['mailgun_sender']  = '';
-
-# smtp
-$_ENV['smtp_host']          = '';                          // SMTP 邮局服务器域名
-$_ENV['smtp_username']      = '';                          // SMTP 账户名
-$_ENV['smtp_password']      = '';                          // SMTP 账户密码
-$_ENV['smtp_port']          = 465;                         // SMTP 端口(常见端口 25, 587 465)
-$_ENV['smtp_name']          = '';                          // SMTP 发信名称
-$_ENV['smtp_sender']        = '';                          // SMTP 账户发信地址
-$_ENV['smtp_ssl']           = true;                        // 是否使用 TLS/SSL 发信
-$_ENV['smtp_bbc']           = '';                          // 发给用户的邮件密送给指定邮箱备份
-$_ENV['smtp_reply_to']      = $_ENV['smtp_username'];      // 用户回复邮件的接受地址
-$_ENV['smtp_reply_to_name'] = $_ENV['smtp_sender'];        // 回复地址显示名
-$_ENV['smtp_save_sent']     = false;                       // 将发送的邮件保存
-$_ENV['smtp_save_path']     = '{' . $_ENV['smtp_host'] . '}Sent';
-
-
-# sendgrid
-$_ENV['sendgrid_key']    = '';
-$_ENV['sendgrid_sender'] = '';       //发件邮箱
-$_ENV['sendgrid_name']   = '';       //发件人名称
-
-#aws ses
-$_ENV['aws_access_key_id']      = '';
-$_ENV['aws_secret_access_key']  = '';
 
 
 //备份设置--------------------------------------------------------------------------------------------
@@ -111,7 +80,6 @@ $_ENV['auto_clean_unused_days']     = -1;           //自动清理多少天没�
 $_ENV['auto_clean_min_money']       = 1;            //余额低于多少的0级用户可以被清理
 
 $_ENV['code_payback']               = 20;           //充值返利百分比
-$_ENV['invite_gift']                = 2;            //邀请新用户获得流量奖励，单位G
 
 $_ENV['enable_bought_reset']        = true;         //购买时是否重置流量
 $_ENV['enable_bought_extend']       = true;         //购买时是否延长等级期限（同等级配套）
@@ -254,15 +222,6 @@ $_ENV['telegram_general_terms']             = '服务条款.';                  
 #Telegram
 $_ENV['enable_telegram_login']              = false;   //开启这个设置前请先配置 Telegram bot 否则不会生效
 
-//沟通设置--------------------------------------------------------------------------------------------
-$_ENV['live_chat']            = 'none';   //是否开启客服系统 none  crisp  mylivechat
-$_ENV['mylivechat_id']        = '';      //客服系统ID，注册地址 https://www.mylivechat.com
-$_ENV['crisp_id']             = '';      //客服系统ID，注册地址 https://crisp.chat/en/
-$_ENV['tawk_id']              = '';      //客服系统ID，注册地址 https://tawk.to/
-
-# PushBear 基于微信模板的向关注了二维码的用户以微信方式推送消息 https://pushbear.ftqq.com/，目前仅用户推送新公告
-$_ENV['usePushBear']          = false;
-$_ENV['PushBear_sendkey']     = '';       //请填写您在PushBear获取的sendkey，请仔细检查勿粘贴错
 
 #工单系统设置
 $_ENV['enable_ticket']        = true;        //是否开启工单系统
@@ -272,73 +231,6 @@ $_ENV['mail_ticket']          = true;        //是否开启工单邮件提醒
 $_ENV['useScFtqq']            = false;        //是否开启工单Server酱提醒
 $_ENV['ScFtqq_SCKEY']         = '';           //请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
 
-#管理员联系方式设置
-$_ENV['enable_admin_contact'] = false;                  //是否开启管理员联系方式
-$_ENV['admin_contact1']       = 'QQ：1233456';          //QQ、邮箱、微信仅用于举例
-$_ENV['admin_contact2']       = '邮箱123456@qq.com';    //也可以写电话、tg等其他联系方式
-$_ENV['admin_contact3']       = '微信～123456';         //没有格式要求，想怎么写就怎么写，可留空
-
-
-//验证码设置------------------------------------------------------------------------------------------
-$_ENV['captcha_provider']       = 'recaptcha';        //取值 recaptcha | geetest(极验)
-
-$_ENV['recaptcha_sitekey']      = '';
-$_ENV['recaptcha_secret']       = '';
-
-$_ENV['geetest_id']             = '';
-$_ENV['geetest_key']            = '';
-
-$_ENV['enable_reg_captcha']     = false;        //启用注册验证码
-$_ENV['enable_login_captcha']   = false;        //启用登录验证码
-$_ENV['enable_checkin_captcha'] = false;        //启用签到验证码
-
-
-//支付系统设置----------------------------------------------------------------------------------------
-#取值 none | f2fpay | paymentwall | spay | payjs | theadpay | coinpay | vmqpay
-// $_ENV['payment_system']       = 'none';     // todo: ['gateway1', 'gateway2']
-
-# vmqpay
-$_ENV['vmqpay_key']           = '';          //v免签通讯密钥
-$_ENV['vmqpay_gateway']       = '';          //v免签网关地址如 https://pay.com
-$_ENV['vmqpay_enable']       = false;
-
-# alipay,f2fpay
-$_ENV['f2fpay_app_id']        = '';
-$_ENV['f2fpay_p_id']          = '';
-$_ENV['f2fpay_enable']        = false;
-$_ENV['alipay_public_key']    = '';
-$_ENV['merchant_private_key'] = '';
-$_ENV['f2fNotifyUrl']         = null;           //自定义当面付回调地址
-
-# PaymentWall
-$_ENV['pmw_publickey']        = '';
-$_ENV['pmw_privatekey']       = '';
-$_ENV['pmw_widget']           = 'm2_1';
-$_ENV['pmw_height']           = '350px';
-$_ENV['pmw_enable']           = false;
-
-# alipay,zfbjk.com
-$_ENV['zfbjk_pid']            = '';
-$_ENV['zfbjk_key']            = '';
-$_ENV['zfbjk_qrcodeurl']      = '';
-
-# PayJs
-$_ENV['payjs_mchid']          = '';
-$_ENV['payjs_key']            = '';
-$_ENV['payjs_enable']         = false;
-
-# 平头哥支付 https://theadpay.com/
-$_ENV['theadpay_url']         = '';
-$_ENV['theadpay_mchid']       = '';
-$_ENV['theadpay_key']         = '';
-$_ENV['theadpay_enable']      = false;
-
-# CoinPay
-$_ENV['coinpay_appid']  = '';    // CoinPay 应用ID (*)
-$_ENV['coinpay_secret'] = '';    // CoinPay 验证密钥 (*)
-$_ENV['coinpay_notify'] = '';    // 异步回调URL
-$_ENV['coinpay_return'] = '';    // 同步返回URL
-$_ENV['coinpay_enable'] = false;
 
 #后台商品列表 销量统计
 $_ENV['sales_period']         = 30;             //统计指定周期内的销量，值为【expire/任意大于0的整数】

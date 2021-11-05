@@ -8,10 +8,11 @@
 
 namespace App\Services\Gateway;
 
-use App\Models\Paylist;
-use App\Models\Payback;
 use App\Models\User;
 use App\Models\Code;
+use App\Models\Paylist;
+use App\Models\Payback;
+use App\Models\Setting;
 use App\Utils\Telegram;
 use Slim\Http\{Request, Response};
 
@@ -72,6 +73,15 @@ abstract class AbstractPayment
 
     protected static function getUserReturnUrl() {
         return $_ENV['baseUrl'] . '/user/payment/return/' . (get_called_class())::_name();
+    }
+
+    protected static function getActiveGateway($key) {
+        $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
+        $active_gateways = json_decode($payment_gateways->value);
+        if (in_array($key, $active_gateways)) {
+            return true;
+        }
+        return false;
     }
 
     public function postPayment($pid, $method)

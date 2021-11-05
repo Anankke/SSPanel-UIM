@@ -10,9 +10,10 @@ namespace App\Services\Gateway;
 
 use App\Models\User;
 use App\Models\Code;
-use App\Services\Auth;
+use App\Models\Setting;
 use App\Models\Payback;
 use App\Utils\Telegram;
+use App\Services\Auth;
 use Paymentwall_Config;
 use Paymentwall_Pingback;
 use Paymentwall_Widget;
@@ -26,7 +27,7 @@ class PaymentWall extends AbstractPayment
 
     public static function _enable() 
     {
-        return $_ENV['pmw_enable'];
+        return self::getActiveGateway('paymentwall');
     }
 
     public function purchase($request, $response, $args)
@@ -36,11 +37,12 @@ class PaymentWall extends AbstractPayment
 
     public function notify($request, $response, $args)
     {
-        if ($_ENV['pmw_publickey'] != '') {
+        $configs = Setting::getClass('pmw');
+        if ($configs['pmw_publickey'] != '') {
             Paymentwall_Config::getInstance()->set(array(
                 'api_type' => Paymentwall_Config::API_VC,
-                'public_key' => $_ENV['pmw_publickey'],
-                'private_key' => $_ENV['pmw_privatekey']
+                'public_key' => $configs['pmw_publickey'],
+                'private_key' => $configs['pmw_privatekey']
             ));
             $pingback = new Paymentwall_Pingback($_GET, $_SERVER['REMOTE_ADDR']);
             if ($pingback->validate()) {
@@ -92,15 +94,16 @@ class PaymentWall extends AbstractPayment
 
     public static function getPurchaseHTML()
     {
+        $configs = Setting::getClass('pmw');
         Paymentwall_Config::getInstance()->set(array(
             'api_type' => Paymentwall_Config::API_VC,
-            'public_key' => $_ENV['pmw_publickey'],
-            'private_key' => $_ENV['pmw_privatekey']
+            'public_key' => $configs['pmw_publickey'],
+            'private_key' => $configs['pmw_privatekey']
         ));
         $user = Auth::getUser();
         $widget = new Paymentwall_Widget(
             $user->id, // id of the end-user who's making the payment
-            $_ENV['pmw_widget'],      // widget code, e.g. p1; can be picked inside of your merchant account
+            $configs['pmw_widget'],      // widget code, e.g. p1; can be picked inside of your merchant account
             array(),     // array of products - leave blank for Virtual Currency API
             array(
                 'email' => $user->email,
@@ -115,7 +118,7 @@ class PaymentWall extends AbstractPayment
                 )
             ) // additional parameters
         );
-        return $widget->getHtmlCode(array('height' => $_ENV['pmw_height'], 'width' => '100%'));
+        return $widget->getHtmlCode(array('height' => $configs['pmw_height'], 'width' => '100%'));
     }
 
     public function getReturnHTML($request, $response, $args)

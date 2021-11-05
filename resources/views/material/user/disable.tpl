@@ -13,19 +13,17 @@
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-                                    <p>您由于以下原因而被管理员禁用了账户，请联系管理员。</p>
-                                    <p>
-                                        禁用原因：{$user->disableReason()}
-                                    </p>
-                                    {if $config['enable_admin_contact'] === true}
-                                        <p>管理员联系方式：</p>
-                                        {if $config['admin_contact1']!=''}
+                                    <p>您由于以下原因而被管理员禁用了账户：</p>
+                                    <p>{$user->disableReason()}</p>
+                                    {if $config['enable_admin_contact'] == true}
+                                        <p>如需帮助，请联系管理员：</p>
+                                        {if $config['admin_contact1'] != ''}
                                             <li>{$config['admin_contact1']}</li>
                                         {/if}
-                                        {if $config['admin_contact2']!=''}
+                                        {if $config['admin_contact2'] != ''}
                                             <li>{$config['admin_contact2']}</li>
                                         {/if}
-                                        {if $config['admin_contact3']!=''}
+                                        {if $config['admin_contact3'] != ''}
                                             <li>{$config['admin_contact3']}</li>
                                         {/if}
                                     {/if}

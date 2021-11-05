@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Utils\QQWry;
+use App\Models\Setting;
 
 class Tool extends Command
 {
@@ -10,7 +11,8 @@ class Tool extends Command
         . '├─=: php xcat Tool [选项]' . PHP_EOL
         . '│ ├─ initQQWry               - 下载 IP 解析库' . PHP_EOL
         . '│ ├─ setTelegram             - 设置 Telegram 机器人' . PHP_EOL
-        . '│ ├─ detectConfigs           - 检查数据库内新增的配置' . PHP_EOL;
+        . '│ ├─ detectConfigs           - 检查数据库内新增的配置' . PHP_EOL
+        . '│ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置' . PHP_EOL;
 
     public function boot()
     {
@@ -25,12 +27,7 @@ class Tool extends Command
             }
         }
     }
-
-    /**
-     * 设定 Telegram Bot
-     *
-     * @return void
-     */
+    
     public function setTelegram()
     {
         if ($_ENV['use_new_telegram_bot'] === true) {
@@ -53,12 +50,7 @@ class Tool extends Command
             }
         }
     }
-
-    /**
-     * 下载 IP 库
-     *
-     * @return void
-     */
+    
     public function initQQWry()
     {
         echo ('正在下载或更新纯真ip数据库...') . PHP_EOL;
@@ -89,14 +81,22 @@ class Tool extends Command
             echo ('纯真ip数据库下载失败，请检查下载地址') . PHP_EOL;
         }
     }
-
-    /**
-     * 探测新增配置
-     *
-     * @return void
-     */
+    
     public function detectConfigs()
     {
         echo \App\Services\DefaultConfig::detectConfigs();
+    }
+    
+    public function resetAllSettings()
+    {
+        $settings = Setting::all();
+        
+        foreach ($settings as $setting)
+        {
+            $setting->value = $setting->default;
+            $setting->save();
+        }
+
+        echo '已使用默认值覆盖所有设置.' . PHP_EOL;
     }
 }

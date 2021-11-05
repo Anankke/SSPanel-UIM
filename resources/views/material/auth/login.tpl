@@ -119,18 +119,18 @@
                 url: location.pathname,
                 dataType: "json",
                 data: {
-                    email: $$getValue('email'),
-                    passwd: $$getValue('passwd'),
-                    code: $$getValue('code'),
                     {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
                     recaptcha: grecaptcha.getResponse(),
                     {/if}
-                    remember_me: $("#remember_me:checked").val()
-                    {if $geetest_html != null},
+                    {if $geetest_html != null}
                     geetest_challenge: validate.geetest_challenge,
                     geetest_validate: validate.geetest_validate,
-                    geetest_seccode: validate.geetest_seccode
+                    geetest_seccode: validate.geetest_seccode,
                     {/if}
+                    code: $$getValue('code'),
+                    email: $$getValue('email'),
+                    passwd: $$getValue('passwd'),
+                    remember_me: $("#remember_me:checked").val()
                 },
                 success: (data) => {
                     if (data.ret == 1) {

@@ -261,25 +261,26 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                     url: location.pathname,
                     dataType: "json",
                     data: {
-                        email: $$getValue('email'),
-                        name: $$getValue('name'),
-                        passwd: $$getValue('passwd'),
-                        repasswd: $$getValue('repasswd'),
                         {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
                         recaptcha: grecaptcha.getResponse(),
+                        {/if}
+                        {if $geetest_html != null}
+                        geetest_challenge: validate.geetest_challenge,
+                        geetest_validate: validate.geetest_validate,
+                        geetest_seccode: validate.geetest_seccode,
                         {/if}
                         {if $config['enable_reg_im'] == true}
                         im_value: $$getValue('im_value'),
                         im_type: $$getValue('im_type'),
                         {/if}
-                        code{if $enable_email_verify == true},
-                        emailcode: $$getValue('email_code')
+                        {if $enable_email_verify == true}
+                        emailcode: $$getValue('email_code'),
                         {/if}
-                        {if $geetest_html != null},
-                        geetest_challenge: validate.geetest_challenge,
-                        geetest_validate: validate.geetest_validate,
-                        geetest_seccode: validate.geetest_seccode
-                        {/if}
+                        code,
+                        name: $$getValue('name'),
+                        email: $$getValue('email'),
+                        passwd: $$getValue('passwd'),
+                        repasswd: $$getValue('repasswd')
                     },
                     success: (data) => {
                         if (data.ret == 1) {

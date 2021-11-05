@@ -57,4 +57,5 @@
 </div>
 
 </body>
+{include file='live_chat.tpl'}
 </html>

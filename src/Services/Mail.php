@@ -6,6 +6,7 @@ namespace App\Services;
  * Mail Service
  */
 
+use App\Models\Setting;
 use App\Services\Mail\Mailgun;
 use App\Services\Mail\Ses;
 use App\Services\Mail\Smtp;
@@ -20,7 +21,7 @@ class Mail
      */
     public static function getClient()
     {
-        $driver = $_ENV['mailDriver'];
+        $driver = Setting::obtain('mail_driver');
         switch ($driver) {
             case 'mailgun':
                 return new Mailgun();

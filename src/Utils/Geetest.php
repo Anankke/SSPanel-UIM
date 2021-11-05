@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use App\Models\Setting;
 use App\Services\Config;
 
 /**
@@ -13,7 +14,8 @@ class Geetest
 {
     public static function get($user_id = null)
     {
-        $GtSdk = new GeetestLib($_ENV['geetest_id'], $_ENV['geetest_key']);
+        $configs = Setting::getClass('geetest');
+        $GtSdk = new GeetestLib($configs['geetest_id'], $configs['geetest_key']);
         $status = $GtSdk->pre_process($user_id);
         $ret = json_decode($GtSdk->get_response_str());
         session_start();
@@ -25,7 +27,8 @@ class Geetest
     public static function verify($geetest_challenge, $geetest_validate, $geetest_seccode)
     {
         session_start();
-        $GtSdk = new GeetestLib($_ENV['geetest_id'], $_ENV['geetest_key']);
+        $configs = Setting::getClass('geetest');
+        $GtSdk = new GeetestLib($configs['geetest_id'], $configs['geetest_key']);
         $user_id = $_SESSION['user_id'];
         if ($_SESSION['gtserver'] == 1) {
             $result = $GtSdk->success_validate($geetest_challenge, $geetest_validate, $geetest_seccode, $user_id);
