@@ -1,12 +1,11 @@
 <?php
 
-
 namespace App\Services\Gateway;
 
-
-use App\Models\Paylist;
 use App\Services\Auth;
 use App\Services\Config;
+use App\Models\Paylist;
+use App\Models\Setting;
 use App\Services\Gateway\CoinPay\CoinPayApi;
 use App\Services\Gateway\CoinPay\CoinPayConfig;
 use App\Services\Gateway\CoinPay\CoinPayException;
@@ -25,7 +24,7 @@ class CoinPay extends AbstractPayment
 
     public static function _enable() 
     {
-        return $_ENV['coinpay_enable'];
+        return self::getActiveGateway('coinpay');
     }   
 
     public static function _readableName() {
@@ -34,8 +33,9 @@ class CoinPay extends AbstractPayment
 
     public function __construct($coinPaySecret, $coinPayAppId)
     {
-        $this->coinPaySecret = $_ENV['coinpay_secret'];
-        $this->coinPayAppId = $_ENV['coinpay_appid'];
+        $configs = Setting::getClass('coinpay');
+        $this->coinPaySecret = $configs['coinpay_secret'];
+        $this->coinPayAppId = $configs['coinpay_appid'];
         $this->coinPayGatewayUrl = "https://openapi.coinpay.la/"; // 网关地址
     }
 
@@ -65,7 +65,7 @@ class CoinPay extends AbstractPayment
         $report_data->SetOut_trade_no($out_trade_no);
         $report_data->SetTotal_amount($total_fee);
         $report_data->SetTimestamp(date('Y-m-d H:i:s', time()));
-        $report_data->SetReturn_url(Config::get('baseUrl') . '/user/code');
+        $report_data->SetReturn_url($_ENV['baseUrl'] . '/user/code');
         $report_data->SetNotify_url(self::getCallbackUrl());
 //        $report_data->SetBody(json_encode($pl));
 //        $report_data->SetTransCurrency("CNY");

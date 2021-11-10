@@ -4,61 +4,73 @@ namespace App\Services\Gateway;
 
 use App\Services\Auth;
 use App\Models\Paylist;
+use App\Models\Setting;
 
 class Vmqpay extends AbstractPayment
 {
 
-    public static function _name() 
+    public static function _name()
     {
         return 'vmqpay';
     }
 
-    public static function _enable() 
+    public static function _enable()
     {
-        return $_ENV['vmqpay_enable'];
+        return self::getActiveGateway('vmqpay');
     }
 
     public function purchase($request, $response, $args)
     {
-        $vmqpay_key = $_ENV['vmqpay_key'];
-        $vmqpay_gateway = $_ENV['vmqpay_gateway'];
-        $baseUrl = $_ENV['baseUrl'];
+        $trade_no = time();
         $user = Auth::getUser();
-        $price = $request->getParam('price');
+        $configs = Setting::getClass('vmq');
+        
+        $param = $user->id;
+        $key = $configs['vmq_key'];
+        $gateway = $configs['vmq_gateway'];
         $type = $request->getParam('type');
-        $param = '';
-        $timestamp = time();
-        $sign = md5($timestamp.$param.$type.$price.$vmqpay_key);
-		
+        $price = $request->getParam('price');
+        $sign = md5($trade_no.$param.$type.$price.$key);
+        
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
-        $pl->tradeno = $timestamp; //将订单发起时的时间戳作为流水号
+        $pl->tradeno = $trade_no;
         $pl->save();
-		
-        $post_url = "$vmqpay_gateway/createOrder?payId=$timestamp&type=$type&price=$price&sign=$sign&param=$param&isHtml=1&notifyUrl=$baseUrl/payment/notify&returnUrl=$baseUrl/user/code";
-        header('Location:' . $post_url);
+        
+        $params = [
+            'payId' => $trade_no,
+            'type' => $type,
+            'price' => $price,
+            'sign' => $sign,
+            'param' => $param,
+            'isHtml' => '1',
+            'notifyUrl' => self::getCallbackUrl(),
+            'returnUrl' => $_ENV['baseUrl'] . '/user/code'
+        ];
+        
+        $pay_url = $gateway . '/createOrder?' . http_build_query($params);
+        header('Location: ' . $pay_url);
     }
 	
     public function notify($request, $response, $args)
     {
-        $key = $_ENV['vmqpay_key'];
-        $baseUrl = $_ENV['baseUrl'];
-        $payId = $_GET['payId']; //被当成流水号的时间戳
-        $param = $_GET['param']; //创建订单时传入的自定义参数
-        $type = $_GET['type']; // alipay -> 2, wechat -> 1
-        $price = $_GET['price'];
-        $reallyPrice = $_GET['reallyPrice'];
-		
-        $sign = $_GET['sign'];
-        $_sign =  md5($payId.$param.$type.$price.$reallyPrice.$key);
-        if ($_sign != $sign) {
-            echo "error_sign";
-            exit();
+        $key = Setting::obtain('vmq_key');
+        $payId = $request->getParam('payId');
+        $param = $request->getParam('param');
+        $type = $request->getParam('type');
+        $price = $request->getParam('price');
+        $reallyPrice = $request->getParam('reallyPrice');
+        $cloud_sign = $request->getParam('sign');
+        
+        $local_sign =  md5($payId.$param.$type.$price.$reallyPrice.$key);
+        
+        if ($cloud_sign != $local_sign) {
+            die("error_sign");
         }
 		
-        echo "success";
-        $this->postPayment($payId, '在线支付');
+        $this->postPayment($payId, "在线支付 $payId");
+        die("success");
     }
 	
     public static function getPurchaseHTML()

@@ -260,6 +260,12 @@ return function (SlimApp $app) {
         $this->get('/user/{id}/login',          App\Controllers\Admin\UserLog\LoginLogController::class . ':index');
         $this->post('/user/{id}/login/ajax',    App\Controllers\Admin\UserLog\LoginLogController::class . ':ajax');
 
+        // 设置中心
+        $this->get('/setting',                  App\Controllers\Admin\SettingController::class . ':index');
+        $this->post('/setting',                 App\Controllers\Admin\SettingController::class . ':save');
+        $this->post('/setting/email',           App\Controllers\Admin\SettingController::class . ':test');
+        $this->post('/setting/payment',         App\Controllers\Admin\SettingController::class . ':payment');
+
         // Config Mange
         $this->group('/config', function () {
             $this->put('/update/{key}',         App\Controllers\Admin\GConfigController::class . ':update');
@@ -267,9 +273,6 @@ return function (SlimApp $app) {
 
             $this->get('/telegram',             App\Controllers\Admin\GConfigController::class . ':telegram');
             $this->post('/telegram/ajax',       App\Controllers\Admin\GConfigController::class . ':telegram_ajax');
-
-            $this->get('/register',             App\Controllers\Admin\GConfigController::class . ':register');
-            $this->post('/register/ajax',       App\Controllers\Admin\GConfigController::class . ':register_ajax');
         });
     })->add(new Admin());
 

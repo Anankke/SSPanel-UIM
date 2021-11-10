@@ -2,6 +2,7 @@
 
 namespace App\Services\Mail;
 
+use App\Models\Setting;
 use App\Services\Config;
 use Mailgun\Mailgun as MailgunService;
 
@@ -22,10 +23,12 @@ class Mailgun extends Base
 
     public function getConfig()
     {
+        $configs = Setting::getClass('mailgun');
+        
         return [
-            'key' => $_ENV['mailgun_key'],
-            'domain' => $_ENV['mailgun_domain'],
-            'sender' => $_ENV['mailgun_sender']
+            'key' => $configs['mailgun_key'],
+            'domain' => $configs['mailgun_domain'],
+            'sender' => $configs['mailgun_sender']
         ];
     }
 

@@ -2,13 +2,14 @@
 
 namespace App\Command;
 
-use App\Models\User as ModelsUser;
-use App\Services\Config;
+use Exception;
 use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Tools;
-use Exception;
 use Ramsey\Uuid\Uuid;
+use App\Services\Config;
+use App\Models\Setting;
+use App\Models\User as ModelsUser;
 
 class User extends Command
 {
@@ -158,6 +159,7 @@ class User extends Command
         if (strtolower($y) == 'y') {
             $current_timestamp          = time();
             // create admin user
+            $configs = Setting::getClass('register');
             // do reg user
             $user                   = new ModelsUser();
             $user->user_name        = 'admin';
@@ -169,11 +171,11 @@ class User extends Command
             $user->t                = 0;
             $user->u                = 0;
             $user->d                = 0;
-            $user->transfer_enable  = Tools::toGB((int) Config::getconfig('Register.string.defaultTraffic'));
-            $user->invite_num       = (int) Config::getconfig('Register.string.defaultInviteNum');
+            $user->transfer_enable  = Tools::toGB($configs['sign_up_for_free_traffic']);
+            $user->invite_num       = $configs['sign_up_for_invitation_codes'];
             $user->ref_by           = 0;
             $user->is_admin         = 1;
-            $user->expire_in        = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultExpire_in') * 86400);
+            $user->expire_in        = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
             $user->reg_date         = date('Y-m-d H:i:s');
             $user->money            = 0;
             $user->im_type          = 1;

@@ -2,6 +2,7 @@
 
 namespace App\Services\Mail;
 
+use App\Models\Setting;
 use App\Services\Config;
 
 class SendGrid extends Base
@@ -22,10 +23,12 @@ class SendGrid extends Base
 
     public function getConfig()
     {
+        $configs = Setting::getClass('sendgrid');
+        
         return [
-            'key' => $_ENV['sendgrid_key'],
-            'sender' => $_ENV['sendgrid_sender'],
-            'name' => $_ENV['sendgrid_name']
+            'key' => $configs['sendgrid_key'],
+            'sender' => $configs['sendgrid_sender'],
+            'name' => $configs['sendgrid_name']
         ];
     }
 

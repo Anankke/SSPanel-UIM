@@ -203,7 +203,7 @@ table tr td:first-child {
                                 {if $geetest_html != null}
                                     <div id="popup-captcha"></div>
                                 {/if}
-                                {if $config['enable_checkin_captcha'] == true && $user->isAbleToCheckin()}
+                                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha' && $user->isAbleToCheckin()}
                                     <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
                                 {/if}
                                 <div class="card-action">
@@ -232,15 +232,15 @@ table tr td:first-child {
                                     <br/>
                                     <strong>查看所有公告请<a href="/user/announcement">点击这里</a></strong>
                                 {/if}
-                                {if $config['enable_admin_contact'] === true}
-                                    <p class="card-heading">管理员联系方式</p>
-                                    {if $config['admin_contact1']!=''}
+                                {if $config['enable_admin_contact'] == true}
+                                    <p class="card-heading">如需帮助，请联系：</p>
+                                    {if $config['admin_contact1'] != ''}
                                         <p>{$config['admin_contact1']}</p>
                                     {/if}
-                                    {if $config['admin_contact2']!=''}
+                                    {if $config['admin_contact2'] != ''}
                                         <p>{$config['admin_contact2']}</p>
                                     {/if}
-                                    {if $config['admin_contact3']!=''}
+                                    {if $config['admin_contact3'] != ''}
                                         <p>{$config['admin_contact3']}</p>
                                     {/if}
                                 {/if}

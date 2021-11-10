@@ -14,5 +14,5 @@
 <script src="/theme/material/js/project.min.js"></script>
 
 </body>
-
+{include file='live_chat.tpl'}
 </html>

@@ -7,6 +7,7 @@ use App\Models\{
     User,
     Shop,
     Bought,
+    Setting,
     DetectBanLog
 };
 use App\Services\{
@@ -103,6 +104,7 @@ class UserController extends AdminController
                 'msg' => '邮箱已经被注册了'
             ]);
         }
+        $configs = Setting::getClass('register');
         // do reg user
         $user                       = new User();
         $current_timestamp          = time();
@@ -116,25 +118,25 @@ class UserController extends AdminController
         $user->t                    = 0;
         $user->u                    = 0;
         $user->d                    = 0;
-        $user->method               = Config::getconfig('Register.string.defaultMethod');
-        $user->protocol             = Config::getconfig('Register.string.defaultProtocol');
-        $user->protocol_param       = Config::getconfig('Register.string.defaultProtocol_param');
-        $user->obfs                 = Config::getconfig('Register.string.defaultObfs');
-        $user->obfs_param           = Config::getconfig('Register.string.defaultObfs_param');
+        $user->method               = $configs['sign_up_for_method'];
+        $user->protocol             = $configs['sign_up_for_protocol'];
+        $user->protocol_param       = $configs['sign_up_for_protocol_param'];
+        $user->obfs                 = $configs['sign_up_for_obfs'];
+        $user->obfs_param           = $configs['sign_up_for_obfs_param'];
         $user->forbidden_ip         = $_ENV['reg_forbidden_ip'];
         $user->forbidden_port       = $_ENV['reg_forbidden_port'];
         $user->im_type              = 2;
         $user->im_value             = $email;
-        $user->transfer_enable      = Tools::toGB((int) Config::getconfig('Register.string.defaultTraffic'));
-        $user->invite_num           = (int) Config::getconfig('Register.string.defaultInviteNum');
+        $user->transfer_enable      = Tools::toGB($configs['sign_up_for_free_traffic']);
+        $user->invite_num           = $configs['sign_up_for_invitation_codes'];
         $user->auto_reset_day       = $_ENV['free_user_reset_day'];
         $user->auto_reset_bandwidth = $_ENV['free_user_reset_bandwidth'];
         $user->money                = ($money != -1 ? $money : 0);
-        $user->class_expire         = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultClass_expire') * 3600);
-        $user->class                = (int) Config::getconfig('Register.string.defaultClass');
-        $user->node_connector       = (int) Config::getconfig('Register.string.defaultConn');
-        $user->node_speedlimit      = (int) Config::getconfig('Register.string.defaultSpeedlimit');
-        $user->expire_in            = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultExpire_in') * 86400);
+        $user->class_expire         = date('Y-m-d H:i:s', time() + $configs['sign_up_for_class_time'] * 86400);
+        $user->class                = $configs['sign_up_for_class'];
+        $user->node_connector       = $configs['connection_device_limit'];
+        $user->node_speedlimit      = $configs['connection_rate_limit'];
+        $user->expire_in            = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
         $user->reg_date             = date('Y-m-d H:i:s');
         $user->reg_ip               = $_SERVER['REMOTE_ADDR'];
         $user->theme                = $_ENV['theme'];

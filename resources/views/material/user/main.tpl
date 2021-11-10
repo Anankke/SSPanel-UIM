@@ -16,6 +16,13 @@
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
     <!-- js -->
     <script src="/assets/js/fuck.min.js"></script>
+    <style>
+    {if $config['user_center_bg'] == true}
+        .page-orange .ui-content-header {
+            background-image: url({$config['user_center_bg_addr']});
+        }
+    {/if}
+    </style>
 </head>
 <body class="page-orange">
 <header class="header header-orange header-transparent header-waterfall ui-header">
@@ -118,8 +125,5 @@
         </div>
     </div>
 </nav>
-{if $config['live_chat'] === 'mylivechat'}
-    {include file='mylivechat.tpl'}
-{elseif $config['live_chat'] === 'crisp'}
-    {include file='crisp.tpl'}
-{/if}
+
+{include file='live_chat.tpl'}

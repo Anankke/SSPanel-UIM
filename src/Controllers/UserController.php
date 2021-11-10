@@ -21,6 +21,7 @@ use App\Models\{
     Payback,
     BlockIp,
     LoginIp,
+    Setting,
     UnblockIp,
     DetectLog,
     DetectRule,
@@ -79,6 +80,12 @@ class UserController extends BaseController
             $token = '';
         }
 
+        if (Setting::obtain('enable_checkin_captcha') == true) {
+            $geetest_html = $captcha['geetest'];
+        } else {
+            $geetest_html = null;
+        }
+
         return $response->write(
             $this->view()
                 ->assign('ssr_sub_token', $this->user->getSublink())
@@ -87,7 +94,7 @@ class UserController extends BaseController
                 ->assign('ios_account', $_ENV['ios_account'])
                 ->assign('ios_password', $_ENV['ios_password'])
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
-                ->assign('geetest_html', $captcha['geetest'])
+                ->assign('geetest_html', $geetest_html)
                 ->assign('mergeSub', $_ENV['mergeSub'])
                 ->assign('subUrl', $_ENV['subUrl'])
                 ->registerClass('URL', URL::class)
@@ -697,7 +704,7 @@ class UserController extends BaseController
             return $response->withJson($res);
         }
         
-        if (Config::getconfig('Register.bool.Enable_email_verify')) {
+        if (Setting::obtain('reg_email_verify')) {
             $emailcode = $request->getParam('emailcode');
             $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount == null) {
@@ -1348,7 +1355,7 @@ class UserController extends BaseController
             return $response->withJson($res);
         }
 
-        if ($_ENV['enable_checkin_captcha'] == true) {
+        if (Setting::obtain('enable_checkin_captcha') == true) {
             $ret = Captcha::verify($request->getParams());
             if (!$ret) {
                 return $response->withJson([

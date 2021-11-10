@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\GConfig;
+use App\Models\Setting;
 
 class Config
 {
@@ -23,46 +24,60 @@ class Config
 
     public static function getPublicConfig()
     {
+        $public_configs = Setting::getPublicConfig();
+
+        // 鉴于还未完成配置的全面数据库化，先这么用着
+        
         return [
-            'appName'                 => $_ENV['appName'],
             'version'                 => VERSION,
+            'appName'                 => $_ENV['appName'],
             'baseUrl'                 => $_ENV['baseUrl'],
+            // 个性化
+            'user_center_bg'          => $public_configs['user_center_bg'],
+            'admin_center_bg'         => $public_configs['admin_center_bg'],
+            'user_center_bg_addr'     => $public_configs['user_center_bg_addr'],
+            'admin_center_bg_addr'    => $public_configs['admin_center_bg_addr'],
+            // 客服系统
+            'live_chat'               => $public_configs['live_chat'],
+            'tawk_id'                 => $public_configs['tawk_id'],
+            'crisp_id'                => $public_configs['crisp_id'],
+            'livechat_id'             => $public_configs['livechat_id'],
+            'mylivechat_id'           => $public_configs['mylivechat_id'],
+            // 联系方式
+            'enable_admin_contact'    => $public_configs['enable_admin_contact'],
+            'admin_contact1'          => $public_configs['admin_contact1'],
+            'admin_contact2'          => $public_configs['admin_contact2'],
+            'admin_contact3'          => $public_configs['admin_contact3'],
+            // 验证码
+            'captcha_provider'        => $public_configs['captcha_provider'],
+            'enable_reg_captcha'      => $public_configs['enable_reg_captcha'],
+            'enable_login_captcha'    => $public_configs['enable_login_captcha'],
+            'enable_checkin_captcha'  => $public_configs['enable_checkin_captcha'],
+            // 注册
+            'register_mode'           => $public_configs['reg_mode'],
+            'enable_email_verify'     => $public_configs['reg_email_verify'],
+            // 邀请
+            'invite_get_money'        => $public_configs['invitation_to_register_balance_reward'],
+            'invite_gift'             => $public_configs['invitation_to_register_traffic_reward'],
+            // 待处理
             'min_port'                => $_ENV['min_port'],
             'max_port'                => $_ENV['max_port'],
             'enable_checkin'          => $_ENV['enable_checkin'],
             'checkinMin'              => $_ENV['checkinMin'],
             'checkinMax'              => $_ENV['checkinMax'],
             'invite_price'            => $_ENV['invite_price'],
-            'invite_get_money'        => (int) self::getconfig('Register.string.defaultInvite_get_money'),
             'code_payback'            => $_ENV['code_payback'],
-            'invite_gift'             => $_ENV['invite_gift'],
             'port_price'              => $_ENV['port_price'],
             'port_price_specify'      => $_ENV['port_price_specify'],
             'jump_delay'              => $_ENV['jump_delay'],
             'enable_analytics_code'   => $_ENV['enable_analytics_code'],
             'enable_donate'           => $_ENV['enable_donate'],
-            'payment_system'          => $_ENV['payment_system'],
-            'live_chat'               => $_ENV['live_chat'],
-            'crisp_id'                => $_ENV['crisp_id'],
-            'mylivechat_id'           => $_ENV['mylivechat_id'],
-            'tawk_id'                 => $_ENV['tawk_id'],
             'enable_ticket'           => $_ENV['enable_ticket'],
-            'enable_admin_contact'    => $_ENV['enable_admin_contact'],
-            'admin_contact1'          => $_ENV['admin_contact1'],
-            'admin_contact2'          => $_ENV['admin_contact2'],
-            'admin_contact3'          => $_ENV['admin_contact3'],
-            'register_mode'           => self::getconfig('Register.string.Mode'),
             'enable_reg_im'           => $_ENV['enable_reg_im'],
             'enable_flag'             => $_ENV['enable_flag'],
             'enable_kill'             => $_ENV['enable_kill'],
             'enable_change_email'     => $_ENV['enable_change_email'],
             'custom_invite_price'     => $_ENV['custom_invite_price'],
-            'enable_email_verify'     => self::getconfig('Register.bool.Enable_email_verify'),
-
-            'captcha_provider'        => $_ENV['captcha_provider'],
-            'enable_reg_captcha'      => $_ENV['enable_reg_captcha'],
-            'enable_login_captcha'    => $_ENV['enable_login_captcha'],
-            'enable_checkin_captcha'  => $_ENV['enable_checkin_captcha'],
 
             'enable_telegram'         => $_ENV['enable_telegram'],
             'telegram_bot'            => $_ENV['telegram_bot'],

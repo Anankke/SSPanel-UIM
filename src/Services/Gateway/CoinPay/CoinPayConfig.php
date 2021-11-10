@@ -2,7 +2,7 @@
 
 namespace App\Services\Gateway\CoinPay;
 
-use App\Services\Config;
+use App\Models\Setting;
 
 class CoinPayConfig extends CoinPayConfigInterface
 {
@@ -13,7 +13,7 @@ class CoinPayConfig extends CoinPayConfigInterface
      */
     public function GetSecret()
     {
-        return Config::get('coinpay_secret');
+        return Setting::obtain('coinpay_secret');
     }
 
     /**
@@ -22,7 +22,7 @@ class CoinPayConfig extends CoinPayConfigInterface
      */
     public function GetAppId()
     {
-        return Config::get('coinpay_appid');
+        return Setting::obtain('coinpay_appid');
     }
 
 
@@ -32,7 +32,7 @@ class CoinPayConfig extends CoinPayConfigInterface
      */
     public function GetNotifyUrl()
     {
-        return Config::get('coinpay_notify');
+        return Setting::obtain('coinpay_notify');
     }
 
     /**
@@ -41,7 +41,7 @@ class CoinPayConfig extends CoinPayConfigInterface
      */
     public function GetReturnUrl()
     {
-        return Config::get('coinpay_return');
+        return Setting::obtain('coinpay_return');
     }
 
     /**

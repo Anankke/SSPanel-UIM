@@ -4,11 +4,12 @@ namespace App\Utils\Telegram\Callbacks;
 
 use App\Controllers\LinkController;
 use App\Models\{
-    LoginIp,
-    Node,
     Ip,
-    InviteCode,
+    Node,
     Payback,
+    LoginIp,
+    Setting,
+    InviteCode,
     UserSubscribeLog
 };
 use App\Services\Config;
@@ -1123,11 +1124,12 @@ class Callback
         if (!$paybacks_sum = Payback::where('ref_by', $this->User->id)->sum('ref_get')) {
             $paybacks_sum = 0;
         }
+        $invitation = Setting::getClass('invite');
         $text = [
             '<strong>分享计划，您每邀请 1 位用户注册：</strong>',
             '',
-            '- 您会获得 <strong>' . $_ENV['invite_gift'] . 'G</strong> 流量奖励.',
-            '- 对方将获得 <strong>' . (int) Config::getconfig('Register.string.defaultInvite_get_money') . ' 元</strong> 奖励作为初始资金.',
+            '- 您会获得 <strong>' . $invitation['invitation_to_register_traffic_reward'] . 'G</strong> 流量奖励.',
+            '- 对方将获得 <strong>' . $invitation['invitation_to_register_balance_reward'] . ' 元</strong> 奖励作为初始资金.',
             '- 对方充值时您还会获得对方充值金额的 <strong>' . $_ENV['code_payback'] . '%</strong> 的返利.',
             '',
             '已获得返利：' . $paybacks_sum . ' 元.',

@@ -17,18 +17,8 @@
             bottom: 0;
         }
     </style>
-    <!-- favicon -->
     <!-- js -->
     <script src="/assets/js/fuck.min.js"></script>
-    <!-- ... -->
 </head>
 
 <body class="page-brand">
-
-{if $config['live_chat'] === 'mylivechat'}
-    {include file='mylivechat.tpl'}
-{elseif $config['live_chat'] === 'crisp'}
-    {include file='crisp.tpl'}
-{elseif $config['live_chat'] === 'tawk'}
-    {include file='tawk.tpl'}
-{/if}

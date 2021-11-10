@@ -5,6 +5,7 @@ namespace App\Services\Gateway;
 use App\Services\View;
 use App\Services\Auth;
 use App\Models\Paylist;
+use App\Models\Setting;
 
 class PAYJS extends AbstractPayment
 {
@@ -15,7 +16,7 @@ class PAYJS extends AbstractPayment
 
     public static function _enable() 
     {
-        return $_ENV['payjs_enable'];
+        return self::getActiveGateway('payjs');
     }
 
     private $appSecret;
@@ -26,7 +27,7 @@ class PAYJS extends AbstractPayment
      */
     public function __construct()
     {
-        $this->appSecret = $_ENV['payjs_key'];
+        $this->appSecret = Setting::obtain('payjs_key');
         $this->gatewayUri = 'https://payjs.cn/api/';
     }
     /**
@@ -34,7 +35,7 @@ class PAYJS extends AbstractPayment
      */
     public function prepareSign($data)
     {
-        $data['mchid'] = $_ENV['payjs_mchid'];
+        $data['mchid'] = Setting::obtain('payjs_mchid');
         $data = array_filter($data);
         ksort($data);
         return http_build_query($data);
@@ -96,7 +97,7 @@ class PAYJS extends AbstractPayment
         //if ($type != 'alipay') {
         //$type = '';
         //}
-        $data['mchid'] = $_ENV['payjs_mchid'];
+        $data['mchid'] = Setting::obtain('payjs_mchid');
         //$data['type'] = $type;
         $data['out_trade_no'] = $pl->tradeno;
         $data['total_fee'] = (float) $price * 100;

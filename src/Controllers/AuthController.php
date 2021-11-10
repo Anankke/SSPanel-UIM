@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\{
     User,
+    Setting,
     InviteCode,
     EmailVerify
 };
@@ -52,8 +53,14 @@ class AuthController extends BaseController
             $login_number = '';
         }
 
+        if (Setting::obtain('enable_login_captcha') == true) {
+            $geetest_html = $captcha['geetest'];
+        } else {
+            $geetest_html = null;
+        }
+
         return $this->view()
-            ->assign('geetest_html', $captcha['geetest'])
+            ->assign('geetest_html', $geetest_html)
             ->assign('login_token', $login_token)
             ->assign('login_number', $login_number)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
@@ -90,7 +97,7 @@ class AuthController extends BaseController
         $code       = $request->getParam('code');
         $rememberMe = $request->getParam('remember_me');
 
-        if ($_ENV['enable_login_captcha'] === true) {
+        if (Setting::obtain('enable_login_captcha') == true) {
             $ret = Captcha::verify($request->getParams());
             if (!$ret) {
                 return $response->withJson([
@@ -199,9 +206,15 @@ class AuthController extends BaseController
             $login_number = '';
         }
 
+        if (Setting::obtain('enable_reg_captcha') == true) {
+            $geetest_html = $captcha['geetest'];
+        } else {
+            $geetest_html = null;
+        }
+
         return $this->view()
-            ->assign('geetest_html', $captcha['geetest'])
-            ->assign('enable_email_verify', Config::getconfig('Register.bool.Enable_email_verify'))
+            ->assign('geetest_html', $geetest_html)
+            ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
             ->assign('code', $code)
             ->assign('recaptcha_sitekey', $captcha['recaptcha'])
             ->assign('telegram_bot', $_ENV['telegram_bot'])
@@ -218,7 +231,7 @@ class AuthController extends BaseController
      */
     public function sendVerify($request, $response, $next)
     {
-        if (Config::getconfig('Register.bool.Enable_email_verify')) {
+        if (Setting::obtain('reg_email_verify')) {
             $email = trim($request->getParam('email'));
             $email = strtolower($email);
             if ($email == '') {
@@ -240,7 +253,7 @@ class AuthController extends BaseController
                 ]);
             }
             $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])->where('expire_in', '>', time())->count();
-            if ($ipcount >= (int) Config::getconfig('Register.string.Email_verify_iplimit')) {
+            if ($ipcount >= Setting::obtain('email_verify_ip_limit')) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '此IP请求次数过多'
@@ -255,7 +268,7 @@ class AuthController extends BaseController
             }
             $code          = Tools::genRandomNum(6);
             $ev            = new EmailVerify();
-            $ev->expire_in = time() + (int) Config::getconfig('Register.string.Email_verify_ttl');
+            $ev->expire_in = time() + Setting::obtain('email_verify_ttl');
             $ev->ip        = $_SERVER['REMOTE_ADDR'];
             $ev->email     = $email;
             $ev->code      = $code;
@@ -267,7 +280,7 @@ class AuthController extends BaseController
                     'auth/verify.tpl',
                     [
                         'code' => $code,
-                        'expire' => date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.Email_verify_ttl'))
+                        'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl'))
                     ],
                     []
                 );
@@ -295,9 +308,15 @@ class AuthController extends BaseController
      */
     public function register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id)
     {
-        if (Config::getconfig('Register.string.Mode') === 'close') {
+        if (Setting::obtain('reg_mode') == 'close') {
             $res['ret'] = 0;
             $res['msg'] = '未开放注册。';
+            return $res;
+        }
+
+        if ($code == '') {
+            $res['ret'] = 0;
+            $res['msg'] = '目前注册模式为邀请注册，请填写邀请码，然后重试';
             return $res;
         }
 
@@ -306,7 +325,7 @@ class AuthController extends BaseController
             $c = InviteCode::where('code', $code)->first();
         }
         if ($c == null) {
-            if (Config::getconfig('Register.string.Mode') === 'invite') {
+            if (Setting::obtain('reg_mode') == 'invite') {
                 $res['ret'] = 0;
                 $res['msg'] = '邀请码无效';
                 return $res;
@@ -332,6 +351,7 @@ class AuthController extends BaseController
             }
         }
 
+        $configs = Setting::getClass('register');
         // do reg user
         $user                       = new User();
         $antiXss                    = new AntiXSS();
@@ -346,29 +366,32 @@ class AuthController extends BaseController
         $user->t                    = 0;
         $user->u                    = 0;
         $user->d                    = 0;
-        $user->method               = Config::getconfig('Register.string.defaultMethod');
-        $user->protocol             = Config::getconfig('Register.string.defaultProtocol');
-        $user->protocol_param       = Config::getconfig('Register.string.defaultProtocol_param');
-        $user->obfs                 = Config::getconfig('Register.string.defaultObfs');
-        $user->obfs_param           = Config::getconfig('Register.string.defaultObfs_param');
+        $user->method               = $configs['sign_up_for_method'];
+        $user->protocol             = $configs['sign_up_for_protocol'];
+        $user->protocol_param       = $configs['sign_up_for_protocol_param'];
+        $user->obfs                 = $configs['sign_up_for_obfs'];
+        $user->obfs_param           = $configs['sign_up_for_obfs_param'];
         $user->forbidden_ip         = $_ENV['reg_forbidden_ip'];
         $user->forbidden_port       = $_ENV['reg_forbidden_port'];
         $user->im_type              = $imtype;
         $user->im_value             = $antiXss->xss_clean($imvalue);
 
-        $user->transfer_enable      = Tools::toGB(Config::getconfig('Register.string.defaultTraffic'));
-        $user->invite_num           = (int) Config::getconfig('Register.string.defaultInviteNum');
+        $user->transfer_enable      = Tools::toGB($configs['sign_up_for_free_traffic']);
+        $user->invite_num           = $configs['sign_up_for_invitation_codes'];
         $user->auto_reset_day       = $_ENV['free_user_reset_day'];
         $user->auto_reset_bandwidth = $_ENV['free_user_reset_bandwidth'];
         $user->money                = 0;
-        $user->sendDailyMail        = Config::getconfig('Register.bool.send_dailyEmail');
+        $user->sendDailyMail        = $configs['sign_up_for_daily_report'];
 
         //dumplin：填写邀请人，写入邀请奖励
         $user->ref_by = 0;
         if ($c != null && $c->user_id != 0) {
+            $invitation = Setting::getClass('invite');
+            // 设置新用户
             $user->ref_by = $c->user_id;
-            $user->money = (int) Config::getconfig('Register.string.defaultInvite_get_money');
-            $gift_user->transfer_enable += $_ENV['invite_gift'] * 1024 * 1024 * 1024;
+            $user->money = $invitation['invitation_to_register_balance_reward'];
+            // 给邀请人反流量
+            $gift_user->transfer_enable += $invitation['invitation_to_register_traffic_reward'] * 1024 * 1024 * 1024;
             --$gift_user->invite_num;
             $gift_user->save();
         }
@@ -376,11 +399,11 @@ class AuthController extends BaseController
             $user->telegram_id = $telegram_id;
         }
 
-        $user->class_expire     = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultClass_expire') * 3600);
-        $user->class            = (int) Config::getconfig('Register.string.defaultClass');
-        $user->node_connector   = (int) Config::getconfig('Register.string.defaultConn');
-        $user->node_speedlimit  = (int) Config::getconfig('Register.string.defaultSpeedlimit');
-        $user->expire_in        = date('Y-m-d H:i:s', time() + (int) Config::getconfig('Register.string.defaultExpire_in') * 86400);
+        $user->class_expire     = date('Y-m-d H:i:s', time() + $configs['sign_up_for_class_time'] * 86400);
+        $user->class            = $configs['sign_up_for_class'];
+        $user->node_connector   = $configs['connection_device_limit'];
+        $user->node_speedlimit  = $configs['connection_rate_limit'];
+        $user->expire_in        = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
         $user->reg_date         = date('Y-m-d H:i:s');
         $user->reg_ip           = $_SERVER['REMOTE_ADDR'];
         $user->theme            = $_ENV['theme'];
@@ -418,7 +441,7 @@ class AuthController extends BaseController
      */
     public function registerHandle($request, $response, $args)
     {
-        if (Config::getconfig('Register.string.Mode') === 'close') {
+        if (Setting::obtain('reg_mode') == 'close') {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '未开放注册。'
@@ -456,7 +479,7 @@ class AuthController extends BaseController
             $imvalue = '';
         }
 
-        if ($_ENV['enable_reg_captcha'] === true) {
+        if (Setting::obtain('enable_reg_captcha') == true) {
             $ret = Captcha::verify($request->getParams());
             if (!$ret) {
                 return $response->withJson([
@@ -480,7 +503,7 @@ class AuthController extends BaseController
             ]);
         }
 
-        if (Config::getconfig('Register.bool.Enable_email_verify')) {
+        if (Setting::obtain('reg_email_verify')) {
             $mailcount = EmailVerify::where('email', '=', $email)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount == null) {
                 return $response->withJson([
@@ -506,7 +529,7 @@ class AuthController extends BaseController
             ]);
         }
 
-        if (Config::getconfig('Register.bool.Enable_email_verify')) {
+        if (Setting::obtain('reg_email_verify')) {
             EmailVerify::where('email', $email)->delete();
         }
 

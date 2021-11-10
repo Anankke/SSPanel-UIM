@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
+use App\Models\Setting;
 use App\Services\Gateway\CoinPay;
 
 class CoinPayment
 {
     public static function getClient()
     {
-        return new CoinPay(Config::get('coinpay_secret'), Config::get('coinpay_appid'));
+        $configs = Setting::getClass('coinpay');
+        return new CoinPay($configs['coinpay_secret'], $configs['coinpay_appid']);
     }
 
     public static function notify($request, $response, $args)
@@ -23,7 +25,7 @@ class CoinPayment
 
     public static function purchaseHTML()
     {
-        $coinpay_secret = Config::get('coinpay_secret');
+        $coinpay_secret = Setting::obtain('coinpay_secret');
         if (self::getClient() != null && $coinpay_secret != '') {
             return self::getClient()->getPurchaseHTML();
         }
