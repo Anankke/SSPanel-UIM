@@ -24,11 +24,38 @@ CREATE TABLE `config` (
 
 `is_public` 是否是公共参数
 
-`type` 值类型，可选：`string`、`int`、`bool`、`array`
+`type` 值类型，可选：`string`、`int`、`bool`、`array`、`int`
 
 `default` 配置项目的默认值
 
 `mark` 备注
+
+# 特别说明
+若将值类型设置为 `array` ，在存储时需要先 `json_encode()` ，需要读取时再 `json_decode()`
+```
+<?php
+...
+use App\Models\Setting;
+...
+$recharge_limit = array(
+    'max_recharge_limit' => '1000',
+    'min_recharge_limit' => '10'
+);
+
+// 存储
+$config = Setting::obtain('recharge_limit');
+$config->value = json_encode($recharge_limit);
+$config->save();
+
+// 读取
+$config = Setting::obtain('recharge_limit');
+$recharge_limit = json_decode($config->value);
+
+// 业务逻辑
+...
+
+?>
+```
 
 # 方法
 使用 `use` 操作符导入
