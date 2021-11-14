@@ -753,7 +753,6 @@
                                     </nav>
                                             
                                     <div class="tab-pane fade active in" id="rebate_mode">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>返利模式功能依赖 payback 表记录，请谨慎操作该表</p>
                                         <!-- invitation_mode -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">邀请模式</label>
@@ -778,9 +777,10 @@
                                                 限制邀请人能从被邀请人身上获得的总返利金额</option>
                                             </select>
                                         </div>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>该功能依赖 payback 表记录，请注意谨慎操作该表</p>
                                         <!-- rebate_ratio -->
                                         <div class="form-group form-group-label">
-                                            <label class="floating-label">返利比例。10 元套餐反 2 元就填 0.2</label>
+                                            <label class="floating-label">返利比例。10 元商品反 2 元就填 0.2</label>
                                             <input class="form-control maxwidth-edit" id="rebate_ratio" value="{$settings['rebate_ratio']}">
                                         </div>
                                         <!-- rebate_frequency_limit -->
@@ -788,13 +788,14 @@
                                             <label class="floating-label">返利总次数限制</label>
                                             <input class="form-control maxwidth-edit" id="rebate_frequency_limit" value="{$settings['rebate_frequency_limit']}">
                                         </div>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 3 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，则只返利前三笔订单（假设设置为在购买时返利）</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 3 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，则只对前三笔订单返利（假设设置为在购买时返利）</p>
                                         <!-- rebate_amount_limit -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">返利总金额限制</label>
                                             <input class="form-control maxwidth-edit" id="rebate_amount_limit" value="{$settings['rebate_amount_limit']}">
                                         </div>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 10 时，一个被邀请用户先后购买了售价为 10，20，50 的商品，若返点设置为 20% ，则第一次购买返利为 2；第二次为 4；第三次为 4（假设设置为在购买时返利）</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 10 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，若返点设置为 20% ，则第一次购买返利为 2；第二次为 4；第三次为 4；第四次及之后的购买，邀请人所能获得的返利均为 0（假设设置为在购买时返利）</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>在进行第三次返利计算时，按设置应返利订单金额的 20% ，即 10 元。但因已获得历史返利 6 元，则只能获得返利总金额限制与历史返利的差值</p>
                                         
                                         <br/><button id="submit_rebate_mode" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
