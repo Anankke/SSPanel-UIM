@@ -121,7 +121,12 @@ INSERT INTO `config` (`id`, `item`, `value`, `class`, `is_public`, `type`, `defa
 (108, 'sign_up_for_daily_report', '0', 'register', 0, 'bool', '0', '注册后是否默认接收每日用量邮件推送'),
 (112, 'sign_up_for_invitation_codes', '10', 'register', 0, 'int', '10', '初始邀请注册链接使用次数限制'),
 (113, 'invitation_to_register_balance_reward', '1', 'invite', 1, 'int', '1', '邀请注册余额奖励（单位：元）'),
-(114, 'invitation_to_register_traffic_reward', '10', 'invite', 1, 'int', '10', '邀请注册流量奖励（单位：GB）');
+(114, 'invitation_to_register_traffic_reward', '10', 'invite', 1, 'int', '10', '邀请注册流量奖励（单位：GB）'),
+(115, 'invitation_mode', 'after_recharge', 'invite', 0, 'string', 'after_purchase', '邀请模式'),
+(116, 'invite_rebate_mode', 'limit_frequency', 'invite', 0, 'string', 'limit_amount', '返利模式'),
+(117, 'rebate_frequency_limit', '6', 'invite', 0, 'string', '3', '返利总次数限制'),
+(118, 'rebate_amount_limit', '9', 'invite', 0, 'int', '100', '返利总金额限制'),
+(119, 'rebate_ratio', '0.2', 'invite', 1, 'string', '0.2', '返利比例');
 
 --
 -- 转储表的索引

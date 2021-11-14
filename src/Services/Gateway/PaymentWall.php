@@ -63,18 +63,11 @@ class PaymentWall extends AbstractPayment
                 $codeq->usedatetime = date('Y-m-d H:i:s');
                 $codeq->userid = $user->id;
                 $codeq->save();
-                if ($user->ref_by != '' && $user->ref_by != 0 && $user->ref_by != null) {
-                    $gift_user = User::where('id', '=', $user->ref_by)->first();
-                    $gift_user->money += ($codeq->number * ($_ENV['code_payback'] / 100));
-                    $gift_user->save();
-                    $Payback = new Payback();
-                    $Payback->total = $pingback->getVirtualCurrencyAmount();
-                    $Payback->userid = $user->id;
-                    $Payback->ref_by = $user->ref_by;
-                    $Payback->ref_get = $codeq->number * ($_ENV['code_payback'] / 100);
-                    $Payback->datetime = time();
-                    $Payback->save();
+                // 返利
+                if ($user->ref_by > 0 && Setting::obtain('invitation_mode') == 'after_recharge') {
+                    Payback::rebate($user->id, $virtualCurrency);
                 }
+                // 通知
                 echo 'OK'; // Paymentwall expects response to be OK, otherwise the pingback will be resent
                 if ($_ENV['enable_donate'] == true) {
                     if ($user->is_hide == 1) {

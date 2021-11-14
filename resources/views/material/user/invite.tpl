@@ -131,22 +131,20 @@
                                         <table class="table">
                                             <tr>
                                                 <th>ID</th>
-                                                <th>被邀请用户ID</th>
-                                                <th>获得返利</th>
-                                                <th>返利時間</th>
+                                                <th>邀请用户昵称</th>
+                                                <th>返利金额</th>
+                                                <th>返利时间</th>
                                             </tr>
                                             {foreach $paybacks as $payback}
                                                 <tr>
                                                     <td>{$payback->id}</td>
                                                     {if $payback->user()!=null}
-                                                        <td>{$payback->user()->user_name}
-                                                        </td>
+                                                        <td>{$payback->user()->user_name}</td>
                                                     {else}
-                                                        <td>已注销
-                                                        </td>
+                                                        <td>已注销</td>
                                                     {/if}
                                                     <td>{$payback->ref_get} 元</td>
-                                                    <td class='payback-datetime'>{$payback->datetime}</td>
+                                                    <td>{date('Y-m-d H:i:s', $payback->datetime)}</td>
                                                 </tr>
                                             {/foreach}
                                         </table>
