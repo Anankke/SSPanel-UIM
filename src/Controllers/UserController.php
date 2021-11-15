@@ -240,20 +240,10 @@ class UserController extends BaseController
         if ($codeq->type == -1) {
             $user->money += $codeq->number;
             $user->save();
-            if ($user->ref_by != 0) {
-                $gift_user = $user->ref_by_user();
-                if ($gift_user != null) {
-                    $ref_get            = $codeq->number * ($_ENV['code_payback'] / 100);
-                    $gift_user->money  += $ref_get;
-                    $gift_user->save();
-                    $Payback            = new Payback();
-                    $Payback->total     = $codeq->number;
-                    $Payback->userid    = $this->user->id;
-                    $Payback->ref_by    = $this->user->ref_by;
-                    $Payback->ref_get   = $ref_get;
-                    $Payback->datetime  = time();
-                    $Payback->save();
-                }
+            
+            // 返利
+            if ($user->ref_by > 0 && Setting::obtain('invitation_mode') == 'after_recharge') {
+                Payback::rebate($user->id, $codeq->number);
             }
 
             if ($_ENV['enable_donate']) {
@@ -931,6 +921,11 @@ class UserController extends BaseController
         $bought->save();
 
         $shop->buy($user);
+
+        // 返利
+        if ($user->ref_by > 0 && Setting::obtain('invitation_mode') == 'after_purchase') {
+            Payback::rebate($user->id, $price);
+        }
 
         $res['ret'] = 1;
         $res['msg'] = '购买成功';

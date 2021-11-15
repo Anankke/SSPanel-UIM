@@ -3,8 +3,9 @@
 namespace App\Services\Gateway;
 
 use App\Services\Auth;
-use App\Models\Paylist;
 use App\Services\View;
+use App\Models\Paylist;
+use App\Models\Setting;
 use Exception;
 
 class THeadPay extends AbstractPayment
@@ -104,7 +105,9 @@ class THeadPay extends AbstractPayment
 
     public function getStatus($request, $response, $args)
     {
-        $p = Paylist::where('tradeno', $_POST['pid'])->first();
+        $pid = $request->getParam('pid');
+        
+        $p = Paylist::where('tradeno', $pid)->first();
         return $response->withJson([
             'ret'       => 1,
             'result'    => $p->status,

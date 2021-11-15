@@ -30,6 +30,33 @@ CREATE TABLE `config` (
 
 `mark` 备注
 
+# 特别说明
+若将值类型设置为 `array` ，在存储时需要先 `json_encode()` ，需要读取时再 `json_decode()`
+```
+<?php
+...
+use App\Models\Setting;
+...
+$recharge_limit = array(
+    'max_recharge_limit' => '1000',
+    'min_recharge_limit' => '10'
+);
+
+// 存储
+$config = Setting::where('item', 'recharge_limit')->first();
+$config->value = json_encode($recharge_limit);
+$config->save();
+
+// 读取
+$config = Setting::obtain('recharge_limit');
+$recharge_limit = json_decode($config->value);
+
+// 业务逻辑
+...
+
+?>
+```
+
 # 方法
 使用 `use` 操作符导入
 ```

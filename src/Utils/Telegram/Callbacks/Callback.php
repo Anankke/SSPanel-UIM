@@ -1130,7 +1130,7 @@ class Callback
             '',
             '- 您会获得 <strong>' . $invitation['invitation_to_register_traffic_reward'] . 'G</strong> 流量奖励.',
             '- 对方将获得 <strong>' . $invitation['invitation_to_register_balance_reward'] . ' 元</strong> 奖励作为初始资金.',
-            '- 对方充值时您还会获得对方充值金额的 <strong>' . $_ENV['code_payback'] . '%</strong> 的返利.',
+            '- 对方充值时您还会获得对方充值金额的 <strong>' . $invitation['rebate_ratio'] . '%</strong> 的返利.',
             '',
             '已获得返利：' . $paybacks_sum . ' 元.',
         ];

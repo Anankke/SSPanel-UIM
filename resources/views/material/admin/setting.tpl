@@ -753,9 +753,51 @@
                                     </nav>
                                             
                                     <div class="tab-pane fade active in" id="rebate_mode">
-                                        <p>下次更新再说</p>
-
-                                        <button id="submit_rebate_mode" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <!-- invitation_mode -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">邀请模式</label>
+                                            <select id="invitation_mode" class="form-control maxwidth-edit">
+                                                <option value="registration_only" {if $settings['invitation_mode'] == 'registration_only'}selected{/if}>
+                                                仅使用邀请注册功能，不返利</option>
+                                                <option value="after_recharge" {if $settings['invitation_mode'] == 'after_recharge'}selected{/if}>
+                                                使用邀请注册功能，并在被邀请用户充值时返利</option>
+                                                <option value="after_purchase" {if $settings['invitation_mode'] == 'after_purchase'}selected{/if}>
+                                                使用邀请注册功能，并在被邀请用户购买时返利</option>
+                                            </select>
+                                        </div>
+                                        <!-- invite_rebate_mode -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">返利模式</label>
+                                            <select id="invite_rebate_mode" class="form-control maxwidth-edit">
+                                                <option value="continued" {if $settings['invite_rebate_mode'] == 'continued'}selected{/if}>
+                                                持续返利</option>
+                                                <option value="limit_frequency" {if $settings['invite_rebate_mode'] == 'limit_frequency'}selected{/if}>
+                                                限制邀请人能从被邀请人身上获得的总返利次数</option>
+                                                <option value="limit_amount" {if $settings['invite_rebate_mode'] == 'limit_amount'}selected{/if}>
+                                                限制邀请人能从被邀请人身上获得的总返利金额</option>
+                                            </select>
+                                        </div>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>该功能依赖 payback 表记录，请注意谨慎操作该表</p>
+                                        <!-- rebate_ratio -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">返利比例。10 元商品反 2 元就填 0.2</label>
+                                            <input class="form-control maxwidth-edit" id="rebate_ratio" value="{$settings['rebate_ratio']}">
+                                        </div>
+                                        <!-- rebate_frequency_limit -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">返利总次数限制</label>
+                                            <input class="form-control maxwidth-edit" id="rebate_frequency_limit" value="{$settings['rebate_frequency_limit']}">
+                                        </div>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 3 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，则只对前三笔订单返利（假设设置为在购买时返利）</p>
+                                        <!-- rebate_amount_limit -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">返利总金额限制</label>
+                                            <input class="form-control maxwidth-edit" id="rebate_amount_limit" value="{$settings['rebate_amount_limit']}">
+                                        </div>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 10 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，若返点设置为 20% ，则第一次购买返利为 2；第二次为 4；第三次为 4；第四次及之后的购买，邀请人所能获得的返利均为 0（假设设置为在购买时返利）</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>在进行第三次返利计算时，按设置应返利订单金额的 20% ，即 10 元。但因已获得历史返利 6 元，则只能获得返利总金额限制与历史返利的差值</p>
+                                        
+                                        <br/><button id="submit_rebate_mode" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
 
                                     <div class="tab-pane fade" id="invitation_reward">
@@ -1478,6 +1520,38 @@
                     class: 'invitation_reward',
                     invitation_to_register_balance_reward: $$getValue('invitation_to_register_balance_reward'),
                     invitation_to_register_traffic_reward: $$getValue('invitation_to_register_traffic_reward')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_rebate_mode').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'rebate_mode',
+                    invitation_mode: $$getValue('invitation_mode'),
+                    invite_rebate_mode: $$getValue('invite_rebate_mode'),
+                    rebate_ratio: $$getValue('rebate_ratio'),
+                    rebate_frequency_limit: $$getValue('rebate_frequency_limit'),
+                    rebate_amount_limit: $$getValue('rebate_amount_limit')
                 },
                 success: data => {
                     $("#result").modal();

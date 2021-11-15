@@ -7,7 +7,7 @@ class Setting extends Model
     protected $connection = 'default';
     protected $table = 'config';
     
-    public function obtain($item)
+    public static function obtain($item)
     {
         $config = self::where('item', '=', $item)->first();
         
@@ -20,7 +20,7 @@ class Setting extends Model
         return (string) $config->value;
     }
 
-    public function getClass($class)
+    public static function getClass($class)
     {
         $configs = array();
         $all_configs = Setting::where('class', $class)->get();
@@ -33,7 +33,7 @@ class Setting extends Model
         return $configs;
     }
 
-    public function getPublicConfig()
+    public static function getPublicConfig()
     {
         $configs = array();
         $all_configs = Setting::where('is_public', '1')->get();

@@ -59,6 +59,7 @@ class Config
             // 邀请
             'invite_get_money'        => $public_configs['invitation_to_register_balance_reward'],
             'invite_gift'             => $public_configs['invitation_to_register_traffic_reward'],
+            'code_payback'            => $public_configs['rebate_ratio'],
             // 待处理
             'min_port'                => $_ENV['min_port'],
             'max_port'                => $_ENV['max_port'],
@@ -66,7 +67,6 @@ class Config
             'checkinMin'              => $_ENV['checkinMin'],
             'checkinMax'              => $_ENV['checkinMax'],
             'invite_price'            => $_ENV['invite_price'],
-            'code_payback'            => $_ENV['code_payback'],
             'port_price'              => $_ENV['port_price'],
             'port_price_specify'      => $_ENV['port_price_specify'],
             'jump_delay'              => $_ENV['jump_delay'],
