@@ -43,7 +43,7 @@ $recharge_limit = array(
 );
 
 // 存储
-$config = Setting::obtain('recharge_limit');
+$config = Setting::where('item', 'recharge_limit')->first();
 $config->value = json_encode($recharge_limit);
 $config->save();
 
