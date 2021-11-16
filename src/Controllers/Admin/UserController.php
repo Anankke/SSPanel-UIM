@@ -214,57 +214,33 @@ class UserController extends AdminController
         $id = $args['id'];
         $user = User::find($id);
 
-        $email1 = $user->email;
-
-        $user->email = $request->getParam('email');
-
-        $email2 = $request->getParam('email');
-
-        $passwd = $request->getParam('passwd');
-
+        // 如果修改了用户登录密码
         if ($request->getParam('pass') != '') {
             $user->pass = Hash::passwordHash($request->getParam('pass'));
             $user->clean_link();
         }
 
-        $user->auto_reset_day = $request->getParam('auto_reset_day');
-        $user->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
-        $origin_port = $user->port;
-        $user->port = $request->getParam('port');
+        // 账户信息
+        $user->email         = $request->getParam('email');
+        $user->remark        = $request->getParam('remark');
+        $user->user_name     = $request->getParam('user_name');
+        $user->is_admin      = $request->getParam('is_admin');
+        $user->enable        = $request->getParam('enable');
+        $user->ga_enable     = $request->getParam('ga_enable');
+        $user->money         = $request->getParam('money');
+        $user->is_multi_user = $request->getParam('is_multi_user');
 
+        // 记录
         $user->addMoneyLog($request->getParam('money') - $user->money);
 
-        $user->passwd           = $request->getParam('passwd');
-        $user->protocol         = $request->getParam('protocol');
-        $user->protocol_param   = $request->getParam('protocol_param');
-        $user->obfs             = $request->getParam('obfs');
-        $user->obfs_param       = $request->getParam('obfs_param');
-        $user->is_multi_user    = $request->getParam('is_multi_user');
-        $user->transfer_enable  = Tools::toGB($request->getParam('transfer_enable'));
-        $user->invite_num       = $request->getParam('invite_num');
-        $user->method           = $request->getParam('method');
-        $user->node_speedlimit  = $request->getParam('node_speedlimit');
-        $user->node_connector   = $request->getParam('node_connector');
-        $user->enable           = $request->getParam('enable');
-        $user->is_admin         = $request->getParam('is_admin');
-        $user->ga_enable        = $request->getParam('ga_enable');
-        $user->node_group       = $request->getParam('group');
-        $user->ref_by           = $request->getParam('ref_by');
-        $user->remark           = $request->getParam('remark');
-        $user->money            = $request->getParam('money');
-        $user->class            = $request->getParam('class');
-        $user->class_expire     = $request->getParam('class_expire');
-        $user->expire_in        = $request->getParam('expire_in');
-
-        $user->forbidden_ip     = str_replace(PHP_EOL, ',', $request->getParam('forbidden_ip'));
-        $user->forbidden_port   = str_replace(PHP_EOL, ',', $request->getParam('forbidden_port'));
-
-        // 手动封禁
+        // 邀请设置
+        $user->invite_num    = $request->getParam('invite_num');
+        
+        // 封禁管理
         $ban_time = (int) $request->getParam('ban_time');
         if ($ban_time > 0) {
             $user->enable                       = 0;
-            $end_time                           = date('Y-m-d H:i:s');
-            $user->last_detect_ban_time         = $end_time;
+            $user->last_detect_ban_time         = date('Y-m-d H:i:s');
             $DetectBanLog                       = new DetectBanLog();
             $DetectBanLog->user_name            = $user->user_name;
             $DetectBanLog->user_id              = $user->id;
@@ -272,10 +248,40 @@ class UserController extends AdminController
             $DetectBanLog->detect_number        = '0';
             $DetectBanLog->ban_time             = $ban_time;
             $DetectBanLog->start_time           = strtotime('1989-06-04 00:05:00');
-            $DetectBanLog->end_time             = strtotime($end_time);
+            $DetectBanLog->end_time             = time();
             $DetectBanLog->all_detect_number    = $user->all_detect_number;
             $DetectBanLog->save();
         }
+
+        // SS and SSR 设置
+        $user->port             = $request->getParam('port');
+        $user->passwd           = $request->getParam('passwd');
+        $user->method           = $request->getParam('method');
+        $user->protocol         = $request->getParam('protocol');
+        $user->obfs             = $request->getParam('obfs');
+        $user->protocol_param   = $request->getParam('protocol_param');
+        $user->obfs_param       = $request->getParam('obfs_param');
+        
+        // 账户设置
+        $user->node_group       = $request->getParam('group');
+        $user->class            = $request->getParam('class');
+        $user->class_expire     = $request->getParam('class_expire');
+        $user->expire_in        = $request->getParam('expire_in');
+
+        // 流量设置
+        $user->transfer_enable  = Tools::toGB($request->getParam('transfer_enable'));
+        
+        // 重置设置
+        $user->auto_reset_day       = $request->getParam('auto_reset_day');
+        $user->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
+        
+        // 限制设置
+        $user->node_speedlimit  = $request->getParam('node_speedlimit');
+        $user->node_connector   = $request->getParam('node_connector');
+        
+        // 访问设置
+        $user->forbidden_ip     = str_replace(PHP_EOL, ',', $request->getParam('forbidden_ip'));
+        $user->forbidden_port   = str_replace(PHP_EOL, ',', $request->getParam('forbidden_port'));
 
         if (!$user->save()) {
             return $response->withJson([
@@ -283,6 +289,7 @@ class UserController extends AdminController
                 'msg' => '修改失败'
             ]);
         }
+        
         return $response->withJson([
             'ret' => 1,
             'msg' => '修改成功'
