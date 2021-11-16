@@ -24,7 +24,7 @@ CREATE TABLE `config` (
 
 `is_public` 是否是公共参数
 
-`type` 值类型，可选：`string`、`int`、`bool`、`array`、`int`
+`type` 值类型，可选：`string`、`int`、`bool`、`array`
 
 `default` 配置项目的默认值
 
@@ -43,7 +43,7 @@ $recharge_limit = array(
 );
 
 // 存储
-$config = Setting::obtain('recharge_limit');
+$config = Setting::where('item', 'recharge_limit')->first();
 $config->value = json_encode($recharge_limit);
 $config->save();
 

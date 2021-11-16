@@ -105,14 +105,11 @@ class Job extends Command
         TelegramSession::where('datetime', '<', time() - 900)->delete();
         // ------- 清理各表记录
 
-        // ------- 清理 TG 二维码登录的图片
-        system('rm ' . BASE_PATH . '/storage/*.png', $ret);
-        // ------- 清理 TG 二维码登录的图片
 
         // ------- 重置自增 ID
         $db = new DatatablesHelper();
-        Tools::reset_auto_increment($db, 'ss_node_online_log');
-        Tools::reset_auto_increment($db, 'ss_node_info');
+        Tools::reset_auto_increment($db, 'node_online_log');
+        Tools::reset_auto_increment($db, 'node_info');
         // ------- 重置自增 ID
 
         // ------- 用户流量重置
