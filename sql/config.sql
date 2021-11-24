@@ -126,7 +126,8 @@ INSERT INTO `config` (`id`, `item`, `value`, `class`, `is_public`, `type`, `defa
 (116, 'invite_rebate_mode', 'limit_frequency', 'invite', 0, 'string', 'limit_amount', '返利模式'),
 (117, 'rebate_frequency_limit', '6', 'invite', 0, 'string', '3', '返利总次数限制'),
 (118, 'rebate_amount_limit', '9', 'invite', 0, 'int', '100', '返利总金额限制'),
-(119, 'rebate_ratio', '0.2', 'invite', 1, 'string', '0.2', '返利比例');
+(119, 'rebate_ratio', '0.2', 'invite', 1, 'string', '0.2', '返利比例'),
+(120, 'rebate_time_range_limit', '180', 'invite', '0', 'int', '180', '返利时间范围限制（单位：天）');
 
 --
 -- 转储表的索引
@@ -146,7 +147,7 @@ ALTER TABLE `config`
 -- 使用表AUTO_INCREMENT `config`
 --
 ALTER TABLE `config`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键', AUTO_INCREMENT=115;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键', AUTO_INCREMENT=121;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
