@@ -9,6 +9,7 @@ use App\Utils\Tools;
 use Ramsey\Uuid\Uuid;
 use App\Services\Config;
 use App\Models\Setting;
+use App\Utils\DatatablesHelper;
 use App\Models\User as ModelsUser;
 
 class User extends Command
@@ -133,6 +134,11 @@ class User extends Command
      */
     public function createAdmin()
     {
+        $db = new DatatablesHelper();
+        if ($db->query('SHOW TABLES LIKE \'config\'') == null) {
+            die("导入 sql/config.sql 后重试.\r\n");
+        }
+        
         if (count($this->argv) === 3) {
             // ask for input
             fwrite(STDOUT, '(1/3) 请输入管理员邮箱：') . PHP_EOL;
