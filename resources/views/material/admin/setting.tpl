@@ -775,13 +775,21 @@
                                                 限制邀请人能从被邀请人身上获得的总返利次数</option>
                                                 <option value="limit_amount" {if $settings['invite_rebate_mode'] == 'limit_amount'}selected{/if}>
                                                 限制邀请人能从被邀请人身上获得的总返利金额</option>
+                                                <option value="limit_time_range" {if $settings['invite_rebate_mode'] == 'limit_time_range'}selected{/if}>
+                                                限制邀请人能从被邀请人身上获得返利的时间范围</option>
                                             </select>
                                         </div>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>该功能依赖 payback 表记录，请注意谨慎操作该表</p>
                                         <!-- rebate_ratio -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">返利比例。10 元商品反 2 元就填 0.2</label>
                                             <input class="form-control maxwidth-edit" id="rebate_ratio" value="{$settings['rebate_ratio']}">
+                                        </div>
+                                        <h5>返利限制模式</h5>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>以下设置项仅在选择对应返利限制模式时生效</p>
+                                        <!-- rebate_time_range_limit -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">返利时间范围限制（单位：天）</label>
+                                            <input class="form-control maxwidth-edit" id="rebate_time_range_limit" value="{$settings['rebate_time_range_limit']}">
                                         </div>
                                         <!-- rebate_frequency_limit -->
                                         <div class="form-group form-group-label">
@@ -1551,7 +1559,8 @@
                     invite_rebate_mode: $$getValue('invite_rebate_mode'),
                     rebate_ratio: $$getValue('rebate_ratio'),
                     rebate_frequency_limit: $$getValue('rebate_frequency_limit'),
-                    rebate_amount_limit: $$getValue('rebate_amount_limit')
+                    rebate_amount_limit: $$getValue('rebate_amount_limit'),
+                    rebate_time_range_limit: $$getValue('rebate_time_range_limit')
                 },
                 success: data => {
                     $("#result").modal();
