@@ -118,7 +118,7 @@ class SettingController extends AdminController
                 break;
             // 返利设置
             case 'rebate_mode':
-                $list = array('invitation_mode', 'invite_rebate_mode', 'rebate_ratio', 'rebate_frequency_limit', 'rebate_amount_limit');
+                $list = array('invitation_mode', 'invite_rebate_mode', 'rebate_ratio', 'rebate_frequency_limit', 'rebate_amount_limit', 'rebate_time_range_limit');
                 break;
         }
         
