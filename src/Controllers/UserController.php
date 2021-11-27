@@ -399,18 +399,12 @@ class UserController extends BaseController
 
         $paybacks->setPath('/user/profile');
 
-        $iplocation  = new QQWry();
-
-        $userloginip = [];
+        // 登录IP
         $totallogin  = LoginIp::where('userid', '=', $this->user->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
-        foreach ($totallogin as $single) {
-            if (!isset($userloginip[$single->ip])) {
-                $location                 = $iplocation->getlocation($single->ip);
-                $userloginip[$single->ip] = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-            }
-        }
 
+        // 使用IP
         $userip = [];
+        $iplocation  = new QQWry();
         $total  = Ip::where('datetime', '>=', time() - 300)->where('userid', '=', $this->user->id)->get();
         foreach ($total as $single) {
             $single->ip = Tools::getRealIp($single->ip);
@@ -426,7 +420,7 @@ class UserController extends BaseController
 
         if ($request->getParam('json') == 1) {
             $res['userip']      = $userip;
-            $res['userloginip'] = $userloginip;
+            $res['userloginip'] = $totallogin;
             $res['paybacks']    = $paybacks;
             $res['ret']         = 1;
             return $response->withJson($res);
@@ -438,8 +432,9 @@ class UserController extends BaseController
             $this->view()
                 ->assign('boughts'    , $boughts)
                 ->assign('userip'     , $userip)
-                ->assign('userloginip', $userloginip)
+                ->assign('userloginip', $totallogin)
                 ->assign('paybacks'   , $paybacks)
+                ->registerClass('Tools', Tools::class)
                 ->display('user/profile.tpl')
         );
     }

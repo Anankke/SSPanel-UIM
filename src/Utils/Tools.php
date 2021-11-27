@@ -4,10 +4,22 @@ namespace App\Utils;
 
 use App\Models\{Model, User, Node};
 use App\Services\Config;
+use App\Utils\QQWry;
 use DateTime;
 
 class Tools
 {
+    /**
+     * 查询IP归属
+     */
+    public static function getIpInfo($ip)
+    {
+        $iplocation = new QQWry();
+        $location   = $iplocation->getlocation($ip);
+        $ipInfo     = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
+        return $ipInfo;
+    }
+
     /**
      * 根据流量值自动转换单位输出
      */
