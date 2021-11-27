@@ -251,6 +251,7 @@ class UserController extends AdminController
         $user->node_group       = $request->getParam('group');
         $user->ref_by           = $request->getParam('ref_by');
         $user->remark           = $request->getParam('remark');
+        $user->user_name        = $request->getParam('user_name');
         $user->money            = $request->getParam('money');
         $user->class            = $request->getParam('class');
         $user->class_expire     = $request->getParam('class_expire');
