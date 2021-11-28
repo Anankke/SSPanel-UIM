@@ -25,12 +25,8 @@
                                             </div>
                                         </div>
                                     {/if}
-                                    <dl class="dl-horizontal">
-                                        <dt>用户名</dt>
-                                        <dd>{$user->user_name}</dd>
-                                        <dt>邮箱</dt>
-                                        <dd>{$user->email}</dd>
-                                    </dl>
+                                    <p>昵称：<code>{$user->user_name}</code></p>
+                                    <p>邮箱：<code>{$user->email}</code></p>
                                 </div>
                             </div>
                         </div>
@@ -116,12 +112,14 @@
                                         <table class="table table-fixed">
                                             <tr>
                                                 <th>IP</th>
-                                                <th>归属地</th>
+                                                <th>时间</th>
+                                                <th>归属</th>
                                             </tr>
-                                            {foreach $userloginip as $single=>$location}
+                                            {foreach $userloginip as $login}
                                                 <tr>
-                                                    <td>{$single}</td>
-                                                    <td>{$location}</td>
+                                                    <td>{$login->ip}</td>
+                                                    <td>{date('Y-m-d h:i:s', $login->datetime)}</td>
+                                                    <td>{Tools::getIpInfo($login->ip)}</td>
                                                 </tr>
                                             {/foreach}
                                         </table>
