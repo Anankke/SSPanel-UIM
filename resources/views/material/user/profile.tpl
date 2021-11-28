@@ -25,8 +25,8 @@
                                             </div>
                                         </div>
                                     {/if}
-                                    <p>昵称：<code style="font-size: 15px">{$user->user_name}</code></p>
-                                    <p>邮箱：<code style="font-size: 15px">{$user->email}</code></p>
+                                    <p>昵称：<code>{$user->user_name}</code></p>
+                                    <p>邮箱：<code>{$user->email}</code></p>
                                 </div>
                             </div>
                         </div>
