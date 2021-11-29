@@ -84,13 +84,13 @@ class UserController extends BaseController
         $users = array();
 
         if ($node->sort == 14) {
-            $key_list = array('node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip');
+            $key_list = array('node_speedlimit', 'id', 'node_connector', 'uuid', 'alive_ip');
         } elseif ($node->sort == 11) {
-            $key_list = array('node_speedlimit', 'u', 'd', 'transfer_enable', 'id', 'node_connector', 'uuid', 'alive_ip');
+            $key_list = array('node_speedlimit', 'id', 'node_connector', 'uuid', 'alive_ip');
         } else {
             $key_list = array(
                 'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param', 'node_speedlimit',
-                'is_multi_user', 'u', 'd', 'transfer_enable', 'id', 'port', 'passwd', 'node_connector', 'alive_ip'
+                'is_multi_user', 'id', 'port', 'passwd', 'node_connector', 'alive_ip'
             );
         }
 

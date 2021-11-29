@@ -305,6 +305,10 @@ return function (SlimApp $app) {
         $this->get('/{token}',          App\Controllers\LinkController::class . ':GetContent');
     });
 
+    $app->group('/sub', function () {
+        $this->get('/{token}/{subtype}',          App\Controllers\SubController::class . ':index');
+    });
+
     $app->group('/getClient', function () {
         $this->get('/{token}', App\Controllers\UserController::class . ':getClientfromToken');
     });

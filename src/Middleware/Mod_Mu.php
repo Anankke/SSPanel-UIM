@@ -29,7 +29,7 @@ class Mod_Mu
             // key 不存在
             return $response->withJson([
                 'ret'  => 0,
-                'data' => 'Token is invalid'
+                'data' => 'Token is invalid.'
             ]);
         }
 
@@ -37,7 +37,7 @@ class Mod_Mu
             // 主站不提供 WebAPI
             return $response->withJson([
                 'ret'  => 0,
-                'data' => 'We regret this service is temporarily unavailable'
+                'data' => 'WebAPI is disabled.'
             ]);
         }
 
