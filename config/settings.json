@@ -1,0 +1,862 @@
+[
+    {
+        "id": null,
+        "item": "payment_gateway",
+        "value": "[]",
+        "class": "pay",
+        "is_public": 1,
+        "type": "array",
+        "default": "[]",
+        "mark": "\u652f\u4ed8\u7f51\u5173"
+    },
+    {
+        "id": null,
+        "item": "f2f_pay_app_id",
+        "value": "",
+        "class": "f2f",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u5f53\u9762\u4ed8AppID"
+    },
+    {
+        "id": null,
+        "item": "f2f_pay_pid",
+        "value": "",
+        "class": "f2f",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u5f53\u9762\u4ed8PID"
+    },
+    {
+        "id": null,
+        "item": "f2f_pay_public_key",
+        "value": "",
+        "class": "f2f",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u5f53\u9762\u4ed8\u516c\u94a5"
+    },
+    {
+        "id": null,
+        "item": "f2f_pay_private_key",
+        "value": "",
+        "class": "f2f",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u5f53\u9762\u4ed8\u79c1\u94a5"
+    },
+    {
+        "id": null,
+        "item": "f2f_pay_notify_url",
+        "value": "",
+        "class": "f2f",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u5f53\u9762\u4ed8\u81ea\u5b9a\u4e49\u56de\u8c03\u5730\u5740"
+    },
+    {
+        "id": null,
+        "item": "vmq_gateway",
+        "value": "",
+        "class": "vmq",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "V\u514d\u7b7e\u7f51\u5173"
+    },
+    {
+        "id": null,
+        "item": "vmq_key",
+        "value": "",
+        "class": "vmq",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "V\u514d\u7b7e\u5bc6\u94a5"
+    },
+    {
+        "id": null,
+        "item": "smtp_host",
+        "value": "",
+        "class": "smtp",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp\u53d1\u4fe1\u4e3b\u673a"
+    },
+    {
+        "id": null,
+        "item": "smtp_username",
+        "value": "",
+        "class": "smtp",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp\u8d26\u6237\u540d\u79f0"
+    },
+    {
+        "id": null,
+        "item": "smtp_password",
+        "value": "",
+        "class": "smtp",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp\u8d26\u6237\u5bc6\u7801"
+    },
+    {
+        "id": null,
+        "item": "smtp_port",
+        "value": "",
+        "class": "smtp",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp\u53d1\u4fe1\u7aef\u53e3"
+    },
+    {
+        "id": null,
+        "item": "smtp_name",
+        "value": "",
+        "class": "smtp",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp\u53d1\u4fe1\u540d\u79f0"
+    },
+    {
+        "id": null,
+        "item": "smtp_sender",
+        "value": "",
+        "class": "smtp",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "smtp\u53d1\u4fe1\u5730\u5740"
+    },
+    {
+        "id": null,
+        "item": "smtp_ssl",
+        "value": "1",
+        "class": "smtp",
+        "is_public": 0,
+        "type": "bool",
+        "default": "1",
+        "mark": "\u662f\u5426\u4f7f\u7528 TLS\/SSL \u53d1\u4fe1"
+    },
+    {
+        "id": null,
+        "item": "smtp_bbc",
+        "value": "",
+        "class": "smtp",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u53d1\u7ed9\u7528\u6237\u7684\u90ae\u4ef6\u5bc6\u9001\u7ed9\u6307\u5b9a\u90ae\u7bb1\u5907\u4efd"
+    },
+    {
+        "id": null,
+        "item": "mail_driver",
+        "value": "none",
+        "class": "mail",
+        "is_public": 0,
+        "type": "string",
+        "default": "none",
+        "mark": "\u90ae\u4ef6\u670d\u52a1\u63d0\u4f9b\u5546"
+    },
+    {
+        "id": null,
+        "item": "captcha_provider",
+        "value": "recaptcha",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "string",
+        "default": "recaptcha",
+        "mark": "\u9a8c\u8bc1\u7801\u63d0\u4f9b\u5546"
+    },
+    {
+        "id": null,
+        "item": "enable_reg_captcha",
+        "value": "0",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "\u6ce8\u518c\u9a8c\u8bc1\u7801"
+    },
+    {
+        "id": null,
+        "item": "enable_login_captcha",
+        "value": "0",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "\u767b\u5f55\u9a8c\u8bc1\u7801"
+    },
+    {
+        "id": null,
+        "item": "enable_checkin_captcha",
+        "value": "0",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "\u7b7e\u5230\u9a8c\u8bc1\u7801"
+    },
+    {
+        "id": null,
+        "item": "recaptcha_sitekey",
+        "value": "",
+        "class": "recaptcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "reCaptcha\u7f51\u7ad9\u5bc6\u94a5"
+    },
+    {
+        "id": null,
+        "item": "recaptcha_secret",
+        "value": "",
+        "class": "recaptcha",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "reCaptcha\u5bc6\u94a5"
+    },
+    {
+        "id": null,
+        "item": "geetest_id",
+        "value": "",
+        "class": "geetest",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u6781\u9a8cid"
+    },
+    {
+        "id": null,
+        "item": "geetest_key",
+        "value": "",
+        "class": "geetest",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u6781\u9a8c\u5bc6\u94a5"
+    },
+    {
+        "id": null,
+        "item": "mailgun_key",
+        "value": "",
+        "class": "mailgun",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "mailgun\u5bc6\u94a5"
+    },
+    {
+        "id": null,
+        "item": "mailgun_domain",
+        "value": "",
+        "class": "mailgun",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "mailgun\u57df\u540d"
+    },
+    {
+        "id": null,
+        "item": "mailgun_sender",
+        "value": "",
+        "class": "mailgun",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "mailgun\u53d1\u9001\u8005"
+    },
+    {
+        "id": null,
+        "item": "sendgrid_key",
+        "value": "",
+        "class": "sendgrid",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "sendgrid\u5bc6\u94a5"
+    },
+    {
+        "id": null,
+        "item": "sendgrid_sender",
+        "value": "",
+        "class": "sendgrid",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "sendgrid\u53d1\u4ef6\u90ae\u7bb1"
+    },
+    {
+        "id": null,
+        "item": "sendgrid_name",
+        "value": "",
+        "class": "sendgrid",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "sendgrid\u53d1\u4ef6\u4eba\u540d\u79f0"
+    },
+    {
+        "id": null,
+        "item": "aws_access_key_id",
+        "value": "",
+        "class": "aws_ses",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "aws\u5bc6\u94a5id"
+    },
+    {
+        "id": null,
+        "item": "aws_secret_access_key",
+        "value": "",
+        "class": "aws_ses",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "aws\u5bc6\u94a5key"
+    },
+    {
+        "id": null,
+        "item": "auto_backup_email",
+        "value": "",
+        "class": "backup",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u63a5\u6536\u5907\u4efd\u7684\u90ae\u7bb1"
+    },
+    {
+        "id": null,
+        "item": "auto_backup_password",
+        "value": "",
+        "class": "backup",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u5907\u4efd\u7684\u538b\u7f29\u5bc6\u7801"
+    },
+    {
+        "id": null,
+        "item": "payjs_mchid",
+        "value": "",
+        "class": "payjs",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "payjs_mchid"
+    },
+    {
+        "id": null,
+        "item": "payjs_key",
+        "value": "",
+        "class": "payjs",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "payjs_key"
+    },
+    {
+        "id": null,
+        "item": "enable_admin_contact",
+        "value": "0",
+        "class": "contact",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "\u662f\u5426\u663e\u793a\u7ad9\u957f\u8054\u7cfb\u65b9\u5f0f"
+    },
+    {
+        "id": null,
+        "item": "admin_contact1",
+        "value": "qq",
+        "class": "contact",
+        "is_public": 1,
+        "type": "string",
+        "default": "qq",
+        "mark": "\u7ad9\u957f\u8054\u7cfb\u65b9\u5f0f\u4e00"
+    },
+    {
+        "id": null,
+        "item": "admin_contact2",
+        "value": "mail",
+        "class": "contact",
+        "is_public": 1,
+        "type": "string",
+        "default": "mail",
+        "mark": "\u7ad9\u957f\u8054\u7cfb\u65b9\u5f0f\u4e8c"
+    },
+    {
+        "id": null,
+        "item": "admin_contact3",
+        "value": "telegram",
+        "class": "contact",
+        "is_public": 1,
+        "type": "string",
+        "default": "telegram",
+        "mark": "\u7ad9\u957f\u8054\u7cfb\u65b9\u5f0f\u4e09"
+    },
+    {
+        "id": null,
+        "item": "tawk_id",
+        "value": "",
+        "class": "live_chat",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "tawk_id"
+    },
+    {
+        "id": null,
+        "item": "crisp_id",
+        "value": "",
+        "class": "live_chat",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "crisp_id"
+    },
+    {
+        "id": null,
+        "item": "livechat_id",
+        "value": "",
+        "class": "live_chat",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "livechat_id"
+    },
+    {
+        "id": null,
+        "item": "mylivechat_id",
+        "value": "",
+        "class": "live_chat",
+        "is_public": 1,
+        "type": "string",
+        "default": "",
+        "mark": "mylivechat_id"
+    },
+    {
+        "id": null,
+        "item": "live_chat",
+        "value": "none",
+        "class": "live_chat",
+        "is_public": 1,
+        "type": "string",
+        "default": "none",
+        "mark": "\u5ba2\u670d\u7cfb\u7edf\u5f00\u5173"
+    },
+    {
+        "id": null,
+        "item": "theadpay_url",
+        "value": "",
+        "class": "theadpay",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "theadpay_url"
+    },
+    {
+        "id": null,
+        "item": "theadpay_mchid",
+        "value": "",
+        "class": "theadpay",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "theadpay_mchid"
+    },
+    {
+        "id": null,
+        "item": "theadpay_key",
+        "value": "",
+        "class": "theadpay",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "theadpay_key"
+    },
+    {
+        "id": null,
+        "item": "coinpay_appid",
+        "value": "",
+        "class": "coinpay",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "CoinPay\u5e94\u7528ID"
+    },
+    {
+        "id": null,
+        "item": "coinpay_secret",
+        "value": "",
+        "class": "coinpay",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "CoinPay\u9a8c\u8bc1\u5bc6\u94a5"
+    },
+    {
+        "id": null,
+        "item": "user_center_bg",
+        "value": "0",
+        "class": "personalise",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "\u662f\u5426\u542f\u7528\u81ea\u5b9a\u4e49\u7528\u6237\u4e2d\u5fc3\u80cc\u666f\u56fe\u7247"
+    },
+    {
+        "id": null,
+        "item": "admin_center_bg",
+        "value": "0",
+        "class": "personalise",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "\u662f\u5426\u542f\u7528\u81ea\u5b9a\u4e49\u7ba1\u7406\u4e2d\u5fc3\u80cc\u666f\u56fe\u7247"
+    },
+    {
+        "id": null,
+        "item": "user_center_bg_addr",
+        "value": "\/theme\/material\/css\/images\/bg\/amber.jpg",
+        "class": "personalise",
+        "is_public": 1,
+        "type": "string",
+        "default": "\/theme\/material\/css\/images\/bg\/amber.jpg",
+        "mark": "\u7528\u6237\u4e2d\u5fc3\u80cc\u666f\u56fe\u7247\u5730\u5740"
+    },
+    {
+        "id": null,
+        "item": "admin_center_bg_addr",
+        "value": "\/theme\/material\/css\/images\/bg\/amber.jpg",
+        "class": "personalise",
+        "is_public": 1,
+        "type": "string",
+        "default": "\/theme\/material\/css\/images\/bg\/amber.jpg",
+        "mark": "\u7ba1\u7406\u4e2d\u5fc3\u80cc\u666f\u56fe\u7247\u5730\u5740"
+    },
+    {
+        "id": null,
+        "item": "pmw_publickey",
+        "value": "",
+        "class": "pmw",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "pmw\u516c\u94a5"
+    },
+    {
+        "id": null,
+        "item": "pmw_privatekey",
+        "value": "",
+        "class": "pmw",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "pmw\u79c1\u94a5"
+    },
+    {
+        "id": null,
+        "item": "pmw_widget",
+        "value": "m2_1",
+        "class": "pmw",
+        "is_public": 0,
+        "type": "string",
+        "default": "m2_1",
+        "mark": "pmw_widget"
+    },
+    {
+        "id": null,
+        "item": "pmw_height",
+        "value": "350px",
+        "class": "pmw",
+        "is_public": 0,
+        "type": "string",
+        "default": "350px",
+        "mark": "pmw_height"
+    },
+    {
+        "id": null,
+        "item": "auto_backup_notify",
+        "value": "0",
+        "class": "backup",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "\u5907\u4efd\u662f\u5426\u901a\u77e5\u5230TG\u7fa4\u4e2d"
+    },
+    {
+        "id": null,
+        "item": "reg_mode",
+        "value": "open",
+        "class": "register",
+        "is_public": 1,
+        "type": "string",
+        "default": "open",
+        "mark": "\u6ce8\u518c\u6a21\u5f0f"
+    },
+    {
+        "id": null,
+        "item": "reg_email_verify",
+        "value": "0",
+        "class": "register",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "\u90ae\u7bb1\u9a8c\u8bc1"
+    },
+    {
+        "id": null,
+        "item": "email_verify_ttl",
+        "value": "3600",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "3600",
+        "mark": "\u90ae\u7bb1\u9a8c\u8bc1\u7801\u6709\u6548\u671f"
+    },
+    {
+        "id": null,
+        "item": "email_verify_ip_limit",
+        "value": "5",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "5",
+        "mark": "\u9a8c\u8bc1\u7801\u6709\u6548\u671f\u5185\u5355\u4e2aip\u53ef\u8bf7\u6c42\u7684\u53d1\u4fe1\u6b21\u6570"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_free_traffic",
+        "value": "20",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "20",
+        "mark": "\u6ce8\u518c\u65f6\u8d60\u9001\u7684\u6d41\u91cf\uff08\u5355\u4f4d\uff1aGB\uff09"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_free_time",
+        "value": "7",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "7",
+        "mark": "\u6ce8\u518c\u65f6\u8d60\u9001\u7684\u65f6\u957f\uff08\u5355\u4f4d\uff1a\u5929\uff09"
+    },
+    {
+        "id": null,
+        "item": "connection_device_limit",
+        "value": "0",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "\u8fde\u63a5\u8bbe\u5907\u9650\u5236"
+    },
+    {
+        "id": null,
+        "item": "connection_rate_limit",
+        "value": "0",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "\u4f7f\u7528\u901f\u7387\u9650\u5236"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_class",
+        "value": "0",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "\u6ce8\u518c\u65f6\u8bbe\u5b9a\u7684\u7b49\u7ea7"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_class_time",
+        "value": "7",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "7",
+        "mark": "\u6ce8\u518c\u65f6\u8bbe\u5b9a\u7684\u7b49\u7ea7\u8fc7\u671f\u65f6\u95f4\uff08\u5355\u4f4d\uff1a\u5929\uff09"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_method",
+        "value": "chacha20-ietf",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "chacha20-ietf",
+        "mark": "\u9ed8\u8ba4\u52a0\u5bc6"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_protocol",
+        "value": "auth_aes128_sha1",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "auth_aes128_sha1",
+        "mark": "\u9ed8\u8ba4\u534f\u8bae"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_obfs",
+        "value": "http_simple",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "http_simple",
+        "mark": "\u9ed8\u8ba4\u6df7\u6dc6"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_protocol_param",
+        "value": "",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "\u9ed8\u8ba4\u534f\u8bae\u53c2\u6570"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_obfs_param",
+        "value": "www.jd.hk",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "www.jd.hk",
+        "mark": "\u9ed8\u8ba4\u6df7\u6dc6\u53c2\u6570"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_daily_report",
+        "value": "0",
+        "class": "register",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "\u6ce8\u518c\u540e\u662f\u5426\u9ed8\u8ba4\u63a5\u6536\u6bcf\u65e5\u7528\u91cf\u90ae\u4ef6\u63a8\u9001"
+    },
+    {
+        "id": null,
+        "item": "sign_up_for_invitation_codes",
+        "value": "10",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "10",
+        "mark": "\u521d\u59cb\u9080\u8bf7\u6ce8\u518c\u94fe\u63a5\u4f7f\u7528\u6b21\u6570\u9650\u5236"
+    },
+    {
+        "id": null,
+        "item": "invitation_to_register_balance_reward",
+        "value": "1",
+        "class": "invite",
+        "is_public": 1,
+        "type": "int",
+        "default": "1",
+        "mark": "\u9080\u8bf7\u6ce8\u518c\u4f59\u989d\u5956\u52b1\uff08\u5355\u4f4d\uff1a\u5143\uff09"
+    },
+    {
+        "id": null,
+        "item": "invitation_to_register_traffic_reward",
+        "value": "10",
+        "class": "invite",
+        "is_public": 1,
+        "type": "int",
+        "default": "10",
+        "mark": "\u9080\u8bf7\u6ce8\u518c\u6d41\u91cf\u5956\u52b1\uff08\u5355\u4f4d\uff1aGB\uff09"
+    },
+    {
+        "id": null,
+        "item": "invitation_mode",
+        "value": "after_purchase",
+        "class": "invite",
+        "is_public": 0,
+        "type": "string",
+        "default": "after_purchase",
+        "mark": "\u9080\u8bf7\u6a21\u5f0f"
+    },
+    {
+        "id": null,
+        "item": "invite_rebate_mode",
+        "value": "limit_amount",
+        "class": "invite",
+        "is_public": 0,
+        "type": "string",
+        "default": "limit_amount",
+        "mark": "\u8fd4\u5229\u6a21\u5f0f"
+    },
+    {
+        "id": null,
+        "item": "rebate_frequency_limit",
+        "value": "3",
+        "class": "invite",
+        "is_public": 0,
+        "type": "string",
+        "default": "3",
+        "mark": "\u8fd4\u5229\u603b\u6b21\u6570\u9650\u5236"
+    },
+    {
+        "id": null,
+        "item": "rebate_amount_limit",
+        "value": "100",
+        "class": "invite",
+        "is_public": 0,
+        "type": "int",
+        "default": "100",
+        "mark": "\u8fd4\u5229\u603b\u91d1\u989d\u9650\u5236"
+    },
+    {
+        "id": null,
+        "item": "rebate_ratio",
+        "value": "0.2",
+        "class": "invite",
+        "is_public": 1,
+        "type": "string",
+        "default": "0.2",
+        "mark": "\u8fd4\u5229\u6bd4\u4f8b"
+    },
+    {
+        "id": null,
+        "item": "rebate_time_range_limit",
+        "value": "180",
+        "class": "invite",
+        "is_public": 0,
+        "type": "int",
+        "default": "180",
+        "mark": "\u8fd4\u5229\u65f6\u95f4\u8303\u56f4\u9650\u5236\uff08\u5355\u4f4d\uff1a\u5929\uff09"
+    },
+    {
+        "id": null,
+        "item": "test_item",
+        "value": "180",
+        "class": "invite",
+        "is_public": 0,
+        "type": "int",
+        "default": "180",
+        "mark": "\u8fd4\u5229\u65f6\u95f4\u8303\u56f4\u9650\u5236\uff08\u5355\u4f4d\uff1a\u5929\uff09"
+    }
+]
