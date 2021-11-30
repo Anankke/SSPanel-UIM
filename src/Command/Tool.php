@@ -136,7 +136,7 @@ class Tool extends Command
             
             if ($db->query("SELECT id FROM config WHERE item = '$item'") == null) {
                 $new_item            = new Setting;
-                $new_item->id        = $settings[$i]['id'];
+                $new_item->id        = null;
                 $new_item->item      = $settings[$i]['item'];
                 $new_item->value     = $settings[$i]['value'];
                 $new_item->class     = $settings[$i]['class'];
