@@ -270,6 +270,13 @@ class LinkController extends BaseController
                     'class'    => 'Sub'
                 ];
                 break;
+            case 'trojan':
+                $return = [
+                    'filename' => 'Trojan',
+                    'suffix'   => 'txt',
+                    'class'    => 'Sub'
+                ];
+                break;
             case 'kitsunebi':
                 $return = [
                     'filename' => 'Kitsunebi',
