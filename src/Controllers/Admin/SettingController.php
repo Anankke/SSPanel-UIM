@@ -58,6 +58,9 @@ class SettingController extends AdminController
             case 'theadpay':
                 $list = array('theadpay_url', 'theadpay_mchid', 'theadpay_key');
                 break;
+            case 'token188':
+                $list = array('token188_url', 'token188_mchid', 'token188_key');
+                break;
             case 'coinpay':
                 $list = array('coinpay_appid', 'coinpay_secret');
                 break;
@@ -179,6 +182,7 @@ class SettingController extends AdminController
             "PayJs" => "payjs",
             "PaymentWall" => "paymentwall",
             "TheadPay" => "theadpay",
+            "USDT转账" => "token188",
             "V免签" => "vmqpay"
         );
 

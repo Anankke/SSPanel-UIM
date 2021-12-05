@@ -350,6 +350,27 @@
                                         <button id="submit_theadpay" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
                                     
+                                    <div class="tab-pane fade" id="token188">
+                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请：<a href="https://www.token188.com" target="view_window">https://www.token188.com</a></p>
+                                        <!-- token188_url -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">支付网关</label>
+                                            <input class="form-control maxwidth-edit" id="token188_url" value="{$settings['token188_url']}">
+                                        </div>
+                                        <!-- token188_mchid -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">商户ID</label>
+                                            <input class="form-control maxwidth-edit" id="token188_mchid" value="{$settings['token188_mchid']}">
+                                        </div>
+                                        <!-- token188_key -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">商户密钥</label>
+                                            <input class="form-control maxwidth-edit" id="token188_key" value="{$settings['token188_key']}">
+                                        </div>
+
+                                        <button id="submit_token188" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+                                    
                                     <div class="tab-pane fade" id="vmqpay">
                                         <p class="form-control-guide"><i class="material-icons">info</i>此支付方式需自建网关并配置各项参数。访问 <a href="https://github.com/szvone/vmqphp" target="view_window">https://github.com/szvone/vmqphp</a> 了解更多</p>
                                         <p class="form-control-guide"><i class="material-icons">info</i>开源的 Android 监听端（推荐）：<a href="https://gitee.com/yuniks/VMQAPK" target="view_window">https://gitee.com/yuniks/VMQAPK</a></p>
@@ -1368,6 +1389,36 @@
                     theadpay_url: $$getValue('theadpay_url'),
                     theadpay_mchid: $$getValue('theadpay_mchid'),
                     theadpay_key: $$getValue('theadpay_key')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_token188').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'token188',
+                    token188_url: $$getValue('token188_url'),
+                    token188_mchid: $$getValue('token188_mchid'),
+                    token188_key: $$getValue('token188_key')
                 },
                 success: data => {
                     $("#result").modal();

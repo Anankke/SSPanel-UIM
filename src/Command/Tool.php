@@ -115,7 +115,7 @@ class Tool extends Command
             $setting->value = $setting->default;
         }
         
-        $json_settings = json_encode($settings, JSON_PRETTY_PRINT);
+        $json_settings = json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         file_put_contents('./config/settings.json', $json_settings);
 
         echo '已导出所有设置.' . PHP_EOL;
