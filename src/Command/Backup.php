@@ -30,8 +30,11 @@ class Backup extends Command
     }
 
     public function backup($full = false)
-    {   ini_set('memory_limit', '-1');
-        $to = $_ENV['auto_backup_email'];
+    {
+        $configs = Setting::getClass('backup');
+        
+        ini_set('memory_limit', '-1');
+        $to = $configs['auto_backup_email'];
         if ($to == null) {
             return false;
         }
@@ -54,7 +57,7 @@ class Backup extends Command
 
         system('cp ' . BASE_PATH . '/config/.config.php /tmp/ssmodbackup/configbak.php', $ret);
         echo $ret;
-        $backup_passwd = $_ENV["auto_backup_password"] == "" ? "" : " -P " . $_ENV["auto_backup_password"];
+        $backup_passwd = $configs["auto_backup_password"] == "" ? "" : " -P " . $configs["auto_backup_password"];
         system('zip -r /tmp/ssmodbackup.zip /tmp/ssmodbackup/* ' . $backup_passwd, $ret);
         $subject = $_ENV['appName'] . '-备份成功';
         $text = '您好，系统已经为您自动备份，请查看附件，用您设定的密码解压。';
@@ -69,7 +72,8 @@ class Backup extends Command
         }
         system('rm -rf /tmp/ssmodbackup', $ret);
         system('rm /tmp/ssmodbackup.zip', $ret);
-        if ($_ENV['backup_notify'] == true) {
+
+        if ($configs['auto_backup_notify'] == true) {
             Telegram::Send('备份工作已经完成');
         }
     }
