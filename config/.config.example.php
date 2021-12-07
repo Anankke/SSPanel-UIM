@@ -22,7 +22,6 @@ $_ENV['muKey']      = 'NimaQu';                       //用于校验魔改后端
 
 //数据库设置--------------------------------------------------------------------------------------------
 // db_host|db_socket 二选一，若设置 db_socket 则 db_host 会被忽略，不用请留空。若数据库在本机上推荐用 db_socket。
-// 若需要使用邮件自动备份，请填写 db_host，并将此 db_host 填写/替换在sql末尾处。
 // db_host 例: localhost（可解析的主机名）, 127.0.0.1（IP 地址）, 10.0.0.2:4406（含端口)
 // db_socket 例：/var/run/mysqld/mysqld.sock（需使用绝对地址）
 $_ENV['db_driver']    = 'mysql';
@@ -45,7 +44,6 @@ $_ENV['mail_filter_list']   = array("qq.com", "vip.qq.com", "foxmail.com");
 
 
 //备份设置--------------------------------------------------------------------------------------------
-//如果使用的是 5.7.31 以上 或 8.0.21 以上 的mysql，需执行/sql/auto_backup_fix.sql 进行PROCESS权限授权，执行前需自行更改sql。
 $_ENV['auto_backup_email']  = '';                               //接收备份的邮箱
 $_ENV['auto_backup_password'] = '';                               //备份的压缩密码
 $_ENV['backup_notify']      = false;                            //备份通知到TG群中
