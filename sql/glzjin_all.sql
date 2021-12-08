@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `code` (
 
 
 CREATE TABLE IF NOT EXISTS `config` (
-  `id` int(11) NOT NULL COMMENT '主键',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `item` text NOT NULL COMMENT '项',
   `value` text NOT NULL COMMENT '值',
   `class` varchar(16) NOT NULL DEFAULT 'default' COMMENT '配置分类',
