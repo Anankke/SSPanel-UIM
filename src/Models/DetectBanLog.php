@@ -47,6 +47,6 @@ class DetectBanLog extends Model
      */
     public function ban_end_time(): string
     {
-        return date('Y-m-d H:i:s', $this->ban_end_time + $this->ban_time * 60);
+        return date('Y-m-d H:i:s', $this->end_time + $this->ban_time * 60);
     }
 }
