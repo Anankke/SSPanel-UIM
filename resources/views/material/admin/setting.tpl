@@ -349,6 +349,47 @@
 
                                         <button id="submit_theadpay" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
+
+                                    <div class="tab-pane fade" id="stripe">
+                                        <p class="form-control-guide"><i class="material-icons">warning</i>提供虚拟专用网络业务符合 Stripe 用户协议，但可能不符合 Stripe 提供的部分支付通道（如支付宝、微信）用户协议，相关支付通道可能存在被关闭的风险</p>
+                                        <h5>支付渠道</h5>
+                                        <!-- stripe_card -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">银行卡支付</label>
+                                            <select id="stripe_card" class="form-control maxwidth-edit">
+                                                <option value="1" {if $settings['stripe_card'] == true}selected{/if}>启用</option>
+                                                <option value="0" {if $settings['stripe_card'] == false}selected{/if}>停用</option>
+                                            </select>
+                                        </div>
+                                        <h5>支付设置</h5>
+                                        <!-- stripe_currency -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">货币单位</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_currency" value="{$settings['stripe_currency']}">
+                                        </div>
+                                        <!-- stripe_min_recharge -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">最低充值限额（整数）</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_min_recharge" value="{$settings['stripe_min_recharge']}">
+                                        </div>
+                                        <!-- stripe_pk -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">stripe_pk</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_pk" value="{$settings['stripe_pk']}">
+                                        </div>
+                                        <!-- stripe_sk -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">stripe_sk</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_sk" value="{$settings['stripe_sk']}">
+                                        </div>
+                                        <!-- stripe_webhook_key -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">WebHook密钥</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_webhook_key" value="{$settings['stripe_webhook_key']}">
+                                        </div>
+
+                                        <button id="submit_stripe" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
                                     
                                     <div class="tab-pane fade" id="vmqpay">
                                         <p class="form-control-guide"><i class="material-icons">info</i>此支付方式需自建网关并配置各项参数。访问 <a href="https://github.com/szvone/vmqphp" target="view_window">https://github.com/szvone/vmqphp</a> 了解更多</p>
@@ -1368,6 +1409,38 @@
                     theadpay_url: $$getValue('theadpay_url'),
                     theadpay_mchid: $$getValue('theadpay_mchid'),
                     theadpay_key: $$getValue('theadpay_key')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_stripe').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'stripe',
+                    stripe_card: $$getValue('stripe_card'),
+                    stripe_currency: $$getValue('stripe_currency'),
+                    stripe_pk: $$getValue('stripe_pk'),
+                    stripe_sk: $$getValue('stripe_sk'),
+                    stripe_webhook_key: $$getValue('stripe_webhook_key')
                 },
                 success: data => {
                     $("#result").modal();

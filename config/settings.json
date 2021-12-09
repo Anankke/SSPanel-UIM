@@ -848,5 +848,85 @@
         "type": "int",
         "default": "180",
         "mark": "返利时间范围限制（单位：天）"
+    },
+    {
+        "id": null,
+        "item": "stripe_currency",
+        "value": "HKD",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "string",
+        "default": "HKD",
+        "mark": "货币代码"
+    },
+    {
+        "id": null,
+        "item": "stripe_sk",
+        "value": "stripe_sk",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "string",
+        "default": "stripe_sk",
+        "mark": "stripe_sk"
+    },
+    {
+        "id": null,
+        "item": "stripe_pk",
+        "value": "stripe_pk",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "string",
+        "default": "stripe_pk",
+        "mark": "stripe_pk"
+    },
+    {
+        "id": null,
+        "item": "stripe_webhook_key",
+        "value": "stripe_webhook_key",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "string",
+        "default": "stripe_webhook_key",
+        "mark": "web_hook密钥"
+    },
+    {
+        "id": null,
+        "item": "stripe_min_recharge",
+        "value": "10",
+        "class": "stripe",
+        "is_public": 1,
+        "type": "int",
+        "default": "10",
+        "mark": "最低充值限额"
+    },
+    {
+        "id": null,
+        "item": "stripe_card",
+        "value": "0",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "银行卡支付"
+    },
+    {
+        "id": null,
+        "item": "stripe_alipay",
+        "value": "0",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "支付宝支付"
+    },
+    {
+        "id": null,
+        "item": "stripe_wechat",
+        "value": "0",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "微信支付"
     }
 ]

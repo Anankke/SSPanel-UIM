@@ -1,0 +1,11 @@
+<div class="card-inner">
+    <p class="card-heading">账户充值</p>
+    <p>可以使用带有银联、MasterCard、Visa 等标识的信用卡或借记卡</p>
+    <form action="/user/payment/purchase/stripe_card" method="post">
+        <div class="form-group form-group-label">    
+            <label class="floating-label" for="amount-stripe-card">金额</label>
+            <input class="form-control" id="price" name="price" min="{$config['stripe_min_recharge']}" step="0.1" type="number" required="required">
+            <button class="btn btn-flat waves-attach" type="submit"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAEYElEQVRoge1YTW8cRRB93ev1rokUPqLwIS8IgZSQgDgAEuIajkj8DB848ysQZ0T+CLlxQ1yRIIGTZclLLGOwoyT2st51PQ4z3dM9XT07Y6/NZUu2PNvVH+9VvarpNbCyla1sZf+nmfrAxz8efiFi7gPYBOh+CmPwh340fAzmszY/mBIuSPYnWOw5tgZbj7589UETgbX6gIj5HuCm3zg6OGaREqMyv/qgB6IaDOcbYnRG3AfwVicCIEdXB5zK/GorQ77ZBF4lwOgQRSatQDshaKDL1RnQzlEPYkcCVx/trsCzBPLRaVGUS4o261HoQoAMgSyvKNsDV7LfhYDX7wVaoEpaAf31aIK3hxIdvz2x+HZ32FpGSgZyWl2+TOrgAeCdDanWczGLbBdyH5ZdlF4mDdjqNdVkeQmpoIuHy9Z2i8B7SzOQ1f8SgS9kEGBZYI1d6MItUAEdant7YgvNB7Y9MVEQf/v0Hl9c6+Oa7Y0h3HrlpwfR3UiV0GVEW2vJ3+wMgvkZ2RKAEDAcEUzuRtkulAWuElscbX1tU62VWISgJSgCEMndKFPENdDJxvGpywUeZ58Ul4E4uDkC4eGdgZ/3JVd+UAMhAK2AYtT2pEvonEWZguoWbZ20AGIBiNqTMkVcRfvWjQHW+2uYSw8zsZhLDyenZ9h/eoTbN4cY1HzHp3PsHz3Be68NMFjvx77pHHuHR7j7xjDxPZ/O8fjg0AMIryCkgGydgSoURPGd04LFryl+YQqnceOhD0UW1XWLfLVOBaAoXmMBaZ2BWIt/HEzVFggAv+9PAU5VmTzc+9dvUpfJr39OIi01vnlZdCDaThlwz5dQlJm1WfxlB4KISlTpQmYMykgHdZGi1Dtbk9189jcMBRQLGqoLbUpAtkCMSVTXChY92Heo0pf6ofhZ+oP5LcF/9cN3WKNBz+0h6eLk/0J1e/jZ5z7f9S/2Drh7rnewKgVuC8cCnpRnWxszBPowGFqDISx65ZGvP/o5wqx8J47tul1LQBd/KnAOvC/2gGlEEKjeqCYgHb5lTbWvhUEfKDIQ7tGFwDXb84tJd0DZYA2L/gzXWotnGlPNKQnSuGfj9yBMtC7er9xDXGDSFtuKgJeJj3Y5hoaxnExCKbqC8GuRSsyPBXt0JVDeAv1hMcgQTAUgPbiUXI0ga4DVMVWaHQjkM1ABrua5OVq0u5IO99PBtyJAoT8YBK7ffhf99QFwOgNmM+B0htnJBE/2/8JL799CfzCMfccnOHq8h5c/vIP+cCPynT47xuHuGDc++gD9jRdi39Pn+GdnJ8ieTmJxBtwdxEfbANYAPQucWcDa0ieqj+VVQF2HYh0zvqLv68XrbOF74OCTe4xlEuuzU1EmkkjHmvQOAJs7v3R7D8QZcIfp+swXYFNRhkWeB56zxTVAjkGO2kU7IHge0gvN7NZHkrtQYnNsUTgmpdCkSAFG3BeNYKyc48ckGJOyTqS8Hrva6ADewGy1nLyyla1sZVdk/wH7Rlk322CefQAAAABJRU5ErkJggg=="/></button>
+        </div>
+    </form>
+</div>
