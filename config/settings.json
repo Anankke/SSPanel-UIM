@@ -7,7 +7,7 @@
         "is_public": 1,
         "type": "array",
         "default": "[]",
-        "mark": "\u652f\u4ed8\u7f51\u5173"
+        "mark": "支付网关"
     },
     {
         "id": null,
@@ -17,7 +17,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u5f53\u9762\u4ed8AppID"
+        "mark": "当面付AppID"
     },
     {
         "id": null,
@@ -27,7 +27,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u5f53\u9762\u4ed8PID"
+        "mark": "当面付PID"
     },
     {
         "id": null,
@@ -37,7 +37,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u5f53\u9762\u4ed8\u516c\u94a5"
+        "mark": "当面付公钥"
     },
     {
         "id": null,
@@ -47,7 +47,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u5f53\u9762\u4ed8\u79c1\u94a5"
+        "mark": "当面付私钥"
     },
     {
         "id": null,
@@ -57,7 +57,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u5f53\u9762\u4ed8\u81ea\u5b9a\u4e49\u56de\u8c03\u5730\u5740"
+        "mark": "当面付自定义回调地址"
     },
     {
         "id": null,
@@ -67,7 +67,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "V\u514d\u7b7e\u7f51\u5173"
+        "mark": "V免签网关"
     },
     {
         "id": null,
@@ -77,7 +77,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "V\u514d\u7b7e\u5bc6\u94a5"
+        "mark": "V免签密钥"
     },
     {
         "id": null,
@@ -87,7 +87,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "smtp\u53d1\u4fe1\u4e3b\u673a"
+        "mark": "smtp发信主机"
     },
     {
         "id": null,
@@ -97,7 +97,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "smtp\u8d26\u6237\u540d\u79f0"
+        "mark": "smtp账户名称"
     },
     {
         "id": null,
@@ -107,7 +107,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "smtp\u8d26\u6237\u5bc6\u7801"
+        "mark": "smtp账户密码"
     },
     {
         "id": null,
@@ -117,7 +117,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "smtp\u53d1\u4fe1\u7aef\u53e3"
+        "mark": "smtp发信端口"
     },
     {
         "id": null,
@@ -127,7 +127,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "smtp\u53d1\u4fe1\u540d\u79f0"
+        "mark": "smtp发信名称"
     },
     {
         "id": null,
@@ -137,7 +137,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "smtp\u53d1\u4fe1\u5730\u5740"
+        "mark": "smtp发信地址"
     },
     {
         "id": null,
@@ -147,7 +147,7 @@
         "is_public": 0,
         "type": "bool",
         "default": "1",
-        "mark": "\u662f\u5426\u4f7f\u7528 TLS\/SSL \u53d1\u4fe1"
+        "mark": "是否使用 TLS\/SSL 发信"
     },
     {
         "id": null,
@@ -157,7 +157,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u53d1\u7ed9\u7528\u6237\u7684\u90ae\u4ef6\u5bc6\u9001\u7ed9\u6307\u5b9a\u90ae\u7bb1\u5907\u4efd"
+        "mark": "发给用户的邮件密送给指定邮箱备份"
     },
     {
         "id": null,
@@ -167,7 +167,7 @@
         "is_public": 0,
         "type": "string",
         "default": "none",
-        "mark": "\u90ae\u4ef6\u670d\u52a1\u63d0\u4f9b\u5546"
+        "mark": "邮件服务提供商"
     },
     {
         "id": null,
@@ -177,7 +177,7 @@
         "is_public": 1,
         "type": "string",
         "default": "recaptcha",
-        "mark": "\u9a8c\u8bc1\u7801\u63d0\u4f9b\u5546"
+        "mark": "验证码提供商"
     },
     {
         "id": null,
@@ -187,7 +187,7 @@
         "is_public": 1,
         "type": "bool",
         "default": "0",
-        "mark": "\u6ce8\u518c\u9a8c\u8bc1\u7801"
+        "mark": "注册验证码"
     },
     {
         "id": null,
@@ -197,7 +197,7 @@
         "is_public": 1,
         "type": "bool",
         "default": "0",
-        "mark": "\u767b\u5f55\u9a8c\u8bc1\u7801"
+        "mark": "登录验证码"
     },
     {
         "id": null,
@@ -207,7 +207,7 @@
         "is_public": 1,
         "type": "bool",
         "default": "0",
-        "mark": "\u7b7e\u5230\u9a8c\u8bc1\u7801"
+        "mark": "签到验证码"
     },
     {
         "id": null,
@@ -217,7 +217,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "reCaptcha\u7f51\u7ad9\u5bc6\u94a5"
+        "mark": "reCaptcha网站密钥"
     },
     {
         "id": null,
@@ -227,7 +227,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "reCaptcha\u5bc6\u94a5"
+        "mark": "reCaptcha密钥"
     },
     {
         "id": null,
@@ -237,7 +237,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u6781\u9a8cid"
+        "mark": "极验id"
     },
     {
         "id": null,
@@ -247,7 +247,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u6781\u9a8c\u5bc6\u94a5"
+        "mark": "极验密钥"
     },
     {
         "id": null,
@@ -257,7 +257,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "mailgun\u5bc6\u94a5"
+        "mark": "mailgun密钥"
     },
     {
         "id": null,
@@ -267,7 +267,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "mailgun\u57df\u540d"
+        "mark": "mailgun域名"
     },
     {
         "id": null,
@@ -277,7 +277,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "mailgun\u53d1\u9001\u8005"
+        "mark": "mailgun发送者"
     },
     {
         "id": null,
@@ -287,7 +287,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "sendgrid\u5bc6\u94a5"
+        "mark": "sendgrid密钥"
     },
     {
         "id": null,
@@ -297,7 +297,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "sendgrid\u53d1\u4ef6\u90ae\u7bb1"
+        "mark": "sendgrid发件邮箱"
     },
     {
         "id": null,
@@ -307,7 +307,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "sendgrid\u53d1\u4ef6\u4eba\u540d\u79f0"
+        "mark": "sendgrid发件人名称"
     },
     {
         "id": null,
@@ -317,7 +317,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "aws\u5bc6\u94a5id"
+        "mark": "aws密钥id"
     },
     {
         "id": null,
@@ -327,7 +327,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "aws\u5bc6\u94a5key"
+        "mark": "aws密钥key"
     },
     {
         "id": null,
@@ -337,7 +337,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u63a5\u6536\u5907\u4efd\u7684\u90ae\u7bb1"
+        "mark": "接收备份的邮箱"
     },
     {
         "id": null,
@@ -347,7 +347,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u5907\u4efd\u7684\u538b\u7f29\u5bc6\u7801"
+        "mark": "备份的压缩密码"
     },
     {
         "id": null,
@@ -377,7 +377,7 @@
         "is_public": 1,
         "type": "bool",
         "default": "0",
-        "mark": "\u662f\u5426\u663e\u793a\u7ad9\u957f\u8054\u7cfb\u65b9\u5f0f"
+        "mark": "是否显示站长联系方式"
     },
     {
         "id": null,
@@ -387,7 +387,7 @@
         "is_public": 1,
         "type": "string",
         "default": "qq",
-        "mark": "\u7ad9\u957f\u8054\u7cfb\u65b9\u5f0f\u4e00"
+        "mark": "站长联系方式一"
     },
     {
         "id": null,
@@ -397,7 +397,7 @@
         "is_public": 1,
         "type": "string",
         "default": "mail",
-        "mark": "\u7ad9\u957f\u8054\u7cfb\u65b9\u5f0f\u4e8c"
+        "mark": "站长联系方式二"
     },
     {
         "id": null,
@@ -407,7 +407,7 @@
         "is_public": 1,
         "type": "string",
         "default": "telegram",
-        "mark": "\u7ad9\u957f\u8054\u7cfb\u65b9\u5f0f\u4e09"
+        "mark": "站长联系方式三"
     },
     {
         "id": null,
@@ -457,7 +457,7 @@
         "is_public": 1,
         "type": "string",
         "default": "none",
-        "mark": "\u5ba2\u670d\u7cfb\u7edf\u5f00\u5173"
+        "mark": "客服系统开关"
     },
     {
         "id": null,
@@ -497,7 +497,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "CoinPay\u5e94\u7528ID"
+        "mark": "CoinPay应用ID"
     },
     {
         "id": null,
@@ -507,7 +507,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "CoinPay\u9a8c\u8bc1\u5bc6\u94a5"
+        "mark": "CoinPay验证密钥"
     },
     {
         "id": null,
@@ -517,7 +517,7 @@
         "is_public": 1,
         "type": "bool",
         "default": "0",
-        "mark": "\u662f\u5426\u542f\u7528\u81ea\u5b9a\u4e49\u7528\u6237\u4e2d\u5fc3\u80cc\u666f\u56fe\u7247"
+        "mark": "是否启用自定义用户中心背景图片"
     },
     {
         "id": null,
@@ -527,7 +527,7 @@
         "is_public": 1,
         "type": "bool",
         "default": "0",
-        "mark": "\u662f\u5426\u542f\u7528\u81ea\u5b9a\u4e49\u7ba1\u7406\u4e2d\u5fc3\u80cc\u666f\u56fe\u7247"
+        "mark": "是否启用自定义管理中心背景图片"
     },
     {
         "id": null,
@@ -537,7 +537,7 @@
         "is_public": 1,
         "type": "string",
         "default": "\/theme\/material\/css\/images\/bg\/amber.jpg",
-        "mark": "\u7528\u6237\u4e2d\u5fc3\u80cc\u666f\u56fe\u7247\u5730\u5740"
+        "mark": "用户中心背景图片地址"
     },
     {
         "id": null,
@@ -547,7 +547,7 @@
         "is_public": 1,
         "type": "string",
         "default": "\/theme\/material\/css\/images\/bg\/amber.jpg",
-        "mark": "\u7ba1\u7406\u4e2d\u5fc3\u80cc\u666f\u56fe\u7247\u5730\u5740"
+        "mark": "管理中心背景图片地址"
     },
     {
         "id": null,
@@ -557,7 +557,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "pmw\u516c\u94a5"
+        "mark": "pmw公钥"
     },
     {
         "id": null,
@@ -567,7 +567,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "pmw\u79c1\u94a5"
+        "mark": "pmw私钥"
     },
     {
         "id": null,
@@ -597,7 +597,7 @@
         "is_public": 0,
         "type": "bool",
         "default": "0",
-        "mark": "\u5907\u4efd\u662f\u5426\u901a\u77e5\u5230TG\u7fa4\u4e2d"
+        "mark": "备份是否通知到TG群中"
     },
     {
         "id": null,
@@ -607,7 +607,7 @@
         "is_public": 1,
         "type": "string",
         "default": "open",
-        "mark": "\u6ce8\u518c\u6a21\u5f0f"
+        "mark": "注册模式"
     },
     {
         "id": null,
@@ -617,7 +617,7 @@
         "is_public": 1,
         "type": "bool",
         "default": "0",
-        "mark": "\u90ae\u7bb1\u9a8c\u8bc1"
+        "mark": "邮箱验证"
     },
     {
         "id": null,
@@ -627,7 +627,7 @@
         "is_public": 0,
         "type": "int",
         "default": "3600",
-        "mark": "\u90ae\u7bb1\u9a8c\u8bc1\u7801\u6709\u6548\u671f"
+        "mark": "邮箱验证码有效期"
     },
     {
         "id": null,
@@ -637,7 +637,7 @@
         "is_public": 0,
         "type": "int",
         "default": "5",
-        "mark": "\u9a8c\u8bc1\u7801\u6709\u6548\u671f\u5185\u5355\u4e2aip\u53ef\u8bf7\u6c42\u7684\u53d1\u4fe1\u6b21\u6570"
+        "mark": "验证码有效期内单个ip可请求的发信次数"
     },
     {
         "id": null,
@@ -647,7 +647,7 @@
         "is_public": 0,
         "type": "int",
         "default": "20",
-        "mark": "\u6ce8\u518c\u65f6\u8d60\u9001\u7684\u6d41\u91cf\uff08\u5355\u4f4d\uff1aGB\uff09"
+        "mark": "注册时赠送的流量（单位：GB）"
     },
     {
         "id": null,
@@ -657,7 +657,7 @@
         "is_public": 0,
         "type": "int",
         "default": "7",
-        "mark": "\u6ce8\u518c\u65f6\u8d60\u9001\u7684\u65f6\u957f\uff08\u5355\u4f4d\uff1a\u5929\uff09"
+        "mark": "注册时赠送的时长（单位：天）"
     },
     {
         "id": null,
@@ -667,7 +667,7 @@
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "\u8fde\u63a5\u8bbe\u5907\u9650\u5236"
+        "mark": "连接设备限制"
     },
     {
         "id": null,
@@ -677,7 +677,7 @@
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "\u4f7f\u7528\u901f\u7387\u9650\u5236"
+        "mark": "使用速率限制"
     },
     {
         "id": null,
@@ -687,7 +687,7 @@
         "is_public": 0,
         "type": "int",
         "default": "0",
-        "mark": "\u6ce8\u518c\u65f6\u8bbe\u5b9a\u7684\u7b49\u7ea7"
+        "mark": "注册时设定的等级"
     },
     {
         "id": null,
@@ -697,7 +697,7 @@
         "is_public": 0,
         "type": "int",
         "default": "7",
-        "mark": "\u6ce8\u518c\u65f6\u8bbe\u5b9a\u7684\u7b49\u7ea7\u8fc7\u671f\u65f6\u95f4\uff08\u5355\u4f4d\uff1a\u5929\uff09"
+        "mark": "注册时设定的等级过期时间（单位：天）"
     },
     {
         "id": null,
@@ -707,7 +707,7 @@
         "is_public": 0,
         "type": "string",
         "default": "chacha20-ietf",
-        "mark": "\u9ed8\u8ba4\u52a0\u5bc6"
+        "mark": "默认加密"
     },
     {
         "id": null,
@@ -717,7 +717,7 @@
         "is_public": 0,
         "type": "string",
         "default": "auth_aes128_sha1",
-        "mark": "\u9ed8\u8ba4\u534f\u8bae"
+        "mark": "默认协议"
     },
     {
         "id": null,
@@ -727,7 +727,7 @@
         "is_public": 0,
         "type": "string",
         "default": "http_simple",
-        "mark": "\u9ed8\u8ba4\u6df7\u6dc6"
+        "mark": "默认混淆"
     },
     {
         "id": null,
@@ -737,7 +737,7 @@
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "\u9ed8\u8ba4\u534f\u8bae\u53c2\u6570"
+        "mark": "默认协议参数"
     },
     {
         "id": null,
@@ -747,7 +747,7 @@
         "is_public": 0,
         "type": "string",
         "default": "www.jd.hk",
-        "mark": "\u9ed8\u8ba4\u6df7\u6dc6\u53c2\u6570"
+        "mark": "默认混淆参数"
     },
     {
         "id": null,
@@ -757,7 +757,7 @@
         "is_public": 0,
         "type": "bool",
         "default": "0",
-        "mark": "\u6ce8\u518c\u540e\u662f\u5426\u9ed8\u8ba4\u63a5\u6536\u6bcf\u65e5\u7528\u91cf\u90ae\u4ef6\u63a8\u9001"
+        "mark": "注册后是否默认接收每日用量邮件推送"
     },
     {
         "id": null,
@@ -767,7 +767,7 @@
         "is_public": 0,
         "type": "int",
         "default": "10",
-        "mark": "\u521d\u59cb\u9080\u8bf7\u6ce8\u518c\u94fe\u63a5\u4f7f\u7528\u6b21\u6570\u9650\u5236"
+        "mark": "初始邀请注册链接使用次数限制"
     },
     {
         "id": null,
@@ -777,7 +777,7 @@
         "is_public": 1,
         "type": "int",
         "default": "1",
-        "mark": "\u9080\u8bf7\u6ce8\u518c\u4f59\u989d\u5956\u52b1\uff08\u5355\u4f4d\uff1a\u5143\uff09"
+        "mark": "邀请注册余额奖励（单位：元）"
     },
     {
         "id": null,
@@ -787,7 +787,7 @@
         "is_public": 1,
         "type": "int",
         "default": "10",
-        "mark": "\u9080\u8bf7\u6ce8\u518c\u6d41\u91cf\u5956\u52b1\uff08\u5355\u4f4d\uff1aGB\uff09"
+        "mark": "邀请注册流量奖励（单位：GB）"
     },
     {
         "id": null,
@@ -797,7 +797,7 @@
         "is_public": 0,
         "type": "string",
         "default": "after_purchase",
-        "mark": "\u9080\u8bf7\u6a21\u5f0f"
+        "mark": "邀请模式"
     },
     {
         "id": null,
@@ -807,7 +807,7 @@
         "is_public": 0,
         "type": "string",
         "default": "limit_amount",
-        "mark": "\u8fd4\u5229\u6a21\u5f0f"
+        "mark": "返利模式"
     },
     {
         "id": null,
@@ -817,7 +817,7 @@
         "is_public": 0,
         "type": "string",
         "default": "3",
-        "mark": "\u8fd4\u5229\u603b\u6b21\u6570\u9650\u5236"
+        "mark": "返利总次数限制"
     },
     {
         "id": null,
@@ -827,7 +827,7 @@
         "is_public": 0,
         "type": "int",
         "default": "100",
-        "mark": "\u8fd4\u5229\u603b\u91d1\u989d\u9650\u5236"
+        "mark": "返利总金额限制"
     },
     {
         "id": null,
@@ -837,7 +837,7 @@
         "is_public": 1,
         "type": "string",
         "default": "0.2",
-        "mark": "\u8fd4\u5229\u6bd4\u4f8b"
+        "mark": "返利比例"
     },
     {
         "id": null,
@@ -847,16 +847,6 @@
         "is_public": 0,
         "type": "int",
         "default": "180",
-        "mark": "\u8fd4\u5229\u65f6\u95f4\u8303\u56f4\u9650\u5236\uff08\u5355\u4f4d\uff1a\u5929\uff09"
-    },
-    {
-        "id": null,
-        "item": "test_item",
-        "value": "180",
-        "class": "invite",
-        "is_public": 0,
-        "type": "int",
-        "default": "180",
-        "mark": "\u8fd4\u5229\u65f6\u95f4\u8303\u56f4\u9650\u5236\uff08\u5355\u4f4d\uff1a\u5929\uff09"
+        "mark": "返利时间范围限制（单位：天）"
     }
 ]
