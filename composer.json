@@ -2,6 +2,7 @@
     "require": {
         "php": "^7.2",
         "ext-curl": "*",
+        "ext-json": "*",
         "ext-mysqli": "*",
         "ext-xml": "*",
         "aws/aws-sdk-php": "3.*",
@@ -22,11 +23,11 @@
         "sentry/sdk": "^2.1",
         "slim/slim": "~3.0",
         "smarty/smarty": "3.*",
+        "stripe/stripe-php": "^7.105",
         "symfony/yaml": "^4.4@dev",
         "telegram-bot/api": "^2.2",
         "voku/anti-xss": "^1.2",
-        "zeuxisoo/slim-whoops": "0.5.*",
-        "ext-json": "*"
+        "zeuxisoo/slim-whoops": "0.5.*"
     },
     "autoload": {
         "psr-4": {

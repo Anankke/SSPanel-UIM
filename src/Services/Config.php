@@ -32,6 +32,9 @@ class Config
             'version'                 => VERSION,
             'appName'                 => $_ENV['appName'],
             'baseUrl'                 => $_ENV['baseUrl'],
+            // 充值
+            'stripe_min_recharge'     => $public_configs['stripe_min_recharge'],
+            'stripe_max_recharge'     => $public_configs['stripe_max_recharge'],
             // 个性化
             'user_center_bg'          => $public_configs['user_center_bg'],
             'admin_center_bg'         => $public_configs['admin_center_bg'],
