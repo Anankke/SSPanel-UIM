@@ -65,7 +65,7 @@ class SettingController extends AdminController
                 $list = array('pmw_publickey', 'pmw_privatekey', 'pmw_widget', 'pmw_height');
                 break;
             case 'stripe':
-                $list = array('stripe_card', 'stripe_currency', 'stripe_pk', 'stripe_sk', 'stripe_webhook_key');
+                $list = array('stripe_card', 'stripe_currency', 'stripe_pk', 'stripe_sk', 'stripe_webhook_key', 'stripe_min_recharge', 'stripe_max_recharge');
                 break;
             // 邮件
             case 'mail':

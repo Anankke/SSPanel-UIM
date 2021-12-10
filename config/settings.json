@@ -928,5 +928,15 @@
         "type": "bool",
         "default": "0",
         "mark": "微信支付"
+    },
+    {
+        "id": null,
+        "item": "stripe_max_recharge",
+        "value": "1000",
+        "class": "stripe",
+        "is_public": 1,
+        "type": "int",
+        "default": "1000",
+        "mark": "最高充值限额"
     }
 ]

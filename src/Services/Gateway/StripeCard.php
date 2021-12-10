@@ -76,7 +76,7 @@ class StripeCard extends AbstractPayment
 	
     public function getReturnHTML($request, $response, $args)
     {
-        $sign      = $request->getParam('sign');
+        $sign       = $request->getParam('sign');
         $trade_no   = $request->getParam('trade_no');
         $session_id = $request->getParam('session_id');
 

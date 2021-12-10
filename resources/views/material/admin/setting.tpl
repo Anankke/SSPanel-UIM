@@ -372,6 +372,11 @@
                                             <label class="floating-label">最低充值限额（整数）</label>
                                             <input class="form-control maxwidth-edit" id="stripe_min_recharge" value="{$settings['stripe_min_recharge']}">
                                         </div>
+                                        <!-- stripe_max_recharge -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">最高充值限额（整数）</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_max_recharge" value="{$settings['stripe_max_recharge']}">
+                                        </div>
                                         <!-- stripe_pk -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">stripe_pk</label>
@@ -1438,6 +1443,8 @@
                     class: 'stripe',
                     stripe_card: $$getValue('stripe_card'),
                     stripe_currency: $$getValue('stripe_currency'),
+                    stripe_min_recharge: $$getValue('stripe_min_recharge'),
+                    stripe_max_recharge: $$getValue('stripe_max_recharge'),
                     stripe_pk: $$getValue('stripe_pk'),
                     stripe_sk: $$getValue('stripe_sk'),
                     stripe_webhook_key: $$getValue('stripe_webhook_key')
