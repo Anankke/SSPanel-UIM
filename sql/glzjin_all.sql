@@ -243,7 +243,7 @@ INSERT INTO `config` (`id`, `item`, `value`, `class`, `is_public`, `type`, `defa
 (123, 'stripe_pk', 'stripe_pk', 'stripe', 0, 'string', 'stripe_pk', 'stripe_pk'),
 (124, 'stripe_webhook_key', 'stripe_webhook_key', 'stripe', 0, 'string', 'stripe_webhook_key', 'web_hook密钥'),
 (125, 'stripe_min_recharge', '10', 'stripe', 1, 'int', '10', '最低充值限额'),
-(126, 'stripe_card', '1', 'stripe', 0, 'bool', '0', '银行卡支付'),
+(126, 'stripe_card', '0', 'stripe', 0, 'bool', '0', '银行卡支付'),
 (127, 'stripe_alipay', '0', 'stripe', 0, 'bool', '0', '支付宝支付'),
 (128, 'stripe_wechat', '0', 'stripe', 0, 'bool', '0', '微信支付'),
 (129, 'stripe_max_recharge', '1000', 'stripe', 1, 'int', '1000', '最高充值限额');
