@@ -46,7 +46,7 @@
 
 {include file='admin/footer.tpl'}
 
-<script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
+<script src="https://cdn.staticfile.org/editor-md/1.5.0/editormd.min.js"></script>
 <script>
     (() => {
         editor = editormd("editormd", {
