@@ -26,8 +26,7 @@ return function (SlimApp $app) {
         $this->get('/',                         App\Controllers\UserController::class . ':index');
 
         $this->post('/checkin',                 App\Controllers\UserController::class . ':doCheckin');
-
-        $this->get('/tutorial',                 App\Controllers\UserController::class . ':tutorial');
+        
         $this->get('/announcement',             App\Controllers\UserController::class . ':announcement');
 
         $this->get('/donate',                   App\Controllers\UserController::class . ':donate');
@@ -102,8 +101,6 @@ return function (SlimApp $app) {
         $this->post('/payment/purchase/{type}',        App\Services\Payment::class . ':purchase');
         $this->get('/payment/purchase/{type}',         App\Services\Payment::class . ':purchase');
         $this->get('/payment/return/{type}',           App\Services\Payment::class . ':returnHTML');
-
-        $this->post('/doiam',                   App\Services\Payment::class . ':purchase');
 
     })->add(new Auth());
 
@@ -296,20 +293,16 @@ return function (SlimApp $app) {
         //============================================
     })->add(new Mod_Mu());
 
-    // res
-    $app->group('/res', function () {
-        $this->get('/captcha/{id}',     App\Controllers\ResController::class . ':captcha');
-    });
-
     $app->group('/link', function () {
-        $this->get('/{token}',          App\Controllers\LinkController::class . ':GetContent');
+        $this->get('/{token}',              App\Controllers\LinkController::class . ':GetContent');
     });
 
+    //通用訂閲
     $app->group('/sub', function () {
-        $this->get('/{token}/{subtype}',          App\Controllers\SubController::class . ':index');
+        $this->get('/{token}/{subtype}',    App\Controllers\SubController::class . ':get_content');
     });
 
     $app->group('/getClient', function () {
-        $this->get('/{token}', App\Controllers\UserController::class . ':getClientfromToken');
+        $this->get('/{token}',              App\Controllers\UserController::class . ':getClientfromToken');
     });
 };

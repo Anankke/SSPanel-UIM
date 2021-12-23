@@ -4,7 +4,7 @@ ALTER TABLE node DROP COLUMN `custom_method`;
 ALTER TABLE node DROP COLUMN `custom_rss`;
 
 CREATE TABLE IF NOT EXISTS `config` (
-  `id` int(11) NOT NULL COMMENT '主键',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `item` text NOT NULL COMMENT '项',
   `value` text NOT NULL COMMENT '值',
   `class` varchar(16) NOT NULL DEFAULT 'default' COMMENT '配置分类',
@@ -100,4 +100,13 @@ INSERT INTO `config` (`id`, `item`, `value`, `class`, `is_public`, `type`, `defa
 (117, 'rebate_frequency_limit', '6', 'invite', 0, 'string', '3', '返利总次数限制'),
 (118, 'rebate_amount_limit', '9', 'invite', 0, 'int', '100', '返利总金额限制'),
 (119, 'rebate_ratio', '0.2', 'invite', 1, 'string', '0.2', '返利比例'),
-(120, 'rebate_time_range_limit', '180', 'invite', '0', 'int', '180', '返利时间范围限制（单位：天）');
+(120, 'rebate_time_range_limit', '180', 'invite', '0', 'int', '180', '返利时间范围限制（单位：天）'),
+(121, 'stripe_currency', 'GBP', 'stripe', 0, 'string', 'HKD', '货币代码'),
+(122, 'stripe_sk', 'stripe_sk', 'stripe', 0, 'string', 'stripe_sk', 'stripe_sk'),
+(123, 'stripe_pk', 'stripe_pk', 'stripe', 0, 'string', 'stripe_pk', 'stripe_pk'),
+(124, 'stripe_webhook_key', 'stripe_webhook_key', 'stripe', 0, 'string', 'stripe_webhook_key', 'web_hook密钥'),
+(125, 'stripe_min_recharge', '10', 'stripe', 1, 'int', '10', '最低充值限额'),
+(126, 'stripe_card', '0', 'stripe', 0, 'bool', '0', '银行卡支付'),
+(127, 'stripe_alipay', '0', 'stripe', 0, 'bool', '0', '支付宝支付'),
+(128, 'stripe_wechat', '0', 'stripe', 0, 'bool', '0', '微信支付'),
+(129, 'stripe_max_recharge', '1000', 'stripe', 1, 'int', '1000', '最高充值限额');

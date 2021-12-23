@@ -240,7 +240,7 @@ class UserController extends BaseController
         if ($codeq->type == -1) {
             $user->money += $codeq->number;
             $user->save();
-            
+
             // 返利
             if ($user->ref_by > 0 && Setting::obtain('invitation_mode') == 'after_recharge') {
                 Payback::rebate($user->id, $codeq->number);
@@ -467,18 +467,6 @@ class UserController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function tutorial($request, $response, $args)
-    {
-        return $response->write(
-            $this->view()->display('user/tutorial.tpl')
-        );
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
     public function edit($request, $response, $args)
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
@@ -665,7 +653,7 @@ class UserController extends BaseController
         if ($_ENV['enable_forced_replacement'] == true) {
             $user->clean_link();
         }
-        
+
         $res['ret'] = 1;
         $res['msg'] = '修改成功';
         return $response->withJson($res);
@@ -682,13 +670,13 @@ class UserController extends BaseController
         $newemail = $request->getParam('newemail');
         $oldemail = $user->email;
         $otheruser = User::where('email', $newemail)->first();
-        
+
         if ($_ENV['enable_change_email'] != true) {
             $res['ret'] = 0;
             $res['msg'] = '此项不允许自行修改，请联系管理员操作';
             return $response->withJson($res);
         }
-        
+
         if (Setting::obtain('reg_email_verify')) {
             $emailcode = $request->getParam('emailcode');
             $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
@@ -698,30 +686,30 @@ class UserController extends BaseController
                 return $response->withJson($res);
             }
         }
-        
+
         if ($newemail == '') {
             $res['ret'] = 0;
             $res['msg'] = '未填写邮箱';
             return $response->withJson($res);
         }
-        
+
         $check_res = Check::isEmailLegal($newemail);
         if ($check_res['ret'] == 0) {
             return $response->withJson($check_res);
         }
-        
+
         if ($otheruser != null) {
             $res['ret'] = 0;
             $res['msg'] = '邮箱已经被使用了';
             return $response->withJson($res);
         }
-        
+
         if ($newemail == $oldemail) {
             $res['ret'] = 0;
             $res['msg'] = '新邮箱不能和旧邮箱一样';
             return $response->withJson($res);
         }
-        
+
         $antiXss = new AntiXSS();
         $user->email = $antiXss->xss_clean($newemail);
         $user->save();
