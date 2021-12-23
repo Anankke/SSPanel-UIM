@@ -674,6 +674,19 @@ table tr td:first-child {
                                                         .
                                                         <a class="btn-dl" onclick=AddSub("{$subInfo['shadowrocket']}","shadowrocket://add/sub://")><i class="material-icons icon-sm">send</i> 一键导入 Shadowrocket</a>
                                                     </p>
+                                                <hr/>
+                                                <p><span class="icon icon-lg text-white">filter_6</span> Stash - [ SS/SSR/VMess/Trojan ]：</p>
+                                                <p>Stash 是一款 iOS 平台基于规则的多协议代理客户端，完全兼容 clash 配置，支持 Rule Set 规则、按需连接、SSID Policy Group等特性.</p>
+                                                <p>
+                                                    应用下载：
+                                                    <a class="btn-dl" href="https://apps.apple.com/app/stash/id1596063349"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
+                                                </p>
+                                                <p>
+                                                    使用方式：
+                                                    <a class="btn-dl" href="stash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 一键导入 Stash</a>
+                                                    .
+                                                    <a class="btn-dl" href="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
+                                                </p>
                                             {if array_key_exists('iOS',$config['userCenterClient'])}
                                                 {if count($config['userCenterClient']['iOS']) != 0}
                                                     {printClient items=$config['userCenterClient']['iOS']}
