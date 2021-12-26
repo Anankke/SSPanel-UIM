@@ -6,10 +6,8 @@ use App\Utils\Tools;
 use App\Models\{
     Link,
     Node,
-    User,
     UserSubscribeLog
 };
-use voku\helper\AntiXSS;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\{
     Request,
@@ -285,6 +283,6 @@ class SubController extends BaseController{
             $token->token = Tools::genSubToken();
             $token->save();
         }
-        return $_ENV['subUrl'] . '/sub/' . $token->token;
+        return $_ENV['baseUrl'] . '/sub/' . $token->token;
     }
 }
