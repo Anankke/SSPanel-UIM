@@ -62,10 +62,10 @@
                                            data="im_type">微信</a></li>
                                         <li><a href="#" class="dropdown-option" onclick="return false;" val="2"
                                            data="im_type">QQ</a></li>
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="3"
-                                           data="im_type">Facebook</a></li>
                                         <li><a href="#" class="dropdown-option" onclick="return false;" val="4"
                                            data="im_type">Telegram</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="5"
+                                               data="im_type">Discord</a></li>
                                     </ul>
                                 </div>
                             </div>

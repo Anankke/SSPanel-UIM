@@ -43,7 +43,6 @@
                                         <label class="floating-label" for="sort">单端口多用户启用</label>
                                         <select id="mu_only" class="form-control maxwidth-edit" name="is_multi_user">
                                             <option value="-1">只启用普通端口</option>
-                                            <option value="0">单端口多用户与普通端口并存</option>
                                             <option value="1">只启用单端口多用户</option>
                                         </select>
                                     </label>
@@ -72,9 +71,9 @@
                                         <label class="floating-label" for="sort">节点类型</label>
                                         <select id="sort" class="form-control maxwidth-edit" name="sort">
                                             <option value="0">Shadowsocks</option>
-                                            <option value="9">Shadowsocks 单端口多用户</option>
+                                            <option value="1">Shadowsocksr</option>
+                                            <option value="9">Shadowsocksr 单端口多用户（旧）</option>
                                             <option value="11">V2Ray</option>
-                                            <option value="13">Shadowsocks V2Ray-Plugin&Obfs</option>
                                             <option value="14">Trojan</option>
                                         </select>
                                     </div>

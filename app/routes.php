@@ -26,7 +26,7 @@ return function (SlimApp $app) {
         $this->get('/',                         App\Controllers\UserController::class . ':index');
 
         $this->post('/checkin',                 App\Controllers\UserController::class . ':doCheckin');
-        
+
         $this->get('/announcement',             App\Controllers\UserController::class . ':announcement');
 
         $this->get('/donate',                   App\Controllers\UserController::class . ':donate');
@@ -299,7 +299,7 @@ return function (SlimApp $app) {
 
     //通用訂閲
     $app->group('/sub', function () {
-        $this->get('/{token}/{subtype}',    App\Controllers\SubController::class . ':get_content');
+        $this->get('/{token}/{subtype}',    App\Controllers\SubController::class . ':getContent');
     });
 
     $app->group('/getClient', function () {

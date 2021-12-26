@@ -41,4 +41,27 @@ class UserSubscribeLog extends Model
         $location = $QQWry->getlocation($this->request_ip);
         return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
     }
+
+    /**
+     * 记录订阅日志
+     *
+     * @param User   $user 用户
+     * @param string $type 订阅类型
+     * @param string $ua   UA
+     *
+     * @return void
+     */
+    public static function addSubscribeLog($user, $type, $ua)
+    {
+        $log                     = new UserSubscribeLog();
+        $log->user_name          = $user->user_name;
+        $log->user_id            = $user->id;
+        $log->email              = $user->email;
+        $log->subscribe_type     = $type;
+        $log->request_ip         = $_SERVER['REMOTE_ADDR'];
+        $log->request_time       = date('Y-m-d H:i:s');
+        $antiXss                 = new AntiXSS();
+        $log->request_user_agent = $antiXss->xss_clean($ua);
+        $log->save();
+    }
 }

@@ -45,7 +45,6 @@
                                     <label for="mu_only">
                                         <label class="floating-label" for="sort">单端口多用户启用</label>
                                         <select id="mu_only" class="form-control maxwidth-edit" name="is_multi_user">
-                                            <option value="0" {if $node->mu_only==0}selected{/if}>单端口多用户与普通端口并存</option>
                                             <option value="-1" {if $node->mu_only==-1}selected{/if}>只启用普通端口</option>
                                             <option value="1" {if $node->mu_only==1}selected{/if}>只启用单端口多用户</option>
                                         </select>
@@ -75,9 +74,9 @@
                                         <label class="floating-label" for="sort">节点类型</label>
                                         <select id="sort" class="form-control maxwidth-edit" name="sort">
                                             <option value="0" {if $node->sort==0}selected{/if}>Shadowsocks</option>
-                                            <option value="9" {if $node->sort==9}selected{/if}>Shadowsocks 单端口多用户</option>
+                                            <option value="1" {if $node->sort==1}selected{/if}>Shadowsocksr</option>
+                                            <option value="9" {if $node->sort==9}selected{/if}>Shadowsocksr 单端口多用户（旧）</option>
                                             <option value="11" {if $node->sort==11}selected{/if}>V2Ray</option>
-                                            <option value="13" {if $node->sort==13}selected{/if}>Shadowsocks V2Ray-Plugin&Obfs</option>
                                             <option value="14" {if $node->sort==14}selected{/if}>Trojan</option>
                                         </select>
                                     </div>

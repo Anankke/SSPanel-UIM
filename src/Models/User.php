@@ -74,8 +74,8 @@ class User extends Model
                 return '微信';
             case 2:
                 return 'QQ';
-            case 3:
-                return 'Google+';
+            case 5:
+                return 'Discord';
             default:
                 return 'Telegram';
         }
@@ -89,7 +89,7 @@ class User extends Model
         switch ($this->im_type) {
             case 1:
             case 2:
-            case 3:
+            case 5:
                 return $this->im_value;
             default:
                 return '<a href="https://telegram.me/' . $this->im_value . '">' . $this->im_value . '</a>';

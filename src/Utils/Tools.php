@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-use App\Models\{Model, User, Node};
+use App\Models\{Link, Model, User, Node};
 use App\Services\Config;
 use App\Utils\QQWry;
 use DateTime;
@@ -972,5 +972,18 @@ class Tools
     public static function etag($data) {
         $etag = sha1(json_encode($data));
         return $etag;
+    }
+
+    public static function genSubToken()
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $token = self::genRandomChar(16);
+            $is_token_used = Link::where('token', $token)->first();
+            if ($is_token_used == null) {
+                return $token;
+            }
+        }
+
+        return "couldn't alloc token";
     }
 }

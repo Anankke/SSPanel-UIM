@@ -267,7 +267,6 @@
                                     <code id="ajax-im" data-default="imtype">
                                         {if $user->im_type==1}微信{/if}
                                         {if $user->im_type==2}QQ{/if}
-                                        {if $user->im_type==3}Google+{/if}
                                         {if $user->im_type==4}Telegram{/if}
                                         {if $user->im_type==5}Discord{/if}
                                     </code>

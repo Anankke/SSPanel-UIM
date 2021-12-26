@@ -81,8 +81,6 @@ class UserController extends BaseController
             }
         )->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
 
-        $users = array();
-
         if ($node->sort == 14) {
             $key_list = array('node_speedlimit', 'id', 'node_connector', 'uuid', 'alive_ip');
         } elseif ($node->sort == 11) {
@@ -95,6 +93,7 @@ class UserController extends BaseController
         }
 
         $alive_ip = (new \App\Models\Ip)->getUserAliveIpCount();
+        $users = array();
         foreach ($users_raw as $user_raw) {
             if ($user_raw->node_connector != 0) {
                 $user_raw->alive_ip = $alive_ip[strval($user_raw->id)];
