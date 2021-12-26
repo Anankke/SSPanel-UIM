@@ -56,7 +56,7 @@ class SubController extends BaseController{
             ->where('node_class', '<=', $user->class)
             ->whereIn('node_group', [0, $user->group])
             ->where(function ($query) {
-                $query->where('node_bandwidth_limit', '!=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
+                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
             })
             ->get();
 
