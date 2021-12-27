@@ -380,12 +380,13 @@ table tr td:first-child {
                                                 <p><span class="icon icon-lg text-white">settings_suggest</span> [ Vmess/Vless 节点 ]：
                                                     <a class="copy-text btn-dl" data-clipboard-text="{$getUniversalSub}/v2ray"><i class="material-icons icon-sm">send</i> 拷贝链接</a>
                                                 </p>
+                                                <hr/>
                                                 <p><span class="icon icon-lg text-white">settings_suggest</span> [ Trojan 节点 ]：
                                                     <a class="copy-text btn-dl" data-clipboard-text="{$getUniversalSub}/trojan"><i class="material-icons icon-sm">send</i> 拷贝链接</a>
                                                 </p>
                                             </div>
-                                            <div class="tab-pane fade active in" id="sub_center_general">
-                                                <p>此处的订阅已经在未来版本中将会被废弃，请尽快切换至可以使用通用订阅的客戶端</p>
+                                            <div class="tab-pane fade" id="sub_center_general">
+                                                <p>此处的订阅将会在未来版本中被废弃，请尽快切换至可以使用通用订阅的客戶端</p>
                                                 <hr/>
                                                 <p><span class="icon icon-lg text-white">filter_1</span> [ Shadowsocks ]：
                                                     <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ss']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>.<a id="general_ss" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ss","#general_ss","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
