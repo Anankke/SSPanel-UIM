@@ -17,7 +17,8 @@ use Slim\Http\{
 /**
  *  SubController
  */
-class SubController extends BaseController{
+class SubController extends BaseController
+{
     public static function getContent($request, $response, $args): ResponseInterface
     {
         if (!$_ENV['Subscribe']) {
@@ -43,8 +44,8 @@ class SubController extends BaseController{
             ]);
         }
 
-        $subtype_list = ['all','ss','ssr','v2ray','trojan'];
-        if (!in_array($subtype, $subtype_list)){
+        $subtype_list = ['all', 'ss', 'ssr', 'v2ray', 'trojan'];
+        if (!in_array($subtype, $subtype_list)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -56,7 +57,7 @@ class SubController extends BaseController{
             ->where('node_class', '<=', $user->class)
             ->whereIn('node_group', [0, $user->group])
             ->where(function ($query) {
-                $query->where('node_bandwidth_limit', '!=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
+                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
             })
             ->get();
 
@@ -128,7 +129,7 @@ class SubController extends BaseController{
                         $mu_obfs = $node_custom_config['mu_obfs'] ?? '';
                         $mu_suffix = $node_custom_config['mu_suffix'] ?? '';
                         //現在就只能用協議式單端口。理論上應該加個協議式單端口和混淆式單端口的配置項，然後這裏寫個判斷切換的。先咕了，SSR不是重點。
-                        $user_protocol_param = $user->id.':'.substr(md5($user->passwd), 0, 5);
+                        $user_protocol_param = $user->id . ':' . substr(md5($user->passwd), 0, 5);
                         $node = [
                             "name" => $node_raw->name,
                             "id" => $node_raw->id,
@@ -164,14 +165,16 @@ class SubController extends BaseController{
                     }
                     //V2Ray 真給我整不會了，有好好的 Trojan 不用用什麽 V2。默認值有問題的請懂 V2 怎麽用的人來改一改。
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
-                    $security = $node_custom_config['security'] ?? '';
+                    $security = $node_custom_config['security'] ?? 'none';
                     $flow = $node_custom_config['flow'] ?? '';
                     $encryption = $node_custom_config['encryption'] ?? '';
                     $network = $node_custom_config['network'] ?? '';
-                    $header_type = $node_custom_config['header']['type'] ?? '';
+                    $header = $node_custom_config['header'] ?? ["type" => "none"];
+                    $header_type = $header['type'] ?? '';
                     $host = $node_custom_config['host'] ?? '';
+                    $servicename = $node_custom_config['servicename'] ?? '';
                     $path = $node_custom_config['path'] ?? '/';
-                    $tls = $node_custom_config['tls'] ?? '0';
+                    $tls = in_array($security, ['tls', 'xtls']) ? '1' : '0';
                     $enable_vless = $node_custom_config['enable_vless'] ?? '0';
                     $node = [
                         "name" => $node_raw->name,
@@ -185,9 +188,11 @@ class SubController extends BaseController{
                         "flow" => $flow,
                         "encryption" => $encryption,
                         "network" => $network,
+                        "header" => $header,
                         "header_type" => $header_type,
                         "host" => $host,
                         "path" => $path,
+                        "servicename" => $servicename,
                         "tls" => $tls,
                         "enable_vless" => $enable_vless,
                         "remark" => $node_raw->info
@@ -213,9 +218,9 @@ class SubController extends BaseController{
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
                     //Trojan-Go 啥都好，就是特性連個支持的付費後端都沒有
-                    $security = $node_custom_config['security'] ?? '';
+                    $security = $node_custom_config['security'] ?? $node_custom_config['enable_xtls'] == '1' ? 'xtls' : 'tls';
                     $mux = $node_custom_config['mux'] ?? '';
-                    $transport = $node_custom_config['transport'] ?? '';
+                    $transport = $node_custom_config['transport'] ?? $node_custom_config['grpc'] == '1' ? 'grpc' : 'tcp';;
                     $transport_plugin = $node_custom_config['transport_plugin'] ?? '';
                     $transport_method = $node_custom_config['transport_method'] ?? '';
                     $servicename = $node_custom_config['servicename'] ?? '';
@@ -255,7 +260,7 @@ class SubController extends BaseController{
             "user_class" => $user->class,
             "user_class_expire_date" => $user->class_expire,
             "user_total_traffic" => $user->transfer_enable,
-            "user_used_traffic" => $user->u+$user->d,
+            "user_used_traffic" => $user->u + $user->d,
             "nodes" => $nodes
         ];
 
