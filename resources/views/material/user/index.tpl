@@ -3,13 +3,25 @@
 {$pre_user = URL::cloneUser($user)}
 
 <style>
-.table {
-    box-shadow: none;
-}
-table tr td:first-child {
-    text-align: right;
-    font-weight: bold;
-}
+    .table {
+        box-shadow: none;
+    }
+
+    table tr td:first-child {
+        text-align: left;
+        font-weight: bold;
+    }
+
+    #connection-info {
+        overflow: auto;
+        width: 100%;
+    }
+
+    #connection-info-table {
+        width: 100%;
+        table-layout: fixed;
+        word-break: break-all;
+    }
 </style>
 
 <main class="content">
@@ -269,38 +281,40 @@ table tr td:first-child {
                                     <div class="tab-content">
                                         <div class="tab-pane fade" id="info_center">
                                             <p>您的连接信息：</p>
-                                            <table class="table">
-                                                <tbody>
-                                                <tr>
-                                                    <td><strong>端口</strong></td>
-                                                    <td>{$user->port}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>SS/SSR连接密码</strong></td>
-                                                    <td>{$user->passwd}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>UUID</strong></td>
-                                                    <td>{$user->uuid}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>自定义加密</strong></td>
-                                                    <td>{$user->method}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>自定义协议</strong></td>
-                                                    <td>{$user->protocol}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>自定义混淆</strong></td>
-                                                    <td>{$user->obfs}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>自定义混淆参数</strong></td>
-                                                    <td>{$user->obfs_param}</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                                            <div id="connection-info">
+                                                <table id="connection-info-table" class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><strong>端口</strong></td>
+                                                        <td>{$user->port}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>SS/SSR连接密码</strong></td>
+                                                        <td>{$user->passwd}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>UUID</strong></td>
+                                                        <td>{$user->uuid}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>自定义加密</strong></td>
+                                                        <td>{$user->method}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>自定义协议</strong></td>
+                                                        <td>{$user->protocol}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>自定义混淆</strong></td>
+                                                        <td>{$user->obfs}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>自定义混淆参数</strong></td>
+                                                        <td>{$user->obfs_param}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                         <div class="tab-pane fade active in" id="sub_center">
                                             <nav class="tab-nav margin-top-no">

@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="card-table">
                                     <div class="table-responsive table-user">
-                                        <table class="table table-fixed">
+                                        <table class="table">
                                             <tr>
                                                 <th>IP</th>
                                                 <th>时间</th>
