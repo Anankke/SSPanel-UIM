@@ -44,8 +44,8 @@ SSPanel UIM 支持安装在 LNMP、宝塔面板、Plesk、Oneinstack 等集成�
 [演示站](https://demo.sspanel.org/) 每天更新 `dev` 分支最新源码。
 
 ```
-账号：admin
-密码：admin
+账号：admin@sspanel.org
+密码：password
 mukey ShirakamiFubuki
 ```
 
