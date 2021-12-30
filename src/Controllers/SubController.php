@@ -98,7 +98,7 @@ class SubController extends BaseController
                         $node = null;
                         break;
                     }
-                    //判斷一下是普通SSR節點還是單端口SSR節點，同時下發SSR的多端口和單端口的邏輯我就偷個懶不寫了=。=
+                    //判斷一下是普通SSR節點還是單端口SSR節點，混淆式单端就去掉了，配起来怪麻烦的
                     if ($node_raw->mu_only == -1) {
                         $node = [
                             "name" => $node_raw->name,
@@ -124,19 +124,20 @@ class SubController extends BaseController
                         } else {
                             $mu_port = $node_custom_config['mu_port'];
                         }
+                        $mu_password = $node_custom_config['mu_password'] ?? '';
                         $mu_encryption = $node_custom_config['mu_encryption'] ?? '';
                         $mu_protocol = $node_custom_config['mu_protocol'] ?? '';
                         $mu_obfs = $node_custom_config['mu_obfs'] ?? '';
                         $mu_suffix = $node_custom_config['mu_suffix'] ?? '';
                         //現在就只能用協議式單端口。理論上應該加個協議式單端口和混淆式單端口的配置項，然後這裏寫個判斷切換的。先咕了，SSR不是重點。
-                        $user_protocol_param = $user->id . ':' . substr(md5($user->passwd), 0, 5);
+                        $user_protocol_param = $user->id . ':' . $user->passwd;
                         $node = [
                             "name" => $node_raw->name,
                             "id" => $node_raw->id,
                             "type" => "ssr",
                             "address" => $server,
                             "port" => $mu_port,
-                            "password" => $user->passwd,
+                            "password" => $mu_password,
                             "encryption" => $mu_encryption,
                             "protocol" => $mu_protocol,
                             "protocol_param" => $user_protocol_param,

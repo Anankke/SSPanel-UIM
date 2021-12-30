@@ -59,7 +59,6 @@
     <ul class="nav nav-list pull-right">
         <div class="dropdown margin-right">
             <a class="dropdown-toggle padding-left-no padding-right-no" data-toggle="dropdown">
-                {if $user->isLogin}
                 <span class="access-hide">{$user->user_name}</span>
                 <span class="avatar avatar-sm"><img src="{$user->gravatar}"></span>
             </a>
@@ -72,21 +71,6 @@
                                 class="icon icon-lg margin-right">exit_to_app</span>登出</a>
                 </li>
             </ul>
-            {else}
-            <span class="access-hide">未登录</span>
-            <span class="avatar avatar-sm"><img src="/theme/material/images/users/avatar-001.jpg"></span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li>
-                    <a class="waves-attach" href="/auth/login"><span
-                                class="icon icon-lg margin-right">account_box</span>登录</a>
-                </li>
-                <li>
-                    <a class="waves-attach" href="/auth/register"><span
-                                class="icon icon-lg margin-right">pregnant_woman</span>注册</a>
-                </li>
-            </ul>
-            {/if}
         </div>
     </ul>
 </header>
