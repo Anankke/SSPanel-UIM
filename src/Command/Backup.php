@@ -46,11 +46,11 @@ class Backup extends Command
             system('mysqldump --user=' . $_ENV['db_username'] . ' --password=' . $_ENV['db_password'] . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . $_ENV['db_database'] . ' > /tmp/ssmodbackup/mod.sql');
         } else {
             system(
-                'mysqldump --user=' . $_ENV['db_username'] . ' --password=' . $_ENV['db_password'] . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . $_ENV['db_database'] . ' announcement blockip bought code coupon link login_ip payback shop ss_invite_code ss_node ss_password_reset ticket unblockip user user_token email_verify detect_list paylist > /tmp/ssmodbackup/mod.sql',
+                'mysqldump --user=' . $_ENV['db_username'] . ' --password=' . $_ENV['db_password'] . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' ' . $_ENV['db_database'] . ' announcement blockip bought code coupon link login_ip payback shop user_invite_code node user_password_reset ticket unblockip user user_token email_verify detect_list paylist > /tmp/ssmodbackup/mod.sql',
                 $ret
             );
             system(
-                'mysqldump --opt --user=' . $_ENV['db_username'] . ' --password=' . $_ENV['db_password'] . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' -d ' . $_ENV['db_database'] . ' alive_ip ss_node_info ss_node_online_log detect_log telegram_session >> /tmp/ssmodbackup/mod.sql',
+                'mysqldump --opt --user=' . $_ENV['db_username'] . ' --password=' . $_ENV['db_password'] . ' --host=' . $db_address_array[0] . ' ' . (isset($db_address_array[1]) ? '-P ' . $db_address_array[1] : '') . ' -d ' . $_ENV['db_database'] . ' alive_ip node_info node_online_log detect_log telegram_session >> /tmp/ssmodbackup/mod.sql',
                 $ret
             );
         }
