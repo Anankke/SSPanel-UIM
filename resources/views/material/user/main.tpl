@@ -75,7 +75,7 @@
                         {/if}
                         {if $config['enable_ticket']===true}
                             <li>
-                                <a href="/user/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单</a>
+                                <a href="/user/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单系统</a>
                             </li>
                         {/if}
                         <li>

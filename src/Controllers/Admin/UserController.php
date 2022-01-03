@@ -89,13 +89,9 @@ class UserController extends AdminController
      */
     public function createNewUser($request, $response, $args)
     {
-        # 需要一个 userEmail
-        $email = $request->getParam('userEmail');
-        $email = trim($email);
-        $email = strtolower($email);
-
-        $money   = (int) trim($request->getParam('userMoney'));
-        $shop_id = (int) $request->getParam('userShop');
+        $email   = strtolower(trim($request->getParam('email')));
+        $money   = (int) trim($request->getParam('balance'));
+        $shop_id = (int) $request->getParam('product');
 
         $user = User::where('email', $email)->first();
         if ($user != null) {
@@ -104,6 +100,14 @@ class UserController extends AdminController
                 'msg' => '邮箱已经被注册了'
             ]);
         }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '邮箱不规范'
+            ]);
+        }
+
         $configs = Setting::getClass('register');
         // do reg user
         $user                       = new User();
