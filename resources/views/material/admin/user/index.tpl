@@ -253,9 +253,9 @@
                 url: '/admin/user/create',
                 dataType: 'json',
                 data: {
-                    userEmail: $$getValue('quick_create'),
-                    userMoney: $$getValue('new_user_money'),
-                    userShop: $$getValue('new_user_add_shop')
+                    email: $$getValue('quick_create'),
+                    balance: $$getValue('new_user_money'),
+                    product: $$getValue('new_user_add_shop')
                 },
                 success: data => {
                     $("#result").modal();
