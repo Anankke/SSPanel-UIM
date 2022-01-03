@@ -107,7 +107,7 @@ return function (SlimApp $app) {
     $app->group('/payment', function () {
         $this->get('/notify/{type}',           App\Services\Payment::class . ':notify');
         $this->post('/notify/{type}',   App\Services\Payment::class . ':notify');
-        $this->post('/status',          App\Services\Payment::class . ':getStatus');
+        $this->post('/status/{type}',          App\Services\Payment::class . ':getStatus');
         // $this->post('/coinpay/notify',  App\Services\CoinPayment::class. ':notify');
     });
 
