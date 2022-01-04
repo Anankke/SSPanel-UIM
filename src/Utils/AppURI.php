@@ -364,8 +364,8 @@ class AppURI
                 }
                 if ($item['net'] == 'ws') {
                     $return['network'] = 'ws';
-                    $return['ws-path'] = $item['path'];
-                    $return['ws-headers']['Host'] = ($item['host'] != '' ? $item['host'] : $item['add']);
+                    $return['ws-opts']['path'] = $item['path'];
+                    $return['ws-opts']['headers']['Host'] = ($item['host'] != '' ? $item['host'] : $item['add']);
                 }
                 if ($item['tls'] == 'tls') {
                     $return['tls'] = true;
