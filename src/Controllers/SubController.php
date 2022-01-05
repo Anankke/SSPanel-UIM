@@ -166,7 +166,7 @@ class SubController extends BaseController
                     }
                     //V2Ray 真給我整不會了，有好好的 Trojan 不用用什麽 V2。默認值有問題的請懂 V2 怎麽用的人來改一改。
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
-                    $security = $node_custom_config['security'] ?? 'none';
+                    $security = $node_custom_config['security'] ?? 'auto';
                     $flow = $node_custom_config['flow'] ?? '';
                     $encryption = $node_custom_config['encryption'] ?? '';
                     $network = $node_custom_config['network'] ?? '';
