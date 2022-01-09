@@ -24,11 +24,12 @@ class NodeController extends BaseController
      */
     public function saveReport($request, $response, $args)
     {
-        $request_ip = $_SERVER["REMOTE_ADDR"];
+        // $request_ip = $_SERVER["REMOTE_ADDR"];
+        $node_id = $request->getParam('$node_id');
         $content = $request->getParam('content');
         $result = json_decode(base64_decode($content), true);
 
-        $node = Node::where('node_ip', $request_ip)->first();
+        /* $node = Node::where('node_ip', $request_ip)->first();
         if ($node != null) {
             $report = new StreamMedia;
             $report->node_id = $node->id;
@@ -36,7 +37,14 @@ class NodeController extends BaseController
             $report->created_at = time();
             $report->save();
             die('ok');
-        }
+        } */
+        
+        $report = new StreamMedia;
+        $report->node_id = $node_id;
+        $report->result = json_encode($result);
+        $report->created_at = time();
+        $report->save();
+        die('ok');
     }
     
     /**
