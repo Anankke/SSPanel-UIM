@@ -28,6 +28,7 @@ return function (SlimApp $app) {
         $this->post('/checkin',                 App\Controllers\UserController::class . ':doCheckin');
 
         $this->get('/announcement',             App\Controllers\UserController::class . ':announcement');
+        $this->get('/media',                    App\Controllers\UserController::class . ':media');
 
         $this->get('/donate',                   App\Controllers\UserController::class . ':donate');
         $this->get('/profile',                  App\Controllers\UserController::class . ':profile');
@@ -275,6 +276,9 @@ return function (SlimApp $app) {
 
     // mu
     $app->group('/mod_mu', function () {
+        // 流媒体检测
+        $this->post('/media/saveReport',    App\Controllers\Mod_Mu\NodeController::class . ':saveReport');
+        // 其他
         $this->get('/nodes/{id}/info',      App\Controllers\Mod_Mu\NodeController::class . ':get_info');
         $this->post('/nodes/{id}/info',     App\Controllers\Mod_Mu\NodeController::class . ':info');
         $this->get('/nodes',                App\Controllers\Mod_Mu\NodeController::class . ':get_all_info');
