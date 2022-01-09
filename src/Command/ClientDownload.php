@@ -173,17 +173,17 @@ class ClientDownload extends Command
             'savePath'  => 'public/clients/',
             'downloads' => [
                 [
-                    'sourceName' => 'Qv2ray.%tagName%.Windows-x64.7z',
+                    'sourceName' => 'Qv2ray-%tagName%-Windows.7z',
                     'saveName'   => 'Qv2ray.7z',
                     'apkpureUrl' => ''
                 ],
                 [
-                    'sourceName' => 'Qv2ray-%tagName%.macOS-x64.dmg',
+                    'sourceName' => 'Qv2ray-%tagName%-macOS-x64.dmg',
                     'saveName'   => 'Qv2ray.dmg',
                     'apkpureUrl' => ''
                 ],
                 [
-                    'sourceName' => 'Qv2ray.%tagName%.linux-x64.AppImage',
+                    'sourceName' => 'Qv2ray-%tagName%-linux-x64.AppImage',
                     'saveName'   => 'Qv2ray.AppImage',
                     'apkpureUrl' => ''
                 ],
@@ -196,7 +196,7 @@ class ClientDownload extends Command
             'savePath'  => 'public/clients/',
             'downloads' => [
                 [
-                    'sourceName' => 'app-premium-universal-release.apk',
+                    'sourceName' => 'cfa-%tagName1%-premium-universal-release.apk',
                     'saveName'   => 'Clash-Android.apk',
                     'apkpureUrl' => ''
                 ],
@@ -209,7 +209,7 @@ class ClientDownload extends Command
             'savePath'  => 'public/clients/',
             'downloads' => [
                 [
-                    'sourceName' => 'shadowsocks--universal-%tagName1%.apk',
+                    'sourceName' => 'shadowsocks--universal-%tagName%.apk',
                     'saveName'   => 'ss-android.apk',
                     'apkpureUrl' => ''
                 ],
