@@ -19,6 +19,7 @@
         "paymentwall/paymentwall-php": "^2.1",
         "phpmailer/phpmailer": "~6.0",
         "ramsey/uuid": "^3.0@dev",
+        "robmorgan/phinx": "^0.12.9",
         "sendgrid/sendgrid": "~7",
         "sentry/sdk": "^2.1",
         "slim/slim": "~3.0",

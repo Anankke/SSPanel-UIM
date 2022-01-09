@@ -26,6 +26,7 @@ use App\Models\{
     DetectLog,
     DetectRule,
     InviteCode,
+    StreamMedia,
     EmailVerify,
     UserSubscribeLog
 };
@@ -39,6 +40,7 @@ use App\Utils\{
     Cookie,
     Telegram,
     ClientProfiles,
+    DatatablesHelper,
     TelegramSessionManager
 };
 use voku\helper\AntiXSS;
@@ -461,6 +463,48 @@ class UserController extends BaseController
                 ->assign('anns', $Anns)
                 ->display('user/announcement.tpl')
         );
+    }
+
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function media($request, $response, $args)
+    {
+        $results = [];
+        $db = new DatatablesHelper;
+        $nodes = $db->query('SELECT DISTINCT node_id FROM stream_media');
+        
+        foreach ($nodes as $node_id)
+        {
+            $node = Node::where('id', $node_id)->first();
+            
+            $unlock = StreamMedia::where('node_id', $node_id)
+            ->orderBy('id', 'desc')
+            ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
+            ->first();
+            
+            if ($unlock != null) {
+                $details = json_decode($unlock->result, true);
+                foreach ($details as $key => $value)
+                {
+                    $info = [
+                        'node_name' => $node->name,
+                        'created_at' => $unlock->created_at,
+                        'unlock_item' => $details
+                    ];
+                }
+                
+                array_push($results, $info);
+            }
+        }
+
+        array_multisort(array_column($results, 'node_name'), SORT_ASC, $results);
+        
+        return $this->view()
+            ->assign('results', $results)
+            ->display('user/media.tpl');
     }
 
     /**

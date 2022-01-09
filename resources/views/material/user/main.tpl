@@ -88,6 +88,9 @@
                             <a href="/user/node"><i class="icon icon-lg">airplanemode_active</i>&nbsp;节点列表</a>
                         </li>
                         <li>
+                            <a href="/user/media"><i class="icon icon-lg">ondemand_video</i>&nbsp;流媒体解锁</a>
+                        </li>
+                        <li>
                             <a href="/user/announcement"><i class="icon icon-lg">announcement</i>&nbsp;站点公告</a>
                         </li>
                         <li>

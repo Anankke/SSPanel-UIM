@@ -1,23 +1,44 @@
 <?php
-
-
 namespace App\Controllers\Mod_Mu;
 
-use App\Controllers\BaseController;
-use App\Models\{
-    Node,
-    NodeInfoLog
-};
-use App\Services\Config;
 use Slim\Http\{
     Request,
     Response
 };
+use App\Models\{
+    Node,
+    StreamMedia,
+    NodeInfoLog
+};
 use App\Utils\Tools;
+use App\Services\Config;
+use App\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
 
 class NodeController extends BaseController
 {
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function saveReport($request, $response, $args)
+    {
+        $request_ip = $_SERVER["REMOTE_ADDR"];
+        $content = $request->getParam('content');
+        $result = json_decode(base64_decode($content), true);
+
+        $node = Node::where('node_ip', $request_ip)->first();
+        if ($node != null) {
+            $report = new StreamMedia;
+            $report->node_id = $node->id;
+            $report->result = json_encode($result);
+            $report->created_at = time();
+            $report->save();
+            die('ok');
+        }
+    }
+    
     /**
      * @param Request   $request
      * @param Response  $response
