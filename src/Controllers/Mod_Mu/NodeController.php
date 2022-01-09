@@ -25,7 +25,7 @@ class NodeController extends BaseController
     public function saveReport($request, $response, $args)
     {
         // $request_ip = $_SERVER["REMOTE_ADDR"];
-        $node_id = $request->getParam('$node_id');
+        $node_id = $request->getParam('node_id');
         $content = $request->getParam('content');
         $result = json_decode(base64_decode($content), true);
 
