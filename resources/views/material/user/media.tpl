@@ -54,7 +54,13 @@
                                                     <tr>
                                                         <td>{$result['node_name']}</td>
                                                         <td>{$result['unlock_item']['YouTube']}</td>
-                                                        <td>{$result['unlock_item']['Netflix']}</td>
+                                                        <td>{if $result['unlock_item']['Netflix'] == 'No (Originals Only)'}
+                                                        自制剧Only
+                                                        {else if $result['unlock_item']['Netflix'] == 'NO'}
+                                                        NO
+                                                        {else}
+                                                        {$result['unlock_item']['Netflix']}
+                                                        {/if}</td>
                                                         <td>{$result['unlock_item']['DisneyPlus']}</td>
                                                         <td>{$result['unlock_item']['BilibiliHKMCTW']}</td>
                                                         <td>{$result['unlock_item']['BilibiliTW']}</td>
@@ -93,6 +99,8 @@
     $("td:contains('Yes')").css("color", "green");
     $("td:contains('No')").css("color", "red");
     $("td:contains('Unknow')").css("color", "orange");
+    $("td:contains('自制剧Only')").css("color", "pink");
+</script>
 </script>
 
 {include file='user/footer.tpl'}
