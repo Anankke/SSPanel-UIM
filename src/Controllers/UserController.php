@@ -522,10 +522,10 @@ class UserController extends BaseController
                         'created_at' => $value_node->created_at,
                         'unlock_item' => $details
                     ];
+                    
+                    array_push($results, $info);
                 }
-            }
-                
-            array_push($results, $info);
+           }
         }
 
         array_multisort(array_column($results, 'node_name'), SORT_ASC, $results);
