@@ -200,8 +200,7 @@ class Tools
     {
         if ($_ENV['min_port'] > 65535 || $_ENV['min_port'] <= 0 || $_ENV['max_port'] > 65535 || $_ENV['max_port'] <= 0) {
             return 0;
-        }
-        else {
+        } else {
             $det = User::pluck('port')->toArray();
             $port = array_diff(range($_ENV['min_port'], $_ENV['max_port']), $det);
             shuffle($port);
@@ -324,8 +323,7 @@ class Tools
                 if ($single_rule->dist_node_id == $path->begin_node->id) {
                     $path->begin_node = $single_rule->Source_Node();
                     if ($path->begin_node->isNodeAccessable() == false) {
-                        $path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node(
-                            )->name . '</span>' . ' → ' . $path->path;
+                        $path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node()->name . '</span>' . ' → ' . $path->path;
                         $path->status = '阻断';
                     } else {
                         $path->path = $single_rule->Source_Node()->name . ' → ' . $path->path;
@@ -337,8 +335,7 @@ class Tools
                 if ($path->end_node->id == $single_rule->source_node_id) {
                     $path->end_node = $single_rule->Dist_Node();
                     if ($path->end_node->isNodeAccessable() == false) {
-                        $path->path .= ' → ' . '<span style="color: #FF0000; ">' . $single_rule->Dist_Node(
-                            )->name . '</span>';
+                        $path->path .= ' → ' . '<span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
                         $path->status = '阻断';
                     } else {
                         $path->path .= ' → ' . $single_rule->Dist_Node()->name;
@@ -433,21 +430,24 @@ class Tools
                 $item['path'] = '/';
             } elseif ($item['net'] == 'tls') {
                 $item['tls'] = 'tls';
-            }elseif ($server[3] == 'grpc') {
-                $item['net'] = 'grpc';
-            }elseif ($server[4] == 'grpc') {
+            }
+            if ($server[4] == 'grpc') {
                 $item['net'] = 'grpc';
             }
         }
         if (count($server) >= 5) {
             if (in_array($item['net'], array('kcp', 'http', 'mkcp'))) {
                 $item['headerType'] = $server[4];
-            } elseif ($server[4] == 'ws') {
-                $item['net'] = 'ws';
-            } elseif ($server[4] == 'tls') {
-                $item['tls'] = 'tls';
-            } elseif ($server[4] == 'xtls') {
-                $item['tls'] = 'xtls';
+            } else {
+                switch ($server[4]) {
+                    case 'ws':
+                        $item['net'] = $server[4];
+                        break;
+                    case 'tls':
+                    case 'xtls':
+                        $item['tls'] = $server[4];
+                        break;
+                }
             }
         }
         if (count($server) >= 6 && $server[5] != '') {
@@ -474,25 +474,25 @@ class Tools
 
             if (array_key_exists('servicename', $item)) {
                 $item['servicename'] = $item['servicename'];
-            }else{
+            } else {
                 $item['servicename'] = "";
             }
 
             if (array_key_exists('enable_xtls', $item)) {
                 $item['enable_xtls'] = $item['enable_xtls'];
-            }else{
+            } else {
                 $item['enable_xtls'] = "";
             }
 
             if (array_key_exists('flow', $item)) {
                 $item['flow'] = $item['flow'];
-            }else{
+            } else {
                 $item['flow'] = "xtls-rprx-direct";
             }
 
             if (array_key_exists('enable_vless', $item)) {
                 $item['vtype'] = 'vless://';
-            }else{
+            } else {
                 $item['vtype'] = 'vmess://';
             }
 
@@ -532,10 +532,12 @@ class Tools
                 $item['tls'] = 'tls';
             }
         }
-        if (count($server) >= 5 && $server[4] == 'ws') {
-            $item['net'] = 'ws';
-        } elseif (count($server) >= 5 && $server[4] == 'tls') {
-            $item['tls'] = 'tls';
+        if (count($server) >= 5) {
+            if ($server[4] == 'ws') {
+                $item['net'] = 'ws';
+            } elseif ($server[4] == 'tls') {
+                $item['tls'] = 'tls';
+            }
         }
         if (count($server) >= 6) {
             $item = array_merge($item, URL::parse_args($server[5]));
@@ -639,7 +641,6 @@ class Tools
                                 "backend" => (int) $backend_port,
                                 "display" => (int) $display_port
                             ];
-
                         } else {
                             $user_port = substr($item['port'], 0, strpos($item['port'], '#'));
 
@@ -969,7 +970,8 @@ class Tools
         return $html;
     }
 
-    public static function etag($data) {
+    public static function etag($data)
+    {
         $etag = sha1(json_encode($data));
         return $etag;
     }
