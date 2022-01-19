@@ -4,8 +4,10 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
 use App\Models\Code;
+use App\Models\Setting;
 use App\Utils\Tools;
 use App\Services\Auth;
+use App\Services\Mail;
 use Slim\Http\{
     Request,
     Response
@@ -115,27 +117,52 @@ class CodeController extends AdminController
      */
     public function add($request, $response, $args)
     {
-        $n      = $request->getParam('amount');
-        $number = $request->getParam('number');
+        $cards       = [];
+        $user        = Auth::getUser();
+        $amount      = $request->getParam('amount');
+        $face_value  = $request->getParam('face_value');
+        $code_length = $request->getParam('code_length');
 
-        if (Tools::isInt($n) == false) {
+        if (Tools::isInt($amount) == false) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '非法请求'
+                'msg' => '请填写充值码生成数量'
             ]);
         }
 
-        for ($i = 0; $i < $n; $i++) {
-            $char              = Tools::genRandomChar(32);
+        if ($face_value == '') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '请填写充值码面额'
+            ]);
+        }
+
+        for ($i = 0; $i < $amount; $i++) {
+            // save array
+            $recharge_code     = Tools::genRandomChar($code_length);
+            array_push($cards, $recharge_code);
+            // save database
             $code              = new Code();
-            $code->code        = time() . $char;
+            $code->code        = $recharge_code;
             $code->type        = -1;
-            $code->number      = $number;
+            $code->number      = $face_value;
             $code->userid      = 0;
             $code->usedatetime = '1989:06:04 02:30:00';
             $code->save();
         }
 
+        if (Setting::obtain('mail_driver') != 'none') {
+            Mail::send(
+                $user->email,
+                $_ENV['appName'] . '- 充值码',
+                'giftcard.tpl',
+                [
+                    'text' => implode('<br/>', $cards)
+                ],
+                []
+            );
+        }
+        
         $rs['ret'] = 1;
         $rs['msg'] = '充值码添加成功';
         return $response->withJson($rs);
