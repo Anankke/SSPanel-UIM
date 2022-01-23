@@ -102,6 +102,7 @@
                                 <input class="form-control maxwidth-edit" id="class_expire" type="text"
                                        value="{$shop->class_expire()}">
                             </div>
+                            <p class="form-control-guide"><i class="material-icons">info</i>如需使用等级功能，请同时填写【等级】和【等级有效期天数】这两个项目</p>
                         </div>
                     </div>
                 </div>
