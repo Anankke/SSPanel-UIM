@@ -18,6 +18,7 @@ use App\Models\{
     Token,
     Bought,
     Coupon,
+    Product,
     Payback,
     BlockIp,
     LoginIp,
@@ -28,6 +29,7 @@ use App\Models\{
     InviteCode,
     StreamMedia,
     EmailVerify,
+    ProductOrder,
     UserSubscribeLog
 };
 use App\Utils\{
@@ -55,6 +57,33 @@ use Slim\Http\{
  */
 class UserController extends BaseController
 {
+    public function user_order($request, $response, $args)
+    {
+        $user = $this->user;
+        $pageNum = $request->getQueryParams()['page'] ?? 1;
+        $orders = ProductOrder::where('user_id', $user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
+        $orders->setPath('/user/order');
+        $render = Tools::paginate_render($orders);
+
+        return $response->write(
+            $this->view()
+                ->assign('orders', $orders)
+                ->assign('render', $render)
+                ->display('user/order.tpl')
+        );
+    }
+
+    public function product_index($request, $response, $args)
+    {
+        $products = Product::all();
+
+        return $response->write(
+            $this->view()
+                ->assign('products', $products)
+                ->display('user/product.tpl')
+        );
+    }
+
     /**
      * @param Request   $request
      * @param Response  $response
@@ -88,6 +117,12 @@ class UserController extends BaseController
             $geetest_html = null;
         }
 
+        $data = [
+            'today_traffic_usage' => ($this->user->transfer_enable == 0) ? 0 : ($this->user->u + $this->user->d - $this->user->last_day_t) / $this->user->transfer_enable * 100,
+            'past_traffic_usage' => ($this->user->transfer_enable == 0) ? 0 : $this->user->last_day_t / $this->user->transfer_enable * 100,
+            'residual_flow' => ($this->user->transfer_enable==0) ? 0 : ($this->user->transfer_enable - ($this->user->u + $this->user->d)) / $this->user->transfer_enable * 100,
+        ];
+
         return $response->write(
             $this->view()
                 ->assign('ssr_sub_token', $this->user->getSublink())
@@ -104,6 +139,7 @@ class UserController extends BaseController
                 ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
                 ->assign('getUniversalSub', SubController::getUniversalSub($this->user))
                 ->assign('getClient', $token)
+                ->assign('data', $data)
                 ->display('user/index.tpl')
         );
     }
@@ -223,14 +259,15 @@ class UserController extends BaseController
         if ($code == '') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '非法输入'
+                'msg' => '请填写充值码'
             ]);
         }
+
         $codeq = Code::where('code', $code)->where('isused', 0)->first();
         if ($codeq == null) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '此充值码错误'
+                'msg' => '没有这个充值码'
             ]);
         }
 
@@ -259,7 +296,7 @@ class UserController extends BaseController
 
             return $response->withJson([
                 'ret' => 1,
-                'msg' => '充值成功，充值的金额为' . $codeq->number . '元。'
+                'msg' => '兑换成功，金额为 ' . $codeq->number . ' 元'
             ]);
         }
 
@@ -485,7 +522,7 @@ class UserController extends BaseController
             ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
             ->first();
             
-            if ($unlock != null) {
+            if ($unlock != null && $node != null) {
                 $details = json_decode($unlock->result, true);
                 $details = str_replace('Originals Only', '仅限自制', $details);
                 $details = str_replace('Oversea Only', '仅限海外', $details);
@@ -583,17 +620,26 @@ class UserController extends BaseController
         }
 
         $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $paybacks = Payback::where('ref_by', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
+
+        $paybacks = Payback::where('ref_by', $this->user->id)
+        ->orderBy('id', 'desc')
+        ->paginate(15, ['*'], 'page', $pageNum);
+
         if (!$paybacks_sum = Payback::where('ref_by', $this->user->id)->sum('ref_get')) {
             $paybacks_sum = 0;
         }
+
         $paybacks->setPath('/user/invite');
         $render = Tools::paginate_render($paybacks);
+
+        $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;
+
         return $this->view()
             ->assign('code', $code)
-            ->assign('paybacks', $paybacks)
-            ->assign('paybacks_sum', $paybacks_sum)
             ->assign('render', $render)
+            ->assign('paybacks', $paybacks)
+            ->assign('invite_url', $invite_url)
+            ->assign('paybacks_sum', $paybacks_sum)
             ->display('user/invite.tpl');
     }
 
@@ -1402,7 +1448,7 @@ class UserController extends BaseController
     {
         if ($_ENV['enable_checkin'] === false) {
             $res['ret'] = 0;
-            $res['msg'] = '目前站点没有启用签到功能。';
+            $res['msg'] = '暂时还不能签到';
             return $response->withJson($res);
         }
 
@@ -1411,14 +1457,14 @@ class UserController extends BaseController
             if (!$ret) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '系统无法接受您的验证结果，请刷新页面后重试。'
+                    'msg' => '系统无法接受您的验证结果，请刷新页面后重试'
                 ]);
             }
         }
 
         if (strtotime($this->user->expire_in) < time()) {
             $res['ret'] = 0;
-            $res['msg'] = '您的账户已过期，无法签到。';
+            $res['msg'] = '没有过期的账户才可以签到';
             return $response->withJson($res);
         }
 
@@ -1591,7 +1637,10 @@ class UserController extends BaseController
     {
         $user = $this->user;
         $user->clear_inviteCodes();
-        return $response->withStatus(302)->withHeader('Location', '/user/invite');
+
+        $res['ret'] = 1;
+        $res['msg'] = '重置成功';
+        return $response->withJson($res);
     }
 
     /**
@@ -1682,27 +1731,16 @@ class UserController extends BaseController
         if ($_ENV['subscribeLog_show'] === false) {
             return $response->withStatus(302)->withHeader('Location', '/user');
         }
+
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
-        $iplocation = new QQWry();
         $logs->setPath('/user/subscribe_log');
 
-        if (($request->getParam('json') == 1)) {
-            $res['ret'] = 1;
-            $res['logs'] = $logs;
-            foreach ($logs as $log) {
-                $location = $iplocation->getlocation($log->request_ip);
-                $log->country = iconv("gbk", "utf-8//IGNORE", $location['country']);
-                $log->area = iconv("gbk", "utf-8//IGNORE", $location['area']);
-            }
-            $res['subscribeLog_keep_days'] = $_ENV['subscribeLog_keep_days'];
-            return $response->withJson($res);
-        }
         $render = Tools::paginate_render($logs);
         return $this->view()
             ->assign('logs', $logs)
-            ->assign('iplocation', $iplocation)
             ->assign('render', $render)
+            ->registerClass('Tools', Tools::class)
             ->fetch('user/subscribe_log.tpl');
     }
 

@@ -209,7 +209,7 @@ class User extends Model
     public function addInviteCode(): string
     {
         while (true) {
-            $temp_code = Tools::genRandomChar(4);
+            $temp_code = Tools::genRandomChar(10);
             if (InviteCode::where('code', $temp_code)->first() == null) {
                 if (InviteCode::where('user_id', $this->id)->count() == 0) {
                     $code          = new InviteCode();

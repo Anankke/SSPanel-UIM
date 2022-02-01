@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                {if $user->class!=0}
+                {if $user->class>=0}
                     {if $user->invite_num!=-1}
                         <div class="col-lg-6 col-md-6">
                             <div class="card margin-bottom-no">

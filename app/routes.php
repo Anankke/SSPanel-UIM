@@ -87,7 +87,10 @@ return function (SlimApp $app) {
         $this->get('/bought',                   App\Controllers\UserController::class . ':bought');
         $this->delete('/bought',                App\Controllers\UserController::class . ':deleteBoughtGet');
         $this->get('/url_reset',                App\Controllers\UserController::class . ':resetURL');
-        $this->get('/inviteurl_reset',          App\Controllers\UserController::class . ':resetInviteURL');
+        $this->put('/invite',                   App\Controllers\UserController::class . ':resetInviteURL');
+
+        $this->get('/order',                    App\Controllers\UserController::class . ':user_order');
+        $this->get('/product',                  App\Controllers\UserController::class . ':product_index');
 
         // 订阅记录
         $this->get('/subscribe_log',            App\Controllers\UserController::class . ':subscribe_log');
@@ -174,6 +177,14 @@ return function (SlimApp $app) {
         $this->get('/bought',                   App\Controllers\Admin\ShopController::class . ':bought');
         $this->delete('/bought',                App\Controllers\Admin\ShopController::class . ':deleteBoughtGet');
         $this->post('/bought/ajax',             App\Controllers\Admin\ShopController::class . ':ajax_bought');
+
+        // Product
+        $this->get('/product',                  App\Controllers\Admin\ProductController::class . ':index');
+        $this->get('/product/create',           App\Controllers\Admin\ProductController::class . ':create');
+        $this->post('/product',                 App\Controllers\Admin\ProductController::class . ':save');
+        $this->get('/product/{id}/edit',        App\Controllers\Admin\ProductController::class . ':edit');
+        $this->put('/product/{id}',             App\Controllers\Admin\ProductController::class . ':update');
+        $this->delete('/product/{id}',          App\Controllers\Admin\ProductController::class . ':delete');
 
         // Ann Mange
         $this->get('/announcement',             App\Controllers\Admin\AnnController::class . ':index');

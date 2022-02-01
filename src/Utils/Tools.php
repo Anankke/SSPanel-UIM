@@ -907,23 +907,23 @@ class Tools
     {
         $totalPage   = $data->lastPage();
         $currentPage = $data->currentPage();
-        $html = '<ul class="pagination">';
+        $html = '<ul class="pagination pagination-primary justify-content-end">';
         for ($i = 1; $i <= $totalPage; $i++) {
-            $active = '<li class="active"><span>' . $i . '</span></li>';
-            $page   = '<li><a href="' . $data->url($i) . '">' . $i . '</a></li>';
+            $active = '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+            $page   = '<li class="page-item"><a class="page-link" href="' . $data->url($i) . '">' . $i . '</a></li>';
             if ($i == 1) {
                 // 当前为第一页
                 if ($currentPage == $i) {
-                    $html .= '<li class="disabled"><span>«</span></li>';
+                    $html .= '<li class="page-item disabled"><a class="page-link">上一页</a></li>';
                     $html .= $active;
                     if ($i == $totalPage) {
-                        $html .= '<li class="disabled"><span>»</span></li>';
+                        $html .= '<li class="page-item disabled"><a class="page-link">下一页</a></li>';
                         continue;
                     }
                 } else {
-                    $html .= '<li><a href="' . $data->url($currentPage - 1) . '" rel="prev">«</a></li>';
+                    $html .= '<li class="page-item"><a class="page-link" href="' . $data->url($currentPage - 1) . '">上一页</a></li>';
                     if ($currentPage > 4) {
-                        $html .= '<li><a href="javascript:void(0)">...</a></li>';
+                        $html .= '<li class="page-item disabled"><a class="page-link">...</a></li>';
                     } else {
                         $html .= $page;
                     }
@@ -933,14 +933,14 @@ class Tools
                 // 当前为最后一页
                 if ($currentPage == $i) {
                     $html .= $active;
-                    $html .= '<li class="disabled"><span>»</span></li>';
+                    $html .= '<li class="page-item disabled"><a class="page-link">下一页</a></li>';
                 } else {
                     if ($totalPage - $currentPage > 3) {
-                        $html .= '<li><a href="javascript:void(0)">...</a></li>';
+                        $html .= '<li class="page-item disabled"><a class="page-link">...</a></li>';
                     } else {
                         $html .= $page;
                     }
-                    $html .= '<li><a href="' . $data->url($currentPage + 1) . '" rel="next">»</a></li>';
+                    $html .= '<li class="page-item"><a class="page-link" href="' . $data->url($currentPage + 1) . '">下一页</a></li>';
                 }
             }
             if ($i > 1 && $i < $totalPage) {

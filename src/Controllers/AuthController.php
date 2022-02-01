@@ -310,43 +310,34 @@ class AuthController extends BaseController
     {
         if (Setting::obtain('reg_mode') == 'close') {
             $res['ret'] = 0;
-            $res['msg'] = '未开放注册。';
+            $res['msg'] = '暂时不对外开放注册';
             return $res;
         }
 
         if ($code == '') {
             $res['ret'] = 0;
-            $res['msg'] = '目前注册模式为邀请注册，请填写邀请码，然后重试';
+            $res['msg'] = '注册需要填写邀请码';
             return $res;
         }
 
-        //dumplin：1、邀请人等级为0则邀请码不可用；2、邀请人invite_num为可邀请次数，填负数则为无限
-        if ($code != null) {
-            $c = InviteCode::where('code', $code)->first();
-        }
+        $c = InviteCode::where('code', $code)->first();
         if ($c == null) {
             if (Setting::obtain('reg_mode') == 'invite') {
                 $res['ret'] = 0;
-                $res['msg'] = '邀请码无效';
+                $res['msg'] = '这个邀请码不存在';
                 return $res;
             }
         } elseif ($c->user_id != 0) {
-            $gift_user = User::where('id', '=', $c->user_id)->first();
+            $gift_user = User::where('id', $c->user_id)->first();
             if ($gift_user == null) {
                 $res['ret'] = 0;
-                $res['msg'] = '邀请人不存在';
-                return $res;
-            }
-
-            if ($gift_user->class == 0) {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请人不是VIP';
+                $res['msg'] = '邀请码已失效';
                 return $res;
             }
 
             if ($gift_user->invite_num == 0) {
                 $res['ret'] = 0;
-                $res['msg'] = '邀请人可用邀请次数为0';
+                $res['msg'] = '邀请码不可用';
                 return $res;
             }
         }
@@ -392,13 +383,21 @@ class AuthController extends BaseController
             $user->money = $invitation['invitation_to_register_balance_reward'];
             // 给邀请人反流量
             $gift_user->transfer_enable += $invitation['invitation_to_register_traffic_reward'] * 1024 * 1024 * 1024;
-            --$gift_user->invite_num;
+            if (($gift_user->invite_num - 1) >= 0) {
+                --$gift_user->invite_num;
+                // 避免设置为不限制邀请次数的值 -1 发生变动
+            }
             $gift_user->save();
         }
+
         if ($telegram_id) {
             $user->telegram_id = $telegram_id;
         }
 
+        $ga                     = new GA();
+        $secret                 = $ga->createSecret();
+        $user->ga_token         = $secret;
+        $user->ga_enable        = 0;
         $user->class_expire     = date('Y-m-d H:i:s', time() + $configs['sign_up_for_class_time'] * 86400);
         $user->class            = $configs['sign_up_for_class'];
         $user->node_connector   = $configs['connection_device_limit'];
@@ -407,28 +406,18 @@ class AuthController extends BaseController
         $user->reg_date         = date('Y-m-d H:i:s');
         $user->reg_ip           = $_SERVER['REMOTE_ADDR'];
         $user->theme            = $_ENV['theme'];
-
         $groups                 = explode(',', $_ENV['random_group']);
-
         $user->node_group       = $groups[array_rand($groups)];
-
-        $ga = new GA();
-        $secret = $ga->createSecret();
-
-        $user->ga_token = $secret;
-        $user->ga_enable = 0;
 
         if ($user->save()) {
             Auth::login($user->id, 3600);
-
-            // 记录登录成功
             $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
 
             $res['ret'] = 1;
             $res['msg'] = '注册成功！正在进入登录界面';
-
             return $res;
         }
+
         $res['ret'] = 0;
         $res['msg'] = '未知错误';
         return $res;

@@ -36,8 +36,7 @@
                                                 <td>#{$log->id}</td>
                                                 <td>{$log->subscribe_type}</td>
                                                 <td>{$log->request_ip}</td>
-                                                {assign var="location" value=$iplocation->getlocation($log->request_ip)}
-                                                <td>{iconv("gbk", "utf-8//IGNORE", $location.country)} {iconv("gbk", "utf-8//IGNORE", $location.area)}</td>
+                                                <td>{Tools::getIpInfo($log->request_ip)}</td>
                                                 <td>{$log->request_time}</td>
                                                 <td>{$log->request_user_agent}</td>
                                             </tr>
