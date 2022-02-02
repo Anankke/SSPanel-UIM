@@ -35,9 +35,12 @@
                                         <div class="card-inner margin-bottom-no">
                                             <div class="cardbtn-edit">
                                                 <div class="card-heading">邀请链接</div>
-                                                <div class="reset-flex"><span>重置链接</span><a
-                                                            class="reset-link btn btn-brand-accent btn-flat"><i
-                                                                class="icon">autorenew</i>&nbsp;</a></div>
+                                                    <div class="reset-flex">
+                                                    <span>重置链接</span>
+                                                    <a onclick="replaceInviteUrl()" class="reset-link btn btn-brand-accent btn-flat">
+                                                        <i class="icon">autorenew</i>&nbsp;
+                                                    </a>
+                                                </div>
                                             </div>
                                             <p>剩余可邀请次数：{if $user->invite_num<0}无限{else}
                                                 <code>{$user->invite_num}</code>{/if}</p>
@@ -258,10 +261,23 @@
         })
     });
 </script>
+
 <script>
-    $(".reset-link").click(function () {
-        $("#result").modal();
-        $$.getElementById('msg').innerHTML = '已重置您的邀请链接，复制您的邀请链接发送给其他人！';
-        window.setTimeout("location.href='/user/inviteurl_reset'", {$config['jump_delay']});
-    });
+    function replaceInviteUrl() {
+        $.ajax({
+            url: '/user/invite',
+            type: 'PUT',
+            dataType: "json",
+            success: function (data) {
+                if (data.ret) {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    window.setTimeout("location.href='/user/invite'", {$config['jump_delay']});
+                } else {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                }
+            }
+        });
+    }
 </script>
