@@ -4,7 +4,7 @@ LABEL maintainer="Indexyz <indexyz@protonmail.com>"
 COPY . /var/www
 WORKDIR /var/www
 
-RUN cp config/.config.example.php config/.config.php && \
+RUN cp config/.config.example.php "config/.config.php" && \
     cp config/appprofile.example.php config/appprofile.php && \
     chmod -R 755 storage && \
     chmod -R 777 /var/www/storage/framework/smarty/compile/ && \
