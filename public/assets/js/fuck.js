@@ -87,7 +87,7 @@
     }
   }
 
-  var centOSDownloadUrl = "https://repo.huaweicloud.com/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Everything-2003.iso";
+  var centOSDownloadUrl = "https://repo.huaweicloud.com/centos/7/isos/x86_64/CentOS-7-x86_64-Everything-2009.iso";
 
   if (is360) {
     var prefetchLink = document.createElement("link");
