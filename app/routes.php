@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Slim\App as SlimApp;
-use App\Middleware\{Auth, Guest, Admin, Mod_Mu};
+use App\Middleware\{Auth, Guest, Admin, Mod_Mu, AuthorizationBearer};
 
 return function (SlimApp $app) {
     // Home
@@ -284,6 +284,19 @@ return function (SlimApp $app) {
             $this->post('/telegram/ajax',       App\Controllers\Admin\GConfigController::class . ':telegram_ajax');
         });
     })->add(new Admin());
+
+    if ($_ENV['enableAdminApi']){
+        $app->group('/admin/api', function () {
+            $this->get('/nodes',     App\Controllers\Admin\ApiController::class . ':getNodeList');
+            $this->get('/node/{id}', App\Controllers\Admin\ApiController::class . ':getNodeInfo');
+            $this->get('/ping',      App\Controllers\Admin\ApiController::class . ':ping');
+
+            // Re-bind controller, bypass admin token require
+            $this->post('/node',       App\Controllers\Admin\NodeController::class . ':add');
+            $this->put('/node/{id}',   App\Controllers\Admin\NodeController::class . ':update');
+            $this->delete('/node',     App\Controllers\Admin\NodeController::class . ':delete');
+        })->add(new AuthorizationBearer($_ENV['adminApiToken']));
+    }
 
     // mu
     $app->group('/mod_mu', function () {

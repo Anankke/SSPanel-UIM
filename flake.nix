@@ -9,7 +9,7 @@
   };
 
   outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachSystem [ "armv7l-linux" "x86_64-linux" ] (system: let
+    flake-utils.lib.eachSystem [ "armv7l-linux" "x86_64-linux" "x86_64-darwin" ] (system: let
       pkgs = import nixpkgs {
         system = system;
       };

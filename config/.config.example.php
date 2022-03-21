@@ -19,6 +19,8 @@ $_ENV['appName']    = 'SSPanel-UIM';                      //站点名称
 $_ENV['baseUrl']    = 'https://sspanel.host';               //站点地址
 $_ENV['muKey']      = 'NimaQu';                       //用于校验魔改后端请求，可以随意修改，但请保持前后端一致，否则节点不能工作！
 
+$_ENV['enableAdminApi'] = false;                      // 是否启用 Admin API, 如果不知道此项用途请保持为 false
+$_ENV['adminApiToken']  = 'ChangeMeToSafeKey';        // Admin API 的 Token, 请生成为高强度的 Token
 
 //数据库设置--------------------------------------------------------------------------------------------
 // db_host|db_socket 二选一，若设置 db_socket 则 db_host 会被忽略，不用请留空。若数据库在本机上推荐用 db_socket。
