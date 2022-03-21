@@ -249,9 +249,13 @@ class Node extends Model
      */
     public function changeNodeIp(string $server_name): bool
     {
-        $ip = gethostbyname($server_name);
-        if ($ip == '') {
-            return false;
+        if (!Tools::is_ip($server_name)) {
+            $ip = gethostbyname($server_name);
+            if ($ip == '') {
+                return false;
+            }
+        } else {
+            $ip = $server_name;
         }
         $this->node_ip = $ip;
         return true;

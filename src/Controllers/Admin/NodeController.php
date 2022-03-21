@@ -102,17 +102,16 @@ class NodeController extends AdminController
         }
 
         $req_node_ip = trim($request->getParam('node_ip'));
-        if ($req_node_ip == '') {
-            $req_node_ip = $node->server;
+        $success = true;
+        $server_list = explode(';', $node->server);
+
+        if (Tools::is_ip($req_node_ip)) {
+            $success = $node->changeNodeIp($req_node_ip);
+        } else {
+            $success = $node->changeNodeIp($server_list[0]);
         }
 
-        $server_list = explode(';', $node->server);
-        if (!Tools::is_ip($server_list[0])) {
-            $node->node_ip = gethostbyname($server_list[0]);
-        } else {
-            $node->node_ip = $req_node_ip;
-        }
-        if ($node->node_ip == '') {
+        if (!$success) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '获取节点IP失败，请检查您输入的节点地址是否正确！'
@@ -142,14 +141,16 @@ class NodeController extends AdminController
             } catch (Exception $e) {
                 return $response->withJson([
                     'ret' => 1,
-                    'msg' => '节点添加成功，但Telegram通知失败'
+                    'msg' => '节点添加成功，但Telegram通知失败',
+                    'node_id' => $node->id
                 ]);
             }
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '节点添加成功'
+            'msg' => '节点添加成功',
+            'node_id' => $node->id
         ]);
     }
 
@@ -199,16 +200,14 @@ class NodeController extends AdminController
         }
 
         $req_node_ip = trim($request->getParam('node_ip'));
-        if ($req_node_ip == '') {
-            $req_node_ip = $node->server;
-        }
 
         $success = true;
         $server_list = explode(';', $node->server);
-        if (!Tools::is_ip($server_list[0])) {
-            $success = $node->changeNodeIp($server_list[0]);
-        } else {
+
+        if (Tools::is_ip($req_node_ip)) {
             $success = $node->changeNodeIp($req_node_ip);
+        } else {
+            $success = $node->changeNodeIp($server_list[0]);
         }
 
         if (!$success) {
