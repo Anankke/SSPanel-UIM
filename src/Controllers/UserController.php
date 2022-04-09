@@ -512,16 +512,16 @@ class UserController extends BaseController
         $results = [];
         $db = new DatatablesHelper;
         $nodes = $db->query('SELECT DISTINCT node_id FROM stream_media');
-        
+
         foreach ($nodes as $node_id)
         {
             $node = Node::where('id', $node_id)->first();
-            
+
             $unlock = StreamMedia::where('node_id', $node_id)
             ->orderBy('id', 'desc')
             ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
             ->first();
-            
+
             if ($unlock != null && $node != null) {
                 $details = json_decode($unlock->result, true);
                 $details = str_replace('Originals Only', '仅限自制', $details);
@@ -535,7 +535,7 @@ class UserController extends BaseController
                         'unlock_item' => $details
                     ];
                 }
-                
+
                 array_push($results, $info);
             }
         }
@@ -553,20 +553,20 @@ class UserController extends BaseController
                     $details = json_decode($value_node->result, true);
                     $details = str_replace('Originals Only', '仅限自制', $details);
                     $details = str_replace('Oversea Only', '仅限海外', $details);
-                    
+
                     $info = [
                         'node_name' => $key_node->name,
                         'created_at' => $value_node->created_at,
                         'unlock_item' => $details
                     ];
-                    
+
                     array_push($results, $info);
                 }
            }
         }
 
         array_multisort(array_column($results, 'node_name'), SORT_ASC, $results);
-        
+
         return $this->view()
             ->assign('results', $results)
             ->display('user/media.tpl');
@@ -1504,28 +1504,26 @@ class UserController extends BaseController
      */
     public function handleKill($request, $response, $args)
     {
-        $user = $this->user;
+        if ($_ENV['enable_kill']) {
+            $user = $this->user;
+            $passwd = $request->getParam('passwd');
 
-        $email = $user->email;
+            if (!Hash::checkPassword($user->pass, $passwd)) {
+                $res['ret'] = '0';
+                $res['msg'] = '当前密码错误，请重试';
+                return $response->withJson($res);
+            }
 
-        $passwd = $request->getParam('passwd');
-        // check passwd
-        $res = array();
-        if (!Hash::checkPassword($user->pass, $passwd)) {
-            $res['ret'] = 0;
-            $res['msg'] = ' 密码错误';
-            return $response->withJson($res);
-        }
-
-        if ($_ENV['enable_kill'] == true) {
             Auth::logout();
             $user->kill_user();
-            $res['ret'] = 1;
-            $res['msg'] = '您的帐号已经从我们的系统中删除。欢迎下次光临!';
+
+            $res['ret'] = '1';
+            $res['msg'] = '已删除你的账户';
         } else {
-            $res['ret'] = 0;
-            $res['msg'] = '管理员不允许删除，如需删除请联系管理员。';
+            $res['ret'] = '0';
+            $res['msg'] = '系统不允许主动删除账户，请联系管理员';
         }
+
         return $response->withJson($res);
     }
 
@@ -1536,20 +1534,9 @@ class UserController extends BaseController
      */
     public function detect_index($request, $response, $args)
     {
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $logs = DetectRule::paginate(15, ['*'], 'page', $pageNum);
-
-        if ($request->getParam('json') == 1) {
-            $res['ret'] = 1;
-            $res['logs'] = $logs;
-            return $response->withJson($res);
-        }
-
-        $logs->setPath('/user/detect');
-        $render = Tools::paginate_render($logs);
+        $logs = DetectRule::get();
         return $this->view()
             ->assign('rules', $logs)
-            ->assign('render', $render)
             ->display('user/detect_index.tpl');
     }
 
@@ -1560,37 +1547,13 @@ class UserController extends BaseController
      */
     public function detect_log($request, $response, $args)
     {
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
+        $logs = DetectLog::where('user_id', $this->user->id)
+        ->orderBy('id', 'desc')
+        ->limit(500)
+        ->get();
 
-        if ($request->getParam('json') == 1) {
-            $res['ret'] = 1;
-            foreach ($logs as $log) {
-                /** @var DetectLog $log */
-                if ($log->node() == null) {
-                    DetectLog::node_is_null($log);
-                    continue;
-                }
-                if ($log->rule() == null) {
-                    DetectLog::rule_is_null($log);
-                    continue;
-                }
-                $log->node_name         = $log->node_name();
-                $log->detect_rule_name  = $log->rule_name();
-                $log->detect_rule_text  = $log->rule_text();
-                $log->detect_rule_regex = $log->rule_regex();
-                $log->detect_rule_type  = $log->rule_type();
-                $log->detect_rule_date  = $log->datetime();
-            }
-            $res['logs'] = $logs;
-            return $response->withJson($res);
-        }
-
-        $logs->setPath('/user/detect/log');
-        $render = Tools::paginate_render($logs);
         return $this->view()
             ->assign('logs', $logs)
-            ->assign('render', $render)
             ->display('user/detect_log.tpl');
     }
 

@@ -1,45 +1,49 @@
-{include file='user/main.tpl'}
-
-<main class="content">
-    <div class="content-header ui-content-header">
-        <div class="container">
-            <h1 class="content-heading">站点公告</h1>
-        </div>
-    </div>
-    <div class="container">
-        <section class="content-inner margin-top-no">
-            <div class="ui-card-wrap">
-                <div class="col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-inner margin-bottom-no">
-                                <p class="card-heading">公告</p>
-                                <div class="card-table">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>日期</th>
-                                                <th>内容</th>
-                                            </tr>
-                                            {foreach $anns as $ann}
-                                                <tr>
-                                                    <td>#{$ann->id}</td>
-                                                    <td>{$ann->date}</td>
-                                                    <td>{$ann->content}</td>
-                                                </tr>
-                                            {/foreach}
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{include file='user/tabler_header.tpl'}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <!-- Page pre-title -->
+                    <h2 class="page-title">
+                        <span style="font-size: 36px;">站点公告</span>
+                    </h2>
+                    <div class="page-pretitle">
+                        <span style="font-size: 12px;">管理员发布的所有公告</span>
                     </div>
-                    {include file='dialog.tpl'}
                 </div>
             </div>
-        </section>
+        </div>
     </div>
-</main>
-
-{include file='user/footer.tpl'}
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table table-vcenter card-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>发布日期</th>
+                                        <th>公告内容</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $anns as $ann}
+                                        <tr>
+                                            <td>{$ann->id}</td>
+                                            <td>{$ann->date}</td>
+                                            <td>{$ann->content}</td>
+                                        </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{include file='user/tabler_footer.tpl'}
