@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-4">
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">修改主题</h3>
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-4">
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">修改每日推送</h3>
@@ -118,6 +118,20 @@
                         <div class="card-footer">
                             <div class="d-flex">
                                 <a id="modify-daily-report" class="btn btn-primary ms-auto">修改</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">更换连接端口</h3>
+                            <p>随机分配一个连接端口，这将用于 SS / SSR 客户端</p>
+                            <p>当前端口是：<code>{$user->port}</code></p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <a id="reset-client-port" class="btn btn-red ms-auto">更换</a>
                             </div>
                         </div>
                     </div>
@@ -283,6 +297,55 @@
                         </div>
                     </div>
                 </div>
+                {if $config['enable_telegram'] == true}
+                    <div class="col-sm-12 col-md-6">
+                        {if $user->telegram_id != 0}
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">解绑 Telegram</h3>
+                                    <p>当前绑定的 Telegram 账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a></p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex">
+                                        <a href="/user/telegram_reset" class="btn btn-red ms-auto">解绑</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {else}
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">绑定 Telegram</h3>
+                                    {if $config['use_new_telegram_bot'] == true}
+                                        <div class="row">
+                                            <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
+                                                <a href="https://t.me/{$telegram_bot}?start={$bind_token}"
+                                                    class="btn btn-primary w-100">
+                                                    一键绑定
+                                                </a>
+                                            </div>
+                                            <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
+                                                手机电脑平板等如已安装 Telegram 可点击
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
+                                                <button data-clipboard-text="{$bind_token}" class="copy btn btn-primary w-100">
+                                                    复制验证码
+                                                </button>
+                                            </div>
+                                            <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
+                                                向机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 发送验证码绑定
+                                            </div>
+                                        </div>
+                                    {else}
+                                        <p>向机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 发送图片绑定，拍照可能导致解码失败</p>
+                                        <p id="qrcode-telegram"></p>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/if}
+                    </div>
+                {/if}
             </div>
         </div>
     </div>
@@ -359,6 +422,23 @@
         colorDark: '#000000',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.H
+    });
+
+    {if $config['use_new_telegram_bot'] == false}
+    var tgqrcode = new QRCode('qrcode-telegram', {
+        text: 'mod://bind/{$bind_token}',
+        width: 128,
+        height: 128,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    {/if}
+
+    var clipboard = new ClipboardJS('.copy');
+    clipboard.on('success', function(e) {
+        $('#success-message').text('已复制到剪切板');
+        $('#success-dialog').modal('show');
     });
 
     $("#modify-email").click(function() {
@@ -469,6 +549,23 @@
             data: {
                 mail: $('#daily-report').val()
             },
+            success: function(data) {
+                if (data.ret == 1) {
+                    $('#success-message').text(data.msg);
+                    $('#success-dialog').modal('show');
+                } else {
+                    $('#fail-message').text(data.msg);
+                    $('#fail-dialog').modal('show');
+                }
+            }
+        })
+    });
+
+    $("#reset-client-port").click(function() {
+        $.ajax({
+            type: "POST",
+            url: "/user/resetport",
+            dataType: "json",
             success: function(data) {
                 if (data.ret == 1) {
                     $('#success-message').text(data.msg);
