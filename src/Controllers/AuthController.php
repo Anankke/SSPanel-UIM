@@ -287,17 +287,18 @@ class AuthController extends BaseController
             } catch (Exception $e) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '邮件发送失败，请联系网站管理员。'
+                    'msg' => '验证码发送失败'
                 ]);
             }
             return $response->withJson([
                 'ret' => 1,
-                'msg' => '验证码发送成功，请查收邮件。'
+                'msg' => '验证码发送成功，请查收'
             ]);
         }
+
         return $response->withJson([
             'ret' => 0,
-            'msg' => ''
+            'msg' => '没有启用邮箱验证'
         ]);
     }
 

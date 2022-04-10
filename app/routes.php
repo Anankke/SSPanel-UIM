@@ -65,7 +65,6 @@ return function (SlimApp $app) {
         $this->post('/theme',                   App\Controllers\UserController::class . ':updateTheme');
         $this->post('/mail',                    App\Controllers\UserController::class . ':updateMail');
         $this->post('/sspwd',                   App\Controllers\UserController::class . ':updateSsPwd');
-        $this->post('/method',                  App\Controllers\UserController::class . ':updateMethod');
         $this->post('/hide',                    App\Controllers\UserController::class . ':updateHide');
         $this->get('/sys',                      App\Controllers\UserController::class . ':sys');
         $this->get('/trafficlog',               App\Controllers\UserController::class . ':trafficLog');
@@ -79,14 +78,14 @@ return function (SlimApp $app) {
         $this->post('/code',                    App\Controllers\UserController::class . ':codepost');
         $this->post('/gacheck',                 App\Controllers\UserController::class . ':GaCheck');
         $this->post('/gaset',                   App\Controllers\UserController::class . ':GaSet');
-        $this->get('/gareset',                  App\Controllers\UserController::class . ':GaReset');
+        $this->put('/gareset',                  App\Controllers\UserController::class . ':GaReset');
         $this->get('/telegram_reset',           App\Controllers\UserController::class . ':telegram_reset');
         $this->post('/resetport',               App\Controllers\UserController::class . ':ResetPort');
         $this->post('/specifyport',             App\Controllers\UserController::class . ':SpecifyPort');
         $this->post('/unblock',                 App\Controllers\UserController::class . ':Unblock');
         $this->get('/bought',                   App\Controllers\UserController::class . ':bought');
         $this->delete('/bought',                App\Controllers\UserController::class . ':deleteBoughtGet');
-        $this->get('/url_reset',                App\Controllers\UserController::class . ':resetURL');
+        $this->put('/url_reset',                App\Controllers\UserController::class . ':resetURL');
         $this->put('/invite',                   App\Controllers\UserController::class . ':resetInviteURL');
 
         $this->get('/order',                    App\Controllers\UserController::class . ':user_order');

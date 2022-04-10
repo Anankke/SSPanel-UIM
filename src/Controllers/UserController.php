@@ -338,24 +338,28 @@ class UserController extends BaseController
     public function GaCheck($request, $response, $args)
     {
         $code = $request->getParam('code');
+
         if ($code == '') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '二维码不能为空'
+                'msg' => '请填写验证码'
             ]);
         }
+
         $user  = $this->user;
         $ga    = new GA();
         $rcode = $ga->verifyCode($user->ga_token, $code);
+
         if (!$rcode) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '测试错误'
+                'msg' => '验证码错误'
             ]);
         }
+
         return $response->withJson([
             'ret' => 1,
-            'msg' => '测试成功'
+            'msg' => '验证码正确'
         ]);
     }
 
@@ -422,7 +426,11 @@ class UserController extends BaseController
         $user           = $this->user;
         $user->ga_token = $secret;
         $user->save();
-        return $response->withStatus(302)->withHeader('Location', '/user/edit');
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '重置成功'
+        ]);
     }
 
     /**
@@ -745,26 +753,29 @@ class UserController extends BaseController
      */
     public function updatePassword($request, $response, $args)
     {
-        $oldpwd = $request->getParam('oldpwd');
+        $user = $this->user;
         $pwd = $request->getParam('pwd');
         $repwd = $request->getParam('repwd');
-        $user = $this->user;
+        $oldpwd = $request->getParam('oldpwd');
+
         if (!Hash::checkPassword($user->pass, $oldpwd)) {
             $res['ret'] = 0;
-            $res['msg'] = '旧密码错误';
+            $res['msg'] = '当前密码不正确';
             return $response->withJson($res);
         }
+
         if ($pwd != $repwd) {
             $res['ret'] = 0;
-            $res['msg'] = '两次输入不符合';
+            $res['msg'] = '两次输入不符';
             return $response->withJson($res);
         }
 
         if (strlen($pwd) < 8) {
             $res['ret'] = 0;
-            $res['msg'] = '密码太短啦';
+            $res['msg'] = '新密码长度不足';
             return $response->withJson($res);
         }
+
         $hashPwd = Hash::passwordHash($pwd);
         $user->pass = $hashPwd;
         $user->save();
@@ -774,7 +785,7 @@ class UserController extends BaseController
         }
 
         $res['ret'] = 1;
-        $res['msg'] = '修改成功';
+        $res['msg'] = '修改成功，请重新登录';
         return $response->withJson($res);
     }
 
@@ -796,20 +807,24 @@ class UserController extends BaseController
             return $response->withJson($res);
         }
 
-        if (Setting::obtain('reg_email_verify')) {
-            $emailcode = $request->getParam('emailcode');
-            $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
-            if ($mailcount == null) {
-                $res['ret'] = 0;
-                $res['msg'] = '您的邮箱验证码不正确';
-                return $response->withJson($res);
-            }
-        }
-
         if ($newemail == '') {
             $res['ret'] = 0;
             $res['msg'] = '未填写邮箱';
             return $response->withJson($res);
+        }
+
+        if (Setting::obtain('reg_email_verify')) {
+            $emailcode = $request->getParam('emailcode');
+            $mailcount = EmailVerify::where('email', '=', $newemail)
+            ->where('code', '=', $emailcode)
+            ->where('expire_in', '>', time())
+            ->first();
+
+            if ($mailcount == null) {
+                $res['ret'] = 0;
+                $res['msg'] = '邮箱验证码不正确';
+                return $response->withJson($res);
+            }
         }
 
         $check_res = Check::isEmailLegal($newemail);
@@ -819,7 +834,7 @@ class UserController extends BaseController
 
         if ($otheruser != null) {
             $res['ret'] = 0;
-            $res['msg'] = '邮箱已经被使用了';
+            $res['msg'] = '此邮箱已注册';
             return $response->withJson($res);
         }
 
@@ -846,6 +861,12 @@ class UserController extends BaseController
     public function updateUsername($request, $response, $args)
     {
         $newusername = $request->getParam('newusername');
+        if ($newusername == '') {
+            $res['ret'] = 0;
+            $res['msg'] = '新用户名不能为空';
+            return $response->withJson($res);
+        }
+
         $user = $this->user;
         $antiXss = new AntiXSS();
         $user->user_name = $antiXss->xss_clean($newusername);
@@ -1264,8 +1285,9 @@ class UserController extends BaseController
      */
     public function updateSSR($request, $response, $args)
     {
-        $protocol = $request->getParam('protocol');
         $obfs = $request->getParam('obfs');
+        $method = $request->getParam('method');
+        $protocol = $request->getParam('protocol');
         $obfs_param = $request->getParam('obfs_param');
         $obfs_param = trim($obfs_param);
 
@@ -1291,8 +1313,9 @@ class UserController extends BaseController
 
         $antiXss = new AntiXSS();
 
-        $user->protocol = $antiXss->xss_clean($protocol);
         $user->obfs = $antiXss->xss_clean($obfs);
+        $user->method = $antiXss->xss_clean($method);
+        $user->protocol = $antiXss->xss_clean($protocol);
         $user->obfs_param = $antiXss->xss_clean($obfs_param);
 
         if (!Tools::checkNoneProtocol($user)) {
@@ -1412,20 +1435,6 @@ class UserController extends BaseController
         $res['ret'] = 1;
 
         return $response->withJson($res);
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function updateMethod($request, $response, $args)
-    {
-        $user          = $this->user;
-        $method        = strtolower($request->getParam('method'));
-        $result        = $user->updateMethod($method);
-        $result['ret'] = $result['ok'] ? 1 : 0;
-        return $response->withJson($result);
     }
 
     /**
@@ -1588,7 +1597,10 @@ class UserController extends BaseController
     {
         $user = $this->user;
         $user->clean_link();
-        return $response->withStatus(302)->withHeader('Location', '/user');
+
+        $res['ret'] = 1;
+        $res['msg'] = '更换成功';
+        return $response->withJson($res);
     }
 
     /**
