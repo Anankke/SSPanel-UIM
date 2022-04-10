@@ -64,7 +64,6 @@ return function (SlimApp $app) {
         $this->post('/mail',                    App\Controllers\UserController::class . ':updateMail');
         $this->post('/sspwd',                   App\Controllers\UserController::class . ':updateSsPwd');
         $this->post('/hide',                    App\Controllers\UserController::class . ':updateHide');
-        $this->get('/sys',                      App\Controllers\UserController::class . ':sys');
         $this->get('/trafficlog',               App\Controllers\UserController::class . ':trafficLog');
         $this->get('/kill',                     App\Controllers\UserController::class . ':kill');
         $this->post('/kill',                    App\Controllers\UserController::class . ':handleKill');

@@ -642,16 +642,6 @@ class UserController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function sys($request, $response, $args)
-    {
-        return $this->view()->assign('ana', '')->display('user/sys.tpl');
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
     public function updatePassword($request, $response, $args)
     {
         $user = $this->user;
