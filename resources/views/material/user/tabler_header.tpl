@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.css" />
     <!-- JS files -->
     <script src="/theme/tabler/js/qrcode.min.js"></script>
+    <script src="/theme/tabler/js/clipboard.min.js"></script>
     <script src="/theme/tabler/js/jquery-3.6.0.min.js"></script>
     <script src="/theme/tabler/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
