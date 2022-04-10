@@ -53,8 +53,6 @@ return function (SlimApp $app) {
         $this->get('/ticket/{id}/view',         App\Controllers\User\TicketController::class . ':ticket_view');
         $this->put('/ticket/{id}',              App\Controllers\User\TicketController::class . ':ticket_update');
 
-        $this->post('/buy_invite',              App\Controllers\UserController::class . ':buyInvite');
-        $this->post('/custom_invite',           App\Controllers\UserController::class . ':customInvite');
         $this->get('/edit',                     App\Controllers\UserController::class . ':edit');
         $this->post('/email',                   App\Controllers\UserController::class . ':updateEmail');
         $this->post('/username',                App\Controllers\UserController::class . ':updateUsername');

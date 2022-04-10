@@ -67,7 +67,6 @@ class Config
             'enable_checkin'          => $_ENV['enable_checkin'],
             'checkinMin'              => $_ENV['checkinMin'],
             'checkinMax'              => $_ENV['checkinMax'],
-            'invite_price'            => $_ENV['invite_price'],
             'jump_delay'              => $_ENV['jump_delay'],
             'enable_analytics_code'   => $_ENV['enable_analytics_code'],
             'enable_donate'           => $_ENV['enable_donate'],
@@ -76,7 +75,6 @@ class Config
             'enable_flag'             => $_ENV['enable_flag'],
             'enable_kill'             => $_ENV['enable_kill'],
             'enable_change_email'     => $_ENV['enable_change_email'],
-            'custom_invite_price'     => $_ENV['custom_invite_price'],
 
             'enable_telegram'         => $_ENV['enable_telegram'],
             'telegram_bot'            => $_ENV['telegram_bot'],
