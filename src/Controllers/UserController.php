@@ -1040,6 +1040,11 @@ class UserController extends BaseController
 
         $shop->buy($user);
 
+        // 返利
+        if ($user->ref_by > 0 && Setting::obtain('invitation_mode') == 'after_purchase') {
+            Payback::rebate($user->id, $price);
+        }
+
         $res['ret'] = 1;
         $res['msg'] = '购买成功';
 
