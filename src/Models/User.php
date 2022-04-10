@@ -740,56 +740,12 @@ class User extends Model
      */
     public function ResetPort(): array
     {
-        $price = $_ENV['port_price'];
-        if ($this->money < $price) {
-            return [
-                'ok'  => false,
-                'msg' => '余额不足'
-            ];
-        }
-        $this->money -= $price;
         $Port = Tools::getAvPort();
         $this->setPort($Port);
         $this->save();
         return [
             'ok'  => true,
             'msg' => $this->port
-        ];
-    }
-
-    /**
-     * 指定端口
-     *
-     * @param int $Port
-     */
-    public function SpecifyPort($Port): array
-    {
-        $price = $_ENV['port_price_specify'];
-        if ($this->money < $price) {
-            return [
-                'ok'  => false,
-                'msg' => '余额不足'
-            ];
-        }
-        if ($Port < $_ENV['min_port'] || $Port > $_ENV['max_port'] || Tools::isInt($Port) == false) {
-            return [
-                'ok'  => false,
-                'msg' => '端口不在要求范围内'
-            ];
-        }
-        $PortOccupied = User::pluck('port')->toArray();
-        if (in_array($Port, $PortOccupied) == true) {
-            return [
-                'ok'  => false,
-                'msg' => '端口已被占用'
-            ];
-        }
-        $this->money -= $price;
-        $this->setPort($Port);
-        $this->save();
-        return [
-            'ok'  => true,
-            'msg' => '钦定成功'
         ];
     }
 

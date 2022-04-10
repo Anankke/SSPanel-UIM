@@ -396,21 +396,7 @@ class UserController extends BaseController
         $temp = $this->user->ResetPort();
         return $response->withJson([
             'ret' => ($temp['ok'] === true ? 1 : 0),
-            'msg' => $temp['msg']
-        ]);
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function SpecifyPort($request, $response, $args)
-    {
-        $temp = $this->user->SpecifyPort((int) $request->getParam('port'));
-        return $response->withJson([
-            'ret' => ($temp['ok'] === true ? 1 : 0),
-            'msg' => $temp['msg']
+            'msg' => '新的端口是 '. $temp['msg']
         ]);
     }
 

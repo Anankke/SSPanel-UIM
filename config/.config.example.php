@@ -89,9 +89,6 @@ $_ENV['auto_clean_min_money']       = 1;            //余额低于多少的0级�
 $_ENV['enable_bought_reset']        = true;         //购买时是否重置流量
 $_ENV['enable_bought_extend']       = true;         //购买时是否延长等级期限（同等级配套）
 
-$_ENV['port_price']                 = -1;           //用户随机重置端口所需要的价格，价格小于0时视为不开放购买
-$_ENV['port_price_specify']         = -1;           //用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
-
 $_ENV['disconnect_time']        = 60;            //在用戶超过套餐连接IP数后多久才会拒绝新连接
 
 #高级

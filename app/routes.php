@@ -81,7 +81,6 @@ return function (SlimApp $app) {
         $this->put('/gareset',                  App\Controllers\UserController::class . ':GaReset');
         $this->get('/telegram_reset',           App\Controllers\UserController::class . ':telegram_reset');
         $this->post('/resetport',               App\Controllers\UserController::class . ':ResetPort');
-        $this->post('/specifyport',             App\Controllers\UserController::class . ':SpecifyPort');
         $this->get('/bought',                   App\Controllers\UserController::class . ':bought');
         $this->delete('/bought',                App\Controllers\UserController::class . ':deleteBoughtGet');
         $this->put('/url_reset',                App\Controllers\UserController::class . ':resetURL');
