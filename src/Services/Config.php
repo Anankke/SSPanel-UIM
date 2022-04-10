@@ -60,8 +60,6 @@ class Config
             'register_mode'           => $public_configs['reg_mode'],
             'enable_email_verify'     => $public_configs['reg_email_verify'],
             // 邀请
-            'invite_get_money'        => $public_configs['invitation_to_register_balance_reward'],
-            'invite_gift'             => $public_configs['invitation_to_register_traffic_reward'],
             'code_payback'            => $public_configs['rebate_ratio'],
             // 待处理
             'min_port'                => $_ENV['min_port'],

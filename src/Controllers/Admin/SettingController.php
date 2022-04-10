@@ -115,10 +115,6 @@ class SettingController extends AdminController
             case 'register_default_value':
                 $list = array('sign_up_for_free_traffic', 'sign_up_for_free_time', 'sign_up_for_class', 'sign_up_for_class_time', 'sign_up_for_invitation_codes', 'connection_device_limit', 'connection_rate_limit', 'sign_up_for_method', 'sign_up_for_protocol', 'sign_up_for_protocol_param', 'sign_up_for_obfs', 'sign_up_for_obfs_param', 'sign_up_for_daily_report');
                 break;
-            // 邀请设置
-            case 'invitation_reward':
-                $list = array('invitation_to_register_balance_reward', 'invitation_to_register_traffic_reward');
-                break;
             // 返利设置
             case 'rebate_mode':
                 $list = array('invitation_mode', 'invite_rebate_mode', 'rebate_ratio', 'rebate_frequency_limit', 'rebate_amount_limit', 'rebate_time_range_limit');

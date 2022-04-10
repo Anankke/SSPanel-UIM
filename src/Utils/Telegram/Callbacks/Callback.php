@@ -1128,9 +1128,7 @@ class Callback
         $text = [
             '<strong>分享计划，您每邀请 1 位用户注册：</strong>',
             '',
-            '- 您会获得 <strong>' . $invitation['invitation_to_register_traffic_reward'] . 'G</strong> 流量奖励.',
-            '- 对方将获得 <strong>' . $invitation['invitation_to_register_balance_reward'] . ' 元</strong> 奖励作为初始资金.',
-            '- 对方充值时您还会获得对方充值金额的 <strong>' . $invitation['rebate_ratio'] . '%</strong> 的返利.',
+            '- 依照管理员设定，邀请用户充值或购买时可获得订单金额 <strong>' . $invitation['rebate_ratio'] . '%</strong> 的返利',
             '',
             '已获得返利：' . $paybacks_sum . ' 元.',
         ];

@@ -792,9 +792,6 @@
                                             <li class="active">
                                                 <a data-toggle="tab" href="#rebate_mode"><i class="icon icon-lg">developer_mode</i>&nbsp;模式</a>
                                             </li>
-                                            <li>
-                                                <a data-toggle="tab" href="#invitation_reward"><i class="icon icon-lg">card_giftcard</i>&nbsp;奖励</a>
-                                            </li>
                                         </ul>
                                     </nav>
                                             
@@ -852,21 +849,6 @@
                                         <p class="form-control-guide"><i class="material-icons">info</i>在进行第三次返利计算时，按设置应返利订单金额的 20% ，即 10 元。但因已获得历史返利 6 元，则只能获得返利总金额限制与历史返利的差值</p>
                                         
                                         <br/><button id="submit_rebate_mode" type="submit" class="btn btn-block btn-brand">提交</button>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="invitation_reward">
-                                        <!-- invitation_to_register_balance_reward -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">若有人使用现存用户的邀请链接注册，被邀请人所能获得的余额奖励（单位：元）</label>
-                                            <input class="form-control maxwidth-edit" id="invitation_to_register_balance_reward" value="{$settings['invitation_to_register_balance_reward']}">
-                                        </div>
-                                        <!-- invitation_to_register_traffic_reward -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">若有人使用现存用户的邀请链接注册，邀请人所能获得的流量奖励（单位：GB）</label>
-                                            <input class="form-control maxwidth-edit" id="invitation_to_register_traffic_reward" value="{$settings['invitation_to_register_traffic_reward']}">
-                                        </div>
-
-                                        <button id="submit_invitation_reward" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
                                 </div>
 
@@ -1579,35 +1561,6 @@
                     sign_up_for_obfs: $$getValue('sign_up_for_obfs'),
                     sign_up_for_obfs_param: $$getValue('sign_up_for_obfs_param'),
                     sign_up_for_daily_report: $$getValue('sign_up_for_daily_report')
-                },
-                success: data => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    if (data.ret) {
-                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
-                    }
-                },
-                error: jqXHR => {
-                    alert(`发生错误：${
-                            jqXHR.status
-                            }`);
-                }
-            })
-        })
-    })
-</script>
-
-<script>
-    window.addEventListener('load', () => {
-        $$.getElementById('submit_invitation_reward').addEventListener('click', () => {
-            $.ajax({
-                type: "POST",
-                url: "/admin/setting",
-                dataType: "json",
-                data: {
-                    class: 'invitation_reward',
-                    invitation_to_register_balance_reward: $$getValue('invitation_to_register_balance_reward'),
-                    invitation_to_register_traffic_reward: $$getValue('invitation_to_register_traffic_reward')
                 },
                 success: data => {
                     $("#result").modal();

@@ -381,9 +381,7 @@ class AuthController extends BaseController
             $invitation = Setting::getClass('invite');
             // 设置新用户
             $user->ref_by = $c->user_id;
-            $user->money = $invitation['invitation_to_register_balance_reward'];
             // 给邀请人反流量
-            $gift_user->transfer_enable += $invitation['invitation_to_register_traffic_reward'] * 1024 * 1024 * 1024;
             if (($gift_user->invite_num - 1) >= 0) {
                 --$gift_user->invite_num;
                 // 避免设置为不限制邀请次数的值 -1 发生变动
