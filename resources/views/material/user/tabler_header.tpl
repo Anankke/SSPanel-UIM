@@ -24,6 +24,7 @@
     <link href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.css" />
     <!-- JS files -->
+    <script src="/theme/tabler/js/qrcode.min.js"></script>
     <script src="/theme/tabler/js/jquery-3.6.0.min.js"></script>
     <script src="/theme/tabler/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -111,7 +112,7 @@
                                             </a>
                                             <a class="dropdown-item" href="/user/edit">
                                                 <i class="ti ti-edit"></i>&nbsp;
-                                                资料编辑
+                                                资料修改
                                             </a>
                                             <a class="dropdown-item" href="/user/ticket">
                                                 <i class="ti ti-ticket"></i>&nbsp;
