@@ -899,30 +899,6 @@ class UserController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function Unblock($request, $response, $args)
-    {
-        $user = $this->user;
-        $BIP = BlockIp::where('ip', $_SERVER['REMOTE_ADDR'])->get();
-        foreach ($BIP as $bi) {
-            $bi->delete();
-        }
-
-        $UIP = new UnblockIp();
-        $UIP->userid = $user->id;
-        $UIP->ip = $_SERVER['REMOTE_ADDR'];
-        $UIP->datetime = time();
-        $UIP->save();
-
-        $res['ret'] = 1;
-        $res['msg'] = $_SERVER['REMOTE_ADDR'];
-        return $response->withJson($res);
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
     public function shop($request, $response, $args)
     {
         $shops = Shop::where('status', 1)->orderBy('name')->get();
