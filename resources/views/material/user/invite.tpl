@@ -18,7 +18,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="row row-deck row-cards">
+            <div class="row row-cards">
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
@@ -36,10 +36,150 @@
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">邀请链接</h3>
+                            {if $user->invite_num >= 0}
+                                <p>邀请链接可用次数：<code>{$user->invite_num}</code></p>
+                            {/if}
+                            <input class="form-control" value="{$config['baseUrl']}/auth/register?code={$code->code}"
+                                disabled />
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex">
+                                <a id="reset-url" class="btn btn-link">重置</a>
+                                <a id="copy-url"
+                                    data-clipboard-text="{$config['baseUrl']}/auth/register?code={$code->code}"
+                                    class="copy btn btn-primary ms-auto">复制</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">返利记录</h3>
+                        </div>
+                        {if $paybacks->count() != '0'}
+                            <div class="table-responsive">
+                                <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>邀请用户昵称</th>
+                                            <th>返利金额</th>
+                                            <th>返利时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {foreach $paybacks as $payback}
+                                            <tr>
+                                                <td>{$payback->id}</td>
+                                                {if $payback->user()!=null}
+                                                    <td>{$payback->user()->user_name}</td>
+                                                {else}
+                                                    <td>已注销</td>
+                                                {/if}
+                                                <td>{$payback->ref_get} 元</td>
+                                                <td>{date('Y-m-d H:i:s', $payback->datetime)}</td>
+                                            </tr>
+                                        {/foreach}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {else}
+                            <div class="card-body">
+                                <p>没有找到记录</p>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="success-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-success"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M9 12l2 2l4 -4" />
+                    </svg>
+                    <h3>成功</h3>
+                    <p id="success-message" class="text-muted">成功</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn w-100" data-bs-dismiss="modal">
+                                    好
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 9v2m0 4v.01" />
+                        <path
+                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
+                    </svg>
+                    <h3>失败</h3>
+                    <p id="fail-message" class="text-muted">失败</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
+                                    确认
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var clipboard = new ClipboardJS('.copy');
+        clipboard.on('success', function(e) {
+            $('#success-message').text('已复制到剪切板');
+            $('#success-dialog').modal('show');
+        });
+
+        $("#reset-url").click(function() {
+            $.ajax({
+                type: "PUT",
+                url: "/user/invite",
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+    </script>
 {include file='user/tabler_footer.tpl'}
