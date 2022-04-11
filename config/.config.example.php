@@ -109,7 +109,7 @@ $_ENV['enable_forced_replacement']  = true;                         //用户修�
 // 可用于为用户推送最新地址等信息，尽可能简短且数量不宜太多
 $_ENV['sub_message']                = [];
 $_ENV['disable_sub_mu_port']        = false;                        // 将订阅中单端口的信息去除
-$_ENV['subscribeLog']               = false;                        //是否记录用户订阅日志
+$_ENV['subscribeLog']               = true;                        //是否记录用户订阅日志
 $_ENV['subscribeLog_show']          = true;                         //是否允许用户查看订阅记录
 $_ENV['subscribeLog_keep_days']     = 7;                            //订阅记录保留天数
 $_ENV['mu_port_migration']          = false;                        //为后端直接下发偏移后的端口

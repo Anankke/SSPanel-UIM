@@ -136,7 +136,6 @@ return function (SlimApp $app) {
         $this->get('',                          App\Controllers\AdminController::class . ':index');
         $this->get('/',                         App\Controllers\AdminController::class . ':index');
 
-        $this->get('/sys',                      App\Controllers\AdminController::class . ':sys');
         $this->get('/invite',                   App\Controllers\AdminController::class . ':invite');
         $this->post('/invite',                  App\Controllers\AdminController::class . ':addInvite');
         $this->post('/chginvite',               App\Controllers\AdminController::class . ':chgInvite');
@@ -235,7 +234,7 @@ return function (SlimApp $app) {
 
         // Subscribe Log Mange
         $this->get('/subscribe',                App\Controllers\Admin\SubscribeLogController::class . ':index');
-        $this->post('/subscribe/ajax',          App\Controllers\Admin\SubscribeLogController::class . ':ajax_subscribe_log');
+        $this->post('/subscribe/ajax',          App\Controllers\Admin\SubscribeLogController::class . ':subscribe_ajax');
 
         // Detect Ban Mange
         $this->get('/detect/ban',               App\Controllers\Admin\DetectBanLogController::class . ':index');
