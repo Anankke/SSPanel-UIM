@@ -57,6 +57,7 @@
     <script>
         $('#data_table').DataTable({
             'iDisplayLength': 25,
+            'scrollX': true,
             'order': [
                 [0, 'desc']
             ],

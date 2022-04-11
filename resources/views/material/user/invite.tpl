@@ -59,7 +59,7 @@
                         </div>
                         {if $paybacks->count() != '0'}
                             <div class="table-responsive">
-                                <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
+                                <table class="table card-table table-vcenter text-nowrap datatable">
                                     <thead>
                                         <tr>
                                             <th>#</th>
