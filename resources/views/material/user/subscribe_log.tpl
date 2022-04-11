@@ -22,7 +22,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="table-responsive">
-                            <table id="data_table" class="table card-table table-vcenter datatable">
+                            <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                     <tr>
                                         <th>#</th>
