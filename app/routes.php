@@ -173,9 +173,8 @@ return function (SlimApp $app) {
 
         // Product
         $this->get('/product',                  App\Controllers\Admin\ProductController::class . ':index');
-        $this->get('/product/create',           App\Controllers\Admin\ProductController::class . ':create');
+        $this->get('/product/details/{id}',     App\Controllers\Admin\ProductController::class . ':get');
         $this->post('/product',                 App\Controllers\Admin\ProductController::class . ':save');
-        $this->get('/product/{id}/edit',        App\Controllers\Admin\ProductController::class . ':edit');
         $this->put('/product/{id}',             App\Controllers\Admin\ProductController::class . ':update');
         $this->delete('/product/{id}',          App\Controllers\Admin\ProductController::class . ':delete');
 
