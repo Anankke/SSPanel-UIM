@@ -227,9 +227,11 @@ return function (SlimApp $app) {
         $this->post('/user/create',             App\Controllers\Admin\UserController::class . ':createNewUser');
 
         // Coupon Mange
-        $this->get('/coupon',                   App\Controllers\AdminController::class . ':coupon');
-        $this->post('/coupon',                  App\Controllers\AdminController::class . ':addCoupon');
-        $this->post('/coupon/ajax',             App\Controllers\AdminController::class . ':ajax_coupon');
+        $this->get('/coupon',                   App\Controllers\Admin\CouponController::class . ':index');
+        $this->get('/coupon/details/{id}',      App\Controllers\Admin\CouponController::class . ':get');
+        $this->post('/coupon',                  App\Controllers\Admin\CouponController::class . ':save');
+        $this->put('/coupon/{id}',              App\Controllers\Admin\CouponController::class . ':update');
+        $this->delete('/coupon/{id}',           App\Controllers\Admin\CouponController::class . ':delete');
 
         // Subscribe Log Mange
         $this->get('/subscribe',                App\Controllers\Admin\SubscribeLogController::class . ':index');

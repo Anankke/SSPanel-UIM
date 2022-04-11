@@ -264,7 +264,7 @@ class ProductController extends AdminController
     public function delete($request, $response, $args)
     {
         $product_id = $args['id'];
-        $product = Product::find($product_id)->delete();
+        Product::find($product_id)->delete();
 
         return $response->withJson([
             'ret' => 1,

@@ -45,7 +45,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="table-responsive">
-                            <table id="data_table" class="table card-table table-vcenter datatable">
+                            <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -345,7 +345,7 @@
         };
 
         $("#product-delete").click(function() {
-            $('#notice-message').text('确定要删除此商品么');
+            $('#notice-message').text('确定要删除此项么');
             $('#notice-dialog').modal('show');
         });
 
