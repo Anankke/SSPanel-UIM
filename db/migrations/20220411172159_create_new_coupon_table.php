@@ -22,7 +22,7 @@ final class CreateNewCouponTable extends AbstractMigration
         $table->addColumn('coupon', 'text', array('comment' => '优惠码'))
             ->addColumn('discount', 'text', array('comment' => '折扣额度'))
             ->addColumn('time_limit', 'text', array('comment' => '时间限制'))
-            ->addColumn('product_limit', 'integer', array('comment' => '商品使用范围限制'))
+            ->addColumn('product_limit', 'text', array('comment' => '商品使用范围限制'))
             ->addColumn('user_limit', 'integer', array('comment' => '单用户使用最大次数'))
             ->addColumn('total_limit', 'integer', array('comment' => '全部用户累计使用最大次数'))
             ->addColumn('use_count', 'integer', array('comment' => '使用计数'))
