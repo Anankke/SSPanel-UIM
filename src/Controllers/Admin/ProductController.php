@@ -1,11 +1,8 @@
 <?php
 namespace App\Controllers\Admin;
 
-use Slim\Http\{
-    Request,
-    Response
-};
-
+use Slim\Http\Request;
+use Slim\Http\Response;
 use App\Models\Product;
 use App\Controllers\AdminController;
 
@@ -97,17 +94,17 @@ class ProductController extends AdminController
             }
 
             if ($product_type == 'tatp') {
-                ($product_class == '') && $product_class = '0';
-                ($product_class_time == '') && $product_class_time = $product_time;
-                ($product_speed == '') && $product_speed = '0';
-                ($product_device == '') && $product_device = '0';
-
                 if ($product_time == '') {
                     throw new \Exception('请填写套餐时长');
                 }
                 if ($product_traffic == '') {
                     throw new \Exception('请填写套餐流量');
                 }
+
+                ($product_class == '') && $product_class = '0';
+                ($product_class_time == '') && $product_class_time = $product_time;
+                ($product_speed == '') && $product_speed = '0';
+                ($product_device == '') && $product_device = '0';
 
                 $content = [
                     'product_time' => $product_time,
@@ -202,17 +199,17 @@ class ProductController extends AdminController
             }
 
             if ($product_type == 'tatp') {
-                ($product_class == '') && $product_class = '0';
-                ($product_class_time == '') && $product_class_time = $product_time;
-                ($product_speed == '') && $product_speed = '0';
-                ($product_device == '') && $product_device = '0';
-
                 if ($product_time == '') {
                     throw new \Exception('请填写套餐时长');
                 }
                 if ($product_traffic == '') {
                     throw new \Exception('请填写套餐流量');
                 }
+
+                ($product_class == '') && $product_class = '0';
+                ($product_class_time == '') && $product_class_time = $product_time;
+                ($product_speed == '') && $product_speed = '0';
+                ($product_device == '') && $product_device = '0';
 
                 $content = [
                     'product_time' => $product_time,
@@ -255,7 +252,6 @@ class ProductController extends AdminController
             $product->content = json_encode($content);
             $product->stock = $product_stock;
             $product->html = $product_html;
-            $product->limit = null;
             $product->status = $product_status;
             $product->updated_at = time();
             $product->save();
