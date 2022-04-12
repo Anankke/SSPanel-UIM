@@ -1,11 +1,8 @@
 <?php
 namespace App\Controllers\Admin;
 
-use Slim\Http\{
-    Request,
-    Response
-};
-
+use Slim\Http\Request;
+use Slim\Http\Response;
 use App\Models\Coupon;
 use App\Controllers\AdminController;
 
@@ -38,26 +35,26 @@ class CouponController extends AdminController
         $coupon = $request->getParam('coupon');
         $discount = $request->getParam('discount');
         $time_limit = $request->getParam('time_limit');
-        $product_limit = $request->getParam('product_limit');
         $user_limit = $request->getParam('user_limit');
         $total_limit = $request->getParam('total_limit');
+        $product_limit = $request->getParam('product_limit');
         $count = Coupon::where('coupon', $coupon)->count();
 
         try {
-            if ($count != '0') {
-                throw new \Exception('存在同名优惠码');
-            }
             if ($coupon == '') {
                 throw new \Exception('请填写优惠码');
             }
+            if ($count != '0') {
+                throw new \Exception('存在同名优惠码');
+            }
             if (trim($coupon) != $coupon) {
-                throw new \Exception('优惠码不规范');
+                throw new \Exception('优惠码首尾不能有空格');
             }
             if ($discount == '') {
                 throw new \Exception('请填写优惠额度');
             }
             if ($discount > '1' || $discount < '0') {
-                throw new \Exception('优惠额度不规范');
+                throw new \Exception('优惠额度需要介于0与1之间');
             }
             if ($time_limit == '') {
                 throw new \Exception('请填写时间限制');
@@ -66,10 +63,13 @@ class CouponController extends AdminController
                 throw new \Exception('请填写商品限制');
             }
             if ($user_limit == '') {
-                throw new \Exception('请填写单用户使用限制');
+                throw new \Exception('请填写单用户使用次数限制');
             }
             if ($total_limit == '') {
-                throw new \Exception('请填写所有用户使用限制');
+                throw new \Exception('请填写所有用户使用次数限制');
+            }
+            if ($user_limit > $total_limit) {
+                throw new \Exception('单用户使用次数限制不能大于所有用户使用次数限制');
             }
 
             $new_coupon = new Coupon;
@@ -103,31 +103,34 @@ class CouponController extends AdminController
         $coupon_id = $args['id'];
         $coupon = $request->getParam('coupon');
         $discount = $request->getParam('discount');
-        $product_limit = $request->getParam('product_limit');
         $user_limit = $request->getParam('user_limit');
         $total_limit = $request->getParam('total_limit');
+        $product_limit = $request->getParam('product_limit');
 
         try {
             if ($coupon == '') {
                 throw new \Exception('请填写优惠码');
             }
             if (trim($coupon) != $coupon) {
-                throw new \Exception('优惠码不规范');
+                throw new \Exception('优惠码首尾不能有空格');
             }
             if ($discount == '') {
                 throw new \Exception('请填写优惠额度');
             }
             if ($discount > '1' || $discount < '0') {
-                throw new \Exception('优惠额度不规范');
+                throw new \Exception('优惠额度需要介于0与1之间');
             }
             if ($product_limit == '') {
                 throw new \Exception('请填写商品限制');
             }
             if ($user_limit == '') {
-                throw new \Exception('请填写单用户使用限制');
+                throw new \Exception('请填写单用户使用次数限制');
             }
             if ($total_limit == '') {
-                throw new \Exception('请填写所有用户使用限制');
+                throw new \Exception('请填写所有用户使用次数限制');
+            }
+            if ($user_limit > $total_limit) {
+                throw new \Exception('单用户使用次数限制不能大于所有用户使用次数限制');
             }
 
             $this_coupon = Coupon::find($coupon_id);

@@ -197,6 +197,9 @@ class ProductController extends AdminController
             if ($product_stock == '') {
                 throw new \Exception('请填写商品库存');
             }
+            if ($product_stock < $product->sales) {
+                throw new \Exception('商品库存不能小于销量');
+            }
 
             if ($product_type == 'tatp') {
                 if ($product_time == '') {
