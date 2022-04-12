@@ -340,36 +340,6 @@ class UserController extends BaseController
         );
     }
 
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function donate($request, $response, $args)
-    {
-        if ($_ENV['enable_donate'] != true) {
-            exit(0);
-        }
-
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $codes = Code::where(
-            static function ($query) {
-                $query->where('type', '=', -1)
-                    ->orWhere('type', '=', -2);
-            }
-        )->where('isused', 1)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
-        $codes->setPath('/user/donate');
-        $render = Tools::paginate_render($codes);
-        return $response->write(
-            $this->view()
-                ->assign('codes', $codes)
-                ->assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))
-                ->assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))
-                ->assign('render', $render)
-                ->display('user/donate.tpl')
-        );
-    }
-
     public function isHTTPS()
     {
         define('HTTPS', false);
@@ -1469,16 +1439,6 @@ class UserController extends BaseController
         );
         $res['ret'] = 1;
         return $response->withJson($res);
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function kill($request, $response, $args)
-    {
-        return $this->view()->display('user/kill.tpl');
     }
 
     /**
