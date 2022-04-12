@@ -1,36 +1,55 @@
-<!DOCTYPE HTML>
+<!doctype html>
+<!--
+* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
+* @version 1.0.0-beta9
+* @link https://tabler.io
+* Copyright 2018-2022 The Tabler Authors
+* Copyright 2018-2022 codecalm.net Paweł Kuna
+* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
+-->
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Internal Server Error - {$config['appName']}</title>
-    <link rel="shortcut icon" href="/favicon.ico"/>
-    <link rel="bookmark" href="/favicon.ico" type="image/x-icon"/>
-    <link rel="stylesheet" href="/assets/css/error-pages.min.css"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>http 500 error</title>
+    <!-- CSS files -->
+    <link href="/theme/tabler/css/tabler.min.css" rel="stylesheet" />
+    <link href="/theme/tabler/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="/theme/tabler/css/tabler-payments.min.css" rel="stylesheet" />
+    <link href="/theme/tabler/css/tabler-vendors.min.css" rel="stylesheet" />
+    <link href="/theme/tabler/css/demo.min.css" rel="stylesheet" />
 </head>
-<body>
-<div class="container">
-    <div class="copy-container center-xy">
-        <p>
-            500, Internal Server Error.
-        </p>
+
+<body class=" border-top-wide border-primary d-flex flex-column">
+    <div class="page page-center">
+        <div class="container-tight py-4">
+            <div class="empty">
+                <div class="empty-header">500</div>
+                <p class="empty-subtitle text-muted">
+                    在 HTTP 协议中，500 Internal Server Error 是表示服务器端错误的响应状态码，意味着所请求的服务器遇到意外的情况并阻止其执行请求
+                </p>
+                <div class="empty-action">
+                    <a href="/user" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <line x1="5" y1="12" x2="11" y2="18" />
+                            <line x1="5" y1="12" x2="11" y2="6" />
+                        </svg>
+                        返回用户首页
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-{if !is_null($exceptionId)}
-<script src="https://cdn.jsdelivr.net/npm/@sentry/browser@5.20.1/build/bundle.min.js" integrity="sha256-EIV/iYkbXFgnuIHEdltBOK4eY58n87ADisyDI8/VJPg=" crossorigin="anonymous"></script>
-<script>
-    Sentry.init({
-        dsn: "{$config['sentry_dsn']}"
-    });
-    Sentry.showReportDialog({
-        eventId: '{$exceptionId}',
-        user: {
-            name: '{$user->user_name}',
-            email: '{$user->email}'
-        }
-    });
-</script>
-{/if}
-
+    <!-- Libs JS -->
+    <!-- Tabler Core -->
+    <script src="./dist/js/tabler.min.js"></script>
+    <script src="./dist/js/demo.min.js"></script>
 </body>
+
 </html>
