@@ -83,8 +83,14 @@ return function (SlimApp $app) {
         $this->put('/url_reset',                App\Controllers\UserController::class . ':resetURL');
         $this->put('/invite',                   App\Controllers\UserController::class . ':resetInviteURL');
 
-        $this->get('/order',                    App\Controllers\UserController::class . ':user_order');
-        $this->get('/product',                  App\Controllers\UserController::class . ':product_index');
+        // 商品订单
+        $this->get('/order',                    App\Controllers\UserController::class . ':orderIndex');
+        $this->get('/order/{no}',               App\Controllers\UserController::class . ':orderDetails');
+        $this->post('/order',                   App\Controllers\UserController::class . ':createOrder');
+        $this->put('/order',                    App\Controllers\UserController::class . ':processOrder');
+
+        // 商品列表
+        $this->get('/product',                  App\Controllers\UserController::class . ':productIndex');
 
         // 订阅记录
         $this->get('/subscribe_log',            App\Controllers\UserController::class . ':subscribe_log');

@@ -57,31 +57,201 @@ use Slim\Http\{
  */
 class UserController extends BaseController
 {
-    public function user_order($request, $response, $args)
+    public function productIndex($request, $response, $args)
     {
-        $user = $this->user;
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $orders = ProductOrder::where('user_id', $user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
-        $orders->setPath('/user/order');
-        $render = Tools::paginate_render($orders);
-
-        return $response->write(
-            $this->view()
-                ->assign('orders', $orders)
-                ->assign('render', $render)
-                ->display('user/order.tpl')
-        );
-    }
-
-    public function product_index($request, $response, $args)
-    {
-        $products = Product::all();
+        $products = Product::where('status', '1')->get();
+        $products_count_tatp = Product::where('status', '1')->where('type', 'tatp')->count();
+        $products_count_time = Product::where('status', '1')->where('type', 'time')->count();
+        $products_count_traffic = Product::where('status', '1')->where('type', 'traffic')->count();
 
         return $response->write(
             $this->view()
                 ->assign('products', $products)
+                ->assign('products_count_tatp', $products_count_tatp)
+                ->assign('products_count_time', $products_count_time)
+                ->assign('products_count_traffic', $products_count_traffic)
                 ->display('user/product.tpl')
         );
+    }
+
+    public function CouponCheck($request, $response, $args)
+    {
+        $coupon_code = trim($request->getParam('coupon'));
+        $product_id = $request->getParam('product_id');
+
+        try {
+            $coupon = Coupon::where('coupon', $coupon_code)->first();
+            if ($coupon == null) {
+                throw new \Exception('优惠码不存在');
+            }
+            if ($coupon->product_limit != '0') {
+                $scope = explode(',', $coupon->product_limit);
+                if (!in_array($product_id, $scope)) {
+                    throw new \Exception('优惠码不适用于此商品');
+                }
+            }
+            if ($coupon->use_count > $coupon->total_limit) {
+                throw new \Exception('优惠码已达总使用限制');
+            }
+            if (time() > $coupon->expired_at) {
+                throw new \Exception('优惠码已过期');
+            }
+            // 差一个检查用户使用此优惠码限制的代码
+        } catch (\Exception $e) {
+            $res['ret'] = 0;
+            $res['msg'] = $e->getMessage();
+            return $response->withJson($res);
+        }
+
+        $res['ret'] = 1;
+        $res['discount'] = $coupon->discount;
+        return $response->withJson($res);
+    }
+
+    public function createOrder($request, $response, $args)
+    {
+        $user = $this->user;
+        $coupon_code = $request->getParam('coupon');
+        $product_id = $request->getParam('product_id');
+
+        $product = Product::find($product_id);
+
+        try {
+            if ($coupon_code != '') {
+                $coupon = Coupon::where('coupon', $coupon_code)->first();
+                if ($coupon == null) {
+                    throw new \Exception('优惠码不存在');
+                }
+                if ($coupon->product_limit != '0') {
+                    $scope = explode(',', $coupon->product_limit);
+                    if (!in_array($product_id, $scope)) {
+                        throw new \Exception('优惠码不适用于此商品');
+                    }
+                }
+                if ($coupon->use_count > $coupon->total_limit) {
+                    throw new \Exception('优惠码已达总使用限制');
+                }
+                if (time() > $coupon->expired_at) {
+                    throw new \Exception('优惠码已过期');
+                }
+            }
+
+            $order = new ProductOrder;
+            $order->no = substr(md5(time()), 20);
+            $order->user_id = $user->id;
+            $order->product_id = $product->id;
+            $order->product_name = $product->name;
+            $order->product_type = $product->type;
+            $order->product_content = $product->translate;
+            $order->product_price = $product->price;
+            $order->order_coupon = (empty($coupon)) ? null : $coupon_code;
+            $order->order_price = (empty($coupon)) ? $product->price : $product->price * $coupon->discount;
+            $order->order_status = 'pending_payment';
+            $order->created_at = time();
+            $order->updated_at = time();
+            $order->expired_at = time() + 600;
+            $order->paid_at = time();
+            $order->paid_action = json_encode(['action' => 'buy_product', 'params' => $product->id]);
+            $order->save();
+        } catch (\Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $e->getMessage()
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'order_id' => $order->no
+        ]);
+    }
+
+    public function orderDetails($request, $response, $args)
+    {
+        $order_no = $args['no'];
+        $order = ProductOrder::where('user_id', $this->user->id)
+        ->where('no', $order_no)
+        ->first();
+
+        return $response->write(
+            $this->view()
+                ->assign('order', $order)
+                ->display('user/order/read.tpl')
+        );
+    }
+
+    public function orderIndex($request, $response, $args)
+    {
+        $orders = ProductOrder::where('user_id', $this->user->id)->get();
+
+        return $response->write(
+            $this->view()
+                ->assign('orders', $orders)
+                ->display('user/order.tpl')
+        );
+    }
+
+    public function processOrder($request, $response, $args)
+    {
+        $user = $this->user;
+        $payment = $request->getParam('method');
+        $order_no = $request->getParam('order_no');
+
+        $order = ProductOrder::where('user_id', $user->id)
+        ->where('no', $order_no)
+        ->first();
+
+        $product = Product::find($order->product_id);
+        if ($order->order_coupon != null) {
+            $coupon = Coupon::where('coupon', $order->order_coupon)->first();
+        }
+
+        try {
+            if (time() > $order->expired_at) {
+                throw new \Exception('此订单已过期');
+            }
+            if ($order->order_status == 'paid') {
+                throw new \Exception('此订单已支付');
+            }
+            if ($product->stock <= 0) {
+                throw new \Exception('商品库存不足');
+            }
+            if ($payment == 'balance') {
+                if ($user->money < ($order->order_price / 100)) {
+                    throw new \Exception('账户余额不足');
+                }
+
+                $user->money -= $order->order_price / 100;
+                $user->save();
+
+                $order->order_status = 'paid';
+                $order->updated_at = time();
+                $order->paid_at = time();
+                $order->save();
+
+                $product->stock -= 1; // 减库存
+                $product->sales += 1; // 加销量
+                $product->save();
+
+                if (!empty($coupon)) {
+                    $coupon->use_count += 1;
+                    $coupon->amount_count += ($order->product_price - $order->order_price) / 100;
+                    $coupon->save();
+                }
+            } else {
+
+            }
+        } catch (\Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $e->getMessage()
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '购买成功'
+        ]);
     }
 
     /**
@@ -794,73 +964,6 @@ class UserController extends BaseController
     {
         $shops = Shop::where('status', 1)->orderBy('name')->get();
         return $this->view()->assign('shops', $shops)->display('user/shop.tpl');
-    }
-
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    public function CouponCheck($request, $response, $args)
-    {
-        $coupon = $request->getParam('coupon');
-        $coupon = trim($coupon);
-
-        $user = $this->user;
-
-        if (!$user->isLogin) {
-            $res['ret'] = -1;
-            return $response->withJson($res);
-        }
-
-        $shop = $request->getParam('shop');
-
-        $shop = Shop::where('id', $shop)->where('status', 1)->first();
-
-        if ($shop == null) {
-            $res['ret'] = 0;
-            $res['msg'] = '非法请求';
-            return $response->withJson($res);
-        }
-
-        if ($coupon == '') {
-            $res['ret'] = 1;
-            $res['name'] = $shop->name;
-            $res['credit'] = '0 %';
-            $res['total'] = $shop->price . '元';
-            return $response->withJson($res);
-        }
-
-        $coupon = Coupon::where('code', $coupon)->first();
-
-        if ($coupon == null) {
-            $res['ret'] = 0;
-            $res['msg'] = '优惠码无效';
-            return $response->withJson($res);
-        }
-
-        if ($coupon->order($shop->id) == false) {
-            $res['ret'] = 0;
-            $res['msg'] = '此优惠码不可用于此商品';
-            return $response->withJson($res);
-        }
-
-        $use_limit = $coupon->onetime;
-        if ($use_limit > 0) {
-            $use_count = Bought::where('userid', $user->id)->where('coupon', $coupon->code)->count();
-            if ($use_count >= $use_limit) {
-                $res['ret'] = 0;
-                $res['msg'] = '优惠码次数已用完';
-                return $response->withJson($res);
-            }
-        }
-
-        $res['ret'] = 1;
-        $res['name'] = $shop->name;
-        $res['credit'] = $coupon->credit . ' %';
-        $res['total'] = $shop->price * ((100 - $coupon->credit) / 100) . '元';
-
-        return $response->withJson($res);
     }
 
     /**

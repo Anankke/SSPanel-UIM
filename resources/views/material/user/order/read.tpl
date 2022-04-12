@@ -1,0 +1,267 @@
+{include file='user/tabler_header.tpl'}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <!-- Page pre-title -->
+                    <h2 class="page-title">
+                        <span class="home-title">账单详情</span>
+                    </h2>
+                    <div class="page-pretitle">
+                        <span class="home-subtitle">在这里查看账单详情</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="card card-md">
+                <div class="card-stamp">
+                    {if time() > $order->expired_at && $order->order_status != 'paid'}
+                        <div class="card-stamp-icon bg-red">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24"
+                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </div>
+                    {else}
+                        {if time() < $order->expired_at && $order->order_status != 'paid'}
+                            <div class="card-stamp-icon bg-yellow">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24"
+                                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <polyline points="12 7 12 12 15 15"></polyline>
+                                </svg>
+                            </div>
+                        {/if}
+                    {/if}
+                    {if $order->order_status == 'paid'}
+                        <div class="card-stamp-icon bg-green">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24"
+                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M5 12l5 5l10 -10"></path>
+                            </svg>
+                        </div>
+                    {/if}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 my-2">
+                            <h1>Invoice #{$order->no}</h1>
+                        </div>
+                    </div>
+                    <table class="table table-transparent table-responsive">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 1%">#</th>
+                                <th>商品</th>
+                                <th class="text-center" style="width: 10%">数量</th>
+                                <th class="text-end" style="width: 1%">单价</th>
+                                <th class="text-end" style="width: 1%">总价</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td>
+                                <p class="strong mb-1">{$order->product_name}</p>
+                                <div class="text-muted">{$order->product_content}</div>
+                            </td>
+                            <td class="text-center">
+                                1
+                            </td>
+                            <td class="text-end">{sprintf("%.2f", $order->product_price / 100)}</td>
+                            <td class="text-end">{sprintf("%.2f", $order->product_price / 100)}</td>
+                        </tr>
+                        {if $order->order_coupon != null}
+                            <tr>
+                                <td colspan="4" class="strong text-end">优惠券</td>
+                                <td class="text-end"><code>{$order->order_coupon}</code></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="strong text-end">折扣</td>
+                                <td class="text-end">{sprintf("%.2f", ($order->order_price - $order->product_price) / 100)}
+                                </td>
+                            </tr>
+                        {/if}
+                        <tr>
+                            <td colspan="4" class="strong font-weight-bold text-uppercase text-end">应付</td>
+                            <td class="font-weight-bold text-end">{sprintf("%.2f", $order->order_price / 100)}</td>
+                        </tr>
+                    </table>
+                    {if time() > $order->expired_at && $order->order_status != 'paid'}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3 my-5">
+                                    <div class="card">
+                                        <div class="card-status-top bg-danger"></div>
+                                        <div class="card-body">
+                                            <h3 class="card-title">账单已过期</h3>
+                                            <p class="text-muted">这个账单过期了。如有需要，请前往 <a href="/user/product">商店</a> 重新下单</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {else}
+                        {if time() < $order->expired_at && $order->order_status != 'paid'}
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <div class="col-12 my-3">
+                                            <h1>支付方式</h1>
+                                        </div>
+                                        <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
+                                            <label class="form-selectgroup-item flex-fill">
+                                                <input value="balance" type="radio" name="payment-method"
+                                                    class="form-selectgroup-input" checked="">
+                                                <div class="form-selectgroup-label d-flex align-items-center p-3">
+                                                    <div class="me-3">
+                                                        <span class="form-selectgroup-check"></span>
+                                                    </div>
+                                                    <div>
+                                                        账户余额
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label class="form-selectgroup-item flex-fill">
+                                                <input value="other" id="payment-method" type="radio" name="payment-method"
+                                                    class="form-selectgroup-input">
+                                                <div class="form-selectgroup-label d-flex align-items-center p-3">
+                                                    <div class="me-3">
+                                                        <span class="form-selectgroup-check"></span>
+                                                    </div>
+                                                    <div>
+                                                        其他方式
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a id="submit-payment" href="#" class="btn btn-primary w-100">
+                                            支付
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {/if}
+                    {/if}
+                    {if $order->order_status == 'paid'}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3 my-5">
+                                    <div class="card">
+                                        <div class="card-status-top bg-green"></div>
+                                        <div class="card-body">
+                                            <h3 class="card-title">账单已支付</h3>
+                                            <p class="text-muted">商品内容已经添加到你的账户</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="success-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-success"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M9 12l2 2l4 -4" />
+                    </svg>
+                    <p id="success-message" class="text-muted">成功</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a id="success-confirm" href="#" class="btn w-100" data-bs-dismiss="modal">
+                                    好
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 9v2m0 4v.01" />
+                        <path
+                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
+                    </svg>
+                    <p id="fail-message" class="text-muted">失败</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
+                                    确认
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $("#submit-payment").click(function() {
+            payment = $('input:radio:checked').val();
+            $.ajax({
+                url: '/user/order',
+                type: 'PUT',
+                dataType: "json",
+                data: {
+                    order_no: '{$order->no}',
+                    method: payment,
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
+        $("#success-confirm").click(function() {
+            location.reload();
+        });
+    </script>
+{include file='user/tabler_footer.tpl'}
