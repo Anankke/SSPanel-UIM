@@ -5,7 +5,7 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">商品列表</span>
+                        <span class="home-title">商品列表</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">在这里管理商店商品</span>
@@ -52,9 +52,11 @@
                                         <th>操作</th>
                                         <th>类型</th>
                                         <th>名称</th>
-                                        <th>内容</th>
-                                        <th>售价</th>
                                         <th>状态</th>
+                                        <th>售价</th>
+                                        <th>库存</th>
+                                        <th>销量</th>
+                                        <th>内容</th>
                                         <th>创建时间</th>
                                         <th>更新时间</th>
                                     </tr>
@@ -68,9 +70,11 @@
                                             </td>
                                             <td>{$product->type}</td>
                                             <td>{$product->name}</td>
-                                            <td>{$product->translate}</td>
-                                            <td>{$product->price / 100}</td>
                                             <td>{($product->status == '1') ? '销售' : '下架'}</td>
+                                            <td>{sprintf("%.2f", $product->price / 100)}</td>
+                                            <td>{$product->stock}</td>
+                                            <td>{$product->sales}</td>
+                                            <td>{$product->translate}</td>
                                             <td>{date('Y-m-d H:i:s', $product->created_at)}</td>
                                             <td>{date('Y-m-d H:i:s', $product->updated_at)}</td>
                                         </tr>
@@ -132,7 +136,7 @@
                         </div>
                     </div>
                     <div class="form-group mb-3 row">
-                        <label class="form-label col-3 col-form-label">等级时长</label>
+                        <label class="form-label col-3 col-form-label">等级时长 (Day)</label>
                         <div class="col">
                             <input id="product_class_time" type="text" class="form-control" placeholder="留空时默认为与添加时长相同">
                         </div>
@@ -300,7 +304,7 @@
                     $("#product_status").val(result.data.status);
                     $("#product_html").val(result.data.html);
                     $("#product_price").val(result.data.price / 100);
-                    $("#product_stock").val(result.data.product_stock);
+                    $("#product_stock").val(result.data.stock);
                     $("#product_time").val(result.content.product_time);
                     $("#product_traffic").val(result.content.product_traffic);
                     $("#product_speed").val(result.content.product_speed);
@@ -425,6 +429,9 @@
             $("#product-delete").hide();
             $("#product-create").show();
         });
+
+        $("td:contains('销售')").css("color", "green");
+        $("td:contains('下架')").css("color", "red");
     </script>
 
 {include file='admin/tabler_admin_footer.tpl'}
