@@ -7,7 +7,7 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">账户信息</span>
+                        <span class="home-title">账户信息</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">浏览最近的登录和使用记录</span>

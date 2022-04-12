@@ -34,6 +34,9 @@
         .home-subtitle {
             font-size: 14px;
         }
+        .home-title {
+            font-size: 36px;
+        }
     </style>
 </head>
 

@@ -33,6 +33,9 @@
         .home-subtitle {
             font-size: 14px;
         }
+        .home-title {
+            font-size: 36px;
+        }
     </style>
 </head>
 
@@ -233,11 +236,11 @@
                                                 <i class="ti ti-coin"></i>&nbsp;
                                                 账户充值
                                             </a>
-                                            <a class="dropdown-item" href="/user/shop">
+                                            <a class="dropdown-item" href="/user/product">
                                                 <i class="ti ti-shopping-cart"></i>&nbsp;
                                                 商品列表
                                             </a>
-                                            <a class="dropdown-item" href="/user/bought">
+                                            <a class="dropdown-item" href="/user/order">
                                                 <i class="ti ti-checklist"></i>&nbsp;
                                                 订单记录
                                             </a>

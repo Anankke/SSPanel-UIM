@@ -7,10 +7,10 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">标题</span>
+                        <span class="home-title">标题</span>
                     </h2>
                     <div class="page-pretitle">
-                        <span style="font-size: 12px;">副标题</span>
+                        <span class="home-subtitle">副标题</span>
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">

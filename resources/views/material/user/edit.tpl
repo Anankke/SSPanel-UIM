@@ -5,10 +5,10 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">资料修改</span>
+                        <span class="home-title">资料修改</span>
                     </h2>
                     <div class="page-pretitle">
-                        <span style="font-size: 12px;">修改账户的部分信息</span>
+                        <span class="home-subtitle">修改账户的部分信息</span>
                     </div>
                 </div>
             </div>
@@ -364,7 +364,6 @@
                     <circle cx="12" cy="12" r="9" />
                     <path d="M9 12l2 2l4 -4" />
                 </svg>
-                <h3>成功</h3>
                 <p id="success-message" class="text-muted">成功</p>
             </div>
             <div class="modal-footer">
@@ -396,7 +395,6 @@
                     <path
                         d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
                 </svg>
-                <h3>失败</h3>
                 <p id="fail-message" class="text-muted">失败</p>
             </div>
             <div class="modal-footer">

@@ -7,7 +7,7 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">审计规则</span>
+                        <span class="home-title">审计规则</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">当浏览的地址可以被下列规则匹配时，连接将强制中断</span>

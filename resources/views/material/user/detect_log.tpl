@@ -7,7 +7,7 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">审计日志</span>
+                        <span class="home-title">审计日志</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">被审计规则匹配的近500条流量记录</span>

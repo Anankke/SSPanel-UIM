@@ -7,7 +7,7 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">流媒体解锁</span>
+                        <span class="home-title">流媒体解锁</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">你可以在这里查看节点的流媒体解锁情况</span>

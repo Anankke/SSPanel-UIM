@@ -7,10 +7,10 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">站点公告</span>
+                        <span class="home-title">站点公告</span>
                     </h2>
                     <div class="page-pretitle">
-                        <span style="font-size: 12px;">管理员发布的所有公告</span>
+                        <span class="home-subtitle">管理员发布的所有公告</span>
                     </div>
                 </div>
             </div>

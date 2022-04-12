@@ -5,11 +5,12 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">订阅记录</span>
+                        <span class="home-title">订阅记录</span>
                     </h2>
                     <div class="page-pretitle">
-                        <span class="home-subtitle">在最近 {$config['subscribeLog_keep_days']} 天内所有用户的订阅记录。表格仅展示最近 500
-                            条记录</span>
+                        <span class="home-subtitle">
+                            在最近 {$config['subscribeLog_keep_days']} 天内所有用户的订阅记录。表格仅展示最近 500 条记录
+                        </span>
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">

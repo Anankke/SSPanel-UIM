@@ -5,7 +5,7 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span style="font-size: 36px;">优惠码</span>
+                        <span class="home-title">优惠码</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">在这里管理优惠码</span>
