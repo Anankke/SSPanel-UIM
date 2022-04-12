@@ -1481,7 +1481,7 @@ class UserController extends BaseController
         $logs = DetectRule::get();
         return $this->view()
             ->assign('rules', $logs)
-            ->display('user/detect_index.tpl');
+            ->display('user/detect/index.tpl');
     }
 
     /**
@@ -1498,7 +1498,7 @@ class UserController extends BaseController
 
         return $this->view()
             ->assign('logs', $logs)
-            ->display('user/detect_log.tpl');
+            ->display('user/detect/read.tpl');
     }
 
     /**
