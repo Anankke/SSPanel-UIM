@@ -19,7 +19,7 @@ class ProductController extends AdminController
             $text .= '，流量' . $array['product_traffic'] . 'GB';
             $text .= ($array['product_reset_traffic'] == '0') ? '（叠加上此值）' : '（重置为此值）';
             $text .= ($array['product_device'] == '0') ? '，不限制设备' : '，限制' . $array['product_device'] . '个设备使用';
-            $text .= ($array['product_speed'] == '0') ? '，不限速' : '，限制' . $array['product_speed'] . 'Mbps';
+            $text .= ($array['product_speed'] == '0') ? '，不限速' : '，限速' . $array['product_speed'] . 'Mbps';
             $text .= '，设置等级为' . $array['product_class'];
             $text .= '，等级时效' . $array['product_class_time'] . '天';
             if ($array['product_reset_class_time'] == '1') {
@@ -80,6 +80,7 @@ class ProductController extends AdminController
         $product_reset_class_time = $request->getParam('product_reset_class_time');
         $product_speed = $request->getParam('product_speed');
         $product_device = $request->getParam('product_device');
+        $product_stock = $request->getParam('product_stock');
         $product_html = $request->getParam('product_html');
 
         try {
@@ -90,6 +91,9 @@ class ProductController extends AdminController
             }
             if ($product_price == '') {
                 throw new \Exception('请填写商品售价');
+            }
+            if ($product_stock == '') {
+                throw new \Exception('请填写商品库存');
             }
 
             if ($product_type == 'tatp') {
@@ -144,6 +148,8 @@ class ProductController extends AdminController
             $product->name = $product_name;
             $product->price = $product_price * 100;
             $product->content = json_encode($content);
+            $product->stock = $product_stock;
+            $product->sales = 0;
             $product->html = $product_html;
             $product->limit = null;
             $product->status = $product_status;
@@ -179,6 +185,7 @@ class ProductController extends AdminController
         $product_reset_class_time = $request->getParam('product_reset_class_time');
         $product_speed = $request->getParam('product_speed');
         $product_device = $request->getParam('product_device');
+        $product_stock = $request->getParam('product_stock');
         $product_html = $request->getParam('product_html');
 
         try {
@@ -189,6 +196,9 @@ class ProductController extends AdminController
             }
             if ($product_price == '') {
                 throw new \Exception('请填写商品售价');
+            }
+            if ($product_stock == '') {
+                throw new \Exception('请填写商品库存');
             }
 
             if ($product_type == 'tatp') {
@@ -243,6 +253,7 @@ class ProductController extends AdminController
             $product->name = $product_name;
             $product->price = $product_price * 100;
             $product->content = json_encode($content);
+            $product->stock = $product_stock;
             $product->html = $product_html;
             $product->limit = null;
             $product->status = $product_status;

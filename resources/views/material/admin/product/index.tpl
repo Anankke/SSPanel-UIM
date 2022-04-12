@@ -175,6 +175,12 @@
                             <input id="product_device" type="text" class="form-control" placeholder="不限制填0">
                         </div>
                     </div>
+                    <div class="form-group mb-3 row">
+                        <label class="form-label col-3 col-form-label">商品库存</label>
+                        <div class="col">
+                            <input id="product_stock" type="text" class="form-control" placeholder="不限制填个大数">
+                        </div>
+                    </div>
                     <div class="mb-3">
                         <textarea id="product_html" class="form-control" rows="6" placeholder="自定义HTML代码"></textarea>
                     </div>
@@ -294,6 +300,7 @@
                     $("#product_status").val(result.data.status);
                     $("#product_html").val(result.data.html);
                     $("#product_price").val(result.data.price / 100);
+                    $("#product_stock").val(result.data.product_stock);
                     $("#product_time").val(result.content.product_time);
                     $("#product_traffic").val(result.content.product_traffic);
                     $("#product_speed").val(result.content.product_speed);
@@ -330,6 +337,7 @@
                     product_reset_class_time: $('#product_reset_class_time').val(),
                     product_speed: $('#product_speed').val(),
                     product_device: $('#product_device').val(),
+                    product_stock: $('#product_stock').val(),
                     product_html: $('#product_html').val()
                 },
                 success: function(data) {
