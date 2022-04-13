@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use Slim\App as SlimApp;
@@ -14,7 +13,7 @@ return function (SlimApp $app) {
     $app->get('/tos',       App\Controllers\HomeController::class . ':tos');
     $app->get('/staff',     App\Controllers\HomeController::class . ':staff');
 
-    // other
+    // Other
     $app->post('/notify',               App\Controllers\HomeController::class . ':notify');
 
     // Telegram
@@ -22,38 +21,45 @@ return function (SlimApp $app) {
 
     // User Center
     $app->group('/user', function () {
+        // 用户中心首页
         $this->get('',                          App\Controllers\UserController::class . ':index');
         $this->get('/',                         App\Controllers\UserController::class . ':index');
-
         $this->post('/checkin',                 App\Controllers\UserController::class . ':doCheckin');
 
-        $this->get('/announcement',             App\Controllers\UserController::class . ':announcement');
+        // 单页面
         $this->get('/media',                    App\Controllers\UserController::class . ':media');
-
-        $this->get('/donate',                   App\Controllers\UserController::class . ':donate');
         $this->get('/profile',                  App\Controllers\UserController::class . ':profile');
-        $this->get('/invite',                   App\Controllers\UserController::class . ':invite');
+        $this->post('/kill',                    App\Controllers\UserController::class . ':handleKill');
         $this->get('/disable',                  App\Controllers\UserController::class . ':disable');
+        $this->get('/announcement',             App\Controllers\UserController::class . ':announcement');
+        $this->get('/subscribe_log',            App\Controllers\UserController::class . ':subscribe_log');
 
-        $this->get('/node',                     App\Controllers\User\NodeController::class . ':user_node_page');
-        $this->get('/node/{id}/ajax',           App\Controllers\User\NodeController::class . ':user_node_ajax');
-        $this->get('/node/{id}',                App\Controllers\User\NodeController::class . ':user_node_info');
+        // 邀请系统
+        $this->get('/invite',                   App\Controllers\UserController::class . ':invite');
+        $this->put('/invite',                   App\Controllers\UserController::class . ':resetInviteURL');
 
+        // 审计系统
         $this->get('/detect',                   App\Controllers\UserController::class . ':detect_index');
         $this->get('/detect/log',               App\Controllers\UserController::class . ':detect_log');
 
-        $this->get('/shop',                     App\Controllers\UserController::class . ':shop');
-        $this->post('/coupon_check',            App\Controllers\UserController::class . ':CouponCheck');
-        $this->post('/buy',                     App\Controllers\UserController::class . ':buy');
-        $this->post('/buy_traffic_package',     App\Controllers\UserController::class . ':buy_traffic_package');
-
+        // 工单系统
         $this->get('/ticket',                   App\Controllers\User\TicketController::class . ':ticket');
         $this->get('/ticket/create',            App\Controllers\User\TicketController::class . ':ticket_create');
         $this->post('/ticket',                  App\Controllers\User\TicketController::class . ':ticket_add');
         $this->get('/ticket/{id}/view',         App\Controllers\User\TicketController::class . ':ticket_view');
         $this->put('/ticket/{id}',              App\Controllers\User\TicketController::class . ':ticket_update');
 
+        // 新商店系统
+        $this->get('/product',                  App\Controllers\UserController::class . ':productIndex');
+        $this->get('/order',                    App\Controllers\UserController::class . ':orderIndex');
+        $this->get('/order/{no}',               App\Controllers\UserController::class . ':orderDetails');
+        $this->post('/order',                   App\Controllers\UserController::class . ':createOrder');
+        $this->put('/order',                    App\Controllers\UserController::class . ':processOrder');
+        $this->post('/coupon_check',            App\Controllers\UserController::class . ':couponCheck');
+
+        // 编辑页面
         $this->get('/edit',                     App\Controllers\UserController::class . ':edit');
+        $this->get('/telegram_reset',           App\Controllers\UserController::class . ':telegram_reset');
         $this->post('/email',                   App\Controllers\UserController::class . ':updateEmail');
         $this->post('/username',                App\Controllers\UserController::class . ':updateUsername');
         $this->post('/password',                App\Controllers\UserController::class . ':updatePassword');
@@ -63,49 +69,27 @@ return function (SlimApp $app) {
         $this->post('/theme',                   App\Controllers\UserController::class . ':updateTheme');
         $this->post('/mail',                    App\Controllers\UserController::class . ':updateMail');
         $this->post('/sspwd',                   App\Controllers\UserController::class . ':updateSsPwd');
-        $this->post('/hide',                    App\Controllers\UserController::class . ':updateHide');
-        $this->get('/trafficlog',               App\Controllers\UserController::class . ':trafficLog');
-        $this->get('/kill',                     App\Controllers\UserController::class . ':kill');
-        $this->post('/kill',                    App\Controllers\UserController::class . ':handleKill');
+        $this->post('/url_reset',               App\Controllers\UserController::class . ':resetURL');
+        $this->post('/gacheck',                 App\Controllers\UserController::class . ':gaCheck');
+        $this->post('/gaset',                   App\Controllers\UserController::class . ':gaSet');
+        $this->post('/gareset',                 App\Controllers\UserController::class . ':gaReset');
+        $this->post('/port',                    App\Controllers\UserController::class . ':resetPort');
+
+        // 节点列表
+        $this->get('/node',                     App\Controllers\User\NodeController::class . ':user_node_page');
+        $this->get('/node/{id}/ajax',           App\Controllers\User\NodeController::class . ':user_node_ajax');
+        $this->get('/node/{id}',                App\Controllers\User\NodeController::class . ':user_node_info');
+
+        // 其他
         $this->get('/logout',                   App\Controllers\UserController::class . ':logout');
         $this->get('/backtoadmin',              App\Controllers\UserController::class . ':backtoadmin');
-        $this->get('/code',                     App\Controllers\UserController::class . ':code');
-
-        $this->get('/code_check',               App\Controllers\UserController::class . ':code_check');
-        $this->post('/code',                    App\Controllers\UserController::class . ':codepost');
-        $this->post('/gacheck',                 App\Controllers\UserController::class . ':GaCheck');
-        $this->post('/gaset',                   App\Controllers\UserController::class . ':GaSet');
-        $this->put('/gareset',                  App\Controllers\UserController::class . ':GaReset');
-        $this->get('/telegram_reset',           App\Controllers\UserController::class . ':telegram_reset');
-        $this->post('/resetport',               App\Controllers\UserController::class . ':ResetPort');
-        $this->get('/bought',                   App\Controllers\UserController::class . ':bought');
-        $this->delete('/bought',                App\Controllers\UserController::class . ':deleteBoughtGet');
-        $this->put('/url_reset',                App\Controllers\UserController::class . ':resetURL');
-        $this->put('/invite',                   App\Controllers\UserController::class . ':resetInviteURL');
-
-        // 商品订单
-        $this->get('/order',                    App\Controllers\UserController::class . ':orderIndex');
-        $this->get('/order/{no}',               App\Controllers\UserController::class . ':orderDetails');
-        $this->post('/order',                   App\Controllers\UserController::class . ':createOrder');
-        $this->put('/order',                    App\Controllers\UserController::class . ':processOrder');
-
-        // 商品列表
-        $this->get('/product',                  App\Controllers\UserController::class . ':productIndex');
-
-        // 订阅记录
-        $this->get('/subscribe_log',            App\Controllers\UserController::class . ':subscribe_log');
-
-        // getUserAllURL
+        $this->get('/getPcClient',              App\Controllers\UserController::class . ':getPcClient');
         $this->get('/getUserAllURL',            App\Controllers\UserController::class . ':getUserAllURL');
 
-        // getPcClient
-        $this->get('/getPcClient',              App\Controllers\UserController::class . ':getPcClient');
-
-        //Reconstructed Payment System
+        // 支付系统
         $this->post('/payment/purchase/{type}',        App\Services\Payment::class . ':purchase');
         $this->get('/payment/purchase/{type}',         App\Services\Payment::class . ':purchase');
         $this->get('/payment/return/{type}',           App\Services\Payment::class . ':returnHTML');
-
     })->add(new Auth());
 
     $app->group('/payment', function () {

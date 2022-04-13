@@ -65,7 +65,7 @@
                         <div class="card-header">
                             <h3 class="card-title">最近使用记录</h3>
                         </div>
-                        {if !empty($userip)}
+                        {if $use_logs->count() != '0'}
                             <div class="table-responsive">
                                 <table class="table table-vcenter card-table">
                                     <thead>
@@ -75,10 +75,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {foreach $userip as $single=>$location}
+                                        {foreach $use_logs as $use_log}
                                             <tr>
-                                                <td>{$single}</td>
-                                                <td>{$location}</td>
+                                                <td>{$use_log->ip}</td>
+                                                <td>{Tools::getIpInfo($use_log->ip)}</td>
                                             </tr>
                                         {/foreach}
                                     </tbody>

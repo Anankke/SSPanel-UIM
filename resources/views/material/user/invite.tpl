@@ -39,14 +39,12 @@
                             {if $user->invite_num >= 0}
                                 <p>邀请链接可用次数：<code>{$user->invite_num}</code></p>
                             {/if}
-                            <input class="form-control" value="{$config['baseUrl']}/auth/register?code={$code->code}"
-                                disabled />
+                            <input class="form-control" value="{$invite_url}" disabled />
                         </div>
                         <div class="card-footer">
                             <div class="d-flex">
                                 <a id="reset-url" class="btn btn-link">重置</a>
-                                <a id="copy-url"
-                                    data-clipboard-text="{$config['baseUrl']}/auth/register?code={$code->code}"
+                                <a id="copy-url" data-clipboard-text="{$invite_url}"
                                     class="copy btn btn-primary ms-auto">复制</a>
                             </div>
                         </div>

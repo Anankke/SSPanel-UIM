@@ -379,341 +379,340 @@
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-status bg-danger"></div>
-            <div class="modal-body text-center py-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
-                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M12 9v2m0 4v.01" />
-                    <path
-                        d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
-                </svg>
-                <p id="fail-message" class="text-muted">失败</p>
-            </div>
-            <div class="modal-footer">
-                <div class="w-100">
-                    <div class="row">
-                        <div class="col">
-                            <a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
-                                确认
-                            </a>
+    <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 9v2m0 4v.01" />
+                        <path
+                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
+                    </svg>
+                    <p id="fail-message" class="text-muted">失败</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
+                                    确认
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    var qrcode = new QRCode('qrcode', {
-        text: "{$user->getGAurl()}",
-        width: 128,
-        height: 128,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-    });
+    <script>
+        var qrcode = new QRCode('qrcode', {
+            text: "{$user->getGAurl()}",
+            width: 128,
+            height: 128,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
 
-    {if $config['use_new_telegram_bot'] == false}
-    var tgqrcode = new QRCode('qrcode-telegram', {
-        text: 'mod://bind/{$bind_token}',
-        width: 128,
-        height: 128,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-    });
-    {/if}
+        {if $config['use_new_telegram_bot'] == false}
+            var tgqrcode = new QRCode('qrcode-telegram', {
+                text: 'mod://bind/{$bind_token}',
+                width: 128,
+                height: 128,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        {/if}
 
-    var clipboard = new ClipboardJS('.copy');
-    clipboard.on('success', function(e) {
-        $('#success-message').text('已复制到剪切板');
-        $('#success-dialog').modal('show');
-    });
+        var clipboard = new ClipboardJS('.copy');
+        clipboard.on('success', function(e) {
+            $('#success-message').text('已复制到剪切板');
+            $('#success-dialog').modal('show');
+        });
 
-    $("#modify-email").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/email",
-            dataType: "json",
-            data: {
-                {if $config['enable_email_verify'] == true}
-                    emailcode: $('#email-code').val(),
-                {/if}
-                newemail: $('#new-email').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#modify-email").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/email",
+                dataType: "json",
+                data: {
+                    {if $config['enable_email_verify'] == true}
+                        emailcode: $('#email-code').val(),
+                    {/if}
+                    newemail: $('#new-email').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#email-verify").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/send",
-            dataType: "json",
-            data: {
-                email: $('#new-email').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#email-verify").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/send",
+                dataType: "json",
+                data: {
+                    email: $('#new-email').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#modify-username").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/username",
-            dataType: "json",
-            data: {
-                newusername: $('#new-username').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#modify-username").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/username",
+                dataType: "json",
+                data: {
+                    newusername: $('#new-username').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#reset-sub-url").click(function() {
-        $.ajax({
-            type: "PUT",
-            url: "/user/url_reset",
-            dataType: "json",
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#reset-sub-url").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/url_reset",
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#modify-user-theme").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/theme",
-            dataType: "json",
-            data: {
-                theme: $('#user-theme').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#modify-user-theme").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/theme",
+                dataType: "json",
+                data: {
+                    theme: $('#user-theme').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#modify-daily-report").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/mail",
-            dataType: "json",
-            data: {
-                mail: $('#daily-report').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#modify-daily-report").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/mail",
+                dataType: "json",
+                data: {
+                    mail: $('#daily-report').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#reset-client-port").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/resetport",
-            dataType: "json",
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#reset-client-port").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/port",
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#reset-passwd").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/sspwd",
-            dataType: "json",
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#reset-passwd").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/sspwd",
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#modify-login-passwd").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/password",
-            dataType: "json",
-            data: {
-                pwd: $('#new-password').val(),
-                repwd: $('#again-new-password').val(),
-                oldpwd: $('#password').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#modify-login-passwd").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/password",
+                dataType: "json",
+                data: {
+                    pwd: $('#new-password').val(),
+                    repwd: $('#again-new-password').val(),
+                    oldpwd: $('#password').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#modify-im").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/wechat",
-            dataType: "json",
-            data: {
-                imtype: $('#imtype').val(),
-                wechat: $('#wechat').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#modify-im").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/wechat",
+                dataType: "json",
+                data: {
+                    imtype: $('#imtype').val(),
+                    wechat: $('#wechat').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#reset-2fa").click(function() {
-        $.ajax({
-            type: "PUT",
-            url: "/user/gareset",
-            dataType: "json",
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#reset-2fa").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/gareset",
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#test-2fa").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/gacheck",
-            dataType: "json",
-            data: {
-                code: $('#2fa-test-code').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#test-2fa").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/gacheck",
+                dataType: "json",
+                data: {
+                    code: $('#2fa-test-code').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#save-2fa").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/gaset",
-            dataType: "json",
-            data: {
-                enable: $('#ga-enable').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#save-2fa").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/gaset",
+                dataType: "json",
+                data: {
+                    enable: $('#ga-enable').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
 
-    $("#modify-config").click(function() {
-        $.ajax({
-            type: "POST",
-            url: "/user/ssr",
-            dataType: "json",
-            data: {
-                obfs: $('#obfs').val(),
-                method: $('#method').val(),
-                protocol: $('#protocol').val(),
-                obfs_param: $('#obfs_param').val()
-            },
-            success: function(data) {
-                if (data.ret == 1) {
-                    $('#success-message').text(data.msg);
-                    $('#success-dialog').modal('show');
-                } else {
-                    $('#fail-message').text(data.msg);
-                    $('#fail-dialog').modal('show');
+        $("#modify-config").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/ssr",
+                dataType: "json",
+                data: {
+                    obfs: $('#obfs').val(),
+                    method: $('#method').val(),
+                    protocol: $('#protocol').val(),
+                    obfs_param: $('#obfs_param').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
                 }
-            }
-        })
-    });
-</script>
+            })
+        });
+    </script>
 {include file='user/tabler_footer.tpl'}
