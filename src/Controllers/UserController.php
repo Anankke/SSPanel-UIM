@@ -238,20 +238,7 @@ class UserController extends BaseController
                 $user->money -= $order->order_price / 100;
                 $user->save();
 
-                $order->order_status = 'paid';
-                $order->updated_at = time();
-                $order->paid_at = time();
-                $order->save();
-
-                $product->stock -= 1; // 减库存
-                $product->sales += 1; // 加销量
-                $product->save();
-
-                if (!empty($coupon)) {
-                    $coupon->use_count += 1;
-                    $coupon->amount_count += ($order->product_price - $order->order_price) / 100;
-                    $coupon->save();
-                }
+                self::execute($order->no);
             } else {
                 return Payment::create($payment, $order->no, ($order->order_price / 100));
             }
@@ -278,19 +265,30 @@ class UserController extends BaseController
         $order->paid_at = time();
         $order->save();
 
+        $product->stock -= 1; // 减库存
+        $product->sales += 1; // 加销量
+        $product->save();
+
+        if (!empty($order->order_coupon)) {
+            $coupon = Coupon::where('coupon', $order->order_coupon)->first();
+            $coupon->use_count += 1;
+            $coupon->amount_count += ($order->product_price - $order->order_price) / 100;
+            $coupon->save();
+        }
+
         $product_content = json_decode($product->content, true);
         foreach ($product_content as $key => $value)
         {
             switch ($key) {
                 case 'product_time':
-                    if ($product_content['product_reset_time'] == '1') {
+                    if (!empty($product_content['product_reset_time']) && $product_content['product_reset_time'] == '1') {
                         $user->expire_in = date('Y-m-d H:i:s', time() + ($value * 86400));
                     } else {
                         $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + ($value * 86400));
                     }
                     break;
                 case 'product_traffic':
-                    if ($product_content['product_reset_traffic'] == '1') {
+                    if (!empty($product_content['product_reset_traffic']) && $product_content['product_reset_traffic'] == '1') {
                         $user->transfer_enable = ($user->u + $user->d) + ($value * 1073741824);
                     } else {
                         $user->transfer_enable += $value * 1073741824;
