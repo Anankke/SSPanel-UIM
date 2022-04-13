@@ -85,18 +85,11 @@ return function (SlimApp $app) {
         $this->get('/backtoadmin',              App\Controllers\UserController::class . ':backtoadmin');
         $this->get('/getPcClient',              App\Controllers\UserController::class . ':getPcClient');
         $this->get('/getUserAllURL',            App\Controllers\UserController::class . ':getUserAllURL');
-
-        // 支付系统
-        $this->post('/payment/purchase/{type}',        App\Services\Payment::class . ':purchase');
-        $this->get('/payment/purchase/{type}',         App\Services\Payment::class . ':purchase');
-        $this->get('/payment/return/{type}',           App\Services\Payment::class . ':returnHTML');
     })->add(new Auth());
 
-    $app->group('/payment', function () {
-        $this->get('/notify/{type}',           App\Services\Payment::class . ':notify');
-        $this->post('/notify/{type}',   App\Services\Payment::class . ':notify');
-        $this->post('/status/{type}',          App\Services\Payment::class . ':getStatus');
-        // $this->post('/coinpay/notify',  App\Services\CoinPayment::class. ':notify');
+    $app->group('/payments', function () {
+        $this->get('/notify/{type}',            App\Services\Payment::class . ':notify');
+        $this->post('/notify/{type}',           App\Services\Payment::class . ':notify');
     });
 
     // Auth
