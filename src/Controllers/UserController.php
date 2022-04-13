@@ -56,6 +56,12 @@ class UserController extends BaseController
     public function productIndex($request, $response, $args)
     {
         $products = Product::where('status', '1')->get();
+        $product_lists = [
+            'tatp' => '时间流量包',
+            'time' => '时间包',
+            'traffic' => '流量包',
+            'other' => '其他商品',
+        ];
         $products_count_tatp = Product::where('status', '1')->where('type', 'tatp')->count();
         $products_count_time = Product::where('status', '1')->where('type', 'time')->count();
         $products_count_traffic = Product::where('status', '1')->where('type', 'traffic')->count();
@@ -63,6 +69,7 @@ class UserController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('products', $products)
+                ->assign('product_lists', $product_lists)
                 ->assign('products_count_tatp', $products_count_tatp)
                 ->assign('products_count_time', $products_count_time)
                 ->assign('products_count_traffic', $products_count_traffic)

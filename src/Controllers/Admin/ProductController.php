@@ -67,6 +67,7 @@ class ProductController extends AdminController
         $product_type = $request->getParam('product_type');
         $product_name = $request->getParam('product_name');
         $product_price = $request->getParam('product_price');
+        $product_content = $request->getParam('product_content');
         $product_time = $request->getParam('product_time');
         $product_traffic = $request->getParam('product_traffic');
         $product_class = $request->getParam('product_class');
@@ -139,6 +140,16 @@ class ProductController extends AdminController
                 ];
 
                 $product->translate = self::translate($content, 'traffic');
+            } elseif ($product_type == 'other') {
+                if ($product_content == '') {
+                    throw new \Exception('请填写自定义商品内容');
+                }
+
+                $content = [
+                    'product_content' => $product_content,
+                ];
+
+                $product->translate = $product_content;
             }
 
             $product->type = $product_type;
@@ -172,6 +183,7 @@ class ProductController extends AdminController
         $product_type = $request->getParam('product_type');
         $product_name = $request->getParam('product_name');
         $product_price = $request->getParam('product_price');
+        $product_content = $request->getParam('product_content');
         $product_time = $request->getParam('product_time');
         $product_traffic = $request->getParam('product_traffic');
         $product_class = $request->getParam('product_class');
@@ -247,6 +259,16 @@ class ProductController extends AdminController
                 ];
 
                 $product->translate = self::translate($content, 'traffic');
+            } elseif ($product_type == 'other') {
+                if ($product_content == '') {
+                    throw new \Exception('请填写自定义商品内容');
+                }
+
+                $content = [
+                    'product_content' => $product_content,
+                ];
+
+                $product->translate = $product_content;
             }
 
             $product->type = $product_type;

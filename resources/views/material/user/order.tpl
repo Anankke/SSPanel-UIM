@@ -25,8 +25,8 @@
                             <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>操作</th>
+                                        <th>#</th>
                                         <th>商品名称</th>
                                         <th>商品类型</th>
                                         <th>商品售价</th>
@@ -39,10 +39,10 @@
                                 <tbody>
                                     {foreach $orders as $order}
                                         <tr>
-                                            <td>{$order->no}</td>
                                             <td>
                                                 <a href="/user/order/{$order->no}">详情</a>
                                             </td>
+                                            <td>{$order->no}</td>
                                             <td>{$order->product_name}</td>
                                             <td>{$order->product_type}</td>
                                             <td>{sprintf("%.2f", $order->product_price / 100)}</td>

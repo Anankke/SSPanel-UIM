@@ -101,6 +101,7 @@
                             <option value="tatp">时间流量包</option>
                             <option value="time">时间包</option>
                             <option value="traffic">流量包</option>
+                            <option value="other">自定义商品</option>
                             <option value="invite" disabled>邀请码（等待开发）</option>
                             <option value="device" disabled>设备限制（等待开发）</option>
                         </select>
@@ -115,6 +116,18 @@
                         <label class="form-label col-3 col-form-label">商品售价</label>
                         <div class="col">
                             <input id="product_price" type="number" step="0.01" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 row">
+                        <label class="form-label col-3 col-form-label">自定义商品内容</label>
+                        <div class="col">
+                            <input id="product_content" type="text" class="form-control" placeholder="自定义商品才需填写此项">
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 row">
+                        <label class="form-label col-3 col-form-label">商品库存</label>
+                        <div class="col">
+                            <input id="product_stock" type="text" class="form-control" placeholder="不限制填个大数">
                         </div>
                     </div>
                     <div class="form-group mb-3 row">
@@ -177,12 +190,6 @@
                         <label class="form-label col-3 col-form-label">限制设备</label>
                         <div class="col">
                             <input id="product_device" type="text" class="form-control" placeholder="不限制填0">
-                        </div>
-                    </div>
-                    <div class="form-group mb-3 row">
-                        <label class="form-label col-3 col-form-label">商品库存</label>
-                        <div class="col">
-                            <input id="product_stock" type="text" class="form-control" placeholder="不限制填个大数">
                         </div>
                     </div>
                     <div class="mb-3">
@@ -316,6 +323,9 @@
                         $("#product_reset_traffic").val(result.content.product_reset_traffic);
                         $("#product_reset_class_time").val(result.content.product_reset_class_time);
                     }
+                    if (result.data.type == 'other') {
+                        $("#product_content").val(result.data.translate);
+                    }
                 }
             });
 
@@ -331,6 +341,7 @@
                     product_type: $('#product_type').val(),
                     product_name: $('#product_name').val(),
                     product_price: $('#product_price').val(),
+                    product_content: $('#product_content').val(),
                     product_time: $('#product_time').val(),
                     product_traffic: $('#product_traffic').val(),
                     product_class: $('#product_class').val(),

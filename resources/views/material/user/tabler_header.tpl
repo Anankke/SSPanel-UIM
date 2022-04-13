@@ -232,10 +232,6 @@
                                 <div class="dropdown-menu">
                                     <div class="dropdown-menu-columns">
                                         <div class="dropdown-menu-column">
-                                            <a class="dropdown-item" href="/user/code">
-                                                <i class="ti ti-coin"></i>&nbsp;
-                                                账户充值
-                                            </a>
                                             <a class="dropdown-item" href="/user/product">
                                                 <i class="ti ti-shopping-cart"></i>&nbsp;
                                                 商品列表
