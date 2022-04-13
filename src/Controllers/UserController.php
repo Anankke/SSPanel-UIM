@@ -183,6 +183,17 @@ class UserController extends BaseController
         );
     }
 
+    public function orderStatus($request, $response, $args)
+    {
+        $order_no = $args['no'];
+        $order = ProductOrder::where('no', $order_no)->first();
+
+        return $response->withJson([
+            'ret' => 1,
+            'status' => $order->order_status
+        ]);
+    }
+
     public function orderIndex($request, $response, $args)
     {
         $orders = ProductOrder::where('user_id', $this->user->id)->get();
@@ -190,7 +201,7 @@ class UserController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('orders', $orders)
-                ->display('user/order.tpl')
+                ->display('user/order/list.tpl')
         );
     }
 
@@ -242,7 +253,7 @@ class UserController extends BaseController
                     $coupon->save();
                 }
             } else {
-
+                return Payment::create($payment, $order->no, ($order->order_price / 100));
             }
         } catch (\Exception $e) {
             return $response->withJson([
@@ -255,6 +266,67 @@ class UserController extends BaseController
             'ret' => 1,
             'msg' => '购买成功'
         ]);
+    }
+
+    public static function execute($order_no)
+    {
+        $order = ProductOrder::where('no', $order_no)->first();
+        $product = Product::find($order->product_id);
+        $user = User::find($order->user_id);
+        $order->order_status = 'paid';
+        $order->updated_at = time();
+        $order->paid_at = time();
+        $order->save();
+
+        $product_content = json_decode($product->content, true);
+        foreach ($product_content as $key => $value)
+        {
+            switch ($key) {
+                case 'product_time':
+                    if ($product_content['product_reset_time'] == '1') {
+                        $user->expire_in = date('Y-m-d H:i:s', time() + ($value * 86400));
+                    } else {
+                        $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + ($value * 86400));
+                    }
+                    break;
+                case 'product_traffic':
+                    if ($product_content['product_reset_traffic'] == '1') {
+                        $user->transfer_enable = ($user->u + $user->d) + ($value * 1073741824);
+                    } else {
+                        $user->transfer_enable += $value * 1073741824;
+                    }
+                    break;
+                case 'product_class':
+                    $user->class = $value;
+                    break;
+                case 'product_class_time':
+                    if ($product_content['product_reset_class_time'] == '1') {
+                        // 用户等级与套餐等级不同时，重置为套餐等级时长；相同时叠加
+                        $pct = $product_content['product_class_time'];
+                        if ($user->class != $product_content['product_class']) {
+                            $user->class_expire = date('Y-m-d H:i:s', time() + ($pct * 86400));
+                        } else {
+                            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + ($pct * 86400));
+                        }
+                    } elseif ($product_content['product_reset_class_time'] == '2') {
+                        // 用户等级与套餐等级不同时，重置为套餐等级时长；相同时重置
+                        $pct = $product_content['product_class_time'];
+                        $user->class_expire = date('Y-m-d H:i:s', time() + ($pct * 86400));
+                    } elseif ($product_content['product_reset_class_time'] == '3') {
+                        // 将用户等级到期时间调整为购买后的账户到期时间
+                        $user->class_expire = $user->expire_in;
+                    }
+                    break;
+                case 'product_speed':
+                    $user->node_speedlimit = $value;
+                    break;
+                case 'product_device':
+                    $user->node_connector = $value;
+                    break;
+            }
+        }
+
+        $user->save();
     }
 
     public function resetPort($request, $response, $args)

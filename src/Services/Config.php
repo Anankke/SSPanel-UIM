@@ -33,6 +33,7 @@ class Config
             'appName'                 => $_ENV['appName'],
             'baseUrl'                 => $_ENV['baseUrl'],
             // 充值
+            'active_payments'         => $_ENV['active_payments'],
             'stripe_min_recharge'     => $public_configs['stripe_min_recharge'],
             'stripe_max_recharge'     => $public_configs['stripe_max_recharge'],
             // 个性化

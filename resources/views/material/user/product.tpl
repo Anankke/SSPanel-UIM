@@ -274,7 +274,7 @@
                         $('#success-dialog').modal('show');
                         setTimeout(function() {
                             $(location).attr('href', '/user/order/' + data.order_id);
-                        }, 2000);
+                        }, 1500);
                     } else {
                         $('#fail-message').text(data.msg);
                         $('#product-buy-dialog').modal('hide');

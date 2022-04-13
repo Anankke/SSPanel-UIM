@@ -133,24 +133,28 @@
                                                     </div>
                                                 </div>
                                             </label>
-                                            <label class="form-selectgroup-item flex-fill">
-                                                <input value="other" id="payment-method" type="radio" name="payment-method"
-                                                    class="form-selectgroup-input">
-                                                <div class="form-selectgroup-label d-flex align-items-center p-3">
-                                                    <div class="me-3">
-                                                        <span class="form-selectgroup-check"></span>
-                                                    </div>
-                                                    <div>
-                                                        其他方式
-                                                    </div>
-                                                </div>
-                                            </label>
+                                            {foreach $config['active_payments'] as $key => $value}
+                                                {if $value['enable'] == true}
+                                                    <label class="form-selectgroup-item flex-fill">
+                                                        <input value="{$key}" class="form-selectgroup-input" id="payment-method"
+                                                            type="radio" name="payment-method">
+                                                        <div class="form-selectgroup-label d-flex align-items-center p-3">
+                                                            <div class="me-3">
+                                                                <span class="form-selectgroup-check"></span>
+                                                            </div>
+                                                            <div>
+                                                                {$value['name']}
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                {/if}
+                                            {/foreach}
                                         </div>
                                     </div>
                                     <div>
-                                        <a id="submit-payment" href="#" class="btn btn-primary w-100">
+                                        <button id="submit-payment" href="#" class="btn btn-primary w-100">
                                             支付
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -195,11 +199,26 @@
                     <div class="w-100">
                         <div class="row">
                             <div class="col">
-                                <a id="success-confirm" href="#" class="btn w-100" data-bs-dismiss="modal">
+                                <a id="success-confirm" href="#" class="btn btn-primary w-100" data-bs-dismiss="modal">
                                     好
                                 </a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="waiting-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-yellow"></div>
+                <div class="modal-body">
+                    <div>
+                        <p id="qrcode"></p>
+                        <p id="waiting-message" class="text-muted">等待</p>
                     </div>
                 </div>
             </div>
@@ -238,8 +257,27 @@
     </div>
 
     <script>
+        function getOrderStatus() {
+            $.ajax({
+                method: 'GET',
+                url: '/user/order/status/{$order->no}',
+                dataType: "json",
+                success: function(data) {
+                    if (data.status == 'paid') {
+                        clearInterval(cycle);
+                        $('#success-message').text('订单已确认');
+                        $('#waiting-dialog').modal('hide');
+                        $('#success-dialog').modal('show');
+                    }
+                }
+            });
+        }
+
         $("#submit-payment").click(function() {
             payment = $('input:radio:checked').val();
+            $("#submit-payment").attr('disabled', true);
+            $('#submit-payment').text('正在处理');
+
             $.ajax({
                 url: '/user/order',
                 type: 'PUT',
@@ -250,8 +288,22 @@
                 },
                 success: function(data) {
                     if (data.ret == 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
+                        if (data.type == 'qrcode') {
+                            var qrcode = new QRCode('qrcode', {
+                                text: data.qrcode,
+                                width: 150,
+                                height: 150,
+                                colorDark: '#000000',
+                                colorLight: '#ffffff',
+                                correctLevel: QRCode.CorrectLevel.H
+                            });
+                            $('#waiting-message').text(data.msg);
+                            $('#waiting-dialog').modal('show');
+                            cycle = setInterval(getOrderStatus, 1500);
+                        }
+                        if (data.type == 'link') {
+                            window.location.href = data.link;
+                        }
                     } else {
                         $('#fail-message').text(data.msg);
                         $('#fail-dialog').modal('show');
@@ -262,6 +314,18 @@
 
         $("#success-confirm").click(function() {
             location.reload();
+        });
+
+        $('#waiting-dialog').on('hide.bs.modal', function() {
+            $('#qrcode').html('');
+            $("#submit-payment").attr('disabled', false);
+            $('#submit-payment').text('重新支付');
+        });
+
+        $('#fail-dialog').on('hide.bs.modal', function() {
+            $('#qrcode').html('');
+            $("#submit-payment").attr('disabled', false);
+            $('#submit-payment').text('重新支付');
         });
     </script>
 {include file='user/tabler_footer.tpl'}

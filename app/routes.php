@@ -53,6 +53,7 @@ return function (SlimApp $app) {
         $this->get('/product',                  App\Controllers\UserController::class . ':productIndex');
         $this->get('/order',                    App\Controllers\UserController::class . ':orderIndex');
         $this->get('/order/{no}',               App\Controllers\UserController::class . ':orderDetails');
+        $this->get('/order/status/{no}',        App\Controllers\UserController::class . ':orderStatus');
         $this->post('/order',                   App\Controllers\UserController::class . ':createOrder');
         $this->put('/order',                    App\Controllers\UserController::class . ':processOrder');
         $this->post('/coupon_check',            App\Controllers\UserController::class . ':couponCheck');
