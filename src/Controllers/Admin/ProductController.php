@@ -20,13 +20,11 @@ class ProductController extends AdminController
             $text .= '，设置等级为' . $array['product_class'];
             $text .= '，等级时效' . $array['product_class_time'] . '天';
             if ($array['product_reset_class_time'] == '1') {
-                $text .= '（直接叠加等级时长）';
-            } elseif ($array['product_reset_class_time'] == '2') {
-                $text .= '（直接重置为套餐等级时长）';
-            } elseif ($array['product_reset_class_time'] == '3') {
                 $text .= '（用户等级与套餐等级不同时，重置为套餐等级时长；相同时叠加）';
-            } elseif ($array['product_reset_class_time'] == '4') {
+            } elseif ($array['product_reset_class_time'] == '2') {
                 $text .= '（用户等级与套餐等级不同时，重置为套餐等级时长；相同时重置）';
+            } elseif ($array['product_reset_class_time'] == '3') {
+                $text .= '（将用户等级到期时间调整为购买后的账户到期时间）';
             }
         }
         if ($type == 'time') {

@@ -174,10 +174,9 @@
                     </div>
                     <div class="mb-3">
                         <select id="product_reset_class_time" class="form-select">
-                            <option value="1">直接叠加等级时长</option>
-                            <option value="2">直接重置为套餐等级时长</option>
-                            <option value="3">用户等级与套餐等级不同时，重置为套餐等级时长；相同时叠加</option>
-                            <option value="4">用户等级与套餐等级不同时，重置为套餐等级时长；相同时重置</option>
+                            <option value="1">用户等级与套餐等级不同时，重置为套餐等级时长；相同时叠加</option>
+                            <option value="2">用户等级与套餐等级不同时，重置为套餐等级时长；相同时重置</option>
+                            <option value="3">将用户等级到期时间调整为购买后的账户到期时间</option>
                         </select>
                     </div>
                     <div class="form-group mb-3 row">
