@@ -263,7 +263,7 @@ class UserController extends BaseController
         }
 
         return $response->withJson([
-            'ret' => 1,
+            'ret' => 2,
             'msg' => '购买成功'
         ]);
     }

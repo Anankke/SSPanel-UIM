@@ -305,8 +305,13 @@
                             window.location.href = data.link;
                         }
                     } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
+                        if (data.ret == 0) {
+                            $('#fail-message').text(data.msg);
+                            $('#fail-dialog').modal('show');
+                        } else {
+                            $('#success-message').text(data.msg);
+                            $('#success-dialog').modal('show');
+                        }
                     }
                 }
             })
