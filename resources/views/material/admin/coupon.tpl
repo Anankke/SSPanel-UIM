@@ -51,6 +51,7 @@
                                         <th>#</th>
                                         <th>操作</th>
                                         <th>优惠码</th>
+                                        <th>状态</th>
                                         <th>折扣额度</th>
                                         <th>商品范围限制</th>
                                         <th>单用户使用限制</th>
@@ -69,6 +70,15 @@
                                                 <a href="#" onclick="edit('{$coupon->id}')">编辑</a>
                                             </td>
                                             <td>{$coupon->coupon}</td>
+                                            {if time() > $coupon->expired_at}
+                                                <td>已过期</td>
+                                            {else}
+                                                {if $coupon->use_count >= $coupon->total_limit}
+                                                    <td>已用尽</td>
+                                                {else}
+                                                    <td>可用</td>
+                                                {/if}
+                                            {/if}
                                             <td>{$coupon->discount}</td>
                                             <td>{$coupon->product_limit}</td>
                                             <td>{$coupon->user_limit}</td>
@@ -139,8 +149,7 @@
                     <button id="coupon-create" onclick="createOrUpdate('/admin/coupon', 'POST')" type="button"
                         class="btn btn-primary" data-bs-dismiss="modal">创建</button>
                     <button id="coupon-delete" type="button" class="btn btn-red" data-bs-dismiss="modal">删除</button>
-                    <button id="coupon-update" type="button" class="btn btn-primary"
-                        data-bs-dismiss="modal">更新</button>
+                    <button id="coupon-update" type="button" class="btn btn-primary" data-bs-dismiss="modal">更新</button>
                 </div>
             </div>
         </div>
@@ -356,6 +365,10 @@
             $("#coupon-create").show();
             $('#time_limit').removeAttr('disabled');
         });
+
+        $("td:contains('可用')").css("color", "green");
+        $("td:contains('已用尽')").css("color", "orange");
+        $("td:contains('已过期')").css("color", "red");
     </script>
 
 {include file='admin/tabler_admin_footer.tpl'}
