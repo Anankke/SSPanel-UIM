@@ -24,11 +24,11 @@
                         <div class="card-body">
                             <h3 class="card-title">邀请规则</h3>
                             <ul>
-                                <li>对方在进行账户充值或购买套餐后，您可获得订单金额的 <code>{$config['code_payback'] * 100} %</code>
+                                <li>邀请注册的用户在账单确认后，您可获得订单金额的 <code>{$config['code_payback'] * 100} %</code>
                                     作为返利</li>
                                 <li>具体邀请返利规则请查看公告，或通过工单系统询问管理员</li>
                             </ul>
-                            <p>您通过邀请好友获得的总返利为 <code>{$paybacks_sum}</code> 元</p>
+                            <p>您目前通过邀请好友获得的总返利为 <code>{$paybacks_sum}</code> 元</p>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="d-flex">
-                                <a id="reset-url" class="btn btn-link">重置</a>
+                                <a id="reset-url" class="btn text-red btn-link">重置</a>
                                 <a id="copy-url" data-clipboard-text="{$invite_url}"
                                     class="copy btn btn-primary ms-auto">复制</a>
                             </div>

@@ -70,7 +70,6 @@ class Config
             'checkinMax'              => $_ENV['checkinMax'],
             'jump_delay'              => $_ENV['jump_delay'],
             'enable_analytics_code'   => $_ENV['enable_analytics_code'],
-            'enable_donate'           => $_ENV['enable_donate'],
             'enable_ticket'           => $_ENV['enable_ticket'],
             'enable_reg_im'           => $_ENV['enable_reg_im'],
             'enable_flag'             => $_ENV['enable_flag'],

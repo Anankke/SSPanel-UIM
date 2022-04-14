@@ -203,14 +203,6 @@ return function (SlimApp $app) {
         $this->post('/login/ajax',              App\Controllers\Admin\IpController::class . ':ajax_login');
         $this->post('/alive/ajax',              App\Controllers\Admin\IpController::class . ':ajax_alive');
 
-        // Code Mange
-        $this->get('/code',                     App\Controllers\Admin\CodeController::class . ':index');
-        $this->get('/code/create',              App\Controllers\Admin\CodeController::class . ':create');
-        $this->post('/code',                    App\Controllers\Admin\CodeController::class . ':add');
-        $this->get('/donate/create',            App\Controllers\Admin\CodeController::class . ':donate_create');
-        $this->post('/donate',                  App\Controllers\Admin\CodeController::class . ':donate_add');
-        $this->post('/code/ajax',               App\Controllers\Admin\CodeController::class . ':ajax_code');
-
         // User Mange
         $this->get('/user',                     App\Controllers\Admin\UserController::class . ':index');
         $this->get('/user/{id}/edit',           App\Controllers\Admin\UserController::class . ':edit');

@@ -236,9 +236,6 @@ $_ENV['sales_period']         = 30;             //统计指定周期内的销量
 $_ENV['enable_flag']          = true;            //启用该项之前务必先仔细阅读教程
 $_ENV['flag_regex']           = '/.*?(?=\s)/';   //从站点全名中匹配【国家/地区】的正则表达式(php版)
 
-#捐赠
-$_ENV['enable_donate']        = true;          //是否显示用户捐赠（所有收入将被公开）
-
 #iOS账户显示
 $_ENV['display_ios_class']    = -1;        //至少等级为多少的用户可以看见，小于0时关闭此功能
 $_ENV['display_ios_topup']    = 0;         //满足等级要求后，累计充值高于多少的用户可以看见
