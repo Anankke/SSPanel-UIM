@@ -133,8 +133,8 @@ class UserController extends AdminController
         $user->im_value             = $email;
         $user->transfer_enable      = Tools::toGB($configs['sign_up_for_free_traffic']);
         $user->invite_num           = $configs['sign_up_for_invitation_codes'];
-        $user->auto_reset_day       = $_ENV['free_user_reset_day'];
-        $user->auto_reset_bandwidth = $_ENV['free_user_reset_bandwidth'];
+        $user->auto_reset_day       = '0';
+        $user->auto_reset_bandwidth = '0';
         $user->money                = ($money != -1 ? $money : 0);
         $user->class_expire         = date('Y-m-d H:i:s', time() + $configs['sign_up_for_class_time'] * 86400);
         $user->class                = $configs['sign_up_for_class'];
@@ -174,7 +174,6 @@ class UserController extends AdminController
                     $res['msg'] .= '<br/>但是套餐添加失败了，原因是套餐不存在';
                 }
             }
-            $user->addMoneyLog($user->money);
             $subject            = $_ENV['appName'] . '-新用户注册通知';
             $to                 = $user->email;
             $text               = '您好，管理员已经为您生成账户，用户名: ' . $email . '，登录密码为：' . $pass . '，感谢您的支持。 ';
@@ -235,8 +234,6 @@ class UserController extends AdminController
         $user->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
         $origin_port = $user->port;
         $user->port = $request->getParam('port');
-
-        $user->addMoneyLog($request->getParam('money') - $user->money);
 
         $user->passwd           = $request->getParam('passwd');
         $user->protocol         = $request->getParam('protocol');

@@ -49,16 +49,13 @@ class InfoCommand extends Command
             if (!in_array($SendUser['id'], $_ENV['telegram_admins'])) {
                 $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
                 if ($AdminUser == null) {
-                    // 非管理员回复消息
-                    if ($_ENV['enable_not_admin_reply'] === true && $_ENV['not_admin_reply_msg'] != '') {
-                        $response = $this->replyWithMessage(
-                            [
-                                'text'                  => $_ENV['not_admin_reply_msg'],
-                                'parse_mode'            => 'HTML',
-                                'reply_to_message_id'   => $MessageID,
-                            ]
-                        );
-                    }
+                    $response = $this->replyWithMessage(
+                        [
+                            'text'                  => '您无权限',
+                            'parse_mode'            => 'HTML',
+                            'reply_to_message_id'   => $MessageID,
+                        ]
+                    );
                     return;
                 }
             }
@@ -73,7 +70,7 @@ class InfoCommand extends Command
                 if ($User == null) {
                     $response = $this->replyWithMessage(
                         [
-                            'text'                  => $_ENV['no_user_found'],
+                            'text'                  => '无此用户',
                             'reply_to_message_id'   => $MessageID,
                         ]
                     );

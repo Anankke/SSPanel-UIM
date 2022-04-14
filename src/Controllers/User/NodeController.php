@@ -46,7 +46,7 @@ class NodeController extends UserController
             $array_node['name']           = $node->name;
             $array_node['class']          = $node->node_class;
             $array_node['info']           = $node->info;
-            $array_node['flag']           = $node->get_node_flag();
+            $array_node['flag']           = 'unknown.png';
             $array_node['online_user']    = $node->get_node_online_user_count();
             $array_node['online']         = $node->get_node_online_status();
             $array_node['latest_load']    = $node->get_node_latest_load_text();

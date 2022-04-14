@@ -142,14 +142,7 @@ class Shop extends Model
             switch ($key) {
                 case 'bandwidth':
                     if ($is_renew == 0) {
-                        if ($_ENV['enable_bought_reset'] == true) {
-                            $user->transfer_enable = $value * 1024 * 1024 * 1024;
-                            $user->u = 0;
-                            $user->d = 0;
-                            $user->last_day_t = 0;
-                        } else {
-                            $user->transfer_enable += $value * 1024 * 1024 * 1024;
-                        }
+                        $user->transfer_enable += $value * 1024 * 1024 * 1024;
                     } elseif ($this->auto_reset_bandwidth == 1) {
                         $user->transfer_enable = $value * 1024 * 1024 * 1024;
                         $user->u = 0;
@@ -167,18 +160,9 @@ class Shop extends Model
                     }
                     break;
                 case 'class':
-                    if ($_ENV['enable_bought_extend'] == true) {
-                        if ($user->class == $value) {
-                            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + $this->content['class_expire'] * 86400);
-                        } else {
-                            $user->class_expire = date('Y-m-d H:i:s', time() + $this->content['class_expire'] * 86400);
-                        }
-                        $user->class = $value;
-                    } else {
-                        $user->class = $value;
-                        $user->class_expire = date('Y-m-d H:i:s', time() + $this->content['class_expire'] * 86400);
-                        break;
-                    }
+                    $user->class = $value;
+                    $user->class_expire = date('Y-m-d H:i:s', time() + $this->content['class_expire'] * 86400);
+                    break;
                 case 'speedlimit':
                     $user->node_speedlimit = $value;
                     break;
@@ -198,18 +182,6 @@ class Shop extends Model
     public function use_loop(): bool
     {
         return ($this->reset() != 0 && $this->reset_value() != 0 && $this->reset_exp() != 0);
-    }
-
-    /*
-     * 获取周期商品销量
-     */
-    public function getSales(): int
-    {
-        $period = $_ENV['sales_period'];
-        if ($period == 'expire') {
-            $period = $this->content['class_expire'];
-        }
-        return Bought::where('shopid', $this->id)->where('datetime', '>', time() - $period * 86400)->count();
     }
 
     /*

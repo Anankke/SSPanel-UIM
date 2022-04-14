@@ -338,7 +338,7 @@ class ShopController extends AdminController
             $tempdata['auto_renew']           = $value->auto_renew();
             $tempdata['auto_reset_bandwidth'] = $value->auto_reset_bandwidth();
             $tempdata['status']               = $value->status();
-            $tempdata['period_sales']         = $value->getSales();
+            $tempdata['period_sales']         = '0';
 
             $data[] = $tempdata;
         }

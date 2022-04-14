@@ -488,11 +488,6 @@
                                                         .
                                                         <a id="win_qv2ray" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#win_qv2ray","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
                                                     </p>
-                                            {if array_key_exists('Windows',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['Windows']) != 0}
-                                                    {printClient items=$config['userCenterClient']['Windows']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_mac">
                                                 <p><span class="icon icon-lg text-white">filter_1</span> Surge - [ SS/VMess ]：</p>
@@ -568,31 +563,8 @@
                                                         .
                                                         <a id="mac_qv2ray" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#mac_qv2ray","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
                                                     </p>
-                                            {if array_key_exists('macOS',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['macOS']) != 0}
-                                                    {printClient items=$config['userCenterClient']['macOS']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_ios">
-                                            {if $display_ios_class>=0}
-                                                {if $user->class>=$display_ios_class && $user->get_top_up()>=$display_ios_topup}
-                                                <div><span class="icon icon-lg text-white">account_box</span> 本站iOS账户：</div>
-                                                <div class="float-clear">
-                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_account}">点击复制</button>
-                                                    <br>
-                                                </div>
-                                                <div><span class="icon icon-lg text-white">lock</span> 本站iOS密码：</div>
-                                                <div class="float-clear">
-                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_password}" readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_password}">点击复制</button>
-                                                    <br>
-                                                </div>
-                                                <p><span class="icon icon-lg text-white">error</span><strong>禁止将账户分享给他人！</strong></p>
-                                                <hr/>
-                                                {/if}
-                                            {/if}
                                                 <p><span class="icon icon-lg text-white">filter_1</span> Surge - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
@@ -694,11 +666,6 @@
                                                     .
                                                     <a class="btn-dl" href="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
                                                 </p>
-                                            {if array_key_exists('iOS',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['iOS']) != 0}
-                                                    {printClient items=$config['userCenterClient']['iOS']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_android">
                                                 <p><span class="icon icon-lg text-white">filter_1</span> SS - [ SS ]：</p>
@@ -790,11 +757,6 @@
                                                         .
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
-                                            {if array_key_exists('Android',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['Android']) != 0}
-                                                    {printClient items=$config['userCenterClient']['Android']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_linux">
                                                 <p><span class="icon icon-lg text-white">filter_1</span> Electron SSR - [ SS/SSR ]：</p>
@@ -822,11 +784,6 @@
                                                         .
                                                         <a id="linux_qv2ray" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#linux_qv2ray","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
                                                     </p>
-                                            {if array_key_exists('Linux',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['Linux']) != 0}
-                                                    {printClient items=$config['userCenterClient']['Linux']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_router">
                                                 <p><span class="icon icon-lg text-white">filter_1</span> Koolshare 固件路由器/软路由：</p>
@@ -842,11 +799,6 @@
                                                         .
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝 V2Ray 订阅链接</a>
                                                     </p>
-                                            {if array_key_exists('Router',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['Router']) != 0}
-                                                    {printClient items=$config['userCenterClient']['Router']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                         </div>
                                     </div>

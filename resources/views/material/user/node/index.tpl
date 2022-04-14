@@ -53,11 +53,6 @@
                                 <div class="node-card node-flex" cardindex="{$index}">
                                     <div class="nodemain">
                                         <div class="nodehead node-flex" title="节点名称">
-{*                                        *}{if $config['enable_flag'] === true}
-                                            <div class="flag">
-                                                <img src="/images/prefix/{$node['flag']}">
-                                            </div>
-{*                                        *}{/if}
                                             <div class="nodename">{$node['name']}</div>
                                         </div>
                                         <!-- 在线人数 -->
@@ -151,9 +146,6 @@
                                                 <div class="tile-inner">
                                                     <div class="text-overflow node-textcolor">
                                                         <span class="enable-flag" title="节点名称">
-{*                                                        *}{if $config['enable_flag'] === true}
-                                                            <img src="/images/prefix/{$node['flag']}" height="22"/>
-{*                                                        *}{/if}
                                                             {$node['name']}
                                                         </span>
                                                         |

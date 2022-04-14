@@ -137,7 +137,7 @@ class AuthController extends BaseController
 
         $time = 3600 * 24;
         if ($rememberMe) {
-            $time = 3600 * 24 * ($_ENV['rememberMeDuration'] ?: 7);
+            $time = 3600 * 24 * ($_ENV['cookie_expiration_time'] ?: 7);
         }
 
         Auth::login($user->id, $time);
@@ -370,8 +370,8 @@ class AuthController extends BaseController
 
         $user->transfer_enable      = Tools::toGB($configs['sign_up_for_free_traffic']);
         $user->invite_num           = $configs['sign_up_for_invitation_codes'];
-        $user->auto_reset_day       = $_ENV['free_user_reset_day'];
-        $user->auto_reset_bandwidth = $_ENV['free_user_reset_bandwidth'];
+        $user->auto_reset_day       = '0';
+        $user->auto_reset_bandwidth = '0';
         $user->money                = 0;
         $user->sendDailyMail        = $configs['sign_up_for_daily_report'];
 

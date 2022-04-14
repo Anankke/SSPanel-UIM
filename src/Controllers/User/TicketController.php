@@ -108,22 +108,6 @@ class TicketController extends UserController
                 );
             }
         }
-        if ($_ENV['useScFtqq'] == true && $markdown != '') {
-            $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
-            $postdata = http_build_query([
-                'text' => $_ENV['appName'] . '-新工单被开启',
-                'desp' => $markdown
-            ]);
-            $opts = [
-                'http' => [
-                    'method' => 'POST',
-                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                    'content' => $postdata
-                ]
-            ];
-            $context = stream_context_create($opts);
-            file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
-        }
 
         return $response->withJson([
             'ret' => 1,
@@ -172,22 +156,6 @@ class TicketController extends UserController
                     );
                 }
             }
-            if ($_ENV['useScFtqq'] == true && $markdown != '') {
-                $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
-                $postdata = http_build_query([
-                    'text' => $_ENV['appName'] . '-工单被重新开启',
-                    'desp' => $markdown
-                ]);
-                $opts = [
-                    'http' => [
-                        'method' => 'POST',
-                        'header' => 'Content-type: application/x-www-form-urlencoded',
-                        'content' => $postdata
-                    ]
-                ];
-                $context = stream_context_create($opts);
-                file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
-            }
         } else {
             if ($_ENV['mail_ticket'] == true && $markdown != '') {
                 $adminUser = User::where('is_admin', 1)->get();
@@ -201,22 +169,6 @@ class TicketController extends UserController
                         []
                     );
                 }
-            }
-            if ($_ENV['useScFtqq'] == true && $markdown != '') {
-                $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
-                $postdata = http_build_query([
-                    'text' => $_ENV['appName'] . '-工单被回复',
-                    'desp' => $markdown
-                ]);
-                $opts = [
-                    'http' => [
-                        'method' => 'POST',
-                        'header' => 'Content-type: application/x-www-form-urlencoded',
-                        'content' => $postdata
-                    ]
-                ];
-                $context = stream_context_create($opts);
-                file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
             }
         }
 

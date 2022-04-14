@@ -772,25 +772,6 @@ class User extends Model
     }
 
     /**
-     * 手动修改用户余额时增加充值记录，受限于 Config
-     *
-     * @param mixed $total 金额
-     */
-    public function addMoneyLog($total): void
-    {
-        if ($_ENV['money_from_admin'] && $total != 0) {
-            $codeq              = new Code();
-            $codeq->code        = ($total > 0 ? '管理员赏赐' : '管理员惩戒');
-            $codeq->isused      = 1;
-            $codeq->type        = -1;
-            $codeq->number      = $total;
-            $codeq->usedatetime = date('Y-m-d H:i:s');
-            $codeq->userid      = $this->id;
-            $codeq->save();
-        }
-    }
-
-    /**
      * 发送邮件
      *
      * @param string $subject

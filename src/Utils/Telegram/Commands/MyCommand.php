@@ -64,7 +64,7 @@ class MyCommand extends Command
             // 回送信息
             $response = $this->replyWithMessage(
                 [
-                    'text'                  => $_ENV['user_not_bind_reply'],
+                    'text'                  => '需要先在用户中心绑定你的账户',
                     'reply_to_message_id'   => $MessageID,
                     'parse_mode'            => 'Markdown',
                 ]

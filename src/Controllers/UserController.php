@@ -981,10 +981,6 @@ class UserController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('ssr_sub_token', $this->user->getSublink())
-                ->assign('display_ios_class', $_ENV['display_ios_class'])
-                ->assign('display_ios_topup', $_ENV['display_ios_topup'])
-                ->assign('ios_account', $_ENV['ios_account'])
-                ->assign('ios_password', $_ENV['ios_password'])
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
                 ->assign('geetest_html', $geetest_html)
                 ->assign('mergeSub', $_ENV['mergeSub'])

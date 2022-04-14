@@ -51,8 +51,8 @@ class TelegramTools
     {
         return [
             'id'    => [],
-            'email' => $_ENV['remark_user_search_email'],
-            'port'  => $_ENV['remark_user_search_port'],
+            'email' => ['邮箱'],
+            'port'  => ['端口'],
         ];
     }
 
@@ -64,24 +64,24 @@ class TelegramTools
     public static function getUserActionOption()
     {
         return [
-            'is_admin'          => $_ENV['remark_user_option_is_admin'],
-            'enable'            => $_ENV['remark_user_option_enable'],
-            'money'             => $_ENV['remark_user_option_money'],
-            'port'              => $_ENV['remark_user_option_port'],
-            'transfer_enable'   => $_ENV['remark_user_option_transfer_enable'],
-            'passwd'            => $_ENV['remark_user_option_passwd'],
-            'method'            => $_ENV['remark_user_option_method'],
-            'protocol'          => $_ENV['remark_user_option_protocol'],
-            'protocol_param'    => $_ENV['remark_user_option_protocol_param'],
-            'obfs'              => $_ENV['remark_user_option_obfs'],
-            'obfs_param'        => $_ENV['remark_user_option_obfs_param'],
-            'invite_num'        => $_ENV['remark_user_option_invite_num'],
-            'node_group'        => $_ENV['remark_user_option_node_group'],
-            'class'             => $_ENV['remark_user_option_class'],
-            'class_expire'      => $_ENV['remark_user_option_class_expire'],
-            'expire_in'         => $_ENV['remark_user_option_expire_in'],
-            'node_speedlimit'   => $_ENV['remark_user_option_node_speedlimit'],
-            'node_connector'    => $_ENV['remark_user_option_node_connector'],
+            'is_admin'          => ['管理员'],
+            'enable'            => ['用户启用'],
+            'money'             => ['金钱', '余额'],
+            'port'              => ['端口'],
+            'transfer_enable'   => ['流量'],
+            'passwd'            => ['连接密码'],
+            'method'            => ['加密'],
+            'protocol'          => ['协议'],
+            'protocol_param'    => ['协参', '协议参数'],
+            'obfs'              => ['混淆'],
+            'obfs_param'        => ['混参', '混淆参数'],
+            'invite_num'        => ['邀请数量'],
+            'node_group'        => ['用户组', '用户分组'],
+            'class'             => ['等级'],
+            'class_expire'      => ['等级过期时间'],
+            'expire_in'         => ['账号过期时间'],
+            'node_speedlimit'   => ['限速'],
+            'node_connector'    => ['连接数', '客户端'],
         ];
     }
 
@@ -329,9 +329,6 @@ class TelegramTools
                 break;
         }
         if ($User->save()) {
-            if ($useOptionMethod == 'money') {
-                $User->addMoneyLog($new - $old);
-            }
             $strArray = [
                 '目标用户：' . $Email,
                 '被修改项：' . $useOptionMethodName . '[' . $useOptionMethod . ']',

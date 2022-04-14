@@ -189,7 +189,7 @@ class Callback
             case 'general.pricing':
                 // 产品介绍
                 $sendMessage = [
-                    'text'                      => $_ENV['telegram_general_pricing'],
+                    'text'                      => '请访问用户中心获取',
                     'disable_web_page_preview'  => false,
                     'reply_to_message_id'       => null,
                     'reply_markup'              => json_encode(
@@ -202,7 +202,7 @@ class Callback
             case 'general.terms':
                 // 服务条款
                 $sendMessage = [
-                    'text'                      => $_ENV['telegram_general_terms'],
+                    'text'                      => '请访问用户中心获取',
                     'disable_web_page_preview'  => false,
                     'reply_to_message_id'       => null,
                     'reply_markup'              => json_encode(
