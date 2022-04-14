@@ -166,6 +166,12 @@ return function (SlimApp $app) {
         $this->get('/order',                    App\Controllers\Admin\OrderController::class . ':index');
         $this->post('/order/ajax',              App\Controllers\Admin\OrderController::class . ':ajaxQuery');
 
+        // Gift Card
+        $this->get('/giftcard',                 App\Controllers\Admin\GiftCardController::class . ':index');
+        $this->post('/giftcard',                App\Controllers\Admin\GiftCardController::class . ':add');
+        $this->post('/giftcard/ajax',           App\Controllers\Admin\GiftCardController::class . ':ajaxQuery');
+        $this->delete('/giftcard/{id}',         App\Controllers\Admin\GiftCardController::class . ':delete');
+
         // Ann Mange
         $this->get('/announcement',             App\Controllers\Admin\AnnController::class . ':index');
         $this->get('/announcement/create',      App\Controllers\Admin\AnnController::class . ':create');
