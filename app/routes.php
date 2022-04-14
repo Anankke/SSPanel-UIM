@@ -162,6 +162,10 @@ return function (SlimApp $app) {
         $this->put('/product/{id}',             App\Controllers\Admin\ProductController::class . ':update');
         $this->delete('/product/{id}',          App\Controllers\Admin\ProductController::class . ':delete');
 
+        // Order
+        $this->get('/order',                    App\Controllers\Admin\OrderController::class . ':index');
+        $this->post('/order/ajax',              App\Controllers\Admin\OrderController::class . ':ajaxQuery');
+
         // Ann Mange
         $this->get('/announcement',             App\Controllers\Admin\AnnController::class . ':index');
         $this->get('/announcement/create',      App\Controllers\Admin\AnnController::class . ':create');

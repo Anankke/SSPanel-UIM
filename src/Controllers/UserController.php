@@ -149,12 +149,14 @@ class UserController extends BaseController
             $order->product_price = $product->price;
             $order->order_coupon = (empty($coupon)) ? null : $coupon_code;
             $order->order_price = (empty($coupon)) ? $product->price : $product->price * $coupon->discount;
+            $order->order_payment = 'balance';
             $order->order_status = 'pending_payment';
             $order->created_at = time();
             $order->updated_at = time();
             $order->expired_at = time() + 600;
             $order->paid_at = time();
             $order->paid_action = json_encode(['action' => 'buy_product', 'params' => $product->id]);
+            $order->execute_status = 0;
             $order->save();
         } catch (\Exception $e) {
             return $response->withJson([
@@ -215,6 +217,10 @@ class UserController extends BaseController
         ->where('no', $order_no)
         ->first();
 
+        $payments = $_ENV['active_payments'];
+        $order->order_payment = empty($payments[$payment]['name']) ? 'balance' : $payments[$payment]['name'];
+        $order->save();
+
         $product = Product::find($order->product_id);
         if ($order->order_coupon != null) {
             $coupon = Coupon::where('coupon', $order->order_coupon)->first();
@@ -238,6 +244,9 @@ class UserController extends BaseController
                 $user->money -= $order->order_price / 100;
                 $user->save();
 
+                $order->order_payment = 'balance';
+                $order->save();
+
                 self::execute($order->no);
             } else {
                 return Payment::create($payment, $order->no, ($order->order_price / 100));
@@ -250,7 +259,7 @@ class UserController extends BaseController
         }
 
         return $response->withJson([
-            'ret' => 2,
+            'ret' => 2, // 0时表示错误; 1是在线支付订单创建成功状态码; 2分配给账户余额支付
             'msg' => '购买成功'
         ]);
     }
@@ -260,71 +269,77 @@ class UserController extends BaseController
         $order = ProductOrder::where('no', $order_no)->first();
         $product = Product::find($order->product_id);
         $user = User::find($order->user_id);
-        $order->order_status = 'paid';
         $order->updated_at = time();
-        $order->paid_at = time();
-        $order->save();
 
-        $product->stock -= 1; // 减库存
-        $product->sales += 1; // 加销量
-        $product->save();
+        if ($order->execute_status != '1') {
+            $order->order_status = 'paid';
+            $order->paid_at = time();
+            $order->save();
 
-        if (!empty($order->order_coupon)) {
-            $coupon = Coupon::where('coupon', $order->order_coupon)->first();
-            $coupon->use_count += 1;
-            $coupon->amount_count += ($order->product_price - $order->order_price) / 100;
-            $coupon->save();
-        }
+            $product->stock -= 1; // 减库存
+            $product->sales += 1; // 加销量
+            $product->save();
 
-        $product_content = json_decode($product->content, true);
-        foreach ($product_content as $key => $value)
-        {
-            switch ($key) {
-                case 'product_time':
-                    if (!empty($product_content['product_reset_time']) && $product_content['product_reset_time'] == '1') {
-                        $user->expire_in = date('Y-m-d H:i:s', time() + ($value * 86400));
-                    } else {
-                        $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + ($value * 86400));
-                    }
-                    break;
-                case 'product_traffic':
-                    if (!empty($product_content['product_reset_traffic']) && $product_content['product_reset_traffic'] == '1') {
-                        $user->transfer_enable = ($user->u + $user->d) + ($value * 1073741824);
-                    } else {
-                        $user->transfer_enable += $value * 1073741824;
-                    }
-                    break;
-                case 'product_class':
-                    $user->class = $value;
-                    break;
-                case 'product_class_time':
-                    if ($product_content['product_reset_class_time'] == '1') {
-                        // 用户等级与套餐等级不同时，重置为套餐等级时长；相同时叠加
-                        $pct = $product_content['product_class_time'];
-                        if ($user->class != $product_content['product_class']) {
-                            $user->class_expire = date('Y-m-d H:i:s', time() + ($pct * 86400));
-                        } else {
-                            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + ($pct * 86400));
-                        }
-                    } elseif ($product_content['product_reset_class_time'] == '2') {
-                        // 用户等级与套餐等级不同时，重置为套餐等级时长；相同时重置
-                        $pct = $product_content['product_class_time'];
-                        $user->class_expire = date('Y-m-d H:i:s', time() + ($pct * 86400));
-                    } elseif ($product_content['product_reset_class_time'] == '3') {
-                        // 将用户等级到期时间调整为购买后的账户到期时间
-                        $user->class_expire = $user->expire_in;
-                    }
-                    break;
-                case 'product_speed':
-                    $user->node_speedlimit = $value;
-                    break;
-                case 'product_device':
-                    $user->node_connector = $value;
-                    break;
+            if (!empty($order->order_coupon)) {
+                $coupon = Coupon::where('coupon', $order->order_coupon)->first();
+                $coupon->use_count += 1;
+                $coupon->amount_count += ($order->product_price - $order->order_price) / 100;
+                $coupon->save();
             }
+
+            $product_content = json_decode($product->content, true);
+            foreach ($product_content as $key => $value)
+            {
+                switch ($key) {
+                    case 'product_time':
+                        if (!empty($product_content['product_reset_time']) && $product_content['product_reset_time'] == '1') {
+                            $user->expire_in = date('Y-m-d H:i:s', time() + ($value * 86400));
+                        } else {
+                            $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + ($value * 86400));
+                        }
+                        break;
+                    case 'product_traffic':
+                        if (!empty($product_content['product_reset_traffic']) && $product_content['product_reset_traffic'] == '1') {
+                            $user->transfer_enable = ($user->u + $user->d) + ($value * 1073741824);
+                        } else {
+                            $user->transfer_enable += $value * 1073741824;
+                        }
+                        break;
+                    case 'product_class':
+                        $user->class = $value;
+                        break;
+                    case 'product_class_time':
+                        if ($product_content['product_reset_class_time'] == '1') {
+                            // 用户等级与套餐等级不同时，重置为套餐等级时长；相同时叠加
+                            $pct = $product_content['product_class_time'];
+                            if ($user->class != $product_content['product_class']) {
+                                $user->class_expire = date('Y-m-d H:i:s', time() + ($pct * 86400));
+                            } else {
+                                $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + ($pct * 86400));
+                            }
+                        } elseif ($product_content['product_reset_class_time'] == '2') {
+                            // 用户等级与套餐等级不同时，重置为套餐等级时长；相同时重置
+                            $pct = $product_content['product_class_time'];
+                            $user->class_expire = date('Y-m-d H:i:s', time() + ($pct * 86400));
+                        } elseif ($product_content['product_reset_class_time'] == '3') {
+                            // 将用户等级到期时间调整为购买后的账户到期时间
+                            $user->class_expire = $user->expire_in;
+                        }
+                        break;
+                    case 'product_speed':
+                        $user->node_speedlimit = $value;
+                        break;
+                    case 'product_device':
+                        $user->node_connector = $value;
+                        break;
+                }
+            }
+
+            $user->save();
         }
 
-        $user->save();
+        $order->execute_status = 1;
+        $order->save();
     }
 
     public function resetPort($request, $response, $args)
