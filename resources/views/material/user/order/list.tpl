@@ -28,12 +28,14 @@
                                         <th>操作</th>
                                         <th>商品名称</th>
                                         <th>账单状态</th>
+                                        <th>支付方式</th>
                                         <th>账单编号</th>
                                         <th>商品类型</th>
                                         <th>商品售价</th>
                                         <th>优惠码</th>
                                         <th>账单金额</th>
                                         <th>创建时间</th>
+                                        <th>支付时间</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,12 +54,18 @@
                                                     <td>等待支付</td>
                                                 {/if}
                                             {/if}
+                                            <td>{$order->order_payment}</td>
                                             <td>{$order->no}</td>
                                             <td>{$order->product_type}</td>
                                             <td>{sprintf("%.2f", $order->product_price / 100)}</td>
                                             <td>{(empty($order->order_coupon)) ? 'null' : $order->order_coupon}</td>
                                             <td>{sprintf("%.2f", $order->order_price / 100)}</td>
                                             <td>{date('Y-m-d H:i:s', $order->created_at)}</td>
+                                            {if $order->order_status == 'paid'}
+                                                <td>{date('Y-m-d H:i:s', $order->paid_at)}</td>
+                                            {else}
+                                                <td>null</td>
+                                            {/if}
                                         </tr>
                                     {/foreach}
                                 </tbody>
