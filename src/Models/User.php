@@ -521,12 +521,7 @@ class User extends Model
      */
     public function disableReason(): string
     {
-        $reason_id = DetectLog::where('user_id', $this->id)->orderBy('id', 'DESC')->first();
-        $reason    = DetectRule::find($reason_id->list_id);
-        if (is_null($reason)) {
-            return '特殊原因被禁用，了解详情请联系管理员';
-        }
-        return $reason->text;
+        return '你的账户被管理员停用了';
     }
 
     /**

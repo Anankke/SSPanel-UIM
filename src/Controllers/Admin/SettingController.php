@@ -45,28 +45,6 @@ class SettingController extends AdminController
         $class = $request->getParam('class');
         
         switch ($class) {
-            // 支付
-            case 'f2f_pay':
-                $list = array('f2f_pay_app_id', 'f2f_pay_pid', 'f2f_pay_public_key', 'f2f_pay_private_key', 'f2f_pay_notify_url');
-                break;
-            case 'vmq_pay':
-                $list = array('vmq_gateway', 'vmq_key');
-                break;
-            case 'payjs_pay':
-                $list = array('payjs_mchid', 'payjs_key');
-                break;
-            case 'theadpay':
-                $list = array('theadpay_url', 'theadpay_mchid', 'theadpay_key');
-                break;
-            case 'coinpay':
-                $list = array('coinpay_appid', 'coinpay_secret');
-                break;
-            case 'paymentwall':
-                $list = array('pmw_publickey', 'pmw_privatekey', 'pmw_widget', 'pmw_height');
-                break;
-            case 'stripe':
-                $list = array('stripe_card', 'stripe_currency', 'stripe_pk', 'stripe_sk', 'stripe_webhook_key', 'stripe_min_recharge', 'stripe_max_recharge');
-                break;
             // 邮件
             case 'mail':
                 $list = array('mail_driver');
@@ -93,14 +71,7 @@ class SettingController extends AdminController
             case 'verify_code_geetest':
                 $list = array('geetest_id', 'geetest_key');
                 break;
-            // 备份
-            case 'email_backup':
-                $list = array('auto_backup_email', 'auto_backup_password', 'auto_backup_notify');
-                break;
             // 客户服务
-            case 'admin_contact':
-                $list = array('enable_admin_contact', 'admin_contact1', 'admin_contact2', 'admin_contact3');
-                break;
             case 'web_customer_service_system':
                 $list = array('live_chat', 'tawk_id', 'crisp_id', 'livechat_id', 'mylivechat_id');
                 break;
@@ -111,9 +82,6 @@ class SettingController extends AdminController
             // 注册设置
             case 'register':
                 $list = array('reg_mode', 'reg_email_verify', 'email_verify_ttl', 'email_verify_ip_limit');
-                break;
-            case 'register_default_value':
-                $list = array('sign_up_for_free_traffic', 'sign_up_for_free_time', 'sign_up_for_class', 'sign_up_for_class_time', 'sign_up_for_invitation_codes', 'connection_device_limit', 'connection_rate_limit', 'sign_up_for_method', 'sign_up_for_protocol', 'sign_up_for_protocol_param', 'sign_up_for_obfs', 'sign_up_for_obfs_param', 'sign_up_for_daily_report');
                 break;
             // 返利设置
             case 'rebate_mode':

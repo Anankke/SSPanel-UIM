@@ -203,7 +203,7 @@
                     {if $enable_email_verify == true}
                         emailcode: $('#emailcode').val(),
                     {/if}
-                    tos: $('#tos').val(),
+                    tos: $('#tos').prop('checked'),
                     code: $('#code').val(),
                     name: $('#name').val(),
                     email: $('#email').val(),

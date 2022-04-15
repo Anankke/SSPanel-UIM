@@ -46,11 +46,6 @@ class Config
             'crisp_id'                => $public_configs['crisp_id'],
             'livechat_id'             => $public_configs['livechat_id'],
             'mylivechat_id'           => $public_configs['mylivechat_id'],
-            // 联系方式
-            'enable_admin_contact'    => $public_configs['enable_admin_contact'],
-            'admin_contact1'          => $public_configs['admin_contact1'],
-            'admin_contact2'          => $public_configs['admin_contact2'],
-            'admin_contact3'          => $public_configs['admin_contact3'],
             // 验证码
             'captcha_provider'        => $public_configs['captcha_provider'],
             'enable_reg_captcha'      => $public_configs['enable_reg_captcha'],

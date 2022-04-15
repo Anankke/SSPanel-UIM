@@ -38,6 +38,10 @@ $_ENV['active_payments'] = [
         'min' => '10',
         'max' => '1000',
         'enable' => true,
+        'f2f_pay_app_id'=> '',
+        'f2f_pay_pid'=> '',
+        'f2f_pay_public_key'=> '',
+        'f2f_pay_private_key'=> '',
     ],
     'universal' => [
         'name' => '',
@@ -161,12 +165,17 @@ $_ENV['Surfboard_DefaultProfiles']  = 'default'; // Surfboard 默认配置方案
     注册设置
 */
 
-$_ENV['reg_invite_num'] = '100'; // 注册时设置邀请码的可用次数，开放注册模式下不扣减邀请码次数，仅在仅允许邀请注册的情况下扣减
-$_ENV['reg_money'] = 0; // 注册时默认的账户余额，可以设置一个数，然后引导用户在商店购买试用套餐
 $_ENV['random_group'] = '0'; // 注册时随机分配到的分组，英文半角逗号分隔
 $_ENV['enable_reg_im'] = true; // 注册时是否要求用户输入IM联系方式
+$_ENV['reg_invite_num'] = '100'; // 注册时默认的邀请码可用次数，开放注册模式下不扣减邀请码次数，仅在仅允许邀请注册的情况下扣减
+$_ENV['reg_money'] = 0; // 注册时默认的账户余额，可以设置一个数，然后引导用户在商店购买试用套餐
 $_ENV['reg_forbidden_ip'] = '127.0.0.0/8,::1/128'; // 注册时默认禁止访问IP列表，英文半角逗号分隔
 $_ENV['reg_forbidden_port'] = ''; // 注册时默认禁止访问端口列表，英文半角逗号分隔，支持端口段
+$_ENV['reg_obfs'] = 'plain'; // 注册时默认的混淆
+$_ENV['reg_method'] = 'rc4-md5'; // 注册时默认的加密
+$_ENV['reg_protocol'] = 'origin'; // 注册时默认的协议
+$_ENV['reg_obfs_param'] = 'world.taobao.com'; // 注册时默认的混淆参数
+$_ENV['reg_protocol_param'] = ''; // 注册时默认的协议参数
 $_ENV['mu_suffix'] = 'microsoft.com'; // 单端口多用户混淆参数后缀，可以随意修改，但请保持前后端一致
 $_ENV['mu_regex'] = '%5m%id.%suffix'; // 单端口多用户混淆参数表达式，%5m代表取用户特征 md5 的前五位，%id 代表用户id, %suffix 代表上面这个后缀
 

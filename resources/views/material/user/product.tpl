@@ -53,47 +53,49 @@
                                 {foreach $product_lists as $key => $value}
                                     <div class="tab-pane show {if $key == 'tatp'}active{/if}" id="product-{$value}">
                                         <div class="row">
-                                            {foreach $products as $product}
-                                                {if $product->type == $key}
-                                                    <div class="col-md-3 col-sm-12 my-3">
-                                                        <div class="card card-md">
-                                                            <div class="card-body text-center">
-                                                                <div id="product-{$product->id}-name"
-                                                                    class="text-uppercase text-muted font-weight-medium">
-                                                                    {$product->name}</div>
-                                                                <div id="product-{$product->id}-price"
-                                                                    class="display-6 fw-bold my-3">{$product->price / 100}
-                                                                </div>
-                                                                <ul class="list-unstyled lh-lg">
-                                                                    {$product->html}
-                                                                </ul>
-                                                                <div class="row g-2">
-                                                                    {if $product->stock - $product->sales > '0'}
-                                                                        <div class="col">
-                                                                            <button onclick="buy('{$product->id}')" href="#"
-                                                                                class="btn btn-primary w-100">购买</button>
+                                            {if $count[$key] != '0'}
+                                                {foreach $products as $product}
+                                                    {if $product->type == $key}
+
+                                                        <div class="col-md-3 col-sm-12 my-3">
+                                                            <div class="card card-md">
+                                                                <div class="card-body text-center">
+                                                                    <div id="product-{$product->id}-name"
+                                                                        class="text-uppercase text-muted font-weight-medium">
+                                                                        {$product->name}</div>
+                                                                    <div id="product-{$product->id}-price"
+                                                                        class="display-6 fw-bold my-3">{$product->price / 100}
+                                                                    </div>
+                                                                    <ul class="list-unstyled lh-lg">
+                                                                        {$product->html}
+                                                                    </ul>
+                                                                    <div class="row g-2">
+                                                                        {if $product->stock - $product->sales > '0'}
+                                                                            <div class="col">
+                                                                                <button onclick="buy('{$product->id}')" href="#"
+                                                                                    class="btn btn-primary w-100">购买</button>
+                                                                            </div>
+                                                                        {else}
+                                                                            <div class="col">
+                                                                                <button href="#" class="btn btn-primary w-100"
+                                                                                    disabled>告罄</button>
+                                                                            </div>
+                                                                        {/if}
+                                                                        <div class="col-auto align-self-center">
+                                                                            <span class="form-help" data-bs-toggle="popover"
+                                                                                data-bs-placement="top"
+                                                                                data-bs-content="{$product->translate}"
+                                                                                data-bs-html="true">?</span>
                                                                         </div>
-                                                                    {else}
-                                                                        <div class="col">
-                                                                            <button href="#" class="btn btn-primary w-100"
-                                                                                disabled>告罄</button>
-                                                                        </div>
-                                                                    {/if}
-                                                                    <div class="col-auto align-self-center">
-                                                                        <span class="form-help" data-bs-toggle="popover"
-                                                                            data-bs-placement="top"
-                                                                            data-bs-content="{$product->translate}"
-                                                                            data-bs-html="true">?</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                {/if}
-                                            {/foreach}
-                                            {if $products_count_tatp == '0'}
+                                                    {/if}
+                                                {/foreach}
+                                            {else}
                                                 <div class="card-body">
-                                                    <p>空空如也</p>
+                                                    <p>此分类下没有商品</p>
                                                 </div>
                                             {/if}
                                         </div>

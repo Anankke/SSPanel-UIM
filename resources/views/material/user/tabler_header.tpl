@@ -261,7 +261,7 @@
                                             </a>
                                             <a class="dropdown-item" href="/user/order">
                                                 <i class="ti ti-checklist"></i>&nbsp;
-                                                订单记录
+                                                账单列表
                                             </a>
                                         </div>
                                     </div>

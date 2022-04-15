@@ -144,6 +144,9 @@ class AuthController extends BaseController
             $email = strtolower(trim($request->getParam('email')));
             $reg_mode = Setting::obtain('reg_mode');
 
+            if ($tos == 'false') {
+                throw new \Exception('请勾选同意服务条款与隐私政策');
+            }
             if ($name == '') {
                 throw new \Exception('请填写昵称');
             }
@@ -236,7 +239,7 @@ class AuthController extends BaseController
 
         $user->money = $_ENV['reg_money'];
         $user->email = $email;
-        $user->im_type = $imtype;
+        $user->im_type = ($imtype == '') ? 'none' : $imtype;
         $user->im_value = $antiXss->xss_clean($imvalue);
         $user->user_name = $antiXss->xss_clean($name);
         $user->port = Tools::getAvPort();
@@ -251,11 +254,11 @@ class AuthController extends BaseController
         $user->auto_reset_day = 0;
         $user->auto_reset_bandwidth = 0;
         $user->sendDailyMail = 0; // 默认不发送
-        $user->obfs = 'plain';
-        $user->method = 'rc4-md5';
-        $user->protocol = 'origin';
-        $user->obfs_param = 'world.taobao.com';
-        $user->protocol_param = '';
+        $user->obfs = $_ENV['reg_obfs'];
+        $user->method = $_ENV['reg_method'];
+        $user->protocol = $_ENV['reg_protocol'];
+        $user->obfs_param = $_ENV['reg_obfs_param'];
+        $user->protocol_param = $_ENV['reg_protocol_param'];
         $user->forbidden_ip = $_ENV['reg_forbidden_ip'];
         $user->forbidden_port = $_ENV['reg_forbidden_port'];
         if ($telegram_id) {

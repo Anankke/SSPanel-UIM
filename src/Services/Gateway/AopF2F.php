@@ -2,14 +2,13 @@
 namespace App\Services\Gateway;
 
 use App\Controllers\UserController;
-use App\Models\Setting;
 use Omnipay\Omnipay;
 
 class AopF2F
 {
     private function createGateway()
     {
-        $configs = Setting::getClass('f2f');
+        $configs = $_ENV['active_payments']['alipay_f2f'];
         $gateway = Omnipay::create('Alipay_AopF2F');
         $gateway->setSignType('RSA2');
         $gateway->setAppId($configs['f2f_pay_app_id']);

@@ -63,17 +63,19 @@ class UserController extends BaseController
             'traffic' => '流量包',
             'other' => '其他商品',
         ];
-        $products_count_tatp = Product::where('status', '1')->where('type', 'tatp')->count();
-        $products_count_time = Product::where('status', '1')->where('type', 'time')->count();
-        $products_count_traffic = Product::where('status', '1')->where('type', 'traffic')->count();
+
+        $count = [
+            'tatp' => Product::where('status', '1')->where('type', 'tatp')->count(),
+            'time' => Product::where('status', '1')->where('type', 'time')->count(),
+            'traffic' => Product::where('status', '1')->where('type', 'traffic')->count(),
+            'other' => Product::where('status', '1')->where('type', 'other')->count(),
+        ];
 
         return $response->write(
             $this->view()
+                ->assign('count', $count)
                 ->assign('products', $products)
                 ->assign('product_lists', $product_lists)
-                ->assign('products_count_tatp', $products_count_tatp)
-                ->assign('products_count_time', $products_count_time)
-                ->assign('products_count_traffic', $products_count_traffic)
                 ->display('user/product.tpl')
         );
     }
@@ -513,7 +515,7 @@ class UserController extends BaseController
 
     public function announcement($request, $response, $args)
     {
-        $anns = Ann::orderBy('date', 'desc')->get();
+        $anns = Ann::orderBy('date', 'desc')->limit(10)->get();
 
         return $response->write(
             $this->view()

@@ -1,39 +1,37 @@
-{include file='user/main.tpl'}
-<main class="content">
-    <div class="content-header ui-content-header">
-        <div class="container">
-            <h1 class="content-heading">虚空之地</h1>
-        </div>
-    </div>
-    <div class="container">
-        <section class="content-inner margin-top-no">
-            <div class="ui-card-wrap">
-                <div class="col-lg-12 col-md-12">
-                    <section class="content-inner margin-top-no">
-                        <div class="card">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    <p>您由于以下原因而被管理员禁用了账户：</p>
-                                    <p>{$user->disableReason()}</p>
-                                    {if $config['enable_admin_contact'] == true}
-                                        <p>如需帮助，请联系管理员：</p>
-                                        {if $config['admin_contact1'] != ''}
-                                            <li>{$config['admin_contact1']}</li>
-                                        {/if}
-                                        {if $config['admin_contact2'] != ''}
-                                            <li>{$config['admin_contact2']}</li>
-                                        {/if}
-                                        {if $config['admin_contact3'] != ''}
-                                            <li>{$config['admin_contact3']}</li>
-                                        {/if}
-                                    {/if}
-                                </div>
-                            </div>
-                        </div>
+{include file='user/tabler_header.tpl'}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <!-- Page pre-title -->
+                    <h2 class="page-title">
+                        <span class="home-title">访问受限</span>
+                    </h2>
+                    <div class="page-pretitle">
+                        <span class="home-subtitle">你暂时无法访问除此页面外的其他页面</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</main>
-
-{include file='user/footer.tpl'}
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-sm-12 col-lg-12">
+                    <div class="card">
+                        <div class="empty">
+                            <div class="empty-img">
+                                <img src="/theme/tabler/static/illustrations/undraw_quitting_time_dm8t.svg" height="128"
+                                    alt="">
+                            </div>
+                            <p class="empty-title">账户被停用</p>
+                            <p class="empty-subtitle text-muted">你的账户被管理员停用了，请联系管理员</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{include file='user/tabler_footer.tpl'}
