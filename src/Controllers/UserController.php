@@ -22,6 +22,7 @@ use App\Models\{
     BlockIp,
     LoginIp,
     Setting,
+    GiftCard,
     UnblockIp,
     DetectLog,
     DetectRule,
@@ -340,6 +341,35 @@ class UserController extends BaseController
 
         $order->execute_status = 1;
         $order->save();
+    }
+
+    public function redeemGiftCard($request, $response, $args)
+    {
+        $user = $this->user;
+        $card = $request->getParam('card');
+
+        try {
+            if ($card == '') {
+                throw new \Exception('请填写礼品卡');
+            }
+
+            $giftcard = GiftCard::where('card', $card)->first();
+            if ($giftcard == null) {
+                throw new \Exception('礼品卡不存在');
+            }
+            $user->money += $giftcard->balance;
+            $user->save();
+        } catch (\Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $e->getMessage()
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '兑换成功，添加了账户余额 ' . $giftcard->balance . ' 元'
+        ]);
     }
 
     public function resetPort($request, $response, $args)

@@ -56,6 +56,7 @@ return function (SlimApp $app) {
         $this->get('/order/status/{no}',        App\Controllers\UserController::class . ':orderStatus');
         $this->post('/order',                   App\Controllers\UserController::class . ':createOrder');
         $this->put('/order',                    App\Controllers\UserController::class . ':processOrder');
+        $this->post('/redeem',                  App\Controllers\UserController::class . ':redeemGiftCard');
         $this->post('/coupon_check',            App\Controllers\UserController::class . ':couponCheck');
 
         // 编辑页面
