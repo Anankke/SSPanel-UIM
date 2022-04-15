@@ -16,8 +16,7 @@
                 {if $config['enable_ticket'] == true}
                     <div class="col-auto ms-auto d-print-none">
                         <div class="btn-list">
-                            <a href="/user/ticket/create" class="btn btn-primary d-none d-sm-inline-block"
-                                data-bs-toggle="modal">
+                            <a href="/user/ticket/create" class="btn btn-primary d-none d-sm-inline-block">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -27,7 +26,7 @@
                                 </svg>
                                 提交工单
                             </a>
-                            <a href="/user/ticket/create" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal">
+                            <a href="/user/ticket/create" class="btn btn-primary d-sm-none btn-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -213,16 +212,15 @@
                                         <div class="col-auto">
                                             <span class="bg-facebook text-white avatar">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="icon icon-tabler icon-tabler-speedboat" width="24"
-                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                    stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
+                                                    class="icon icon-tabler icon-tabler-rocket" width="24" height="24"
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                     <path
-                                                        d="M3 17h13.4a3 3 0 0 0 2.5 -1.34l3.1 -4.66h0h-6.23a4 4 0 0 0 -1.49 .29l-3.56 1.42a4 4 0 0 1 -1.49 .29h-3.73h0h-1l-1.5 4z">
+                                                        d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3">
                                                     </path>
-                                                    <line x1="6" y1="13" x2="7.5" y2="8"></line>
-                                                    <path d="M6 8h8l2 3"></path>
+                                                    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3"></path>
+                                                    <circle cx="15" cy="9" r="1"></circle>
                                                 </svg>
                                             </span>
                                         </div>
@@ -260,7 +258,7 @@
                             </svg>
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title">最新公告</h3>
+                            <h3 class="card-title">最新公告 <span class="card-subtitle">{$ann->date}</span></h3>
                             <hr />
                             <p class="text-muted">
                                 {$ann->content}
@@ -275,9 +273,13 @@
                                 <div class="card-body">
                                     <h3 class="card-title">流量用量</h3>
                                     <div class="progress progress-separated mb-3">
-                                        <div class="progress-bar bg-primary" role="progressbar"
-                                            style="width: {$user->LastusedTrafficPercent()}%">
-                                        </div>
+                                        {if $user->LastusedTrafficPercent() < '1'}
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 1%"></div>
+                                        {else}
+                                            <div class="progress-bar bg-primary" role="progressbar"
+                                                style="width: {$user->LastusedTrafficPercent()}%">
+                                            </div>
+                                        {/if}
                                         {if $user->TodayusedTrafficPercent() < '1'}
                                             <div class="progress-bar bg-success" role="progressbar" style="width: 1%"></div>
                                         {else}
