@@ -34,8 +34,7 @@ class Config
             'baseUrl'                 => $_ENV['baseUrl'],
             // 充值
             'active_payments'         => $_ENV['active_payments'],
-            'stripe_min_recharge'     => $public_configs['stripe_min_recharge'],
-            'stripe_max_recharge'     => $public_configs['stripe_max_recharge'],
+            'code_payback'            => $public_configs['rebate_ratio'],
             // 个性化
             'user_center_bg'          => $public_configs['user_center_bg'],
             'admin_center_bg'         => $public_configs['admin_center_bg'],
@@ -57,36 +56,30 @@ class Config
             'enable_reg_captcha'      => $public_configs['enable_reg_captcha'],
             'enable_login_captcha'    => $public_configs['enable_login_captcha'],
             'enable_checkin_captcha'  => $public_configs['enable_checkin_captcha'],
-            // 注册
+            // 注册与登录
             'register_mode'           => $public_configs['reg_mode'],
             'enable_email_verify'     => $public_configs['reg_email_verify'],
-            // 邀请
-            'code_payback'            => $public_configs['rebate_ratio'],
-            // 待处理
-            'min_port'                => $_ENV['min_port'],
-            'max_port'                => $_ENV['max_port'],
+            'enable_reg_im'           => $_ENV['enable_reg_im'],
+            // 订阅
+            'subscribe_client'        => $_ENV['subscribe_client'],
+            'subscribe_client_url'    => $_ENV['subscribe_client_url'],
+            'subscribeLog'            => $_ENV['subscribeLog'],
+            'subscribeLog_show'       => $_ENV['subscribeLog_show'],
+            'subscribeLog_keep_days'  => $_ENV['subscribeLog_keep_days'],
+            // telegram
+            'enable_telegram'         => $_ENV['enable_telegram'],
+            'telegram_bot'            => $_ENV['telegram_bot'],
+            'use_new_telegram_bot'    => $_ENV['use_new_telegram_bot'],
+            'enable_telegram_login'   => $_ENV['enable_telegram_login'],
+            // 其他
             'enable_checkin'          => $_ENV['enable_checkin'],
             'checkinMin'              => $_ENV['checkinMin'],
             'checkinMax'              => $_ENV['checkinMax'],
             'jump_delay'              => $_ENV['jump_delay'],
             'enable_ticket'           => $_ENV['enable_ticket'],
-            'enable_reg_im'           => $_ENV['enable_reg_im'],
+            'enable_docs'             => $_ENV['enable_docs'],
             'enable_kill'             => $_ENV['enable_kill'],
             'enable_change_email'     => $_ENV['enable_change_email'],
-
-            'enable_telegram'         => $_ENV['enable_telegram'],
-            'telegram_bot'            => $_ENV['telegram_bot'],
-            'use_new_telegram_bot'    => $_ENV['use_new_telegram_bot'],
-
-            'enable_telegram_login'   => $_ENV['enable_telegram_login'],
-
-            'subscribe_client'        => $_ENV['subscribe_client'],
-            'subscribe_client_url'    => $_ENV['subscribe_client_url'],
-
-            'subscribeLog'            => $_ENV['subscribeLog'],
-            'subscribeLog_show'       => $_ENV['subscribeLog_show'],
-            'subscribeLog_keep_days'  => $_ENV['subscribeLog_keep_days'],
-
             'sentry_dsn'              => !empty($_ENV['sentry_dsn']) ? $_ENV['sentry_dsn'] : null,
         ];
     }

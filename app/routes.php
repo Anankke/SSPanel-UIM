@@ -34,6 +34,9 @@ return function (SlimApp $app) {
         $this->get('/announcement',             App\Controllers\UserController::class . ':announcement');
         $this->get('/subscribe_log',            App\Controllers\UserController::class . ':subscribe_log');
 
+        // 文档中心
+        $this->get('/docs/{client}',            App\Controllers\DocsController::class . ':index');
+
         // 邀请系统
         $this->get('/invite',                   App\Controllers\UserController::class . ':invite');
         $this->put('/invite',                   App\Controllers\UserController::class . ':resetInviteURL');

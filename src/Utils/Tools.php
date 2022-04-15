@@ -10,7 +10,7 @@ use DateTime;
 class Tools
 {
     /**
-     * 验证邮箱规格
+     * 验证邮箱格式
      */
     public static function emailCheck($address)
     {
