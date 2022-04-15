@@ -357,8 +357,16 @@ class UserController extends BaseController
             if ($giftcard == null) {
                 throw new \Exception('礼品卡不存在');
             }
+            if ($giftcard->status == '已用') {
+                throw new \Exception('礼品卡已使用');
+            }
             $user->money += $giftcard->balance;
             $user->save();
+
+            $giftcard->status = 1;
+            $giftcard->used_at = time();
+            $giftcard->use_user = $user->id;
+            $giftcard->save();
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,

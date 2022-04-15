@@ -152,7 +152,7 @@
                     <div class="w-100">
                         <div class="row">
                             <div class="col">
-                                <a href="#" class="btn w-100" data-bs-dismiss="modal">
+                                <a id="success-confirm" href="#" class="btn w-100" data-bs-dismiss="modal">
                                     好
                                 </a>
                             </div>
@@ -247,6 +247,10 @@
                     }
                 }
             })
+        });
+
+        $("#success-confirm").click(function() {
+            location.reload();
         });
 
         $("td:contains('已支付')").css("color", "green");

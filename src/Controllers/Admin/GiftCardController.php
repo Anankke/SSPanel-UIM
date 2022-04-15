@@ -76,6 +76,12 @@ class GiftCardController extends AdminController
                     'placeholder' => '',
                 ],
                 [
+                    'id' => 'receive_mailbox',
+                    'info' => '礼品卡接收',
+                    'type' => 'input',
+                    'placeholder' => '生成结果接收邮箱',
+                ],
+                [
                     'id' => 'card_length',
                     'info' => '礼品卡长度',
                     'type' => 'select',
@@ -86,7 +92,7 @@ class GiftCardController extends AdminController
                         '30' => '30位',
                         '36' => '36位',
                     ]
-                ]
+                ],
             ]
         ];
 
@@ -110,10 +116,10 @@ class GiftCardController extends AdminController
     public function add($request, $response, $args)
     {
         $cards = [];
-        $user = Auth::getUser();
         $card_number = $request->getParam('card_number');
         $card_value = $request->getParam('card_value');
         $card_length = $request->getParam('card_length');
+        $receive_mailbox = $request->getParam('receive_mailbox');
 
         try {
             if (empty($card_number) || $card_number < 0) {
@@ -121,6 +127,9 @@ class GiftCardController extends AdminController
             }
             if (empty($card_value) || $card_value < 0) {
                 throw new \Exception('礼品卡面值应该大于零');
+            }
+            if (!Tools::emailCheck($receive_mailbox)) {
+                throw new \Exception('收件邮箱格式有误');
             }
 
             for ($i = 0; $i < $card_number; $i++) {
@@ -138,7 +147,7 @@ class GiftCardController extends AdminController
             }
 
             if (Setting::obtain('mail_driver') != 'none') {
-                Mail::send($user->email, $_ENV['appName'] . '- 充值码', 'giftcard.tpl',
+                Mail::send($receive_mailbox, $_ENV['appName'] . '- 充值码', 'giftcard.tpl',
                     [
                         'text' => implode('<br/>', $cards)
                     ], []
