@@ -872,7 +872,7 @@ class UserController extends BaseController
                 'msg' => $e->getMessage()
             ]);
         }
-        
+
         return $response->withJson([
             'ret' => 1,
             'msg' => '修改成功'
@@ -881,7 +881,33 @@ class UserController extends BaseController
 
     public function doCheckIn($request, $response, $args)
     {
-        // 等待重构
+        try {
+            $user = $this->user;
+            if ($_ENV['enable_checkin'] == false) {
+                throw new \Exception('暂时不能签到');
+            }
+            if ($_ENV['enable_expired_checkin'] == false && strtotime($user->expire_in) < time()) {
+                throw new \Exception('账户过期时不能签到');
+            }
+            if (!$user->isAbleToCheckin()) {
+                throw new \Exception('今天已经签到过了');
+            }
+
+            $rand_traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
+            $user->transfer_enable += Tools::toMB($rand_traffic);
+            $user->last_check_in_time = time();
+            $user->save();
+        } catch (\Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $e->getMessage()
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '签到获得了 ' . $rand_traffic . ' MB 流量'
+        ]);
     }
 
     public function updateSsPwd($request, $response, $args)

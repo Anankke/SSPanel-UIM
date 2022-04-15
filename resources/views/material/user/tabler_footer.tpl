@@ -44,7 +44,7 @@
 </div>
 </div>
 <!-- Libs JS -->
-<!-- <script src="/theme/tabler/libs/apexcharts/dist/apexcharts.min.js"></script> -->
+<script src="/theme/tabler/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="/theme/tabler/libs/jsvectormap/dist/js/jsvectormap.min.js"></script>
 <script src="/theme/tabler/libs/jsvectormap/dist/maps/world.js"></script>
 <script src="/theme/tabler/libs/jsvectormap/dist/maps/world-merc.js"></script>

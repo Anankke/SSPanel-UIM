@@ -1,804 +1,241 @@
-{include file='user/main.tpl'}
-{$ssr_prefer = URL::SSRCanConnect($user, 0)}
-{$pre_user = URL::cloneUser($user)}
-
-<style>
-    .table {
-        box-shadow: none;
-    }
-
-    table tr td:first-child {
-        text-align: left;
-        font-weight: bold;
-    }
-
-    #connection-info {
-        overflow: auto;
-        width: 100%;
-    }
-
-    #connection-info-table {
-        width: 100%;
-        table-layout: fixed;
-        word-break: break-all;
-    }
-</style>
-
-<main class="content">
-    <div class="content-header ui-content-header">
-        <div class="container">
-            <h1 class="content-heading">用户中心</h1>
+{include file='user/tabler_header.tpl'}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <!-- Page pre-title -->
+                    <h2 class="page-title">
+                        <span class="home-title">用户中心</span>
+                    </h2>
+                    <div class="page-pretitle">
+                        <span class="home-subtitle">你可以在这里查看账户时间与流量详情，还有最新的公告</span>
+                    </div>
+                </div>
+                {if $config['enable_ticket'] == true}
+                    <div class="col-auto ms-auto d-print-none">
+                        <div class="btn-list">
+                            <a href="/user/ticket/create" class="btn btn-primary d-none d-sm-inline-block"
+                                data-bs-toggle="modal">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                提交工单
+                            </a>
+                            <a href="/user/ticket/create" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                {/if}
+            </div>
         </div>
     </div>
-    <div class="container">
-        <section class="content-inner margin-top-no">
-            <div class="ui-card-wrap">
-
-                <div class="col-xx-12 col-xs-6 col-lg-3">
-                    <div class="card user-info">
-                        <div class="user-info-main">
-                            <div class="nodemain">
-                                <div class="nodehead node-flex">
-                                    <div class="nodename">帐号等级</div>
-                                </div>
-                                <div class="nodemiddle node-flex">
-                                    <div class="nodetype">
-                                        {if $user->class!=0}
-                                            <dd>VIP {$user->class}</dd>
-                                        {else}
-                                            <dd>普通用户</dd>
-                                        {/if}
-                                    </div>
-                                </div>
-                                <div class="nodemiddle node-flex">
-                                    {if $user->class_expire!="1989-06-04 00:05:00"}
-                                        <div style="font-size: 14px">等级到期时间 {$user->class_expire}</div>
-                                    {else}
-                                        <div style="font-size: 14px">账户等级不会过期</div>
-                                    {/if}
-                                </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <!-- <div class="col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="subheader">账户等级</div>
+                            </div>
+                            <div class="h1 mb-3">Lv.{$user->class}</div>
+                            <div class="d-flex mb-2">
+                                <div>到期时间：<code>{$user->class_expire}</code></div>
                             </div>
                         </div>
-                        <div class="user-info-bottom">
-                            <div class="nodeinfo node-flex">
-                                {if $user->class!=0}
-                                    <span><i class="icon icon-md">add_circle</i>到期流量清空</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="subheader">账户余额</div>
+                            </div>
+                            <div class="h1 mb-3">{$user->money} 元</div>
+                            <div class="d-flex mb-2">
+                                <div>你可以用余额支付账单</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="subheader">设备限制</div>
+                            </div>
+                            <div class="h1 mb-3">
+                                {if $user->node_connector != 0}
+                                    <div class="h1 mb-3">{$user->node_connector}</div>
                                 {else}
-                                    <span><i class="icon icon-md">add_circle</i>升级解锁 VIP 节点</span>
+                                    <div class="h1 mb-3">不限制</div>
                                 {/if}
-                                <a href="/user/shop" class="card-tag tag-orange">商店</a>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <div>最近使用时间：<code>{$user->lastSsTime()}</code></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xx-12 col-xs-6 col-lg-3">
-                    <div class="card user-info">
-                        <div class="user-info-main">
-                            <div class="nodemain">
-                                <div class="nodehead node-flex">
-                                    <div class="nodename">余额</div>
-                                </div>
-                                <div class="nodemiddle node-flex">
-                                    <div class="nodetype">
-                                        {$user->money} CNY
-                                    </div>
-                                </div>
-                                <div class="nodemiddle node-flex">
-                                    <div style="font-size: 14px">账户有效时间：{substr($user->expire_in, 0, 10)}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="user-info-bottom">
-                            <div class="nodeinfo node-flex">
-                                <span><i class="icon icon-md">attach_money</i>到期账户自动删除</span>
-                                <a href="/user/code" class="card-tag tag-green">充值</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xx-12 col-xs-6 col-lg-3">
-                    <div class="card user-info">
-                        <div class="user-info-main">
-                            <div class="nodemain">
-                                <div class="nodehead node-flex">
-                                    <div class="nodename">在线设备数</div>
-                                </div>
-                                <div class="nodemiddle node-flex">
-                                    <div class="nodetype">
-                                        {if $user->node_connector!=0}
-                                            <dd>{$user->online_ip_count()} / {$user->node_connector}</dd>
-                                        {else}
-                                            <dd>{$user->online_ip_count()} / 不限制</dd>
-                                        {/if}
-                                    </div>
-                                </div>
-                                <div class="nodemiddle node-flex">
-                                    {if $user->lastSsTime()!="从未使用喵"}
-                                        <div style="font-size: 14px">上次使用：{$user->lastSsTime()}</div>
-                                    {else}
-                                        <div style="font-size: 14px">从未使用过</div>
-                                    {/if}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="user-info-bottom">
-                            <div class="nodeinfo node-flex">
-                                <span><i class="icon icon-md">donut_large</i>在线设备/设备限制数</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xx-12 col-xs-6 col-lg-3">
-                    <div class="card user-info">
-                        <div class="user-info-main">
-                            <div class="nodemain">
-                                <div class="nodehead node-flex">
-                                    <div class="nodename">端口速率</div>
-                                </div>
-                                <div class="nodemiddle node-flex">
-                                    <div class="nodetype">
-                                        {if $user->node_speedlimit!=0}
-                                            <dd><code>{$user->node_speedlimit}</code>Mbps</dd>
-                                        {else}
-                                            <dd>无限制</dd>
-                                        {/if}
-                                    </div>
-                                </div>
-                                <div class="nodemiddle node-flex">
-                                    <div style="font-size: 14px">实际速率受限于运营商带宽上限</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="user-info-bottom">
-                            <div class="nodeinfo node-flex">
-                                <span><i class="icon icon-md">signal_cellular_alt</i>账户最高下行网速</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-card-wrap">
-                <div class="col-xx-12 col-sm-5">
+                <div class="col-sm-6 col-lg-3">
                     <div class="card">
-                        <div class="card-main">
-                        <div class="card-inner margin-bottom-no">
-                            <p class="card-heading" style="margin-bottom: 0;"><i class="icon icon-md">account_circle</i>流量使用情况</p>
-                                {if $user->valid_use_loop() != '未购买套餐.'}
-                                <p>下次流量重置时间：{$user->valid_use_loop()}</p>
-                                {/if}
-                                <div class="progressbar">
-                                    <div class="before"></div>
-                                    <div class="bar tuse color3"
-                                         style="width:calc({($user->transfer_enable==0)?0:($user->u+$user->d-$user->last_day_t)/$user->transfer_enable*100}%);"></div>
-                                    <div class="label-flex">
-                                        <div class="label la-top">
-                                            <div class="bar ard color3"></div>
-                                            <span class="traffic-info">今日已用</span>
-                                            <code class="card-tag tag-red">{$user->TodayusedTraffic()}</code>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progressbar">
-                                    <div class="before"></div>
-                                    <div class="bar ard color2"
-                                         style="width:calc({($user->transfer_enable==0)?0:$user->last_day_t/$user->transfer_enable*100}%);">
-                                        <span></span>
-                                    </div>
-                                    <div class="label-flex">
-                                        <div class="label la-top">
-                                            <div class="bar ard color2"><span></span></div>
-                                            <span class="traffic-info">过去已用</span>
-                                            <code class="card-tag tag-orange">{$user->LastusedTraffic()}</code>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progressbar">
-                                    <div class="before"></div>
-                                    <div class="bar remain color"
-                                         style="width:calc({($user->transfer_enable==0)?0:($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100}%);">
-                                        <span></span>
-                                    </div>
-                                    <div class="label-flex">
-                                        <div class="label la-top">
-                                            <div class="bar ard color"><span></span></div>
-                                            <span class="traffic-info">剩余流量</span>
-                                            <code class="card-tag tag-green" id="remain">{$user->unusedTraffic()}</code>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="subheader">速度限制</div>
                             </div>
-                            {if $config['enable_checkin'] == true}
-                            <div class="card-inner margin-bottom-no">
-                                <p class="card-heading"><i class="icon icon-md">account_circle</i> 签到</p>
-                                <p>上次签到时间：{$user->lastCheckInTime()}</p>
-                                <p id="checkin-msg"></p>
-                                {if $geetest_html != null}
-                                    <div id="popup-captcha"></div>
-                                {/if}
-                                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha' && $user->isAbleToCheckin()}
-                                    <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
-                                {/if}
-                                <div class="card-action">
-                                    <div class="usercheck pull-left">
-                                        {if $user->isAbleToCheckin() }
-                                            <div id="checkin-btn">
-                                                <button id="checkin" class="btn btn-brand btn-flat"><span class="icon">check</span>&nbsp;点我签到&nbsp;
-                                                    <div><span class="icon">screen_rotation</span>&nbsp;或者摇动手机签到</div>
-                                                    </button>
-                                            </div>
-                                        {else}
-                                            <p><a class="btn btn-brand disabled btn-flat" href="#"><span class="icon">check</span>&nbsp;今日已签到</a></p>
-                                        {/if}
-                                    </div>
-                                </div>
-                            </div>
+                            {if $user->node_speedlimit != 0}
+                                <div class="h1 mb-3">{$user->node_speedlimit}</code> Mbps</div>
+                            {else}
+                                <div class="h1 mb-3">不限制</div>
                             {/if}
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-inner margin-bottom-no">
-                                <p class="card-heading"><i class="icon icon-md">notifications_active</i> 公告栏</p>
-                                {if $ann != null}
-                                    <p>{$ann->content}</p>
-                                    <br/>
-                                    <strong>查看所有公告请<a href="/user/announcement">点击这里</a></strong>
-                                {/if}
-                                {if $config['enable_admin_contact'] == true}
-                                    <p class="card-heading">如需帮助，请联系：</p>
-                                    {if $config['admin_contact1'] != ''}
-                                        <p>{$config['admin_contact1']}</p>
-                                    {/if}
-                                    {if $config['admin_contact2'] != ''}
-                                        <p>{$config['admin_contact2']}</p>
-                                    {/if}
-                                    {if $config['admin_contact3'] != ''}
-                                        <p>{$config['admin_contact3']}</p>
-                                    {/if}
-                                {/if}
+                            <div class="d-flex mb-2">
+                                <div>不同套餐对应的速度限制不同</div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xx-12 col-sm-7">
-                    <div class="card quickadd">
-                        <div class="card-main">
-                            <div class="card-inner">
-                                <div class="cardbtn-edit">
-                                    <div class="card-heading"><i class="icon icon-md">phonelink</i> 快速使用</div>
-                                </div>
-                                <nav class="tab-nav margin-top-no">
-                                    <ul class="nav nav-list">
-                                        <li class="active">
-                                            <a class="" data-toggle="tab" href="#sub_center"><i class="icon icon-lg">info_outline</i>&nbsp;订阅中心</a>
-                                        </li>
-                                        <li>
-                                            <a class="" data-toggle="tab" href="#info_center"><i class="icon icon-lg">flight_takeoff</i>&nbsp;连接信息</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="card-inner">
-                                    <div class="tab-content">
-                                        <div class="tab-pane fade" id="info_center">
-                                            <p>您的连接信息：</p>
-                                            <div id="connection-info">
-                                                <table id="connection-info-table" class="table">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td><strong>端口</strong></td>
-                                                        <td>{$user->port}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>SS/SSR连接密码</strong></td>
-                                                        <td>{$user->passwd}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>UUID</strong></td>
-                                                        <td>{$user->uuid}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>自定义加密</strong></td>
-                                                        <td>{$user->method}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>自定义协议</strong></td>
-                                                        <td>{$user->protocol}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>自定义混淆</strong></td>
-                                                        <td>{$user->obfs}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>自定义混淆参数</strong></td>
-                                                        <td>{$user->obfs_param}</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                </div> -->
+                <div class="col-12">
+                    <div class="row row-cards">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-blue text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-star" width="24" height="24"
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path
+                                                        d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z">
+                                                    </path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                账户等级
+                                            </div>
+                                            <div class="text-muted">
+                                                LV. {$user->class}
                                             </div>
                                         </div>
-                                        <div class="tab-pane fade active in" id="sub_center">
-                                            <nav class="tab-nav margin-top-no">
-                                                <ul class="nav nav-list">
-                                                    <li class="active">
-                                                        <a class="" data-toggle="tab" href="#sub_center_universal_subscription"><i class="icon icon-lg">star</i>&nbsp;通用订阅</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#sub_center_general"><i class="icon icon-lg">error</i>&nbsp;协议/客户端专用订阅（旧）</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#sub_center_windows"><i class="icon icon-lg">desktop_windows</i>&nbsp;Windows</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#sub_center_mac"><i class="icon icon-lg">laptop_mac</i>&nbsp;macOS</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#sub_center_ios"><i class="icon icon-lg">phone_iphone</i>&nbsp;iOS</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#sub_center_android"><i class="icon icon-lg">android</i>&nbsp;Android</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#sub_center_linux"><i class="icon icon-lg">devices_other</i>&nbsp;Linux</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="" data-toggle="tab" href="#sub_center_router"><i class="icon icon-lg">router</i>&nbsp;Router</a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            {function name=printClient items=null}
-                                                {foreach $items as $item}
-                                                    <hr/>
-                                                    <p><span class="icon icon-lg text-white">filter_9_plus</span> {$item['name']} - [ {$item['support']} ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        {foreach $item['download_urls'] as $download_url}
-                                                        {if !$download_url@first}.{/if}
-                                                        <a class="btn-dl" href="{$download_url['url']}"><i class="material-icons icon-sm">cloud_download</i> {$download_url['name']}</a>
-                                                        {/foreach}
-                                                    </p>
-                                                    {if isset($item['description'])}
-                                                    <p>
-                                                        相关说明：
-                                                        {$item['description']}
-                                                    </p>
-                                                    {/if}
-                                                    <p>
-                                                        使用方式：
-                                                        {foreach $item['subscribe_urls'] as $subscribe_url}
-                                                        {if !$subscribe_url@first}.{/if}
-                                                        {$url=$subscribe_url['url']|replace:'%userUrl%':$subInfo['link']}
-                                                        {if $subscribe_url['type'] == 'href'}
-                                                        <a class="btn-dl" href="{$url}"><i class="material-icons icon-sm">send</i> {$subscribe_url['name']}</a>
-                                                        {else}
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$url}"><i class="material-icons icon-sm">send</i> {$subscribe_url['name']}</a>
-                                                        {/if}
-                                                        {/foreach}
-                                                    </p>
-                                                {/foreach}
-                                            {/function}
-                                            <div class="tab-pane fade active in" id="sub_center_universal_subscription">
-                                                <p>此处为通用订阅，适用于多种应用的订阅，请注意站点所支持的协议，本处显示的订阅类型不代表站点支持的协议类型.</p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">settings_suggest</span> [ 所有节点 ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$getUniversalSub}/all"><i class="material-icons icon-sm">send</i> 拷贝链接</a>
-                                                </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">settings_suggest</span> [ Shadowsocks 节点 ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$getUniversalSub}/ss"><i class="material-icons icon-sm">send</i> 拷贝链接</a>
-                                                </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">settings_suggest</span> [ Shadowsocksr 节点 ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$getUniversalSub}/ssr"><i class="material-icons icon-sm">send</i> 拷贝链接</a>
-                                                </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">settings_suggest</span> [ Vmess/Vless 节点 ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$getUniversalSub}/v2ray"><i class="material-icons icon-sm">send</i> 拷贝链接</a>
-                                                </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">settings_suggest</span> [ Trojan 节点 ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$getUniversalSub}/trojan"><i class="material-icons icon-sm">send</i> 拷贝链接</a>
-                                                </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-green text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-coin" width="24" height="24"
+                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <circle cx="12" cy="12" r="9"></circle>
+                                                    <path
+                                                        d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1 -1.8 -1">
+                                                    </path>
+                                                    <path d="M12 6v2m0 8v2"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                账户余额
                                             </div>
-                                            <div class="tab-pane fade" id="sub_center_general">
-                                                <p>此处的订阅将会在未来版本中被废弃，请尽快切换至可以使用通用订阅的客戶端</p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_1</span> [ Shadowsocks ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ss']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>.<a id="general_ss" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ss","#general_ss","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> [ ShadowsocksR(R) ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>.<a id="general_ssr" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ssr","#general_ssr","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> [ V2Ray ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>.<a id="general_v2ray" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#general_v2ray","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_4</span> [ Trojan ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['trojan']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_5</span> [ Clash ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                </p>
+                                            <div class="text-muted">
+                                                {$user->money}
                                             </div>
-                                            <div class="tab-pane fade" id="sub_center_windows">
-                                                <p><span class="icon icon-lg text-white">filter_1</span> Shadowsocks Windows - [ SS ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        {if $config["subscribe_client"]===true}<a class="btn-dl" href="{if $config["subscribe_client_url"]==''}/user/getPcClient{else}{$config["subscribe_client_url"]}/getClient/{$getClient}{/if}?type=ss-win"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .{/if}
-                                                        <a class="btn-dl" href="https://github.com/shadowsocks/shadowsocks-windows/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a id="win_ss" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ss","#win_ss","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> ShadowsocksR Windows - [ SS/SSR ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="{if $config["subscribe_client"]===true}{if $config["subscribe_client_url"]==''}/user/getPcClient{else}{$config["subscribe_client_url"]}/getClient/{$getClient}{/if}?type=ssr-win{else}/clients/ssr-win.7z{/if}"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                        .
-                                                        <a id="win_ssr" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ssr","#win_ssr","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_4</span> V2RayN - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="{if $config["subscribe_client"]===true}{if $config["subscribe_client_url"]==''}/user/getPcClient{else}{$config["subscribe_client_url"]}/getClient/{$getClient}{/if}?type=v2rayn-win{else}/clients/v2rayn.zip{/if}"><i class="material-icons icon-sm">cloud_download</i> 本站下载 </a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/2dust/v2rayN/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                        .
-                                                        <a id="win_v2rayn" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#win_v2rayn","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_5</span> Clash for Windows - [ SS/VMess/Trojan ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/Clash-Windows.exe"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/Fndroid/clash_for_windows_pkg/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="btn-dl" href="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_6</span> Qv2ray - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/Qv2ray.7z"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/Qv2ray/Qv2ray/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                        .
-                                                        <a id="win_qv2ray" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#win_qv2ray","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                    </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-twitter text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-devices-pc" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M3 5h6v14h-6z"></path>
+                                                    <path d="M12 9h10v7h-10z"></path>
+                                                    <path d="M14 19h6"></path>
+                                                    <path d="M17 16v3"></path>
+                                                    <path d="M6 13v.01"></path>
+                                                    <path d="M6 16v.01"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                设备限制
                                             </div>
-                                            <div class="tab-pane fade" id="sub_center_mac">
-                                                <p><span class="icon icon-lg text-white">filter_1</span> Surge - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="https://nssurge.com/mac/v3/Surge-latest.zip"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['surge4']}"><i class="material-icons icon-sm">send</i> 拷贝 4.x 托管链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['surge3']}"><i class="material-icons icon-sm">send</i> 拷贝 3.x 托管链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['surge_node']}"><i class="material-icons icon-sm">send</i> 拷贝 3.x 节点链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['surge2']}"><i class="material-icons icon-sm">send</i> 拷贝 2.x 托管链接</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> ClashX - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/ClashX.dmg"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/yichengchen/clashX/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="btn-dl" href="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> V2RayU - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/V2rayU.dmg"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_4</span> ShadowsocksX-NG - [ SS ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/ss-mac.zip"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a id="mac_ss" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ss","#mac_ss","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_5</span> ShadowsocksX-NG-R - [ SS/SSR ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/ssr-mac.dmg"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_6</span> Qv2ray - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/Qv2ray.dmg"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/Qv2ray/Qv2ray/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                        .
-                                                        <a id="mac_qv2ray" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#mac_qv2ray","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                    </p>
+                                            <div class="text-muted">
+                                                {if $user->node_connector != 0}
+                                                    {$user->node_connector}
+                                                {else}
+                                                    不限制
+                                                {/if}
                                             </div>
-                                            <div class="tab-pane fade" id="sub_center_ios">
-                                                <p><span class="icon icon-lg text-white">filter_1</span> Surge - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/surge-3/id1442620678?ls=1&mt=8"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        相关说明：
-                                                        Surge 4 托管配置中可能含有 VMess 节点，如您未订阅 Surge 4 请使用 3.x 一键.
-                                                        其中 2 & 3 & 4 代表 Surge 的版本.
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="btn-dl" href="surge3:///install-config?url={urlencode($subInfo['surge4'])}"><i class="material-icons icon-sm">send</i> 4.x 一键</a>
-                                                        .
-                                                        <a class="btn-dl" href="surge3:///install-config?url={urlencode($subInfo['surge3'])}"><i class="material-icons icon-sm">send</i> 3.x 一键</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['surge_node']}"><i class="material-icons icon-sm">send</i> 节点 List</a>
-                                                        .
-                                                        <a class="btn-dl" href="surge:///install-config?url={urlencode($subInfo['surge2'])}"><i class="material-icons icon-sm">send</i> 2.x 一键</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> Kitsunebi - [ SS/VMess ]：</p>
-                                                    <p>该客户端专属订阅链接支持同时订阅 SS/V2Ray 节点.</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/kitsunebi-proxy-utility/id1446584073?ls=1&mt=8"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ss']}"><i class="material-icons icon-sm">send</i> 拷贝 SS 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['kitsunebi']}"><i class="material-icons icon-sm">send</i> 拷贝该应用专属订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> Quantumult - [ SS/SSR/VMess ]：</p>
-                                                    <p>完整策略组配置 为使用了策略组结构的配置文件.</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/quantumult/id1252015438?ls=1&mt=8"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ss']}"><i class="material-icons icon-sm">send</i> 拷贝 SS 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝 SSR 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['quantumult_v2']}"><i class="material-icons icon-sm">send</i> 拷贝 V2Ray 订阅链接</a>
-                                                        <!--
-                                                        .
-                                                        <a id="quan_sub" class="copy-config btn-dl" onclick=Copyconfig("{$subInfo['quantumult_sub']}","#quan_sub","quantumult://settings?configuration=clipboard")><i class="material-icons icon-sm">send</i> 完整订阅配置</a>
-                                                        -->
-                                                        .
-                                                        <a id="quan_conf" class="copy-config btn-dl" onclick=Copyconfig("{$subInfo['quantumult_conf']}","#quan_conf","quantumult://settings?configuration=clipboard")><i class="material-icons icon-sm">send</i> 完整策略组配置</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_4</span> QuantumultX - [ SS/SSR/VMess ]：</p>
-                                                    <p>该客户端专属订阅链接支持同时订阅 SS/SSR/V2Ray 节点.</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="https://apps.apple.com/us/app/quantumult-x/id1443988620"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝 SSR 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['quantumultx']}"><i class="material-icons icon-sm">send</i> 拷贝该应用专属订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_5</span> Shadowrocket - [ SS/SSR/VMess/Trojan ]：</p>
-                                                    <p>该客户端专属订阅链接支持同时订阅 SS/SSR/V2Ray 节点.</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/shadowrocket/id932747118?mt=8"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ss']}"><i class="material-icons icon-sm">send</i> 拷贝 SS 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝 SSR 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝 V2Ray 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['trojan']}"><i class="material-icons icon-sm">send</i> 拷贝 Trojan 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['shadowrocket']}"><i class="material-icons icon-sm">send</i> 拷贝该应用专属订阅链接</a>
-                                                        .
-                                                        <a class="btn-dl" onclick=AddSub("{$subInfo['shadowrocket']}","shadowrocket://add/sub://")><i class="material-icons icon-sm">send</i> 一键导入 Shadowrocket</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_6</span> Stash - [ SS/SSR/VMess/Trojan ]：</p>
-                                                <p>Stash 是一款 iOS 平台基于规则的多协议代理客户端，完全兼容 clash 配置，支持 Rule Set 规则、按需连接、SSID Policy Group等特性.</p>
-                                                <p>
-                                                    应用下载：
-                                                    <a class="btn-dl" href="https://apps.apple.com/app/stash/id1596063349"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                </p>
-                                                <p>
-                                                    使用方式：
-                                                    <a class="btn-dl" href="stash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 一键导入 Stash</a>
-                                                    .
-                                                    <a class="btn-dl" href="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
-                                                </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-facebook text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-speedboat" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path
+                                                        d="M3 17h13.4a3 3 0 0 0 2.5 -1.34l3.1 -4.66h0h-6.23a4 4 0 0 0 -1.49 .29l-3.56 1.42a4 4 0 0 1 -1.49 .29h-3.73h0h-1l-1.5 4z">
+                                                    </path>
+                                                    <line x1="6" y1="13" x2="7.5" y2="8"></line>
+                                                    <path d="M6 8h8l2 3"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                速度限制
                                             </div>
-                                            <div class="tab-pane fade" id="sub_center_android">
-                                                <p><span class="icon icon-lg text-white">filter_1</span> SS - [ SS ]：</p>
-                                                    <p>该客户端仅 v5.0 以上版本支持订阅，如您未找到订阅配置之处，请尝试升级客户端.</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/ss-android.apk"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/shadowsocks/shadowsocks-android/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        插件下载：
-                                                        <a class="btn-dl" href="/clients/ss-android-obfs.apk"><i class="material-icons icon-sm">cloud_download</i> 「必须」obfs 插件本站下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssa']}"><i class="material-icons icon-sm">send</i> 拷贝该应用专属订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> ShadowsocksR Android - [ SSR ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/ssr-android.apk"><i class="material-icons icon-sm">cloud_download</i> SSR 本站下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_3</span> V2RayNG - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/v2rayng.apk"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/2dust/v2rayNG/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                    <p><span class="icon icon-lg text-white">filter_3</span> AxXray - [ SS/SSR/VMess/Trojan ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="https://github.com/XTLS/AnXray/releases" target="_blank"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['anxray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_4</span> Surfboard - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/Surfboard.apk"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://play.google.com/store/apps/details?id=com.getsurfboard"><i class="material-icons icon-sm">cloud_download</i> Google Play 下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['surfboard']}"><i class="material-icons icon-sm">send</i> 拷贝托管链接</a>
-                                                        .
-                                                        <a class="btn-dl" href="{$subInfo['surfboard']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_5</span> Kitsunebi - [ SS/VMess ]：</p>
-                                                    <p>该客户端专属订阅链接支持同时订阅 SS 和 V2Ray 节点.</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="https://play.google.com/store/apps/details?id=fun.kitsunebi.kitsunebi4android"><i class="material-icons icon-sm">cloud_download</i> Google Play 下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ss']}"><i class="material-icons icon-sm">send</i> 拷贝 SS 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['kitsunebi']}"><i class="material-icons icon-sm">send</i> 拷贝该应用专属订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                    <p><span class="icon icon-lg text-white">filter_6</span> Clash for Android - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/Clash-Android.apk"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://play.google.com/store/apps/details?id=com.github.kr328.clash"><i class="material-icons icon-sm">cloud_download</i> Google Play 下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['clash']}"><i class="material-icons icon-sm">send</i> 拷贝 Clash 订阅链接</a>
-                                                        .
-                                                        <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
-                                                    </p>
-                                            </div>
-                                            <div class="tab-pane fade" id="sub_center_linux">
-                                                <p><span class="icon icon-lg text-white">filter_1</span> Electron SSR - [ SS/SSR ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/Electron-SSR.AppImage"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/shadowsocksrr/electron-ssr/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                    </p>
-                                                <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_2</span> Qv2ray - [ SS/VMess ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="/clients/Qv2ray.AppImage"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/Qv2ray/Qv2ray/releases"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
-                                                        .
-                                                        <a id="linux_qv2ray" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#linux_qv2ray","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
-                                                    </p>
-                                            </div>
-                                            <div class="tab-pane fade" id="sub_center_router">
-                                                <p><span class="icon icon-lg text-white">filter_1</span> Koolshare 固件路由器/软路由：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        <a class="btn-dl" href="https://github.com/hq450/fancyss_history_package"><i class="material-icons icon-sm">cloud_download</i> FancySS 下载页面</a>
-                                                        .
-                                                        <a class="btn-dl" href="https://github.com/hq450/fancyss_history_package/tree/master/fancyss_X64"><i class="material-icons icon-sm">cloud_download</i> FancySS 历史下载页面下载 V2Ray 插件</a>
-                                                    </p>
-                                                    <p>
-                                                        使用方式：
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['ssr']}"><i class="material-icons icon-sm">send</i> 拷贝 SSR 订阅链接</a>
-                                                        .
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝 V2Ray 订阅链接</a>
-                                                    </p>
+                                            <div class="text-muted">
+                                                {if $user->node_speedlimit != 0}
+                                                    {$user->node_speedlimit}</code> Mbps
+                                                {else}
+                                                    不限制
+                                                {/if}
                                             </div>
                                         </div>
                                     </div>
@@ -807,223 +244,260 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6 col-sm-12">
+                    <div class="card">
+                        <div class="ribbon ribbon-top bg-yellow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell-ringing"
+                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path
+                                    d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6">
+                                </path>
+                                <path d="M9 17v1a3 3 0 0 0 6 0v-1"></path>
+                                <path d="M21 6.727a11.05 11.05 0 0 0 -2.794 -3.727"></path>
+                                <path d="M3 6.727a11.05 11.05 0 0 1 2.792 -3.727"></path>
+                            </svg>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">最新公告</h3>
+                            <hr />
+                            <p class="text-muted">
+                                {$ann->content}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row row-deck row-cards">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">流量用量</h3>
+                                    <div class="progress progress-separated mb-3">
+                                        <div class="progress-bar bg-primary" role="progressbar"
+                                            style="width: {$user->LastusedTrafficPercent()}%">
+                                        </div>
+                                        {if $user->TodayusedTrafficPercent() < '1'}
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 1%"></div>
+                                        {else}
+                                            <div class="progress-bar bg-success" role="progressbar"
+                                                style="width: {$user->TodayusedTrafficPercent()}%"></div>
+                                        {/if}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-auto d-flex align-items-center pe-2">
+                                            <span class="legend me-2 bg-primary"></span>
+                                            <span>过去用量</span>
+                                            <span
+                                                class="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{$user->LastusedTraffic()}</span>
+                                        </div>
+                                        <div class="col-auto d-flex align-items-center px-2">
+                                            <span class="legend me-2 bg-success"></span>
+                                            <span>今日用量</span>
+                                            <span
+                                                class="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{$user->TodayusedTraffic()}</span>
+                                        </div>
+                                        <div class="col-auto d-flex align-items-center ps-2">
+                                            <span class="legend me-2"></span>
+                                            <span>剩余流量</span>
+                                            <span
+                                                class="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{$user->unusedTraffic()}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {if $config['enable_checkin'] == true}
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-stamp">
+                                <div class="card-stamp-icon bg-green">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M5 12l5 5l10 -10"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">每日签到</h3>
+                                <p class="text-muted">
+                                    签到可领取 <code>{$config['checkinMin']} MB</code> 至 <code>{$config['checkinMax']} MB</code>
+                                    范围内的流量，每日零时后就可以可签到了
+                                </p>
+                                <p class="text-muted">
+                                    上次签到时间：<code>{$user->lastCheckInTime()}</code>
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex">
+                                    {if !$user->isAbleToCheckin()}
+                                        <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
+                                    {else}
+                                        <button id="check-in" class="btn btn-primary ms-auto">签到</button>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {/if}
+                <div class="col-lg-6">
+                    <div class="row row-cards">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">过去七日用量（正在开发）</h3>
+                                    <div id="past-usage"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {include file='dialog.tpl'}
-        </section>
+        </div>
     </div>
-</main>
 
-{include file='user/footer.tpl'}
+    <div class="modal modal-blur fade" id="success-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-success"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M9 12l2 2l4 -4" />
+                    </svg>
+                    <p id="success-message" class="text-muted">成功</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn w-100" data-bs-dismiss="modal">
+                                    好
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 9v2m0 4v.01" />
+                        <path
+                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
+                    </svg>
+                    <p id="fail-message" class="text-muted">失败</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
+                                    确认
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/shake.js@1.2.2/shake.min.js"></script>
-<script>
-    function DateParse(str_date) {
-        var str_date_splited = str_date.split(/[^0-9]/);
-        return new Date(str_date_splited[0], str_date_splited[1] - 1, str_date_splited[2], str_date_splited[3], str_date_splited[4], str_date_splited[5]);
-    }
-</script>
-<script>
-    $(function () {
-        new ClipboardJS('.copy-text');
-    });
-    $(".copy-text").click(function () {
-        $("#result").modal();
-        $$.getElementById('msg').innerHTML = '已复制，请您继续接下来的操作';
-    });
-    function AddSub(url,jumpurl="") {
-        let tmp = window.btoa(url);
-        window.location.href = jumpurl + tmp;
-    }
-    function Copyconfig(url,id,jumpurl="") {
-        $.ajax({
-            url: url,
-            type: 'get',
-            async: false,
-            success: function(res) {
-                if(res) {
-                    $("#result").modal();
-                    $("#msg").html("获取成功");
-                    $(id).data('data', res);
-                    console.log(res);
-                } else {
-                    $("#result").modal();
-                   $("#msg").html("获取失败，请稍后再试");
-               }
-            }
-        });
-        const clipboard = new ClipboardJS('.copy-config', {
-            text: function() {
-                return $(id).data('data');
-            }
-        });
-        clipboard.on('success', function(e) {
-                    $("#result").modal();
-                    if (jumpurl != "") {
-                        $("#msg").html("复制成功，即将跳转到 APP");
-                        window.setTimeout(function () {
-                            window.location.href = jumpurl;
-                        }, 1000);
-
-                    } else {
-                        $("#msg").html("复制成功");
-                    }
-                }
-        );
-        clipboard.on("error",function(e){
-            console.error('Action:', e.action);
-            console.error('Trigger:', e.trigger);
-            console.error('Text:', e.text);
-            }
-        );
-    }
-    {if $user->transfer_enable-($user->u+$user->d) == 0}
-    window.onload = function () {
-        $("#result").modal();
-        $$.getElementById('msg').innerHTML = '您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~';
-    };
-    {/if}
-    {if $geetest_html == null}
-    var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">check</span>&nbsp;已签到</a></p>';
-    window.onload = function () {
-        var myShakeEvent = new Shake({
-            threshold: 15
-        });
-        myShakeEvent.start();
-        window.addEventListener('shake', shakeEventDidOccur, false);
-        function shakeEventDidOccur() {
-            if ("vibrate" in navigator) {
-                navigator.vibrate(500);
-            }
+    <script>
+        $("#check-in").click(function() {
             $.ajax({
                 type: "POST",
                 url: "/user/checkin",
                 dataType: "json",
-                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
-                data: {
-                    recaptcha: grecaptcha.getResponse()
-                },
-                {/if}
-                success: (data) => {
-                    if (data.ret) {
-
-                        $$.getElementById('checkin-msg').innerHTML = data.msg;
-                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
-                        $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
                     } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
                     }
-                },
-                error: (jqXHR) => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `发生错误：${
-                            jqXHR.status
-                            }`;
-                }
-            });
-        }
-    };
-    $(document).ready(function () {
-        $("#checkin").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/user/checkin",
-                dataType: "json",
-                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
-                data: {
-                    recaptcha: grecaptcha.getResponse()
-                },
-                {/if}
-                success: (data) => {
-                    if (data.ret) {
-                        $$.getElementById('checkin-msg').innerHTML = data.msg;
-                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
-                        $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
-                },
-                error: (jqXHR) => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `发生错误：${
-                            jqXHR.status
-                            }`;
                 }
             })
-        })
-    })
-    {else}
-    window.onload = function () {
-        var myShakeEvent = new Shake({
-            threshold: 15
         });
-        myShakeEvent.start();
-        window.addEventListener('shake', shakeEventDidOccur, false);
-        function shakeEventDidOccur() {
-            if ("vibrate" in navigator) {
-                navigator.vibrate(500);
-            }
-            c.show();
-        }
-    };
-    var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">check</span>&nbsp;已签到</a></p>';
-    var handlerPopup = function (captchaObj) {
-        c = captchaObj;
-        captchaObj.onSuccess(function () {
-            var validate = captchaObj.getValidate();
-            $.ajax({
-                url: "/user/checkin", // 进行二次验证
-                type: "post",
-                dataType: "json",
-                data: {
-                    // 二次验证所需的三个值
-                    geetest_challenge: validate.geetest_challenge,
-                    geetest_validate: validate.geetest_validate,
-                    geetest_seccode: validate.geetest_seccode
-                },
-                success: (data) => {
-                    if (data.ret) {
-                        $$.getElementById('checkin-msg').innerHTML = data.msg;
-                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
-                        $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
-                },
-                error: (jqXHR) => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `发生错误：${
-                            jqXHR.status
-                            }`;
-                }
-            });
-        });
-        // 弹出式需要绑定触发验证码弹出按钮
-        //captchaObj.bindOn("#checkin")
-        // 将验证码加到id为captcha的元素里
-        captchaObj.appendTo("#popup-captcha");
-        // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
-    };
-    initGeetest({
-        gt: "{$geetest_html->gt}",
-        challenge: "{$geetest_html->challenge}",
-        product: "popup", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
-        offline: {if $geetest_html->success}0{else}1{/if} // 表示用户后台检测极验服务器是否宕机，与SDK配合，用户一般不需要关注
-    }, handlerPopup);
-    {/if}
-</script>
 
-{if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
-    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
-{/if}
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('past-usage'), {
+                chart: {
+                    type: "line",
+                    fontFamily: 'inherit',
+                    height: 240,
+                    parentHeightOffset: 0,
+                    toolbar: {
+                        show: false,
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                },
+                stroke: {
+                    width: 2,
+                    lineCap: "round",
+                    curve: "smooth",
+                },
+                series: [{
+                    name: "流量用量",
+                    data: [155, 65, 465, 265, 225, 325, 80]
+                }],
+                grid: {
+                    padding: {
+                        top: -20,
+                        right: 0,
+                        left: -4,
+                        bottom: -4
+                    },
+                    strokeDashArray: 4,
+                },
+                xaxis: {
+                    labels: {
+                        padding: 0,
+                    },
+                    tooltip: {
+                        enabled: false
+                    },
+                    type: 'datetime',
+                },
+                yaxis: {
+                    labels: {
+                        padding: 4
+                    },
+                },
+                labels: [
+                    '2020-06-20', '2020-06-21', '2020-06-22', '2020-06-23', '2020-06-24',
+                    '2020-06-25', '2020-06-26'
+                ],
+                colors: ["#206bc4"],
+                legend: {
+                    show: false,
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+{include file='user/tabler_footer.tpl'}

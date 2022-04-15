@@ -74,9 +74,11 @@ $_ENV['streaming_media_unlock_multiplexing'] = [
 $_ENV['enable_kill'] = false; // 是否允许用户主动删除账户
 $_ENV['enable_change_email'] = false;  // 是否允许用户主动更改账户邮箱
 $_ENV['enable_checkin'] = true; // 是否允许用户签到
+$_ENV['enable_expired_checkin'] = true; // 是否允许过期用户签到
 $_ENV['checkinMin'] = 100; // 签到可获得的最低流量(MB)
 $_ENV['checkinMax'] = 300; // 签到可获得的最多流量(MB)
 $_ENV['enable_ticket'] = true; // 是否开启工单系统
+$_ENV['enable_docs'] = true; // 是否开启文档系统
 
 /*
     与邮件相关设置

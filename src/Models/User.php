@@ -121,7 +121,7 @@ class User extends Model
      */
     public function lastSsTime(): string
     {
-        return $this->t == 0 ? '从未使用喵' : Tools::toDateTime($this->t);
+        return $this->t == 0 ? '没有记录' : Tools::toDateTime($this->t);
     }
 
     /**
@@ -566,29 +566,6 @@ class User extends Model
     {
         $logs = DetectBanLog::where('user_id', $this->id)->orderBy('id', 'desc')->first();
         return $logs->detect_number;
-    }
-
-    /**
-     * 签到
-     */
-    public function checkin(): array
-    {
-        $return = [
-            'ok'  => true,
-            'msg' => ''
-        ];
-        if (!$this->isAbleToCheckin()) {
-            $return['ok']  = false;
-            $return['msg'] = '您似乎已经签到过了...';
-        } else {
-            $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
-            $this->transfer_enable += Tools::toMB($traffic);
-            $this->last_check_in_time = time();
-            $this->save();
-            $return['msg'] = '获得了 ' . $traffic . 'MB 流量.';
-        }
-
-        return $return;
     }
 
     /**
