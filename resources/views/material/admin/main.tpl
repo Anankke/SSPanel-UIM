@@ -86,12 +86,6 @@
                         <li><a href="/admin/announcement"><i class="icon icon-lg">announcement</i>&nbsp;公告管理</a></li>
                         <li><a href="/admin/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单管理</a></li>
                     </ul>
-                    <a class="waves-attach" data-toggle="collapse" href="#ui_menu_node">节点</a>
-                    <ul class="menu-collapse collapse in" id="ui_menu_node">
-                        <li><a href="/admin/node"><i class="icon icon-lg">router</i>&nbsp;节点列表</a></li>
-                        <li><a href="/admin/block"><i class="icon icon-lg">dialer_sip</i>&nbsp;已封禁IP</a></li>
-                        <li><a href="/admin/unblock"><i class="icon icon-lg">dialer_sip</i>&nbsp;已解封IP</a></li>
-                    </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_user">用户</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_user">
                         <li><a href="/admin/user"><i class="icon icon-lg">supervisor_account</i>&nbsp;用户列表</a></li>
@@ -103,20 +97,20 @@
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_config">配置</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_config">
                         <li><a href="/admin/setting"><i class="icon icon-lg">settings</i>&nbsp;设置中心</a></li>
+                        <li><a href="/admin/node"><i class="icon icon-lg">router</i>&nbsp;节点列表</a></li>
                         <li><a href="/admin/config/telegram"><i class="icon icon-lg">supervisor_account</i>&nbsp;Telegram</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_detect">
                         <li><a href="/admin/detect"><i class="icon icon-lg">account_balance</i>&nbsp;审计规则</a></li>
                         <li><a href="/admin/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a></li>
-                        <li><a href="/admin/detect/ban"><i class="icon icon-lg">text_fields</i>&nbsp;审计封禁</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_trade">交易</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_trade">
                         <li><a href="/admin/giftcard"><i class="icon icon-lg">code</i>&nbsp;礼品卡</a></li>
-                        <li><a href="/admin/shop"><i class="icon icon-lg">shop</i>&nbsp;商品</a></li>
+                        <li><a href="/admin/product"><i class="icon icon-lg">shop</i>&nbsp;商店商品</a></li>
                         <li><a href="/admin/coupon"><i class="icon icon-lg">card_giftcard</i>&nbsp;优惠码</a></li>
-                        <li><a href="/admin/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>
+                        <li><a href="/admin/order"><i class="icon icon-lg">shopping_cart</i>&nbsp;用户订单</a></li>
                     </ul>
                 <li><a href="/user"><i class="icon icon-lg">person</i>&nbsp;用户中心</a></li>
             </ul>
