@@ -949,6 +949,24 @@ class UserController extends BaseController
         ]);
     }
 
+    public function index($request, $response, $args)
+    {
+        $user = $this->user;
+        $t_e = $user->transfer_enable;
+        $data = [
+            'today_traffic_usage' => ($t_e == 0) ? 0 : ($user->u + $user->d - $user->last_day_t) / $t_e * 100,
+            'past_traffic_usage' => ($t_e == 0) ? 0 : $user->last_day_t / $t_e * 100,
+            'residual_flow' => ($t_e == 0) ? 0 : ($t_e - ($user->u + $user->d)) / $t_e * 100,
+        ];
+
+        return $response->write(
+            $this->view()
+                ->assign('data', $data)
+                ->assign('ann', Ann::orderBy('date', 'desc')->first())
+                ->display('user/index.tpl')
+        );
+    }
+
     public function media($request, $response, $args)
     {
         $results = [];
@@ -1019,57 +1037,6 @@ class UserController extends BaseController
 
         下面是等待整理的
     */
-
-    public function index($request, $response, $args)
-    {
-        $captcha = Captcha::generate();
-
-        if ($_ENV['subscribe_client_url'] != '') {
-            $getClient = new Token();
-            for ($i = 0; $i < 10; $i++) {
-                $token = $this->user->id . Tools::genRandomChar(16);
-                $Elink = Token::where('token', '=', $token)->first();
-                if ($Elink == null) {
-                    $getClient->token = $token;
-                    break;
-                }
-            }
-            $getClient->user_id     = $this->user->id;
-            $getClient->create_time = time();
-            $getClient->expire_time = time() + 10 * 60;
-            $getClient->save();
-        } else {
-            $token = '';
-        }
-
-        if (Setting::obtain('enable_checkin_captcha') == true) {
-            $geetest_html = $captcha['geetest'];
-        } else {
-            $geetest_html = null;
-        }
-
-        $data = [
-            'today_traffic_usage' => ($this->user->transfer_enable == 0) ? 0 : ($this->user->u + $this->user->d - $this->user->last_day_t) / $this->user->transfer_enable * 100,
-            'past_traffic_usage' => ($this->user->transfer_enable == 0) ? 0 : $this->user->last_day_t / $this->user->transfer_enable * 100,
-            'residual_flow' => ($this->user->transfer_enable==0) ? 0 : ($this->user->transfer_enable - ($this->user->u + $this->user->d)) / $this->user->transfer_enable * 100,
-        ];
-
-        return $response->write(
-            $this->view()
-                ->assign('ssr_sub_token', $this->user->getSublink())
-                ->assign('ann', Ann::orderBy('date', 'desc')->first())
-                ->assign('geetest_html', $geetest_html)
-                ->assign('mergeSub', $_ENV['mergeSub'])
-                ->assign('subUrl', $_ENV['subUrl'])
-                ->registerClass('URL', URL::class)
-                ->assign('recaptcha_sitekey', $captcha['recaptcha'])
-                ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
-                ->assign('getUniversalSub', SubController::getUniversalSub($this->user))
-                ->assign('getClient', $token)
-                ->assign('data', $data)
-                ->display('user/index.tpl')
-        );
-    }
 
     public function backtoadmin($request, $response, $args)
     {

@@ -1,27 +1,22 @@
 <?php
-
-//Thanks to http://blog.csdn.net/jollyjumper/article/details/9823047
-
 namespace App\Controllers;
 
-use App\Models\{
-    Link,
-    User,
-    UserSubscribeLog
-};
-use App\Utils\{
-    URL,
-    Tools,
-    AppURI,
-    ConfGenerate,
-    ConfRender
-};
+use App\Models\Link;
+use App\Models\User;
+use App\Models\UserSubscribeLog;
+use App\Utils\AppURI;
+use App\Utils\ConfGenerate;
+use App\Utils\ConfRender;
+use App\Utils\Tools;
+use App\Utils\URL;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use voku\helper\AntiXSS;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\{
-    Request,
-    Response
-};
+
+// Thanks to http://blog.csdn.net/jollyjumper/article/details/9823047
+
+require dirname(dirname(dirname(__FILE__))) . '/config/appprofile.php';
 
 /**
  *  LinkController
