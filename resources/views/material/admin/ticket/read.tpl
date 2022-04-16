@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#add-reply">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -23,9 +23,9 @@
                                 <line x1="5" y1="12" x2="19" y2="12" />
                             </svg>
                             添加回复
-                        </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                            data-bs-target="#add-reply" aria-label="Create new report">
+                        </button>
+                        <button href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                            data-bs-target="#add-reply">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -33,7 +33,7 @@
                                 <line x1="12" y1="5" x2="12" y2="19" />
                                 <line x1="5" y1="12" x2="19" y2="12" />
                             </svg>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                                 {foreach $discussions as $discuss}
                                     <div>
                                         <div class="row">
-                                            {if $discuss->user_id == $user->id}
+                                            {if $discuss->user_id != '0'}
                                                 <div class="col-auto">
                                                     <span class="avatar">用户</span>
                                                 </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <textarea id="reply-content" class="form-control" rows="8" placeholder="请输入回复内容"></textarea>
+                        <textarea id="reply-content" class="form-control" rows="12" placeholder="请输入回复内容"></textarea>
                     </div>
                     <p>* 上传图片有助于帮助解决问题，请使用图床上传。可以前往 <a target="view_window"
                             href="https://www.imgurl.org/">imgurl.org</a></p>
@@ -180,7 +180,7 @@
     <script>
         $("#reply").click(function() {
             $.ajax({
-                url: "/user/ticket/{$topic->tk_id}",
+                url: "/admin/ticket/{$topic->tk_id}",
                 type: 'PUT',
                 dataType: "json",
                 data: {

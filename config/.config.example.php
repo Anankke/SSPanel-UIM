@@ -82,6 +82,7 @@ $_ENV['enable_expired_checkin'] = true; // 是否允许过期用户签到
 $_ENV['checkinMin'] = 100; // 签到可获得的最低流量(MB)
 $_ENV['checkinMax'] = 300; // 签到可获得的最多流量(MB)
 $_ENV['enable_ticket'] = true; // 是否开启工单系统
+$_ENV['mail_ticket'] = true; // 是否开启工单邮件提醒
 $_ENV['enable_docs'] = true; // 是否开启文档系统
 
 /*
@@ -92,7 +93,6 @@ $_ENV['sendPageLimit'] = 50; // 发信分页数
 $_ENV['email_queue'] = true; // 邮件队列开关
 $_ENV['mail_filter'] = 0; // 0关闭; 1白名单模式; 2黑名单模式
 $_ENV['mail_filter_list'] = ['qq.com', 'vip.qq.com', 'foxmail.com'];
-$_ENV['mail_ticket'] = true; // 是否开启工单邮件提醒
 $_ENV['notify_limit_mode'] = true; // false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
 $_ENV['notify_limit_value'] = 20; // 当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
