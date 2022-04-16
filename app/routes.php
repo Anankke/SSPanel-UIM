@@ -146,15 +146,6 @@ return function (SlimApp $app) {
         $this->post('/ticket/ajax',             App\Controllers\Admin\TicketController::class . ':ajaxQuery');
         $this->delete('/ticket/{id}',           App\Controllers\Admin\TicketController::class . ':delete');
 
-        // Shop Mange
-        $this->get('/shop',                     App\Controllers\Admin\ShopController::class . ':index');
-        $this->post('/shop/ajax',               App\Controllers\Admin\ShopController::class . ':ajax_shop');
-        $this->get('/shop/create',              App\Controllers\Admin\ShopController::class . ':create');
-        $this->post('/shop',                    App\Controllers\Admin\ShopController::class . ':add');
-        $this->get('/shop/{id}/edit',           App\Controllers\Admin\ShopController::class . ':edit');
-        $this->put('/shop/{id}',                App\Controllers\Admin\ShopController::class . ':update');
-        $this->delete('/shop',                  App\Controllers\Admin\ShopController::class . ':deleteGet');
-
         // Product
         $this->get('/product',                  App\Controllers\Admin\ProductController::class . ':index');
         $this->get('/product/details/{id}',     App\Controllers\Admin\ProductController::class . ':get');

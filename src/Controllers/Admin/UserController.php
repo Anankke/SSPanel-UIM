@@ -2,7 +2,6 @@
 namespace App\Controllers\Admin;
 
 use App\Models\Setting;
-use App\Models\Shop;
 use App\Models\User;
 use App\Services\Auth;
 use App\Services\Mail;
@@ -65,7 +64,6 @@ class UserController extends AdminController
         $table_config['ajax_url'] = 'user/ajax';
         return $response->write(
             $this->view()
-                ->assign('shops',        Shop::orderBy('name')->get())
                 ->assign('table_config', $table_config)
                 ->display('admin/user/index.tpl')
         );

@@ -474,8 +474,7 @@ class User extends Model
      */
     public function get_top_up(): float
     {
-        $number = Code::where('userid', $this->id)->sum('number');
-        return is_null($number) ? 0.00 : round($number, 2);
+        return 0.00;
     }
 
     /**
