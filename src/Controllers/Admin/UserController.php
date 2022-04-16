@@ -1,7 +1,6 @@
 <?php
 namespace App\Controllers\Admin;
 
-use App\Models\DetectBanLog;
 use App\Models\Setting;
 use App\Models\Shop;
 use App\Models\User;
@@ -186,16 +185,6 @@ class UserController extends AdminController
             $user->enable                       = 0;
             $end_time                           = date('Y-m-d H:i:s');
             $user->last_detect_ban_time         = $end_time;
-            $DetectBanLog                       = new DetectBanLog();
-            $DetectBanLog->user_name            = $user->user_name;
-            $DetectBanLog->user_id              = $user->id;
-            $DetectBanLog->email                = $user->email;
-            $DetectBanLog->detect_number        = '0';
-            $DetectBanLog->ban_time             = $ban_time;
-            $DetectBanLog->start_time           = strtotime('1989-06-04 00:05:00');
-            $DetectBanLog->end_time             = strtotime($end_time);
-            $DetectBanLog->all_detect_number    = $user->all_detect_number;
-            $DetectBanLog->save();
         }
 
         if (!$user->save()) {

@@ -453,7 +453,6 @@ class User extends Model
         $email = $this->email;
 
         Code::where('userid', '=', $uid)->delete();
-        DetectBanLog::where('user_id', '=', $uid)->delete();
         DetectLog::where('user_id', '=', $uid)->delete();
         EmailVerify::where('email', $email)->delete();
         InviteCode::where('user_id', '=', $uid)->delete();
@@ -535,13 +534,7 @@ class User extends Model
      */
     public function relieve_time(): string
     {
-        $logs = DetectBanLog::where('user_id', $this->id)->orderBy('id', 'desc')->first();
-        if ($this->enable == 0 && $logs != null) {
-            $time = ($logs->end_time + $logs->ban_time * 60);
-            return date('Y-m-d H:i:s', $time);
-        } else {
-            return '当前未被封禁';
-        }
+        return '当前未被封禁';
     }
 
     /**
@@ -549,7 +542,7 @@ class User extends Model
      */
     public function detect_ban_number(): int
     {
-        return DetectBanLog::where('user_id', $this->id)->count();
+        return 0;
     }
 
     /**
@@ -557,8 +550,7 @@ class User extends Model
      */
     public function user_detect_ban_number(): int
     {
-        $logs = DetectBanLog::where('user_id', $this->id)->orderBy('id', 'desc')->first();
-        return $logs->detect_number;
+        return 0;
     }
 
     /**

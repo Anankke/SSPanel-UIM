@@ -223,14 +223,6 @@ return function (SlimApp $app) {
         $this->get('/subscribe',                App\Controllers\Admin\SubscribeLogController::class . ':index');
         $this->post('/subscribe/ajax',          App\Controllers\Admin\SubscribeLogController::class . ':subscribe_ajax');
 
-        // Detect Ban Mange
-        $this->get('/detect/ban',               App\Controllers\Admin\DetectBanLogController::class . ':index');
-        $this->post('/detect/ban/ajax',         App\Controllers\Admin\DetectBanLogController::class . ':ajax_log');
-
-        // 指定用户充值记录
-        $this->get('/user/{id}/code',           App\Controllers\Admin\UserLog\CodeLogController::class . ':index');
-        $this->post('/user/{id}/code/ajax',     App\Controllers\Admin\UserLog\CodeLogController::class . ':ajax');
-
         // 指定用户订阅记录
         $this->get('/user/{id}/sublog',         App\Controllers\Admin\UserLog\SubLogController::class . ':index');
         $this->post('/user/{id}/sublog/ajax',   App\Controllers\Admin\UserLog\SubLogController::class . ':ajax');

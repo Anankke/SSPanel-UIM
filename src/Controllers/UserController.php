@@ -2,7 +2,6 @@
 namespace App\Controllers;
 
 use App\Models\Ann;
-use App\Models\Code;
 use App\Models\Coupon;
 use App\Models\DetectLog;
 use App\Models\DetectRule;
