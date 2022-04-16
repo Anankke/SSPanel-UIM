@@ -133,4 +133,5 @@
     </script>
 </body>
 {include file='tabler_footer.tpl'}
+
 </html>

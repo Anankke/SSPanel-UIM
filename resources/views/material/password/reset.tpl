@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">忘记密码</h2>
                     <p class="text-muted mb-4">
-                        我们将向你的注册邮箱发送一封邮件，邮件内容包含一个可以重置密码的链接
+                        我们将向你的注册邮箱发送一封邮件，邮件内容中包含一个可以重设密码的链接
                     </p>
                     <div class="mb-3">
                         <label class="form-label">注册邮箱</label>
@@ -126,4 +126,5 @@
     </script>
 </body>
 {include file='tabler_footer.tpl'}
+
 </html>

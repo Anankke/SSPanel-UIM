@@ -179,7 +179,7 @@
                     {if $enable_email_verify == true}
                         emailcode: $('#emailcode').val(),
                     {/if}
-                    tos: $('#tos').prop('checked'),
+                    tos: $('#tos').prop('checked'), // true / false (string)
                     code: $('#code').val(),
                     name: $('#name').val(),
                     email: $('#email').val(),
@@ -204,4 +204,5 @@
     </script>
 </body>
 {include file='tabler_footer.tpl'}
+
 </html>

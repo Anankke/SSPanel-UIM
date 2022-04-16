@@ -1,5 +1,4 @@
 {include file='tabler_header.tpl'}
-
 <body class="border-top-wide border-primary d-flex flex-column">
     <div class="page page-center">
         <div class="container-tight py-4">

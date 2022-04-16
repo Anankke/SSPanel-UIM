@@ -1,6 +1,5 @@
 {include file='tabler_header.tpl'}
-
-<body class=" border-top-wide border-primary d-flex flex-column">
+<body class="border-top-wide border-primary d-flex flex-column">
     <div class="page page-center">
         <div class="container-narrow py-4">
             <div class="text-center mb-4">
@@ -36,10 +35,9 @@
                 <div class="card-body">
                     <h3 class="card-title">MIT LINCENSE</h3>
                     <div class="markdown">
-                        <p>Copyright (C) <{date("Y")}>
-                                &lt;SSPanel UIM Dev Team&gt;
+                        <p>
+                            Copyright (C) <{date("Y")}> &lt;SSPanel UIM Dev Team&gt;
                         </p>
-
                         <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this
                             software and associated documentation files (the "Software"), to deal in the
                             Software without restriction, including without limitation the rights to use, copy,
@@ -47,11 +45,9 @@
                             and to permit persons to whom the Software is furnished to do so, subject to the
                             following conditions:
                         </p>
-
                         <p>The above copyright notice and this permission notice shall be included in all
                             copies or substantial portions of the Software.
                         </p>
-
                         <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
                             INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
                             PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
