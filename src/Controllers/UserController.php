@@ -1,62 +1,71 @@
 <?php
 namespace App\Controllers;
 
-use App\Services\{
-    Auth,
-    Captcha,
-    Config,
-    Payment
-};
-use App\Models\{
-    Ip,
-    Ann,
-    Code,
-    Node,
-    Shop,
-    User,
-    Token,
-    Bought,
-    Coupon,
-    Product,
-    Payback,
-    BlockIp,
-    LoginIp,
-    Setting,
-    GiftCard,
-    UnblockIp,
-    DetectLog,
-    DetectRule,
-    InviteCode,
-    StreamMedia,
-    EmailVerify,
-    ProductOrder,
-    UserSubscribeLog
-};
-use App\Utils\{
-    GA,
-    URL,
-    Hash,
-    Check,
-    QQWry,
-    Tools,
-    Cookie,
-    Telegram,
-    ClientProfiles,
-    DatatablesHelper,
-    TelegramSessionManager
-};
-use voku\helper\AntiXSS;
+use App\Models\Ann;
+use App\Models\Code;
+use App\Models\Coupon;
+use App\Models\DetectLog;
+use App\Models\DetectRule;
+use App\Models\EmailVerify;
+use App\Models\GiftCard;
+use App\Models\InviteCode;
+use App\Models\Ip;
+use App\Models\LoginIp;
+use App\Models\Node;
+use App\Models\Payback;
+use App\Models\Product;
+use App\Models\ProductOrder;
+use App\Models\Setting;
+use App\Models\StreamMedia;
+use App\Models\Token;
+use App\Models\User;
+use App\Models\UserSubscribeLog;
+use App\Services\Auth;
+use App\Services\Captcha;
+use App\Services\Config;
+use App\Services\Payment;
+use App\Utils\Check;
+use App\Utils\ClientProfiles;
+use App\Utils\Cookie;
+use App\Utils\DatatablesHelper;
+use App\Utils\GA;
+use App\Utils\Hash;
+use App\Utils\TelegramSessionManager;
+use App\Utils\Tools;
+use App\Utils\URL;
 use Ramsey\Uuid\Uuid;
-use Slim\Http\{
-    Request,
-    Response
-};
+use Slim\Http\Response;
+use voku\helper\AntiXSS;
 
 class UserController extends BaseController
 {
     public function productIndex($request, $response, $args)
     {
         $products = Product::where('status', '1')->get();
+
+        $product_tab_lists = [
+            [
+                'type' => 'tatp',
+                'name' => '时间流量包',
+                'icon' => 'box',
+            ],
+            [
+                'type' => 'time',
+                'name' => '时间包',
+                'icon' => 'clock',
+            ],
+            [
+                'type' => 'traffic',
+                'name' => '流量包',
+                'icon' => 'cloud-download',
+            ],
+            [
+                'type' => 'other',
+                'name' => '其他商品',
+                'icon' => 'brand-tinder',
+            ],
+        ];
+
         $product_lists = [
             'tatp' => '时间流量包',
             'time' => '时间包',
@@ -76,6 +85,7 @@ class UserController extends BaseController
                 ->assign('count', $count)
                 ->assign('products', $products)
                 ->assign('product_lists', $product_lists)
+                ->assign('product_tab_lists', $product_tab_lists)
                 ->display('user/product.tpl')
         );
     }

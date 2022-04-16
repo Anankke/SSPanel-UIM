@@ -39,11 +39,12 @@
                 <div class="col-12">
                     <div class="card">
                         <ul class="nav nav-tabs nav-fill" data-bs-toggle="tabs">
-                            {foreach $product_lists as $key => $value}
+                            {foreach $product_tab_lists as $product_tab}
                                 <li class="nav-item">
-                                    <a href="#product-{$value}" class="nav-link {if $key == 'tatp'}active{/if}"
+                                    <a href="#product-{$product_tab['type']}"
+                                        class="nav-link {if $product_tab['type'] == 'tatp'}active{/if}"
                                         data-bs-toggle="tab">
-                                        <i class="ti ti-box"></i>&nbsp;{$value}
+                                        <i class="ti ti-{$product_tab['icon']}"></i>&nbsp;{$product_tab['name']}
                                     </a>
                                 </li>
                             {/foreach}
@@ -51,7 +52,7 @@
                         <div class="card-body">
                             <div class="tab-content">
                                 {foreach $product_lists as $key => $value}
-                                    <div class="tab-pane show {if $key == 'tatp'}active{/if}" id="product-{$value}">
+                                    <div class="tab-pane show {if $key == 'tatp'}active{/if}" id="product-{$key}">
                                         <div class="row">
                                             {if $count[$key] != '0'}
                                                 {foreach $products as $product}

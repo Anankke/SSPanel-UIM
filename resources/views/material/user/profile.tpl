@@ -99,7 +99,7 @@
                             <h3 class="card-title">最近登录记录</h3>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-vcenter card-table">
+                            <table class="table table-vcenter text-nowrap card-table">
                                 <thead>
                                     <tr>
                                         <th>IP</th>
