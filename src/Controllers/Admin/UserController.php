@@ -1,32 +1,23 @@
 <?php
-
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
-use App\Models\{
-    User,
-    Shop,
-    Bought,
-    Setting,
-    DetectBanLog
-};
-use App\Services\{
-    Auth,
-    Mail,
-    Config
-};
-use App\Utils\{
-    GA,
-    Hash,
-    Tools,
-    Cookie
-};
+use App\Models\Bought;
+use App\Models\DetectBanLog;
+use App\Models\Setting;
+use App\Models\Shop;
+use App\Models\User;
+use App\Services\Auth;
+use App\Services\Mail;
+use App\Utils\Cookie;
+use App\Utils\GA;
+use App\Utils\Hash;
+use App\Utils\Tools;
 use Exception;
 use Ramsey\Uuid\Uuid;
-use Slim\Http\{
-    Request,
-    Response
-};
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Controllers\AuthController;
+use App\Controllers\AdminController;
 
 class UserController extends AdminController
 {
@@ -89,106 +80,35 @@ class UserController extends AdminController
      */
     public function createNewUser($request, $response, $args)
     {
-        $email   = strtolower(trim($request->getParam('email')));
-        $money   = (int) trim($request->getParam('balance'));
-        $shop_id = (int) $request->getParam('product');
-
-        $user = User::where('email', $email)->first();
-        if ($user != null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '邮箱已经被注册了'
-            ]);
-        }
-
+        $email = strtolower(trim($request->getParam('email')));
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '邮箱不规范'
             ]);
         }
-
-        $configs = Setting::getClass('register');
-        // do reg user
-        $user                       = new User();
-        $current_timestamp          = time();
-        $pass                       = Tools::genRandomChar();
-        $user->user_name            = $email;
-        $user->email                = $email;
-        $user->pass                 = Hash::passwordHash($pass);
-        $user->passwd               = Tools::genRandomChar(16);
-        $user->uuid                 = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
-        $user->port                 = Tools::getAvPort();
-        $user->t                    = 0;
-        $user->u                    = 0;
-        $user->d                    = 0;
-        $user->method               = $configs['sign_up_for_method'];
-        $user->protocol             = $configs['sign_up_for_protocol'];
-        $user->protocol_param       = $configs['sign_up_for_protocol_param'];
-        $user->obfs                 = $configs['sign_up_for_obfs'];
-        $user->obfs_param           = $configs['sign_up_for_obfs_param'];
-        $user->forbidden_ip         = $_ENV['reg_forbidden_ip'];
-        $user->forbidden_port       = $_ENV['reg_forbidden_port'];
-        $user->im_type              = 2;
-        $user->im_value             = $email;
-        $user->transfer_enable      = Tools::toGB($configs['sign_up_for_free_traffic']);
-        $user->invite_num           = $configs['sign_up_for_invitation_codes'];
-        $user->auto_reset_day       = '0';
-        $user->auto_reset_bandwidth = '0';
-        $user->money                = ($money != -1 ? $money : 0);
-        $user->class_expire         = date('Y-m-d H:i:s', time() + $configs['sign_up_for_class_time'] * 86400);
-        $user->class                = $configs['sign_up_for_class'];
-        $user->node_connector       = $configs['connection_device_limit'];
-        $user->node_speedlimit      = $configs['connection_rate_limit'];
-        $user->expire_in            = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
-        $user->reg_date             = date('Y-m-d H:i:s');
-        $user->reg_ip               = $_SERVER['REMOTE_ADDR'];
-        $user->theme                = $_ENV['theme'];
-
-        $groups = explode(',', $_ENV['random_group']);
-
-        $user->node_group = $groups[array_rand($groups)];
-
-        $ga = new GA();
-        $secret = $ga->createSecret();
-
-        $user->ga_token = $secret;
-        $user->ga_enable = 0;
-        if ($user->save()) {
-            $res['ret']         = 1;
-            $res['msg']         = '新用户注册成功 用户名: ' . $email . ' 随机初始密码: ' . $pass;
-            $res['email_error'] = 'success';
-            if ($shop_id > 0) {
-                $shop = Shop::find($shop_id);
-                if ($shop != null) {
-                    $bought           = new Bought();
-                    $bought->userid   = $user->id;
-                    $bought->shopid   = $shop->id;
-                    $bought->datetime = time();
-                    $bought->renew    = 0;
-                    $bought->coupon   = '';
-                    $bought->price    = $shop->price;
-                    $bought->save();
-                    $shop->buy($user);
-                } else {
-                    $res['msg'] .= '<br/>但是套餐添加失败了，原因是套餐不存在';
-                }
-            }
-            $subject            = $_ENV['appName'] . '-新用户注册通知';
-            $to                 = $user->email;
-            $text               = '您好，管理员已经为您生成账户，用户名: ' . $email . '，登录密码为：' . $pass . '，感谢您的支持。 ';
-            try {
-                Mail::send($to, $subject, 'newuser.tpl', [
-                    'user' => $user, 'text' => $text,
-                ], []);
-            } catch (Exception $e) {
-                $res['email_error'] = $e->getMessage();
-            }
-            return $response->withJson($res);
+        $user = User::where('email', $email)->first();
+        if ($user != null) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '此邮箱已注册'
+            ]);
         }
+
+        $pwd = Tools::genRandomChar(16);
+        AuthController::register_helper('nickname', $email, $pwd, '', '1', '', 0, false);
+
+        if (Setting::obtain('mail_driver') != 'none') {
+            $text = "使用以下信息登录：<br/>邮箱：$email <br/>密码：$pwd <br/>";
+            $subject = $_ENV['appName'] . ' - 你的账户';
+            Mail::send($email, $subject, 'newuser.tpl', [
+                'text' => $text,
+            ], []);
+        }
+
         return $response->withJson([
-            'ret' => 0,
-            'msg' => '未知错误'
+            'ret' => 1,
+            'msg' => '用户添加成功，登录密码是：' . $pwd
         ]);
     }
 

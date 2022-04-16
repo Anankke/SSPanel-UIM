@@ -231,7 +231,7 @@ class AuthController extends BaseController
         ]);
     }
 
-    public function register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id)
+    public static function register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $auto_login = true)
     {
         $ga = new GA();
         $user = new User();
@@ -239,7 +239,7 @@ class AuthController extends BaseController
 
         $user->money = $_ENV['reg_money'];
         $user->email = $email;
-        $user->im_type = ($imtype == '') ? 'none' : $imtype;
+        $user->im_type = ($imtype == '') ? '1' : $imtype;
         $user->im_value = $antiXss->xss_clean($imvalue);
         $user->user_name = $antiXss->xss_clean($name);
         $user->port = Tools::getAvPort();
@@ -272,14 +272,16 @@ class AuthController extends BaseController
         $user->expire_in = date('Y-m-d H:i:s', time());
         $user->class_expire = date('Y-m-d H:i:s', time());
         $user->reg_date = date('Y-m-d H:i:s');
-        $user->reg_ip = $_SERVER['REMOTE_ADDR'];
+        $user->reg_ip = (empty($_SERVER['REMOTE_ADDR'])) ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
         $groups = explode(',', $_ENV['random_group']);
         $user->node_group = $groups[array_rand($groups)];
         $user->save();
 
-        Auth::login($user->id, 3600);
-        $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
+        if ($auto_login) {
+            Auth::login($user->id, 3600);
+            $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
+        }
     }
 
     public function logout($request, $response, $next)
