@@ -155,11 +155,6 @@ return function (SlimApp $app) {
         $this->put('/shop/{id}',                App\Controllers\Admin\ShopController::class . ':update');
         $this->delete('/shop',                  App\Controllers\Admin\ShopController::class . ':deleteGet');
 
-        // Bought Mange
-        $this->get('/bought',                   App\Controllers\Admin\ShopController::class . ':bought');
-        $this->delete('/bought',                App\Controllers\Admin\ShopController::class . ':deleteBoughtGet');
-        $this->post('/bought/ajax',             App\Controllers\Admin\ShopController::class . ':ajax_bought');
-
         // Product
         $this->get('/product',                  App\Controllers\Admin\ProductController::class . ':index');
         $this->get('/product/details/{id}',     App\Controllers\Admin\ProductController::class . ':get');
@@ -231,12 +226,6 @@ return function (SlimApp $app) {
         // Detect Ban Mange
         $this->get('/detect/ban',               App\Controllers\Admin\DetectBanLogController::class . ':index');
         $this->post('/detect/ban/ajax',         App\Controllers\Admin\DetectBanLogController::class . ':ajax_log');
-
-        // 指定用户购买记录以及添加套餐
-        $this->get('/user/{id}/bought',         App\Controllers\Admin\UserLog\BoughtLogController::class . ':bought');
-        $this->post('/user/{id}/bought/ajax',   App\Controllers\Admin\UserLog\BoughtLogController::class . ':bought_ajax');
-        $this->delete('/user/bought',           App\Controllers\Admin\UserLog\BoughtLogController::class . ':bought_delete');
-        $this->post('/user/{id}/bought/buy',    App\Controllers\Admin\UserLog\BoughtLogController::class . ':bought_add');
 
         // 指定用户充值记录
         $this->get('/user/{id}/code',           App\Controllers\Admin\UserLog\CodeLogController::class . ':index');

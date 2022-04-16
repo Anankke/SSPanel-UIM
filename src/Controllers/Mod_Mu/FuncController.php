@@ -1,19 +1,12 @@
 <?php
-
 namespace App\Controllers\Mod_Mu;
 
-use App\Controllers\BaseController;
 use App\Utils\Tools;
-use App\Models\{
-    Node,
-    BlockIp,
-    UnblockIp,
-    DetectRule
-};
-use Slim\Http\{
-    Request,
-    Response
-};
+use App\Models\Node;
+use App\Models\DetectRule;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Controllers\BaseController;
 use Psr\Http\Message\ResponseInterface;
 
 class FuncController extends BaseController
@@ -27,7 +20,7 @@ class FuncController extends BaseController
     {
         $res = [
             'ret' => 1,
-            'data' => 'pong'
+            'data' => 'pong',
         ];
         return $response->withJson($res);
     }
@@ -42,8 +35,8 @@ class FuncController extends BaseController
         $rules = DetectRule::all();
 
         $res = [
-            'ret'  => 1,
-            'data' => $rules
+            'ret' => 1,
+            'data' => $rules,
         ];
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($rules);
@@ -60,11 +53,11 @@ class FuncController extends BaseController
      */
     public function get_blockip($request, $response, $args): ResponseInterface
     {
-        $block_ips = BlockIp::Where('datetime', '>', time() - 60)->get();
+        $block_ips = [];
 
         $res = [
             'ret' => 1,
-            'data' => $block_ips
+            'data' => $block_ips,
         ];
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($block_ips);
@@ -81,11 +74,11 @@ class FuncController extends BaseController
      */
     public function get_unblockip($request, $response, $args): ResponseInterface
     {
-        $unblock_ips = UnblockIp::Where('datetime', '>', time() - 60)->get();
+        $unblock_ips = [];
 
         $res = [
             'ret' => 1,
-            'data' => $unblock_ips
+            'data' => $unblock_ips,
         ];
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($unblock_ips);
@@ -113,7 +106,7 @@ class FuncController extends BaseController
         $node = Node::find($node_id);
         if ($node == null) {
             $res = [
-                'ret' => 0
+                'ret' => 0,
             ];
             return $response->withJson($res);
         }
@@ -121,18 +114,6 @@ class FuncController extends BaseController
         if (count($data) > 0) {
             foreach ($data as $log) {
                 $ip = $log['ip'];
-
-                $exist_ip = BlockIp::where('ip', $ip)->first();
-                if ($exist_ip != null) {
-                    continue;
-                }
-
-                // log
-                $ip_block = new BlockIp();
-                $ip_block->ip = $ip;
-                $ip_block->nodeid = $node_id;
-                $ip_block->datetime = time();
-                $ip_block->save();
             }
         }
 

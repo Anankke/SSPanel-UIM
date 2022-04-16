@@ -452,7 +452,6 @@ class User extends Model
         $uid   = $this->id;
         $email = $this->email;
 
-        Bought::where('userid', '=', $uid)->delete();
         Code::where('userid', '=', $uid)->delete();
         DetectBanLog::where('user_id', '=', $uid)->delete();
         DetectLog::where('user_id', '=', $uid)->delete();
@@ -464,7 +463,6 @@ class User extends Model
         PasswordReset::where('email', '=', $email)->delete();
         TelegramSession::where('user_id', '=', $uid)->delete();
         Token::where('user_id', '=', $uid)->delete();
-        UnblockIp::where('userid', '=', $uid)->delete();
         UserSubscribeLog::where('user_id', '=', $uid)->delete();
 
         $this->delete();
@@ -726,21 +724,7 @@ class User extends Model
      */
     public function valid_use_loop(): string
     {
-        $boughts = Bought::where('userid', $this->id)->orderBy('id', 'desc')->get();
-        $data = [];
-        foreach ($boughts as $bought) {
-            $shop = $bought->shop();
-            if ($shop != null && $bought->valid()) {
-                $data[] = $bought->reset_time();
-            }
-        }
-        if (count($data) == 0) {
-            return '未购买套餐.';
-        }
-        if (count($data) == 1) {
-            return $data[0];
-        }
-        return '多个有效套餐无法显示.';
+        return '请前往用户中心查看';
     }
 
     /**

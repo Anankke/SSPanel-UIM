@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 class Payback extends Model
@@ -10,11 +9,6 @@ class Payback extends Model
     public function user()
     {
         $user = User::where('id', $this->attributes['userid'])->first();
-        if ($user == null) {
-            Bought::where('id', '=', $this->attributes['id'])->delete();
-            return null;
-        }
-
         return $user;
     }
 

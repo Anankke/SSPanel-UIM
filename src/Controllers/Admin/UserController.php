@@ -1,7 +1,6 @@
 <?php
 namespace App\Controllers\Admin;
 
-use App\Models\Bought;
 use App\Models\DetectBanLog;
 use App\Models\Setting;
 use App\Models\Shop;
