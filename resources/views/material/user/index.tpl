@@ -280,6 +280,14 @@
                                                 class="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{$user->unusedTraffic()}</span>
                                         </div>
                                     </div>
+                                    <p class="my-3">
+                                        {if time() > strtotime($user->expire_in)}
+                                            你的账户过期了，可以前往 <a href="/user/product">商店</a> 购买套餐
+                                        {else}
+                                            {$diff = round((strtotime($user->expire_in) - time()) / 86400)}
+                                            你的账户大约还有 {$diff} 天到期
+                                        {/if}
+                                    </p>
                                 </div>
                             </div>
                         </div>

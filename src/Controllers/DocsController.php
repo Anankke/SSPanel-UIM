@@ -109,14 +109,6 @@ class DocsController extends BaseController
                     'name' => 'Surge',
                     'url' => '/user/docs/surge-macos',
                 ],
-                [
-                    'name' => 'ShadowsocksX-NG',
-                    'url' => '/user/docs/shadowsocksx-ng',
-                ],
-                [
-                    'name' => 'ShadowsocksX-NG-R',
-                    'url' => '/user/docs/shadowsocksx-ng-r',
-                ],
             ],
             'Route' => [
                 [

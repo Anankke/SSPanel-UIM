@@ -353,6 +353,10 @@ class UserController extends BaseController
 
         $order->execute_status = 1;
         $order->save();
+
+        if ($user->ref_by > 0 && $_ENV['gift_card_rebate'] == true) {
+            Payback::rebate($user->id, ($order->order_price / 100));
+        }
     }
 
     public function redeemGiftCard($request, $response, $args)
@@ -372,13 +376,17 @@ class UserController extends BaseController
             if ($giftcard->status == '已用') {
                 throw new \Exception('礼品卡已使用');
             }
-            $user->money += $giftcard->balance;
+            $user->money += $giftcard->balance; // 模型已经将礼品卡面额转换，不需要再除以一百
             $user->save();
 
             $giftcard->status = 1;
             $giftcard->used_at = time();
             $giftcard->use_user = $user->id;
             $giftcard->save();
+
+            if ($user->ref_by > 0 && $_ENV['gift_card_rebate'] == true) {
+                Payback::rebate($user->id, $giftcard->balance);
+            }
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,

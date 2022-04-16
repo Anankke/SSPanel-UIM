@@ -84,6 +84,7 @@ $_ENV['checkinMax'] = 300; // 签到可获得的最多流量(MB)
 $_ENV['enable_ticket'] = true; // 是否开启工单系统
 $_ENV['mail_ticket'] = true; // 是否开启工单邮件提醒
 $_ENV['enable_docs'] = true; // 是否开启文档系统
+$_ENV['gift_card_rebate'] = false; // 当用户兑换礼品卡添加余额时，是否执行返利
 
 /*
     与邮件相关设置

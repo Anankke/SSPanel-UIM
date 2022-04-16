@@ -323,6 +323,7 @@
 
         $('#waiting-dialog').on('hide.bs.modal', function() {
             $('#qrcode').html('');
+            clearInterval(cycle);
             $("#submit-payment").attr('disabled', false);
             $('#submit-payment').text('重新支付');
         });

@@ -35,9 +35,10 @@
                             <div class="d-flex">
                                 {if $config['enable_email_verify'] == true && $config['enable_change_email'] == true}
                                     <a id="email-verify" class="btn btn-link">获取验证码</a>
+                                    <button id="modify-email" class="btn btn-primary ms-auto">修改</button>
+                                {else}
+                                    <button id="modify-email" class="btn btn-primary ms-auto" disabled>无法修改</button>
                                 {/if}
-                                <button id="modify-email" class="btn btn-primary ms-auto"
-                                    {if $config['enable_change_email'] != true}disabled{/if}>修改</button>
                             </div>
                         </div>
                     </div>

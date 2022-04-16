@@ -74,7 +74,7 @@
                                                 <div>
                                                     {nl2br($discuss->content)}
                                                 </div>
-                                                <div class="text-muted">{$discuss->created_at}</div>
+                                                <div class="text-muted my-1">{$discuss->created_at}</div>
                                             </div>
                                             <!-- 标记最新回复 -->
                                             {$count = $count + 1}
