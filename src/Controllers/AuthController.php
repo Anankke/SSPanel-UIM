@@ -157,7 +157,7 @@ class AuthController extends BaseController
                 throw new \Exception('邮箱格式不正确');
             }
             if (strlen($passwd) < 8) {
-                throw new \Exception('密码长度需要大于 8');
+                throw new \Exception('密码长度不足8位');
             }
             if ($passwd != $repasswd) {
                 throw new \Exception('两次输入的密码不相符');
