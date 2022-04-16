@@ -452,7 +452,6 @@ class User extends Model
         $uid   = $this->id;
         $email = $this->email;
 
-        Code::where('userid', '=', $uid)->delete();
         DetectLog::where('user_id', '=', $uid)->delete();
         EmailVerify::where('email', $email)->delete();
         InviteCode::where('user_id', '=', $uid)->delete();
@@ -484,24 +483,7 @@ class User extends Model
      */
     public function calIncome(string $req): float
     {
-        switch ($req) {
-            case "yesterday":
-                $number = Code::whereDate('usedatetime', '=', date('Y-m-d', strtotime('-1 days')))->sum('number');
-                break;
-            case "today":
-                $number = Code::whereDate('usedatetime', '=', date('Y-m-d'))->sum('number');
-                break;
-            case "this month":
-                $number = Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m'))->sum('number');
-                break;
-            case "last month":
-                $number = Code::whereYear('usedatetime', '=', date('Y'))->whereMonth('usedatetime', '=', date('m', strtotime('last month')))->sum('number');
-                break;
-            default:
-                $number = Code::sum('number');
-                break;
-        }
-        return is_null($number) ? 0.00 : round($number, 2);
+        return 0.00;
     }
 
     /**

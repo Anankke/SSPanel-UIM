@@ -24,6 +24,8 @@
         "slim/slim": "~3.0",
         "smarty/smarty": "3.*",
         "stripe/stripe-php": "^7.105",
+        "symfony/polyfill-mbstring": "^1.25",
+        "symfony/string": "^5.4",
         "symfony/yaml": "^4.4@dev",
         "telegram-bot/api": "^2.2",
         "voku/anti-xss": "^1.2",
