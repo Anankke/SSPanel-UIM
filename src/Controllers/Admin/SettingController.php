@@ -1,18 +1,9 @@
 <?php
-
 namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
-use App\Models\{
-    Setting
-};
-use Slim\Http\{
-    Request,
-    Response
-};
-use App\Services\{
-    Mail
-};
+use App\Models\Setting;
+use App\Services\Mail;
 
 class SettingController extends AdminController
 {
@@ -34,8 +25,6 @@ class SettingController extends AdminController
             $this->view()
                 //->registerClass('Setting', Setting::class)
                 ->assign('settings', $config)
-                ->assign('payment_gateways', self::return_gateways_list())
-                ->assign('active_payment_gateway', self::return_active_gateways())
                 ->display('admin/setting.tpl')
         );
     }
@@ -134,51 +123,6 @@ class SettingController extends AdminController
         return $response->withJson([
             'ret' => 1,
             'msg' => '测试邮件发送成功'
-        ]);
-    }
-
-    public function return_gateways_list()
-    {
-        $payment_gateways = array(
-            // 网关名 网关代号
-            "CoinPay" => "coinpay",
-            "当面付" => "f2fpay",
-            "PayJs" => "payjs",
-            "PaymentWall" => "paymentwall",
-            "Stripe" => "stripe",
-            "TheadPay" => "theadpay",
-            "V免签" => "vmqpay"
-        );
-
-        return $payment_gateways;
-    }
-
-    public function return_active_gateways()
-    {
-        $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
-        $active_gateways = json_decode($payment_gateways->value);
-        return $active_gateways;
-    }
-
-    public function payment($request, $response, $args)
-    {
-        $gateway_in_use = array();
-        $payment_gateways = self::return_gateways_list();
-        foreach ($payment_gateways as $key => $value)
-        {
-            $payment_switch = $request->getParam("$value");
-            if ($payment_switch == '1') {
-                array_push($gateway_in_use, $value);
-            }
-        }
-
-        $gateway = Setting::where('item', '=', 'payment_gateway')->first();
-        $gateway->value = json_encode($gateway_in_use);
-        $gateway->save();
-
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => "保存成功"
         ]);
     }
 }
