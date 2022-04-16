@@ -1,46 +1,93 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-    <meta charset="UTF-8">
-    <title>Staff - {$config['appName']}</title>
-    <link rel="shortcut icon" href="/favicon.ico"/>
-    <link rel="bookmark" href="/favicon.ico"/>
-    <link rel="stylesheet" href="/assets/css/info-pages.min.css">
-</head>
-<body>
-<div class="container">
-    <div class="copy-container center-xy">
-        <p>MIT许可证（The MIT License）</p>
-        <p class="copyright">&copy;2015 orvice</p>
-        <p class="copyright">&copy;{date("Y")} SSPanel UIM Dev Team</p>
-        <p>特此免费授予任何获得副本的人这个软件和相关的文档文件（“软件”）来处理在软件中没有限制，
-            包括但不限于权利使用，复制，修改，合并，发布，分发，再许可和/或销售该软件的副本，
-            并允许软件所属的人员提供这样做，但须符合以下条件：</p>
-        <p>上述版权声明和本许可声明必须包含在内本软件的副本或实质性部分。</p>
-        <p>本软件按“原样”提供，不附有任何形式的明示或暗示保证默示的，包括但不限于对适销性的保证，
-            适用于特定目的和不侵权。在任何情况下，作者或版权持有者对任何索赔，损坏或其他责任均不负任何责任责任，无论是在合同，民事侵权行为或其他方面，
-            与本软件或本软件的使用或其他交易有关或与之有关软件。</p>
-        <br>
-        <h1>免责声明</h1>
-        <p>您当前所访问的站点使用的是下面所提到的开源程序。您能看到这个页面仅代表这个站点使用了本程序，其使用过程中发生的一切问题需要其自行解决，本程序不承担任何责任。</p>
-        <br>
-        <h1>SSPanel UIM Dev Team（排名不分先后）：</h1>
-        <p><a href="https://t.me/Anankke">芋头</a></p>
-        <p><a href="https://github.com/ZJY2003">Tony Zou</a></p>
-        <p><a href="https://github.com/M1Screw">兩足貓</a></p>
-        <p><a href="https://github.com/Daemonite/">Daemonite</a></p>
-        <p><a href="https://github.com/galaxychuck">galaxyq</a></p>
-        <p><a href="http://mengyang.wang/">mengyang</a></p>
-        <p><a href="http://tony.ecy.ren/">tony</a></p>
-        <p><a href="https://github.com/dumplin233">dumplin</a></p>
-        <p><a href="https://github.com/mxihan">Rin SAMA</a></p>
-        <p><a href="https://github.com/laurieryayoi">Nymph</a></p>
-        <p><a href="https://github.com/xcxnig">Miku</a></p>
-        <br>
-        <h1>鸣谢</h1>
-        <p>所有被引用过代码的使用者，以及所有提交过 PR 的贡献者。当然，还有在使用这份程序的你我Ta。</p>
-    </div>
-</div>
+<!doctype html>
+<!--
+* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
+* @version 1.0.0-beta9
+* @link https://tabler.io
+* Copyright 2018-2022 The Tabler Authors
+* Copyright 2018-2022 codecalm.net Paweł Kuna
+* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
+-->
+<html lang="zh">
 
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{$config['appName']}</title>
+    <!-- CSS files -->
+    <link href="/theme/tabler/css/tabler.min.css" rel="stylesheet" />
+    <link href="/theme/tabler/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="/theme/tabler/css/tabler-payments.min.css" rel="stylesheet" />
+    <link href="/theme/tabler/css/tabler-vendors.min.css" rel="stylesheet" />
+    <link href="/theme/tabler/css/demo.min.css" rel="stylesheet" />
+    <script src="/theme/tabler/js/jquery-3.6.0.min.js"></script>
+    <script src="/theme/tabler/js/tabler.min.js"></script>
+</head>
+
+<body class=" border-top-wide border-primary d-flex flex-column">
+    <div class="page page-center">
+        <div class="container-narrow py-4">
+            <div class="text-center mb-4">
+                <a href="#" class="navbar-brand navbar-brand-autodark">
+                    <img src="/images/uim-logo-round.png" height="64" alt="">
+                </a>
+            </div>
+            <div class="card card-md">
+                <div class="card-body">
+                    <h3 class="card-title">SSPanel UIM Dev Team</h3>
+                    <div class="markdown">
+                        <p><a href="https://github.com/laurieryayoi">laurieryayoi</a></p>
+                        <p><a href="https://github.com/M1Screw">M1Screw</a></p>
+                        <p><a href="https://github.com/Anankke">Anankke</a></p>
+                        <p><a href="https://github.com/NimaQu">NimaQu</a></p>
+                        <p><a href="https://github.com/xcxnig">xcxnig</a></p>
+                        <p><a href="https://github.com/tonyzzzzzz">tonyzzzzzz</a></p>
+                        <p><a href="https://github.com/iamsaltedfish">iamsaltedfish</a></p>
+                        <p><a href="https://github.com/galaxychuck">galaxychuck</a></p>
+                        <p><a href="https://github.com/GeekQuerxy">GeekQuerxy</a></p>
+                        <p><a href="https://github.com/5aaee9">5aaee9</a></p>
+                        <p><a href="https://github.com/du5">du5</a></p>
+                        <p><a href="https://github.com/regendsoh">regendsoh</a></p>
+                        <p><a href="https://github.com/Incisakura">Incisakura</a></p>
+                        <p><a href="https://github.com/dumplin233">dumplin233</a></p>
+                        <p><a href="https://github.com/GeekQu">GeekQu</a></p>
+                        <p><a href="https://github.com/TheCGDF">TheCGDF</a></p>
+                        <p><a href="https://github.com/Anankke/SSPanel-Uim/graphs/contributors">More...</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-md my-3">
+                <div class="card-body">
+                    <h3 class="card-title">MIT LINCENSE</h3>
+                    <div class="markdown">
+                        <p>Copyright (C) <{date("Y")}>
+                                &lt;SSPanel UIM Dev Team&gt;
+                        </p>
+
+                        <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this
+                            software and associated documentation files (the "Software"), to deal in the
+                            Software without restriction, including without limitation the rights to use, copy,
+                            modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+                            and to permit persons to whom the Software is furnished to do so, subject to the
+                            following conditions:
+                        </p>
+
+                        <p>The above copyright notice and this permission notice shall be included in all
+                            copies or substantial portions of the Software.
+                        </p>
+
+                        <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+                            INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+                            PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+                            HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+                            CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+                            OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

@@ -75,6 +75,7 @@ class Config
             'enable_docs'             => $_ENV['enable_docs'],
             'enable_kill'             => $_ENV['enable_kill'],
             'enable_change_email'     => $_ENV['enable_change_email'],
+            'pwdMethod'               => $_ENV['pwdMethod'],
             'sentry_dsn'              => !empty($_ENV['sentry_dsn']) ? $_ENV['sentry_dsn'] : null,
         ];
     }
