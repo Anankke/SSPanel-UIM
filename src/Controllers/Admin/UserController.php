@@ -54,8 +54,6 @@ class UserController extends AdminController
             'enable'                => '是否启用',
             'reg_date'              => '注册时间',
             'reg_ip'                => '注册IP',
-            'auto_reset_day'        => '免费用户流量重置日',
-            'auto_reset_bandwidth'  => '重置的免费流量/GB',
             'ref_by'                => '邀请人ID',
             'ref_by_user_name'      => '邀请人用户名',
             'top_up'                => '累计充值'
@@ -146,8 +144,6 @@ class UserController extends AdminController
             $user->clean_link();
         }
 
-        $user->auto_reset_day = $request->getParam('auto_reset_day');
-        $user->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
         $origin_port = $user->port;
         $user->port = $request->getParam('port');
 
@@ -182,7 +178,6 @@ class UserController extends AdminController
         if ($ban_time > 0) {
             $user->enable                       = 0;
             $end_time                           = date('Y-m-d H:i:s');
-            $user->last_detect_ban_time         = $end_time;
         }
 
         if (!$user->save()) {
@@ -321,8 +316,6 @@ class UserController extends AdminController
             $tempdata['enable']                 = $value->enable == 1 ? '可用' : '禁用';
             $tempdata['reg_date']               = $value->reg_date;
             $tempdata['reg_ip']                 = $value->reg_ip;
-            $tempdata['auto_reset_day']         = $value->auto_reset_day;
-            $tempdata['auto_reset_bandwidth']   = $value->auto_reset_bandwidth;
             $tempdata['ref_by']                 = $value->ref_by;
             $tempdata['ref_by_user_name']       = $value->ref_by_user_name();
             $tempdata['top_up']                 = $value->get_top_up();

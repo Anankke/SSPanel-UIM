@@ -251,8 +251,6 @@ class AuthController extends BaseController
         $user->d = 0;
         $user->transfer_enable = 0;
         $user->invite_num = $_ENV['reg_invite_num'];
-        $user->auto_reset_day = 0;
-        $user->auto_reset_bandwidth = 0;
         $user->sendDailyMail = 0; // 默认不发送
         $user->obfs = $_ENV['reg_obfs'];
         $user->method = $_ENV['reg_method'];

@@ -503,14 +503,6 @@ class User extends Model
     }
 
     /**
-     * 最后一次被封禁的时间
-     */
-    public function last_detect_ban_time(): string
-    {
-        return ($this->last_detect_ban_time == '1989-06-04 00:05:00' ? '未被封禁过' : $this->last_detect_ban_time);
-    }
-
-    /**
      * 当前解封时间
      */
     public function relieve_time(): string
