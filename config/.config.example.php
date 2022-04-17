@@ -137,6 +137,7 @@ $_ENV['delete_admin_message_time'] = 86400; // 0为关闭; 其他数值为在此
 $_ENV['enable_delete_user_cmd'] = false; // 删除用户触发的 bot 回复功能开关
 $_ENV['help_any_command'] = false; // 其他未知命令触发 /help 回复
 $_ENV['enable_user_email_group_show'] = false; // false时隐藏用户完整邮箱
+$_ENV['enable_detect_offline'] = false; // 节点掉线检测
 
 /*
     订阅设置

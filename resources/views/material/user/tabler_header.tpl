@@ -157,9 +157,13 @@
                                             使用文档
                                         </a>
                                     {/if}
+                                    <a class="dropdown-item" href="/user/server">
+                                        <i class="ti ti-server"></i>&nbsp;
+                                        节点列表
+                                    </a>
                                     <a class="dropdown-item" href="/user/node">
                                         <i class="ti ti-server-2"></i>&nbsp;
-                                        节点列表
+                                        节点列表（旧）
                                     </a>
                                     <a class="dropdown-item" href="/user/media">
                                         <i class="ti ti-key"></i>&nbsp;

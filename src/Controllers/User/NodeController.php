@@ -1,27 +1,38 @@
 <?php
-
 namespace App\Controllers\User;
 
-use App\Controllers\UserController;
-use App\Models\{
-    Node,
-    User
-};
-use App\Utils\{
-    URL,
-    Tools
-};
-use Slim\Http\{
-    Request,
-    Response
-};
+use App\Models\Node;
+use App\Models\User;
+use App\Utils\Tools;
+use App\Utils\URL;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
+use App\Controllers\UserController;
 
-/**
- *  User NodeController
- */
 class NodeController extends UserController
 {
+    public function serverList($request, $response, $args)
+    {
+        $user = $this->user;
+        $user_group = ($user->node_group != 0 ? [0, $user->node_group] : [0]);
+        $servers = Node::where('type' ,1)
+        ->where('sort', '!=', '9') // 我也不懂为什么
+        ->whereIn('node_group', $user_group) // 筛选用户所在分组的服务器
+        ->get();
+
+        $class = Node::select('node_class')
+        ->distinct()
+        ->get();
+
+        return $response->write(
+            $this->view()
+                ->assign('class', $class)
+                ->assign('servers', $servers)
+                ->display('user/node/servers.tpl')
+        );
+    }
+
     /**
      * @param Request   $request
      * @param Response  $response
