@@ -92,13 +92,20 @@ class Job extends Command
         Tools::reset_auto_increment($db, 'node_online_log');
         Tools::reset_auto_increment($db, 'node_info');
 
-        // 更新 IP 库
-        (new Tool($this->argv))->initQQWry();
+        // 用户流量重置
+        User::chunkById(1000, function ($users) {
+            foreach ($users as $user) {
+                $user->last_day_t = ($user->u + $user->d);
+                $user->save();
+            }
+        });
 
-        // 发送每日系统运行报告
-        if (Config::getconfig('Telegram.bool.DailyJob')) {
-            Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));
+        // 更新 IP 库
+        if (date('d') == '1' || date('d') == '10' || date('d') == '20') {
+            (new Tool($this->argv))->initQQWry();
         }
+
+        echo 'All Done.' . PHP_EOL;
     }
 
     public function CheckJob()
