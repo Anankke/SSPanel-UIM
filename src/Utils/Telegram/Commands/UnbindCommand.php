@@ -97,9 +97,6 @@ class UnbindCommand extends Command
     public function sendtext()
     {
         $text = '发送 **/unbind 账户邮箱** 进行解绑.';
-        if (Config::getconfig('Telegram.bool.unbind_kick_member') === true) {
-            $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，您解绑账户将会被自动移出用户群.';
-        }
         return $text;
     }
 }

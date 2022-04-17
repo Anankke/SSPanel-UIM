@@ -1,24 +1,19 @@
 <?php
-
 namespace App\Utils\Telegram\Callbacks;
 
-use App\Controllers\LinkController;
-use App\Models\{
-    Ip,
-    Node,
-    Payback,
-    LoginIp,
-    Setting,
-    InviteCode,
-    UserSubscribeLog
-};
+use App\Models\InviteCode;
+use App\Models\Ip;
+use App\Models\LoginIp;
+use App\Models\Node;
+use App\Models\Payback;
+use App\Models\Setting;
+use App\Models\UserSubscribeLog;
 use App\Services\Config;
-use App\Utils\{
-    Tools,
-    QQWry,
-    Telegram\Reply,
-    Telegram\TelegramTools
-};
+use App\Utils\QQWry;
+use App\Utils\Telegram\Reply;
+use App\Utils\Telegram\TelegramTools;
+use App\Utils\Tools;
+use App\Controllers\LinkController;
 
 class Callback
 {
@@ -266,14 +261,6 @@ class Callback
         $text .= Reply::getUserInfo($user);
         $text .= PHP_EOL;
         $text .= '流量重置时间：' . $user->valid_use_loop();
-        if (Config::getconfig('Telegram.bool.show_group_link')) {
-            $Keyboard[] = [
-                [
-                    'text' => '加入用户群',
-                    'url'  => Config::getconfig('Telegram.string.group_link')
-                ]
-            ];
-        }
         return [
             'text'     => $text,
             'keyboard' => $Keyboard,
@@ -828,9 +815,6 @@ class Callback
                 // Telegram 账户解绑
                 $this->AllowEditMessage = false;
                 $text                   = '发送 **/unbind 账户邮箱** 进行解绑.';
-                if (Config::getconfig('Telegram.bool.unbind_kick_member') === true) {
-                    $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，您解绑账户将会被自动移出用户群.';
-                }
                 $sendMessage = [
                     'text'                     => $text,
                     'disable_web_page_preview' => false,

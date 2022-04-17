@@ -1,28 +1,17 @@
 <?php
-
 namespace App\Models;
 
-use App\Controllers\LinkController;
-use App\Utils\{
-    Tools,
-    Hash,
-    GA,
-    Telegram,
-    URL
-};
-use App\Services\{Config, Mail};
-use Ramsey\Uuid\Uuid;
 use Exception;
+use App\Services\Config;
+use App\Services\Mail;
+use App\Utils\GA;
+use App\Utils\Hash;
+use App\Utils\Telegram;
+use App\Utils\Tools;
+use App\Utils\URL;
+use Ramsey\Uuid\Uuid;
+use App\Controllers\LinkController;
 
-/**
- * User Model
- *
- * @property-read   int     $id         ID
- * @todo More property
- * @property        bool    $is_admin           是否管理员
- * @property        bool    $expire_notified    If user is notified for expire
- * @property        bool    $traffic_notified   If user is noticed for low traffic
- */
 class User extends Model
 {
     protected $connection = 'default';
@@ -618,27 +607,11 @@ class User extends Model
             'ok'  => true,
             'msg' => '解绑成功.'
         ];
+
         $telegram_id = $this->telegram_id;
         $this->telegram_id = 0;
-        if ($this->save()) {
-            if (
-                $_ENV['enable_telegram'] === true
-                &&
-                Config::getconfig('Telegram.bool.group_bound_user') === true
-                &&
-                Config::getconfig('Telegram.bool.unbind_kick_member') === true
-                &&
-                !$this->is_admin
-            ) {
-                \App\Utils\Telegram\TelegramTools::SendPost(
-                    'kickChatMember',
-                    [
-                        'chat_id'   => $_ENV['telegram_chatid'],
-                        'user_id'   => $telegram_id,
-                    ]
-                );
-            }
-        } else {
+
+        if (!$this->save()) {
             $return = [
                 'ok'  => false,
                 'msg' => '解绑失败.'

@@ -180,29 +180,6 @@ class Message
             // 新成员加入群组
             $NewUser = TelegramTools::getUser($Member['id']);
             $deNewChatMember = json_decode($NewChatMember, true);
-            if (
-                Config::getconfig('Telegram.bool.group_bound_user') === true
-                &&
-                $this->ChatID == $_ENV['telegram_chatid']
-                &&
-                $NewUser == null
-                &&
-                $deNewChatMember['is_bot'] == false
-            ) {
-                $this->replyWithMessage(
-                    [
-                        'text' => '由于 ' . $Member['name'] . ' 未绑定账户，将被移除.'
-                    ]
-                );
-                TelegramTools::SendPost(
-                    'kickChatMember',
-                    [
-                        'chat_id'   => $this->ChatID,
-                        'user_id'   => $Member['id'],
-                    ]
-                );
-                return;
-            }
             if ($_ENV['enable_welcome_message'] === true) {
                 $text = ($NewUser->class >= 1 ? '欢迎 VIP' . $NewUser->class . ' 用户 ' . $Member['name'] . '回到组织.' : '欢迎 ' . $Member['name']);
                 $this->replyWithMessage(

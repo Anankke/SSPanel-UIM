@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Services;
 
-use App\Models\GConfig;
 use App\Models\Setting;
 
 class Config
@@ -11,15 +9,6 @@ class Config
     public static function get($key)
     {
         return $_ENV[$key];
-    }
-
-    public static function getconfig($key)
-    {
-        $value = GConfig::where('key', '=', $key)->first();
-        if ($value === null) {
-            $value = DefaultConfig::firstOrCreate($key);
-        }
-        return $value->getValue();
     }
 
     public static function getPublicConfig()

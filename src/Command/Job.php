@@ -124,15 +124,6 @@ class Job extends Command
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。',
                             ], [], $_ENV['email_queue']
                         );
-                        $notice_text = str_replace(
-                            '%node_name%',
-                            $node->name,
-                            Config::getconfig('Telegram.string.NodeOffline')
-                        );
-                    }
-
-                    if (Config::getconfig('Telegram.bool.NodeOffline')) {
-                        Telegram::Send($notice_text);
                     }
 
                     $node->online = false;
@@ -145,15 +136,6 @@ class Job extends Command
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。',
                             ], [], $_ENV['email_queue']
                         );
-                        $notice_text = str_replace(
-                            '%node_name%',
-                            $node->name,
-                            Config::getconfig('Telegram.string.NodeOnline')
-                        );
-                    }
-
-                    if (Config::getconfig('Telegram.bool.NodeOnline')) {
-                        Telegram::Send($notice_text);
                     }
 
                     $node->online = true;

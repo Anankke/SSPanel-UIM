@@ -153,11 +153,6 @@
                                     节点列表
                                 </a>
                             </li>
-                            <li>
-                                <a href="/admin/config/telegram"><i class="icon icon-lg">supervisor_account</i>&nbsp;
-                                    Telegram
-                                </a>
-                            </li>
                         </ul>
                         <a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">
                             审计
