@@ -1,19 +1,24 @@
 <?php
+
 namespace App\Utils\Telegram\Callbacks;
 
-use App\Models\InviteCode;
-use App\Models\Ip;
-use App\Models\LoginIp;
-use App\Models\Node;
-use App\Models\Payback;
-use App\Models\Setting;
-use App\Models\UserSubscribeLog;
-use App\Services\Config;
-use App\Utils\QQWry;
-use App\Utils\Telegram\Reply;
-use App\Utils\Telegram\TelegramTools;
-use App\Utils\Tools;
 use App\Controllers\LinkController;
+use App\Models\{
+    Ip,
+    Node,
+    Payback,
+    LoginIp,
+    Setting,
+    InviteCode,
+    UserSubscribeLog
+};
+use App\Services\Config;
+use App\Utils\{
+    Tools,
+    QQWry,
+    Telegram\Reply,
+    Telegram\TelegramTools
+};
 
 class Callback
 {
@@ -184,7 +189,7 @@ class Callback
             case 'general.pricing':
                 // 产品介绍
                 $sendMessage = [
-                    'text'                      => '请访问用户中心获取',
+                    'text'                      => $_ENV['telegram_general_pricing'],
                     'disable_web_page_preview'  => false,
                     'reply_to_message_id'       => null,
                     'reply_markup'              => json_encode(
@@ -197,7 +202,7 @@ class Callback
             case 'general.terms':
                 // 服务条款
                 $sendMessage = [
-                    'text'                      => '请访问用户中心获取',
+                    'text'                      => $_ENV['telegram_general_terms'],
                     'disable_web_page_preview'  => false,
                     'reply_to_message_id'       => null,
                     'reply_markup'              => json_encode(
@@ -261,6 +266,14 @@ class Callback
         $text .= Reply::getUserInfo($user);
         $text .= PHP_EOL;
         $text .= '流量重置时间：' . $user->valid_use_loop();
+        if (Config::getconfig('Telegram.bool.show_group_link')) {
+            $Keyboard[] = [
+                [
+                    'text' => '加入用户群',
+                    'url'  => Config::getconfig('Telegram.string.group_link')
+                ]
+            ];
+        }
         return [
             'text'     => $text,
             'keyboard' => $Keyboard,
@@ -815,6 +828,9 @@ class Callback
                 // Telegram 账户解绑
                 $this->AllowEditMessage = false;
                 $text                   = '发送 **/unbind 账户邮箱** 进行解绑.';
+                if (Config::getconfig('Telegram.bool.unbind_kick_member') === true) {
+                    $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，您解绑账户将会被自动移出用户群.';
+                }
                 $sendMessage = [
                     'text'                     => $text,
                     'disable_web_page_preview' => false,
@@ -1112,7 +1128,9 @@ class Callback
         $text = [
             '<strong>分享计划，您每邀请 1 位用户注册：</strong>',
             '',
-            '- 依照管理员设定，邀请用户充值或购买时可获得订单金额 <strong>' . $invitation['rebate_ratio'] . '%</strong> 的返利',
+            '- 您会获得 <strong>' . $invitation['invitation_to_register_traffic_reward'] . 'G</strong> 流量奖励.',
+            '- 对方将获得 <strong>' . $invitation['invitation_to_register_balance_reward'] . ' 元</strong> 奖励作为初始资金.',
+            '- 对方充值时您还会获得对方充值金额的 <strong>' . $invitation['rebate_ratio'] . '%</strong> 的返利.',
             '',
             '已获得返利：' . $paybacks_sum . ' 元.',
         ];

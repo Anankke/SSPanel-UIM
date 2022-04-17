@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 class NodeInfoLog extends Model

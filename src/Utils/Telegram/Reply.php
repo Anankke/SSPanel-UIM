@@ -1,5 +1,8 @@
 <?php
+
 namespace App\Utils\Telegram;
+
+use App\Models\Bought;
 
 class Reply
 {
@@ -59,6 +62,37 @@ class Reply
     }
 
     /**
+     * [admin]获取用户购买记录
+     *
+     * @param \App\Models\User $user
+     *
+     * @return array
+     */
+    public static function getUserBoughts($user)
+    {
+        $boughts = Bought::where('userid', $user->id)->orderBy('id', 'desc')->get();
+        $data = [];
+        foreach ($boughts as $bought) {
+            $shop = $bought->shop();
+            if ($shop == null) {
+                $bought->delete();
+                continue;
+            }
+            if ($bought->valid()) {
+                $strArray = [];
+                $strArray[] = ' - 商品套餐名称：' . $shop->name;
+                $strArray[] = ' - 套餐购买时间：' . $bought->datetime();
+                $strArray[] = ' - 套餐自动续费：' . $bought->renew();
+                $strArray[] = ' - 下次流量重置：' . $bought->reset_time();
+                $strArray[] = ' - 套餐过期时间：' . $bought->exp_time();
+                $strArray[] = '';
+                $data[] = implode(PHP_EOL, $strArray);
+            }
+        }
+        return $data;
+    }
+
+    /**
      * [admin]获取用户信息
      *
      * @param \App\Models\User $user
@@ -80,7 +114,12 @@ class Reply
             '账户到期：' . $user->expire_in,
             '套餐详情：'
         ];
-
+        $boughts = self::getUserBoughts($user);
+        if (count($boughts) != 0) {
+            $strArray = array_merge($strArray, $boughts);
+        } else {
+            $strArray[] = ' - 该用户无生效套餐.';
+        }
         return implode(PHP_EOL, $strArray);
     }
 }

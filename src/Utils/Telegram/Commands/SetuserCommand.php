@@ -47,13 +47,16 @@ class SetuserCommand extends Command
         if (!in_array($SendUser['id'], $_ENV['telegram_admins'])) {
             $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
             if ($AdminUser == null) {
-                $response = $this->replyWithMessage(
-                    [
-                        'text'                  => '您无权限',
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
-                    ]
-                );
+                // 非管理员回复消息
+                if ($_ENV['enable_not_admin_reply'] === true && $_ENV['not_admin_reply_msg'] != '') {
+                    $response = $this->replyWithMessage(
+                        [
+                            'text'                  => $_ENV['not_admin_reply_msg'],
+                            'parse_mode'            => 'HTML',
+                            'reply_to_message_id'   => $MessageID,
+                        ]
+                    );
+                }
                 return;
             }
         }
@@ -81,7 +84,7 @@ class SetuserCommand extends Command
             if ($User == null) {
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '无此用户',
+                        'text'                  => $_ENV['no_user_found'],
                         'parse_mode'            => 'HTML',
                         'reply_to_message_id'   => $MessageID,
                     ]
@@ -188,7 +191,7 @@ class SetuserCommand extends Command
 
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '无此用户',
+                        'text'                  => $_ENV['no_user_found'],
                         'parse_mode'            => 'HTML',
                         'reply_to_message_id'   => $MessageID,
                     ]
@@ -204,7 +207,7 @@ class SetuserCommand extends Command
         if ($useOptionMethod == '') {
             $response = $this->replyWithMessage(
                 [
-                    'text'                  => '无此字段',
+                    'text'                  => $_ENV['data_method_not_found'],
                     'parse_mode'            => 'HTML',
                     'reply_to_message_id'   => $MessageID,
                 ]

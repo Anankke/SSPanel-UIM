@@ -1,38 +1,27 @@
 <?php
+
 namespace App\Controllers\User;
 
-use App\Models\Node;
-use App\Models\User;
-use App\Utils\Tools;
-use App\Utils\URL;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Psr\Http\Message\ResponseInterface;
 use App\Controllers\UserController;
+use App\Models\{
+    Node,
+    User
+};
+use App\Utils\{
+    URL,
+    Tools
+};
+use Slim\Http\{
+    Request,
+    Response
+};
+use Psr\Http\Message\ResponseInterface;
 
+/**
+ *  User NodeController
+ */
 class NodeController extends UserController
 {
-    public function serverList($request, $response, $args)
-    {
-        $user = $this->user;
-        $user_group = ($user->node_group != 0 ? [0, $user->node_group] : [0]);
-        $servers = Node::where('type' ,1)
-        ->where('sort', '!=', '9') // 我也不懂为什么
-        ->whereIn('node_group', $user_group) // 筛选用户所在分组的服务器
-        ->get();
-
-        $class = Node::select('node_class')
-        ->distinct()
-        ->get();
-
-        return $response->write(
-            $this->view()
-                ->assign('class', $class)
-                ->assign('servers', $servers)
-                ->display('user/node/servers.tpl')
-        );
-    }
-
     /**
      * @param Request   $request
      * @param Response  $response
@@ -57,7 +46,7 @@ class NodeController extends UserController
             $array_node['name']           = $node->name;
             $array_node['class']          = $node->node_class;
             $array_node['info']           = $node->info;
-            $array_node['flag']           = 'unknown.png';
+            $array_node['flag']           = $node->get_node_flag();
             $array_node['online_user']    = $node->get_node_online_user_count();
             $array_node['online']         = $node->get_node_online_status();
             $array_node['latest_load']    = $node->get_node_latest_load_text();

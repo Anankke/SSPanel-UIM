@@ -1,4 +1,6 @@
 <?php
+
+
 namespace App\Models;
 
 class NodeOnlineLog extends Model

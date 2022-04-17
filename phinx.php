@@ -5,8 +5,8 @@ include './config/.config.php';
 return
 [
     'paths' => [
-        'migrations' => '%%PHINX_CONFIG_DIR%%/databases/migrations',
-        'seeds' => '%%PHINX_CONFIG_DIR%%/databases/seeds'
+        'migrations' => '%%PHINX_CONFIG_DIR%%/db/migrations',
+        'seeds' => '%%PHINX_CONFIG_DIR%%/db/seeds'
     ],
     'environments' => [
         'default_migration_table' => 'phinxlog',

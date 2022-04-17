@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Command;
 
 use Exception;
@@ -9,7 +10,6 @@ use Ramsey\Uuid\Uuid;
 use App\Services\Config;
 use App\Models\Setting;
 use App\Models\User as ModelsUser;
-use App\Controllers\AuthController;
 
 class User extends Command
 {
@@ -148,7 +148,7 @@ class User extends Command
             if ($passwd == null) {
                 die("必须输入管理员密码.\r\n");
             }
-
+            
             fwrite(STDOUT, "(3/3) 按 Y 或 y 确认创建：");
             $y = trim(fgets(STDIN));
         } elseif (count($this->argv) === 5) {
@@ -157,23 +157,45 @@ class User extends Command
         }
 
         if (strtolower($y) == 'y') {
-            try {
-                AuthController::register_helper('admin', $email, $passwd, '', '1', '', 0, false);
-                $last_user = ModelsUser::where('email', $email)->first();
-                $last_user->is_admin = 1;
-                $last_user->save();
-            } catch (\Exception $e) {
-                $error_msg = $e->getMessage();
-            }
+            $current_timestamp          = time();
+            // create admin user
+            $configs = Setting::getClass('register');
+            // do reg user
+            $user                   = new ModelsUser();
+            $user->user_name        = 'admin';
+            $user->email            = $email;
+            $user->pass             = Hash::passwordHash($passwd);
+            $user->passwd           = Tools::genRandomChar(16);
+            $user->uuid             = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
+            $user->port             = Tools::getLastPort() + 1;
+            $user->t                = 0;
+            $user->u                = 0;
+            $user->d                = 0;
+            $user->transfer_enable  = Tools::toGB($configs['sign_up_for_free_traffic']);
+            $user->invite_num       = $configs['sign_up_for_invitation_codes'];
+            $user->ref_by           = 0;
+            $user->is_admin         = 1;
+            $user->expire_in        = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
+            $user->reg_date         = date('Y-m-d H:i:s');
+            $user->money            = 0;
+            $user->im_type          = 1;
+            $user->im_value         = '';
+            $user->class            = 0;
+            $user->node_speedlimit  = 0;
+            $user->theme            = $_ENV['theme'];
 
-            if (!empty($error_msg)) {
-                echo PHP_EOL . '创建失败，以下是错误信息：' . PHP_EOL;
-                die($error_msg);
-            }
+            $ga                     = new GA();
+            $secret                 = $ga->createSecret();
+            $user->ga_token         = $secret;
+            $user->ga_enable        = 0;
 
-            echo PHP_EOL . '创建成功，请在主页登录' . PHP_EOL;
+            if ($user->save()) {
+                echo '创建成功，请在主页登录' . PHP_EOL;
+            } else {
+                echo '创建失败，请检查数据库配置' . PHP_EOL;
+            }
         } else {
-            echo PHP_EOL . '已取消创建' . PHP_EOL;
+            echo '已取消创建' . PHP_EOL;
         }
     }
 

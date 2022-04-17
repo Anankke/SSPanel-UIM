@@ -12,6 +12,7 @@ class Tool extends Command
         . '├─=: php xcat Tool [选项]' . PHP_EOL
         . '│ ├─ initQQWry               - 下载 IP 解析库' . PHP_EOL
         . '│ ├─ setTelegram             - 设置 Telegram 机器人' . PHP_EOL
+        . '│ ├─ detectConfigs           - 检查数据库内新增的配置' . PHP_EOL
         . '│ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置' . PHP_EOL
         . '│ ├─ exportAllSettings       - 导出所有设置' . PHP_EOL
         . '│ ├─ importAllSettings       - 导入所有设置' . PHP_EOL;
@@ -84,6 +85,11 @@ class Tool extends Command
         }
     }
     
+    public function detectConfigs()
+    {
+        echo \App\Services\DefaultConfig::detectConfigs();
+    }
+    
     public function resetAllSettings()
     {
         $settings = Setting::all();
@@ -117,6 +123,8 @@ class Tool extends Command
 
     public function importAllSettings()
     {
+        $db = new DatatablesHelper();
+        
         $json_settings = file_get_contents('./config/settings.json');
         $settings      = json_decode($json_settings, true);
         $number        = count($settings);
@@ -125,9 +133,8 @@ class Tool extends Command
         for ($i = 0; $i < $number; $i++)
         {
             $item = $settings[$i]['item'];
-            $object = Setting::where('item', $item)->first();
             
-            if ($object == null) {
+            if ($db->query("SELECT id FROM config WHERE item = '$item'") == null) {
                 $new_item            = new Setting;
                 $new_item->id        = null;
                 $new_item->item      = $settings[$i]['item'];

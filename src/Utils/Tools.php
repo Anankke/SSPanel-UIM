@@ -10,14 +10,6 @@ use DateTime;
 class Tools
 {
     /**
-     * 验证邮箱格式
-     */
-    public static function emailCheck($address)
-    {
-        return (!filter_var($address, FILTER_VALIDATE_EMAIL)) ? false : true;
-    }
-
-    /**
      * 查询IP归属
      */
     public static function getIpInfo($ip)

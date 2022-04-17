@@ -59,7 +59,7 @@ class CheckinCommand extends Command
             // 回送信息
             $response = $this->replyWithMessage(
                 [
-                    'text'       => '需要先在用户中心绑定你的账户',
+                    'text'       => $_ENV['user_not_bind_reply'],
                     'parse_mode' => 'Markdown',
                 ]
             );

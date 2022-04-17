@@ -1,12 +1,13 @@
 <?php
+
 namespace App\Command;
 
-use App\Models\Ann;
 use App\Models\User;
-use App\Services\Analytics;
+use App\Models\Ann;
 use App\Services\Config;
 use App\Utils\Telegram;
 use App\Utils\Tools;
+use App\Services\Analytics;
 
 class SendDiaryMail extends Command
 {
@@ -29,6 +30,24 @@ class SendDiaryMail extends Command
         foreach ($users as $user) {
             $lastday_total += (($user->u + $user->d) - $user->last_day_t);
             $user->sendDailyNotification($text1);
+        }
+
+        $sts = new Analytics();
+
+        if (Config::getconfig('Telegram.bool.Diary')) {
+            Telegram::Send(
+                str_replace(
+                    array(
+                        '%getTodayCheckinUser%',
+                        '%lastday_total%'
+                    ),
+                    array(
+                        $sts->getTodayCheckinUser(),
+                        Tools::flowAutoShow($lastday_total)
+                    ),
+                    Config::getconfig('Telegram.string.Diary')
+                )
+            );
         }
     }
 }

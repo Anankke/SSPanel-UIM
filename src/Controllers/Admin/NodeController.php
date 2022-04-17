@@ -1,15 +1,20 @@
 <?php
+
 namespace App\Controllers\Admin;
 
-use Exception;
-use App\Models\Node;
-use App\Services\Config;
-use App\Utils\Telegram;
-use App\Utils\Tools;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use App\Utils\CloudflareDriver;
 use App\Controllers\AdminController;
+use App\Models\Node;
+use App\Utils\{
+    Tools,
+    Telegram,
+    CloudflareDriver
+};
+use App\Services\Config;
+use Exception;
+use Slim\Http\{
+    Request,
+    Response
+};
 use Psr\Http\Message\ResponseInterface;
 
 class NodeController extends AdminController
@@ -124,6 +129,24 @@ class NodeController extends AdminController
             CloudflareDriver::updateRecord($domain_name[0], $node->node_ip);
         }
 
+        if (Config::getconfig('Telegram.bool.AddNode')) {
+            try {
+                Telegram::Send(
+                    str_replace(
+                        '%node_name%',
+                        $request->getParam('name'),
+                        Config::getconfig('Telegram.string.AddNode')
+                    )
+                );
+            } catch (Exception $e) {
+                return $response->withJson([
+                    'ret' => 1,
+                    'msg' => '节点添加成功，但Telegram通知失败',
+                    'node_id' => $node->id
+                ]);
+            }
+        }
+
         return $response->withJson([
             'ret' => 1,
             'msg' => '节点添加成功',
@@ -201,6 +224,23 @@ class NodeController extends AdminController
 
         $node->save();
 
+        if (Config::getconfig('Telegram.bool.UpdateNode')) {
+            try {
+                Telegram::Send(
+                    str_replace(
+                        '%node_name%',
+                        $request->getParam('name'),
+                        Config::getconfig('Telegram.string.UpdateNode')
+                    )
+                );
+            } catch (Exception $e) {
+                return $response->withJson([
+                    'ret' => 1,
+                    'msg' => '修改成功，但Telegram通知失败'
+                ]);
+            }
+        }
+
         return $response->withJson([
             'ret' => 1,
             'msg' => '修改成功'
@@ -224,6 +264,23 @@ class NodeController extends AdminController
                 'ret' => 0,
                 'msg' => '删除失败'
             ]);
+        }
+
+        if (Config::getconfig('Telegram.bool.DeleteNode')) {
+            try {
+                Telegram::Send(
+                    str_replace(
+                        '%node_name%',
+                        $request->getParam('name'),
+                        Config::getconfig('Telegram.string.DeleteNode')
+                    )
+                );
+            } catch (Exception $e) {
+                return $response->withJson([
+                    'ret' => 1,
+                    'msg' => '删除成功，但Telegram通知失败'
+                ]);
+            }
         }
 
         return $response->withJson([

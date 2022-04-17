@@ -16,6 +16,7 @@
         "league/omnipay": "^3",
         "lokielse/omnipay-alipay": "*",
         "mailgun/mailgun-php": "^2.6.0",
+        "paymentwall/paymentwall-php": "^2.1",
         "phpmailer/phpmailer": "~6.0",
         "ramsey/uuid": "^3.0@dev",
         "robmorgan/phinx": "^0.12.9",
@@ -24,12 +25,10 @@
         "slim/slim": "~3.0",
         "smarty/smarty": "3.*",
         "stripe/stripe-php": "^7.105",
-        "symfony/polyfill-mbstring": "^1.25",
-        "symfony/string": "^5.4",
         "symfony/yaml": "^4.4@dev",
         "telegram-bot/api": "^2.2",
         "voku/anti-xss": "^1.2",
-        "zeuxisoo/slim-whoops": "0.6.*"
+        "zeuxisoo/slim-whoops": "0.5.*"
     },
     "autoload": {
         "psr-4": {

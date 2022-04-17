@@ -1,141 +1,208 @@
-{include file='tabler_header.tpl'}
+{include file='header.tpl'}
 
-<body class="border-top-wide border-primary d-flex flex-column">
-    <div class="page page-center">
-        <div class="container-tight py-4">
-            <div class="text-center mb-4">
-                <a href="#" class="navbar-brand navbar-brand-autodark">
-                    <img src="/images/uim-logo-round.png" height="64" alt="">
-                </a>
-            </div>
-            <div class="card card-md">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">登录到用户中心</h2>
-                    <div class="mb-3">
-                        <label class="form-label">注册邮箱</label>
-                        <input id="email" type="email" class="form-control">
+<div class="authpage">
+    <div class="container">
+        <form action="javascript:void(0);" method="POST">
+            <div class="auth-main auth-row auth-col-one">
+                <div class="auth-top auth-row">
+                    <a class="boardtop-left" href="/">
+                        <div>首 页</div>
+                    </a>
+                    <div class="auth-logo">
+                        <img src="/images/uim-logo-round.png">
                     </div>
-                    <div class="mb-2">
-                        <label class="form-label">
-                            登录密码
-                            <span class="form-label-description">
-                                <a href="/password/reset">忘记密码</a>
-                            </span>
-                        </label>
-                        <div class="input-group input-group-flat">
-                            <input id="passwd" type="password" class="form-control" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label">两步认证</label>
-                        <input id="code" type="email" class="form-control" placeholder="如果没有设置两步认证可留空">
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-check">
-                            <input id="remember_me" type="checkbox" class="form-check-input" />
-                            <span class="form-check-label">记住此设备</span>
-                        </label>
-                    </div>
-                    <div class="form-footer">
-                        <button id="login-dashboard" class="btn btn-primary w-100">登录</button>
+                    <a href="/auth/register" class="boardtop-right">
+                        <div>注 册</div>
+                    </a>
+                </div>
+                <div class="auth-row">
+                    <div class="form-group-label auth-row row-login">
+                        <label class="floating-label" for="email">邮箱</label>
+                        <input class="form-control maxwidth-auth" id="email" type="email" name="Email" inputmode="email" autocomplete="username">
                     </div>
                 </div>
-            </div>
-            <div class="text-center text-muted mt-3">
-                还没有账户？ <a href="/auth/register" tabindex="-1">点击注册</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal modal-blur fade" id="success-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-status bg-success"></div>
-                <div class="modal-body text-center py-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24"
-                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <circle cx="12" cy="12" r="9" />
-                        <path d="M9 12l2 2l4 -4" />
-                    </svg>
-                    <p id="success-message" class="text-muted">成功</p>
+                <div class="auth-row">
+                    <div class="form-group-label auth-row row-login">
+                        <label class="floating-label" for="passwd">密码</label>
+                        <input class="form-control maxwidth-auth" id="passwd" type="password" name="Password" autocomplete="current-password">
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <div class="w-100">
+                <div class="auth-row">
+                    <div class="form-group-label auth-row row-login">
+                        <label class="floating-label" for="code">两步验证码（未设置请忽略）</label>
+                        <input class="form-control maxwidth-auth" id="code" type="number" name="Code" inputmode="numeric" autocomplete="one-time-code">
+                    </div>
+                </div>
+
+                {if $geetest_html != null}
+                    <div class="form-group-label labelgeetest auth-row">
+                        <div id="embed-captcha"></div>
+                    </div>
+                {/if}
+                {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                    <div class="form-group-label auth-row">
                         <div class="row">
-                            <div class="col">
-                                <a id="success-confirm" href="#" class="btn w-100" data-bs-dismiss="modal">
-                                    好
-                                </a>
-                            </div>
+                            <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-status bg-danger"></div>
-                <div class="modal-body text-center py-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
-                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 9v2m0 4v.01" />
-                        <path
-                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
-                    </svg>
-                    <p id="fail-message" class="text-muted">失败</p>
-                </div>
-                <div class="modal-footer">
-                    <div class="w-100">
-                        <div class="row">
-                            <div class="col">
-                                <a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
-                                    确认
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                {/if}
 
+                <div class="btn-auth auth-row">
+                    <button id="login" type="submit" class="btn btn-block btn-brand waves-attach waves-light">
+                        确认登录
+                    </button>
+                </div>
+                <div class="auth-help auth-row">
+                    <div class="auth-help-table auth-row">
+                        <div class="checkbox checkbox-adv">
+                            <label for="remember_me">
+                                <input class="access-hide" value="week" id="remember_me" name="remember_me"
+                                       type="checkbox">记住我</input>
+                                <span class="checkbox-circle"></span>
+                                <span class="checkbox-circle-check"></span>
+                                <span class="checkbox-circle-icon icon">done</span>
+                            </label>
+                        </div>
+                        <a href="/password/reset">忘记密码？</a>
+                    </div>
+                </div>
+                {if $config['enable_telegram_login'] === true}
+                    <div class="auth-bottom auth-row">
+                        <div class="tgauth">
+                            <span>Telegram</span>
+                            <button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button>
+                            <span>快捷登录</span>
+                        </div>
+                    </div>
+                {/if}
+            </div>
+        </form>
+        {if $config['enable_telegram_login'] === true}
+            {include file='./telegram_modal.tpl'}
+        {/if}
+    </div>
+</div>
+
+{include file='dialog.tpl'}
+
+{include file='footer.tpl'}
+
+{if $config['enable_telegram_login'] === true}
+    {include file='./telegram.tpl'}
+{/if}
+
+{literal}
     <script>
-        $("#login-dashboard").click(function() {
+        let calltgbtn = document.querySelector('#calltgauth');
+        let tgboard = document.querySelector('.card.auth-tg.cust-model');
+        if (calltgbtn && tgboard) {
+            custModal(calltgbtn, tgboard);
+        }
+    </script>
+{/literal}
+
+<script>
+    $(document).ready(function () {
+        function login() {
+            {if $geetest_html != null}
+            if (typeof validate === 'undefined' || !validate) {
+                $("#result").modal();
+                $$.getElementById('msg').innerHTML = '请滑动验证码来完成验证';
+                return;
+            }
+            {/if}
+
+            document.getElementById("login").disabled = true;
+
             $.ajax({
-                type: 'POST',
-                url: '/auth/login',
+                type: "POST",
+                url: location.pathname,
                 dataType: "json",
                 data: {
-                    code: $('#code').val(),
-                    email: $('#email').val(),
-                    passwd: $('#passwd').val(),
-                    remember_me: $('#remember_me').val()
+                    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                    recaptcha: grecaptcha.getResponse(),
+                    {/if}
+                    {if $geetest_html != null}
+                    geetest_challenge: validate.geetest_challenge,
+                    geetest_validate: validate.geetest_validate,
+                    geetest_seccode: validate.geetest_seccode,
+                    {/if}
+                    code: $$getValue('code'),
+                    email: $$getValue('email'),
+                    passwd: $$getValue('passwd'),
+                    remember_me: $("#remember_me:checked").val()
                 },
-                success: function(data) {
+                success: (data) => {
                     if (data.ret == 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.href='/user'", {$config['jump_delay']});
                     } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        document.getElementById("login").disabled = false;
+                        {if $geetest_html != null}
+                        captcha.refresh();
+                        {/if}
                     }
+                },
+                error: (jqXHR) => {
+                    $("#msg-error").hide(10);
+                    $("#msg-error").show(100);
+                    $$.getElementById('msg').innerHTML = `发生错误：${
+                        jqXHR.status
+                    }`;
+                    document.getElementById("login").disabled = false;
+                    {if $geetest_html != null}
+                    captcha.refresh();
+                    {/if}
                 }
-            })
+            });
+        }
+
+        $("html").keydown(function (event) {
+            if (event.keyCode == 13) {
+                login();
+            }
+        });
+        $("#login").click(function () {
+            login();
         });
 
-        $("#success-confirm").click(function() {
-            location.reload();
+        $('div.modal').on('shown.bs.modal', function () {
+            $("div.gt_slider_knob").hide();
         });
+
+        $('div.modal').on('hidden.bs.modal', function () {
+            $("div.gt_slider_knob").show();
+        });
+    })
+</script>
+
+{if $geetest_html != null}
+    <script>
+        var handlerEmbed = function (captchaObj) {
+            // 将验证码加到id为captcha的元素里
+
+            captchaObj.onSuccess(function () {
+                validate = captchaObj.getValidate();
+            });
+
+            captchaObj.appendTo("#embed-captcha");
+
+            captcha = captchaObj;
+            // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
+        };
+
+        initGeetest({
+            gt: "{$geetest_html->gt}",
+            challenge: "{$geetest_html->challenge}",
+            product: "embed", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+            offline: {if $geetest_html->success}0{else}1{/if} // 表示用户后台检测极验服务器是否宕机，与SDK配合，用户一般不需要关注
+        }, handlerEmbed);
     </script>
-</body>
-{include file='tabler_footer.tpl'}
+{/if}
 
-</html>
+{if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+{/if}

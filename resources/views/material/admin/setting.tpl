@@ -15,6 +15,9 @@
                         <nav class="tab-nav margin-top-no">
                             <ul class="nav nav-list">
                                 <li class="active">
+                                    <a data-toggle="tab" href="#payment_settings"><i class="icon icon-lg">payment</i>&nbsp;支付</a>
+                                </li>
+                                <li>
                                     <a data-toggle="tab" href="#mail_settings"><i class="icon icon-lg">email</i>&nbsp;邮件</a>
                                 </li>
                                 <li>
@@ -37,11 +40,14 @@
                                 
                         <div class="card-inner">
                            <div class="tab-content">
-                                <div class="tab-pane fade active in" id="mail_settings">
+                                <div class="tab-pane fade" id="mail_settings">
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
                                                 <a data-toggle="tab" href="#email_auth_settings"><i class="icon icon-lg">settings</i>&nbsp;设置</a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle="tab" href="#email_backup_settings"><i class="icon icon-lg">backup</i>&nbsp;备份</a>
                                             </li>
                                             <li>
                                                 <a data-toggle="tab" href="#smtp"><i class="icon icon-lg">contact_mail</i>&nbsp;smtp</a>
@@ -84,6 +90,31 @@
                                         </div>
                                         
                                         <button id="submit_email_test" type="submit" class="btn btn-brand btn-dense" {if $settings['mail_driver'] == "none"}disabled{/if}>测试</button>
+                                    </div>
+                                    <div class="tab-pane fade" id="email_backup_settings">
+                                        <p class="form-control-guide"><i class="material-icons">info</i>需添加定时任务：php /this/is/your/website/path/xcat Backup full / simple</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>full 将整体数据备份；simple 将只备份核心数据</p>
+                                        <!-- auto_backup_email -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">接收备份的邮箱</label>
+                                            <input class="form-control maxwidth-edit" id="auto_backup_email" value="{$settings['auto_backup_email']}">
+                                        </div>
+                                        <!-- auto_backup_password -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">备份的压缩密码</label>
+                                            <input class="form-control maxwidth-edit" id="auto_backup_password" value="{$settings['auto_backup_password']}">
+                                            <p class="form-control-guide"><i class="material-icons">info</i>留空将不加密备份压缩包</p>
+                                        </div>
+                                        <!-- auto_backup_notify -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">备份是否通知到TG群中</label>
+                                            <select id="auto_backup_notify" class="form-control maxwidth-edit">
+                                                <option value="0" {if $settings['auto_backup_notify'] == "0"}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['auto_backup_notify'] == "1"}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button id="submit_email_backup" type="submit" class="btn btn-brand btn-dense">提交</button>
                                     </div>
                                     <div class="tab-pane fade" id="smtp">
                                         <!-- smtp_host -->
@@ -198,11 +229,234 @@
                                     </div>
                                 </div>
 
+                                <div class="tab-pane fade active in" id="payment_settings">
+                                    <nav class="tab-nav margin-top-no">
+                                        <ul class="nav nav-list">
+                                            <li class="active">
+                                                <a data-toggle="tab" href="#public_payment_settings"><i class="icon icon-lg">settings</i>&nbsp;设置</a>
+                                            </li>
+                                            {foreach $payment_gateways as $key => $value}
+                                            <li>
+                                                <a data-toggle="tab" href="#{$value}">{$key}</a>
+                                            </li>
+                                            {/foreach}
+                                        </ul>
+                                    </nav>
+                                            
+                                    <div class="tab-pane fade active in" id="public_payment_settings">
+                                        <!-- payment_gateway 
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">支付网关</label>
+                                            <select id="payment_gateway" class="form-control maxwidth-edit">
+                                                {foreach $payment_gateways as $key => $value}
+                                                <option value="{$value}" {if $settings['payment_gateway'] == "{$value}"}selected{/if}>{$key}</option>
+                                                {/foreach}
+                                            </select>
+                                        </div> -->
+
+                                        <div class="form-group form-group-label">
+                                        {foreach $payment_gateways as $key => $value}
+                                            <div class="checkbox switch">
+                                                <label for="{$value}_switch">
+                                                    <input class="access-hide" type="checkbox" id="{$value}_switch" name="{$value}_switch"
+                                                    {if in_array($value, $active_payment_gateway)}
+                                                    checked
+                                                    {/if}
+                                                    ><span class="switch-toggle"></span>{$key}
+                                                </label>
+                                            </div>
+                                        {/foreach}
+                                        </div>
+
+                                        <button id="submit_payment" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="coinpay">
+                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://www.coinpayapp.com" target="view_window">https://www.coinpayapp.com</a></p>
+                                        <!-- coinpay_appid -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">CoinPay应用ID</label>
+                                            <input class="form-control maxwidth-edit" id="coinpay_appid" value="{$settings['coinpay_appid']}">
+                                        </div>
+                                        <!-- coinpay_secret -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">CoinPay验证密钥</label>
+                                            <input class="form-control maxwidth-edit" id="coinpay_secret" value="{$settings['coinpay_secret']}">
+                                        </div>
+
+                                        <button id="submit_coinpay" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="payjs">
+                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://payjs.cn" target="view_window">https://payjs.cn</a></p>
+                                        <!-- payjs_mchid -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">payjs_mchid</label>
+                                            <input class="form-control maxwidth-edit" id="payjs_mchid" value="{$settings['payjs_mchid']}">
+                                        </div>
+                                        <!-- payjs_key -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">payjs_key</label>
+                                            <input class="form-control maxwidth-edit" id="payjs_key" value="{$settings['payjs_key']}">
+                                        </div>
+
+                                        <button id="submit_payjs_pay" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="paymentwall">
+                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://www.paymentwall.com/cn" target="view_window">https://www.paymentwall.com/cn</a></p>
+                                        <!-- pmw_publickey -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">pmw公钥</label>
+                                            <textarea class="form-control maxwidth-edit" id="pmw_publickey" rows="5">{$settings['pmw_publickey']}</textarea>
+                                        </div>
+                                        <!-- pmw_privatekey -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">pmw私钥</label>
+                                            <textarea class="form-control maxwidth-edit" id="pmw_privatekey" rows="7">{$settings['pmw_privatekey']}</textarea>
+                                        </div>
+                                        <!-- pmw_widget -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">pmw_widget</label>
+                                            <input class="form-control maxwidth-edit" id="pmw_widget" value="{$settings['pmw_widget']}">
+                                        </div>
+                                        <!-- pmw_height -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">pmw_height</label>
+                                            <input class="form-control maxwidth-edit" id="pmw_height" value="{$settings['pmw_height']}">
+                                        </div>
+
+                                        <button id="submit_paymentwall" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="theadpay">
+                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请：<a href="https://theadpay.com" target="view_window">https://theadpay.com</a></p>
+                                        <!-- theadpay_url -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">theadpay_url</label>
+                                            <input class="form-control maxwidth-edit" id="theadpay_url" value="{$settings['theadpay_url']}">
+                                        </div>
+                                        <!-- theadpay_mchid -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">theadpay_mchid</label>
+                                            <input class="form-control maxwidth-edit" id="theadpay_mchid" value="{$settings['theadpay_mchid']}">
+                                        </div>
+                                        <!-- theadpay_key -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">theadpay_key</label>
+                                            <input class="form-control maxwidth-edit" id="theadpay_key" value="{$settings['theadpay_key']}">
+                                        </div>
+
+                                        <button id="submit_theadpay" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="stripe">
+                                        <p class="form-control-guide"><i class="material-icons">warning</i>提供虚拟专用网络业务符合 Stripe 用户协议，但可能不符合 Stripe 提供的部分支付通道（如支付宝、微信）用户协议，相关支付通道可能存在被关闭的风险</p>
+                                        <h5>支付渠道</h5>
+                                        <!-- stripe_card -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">银行卡支付</label>
+                                            <select id="stripe_card" class="form-control maxwidth-edit">
+                                                <option value="1" {if $settings['stripe_card'] == true}selected{/if}>启用</option>
+                                                <option value="0" {if $settings['stripe_card'] == false}selected{/if}>停用</option>
+                                            </select>
+                                        </div>
+                                        <h5>支付设置</h5>
+                                        <!-- stripe_currency -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">货币单位</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_currency" value="{$settings['stripe_currency']}">
+                                        </div>
+                                        <!-- stripe_min_recharge -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">最低充值限额（整数）</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_min_recharge" value="{$settings['stripe_min_recharge']}">
+                                        </div>
+                                        <!-- stripe_max_recharge -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">最高充值限额（整数）</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_max_recharge" value="{$settings['stripe_max_recharge']}">
+                                        </div>
+                                        <!-- stripe_pk -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">stripe_pk</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_pk" value="{$settings['stripe_pk']}">
+                                        </div>
+                                        <!-- stripe_sk -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">stripe_sk</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_sk" value="{$settings['stripe_sk']}">
+                                        </div>
+                                        <!-- stripe_webhook_key -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">WebHook密钥</label>
+                                            <input class="form-control maxwidth-edit" id="stripe_webhook_key" value="{$settings['stripe_webhook_key']}">
+                                        </div>
+
+                                        <button id="submit_stripe" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="vmqpay">
+                                        <p class="form-control-guide"><i class="material-icons">info</i>此支付方式需自建网关并配置各项参数。访问 <a href="https://github.com/szvone/vmqphp" target="view_window">https://github.com/szvone/vmqphp</a> 了解更多</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>开源的 Android 监听端（推荐）：<a href="https://gitee.com/yuniks/VMQAPK" target="view_window">https://gitee.com/yuniks/VMQAPK</a></p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>不开源的 Windows 监听端（不推荐）：<a href="https://toscode.gitee.com/pmhw/Vpay" target="view_window">https://toscode.gitee.com/pmhw/Vpay</a></p>
+                                        <!-- vmq_gateway -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">V免签网关</label>
+                                            <input class="form-control maxwidth-edit" id="vmq_gateway" value="{$settings['vmq_gateway']}">
+                                            <p class="form-control-guide"><i class="material-icons">info</i>形如：https://pay.com</p>
+                                        </div>
+                                        <!-- vmq_key -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">V免签密钥</label>
+                                            <input class="form-control maxwidth-edit" id="vmq_key" value="{$settings['vmq_key']}">
+                                        </div>
+                                        
+                                        <button id="submit_vmq_pay" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="f2fpay">
+                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001003" target="view_window">https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001003</a></p>
+                                        <!-- f2f_pay_app_id -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">App ID</label>
+                                            <input class="form-control maxwidth-edit" id="f2f_pay_app_id" value="{$settings['f2f_pay_app_id']}">
+                                        </div>
+                                        <!-- f2f_pay_pid -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">PID</label>
+                                            <input class="form-control maxwidth-edit" id="f2f_pay_pid" value="{$settings['f2f_pay_pid']}">
+                                            <p class="form-control-guide"><i class="material-icons">info</i>此项可留空，不影响使用</p>
+                                        </div>
+                                        <!-- f2f_pay_public_key -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">公钥</label>
+                                            <textarea class="form-control maxwidth-edit" id="f2f_pay_public_key" rows="4">{$settings['f2f_pay_public_key']}</textarea>
+                                        </div>
+                                        <!-- f2f_pay_private_key -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">私钥</label>
+                                            <textarea class="form-control maxwidth-edit" id="f2f_pay_private_key" rows="12">{$settings['f2f_pay_private_key']}</textarea>
+                                        </div>
+                                        <!-- f2f_pay_notify_url -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">自定义回调地址</label>
+                                            <input class="form-control maxwidth-edit" id="f2f_pay_notify_url" value="{$settings['f2f_pay_notify_url']}">
+                                            <p class="form-control-guide"><i class="material-icons">info</i>此项可留空，不影响使用</p>
+                                        </div>
+                                        
+                                        <button id="submit_f2f_pay" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+                                </div>
+
                                 <div class="tab-pane fade" id="customer_service_system_settings">
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
                                                 <a data-toggle="tab" href="#web_customer_service_system"><i class="icon icon-lg">settings</i>&nbsp;网页客服</a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle="tab" href="#admin_contact"><i class="icon icon-lg">call</i>&nbsp;联系站长</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -246,6 +500,40 @@
 
                                         <button id="submit_web_customer_service_system" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
+                                    <div class="tab-pane fade" id="admin_contact">
+                                        <p class="form-control-guide"><i class="material-icons">info</i>注意：留空的联系方式将不显示</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>支持使用 HTML 标签。你可以通过配置 a 标签，达到点击即可唤起对应app会话窗口的效果</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>若开启此功能，此页面展示的联系方式将显示在：</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>1. 注册或重置密码页面点击【无法收到验证码】按钮</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>2. 用户账户被停用的告知页面</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>3. 充值页面提示充值未到账的用户</p>
+                                        <p class="form-control-guide"><i class="material-icons">info</i>4. 用户中心首页公告栏下方</p>
+                                        <!-- enable_admin_contact -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">是否显示站长联系方式</label>
+                                            <select id="enable_admin_contact" class="form-control maxwidth-edit">
+                                                <option value="0" {if $settings['enable_admin_contact'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['enable_admin_contact'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- admin_contact1 -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">站长联系方式一</label>
+                                            <input class="form-control maxwidth-edit" id="admin_contact1" value="{htmlspecialchars($settings['admin_contact1'])}">
+                                        </div>
+                                        <!-- admin_contact2 -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">站长联系方式二</label>
+                                            <input class="form-control maxwidth-edit" id="admin_contact2" value="{htmlspecialchars($settings['admin_contact2'])}">
+                                        </div>
+                                        <!-- admin_contact3 -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">站长联系方式三</label>
+                                            <input class="form-control maxwidth-edit" id="admin_contact3" value="{htmlspecialchars($settings['admin_contact3'])}">
+                                        </div>
+
+                                        <button id="submit_admin_contact" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
                                 </div>
 
                                 <div class="tab-pane fade" id="verification_code_settings">
@@ -276,24 +564,24 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">注册验证码</label>
                                             <select id="enable_reg_captcha" class="form-control maxwidth-edit">
-                                                <option value="0">关闭</option>
-                                                <option value="1" disabled>开启（暂不可用）</option>
+                                                <option value="0" {if $settings['enable_reg_captcha'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['enable_reg_captcha'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- enable_login_captcha -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">登录验证码</label>
                                             <select id="enable_login_captcha" class="form-control maxwidth-edit">
-                                                <option value="0">关闭</option>
-                                                <option value="1" disabled>开启（暂不可用）</option>
+                                                <option value="0" {if $settings['enable_login_captcha'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['enable_login_captcha'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- enable_checkin_captcha -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">签到验证码</label>
                                             <select id="enable_checkin_captcha" class="form-control maxwidth-edit">
-                                                <option value="0">关闭</option>
-                                                <option value="1" disabled>开启（暂不可用）</option>
+                                                <option value="0" {if $settings['enable_checkin_captcha'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['enable_checkin_captcha'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
 
@@ -382,6 +670,9 @@
                                             <li class="active">
                                                 <a data-toggle="tab" href="#reg_mode_and_verify"><i class="icon icon-lg">vpn_key</i>&nbsp;注册模式与验证</a>
                                             </li>
+                                            <li>
+                                                <a data-toggle="tab" href="#register_default_value"><i class="icon icon-lg">sd_card</i>&nbsp;默认值</a>
+                                            </li>
                                         </ul>
                                     </nav>
                                             
@@ -416,6 +707,83 @@
 
                                         <button id="submit_reg_mode_and_verify" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
+
+                                    <div class="tab-pane fade" id="register_default_value">
+                                        <h5>注册默认</h5>
+                                        <!-- sign_up_for_free_traffic -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">注册时赠送的流量（单位：GB）</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_free_traffic" value="{$settings['sign_up_for_free_traffic']}">
+                                        </div>
+                                        <!-- sign_up_for_free_time -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">注册时赠送的时长（单位：天）</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_free_time" value="{$settings['sign_up_for_free_time']}">
+                                        </div>
+                                        <!-- sign_up_for_class -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">注册时设定的等级</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_class" value="{$settings['sign_up_for_class']}">
+                                        </div>
+                                        <!-- sign_up_for_class_time -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">注册时设定的等级过期时间（单位：天）</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_class_time" value="{$settings['sign_up_for_class_time']}">
+                                        </div>
+                                        <h5>注册限制</h5>
+                                        <!-- sign_up_for_invitation_codes -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">初始邀请注册链接使用次数限制</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_invitation_codes" value="{$settings['sign_up_for_invitation_codes']}">
+                                        </div>
+                                        <!-- connection_device_limit -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">连接设备限制</label>
+                                            <input class="form-control maxwidth-edit" id="connection_device_limit" value="{$settings['connection_device_limit']}">
+                                        </div>
+                                        <!-- connection_rate_limit -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">使用速率限制</label>
+                                            <input class="form-control maxwidth-edit" id="connection_rate_limit" value="{$settings['connection_rate_limit']}">
+                                        </div>
+                                        <h5>SSR 设置</h5>
+                                        <!-- sign_up_for_method -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">默认加密</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_method" value="{$settings['sign_up_for_method']}">
+                                        </div>
+                                        <!-- sign_up_for_protocol -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">默认协议</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_protocol" value="{$settings['sign_up_for_protocol']}">
+                                        </div>
+                                        <!-- sign_up_for_protocol_param -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">默认协议参数</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_protocol_param" value="{$settings['sign_up_for_protocol_param']}">
+                                        </div>
+                                        <!-- sign_up_for_obfs -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">默认混淆</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_obfs" value="{$settings['sign_up_for_obfs']}">
+                                        </div>
+                                        <!-- sign_up_for_obfs_param -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">默认混淆参数</label>
+                                            <input class="form-control maxwidth-edit" id="sign_up_for_obfs_param" value="{$settings['sign_up_for_obfs_param']}">
+                                        </div>
+                                        <h5>其他</h5>
+                                        <!-- sign_up_for_daily_report -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">注册后是否默认接收每日用量邮件推送</label>
+                                            <select id="sign_up_for_daily_report" class="form-control maxwidth-edit">
+                                                <option value="0" {if $settings['sign_up_for_daily_report'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['sign_up_for_daily_report'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+
+                                        <button id="submit_register_default_value" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
                                 </div>
 
                                 <div class="tab-pane fade" id="invitation_settings">
@@ -423,6 +791,9 @@
                                         <ul class="nav nav-list">
                                             <li class="active">
                                                 <a data-toggle="tab" href="#rebate_mode"><i class="icon icon-lg">developer_mode</i>&nbsp;模式</a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle="tab" href="#invitation_reward"><i class="icon icon-lg">card_giftcard</i>&nbsp;奖励</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -434,8 +805,10 @@
                                             <select id="invitation_mode" class="form-control maxwidth-edit">
                                                 <option value="registration_only" {if $settings['invitation_mode'] == 'registration_only'}selected{/if}>
                                                 仅使用邀请注册功能，不返利</option>
+                                                <option value="after_recharge" {if $settings['invitation_mode'] == 'after_recharge'}selected{/if}>
+                                                使用邀请注册功能，并在被邀请用户充值时返利</option>
                                                 <option value="after_purchase" {if $settings['invitation_mode'] == 'after_purchase'}selected{/if}>
-                                                使用邀请注册功能，并在被邀请用户支付账单后返利</option>
+                                                使用邀请注册功能，并在被邀请用户购买时返利</option>
                                             </select>
                                         </div>
                                         <!-- invite_rebate_mode -->
@@ -480,6 +853,21 @@
                                         
                                         <br/><button id="submit_rebate_mode" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
+
+                                    <div class="tab-pane fade" id="invitation_reward">
+                                        <!-- invitation_to_register_balance_reward -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">若有人使用现存用户的邀请链接注册，被邀请人所能获得的余额奖励（单位：元）</label>
+                                            <input class="form-control maxwidth-edit" id="invitation_to_register_balance_reward" value="{$settings['invitation_to_register_balance_reward']}">
+                                        </div>
+                                        <!-- invitation_to_register_traffic_reward -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">若有人使用现存用户的邀请链接注册，邀请人所能获得的流量奖励（单位：GB）</label>
+                                            <input class="form-control maxwidth-edit" id="invitation_to_register_traffic_reward" value="{$settings['invitation_to_register_traffic_reward']}">
+                                        </div>
+
+                                        <button id="submit_invitation_reward" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
                                 </div>
 
                             </div>
@@ -493,6 +881,105 @@
 </main>
 
 {include file='admin/footer.tpl'}
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_f2f_pay').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'f2f_pay',
+                    f2f_pay_app_id: $$getValue('f2f_pay_app_id'),
+                    f2f_pay_pid: $$getValue('f2f_pay_pid'),
+                    f2f_pay_public_key: $$getValue('f2f_pay_public_key'),
+                    f2f_pay_private_key: $$getValue('f2f_pay_private_key'),
+                    f2f_pay_notify_url: $$getValue('f2f_pay_notify_url')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_payment').addEventListener('click', () => {
+            {foreach $payment_gateways as $key => $value}
+            if ($$.getElementById("{$value}_switch").checked) {
+                var {$value} = 1;
+            } else {
+                var {$value} = 0;
+            }
+            {/foreach}
+            
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting/payment",
+                dataType: "json",
+                data: {
+                    {foreach $payment_gateways as $key => $value}
+                    {$value},
+                    {/foreach}
+                    class: 'payment'
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_vmq_pay').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'vmq_pay',
+                    vmq_gateway: $$getValue('vmq_gateway'),
+                    vmq_key: $$getValue('vmq_key')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
 
 <script>
     window.addEventListener('load', () => {
@@ -764,6 +1251,127 @@
 
 <script>
     window.addEventListener('load', () => {
+        $$.getElementById('submit_email_backup').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'email_backup',
+                    auto_backup_email: $$getValue('auto_backup_email'),
+                    auto_backup_password: $$getValue('auto_backup_password'),
+                    auto_backup_notify: $$getValue('auto_backup_notify')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_payjs_pay').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'payjs_pay',
+                    payjs_mchid: $$getValue('payjs_mchid'),
+                    payjs_key: $$getValue('payjs_key')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_paymentwall').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'paymentwall',
+                    pmw_publickey: $$getValue('pmw_publickey'),
+                    pmw_privatekey: $$getValue('pmw_privatekey'),
+                    pmw_widget: $$getValue('pmw_widget'),
+                    pmw_height: $$getValue('pmw_height')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_admin_contact').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'admin_contact',
+                    enable_admin_contact: $$getValue('enable_admin_contact'),
+                    admin_contact1: $$getValue('admin_contact1'),
+                    admin_contact2: $$getValue('admin_contact2'),
+                    admin_contact3: $$getValue('admin_contact3')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
         $$.getElementById('submit_web_customer_service_system').addEventListener('click', () => {
             $.ajax({
                 type: "POST",
@@ -776,6 +1384,99 @@
                     crisp_id: $$getValue('crisp_id'),
                     livechat_id: $$getValue('livechat_id'),
                     mylivechat_id: $$getValue('mylivechat_id')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_theadpay').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'theadpay',
+                    theadpay_url: $$getValue('theadpay_url'),
+                    theadpay_mchid: $$getValue('theadpay_mchid'),
+                    theadpay_key: $$getValue('theadpay_key')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_stripe').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'stripe',
+                    stripe_card: $$getValue('stripe_card'),
+                    stripe_currency: $$getValue('stripe_currency'),
+                    stripe_min_recharge: $$getValue('stripe_min_recharge'),
+                    stripe_max_recharge: $$getValue('stripe_max_recharge'),
+                    stripe_pk: $$getValue('stripe_pk'),
+                    stripe_sk: $$getValue('stripe_sk'),
+                    stripe_webhook_key: $$getValue('stripe_webhook_key')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_coinpay').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'coinpay',
+                    coinpay_appid: $$getValue('coinpay_appid'),
+                    coinpay_secret: $$getValue('coinpay_secret')
                 },
                 success: data => {
                     $("#result").modal();
@@ -838,6 +1539,75 @@
                     reg_email_verify: $$getValue('reg_email_verify'),
                     email_verify_ttl: $$getValue('email_verify_ttl'),
                     email_verify_ip_limit: $$getValue('email_verify_ip_limit')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_register_default_value').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'register_default_value',
+                    sign_up_for_free_traffic: $$getValue('sign_up_for_free_traffic'),
+                    sign_up_for_free_time: $$getValue('sign_up_for_free_time'),
+                    sign_up_for_class: $$getValue('sign_up_for_class'),
+                    sign_up_for_class_time: $$getValue('sign_up_for_class_time'),
+                    sign_up_for_invitation_codes: $$getValue('sign_up_for_invitation_codes'),
+                    connection_device_limit: $$getValue('connection_device_limit'),
+                    connection_rate_limit: $$getValue('connection_rate_limit'),
+                    sign_up_for_method: $$getValue('sign_up_for_method'),
+                    sign_up_for_protocol: $$getValue('sign_up_for_protocol'),
+                    sign_up_for_protocol_param: $$getValue('sign_up_for_protocol_param'),
+                    sign_up_for_obfs: $$getValue('sign_up_for_obfs'),
+                    sign_up_for_obfs_param: $$getValue('sign_up_for_obfs_param'),
+                    sign_up_for_daily_report: $$getValue('sign_up_for_daily_report')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_invitation_reward').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'invitation_reward',
+                    invitation_to_register_balance_reward: $$getValue('invitation_to_register_balance_reward'),
+                    invitation_to_register_traffic_reward: $$getValue('invitation_to_register_traffic_reward')
                 },
                 success: data => {
                     $("#result").modal();

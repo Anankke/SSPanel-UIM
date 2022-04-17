@@ -1,61 +1,93 @@
 <?php
+
 namespace App\Controllers\Admin;
 
+use App\Controllers\AdminController;
+use App\Models\UserSubscribeLog;
+use App\Utils\QQWry;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\{
     Request,
     Response
 };
-use App\Utils\Tools;
-use App\Models\UserSubscribeLog;
-use App\Controllers\AdminController;
 
 class SubscribeLogController extends AdminController
 {
-    public function index($request, $response, $args)
+    /**
+     * 后台订阅记录页面
+     *
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function index($request, $response, $args): ResponseInterface
     {
-        $logs = UserSubscribeLog::orderBy('id', 'desc')
-        ->limit(500)
-        ->get();
-
+        $table_config['total_column'] = array(
+            'id'                  => 'ID',
+            'user_name'           => '用户名',
+            'user_id'             => '用户ID',
+            'email'               => '用户邮箱',
+            'subscribe_type'      => '类型',
+            'request_ip'          => 'IP',
+            'location'            => '归属地',
+            'request_time'        => '时间',
+            'request_user_agent'  => 'User-Agent'
+        );
+        $table_config['default_show_column'] = ['id', 'user_name', 'subscribe_type', 'request_ip', 'location', 'request_time'];
+        $table_config['ajax_url'] = 'subscribe/ajax';
         return $response->write(
             $this->view()
-                ->assign('logs', $logs)
-                ->registerClass('Tools', Tools::class)
+                ->assign('table_config', $table_config)
                 ->display('admin/subscribe.tpl')
         );
     }
 
-    public function subscribe_ajax($request, $response, $args)
+    /**
+     * 后台订阅记录页面 AJAX
+     *
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function ajax_subscribe_log($request, $response, $args): ResponseInterface
     {
-        $email    = $request->getParam('email');
-        $user_id  = $request->getParam('user_id');
-        $user_name = $request->getParam('user_name');
-        $request_ip = $request->getParam('request_ip');
-        $subscribe_type = $request->getParam('subscribe_type');
-        $request_user_agent = $request->getParam('request_user_agent');
+        $query = UserSubscribeLog::getTableDataFromAdmin(
+            $request,
+            static function (&$order_field) {
+                if (in_array($order_field, ['location'])) {
+                    $order_field = 'request_ip';
+                }
+            }
+        );
 
-        $condition = [];
+        $data  = [];
+        $QQWry = new QQWry();
+        foreach ($query['datas'] as $value) {
+            /** @var UserSubscribeLog $value */
 
-        ($email != '') && array_push($condition, ['email', '=', $email]);
-        ($user_id != '') && array_push($condition, ['user_id', '=', $user_id]);
-        ($user_name != '') && array_push($condition, ['user_name', '=', $user_name]);
-        ($request_ip != '') && array_push($condition, ['request_ip', '=', $request_ip]);
-        ($subscribe_type != '') && array_push($condition, ['subscribe_type', '=', $subscribe_type]);
-        ($request_user_agent != '') && array_push($condition, ['request_user_agent', 'like', '%'.$request_user_agent.'%']);
+            if ($value->user() == null) {
+                UserSubscribeLog::user_is_null($value);
+                continue;
+            }
+            $tempdata                       = [];
+            $tempdata['id']                 = $value->id;
+            $tempdata['user_name']          = $value->user_name;
+            $tempdata['user_id']            = $value->user_id;
+            $tempdata['email']              = $value->email;
+            $tempdata['subscribe_type']     = $value->subscribe_type;
+            $tempdata['request_ip']         = $value->request_ip;
+            $tempdata['location']           = $value->location($QQWry);
+            $tempdata['request_time']       = $value->request_time;
+            $tempdata['request_user_agent'] = $value->request_user_agent;
 
-        $results = UserSubscribeLog::orderBy('id', 'desc')
-        ->where($condition)
-        ->limit(500)
-        ->get();
-
-        foreach($results as $result)
-        {
-            $result->ip_info = Tools::getIpInfo($result->request_ip);
+            $data[] = $tempdata;
         }
 
         return $response->withJson([
-            'ret' => 1,
-            'result' => $results
+            'draw'            => $request->getParam('draw'),
+            'recordsTotal'    => UserSubscribeLog::count(),
+            'recordsFiltered' => $query['count'],
+            'data'            => $data,
         ]);
     }
 }
