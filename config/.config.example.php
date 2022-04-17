@@ -37,7 +37,7 @@ $_ENV['active_payments'] = [
         'name' => '支付宝',
         'min' => '10',
         'max' => '1000',
-        'enable' => true,
+        'enable' => false,
         'f2f_pay_app_id'=> '',
         'f2f_pay_pid'=> '',
         'f2f_pay_public_key'=> '',
@@ -49,7 +49,7 @@ $_ENV['active_payments'] = [
         'max' => '1000',
         'gateway' => '',
         'sign_key' => '',
-        'enable' => true,
+        'enable' => false,
     ],
 ];
 
