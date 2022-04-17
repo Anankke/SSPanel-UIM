@@ -159,7 +159,7 @@ class User extends Command
         if (strtolower($y) == 'y') {
             try {
                 AuthController::register_helper('admin', $email, $passwd, '', '1', '', 0, false);
-                $last_user = User::orderBy('id', 'desc')->first();
+                $last_user = User::where('email', $email)->first();
                 $last_user->is_admin = 1;
                 $last_user->save();
             } catch (\Exception $e) {
