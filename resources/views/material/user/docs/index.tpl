@@ -34,9 +34,11 @@
                                 <h3>{$key}</h3>
                                 <ul class="list-unstyled">
                                     {foreach $class as $client}
+                                        {if $client['switch'] == true}
                                         <li>
                                             - <a href="{$client['url']}">{$client['name']}</a>
                                         </li>
+                                        {/if}
                                     {/foreach}
                                 </ul>
                             </div>

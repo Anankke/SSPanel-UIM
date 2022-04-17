@@ -279,9 +279,9 @@ class UserController extends AdminController
             /** @var User $value */
 
             $tempdata['op']                     = '' .
-                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/edit">编辑</a>' .
-                '<a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>' .
-                '<a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\'' . $value->id . '\')">切换为该用户</a>';
+                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/edit">编辑</a>&nbsp;' .
+                '<a class="btn btn-brand-accent" style="background-color: #cc3737" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>&nbsp;' .
+                '<a class="btn btn-brand" style="background-color: #607D8B" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\'' . $value->id . '\')">切换</a>';
 
             $tempdata['querys']                 = '' .
                 '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/bought">套餐</a>' .

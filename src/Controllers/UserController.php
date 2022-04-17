@@ -353,7 +353,7 @@ class UserController extends BaseController
         $order->execute_status = 1;
         $order->save();
 
-        if ($user->ref_by > 0 && $_ENV['gift_card_rebate'] == true) {
+        if ($user->ref_by > 0) {
             Payback::rebate($user->id, ($order->order_price / 100));
         }
     }

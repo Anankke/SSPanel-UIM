@@ -35,13 +35,15 @@
                                 </a>
                                 <ul class="nav nav-pills collapse" id="{$key}">
                                     {foreach $class as $item}
-                                        <li class="nav-item">
-                                            {$app_name = explode('-', $client)}
-                                            <a href="{$item['url']}"
-                                                class="nav-link {if strtolower($app_name['0']) == strtolower($item['name'])}active{/if}">
-                                                {$item['name']}
-                                            </a>
-                                        </li>
+                                        {if $item['switch'] == true}
+                                            <li class="nav-item">
+                                                {$app_name = explode('-', $client)}
+                                                <a href="{$item['url']}"
+                                                    class="nav-link {if strtolower($app_name['0']) == strtolower($item['name'])}active{/if}">
+                                                    {$item['name']}
+                                                </a>
+                                            </li>
+                                        {/if}
                                     {/foreach}
                                 </ul>
                             </li>

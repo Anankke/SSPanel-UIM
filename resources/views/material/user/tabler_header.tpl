@@ -22,7 +22,7 @@
     <link href="/theme/tabler/css/tabler-payments.min.css" rel="stylesheet" />
     <link href="/theme/tabler/css/tabler-vendors.min.css" rel="stylesheet" />
     <link href="/theme/tabler/css/demo.min.css" rel="stylesheet" />
-    <link href="/theme/tabler/css/tabler-icons.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/theme/tabler/css/datatables.min.css" />
     <!-- JS files -->
     <script src="/theme/tabler/js/qrcode.min.js"></script>

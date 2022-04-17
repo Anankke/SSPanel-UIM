@@ -1,20 +1,15 @@
 <?php
-
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
-use App\Models\Node;
-use App\Utils\{
-    Tools,
-    Telegram,
-    CloudflareDriver
-};
-use App\Services\Config;
 use Exception;
-use Slim\Http\{
-    Request,
-    Response
-};
+use App\Models\Node;
+use App\Services\Config;
+use App\Utils\Telegram;
+use App\Utils\Tools;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Utils\CloudflareDriver;
+use App\Controllers\AdminController;
 use Psr\Http\Message\ResponseInterface;
 
 class NodeController extends AdminController
