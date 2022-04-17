@@ -10,6 +10,13 @@ check()
     fi
 
     file="${dir}/vendor/filp/whoops/src/Whoops/Handler/PrettyPageHandler.php"
+}
+
+getline()
+{
+    del_line=$(cat -n ${file} | grep "PHP_AUTH_PW" | awk '{print $1}')
+    sed -i "${del_line}d" $file
+
     line=$(cat -n ${file} | grep "blacklist php provided auth based values" | awk '{print $1}')
     line=$(expr ${line} + 2)
 }
@@ -50,6 +57,7 @@ recover()
 main()
 {
     check
+    getline
     backup
     run
     tip
