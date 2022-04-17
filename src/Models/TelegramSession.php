@@ -1,10 +1,6 @@
 <?php
-
 namespace App\Models;
 
-/**
- * TelegramSession Model
- */
 class TelegramSession extends Model
 {
     protected $connection = 'default';
@@ -19,7 +15,6 @@ class TelegramSession extends Model
     {
         $user = User::where('id', $this->attributes['user_id'])->first();
         if ($user == null) {
-            Ticket::where('id', '=', $this->attributes['id'])->delete();
             return null;
         }
 

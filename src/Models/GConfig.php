@@ -1,32 +1,13 @@
 <?php
-
 namespace App\Models;
 
 use App\Services\DefaultConfig;
 
 class GConfig extends Model
 {
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
     protected $connection = 'default';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'gconfig';
 
-    /**
-     * 恢复默认配置
-     *
-     * @param User $user
-     *
-     * @return void
-     */
     public function recover($user)
     {
         $this->oldvalue       = $this->value;
@@ -38,11 +19,6 @@ class GConfig extends Model
         $this->save();
     }
 
-    /**
-     * 获取配置值
-     *
-     * @return mixed
-     */
     public function getValue()
     {
         switch ($this->type) {
@@ -57,14 +33,6 @@ class GConfig extends Model
         }
     }
 
-    /**
-     * 设定配置值
-     *
-     * @param mixed $value
-     * @param User  $user
-     *
-     * @return bool
-     */
     public function setValue($value, $user = null)
     {
         $this->oldvalue = $this->value;
@@ -85,13 +53,6 @@ class GConfig extends Model
         return true;
     }
 
-    /**
-     * 配置值得类型转换
-     *
-     * @param mixed $value
-     *
-     * @return mixed
-     */
     public function typeConversion($value)
     {
         switch ($this->type) {

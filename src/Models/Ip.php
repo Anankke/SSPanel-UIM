@@ -1,14 +1,10 @@
 <?php
-
 namespace App\Models;
 
 use App\Utils\QQWry;
 use App\Utils\Tools;
 use App\Utils\DatatablesHelper;
 
-/**
- * Ip Model
- */
 class Ip extends Model
 {
     protected $connection = 'default';
@@ -55,7 +51,6 @@ class Ip extends Model
     /**
      * 获取 IP 位置
      *
-     * @param QQWry $QQWry
      */
     public function location(QQWry $QQWry = null): string
     {

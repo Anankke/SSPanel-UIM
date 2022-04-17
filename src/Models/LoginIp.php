@@ -1,18 +1,12 @@
 <?php
-
 namespace App\Models;
 
 use App\Utils\QQWry;
 
-/**
- * Ip Model
- */
 class LoginIp extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'login_ip';
-
     protected $casts = [
         'type' => 'int',
     ];
@@ -20,7 +14,6 @@ class LoginIp extends Model
     /**
      * [静态方法] 删除不存在的用户的记录
      *
-     * @param LoginIp $LoginIp
      */
     public static function user_is_null($LoginIp): void
     {
@@ -57,7 +50,6 @@ class LoginIp extends Model
     /**
      * 获取 IP 位置
      *
-     * @param QQWry $QQWry
      */
     public function location(QQWry $QQWry = null): string
     {

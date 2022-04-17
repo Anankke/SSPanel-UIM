@@ -1,17 +1,14 @@
 <?php
-
 namespace App\Models;
 
 class DetectLog extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'detect_log';
 
     /**
      * [静态方法] 删除不存在的节点的记录
      *
-     * @param DetectLog $DetectLog
      */
     public static function node_is_null($DetectLog): void
     {
@@ -21,7 +18,6 @@ class DetectLog extends Model
     /**
      * [静态方法] 删除不存在的规则的记录
      *
-     * @param DetectLog $DetectLog
      */
     public static function rule_is_null($DetectLog): void
     {
@@ -31,7 +27,6 @@ class DetectLog extends Model
     /**
      * [静态方法] 删除不存在的用户的记录
      *
-     * @param DetectLog $DetectLog
      */
     public static function user_is_null($DetectLog): void
     {
