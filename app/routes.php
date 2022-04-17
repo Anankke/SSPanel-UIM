@@ -82,6 +82,7 @@ return function (SlimApp $app) {
 
         // 节点列表
         $this->get('/node',                     App\Controllers\User\NodeController::class . ':user_node_page');
+        $this->get('/server',                   App\Controllers\User\NodeController::class . ':serverList');
         $this->get('/node/{id}/ajax',           App\Controllers\User\NodeController::class . ':user_node_ajax');
         $this->get('/node/{id}',                App\Controllers\User\NodeController::class . ':user_node_info');
 
@@ -266,6 +267,7 @@ return function (SlimApp $app) {
         $this->post('/nodes/config',        App\Controllers\Mod_Mu\NodeController::class . ':getConfig');
 
         $this->get('/users',                App\Controllers\Mod_Mu\UserController::class . ':index');
+        $this->get('/users/traffic',        App\Controllers\Mod_Mu\UserController::class . ':getTraffic');
         $this->post('/users/traffic',       App\Controllers\Mod_Mu\UserController::class . ':addTraffic');
         $this->post('/users/aliveip',       App\Controllers\Mod_Mu\UserController::class . ':addAliveIp');
         $this->post('/users/detectlog',     App\Controllers\Mod_Mu\UserController::class . ':addDetectLog');

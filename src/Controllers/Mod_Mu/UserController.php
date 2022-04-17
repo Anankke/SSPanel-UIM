@@ -95,8 +95,9 @@ class UserController extends BaseController
         $alive_ip = (new \App\Models\Ip)->getUserAliveIpCount();
         $users = array();
         foreach ($users_raw as $user_raw) {
-            if ($user_raw->node_connector != 0) {
-                $user_raw->alive_ip = $alive_ip[strval($user_raw->id)];
+            $user_raw_id = strval($user_raw->id);
+            if (!empty($alive_ip[$user_raw_id]) && $user_raw->node_connector != 0) {
+                $user_raw->alive_ip = $alive_ip[$user_raw_id];
             }
             if ($user_raw->transfer_enable <= $user_raw->u + $user_raw->d) {
                 if ($_ENV['keep_connect'] === true) {
@@ -129,6 +130,20 @@ class UserController extends BaseController
             'ret'  => 1,
             'data' => $users
         ]);
+    }
+
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function getTraffic($request, $response, $args)
+    {
+        $res = [
+            'ret' => 0,
+            'data' => 'The interface for the node to report the traffic usage should use the post request. If you see this message, check the server. This problem may occur in the debian system, you can try to replace the ubuntu system and try again.',
+        ];
+        return $response->withJson($res);
     }
 
     /**
