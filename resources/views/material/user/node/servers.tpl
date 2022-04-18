@@ -65,7 +65,7 @@
                                                                             <span class="card-subtitle my-2"
                                                                                 style="font-size: 10px;">
                                                                                 {if $server->node_bandwidth_limit == '0'}
-                                                                                    不限流量
+                                                                                    {round($server->node_bandwidth / 1073741824)} GB / 不限
                                                                                 {else}
                                                                                     {round($server->node_bandwidth / 1073741824)}
                                                                                     GB /

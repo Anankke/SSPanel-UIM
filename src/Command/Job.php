@@ -9,14 +9,14 @@ use App\Models\Node;
 use App\Models\NodeInfoLog;
 use App\Models\NodeOnlineLog;
 use App\Models\PasswordReset;
+use App\Models\Statistics as StatisticsModel;
 use App\Models\TelegramSession;
 use App\Models\Token;
 use App\Models\User;
 use App\Models\UserSubscribeLog;
-use App\Services\Config;
+use App\Services\Analytics;
 use App\Services\Mail;
 use App\Utils\DatatablesHelper;
-use App\Utils\Telegram;
 use App\Utils\Tools;
 use Exception;
 
@@ -27,7 +27,8 @@ class Job extends Command
         . '│ ├─ SendMail                - 处理邮件队列' . PHP_EOL
         . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
         . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
-        . '│ ├─ UserJob                 - 用户账户相关任务，每小时' . PHP_EOL;
+        . '│ ├─ UserJob                 - 用户账户相关任务，每小时' . PHP_EOL
+        . '│ ├─ Statistics              - 统计流量和签到数据' . PHP_EOL;
 
     public function boot()
     {
@@ -217,5 +218,36 @@ class Job extends Command
 
             $user->save();
         }
+    }
+
+    public function Statistics()
+    {
+        // 获取每日签到用户数
+        $sts = new Analytics();
+        $check_in_num = $sts->getTodayCheckinUser();
+
+        // 获取每日全体用户流量用量
+        User::chunkById(1000, function ($users) {
+            $lastday_total = 0;
+            foreach ($users as $user) {
+                $lastday_total += (($user->u + $user->d) - $user->last_day_t);
+            }
+
+            // 记录每日全体用户流量用量
+            $traffic = new StatisticsModel;
+            $traffic->item = 'traffic';
+            $traffic->value = Tools::flowAutoShow($lastday_total);
+            $traffic->created_at = time();
+            $traffic->save();
+        });
+
+        // 记录每日签到用户数
+        $check_in = new StatisticsModel;
+        $check_in->item = 'checkin';
+        $check_in->value = $check_in_num;
+        $check_in->created_at = time();
+        $check_in->save();
+
+        echo 'Statistics Task Done.' . PHP_EOL;
     }
 }
