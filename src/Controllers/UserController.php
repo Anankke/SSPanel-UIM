@@ -40,7 +40,9 @@ class UserController extends BaseController
 {
     public function productIndex($request, $response, $args)
     {
-        $products = Product::where('status', '1')->get();
+        $products = Product::where('status', '1')
+        ->orderBy('sort', 'asc')
+        ->get();
 
         $product_tab_lists = [
             [
@@ -353,8 +355,18 @@ class UserController extends BaseController
         $order->execute_status = 1;
         $order->save();
 
-        if ($user->ref_by > 0) {
+        // 0 此商品返利规则跟随系统设置
+        // 1 此商品不返利
+        // 2 此商品返利金额使用下方数值
+        if ($product->rebate_mode == '0' && $user->ref_by > 0) {
             Payback::rebate($user->id, ($order->order_price / 100));
+        }
+        if ($product->rebate_mode == '2') {
+            $invite_user = User::find($user->ref_by);
+            if ($invite_user != null) {
+                $invite_user->money += $product->rebate_amount / 100;
+                $invite_user->save();
+            }
         }
     }
 

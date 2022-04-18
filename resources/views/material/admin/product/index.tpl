@@ -56,6 +56,7 @@
                                         <th>售价</th>
                                         <th>库存</th>
                                         <th>销量</th>
+                                        <th>排序</th>
                                         <th>内容</th>
                                         <th>创建时间</th>
                                         <th>更新时间</th>
@@ -74,6 +75,7 @@
                                             <td>{sprintf("%.2f", $product->price / 100)}</td>
                                             <td>{$product->stock}</td>
                                             <td>{$product->sales}</td>
+                                            <td>{$product->sort}</td>
                                             <td>{$product->translate}</td>
                                             <td>{date('Y-m-d H:i:s', $product->created_at)}</td>
                                             <td>{date('Y-m-d H:i:s', $product->updated_at)}</td>
@@ -194,6 +196,25 @@
                     <div class="mb-3">
                         <textarea id="product_html" class="form-control" rows="6" placeholder="自定义HTML代码"></textarea>
                     </div>
+                    <div class="mb-3">
+                        <select id="product_rebate_mode" class="form-select">
+                            <option value="0">此商品返利规则跟随系统设置</option>
+                            <option value="1">此商品不返利</option>
+                            <option value="2">此商品返利金额使用下方数值（选择此模式则不受系统设置中的各项返利限制）</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3 row">
+                        <label class="form-label col-3 col-form-label">自定义返利金额</label>
+                        <div class="col">
+                            <input id="product_rebate_amount" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 row">
+                        <label class="form-label col-3 col-form-label">自定义排序</label>
+                        <div class="col">
+                            <input id="product_sort" type="text" class="form-control" placeholder="越小越靠前">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
@@ -311,6 +332,9 @@
                     $("#product_html").val(result.data.html);
                     $("#product_price").val(result.data.price / 100);
                     $("#product_stock").val(result.data.stock);
+                    $("#product_sort").val(result.data.sort);
+                    $("#product_rebate_mode").val(result.data.rebate_mode);
+                    $("#product_rebate_amount").val(result.data.rebate_amount / 100);
                     $("#product_time").val(result.content.product_time);
                     $("#product_traffic").val(result.content.product_traffic);
                     $("#product_speed").val(result.content.product_speed);
@@ -352,7 +376,10 @@
                     product_speed: $('#product_speed').val(),
                     product_device: $('#product_device').val(),
                     product_stock: $('#product_stock').val(),
-                    product_html: $('#product_html').val()
+                    product_html: $('#product_html').val(),
+                    product_sort: $('#product_sort').val(),
+                    product_rebate_mode: $('#product_rebate_mode').val(),
+                    product_rebate_amount: $('#product_rebate_amount').val(),
                 },
                 success: function(data) {
                     if (data.ret == 1) {

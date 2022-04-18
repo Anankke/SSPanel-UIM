@@ -78,6 +78,9 @@ class ProductController extends AdminController
         $product_device = $request->getParam('product_device');
         $product_stock = $request->getParam('product_stock');
         $product_html = $request->getParam('product_html');
+        $product_sort = $request->getParam('product_sort');
+        $product_rebate_mode = $request->getParam('product_rebate_mode');
+        $product_rebate_amount = $request->getParam('product_rebate_amount');
 
         try {
             $product = new Product;
@@ -156,6 +159,9 @@ class ProductController extends AdminController
             $product->content = json_encode($content);
             $product->stock = $product_stock;
             $product->sales = 0;
+            $product->sort = ($product_sort == '') ? '0' : $product_sort;
+            $product->rebate_mode = $product_rebate_mode;
+            $product->rebate_amount = ($product_rebate_amount == '') ? '0' : $product_rebate_amount * 100;
             $product->html = $product_html;
             $product->limit = null;
             $product->status = $product_status;
@@ -194,6 +200,9 @@ class ProductController extends AdminController
         $product_device = $request->getParam('product_device');
         $product_stock = $request->getParam('product_stock');
         $product_html = $request->getParam('product_html');
+        $product_sort = $request->getParam('product_sort');
+        $product_rebate_mode = $request->getParam('product_rebate_mode');
+        $product_rebate_amount = $request->getParam('product_rebate_amount');
 
         try {
             $product = Product::find($product_id);
@@ -274,6 +283,9 @@ class ProductController extends AdminController
             $product->price = $product_price * 100;
             $product->content = json_encode($content);
             $product->stock = $product_stock;
+            $product->sort = ($product_sort == '') ? '0' : $product_sort;
+            $product->rebate_mode = $product_rebate_mode;
+            $product->rebate_amount = ($product_rebate_amount == '') ? '0' : $product_rebate_amount * 100;
             $product->html = $product_html;
             $product->status = $product_status;
             $product->updated_at = time();
