@@ -99,6 +99,12 @@
                                     <p class="form-control-guide"><i class="material-icons">info</i>分组为数字，不分组请填0</p>
                                 </div>
                                 <div class="form-group form-group-label">
+                                    <label class="floating-label" for="node_bandwidth">节点已用流量（GB）</label>
+                                    <input class="form-control maxwidth-edit" id="node_bandwidth"
+                                           name="node_bandwidth" type="text"
+                                           value="{round($node->node_bandwidth /1024/1024/1024, 2)}">
+                                </div>
+                                <div class="form-group form-group-label">
                                     <label class="floating-label" for="node_bandwidth_limit">节点流量上限（GB）</label>
                                     <input class="form-control maxwidth-edit" id="node_bandwidth_limit"
                                            name="node_bandwidth_limit" type="text"
@@ -162,6 +168,7 @@
             status: {required: true},
             node_speedlimit: {required: true},
             sort: {required: true},
+            node_bandwidth: {required: true},
             node_bandwidth_limit: {required: true},
             bandwidthlimit_resetday: {required: true}
         },
@@ -190,6 +197,7 @@
                     sort: $$getValue('sort'),
                     node_speedlimit: $$getValue('node_speedlimit'),
                     class: $$getValue('class'),
+                    node_bandwidth: $$getValue('node_bandwidth'),
                     node_bandwidth_limit: $$getValue('node_bandwidth_limit'),
                     bandwidthlimit_resetday: $$getValue('bandwidthlimit_resetday')
 {/literal},
