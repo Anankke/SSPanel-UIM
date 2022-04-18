@@ -1,0 +1,22 @@
+name: Lint code
+on:
+  push:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: cachix/install-nix-action@master
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+        install_url: https://github.com/numtide/nix-unstable-installer/releases/download/nix-2.8.0pre20220408_a52e369/install
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+
+    - name: Lint
+      shell:  nix develop -c -- bash {0}
+      run: |
+        composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+        ./vendor/bin/phpinsights --format=github-action
