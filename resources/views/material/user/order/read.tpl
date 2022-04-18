@@ -135,18 +135,20 @@
                                             </label>
                                             {foreach $config['active_payments'] as $key => $value}
                                                 {if $value['enable'] == true}
-                                                    <label class="form-selectgroup-item flex-fill">
-                                                        <input value="{$key}" class="form-selectgroup-input" id="payment-method"
-                                                            type="radio" name="payment-method">
-                                                        <div class="form-selectgroup-label d-flex align-items-center p-3">
-                                                            <div class="me-3">
-                                                                <span class="form-selectgroup-check"></span>
+                                                    {if ($value['visible_range'] == true && $user->id >= $value['visible_min_range'] && $user->id <= $value['visible_max_range']) || $value['visible_range'] == false}
+                                                        <label class="form-selectgroup-item flex-fill">
+                                                            <input value="{$key}" class="form-selectgroup-input" id="payment-method"
+                                                                type="radio" name="payment-method">
+                                                            <div class="form-selectgroup-label d-flex align-items-center p-3">
+                                                                <div class="me-3">
+                                                                    <span class="form-selectgroup-check"></span>
+                                                                </div>
+                                                                <div>
+                                                                    {$value['name']}
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                {$value['name']}
-                                                            </div>
-                                                        </div>
-                                                    </label>
+                                                        </label>
+                                                    {/if}
                                                 {/if}
                                             {/foreach}
                                         </div>
