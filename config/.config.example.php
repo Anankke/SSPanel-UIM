@@ -91,7 +91,6 @@ $_ENV['checkin_add_time'] = false; // 签到是否增加时间
 $_ENV['checkin_add_time_hour'] = '4'; // 签到增加多长小时的时间
 $_ENV['enable_ticket'] = true; // 是否开启工单系统
 $_ENV['mail_ticket'] = true; // 是否开启工单邮件提醒
-$_ENV['enable_docs'] = true; // 是否开启文档系统
 $_ENV['gift_card_rebate'] = false; // 当用户兑换礼品卡添加余额时，是否执行返利
 
 /*
@@ -102,6 +101,39 @@ $_ENV['user_media_page_custom'] = true; // 流媒体解锁页面自定义说明�
 $_ENV['user_media_page_custom_text'] = '<p>Hi</p>'; // 自定义说明文本，支持html
 $_ENV['user_product_page_custom'] = true; // 流媒体解锁页面自定义说明开关
 $_ENV['user_product_page_custom_text'] = '<p>Hi</p>'; // 自定义说明文本，支持html
+$_ENV['enable_docs'] = true; // 是否开启文档系统
+$_ENV['enable_faq'] = true; // 是否展示使用问答入口
+$_ENV['faqs'] = [
+    // 问题的分类
+    '节点' => [
+        [
+            'mark' => 'node-1', // 问题的标签，可以随意，但是不能重复
+            'is_first' => true, // 是不是该分类下的第一个问答，是填true，不是填false
+            'question' => '节点不能用了怎么办？', // 问题
+            'answer' => '换其他的', //回答，支持html
+        ],
+        [
+            'mark' => 'node-2',
+            'is_first' => false,
+            'question' => '哪些节点能看Netflix？',
+            'answer' => '参考 <a href="/user/media">流媒体解锁</a> 页面即可',
+        ],
+    ],
+    '收费' => [
+        [
+            'mark' => 'charge-1',
+            'is_first' => true,
+            'question' => '支持退款么？',
+            'answer' => '支持',
+        ],
+        [
+            'mark' => 'charge-2',
+            'is_first' => false,
+            'question' => '可以升级套餐么？',
+            'answer' => '可以',
+        ]
+    ]
+];
 
 /*
     与邮件相关设置

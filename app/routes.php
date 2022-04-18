@@ -36,6 +36,7 @@ return function (SlimApp $app) {
 
         // 文档中心
         $this->get('/docs/{client}',            App\Controllers\DocsController::class . ':index');
+        $this->get('/faq',                      App\Controllers\DocsController::class . ':faqIndex');
 
         // 邀请系统
         $this->get('/invite',                   App\Controllers\UserController::class . ':invite');

@@ -157,7 +157,13 @@
                                     {if $config['enable_docs'] == true}
                                         <a class="dropdown-item" href="/user/docs/index">
                                             <i class="ti ti-book"></i>&nbsp;
-                                            使用文档
+                                            文档
+                                        </a>
+                                    {/if}
+                                    {if $config['enable_faq'] == true}
+                                        <a class="dropdown-item" href="/user/faq">
+                                            <i class="ti ti-zoom-question"></i>&nbsp;
+                                            问答
                                         </a>
                                     {/if}
                                     <a class="dropdown-item" href="/user/server">

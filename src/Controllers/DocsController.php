@@ -177,4 +177,15 @@ class DocsController extends BaseController
                 ->display('user/docs.tpl')
         );
     }
+
+    public function faqIndex($request, $response, $args)
+    {
+        $faqs = $_ENV['faqs'];
+
+        return $response->write(
+            $this->view()
+                ->assign('faqs', $faqs)
+                ->display('user/docs/faq.tpl')
+        );
+    }
 }
