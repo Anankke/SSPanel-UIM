@@ -173,13 +173,6 @@ class UserController extends AdminController
         $user->forbidden_ip     = str_replace(PHP_EOL, ',', $request->getParam('forbidden_ip'));
         $user->forbidden_port   = str_replace(PHP_EOL, ',', $request->getParam('forbidden_port'));
 
-        // 手动封禁
-        $ban_time = (int) $request->getParam('ban_time');
-        if ($ban_time > 0) {
-            $user->enable                       = 0;
-            $end_time                           = date('Y-m-d H:i:s');
-        }
-
         if (!$user->save()) {
             return $response->withJson([
                 'ret' => 0,

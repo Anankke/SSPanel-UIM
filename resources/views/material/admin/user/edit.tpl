@@ -77,23 +77,6 @@
                         </div>
                     </div>
                 </div>
-
-				<div class="card">
-					<div class="card-main">
-						<div class="card-inner">
-                            <div class="form-group form-group-label">
-                                <label class="floating-label" for="ban_time">手动封禁时长 (分钟)，不封禁不要修改</label>
-                                <input class="form-control maxwidth-edit" id="ban_time" type="text"
-                                       value="0">
-                            </div>
-                            <div class="form-group form-group-label">
-                                <label class="floating-label" for="relieve_time">当前解封时间</label>
-                                <input class="form-control maxwidth-edit" id="relieve_time" type="text"
-                                       value="{$edit_user->relieve_time()}" readonly>
-                            </div>
-						</div>
-					</div>
-				</div>
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -293,7 +276,6 @@
                     enable,
                     is_admin,
                     ga_enable,
-                    ban_time: $$getValue('ban_time'),
                     ref_by: $$getValue('ref_by'),
                     forbidden_ip: $$getValue('forbidden_ip'),
                     forbidden_port: $$getValue('forbidden_port'),
