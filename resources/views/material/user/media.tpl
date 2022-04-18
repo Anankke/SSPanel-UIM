@@ -19,6 +19,17 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-deck row-cards">
+                {if $config['user_media_page_custom'] == true}
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="m-0 my-2">
+                                    {$config['user_media_page_custom_text']}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {/if}
                 <div class="col-12">
                     <div class="card">
                         {if $results != null}
@@ -61,7 +72,8 @@
                             </div>
                         {else}
                             <div class="card-body">
-                                <p>管理员未启用此功能，访问 <a href="https://github.com/Anankke/SSPanel-Uim/issues/1403">issue #1403</a> 了解更多</p>
+                                <p>管理员未启用此功能，访问 <a href="https://github.com/Anankke/SSPanel-Uim/issues/1403">issue #1403</a>
+                                    了解更多</p>
                             </div>
                         {/if}
                     </div>

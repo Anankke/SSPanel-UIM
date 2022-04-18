@@ -95,6 +95,15 @@ $_ENV['enable_docs'] = true; // 是否开启文档系统
 $_ENV['gift_card_rebate'] = false; // 当用户兑换礼品卡添加余额时，是否执行返利
 
 /*
+    页面自定义
+*/
+
+$_ENV['user_media_page_custom'] = true; // 流媒体解锁页面自定义说明开关
+$_ENV['user_media_page_custom_text'] = '<p>Hi</p>'; // 自定义说明文本，支持html
+$_ENV['user_product_page_custom'] = true; // 流媒体解锁页面自定义说明开关
+$_ENV['user_product_page_custom_text'] = '<p>Hi</p>'; // 自定义说明文本，支持html
+
+/*
     与邮件相关设置
 */
 

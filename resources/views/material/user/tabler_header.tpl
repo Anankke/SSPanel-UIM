@@ -65,6 +65,9 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <a href="/user/logout" class="dropdown-item">登出</a>
+                            {if $user->is_admin}
+                                <a href="/admin" class="dropdown-item">管理后台</a>
+                            {/if}
                         </div>
                     </div>
                 </div>

@@ -55,6 +55,11 @@ class Config
             'telegram_bot'            => $_ENV['telegram_bot'],
             'use_new_telegram_bot'    => $_ENV['use_new_telegram_bot'],
             'enable_telegram_login'   => $_ENV['enable_telegram_login'],
+            // 自定义页面
+            'user_media_page_custom'        => $_ENV['user_media_page_custom'],
+            'user_media_page_custom_text'   => $_ENV['user_media_page_custom_text'],
+            'user_product_page_custom'      => $_ENV['user_product_page_custom'],
+            'user_product_page_custom_text' => $_ENV['user_product_page_custom_text'],
             // 其他
             'enable_checkin'          => $_ENV['enable_checkin'],
             'checkinMin'              => $_ENV['checkinMin'],

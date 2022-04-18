@@ -22,15 +22,18 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="h1 mb-3">说明</div>
-                            <div class="d-flex mb-2">
+                            <div class="m-0 my-2">
                                 <div>
-                                    账户当前余额为：<code>{$user->money}</code> 元，剩余流量为：<code>{$user->unusedTraffic()}</code>
-                                    {if time() > strtotime($user->expire_in)}
-                                        ，你的账户已经过期了
-                                    {else}
-                                        {$diff = round((strtotime($user->expire_in) - time()) / 86400)}
-                                        ，大约还有 <code>{$diff}</code> 天到期
+                                    <p>账户当前余额为：<code>{$user->money}</code> 元，剩余流量为：<code>{$user->unusedTraffic()}</code>
+                                        {if time() > strtotime($user->expire_in)}
+                                            ，你的账户已经过期了
+                                        {else}
+                                            {$diff = round((strtotime($user->expire_in) - time()) / 86400)}
+                                            ，大约还有 <code>{$diff}</code> 天到期
+                                        {/if}
+                                    </p>
+                                    {if $config['user_product_page_custom'] == true}
+                                        {$config['user_product_page_custom_text']}
                                     {/if}
                                 </div>
                             </div>
