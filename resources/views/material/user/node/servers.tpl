@@ -76,13 +76,13 @@
                                                                         </h2>
                                                                         <div class="text-muted">
                                                                             <ul class="list-inline list-inline-dots mb-0">
-                                                                                {if ($server->get_node_online_status() == '1')}
+                                                                                <!-- {if ($server->get_node_online_status() == '1')}
                                                                                     <li class="list-inline-item"><span
                                                                                             class="text-green">Up</span></li>
                                                                                 {else}
                                                                                     <li class="list-inline-item"><span
                                                                                             class="text-red">Down</span></li>
-                                                                                {/if}
+                                                                                {/if} -->
                                                                                 <li class="list-inline-item">
                                                                                     <i class="ti ti-users"></i>&nbsp;
                                                                                     {$server->get_node_online_user_count()}
@@ -90,6 +90,18 @@
                                                                                 <li class="list-inline-item">
                                                                                     <i class="ti ti-rocket"></i>&nbsp;
                                                                                     {$server->traffic_rate}x
+                                                                                </li>
+                                                                                <li class="list-inline-item">
+                                                                                    <span id="more-details" class="pop form-help"
+                                                                                        data-bs-toggle="popover"
+                                                                                        data-bs-placement="top" data-bs-content="
+                                                                                        <p>每月 {$server->bandwidthlimit_resetday} 日重置用量</p>
+                                                                                        <p>{$server->info}</p>
+                                                                                        {if $user->is_admin}
+                                                                                            <a href='/admin/node/{$server->id}/edit'>编辑节点</a>
+                                                                                        {/if}" data-bs-html="true"
+                                                                                        data-bs-original-title="" title="">?
+                                                                                    </span>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
@@ -110,4 +122,36 @@
             </div>
         </div>
     </div>
+
+    <script>
+        {literal}                     
+            // https://zablog.me/2015/10/25/Popover/ 非常感谢
+            $(document).ready(
+                function() {
+                    $(".pop").popover({placement:'left', trigger:'manual', delay: {show: 100, hide: 100}, html: true,
+                    title: function() {
+                        return $("#data-original-title").html();
+                    },
+                    content: function() {
+                        return $("#data-content").html(); // 把content变成html
+                    }
+                });
+            $('body').click(function(event) {
+                var target = $(event.target); // 判断自己当前点击的内容
+                if (!target.hasClass('popover') &&
+                    !target.hasClass('pop') &&
+                    !target.hasClass('popover-content') &&
+                    !target.hasClass('popover-title') &&
+                    !target.hasClass('arrow')) {
+                    $('.pop').popover('hide'); // 当点击body的非弹出框相关的内容的时候，关闭所有popover
+                }
+            });
+            $(".pop").click(function(event) {
+            $('.pop').popover('hide'); // 当点击一个按钮的时候把其他的所有内容先关闭。
+            $(this).popover('toggle'); // 然后只把自己打开。
+            });
+            }
+            );
+        {/literal}
+    </script>
 {include file='user/tabler_footer.tpl'}

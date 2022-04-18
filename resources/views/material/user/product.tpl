@@ -93,7 +93,7 @@
                                                                             </div>
                                                                         {/if}
                                                                         <div class="col-auto align-self-center">
-                                                                            <span class="form-help" data-bs-toggle="popover"
+                                                                            <span class="pop form-help" data-bs-toggle="popover"
                                                                                 data-bs-placement="top"
                                                                                 data-bs-content="{$product->translate}"
                                                                                 data-bs-html="true">?</span>
@@ -296,5 +296,35 @@
                 }
             })
         });
+
+        {literal}                     
+            // https://zablog.me/2015/10/25/Popover/ 非常感谢
+            $(document).ready(
+                function() {
+                    $(".pop").popover({placement:'left', trigger:'manual', delay: {show: 100, hide: 100}, html: true,
+                    title: function() {
+                        return $("#data-original-title").html();
+                    },
+                    content: function() {
+                        return $("#data-content").html(); // 把content变成html
+                    }
+                });
+            $('body').click(function(event) {
+                var target = $(event.target); // 判断自己当前点击的内容
+                if (!target.hasClass('popover') &&
+                    !target.hasClass('pop') &&
+                    !target.hasClass('popover-content') &&
+                    !target.hasClass('popover-title') &&
+                    !target.hasClass('arrow')) {
+                    $('.pop').popover('hide'); // 当点击body的非弹出框相关的内容的时候，关闭所有popover
+                }
+            });
+            $(".pop").click(function(event) {
+            $('.pop').popover('hide'); // 当点击一个按钮的时候把其他的所有内容先关闭。
+            $(this).popover('toggle'); // 然后只把自己打开。
+            });
+            }
+            );
+        {/literal}
     </script>
 {include file='user/tabler_footer.tpl'}
