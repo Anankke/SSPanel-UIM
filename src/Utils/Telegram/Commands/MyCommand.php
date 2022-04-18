@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
-use App\Services\Config;
 use App\Utils\Telegram\Reply;
-use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -43,7 +43,7 @@ class MyCommand extends Command
                 // 群组中不回应
                 return;
             }
-            if ($ChatID != $_ENV['telegram_chatid']) {
+            if ($ChatID !== $_ENV['telegram_chatid']) {
                 // 非我方群组
                 return;
             }
@@ -54,19 +54,19 @@ class MyCommand extends Command
 
         // 触发用户
         $SendUser = [
-            'id'       => $Message->getFrom()->getId(),
-            'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+            'id' => $Message->getFrom()->getId(),
+            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
 
         $User = User::where('telegram_id', $SendUser['id'])->first();
-        if ($User == null) {
+        if ($User === null) {
             // 回送信息
             $response = $this->replyWithMessage(
                 [
-                    'text'                  => $_ENV['user_not_bind_reply'],
-                    'reply_to_message_id'   => $MessageID,
-                    'parse_mode'            => 'Markdown',
+                    'text' => $_ENV['user_not_bind_reply'],
+                    'reply_to_message_id' => $MessageID,
+                    'parse_mode' => 'Markdown',
                 ]
             );
         } else {
@@ -92,19 +92,19 @@ class MyCommand extends Command
         // 回送信息
         return $this->replyWithMessage(
             [
-                'text'                  => $text,
-                'parse_mode'            => 'Markdown',
-                'reply_to_message_id'   => $MessageID,
-                'reply_markup'          => json_encode(
+                'text' => $text,
+                'parse_mode' => 'Markdown',
+                'reply_to_message_id' => $MessageID,
+                'reply_markup' => json_encode(
                     [
                         'inline_keyboard' => [
                             [
                                 [
-                                    'text'          => (!$User->isAbleToCheckin() ? '已签到' : '签到'),
-                                    'callback_data' => 'user.checkin.' . $SendUser['id']
-                                ]
+                                    'text' => (! $User->isAbleToCheckin() ? '已签到' : '签到'),
+                                    'callback_data' => 'user.checkin.' . $SendUser['id'],
+                                ],
                             ],
-                        ]
+                        ],
                     ]
                 ),
             ]

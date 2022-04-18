@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Utils;
 
 class Check
@@ -6,8 +9,8 @@ class Check
     public static function isEmailLegal($email)
     {
         $res['ret'] = 0;
-        
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $res['msg'] = '邮箱不规范';
             return $res;
         }
@@ -15,7 +18,7 @@ class Check
         $mail_suffix = explode('@', $email)[1];
         $mail_filter_list = $_ENV['mail_filter_list'];
         $res['msg'] = '我们无法将邮件投递至域 ' . $mail_suffix . ' ，请更换邮件地址';
-        
+
         switch ($_ENV['mail_filter']) {
             case 0:
                 // 关闭
@@ -29,7 +32,7 @@ class Check
                 return $res;
             case 2:
                 // 黑名单
-                if (!in_array($mail_suffix, $mail_filter_list)) {
+                if (! in_array($mail_suffix, $mail_filter_list)) {
                     $res['ret'] = 1;
                 }
                 return $res;

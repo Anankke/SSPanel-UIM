@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Telegram;
 
-use Telegram\Bot\Api;
 use Exception;
+use Telegram\Bot\Api;
 
 class Process
 {
-    public static function index()
+    public static function index(): void
     {
         try {
             $bot = new Api($_ENV['telegram_token']);

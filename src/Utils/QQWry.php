@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils;
 
 /*
@@ -16,7 +18,6 @@ class QQWry
 
     private $totalip;
 
-
     public function __construct()
     {
         $filename = BASE_PATH . '/storage/qqwry.dat';
@@ -30,10 +31,9 @@ class QQWry
 
             $this->totalip = ($this->lastip - $this->firstip) / 7;
 
-            register_shutdown_function(array(&$this, '__destruct'));
+            register_shutdown_function([&$this, '__destruct']);
         }
     }
-
 
     public function __destruct()
     {
@@ -44,80 +44,15 @@ class QQWry
         $this->fp = 0;
     }
 
-
-    private function getlong()
-    {
-        $result = unpack('Vlong', fread($this->fp, 4));
-
-        return $result['long'];
-    }
-
-
-    private function getlong3()
-    {
-        $result = unpack('Vlong', fread($this->fp, 3) . chr(0));
-
-        return $result['long'];
-    }
-
-
-    private function packip($ip)
-    {
-        return pack('N', (int)ip2long($ip));
-    }
-
-
-    private function getstring($data = '')
-    {
-        $char = fread($this->fp, 1);
-
-        while (ord($char) > 0) {
-            $data .= $char;
-
-            $char = fread($this->fp, 1);
-        }
-
-        return $data;
-    }
-
-    private function getarea()
-    {
-        $byte = fread($this->fp, 1);
-
-        switch (ord($byte)) {
-            case 0:
-                $area = '';
-
-                break;
-
-            case 1:
-            case 2:
-                fseek($this->fp, $this->getlong3());
-
-                $area = $this->getstring();
-
-                break;
-
-            default:
-                $area = $this->getstring($byte);
-
-                break;
-        }
-
-        return $area;
-    }
-
-
     public function getlocation($ip)
     {
-        if (!$this->fp) {
+        if (! $this->fp) {
             return null;
         }
 
         $location['ip'] = gethostbyname($ip);
 
         $ip = $this->packip($location['ip']);
-
 
         $l = 0;
 
@@ -148,7 +83,6 @@ class QQWry
                 }
             }
         }
-
 
         fseek($this->fp, $findip);
 
@@ -211,14 +145,73 @@ class QQWry
                 break;
         }
 
-        if ($location['country'] == ' CZ88.NET') {
+        if ($location['country'] === ' CZ88.NET') {
             $location['country'] = '未知';
         }
 
-        if ($location['area'] == ' CZ88.NET') {
+        if ($location['area'] === ' CZ88.NET') {
             $location['area'] = '';
         }
 
         return $location;
+    }
+
+    private function getlong()
+    {
+        $result = unpack('Vlong', fread($this->fp, 4));
+
+        return $result['long'];
+    }
+
+    private function getlong3()
+    {
+        $result = unpack('Vlong', fread($this->fp, 3) . chr(0));
+
+        return $result['long'];
+    }
+
+    private function packip($ip)
+    {
+        return pack('N', (int) ip2long($ip));
+    }
+
+    private function getstring($data = '')
+    {
+        $char = fread($this->fp, 1);
+
+        while (ord($char) > 0) {
+            $data .= $char;
+
+            $char = fread($this->fp, 1);
+        }
+
+        return $data;
+    }
+
+    private function getarea()
+    {
+        $byte = fread($this->fp, 1);
+
+        switch (ord($byte)) {
+            case 0:
+                $area = '';
+
+                break;
+
+            case 1:
+            case 2:
+                fseek($this->fp, $this->getlong3());
+
+                $area = $this->getstring();
+
+                break;
+
+            default:
+                $area = $this->getstring($byte);
+
+                break;
+        }
+
+        return $area;
     }
 }

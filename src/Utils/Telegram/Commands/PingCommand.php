@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Telegram\Commands;
 
-use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -46,7 +47,7 @@ class PingCommand extends Command
             // 回送信息
             $this->replyWithMessage(
                 [
-                    'text'       => implode(PHP_EOL, $text),
+                    'text' => implode(PHP_EOL, $text),
                     'parse_mode' => 'Markdown',
                 ]
             );

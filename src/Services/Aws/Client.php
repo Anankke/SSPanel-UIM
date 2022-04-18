@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Aws;
 
 use Aws\Sdk;
 
 class Client
 {
-    public function getClient()
+    public function getClient(): void
     {
         $sdk = new Sdk([
             'region' => 'us-west-2',
             'version' => 'latest',
             'DynamoDb' => [
-                'region' => 'eu-central-1'
-            ]
+                'region' => 'eu-central-1',
+            ],
         ]);
     }
 }

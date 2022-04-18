@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
-use App\Models\User;
 use App\Models\Ann;
+use App\Models\User;
+use App\Services\Analytics;
 use App\Services\Config;
 use App\Utils\Telegram;
 use App\Utils\Tools;
-use App\Services\Analytics;
 
 class SendDiaryMail extends Command
 {
     public $description = '├─=: php xcat SendDiaryMail  - 每日流量报告' . PHP_EOL;
 
-    public function boot()
+    public function boot(): void
     {
         $users = User::all();
         $logs = Ann::orderBy('id', 'desc')->get();
@@ -21,14 +23,14 @@ class SendDiaryMail extends Command
 
         foreach ($logs as $log) {
             if (strpos($log->content, 'Links') === false) {
-                $text1 = $text1 . $log->content . '<br><br>';
+                $text1 .= $log->content . '<br><br>';
             }
         }
 
         $lastday_total = 0;
 
         foreach ($users as $user) {
-            $lastday_total += (($user->u + $user->d) - $user->last_day_t);
+            $lastday_total += $user->u + $user->d - $user->last_day_t;
             $user->sendDailyNotification($text1);
         }
 
@@ -37,14 +39,14 @@ class SendDiaryMail extends Command
         if (Config::getconfig('Telegram.bool.Diary')) {
             Telegram::Send(
                 str_replace(
-                    array(
+                    [
                         '%getTodayCheckinUser%',
-                        '%lastday_total%'
-                    ),
-                    array(
+                        '%lastday_total%',
+                    ],
+                    [
                         $sts->getTodayCheckinUser(),
-                        Tools::flowAutoShow($lastday_total)
-                    ),
+                        Tools::flowAutoShow($lastday_total),
+                    ],
                     Config::getconfig('Telegram.string.Diary')
                 )
             );

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Services\DefaultConfig;
@@ -15,23 +17,23 @@ class Update extends Command
     {
         global $_ENV;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
-        if ($copy_result == true) {
-            echo ('备份成功' . PHP_EOL);
+        if ($copy_result === true) {
+            echo '备份成功' . PHP_EOL;
         } else {
-            echo ('备份失败，迁移终止' . PHP_EOL);
+            echo '备份失败，迁移终止' . PHP_EOL;
             return false;
         }
 
-        echo (PHP_EOL);
+        echo PHP_EOL;
 
         // 检查并创建新增的配置项
         echo DefaultConfig::detectConfigs();
 
-        echo ('开始升级 QQWry...' . PHP_EOL);
+        echo '开始升级 QQWry...' . PHP_EOL;
         (new Tool($this->argv))->initQQWry();
-        echo ('升级 QQWry结束' . PHP_EOL);
+        echo '升级 QQWry结束' . PHP_EOL;
 
-        echo (PHP_EOL);
+        echo PHP_EOL;
 
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
         $config_new = file_get_contents(BASE_PATH . '/config/.config.example.php');
@@ -39,47 +41,47 @@ class Update extends Command
         //执行版本升级
         $version_old = $_ENV['version'] ?? 0;
         $this->old_to_new($version_old);
-        $this->addColumns('user', 'uuid', 'TEXT', TRUE, 'NULL', 'uuid', 'passwd');
+        $this->addColumns('user', 'uuid', 'TEXT', true, 'NULL', 'uuid', 'passwd');
 
         //将旧config迁移到新config上
-        $migrated = array();
+        $migrated = [];
         foreach ($_ENV as $key => $value_reserve) {
-            if ($key == 'config_migrate_notice' || $key == 'version') {
+            if ($key === 'config_migrate_notice' || $key === 'version') {
                 continue;
             }
 
             $regex = '/_ENV\[\'' . $key . '\'\].*?;/s';
-            $matches_new = array();
+            $matches_new = [];
             preg_match($regex, $config_new, $matches_new);
-            if (isset($matches_new[0]) == false) {
-                echo ('未找到配置项：' . $key . ' 未能在新config文件中找到，可能已被更名或废弃' . PHP_EOL);
+            if (isset($matches_new[0]) === false) {
+                echo '未找到配置项：' . $key . ' 未能在新config文件中找到，可能已被更名或废弃' . PHP_EOL;
                 continue;
             }
 
-            $matches_old = array();
+            $matches_old = [];
             preg_match($regex, $config_old, $matches_old);
 
             $config_new = str_replace($matches_new[0], $matches_old[0], $config_new);
             $migrated[] = '_ENV[\'' . $key . '\']';
         }
-        echo (PHP_EOL);
+        echo PHP_EOL;
 
         //检查新增了哪些config
         $regex_new = '/_ENV\[\'.*?\'\]/s';
-        $matches_new_all = array();
+        $matches_new_all = [];
         preg_match_all($regex_new, $config_new, $matches_new_all);
         $differences = array_diff($matches_new_all[0], $migrated);
         foreach ($differences as $difference) {
             if (
-                $difference == '_ENV[\'config_migrate_notice\']' ||
-                $difference == '_ENV[\'version\']'
+                $difference === '_ENV[\'config_migrate_notice\']' ||
+                $difference === '_ENV[\'version\']'
             ) {
                 continue;
             }
             //匹配注释
             $regex_comment = '/' . $difference . '.*?;.*?(?=\n)/s';
-            $regex_comment = str_replace(array('[', ']'), array('\[', '\]'), $regex_comment);
-            $matches_comment = array();
+            $regex_comment = str_replace(['[', ']'], ['\[', '\]'], $regex_comment);
+            $matches_comment = [];
             preg_match($regex_comment, $config_new, $matches_comment);
             $comment = '';
             if (isset($matches_comment[0])) {
@@ -97,13 +99,13 @@ class Update extends Command
             $difference = substr($difference, 15);
             $difference = substr($difference, 0, -2);
 
-            echo ('新增配置项：' . $difference . ':' . $comment . PHP_EOL);
+            echo '新增配置项：' . $difference . ':' . $comment . PHP_EOL;
         }
-        echo ('新增配置项通常带有默认值，因此通常即使不作任何改动网站也可以正常运行' . PHP_EOL);
+        echo '新增配置项通常带有默认值，因此通常即使不作任何改动网站也可以正常运行' . PHP_EOL;
 
         //输出notice
         $regex_notice = '/_ENV\[\'config_migrate_notice\'\].*?(?=\';)/s';
-        $matches_notice = array();
+        $matches_notice = [];
         preg_match($regex_notice, $config_new, $matches_notice);
         $notice_new = $matches_notice[0];
         $notice_new = substr(
@@ -114,56 +116,56 @@ class Update extends Command
                 strpos($notice_new, '=') //查找'='之后的第一个'\''，然后substr其后面的notice
             ) + 1
         );
-        echo ('以下是迁移附注：');
+        echo '以下是迁移附注：';
         if (isset($_ENV['config_migrate_notice'])) {
-            if ($_ENV['config_migrate_notice'] != $notice_new) {
-                echo ($notice_new);
+            if ($_ENV['config_migrate_notice'] !== $notice_new) {
+                echo $notice_new;
             }
         } else {
-            echo ($notice_new);
+            echo $notice_new;
         }
-        echo (PHP_EOL);
+        echo PHP_EOL;
 
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
-        echo (PHP_EOL . '迁移完成' . PHP_EOL);
+        echo PHP_EOL . '迁移完成' . PHP_EOL;
 
-        echo (PHP_EOL);
+        echo PHP_EOL;
 
-        echo ('开始升级composer依赖...' . PHP_EOL);
+        echo '开始升级composer依赖...' . PHP_EOL;
         system('php ' . BASE_PATH . '/composer.phar selfupdate');
         system('php ' . BASE_PATH . '/composer.phar install -d ' . BASE_PATH);
-        echo ('升级composer依赖结束，请自行根据上方输出确认是否升级成功' . PHP_EOL);
+        echo '升级composer依赖结束，请自行根据上方输出确认是否升级成功' . PHP_EOL;
         system('rm -rf ' . BASE_PATH . '/storage/framework/smarty/compile/*');
         system('chown -R ' . $_ENV['php_user_group'] . ' ' . BASE_PATH . '/storage');
     }
 
-    public function addColumns($table, $columu, $type, $isnull, $default, $comment, $after)
+    public function addColumns($table, $columu, $type, $isnull, $default, $comment, $after): void
     {
         $datatables = new DatatablesHelper();
         $exists = $datatables->query("SELECT COUNT(*) as cc FROM information_schema.columns WHERE `table_schema` = '" . $_ENV['db_database'] . "' AND `table_name` = '" . $table . "' AND `column_name` = '" . $columu . "'");
-        if ($exists[0]['cc'] >0) {
+        if ($exists[0]['cc'] > 0) {
             return;
         }
-        $isnull = $isnull ? " NULL " : " NOT NULL ";
-        $datatables->query("ALTER TABLE `" . $table . "` ADD COLUMN `" . $columu . "` " . $type . $isnull . "DEFAULT " . $default . " COMMENT '" . $comment . "' AFTER `" . $after . "`");
+        $isnull = $isnull ? ' NULL ' : ' NOT NULL ';
+        $datatables->query('ALTER TABLE `' . $table . '` ADD COLUMN `' . $columu . '` ' . $type . $isnull . 'DEFAULT ' . $default . " COMMENT '" . $comment . "' AFTER `" . $after . '`');
     }
 
-    public function old_to_new($version_old)
+    public function old_to_new($version_old): void
     {
         if ($version_old < 2) {
             // 版本 2 开始
-            if (!is_file(BASE_PATH . '/config/appprofile.php')) {
-                echo ('创建 appprofile 文件.' . PHP_EOL);
+            if (! is_file(BASE_PATH . '/config/appprofile.php')) {
+                echo '创建 appprofile 文件.' . PHP_EOL;
                 system('cp ' . BASE_PATH . '/config/appprofile.example.php ' . BASE_PATH . '/config/appprofile.php', $ret);
                 echo $ret;
             }
-            if (!Capsule::schema()->hasTable('gconfig')) {
-                echo ('创建 gconfig 表.' . PHP_EOL);
+            if (! Capsule::schema()->hasTable('gconfig')) {
+                echo '创建 gconfig 表.' . PHP_EOL;
                 Capsule::schema()->create(
                     'gconfig',
-                    function (Blueprint $table) {
-                        $table->engine    = 'InnoDB';
-                        $table->charset   = 'utf8mb4';
+                    function (Blueprint $table): void {
+                        $table->engine = 'InnoDB';
+                        $table->charset = 'utf8mb4';
                         $table->collation = 'utf8mb4_unicode_ci';
                         $table->integer('id', true, true);
                         $table->string('key', 128)->comment('配置键名');
@@ -179,13 +181,13 @@ class Update extends Command
                     }
                 );
             }
-            if (!Capsule::schema()->hasTable('user_subscribe_log')) {
-                echo ('创建 user_subscribe_log 表.' . PHP_EOL);
+            if (! Capsule::schema()->hasTable('user_subscribe_log')) {
+                echo '创建 user_subscribe_log 表.' . PHP_EOL;
                 Capsule::schema()->create(
                     'user_subscribe_log',
-                    function (Blueprint $table) {
-                        $table->engine    = 'InnoDB';
-                        $table->charset   = 'utf8mb4';
+                    function (Blueprint $table): void {
+                        $table->engine = 'InnoDB';
+                        $table->charset = 'utf8mb4';
                         $table->collation = 'utf8mb4_unicode_ci';
                         $table->integer('id', true, true);
                         $table->string('user_name', 128)->comment('用户名');
@@ -198,13 +200,13 @@ class Update extends Command
                     }
                 );
             }
-            if (!Capsule::schema()->hasTable('detect_ban_log')) {
-                echo ('创建 detect_ban_log 表.' . PHP_EOL);
+            if (! Capsule::schema()->hasTable('detect_ban_log')) {
+                echo '创建 detect_ban_log 表.' . PHP_EOL;
                 Capsule::schema()->create(
                     'detect_ban_log',
-                    function (Blueprint $table) {
-                        $table->engine    = 'InnoDB';
-                        $table->charset   = 'utf8mb4';
+                    function (Blueprint $table): void {
+                        $table->engine = 'InnoDB';
+                        $table->charset = 'utf8mb4';
                         $table->collation = 'utf8mb4_unicode_ci';
                         $table->integer('id', true, true);
                         $table->string('user_name', 128)->comment('用户名');
@@ -228,20 +230,20 @@ class Update extends Command
             //     );
             // }
             $UserAttributes = array_keys((new \App\Models\User())->first()->getAttributes());
-            if (!in_array('last_detect_ban_time', $UserAttributes)) {
-                echo ('添加 last_detect_ban_time 到 user 表.' . PHP_EOL);
+            if (! in_array('last_detect_ban_time', $UserAttributes)) {
+                echo '添加 last_detect_ban_time 到 user 表.' . PHP_EOL;
                 Capsule::schema()->table(
                     'user',
-                    function (Blueprint $table) {
+                    function (Blueprint $table): void {
                         $table->dateTime('last_detect_ban_time')->default('1989-06-04 00:05:00')->after('enable');
                     }
                 );
             }
-            if (!in_array('all_detect_number', $UserAttributes)) {
-                echo ('添加 all_detect_number 到 user 表.' . PHP_EOL);
+            if (! in_array('all_detect_number', $UserAttributes)) {
+                echo '添加 all_detect_number 到 user 表.' . PHP_EOL;
                 Capsule::schema()->table(
                     'user',
-                    function (Blueprint $table) {
+                    function (Blueprint $table): void {
                         $table->integer('all_detect_number')->default(0)->after('last_detect_ban_time');
                     }
                 );
@@ -256,11 +258,11 @@ class Update extends Command
             $DetectLog->datetime = 0;
             $DetectLog->save();
             $DetectlogAttributes = array_keys((new \App\Models\DetectLog())->first()->getAttributes());
-            if (!in_array('status', $DetectlogAttributes)) {
-                echo ('添加 status 到 detect_log 表.' . PHP_EOL);
+            if (! in_array('status', $DetectlogAttributes)) {
+                echo '添加 status 到 detect_log 表.' . PHP_EOL;
                 Capsule::schema()->table(
                     'detect_log',
-                    function (Blueprint $table) {
+                    function (Blueprint $table): void {
                         $table->integer('status')->default(0)->after('node_id');
                     }
                 );

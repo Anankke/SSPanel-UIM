@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Created by PhpStorm.
  * User: tonyzou
@@ -8,42 +11,42 @@
 
 namespace App\Services\Gateway;
 
-use App\Models\User;
 use App\Models\Code;
-use App\Models\Setting;
 use App\Models\Payback;
-use App\Utils\Telegram;
+use App\Models\Setting;
+use App\Models\User;
 use App\Services\Auth;
+use App\Utils\Telegram;
 use Paymentwall_Config;
 use Paymentwall_Pingback;
 use Paymentwall_Widget;
 
 class PaymentWall extends AbstractPayment
 {
-    public static function _name() 
+    public static function _name()
     {
         return 'paymentwall';
     }
 
-    public static function _enable() 
+    public static function _enable()
     {
         return self::getActiveGateway('paymentwall');
     }
 
-    public function purchase($request, $response, $args)
+    public function purchase($request, $response, $args): void
     {
         // TODO: Implement purchase() method.
     }
 
-    public function notify($request, $response, $args)
+    public function notify($request, $response, $args): void
     {
         $configs = Setting::getClass('pmw');
-        if ($configs['pmw_publickey'] != '') {
-            Paymentwall_Config::getInstance()->set(array(
+        if ($configs['pmw_publickey'] !== '') {
+            Paymentwall_Config::getInstance()->set([
                 'api_type' => Paymentwall_Config::API_VC,
                 'public_key' => $configs['pmw_publickey'],
-                'private_key' => $configs['pmw_privatekey']
-            ));
+                'private_key' => $configs['pmw_privatekey'],
+            ]);
             $pingback = new Paymentwall_Pingback($_GET, $_SERVER['REMOTE_ADDR']);
             if ($pingback->validate()) {
                 $virtualCurrency = $pingback->getVirtualCurrencyAmount();
@@ -64,13 +67,13 @@ class PaymentWall extends AbstractPayment
                 $codeq->userid = $user->id;
                 $codeq->save();
                 // 返利
-                if ($user->ref_by > 0 && Setting::obtain('invitation_mode') == 'after_recharge') {
+                if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
                     Payback::rebate($user->id, $virtualCurrency);
                 }
                 // 通知
                 echo 'OK'; // Paymentwall expects response to be OK, otherwise the pingback will be resent
-                if ($_ENV['enable_donate'] == true) {
-                    if ($user->is_hide == 1) {
+                if ($_ENV['enable_donate'] === true) {
+                    if ($user->is_hide === 1) {
                         Telegram::Send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
                     } else {
                         Telegram::Send('姐姐姐姐，' . $user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
@@ -84,42 +87,41 @@ class PaymentWall extends AbstractPayment
         }
     }
 
-
     public static function getPurchaseHTML()
     {
         $configs = Setting::getClass('pmw');
-        Paymentwall_Config::getInstance()->set(array(
+        Paymentwall_Config::getInstance()->set([
             'api_type' => Paymentwall_Config::API_VC,
             'public_key' => $configs['pmw_publickey'],
-            'private_key' => $configs['pmw_privatekey']
-        ));
+            'private_key' => $configs['pmw_privatekey'],
+        ]);
         $user = Auth::getUser();
         $widget = new Paymentwall_Widget(
             $user->id, // id of the end-user who's making the payment
             $configs['pmw_widget'],      // widget code, e.g. p1; can be picked inside of your merchant account
-            array(),     // array of products - leave blank for Virtual Currency API
-            array(
+            [],     // array of products - leave blank for Virtual Currency API
+            [
                 'email' => $user->email,
-                'history' =>
-                    array(
-                        'registration_date' => strtotime($user->reg_date),
-                        'registration_ip' => $user->reg_ip,
-                        'payments_number' => Code::where('userid', '=', $user->id)->where('type', '=', -1)->count(),
-                        'membership' => $user->class),
-                'customer' => array(
-                    'username' => $user->user_name
-                )
-            ) // additional parameters
+                'history' => [
+                    'registration_date' => strtotime($user->reg_date),
+                    'registration_ip' => $user->reg_ip,
+                    'payments_number' => Code::where('userid', '=', $user->id)->where('type', '=', -1)->count(),
+                    'membership' => $user->class,
+                ],
+                'customer' => [
+                    'username' => $user->user_name,
+                ],
+            ] // additional parameters
         );
-        return $widget->getHtmlCode(array('height' => $configs['pmw_height'], 'width' => '100%'));
+        return $widget->getHtmlCode(['height' => $configs['pmw_height'], 'width' => '100%']);
     }
 
-    public function getReturnHTML($request, $response, $args)
+    public function getReturnHTML($request, $response, $args): void
     {
         // TODO: Implement getReturnHTML() method.
     }
 
-    public function getStatus($request, $response, $args)
+    public function getStatus($request, $response, $args): void
     {
         // TODO: Implement getStatus() method.
     }

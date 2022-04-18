@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
-use Exception;
+use App\Models\Setting;
+use App\Models\User as ModelsUser;
 use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Tools;
+use Exception;
 use Ramsey\Uuid\Uuid;
-use App\Services\Config;
-use App\Models\Setting;
-use App\Models\User as ModelsUser;
 
 class User extends Command
 {
@@ -23,7 +24,7 @@ class User extends Command
         . '│ ├─ generateUUID            - 为所有用户生成新的 UUID' . PHP_EOL
         . '│ ├─ generateGa              - 为所有用户生成新的 Ga Secret' . PHP_EOL;
 
-    public function boot()
+    public function boot(): void
     {
         if (count($this->argv) === 2) {
             echo $this->description;
@@ -39,10 +40,8 @@ class User extends Command
 
     /**
      * 重置用户端口
-     *
-     * @return void
      */
-    public function resetPort()
+    public function resetPort(): void
     {
         fwrite(STDOUT, '请输入用户id: ');
         $user = ModelsUser::find(trim(fgets(STDIN)));
@@ -58,15 +57,13 @@ class User extends Command
 
     /**
      * 重置所有用户端口
-     *
-     * @return void
      */
-    public function resetAllPort()
+    public function resetAllPort(): void
     {
         $users = ModelsUser::all();
         foreach ($users as $user) {
             $origin_port = $user->port;
-            $user->port  = Tools::getAvPort();
+            $user->port = Tools::getAvPort();
             echo '$origin_port=' . $origin_port . '&$user->port=' . $user->port . PHP_EOL;
             $user->save();
         }
@@ -74,15 +71,13 @@ class User extends Command
 
     /**
      * 重置所有用户流量
-     *
-     * @return void
      */
-    public function resetTraffic()
+    public function resetTraffic(): void
     {
         try {
             ModelsUser::where('enable', 1)->update([
-                'd'          => 0,
-                'u'          => 0,
+                'd' => 0,
+                'u' => 0,
                 'last_day_t' => 0,
             ]);
         } catch (Exception $e) {
@@ -94,10 +89,8 @@ class User extends Command
 
     /**
      * 为所有用户生成新的UUID
-     *
-     * @return void
      */
-    public function generateUUID()
+    public function generateUUID(): void
     {
         $users = ModelsUser::all();
         $current_timestamp = time();
@@ -110,10 +103,8 @@ class User extends Command
 
     /**
      * 二次验证
-     *
-     * @return void
      */
-    public function generateGa()
+    public function generateGa(): void
     {
         $users = ModelsUser::all();
         foreach ($users as $user) {
@@ -128,66 +119,64 @@ class User extends Command
 
     /**
      * 创建 Admin 账户
-     *
-     * @return void
      */
-    public function createAdmin()
+    public function createAdmin(): void
     {
         if (count($this->argv) === 3) {
             // ask for input
             fwrite(STDOUT, '(1/3) 请输入管理员邮箱：') . PHP_EOL;
             // get input
             $email = trim(fgets(STDIN));
-            if ($email == null) {
+            if ($email === null) {
                 die("必须输入管理员邮箱.\r\n");
             }
 
             // write input back
-            fwrite(STDOUT, "(2/3) 请输入管理员账户密码：") . PHP_EOL;
+            fwrite(STDOUT, '(2/3) 请输入管理员账户密码：') . PHP_EOL;
             $passwd = trim(fgets(STDIN));
-            if ($passwd == null) {
+            if ($passwd === null) {
                 die("必须输入管理员密码.\r\n");
             }
-            
-            fwrite(STDOUT, "(3/3) 按 Y 或 y 确认创建：");
+
+            fwrite(STDOUT, '(3/3) 按 Y 或 y 确认创建：');
             $y = trim(fgets(STDIN));
         } elseif (count($this->argv) === 5) {
             [,,, $email, $passwd] = $this->argv;
             $y = 'y';
         }
 
-        if (strtolower($y) == 'y') {
-            $current_timestamp          = time();
+        if (strtolower($y) === 'y') {
+            $current_timestamp = time();
             // create admin user
             $configs = Setting::getClass('register');
             // do reg user
-            $user                   = new ModelsUser();
-            $user->user_name        = 'admin';
-            $user->email            = $email;
-            $user->pass             = Hash::passwordHash($passwd);
-            $user->passwd           = Tools::genRandomChar(16);
-            $user->uuid             = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
-            $user->port             = Tools::getLastPort() + 1;
-            $user->t                = 0;
-            $user->u                = 0;
-            $user->d                = 0;
-            $user->transfer_enable  = Tools::toGB($configs['sign_up_for_free_traffic']);
-            $user->invite_num       = $configs['sign_up_for_invitation_codes'];
-            $user->ref_by           = 0;
-            $user->is_admin         = 1;
-            $user->expire_in        = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
-            $user->reg_date         = date('Y-m-d H:i:s');
-            $user->money            = 0;
-            $user->im_type          = 1;
-            $user->im_value         = '';
-            $user->class            = 0;
-            $user->node_speedlimit  = 0;
-            $user->theme            = $_ENV['theme'];
+            $user = new ModelsUser();
+            $user->user_name = 'admin';
+            $user->email = $email;
+            $user->pass = Hash::passwordHash($passwd);
+            $user->passwd = Tools::genRandomChar(16);
+            $user->uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
+            $user->port = Tools::getLastPort() + 1;
+            $user->t = 0;
+            $user->u = 0;
+            $user->d = 0;
+            $user->transfer_enable = Tools::toGB($configs['sign_up_for_free_traffic']);
+            $user->invite_num = $configs['sign_up_for_invitation_codes'];
+            $user->ref_by = 0;
+            $user->is_admin = 1;
+            $user->expire_in = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
+            $user->reg_date = date('Y-m-d H:i:s');
+            $user->money = 0;
+            $user->im_type = 1;
+            $user->im_value = '';
+            $user->class = 0;
+            $user->node_speedlimit = 0;
+            $user->theme = $_ENV['theme'];
 
-            $ga                     = new GA();
-            $secret                 = $ga->createSecret();
-            $user->ga_token         = $secret;
-            $user->ga_enable        = 0;
+            $ga = new GA();
+            $secret = $ga->createSecret();
+            $user->ga_token = $secret;
+            $user->ga_enable = 0;
 
             if ($user->save()) {
                 echo '创建成功，请在主页登录' . PHP_EOL;
@@ -201,10 +190,8 @@ class User extends Command
 
     /**
      * 获取 USERID 的 Cookie
-     *
-     * @return void
      */
-    public function getCookie()
+    public function getCookie(): void
     {
         if (count($this->argv) === 4) {
             $user = ModelsUser::find($this->argv[3]);

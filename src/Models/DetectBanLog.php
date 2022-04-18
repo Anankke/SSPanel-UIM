@@ -1,19 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 class DetectBanLog extends Model
 {
-    protected $connection = "default";
+    protected $connection = 'default';
 
-    protected $table = "detect_ban_log";
+    protected $table = 'detect_ban_log';
 
     /**
      * [静态方法] 删除不存在的用户的记录
-     *
-     * @param DetectBanLog $DetectBanLog
      */
-    public static function user_is_null($DetectBanLog): void
+    public static function user_is_null(DetectBanLog $DetectBanLog): void
     {
         self::where('user_id', $DetectBanLog->user_id)->delete();
     }

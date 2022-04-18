@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Utils\QQWry;
@@ -23,7 +25,7 @@ class BlockIp extends Model
      */
     public function node_name(): string
     {
-        if ($this->node() == null) {
+        if ($this->node() === null) {
             return '节点已不存在';
         }
         return $this->node()->name;
@@ -31,10 +33,8 @@ class BlockIp extends Model
 
     /**
      * 获取 IP 位置
-     *
-     * @param QQWry $QQWry
      */
-    public function location(QQWry $QQWry = null): string
+    public function location(?QQWry $QQWry = null): string
     {
         if ($QQWry === null) {
             $QQWry = new QQWry();

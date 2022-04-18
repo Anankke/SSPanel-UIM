@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use Exception;
@@ -11,19 +13,19 @@ use Exception;
  */
 class ClientDownload extends Command
 {
-    public $description   = '├─=: php xcat ClientDownload - 定时更新客户端' . PHP_EOL;
+    public $description = '├─=: php xcat ClientDownload - 定时更新客户端' . PHP_EOL;
 
     private $client;
 
     /**
      * 保存基本路径
      */
-    private $basePath     = BASE_PATH . '/';
+    private $basePath = BASE_PATH . '/';
 
     /**
      * 下载配置
      */
-    private $softs        = [
+    private $softs = [
         // [
         //     'name'      => '示例名称备注',
         //     'tagMethod' => 'github_release | github_pre_release | apkpure',
@@ -38,206 +40,206 @@ class ClientDownload extends Command
         //     ],
         // ],
         [
-            'name'      => 'ShadowsocksR-Windows',
+            'name' => 'ShadowsocksR-Windows',
             'tagMethod' => 'github_release',
-            'gitRepo'   => 'HMBSbige/ShadowsocksR-Windows',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'HMBSbige/ShadowsocksR-Windows',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'ShadowsocksR-%tagName%.7z',
-                    'saveName'   => 'ssr-win.7z',
-                    'apkpureUrl' => ''
-                ]
+                    'saveName' => 'ssr-win.7z',
+                    'apkpureUrl' => '',
+                ],
             ],
         ],
         [
-            'name'      => 'Netch',
+            'name' => 'Netch',
             'tagMethod' => 'github_release',
-            'gitRepo'   => 'netchx/Netch',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'netchx/Netch',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'Netch.7z',
-                    'saveName'   => 'Netch.7z',
-                    'apkpureUrl' => ''
-                ]
+                    'saveName' => 'Netch.7z',
+                    'apkpureUrl' => '',
+                ],
             ],
         ],
         [
-            'name'      => 'ClashforWindows',
+            'name' => 'ClashforWindows',
             'tagMethod' => 'github_release',
-            'gitRepo'   => 'Fndroid/clash_for_windows_pkg',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'Fndroid/clash_for_windows_pkg',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'Clash.for.Windows.Setup.%tagName%.exe',
-                    'saveName'   => 'Clash-Windows.exe',
-                    'apkpureUrl' => ''
+                    'saveName' => 'Clash-Windows.exe',
+                    'apkpureUrl' => '',
                 ],
                 [
                     'sourceName' => 'Clash.for.Windows-%tagName%.dmg',
-                    'saveName'   => 'Clash-Windows.dmg',
-                    'apkpureUrl' => ''
+                    'saveName' => 'Clash-Windows.dmg',
+                    'apkpureUrl' => '',
                 ],
                 [
                     'sourceName' => 'Clash.for.Windows-%tagName%-arm64.dmg',
-                    'saveName'   => 'Clash-Windows-arm64.dmg',
-                    'apkpureUrl' => ''
-                ]
+                    'saveName' => 'Clash-Windows-arm64.dmg',
+                    'apkpureUrl' => '',
+                ],
             ],
         ],
         [
-            'name'      => 'ClashX',
+            'name' => 'ClashX',
             'tagMethod' => 'github_release',
-            'gitRepo'   => 'yichengchen/clashX',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'yichengchen/clashX',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'ClashX.dmg',
-                    'saveName'   => 'ClashX.dmg',
-                    'apkpureUrl' => ''
+                    'saveName' => 'ClashX.dmg',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
         [
-            'name'      => 'V2RayU',
+            'name' => 'V2RayU',
             'tagMethod' => 'github_release',
-            'gitRepo'   => 'yanue/V2rayU',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'yanue/V2rayU',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'V2rayU.dmg',
-                    'saveName'   => 'V2rayU.dmg',
-                    'apkpureUrl' => ''
+                    'saveName' => 'V2rayU.dmg',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
         [
-            'name'      => 'ShadowsocksXNG',
+            'name' => 'ShadowsocksXNG',
             'tagMethod' => 'github_release',
-            'gitRepo'   => 'shadowsocks/ShadowsocksX-NG',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'shadowsocks/ShadowsocksX-NG',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'ShadowsocksX-NG.%tagName1%.zip',
-                    'saveName'   => 'ss-mac.zip',
-                    'apkpureUrl' => ''
+                    'saveName' => 'ss-mac.zip',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
         [
-            'name'      => 'ShadowsocksXNGR',
+            'name' => 'ShadowsocksXNGR',
             'tagMethod' => 'github_pre_release',
-            'gitRepo'   => 'qinyuhang/ShadowsocksX-NG-R',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'qinyuhang/ShadowsocksX-NG-R',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'ShadowsocksX-NG-R8.dmg',
-                    'saveName'   => 'ssr-mac.dmg',
-                    'apkpureUrl' => ''
+                    'saveName' => 'ssr-mac.dmg',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
         [
-            'name'      => 'V2RayNG',
+            'name' => 'V2RayNG',
             'tagMethod' => 'github_release',
-            'gitRepo'   => '2dust/v2rayNG',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => '2dust/v2rayNG',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'v2rayNG_%tagName%_arm64-v8a.apk',
-                    'saveName'   => 'v2rayng.apk',
-                    'apkpureUrl' => ''
+                    'saveName' => 'v2rayng.apk',
+                    'apkpureUrl' => '',
                 ],
                 [
                     'sourceName' => 'v2rayNG_%tagName%_armeabi-v7a.apk',
-                    'saveName'   => 'v2rayng_armeabi-v7a.apk',
-                    'apkpureUrl' => ''
+                    'saveName' => 'v2rayng_armeabi-v7a.apk',
+                    'apkpureUrl' => '',
                 ],
                 [
                     'sourceName' => 'v2rayNG_%tagName%_x86.apk',
-                    'saveName'   => 'v2rayng_x86.apk',
-                    'apkpureUrl' => ''
+                    'saveName' => 'v2rayng_x86.apk',
+                    'apkpureUrl' => '',
                 ],
                 [
                     'sourceName' => 'v2rayNG_%tagName%_x86_64.apk',
-                    'saveName'   => 'v2rayng_x86_64.apk',
-                    'apkpureUrl' => ''
+                    'saveName' => 'v2rayng_x86_64.apk',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
         [
-            'name'      => 'Qv2ray',
+            'name' => 'Qv2ray',
             'tagMethod' => 'github_release',
-            'gitRepo'   => 'Qv2ray/Qv2ray',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'Qv2ray/Qv2ray',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'Qv2ray-%tagName%-Windows.7z',
-                    'saveName'   => 'Qv2ray.7z',
-                    'apkpureUrl' => ''
+                    'saveName' => 'Qv2ray.7z',
+                    'apkpureUrl' => '',
                 ],
                 [
                     'sourceName' => 'Qv2ray-%tagName%-macOS-x64.dmg',
-                    'saveName'   => 'Qv2ray.dmg',
-                    'apkpureUrl' => ''
+                    'saveName' => 'Qv2ray.dmg',
+                    'apkpureUrl' => '',
                 ],
                 [
                     'sourceName' => 'Qv2ray-%tagName%-linux-x64.AppImage',
-                    'saveName'   => 'Qv2ray.AppImage',
-                    'apkpureUrl' => ''
+                    'saveName' => 'Qv2ray.AppImage',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
         [
-            'name'      => 'ClashforAndroid',
+            'name' => 'ClashforAndroid',
             'tagMethod' => 'github_pre_release',
-            'gitRepo'   => 'Kr328/ClashForAndroid',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'Kr328/ClashForAndroid',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'cfa-%tagName1%-premium-universal-release.apk',
-                    'saveName'   => 'Clash-Android.apk',
-                    'apkpureUrl' => ''
+                    'saveName' => 'Clash-Android.apk',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
         [
-            'name'      => 'ShadowsocksAndroid',
+            'name' => 'ShadowsocksAndroid',
             'tagMethod' => 'github_release',
-            'gitRepo'   => 'shadowsocks/shadowsocks-android',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'shadowsocks/shadowsocks-android',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'shadowsocks--universal-%tagName%.apk',
-                    'saveName'   => 'ss-android.apk',
-                    'apkpureUrl' => ''
+                    'saveName' => 'ss-android.apk',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
         [
-            'name'      => 'ShadowsocksR-Android',
+            'name' => 'ShadowsocksR-Android',
             'tagMethod' => 'github_release',
-            'gitRepo'   => 'HMBSbige/ShadowsocksR-Android',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'HMBSbige/ShadowsocksR-Android',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'shadowsocksr-android-%tagName%.apk',
-                    'saveName'   => 'ssr-android.apk',
-                    'apkpureUrl' => ''
+                    'saveName' => 'ssr-android.apk',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
         [
-            'name'      => 'ElectronSSR',
+            'name' => 'ElectronSSR',
             'tagMethod' => 'github_pre_release',
-            'gitRepo'   => 'shadowsocksrr/electron-ssr',
-            'savePath'  => 'public/clients/',
+            'gitRepo' => 'shadowsocksrr/electron-ssr',
+            'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'electron-ssr-%tagName%.AppImage',
-                    'saveName'   => 'Electron-SSR.AppImage',
-                    'apkpureUrl' => ''
+                    'saveName' => 'Electron-SSR.AppImage',
+                    'apkpureUrl' => '',
                 ],
             ],
         ],
@@ -245,9 +247,9 @@ class ClientDownload extends Command
 
     private $version;
 
-    public function boot()
+    public function boot(): void
     {
-        $this->client  = new \GuzzleHttp\Client();
+        $this->client = new \GuzzleHttp\Client();
         $this->version = $this->getLocalVersions();
         foreach ($this->softs as $soft) {
             $this->getSoft($soft);
@@ -256,22 +258,16 @@ class ClientDownload extends Command
 
     /**
      * 下载远程文件
-     *
-     * @param string $fileName
-     * @param string $savePath
-     * @param string $url
-     *
-     * @return bool
      */
     private function getSourceFile(string $fileName, string $savePath, string $url): bool
     {
         try {
-            if (!file_exists($savePath)) {
+            if (! file_exists($savePath)) {
                 echo '目标文件夹 ' . $savePath . ' 不存在，创建中...' . PHP_EOL;
                 system('mkdir ' . $savePath);
             }
             echo '- 开始下载 ' . $fileName . '...' . PHP_EOL;
-            $request  = $this->client->get($url);
+            $request = $this->client->get($url);
             echo '- 下载 ' . $fileName . ' 成功，正在保存...' . PHP_EOL;
             $result = file_put_contents($savePath . $fileName, $request->getBody()->getContents());
             if ($result === false) {
@@ -290,14 +286,10 @@ class ClientDownload extends Command
 
     /**
      * 获取 GitHub 常规 Release
-     *
-     * @param string $repo
-     *
-     * @return string
      */
     private function getLatestReleaseTagName(string $repo): string
     {
-        $url     = 'https://api.github.com/repos/' . $repo . '/releases/latest' . ($_ENV['github_access_token'] != '' ? '?access_token=' . $_ENV['github_access_token'] : '');
+        $url = 'https://api.github.com/repos/' . $repo . '/releases/latest' . ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
         $request = $this->client->get($url);
         return (string) json_decode(
             $request->getBody()->getContents(),
@@ -307,16 +299,12 @@ class ClientDownload extends Command
 
     /**
      * 获取 GitHub Pre-Release
-     *
-     * @param string $repo
-     *
-     * @return string
      */
     private function getLatestPreReleaseTagName(string $repo): string
     {
-        $url     = 'https://api.github.com/repos/' . $repo . '/releases' . ($_ENV['github_access_token'] != '' ? '?access_token=' . $_ENV['github_access_token'] : '');
+        $url = 'https://api.github.com/repos/' . $repo . '/releases' . ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
         $request = $this->client->get($url);
-        $latest  = json_decode(
+        $latest = json_decode(
             $request->getBody()->getContents(),
             true
         )[0];
@@ -325,10 +313,6 @@ class ClientDownload extends Command
 
     /**
      * 获取 Apkpure TagName
-     *
-     * @param string $url
-     *
-     * @return string
      */
     private function getApkpureTagName(string $url): string
     {
@@ -340,14 +324,10 @@ class ClientDownload extends Command
 
     /**
      * 判断是否 JSON
-     *
-     * @param string $string
-     *
-     * @return bool
      */
     private function is_json(string $string): bool
     {
-        return (json_decode($string, true) !== false);
+        return json_decode($string, true) !== false;
     }
 
     /**
@@ -359,13 +339,13 @@ class ClientDownload extends Command
     {
         $fileName = 'ClientDownloadVersion.json';
         $filePath = BASE_PATH . '/config/' . $fileName;
-        if (!is_file($filePath)) {
+        if (! is_file($filePath)) {
             echo '本地软体版本库 ClientDownloadVersion.json 不存在，创建文件中...' . PHP_EOL;
             $result = file_put_contents(
                 $filePath,
                 json_encode(
                     [
-                        'createTime' => time()
+                        'createTime' => time(),
                     ]
                 )
             );
@@ -375,7 +355,7 @@ class ClientDownload extends Command
             }
         }
         $fileContent = file_get_contents($filePath);
-        if (!$this->is_json($fileContent)) {
+        if (! $this->is_json($fileContent)) {
             echo 'ClientDownloadVersion.json 文件格式异常，脚本中止.' . PHP_EOL;
             exit(0);
         }
@@ -384,8 +364,6 @@ class ClientDownload extends Command
 
     /**
      * 储存本地软体版本库
-     *
-     * @return bool
      */
     private function setLocalVersions(array $versions): bool
     {
@@ -399,7 +377,7 @@ class ClientDownload extends Command
         );
     }
 
-    private function getSoft(array $task)
+    private function getSoft(array $task): void
     {
         $savePath = $this->basePath . $task['savePath'];
         echo '====== ' . $task['name'] . ' 开始 ======' . PHP_EOL;
@@ -415,10 +393,10 @@ class ClientDownload extends Command
                 break;
         }
         $tagName = $this->$tagMethod($task['gitRepo']);
-        if (!isset($this->version[$task['name']])) {
+        if (! isset($this->version[$task['name']])) {
             echo '- 本地不存在 ' . $task['name'] . '，检测到当前最新版本为 ' . $tagName . PHP_EOL;
         } else {
-            if ($tagName == $this->version[$task['name']]) {
+            if ($tagName === $this->version[$task['name']]) {
                 echo '- 检测到当前 ' . $task['name'] . ' 最新版本与本地版本一致，跳过此任务.' . PHP_EOL;
                 echo '====== ' . $task['name'] . ' 结束 ======' . PHP_EOL;
                 return;
@@ -431,28 +409,28 @@ class ClientDownload extends Command
                 [
                     '%taskName%',
                     '%tagName%',
-                    '%tagName1%'
+                    '%tagName1%',
                 ],
                 [
                     $task['name'],
                     $tagName,
-                    substr($tagName, 1)
+                    substr($tagName, 1),
                 ],
                 $name
             );
         };
         foreach ($task['downloads'] as $download) {
-            $fileName   = $nameFunction(($download['saveName'] != '' ? $download['saveName'] : $download['sourceName']));
+            $fileName = $nameFunction(($download['saveName'] !== '' ? $download['saveName'] : $download['sourceName']));
             $sourceName = $nameFunction($download['sourceName']);
-            $filePath   = $savePath . $fileName;
+            $filePath = $savePath . $fileName;
             if (is_file($filePath)) {
                 echo '- 正在删除旧版本文件...' . PHP_EOL;
-                if (!unlink($filePath)) {
+                if (! unlink($filePath)) {
                     echo '- 删除旧版本文件失败，此任务跳过，请检查权限等...' . PHP_EOL;
                     continue;
                 }
             }
-            if ($task['tagMethod'] == 'apkpure') {
+            if ($task['tagMethod'] === 'apkpure') {
                 $request = $this->client->get($download['apkpureUrl']);
                 preg_match('#(?<=href=")https:\/\/download\.apkpure\.com\/b\/APK[^"]+#', $request->getBody()->getContents(), $downloadUrl);
                 $downloadUrl = $downloadUrl[0];

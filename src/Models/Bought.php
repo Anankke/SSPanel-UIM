@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 /**
  * Bought Model
  *
  * @property-read   int     $id         id
+ *
  * @property        int     $userid     User id
  * @property        int     $shopid     Shop id
  * @property        string  $datetime   Bought complete datetime
@@ -22,20 +25,16 @@ class Bought extends Model
 
     /**
      * [静态方法] 删除不存在的用户的记录
-     *
-     * @param Bought $Bought
      */
-    public static function user_is_null($Bought): void
+    public static function user_is_null(Bought $Bought): void
     {
         self::where('userid', $Bought->userid)->delete();
     }
 
     /**
      * [静态方法] 删除不存在的商品的记录
-     *
-     * @param Bought $Bought
      */
-    public static function shop_is_null($Bought): void
+    public static function shop_is_null(Bought $Bought): void
     {
         self::where('shopid', $Bought->shopid)->delete();
     }
@@ -45,7 +44,7 @@ class Bought extends Model
      */
     public function renew(): string
     {
-        if ($this->renew == 0) {
+        if ($this->renew === 0) {
             return '不自动续费';
         }
         return date('Y-m-d H:i:s', $this->renew) . ' 时续费';
@@ -72,7 +71,7 @@ class Bought extends Model
      */
     public function user_name(): string
     {
-        if ($this->user() == null) {
+        if ($this->user() === null) {
             return '用户已不存在';
         }
         return $this->user()->user_name;
@@ -91,7 +90,7 @@ class Bought extends Model
      */
     public function content(): string
     {
-        if ($this->shop() == null) {
+        if ($this->shop() === null) {
             return '商品已不存在';
         }
         return $this->shop()->content();
@@ -102,10 +101,10 @@ class Bought extends Model
      */
     public function auto_reset_bandwidth(): string
     {
-        if ($this->shop() == null) {
+        if ($this->shop() === null) {
             return '商品已不存在';
         }
-        return $this->shop()->auto_reset_bandwidth == 0 ? '不自动重置' : '自动重置';
+        return $this->shop()->auto_reset_bandwidth === 0 ? '不自动重置' : '自动重置';
     }
 
     /*
@@ -123,7 +122,7 @@ class Bought extends Model
     {
         $shop = $this->shop();
         if ($shop->use_loop()) {
-            return (time() - $shop->reset_exp() * 86400 < $this->datetime);
+            return time() - $shop->reset_exp() * 86400 < $this->datetime;
         }
         return false;
     }
@@ -136,12 +135,12 @@ class Bought extends Model
         $shop = $this->shop();
         if ($shop->use_loop()) {
             $day = 24 * 60 * 60;
-            $resetIndex = 1 +  (int)((time() - $this->datetime - $day) / ($shop->reset() * $day));
+            $resetIndex = 1 + (int) ((time() - $this->datetime - $day) / ($shop->reset() * $day));
             $restTime = $resetIndex * $shop->reset() * $day + $this->datetime;
             $time = time() + ($day * 86400);
-            return (!$unix ? date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d', $restTime)))) : $time);
+            return ! $unix ? date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d', $restTime)))) : $time;
         }
-        return (!$unix ? '-' : 0);
+        return ! $unix ? '-' : 0;
     }
 
     /*
@@ -152,8 +151,8 @@ class Bought extends Model
         $shop = $this->shop();
         if ($shop->use_loop()) {
             $time = $this->datetime + ($shop->reset_exp() * 86400);
-            return (!$unix ? date('Y-m-d H:i:s', $time) : $time);
+            return ! $unix ? date('Y-m-d H:i:s', $time) : $time;
         }
-        return (!$unix ? '-' : 0);
+        return ! $unix ? '-' : 0;
     }
 }

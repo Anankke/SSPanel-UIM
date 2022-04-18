@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Utils\QQWry;
@@ -23,7 +25,7 @@ class UnblockIp extends Model
      */
     public function user_name(): string
     {
-        if ($this->user() == null) {
+        if ($this->user() === null) {
             return '用户已不存在';
         }
         return $this->user()->user_name;
@@ -31,10 +33,8 @@ class UnblockIp extends Model
 
     /**
      * 获取 IP 位置
-     *
-     * @param QQWry $QQWry
      */
-    public function location(QQWry $QQWry = null): string
+    public function location(?QQWry $QQWry = null): string
     {
         if ($QQWry === null) {
             $QQWry = new QQWry();

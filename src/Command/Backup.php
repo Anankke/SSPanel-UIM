@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
+use App\Models\Setting;
 use App\Services\Mail;
 use App\Utils\Telegram;
-use App\Models\Setting;
 use Exception;
 use RuntimeException;
 
@@ -15,13 +17,13 @@ class Backup extends Command
         . '│ ├─ full                    - 整体数据备份' . PHP_EOL
         . '│ ├─ simple                  - 只备份核心数据' . PHP_EOL;
 
-    public function boot()
+    public function boot(): void
     {
         if (count($this->argv) === 2) {
             echo $this->description;
         } else {
             $methodName = $this->argv[2];
-            if ($methodName == 'full') {
+            if ($methodName === 'full') {
                 $this->backup(true);
             } else {
                 $this->backup(false);
@@ -32,13 +34,13 @@ class Backup extends Command
     public function backup($full = false)
     {
         $configs = Setting::getClass('backup');
-        
+
         ini_set('memory_limit', '-1');
         $to = $configs['auto_backup_email'];
-        if ($to == null) {
+        if ($to === null) {
             return false;
         }
-        if (!mkdir('/tmp/ssmodbackup/') && !is_dir('/tmp/ssmodbackup/')) {
+        if (! mkdir('/tmp/ssmodbackup/') && ! is_dir('/tmp/ssmodbackup/')) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', '/tmp/ssmodbackup/'));
         }
         $db_address_array = explode(':', $_ENV['db_host']);
@@ -57,15 +59,15 @@ class Backup extends Command
 
         system('cp ' . BASE_PATH . '/config/.config.php /tmp/ssmodbackup/configbak.php', $ret);
         echo $ret;
-        $backup_passwd = $configs["auto_backup_password"] == "" ? "" : " -P " . $configs["auto_backup_password"];
+        $backup_passwd = $configs['auto_backup_password'] === '' ? '' : ' -P ' . $configs['auto_backup_password'];
         system('zip -r /tmp/ssmodbackup.zip /tmp/ssmodbackup/* ' . $backup_passwd, $ret);
         $subject = $_ENV['appName'] . '-备份成功';
         $text = '您好，系统已经为您自动备份，请查看附件，用您设定的密码解压。';
         try {
             Mail::send($to, $subject, 'news/backup.tpl', [
-                'text' => $text
+                'text' => $text,
             ], [
-                '/tmp/ssmodbackup.zip'
+                '/tmp/ssmodbackup.zip',
             ]);
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -73,7 +75,7 @@ class Backup extends Command
         system('rm -rf /tmp/ssmodbackup', $ret);
         system('rm /tmp/ssmodbackup.zip', $ret);
 
-        if ($configs['auto_backup_notify'] == true) {
+        if ($configs['auto_backup_notify'] === true) {
             Telegram::Send('备份工作已经完成');
         }
     }

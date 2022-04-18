@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
 use App\Services\Config;
-use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -39,8 +40,8 @@ class UnbindCommand extends Command
 
         // 触发用户
         $SendUser = [
-            'id'       => $Message->getFrom()->getId(),
-            'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+            'id' => $Message->getFrom()->getId(),
+            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
 
@@ -52,11 +53,11 @@ class UnbindCommand extends Command
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
 
-            if ($User == null) {
+            if ($User === null) {
                 // 回送信息
                 $this->replyWithMessage(
                     [
-                        'text'       => $_ENV['user_not_bind_reply'],
+                        'text' => $_ENV['user_not_bind_reply'],
                         'parse_mode' => 'Markdown',
                     ]
                 );
@@ -66,29 +67,29 @@ class UnbindCommand extends Command
             // 消息内容
             $MessageText = implode(' ', array_splice(explode(' ', trim($Message->getText())), 1));
 
-            if ($MessageText == $User->email) {
+            if ($MessageText === $User->email) {
                 $temp = $User->TelegramReset();
                 $text = $temp['msg'];
                 // 回送信息
                 $this->replyWithMessage(
                     [
-                        'text'          => $text,
-                        'parse_mode'    => 'Markdown',
+                        'text' => $text,
+                        'parse_mode' => 'Markdown',
                     ]
                 );
                 return;
             }
 
             $text = $this->sendtext();
-            if ($MessageText != '') {
+            if ($MessageText !== '') {
                 $text = '键入的 Email 地址与您的账户不匹配.';
             }
 
             // 回送信息
             $this->replyWithMessage(
                 [
-                    'text'                  => $text,
-                    'parse_mode'            => 'Markdown',
+                    'text' => $text,
+                    'parse_mode' => 'Markdown',
                 ]
             );
         }

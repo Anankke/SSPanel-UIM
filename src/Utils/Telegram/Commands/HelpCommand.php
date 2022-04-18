@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Telegram\Commands;
 
-use App\Services\Config;
-use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -27,14 +27,14 @@ class HelpCommand extends Command
      */
     public function handle()
     {
-        $Update  = $this->getUpdate();
+        $Update = $this->getUpdate();
         $Message = $Update->getMessage();
         if ($Message->getChat()->getId() < 0) {
             if ($_ENV['telegram_group_quiet'] === true) {
                 return;
             }
         }
-        if (!preg_match('/^\/help\s?(@' . $_ENV['telegram_bot'] . ')?.*/i', $Message->getText())) {
+        if (! preg_match('/^\/help\s?(@' . $_ENV['telegram_bot'] . ')?.*/i', $Message->getText())) {
             if ($_ENV['help_any_command'] === false) {
                 return;
             }
@@ -48,11 +48,11 @@ class HelpCommand extends Command
         }
         $response = $this->replyWithMessage(
             [
-                'text'                      => $text,
-                'parse_mode'                => 'Markdown',
-                'disable_web_page_preview'  => false,
-                'reply_to_message_id'       => $Message->getMessageId(),
-                'reply_markup'              => null,
+                'text' => $text,
+                'parse_mode' => 'Markdown',
+                'disable_web_page_preview' => false,
+                'reply_to_message_id' => $Message->getMessageId(),
+                'reply_markup' => null,
             ]
         );
     }

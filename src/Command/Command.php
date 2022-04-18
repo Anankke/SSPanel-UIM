@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 /**
@@ -16,5 +18,5 @@ abstract class Command
         $this->argv = $argv;
     }
 
-    abstract public function boot();
+    abstract public function boot(): void;
 }

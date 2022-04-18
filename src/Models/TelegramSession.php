@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 /**
@@ -18,7 +20,7 @@ class TelegramSession extends Model
     public function User()
     {
         $user = User::where('id', $this->attributes['user_id'])->first();
-        if ($user == null) {
+        if ($user === null) {
             Ticket::where('id', '=', $this->attributes['id'])->delete();
             return null;
         }

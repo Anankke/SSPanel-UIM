@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Models\User;
-use App\Services\{
-    Auth,
-    View
-};
+use App\Services\Auth;
+use App\Services\View;
 use Smarty;
 
 /**
@@ -35,10 +35,8 @@ class BaseController
 
     /**
      * Get smarty
-     *
-     * @return Smarty
      */
-    public function view()
+    public function view(): Smarty
     {
         if (View::$connection) {
             $this->view->assign('queryLog', View::$connection->connection('default')->getQueryLog())->assign('optTime', (microtime(true) - View::$beginTime) * 1000);

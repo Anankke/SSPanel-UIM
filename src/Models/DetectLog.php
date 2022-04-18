@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 class DetectLog extends Model
@@ -10,30 +12,24 @@ class DetectLog extends Model
 
     /**
      * [静态方法] 删除不存在的节点的记录
-     *
-     * @param DetectLog $DetectLog
      */
-    public static function node_is_null($DetectLog): void
+    public static function node_is_null(DetectLog $DetectLog): void
     {
         self::where('node_id', $DetectLog->node_id)->delete();
     }
 
     /**
      * [静态方法] 删除不存在的规则的记录
-     *
-     * @param DetectLog $DetectLog
      */
-    public static function rule_is_null($DetectLog): void
+    public static function rule_is_null(DetectLog $DetectLog): void
     {
         self::where('list_id', $DetectLog->list_id)->delete();
     }
 
     /**
      * [静态方法] 删除不存在的用户的记录
-     *
-     * @param DetectLog $DetectLog
      */
-    public static function user_is_null($DetectLog): void
+    public static function user_is_null(DetectLog $DetectLog): void
     {
         self::where('user_id', $DetectLog->user_id)->delete();
     }
@@ -51,7 +47,7 @@ class DetectLog extends Model
      */
     public function user_name(): string
     {
-        if ($this->user() == null) {
+        if ($this->user() === null) {
             return '用户已不存在';
         }
         return $this->user()->user_name;
@@ -70,7 +66,7 @@ class DetectLog extends Model
      */
     public function node_name(): string
     {
-        if ($this->node() == null) {
+        if ($this->node() === null) {
             return '节点已不存在';
         }
         return $this->node()->name;
@@ -89,7 +85,7 @@ class DetectLog extends Model
      */
     public function rule_name(): string
     {
-        if ($this->rule() == null) {
+        if ($this->rule() === null) {
             return '规则已不存在';
         }
         return $this->rule()->name;
@@ -100,7 +96,7 @@ class DetectLog extends Model
      */
     public function rule_text(): string
     {
-        if ($this->rule() == null) {
+        if ($this->rule() === null) {
             return '规则已不存在';
         }
         return $this->rule()->text;
@@ -111,7 +107,7 @@ class DetectLog extends Model
      */
     public function rule_regex(): string
     {
-        if ($this->rule() == null) {
+        if ($this->rule() === null) {
             return '规则已不存在';
         }
         return $this->rule()->regex;
@@ -122,7 +118,7 @@ class DetectLog extends Model
      */
     public function rule_type(): string
     {
-        if ($this->rule() == null) {
+        if ($this->rule() === null) {
             return '规则已不存在';
         }
         return $this->rule()->type();

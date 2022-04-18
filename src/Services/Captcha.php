@@ -1,19 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
-use App\Utils\Geetest;
 use App\Models\Setting;
+use App\Utils\Geetest;
 
 class Captcha
 {
     public static function generate(): array
     {
-        $geetest   = null;
+        $geetest = null;
         $recaptcha = null;
 
-        switch (Setting::obtain('captcha_provider'))
-        {
+        switch (Setting::obtain('captcha_provider')) {
             case 'recaptcha':
                 $recaptcha = Setting::obtain('recaptcha_sitekey');
                 break;
@@ -23,8 +24,8 @@ class Captcha
         }
 
         return [
-            'geetest'   => $geetest,
-            'recaptcha' => $recaptcha
+            'geetest' => $geetest,
+            'recaptcha' => $recaptcha,
         ];
     }
 
@@ -35,12 +36,11 @@ class Captcha
     {
         $result = false;
 
-        switch (Setting::obtain('captcha_provider'))
-        {
+        switch (Setting::obtain('captcha_provider')) {
             case 'recaptcha':
                 if (isset($param['recaptcha'])) {
-                    if ($param['recaptcha'] != '') {
-                        $json   = file_get_contents('https://recaptcha.net/recaptcha/api/siteverify?secret=' . Setting::obtain('recaptcha_secret') . '&response=' . $param['recaptcha']);
+                    if ($param['recaptcha'] !== '') {
+                        $json = file_get_contents('https://recaptcha.net/recaptcha/api/siteverify?secret=' . Setting::obtain('recaptcha_secret') . '&response=' . $param['recaptcha']);
                         $result = json_decode($json)->success;
                     }
                 }

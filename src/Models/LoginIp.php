@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Utils\QQWry;
@@ -19,10 +21,8 @@ class LoginIp extends Model
 
     /**
      * [静态方法] 删除不存在的用户的记录
-     *
-     * @param LoginIp $LoginIp
      */
-    public static function user_is_null($LoginIp): void
+    public static function user_is_null(LoginIp $LoginIp): void
     {
         self::where('userid', $LoginIp->userid)->delete();
     }
@@ -40,7 +40,7 @@ class LoginIp extends Model
      */
     public function user_name(): string
     {
-        if ($this->user() == null) {
+        if ($this->user() === null) {
             return '用户已不存在';
         }
         return $this->user()->user_name;
@@ -56,10 +56,8 @@ class LoginIp extends Model
 
     /**
      * 获取 IP 位置
-     *
-     * @param QQWry $QQWry
      */
-    public function location(QQWry $QQWry = null): string
+    public function location(?QQWry $QQWry = null): string
     {
         if ($QQWry === null) {
             $QQWry = new QQWry();
@@ -73,6 +71,6 @@ class LoginIp extends Model
      */
     public function type(): string
     {
-        return $this->type == 0 ? '成功' : '失败';
+        return $this->type === 0 ? '成功' : '失败';
     }
 }

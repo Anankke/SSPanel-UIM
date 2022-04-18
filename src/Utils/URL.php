@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils;
 
-use App\Models\{
-    User,
-    Node
-};
-use App\Services\Config;
 use App\Controllers\LinkController;
+use App\Services\Config;
+use User;
 
 class URL
 {
@@ -32,7 +31,7 @@ class URL
     */
     public static function CanProtocolConnect($protocol)
     {
-        if ($protocol != 'origin') {
+        if ($protocol !== 'origin') {
             if (strpos($protocol, '_compatible') === false) {
                 return 1;
             }
@@ -51,7 +50,7 @@ class URL
     */
     public static function CanObfsConnect($obfs)
     {
-        if ($obfs != 'plain') {
+        if ($obfs !== 'plain') {
             //SS obfs only
             $ss_obfs = Config::getSupportParam('ss_obfs');
             if (in_array($obfs, $ss_obfs)) {
@@ -74,10 +73,8 @@ class URL
 
     /**
      * parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
-     *
-     * @param string $origin
      */
-    public static function parse_args($origin): array
+    public static function parse_args(string $origin): array
     {
         // parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
         $args_explode = explode('|', $origin);
@@ -92,11 +89,11 @@ class URL
         return $return_array;
     }
 
-    public static function SSCanConnect(User $user, $mu_port = 0)
+    public static function SSCanConnect(User $user, $mu_port = 0): void
     {
-        if ($mu_port != 0) {
+        if ($mu_port !== 0) {
             $mu_user = User::where('port', '=', $mu_port)->where('is_multi_user', '<>', 0)->first();
-            if ($mu_user == null) {
+            if ($mu_user === null) {
                 return;
             }
             return self::SSCanConnect($mu_user);
@@ -104,26 +101,26 @@ class URL
         return self::CanMethodConnect($user->method) >= 2 && self::CanProtocolConnect($user->protocol) >= 2 && self::CanObfsConnect($user->obfs) >= 2;
     }
 
-    public static function SSRCanConnect(User $user, $mu_port = 0)
+    public static function SSRCanConnect(User $user, $mu_port = 0): void
     {
-        if ($mu_port != 0) {
+        if ($mu_port !== 0) {
             $mu_user = User::where('port', '=', $mu_port)->where('is_multi_user', '<>', 0)->first();
-            if ($mu_user == null) {
+            if ($mu_user === null) {
                 return;
             }
             return self::SSRCanConnect($mu_user);
         }
-        return self::CanMethodConnect($user->method) != 2 && self::CanProtocolConnect($user->protocol) != 2 && self::CanObfsConnect($user->obfs) != 2;
+        return self::CanMethodConnect($user->method) !== 2 && self::CanProtocolConnect($user->protocol) !== 2 && self::CanObfsConnect($user->obfs) !== 2;
     }
 
     public static function getSSConnectInfo(User $user)
     {
         $new_user = clone $user;
-        if (self::CanObfsConnect($new_user->obfs) == 5) {
+        if (self::CanObfsConnect($new_user->obfs) === 5) {
             $new_user->obfs = 'plain';
             $new_user->obfs_param = '';
         }
-        if (self::CanProtocolConnect($new_user->protocol) == 3) {
+        if (self::CanProtocolConnect($new_user->protocol) === 3) {
             $new_user->protocol = 'origin';
             $new_user->protocol_param = '';
         }
@@ -135,7 +132,7 @@ class URL
     public static function getSSRConnectInfo(User $user)
     {
         $new_user = clone $user;
-        if (self::CanObfsConnect($new_user->obfs) == 4) {
+        if (self::CanObfsConnect($new_user->obfs) === 4) {
             $new_user->obfs = 'plain';
             $new_user->obfs_param = '';
         }
@@ -147,7 +144,6 @@ class URL
     /**
      * 获取全部节点对象
      *
-     * @param User  $user
      * @param mixed $sort  数值或数组
      * @param array $rules 节点筛选规则
      */
@@ -159,8 +155,8 @@ class URL
         } else {
             $query->where('sort', $sort);
         }
-        if (!$user->is_admin) {
-            $group = ($user->node_group != 0 ? [0, $user->node_group] : [0]);
+        if (! $user->is_admin) {
+            $group = ($user->node_group !== 0 ? [0, $user->node_group] : [0]);
             $query->whereIn('node_group', $group)
                 ->where('node_class', '<=', $user->class);
         }
@@ -172,10 +168,8 @@ class URL
             $query->whereNotIn('node_class', $rules['content']['noclass']);
         }
         // 等级筛选 end
-        $nodes = $query->where('type', '1')
+        return $query->where('type', '1')
             ->orderBy('name')->get();
-
-        return $nodes;
     }
 
     /**
@@ -200,8 +194,8 @@ class URL
     public static function getNew_AllItems(User $user, array $Rule): array
     {
         $is_ss = [0];
-        $is_mu = (isset($Rule['is_mu']) ? $Rule['is_mu'] : (int) $_ENV['mergeSub']);
-        $emoji = (isset($Rule['emoji']) ? $Rule['emoji'] : false);
+        $is_mu = ($Rule['is_mu'] ?? (int) $_ENV['mergeSub']);
+        $emoji = ($Rule['emoji'] ?? false);
 
         switch ($Rule['type']) {
             case 'ss':
@@ -229,14 +223,14 @@ class URL
 
         // 单端口 sort = 9
         $mu_nodes = [];
-        if ($is_mu != 0 && in_array($Rule['type'], ['all', 'ss', 'ssr'])) {
+        if ($is_mu !== 0 && in_array($Rule['type'], ['all', 'ss', 'ssr'])) {
             $mu_node_query = Node::query();
             $mu_node_query->where('sort', 9)->where('type', '1');
-            if ($is_mu != 1) {
+            if ($is_mu !== 1) {
                 $mu_node_query->where('server', $is_mu);
             }
-            if (!$user->is_admin) {
-                $group = ($user->node_group != 0 ? [0, $user->node_group] : [0]);
+            if (! $user->is_admin) {
+                $group = ($user->node_group !== 0 ? [0, $user->node_group] : [0]);
                 $mu_node_query->where('node_class', '<=', $user->class)
                     ->whereIn('node_group', $group);
             }
@@ -245,17 +239,17 @@ class URL
 
         $return_array = [];
         foreach ($nodes as $node) {
-            if (isset($Rule['content']['regex']) && $Rule['content']['regex'] != '') {
+            if (isset($Rule['content']['regex']) && $Rule['content']['regex'] !== '') {
                 // 节点名称筛选
                 if (
                     ConfGenerate::getMatchProxy(
                         [
-                            'remark' => $node->name
+                            'remark' => $node->name,
                         ],
                         [
                             'content' => [
-                                'regex' => $Rule['content']['regex']
-                            ]
+                                'regex' => $Rule['content']['regex'],
+                            ],
                         ]
                     ) === null
                 ) {
@@ -273,7 +267,7 @@ class URL
                 ];
                 $class = $node_class[$node->sort];
                 $item = $node->$class($user, 0, 0, $emoji);
-                if ($item != null) {
+                if ($item !== null) {
                     $return_array[] = $item;
                 }
                 continue;
@@ -283,10 +277,10 @@ class URL
             // SS 节点
             if (in_array($node->sort, [0])) {
                 // 节点非只启用单端口 && 只获取普通端口
-                if ($node->mu_only != 1 && ($is_mu == 0 || ($is_mu != 0 && $_ENV['mergeSub'] === true))) {
+                if ($node->mu_only !== 1 && ($is_mu === 0 || ($is_mu !== 0 && $_ENV['mergeSub'] === true))) {
                     foreach ($is_ss as $ss) {
                         $item = $node->getItem($user, 0, $ss, $emoji);
-                        if ($item != null) {
+                        if ($item !== null) {
                             $return_array[] = $item;
                         }
                     }
@@ -294,11 +288,11 @@ class URL
                 // 获取 SS 普通端口 End
 
                 // 非只启用普通端口 && 获取单端口
-                if ($node->mu_only != -1 && $is_mu != 0) {
+                if ($node->mu_only !== -1 && $is_mu !== 0) {
                     foreach ($is_ss as $ss) {
                         foreach ($mu_nodes as $mu_node) {
                             $item = $node->getItem($user, $mu_node->server, $ss, $emoji);
-                            if ($item != null) {
+                            if ($item !== null) {
                                 $return_array[] = $item;
                             }
                         }
@@ -339,7 +333,7 @@ class URL
         }
         $items = URL::getNew_AllItems($user, $Rule);
         foreach ($items as $item) {
-            if ($item['type'] == 'vmess') {
+            if ($item['type'] === 'vmess') {
                 $out = LinkController::getListItem($item, 'v2rayn');
             } else {
                 $out = LinkController::getListItem($item, $Rule['type']);
@@ -360,11 +354,10 @@ class URL
      * 获取 SS && SSR 全部节点
      *
      * @param User $user 用户
-     * @param bool $emoji
      *
      * @return array
      */
-    public static function getAllSSItems(User $user, $emoji = false)
+    public static function getAllSSItems(User $user, bool $emoji = false): array
     {
         return self::getNodes($user, [0, 10]);
     }
@@ -373,17 +366,16 @@ class URL
      * 获取 V2RayPlugin 全部节点
      *
      * @param User $user 用户
-     * @param bool $emoji
      *
      * @return array
      */
-    public static function getAllV2RayPluginItems(User $user, $emoji = false)
+    public static function getAllV2RayPluginItems(User $user, bool $emoji = false): array
     {
-        $return_array = array();
+        $return_array = [];
         $nodes = self::getNodes($user, 13);
         foreach ($nodes as $node) {
             $item = $node->getV2RayPluginItem($user, 0, 0, $emoji);
-            if ($item != null) {
+            if ($item !== null) {
                 $return_array[] = $item;
             }
         }
@@ -394,14 +386,9 @@ class URL
     /**
      * 获取 V2Ray 节点
      *
-     * @param User $user
-     * @param Node $node
-     * @param bool $arrout
-     * @param bool $emoji
-     *
      * @return array|string
      */
-    public static function getV2Url($user, $node, $arrout = false, $emoji = false)
+    public static function getV2Url(User $user, Node $node, bool $arrout = false, bool $emoji = false)
     {
         $item = Tools::v2Array($node->server);
         $item['v'] = '2';
@@ -410,7 +397,7 @@ class URL
         $item['remark'] = $item['ps'];
         $item['id'] = $user->uuid;
         $item['class'] = $node->node_class;
-        if (!$arrout) {
+        if (! $arrout) {
             return 'vmess://' . base64_encode(
                 json_encode($item, 320)
             );
@@ -420,24 +407,20 @@ class URL
 
     /**
      * 获取全部 V2Ray 节点
-     *
-     * @param User $user
-     * @param bool $arrout
-     * @param bool $emoji
      */
-    public static function getAllVMessUrl(User $user, $arrout = false, $emoji = false)
+    public static function getAllVMessUrl(User $user, bool $arrout = false, bool $emoji = false)
     {
         $nodes = self::getNodes($user, [11]);
         # 增加中转配置，后台目前配置user=0的话是自由门直接中转
-        $tmp_nodes = array();
+        $tmp_nodes = [];
         foreach ($nodes as $node) {
             $tmp_nodes[] = $node;
         }
         $nodes = $tmp_nodes;
-        if (!$arrout) {
+        if (! $arrout) {
             $result = '';
             foreach ($nodes as $node) {
-                $result .= (self::getV2Url($user, $node, $arrout, $emoji) . PHP_EOL);
+                $result .= self::getV2Url($user, $node, $arrout, $emoji) . PHP_EOL;
             }
         } else {
             $result = [];
@@ -452,15 +435,14 @@ class URL
      * 获取 Trojan 全部节点
      *
      * @param User $user 用户
-     * @param bool $emoji
      */
-    public static function getAllTrojan($user, $emoji = false): array
+    public static function getAllTrojan(User $user, bool $emoji = false): array
     {
-        $return_array = array();
+        $return_array = [];
         $nodes = self::getNodes($user, 14);
         foreach ($nodes as $node) {
             $item = $node->getTrojanItem($user, 0, 0, $emoji);
-            if ($item != null) {
+            if ($item !== null) {
                 $return_array[] = $item;
             }
         }
@@ -472,13 +454,12 @@ class URL
      * 获取 Trojan URL
      *
      * @param User $user 用户
-     * @param Node $node
      */
-    public static function get_trojan_url($user, $node): string
+    public static function get_trojan_url(User $user, Node $node): string
     {
         $server = $node->getTrojanItem($user);
         $return = 'trojan://' . $server['passwd'] . '@' . $server['address'] . ':' . $server['port'];
-        if ($server['host'] != $server['address']) {
+        if ($server['host'] !== $server['address']) {
             $return .= '?peer=' . $server['host'] . '&sni=' . $server['host'];
         }
         return $return . '#' . rawurlencode($node->name);
@@ -494,7 +475,7 @@ class URL
             } else {
                 $plugin .= 'obfs-local --obfs tls';
             }
-            if ($item['obfs_param'] != '') {
+            if ($item['obfs_param'] !== '') {
                 $plugin .= '--obfs-host ' . $item['obfs_param'];
             }
         }
@@ -511,7 +492,7 @@ class URL
             } else {
                 $plugin .= ', obfs=tls';
             }
-            if ($item['obfs_param'] != '') {
+            if ($item['obfs_param'] !== '') {
                 $plugin .= ', obfs-host=' . $item['obfs_param'];
             } else {
                 $plugin .= ', obfs-host=wns.windows.com';

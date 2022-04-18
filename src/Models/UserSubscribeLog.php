@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Utils\QQWry;
-
 use voku\helper\AntiXSS;
 
 class UserSubscribeLog extends Model
@@ -14,10 +15,8 @@ class UserSubscribeLog extends Model
 
     /**
      * [静态方法] 删除不存在的用户的记录
-     *
-     * @param UserSubscribeLog $UserSubscribeLog
      */
-    public static function user_is_null($UserSubscribeLog): void
+    public static function user_is_null(UserSubscribeLog $UserSubscribeLog): void
     {
         self::where('user_id', $UserSubscribeLog->user_id)->delete();
     }
@@ -32,10 +31,8 @@ class UserSubscribeLog extends Model
 
     /**
      * 获取 IP 位置
-     *
-     * @param QQWry $QQWry
      */
-    public function location(QQWry $QQWry = null)
+    public function location(?QQWry $QQWry = null)
     {
         if ($QQWry === null) {
             $QQWry = new QQWry();
@@ -50,19 +47,17 @@ class UserSubscribeLog extends Model
      * @param User   $user 用户
      * @param string $type 订阅类型
      * @param string $ua   UA
-     *
-     * @return void
      */
-    public static function addSubscribeLog($user, $type, $ua)
+    public static function addSubscribeLog(User $user, string $type, string $ua): void
     {
-        $log                     = new UserSubscribeLog();
-        $log->user_name          = $user->user_name;
-        $log->user_id            = $user->id;
-        $log->email              = $user->email;
-        $log->subscribe_type     = $type;
-        $log->request_ip         = $_SERVER['REMOTE_ADDR'];
-        $log->request_time       = date('Y-m-d H:i:s');
-        $antiXss                 = new AntiXSS();
+        $log = new UserSubscribeLog();
+        $log->user_name = $user->user_name;
+        $log->user_id = $user->id;
+        $log->email = $user->email;
+        $log->subscribe_type = $type;
+        $log->request_ip = $_SERVER['REMOTE_ADDR'];
+        $log->request_time = date('Y-m-d H:i:s');
+        $antiXss = new AntiXSS();
         $log->request_user_agent = $antiXss->xss_clean($ua);
         $log->save();
     }

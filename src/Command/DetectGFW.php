@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
-use App\Models\{
-    Node,
-    User
-};
 use App\Services\Config;
 use App\Utils\Telegram;
+use Node;
 
 class DetectGFW extends Command
 {
     public $description = '├─=: php xcat DetectGFW      - 节点被墙检测定时任务' . PHP_EOL;
 
-    public function boot()
+    public function boot(): void
     {
         //节点被墙检测
         $last_time = file_get_contents(BASE_PATH . '/storage/last_detect_gfw_time');
@@ -26,16 +25,16 @@ class DetectGFW extends Command
                 $adminUser = User::where('is_admin', '=', '1')->get();
                 foreach ($nodes as $node) {
                     if (
-                        $node->node_ip == '' ||
-                        $node->node_ip == null ||
-                        $node->online == false
+                        $node->node_ip === '' ||
+                        $node->node_ip === null ||
+                        $node->online === false
                     ) {
                         continue;
                     }
                     $api_url = $_ENV['detect_gfw_url'];
                     $api_url = str_replace(
-                        array('{ip}', '{port}'),
-                        array($node->node_ip, $_ENV['detect_gfw_port']),
+                        ['{ip}', '{port}'],
+                        [$node->node_ip, $_ENV['detect_gfw_port']],
                         $api_url
                     );
                     //因为考虑到有v2ray之类的节点，所以不得不使用ip作为参数
@@ -48,11 +47,11 @@ class DetectGFW extends Command
                             break;
                         }
                     }
-                    if ($result_tcping == false) {
+                    if ($result_tcping === false) {
                         //被墙了
-                        echo ($node->id . ':false' . PHP_EOL);
+                        echo $node->id . ':false' . PHP_EOL;
                         //判断有没有发送过邮件
-                        if ($node->gfw_block == true) {
+                        if ($node->gfw_block === true) {
                             continue;
                         }
                         foreach ($adminUser as $user) {
@@ -61,7 +60,7 @@ class DetectGFW extends Command
                                 $_ENV['appName'] . '-系统警告',
                                 'news/warn.tpl',
                                 [
-                                    'text' => '管理员您好，系统发现节点 ' . $node->name . ' 被墙了，请您及时处理。'
+                                    'text' => '管理员您好，系统发现节点 ' . $node->name . ' 被墙了，请您及时处理。',
                                 ],
                                 []
                             );
@@ -78,8 +77,8 @@ class DetectGFW extends Command
                         $node->save();
                     } else {
                         //没有被墙
-                        echo ($node->id . ':true' . PHP_EOL);
-                        if ($node->gfw_block == false) {
+                        echo $node->id . ':true' . PHP_EOL;
+                        if ($node->gfw_block === false) {
                             continue;
                         }
                         foreach ($adminUser as $user) {
@@ -88,7 +87,7 @@ class DetectGFW extends Command
                                 $_ENV['appName'] . '-系统提示',
                                 'news/warn.tpl',
                                 [
-                                    'text' => '管理员您好，系统发现节点 ' . $node->name . ' 溜出墙了。'
+                                    'text' => '管理员您好，系统发现节点 ' . $node->name . ' 溜出墙了。',
                                 ],
                                 []
                             );
@@ -108,7 +107,7 @@ class DetectGFW extends Command
                 break;
             }
 
-            echo ($node->id . 'interval skip' . PHP_EOL);
+            echo $node->id . 'interval skip' . PHP_EOL;
             sleep(3);
         }
     }

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
-use App\Services\Config;
-use App\Utils\Telegram\{Reply, TelegramTools};
+use App\Utils\Telegram\Reply;
+use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -39,21 +41,21 @@ class SetuserCommand extends Command
 
         // 触发用户
         $SendUser = [
-            'id'       => $Message->getFrom()->getId(),
-            'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+            'id' => $Message->getFrom()->getId(),
+            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
 
-        if (!in_array($SendUser['id'], $_ENV['telegram_admins'])) {
+        if (! in_array($SendUser['id'], $_ENV['telegram_admins'])) {
             $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
-            if ($AdminUser == null) {
+            if ($AdminUser === null) {
                 // 非管理员回复消息
-                if ($_ENV['enable_not_admin_reply'] === true && $_ENV['not_admin_reply_msg'] != '') {
+                if ($_ENV['enable_not_admin_reply'] === true && $_ENV['not_admin_reply_msg'] !== '') {
                     $response = $this->replyWithMessage(
                         [
-                            'text'                  => $_ENV['not_admin_reply_msg'],
-                            'parse_mode'            => 'HTML',
-                            'reply_to_message_id'   => $MessageID,
+                            'text' => $_ENV['not_admin_reply_msg'],
+                            'parse_mode' => 'HTML',
+                            'reply_to_message_id' => $MessageID,
                         ]
                     );
                 }
@@ -67,44 +69,44 @@ class SetuserCommand extends Command
         return $this->Reply($SendUser, $Message, $MessageID, $ChatID);
     }
 
-    public function Reply($SendUser, $Message, $MessageID, $ChatID)
+    public function Reply($SendUser, $Message, $MessageID, $ChatID): void
     {
         $User = null;
         $FindUser = null;
         $arguments = implode(' ', array_splice(explode(' ', trim($Message->getText())), 1));
 
-        if ($Message->getReplyToMessage() != null) {
+        if ($Message->getReplyToMessage() !== null) {
             // 回复源消息用户
             $FindUser = [
-                'id'       => $Message->getReplyToMessage()->getFrom()->getId(),
-                'name'     => $Message->getReplyToMessage()->getFrom()->getFirstName() . ' ' . $Message->getReplyToMessage()->getFrom()->getLastName(),
+                'id' => $Message->getReplyToMessage()->getFrom()->getId(),
+                'name' => $Message->getReplyToMessage()->getFrom()->getFirstName() . ' ' . $Message->getReplyToMessage()->getFrom()->getLastName(),
                 'username' => $Message->getReplyToMessage()->getFrom()->getUsername(),
             ];
             $User = TelegramTools::getUser($FindUser['id']);
-            if ($User == null) {
+            if ($User === null) {
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => $_ENV['no_user_found'],
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => $_ENV['no_user_found'],
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
             }
 
-            if ($arguments == '') {
+            if ($arguments === '') {
                 // 无参数时回复用户信息
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => Reply::getUserInfoFromAdmin($User, $ChatID),
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => Reply::getUserInfoFromAdmin($User, $ChatID),
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
             }
         }
 
-        if ($arguments == '') {
+        if ($arguments === '') {
             $strArray = [
                 '/setuser [用户识别] [操作字段] [操作参数]',
                 '',
@@ -121,9 +123,9 @@ class SetuserCommand extends Command
             ];
             $response = $this->replyWithMessage(
                 [
-                    'text'                  => TelegramTools::StrArrayToCode($strArray),
-                    'parse_mode'            => 'HTML',
-                    'reply_to_message_id'   => $MessageID,
+                    'text' => TelegramTools::StrArrayToCode($strArray),
+                    'parse_mode' => 'HTML',
+                    'reply_to_message_id' => $MessageID,
                 ]
             );
             return;
@@ -134,14 +136,14 @@ class SetuserCommand extends Command
 
         // ############## 命令解析 ##############
         $UserCode = '';
-        if ($User == null) {
+        if ($User === null) {
             $Options = TelegramTools::StrExplode($arguments, ' ', 3);
             if (count($Options) < 3) {
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '没有提供选项或操作值.',
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => '没有提供选项或操作值.',
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
@@ -157,9 +159,9 @@ class SetuserCommand extends Command
             if (count($Options) < 2) {
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '没有提供选项或操作值.',
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => '没有提供选项或操作值.',
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
@@ -172,7 +174,7 @@ class SetuserCommand extends Command
         // ############## 命令解析 ##############
 
         // ############## 用户识别码处理 ##############
-        if ($User == null) {
+        if ($User === null) {
             // 默认搜寻字段
             $useMethod = 'email';
             if (strpos($UserCode, ':') !== false) {
@@ -182,18 +184,17 @@ class SetuserCommand extends Command
                 $UserCode = $UserCodeExplode[1];
                 $SearchMethods = TelegramTools::getUserSearchMethods();
                 $useTempMethod = TelegramTools::getOptionMethod($SearchMethods, $Search);
-                if ($useTempMethod != '') {
+                if ($useTempMethod !== '') {
                     $useMethod = $useTempMethod;
                 }
             }
             $User = TelegramTools::getUser($UserCode, $useMethod);
-            if ($User == null) {
-
+            if ($User === null) {
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => $_ENV['no_user_found'],
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => $_ENV['no_user_found'],
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
@@ -204,12 +205,12 @@ class SetuserCommand extends Command
         // ############## 字段选项处理 ##############
         $OptionMethods = TelegramTools::getUserActionOption();
         $useOptionMethod = TelegramTools::getOptionMethod($OptionMethods, $Option);
-        if ($useOptionMethod == '') {
+        if ($useOptionMethod === '') {
             $response = $this->replyWithMessage(
                 [
-                    'text'                  => $_ENV['data_method_not_found'],
-                    'parse_mode'            => 'HTML',
-                    'reply_to_message_id'   => $MessageID,
+                    'text' => $_ENV['data_method_not_found'],
+                    'parse_mode' => 'HTML',
+                    'reply_to_message_id' => $MessageID,
                 ]
             );
             return;
@@ -219,9 +220,9 @@ class SetuserCommand extends Command
         $reply = TelegramTools::OperationUser($User, $useOptionMethod, $value, $ChatID);
         $response = $this->replyWithMessage(
             [
-                'text'                  => $reply['msg'],
-                'parse_mode'            => 'HTML',
-                'reply_to_message_id'   => $MessageID,
+                'text' => $reply['msg'],
+                'parse_mode' => 'HTML',
+                'reply_to_message_id' => $MessageID,
             ]
         );
         return;

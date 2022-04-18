@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Created by PhpStorm.
  * User: Indexyz
@@ -8,9 +11,8 @@
 
 namespace App\Utils;
 
-use Smarty;
 use App\Services\Config;
-
+use Smarty;
 
 class ConfRender
 {

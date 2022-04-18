@@ -1,34 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Gateway;
 
-use App\Services\View;
-use App\Services\Auth;
 use App\Models\Paylist;
 use App\Models\Setting;
+use App\Services\Auth;
+use App\Services\View;
 
 class PAYJS extends AbstractPayment
 {
-    public static function _name() 
-    {
-        return 'payjs';
-    }
-
-    public static function _enable() 
-    {
-        return self::getActiveGateway('payjs');
-    }
-
     private $appSecret;
     private $gatewayUri;
     /**
      * 签名初始化
+     *
      * @param merKey    签名密钥
      */
     public function __construct()
     {
         $this->appSecret = Setting::obtain('payjs_key');
         $this->gatewayUri = 'https://payjs.cn/api/';
+    }
+    public static function _name()
+    {
+        return 'payjs';
+    }
+
+    public static function _enable()
+    {
+        return self::getActiveGateway('payjs');
     }
     /**
      * @name    准备签名/验签字符串
@@ -42,10 +44,10 @@ class PAYJS extends AbstractPayment
     }
     /**
      * @name    生成签名
+     *
      * @param sourceData
-     * @return    签名数据
      */
-    public function sign($data)
+    public function sign($data): 签名数据
     {
         return strtoupper(md5(urldecode($data) . '&key=' . $this->appSecret));
     }
@@ -62,9 +64,9 @@ class PAYJS extends AbstractPayment
     }
     public function post($data, $type = 'pay')
     {
-        if ($type == 'pay') {
+        if ($type === 'pay') {
             $this->gatewayUri .= 'cashier';
-        } elseif ($type == 'refund') {
+        } elseif ($type === 'refund') {
             $this->gatewayUri .= 'refund';
         } else {
             $this->gatewayUri .= 'check';
@@ -118,11 +120,11 @@ class PAYJS extends AbstractPayment
         $data['sign'] = $this->sign($params);
         return json_decode($this->post($data, $type = 'query'), true);
     }
-    public function notify($request, $response, $args)
+    public function notify($request, $response, $args): void
     {
         $data = $_POST;
 
-        if ($data['return_code'] == 1) {
+        if ($data['return_code'] === 1) {
             // 验证签名
             $in_sign = $data['sign'];
             unset($data['sign']);
@@ -138,7 +140,7 @@ class PAYJS extends AbstractPayment
                 // 验重
                 $p = Paylist::where('tradeno', '=', $data['out_trade_no'])->first();
                 $money = $p->total;
-                if ($p->status != 1) {
+                if ($p->status !== 1) {
                     $this->postPayment($data['out_trade_no'], '微信支付');
                     echo 'SUCCESS';
                 } else {
@@ -167,7 +169,7 @@ class PAYJS extends AbstractPayment
         $pid = $_GET['merchantTradeNo'];
         $p = Paylist::where('tradeno', '=', $pid)->first();
         $money = $p->total;
-        if ($p->status == 1) {
+        if ($p->status === 1) {
             $success = 1;
         } else {
             $data = $_POST;

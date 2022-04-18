@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 /**
@@ -24,7 +26,7 @@ class Code extends Model
      */
     public function userid(): string
     {
-        return $this->userid == 0 ? '未使用' : $this->userid;
+        return $this->userid === 0 ? '未使用' : $this->userid;
     }
 
     /**
@@ -32,10 +34,10 @@ class Code extends Model
      */
     public function user_name(): string
     {
-        if ($this->userid == 0) {
+        if ($this->userid === 0) {
             return '未使用';
         }
-        if ($this->user() == null) {
+        if ($this->user() === null) {
             return '用户已不存在';
         }
         return $this->user()->user_name;
@@ -76,7 +78,7 @@ class Code extends Model
      */
     public function isused(): string
     {
-        return $this->isused == 1 ? '已使用' : '未使用';
+        return $this->isused === 1 ? '已使用' : '未使用';
     }
 
     /**

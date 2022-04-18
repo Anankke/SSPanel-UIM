@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils;
 
+use App\Controllers\AuthController;
+use App\Controllers\LinkController;
 use App\Models\User;
 use App\Services\Config;
-use App\Controllers\LinkController;
-use App\Controllers\AuthController;
 use TelegramBot\Api\Client;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
@@ -17,87 +19,10 @@ class TelegramProcess
         '?mu=0' => 'SSR普通订阅',
         '?mu=1' => 'SSR单端口订阅',
         '?mu=2' => 'V2ray订阅',
-        '?mu=4' => 'Clash订阅'];
+        '?mu=4' => 'Clash订阅',
+    ];
 
-    private static function callback_bind_method($bot, $callback)
-    {
-        $callback_data = $callback->getData();
-        $message = $callback->getMessage();
-        $reply_to = $message->getMessageId();
-        $user = User::where('telegram_id', $callback->getFrom()->getId())->first();
-        $reply_message = '？？？';
-        if ($user != null) {
-            switch (true) {
-                case (strpos($callback_data, 'mu')):
-                    $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id);
-                    $subUrl = $_ENV['subUrl'];
-                    $reply_message = self::$all_rss[$callback_data] . ': ' . $subUrl . $ssr_sub_token . $callback_data . PHP_EOL;
-                    break;
-                case ($callback_data == 'clean_link'):
-                    $user->clean_link();
-                    $reply_message = '链接重置成功';
-                    break;
-            }
-            $bot->sendMessage($message->getChat()->getId(), $reply_message, $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
-        }
-    }
-
-    private static function needbind_method($bot, $message, $command, $user, $reply_to = null)
-    {
-        $reply = [
-            'message' => '？？？',
-            'markup' => null,
-        ];
-        if ($user != null) {
-            switch ($command) {
-                case 'traffic':
-                    $reply['message'] = '您当前的流量状况：
-今日已使用 ' . $user->TodayusedTraffic() . ' ' . number_format(($user->u + $user->d - $user->last_day_t) / $user->transfer_enable * 100, 2) . '%
-今日之前已使用 ' . $user->LastusedTraffic() . ' ' . number_format($user->last_day_t / $user->transfer_enable * 100, 2) . '%
-未使用 ' . $user->unusedTraffic() . ' ' . number_format(($user->transfer_enable - ($user->u + $user->d)) / $user->transfer_enable * 100, 2) . '%';
-                    break;
-                case 'checkin':
-                    if ($_ENV['enable_checkin'] === false) {
-                        $reply['message'] = '目前站点没有启用签到功能。';
-                        break;
-                    }
-                    if (!$user->isAbleToCheckin()) {
-                        $reply['message'] = '您今天已经签过到了！';
-                        break;
-                    }
-                    $traffic = random_int($_ENV['checkinMin'], $_ENV['checkinMax']);
-                    $user->transfer_enable += Tools::toMB($traffic);
-                    $user->last_check_in_time = time();
-                    $user->save();
-                    $reply['message'] = '签到成功！获得了 ' . $traffic . ' MB 流量！';
-                    break;
-                case 'prpr':
-                    $prpr = array('⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄', '(≧ ﹏ ≦)', '(*/ω＼*)', 'ヽ(*。>Д<)o゜', '(つ ﹏ ⊂)', '( >  < )');
-                    $reply['message'] = $prpr[random_int(0, 5)];
-                    break;
-                case 'taro':
-                    $reply['message'] = 'Anankke 是芋头';
-                    break;
-                case 'rss':
-                    $reply['message'] = '点击以下按钮获取对应订阅: ';
-                    $keys = [];
-                    foreach (self::$all_rss as $key => $value) {
-                        $keys[] = [['text' => $value, 'callback_data' => $key]];
-                    }
-                    $reply['markup'] = new InlineKeyboardMarkup(
-                        $keys
-                    );
-                    break;
-            }
-        } else {
-            $reply['message'] = '您未绑定本站账号，您可以进入网站的“资料编辑”，在右下方绑定您的账号';
-        }
-
-        return $reply;
-    }
-
-
-    public static function telegram_process($bot, $message, $command)
+    public static function telegram_process($bot, $message, $command): void
     {
         $user = User::where('telegram_id', $message->getFrom()->getId())->first();
         $reply_to = $message->getMessageId();
@@ -126,17 +51,17 @@ class TelegramProcess
 						/checkin 签到
 						/help 获取帮助信息
 						/rss 获取节点订阅';
-                    if ($user == null) {
+                    if ($user === null) {
                         $help_list .= PHP_EOL . '您未绑定本站账号，您可以进入网站的“资料编辑”，在右下方绑定您的账号';
                     }
                     break;
                 default:
-                    if ($message->getPhoto() == null) {
-                        if (!is_numeric($message->getText()) || strlen($message->getText()) != 6) {
+                    if ($message->getPhoto() === null) {
+                        if (! is_numeric($message->getText()) || strlen($message->getText()) !== 6) {
                             break;
                         }
 
-                        if ($user == null) {
+                        if ($user === null) {
                             $telegram_id = $message->getFrom()->getId();
                             $username = $message->getFrom()->getUsername();
 
@@ -145,21 +70,21 @@ class TelegramProcess
                             $imtype = 4; // Telegram
                             $imvalue = $username;
                             $name = $username;
-                            if ( !$name ) {
+                            if (! $name) {
                                 $name = 'telegram.' . $telegram_id;
                             }
                             $code = 0; // TODO: Refer Code
                             $res = AuthController::register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id);
 
-                            if ($res['ret'] == 0) {
+                            if ($res['ret'] === 0) {
                                 $reply['message'] = $res['msg'];
                                 break;
                             }
                             $user = User::where('telegram_id', $telegram_id)->first();
                         }
-                        if ($user != null) {
+                        if ($user !== null) {
                             $uid = TelegramSessionManager::verify_login_number($message->getText(), $user->id);
-                            if ($uid != 0) {
+                            if ($uid !== 0) {
                                 $reply['message'] = '登录验证成功，邮箱：' . $user->email;
                             } else {
                                 $reply['message'] = '登录验证失败，数字无效';
@@ -177,13 +102,13 @@ class TelegramProcess
                     $file_path = $bot->getFile($photos[0]->getFileId())->getFilePath();
                     $qrcode_text = QRcode::decode('https://api.telegram.org/file/bot' . Config::get('telegram_token') . '/' . $file_path);
 
-                    if (strpos($qrcode_text, 'mod://bind/') === 0 && strlen($qrcode_text) == 27) {
+                    if (strpos($qrcode_text, 'mod://bind/') === 0 && strlen($qrcode_text) === 27) {
                         $uid = TelegramSessionManager::verify_bind_session(substr($qrcode_text, 11));
-                        if ($uid == 0) {
+                        if ($uid === 0) {
                             $reply['message'] = '绑定失败，二维码无效：' . substr($qrcode_text, 11) . '二维码的有效期为10分钟，请尝试刷新网站的“资料编辑”页面以更新二维码';
                             break;
                         }
-                        if(User::where('telegram_id', $message->getFrom()->getId())->count()>0){
+                        if (User::where('telegram_id', $message->getFrom()->getId())->count() > 0) {
                             $reply['message'] = '该Telegram已绑定其他账户';
                             break;
                         }
@@ -196,13 +121,13 @@ class TelegramProcess
                         break;
                     }
 
-                    if (strpos($qrcode_text, 'mod://login/') === 0 && strlen($qrcode_text) == 28) {
-                        if ($user == null) {
+                    if (strpos($qrcode_text, 'mod://login/') === 0 && strlen($qrcode_text) === 28) {
+                        if ($user === null) {
                             $reply['message'] = '登录验证失败，您未绑定本站账号' . substr($qrcode_text, 12);
                             break;
                         }
                         $uid = TelegramSessionManager::verify_login_session(substr($qrcode_text, 12), $user->id);
-                        if ($uid != 0) {
+                        if ($uid !== 0) {
                             $reply['message'] = '登录验证成功，邮箱：' . $user->email;
                         } else {
                             $reply['message'] = '登录验证失败，二维码无效' . substr($qrcode_text, 12);
@@ -212,7 +137,7 @@ class TelegramProcess
             }
         } else {
             //群组
-            if ($_ENV['telegram_group_quiet'] == true) {
+            if ($_ENV['telegram_group_quiet'] === true) {
                 return;
             }
             $bot->sendChatAction($message->getChat()->getId(), 'typing');
@@ -236,18 +161,18 @@ class TelegramProcess
 						/checkin 签到
 						/help 获取帮助信息
 						/rss 获取节点订阅	';
-                    if ($user == null) {
+                    if ($user === null) {
                         $reply['message'] .= PHP_EOL . '您未绑定本站账号，您可以进入网站的“资料编辑”，在右下方绑定您的账号';
                     }
                     break;
                 default:
-                    if ($message->getText() != null) {
-                        if ($message->getChat()->getId() == $_ENV['telegram_chatid']) {
+                    if ($message->getText() !== null) {
+                        if ($message->getChat()->getId() === $_ENV['telegram_chatid']) {
                         } else {
                             $reply['message'] = '不约，叔叔我们不约';
                         }
                     }
-                    if ($message->getNewChatMember() != null && $_ENV['enable_welcome_message'] == true) {
+                    if ($message->getNewChatMember() !== null && $_ENV['enable_welcome_message'] === true) {
                         $reply['message'] = '欢迎 ' . $message->getNewChatMember()->getFirstName() . ' ' . $message->getNewChatMember()->getLastName();
                     } else {
                         $reply['message'] = null;
@@ -259,27 +184,27 @@ class TelegramProcess
         $bot->sendChatAction($message->getChat()->getId(), '');
     }
 
-    public static function process()
+    public static function process(): void
     {
         try {
             $bot = new Client($_ENV['telegram_token']);
             // or initialize with botan.io tracker api key
             // $bot = new \TelegramBot\Api\Client('YOUR_BOT_API_TOKEN', 'YOUR_BOTAN_TRACKER_API_KEY');
 
-            $command_list = array('ping', 'traffic', 'help', 'prpr', 'checkin', 'rss');
+            $command_list = ['ping', 'traffic', 'help', 'prpr', 'checkin', 'rss'];
             foreach ($command_list as $command) {
-                $bot->command($command, static function ($message) use ($bot, $command) {
+                $bot->command($command, static function ($message) use ($bot, $command): void {
                     TelegramProcess::telegram_process($bot, $message, $command);
                 });
             }
 
-            $bot->on($bot->getEvent(static function ($message) use ($bot) {
+            $bot->on($bot->getEvent(static function ($message) use ($bot): void {
                 TelegramProcess::telegram_process($bot, $message, '');
             }), static function () {
                 return true;
             });
 
-            $bot->on($bot->getCallbackQueryEvent(function ($callback) use ($bot) {
+            $bot->on($bot->getCallbackQueryEvent(function ($callback) use ($bot): void {
                 TelegramProcess::callback_bind_method($bot, $callback);
             }), function () {
                 return true;
@@ -289,5 +214,82 @@ class TelegramProcess
         } catch (Exception $e) {
             $e->getMessage();
         }
+    }
+
+    private static function callback_bind_method($bot, $callback): void
+    {
+        $callback_data = $callback->getData();
+        $message = $callback->getMessage();
+        $reply_to = $message->getMessageId();
+        $user = User::where('telegram_id', $callback->getFrom()->getId())->first();
+        $reply_message = '？？？';
+        if ($user !== null) {
+            switch (true) {
+                case strpos($callback_data, 'mu'):
+                    $ssr_sub_token = LinkController::GenerateSSRSubCode($user->id);
+                    $subUrl = $_ENV['subUrl'];
+                    $reply_message = self::$all_rss[$callback_data] . ': ' . $subUrl . $ssr_sub_token . $callback_data . PHP_EOL;
+                    break;
+                case $callback_data === 'clean_link':
+                    $user->clean_link();
+                    $reply_message = '链接重置成功';
+                    break;
+            }
+            $bot->sendMessage($message->getChat()->getId(), $reply_message, $parseMode = null, $disablePreview = false, $replyToMessageId = $reply_to);
+        }
+    }
+
+    private static function needbind_method($bot, $message, $command, $user, $reply_to = null)
+    {
+        $reply = [
+            'message' => '？？？',
+            'markup' => null,
+        ];
+        if ($user !== null) {
+            switch ($command) {
+                case 'traffic':
+                    $reply['message'] = '您当前的流量状况：
+今日已使用 ' . $user->TodayusedTraffic() . ' ' . number_format(($user->u + $user->d - $user->last_day_t) / $user->transfer_enable * 100, 2) . '%
+今日之前已使用 ' . $user->LastusedTraffic() . ' ' . number_format($user->last_day_t / $user->transfer_enable * 100, 2) . '%
+未使用 ' . $user->unusedTraffic() . ' ' . number_format(($user->transfer_enable - ($user->u + $user->d)) / $user->transfer_enable * 100, 2) . '%';
+                    break;
+                case 'checkin':
+                    if ($_ENV['enable_checkin'] === false) {
+                        $reply['message'] = '目前站点没有启用签到功能。';
+                        break;
+                    }
+                    if (! $user->isAbleToCheckin()) {
+                        $reply['message'] = '您今天已经签过到了！';
+                        break;
+                    }
+                    $traffic = random_int($_ENV['checkinMin'], $_ENV['checkinMax']);
+                    $user->transfer_enable += Tools::toMB($traffic);
+                    $user->last_check_in_time = time();
+                    $user->save();
+                    $reply['message'] = '签到成功！获得了 ' . $traffic . ' MB 流量！';
+                    break;
+                case 'prpr':
+                    $prpr = ['⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄', '(≧ ﹏ ≦)', '(*/ω＼*)', 'ヽ(*。>Д<)o゜', '(つ ﹏ ⊂)', '( >  < )'];
+                    $reply['message'] = $prpr[random_int(0, 5)];
+                    break;
+                case 'taro':
+                    $reply['message'] = 'Anankke 是芋头';
+                    break;
+                case 'rss':
+                    $reply['message'] = '点击以下按钮获取对应订阅: ';
+                    $keys = [];
+                    foreach (self::$all_rss as $key => $value) {
+                        $keys[] = [['text' => $value, 'callback_data' => $key]];
+                    }
+                    $reply['markup'] = new InlineKeyboardMarkup(
+                        $keys
+                    );
+                    break;
+            }
+        } else {
+            $reply['message'] = '您未绑定本站账号，您可以进入网站的“资料编辑”，在右下方绑定您的账号';
+        }
+
+        return $reply;
     }
 }

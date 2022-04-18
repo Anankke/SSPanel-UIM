@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Models\BlockIp;
@@ -35,7 +37,7 @@ class Job extends Command
         . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
         . '│ ├─ UserJob                 - 用户账户相关任务，每小时' . PHP_EOL;
 
-    public function boot()
+    public function boot(): void
     {
         if (count($this->argv) === 2) {
             echo $this->description;
@@ -57,7 +59,7 @@ class Job extends Command
     public function SendMail()
     {
         if (file_exists(BASE_PATH . '/storage/email_queue')) {
-            echo "程序正在运行中" . PHP_EOL;
+            echo '程序正在运行中' . PHP_EOL;
             return false;
         }
         $myfile = fopen(BASE_PATH . '/storage/email_queue', 'wb+') or die('Unable to open file!');
@@ -65,7 +67,7 @@ class Job extends Command
         fwrite($myfile, $txt);
         fclose($myfile);
         // 分块处理，节省内存
-        EmailQueue::chunkById(1000, function ($email_queues) {
+        EmailQueue::chunkById(1000, function ($email_queues): void {
             foreach ($email_queues as $email_queue) {
                 try {
                     Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, json_decode($email_queue->array), []);
@@ -81,10 +83,8 @@ class Job extends Command
 
     /**
      * 每日任务
-     *
-     * @return void
      */
-    public function DailyJob()
+    public function DailyJob(): void
     {
         ini_set('memory_limit', '-1');
 
@@ -92,7 +92,7 @@ class Job extends Command
         Node::where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
 
         // ------- 清理各表记录
-        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int)$_ENV['subscribeLog_keep_days']))->delete();
+        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
         Token::where('expire_time', '<', time())->delete();
         NodeInfoLog::where('log_time', '<', time() - 86400 * 3)->delete();
         NodeOnlineLog::where('log_time', '<', time() - 86400 * 3)->delete();
@@ -105,7 +105,6 @@ class Job extends Command
         TelegramSession::where('datetime', '<', time() - 900)->delete();
         // ------- 清理各表记录
 
-
         // ------- 重置自增 ID
         $db = new DatatablesHelper();
         Tools::reset_auto_increment($db, 'node_online_log');
@@ -114,24 +113,24 @@ class Job extends Command
 
         // ------- 用户流量重置
         // 取消已下架的商品不支持重置的限制，因为目前没有库存限制
-        $shopid  = Shop::where('content->reset', '<>', 0)->where('content->reset_value', '<>', 0)->where('content->reset_exp', '<>', 0)->pluck('id')->toArray();
+        $shopid = Shop::where('content->reset', '<>', 0)->where('content->reset_value', '<>', 0)->where('content->reset_exp', '<>', 0)->pluck('id')->toArray();
         // 用 UserID 分组倒序取最新一条包含周期重置商品的购买记录
         $boughts = Bought::whereIn('shopid', $shopid)->orderBy('id', 'desc')->groupBy('userid')->get();
-        $bought_users = array();
+        $bought_users = [];
         foreach ($boughts as $bought) {
             /** @var Bought $bought */
             $user = $bought->user();
-            if ($user == null) {
+            if ($user === null) {
                 continue;
             }
             $shop = $bought->shop();
-            if ($shop == null) {
+            if ($shop === null) {
                 $bought->delete();
                 continue;
             }
             $bought_users[] = $bought->userid;
-            if ($bought->valid() && $bought->used_days() % $shop->reset() == 0 && $bought->used_days() != 0) {
-                echo ('流量重置-' . $user->id . "\n");
+            if ($bought->valid() && $bought->used_days() % $shop->reset() === 0 && $bought->used_days() !== 0) {
+                echo '流量重置-' . $user->id . "\n";
                 $user->transfer_enable = Tools::toGB($shop->reset_value());
                 $user->u = 0;
                 $user->d = 0;
@@ -141,7 +140,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的流量被重置了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB'
+                        'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB',
                     ],
                     [],
                     $_ENV['email_queue']
@@ -150,15 +149,15 @@ class Job extends Command
         }
         // ------- 用户流量重置
 
-        User::chunkById(1000, function ($users) use ($bought_users) {
+        User::chunkById(1000, function ($users) use ($bought_users): void {
             foreach ($users as $user) {
                 /** @var User $user */
-                $user->last_day_t = ($user->u + $user->d);
+                $user->last_day_t = $user->u + $user->d;
                 $user->save();
                 if (in_array($user->id, $bought_users)) {
                     continue;
                 }
-                if (date('d') == $user->auto_reset_day) {
+                if (date('d') === $user->auto_reset_day) {
                     $user->u = 0;
                     $user->d = 0;
                     $user->last_day_t = 0;
@@ -168,7 +167,7 @@ class Job extends Command
                         $_ENV['appName'] . '-您的免费流量被重置了',
                         'news/warn.tpl',
                         [
-                            'text' => '您好，您的免费流量已经被重置为' . $user->auto_reset_bandwidth . 'GB'
+                            'text' => '您好，您的免费流量已经被重置为' . $user->auto_reset_bandwidth . 'GB',
                         ],
                         [],
                         $_ENV['email_queue']
@@ -190,35 +189,32 @@ class Job extends Command
 
     /**
      * 检查任务，每分钟
-     *
-     * @return void
      */
-    public function CheckJob()
+    public function CheckJob(): void
     {
         //节点掉线检测
-        if ($_ENV['enable_detect_offline'] == true) {
+        if ($_ENV['enable_detect_offline'] === true) {
             echo '节点掉线检测开始' . PHP_EOL;
             $adminUser = User::where('is_admin', '=', '1')->get();
             $nodes = Node::all();
             foreach ($nodes as $node) {
-                if ($node->isNodeOnline() === false && $node->online == true) {
-                    if ($_ENV['useScFtqq'] == true && $_ENV['enable_detect_offline_useScFtqq'] == true) {
+                if ($node->isNodeOnline() === false && $node->online === true) {
+                    if ($_ENV['useScFtqq'] === true && $_ENV['enable_detect_offline_useScFtqq'] === true) {
                         $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。';
                         $postdata = http_build_query(
-                            array(
+                            [
                                 'text' => $_ENV['appName'] . '-节点掉线了',
-                                'desp' => $text
-                            )
+                                'desp' => $text,
+                            ]
                         );
-                        $opts = array(
-                            'http' =>
-                            array(
+                        $opts = [
+                            'http' => [
                                 'method' => 'POST',
                                 'header' => 'Content-type: application/x-www-form-urlencoded',
-                                'content' => $postdata
-                            )
-                        );
+                                'content' => $postdata,
+                            ],
+                        ];
                         $context = stream_context_create($opts);
                         file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
                     }
@@ -229,7 +225,7 @@ class Job extends Command
                             $_ENV['appName'] . '-系统警告',
                             'news/warn.tpl',
                             [
-                                'text' => '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。'
+                                'text' => '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。',
                             ],
                             [],
                             $_ENV['email_queue']
@@ -247,25 +243,24 @@ class Job extends Command
 
                     $node->online = false;
                     $node->save();
-                } elseif ($node->isNodeOnline() === true && $node->online == false) {
-                    if ($_ENV['useScFtqq'] == true && $_ENV['enable_detect_offline_useScFtqq'] == true) {
+                } elseif ($node->isNodeOnline() === true && $node->online === false) {
+                    if ($_ENV['useScFtqq'] === true && $_ENV['enable_detect_offline_useScFtqq'] === true) {
                         $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
                         $text = '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。';
                         $postdata = http_build_query(
-                            array(
+                            [
                                 'text' => $_ENV['appName'] . '-节点恢复上线了',
-                                'desp' => $text
-                            )
+                                'desp' => $text,
+                            ]
                         );
 
-                        $opts = array(
-                            'http' =>
-                            array(
+                        $opts = [
+                            'http' => [
                                 'method' => 'POST',
                                 'header' => 'Content-type: application/x-www-form-urlencoded',
-                                'content' => $postdata
-                            )
-                        );
+                                'content' => $postdata,
+                            ],
+                        ];
                         $context = stream_context_create($opts);
                         file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
                     }
@@ -275,7 +270,7 @@ class Job extends Command
                             $_ENV['appName'] . '-系统提示',
                             'news/warn.tpl',
                             [
-                                'text' => '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。'
+                                'text' => '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。',
                             ],
                             [],
                             $_ENV['email_queue']
@@ -303,7 +298,7 @@ class Job extends Command
         foreach ($nodes as $node) {
             /** @var Node $node */
             $server = $node->get_out_address();
-            if (!Tools::is_ip($server) && $node->changeNodeIp($server)) {
+            if (! Tools::is_ip($server) && $node->changeNodeIp($server)) {
                 $node->save();
             }
         }
@@ -311,14 +306,12 @@ class Job extends Command
 
     /**
      * 用户账户相关任务，每小时
-     *
-     * @return void
      */
-    public function UserJob()
+    public function UserJob(): void
     {
         $users = User::all();
         foreach ($users as $user) {
-            if (strtotime($user->expire_in) < time() && $user->expire_notified == false) {
+            if (strtotime($user->expire_in) < time() && $user->expire_notified === false) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
@@ -327,32 +320,32 @@ class Job extends Command
                     $_ENV['appName'] . '-您的用户账户已经过期了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账号已经过期了。'
+                        'text' => '您好，系统发现您的账号已经过期了。',
                     ],
                     [],
                     $_ENV['email_queue']
                 );
                 $user->expire_notified = true;
                 $user->save();
-            } elseif (strtotime($user->expire_in) > time() && $user->expire_notified == true) {
+            } elseif (strtotime($user->expire_in) > time() && $user->expire_notified === true) {
                 $user->expire_notified = false;
                 $user->save();
             }
 
             //余量不足检测
-            if ($_ENV['notify_limit_mode'] != false) {
+            if ($_ENV['notify_limit_mode'] !== false) {
                 $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
                 $under_limit = false;
 
-                if ($user->transfer_enable != 0 && $user->class != 0) {
+                if ($user->transfer_enable !== 0 && $user->class !== 0) {
                     if (
-                        $_ENV['notify_limit_mode'] == 'per' &&
+                        $_ENV['notify_limit_mode'] === 'per' &&
                         $user_traffic_left / $user->transfer_enable * 100 < $_ENV['notify_limit_value']
                     ) {
                         $under_limit = true;
                         $unit_text = '%';
                     } elseif (
-                        $_ENV['notify_limit_mode'] == 'mb' &&
+                        $_ENV['notify_limit_mode'] === 'mb' &&
                         Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']
                     ) {
                         $under_limit = true;
@@ -360,12 +353,12 @@ class Job extends Command
                     }
                 }
 
-                if ($under_limit == true && $user->traffic_notified == false) {
+                if ($under_limit === true && $user->traffic_notified === false) {
                     $result = $user->sendMail(
                         $_ENV['appName'] . '-您的剩余流量过低',
                         'news/warn.tpl',
                         [
-                            'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。'
+                            'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。',
                         ],
                         [],
                         $_ENV['email_queue']
@@ -374,7 +367,7 @@ class Job extends Command
                         $user->traffic_notified = true;
                         $user->save();
                     }
-                } elseif ($under_limit == false && $user->traffic_notified == true) {
+                } elseif ($under_limit === false && $user->traffic_notified === true) {
                     $user->traffic_notified = false;
                     $user->save();
                 }
@@ -389,7 +382,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的用户账户已经被删除了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。'
+                        'text' => '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。',
                     ],
                     [],
                     $_ENV['email_queue']
@@ -404,14 +397,14 @@ class Job extends Command
                     $user->last_check_in_time,
                     strtotime($user->reg_date)
                 ) + ($_ENV['auto_clean_uncheck_days'] * 86400) < time() &&
-                $user->class == 0 &&
+                $user->class === 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
                 $user->sendMail(
                     $_ENV['appName'] . '-您的用户账户已经被删除了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。'
+                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。',
                     ],
                     [],
                     $_ENV['email_queue']
@@ -423,14 +416,14 @@ class Job extends Command
             if (
                 $_ENV['auto_clean_unused_days'] > 0 &&
                 max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < time() &&
-                $user->class == 0 &&
+                $user->class === 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
                 $user->sendMail(
                     $_ENV['appName'] . '-您的用户账户已经被删除了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。'
+                        'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。',
                     ],
                     [],
                     $_ENV['email_queue']
@@ -440,7 +433,7 @@ class Job extends Command
             }
 
             if (
-                $user->class != 0 &&
+                $user->class !== 0 &&
                 strtotime($user->class_expire) < time() &&
                 strtotime($user->class_expire) > 1420041600
             ) {
@@ -457,7 +450,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的账户等级已经过期了',
                     'news/warn.tpl',
                     [
-                        'text' => $text
+                        'text' => $text,
                     ],
                     [],
                     $_ENV['email_queue']
@@ -466,9 +459,9 @@ class Job extends Command
             }
 
             // 审计封禁解封
-            if ($user->enable == 0) {
+            if ($user->enable === 0) {
                 $logs = DetectBanLog::where('user_id', $user->id)->orderBy('id', 'desc')->first();
-                if ($logs != null) {
+                if ($logs !== null) {
                     if (($logs->end_time + $logs->ban_time * 60) <= time()) {
                         $user->enable = 1;
                     }
@@ -483,18 +476,18 @@ class Job extends Command
         foreach ($boughts as $bought) {
             /** @var Bought $bought */
             $user = $bought->user();
-            if ($user == null) {
+            if ($user === null) {
                 continue;
             }
 
             $shop = $bought->shop();
-            if ($shop == null) {
+            if ($shop === null) {
                 $bought->delete();
                 $user->sendMail(
                     $_ENV['appName'] . '-续费失败',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。'
+                        'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。',
                     ],
                     [],
                     $_ENV['email_queue']
@@ -510,20 +503,20 @@ class Job extends Command
                 $bought->renew = 0;
                 $bought->save();
 
-                $bought_new           = new Bought();
-                $bought_new->userid   = $user->id;
-                $bought_new->shopid   = $shop->id;
+                $bought_new = new Bought();
+                $bought_new->userid = $user->id;
+                $bought_new->shopid = $shop->id;
                 $bought_new->datetime = time();
-                $bought_new->renew    = time() + $shop->auto_renew * 86400;
-                $bought_new->price    = $shop->price;
-                $bought_new->coupon   = '';
+                $bought_new->renew = time() + $shop->auto_renew * 86400;
+                $bought_new->price = $shop->price;
+                $bought_new->coupon = '';
                 $bought_new->save();
 
                 $user->sendMail(
                     $_ENV['appName'] . '-续费成功',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。'
+                        'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。',
                     ],
                     [],
                     $_ENV['email_queue']
@@ -531,12 +524,12 @@ class Job extends Command
 
                 $bought->is_notified = true;
                 $bought->save();
-            } elseif ($bought->is_notified == false) {
+            } elseif ($bought->is_notified === false) {
                 $user->sendMail(
                     $_ENV['appName'] . '-续费失败',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。'
+                        'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。',
                     ],
                     [],
                     $_ENV['email_queue']

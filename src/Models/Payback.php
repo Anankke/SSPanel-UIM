@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 class Payback extends Model
@@ -10,7 +12,7 @@ class Payback extends Model
     public function user()
     {
         $user = User::where('id', $this->attributes['userid'])->first();
-        if ($user == null) {
+        if ($user === null) {
             Bought::where('id', '=', $this->attributes['id'])->delete();
             return null;
         }
@@ -18,25 +20,25 @@ class Payback extends Model
         return $user;
     }
 
-    public function rebate($user_id, $order_amount)
+    public function rebate($user_id, $order_amount): void
     {
         $configs = Setting::getClass('invite');
         $user = User::where('id', $user_id)->first();
         $gift_user_id = $user->ref_by;
-        
+
         // 判断
         $invite_rebate_mode = $configs['invite_rebate_mode'];
         $rebate_ratio = $configs['rebate_ratio'];
-        if ($invite_rebate_mode == 'continued') {
+        if ($invite_rebate_mode === 'continued') {
             // 不设限制
             self::executeRebate($user_id, $gift_user_id, $order_amount);
-        } elseif ($invite_rebate_mode == 'limit_frequency') {
+        } elseif ($invite_rebate_mode === 'limit_frequency') {
             // 限制返利次数
             $rebate_frequency = self::where('userid', $user_id)->count();
             if ($rebate_frequency < $configs['rebate_frequency_limit']) {
                 self::executeRebate($user_id, $gift_user_id, $order_amount);
             }
-        } elseif ($invite_rebate_mode == 'limit_amount') {
+        } elseif ($invite_rebate_mode === 'limit_amount') {
             // 限制返利金额
             $total_rebate_amount = self::where('userid', $user_id)->sum('ref_get');
             // 预计返利 (expected_rebate) 是指：订单金额 * 返点比例
@@ -52,14 +54,14 @@ class Payback extends Model
             } else {
                 self::executeRebate($user_id, $gift_user_id, $order_amount);
             }
-        } elseif ($invite_rebate_mode == 'limit_time_range') {
+        } elseif ($invite_rebate_mode === 'limit_time_range') {
             if (strtotime($user->reg_date) + $configs['rebate_time_range_limit'] * 86400 > time()) {
                 self::executeRebate($user_id, $gift_user_id, $order_amount);
             }
         }
     }
 
-    public function executeRebate($user_id, $gift_user_id, $order_amount, $adjust_rebate = null)
+    public function executeRebate($user_id, $gift_user_id, $order_amount, $adjust_rebate = null): void
     {
         $gift_user = User::where('id', $gift_user_id)->first();
         $rebate_amount = $order_amount * Setting::obtain('rebate_ratio');

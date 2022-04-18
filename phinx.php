@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 include './config/.config.php';
 
-return
-[
+return [
     'paths' => [
         'migrations' => '%%PHINX_CONFIG_DIR%%/db/migrations',
-        'seeds' => '%%PHINX_CONFIG_DIR%%/db/seeds'
+        'seeds' => '%%PHINX_CONFIG_DIR%%/db/seeds',
     ],
     'environments' => [
         'default_migration_table' => 'phinxlog',
@@ -37,7 +38,7 @@ return
             'pass' => '',
             'port' => '3306',
             'charset' => 'utf8',
-        ]
+        ],
     ],
-    'version_order' => 'creation'
+    'version_order' => 'creation',
 ];

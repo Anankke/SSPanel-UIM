@@ -1,27 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Middleware;
 
-use App\Services\Config;
-
-class AuthorizationBearer {
+class AuthorizationBearer
+{
     protected string $token;
 
-    function __construct(string $token) {
+    public function __construct(string $token)
+    {
         $this->token = $token;
     }
 
-    /**
-     * @param \Slim\Http\Request    $request
-     * @param \Slim\Http\Response   $response
-     * @param callable              $next
-     *
-     * @return \Slim\Http\Response
-     */
-    public function __invoke($request, $response, $next) {
-        if (!$request->hasHeader('Authorization')) {
+    public function __invoke(\Slim\Http\Request $request, \Slim\Http\Response $response, callable $next): \Slim\Http\Response
+    {
+        if (! $request->hasHeader('Authorization')) {
             return $response->withStatus(401)->withJson([
-                'ret'  => 0,
+                'ret' => 0,
                 'data' => 'Authorization failed',
             ]);
         }
@@ -29,18 +25,18 @@ class AuthorizationBearer {
         $authHeader = $request->getHeaderLine('Authorization');
 
         // Bearer method token verify
-        if (strtoupper(substr($authHeader, 0, 6)) != 'BEARER') {
+        if (strtoupper(substr($authHeader, 0, 6)) !== 'BEARER') {
             return $response->withStatus(401)->withJson([
-                'ret'  => 0,
+                'ret' => 0,
                 'data' => 'Authorization failed',
             ]);
         }
 
         $realToken = substr($authHeader, 7);
 
-        if ($realToken != $this->token) {
+        if ($realToken !== $this->token) {
             return $response->withStatus(401)->withJson([
-                'ret'  => 0,
+                'ret' => 0,
                 'data' => 'Authorization failed',
             ]);
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Telegram;
 
 use App\Models\User;
@@ -12,10 +14,8 @@ class TelegramTools
      *
      * @param string $value  搜索值
      * @param string $method 查找列
-     *
-     * @return \App\Models\User
      */
-    public static function getUser($value, $method = 'telegram_id')
+    public static function getUser(string $value, string $method = 'telegram_id'): \App\Models\User
     {
         return User::where($method, $value)->first();
     }
@@ -25,10 +25,8 @@ class TelegramTools
      * 伪异步，无结果返回.
      *
      * @param array $params
-     *
-     * @return string
      */
-    public static function SendPost($Method, $Params)
+    public static function SendPost($Method, $Params): string
     {
         $URL = 'https://api.telegram.org/bot' . $_ENV['telegram_token'] . '/' . $Method;
         $POSTData = json_encode($Params);
@@ -47,12 +45,12 @@ class TelegramTools
      *
      * @return array
      */
-    public static function getUserSearchMethods()
+    public static function getUserSearchMethods(): array
     {
         return [
-            'id'    => [],
+            'id' => [],
             'email' => $_ENV['remark_user_search_email'],
-            'port'  => $_ENV['remark_user_search_port'],
+            'port' => $_ENV['remark_user_search_port'],
         ];
     }
 
@@ -61,27 +59,27 @@ class TelegramTools
      *
      * @return array
      */
-    public static function getUserActionOption()
+    public static function getUserActionOption(): array
     {
         return [
-            'is_admin'          => $_ENV['remark_user_option_is_admin'],
-            'enable'            => $_ENV['remark_user_option_enable'],
-            'money'             => $_ENV['remark_user_option_money'],
-            'port'              => $_ENV['remark_user_option_port'],
-            'transfer_enable'   => $_ENV['remark_user_option_transfer_enable'],
-            'passwd'            => $_ENV['remark_user_option_passwd'],
-            'method'            => $_ENV['remark_user_option_method'],
-            'protocol'          => $_ENV['remark_user_option_protocol'],
-            'protocol_param'    => $_ENV['remark_user_option_protocol_param'],
-            'obfs'              => $_ENV['remark_user_option_obfs'],
-            'obfs_param'        => $_ENV['remark_user_option_obfs_param'],
-            'invite_num'        => $_ENV['remark_user_option_invite_num'],
-            'node_group'        => $_ENV['remark_user_option_node_group'],
-            'class'             => $_ENV['remark_user_option_class'],
-            'class_expire'      => $_ENV['remark_user_option_class_expire'],
-            'expire_in'         => $_ENV['remark_user_option_expire_in'],
-            'node_speedlimit'   => $_ENV['remark_user_option_node_speedlimit'],
-            'node_connector'    => $_ENV['remark_user_option_node_connector'],
+            'is_admin' => $_ENV['remark_user_option_is_admin'],
+            'enable' => $_ENV['remark_user_option_enable'],
+            'money' => $_ENV['remark_user_option_money'],
+            'port' => $_ENV['remark_user_option_port'],
+            'transfer_enable' => $_ENV['remark_user_option_transfer_enable'],
+            'passwd' => $_ENV['remark_user_option_passwd'],
+            'method' => $_ENV['remark_user_option_method'],
+            'protocol' => $_ENV['remark_user_option_protocol'],
+            'protocol_param' => $_ENV['remark_user_option_protocol_param'],
+            'obfs' => $_ENV['remark_user_option_obfs'],
+            'obfs_param' => $_ENV['remark_user_option_obfs_param'],
+            'invite_num' => $_ENV['remark_user_option_invite_num'],
+            'node_group' => $_ENV['remark_user_option_node_group'],
+            'class' => $_ENV['remark_user_option_class'],
+            'class_expire' => $_ENV['remark_user_option_class_expire'],
+            'expire_in' => $_ENV['remark_user_option_expire_in'],
+            'node_speedlimit' => $_ENV['remark_user_option_node_speedlimit'],
+            'node_connector' => $_ENV['remark_user_option_node_connector'],
         ];
     }
 
@@ -106,7 +104,7 @@ class TelegramTools
                 ];
                 if (strpos($value, ' ') !== false) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
@@ -118,7 +116,7 @@ class TelegramTools
                     $new = '禁用';
                 } else {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
@@ -127,9 +125,9 @@ class TelegramTools
                 // ##############
             case 'port':
                 // 支持正整数或 0 随机选择
-                if (!is_numeric($value) || strpos($value, '-') === 0) {
+                if (! is_numeric($value) || strpos($value, '-') === 0) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '提供的端口非数值，如要随机重置请指定为 0.',
                     ];
                 }
@@ -146,7 +144,7 @@ class TelegramTools
                         '错误详情：' . $temp['msg'],
                     ];
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => self::StrArrayToCode($strArray),
                     ];
                 }
@@ -166,14 +164,14 @@ class TelegramTools
                 ];
                 if (strpos($value, ' ') !== false) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
                 $new = self::TrafficMethod($User->$useOptionMethod, $value);
                 if ($new === null) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
@@ -204,12 +202,12 @@ class TelegramTools
                     if (is_numeric($number)) {
                         $number *= 86400;
                         $old_time = strtotime($old);
-                        $new = ($operator == '+' ? $old_time + $number : $old_time - $number);
+                        $new = ($operator === '+' ? $old_time + $number : $old_time - $number);
                         $new = date('Y-m-d H:i:s', $new);
                     } else {
                         if (strtotime($value) === false) {
                             return [
-                                'ok'  => false,
+                                'ok' => false,
                                 'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                             ];
                         }
@@ -225,7 +223,7 @@ class TelegramTools
                     } else {
                         if (strtotime($value) === false) {
                             return [
-                                'ok'  => false,
+                                'ok' => false,
                                 'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                             ];
                         }
@@ -260,7 +258,7 @@ class TelegramTools
                     ];
                 }
                 return [
-                    'ok'  => $temp['ok'],
+                    'ok' => $temp['ok'],
                     'msg' => self::StrArrayToCode($strArray),
                 ];
                 break;
@@ -271,7 +269,7 @@ class TelegramTools
                 // 参数值中不允许有空格
                 if (strpos($value, ' ') !== false) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，协议中含有空格等字符.',
                     ];
                 }
@@ -291,7 +289,7 @@ class TelegramTools
                 $new = self::ComputingMethod($User->$useOptionMethod, $value, true);
                 if ($new === null) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.'  . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
@@ -314,7 +312,7 @@ class TelegramTools
                 $new = self::ComputingMethod($User->$useOptionMethod, $value, false);
                 if ($new === null) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.'  . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
@@ -323,13 +321,13 @@ class TelegramTools
                 // ##############
             default:
                 return [
-                    'ok'  => false,
+                    'ok' => false,
                     'msg' => '尚不支持.',
                 ];
                 break;
         }
         if ($User->save()) {
-            if ($useOptionMethod == 'money') {
+            if ($useOptionMethod === 'money') {
                 $User->addMoneyLog($new - $old);
             }
             $strArray = [
@@ -339,15 +337,14 @@ class TelegramTools
                 '修改后为：' . $new,
             ];
             return [
-                'ok'  => true,
+                'ok' => true,
                 'msg' => self::StrArrayToCode($strArray),
             ];
-        } else {
-            return [
-                'ok'  => false,
-                'msg' => '保存出错',
-            ];
         }
+        return [
+            'ok' => false,
+            'msg' => '保存出错',
+        ];
     }
 
     /**
@@ -355,10 +352,8 @@ class TelegramTools
      *
      * @param string $email  邮箱
      * @param int    $ChatID 会话 ID
-     *
-     * @return string
      */
-    public static function getUserEmail($email, $ChatID)
+    public static function getUserEmail(string $email, int $ChatID): string
     {
         if ($_ENV['enable_user_email_group_show'] === true || $ChatID > 0) {
             return $email;
@@ -368,7 +363,7 @@ class TelegramTools
             return $email;
         }
         $string = substr($email, $a);
-        return ($a === 1 ? '*' . $string : substr($email, 0, 1) . str_pad('', $a - 1, '*') . $string);
+        return $a === 1 ? '*' . $string : substr($email, 0, 1) . str_pad('', $a - 1, '*') . $string;
     }
 
     /**
@@ -380,7 +375,7 @@ class TelegramTools
      *
      * @return array
      */
-    public static function StrExplode($Str, $Delimiter, $Quantity = 10)
+    public static function StrExplode(string $Str, string $Delimiter, int $Quantity = 10): array
     {
         $return = [];
         $Str = trim($Str);
@@ -402,10 +397,8 @@ class TelegramTools
      *
      * @param array  $MethodGroup 方法别名的数组
      * @param string $Search      被搜索的字符串
-     *
-     * @return string
      */
-    public static function getOptionMethod($MethodGroup, $Search)
+    public static function getOptionMethod(array $MethodGroup, string $Search): string
     {
         $useMethod = '';
         foreach ($MethodGroup as $MethodName => $Remarks) {
@@ -433,10 +426,8 @@ class TelegramTools
      * @param string $Source         源数值
      * @param string $Value          运算式含增改数值
      * @param bool   $FloatingNumber 是否格式化为浮点数
-     *
-     * @return string|null
      */
-    public static function ComputingMethod($Source, $Value, $FloatingNumber = false)
+    public static function ComputingMethod(string $Source, string $Value, bool $FloatingNumber = false): ?string
     {
         if (
             (strpos($Value, '+') === 0
@@ -470,10 +461,8 @@ class TelegramTools
      *
      * @param string $Source 源数值
      * @param string $Value  运算式含增改数值
-     *
-     * @return int|null
      */
-    public static function TrafficMethod($Source, $Value)
+    public static function TrafficMethod(string $Source, string $Value): ?int
     {
         if (
             strpos($Value, '+') === 0
@@ -485,11 +474,13 @@ class TelegramTools
             strpos($Value, '/') === 0
         ) {
             $operator = substr($Value, 0, 1);
-            if (!in_array($operator, ['*', '/'])) {
+            if (! in_array($operator, ['*', '/'])) {
                 $number = Tools::flowAutoShowZ(substr($Value, 1));
             } else {
                 $number = substr($Value, 1, strlen($Value) - 1);
-                if (!is_numeric($number)) return null;
+                if (! is_numeric($number)) {
+                    return null;
+                }
             }
             if ($number === null) {
                 return null;
@@ -513,16 +504,14 @@ class TelegramTools
      * 字符串数组转 TG HTML 等宽字符串
      *
      * @param array $strArray 字符串数组
-     *
-     * @return string
      */
-    public static function StrArrayToCode($strArray)
+    public static function StrArrayToCode(array $strArray): string
     {
         return implode(
             PHP_EOL,
             array_map(
                 function ($item) {
-                    return ('<code>' . $item . '</code>');
+                    return '<code>' . $item . '</code>';
                 },
                 $strArray
             )

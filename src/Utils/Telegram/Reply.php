@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Telegram;
 
 use App\Models\Bought;
@@ -8,12 +10,8 @@ class Reply
 {
     /**
      * 用户的流量使用讯息
-     *
-     * @param \App\Models\User $user
-     *
-     * @return string
      */
-    public static function getUserTrafficInfo($user)
+    public static function getUserTrafficInfo(\App\Models\User $user): string
     {
         $text = [
             '您当前的流量状况：',
@@ -27,17 +25,13 @@ class Reply
 
     /**
      * 用户基本讯息
-     *
-     * @param \App\Models\User $user
-     *
-     * @return string
      */
-    public static function getUserInfo($user)
+    public static function getUserInfo(\App\Models\User $user): string
     {
         $text = [
             '当前余额：' . $user->money,
-            '在线设备：' . ($user->node_connector != 0 ? $user->online_ip_count() . ' / ' . $user->node_connector : $user->online_ip_count() . ' / 不限制'),
-            '端口速率：' . ($user->node_speedlimit != 0 ? $user->node_speedlimit . 'Mbps' : '无限制'),
+            '在线设备：' . ($user->node_connector !== 0 ? $user->online_ip_count() . ' / ' . $user->node_connector : $user->online_ip_count() . ' / 不限制'),
+            '端口速率：' . ($user->node_speedlimit !== 0 ? $user->node_speedlimit . 'Mbps' : '无限制'),
             '上次使用：' . $user->lastSsTime(),
             '过期时间：' . $user->class_expire,
         ];
@@ -46,12 +40,8 @@ class Reply
 
     /**
      * 获取用户或管理的尊称
-     *
-     * @param \App\Models\User $user
-     *
-     * @return string
      */
-    public static function getUserTitle($user)
+    public static function getUserTitle(\App\Models\User $user): string
     {
         if ($user->class > 0) {
             $text = '尊敬的 VIP ' . $user->class . ' 您好：';
@@ -64,17 +54,15 @@ class Reply
     /**
      * [admin]获取用户购买记录
      *
-     * @param \App\Models\User $user
-     *
      * @return array
      */
-    public static function getUserBoughts($user)
+    public static function getUserBoughts(\App\Models\User $user): array
     {
         $boughts = Bought::where('userid', $user->id)->orderBy('id', 'desc')->get();
         $data = [];
         foreach ($boughts as $bought) {
             $shop = $bought->shop();
-            if ($shop == null) {
+            if ($shop === null) {
                 $bought->delete();
                 continue;
             }
@@ -94,28 +82,23 @@ class Reply
 
     /**
      * [admin]获取用户信息
-     *
-     * @param \App\Models\User $user
-     * @param int              $ChatID
-     *
-     * @return string
      */
-    public static function getUserInfoFromAdmin($user, $ChatID)
+    public static function getUserInfoFromAdmin(\App\Models\User $user, int $ChatID): string
     {
         $strArray = [
             '#' . $user->id . ' ' . $user->user_name . ' 的用户信息',
             '',
             '用户邮箱：' . TelegramTools::getUserEmail($user->email, $ChatID),
             '账户余额：' . $user->money,
-            '是否启用：' . ((int) $user->enable == 1 ? '启用' : '禁用'),
+            '是否启用：' . ((int) $user->enable === 1 ? '启用' : '禁用'),
             '用户等级：' . $user->class,
             '剩余流量：' . $user->unusedTraffic(),
             '等级到期：' . $user->class_expire,
             '账户到期：' . $user->expire_in,
-            '套餐详情：'
+            '套餐详情：',
         ];
         $boughts = self::getUserBoughts($user);
-        if (count($boughts) != 0) {
+        if (count($boughts) !== 0) {
             $strArray = array_merge($strArray, $boughts);
         } else {
             $strArray[] = ' - 该用户无生效套餐.';

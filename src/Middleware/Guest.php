@@ -1,19 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Middleware;
 
 use App\Services\Auth as AuthService;
 
 class Guest
 {
-    /**
-     * @param \Slim\Http\Request    $request
-     * @param \Slim\Http\Response   $response
-     * @param callable              $next
-     *
-     * @return \Slim\Http\Response
-     */
-    public function __invoke($request, $response, $next)
+    public function __invoke(\Slim\Http\Request $request, \Slim\Http\Response $response, callable $next): \Slim\Http\Response
     {
         $user = AuthService::getUser();
         if ($user->isLogin) {

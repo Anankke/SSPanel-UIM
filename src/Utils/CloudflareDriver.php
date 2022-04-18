@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Created by PhpStorm.
  * User: tonyzou
@@ -8,7 +11,6 @@
 
 namespace App\Utils;
 
-use App\Services\Config;
 use Cloudflare\API\Adapter\Guzzle;
 use Cloudflare\API\Auth\APIKey;
 use Cloudflare\API\Endpoints\DNS;
@@ -16,12 +18,11 @@ use Cloudflare\API\Endpoints\Zones;
 
 class CloudflareDriver
 {
-
     // @todo: parameters
     public static function modifyRecord(DNS $dns, $zoneID, $recordID, $name, $content, $proxied = false)
     {
         $details = ['type' => 'A', 'name' => $name, 'content' => $content, 'proxied' => $proxied];
-        if ($dns->updateRecordDetails($zoneID, $recordID, $details)->success == true) {
+        if ($dns->updateRecordDetails($zoneID, $recordID, $details)->success === true) {
             return 1;
         }
         return 0;
@@ -29,13 +30,13 @@ class CloudflareDriver
 
     public static function addRecord(DNS $dns, $zoneID, $type, $name, $content, $ttl = 120, $proxied = false)
     {
-        if ($dns->addRecord($zoneID, $type, $name, $content, $ttl, $proxied) == true) {
+        if ($dns->addRecord($zoneID, $type, $name, $content, $ttl, $proxied) === true) {
             return 1;
         }
         return 0;
     }
 
-    public static function updateRecord($name, $content, $proxied = false)
+    public static function updateRecord($name, $content, $proxied = false): void
     {
         $key = new APIKey($_ENV['cloudflare_email'], $_ENV['cloudflare_key']);
         $adapter = new Guzzle($key);
@@ -49,7 +50,7 @@ class CloudflareDriver
         $recordCount = $r->result_info->count;
         $records = $r->result;
 
-        if ($recordCount == 0) {
+        if ($recordCount === 0) {
             self::addRecord($dns, $zoneID, 'A', $name, $content);
         } elseif ($recordCount >= 1) {
             foreach ($records as $record) {

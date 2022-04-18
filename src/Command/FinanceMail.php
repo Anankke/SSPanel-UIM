@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Models\User;
-use App\Utils\Telegram;
 use App\Utils\DatatablesHelper;
+use App\Utils\Telegram;
 use Ozdemir\Datatables\Datatables;
 
 class FinanceMail extends Command
@@ -15,7 +17,7 @@ class FinanceMail extends Command
         . '│ ├─ week                    - 周报' . PHP_EOL
         . '│ ├─ month                   - 月报' . PHP_EOL;
 
-    public function boot()
+    public function boot(): void
     {
         if (count($this->argv) === 2) {
             echo $this->description;
@@ -29,7 +31,7 @@ class FinanceMail extends Command
         }
     }
 
-    public function day()
+    public function day(): void
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query(
@@ -65,7 +67,7 @@ class FinanceMail extends Command
                 'news/finance.tpl',
                 [
                     'title' => '财务日报',
-                    'text'  => $text_html
+                    'text' => $text_html,
                 ],
                 []
             );
@@ -81,7 +83,7 @@ class FinanceMail extends Command
         }
     }
 
-    public function week()
+    public function week(): void
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query(
@@ -110,7 +112,7 @@ class FinanceMail extends Command
                 'news/finance.tpl',
                 [
                     'title' => '财务周报',
-                    'text'  => $text_html
+                    'text' => $text_html,
                 ],
                 []
             );
@@ -126,7 +128,7 @@ class FinanceMail extends Command
         }
     }
 
-    public function month()
+    public function month(): void
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query(
@@ -153,7 +155,7 @@ class FinanceMail extends Command
                 'news/finance.tpl',
                 [
                     'title' => '财务月报',
-                    'text'  => $text_html
+                    'text' => $text_html,
                 ],
                 []
             );

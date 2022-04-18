@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils;
 
 /**
  * PHP Class for handling Google Authenticator 2-factor authentication
  *
  * @author Michael Kliewe
+ *
  * @copyright 2012 Michael Kliewe
+ *
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
+ *
  * @link http://www.phpgangsta.de/
  */
 class GA
@@ -17,11 +22,8 @@ class GA
     /**
      * Create new secret.
      * 16 characters, randomly chosen from the allowed base32 characters.
-     *
-     * @param int $secretLength
-     * @return string
      */
-    public function createSecret($secretLength = 16)
+    public function createSecret(int $secretLength = 16): string
     {
         $validChars = $this->_getBase32LookupTable();
         unset($validChars[32]);
@@ -35,12 +37,8 @@ class GA
 
     /**
      * Calculate the code, with given secret and point in time
-     *
-     * @param string $secret
-     * @param int|null $timeSlice
-     * @return string
      */
-    public function getCode($secret, $timeSlice = null)
+    public function getCode(string $secret, ?int $timeSlice = null): string
     {
         if ($timeSlice === null) {
             $timeSlice = floor(time() / 30);
@@ -69,13 +67,8 @@ class GA
 
     /**
      * Get QR-Code URL for image, from google charts
-     *
-     * @param string $name
-     * @param string $secret
-     * @param string $title
-     * @return string
      */
-    public function getQRCodeGoogleUrl($name, $secret, $title = null)
+    public function getQRCodeGoogleUrl(string $name, string $secret, ?string $title = null): string
     {
         $urlencoded = urlencode('otpauth://totp/' . $name . '?secret=' . $secret . '');
         if (isset($title)) {
@@ -96,13 +89,10 @@ class GA
     /**
      * Check if the code is correct. This will accept codes starting from $discrepancy*30sec ago to $discrepancy*30sec from now
      *
-     * @param string $secret
-     * @param string $code
      * @param int $discrepancy This is the allowed time drift in 30 second units (8 means 4 minutes before or after)
      * @param int|null $currentTimeSlice time slice if we want use other that time()
-     * @return bool
      */
-    public function verifyCode($secret, $code, $discrepancy = 1, $currentTimeSlice = null)
+    public function verifyCode(string $secret, string $code, int $discrepancy = 1, ?int $currentTimeSlice = null): bool
     {
         if ($currentTimeSlice === null) {
             $currentTimeSlice = floor(time() / 30);
@@ -110,7 +100,7 @@ class GA
 
         for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
             $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
-            if ($calculatedCode == $code) {
+            if ($calculatedCode === $code) {
                 return true;
             }
         }
@@ -121,10 +111,9 @@ class GA
     /**
      * Set the code length, should be >=6
      *
-     * @param int $length
      * @return GA|PHPGangsta_GoogleAuthenticator
      */
-    public function setCodeLength($length)
+    public function setCodeLength(int $length)
     {
         $this->_codeLength = $length;
         return $this;
@@ -134,6 +123,7 @@ class GA
      * Helper class to decode base32
      *
      * @param $secret
+     *
      * @return bool|string
      */
     protected function _base32Decode($secret)
@@ -146,13 +136,13 @@ class GA
         $base32charsFlipped = array_flip($base32chars);
 
         $paddingCharCount = substr_count($secret, $base32chars[32]);
-        $allowedValues = array(6, 4, 3, 1, 0);
-        if (!in_array($paddingCharCount, $allowedValues)) {
+        $allowedValues = [6, 4, 3, 1, 0];
+        if (! in_array($paddingCharCount, $allowedValues)) {
             return false;
         }
         for ($i = 0; $i < 4; $i++) {
-            if ($paddingCharCount == $allowedValues[$i] &&
-                substr($secret, -$allowedValues[$i]) != str_repeat($base32chars[32], $allowedValues[$i])) {
+            if ($paddingCharCount === $allowedValues[$i] &&
+                substr($secret, -$allowedValues[$i]) !== str_repeat($base32chars[32], $allowedValues[$i])) {
                 return false;
             }
         }
@@ -161,7 +151,7 @@ class GA
         $binaryString = '';
         for ($i = 0, $iMax = count($secret); $i < $iMax; $i += 8) {
             $x = '';
-            if (!in_array($secret[$i], $base32chars)) {
+            if (! in_array($secret[$i], $base32chars)) {
                 return false;
             }
             for ($j = 0; $j < 8; $j++) {
@@ -169,7 +159,7 @@ class GA
             }
             $eightBits = str_split($x, 8);
             foreach ($eightBits as $zValue) {
-                $binaryString .= (($y = chr(base_convert($zValue, 2, 10))) || ord($y) == 48) ? $y : '';
+                $binaryString .= (($y = chr(base_convert($zValue, 2, 10))) || ord($y) === 48) ? $y : '';
             }
         }
         return $binaryString;
@@ -177,12 +167,8 @@ class GA
 
     /**
      * Helper class to encode base32
-     *
-     * @param string $secret
-     * @param bool $padding
-     * @return string
      */
-    protected function _base32Encode($secret, $padding = true)
+    protected function _base32Encode(string $secret, bool $padding = true): string
     {
         if (empty($secret)) {
             return '';
@@ -202,14 +188,14 @@ class GA
             $base32 .= $base32chars[base_convert(str_pad($fiveBitBinaryArray[$i], 5, '0'), 2, 10)];
             $i++;
         }
-        if ($padding && ($x = strlen($binaryString) % 40) != 0) {
-            if ($x == 8) {
+        if ($padding && ($x = strlen($binaryString) % 40) !== 0) {
+            if ($x === 8) {
                 $base32 .= str_repeat($base32chars[32], 6);
-            } elseif ($x == 16) {
+            } elseif ($x === 16) {
                 $base32 .= str_repeat($base32chars[32], 4);
-            } elseif ($x == 24) {
+            } elseif ($x === 24) {
                 $base32 .= str_repeat($base32chars[32], 3);
-            } elseif ($x == 32) {
+            } elseif ($x === 32) {
                 $base32 .= $base32chars[32];
             }
         }
@@ -221,14 +207,14 @@ class GA
      *
      * @return array
      */
-    protected function _getBase32LookupTable()
+    protected function _getBase32LookupTable(): array
     {
-        return array(
+        return [
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', //  7
             'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', // 15
             'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', // 23
             'Y', 'Z', '2', '3', '4', '5', '6', '7', // 31
-            '='  // padding char
-        );
+            '=',  // padding char
+        ];
     }
 }

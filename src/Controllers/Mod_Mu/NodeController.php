@@ -1,28 +1,22 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Controllers\Mod_Mu;
 
-use Slim\Http\{
-    Request,
-    Response
-};
-use App\Models\{
-    Node,
-    StreamMedia,
-    NodeInfoLog
-};
-use App\Utils\Tools;
-use App\Services\Config;
 use App\Controllers\BaseController;
+use App\Services\Config;
+use App\Utils\Tools;
+use Node;
 use Psr\Http\Message\ResponseInterface;
+use Request;
 
 class NodeController extends BaseController
 {
     /**
-     * @param Request   $request
-     * @param Response  $response
      * @param array     $args
      */
-    public function saveReport($request, $response, $args)
+    public function saveReport(Request $request, Response $response, array $args): void
     {
         // $request_ip = $_SERVER["REMOTE_ADDR"];
         $node_id = $request->getParam('node_id');
@@ -38,24 +32,22 @@ class NodeController extends BaseController
             $report->save();
             die('ok');
         } */
-        
-        $report = new StreamMedia;
+
+        $report = new StreamMedia();
         $report->node_id = $node_id;
         $report->result = json_encode($result);
         $report->created_at = time();
         $report->save();
         die('ok');
     }
-    
+
     /**
-     * @param Request   $request
-     * @param Response  $response
      * @param array     $args
      */
-    public function info($request, $response, $args)
+    public function info(Request $request, Response $response, array $args)
     {
         $node_id = $args['id'];
-        if ($node_id == '0') {
+        if ($node_id === '0') {
             $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
             $node_id = $node->id;
         }
@@ -66,7 +58,7 @@ class NodeController extends BaseController
         $log->load = $load;
         $log->uptime = $uptime;
         $log->log_time = time();
-        if (!$log->save()) {
+        if (! $log->save()) {
             $res = [
                 'ret' => 0,
                 'data' => 'update failed',
@@ -81,21 +73,19 @@ class NodeController extends BaseController
     }
 
     /**
-     * @param Request   $request
-     * @param Response  $response
      * @param array     $args
      */
-    public function get_info($request, $response, $args): ResponseInterface
+    public function get_info(Request $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $args['id'];
-        if ($node_id == '0') {
+        if ($node_id === '0') {
             $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
             $node_id = $node->id;
         }
         $node = Node::find($node_id);
-        if ($node == null) {
+        if ($node === null) {
             $res = [
-                'ret' => 0
+                'ret' => 0,
             ];
             return $response->withJson($res);
         }
@@ -116,16 +106,16 @@ class NodeController extends BaseController
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'disconnect_time' => $_ENV['disconnect_time'],
             'type' => 'SSPanel-UIM',
-            'version' => '2021.11'
+            'version' => '2021.11',
         ];
 
         $res = [
             'ret' => 1,
-            'data' => $data
+            'data' => $data,
         ];
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($data);
-        if ($header_etag == $etag) {
+        if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
 
@@ -133,14 +123,12 @@ class NodeController extends BaseController
     }
 
     /**
-     * @param Request   $request
-     * @param Response  $response
      * @param array     $args
      */
-    public function get_all_info($request, $response, $args): ResponseInterface
+    public function get_all_info(Request $request, Response $response, array $args): ResponseInterface
     {
         $nodes = Node::where('node_ip', '<>', null)->where(
-            static function ($query) {
+            static function ($query): void {
                 $query->where('sort', '=', 0)
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 12)
@@ -150,12 +138,12 @@ class NodeController extends BaseController
         )->get();
         $res = [
             'ret' => 1,
-            'data' => $nodes
+            'data' => $nodes,
         ];
 
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($nodes);
-        if ($header_etag == $etag) {
+        if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
 
@@ -163,15 +151,13 @@ class NodeController extends BaseController
     }
 
     /**
-     * @param Request   $request
-     * @param Response  $response
      * @param array     $args
      */
-    public function getConfig($request, $response, $args)
+    public function getConfig(Request $request, Response $response, array $args)
     {
         $data = $request->getParsedBody();
         switch ($data['type']) {
-            case ('database'):
+            case 'database':
                 $db_config = Config::getDbConfig();
                 $db_config['host'] = $this->getServerIP();
                 $res = [
@@ -179,7 +165,7 @@ class NodeController extends BaseController
                     'data' => $db_config,
                 ];
                 break;
-            case ('webapi'):
+            case 'webapi':
                 $webapiConfig = [];
                 #todo
         }

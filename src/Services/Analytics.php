@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
-use App\Models\User;
 use App\Models\Node;
+use App\Models\User;
 use App\Utils\Tools;
 
 class Analytics
@@ -35,7 +37,6 @@ class Analytics
         return Tools::flowAutoShow($total);
     }
 
-
     public function getRawTodayTrafficUsage()
     {
         return User::sum('u') + User::sum('d') - User::sum('last_day_t');
@@ -46,7 +47,6 @@ class Analytics
         $total = User::sum('last_day_t');
         return Tools::flowAutoShow($total);
     }
-
 
     public function getRawLastTrafficUsage()
     {
@@ -63,7 +63,6 @@ class Analytics
     {
         return User::sum('transfer_enable') - User::sum('u') - User::sum('d');
     }
-
 
     public function getTotalTraffic()
     {
@@ -95,7 +94,7 @@ class Analytics
     public function getTotalNodes()
     {
         return Node::where('node_heartbeat', '>', 0)->where(
-            static function ($query) {
+            static function ($query): void {
                 $query->Where('sort', '=', 0)
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 11)
@@ -109,7 +108,7 @@ class Analytics
     public function getAliveNodes()
     {
         return Node::where(
-            static function ($query) {
+            static function ($query): void {
                 $query->Where('sort', '=', 0)
                     ->orWhere('sort', '=', 10)
                     ->orWhere('sort', '=', 11)

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils;
 
 use App\Models\Setting;
-use App\Services\Config;
 
 /**
  * 极验行为式验证安全平台，php 网站主后台包含的库文件
@@ -30,7 +31,7 @@ class Geetest
         $configs = Setting::getClass('geetest');
         $GtSdk = new GeetestLib($configs['geetest_id'], $configs['geetest_key']);
         $user_id = $_SESSION['user_id'];
-        if ($_SESSION['gtserver'] == 1) {
+        if ($_SESSION['gtserver'] === 1) {
             $result = $GtSdk->success_validate($geetest_challenge, $geetest_validate, $geetest_seccode, $user_id);
             if ($result) {
                 return true;

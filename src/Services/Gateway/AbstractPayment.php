@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Created by PhpStorm.
  * User: tonyzou
@@ -8,71 +11,63 @@
 
 namespace App\Services\Gateway;
 
-use App\Models\User;
 use App\Models\Code;
-use App\Models\Paylist;
 use App\Models\Payback;
+use App\Models\Paylist;
 use App\Models\Setting;
+use App\Models\User;
 use App\Utils\Telegram;
-use Slim\Http\{Request, Response};
+use Request;
 
 abstract class AbstractPayment
 {
     /**
-     * @param Request   $request
-     * @param Response  $response
      * @param array     $args
      */
-    abstract public function purchase($request, $response, $args);
+    abstract public function purchase(Request $request, Response $response, array $args): void;
 
     /**
-     * @param Request   $request
-     * @param Response  $response
      * @param array     $args
      */
-    abstract public function notify($request, $response, $args);
+    abstract public function notify(Request $request, Response $response, array $args): void;
 
     /**
      * 支付网关的 codeName, 规则为 [0-9a-zA-Z_]*
      */
-    abstract public static function _name();
+    abstract public static function _name(): void;
 
     /**
      * 是否启用支付网关
-     * 
+     *
      * TODO: 传入目前用户信, etc..
      */
-    abstract public static function _enable();
+    abstract public static function _enable(): void;
 
     /**
      * 显示给用户的名称
      */
     public static function _readableName() {
-        return (get_called_class())::_name() . ' 充值';
+        return static::class::_name() . ' 充值';
     }
-    
-    /**
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
-    abstract public function getReturnHTML($request, $response, $args);
 
     /**
-     * @param Request   $request
-     * @param Response  $response
      * @param array     $args
      */
-    abstract public function getStatus($request, $response, $args);
+    abstract public function getReturnHTML(Request $request, Response $response, array $args): void;
 
-    abstract public static function getPurchaseHTML();
+    /**
+     * @param array     $args
+     */
+    abstract public function getStatus(Request $request, Response $response, array $args): void;
+
+    abstract public static function getPurchaseHTML(): void;
 
     protected static function getCallbackUrl() {
-        return $_ENV['baseUrl'] . '/payment/notify/' . (get_called_class())::_name();
+        return $_ENV['baseUrl'] . '/payment/notify/' . static::class::_name();
     }
 
     protected static function getUserReturnUrl() {
-        return $_ENV['baseUrl'] . '/user/payment/return/' . (get_called_class())::_name();
+        return $_ENV['baseUrl'] . '/user/payment/return/' . static::class::_name();
     }
 
     protected static function getActiveGateway($key) {
@@ -88,7 +83,7 @@ abstract class AbstractPayment
     {
         $p = Paylist::where('tradeno', $pid)->first();
 
-        if ($p->status == 1) {
+        if ($p->status === 1) {
             return json_encode(['errcode' => 0]);
         }
 
@@ -107,12 +102,12 @@ abstract class AbstractPayment
         $codeq->save();
 
         // 返利
-        if ($user->ref_by > 0 && Setting::obtain('invitation_mode') == 'after_recharge') {
+        if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
             Payback::rebate($user->id, $p->total);
         }
 
-        if ($_ENV['enable_donate'] == true) {
-            if ($user->is_hide == 1) {
+        if ($_ENV['enable_donate'] === true) {
+            if ($user->is_hide === 1) {
                 Telegram::Send('一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元!');
             } else {
                 Telegram::Send($user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元！');
@@ -123,7 +118,7 @@ abstract class AbstractPayment
 
     public static function generateGuid()
     {
-        mt_srand((double)microtime() * 10000);
+        mt_srand((float) microtime() * 10000);
         $charid = strtoupper(md5(uniqid(mt_rand() + time(), true)));
         $hyphen = chr(45);
         $uuid = chr(123)

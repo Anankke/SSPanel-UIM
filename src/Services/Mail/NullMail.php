@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Mail;
 
 class NullMail extends Base
 {
-
     public function __construct()
     {
     }
@@ -15,7 +16,7 @@ class NullMail extends Base
         ];
     }
 
-    public function send($to_address, $subject_raw, $text, $files)
+    public function send($to_address, $subject_raw, $text, $files): void
     {
         echo '';
     }

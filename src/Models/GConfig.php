@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Services\DefaultConfig;
@@ -22,19 +24,15 @@ class GConfig extends Model
 
     /**
      * 恢复默认配置
-     *
-     * @param User $user
-     *
-     * @return void
      */
-    public function recover($user)
+    public function recover(User $user): void
     {
-        $this->oldvalue       = $this->value;
-        $this->value          = DefaultConfig::default_value($this->key)['value'];
-        $this->operator_id    = $user->id;
-        $this->operator_name  = ('[恢复默认] - ' . $user->user_name);
+        $this->oldvalue = $this->value;
+        $this->value = DefaultConfig::default_value($this->key)['value'];
+        $this->operator_id = $user->id;
+        $this->operator_name = '[恢复默认] - ' . $user->user_name;
         $this->operator_email = $user->email;
-        $this->last_update    = time();
+        $this->last_update = time();
         $this->save();
     }
 
@@ -47,13 +45,13 @@ class GConfig extends Model
     {
         switch ($this->type) {
             case 'bool':
-                return (bool)      $this->value;
+                return (bool) $this->value;
             case 'array':
                 return json_decode($this->value, true);
             case 'string':
-                return (string)    $this->value;
+                return (string) $this->value;
             default:
-                return (string)    $this->value;
+                return (string) $this->value;
         }
     }
 
@@ -61,25 +59,22 @@ class GConfig extends Model
      * 设定配置值
      *
      * @param mixed $value
-     * @param User  $user
-     *
-     * @return bool
      */
-    public function setValue($value, $user = null)
+    public function setValue($value, ?User $user = null): bool
     {
         $this->oldvalue = $this->value;
-        $this->value    = $this->typeConversion($value);
+        $this->value = $this->typeConversion($value);
         if ($user === null) {
-            $this->operator_id    = 0;
-            $this->operator_name  = '系统修改';
+            $this->operator_id = 0;
+            $this->operator_name = '系统修改';
             $this->operator_email = 'admin@admin.com';
         } else {
-            $this->operator_id    = $user->id;
-            $this->operator_name  = $user->user_name;
+            $this->operator_id = $user->id;
+            $this->operator_name = $user->user_name;
             $this->operator_email = $user->email;
         }
         $this->last_update = time();
-        if (!$this->save()) {
+        if (! $this->save()) {
             return false;
         }
         return true;

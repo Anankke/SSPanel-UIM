@@ -1,30 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Gateway\CoinPay;
 
 abstract class CoinPayConfigInterface
 {
     // 系统加密key
-    public abstract function GetSecret();
+    abstract public function GetSecret(): void;
 
     // 支付回调url
-    public abstract function GetNotifyUrl();
+    abstract public function GetNotifyUrl(): void;
 
     // 同步返回url
-    public abstract function GetReturnUrl();
+    abstract public function GetReturnUrl(): void;
 
     // 设置应用AppID
-    public abstract function GetAppId();
+    abstract public function GetAppId(): void;
 
     //附加数据,按原样返回,不填写默认为空.
-    public abstract function GetAttach();
+    abstract public function GetAttach(): void;
 
     // body数据.不填写默认为空
-    public abstract function GetBody();
+    abstract public function GetBody(): void;
 
     // 货币代号,不填写默认为CNY  可选值为CNY USD
-    public abstract function GetTransCurrency();
+    abstract public function GetTransCurrency(): void;
 
     // 表单提交字符集编码
-    public abstract function GetPostCharset();
+    abstract public function GetPostCharset(): void;
 }

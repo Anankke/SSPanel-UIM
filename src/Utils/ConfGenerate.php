@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * 应用自定义配置
  *
@@ -8,13 +10,14 @@
 
 namespace App\Utils;
 
-use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * ConfGenerate
  *
  * @category GeekQu
+ *
  * @package  App/Utils/ConfGenerate
  */
 class ConfGenerate
@@ -27,11 +30,11 @@ class ConfGenerate
      *
      * @return array|null
      */
-    public static function getMatchProxy($Proxy, $Rule)
+    public static function getMatchProxy(array $Proxy, array $Rule): ?array
     {
         $return = null;
         switch (true) {
-            case (isset($Rule['content']['class'])):
+            case isset($Rule['content']['class']):
                 if (in_array($Proxy['class'], $Rule['content']['class'])) {
                     if (isset($Rule['content']['regex'])) {
                         if (preg_match('/' . $Rule['content']['regex'] . '/i', $Proxy['remark'])) {
@@ -42,8 +45,8 @@ class ConfGenerate
                     }
                 }
                 break;
-            case (isset($Rule['content']['noclass'])):
-                if (!in_array($Proxy['class'], $Rule['content']['noclass'])) {
+            case isset($Rule['content']['noclass']):
+                if (! in_array($Proxy['class'], $Rule['content']['noclass'])) {
                     if (isset($Rule['content']['regex'])) {
                         if (preg_match('/' . $Rule['content']['regex'] . '/i', $Proxy['remark'])) {
                             $return = $Proxy;
@@ -53,11 +56,10 @@ class ConfGenerate
                     }
                 }
                 break;
-            case (!isset($Rule['content']['class'])
-                && !isset($Rule['content']['noclass'])
+            case ! isset($Rule['content']['class'])
+                && ! isset($Rule['content']['noclass'])
                 && isset($Rule['content']['regex'])
-                && preg_match('/' . $Rule['content']['regex'] . '/i', $Proxy['remark'])
-            ):
+                && preg_match('/' . $Rule['content']['regex'] . '/i', $Proxy['remark']):
                 $return = $Proxy;
                 break;
         }
@@ -72,7 +74,7 @@ class ConfGenerate
      *
      * @return array|string
      */
-    public static function YAML2Array($Content)
+    public static function YAML2Array(string $Content)
     {
         try {
             return Yaml::parse($Content);
@@ -88,10 +90,8 @@ class ConfGenerate
      * @param string $AllProxys     Surge 格式的全部节点
      * @param array  $Nodes         节点数组
      * @param string $SourceContent 配置内容
-     *
-     * @return string
      */
-    public static function getSurgeConfs($User, $AllProxys, $Nodes, $Configs)
+    public static function getSurgeConfs(User $User, string $AllProxys, array $Nodes, $Configs): string
     {
         $General = (isset($Configs['General']) ? self::getSurgeConfGeneral($Configs['General']) : '');
 
@@ -111,10 +111,10 @@ class ConfGenerate
         $Rule = self::getRule($Configs['Rule']);
 
         $Conf = [
-            '#!MANAGED-CONFIG ' .((int)$_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
+            '#!MANAGED-CONFIG ' .((int) $_SERVER['SERVER_PORT'] === 443 ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
             '',
             '#---------------------------------------------------#',
-            '## 上次更新于：' . date("Y-m-d H:i:s"),
+            '## 上次更新于：' . date('Y-m-d H:i:s'),
             '#---------------------------------------------------#',
             '',
             '[General]',
@@ -128,7 +128,7 @@ class ConfGenerate
             $ProxyGroup,
             '',
             '[Rule]',
-            $Rule
+            $Rule,
         ];
 
         return implode(PHP_EOL, $Conf);
@@ -138,13 +138,11 @@ class ConfGenerate
      * Surge 配置中的 General
      *
      * @param array $General Surge General 定义
-     *
-     * @return string
      */
-    public static function getSurgeConfGeneral($General)
+    public static function getSurgeConfGeneral(array $General): string
     {
         $return = '';
-        if (count($General) != 0) {
+        if (count($General) !== 0) {
             foreach ($General as $key => $value) {
                 $return .= $key . ' = ' . $value . PHP_EOL;
             }
@@ -156,15 +154,13 @@ class ConfGenerate
      * Surge 配置中的 Proxy
      *
      * @param array $Proxys 自定义配置中的额外 Proxy
-     *
-     * @return string
      */
-    public static function getSurgeConfProxy($Proxys)
+    public static function getSurgeConfProxy(array $Proxys): string
     {
         $return = '';
-        if (count($Proxys) != 0) {
+        if (count($Proxys) !== 0) {
             foreach ($Proxys as $value) {
-                if (!preg_match('/(\[General|Replica|Proxy|Proxy\sGroup|Rule|Host|URL\sRewrite|Header\sRewrite|MITM|Script\])/', $value)) {
+                if (! preg_match('/(\[General|Replica|Proxy|Proxy\sGroup|Rule|Host|URL\sRewrite|Header\sRewrite|MITM|Script\])/', $value)) {
                     $return .= $value . PHP_EOL;
                 }
             }
@@ -180,7 +176,7 @@ class ConfGenerate
      *
      * @return array
      */
-    public static function getSurgeConfProxyGroup($Nodes, $ProxyGroups)
+    public static function getSurgeConfProxyGroup(array $Nodes, array $ProxyGroups): array
     {
         $return = [];
         foreach ($ProxyGroups as $ProxyGroup) {
@@ -188,13 +184,13 @@ class ConfGenerate
                 $proxies = [];
                 if (
                     isset($ProxyGroup['content']['left-proxies'])
-                    && count($ProxyGroup['content']['left-proxies']) != 0
+                    && count($ProxyGroup['content']['left-proxies']) !== 0
                 ) {
                     $proxies = $ProxyGroup['content']['left-proxies'];
                 }
                 foreach ($Nodes as $item) {
                     $item = self::getMatchProxy($item, $ProxyGroup);
-                    if ($item !== null && !in_array($item['remark'], $proxies)) {
+                    if ($item !== null && ! in_array($item['remark'], $proxies)) {
                         $proxies[] = $item['remark'];
                     }
                 }
@@ -217,15 +213,15 @@ class ConfGenerate
      *
      * @return array
      */
-    public static function fixSurgeProxyGroup($ProxyGroups, $checks)
+    public static function fixSurgeProxyGroup(array $ProxyGroups, array $checks): array
     {
-        if (count($checks) == 0) {
+        if (count($checks) === 0) {
             return $ProxyGroups;
         }
         $clean_names = [];
         $newProxyGroups = [];
         foreach ($ProxyGroups as $ProxyGroup) {
-            if (in_array($ProxyGroup['name'], $checks) && count($ProxyGroup['proxies']) == 0) {
+            if (in_array($ProxyGroup['name'], $checks) && count($ProxyGroup['proxies']) === 0) {
                 $clean_names[] = $ProxyGroup['name'];
                 continue;
             }
@@ -235,10 +231,10 @@ class ConfGenerate
             $ProxyGroups = $newProxyGroups;
             $newProxyGroups = [];
             foreach ($ProxyGroups as $ProxyGroup) {
-                if (!in_array($ProxyGroup['name'], $checks) && $ProxyGroup['type'] != 'ssid') {
+                if (! in_array($ProxyGroup['name'], $checks) && $ProxyGroup['type'] !== 'ssid') {
                     $newProxies = [];
                     foreach ($ProxyGroup['proxies'] as $proxie) {
-                        if (!in_array($proxie, $clean_names)) {
+                        if (! in_array($proxie, $clean_names)) {
                             $newProxies[] = $proxie;
                         }
                     }
@@ -255,10 +251,8 @@ class ConfGenerate
      * Surge ProxyGroup 转字符串
      *
      * @param array $ProxyGroups Surge 策略组定义
-     *
-     * @return string
      */
-    public static function getSurgeProxyGroup2String($ProxyGroups)
+    public static function getSurgeProxyGroup2String(array $ProxyGroups): string
     {
         $return = '';
         foreach ($ProxyGroups as $ProxyGroup) {
@@ -280,7 +274,7 @@ class ConfGenerate
                         . ', '
                         . $proxies);
                 }
-            } elseif ($ProxyGroup['type'] == 'ssid') {
+            } elseif ($ProxyGroup['type'] === 'ssid') {
                 $wifi = '';
                 foreach ($ProxyGroup['content'] as $key => $value) {
                     $wifi .= ', "' . $key . '" = ' . $value;
@@ -309,12 +303,10 @@ class ConfGenerate
      * @param object $User          用户
      * @param array  $AllProxys     全部节点数组
      * @param string $SourceContent 远程配置内容
-     *
-     * @return string
      */
-    public static function getClashConfs($User, $AllProxys, $Configs)
+    public static function getClashConfs(object $User, array $AllProxys, $Configs): string
     {
-        if (isset($Configs['Proxy']) && count($Configs['Proxy']) != 0) {
+        if (isset($Configs['Proxy']) && count($Configs['Proxy']) !== 0) {
             $tmpProxys = array_merge($AllProxys, $Configs['Proxy']);
         } else {
             $tmpProxys = $AllProxys;
@@ -337,16 +329,16 @@ class ConfGenerate
         );
 
         $Conf = [
-            '#!MANAGED-CONFIG ' .((int)$_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
+            '#!MANAGED-CONFIG ' .((int) $_SERVER['SERVER_PORT'] === 443 ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
             '',
             '#---------------------------------------------------#',
-            '## 上次更新于：' . date("Y-m-d H:i:s"),
+            '## 上次更新于：' . date('Y-m-d H:i:s'),
             '#---------------------------------------------------#',
             '',
             Yaml::dump($tmp, 4, 2),
             '',
             'rules:',
-            self::getRule($Configs['Rule'])
+            self::getRule($Configs['Rule']),
         ];
 
         return implode(PHP_EOL, $Conf);
@@ -360,7 +352,7 @@ class ConfGenerate
      *
      * @return array
      */
-    public static function getClashConfProxyGroup($Nodes, $ProxyGroups)
+    public static function getClashConfProxyGroup(array $Nodes, array $ProxyGroups): array
     {
         $return = [];
         foreach ($ProxyGroups as $ProxyGroup) {
@@ -369,14 +361,14 @@ class ConfGenerate
                 $proxies = [];
                 if (
                     isset($ProxyGroup['content']['left-proxies'])
-                    && count($ProxyGroup['content']['left-proxies']) != 0
+                    && count($ProxyGroup['content']['left-proxies']) !== 0
                 ) {
                     $proxies = $ProxyGroup['content']['left-proxies'];
                 }
                 foreach ($Nodes as $item) {
                     $item['remark'] = $item['name'];
                     $item = self::getMatchProxy($item, $ProxyGroup);
-                    if ($item !== null && !in_array($item['name'], $proxies)) {
+                    if ($item !== null && ! in_array($item['name'], $proxies)) {
                         $proxies[] = $item['name'];
                     }
                 }
@@ -386,9 +378,9 @@ class ConfGenerate
                 $tmp = [
                     'name' => $ProxyGroup['name'],
                     'type' => $ProxyGroup['type'],
-                    'proxies' => $proxies
+                    'proxies' => $proxies,
                 ];
-                if ($ProxyGroup['type'] != 'select') {
+                if ($ProxyGroup['type'] !== 'select') {
                     $tmp['url'] = $ProxyGroup['url'];
                     $tmp['interval'] = $ProxyGroup['interval'];
                 }
@@ -406,15 +398,15 @@ class ConfGenerate
      *
      * @return array
      */
-    public static function fixClashProxyGroup($ProxyGroups, $checks)
+    public static function fixClashProxyGroup(array $ProxyGroups, array $checks): array
     {
-        if (count($checks) == 0) {
+        if (count($checks) === 0) {
             return $ProxyGroups;
         }
         $clean_names = [];
         $newProxyGroups = [];
         foreach ($ProxyGroups as $ProxyGroup) {
-            if (in_array($ProxyGroup['name'], $checks) && count($ProxyGroup['proxies']) == 0) {
+            if (in_array($ProxyGroup['name'], $checks) && count($ProxyGroup['proxies']) === 0) {
                 $clean_names[] = $ProxyGroup['name'];
                 continue;
             }
@@ -424,10 +416,10 @@ class ConfGenerate
             $ProxyGroups = $newProxyGroups;
             $newProxyGroups = [];
             foreach ($ProxyGroups as $ProxyGroup) {
-                if (!in_array($ProxyGroup['name'], $checks)) {
+                if (! in_array($ProxyGroup['name'], $checks)) {
                     $newProxies = [];
                     foreach ($ProxyGroup['proxies'] as $proxie) {
-                        if (!in_array($proxie, $clean_names)) {
+                        if (! in_array($proxie, $clean_names)) {
                             $newProxies[] = $proxie;
                         }
                     }
@@ -444,10 +436,8 @@ class ConfGenerate
      * 规则加载
      *
      * @param array $Rules 规则加载地址
-     *
-     * @return string
      */
-    public static function getRule($Rules)
+    public static function getRule(array $Rules): string
     {
         $render = ConfRender::getTemplateRender();
         return $render->fetch($Rules['source']);

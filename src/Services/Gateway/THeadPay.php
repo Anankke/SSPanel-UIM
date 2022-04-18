@@ -1,73 +1,74 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Gateway;
 
-use App\Services\Auth;
-use App\Services\View;
 use App\Models\Paylist;
 use App\Models\Setting;
+use App\Services\Auth;
+use App\Services\View;
 use Exception;
 
 class THeadPay extends AbstractPayment
 {
-    public static function _name() 
-    {
-        return 'theadpay';
-    }
-
-    public static function _enable() 
-    {
-        return self::getActiveGateway('theadpay');
-    }
-
-    public static function _readableName() {
-        return "THeadPay 平头哥支付";
-    }
-
     protected $sdk;
 
     public function __construct()
     {
         $configs = Setting::getClass('theadpay');
-        
+
         $this->sdk = new THeadPaySDK([
-            'theadpay_url'      => $configs['theadpay_url'],
-            'theadpay_mchid'    => $configs['theadpay_mchid'],
-            'theadpay_key'      => $configs['theadpay_key'],
+            'theadpay_url' => $configs['theadpay_url'],
+            'theadpay_mchid' => $configs['theadpay_mchid'],
+            'theadpay_key' => $configs['theadpay_key'],
         ]);
     }
+    public static function _name()
+    {
+        return 'theadpay';
+    }
 
+    public static function _enable()
+    {
+        return self::getActiveGateway('theadpay');
+    }
+
+    public static function _readableName()
+    {
+        return 'THeadPay 平头哥支付';
+    }
 
     public function purchase($request, $response, $args)
     {
-        $amount = (int)$request->getParam('amount');
+        $amount = (int) $request->getParam('amount');
         $user = Auth::getUser();
         if ($amount <= 0) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '订单金额错误：' . $amount
+                'msg' => '订单金额错误：' . $amount,
             ]);
         }
 
         $pl = new Paylist();
-        $pl->userid     = $user->id;
-        $pl->tradeno    = self::generateGuid();
-        $pl->total      = $amount;
+        $pl->userid = $user->id;
+        $pl->tradeno = self::generateGuid();
+        $pl->total = $amount;
         $pl->save();
 
         try {
             $res = $this->sdk->pay([
-                'trade_no'      => $pl->tradeno,
-                'total_fee'     => $pl->total*100,
-                'notify_url'    => self::getCallbackUrl(),
-                'return_url'    => self::getUserReturnUrl(),
+                'trade_no' => $pl->tradeno,
+                'total_fee' => $pl->total * 100,
+                'notify_url' => self::getCallbackUrl(),
+                'return_url' => self::getUserReturnUrl(),
             ]);
 
             return $response->withJson([
-                'ret'       => 1,
-                'qrcode'    => $res['code_url'],
-                'amount'    => $pl->total,
-                'pid'       => $pl->tradeno,
+                'ret' => 1,
+                'qrcode' => $res['code_url'],
+                'amount' => $pl->total,
+                'pid' => $pl->tradeno,
             ]);
         } catch (Exception $e) {
             return $response->withJson([
@@ -77,10 +78,10 @@ class THeadPay extends AbstractPayment
         }
     }
 
-    public function notify($request, $response, $args)
+    public function notify($request, $response, $args): void
     {
         $inputString = file_get_contents('php://input', 'r');
-        $inputStripped = str_replace(array("\r", "\n", "\t", "\v"), '', $inputString);
+        $inputStripped = str_replace(["\r", "\n", "\t", "\v"], '', $inputString);
         $params = json_decode($inputStripped, true); //convert JSON into array
 
         if ($this->sdk->verify($params)) {
@@ -91,7 +92,6 @@ class THeadPay extends AbstractPayment
 
         die('fail');
     }
-
 
     public static function getPurchaseHTML()
     {
@@ -106,11 +106,11 @@ class THeadPay extends AbstractPayment
     public function getStatus($request, $response, $args)
     {
         $pid = $request->getParam('pid');
-        
+
         $p = Paylist::where('tradeno', $pid)->first();
         return $response->withJson([
-            'ret'       => 1,
-            'result'    => $p->status,
+            'ret' => 1,
+            'result' => $p->status,
         ]);
     }
 }

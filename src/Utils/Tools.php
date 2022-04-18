@@ -1,23 +1,173 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils;
 
-use App\Models\{Link, Model, User, Node};
 use App\Services\Config;
-use App\Utils\QQWry;
 use DateTime;
+use Link;
 
 class Tools
 {
+    // 请将冷门的国家或地区放置在上方，热门的中继起源放置在下方
+    // 以便于兼容如：【上海 -> 美国】等节点名称
+    private static $emoji = [
+        '🇦🇷' => [
+            '阿根廷',
+        ],
+        '🇦🇹' => [
+            '奥地利',
+            '维也纳',
+        ],
+        '🇦🇺' => [
+            '澳大利亚',
+            '悉尼',
+        ],
+        '🇧🇷' => [
+            '巴西',
+            '圣保罗',
+        ],
+        '🇨🇦' => [
+            '加拿大',
+            '蒙特利尔',
+            '温哥华',
+        ],
+        '🇨🇭' => [
+            '瑞士',
+            '苏黎世',
+        ],
+        '🇩🇪' => [
+            '德国',
+            '法兰克福',
+        ],
+        '🇫🇮' => [
+            '芬兰',
+            '赫尔辛基',
+        ],
+        '🇫🇷' => [
+            '法国',
+            '巴黎',
+        ],
+        '🇬🇧' => [
+            '英国',
+            '伦敦',
+        ],
+        '🇮🇩' => [
+            '印尼',
+            '印度尼西亚',
+            '雅加达',
+        ],
+        '🇮🇪' => [
+            '爱尔兰',
+            '都柏林',
+        ],
+        '🇮🇳' => [
+            '印度',
+            '孟买',
+        ],
+        '🇮🇹' => [
+            '意大利',
+            '米兰',
+        ],
+        '🇰🇵' => [
+            '朝鲜',
+        ],
+        '🇲🇾' => [
+            '马来西亚',
+        ],
+        '🇳🇱' => [
+            '荷兰',
+            '阿姆斯特丹',
+        ],
+        '🇵🇭' => [
+            '菲律宾',
+        ],
+        '🇷🇴' => [
+            '罗马尼亚',
+        ],
+        '🇷🇺' => [
+            '俄罗斯',
+            '伯力',
+            '莫斯科',
+            '圣彼得堡',
+            '西伯利亚',
+            '新西伯利亚',
+        ],
+        '🇸🇬' => [
+            '新加坡',
+        ],
+        '🇹🇭' => [
+            '泰国',
+            '曼谷',
+        ],
+        '🇹🇷' => [
+            '土耳其',
+            '伊斯坦布尔',
+        ],
+        '🇺🇲' => [
+            '美国',
+            '波特兰',
+            '俄勒冈',
+            '凤凰城',
+            '费利蒙',
+            '硅谷',
+            '拉斯维加斯',
+            '洛杉矶',
+            '圣克拉拉',
+            '西雅图',
+            '芝加哥',
+            '沪美',
+        ],
+        '🇻🇳' => [
+            '越南',
+        ],
+        '🇿🇦' => [
+            '南非',
+        ],
+        '🇰🇷' => [
+            '韩国',
+            '首尔',
+        ],
+        '🇲🇴' => [
+            '澳门',
+        ],
+        '🇯🇵' => [
+            '日本',
+            '东京',
+            '大阪',
+            '埼玉',
+            '沪日',
+        ],
+        '🇹🇼' => [
+            '台湾',
+            '台北',
+            '台中',
+        ],
+        '🇭🇰' => [
+            '香港',
+            '深港',
+        ],
+        '🇨🇳' => [
+            '中国',
+            '江苏',
+            '北京',
+            '上海',
+            '深圳',
+            '杭州',
+            '徐州',
+            '宁波',
+            '镇江',
+        ],
+    ];
     /**
      * 查询IP归属
      */
     public static function getIpInfo($ip)
     {
         $iplocation = new QQWry();
-        $location   = $iplocation->getlocation($ip);
-        $ipInfo     = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-        return $ipInfo;
+        $location = $iplocation->getlocation($ip);
+        return iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
     }
 
     /**
@@ -59,7 +209,7 @@ class Tools
     public static function flowAutoShowZ($Value)
     {
         $number = substr($Value, 0, -2);
-        if (!is_numeric($number)) {
+        if (! is_numeric($number)) {
             return null;
         }
         $unit = strtoupper(substr($Value, -2));
@@ -108,21 +258,13 @@ class Tools
         return $traffic * $gb;
     }
 
-    /**
-     * @param $traffic
-     * @return float
-     */
-    public static function flowToGB($traffic)
+    public static function flowToGB($traffic): float
     {
         $gb = 1048576 * 1024;
         return $traffic / $gb;
     }
 
-    /**
-     * @param $traffic
-     * @return float
-     */
-    public static function flowToMB($traffic)
+    public static function flowToMB($traffic): float
     {
         $gb = 1048576;
         return $traffic / $gb;
@@ -171,7 +313,7 @@ class Tools
     public static function secondsToTime($seconds)
     {
         $dtF = new DateTime('@0');
-        $dtT = new DateTime("@$seconds");
+        $dtT = new DateTime("@${seconds}");
         return $dtF->diff($dtT)->format('%a 天, %h 小时, %i 分 + %s 秒');
     }
 
@@ -190,7 +332,7 @@ class Tools
     public static function getLastPort()
     {
         $user = User::orderBy('id', 'desc')->first();
-        if ($user == null) {
+        if ($user === null) {
             return 1024; // @todo
         }
         return $user->port;
@@ -200,17 +342,16 @@ class Tools
     {
         if ($_ENV['min_port'] > 65535 || $_ENV['min_port'] <= 0 || $_ENV['max_port'] > 65535 || $_ENV['max_port'] <= 0) {
             return 0;
-        } else {
-            $det = User::pluck('port')->toArray();
-            $port = array_diff(range($_ENV['min_port'], $_ENV['max_port']), $det);
-            shuffle($port);
-            return $port[0];
         }
+        $det = User::pluck('port')->toArray();
+        $port = array_diff(range($_ENV['min_port'], $_ENV['max_port']), $det);
+        shuffle($port);
+        return $port[0];
     }
 
     public static function base64_url_encode($input)
     {
-        return strtr(base64_encode($input), array('+' => '-', '/' => '_', '=' => ''));
+        return strtr(base64_encode($input), ['+' => '-', '/' => '_', '=' => '']);
     }
 
     public static function base64_url_decode($input)
@@ -221,10 +362,10 @@ class Tools
     public static function getDir($dir)
     {
         $dirArray[] = null;
-        if (false != ($handle = opendir($dir))) {
+        if (($handle = opendir($dir)) !== false) {
             $i = 0;
-            while (false !== ($file = readdir($handle))) {
-                if ($file != '.' && $file != '..' && !strpos($file, '.')) {
+            while (($file = readdir($handle)) !== false) {
+                if ($file !== '.' && $file !== '..' && ! strpos($file, '.')) {
                     $dirArray[$i] = $file;
                     $i++;
                 }
@@ -237,18 +378,18 @@ class Tools
     public static function is_validate($str)
     {
         $pattern = "/[^A-Za-z0-9\-_\.]/";
-        return !preg_match($pattern, $str);
+        return ! preg_match($pattern, $str);
     }
 
     public static function get_middle_text($origin_text, $begin_text, $end_text)
     {
         $begin_pos = strpos($origin_text, $begin_text);
-        if ($begin_pos == false) {
+        if ($begin_pos === false) {
             return null;
         }
 
         $end_pos = strpos($origin_text, $end_text, $begin_pos + strlen($begin_text));
-        if ($end_pos == false) {
+        if ($end_pos === false) {
             return null;
         }
 
@@ -272,8 +413,8 @@ class Tools
         $user_id = 0
     ) {
         foreach ($ruleset as $rule) {
-            if (($rule->source_node_id == $input_rule->dist_node_id) && (($rule->port == $input_rule->port || $input_rule->port == 0) || $rule->port == 0)) {
-                if ($rule->dist_node_id == $origin_node_id && $rule->id != $edit_rule_id) {
+            if (($rule->source_node_id === $input_rule->dist_node_id) && (($rule->port === $input_rule->port || $input_rule->port === 0) || $rule->port === 0)) {
+                if ($rule->dist_node_id === $origin_node_id && $rule->id !== $edit_rule_id) {
                     return $rule->id;
                 }
 
@@ -285,19 +426,19 @@ class Tools
                     $origin_node_id,
                     $rule->user_id
                 );
-                if ($maybe_rule_id != 0) {
+                if ($maybe_rule_id !== 0) {
                     return $maybe_rule_id;
                 }
             }
         }
 
-        if (($input_rule->id == $edit_rule_id || $edit_rule_id == 0) && $input_rule->dist_node_id != -1) {
+        if (($input_rule->id === $edit_rule_id || $edit_rule_id === 0) && $input_rule->dist_node_id !== -1) {
             $dist_node = Node::find($input_rule->dist_node_id);
-            if ($input_rule->source_node_id == 0 && ($dist_node->sort == 10 || $dist_node->sort == 12)) {
+            if ($input_rule->source_node_id === 0 && ($dist_node->sort === 10 || $dist_node->sort === 12)) {
                 return -1;
             }
 
-            if ($input_rule->dist_node_id == $input_rule->source_node_id) {
+            if ($input_rule->dist_node_id === $input_rule->source_node_id) {
                 return -1;
             }
         }
@@ -314,15 +455,15 @@ class Tools
           port port
         */
 
-        if ($single_rule->dist_node_id == -1) {
+        if ($single_rule->dist_node_id === -1) {
             return $pathset;
         }
 
         foreach ($pathset as $path) {
-            if ($path->port == $port) {
-                if ($single_rule->dist_node_id == $path->begin_node->id) {
+            if ($path->port === $port) {
+                if ($single_rule->dist_node_id === $path->begin_node->id) {
                     $path->begin_node = $single_rule->Source_Node();
-                    if ($path->begin_node->isNodeAccessable() == false) {
+                    if ($path->begin_node->isNodeAccessable() === false) {
                         $path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node()->name . '</span>' . ' → ' . $path->path;
                         $path->status = '阻断';
                     } else {
@@ -332,9 +473,9 @@ class Tools
                     return $pathset;
                 }
 
-                if ($path->end_node->id == $single_rule->source_node_id) {
+                if ($path->end_node->id === $single_rule->source_node_id) {
                     $path->end_node = $single_rule->Dist_Node();
-                    if ($path->end_node->isNodeAccessable() == false) {
+                    if ($path->end_node->isNodeAccessable() === false) {
                         $path->path .= ' → ' . '<span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
                         $path->status = '阻断';
                     } else {
@@ -347,7 +488,7 @@ class Tools
 
         $new_path = new \stdClass();
         $new_path->begin_node = $single_rule->Source_Node();
-        if ($new_path->begin_node->isNodeAccessable() == false) {
+        if ($new_path->begin_node->isNodeAccessable() === false) {
             $new_path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node()->name . '</span>';
             $new_path->status = '阻断';
         } else {
@@ -356,7 +497,7 @@ class Tools
         }
 
         $new_path->end_node = $single_rule->Dist_Node();
-        if ($new_path->end_node->isNodeAccessable() == false) {
+        if ($new_path->end_node->isNodeAccessable() === false) {
             $new_path->path .= ' -> ' . '<span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
             $new_path->status = '阻断';
         } else {
@@ -372,15 +513,12 @@ class Tools
     /**
      * Filter key in `App\Models\Model` object
      *
-     * @param Model $object
      * @param array $filter_array
-     *
-     * @return Model
      */
-    public static function keyFilter($object, $filter_array)
+    public static function keyFilter(Model $object, array $filter_array): Model
     {
         foreach ($object->toArray() as $key => $value) {
-            if (!in_array($key, $filter_array)) {
+            if (! in_array($key, $filter_array)) {
                 unset($object->$key);
             }
         }
@@ -389,7 +527,7 @@ class Tools
 
     public static function checkNoneProtocol($user)
     {
-        return !($user->method == 'none' && !in_array($user->protocol, Config::getSupportParam('allow_none_protocol')));
+        return ! ($user->method === 'none' && ! in_array($user->protocol, Config::getSupportParam('allow_none_protocol')));
     }
 
     public static function getRealIp($rawIp)
@@ -399,7 +537,7 @@ class Tools
 
     public static function isInt($str)
     {
-        if ($str[0] == '-') {
+        if ($str[0] === '-') {
             $str = substr($str, 1);
         }
 
@@ -413,30 +551,30 @@ class Tools
             'host' => '',
             'path' => '',
             'tls' => '',
-            'verify_cert' => true
+            'verify_cert' => true,
         ];
         $item['add'] = $server[0];
-        if ($server[1] == '0' || $server[1] == '') {
+        if ($server[1] === '0' || $server[1] === '') {
             $item['port'] = 443;
         } else {
-            $item['port'] = (int)$server[1];
+            $item['port'] = (int) $server[1];
         }
-        $item['aid'] = (int)$server[2];
+        $item['aid'] = (int) $server[2];
         $item['net'] = 'tcp';
         $item['headerType'] = 'none';
         if (count($server) >= 4) {
             $item['net'] = $server[3];
-            if ($item['net'] == 'ws') {
+            if ($item['net'] === 'ws') {
                 $item['path'] = '/';
-            } elseif ($item['net'] == 'tls') {
+            } elseif ($item['net'] === 'tls') {
                 $item['tls'] = 'tls';
             }
-            if ($server[4] == 'grpc') {
+            if ($server[4] === 'grpc') {
                 $item['net'] = 'grpc';
             }
         }
         if (count($server) >= 5) {
-            if (in_array($item['net'], array('kcp', 'http', 'mkcp'))) {
+            if (in_array($item['net'], ['kcp', 'http', 'mkcp'])) {
                 $item['headerType'] = $server[4];
             } else {
                 switch ($server[4]) {
@@ -450,7 +588,7 @@ class Tools
                 }
             }
         }
-        if (count($server) >= 6 && $server[5] != '') {
+        if (count($server) >= 6 && $server[5] !== '') {
             $item = array_merge($item, URL::parse_args($server[5]));
             if (array_key_exists('server', $item)) {
                 $item['add'] = $item['server'];
@@ -460,12 +598,12 @@ class Tools
                 $item['localserver'] = $item['add'];
                 $item['add'] = $item['relayserver'];
                 unset($item['relayserver']);
-                if ($item['tls'] == 'tls') {
+                if ($item['tls'] === 'tls') {
                     $item['verify_cert'] = false;
                 }
             }
             if (array_key_exists('outside_port', $item)) {
-                $item['port'] = (int)$item['outside_port'];
+                $item['port'] = (int) $item['outside_port'];
                 unset($item['outside_port']);
             }
             if (isset($item['inside_port'])) {
@@ -475,19 +613,19 @@ class Tools
             if (array_key_exists('servicename', $item)) {
                 $item['servicename'] = $item['servicename'];
             } else {
-                $item['servicename'] = "";
+                $item['servicename'] = '';
             }
 
             if (array_key_exists('enable_xtls', $item)) {
                 $item['enable_xtls'] = $item['enable_xtls'];
             } else {
-                $item['enable_xtls'] = "";
+                $item['enable_xtls'] = '';
             }
 
             if (array_key_exists('flow', $item)) {
                 $item['flow'] = $item['flow'];
             } else {
-                $item['flow'] = "xtls-rprx-direct";
+                $item['flow'] = 'xtls-rprx-direct';
             }
 
             if (array_key_exists('enable_vless', $item)) {
@@ -496,7 +634,7 @@ class Tools
                 $item['vtype'] = 'vmess://';
             }
 
-            if (!array_key_exists('sni', $item)) {
+            if (! array_key_exists('sni', $item)) {
                 $item['sni'] = $item['host'];
             }
         }
@@ -506,7 +644,7 @@ class Tools
     public static function checkTls($node)
     {
         $server = self::v2Array($node);
-        return !($server['tls'] == 'tls' && self::is_ip($server['add']));
+        return ! ($server['tls'] === 'tls' && self::is_ip($server['add']));
     }
 
     public static function ssv2Array($node)
@@ -516,26 +654,26 @@ class Tools
             'host' => 'microsoft.com',
             'path' => '',
             'net' => 'ws',
-            'tls' => ''
+            'tls' => '',
         ];
         $item['add'] = $server[0];
-        if ($server[1] == '0' || $server[1] == '') {
+        if ($server[1] === '0' || $server[1] === '') {
             $item['port'] = 443;
         } else {
-            $item['port'] = (int)$server[1];
+            $item['port'] = (int) $server[1];
         }
         if (count($server) >= 4) {
             $item['net'] = $server[3];
-            if ($item['net'] == 'ws') {
+            if ($item['net'] === 'ws') {
                 $item['path'] = '/';
-            } elseif ($item['net'] == 'tls') {
+            } elseif ($item['net'] === 'tls') {
                 $item['tls'] = 'tls';
             }
         }
         if (count($server) >= 5) {
-            if ($server[4] == 'ws') {
+            if ($server[4] === 'ws') {
                 $item['net'] = 'ws';
-            } elseif ($server[4] == 'tls') {
+            } elseif ($server[4] === 'tls') {
                 $item['tls'] = 'tls';
             }
         }
@@ -550,11 +688,11 @@ class Tools
                 unset($item['relayserver']);
             }
             if (array_key_exists('outside_port', $item)) {
-                $item['port'] = (int)$item['outside_port'];
+                $item['port'] = (int) $item['outside_port'];
                 unset($item['outside_port']);
             }
         }
-        if ($item['net'] == 'obfs') {
+        if ($item['net'] === 'obfs') {
             if (stripos($server[4], 'http') !== false) {
                 $item['obfs'] = 'simple_obfs_http';
             }
@@ -577,25 +715,25 @@ class Tools
                     if (strpos($item['port'], '+') !== false) { // 多个单端口节点，格式：8.8.8.8;port=80#1080+443#8443
                         $args_explode = explode('+', $item['port']);
                         foreach ($args_explode as $arg) {
-                            if ((int)substr($arg, 0, strpos($arg, '#')) == $mu_port) {
+                            if ((int) substr($arg, 0, strpos($arg, '#')) === $mu_port) {
                                 $node_port = (int) substr($arg, strpos($arg, '#') + 1);
                             }
                         }
                     } else {
-                        if ((int)substr($item['port'], 0, strpos($item['port'], '#')) == $mu_port) {
+                        if ((int) substr($item['port'], 0, strpos($item['port'], '#')) === $mu_port) {
                             $node_port = (int) substr($item['port'], strpos($item['port'], '#') + 1);
                         }
                     }
                 } else { // 端口偏移，偏移端口，格式：8.8.8.8;port=1000 or 8.8.8.8;port=-1000
-                    $node_port = ($mu_port + (int)$item['port']);
+                    $node_port = $mu_port + (int) $item['port'];
                 }
             }
         }
 
         return [
-            'name'    => ($_ENV['disable_sub_mu_port'] ? $node_name : $node_name . ' - ' . $node_port . ' 单端口'),
+            'name' => ($_ENV['disable_sub_mu_port'] ? $node_name : $node_name . ' - ' . $node_port . ' 单端口'),
             'address' => $node_server[0],
-            'port'    => (int) $node_port
+            'port' => (int) $node_port,
         ];
     }
 
@@ -618,15 +756,15 @@ class Tools
                                 $backend_port = substr($replace_port, strpos($replace_port, '@') + 1);
 
                                 $port[substr($arg, 0, strpos($arg, '#'))] = [
-                                    "backend" => (int) $backend_port,
-                                    "display" => (int) $display_port
+                                    'backend' => (int) $backend_port,
+                                    'display' => (int) $display_port,
                                 ];
                             } else {
                                 $user_port = substr($arg, 0, strpos($arg, '#'));
 
                                 $port[$user_port] = [
-                                    "backend" => (int) $user_port,
-                                    "display" => (int) $user_port
+                                    'backend' => (int) $user_port,
+                                    'display' => (int) $user_port,
                                 ];
                             }
                         }
@@ -638,186 +776,35 @@ class Tools
                             $backend_port = substr($replace_port, strpos($replace_port, '@') + 1);
 
                             $port[substr($item['port'], 0, strpos($item['port'], '#'))] = [
-                                "backend" => (int) $backend_port,
-                                "display" => (int) $display_port
+                                'backend' => (int) $backend_port,
+                                'display' => (int) $display_port,
                             ];
                         } else {
                             $user_port = substr($item['port'], 0, strpos($item['port'], '#'));
 
                             $port[$user_port] = [
-                                "backend" => (int) $user_port,
-                                "display" => (int) $user_port
+                                'backend' => (int) $user_port,
+                                'display' => (int) $user_port,
                             ];
                         }
                     }
                 } else {
-                    $type = (int)$item['port'];
+                    $type = (int) $item['port'];
                 }
             }
         }
 
         return [
             'type' => $type,
-            'port' => $port
+            'port' => $port,
         ];
     }
-
-    // 请将冷门的国家或地区放置在上方，热门的中继起源放置在下方
-    // 以便于兼容如：【上海 -> 美国】等节点名称
-    private static $emoji = [
-        "🇦🇷" => [
-            "阿根廷"
-        ],
-        "🇦🇹" => [
-            "奥地利",
-            "维也纳"
-        ],
-        "🇦🇺" => [
-            "澳大利亚",
-            "悉尼"
-        ],
-        "🇧🇷" => [
-            "巴西",
-            "圣保罗"
-        ],
-        "🇨🇦" => [
-            "加拿大",
-            "蒙特利尔",
-            "温哥华"
-        ],
-        "🇨🇭" => [
-            "瑞士",
-            "苏黎世"
-        ],
-        "🇩🇪" => [
-            "德国",
-            "法兰克福"
-        ],
-        "🇫🇮" => [
-            "芬兰",
-            "赫尔辛基"
-        ],
-        "🇫🇷" => [
-            "法国",
-            "巴黎"
-        ],
-        "🇬🇧" => [
-            "英国",
-            "伦敦"
-        ],
-        "🇮🇩" => [
-            "印尼",
-            "印度尼西亚",
-            "雅加达"
-        ],
-        "🇮🇪" => [
-            "爱尔兰",
-            "都柏林"
-        ],
-        "🇮🇳" => [
-            "印度",
-            "孟买"
-        ],
-        "🇮🇹" => [
-            "意大利",
-            "米兰"
-        ],
-        "🇰🇵" => [
-            "朝鲜"
-        ],
-        "🇲🇾" => [
-            "马来西亚"
-        ],
-        "🇳🇱" => [
-            "荷兰",
-            "阿姆斯特丹"
-        ],
-        "🇵🇭" => [
-            "菲律宾"
-        ],
-        "🇷🇴" => [
-            "罗马尼亚"
-        ],
-        "🇷🇺" => [
-            "俄罗斯",
-            "伯力",
-            "莫斯科",
-            "圣彼得堡",
-            "西伯利亚",
-            "新西伯利亚"
-        ],
-        "🇸🇬" => [
-            "新加坡"
-        ],
-        "🇹🇭" => [
-            "泰国",
-            "曼谷"
-        ],
-        "🇹🇷" => [
-            "土耳其",
-            "伊斯坦布尔"
-        ],
-        "🇺🇲" => [
-            "美国",
-            "波特兰",
-            "俄勒冈",
-            "凤凰城",
-            "费利蒙",
-            "硅谷",
-            "拉斯维加斯",
-            "洛杉矶",
-            "圣克拉拉",
-            "西雅图",
-            "芝加哥",
-            "沪美"
-        ],
-        "🇻🇳" => [
-            "越南"
-        ],
-        "🇿🇦" => [
-            "南非"
-        ],
-        "🇰🇷" => [
-            "韩国",
-            "首尔"
-        ],
-        "🇲🇴" => [
-            "澳门"
-        ],
-        "🇯🇵" => [
-            "日本",
-            "东京",
-            "大阪",
-            "埼玉",
-            "沪日"
-        ],
-        "🇹🇼" => [
-            "台湾",
-            "台北",
-            "台中"
-        ],
-        "🇭🇰" => [
-            "香港",
-            "深港"
-        ],
-        "🇨🇳" => [
-            "中国",
-            "江苏",
-            "北京",
-            "上海",
-            "深圳",
-            "杭州",
-            "徐州",
-            "宁波",
-            "镇江"
-        ]
-    ];
 
     public static function addEmoji($Name)
     {
         $done = [
             'index' => -1,
-            'emoji' => ''
+            'emoji' => '',
         ];
         foreach (self::$emoji as $key => $value) {
             foreach ($value as $item) {
@@ -829,24 +816,22 @@ class Tools
                 }
             }
         }
-        return ($done['index'] == -1
+        return $done['index'] === -1
             ? $Name
-            : ($done['emoji'] . ' ' . $Name));
+            : ($done['emoji'] . ' ' . $Name);
     }
 
     /**
      * Add files and sub-directories in a folder to zip file.
      *
-     * @param string $folder
-     * @param ZipArchive $zipFile
      * @param int $exclusiveLength Number of text to be exclusived from the file path.
      */
-    public static function folderToZip($folder, &$zipFile, $exclusiveLength)
+    public static function folderToZip(string $folder, ZipArchive &$zipFile, int $exclusiveLength): void
     {
         $handle = opendir($folder);
         while (false !== $f = readdir($handle)) {
-            if ($f != '.' && $f != '..') {
-                $filePath = "$folder/$f";
+            if ($f !== '.' && $f !== '..') {
+                $filePath = "${folder}/${f}";
                 // Remove prefix from file path before add to zip.
                 $localPath = substr($filePath, $exclusiveLength);
                 if (is_file($filePath)) {
@@ -866,11 +851,11 @@ class Tools
      *
      * @param string $dirName
      */
-    public static function delDirAndFile($dirPath)
+    public static function delDirAndFile($dirPath): void
     {
         if ($handle = opendir($dirPath)) {
-            while (false !== ($item = readdir($handle))) {
-                if ($item != '.' && $item != '..') {
+            while (($item = readdir($handle)) !== false) {
+                if ($item !== '.' && $item !== '..') {
                     if (is_dir($dirPath . '/' . $item)) {
                         self::delDirAndFile($dirPath . '/' . $item);
                     } else {
@@ -884,11 +869,8 @@ class Tools
 
     /**
      * 重置自增列 ID
-     *
-     * @param DatatablesHelper $db
-     * @param string $table
      */
-    public static function reset_auto_increment($db, $table)
+    public static function reset_auto_increment(DatatablesHelper $db, string $table): void
     {
         $maxid = $db->query(
             "SELECT `auto_increment` AS `maxid` FROM `information_schema`.`tables` WHERE `table_schema` = '" . $_ENV['db_database'] . "' AND `table_name` = '" . $table . "'"
@@ -905,18 +887,18 @@ class Tools
      */
     public static function paginate_render($data): string
     {
-        $totalPage   = $data->lastPage();
+        $totalPage = $data->lastPage();
         $currentPage = $data->currentPage();
         $html = '<ul class="pagination pagination-primary justify-content-end">';
         for ($i = 1; $i <= $totalPage; $i++) {
             $active = '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
-            $page   = '<li class="page-item"><a class="page-link" href="' . $data->url($i) . '">' . $i . '</a></li>';
-            if ($i == 1) {
+            $page = '<li class="page-item"><a class="page-link" href="' . $data->url($i) . '">' . $i . '</a></li>';
+            if ($i === 1) {
                 // 当前为第一页
-                if ($currentPage == $i) {
+                if ($currentPage === $i) {
                     $html .= '<li class="page-item disabled"><a class="page-link">上一页</a></li>';
                     $html .= $active;
-                    if ($i == $totalPage) {
+                    if ($i === $totalPage) {
                         $html .= '<li class="page-item disabled"><a class="page-link">下一页</a></li>';
                         continue;
                     }
@@ -929,9 +911,9 @@ class Tools
                     }
                 }
             }
-            if ($i == $totalPage) {
+            if ($i === $totalPage) {
                 // 当前为最后一页
-                if ($currentPage == $i) {
+                if ($currentPage === $i) {
                     $html .= $active;
                     $html .= '<li class="page-item disabled"><a class="page-link">下一页</a></li>';
                 } else {
@@ -945,7 +927,7 @@ class Tools
             }
             if ($i > 1 && $i < $totalPage) {
                 // 其他页
-                if ($currentPage == $i) {
+                if ($currentPage === $i) {
                     $html .= $active;
                 } else {
                     if ($totalPage > 10) {
@@ -966,14 +948,12 @@ class Tools
                 }
             }
         }
-        $html .= '</ul>';
-        return $html;
+        return $html . '</ul>';
     }
 
     public static function etag($data)
     {
-        $etag = sha1(json_encode($data));
-        return $etag;
+        return sha1(json_encode($data));
     }
 
     public static function genSubToken()
@@ -981,7 +961,7 @@ class Tools
         for ($i = 0; $i < 10; $i++) {
             $token = self::genRandomChar(16);
             $is_token_used = Link::where('token', $token)->first();
-            if ($is_token_used == null) {
+            if ($is_token_used === null) {
                 return $token;
             }
         }

@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
-/***
+/*
  * Mail Service
  */
 
 use App\Models\Setting;
 use App\Services\Mail\Mailgun;
+use App\Services\Mail\NullMail;
+use App\Services\Mail\SendGrid;
 use App\Services\Mail\Ses;
 use App\Services\Mail\Smtp;
-use App\Services\Mail\SendGrid;
-use App\Services\Mail\NullMail;
 use Smarty;
 
 class Mail
@@ -39,6 +41,7 @@ class Mail
     /**
      * @param $template
      * @param $ary
+     *
      * @return mixed
      */
     public static function genHtml($template, $ary)
@@ -61,6 +64,7 @@ class Mail
      * @param $template
      * @param $ary
      * @param $files
+     *
      * @return bool|void
      */
     public static function send($to, $subject, $template, $ary = [], $files = [])

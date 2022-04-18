@@ -1,15 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
-use App\Services\Gateway\{
-    AopF2F,
-    Vmqpay,
-    PaymentWall,
-    PAYJS,
-    THeadPay,
-    CoinPay
-};
 use App\Utils\ClassHelper;
 
 class Payment
@@ -35,14 +29,15 @@ class Payment
     //     }
     // }
 
-    static function getPaymentsEnabled() {
-        $payments = array();
+    public static function getPaymentsEnabled()
+    {
+        $payments = [];
 
         $helper = new ClassHelper();
-        $class_list = $helper->getClassesByNamespace("\\App\\Services\\Gateway\\");
+        $class_list = $helper->getClassesByNamespace('\\App\\Services\\Gateway\\');
 
         foreach ($class_list as $clazz) {
-            if (get_parent_class($clazz) == "App\\Services\\Gateway\\AbstractPayment") {
+            if (get_parent_class($clazz) === 'App\\Services\\Gateway\\AbstractPayment') {
                 if ($clazz::_enable()) {
                     $payments[] = $clazz;
                 }
@@ -52,8 +47,9 @@ class Payment
         return $payments;
     }
 
-    static function getPaymentMap() {
-        $result = array();
+    public static function getPaymentMap()
+    {
+        $result = [];
 
         foreach (self::getPaymentsEnabled() as $payment) {
             $result[$payment::_name()] = $payment;
@@ -62,7 +58,8 @@ class Payment
         return $result;
     }
 
-    static function getPaymentByName($name) {
+    public static function getPaymentByName($name)
+    {
         $all = self::getPaymentMap();
 
         return $all[$name];
@@ -72,7 +69,7 @@ class Payment
     {
         $payment = self::getPaymentByName($args['type']);
 
-        if ($payment != null) {
+        if ($payment !== null) {
             $instance = new $payment();
             return $instance->notify($request, $response, $args);
         }
@@ -84,7 +81,7 @@ class Payment
     {
         $payment = self::getPaymentByName($args['type']);
 
-        if ($payment != null) {
+        if ($payment !== null) {
             $instance = new $payment();
             return $instance->getReturnHTML($request, $response, $args);
         }
@@ -96,7 +93,7 @@ class Payment
     {
         $payment = self::getPaymentByName($args['type']);
 
-        if ($payment != null) {
+        if ($payment !== null) {
             $instance = new $payment();
             return $instance->getStatus($request, $response, $args);
         }
@@ -108,7 +105,7 @@ class Payment
     {
         $payment = self::getPaymentByName($args['type']);
 
-        if ($payment != null) {
+        if ($payment !== null) {
             $instance = new $payment();
             return $instance->purchase($request, $response, $args);
         }

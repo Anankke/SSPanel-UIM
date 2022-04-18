@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
-use Smarty;
 use App\Utils;
+use Smarty;
 
 class View
 {

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Slim\Container;
 use App\Services\View;
+use Slim\Container;
 
 /**
  * Container Builder
@@ -16,19 +16,19 @@ $configuration = [
         'debug' => $_ENV['debug'],
         'whoops.editor' => 'sublime',
         'displayErrorDetails' => $_ENV['debug'],
-    ]
+    ],
 ];
 $container = new Container($configuration);
 
 $container['notFoundHandler'] = static function ($c) {
-    return static function ($request, $response) use ($c) {
+    return static function ($request, $response) {
         $view = View::getSmarty();
         return $response->withStatus(404)->write($view->fetch('404.tpl'));
     };
 };
 
 $container['notAllowedHandler'] = static function ($c) {
-    return static function ($request, $response, $methods) use ($c) {
+    return static function ($request, $response, $methods) {
         $view = View::getSmarty();
         return $response->withStatus(405)->write($view->fetch('405.tpl'));
     };
@@ -36,7 +36,7 @@ $container['notAllowedHandler'] = static function ($c) {
 
 if ($_ENV['debug'] === false) {
     $container['errorHandler'] = function ($c) {
-        return function ($request, $response, $exception) use ($c) {
+        return function ($request, $response, $exception) {
             $view = View::getSmarty();
             $exceptionId = empty($_ENV['sentry_dsn']) ? null : Sentry\captureException($exception);
             return $response->withStatus(500)
@@ -44,7 +44,7 @@ if ($_ENV['debug'] === false) {
         };
     };
     $container['phpErrorHandler'] = function ($c) {
-        return function ($request, $response, $exception) use ($c) {
+        return function ($request, $response, $exception) {
             $view = View::getSmarty();
             $exceptionId = empty($_ENV['sentry_dsn']) ? null : Sentry\captureException($exception);
             return $response->withStatus(500)

@@ -27,7 +27,7 @@ try {
 try {
     Capsule::schema()->table(
         'link',
-        function (Blueprint $table) {
+        function (Blueprint $table): void {
             $table->dropColumn(
                 [
                     'type',

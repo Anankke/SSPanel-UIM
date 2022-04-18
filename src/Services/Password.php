@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Models\PasswordReset;
 use App\Utils\Tools;
 use Exception;
 
-/***
+/*
  * Class Password
+ *
  * @package App\Services
  */
 class Password
@@ -19,15 +22,15 @@ class Password
      */
     public static function sendResetEmail($email): bool
     {
-        $pwdRst              = new PasswordReset();
-        $pwdRst->email       = $email;
-        $pwdRst->init_time   = time();
+        $pwdRst = new PasswordReset();
+        $pwdRst->email = $email;
+        $pwdRst->init_time = time();
         $pwdRst->expire_time = time() + 3600 * 24;
-        $pwdRst->token       = Tools::genRandomChar(64);
-        if (!$pwdRst->save()) {
+        $pwdRst->token = Tools::genRandomChar(64);
+        if (! $pwdRst->save()) {
             return false;
         }
-        $subject  = $_ENV['appName'] . '重置密码';
+        $subject = $_ENV['appName'] . '重置密码';
         $resetUrl = $_ENV['baseUrl'] . '/password/token/' . $pwdRst->token;
         try {
             Mail::send(
@@ -35,7 +38,7 @@ class Password
                 $subject,
                 'password/reset.tpl',
                 [
-                    'resetUrl' => $resetUrl
+                    'resetUrl' => $resetUrl,
                 ],
                 []
             );

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Mail;
 
 use App\Models\Setting;
-use App\Services\Config;
 
 class SendGrid extends Base
 {
@@ -24,21 +25,21 @@ class SendGrid extends Base
     public function getConfig()
     {
         $configs = Setting::getClass('sendgrid');
-        
+
         return [
             'key' => $configs['sendgrid_key'],
             'sender' => $configs['sendgrid_sender'],
-            'name' => $configs['sendgrid_name']
+            'name' => $configs['sendgrid_name'],
         ];
     }
 
-    public function send($to_address, $subject_raw, $text, $files)
+    public function send($to_address, $subject_raw, $text, $files): void
     {
         $this->email->setFrom($this->sender, $this->name);
         $this->email->setSubject($subject_raw);
-        $this->email->addTo($to_address,null);
-        $this->email->addContent('text/html', $text);	
-		
+        $this->email->addTo($to_address, null);
+        $this->email->addContent('text/html', $text);
+
         foreach ($files as $file) {
             $this->email->addAttachment(
                 base64_encode(file_get_contents($file)),

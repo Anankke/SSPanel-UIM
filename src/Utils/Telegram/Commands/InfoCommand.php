@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Telegram\Commands;
 
-use App\Services\Config;
 use App\Models\User;
-use App\Utils\Telegram\{Reply, TelegramTools};
+use Reply;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -28,7 +29,7 @@ class InfoCommand extends Command
      */
     public function handle()
     {
-        $Update  = $this->getUpdate();
+        $Update = $this->getUpdate();
         $Message = $Update->getMessage();
 
         // 消息会话 ID
@@ -42,54 +43,54 @@ class InfoCommand extends Command
             $this->replyWithChatAction(['action' => Actions::TYPING]);
             // 触发用户
             $SendUser = [
-                'id'       => $Message->getFrom()->getId(),
-                'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+                'id' => $Message->getFrom()->getId(),
+                'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
                 'username' => $Message->getFrom()->getUsername(),
             ];
-            if (!in_array($SendUser['id'], $_ENV['telegram_admins'])) {
+            if (! in_array($SendUser['id'], $_ENV['telegram_admins'])) {
                 $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
-                if ($AdminUser == null) {
+                if ($AdminUser === null) {
                     // 非管理员回复消息
-                    if ($_ENV['enable_not_admin_reply'] === true && $_ENV['not_admin_reply_msg'] != '') {
+                    if ($_ENV['enable_not_admin_reply'] === true && $_ENV['not_admin_reply_msg'] !== '') {
                         $response = $this->replyWithMessage(
                             [
-                                'text'                  => $_ENV['not_admin_reply_msg'],
-                                'parse_mode'            => 'HTML',
-                                'reply_to_message_id'   => $MessageID,
+                                'text' => $_ENV['not_admin_reply_msg'],
+                                'parse_mode' => 'HTML',
+                                'reply_to_message_id' => $MessageID,
                             ]
                         );
                     }
                     return;
                 }
             }
-            if ($Message->getReplyToMessage() != null) {
+            if ($Message->getReplyToMessage() !== null) {
                 // 回复源消息用户
                 $FindUser = [
-                    'id'       => $Message->getReplyToMessage()->getFrom()->getId(),
-                    'name'     => $Message->getReplyToMessage()->getFrom()->getFirstName() . ' ' . $Message->getReplyToMessage()->getFrom()->getLastName(),
+                    'id' => $Message->getReplyToMessage()->getFrom()->getId(),
+                    'name' => $Message->getReplyToMessage()->getFrom()->getFirstName() . ' ' . $Message->getReplyToMessage()->getFrom()->getLastName(),
                     'username' => $Message->getReplyToMessage()->getFrom()->getUsername(),
                 ];
                 $User = TelegramTools::getUser($FindUser['id']);
-                if ($User == null) {
+                if ($User === null) {
                     $response = $this->replyWithMessage(
                         [
-                            'text'                  => $_ENV['no_user_found'],
-                            'reply_to_message_id'   => $MessageID,
+                            'text' => $_ENV['no_user_found'],
+                            'reply_to_message_id' => $MessageID,
                         ]
                     );
                 } else {
                     $response = $this->replyWithMessage(
                         [
-                            'text'                  => Reply::getUserInfoFromAdmin($User, $ChatID),
-                            'reply_to_message_id'   => $MessageID,
+                            'text' => Reply::getUserInfoFromAdmin($User, $ChatID),
+                            'reply_to_message_id' => $MessageID,
                         ]
                     );
                 }
             } else {
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '请回复消息使用.',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => '请回复消息使用.',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
             }
