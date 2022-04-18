@@ -310,7 +310,11 @@
                                 <h3 class="card-title">每日签到</h3>
                                 <p class="text-muted">
                                     签到可领取 <code>{$config['checkinMin']} MB</code> 至 <code>{$config['checkinMax']} MB</code>
-                                    范围内的流量，每日零时后就可以可签到了
+                                    范围内的流量，
+                                    {if $config['checkin_add_time'] == true}
+                                        并获得 <code>{$config['checkin_add_time_hour']}</code> 小时的时长，
+                                    {/if}
+                                    每日零时后就可以可签到了
                                 </p>
                                 <p class="text-muted">
                                     上次签到时间：<code>{$user->lastCheckInTime()}</code>

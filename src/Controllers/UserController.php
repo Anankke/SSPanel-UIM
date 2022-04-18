@@ -915,6 +915,14 @@ class UserController extends BaseController
             $rand_traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
             $user->transfer_enable += Tools::toMB($rand_traffic);
             $user->last_check_in_time = time();
+            if ($_ENV['checkin_add_time']) {
+                $add_timestamp = $_ENV['checkin_add_time_hour'] * 3600;
+                if (time() > strtotime($user->expire_in)) {
+                    $user->expire_in = date('Y-m-d H:i:s', time() + $add_timestamp);
+                } else {
+                    $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + $add_timestamp);
+                }
+            }
             $user->save();
         } catch (\Exception $e) {
             return $response->withJson([

@@ -59,6 +59,8 @@ class Config
             'enable_checkin'          => $_ENV['enable_checkin'],
             'checkinMin'              => $_ENV['checkinMin'],
             'checkinMax'              => $_ENV['checkinMax'],
+            'checkin_add_time'        => $_ENV['checkin_add_time'],
+            'checkin_add_time_hour'   => $_ENV['checkin_add_time_hour'],
             'jump_delay'              => $_ENV['jump_delay'],
             'enable_ticket'           => $_ENV['enable_ticket'],
             'enable_docs'             => $_ENV['enable_docs'],
