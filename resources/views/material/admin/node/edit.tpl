@@ -70,6 +70,11 @@
                                            value="{$node->status}">
                                 </div>
                                 <div class="form-group form-group-label">
+                                    <label class="floating-label" for="remark">节点备注（仅管理员可见）</label>
+                                    <input class="form-control maxwidth-edit" id="remark" type="text" name="remark"
+                                            value="{$node->remark}">
+                                </div>
+                                <div class="form-group form-group-label">
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="sort">节点类型</label>
                                         <select id="sort" class="form-control maxwidth-edit" name="sort">
@@ -166,6 +171,7 @@
             info: {required: true},
             group: {required: true},
             status: {required: true},
+            remark: {required: true},
             node_speedlimit: {required: true},
             sort: {required: true},
             node_bandwidth: {required: true},
@@ -194,6 +200,7 @@
                     type,
                     group: $$getValue('group'),
                     status: $$getValue('status'),
+                    remark: $$getValue('remark'),
                     sort: $$getValue('sort'),
                     node_speedlimit: $$getValue('node_speedlimit'),
                     class: $$getValue('class'),

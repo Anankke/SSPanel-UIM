@@ -98,6 +98,7 @@
                                                                                         <p>每月 {$server->bandwidthlimit_resetday} 日重置用量</p>
                                                                                         <p>{$server->info}</p>
                                                                                         {if $user->is_admin}
+                                                                                            <p>节点备注：{$server->remark}</p>
                                                                                             <a href='/admin/node/{$server->id}/edit'>编辑节点</a>
                                                                                         {/if}" data-bs-html="true"
                                                                                         data-bs-original-title="" title="">?

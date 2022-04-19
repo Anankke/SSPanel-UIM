@@ -85,6 +85,7 @@ class NodeController extends AdminController
         $node->node_group = $request->getParam('group');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->status = $request->getParam('status');
+        $node->remark = $request->getParam('remark');
         $node->sort = $request->getParam('sort');
 
         if ($request->getParam('custom_config') != null) {
@@ -192,6 +193,7 @@ class NodeController extends AdminController
         }
 
         $node->status = $request->getParam('status');
+        $node->remark = $request->getParam('remark');
         $node->node_class = $request->getParam('class');
         $node->node_bandwidth = $request->getParam('node_bandwidth') * 1024 * 1024 * 1024;
         $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
