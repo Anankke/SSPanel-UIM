@@ -43,6 +43,8 @@ class TicketController extends UserController
     {
         $title = $request->getParam('title');
         $content = $request->getParam('content');
+        $ticket_client = $request->getParam('ticket_client');
+        $ticket_device_time = $request->getParam('ticket_device_time');
 
         try {
             if ($title == '') {
@@ -50,6 +52,12 @@ class TicketController extends UserController
             }
             if ($content == '') {
                 throw new \Exception('请填写工单内容');
+            }
+            if ($ticket_client == '0') {
+                throw new \Exception('请选择有问题的设备系统类型');
+            }
+            if ($ticket_device_time == '') {
+                throw new \Exception('请填写设备时间');
             }
             if (strpos($content, 'admin') !== false || strpos($content, 'user') !== false) {
                 throw new \Exception('工单内容不能包含关键词 admin 和 user');
@@ -62,7 +70,10 @@ class TicketController extends UserController
             $ticket->tk_id = (empty($last_tk_id)) ? 1 : $last_tk_id->tk_id + 1;
             $ticket->is_topic = 1;
             $ticket->title = $anti_xss->xss_clean($title);
-            $ticket->content = $anti_xss->xss_clean($content);
+            $ticket_content = '我的设备：' . $ticket_client . PHP_EOL;
+            $ticket_content .= '设备时间：' . $ticket_device_time . PHP_EOL;
+            $ticket_content .= '问题详情：' . $content . PHP_EOL;
+            $ticket->content = $anti_xss->xss_clean($ticket_content);
             $ticket->user_id = $this->user->id;
             $ticket->created_at = time();
             $ticket->updated_at = time();
