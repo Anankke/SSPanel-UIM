@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\User;
 
-use App\Controllers\UserController;
+use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Models\User;
 use App\Utils\Tools;
@@ -16,7 +16,7 @@ use Slim\Http\Response;
 /**
  *  User NodeController
  */
-final class NodeController extends UserController
+final class NodeController extends BaseController
 {
     /**
      * @param array     $args

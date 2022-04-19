@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Utils\ResponseHelper;
@@ -13,7 +13,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use voku\helper\AntiXSS;
 
-final class TicketController extends AdminController
+final class TicketController extends BaseController
 {
     /**
      * 后台工单页面

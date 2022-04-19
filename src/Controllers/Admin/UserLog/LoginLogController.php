@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin\UserLog;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\LoginIp;
 use App\Models\User;
 use App\Utils\QQWry;
@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class LoginLogController extends AdminController
+final class LoginLogController extends BaseController
 {
     /**
      * @param array     $args

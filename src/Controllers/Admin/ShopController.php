@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\Bought;
 use App\Models\Shop;
 use App\Utils\ResponseHelper;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class ShopController extends AdminController
+final class ShopController extends BaseController
 {
     /**
      * 后台商品页面

@@ -97,20 +97,4 @@ final class THeadPay extends AbstractPayment
     {
         return View::getSmarty()->fetch('user/theadpay.tpl');
     }
-
-    public function getReturnHTML($request, $response, $args)
-    {
-        return 0;
-    }
-
-    public function getStatus($request, $response, $args)
-    {
-        $pid = $request->getParam('pid');
-
-        $p = Paylist::where('tradeno', $pid)->first();
-        return $response->withJson([
-            'ret' => 1,
-            'result' => $p->status,
-        ]);
-    }
 }

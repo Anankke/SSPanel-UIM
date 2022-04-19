@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\DetectBanLog;
 use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class DetectBanLogController extends AdminController
+final class DetectBanLogController extends BaseController
 {
     /**
      * @param array     $args

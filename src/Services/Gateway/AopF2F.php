@@ -17,25 +17,28 @@ use App\Services\Auth;
 use App\Services\View;
 use Exception;
 use Omnipay\Omnipay;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 
 final class AopF2F extends AbstractPayment
 {
-    public static function _name()
+    public static function _name(): string
     {
         return 'f2fpay';
     }
 
-    public static function _enable()
+    public static function _enable(): bool
     {
         return self::getActiveGateway('f2fpay');
     }
 
-    public static function _readableName()
+    public static function _readableName(): string
     {
         return '支付宝在线充值';
     }
 
-    public function purchase($request, $response, $args)
+    public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
         $amount = $request->getParam('amount');
         $user = Auth::getUser();
@@ -75,7 +78,7 @@ final class AopF2F extends AbstractPayment
         ]);
     }
 
-    public function notify($request, $response, $args): void
+    public function notify($request, $response, $args): ResponseInterface
     {
         $gateway = $this->createGateway();
         $aliRequest = $gateway->completePurchase();
@@ -87,30 +90,16 @@ final class AopF2F extends AbstractPayment
             $pid = $aliResponse->data('out_trade_no');
             if ($aliResponse->isPaid()) {
                 $this->postPayment($pid, '支付宝当面付 ' . $pid);
-                die('success'); //The response should be 'success' only
+                return $response->write('success');
             }
         } catch (Exception $e) {
-            die('fail');
+            return $response->write('fail');
         }
     }
 
-    public static function getPurchaseHTML()
+    public static function getPurchaseHTML(): ResponseInterface
     {
         return View::getSmarty()->fetch('user/aopf2f.tpl');
-    }
-
-    public function getReturnHTML($request, $response, $args)
-    {
-        return 0;
-    }
-
-    public function getStatus($request, $response, $args)
-    {
-        $p = Paylist::where('tradeno', $_POST['pid'])->first();
-        return json_encode([
-            'ret' => 1,
-            'result' => $p->satatus,
-        ]);
     }
 
     private function createGateway()

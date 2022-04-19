@@ -198,12 +198,4 @@ final class PAYJS extends AbstractPayment
         }
         return View::getSmarty()->assign('money', $money)->assign('success', $success)->fetch('user/pay_success.tpl');
     }
-    public function getStatus($request, $response, $args)
-    {
-        $return = [];
-        $p = Paylist::where('tradeno', $_POST['pid'])->first();
-        $return['ret'] = 1;
-        $return['result'] = $p->status;
-        return json_encode($return);
-    }
 }

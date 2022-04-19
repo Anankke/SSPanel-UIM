@@ -11,6 +11,10 @@ use App\Services\Gateway\CoinPay\CoinPayApi;
 use App\Services\Gateway\CoinPay\CoinPayConfig;
 use App\Services\Gateway\CoinPay\CoinPayException;
 use App\Services\Gateway\CoinPay\CoinPayUnifiedOrder;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Psr\Http\Message\ResponseInterface;
+
 
 final class CoinPay extends AbstractPayment
 {
@@ -26,22 +30,22 @@ final class CoinPay extends AbstractPayment
         $this->coinPayGatewayUrl = 'https://openapi.coinpay.la/'; // 网关地址
     }
 
-    public static function _name()
+    public static function _name(): string
     {
         return 'coinpay';
     }
 
-    public static function _enable()
+    public static function _enable(): bool
     {
         return self::getActiveGateway('coinpay');
     }
 
-    public static function _readableName()
+    public static function _readableName(): string
     {
         return 'CoinPay 支持BTC、ETH、USDT等数十种数字货币';
     }
 
-    public function purchase($request, $response, $args)
+    public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
         // set timezone
         date_default_timezone_set('Asia/Hong_Kong');
@@ -95,7 +99,7 @@ final class CoinPay extends AbstractPayment
      *
      * @param array $args
      */
-    public function notify(\Slim\Http\Request $request, \Slim\Http\Response $response, array $args): void
+    public function notify($request, $response, $args): ResponseInterface
     {
         $raw = file_get_contents('php://input');
         file_put_contents(BASE_PATH . '/coinpay_purchase.log', $raw . "\r\n", FILE_APPEND);
@@ -126,17 +130,7 @@ final class CoinPay extends AbstractPayment
         die;
     }
 
-    public function getReturnHTML($request, $response, $args): void
-    {
-        // TODO: Implement getStatus() method.
-    }
-
-    public function getStatus($request, $response, $args): void
-    {
-        // TODO: Implement getStatus() method.
-    }
-
-    public static function getPurchaseHTML()
+    public static function getPurchaseHTML(): ResponseInterface
     {
         return '<div class="card-inner">
 						<div class="form-group pull-left">

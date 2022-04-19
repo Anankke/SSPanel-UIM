@@ -307,7 +307,7 @@ final class Tools
     }
 
     // Unix time to Date Time
-    public static function toDateTime($time)
+    public static function toDateTime(int $time)
     {
         return date('Y-m-d H:i:s', $time);
     }

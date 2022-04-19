@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin\UserLog;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\DetectLog;
 use App\Models\User;
 use App\Utils\ResponseHelper;
@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class DetectLogController extends AdminController
+final class DetectLogController extends BaseController
 {
     /**
      * @param array     $args

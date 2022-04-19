@@ -12,11 +12,12 @@ use App\Utils\Tools;
 use Ozdemir\Datatables\Datatables;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use App\Services\Analytics;
 
 /*
  *  Admin Controller
  */
-final class AdminController extends UserController
+final class AdminController extends BaseController
 {
     /**
      * 后台首页

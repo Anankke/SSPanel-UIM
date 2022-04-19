@@ -19,18 +19,19 @@ use App\Models\User;
 use App\Utils\Telegram;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractPayment
 {
     /**
      * @param array     $args
      */
-    abstract public function purchase(Request $request, Response $response, array $args): void;
+    abstract public function purchase(Request $request, Response $response, array $args): ResponseInterface;
 
     /**
      * @param array     $args
      */
-    abstract public function notify(Request $request, Response $response, array $args): void;
+    abstract public function notify(Request $request, Response $response, array $args): ResponseInterface;
 
     /**
      * 支付网关的 codeName, 规则为 [0-9a-zA-Z_]*
@@ -42,7 +43,7 @@ abstract class AbstractPayment
      *
      * TODO: 传入目前用户信, etc..
      */
-    abstract public static function _enable(): boolean;
+    abstract public static function _enable(): bool;
 
     /**
      * 显示给用户的名称
@@ -52,14 +53,24 @@ abstract class AbstractPayment
     /**
      * @param array     $args
      */
-    abstract public function getReturnHTML(Request $request, Response $response, array $args): void;
+    public function getReturnHTML(Request $request, Response $response, array $args): ResponseInterface
+    {
+        return $response->write('ok');
+    }
 
     /**
      * @param array     $args
      */
-    abstract public function getStatus(Request $request, Response $response, array $args): void;
+    public function getStatus(Request $request, Response $response, array $args): ResponseInterface
+    {
+        $p = Paylist::where('tradeno', $_POST['pid'])->first();
+        return json_encode([
+            'ret' => 1,
+            'result' => $p->satatus,
+        ]);
+    }
 
-    abstract public static function getPurchaseHTML(): void;
+    abstract public static function getPurchaseHTML(): ResponseInterface;
 
     public function postPayment($pid, $method)
     {
@@ -133,4 +144,6 @@ abstract class AbstractPayment
         }
         return false;
     }
+
+
 }

@@ -90,7 +90,7 @@ final class URL
         return $return_array;
     }
 
-    public static function SSCanConnect(User $user, $mu_port = 0): int
+    public static function SSCanConnect(User $user, $mu_port = 0): bool
     {
         if ($mu_port !== 0) {
             $mu_user = User::where('port', '=', $mu_port)
@@ -105,7 +105,7 @@ final class URL
             self::canObfsConnect($user->obfs) >= 2;
     }
 
-    public static function SSRCanConnect(User $user, $mu_port = 0): int
+    public static function SSRCanConnect(User $user, $mu_port = 0): bool
     {
         if ($mu_port !== 0) {
             $mu_user = User::where('port', '=', $mu_port)

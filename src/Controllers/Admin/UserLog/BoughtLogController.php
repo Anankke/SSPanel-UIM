@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin\UserLog;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\Bought;
 use App\Models\Shop;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class BoughtLogController extends AdminController
+final class BoughtLogController extends BaseController
 {
     /**
      * @param array     $args

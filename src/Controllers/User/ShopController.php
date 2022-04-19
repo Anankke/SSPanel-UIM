@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\User;
 
-use App\Controllers\UserController;
+use App\Controllers\BaseController;
 use App\Models\Coupon;
 use App\Models\Payback;
 use App\Models\Shop;
@@ -12,7 +12,7 @@ use App\Utils\ResponseHelper;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class ShopController extends UserController
+final class ShopController extends BaseController
 {
     /**
      * @param array     $args

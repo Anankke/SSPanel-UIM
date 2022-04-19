@@ -44,7 +44,7 @@ final class User extends Model
      * @var array
      */
     protected $casts = [
-        't' => 'float',
+        't' => 'int',
         'u' => 'float',
         'd' => 'float',
         'port' => 'int',

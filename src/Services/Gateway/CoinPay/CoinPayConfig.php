@@ -49,18 +49,18 @@ final class CoinPayConfig extends CoinPayConfigInterface
         return 'UTF-8';
     }
 
-    public function getAttach(): void
+    public function getAttach(): string
     {
-        // TODO: Implement GetAttach() method.
+        return '';
     }
 
-    public function getTransCurrency(): void
+    public function getTransCurrency(): string
     {
-        // TODO: Implement GetTransCurrency() method.
+        return '';
     }
 
-    public function getBody(): void
+    public function getBody(): string
     {
-        // TODO: Implement GetBody() method.
+        return '';
     }
 }

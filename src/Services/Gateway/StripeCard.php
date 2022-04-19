@@ -103,11 +103,6 @@ final class StripeCard extends AbstractPayment
         header('Location: ' . $_ENV['baseUrl'] . '/user/code');
     }
 
-    public function getStatus($request, $response, $args): void
-    {
-        // TODO: Implement getStatus() method.
-    }
-
     public static function exchange($currency)
     {
         $ch = curl_init();

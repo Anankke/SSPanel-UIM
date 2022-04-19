@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controllers\User;
 
-use App\Controllers\UserController;
+use App\Controllers\BaseController;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class DetectController extends UserController
+final class DetectController extends BaseController
 {
     /**
      * @param array     $args

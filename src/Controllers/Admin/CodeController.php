@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\Code;
 use App\Models\Setting;
 use App\Services\Auth;
@@ -14,7 +14,7 @@ use App\Utils\Tools;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class CodeController extends AdminController
+final class CodeController extends BaseController
 {
     /**
      * 后台充值码及充值记录页面

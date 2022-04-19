@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\DetectLog;
 use App\Models\DetectRule;
 use App\Utils\ResponseHelper;
@@ -12,7 +12,7 @@ use App\Utils\Telegram;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class DetectController extends AdminController
+final class DetectController extends BaseController
 {
     /**
      * @param array     $args

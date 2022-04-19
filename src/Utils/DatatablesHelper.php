@@ -18,7 +18,7 @@ final class DatatablesHelper implements DatabaseInterface
         $capsule = new Capsule();
         $capsule->addConnection(Config::getDbConfig(), 'default');
         $this->connection = $capsule->getConnection('default');
-        $this->connection->run("set session sql_mode='';");
+        $this->connection->query("set session sql_mode='';");
     }
 
     public function connect()

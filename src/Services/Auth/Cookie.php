@@ -17,11 +17,11 @@ final class Cookie extends Base
         $expire_in = $time + time();
         $key = Hash::cookieHash($user->pass, $expire_in);
         Utils\Cookie::set([
-            'uid' => $uid,
+            'uid' => strval($uid),
             'email' => $user->email,
             'key' => $key,
             'ip' => md5($_SERVER['REMOTE_ADDR'] . $_ENV['key'] . $uid . $expire_in),
-            'expire_in' => $expire_in,
+            'expire_in' => strval($expire_in),
         ], $expire_in);
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\BlockIp;
 use App\Models\Ip;
 use App\Models\LoginIp;
@@ -15,7 +15,7 @@ use App\Utils\Tools;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class IpController extends AdminController
+final class IpController extends BaseController
 {
     /**
      * 后台登录记录页面

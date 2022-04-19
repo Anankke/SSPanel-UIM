@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Services\Config;
 use App\Utils\CloudflareDriver;
@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class NodeController extends AdminController
+final class NodeController extends BaseController
 {
     /**
      * 后台节点页面

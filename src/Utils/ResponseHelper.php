@@ -26,7 +26,7 @@ final class ResponseHelper
         ]);
     }
 
-    public static function buildTableConfig(string $uri, array $data): array
+    public static function buildTableConfig(array $data, string $uri): array
     {
         return [
             'total_column' => $data,

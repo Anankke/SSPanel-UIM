@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
+use App\Models\Setting;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Services\Mail;
 
-final class SettingController extends AdminController
+final class SettingController extends BaseController
 {
     public function index($request, $response, $args)
     {

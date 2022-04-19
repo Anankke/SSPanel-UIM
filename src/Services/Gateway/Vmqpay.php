@@ -93,14 +93,4 @@ final class Vmqpay extends AbstractPayment
             </div>
         ';
     }
-
-    public function getReturnHTML($request, $response, $args): void
-    {
-        // TODO: Implement getReturnHTML() method.
-    }
-
-    public function getStatus($request, $response, $args): void
-    {
-        // TODO: Implement getStatus() method.
-    }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway\CoinPay;
 
-final class CoinPayDataBase
+abstract class CoinPayDataBase
 {
     private $values = [];
 

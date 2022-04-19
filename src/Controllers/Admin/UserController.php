@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\Bought;
 use App\Models\DetectBanLog;
 use App\Models\Setting;
@@ -21,7 +21,7 @@ use Ramsey\Uuid\Uuid;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class UserController extends AdminController
+final class UserController extends BaseController
 {
     /**
      * @param array     $args

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\GConfig;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class GConfigController extends AdminController
+final class GConfigController extends BaseController
 {
     /**
      * @param array     $args

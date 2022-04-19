@@ -121,13 +121,4 @@ final class PaymentWall extends AbstractPayment
         return $widget->getHtmlCode(['height' => $configs['pmw_height'], 'width' => '100%']);
     }
 
-    public function getReturnHTML($request, $response, $args): void
-    {
-        // TODO: Implement getReturnHTML() method.
-    }
-
-    public function getStatus($request, $response, $args): void
-    {
-        // TODO: Implement getStatus() method.
-    }
 }
