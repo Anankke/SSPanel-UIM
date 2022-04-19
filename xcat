@@ -40,7 +40,7 @@ if (!isset($argv[1])) {
         if (!property_exists($triggerObject, 'description')) {
             continue;
         }
-        echo $triggerObject->description . PHP_EOL;
+        echo trim($triggerObject->description) . PHP_EOL;
     }
     return;
 }

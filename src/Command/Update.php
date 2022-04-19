@@ -13,7 +13,7 @@ final class Update extends Command
 {
     public $description = '├─=: php xcat Update         - 更新并迁移配置' . PHP_EOL;
 
-    public function boot()
+    public function boot(): void
     {
         global $_ENV;
         $copy_result = copy(BASE_PATH . '/config/.config.php', BASE_PATH . '/config/.config.php.bak');
@@ -21,7 +21,6 @@ final class Update extends Command
             echo '备份成功' . PHP_EOL;
         } else {
             echo '备份失败，迁移终止' . PHP_EOL;
-            return false;
         }
 
         echo PHP_EOL;
