@@ -7,7 +7,7 @@ namespace App\Services\Mail;
 use App\Models\Setting;
 use PHPMailer\PHPMailer\PHPMailer;
 
-class Smtp extends Base
+final class Smtp extends Base
 {
     private $mail;
     private $config;

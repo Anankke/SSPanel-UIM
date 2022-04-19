@@ -9,7 +9,7 @@ use App\Utils\DatatablesHelper;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
 
-class Update extends Command
+final class Update extends Command
 {
     public $description = '├─=: php xcat Update         - 更新并迁移配置' . PHP_EOL;
 
@@ -40,7 +40,7 @@ class Update extends Command
 
         //执行版本升级
         $version_old = $_ENV['version'] ?? 0;
-        $this->old_to_new($version_old);
+        $this->oldToNew($version_old);
         $this->addColumns('user', 'uuid', 'TEXT', true, 'NULL', 'uuid', 'passwd');
 
         //将旧config迁移到新config上
@@ -150,7 +150,7 @@ class Update extends Command
         $datatables->query('ALTER TABLE `' . $table . '` ADD COLUMN `' . $columu . '` ' . $type . $isnull . 'DEFAULT ' . $default . " COMMENT '" . $comment . "' AFTER `" . $after . '`');
     }
 
-    public function old_to_new($version_old): void
+    public function oldToNew($version_old): void
     {
         if ($version_old < 2) {
             // 版本 2 开始
@@ -163,7 +163,7 @@ class Update extends Command
                 echo '创建 gconfig 表.' . PHP_EOL;
                 Capsule::schema()->create(
                     'gconfig',
-                    function (Blueprint $table): void {
+                    static function (Blueprint $table): void {
                         $table->engine = 'InnoDB';
                         $table->charset = 'utf8mb4';
                         $table->collation = 'utf8mb4_unicode_ci';
@@ -185,7 +185,7 @@ class Update extends Command
                 echo '创建 user_subscribe_log 表.' . PHP_EOL;
                 Capsule::schema()->create(
                     'user_subscribe_log',
-                    function (Blueprint $table): void {
+                    static function (Blueprint $table): void {
                         $table->engine = 'InnoDB';
                         $table->charset = 'utf8mb4';
                         $table->collation = 'utf8mb4_unicode_ci';
@@ -204,7 +204,7 @@ class Update extends Command
                 echo '创建 detect_ban_log 表.' . PHP_EOL;
                 Capsule::schema()->create(
                     'detect_ban_log',
-                    function (Blueprint $table): void {
+                    static function (Blueprint $table): void {
                         $table->engine = 'InnoDB';
                         $table->charset = 'utf8mb4';
                         $table->collation = 'utf8mb4_unicode_ci';
@@ -234,7 +234,7 @@ class Update extends Command
                 echo '添加 last_detect_ban_time 到 user 表.' . PHP_EOL;
                 Capsule::schema()->table(
                     'user',
-                    function (Blueprint $table): void {
+                    static function (Blueprint $table): void {
                         $table->dateTime('last_detect_ban_time')->default('1989-06-04 00:05:00')->after('enable');
                     }
                 );
@@ -243,7 +243,7 @@ class Update extends Command
                 echo '添加 all_detect_number 到 user 表.' . PHP_EOL;
                 Capsule::schema()->table(
                     'user',
-                    function (Blueprint $table): void {
+                    static function (Blueprint $table): void {
                         $table->integer('all_detect_number')->default(0)->after('last_detect_ban_time');
                     }
                 );
@@ -262,7 +262,7 @@ class Update extends Command
                 echo '添加 status 到 detect_log 表.' . PHP_EOL;
                 Capsule::schema()->table(
                     'detect_log',
-                    function (Blueprint $table): void {
+                    static function (Blueprint $table): void {
                         $table->integer('status')->default(0)->after('node_id');
                     }
                 );

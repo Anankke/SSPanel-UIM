@@ -10,7 +10,7 @@ use App\Services\Auth;
 use App\Services\View;
 use Exception;
 
-class THeadPay extends AbstractPayment
+final class THeadPay extends AbstractPayment
 {
     protected $sdk;
 

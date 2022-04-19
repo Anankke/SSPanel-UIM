@@ -6,7 +6,7 @@ namespace App\Middleware;
 
 use App\Services\Auth as AuthService;
 
-class Admin
+final class Admin
 {
     public function __invoke(\Slim\Http\Request $request, \Slim\Http\Response $response, callable $next): \Slim\Http\Response
     {

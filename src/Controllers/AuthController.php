@@ -4,18 +4,29 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use Auth;
+use App\Models\EmailVerify;
+use App\Models\InviteCode;
+use App\Models\Setting;
+use App\Models\User;
+use App\Services\Auth;
+use App\Services\Captcha;
+use App\Services\Mail;
+use App\Utils\Check;
+use App\Utils\GA;
+use App\Utils\Hash;
+use App\Utils\ResponseHelper;
+use App\Utils\TelegramSessionManager;
+use App\Utils\Tools;
 use Exception;
-use GA;
 use Ramsey\Uuid\Uuid;
-use Request;
-use User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use voku\helper\AntiXSS;
 
 /**
  *  AuthController
  */
-class AuthController extends BaseController
+final class AuthController extends BaseController
 {
     /**
      * @param array     $args
@@ -25,7 +36,7 @@ class AuthController extends BaseController
         $captcha = Captcha::generate();
 
         if ($_ENV['enable_telegram_login'] === true) {
-            $login_text = TelegramSessionManager::add_login_session();
+            $login_text = TelegramSessionManager::addLoginSession();
             $login = explode('|', $login_text);
             $login_token = $login[0];
             $login_number = $login[1];
@@ -130,17 +141,14 @@ class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function qrcode_loginHandle(Request $request, Response $response, array $args)
+    public function qrcodeLoginHandle(Request $request, Response $response, array $args)
     {
         $token = $request->getParam('token');
         $number = $request->getParam('number');
 
-        $ret = TelegramSessionManager::step2_verify_login_session($token, $number);
+        $ret = TelegramSessionManager::step2VerifyLoginSession($token, $number);
         if ($ret === 0) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '此令牌无法被使用。',
-            ]);
+            return ResponseHelper::error($response, '此令牌无法被使用。');
         }
 
         $user = User::find($ret);
@@ -148,11 +156,7 @@ class AuthController extends BaseController
         Auth::login($user->id, 3600 * 24);
         // 记录登录成功
         $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
-
-        return $response->withJson([
-            'ret' => 1,
-            'msg' => '登录成功',
-        ]);
+        return ResponseHelper::successfully($response, '登录成功');
     }
 
     /**
@@ -170,7 +174,7 @@ class AuthController extends BaseController
         $captcha = Captcha::generate();
 
         if ($_ENV['enable_telegram_login'] === true) {
-            $login_text = TelegramSessionManager::add_login_session();
+            $login_text = TelegramSessionManager::addLoginSession();
             $login = explode('|', $login_text);
             $login_token = $login[0];
             $login_number = $login[1];
@@ -206,10 +210,7 @@ class AuthController extends BaseController
             $email = trim($request->getParam('email'));
             $email = strtolower($email);
             if ($email === '') {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '未填写邮箱',
-                ]);
+                return ResponseHelper::error($response, '未填写邮箱');
             }
             // check email format
             $check_res = Check::isEmailLegal($email);
@@ -218,24 +219,15 @@ class AuthController extends BaseController
             }
             $user = User::where('email', $email)->first();
             if ($user !== null) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '此邮箱已经注册',
-                ]);
+                return ResponseHelper::error($response, '此邮箱已经注册');
             }
             $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])->where('expire_in', '>', time())->count();
             if ($ipcount >= Setting::obtain('email_verify_ip_limit')) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '此IP请求次数过多',
-                ]);
+                return ResponseHelper::error($response, '此IP请求次数过多');
             }
             $mailcount = EmailVerify::where('email', '=', $email)->where('expire_in', '>', time())->count();
             if ($mailcount >= 3) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '此邮箱请求次数过多',
-                ]);
+                return ResponseHelper::error($response, '此邮箱请求次数过多');
             }
             $code = Tools::genRandomNum(6);
             $ev = new EmailVerify();
@@ -256,20 +248,11 @@ class AuthController extends BaseController
                     []
                 );
             } catch (Exception $e) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '邮件发送失败，请联系网站管理员。',
-                ]);
+                return ResponseHelper::error($response, '邮件发送失败，请联系网站管理员。');
             }
-            return $response->withJson([
-                'ret' => 1,
-                'msg' => '验证码发送成功，请查收邮件。',
-            ]);
+            return ResponseHelper::successfully($response, '验证码发送成功，请查收邮件。');
         }
-        return $response->withJson([
-            'ret' => 0,
-            'msg' => '',
-        ]);
+        return ResponseHelper::error($response, ' 不允许注册');
     }
 
     /**
@@ -277,39 +260,29 @@ class AuthController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id)
+    public function registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id)
     {
         if (Setting::obtain('reg_mode') === 'close') {
-            $res['ret'] = 0;
-            $res['msg'] = '暂时不对外开放注册';
-            return $res;
+            return ResponseHelper::error($response, '暂时不对外开放注册');
         }
 
         if ($code === '') {
-            $res['ret'] = 0;
-            $res['msg'] = '注册需要填写邀请码';
-            return $res;
+            return ResponseHelper::error($response, '注册需要填写邀请码');
         }
 
         $c = InviteCode::where('code', $code)->first();
         if ($c === null) {
             if (Setting::obtain('reg_mode') === 'invite') {
-                $res['ret'] = 0;
-                $res['msg'] = '这个邀请码不存在';
-                return $res;
+                return ResponseHelper::error($response, '这个邀请码不存在');
             }
         } elseif ($c->user_id !== 0) {
             $gift_user = User::where('id', $c->user_id)->first();
             if ($gift_user === null) {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请码已失效';
-                return $res;
+                return ResponseHelper::error($response, '邀请码已失效');
             }
 
             if ($gift_user->invite_num === 0) {
-                $res['ret'] = 0;
-                $res['msg'] = '邀请码不可用';
-                return $res;
+                return ResponseHelper::error($response, '邀请码不可用');
             }
         }
 
@@ -384,14 +357,10 @@ class AuthController extends BaseController
             Auth::login($user->id, 3600);
             $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
 
-            $res['ret'] = 1;
-            $res['msg'] = '注册成功！正在进入登录界面';
-            return $res;
+            return ResponseHelper::successfully($response, '注册成功！正在进入登录界面');
         }
 
-        $res['ret'] = 0;
-        $res['msg'] = '未知错误';
-        return $res;
+        return ResponseHelper::error($response, '未知错误');
     }
 
     /**
@@ -400,10 +369,7 @@ class AuthController extends BaseController
     public function registerHandle(Request $request, Response $response, array $args)
     {
         if (Setting::obtain('reg_mode') === 'close') {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '未开放注册。',
-            ]);
+            return ResponseHelper::error($response, '未开放注册。');
         }
 
         $name = $request->getParam('name');
@@ -420,17 +386,11 @@ class AuthController extends BaseController
             $imtype = $request->getParam('im_type');
             $imvalue = $request->getParam('im_value');
             if ($imtype === '' || $imvalue === '') {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '请填上你的联络方式',
-                ]);
+                return ResponseHelper::error($response, '请填上你的联络方式');
             }
             $user = User::where('im_value', $imvalue)->where('im_type', $imtype)->first();
             if ($user !== null) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '此联络方式已注册',
-                ]);
+                return ResponseHelper::error($response, '此联络方式已注册');
             }
         } else {
             $imtype = 1;
@@ -440,10 +400,7 @@ class AuthController extends BaseController
         if (Setting::obtain('enable_reg_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
             if (! $ret) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '系统无法接受您的验证结果，请刷新页面后重试。',
-                ]);
+                return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试。');
             }
         }
 
@@ -455,45 +412,31 @@ class AuthController extends BaseController
         // check email
         $user = User::where('email', $email)->first();
         if ($user !== null) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '邮箱已经被注册了',
-            ]);
+            return ResponseHelper::error($response, '邮箱已经被注册了');
         }
 
         if (Setting::obtain('reg_email_verify')) {
             $mailcount = EmailVerify::where('email', '=', $email)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount === null) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '您的邮箱验证码不正确',
-                ]);
+                return ResponseHelper::error($response, '您的邮箱验证码不正确');
             }
         }
 
         // check pwd length
         if (strlen($passwd) < 8) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '密码请大于8位',
-            ]);
+            return ResponseHelper::error($response, '密码请大于8位');
         }
 
         // check pwd re
         if ($passwd !== $repasswd) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '两次密码输入不符',
-            ]);
+            return ResponseHelper::error($response, '两次密码输入不符');
         }
 
         if (Setting::obtain('reg_email_verify')) {
             EmailVerify::where('email', $email)->delete();
         }
 
-        return $response->withJson(
-            $this->register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0)
-        );
+        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0);
     }
 
     /**
@@ -508,34 +451,31 @@ class AuthController extends BaseController
     /**
      * @param array     $args
      */
-    public function qrcode_check(Request $request, Response $response, array $args)
+    public function qrcodeCheck(Request $request, Response $response, array $args)
     {
         $token = $request->getParam('token');
         $number = $request->getParam('number');
         $user = Auth::getUser();
         if ($user->isLogin) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
+            return ResponseHelper::error($response, '用户已登陆');
         }
         if ($_ENV['enable_telegram_login'] === true) {
-            $ret = TelegramSessionManager::check_login_session($token, $number);
-            $res['ret'] = $ret;
-            return $response->withJson($res);
+            $ret = TelegramSessionManager::checkLoginSession($token, $number);
+            return $response->withJson([
+                'ret' => $ret,
+            ]);
         }
-        return $response->withJson([
-            'ret' => 0,
-        ]);
+        return ResponseHelper::error($response, '不允许 QRCode 登陆');
     }
 
     /**
      * @param array     $args
      */
-    public function telegram_oauth(Request $request, Response $response, array $args)
+    public function telegramOauth(Request $request, Response $response, array $args)
     {
         if ($_ENV['enable_telegram_login'] === true) {
             $auth_data = $request->getQueryParams();
-            if ($this->telegram_oauth_check($auth_data) === true) { // Looks good, proceed.
+            if ($this->telegramOauthCheck($auth_data) === true) { // Looks good, proceed.
                 $telegram_id = $auth_data['id'];
                 $user = User::query()->where('telegram_id', $telegram_id)->firstOrFail(); // Welcome Back :)
                 if ($user === null) {
@@ -572,7 +512,7 @@ class AuthController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    private function telegram_oauth_check($auth_data)
+    private function telegramOauthCheck($auth_data)
     {
         $check_hash = $auth_data['hash'];
         $bot_token = $_ENV['telegram_token'];

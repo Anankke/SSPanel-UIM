@@ -6,7 +6,7 @@ namespace App\Models;
 
 use App\Services\DefaultConfig;
 
-class GConfig extends Model
+final class GConfig extends Model
 {
     /**
      * The connection name for the model.
@@ -28,7 +28,7 @@ class GConfig extends Model
     public function recover(User $user): void
     {
         $this->oldvalue = $this->value;
-        $this->value = DefaultConfig::default_value($this->key)['value'];
+        $this->value = DefaultConfig::defaultValue($this->key)['value'];
         $this->operator_id = $user->id;
         $this->operator_name = '[恢复默认] - ' . $user->user_name;
         $this->operator_email = $user->email;

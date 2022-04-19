@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway\CoinPay;
 
-class CoinPayDataBase
+final class CoinPayDataBase
 {
-    protected $values = [];
+    private $values = [];
 
     /**
      * 设置分配的APPID
      */
-    public function SetAppid(string $value): void
+    public function setAppid(string $value): void
     {
         $this->values['app_id'] = $value;
     }
@@ -19,7 +19,7 @@ class CoinPayDataBase
     /**
      * 获取APPID
      */
-    public function GetAppid(): 值
+    public function getAppid(): 值
     {
         return $this->values['app_id'];
     }
@@ -29,7 +29,7 @@ class CoinPayDataBase
      *
      * @return true 或 false
      */
-    public function IsAppidSet(): bool
+    public function isAppidSet(): bool
     {
         return array_key_exists('app_id', $this->values);
     }
@@ -39,7 +39,7 @@ class CoinPayDataBase
      *
      * @param $secret
      */
-    public function SetSign($secret): void
+    public function setSign($secret): void
     {
         ksort($this->values);
         reset($this->values);
@@ -51,7 +51,7 @@ class CoinPayDataBase
     /**
      * 获取签名，详见签名生成算法的值
      */
-    public function GetSign(): 值
+    public function getSign(): 值
     {
         return $this->values['sign'];
     }
@@ -61,7 +61,7 @@ class CoinPayDataBase
      *
      * @return true 或 false
      */
-    public function IsSignSet(): bool
+    public function isSignSet(): bool
     {
         return array_key_exists('sign', $this->values);
     }
@@ -69,7 +69,7 @@ class CoinPayDataBase
     /**
      * @return array
      */
-    public function ReturnArray(): array
+    public function returnArray(): array
     {
         return $this->values;
     }

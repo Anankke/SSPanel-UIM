@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  *  SubController
  */
-class SubController extends BaseController
+final class SubController extends BaseController
 {
     public static function getContent($request, $response, $args): ResponseInterface
     {
@@ -52,7 +52,7 @@ class SubController extends BaseController
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
             ->whereIn('node_group', [0, $user->group])
-            ->where(function ($query): void {
+            ->where(static function ($query): void {
                 $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
             })
             ->get();

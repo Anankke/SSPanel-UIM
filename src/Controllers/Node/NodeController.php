@@ -2,16 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Controllers\Mod_Mu;
+namespace App\Controllers\Node;
 
 use App\Controllers\BaseController;
+use App\Models\Node;
+use App\Models\NodeInfoLog;
+use App\Models\StreamMedia;
 use App\Services\Config;
 use App\Utils\Tools;
-use Node;
 use Psr\Http\Message\ResponseInterface;
-use Request;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class NodeController extends BaseController
+final class NodeController extends BaseController
 {
     /**
      * @param array     $args
@@ -75,7 +78,7 @@ class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function get_info(Request $request, Response $response, array $args): ResponseInterface
+    public function getInfo(Request $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $args['id'];
         if ($node_id === '0') {
@@ -125,7 +128,7 @@ class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function get_all_info(Request $request, Response $response, array $args): ResponseInterface
+    public function getAllInfo(Request $request, Response $response, array $args): ResponseInterface
     {
         $nodes = Node::where('node_ip', '<>', null)->where(
             static function ($query): void {
@@ -165,9 +168,6 @@ class NodeController extends BaseController
                     'data' => $db_config,
                 ];
                 break;
-            case 'webapi':
-                $webapiConfig = [];
-                #todo
         }
         return $response->withJson($res);
     }

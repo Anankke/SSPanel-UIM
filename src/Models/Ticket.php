@@ -7,7 +7,7 @@ namespace App\Models;
 /**
  * Ticket Model
  */
-class Ticket extends Model
+final class Ticket extends Model
 {
     protected $connection = 'default';
 
@@ -16,7 +16,7 @@ class Ticket extends Model
     /**
      * [静态方法] 删除不存在的用户的记录
      */
-    public static function user_is_null(Ticket $Ticket): void
+    public static function userIsNull(Ticket $Ticket): void
     {
         $tickets = Ticket::where('userid', $Ticket->userid)->where('rootid', 0)->get();
         foreach ($tickets as $ticket) {
@@ -44,7 +44,7 @@ class Ticket extends Model
     /**
      * 用户名
      */
-    public function user_name(): string
+    public function userName(): string
     {
         if ($this->user() === null) {
             return '用户已不存在';

@@ -7,37 +7,37 @@ namespace App\Utils\Telegram;
 use App\Services\Config;
 use App\Utils\TelegramSessionManager;
 
-class Message
+final class Message
 {
     /**
      * Bot
      */
-    protected $bot;
+    private $bot;
 
     /**
      * 触发用户
      */
-    protected $User;
+    private $User;
 
     /**
      * 触发用户TG信息
      */
-    protected $triggerUser;
+    private $triggerUser;
 
     /**
      * 消息会话 ID
      */
-    protected $ChatID;
+    private $ChatID;
 
     /**
      * 触发源信息
      */
-    protected $Message;
+    private $Message;
 
     /**
      * 触发源信息 ID
      */
-    protected $MessageID;
+    private $MessageID;
 
     public function __construct(\Telegram\Bot\Api $bot, \Telegram\Bot\Objects\Message $Message)
     {
@@ -59,7 +59,7 @@ class Message
                 // 私聊
                 if ($this->User !== null) {
                     if (is_numeric($MessageData) && strlen($MessageData) === 6) {
-                        $uid = TelegramSessionManager::verify_login_number($MessageData, $this->User->id);
+                        $uid = TelegramSessionManager::verifyLoginNumber($MessageData, $this->User->id);
                         if ($uid !== 0) {
                             $text = '登录验证成功，邮箱：' . $this->User->email;
                         } else {
@@ -75,7 +75,7 @@ class Message
                     }
                 } else {
                     if (strlen($MessageData) === 16) {
-                        $Uid = TelegramSessionManager::verify_bind_session($MessageData);
+                        $Uid = TelegramSessionManager::verifyBindSession($MessageData);
                         if ($Uid === 0) {
                             $text = '绑定失败了呢，经检查发现：【' . $MessageData . '】的有效期为 10 分钟，您可以在我们网站上的 **资料编辑** 页面刷新后重试.';
                         } else {
@@ -108,7 +108,7 @@ class Message
         }
 
         if ($this->Message->getNewChatParticipant() !== null) {
-            self::NewChatParticipant();
+            $this->newChatParticipant();
         }
     }
 
@@ -132,7 +132,7 @@ class Message
     /**
      * 入群检测
      */
-    public function NewChatParticipant(): void
+    public function newChatParticipant(): void
     {
         $NewChatMember = $this->Message->getNewChatParticipant();
         $Member = [
@@ -149,7 +149,7 @@ class Message
                         'text' => '不约，叔叔我们不约.',
                     ]
                 );
-                TelegramTools::SendPost(
+                TelegramTools::sendPost(
                     'kickChatMember',
                     [
                         'chat_id' => $this->ChatID,
@@ -191,7 +191,7 @@ class Message
                         'text' => '由于 ' . $Member['name'] . ' 未绑定账户，将被移除.',
                     ]
                 );
-                TelegramTools::SendPost(
+                TelegramTools::sendPost(
                     'kickChatMember',
                     [
                         'chat_id' => $this->ChatID,

@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\InviteCode;
+use App\Utils\Telegram\Process;
+use App\Utils\TelegramProcess;
 use Psr\Http\Message\ResponseInterface;
-use Request;
-use TelegramProcess;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  *  HomeController
  */
-class HomeController extends BaseController
+final class HomeController extends BaseController
 {
     /**
      * @param array     $args

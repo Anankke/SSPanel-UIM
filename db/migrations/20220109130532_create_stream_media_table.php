@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Db\Migrations;
+
 use Phinx\Migration\AbstractMigration;
 
 final class CreateStreamMediaTable extends AbstractMigration

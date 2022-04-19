@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * default 为默认配置，你可以添加其他配置，但必须保证默认配置存在
  *
@@ -19,26 +21,26 @@ $_ENV['Surge_Profiles'] = [
     'default' => [
         'Checks' => [],
         'General' => [
-            'loglevel'                    => 'notify',
-            'dns-server'                  => 'system, 119.29.29.29, 1.1.1.1',
-            'skip-proxy'                  => '127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, 17.0.0.0/8, localhost, *.local, *.crashlytics.com',
-            'external-controller-access'  => 'China@0.0.0.0:8233',
-            'allow-wifi-access'           => 'true',
-            'enhanced-mode-by-rule'       => 'false',
-            'exclude-simple-hostnames'    => 'true',
-            'show-error-page-for-reject'  => 'true',
-            'ipv6'                        => 'true',
-            'replica'                     => 'false',
-            'http-listen'                 => '0.0.0.0:8234',
-            'socks5-listen'               => '0.0.0.0:8235',
-            'wifi-access-http-port'       => 6152,
-            'wifi-access-socks5-port'     => 6153,
-            'internet-test-url'           => 'http://wifi.vivo.com.cn/generate_204',
-            'proxy-test-url'              => 'http://cp.cloudflare.com',
-            'test-timeout'                => 3
+            'loglevel' => 'notify',
+            'dns-server' => 'system, 119.29.29.29, 1.1.1.1',
+            'skip-proxy' => '127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, 17.0.0.0/8, localhost, *.local, *.crashlytics.com',
+            'external-controller-access' => 'China@0.0.0.0:8233',
+            'allow-wifi-access' => 'true',
+            'enhanced-mode-by-rule' => 'false',
+            'exclude-simple-hostnames' => 'true',
+            'show-error-page-for-reject' => 'true',
+            'ipv6' => 'true',
+            'replica' => 'false',
+            'http-listen' => '0.0.0.0:8234',
+            'socks5-listen' => '0.0.0.0:8235',
+            'wifi-access-http-port' => 6152,
+            'wifi-access-socks5-port' => 6153,
+            'internet-test-url' => 'http://wifi.vivo.com.cn/generate_204',
+            'proxy-test-url' => 'http://cp.cloudflare.com',
+            'test-timeout' => 3,
         ],
         'Proxy' => [
-            '🚀直接连接 = direct'
+            '🚀直接连接 = direct',
         ],
         'ProxyGroup' => [
             [
@@ -47,9 +49,9 @@ $_ENV['Surge_Profiles'] = [
                 'content' => [
                     'regex' => '(.*)',
                     'right-proxies' => [
-                        '🚀直接连接'
+                        '🚀直接连接',
                     ],
-                ]
+                ],
             ],
             [
                 'name' => '⚓️其他流量',
@@ -57,59 +59,59 @@ $_ENV['Surge_Profiles'] = [
                 'content' => [
                     'left-proxies' => [
                         '🔰国外流量',
-                        '🚀直接连接'
-                    ]
-                ]
+                        '🚀直接连接',
+                    ],
+                ],
             ],
             [
                 'name' => '✈️Telegram',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬Youtube',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬Netflix',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬哔哩哔哩',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🚀直接连接'
+                        '🚀直接连接',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬国外媒体',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🍎苹果服务',
@@ -117,15 +119,15 @@ $_ENV['Surge_Profiles'] = [
                 'content' => [
                     'left-proxies' => [
                         '🚀直接连接',
-                        '🔰国外流量'
-                    ]
-                ]
-            ]
+                        '🔰国外流量',
+                    ],
+                ],
+            ],
         ],
         'Rule' => [
-            'source' => 'surge/default.tpl'
-        ]
-    ]
+            'source' => 'surge/default.tpl',
+        ],
+    ],
 ];
 
 /**
@@ -135,17 +137,17 @@ $_ENV['Surge2_Profiles'] = [
     'default' => [
         'Checks' => [],
         'General' => [
-            'loglevel'                   => 'notify',
-            'ipv6'                       => 'true',
-            'replica'                    => 'false',
-            'dns-server'                 => 'system, 119.29.29.29, 1.1.1.1',
-            'skip-proxy'                 => '127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, 17.0.0.0/8, localhost, *.local, *.crashlytics.com',
-            'bypass-system'              => 'true',
-            'allow-wifi-access'          => 'true',
-            'external-controller-access' => 'ChinaX@0.0.0.0:8233'
+            'loglevel' => 'notify',
+            'ipv6' => 'true',
+            'replica' => 'false',
+            'dns-server' => 'system, 119.29.29.29, 1.1.1.1',
+            'skip-proxy' => '127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, 17.0.0.0/8, localhost, *.local, *.crashlytics.com',
+            'bypass-system' => 'true',
+            'allow-wifi-access' => 'true',
+            'external-controller-access' => 'ChinaX@0.0.0.0:8233',
         ],
         'Proxy' => [
-            '🚀直接连接 = direct'
+            '🚀直接连接 = direct',
         ],
         'ProxyGroup' => [
             [
@@ -154,9 +156,9 @@ $_ENV['Surge2_Profiles'] = [
                 'content' => [
                     'regex' => '(.*)',
                     'right-proxies' => [
-                        '🚀直接连接'
+                        '🚀直接连接',
                     ],
-                ]
+                ],
             ],
             [
                 'name' => '⚓️其他流量',
@@ -164,59 +166,59 @@ $_ENV['Surge2_Profiles'] = [
                 'content' => [
                     'left-proxies' => [
                         '🔰国外流量',
-                        '🚀直接连接'
-                    ]
-                ]
+                        '🚀直接连接',
+                    ],
+                ],
             ],
             [
                 'name' => '✈️Telegram',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬Youtube',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬Netflix',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬哔哩哔哩',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🚀直接连接'
+                        '🚀直接连接',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬国外媒体',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🍎苹果服务',
@@ -224,15 +226,15 @@ $_ENV['Surge2_Profiles'] = [
                 'content' => [
                     'left-proxies' => [
                         '🚀直接连接',
-                        '🔰国外流量'
-                    ]
-                ]
-            ]
+                        '🔰国外流量',
+                    ],
+                ],
+            ],
         ],
         'Rule' => [
-            'source' => 'surge2/default.tpl'
-        ]
-    ]
+            'source' => 'surge2/default.tpl',
+        ],
+    ],
 ];
 
 /**
@@ -242,35 +244,35 @@ $_ENV['Clash_Profiles'] = [
     'default' => [
         'Checks' => [],
         'General' => [
-            'port'                => 7890,
-            'socks-port'          => 7891,
-            'redir-port'          => 7892,
-            'allow-lan'           => false,
-            'mode'                => 'rule',
-            'log-level'           => 'silent',
+            'port' => 7890,
+            'socks-port' => 7891,
+            'redir-port' => 7892,
+            'allow-lan' => false,
+            'mode' => 'rule',
+            'log-level' => 'silent',
             'external-controller' => '0.0.0.0:9090',
-            'secret'              => ''
+            'secret' => '',
         ],
         'DNS' => [
-            'enable'              => true,
-            'ipv6'                => false,
-            'listen'              => '0.0.0.0:53',
-            'enhanced-mode'       => 'fake-ip',
-            'fake-ip-range'       => '198.18.0.1/16',
-            'nameserver'=>[
+            'enable' => true,
+            'ipv6' => false,
+            'listen' => '0.0.0.0:53',
+            'enhanced-mode' => 'fake-ip',
+            'fake-ip-range' => '198.18.0.1/16',
+            'nameserver' => [
                 '119.29.29.29',
-                '1.1.1.1'
+                '1.1.1.1',
             ],
-            'fallback'=>[
+            'fallback' => [
                 '1.0.0.1',
-                '8.8.8.8'
+                '8.8.8.8',
             ],
-            'fallback-filter'=>[
-                'geoip'=> true,
-                'ipcidr'=>[
-                    '240.0.0.0/4'
-                ]
-            ]
+            'fallback-filter' => [
+                'geoip' => true,
+                'ipcidr' => [
+                    '240.0.0.0/4',
+                ],
+            ],
         ],
         'Proxy' => [],
         'ProxyGroup' => [
@@ -280,9 +282,9 @@ $_ENV['Clash_Profiles'] = [
                 'content' => [
                     'regex' => '(.*)',
                     'right-proxies' => [
-                        '🚀直接连接'
+                        '🚀直接连接',
                     ],
-                ]
+                ],
             ],
             [
                 'name' => '⚓️其他流量',
@@ -290,59 +292,59 @@ $_ENV['Clash_Profiles'] = [
                 'content' => [
                     'left-proxies' => [
                         '🔰国外流量',
-                        '🚀直接连接'
-                    ]
-                ]
+                        '🚀直接连接',
+                    ],
+                ],
             ],
             [
                 'name' => '✈️Telegram',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬Youtube',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬Netflix',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬哔哩哔哩',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🚀直接连接'
+                        '🚀直接连接',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬国外媒体',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🍎苹果服务',
@@ -350,24 +352,24 @@ $_ENV['Clash_Profiles'] = [
                 'content' => [
                     'left-proxies' => [
                         '🚀直接连接',
-                        '🔰国外流量'
-                    ]
-                ]
+                        '🔰国外流量',
+                    ],
+                ],
             ],
             [
                 'name' => '🚀直接连接',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        'DIRECT'
-                    ]
-                ]
-            ]
+                        'DIRECT',
+                    ],
+                ],
+            ],
         ],
         'Rule' => [
-            'source' => 'clash/default.tpl'
-        ]
-    ]
+            'source' => 'clash/default.tpl',
+        ],
+    ],
 ];
 
 /**
@@ -377,12 +379,12 @@ $_ENV['Surfboard_Profiles'] = [
     'default' => [
         'Checks' => [],
         'General' => [
-            'loglevel'   => 'notify',
+            'loglevel' => 'notify',
             'dns-server' => 'system, 119.29.29.29, 1.1.1.1',
             'skip-proxy' => '127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, 17.0.0.0/8, localhost, *.local, *.crashlytics.com',
         ],
         'Proxy' => [
-            '🚀直接连接 = direct'
+            '🚀直接连接 = direct',
         ],
         'ProxyGroup' => [
             [
@@ -391,9 +393,9 @@ $_ENV['Surfboard_Profiles'] = [
                 'content' => [
                     'regex' => '(.*)',
                     'right-proxies' => [
-                        '🚀直接连接'
+                        '🚀直接连接',
                     ],
-                ]
+                ],
             ],
             [
                 'name' => '⚓️其他流量',
@@ -401,63 +403,63 @@ $_ENV['Surfboard_Profiles'] = [
                 'content' => [
                     'left-proxies' => [
                         '🔰国外流量',
-                        '🚀直接连接'
-                    ]
-                ]
+                        '🚀直接连接',
+                    ],
+                ],
             ],
             [
                 'name' => '✈️Telegram',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬Youtube',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬Netflix',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬哔哩哔哩',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🚀直接连接'
+                        '🚀直接连接',
                     ],
                     'regex' => '(.*)',
-                ]
+                ],
             ],
             [
                 'name' => '🎬国外媒体',
                 'type' => 'select',
                 'content' => [
                     'left-proxies' => [
-                        '🔰国外流量'
+                        '🔰国外流量',
                     ],
                     'regex' => '(.*)',
-                ]
-            ]
+                ],
+            ],
         ],
         'Rule' => [
-            'source' => 'surfboard/default.tpl'
-        ]
-    ]
+            'source' => 'surfboard/default.tpl',
+        ],
+    ],
 ];

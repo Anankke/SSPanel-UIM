@@ -6,7 +6,7 @@ namespace App\Models;
 
 use App\Utils\QQWry;
 
-class UnblockIp extends Model
+final class UnblockIp extends Model
 {
     protected $connection = 'default';
 
@@ -23,7 +23,7 @@ class UnblockIp extends Model
     /**
      * 用户名
      */
-    public function user_name(): string
+    public function userName(): string
     {
         if ($this->user() === null) {
             return '用户已不存在';

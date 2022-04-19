@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Models\Coupon;
+use App\Models\User;
+use App\Utils\DatatablesHelper;
+use App\Utils\ResponseHelper;
+use App\Utils\Tools;
 use Ozdemir\Datatables\Datatables;
-use Request;
-use Tools;
-use User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-/**
+/*
  *  Admin Controller
  */
-class AdminController extends UserController
+final class AdminController extends UserController
 {
     /**
      * 后台首页
@@ -48,24 +52,18 @@ class AdminController extends UserController
      */
     public function invite(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'total' => '原始金额',
-            'event_user_id' => '发起用户ID',
-            'event_user_name' => '发起用户名',
-            'ref_user_id' => '获利用户ID',
-            'ref_user_name' => '获利用户名',
-            'ref_get' => '获利金额',
-            'datetime' => '时间',
-        ];
-        $table_config['default_show_column'] = [];
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
-        $table_config['ajax_url'] = 'payback/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'total' => '原始金额',
+                    'event_user_id' => '发起用户ID',
+                    'event_user_name' => '发起用户名',
+                    'ref_user_id' => '获利用户ID',
+                    'ref_user_name' => '获利用户名',
+                    'ref_get' => '获利金额',
+                    'datetime' => '时间',
+                ], 'payback/ajax'))
                 ->display('admin/invite.tpl')
         );
     }
@@ -75,7 +73,7 @@ class AdminController extends UserController
      *
      * @param array     $args
      */
-    public function ajax_payback(Request $request, Response $response, array $args)
+    public function ajaxPayback(Request $request, Response $response, array $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query('Select payback.id,payback.total,payback.userid as event_user_id,event_user.user_name as event_user_name,payback.ref_by as ref_user_id,ref_user.user_name as ref_user_name,payback.ref_get,payback.datetime from payback,user as event_user,user as ref_user where event_user.id = payback.userid and ref_user.id = payback.ref_by');
@@ -165,22 +163,16 @@ class AdminController extends UserController
      */
     public function coupon(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'code' => '优惠码',
-            'expire' => '过期时间',
-            'shop' => '限定商品ID',
-            'credit' => '额度',
-            'onetime' => '次数',
-        ];
-        $table_config['default_show_column'] = [];
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
-        $table_config['ajax_url'] = 'coupon/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'code' => '优惠码',
+                    'expire' => '过期时间',
+                    'shop' => '限定商品ID',
+                    'credit' => '额度',
+                    'onetime' => '次数',
+                ], 'coupon/ajax'))
                 ->display('admin/coupon.tpl')
         );
     }
@@ -190,7 +182,7 @@ class AdminController extends UserController
      *
      * @param array     $args
      */
-    public function ajax_coupon(Request $request, Response $response, array $args)
+    public function ajaxCoupon(Request $request, Response $response, array $args)
     {
         $datatables = new Datatables(new DatatablesHelper());
         $datatables->query('Select id,code,expire,shop,credit,onetime from coupon');
@@ -211,7 +203,7 @@ class AdminController extends UserController
     {
         $generate_type = (int) $request->getParam('generate_type');
         $final_code = $request->getParam('prefix');
-        if (empty($final_code) && in_array($generate_type, [1, 3])) {
+        if ($final_code && in_array($generate_type, [1, 3])) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '优惠码不能为空',

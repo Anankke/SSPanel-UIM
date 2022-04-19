@@ -12,18 +12,18 @@ use App\Utils\Tools;
 use Exception;
 use Ramsey\Uuid\Uuid;
 
-class User extends Command
+final class User extends Command
 {
-    public $description = ''
-        . '├─=: php xcat User [选项]' . PHP_EOL
-        . '│ ├─ getCookie               - 获取指定用户的 Cookie' . PHP_EOL
-        . '│ ├─ resetPort               - 重置单个用户端口' . PHP_EOL
-        . '│ ├─ createAdmin             - 创建管理员帐号' . PHP_EOL
-        . '│ ├─ resetAllPort            - 重置所有用户端口' . PHP_EOL
-        . '│ ├─ resetTraffic            - 重置所有用户流量' . PHP_EOL
-        . '│ ├─ generateUUID            - 为所有用户生成新的 UUID' . PHP_EOL
-        . '│ ├─ generateGa              - 为所有用户生成新的 Ga Secret' . PHP_EOL;
-
+    public $description = <<<EOL
+├─=: php xcat User [选项]
+│ ├─ getCookie               - 获取指定用户的 Cookie
+│ ├─ resetPort               - 重置单个用户端口
+│ ├─ createAdmin             - 创建管理员帐号
+│ ├─ resetAllPort            - 重置所有用户端口
+│ ├─ resetTraffic            - 重置所有用户流量
+│ ├─ generateUUID            - 为所有用户生成新的 UUID
+│ ├─ generateGa              - 为所有用户生成新的 Ga Secret;
+EOL;
     public function boot(): void
     {
         if (count($this->argv) === 2) {
@@ -33,7 +33,7 @@ class User extends Command
             if (method_exists($this, $methodName)) {
                 $this->$methodName();
             } else {
-                echo '方法不存在.' . PHP_EOL;
+                echo '方法不存在.';
             }
         }
     }
@@ -48,10 +48,10 @@ class User extends Command
         if ($user !== null) {
             $user->port = Tools::getAvPort();
             if ($user->save()) {
-                echo '重置成功!' . PHP_EOL;
+                echo '重置成功!';
             }
         } else {
-            echo 'not found user.' . PHP_EOL;
+            echo 'not found user.';
         }
     }
 
@@ -84,7 +84,7 @@ class User extends Command
             echo $e->getMessage();
             return;
         }
-        echo 'reset traffic successful' . PHP_EOL;
+        echo 'reset traffic successful';
     }
 
     /**
@@ -98,7 +98,7 @@ class User extends Command
             /** @var ModelsUser $user */
             $user->generateUUID($current_timestamp);
         }
-        echo 'generate UUID successful' . PHP_EOL;
+        echo 'generate UUID successful';
     }
 
     /**
@@ -114,7 +114,7 @@ class User extends Command
             $user->ga_token = $secret;
             $user->save();
         }
-        echo 'generate Ga Secret successful' . PHP_EOL;
+        echo 'generate Ga Secret successful';
     }
 
     /**
@@ -179,12 +179,12 @@ class User extends Command
             $user->ga_enable = 0;
 
             if ($user->save()) {
-                echo '创建成功，请在主页登录' . PHP_EOL;
+                echo '创建成功，请在主页登录';
             } else {
-                echo '创建失败，请检查数据库配置' . PHP_EOL;
+                echo '创建失败，请检查数据库配置';
             }
         } else {
-            echo '已取消创建' . PHP_EOL;
+            echo '已取消创建';
         }
     }
 

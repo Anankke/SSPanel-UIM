@@ -17,7 +17,7 @@ namespace App\Models;
  * @property        float   $price      Price after coupon applied
  * @property        bool    $is_notified If this bought is notified for renew
  */
-class Bought extends Model
+final class Bought extends Model
 {
     protected $connection = 'default';
 
@@ -26,7 +26,7 @@ class Bought extends Model
     /**
      * [静态方法] 删除不存在的用户的记录
      */
-    public static function user_is_null(Bought $Bought): void
+    public static function userIsNull(Bought $Bought): void
     {
         self::where('userid', $Bought->userid)->delete();
     }
@@ -34,7 +34,7 @@ class Bought extends Model
     /**
      * [静态方法] 删除不存在的商品的记录
      */
-    public static function shop_is_null(Bought $Bought): void
+    public static function shopIsNull(Bought $Bought): void
     {
         self::where('shopid', $Bought->shopid)->delete();
     }
@@ -69,7 +69,7 @@ class Bought extends Model
     /**
      * 购买用户名
      */
-    public function user_name(): string
+    public function userName(): string
     {
         if ($this->user() === null) {
             return '用户已不存在';
@@ -99,7 +99,7 @@ class Bought extends Model
     /**
      * 流量是否自动重置
      */
-    public function auto_reset_bandwidth(): string
+    public function autoResetBandwidthString(): string
     {
         if ($this->shop() === null) {
             return '商品已不存在';
@@ -110,7 +110,7 @@ class Bought extends Model
     /*
      * 套餐已使用的天数
      */
-    public function used_days(): int
+    public function usedDays(): int
     {
         return (int) ((time() - $this->datetime) / 86400);
     }
@@ -121,8 +121,8 @@ class Bought extends Model
     public function valid(): bool
     {
         $shop = $this->shop();
-        if ($shop->use_loop()) {
-            return time() - $shop->reset_exp() * 86400 < $this->datetime;
+        if ($shop->useLoop()) {
+            return time() - $shop->resetExp() * 86400 < $this->datetime;
         }
         return false;
     }
@@ -130,10 +130,10 @@ class Bought extends Model
     /*
      * 下一次流量重置时间
      */
-    public function reset_time($unix = false)
+    public function resetTime($unix = false)
     {
         $shop = $this->shop();
-        if ($shop->use_loop()) {
+        if ($shop->useLoop()) {
             $day = 24 * 60 * 60;
             $resetIndex = 1 + (int) ((time() - $this->datetime - $day) / ($shop->reset() * $day));
             $restTime = $resetIndex * $shop->reset() * $day + $this->datetime;
@@ -146,11 +146,11 @@ class Bought extends Model
     /*
      * 过期时间
      */
-    public function exp_time($unix = false)
+    public function expTime($unix = false)
     {
         $shop = $this->shop();
-        if ($shop->use_loop()) {
-            $time = $this->datetime + ($shop->reset_exp() * 86400);
+        if ($shop->useLoop()) {
+            $time = $this->datetime + ($shop->resetExp() * 86400);
             return ! $unix ? date('Y-m-d H:i:s', $time) : $time;
         }
         return ! $unix ? '-' : 0;

@@ -6,7 +6,7 @@ namespace App\Services\Mail;
 
 use App\Models\Setting;
 
-class SendGrid extends Base
+final class SendGrid extends Base
 {
     private $config;
     private $sg;

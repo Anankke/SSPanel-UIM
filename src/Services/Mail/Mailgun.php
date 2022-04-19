@@ -7,7 +7,7 @@ namespace App\Services\Mail;
 use App\Models\Setting;
 use Mailgun\Mailgun as MailgunService;
 
-class Mailgun extends Base
+final class Mailgun extends Base
 {
     private $config;
     private $mg;

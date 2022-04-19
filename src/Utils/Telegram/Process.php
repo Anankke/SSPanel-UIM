@@ -7,7 +7,7 @@ namespace App\Utils\Telegram;
 use Exception;
 use Telegram\Bot\Api;
 
-class Process
+final class Process
 {
     public static function index(): void
     {

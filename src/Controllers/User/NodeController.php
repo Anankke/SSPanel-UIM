@@ -5,20 +5,23 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\UserController;
-use Node;
+use App\Models\Node;
+use App\Models\User;
+use App\Utils\Tools;
+use App\Utils\URL;
 use Psr\Http\Message\ResponseInterface;
-use Request;
-use URL;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  *  User NodeController
  */
-class NodeController extends UserController
+final class NodeController extends UserController
 {
     /**
      * @param array     $args
      */
-    public function user_node_page(Request $request, Response $response, array $args): ResponseInterface
+    public function userNodePage(Request $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
         $query = Node::query();
@@ -37,15 +40,15 @@ class NodeController extends UserController
             $array_node['name'] = $node->name;
             $array_node['class'] = $node->node_class;
             $array_node['info'] = $node->info;
-            $array_node['flag'] = $node->get_node_flag();
-            $array_node['online_user'] = $node->get_node_online_user_count();
-            $array_node['online'] = $node->get_node_online_status();
-            $array_node['latest_load'] = $node->get_node_latest_load_text();
+            $array_node['flag'] = $node->getNodeFlag();
+            $array_node['online_user'] = $node->getNodeOnlineUserCount();
+            $array_node['online'] = $node->getNodeOnlineStatus();
+            $array_node['latest_load'] = $node->getNodeLatestLoadText();
             $array_node['traffic_rate'] = $node->traffic_rate;
             $array_node['status'] = $node->status;
             $array_node['traffic_used'] = (int) Tools::flowToGB($node->node_bandwidth);
             $array_node['traffic_limit'] = (int) Tools::flowToGB($node->node_bandwidth_limit);
-            $array_node['bandwidth'] = $node->get_node_speedlimit();
+            $array_node['bandwidth'] = $node->getNodeSpeedlimit();
 
             $all_connect = [];
             if (in_array($node->sort, [0])) {
@@ -83,7 +86,7 @@ class NodeController extends UserController
     /**
      * @param array     $args
      */
-    public function user_node_ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function userNodeAjax(Request $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $point_node = Node::find($id);
@@ -100,7 +103,7 @@ class NodeController extends UserController
     /**
      * @param array     $args
      */
-    public function user_node_info(Request $request, Response $response, array $args): ResponseInterface
+    public function userNodeInfo(Request $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;
         $node = Node::find($args['id']);
@@ -181,7 +184,7 @@ class NodeController extends UserController
             case 14:
                 $server = $node->getTrojanItem($user);
                 $nodes = [
-                    'url' => URL::get_trojan_url($user, $node),
+                    'url' => URL::getTrojanUrl($user, $node),
                     'info' => [
                         '连接地址：' => $server['address'],
                         '连接端口：' => $server['port'],

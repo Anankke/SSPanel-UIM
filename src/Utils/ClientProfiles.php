@@ -8,12 +8,12 @@ use App\Controllers\LinkController;
 use App\Services\Config;
 use Ramsey\Uuid\Uuid;
 
-class ClientProfiles
+final class ClientProfiles
 {
     public static function getSSPcConf($user)
     {
         $proxy = [];
-        $items = URL::getNew_AllItems(
+        $items = URL::getNewAllItems(
             $user,
             [
                 'type' => 'ss',
@@ -99,7 +99,7 @@ class ClientProfiles
     public static function getSSRPcConf($user)
     {
         $proxy = [];
-        $items = URL::getNew_AllItems(
+        $items = URL::getNewAllItems(
             $user,
             [
                 'type' => 'ssr',
@@ -223,7 +223,7 @@ class ClientProfiles
             'type' => 'vmess',
         ];
         $proxys = [];
-        $items = URL::getNew_AllItems($user, $Rule);
+        $items = URL::getNewAllItems($user, $Rule);
         foreach ($items as $item) {
             if (! in_array($item['net'], ['tcp', 'ws', 'kcp', 'h2'])) {
                 continue;

@@ -6,18 +6,25 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use Link;
+use App\Models\Link;
+use App\Models\User;
+use App\Models\UserSubscribeLog;
+use App\Utils\AppURI;
+use App\Utils\ConfGenerate;
+use App\Utils\ConfRender;
+use App\Utils\Tools;
+use App\Utils\URL;
 use Psr\Http\Message\ResponseInterface;
-use Request;
-use URL;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use voku\helper\AntiXSS;
 
 /**
  *  LinkController
  */
-class LinkController extends BaseController
+final class LinkController extends BaseController
 {
-    public static function GenerateRandomLink()
+    public static function generateRandomLink()
     {
         for ($i = 0; $i < 10; $i++) {
             $token = Tools::genRandomChar(16);
@@ -30,7 +37,7 @@ class LinkController extends BaseController
         return "couldn't alloc token";
     }
 
-    public static function GenerateSSRSubCode(int $userid): string
+    public static function generateSSRSubCode(int $userid): string
     {
         $Elink = Link::where('userid', $userid)->first();
         if ($Elink !== null) {
@@ -38,7 +45,7 @@ class LinkController extends BaseController
         }
         $NLink = new Link();
         $NLink->userid = $userid;
-        $NLink->token = self::GenerateRandomLink();
+        $NLink->token = self::generateRandomLink();
         $NLink->save();
 
         return $NLink->token;
@@ -47,7 +54,7 @@ class LinkController extends BaseController
     /**
      * @param array     $args
      */
-    public static function GetContent(Request $request, Response $response, array $args)
+    public static function getContent(Request $request, Response $response, array $args)
     {
         if (! $_ENV['Subscribe']) {
             return null;
@@ -68,6 +75,7 @@ class LinkController extends BaseController
         $opts = $request->getQueryParams();
 
         // 筛选节点部分
+        $Rule = [];
         $Rule['type'] = (isset($opts['type']) ? trim($opts['type']) : 'all');
         $Rule['is_mu'] = ($_ENV['mergeSub'] === true ? 1 : 0);
         if (isset($opts['mu'])) {
@@ -77,7 +85,7 @@ class LinkController extends BaseController
         if (isset($opts['class'])) {
             $class = trim(urldecode($opts['class']));
             $Rule['content']['class'] = array_map(
-                function ($item) {
+                static function ($item) {
                     return (int) $item;
                 },
                 explode('-', $class)
@@ -87,7 +95,7 @@ class LinkController extends BaseController
         if (isset($opts['noclass'])) {
             $noclass = trim(urldecode($opts['noclass']));
             $Rule['content']['noclass'] = array_map(
-                function ($item) {
+                static function ($item) {
                     return (int) $item;
                 },
                 explode('-', $noclass)
@@ -173,7 +181,7 @@ class LinkController extends BaseController
 
         // 记录订阅日志
         if ($_ENV['subscribeLog'] === true) {
-            self::Subscribe_log($user, $subscribe_type, $request->getHeaderLine('User-Agent'));
+            self::subscribeLog($user, $subscribe_type, $request->getHeaderLine('User-Agent'));
         }
 
         return $getBody;
@@ -393,7 +401,7 @@ class LinkController extends BaseController
         if ($int === 0) {
             $int = '';
         }
-        $userapiUrl = $_ENV['subUrl'] . self::GenerateSSRSubCode($user->id);
+        $userapiUrl = $_ENV['subUrl'] . self::generateSSRSubCode($user->id);
         $return_info = [
             'link' => '',
             // sub
@@ -422,7 +430,7 @@ class LinkController extends BaseController
         ];
 
         return array_map(
-            function ($item) use ($userapiUrl) {
+            static function ($item) use ($userapiUrl) {
                 return $userapiUrl . $item;
             },
             $return_info
@@ -486,7 +494,7 @@ class LinkController extends BaseController
             // Shadowrocket 自带 emoji
             $Rule['emoji'] = false;
         }
-        $items = URL::getNew_AllItems($user, $Rule);
+        $items = URL::getNewAllItems($user, $Rule);
         $return = [];
         if ($Rule['extend'] === true) {
             switch ($list) {
@@ -603,12 +611,10 @@ class LinkController extends BaseController
      */
     public static function getSurge(User $user, int $surge, array $opts, array $Rule): string
     {
-        $subInfo = self::getSubinfo($user, $surge);
-        $userapiUrl = $subInfo['surge'];
         if ($surge !== 4) {
             $Rule['type'] = 'ss';
         }
-        $items = URL::getNew_AllItems($user, $Rule);
+        $items = URL::getNewAllItems($user, $Rule);
         $Nodes = [];
         $All_Proxy = '';
         foreach ($items as $item) {
@@ -621,7 +627,6 @@ class LinkController extends BaseController
         $variable = ($surge === 2 ? 'Surge2_Profiles' : 'Surge_Profiles');
         if (isset($opts['profiles']) && in_array($opts['profiles'], array_keys($_ENV[$variable]))) {
             $Profiles = $opts['profiles'];
-            $userapiUrl .= '&profiles=' . $Profiles;
         } else {
             $Profiles = ($surge === 2 ? $_ENV['Surge2_DefaultProfiles'] : $_ENV['Surge_DefaultProfiles']);
         }
@@ -660,7 +665,7 @@ class LinkController extends BaseController
                 return implode(PHP_EOL, $str);
                 break;
             case 3:
-                $items = URL::getNew_AllItems($user, $Rule);
+                $items = URL::getNewAllItems($user, $Rule);
                 break;
             default:
                 return self::getLists($user, 'quantumult', $opts, $Rule);
@@ -718,11 +723,9 @@ class LinkController extends BaseController
      */
     public static function getSurfboard(User $user, int $surfboard, array $opts, array $Rule): string
     {
-        $subInfo = self::getSubinfo($user, 0);
-        $userapiUrl = $subInfo['surfboard'];
         $Nodes = [];
         $All_Proxy = '';
-        $items = URL::getNew_AllItems($user, $Rule);
+        $items = URL::getNewAllItems($user, $Rule);
         foreach ($items as $item) {
             $out = AppURI::getSurfboardURI($item);
             if ($out !== null) {
@@ -732,7 +735,6 @@ class LinkController extends BaseController
         }
         if (isset($opts['profiles']) && in_array($opts['profiles'], array_keys($_ENV['Surfboard_Profiles']))) {
             $Profiles = $opts['profiles'];
-            $userapiUrl .= '&profiles=' . $Profiles;
         } else {
             $Profiles = $_ENV['Surfboard_DefaultProfiles']; // 默认策略组
         }
@@ -750,9 +752,7 @@ class LinkController extends BaseController
      */
     public static function getClash(User $user, int $clash, array $opts, array $Rule): string
     {
-        $subInfo = self::getSubinfo($user, $clash);
-        $userapiUrl = $subInfo['clash'];
-        $items = URL::getNew_AllItems($user, $Rule);
+        $items = URL::getNewAllItems($user, $Rule);
         $Proxys = [];
         foreach ($items as $item) {
             $Proxy = AppURI::getClashURI($item);
@@ -762,7 +762,6 @@ class LinkController extends BaseController
         }
         if (isset($opts['profiles']) && in_array($opts['profiles'], array_keys($_ENV['Clash_Profiles']))) {
             $Profiles = $opts['profiles'];
-            $userapiUrl .= '&profiles=' . $Profiles;
         } else {
             $Profiles = $_ENV['Clash_DefaultProfiles']; // 默认策略组
         }
@@ -772,10 +771,8 @@ class LinkController extends BaseController
 
     public static function getAnXray($user, $anxray, $opts, $Rule)
     {
-        $subInfo = self::getSubinfo($user, $anxray);
         $All_Proxy = '';
-        $userapiUrl = $subInfo['anxray'];
-        $items = URL::getNew_AllItems($user, $Rule);
+        $items = URL::getNewAllItems($user, $Rule);
         foreach ($items as $item) {
             $out = AppURI::getAnXrayURI($item);
             if ($out !== null) {
@@ -816,7 +813,7 @@ class LinkController extends BaseController
         if ($Rule['extend']) {
             $return_url .= implode(PHP_EOL, $getListExtend) . PHP_EOL;
         }
-        $return_url .= URL::get_NewAllUrl($user, $Rule);
+        $return_url .= URL::getNewAllUrl($user, $Rule);
         return base64_encode($return_url);
     }
 
@@ -827,7 +824,7 @@ class LinkController extends BaseController
      * @param string $type 订阅类型
      * @param string $ua   UA
      */
-    private static function Subscribe_log(User $user, string $type, string $ua): void
+    private static function subscribeLog(User $user, string $type, string $ua): void
     {
         $log = new UserSubscribeLog();
         $log->user_name = $user->user_name;

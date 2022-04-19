@@ -11,7 +11,7 @@ use App\Services\Config;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 
-class SendDiaryMail extends Command
+final class SendDiaryMail extends Command
 {
     public $description = '├─=: php xcat SendDiaryMail  - 每日流量报告' . PHP_EOL;
 
@@ -37,7 +37,7 @@ class SendDiaryMail extends Command
         $sts = new Analytics();
 
         if (Config::getconfig('Telegram.bool.Diary')) {
-            Telegram::Send(
+            Telegram::send(
                 str_replace(
                     [
                         '%getTodayCheckinUser%',

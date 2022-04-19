@@ -9,10 +9,12 @@ use App\Models\Code;
 use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\Mail;
+use App\Utils\ResponseHelper;
 use App\Utils\Tools;
-use Request;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class CodeController extends AdminController
+final class CodeController extends AdminController
 {
     /**
      * 后台充值码及充值记录页面
@@ -21,21 +23,18 @@ class CodeController extends AdminController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'code' => '内容',
-            'type' => '类型',
-            'number' => '操作',
-            'isused' => '是否已经使用',
-            'userid' => '用户ID',
-            'user_name' => '用户名',
-            'usedatetime' => '使用时间',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'code/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'code' => '内容',
+                    'type' => '类型',
+                    'number' => '操作',
+                    'isused' => '是否已经使用',
+                    'userid' => '用户ID',
+                    'user_name' => '用户名',
+                    'usedatetime' => '使用时间',
+                ], 'code/ajax'))
                 ->display('admin/code/index.tpl')
         );
     }
@@ -43,7 +42,7 @@ class CodeController extends AdminController
     /**
      * @param array     $args
      */
-    public function ajax_code(Request $request, Response $response, array $args)
+    public function ajaxCode(Request $request, Response $response, array $args)
     {
         $query = Code::getTableDataFromAdmin(
             $request,
@@ -65,7 +64,7 @@ class CodeController extends AdminController
             $tempdata['number'] = $value->number();
             $tempdata['isused'] = $value->isused();
             $tempdata['userid'] = $value->userid();
-            $tempdata['user_name'] = $value->user_name();
+            $tempdata['user_name'] = $value->userName();
             $tempdata['usedatetime'] = $value->usedatetime();
 
             $data[] = $tempdata;
@@ -93,7 +92,7 @@ class CodeController extends AdminController
     /**
      * @param array     $args
      */
-    public function donate_create(Request $request, Response $response, array $args)
+    public function donateCreate(Request $request, Response $response, array $args)
     {
         return $response->write(
             $this->view()
@@ -152,15 +151,13 @@ class CodeController extends AdminController
             );
         }
 
-        $rs['ret'] = 1;
-        $rs['msg'] = '充值码添加成功';
-        return $response->withJson($rs);
+        return ResponseHelper::successfully($response, '充值码添加成功');
     }
 
     /**
      * @param array     $args
      */
-    public function donate_add(Request $request, Response $response, array $args)
+    public function donateAdd(Request $request, Response $response, array $args)
     {
         $amount = $request->getParam('amount');
         $type = $request->getParam('type');
@@ -176,8 +173,6 @@ class CodeController extends AdminController
 
         $code->save();
 
-        $rs['ret'] = 1;
-        $rs['msg'] = '添加成功';
-        return $response->withJson($rs);
+        return ResponseHelper::successfully($response, '添加成功');
     }
 }

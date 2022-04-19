@@ -7,7 +7,7 @@ namespace App\Models;
 /**
  * Code Model
  */
-class Code extends Model
+final class Code extends Model
 {
     protected $connection = 'default';
 
@@ -32,7 +32,7 @@ class Code extends Model
     /**
      * 用户名
      */
-    public function user_name(): string
+    public function userName(): string
     {
         if ($this->userid === 0) {
             return '未使用';

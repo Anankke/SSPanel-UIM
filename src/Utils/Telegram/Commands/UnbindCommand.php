@@ -12,7 +12,7 @@ use Telegram\Bot\Commands\Command;
 /**
  * Class UnbindCommand.
  */
-class UnbindCommand extends Command
+final class UnbindCommand extends Command
 {
     /**
      * @var string Command Name
@@ -24,17 +24,10 @@ class UnbindCommand extends Command
      */
     protected $description = '[私聊]     解除账户绑定.';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function handle()
+    public function handle(): void
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
-
-        // 消息 ID
-        $MessageID = $Message->getMessageId();
-
         // 消息会话 ID
         $ChatID = $Message->getChat()->getId();
 
@@ -68,7 +61,7 @@ class UnbindCommand extends Command
             $MessageText = implode(' ', array_splice(explode(' ', trim($Message->getText())), 1));
 
             if ($MessageText === $User->email) {
-                $temp = $User->TelegramReset();
+                $temp = $User->telegramReset();
                 $text = $temp['msg'];
                 // 回送信息
                 $this->replyWithMessage(

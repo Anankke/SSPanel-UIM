@@ -8,16 +8,17 @@ use App\Models\Setting;
 use App\Utils\DatatablesHelper;
 use App\Utils\QQWry;
 
-class Tool extends Command
+final class Tool extends Command
 {
-    public $description = ''
-        . '├─=: php xcat Tool [选项]' . PHP_EOL
-        . '│ ├─ initQQWry               - 下载 IP 解析库' . PHP_EOL
-        . '│ ├─ setTelegram             - 设置 Telegram 机器人' . PHP_EOL
-        . '│ ├─ detectConfigs           - 检查数据库内新增的配置' . PHP_EOL
-        . '│ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置' . PHP_EOL
-        . '│ ├─ exportAllSettings       - 导出所有设置' . PHP_EOL
-        . '│ ├─ importAllSettings       - 导入所有设置' . PHP_EOL;
+    public $description = <<<EOL
+├─=: php xcat Tool [选项]
+│ ├─ initQQWry               - 下载 IP 解析库
+│ ├─ setTelegram             - 设置 Telegram 机器人
+│ ├─ detectConfigs           - 检查数据库内新增的配置
+│ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置
+│ ├─ exportAllSettings       - 导出所有设置
+│ ├─ importAllSettings       - 导入所有设置
+EOL;
 
     public function boot(): void
     {

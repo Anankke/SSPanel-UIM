@@ -8,12 +8,12 @@ use Exception;
 use Telegram\Bot\Api;
 use TelegramBot\Api\BotApi;
 
-class Telegram
+final class Telegram
 {
     /**
      * 发送讯息，默认给群组发送
      */
-    public static function Send(string $messageText, int $chat_id = 0): void
+    public static function send(string $messageText, int $chat_id = 0): void
     {
         if ($chat_id === 0) {
             $chat_id = $_ENV['telegram_chatid'];
@@ -42,7 +42,7 @@ class Telegram
     /**
      * 以 Markdown 格式发送讯息，默认给群组发送
      */
-    public static function SendMarkdown(string $messageText, int $chat_id = 0): void
+    public static function sendMarkdown(string $messageText, int $chat_id = 0): void
     {
         if ($chat_id === 0) {
             $chat_id = $_ENV['telegram_chatid'];

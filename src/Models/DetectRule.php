@@ -7,7 +7,7 @@ namespace App\Models;
 /**
  * DetectLog Model
  */
-class DetectRule extends Model
+final class DetectRule extends Model
 {
     protected $connection = 'default';
 

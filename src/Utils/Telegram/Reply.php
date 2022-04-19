@@ -6,7 +6,7 @@ namespace App\Utils\Telegram;
 
 use App\Models\Bought;
 
-class Reply
+final class Reply
 {
     /**
      * 用户的流量使用讯息
@@ -16,8 +16,8 @@ class Reply
         $text = [
             '您当前的流量状况：',
             '',
-            '今日已使用 ' . $user->TodayusedTrafficPercent() . '% ：' . $user->TodayusedTraffic(),
-            '之前已使用 ' . $user->LastusedTrafficPercent() . '% ：' . $user->LastusedTraffic(),
+            '今日已使用 ' . $user->todayUsedTrafficPercent() . '% ：' . $user->todayUsedTraffic(),
+            '之前已使用 ' . $user->lastUsedTrafficPercent() . '% ：' . $user->lastUsedTraffic(),
             '流量约剩余 ' . $user->unusedTrafficPercent() . '% ：' . $user->unusedTraffic(),
         ];
         return implode(PHP_EOL, $text);
@@ -30,7 +30,7 @@ class Reply
     {
         $text = [
             '当前余额：' . $user->money,
-            '在线设备：' . ($user->node_connector !== 0 ? $user->online_ip_count() . ' / ' . $user->node_connector : $user->online_ip_count() . ' / 不限制'),
+            '在线设备：' . ($user->node_connector !== 0 ? $user->onlineIpCount() . ' / ' . $user->node_connector : $user->onlineIpCount() . ' / 不限制'),
             '端口速率：' . ($user->node_speedlimit !== 0 ? $user->node_speedlimit . 'Mbps' : '无限制'),
             '上次使用：' . $user->lastSsTime(),
             '过期时间：' . $user->class_expire,
@@ -71,8 +71,8 @@ class Reply
                 $strArray[] = ' - 商品套餐名称：' . $shop->name;
                 $strArray[] = ' - 套餐购买时间：' . $bought->datetime();
                 $strArray[] = ' - 套餐自动续费：' . $bought->renew();
-                $strArray[] = ' - 下次流量重置：' . $bought->reset_time();
-                $strArray[] = ' - 套餐过期时间：' . $bought->exp_time();
+                $strArray[] = ' - 下次流量重置：' . $bought->resetTime();
+                $strArray[] = ' - 套餐过期时间：' . $bought->expTime();
                 $strArray[] = '';
                 $data[] = implode(PHP_EOL, $strArray);
             }

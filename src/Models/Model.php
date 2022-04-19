@@ -136,7 +136,7 @@ use Illuminate\Support\LazyCollection;
  *
  * @codingStandardsIgnoreEnd
  */
-class Model extends EloquentMedel
+abstract class Model extends EloquentMedel
 {
     public $timestamps = false;
 
@@ -179,7 +179,7 @@ class Model extends EloquentMedel
         }
         if ($search) {
             $query->where(
-                function ($query) use ($search): void {
+                static function ($query) use ($search): void {
                     $query->where('id', 'LIKE binary', "%${search}%");
                     $attributes = Capsule::schema()->getColumnListing(self::getTableName());
                     foreach ($attributes as $s) {

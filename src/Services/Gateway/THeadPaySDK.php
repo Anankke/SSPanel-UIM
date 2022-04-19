@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Gateway;
 
-class THeadPaySDK
+final class THeadPaySDK
 {
     public function __construct($config)
     {
@@ -50,7 +50,7 @@ class THeadPaySDK
         return $params['sign'] === $this->sign($params);
     }
 
-    protected function sign($params)
+    private function sign($params)
     {
         unset($params['sign']);
         ksort($params);

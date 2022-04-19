@@ -11,10 +11,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Models\Node;
+use App\Models\User;
 use App\Utils\URL;
-use User;
 
-class PortAutoChange extends Command
+final class PortAutoChange extends Command
 {
     public $description = '├─=: php xcat PortAutoChange - 端口被墙则自动更换端口' . PHP_EOL;
 
@@ -66,7 +67,7 @@ class PortAutoChange extends Command
                 if ($mu_user === null) {
                     continue;
                 }
-                $port = $this->OutPort($node->server, $mu_node->server);
+                $port = $this->outPort($node->server, $mu_node->server);
                 $api_url = $_ENV['detect_gfw_url'];
                 $api_url = str_replace(
                     ['{ip}', '{port}'],
@@ -122,7 +123,7 @@ class PortAutoChange extends Command
                 $mu_user->port = $new_port;
                 $mu_user->save();
                 foreach ($mu_port_nodes as $mu_port_node) {
-                    $node_port = $this->OutPort($mu_port_node->server, $port);
+                    $node_port = $this->outPort($mu_port_node->server, $port);
                     if (in_array($mu_port_node->id, $array) && ! in_array($mu_port_node->id, $this->Config['exception_node_id'])) {
                         if ($node_port !== $port) {
                             if ($node_port === $new_port) {
@@ -171,7 +172,7 @@ class PortAutoChange extends Command
                         continue;
                     }
                     $node = Node::find($node_id);
-                    $node_port = $this->OutPort($node->server, $port);
+                    $node_port = $this->outPort($node->server, $port);
                     if ($node_port !== $port) {
                         if (strpos($node->server, '#' . $node_port) !== false) {
                             echo '#' . $node->id . ' - 节点 - ' . $node->name . ' - 端口从' . $node_port . '偏移到了新的端口 ' . $new_port . PHP_EOL;
@@ -195,13 +196,13 @@ class PortAutoChange extends Command
         }
     }
 
-    public function OutPort($server, $mu_port)
+    public function outPort($server, $mu_port)
     {
         $node_port = $mu_port;
         if (strpos($server, ';') !== false) {
             $node_server = explode(';', $server);
             if (strpos($node_server[1], 'port') !== false) {
-                $item = URL::parse_args($node_server[1]);
+                $item = URL::parseArgs($node_server[1]);
                 if (strpos($item['port'], '#') !== false) {
                     if (strpos($item['port'], '+') !== false) {
                         $args_explode = explode('+', $item['port']);
@@ -230,7 +231,7 @@ class PortAutoChange extends Command
         $detect_time = $_ENV['detect_gfw_count'];
         for ($i = 1; $i <= $detect_time; $i++) {
             $json_tcping = json_decode(file_get_contents($api_url), true);
-            if (eval('return ' . $_ENV['detect_gfw_judge'] . ';')) {
+            if ($_ENV['detect_gfw_judge']($json_tcping)) {
                 $result_tcping = true;
                 break;
             }

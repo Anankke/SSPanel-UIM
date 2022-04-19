@@ -35,18 +35,18 @@ $container['notAllowedHandler'] = static function ($c) {
 };
 
 if ($_ENV['debug'] === false) {
-    $container['errorHandler'] = function ($c) {
-        return function ($request, $response, $exception) {
+    $container['errorHandler'] = static function ($c) {
+        return static function ($request, $response, $exception) {
             $view = View::getSmarty();
-            $exceptionId = empty($_ENV['sentry_dsn']) ? null : Sentry\captureException($exception);
+            $exceptionId = isset($_ENV['sentry_dsn']) ? null : Sentry\captureException($exception);
             return $response->withStatus(500)
                 ->write($view->assign('exceptionId', $exceptionId)->fetch('500.tpl'));
         };
     };
-    $container['phpErrorHandler'] = function ($c) {
-        return function ($request, $response, $exception) {
+    $container['phpErrorHandler'] = static function ($c) {
+        return static function ($request, $response, $exception) {
             $view = View::getSmarty();
-            $exceptionId = empty($_ENV['sentry_dsn']) ? null : Sentry\captureException($exception);
+            $exceptionId = isset($_ENV['sentry_dsn']) ? null : Sentry\captureException($exception);
             return $response->withStatus(500)
                 ->write($view->assign('exceptionId', $exceptionId)->fetch('500.tpl'));
         };

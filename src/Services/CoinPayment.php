@@ -7,7 +7,7 @@ namespace App\Services;
 use App\Models\Setting;
 use App\Services\Gateway\CoinPay;
 
-class CoinPayment
+final class CoinPayment
 {
     public static function getClient()
     {

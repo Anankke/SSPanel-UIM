@@ -57,9 +57,9 @@
                                                 <tr>
                                                     <td>#{$bought->id}</td>
                                                     <td>{$bought->shop()->name}</td>
-                                                    <td>{$bought->used_days()} 天</td>
-                                                    <td>{$bought->reset_time()}</td>
-                                                    <td>{$bought->exp_time()}</td>
+                                                    <td>{$bought->usedDays()} 天</td>
+                                                    <td>{$bought->resetTime()}</td>
+                                                    <td>{$bought->expTime()}</td>
                                                 </tr>
                                           		{/if}
                                           	{/foreach}

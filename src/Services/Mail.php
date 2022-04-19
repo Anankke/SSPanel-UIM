@@ -16,7 +16,7 @@ use App\Services\Mail\Ses;
 use App\Services\Mail\Smtp;
 use Smarty;
 
-class Mail
+final class Mail
 {
     /**
      * @return Mailgun|NullMail|SendGrid|Ses|Smtp|null
@@ -46,7 +46,7 @@ class Mail
      */
     public static function genHtml($template, $ary)
     {
-        $smarty = new smarty();
+        $smarty = new Smarty();
         $smarty->settemplatedir(BASE_PATH . '/resources/email/');
         $smarty->setcompiledir(BASE_PATH . '/storage/framework/smarty/compile/');
         $smarty->setcachedir(BASE_PATH . '/storage/framework/smarty/cache/');

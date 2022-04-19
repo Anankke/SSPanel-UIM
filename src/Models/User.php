@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Controllers\LinkController;
-use Config;
+use App\Services\Config;
+use App\Services\Mail;
+use App\Utils\GA;
+use App\Utils\Hash;
+use App\Utils\Telegram;
+use App\Utils\Tools;
+use App\Utils\URL;
 use Exception;
 use Ramsey\Uuid\Uuid;
-use Tools;
 
 /**
  * User Model
@@ -21,7 +26,7 @@ use Tools;
  * @property        bool    $expire_notified    If user is notified for expire
  * @property        bool    $traffic_notified   If user is noticed for low traffic
  */
-class User extends Model
+final class User extends Model
 {
     /**
      * 已登录
@@ -64,7 +69,7 @@ class User extends Model
     /**
      * 联系方式类型
      */
-    public function im_type(): string
+    public function imType(): string
     {
         switch ($this->im_type) {
             case 1:
@@ -81,7 +86,7 @@ class User extends Model
     /**
      * 联系方式
      */
-    public function im_value(): string
+    public function imValue(): string
     {
         switch ($this->im_type) {
             case 1:
@@ -138,12 +143,12 @@ class User extends Model
         return $this->save();
     }
 
-    public function get_forbidden_ip()
+    public function getForbiddenIp()
     {
         return str_replace(',', PHP_EOL, $this->forbidden_ip);
     }
 
-    public function get_forbidden_port()
+    public function getForbiddenPort()
     {
         return str_replace(',', PHP_EOL, $this->forbidden_port);
     }
@@ -169,7 +174,7 @@ class User extends Model
             $return['msg'] = '非法输入';
             return $return;
         }
-        if (! Tools::is_param_validate('method', $method)) {
+        if (! Tools::isParamValidate('method', $method)) {
             $return['msg'] = '加密无效';
             return $return;
         }
@@ -297,7 +302,7 @@ class User extends Model
     /*
      * 今天使用的流量[自动单位]
      */
-    public function TodayusedTraffic(): string
+    public function todayUsedTraffic(): string
     {
         return Tools::flowAutoShow($this->u + $this->d - $this->last_day_t);
     }
@@ -305,7 +310,7 @@ class User extends Model
     /*
      * 今天使用的流量占总流量的百分比
      */
-    public function TodayusedTrafficPercent(): int
+    public function todayUsedTrafficPercent(): int
     {
         if ($this->transfer_enable === 0) {
             return 0;
@@ -319,7 +324,7 @@ class User extends Model
     /*
      * 今天之前已使用的流量[自动单位]
      */
-    public function LastusedTraffic(): string
+    public function lastUsedTraffic(): string
     {
         return Tools::flowAutoShow($this->last_day_t);
     }
@@ -327,7 +332,7 @@ class User extends Model
     /*
      * 今天之前已使用的流量占总流量的百分比
      */
-    public function LastusedTrafficPercent(): int
+    public function lastUsedTrafficPercent(): int
     {
         if ($this->transfer_enable === 0) {
             return 0;
@@ -366,7 +371,7 @@ class User extends Model
     /**
      * 用户的邀请人
      */
-    public function ref_by_user(): ?User
+    public function refByUser(): ?User
     {
         return self::find($this->ref_by);
     }
@@ -374,21 +379,24 @@ class User extends Model
     /**
      * 用户邀请人的用户名
      */
-    public function ref_by_user_name(): string
+    public function refByUserName(): string
     {
         if ($this->ref_by === 0) {
             return '系统邀请';
         }
-        if ($this->ref_by_user() === null) {
+
+        $refUser = $this->refByUser();
+
+        if ($refUser === null) {
             return '邀请人已经被删除';
         }
-        return $this->ref_by_user()->user_name;
+        return $refUser->user_name;
     }
 
     /**
      * 删除用户的订阅链接
      */
-    public function clean_link(): void
+    public function cleanLink(): void
     {
         Link::where('userid', $this->id)->delete();
     }
@@ -398,13 +406,13 @@ class User extends Model
      */
     public function getSublink()
     {
-        return LinkController::GenerateSSRSubCode($this->id);
+        return LinkController::generateSSRSubCode($this->id);
     }
 
     /**
      * 删除用户的邀请码
      */
-    public function clear_inviteCodes(): void
+    public function clearInviteCodes(): void
     {
         InviteCode::where('user_id', $this->id)->delete();
     }
@@ -412,7 +420,7 @@ class User extends Model
     /**
      * 在线 IP 个数
      */
-    public function online_ip_count(): int
+    public function onlineIpCount(): int
     {
         // 根据 IP 分组去重
         $total = Ip::where('datetime', '>=', time() - 90)->where('userid', $this->id)->orderBy('userid', 'desc')->groupBy('ip')->get();
@@ -430,7 +438,7 @@ class User extends Model
     /**
      * 销户
      */
-    public function kill_user(): bool
+    public function killUser(): bool
     {
         $uid = $this->id;
         $email = $this->email;
@@ -458,7 +466,7 @@ class User extends Model
     /**
      * 累计充值金额
      */
-    public function get_top_up(): float
+    public function getTopUp(): float
     {
         $number = Code::where('userid', $this->id)->sum('number');
         return is_null($number) ? 0.00 : round($number, 2);
@@ -513,7 +521,7 @@ class User extends Model
     /**
      * 最后一次被封禁的时间
      */
-    public function last_detect_ban_time(): string
+    public function lastDetectBanTime(): string
     {
         return $this->last_detect_ban_time === '1989-06-04 00:05:00' ? '未被封禁过' : $this->last_detect_ban_time;
     }
@@ -521,7 +529,7 @@ class User extends Model
     /**
      * 当前解封时间
      */
-    public function relieve_time(): string
+    public function relieveTime(): string
     {
         $logs = DetectBanLog::where('user_id', $this->id)->orderBy('id', 'desc')->first();
         if ($this->enable === 0 && $logs !== null) {
@@ -534,7 +542,7 @@ class User extends Model
     /**
      * 累计被封禁的次数
      */
-    public function detect_ban_number(): int
+    public function detectBanNumber(): int
     {
         return DetectBanLog::where('user_id', $this->id)->count();
     }
@@ -542,7 +550,7 @@ class User extends Model
     /**
      * 最后一次封禁的违规次数
      */
-    public function user_detect_ban_number(): int
+    public function userDetectBanNumber(): int
     {
         $logs = DetectBanLog::where('user_id', $this->id)->orderBy('id', 'desc')->first();
         return $logs->detect_number;
@@ -585,7 +593,7 @@ class User extends Model
             $return['msg'] = '非法输入';
             return $return;
         }
-        if (! Tools::is_param_validate('protocol', $Protocol)) {
+        if (! Tools::isParamValidate('protocol', $Protocol)) {
             $return['ok'] = false;
             $return['msg'] = '协议无效';
             return $return;
@@ -627,7 +635,7 @@ class User extends Model
             $return['msg'] = '非法输入';
             return $return;
         }
-        if (! Tools::is_param_validate('obfs', $Obfs)) {
+        if (! Tools::isParamValidate('obfs', $Obfs)) {
             $return['ok'] = false;
             $return['msg'] = '混淆无效';
             return $return;
@@ -653,7 +661,7 @@ class User extends Model
     /**
      * 解绑 Telegram
      */
-    public function TelegramReset(): array
+    public function telegramReset(): array
     {
         $return = [
             'ok' => true,
@@ -712,7 +720,7 @@ class User extends Model
     /**
      * 重置端口
      */
-    public function ResetPort(): array
+    public function resetPort(): array
     {
         $price = $_ENV['port_price'];
         if ($this->money < $price) {
@@ -734,7 +742,7 @@ class User extends Model
     /**
      * 指定端口
      */
-    public function SpecifyPort(int $Port): array
+    public function specifyPort(int $Port): array
     {
         $price = $_ENV['port_price_specify'];
         if ($this->money < $price) {
@@ -768,14 +776,14 @@ class User extends Model
     /**
      * 用户下次流量重置时间
      */
-    public function valid_use_loop(): string
+    public function validUseLoop(): string
     {
         $boughts = Bought::where('userid', $this->id)->orderBy('id', 'desc')->get();
         $data = [];
         foreach ($boughts as $bought) {
             $shop = $bought->shop();
             if ($shop !== null && $bought->valid()) {
-                $data[] = $bought->reset_time();
+                $data[] = $bought->resetTime();
             }
         }
         if (count($data) === 0) {
@@ -857,7 +865,7 @@ class User extends Model
     {
         $result = false;
         if ($this->telegram_id > 0) {
-            Telegram::Send(
+            Telegram::send(
                 $text,
                 $this->telegram_id
             );

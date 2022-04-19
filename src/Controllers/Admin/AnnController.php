@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use Ann;
 use App\Controllers\AdminController;
+use App\Models\Ann;
+use App\Models\User;
+use App\Utils\ResponseHelper;
 use App\Utils\Telegram;
-use Request;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class AnnController extends AdminController
+final class AnnController extends AdminController
 {
     /**
      * 后台公告页面
@@ -18,19 +21,14 @@ class AnnController extends AdminController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'op' => '操作',
-            'id' => 'ID',
-            'date' => '日期',
-            'content' => '内容',
-        ];
-        $table_config['default_show_column'] = [
-            'op', 'id', 'date', 'content',
-        ];
-        $table_config['ajax_url'] = 'announcement/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'op' => '操作',
+                    'id' => 'ID',
+                    'date' => '日期',
+                    'content' => '内容',
+                ], 'announcement/ajax'))
                 ->display('admin/announcement/index.tpl')
         );
     }
@@ -132,7 +130,7 @@ class AnnController extends AdminController
                 ]);
             }
         }
-        Telegram::SendMarkdown('新公告：' . PHP_EOL . $request->getParam('markdown'));
+        Telegram::sendMarkdown('新公告：' . PHP_EOL . $request->getParam('markdown'));
         if ($issend === 1) {
             $msg = '公告添加成功，邮件发送成功';
         } else {
@@ -176,7 +174,7 @@ class AnnController extends AdminController
                 'msg' => '修改失败',
             ]);
         }
-        Telegram::SendMarkdown('公告更新：' . PHP_EOL . $request->getParam('markdown'));
+        Telegram::sendMarkdown('公告更新：' . PHP_EOL . $request->getParam('markdown'));
         return $response->withJson([
             'ret' => 1,
             'msg' => '修改成功',

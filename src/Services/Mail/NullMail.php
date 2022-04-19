@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Mail;
 
-class NullMail extends Base
+final class NullMail extends Base
 {
     public function __construct()
     {

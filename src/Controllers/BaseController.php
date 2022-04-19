@@ -12,7 +12,7 @@ use Smarty;
 /**
  * BaseController
  */
-class BaseController
+abstract class BaseController
 {
     /**
      * @var Smarty

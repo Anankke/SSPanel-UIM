@@ -9,7 +9,7 @@ namespace App\Utils;
  *
  * @author Tanxu
  */
-class GeetestLib
+final class GeetestLib
 {
     public const GT_SDK_VERSION = 'php_3.2.0';
 
@@ -29,20 +29,20 @@ class GeetestLib
      *
      * @param null $user_id
      */
-    public function pre_process($user_id = null): int
+    public function preProcess($user_id = null): int
     {
         $url = 'http://api.geetest.com/register.php?gt=' . $this->captcha_id;
         if (($user_id !== null) and is_string($user_id)) {
             $url .= '&user_id=' . $user_id;
         }
-        $challenge = $this->send_request($url);
+        $challenge = $this->sendRequest($url);
 
         if (strlen($challenge) !== 32) {
-            $this->failback_process();
+            $this->failbackProcess();
 
             return 0;
         }
-        $this->success_process($challenge);
+        $this->successProcess($challenge);
 
         return 1;
     }
@@ -50,7 +50,7 @@ class GeetestLib
     /**
      * @return mixed
      */
-    public function get_response_str()
+    public function getResponseStr()
     {
         return json_encode($this->response);
     }
@@ -60,7 +60,7 @@ class GeetestLib
      *
      * @return mixed
      */
-    public function get_response()
+    public function getResponse()
     {
         return $this->response;
     }
@@ -73,9 +73,9 @@ class GeetestLib
      * @param      $seccode
      * @param null $user_id
      */
-    public function success_validate($challenge, $validate, $seccode, $user_id = null): int
+    public function successValidate($challenge, $validate, $seccode, $user_id = null): int
     {
-        if (! $this->check_validate($challenge, $validate)) {
+        if (! $this->checkValidate($challenge, $validate)) {
             return 0;
         }
         $data = [
@@ -86,7 +86,7 @@ class GeetestLib
             $data['user_id'] = $user_id;
         }
         $url = 'http://api.geetest.com/validate.php';
-        $codevalidate = $this->post_request($url, $data);
+        $codevalidate = $this->postRequest($url, $data);
         if ($codevalidate === md5($seccode)) {
             return 1;
         }
@@ -105,14 +105,14 @@ class GeetestLib
      * @param $validate
      * @param $seccode
      */
-    public function fail_validate($challenge, $validate, $seccode): int
+    public function failValidate($challenge, $validate, $seccode): int
     {
         if ($validate) {
             $value = explode('_', $validate);
-            $ans = $this->decode_response($challenge, $value['0']);
-            $bg_idx = $this->decode_response($challenge, $value['1']);
-            $grp_idx = $this->decode_response($challenge, $value['2']);
-            $x_pos = $this->get_failback_pic_ans($bg_idx, $grp_idx);
+            $ans = $this->decodeResponse($challenge, $value['0']);
+            $bg_idx = $this->decodeResponse($challenge, $value['1']);
+            $grp_idx = $this->decodeResponse($challenge, $value['2']);
+            $x_pos = $this->getFailbackPicAns($bg_idx, $grp_idx);
             $answer = abs($ans - $x_pos);
             if ($answer < 4) {
                 return 1;
@@ -124,7 +124,7 @@ class GeetestLib
         return 0;
     }
 
-    private function success_process($challenge): void
+    private function successProcess($challenge): void
     {
         $challenge = md5($challenge . $this->private_key);
         $result = [
@@ -135,7 +135,7 @@ class GeetestLib
         $this->response = $result;
     }
 
-    private function failback_process(): void
+    private function failbackProcess(): void
     {
         $rnd1 = md5(random_int(0, 100));
         $rnd2 = md5(random_int(0, 100));
@@ -148,7 +148,7 @@ class GeetestLib
         $this->response = $result;
     }
 
-    private function check_validate($challenge, $validate): bool
+    private function checkValidate($challenge, $validate): bool
     {
         if (strlen($validate) !== 32) {
             return false;
@@ -167,7 +167,7 @@ class GeetestLib
      *
      * @return mixed|string
      */
-    private function send_request($url)
+    private function sendRequest($url)
     {
         if (function_exists('curl_exec')) {
             $ch = curl_init();
@@ -204,7 +204,7 @@ class GeetestLib
      *
      * @return mixed|string
      */
-    private function post_request($url, array $postdata = '')
+    private function postRequest($url, array $postdata = [])
     {
         if (! $postdata) {
             return false;
@@ -255,7 +255,7 @@ class GeetestLib
      * @param $challenge
      * @param $string
      */
-    private function decode_response($challenge, $string): int
+    private function decodeResponse($challenge, $string): int
     {
         if (strlen($string) > 100) {
             return 0;
@@ -287,7 +287,7 @@ class GeetestLib
         return $res;
     }
 
-    private function get_x_pos_from_str($x_str): int
+    private function getXPosFromStr($x_str): int
     {
         if (strlen($x_str) !== 5) {
             return 0;
@@ -297,10 +297,9 @@ class GeetestLib
         $sum_val = base_convert($x_str, 16, 10);
         $result = $sum_val % $x_pos_sup;
         return $result < 40 ? 40 : $result;
-    
     }
 
-    private function get_failback_pic_ans($full_bg_index, $img_grp_index): int
+    private function getFailbackPicAns($full_bg_index, $img_grp_index): int
     {
         $full_bg_name = substr(md5($full_bg_index), 0, 9);
         $bg_name = substr(md5($img_grp_index), 10, 9);
@@ -315,7 +314,7 @@ class GeetestLib
             }
         }
         $x_decode = substr($answer_decode, 4, 5);
-        return $this->get_x_pos_from_str($x_decode);
+        return $this->getXPosFromStr($x_decode);
     }
 
     /**

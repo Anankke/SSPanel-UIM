@@ -6,7 +6,7 @@ namespace App\Services;
 
 use App\Models\GConfig;
 
-class DefaultConfig
+final class DefaultConfig
 {
     /**
      * 创建配置，成功返回 true
@@ -15,7 +15,7 @@ class DefaultConfig
      */
     public static function create(string $key): bool
     {
-        $value = self::default_value($key);
+        $value = self::defaultValue($key);
         if ($value !== null) {
             $new = new GConfig();
             $new->key = $value['key'];
@@ -295,7 +295,7 @@ class DefaultConfig
      *
      * @return void
      */
-    public static function default_value(string $key)
+    public static function defaultValue(string $key)
     {
         return self::configs($key);
     }

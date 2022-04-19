@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-class Payback extends Model
+final class Payback extends Model
 {
     protected $connection = 'default';
     protected $table = 'payback';

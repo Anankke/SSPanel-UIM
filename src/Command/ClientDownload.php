@@ -11,7 +11,7 @@ use Exception;
  *
  * By GeekQuerxy
  */
-class ClientDownload extends Command
+final class ClientDownload extends Command
 {
     public $description = '├─=: php xcat ClientDownload - 定时更新客户端' . PHP_EOL;
 
@@ -325,7 +325,7 @@ class ClientDownload extends Command
     /**
      * 判断是否 JSON
      */
-    private function is_json(string $string): bool
+    private function isJson(string $string): bool
     {
         return json_decode($string, true) !== false;
     }
@@ -355,7 +355,7 @@ class ClientDownload extends Command
             }
         }
         $fileContent = file_get_contents($filePath);
-        if (! $this->is_json($fileContent)) {
+        if (! $this->isJson($fileContent)) {
             echo 'ClientDownloadVersion.json 文件格式异常，脚本中止.' . PHP_EOL;
             exit(0);
         }
@@ -404,7 +404,7 @@ class ClientDownload extends Command
             echo '- 检测到当前 ' . $task['name'] . ' 最新版本为 ' . $tagName . '，本地最新版本为 ' . $this->version[$task['name']] . PHP_EOL;
         }
         $this->version[$task['name']] = $tagName;
-        $nameFunction = function ($name) use ($task, $tagName) {
+        $nameFunction = static function ($name) use ($task, $tagName) {
             return str_replace(
                 [
                     '%taskName%',

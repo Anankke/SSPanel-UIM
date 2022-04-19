@@ -10,12 +10,13 @@ use App\Utils\Telegram;
 use Exception;
 use RuntimeException;
 
-class Backup extends Command
+final class Backup extends Command
 {
-    public $description = ''
-        . '├─=: php xcat Backup [选项]' . PHP_EOL
-        . '│ ├─ full                    - 整体数据备份' . PHP_EOL
-        . '│ ├─ simple                  - 只备份核心数据' . PHP_EOL;
+    public $description = <<<EOL
+├─=: php xcat Backup [选项]
+│ ├─ full                    - 整体数据备份
+│ ├─ simple                  - 只备份核心数据
+EOL;
 
     public function boot(): void
     {
@@ -76,7 +77,7 @@ class Backup extends Command
         system('rm /tmp/ssmodbackup.zip', $ret);
 
         if ($configs['auto_backup_notify'] === true) {
-            Telegram::Send('备份工作已经完成');
+            Telegram::send('备份工作已经完成');
         }
     }
 }

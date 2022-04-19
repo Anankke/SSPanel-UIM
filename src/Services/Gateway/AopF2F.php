@@ -18,7 +18,7 @@ use App\Services\View;
 use Exception;
 use Omnipay\Omnipay;
 
-class AopF2F extends AbstractPayment
+final class AopF2F extends AbstractPayment
 {
     public static function _name()
     {
@@ -61,18 +61,18 @@ class AopF2F extends AbstractPayment
             'total_amount' => $pl->total,
         ]);
 
-        /** @var \Omnipay\Alipay\Responses\AopTradePreCreateResponse $response */
+        /** @var \Omnipay\Alipay\Responses\AopTradePreCreateResponse $aliResponse */
         $aliResponse = $request->send();
 
         // 获取收款二维码内容
         $qrCodeContent = $aliResponse->getQrCode();
 
-        $return['ret'] = 1;
-        $return['qrcode'] = $qrCodeContent;
-        $return['amount'] = $pl->total;
-        $return['pid'] = $pl->tradeno;
-
-        return json_encode($return);
+        return json_encode([
+            'ret' => 1,
+            'qrcode' => $qrCodeContent,
+            'amount' => $pl->total,
+            'pid' => $pl->tradeno,
+        ]);
     }
 
     public function notify($request, $response, $args): void
@@ -82,7 +82,7 @@ class AopF2F extends AbstractPayment
         $aliRequest->setParams($_POST);
 
         try {
-            /** @var \Omnipay\Alipay\Responses\AopCompletePurchaseResponse $response */
+            /** @var \Omnipay\Alipay\Responses\AopCompletePurchaseResponse $aliResponse */
             $aliResponse = $aliRequest->send();
             $pid = $aliResponse->data('out_trade_no');
             if ($aliResponse->isPaid()) {
@@ -107,9 +107,10 @@ class AopF2F extends AbstractPayment
     public function getStatus($request, $response, $args)
     {
         $p = Paylist::where('tradeno', $_POST['pid'])->first();
-        $return['ret'] = 1;
-        $return['result'] = $p->status;
-        return json_encode($return);
+        return json_encode([
+            'ret' => 1,
+            'result' => $p->satatus,
+        ]);
     }
 
     private function createGateway()

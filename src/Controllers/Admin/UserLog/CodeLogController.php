@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Controllers\Admin\UserLog;
 
 use App\Controllers\AdminController;
-use Code;
+use App\Models\Code;
+use App\Models\User;
+use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
-use Request;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class CodeLogController extends AdminController
+final class CodeLogController extends AdminController
 {
     /**
      * @param array     $args
@@ -18,18 +21,15 @@ class CodeLogController extends AdminController
     {
         $id = $args['id'];
         $user = User::find($id);
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'code' => '内容',
-            'type' => '类型',
-            'number' => '操作',
-            'usedatetime' => '时间',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'code/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'code' => '内容',
+                    'type' => '类型',
+                    'number' => '操作',
+                    'usedatetime' => '时间',
+                ], 'code/ajax'))
                 ->assign('user', $user)
                 ->display('admin/user/code.tpl')
         );

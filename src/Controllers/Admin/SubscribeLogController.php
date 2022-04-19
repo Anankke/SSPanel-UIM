@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class SubscribeLogController extends AdminController
+final class SubscribeLogController extends AdminController
 {
     /**
      * 后台订阅记录页面
@@ -20,6 +20,7 @@ class SubscribeLogController extends AdminController
      */
     public function index(Request $request, Response $response, array $args): ResponseInterface
     {
+        $table_config = [];
         $table_config['total_column'] = [
             'id' => 'ID',
             'user_name' => '用户名',
@@ -45,7 +46,7 @@ class SubscribeLogController extends AdminController
      *
      * @param array     $args
      */
-    public function ajax_subscribe_log(Request $request, Response $response, array $args): ResponseInterface
+    public function ajaxSubscribeLog(Request $request, Response $response, array $args): ResponseInterface
     {
         $query = UserSubscribeLog::getTableDataFromAdmin(
             $request,
@@ -62,7 +63,7 @@ class SubscribeLogController extends AdminController
             /** @var UserSubscribeLog $value */
 
             if ($value->user() === null) {
-                UserSubscribeLog::user_is_null($value);
+                UserSubscribeLog::userIsNull($value);
                 continue;
             }
             $tempdata = [];

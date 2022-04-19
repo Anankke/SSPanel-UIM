@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Controllers\Admin\UserLog;
 
 use App\Controllers\AdminController;
+use App\Models\LoginIp;
+use App\Models\User;
 use App\Utils\QQWry;
+use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
-use Request;
-use User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class LoginLogController extends AdminController
+final class LoginLogController extends AdminController
 {
     /**
      * @param array     $args
@@ -19,19 +22,15 @@ class LoginLogController extends AdminController
     {
         $id = $args['id'];
         $user = User::find($id);
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'ip' => 'IP',
-            'location' => '归属地',
-            'datetime' => '时间',
-            'type' => '类型',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'login/ajax';
-
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'ip' => 'IP',
+                    'location' => '归属地',
+                    'datetime' => '时间',
+                    'type' => '类型',
+                ], 'login/ajax'))
                 ->assign('user', $user)
                 ->display('admin/user/login.tpl')
         );

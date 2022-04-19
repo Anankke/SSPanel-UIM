@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
-use Reply;
+use App\Utils\Telegram\Reply;
+use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
 /**
  * Class InfoCommand.
  */
-class InfoCommand extends Command
+final class InfoCommand extends Command
 {
     /**
      * @var string Command Name
@@ -24,10 +25,7 @@ class InfoCommand extends Command
      */
     protected $description = '[群组]     获取被回复消息的用户信息，管理员命令.';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function handle()
+    public function handle(): void
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
@@ -52,7 +50,7 @@ class InfoCommand extends Command
                 if ($AdminUser === null) {
                     // 非管理员回复消息
                     if ($_ENV['enable_not_admin_reply'] === true && $_ENV['not_admin_reply_msg'] !== '') {
-                        $response = $this->replyWithMessage(
+                        $this->replyWithMessage(
                             [
                                 'text' => $_ENV['not_admin_reply_msg'],
                                 'parse_mode' => 'HTML',
@@ -72,14 +70,14 @@ class InfoCommand extends Command
                 ];
                 $User = TelegramTools::getUser($FindUser['id']);
                 if ($User === null) {
-                    $response = $this->replyWithMessage(
+                    $this->replyWithMessage(
                         [
                             'text' => $_ENV['no_user_found'],
                             'reply_to_message_id' => $MessageID,
                         ]
                     );
                 } else {
-                    $response = $this->replyWithMessage(
+                    $this->replyWithMessage(
                         [
                             'text' => Reply::getUserInfoFromAdmin($User, $ChatID),
                             'reply_to_message_id' => $MessageID,
@@ -87,7 +85,7 @@ class InfoCommand extends Command
                     );
                 }
             } else {
-                $response = $this->replyWithMessage(
+                $this->replyWithMessage(
                     [
                         'text' => '请回复消息使用.',
                         'reply_to_message_id' => $MessageID,

@@ -20,7 +20,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  * @package  App/Utils/ConfGenerate
  */
-class ConfGenerate
+final class ConfGenerate
 {
     /**
      * 获取匹配的节点

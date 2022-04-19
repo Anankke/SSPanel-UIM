@@ -8,7 +8,7 @@ use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
 
-class Vmqpay extends AbstractPayment
+final class Vmqpay extends AbstractPayment
 {
     public static function _name()
     {
@@ -18,6 +18,11 @@ class Vmqpay extends AbstractPayment
     public static function _enable()
     {
         return self::getActiveGateway('vmqpay');
+    }
+
+    public static function _readableName()
+    {
+        return 'Vmq 支付';
     }
 
     public function purchase($request, $response, $args): void

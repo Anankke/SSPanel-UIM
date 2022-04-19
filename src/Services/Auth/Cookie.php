@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Utils;
 use App\Utils\Hash;
 
-class Cookie extends Base
+final class Cookie extends Base
 {
     public function login($uid, $time): void
     {
@@ -25,7 +25,7 @@ class Cookie extends Base
         ], $expire_in);
     }
 
-    public function getUser()
+    public function getUser(): User
     {
         $uid = Utils\Cookie::get('uid');
         $email = Utils\Cookie::get('email');

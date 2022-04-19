@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Controllers\Admin\UserLog;
 
 use App\Controllers\AdminController;
+use App\Models\User;
+use App\Models\UserSubscribeLog;
 use App\Utils\QQWry;
+use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
-use Request;
-use User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class SubLogController extends AdminController
+final class SubLogController extends AdminController
 {
     /**
      * @param array     $args
@@ -19,20 +22,17 @@ class SubLogController extends AdminController
     {
         $id = $args['id'];
         $user = User::find($id);
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'subscribe_type' => '类型',
-            'request_ip' => 'IP',
-            'location' => '归属地',
-            'request_time' => '时间',
-            'request_user_agent' => 'User-Agent',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'sublog/ajax';
 
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'subscribe_type' => '类型',
+                    'request_ip' => 'IP',
+                    'location' => '归属地',
+                    'request_time' => '时间',
+                    'request_user_agent' => 'User-Agent',
+                ], 'sublog/ajax'))
                 ->assign('user', $user)
                 ->display('admin/user/sublog.tpl')
         );

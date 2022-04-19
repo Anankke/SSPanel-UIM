@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-class DetectBanLog extends Model
+final class DetectBanLog extends Model
 {
     protected $connection = 'default';
 
@@ -13,7 +13,7 @@ class DetectBanLog extends Model
     /**
      * [静态方法] 删除不存在的用户的记录
      */
-    public static function user_is_null(DetectBanLog $DetectBanLog): void
+    public static function userIsNull(DetectBanLog $DetectBanLog): void
     {
         self::where('user_id', $DetectBanLog->user_id)->delete();
     }
@@ -29,7 +29,7 @@ class DetectBanLog extends Model
     /**
      * 统计开始时间
      */
-    public function start_time(): string
+    public function startTime(): string
     {
         return date('Y-m-d H:i:s', $this->start_time);
     }
@@ -37,7 +37,7 @@ class DetectBanLog extends Model
     /**
      * 统计结束以及封禁开始时间
      */
-    public function end_time(): string
+    public function endTime(): string
     {
         return date('Y-m-d H:i:s', $this->end_time);
     }
@@ -45,7 +45,7 @@ class DetectBanLog extends Model
     /**
      * 封禁结束时间
      */
-    public function ban_end_time(): string
+    public function banEndTime(): string
     {
         return date('Y-m-d H:i:s', $this->end_time + $this->ban_time * 60);
     }

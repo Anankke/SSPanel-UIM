@@ -9,13 +9,14 @@ use App\Utils\DatatablesHelper;
 use App\Utils\Telegram;
 use Ozdemir\Datatables\Datatables;
 
-class FinanceMail extends Command
+final class FinanceMail extends Command
 {
-    public $description = ''
-        . '├─=: php xcat FinanceMail [选项]' . PHP_EOL
-        . '│ ├─ day                     - 日报' . PHP_EOL
-        . '│ ├─ week                    - 周报' . PHP_EOL
-        . '│ ├─ month                   - 月报' . PHP_EOL;
+    public $description = <<<EOL
+├─=: php xcat FinanceMail [选项]
+│ ├─ day                     - 日报
+│ ├─ week                    - 周报
+│ ├─ month                   - 月报
+EOL;
 
     public function boot(): void
     {
@@ -74,7 +75,7 @@ class FinanceMail extends Command
         }
 
         if ($_ENV['finance_public']) {
-            Telegram::Send(
+            Telegram::send(
                 '新鲜出炉的财务日报~' . PHP_EOL .
                 '昨日总收入笔数:' . $income_count . PHP_EOL .
                 '昨日总收入金额:' . $income_total . PHP_EOL .
@@ -119,7 +120,7 @@ class FinanceMail extends Command
         }
 
         if ($_ENV['finance_public']) {
-            Telegram::Send(
+            Telegram::send(
                 '新鲜出炉的财务周报~' . PHP_EOL .
                 '上周总收入笔数:' . $income_count . PHP_EOL .
                 '上周总收入金额:' . $income_total . PHP_EOL .
@@ -162,7 +163,7 @@ class FinanceMail extends Command
         }
 
         if ($_ENV['finance_public']) {
-            Telegram::Send(
+            Telegram::send(
                 '新鲜出炉的财务月报~' . PHP_EOL .
                 '上月总收入笔数:' . $income_count . PHP_EOL .
                 '上月总收入金额:' . $income_total . PHP_EOL .

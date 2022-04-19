@@ -8,7 +8,7 @@ use App\Models\DetectBanLog;
 use App\Models\DetectLog;
 use App\Models\User;
 
-class DetectBan extends Command
+final class DetectBan extends Command
 {
     public $description = '├─=: php xcat DetectBan      - 审计封禁定时任务' . PHP_EOL;
 
@@ -84,7 +84,7 @@ class DetectBan extends Command
                     }
                     if ($tmp !== 0) {
                         if ($_ENV['auto_detect_ban'][$tmp]['type'] === 'kill') {
-                            $user->kill_user();
+                            $user->killUser();
                         } else {
                             $last_detect_ban_time = $user->last_detect_ban_time;
                             $end_time = date('Y-m-d H:i:s');

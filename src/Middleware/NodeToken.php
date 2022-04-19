@@ -7,7 +7,7 @@ namespace App\Middleware;
 use App\Models\Node;
 use App\Services\Config;
 
-class Mod_Mu
+final class NodeToken
 {
     public function __invoke(\Slim\Http\Request $request, \Slim\Http\Response $response, callable $next): \Slim\Http\Response
     {

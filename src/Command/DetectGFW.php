@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Models\Node;
+use App\Models\User;
 use App\Services\Config;
 use App\Utils\Telegram;
-use Node;
 
-class DetectGFW extends Command
+final class DetectGFW extends Command
 {
     public $description = '├─=: php xcat DetectGFW      - 节点被墙检测定时任务' . PHP_EOL;
 
@@ -42,7 +43,7 @@ class DetectGFW extends Command
                     $detect_time = $_ENV['detect_gfw_count'];
                     for ($i = 1; $i <= $detect_time; $i++) {
                         $json_tcping = json_decode(file_get_contents($api_url), true);
-                        if (eval('return ' . $_ENV['detect_gfw_judge'] . ';')) {
+                        if ($_ENV['detect_gfw_judge']($json_tcping)) {
                             $result_tcping = true;
                             break;
                         }
@@ -71,7 +72,7 @@ class DetectGFW extends Command
                             );
                         }
                         if (Config::getconfig('Telegram.bool.NodeGFW')) {
-                            Telegram::Send($notice_text);
+                            Telegram::send($notice_text);
                         }
                         $node->gfw_block = true;
                         $node->save();
@@ -98,7 +99,7 @@ class DetectGFW extends Command
                             );
                         }
                         if (Config::getconfig('Telegram.bool.NodeGFW_recover')) {
-                            Telegram::Send($notice_text);
+                            Telegram::send($notice_text);
                         }
                         $node->gfw_block = false;
                         $node->save();

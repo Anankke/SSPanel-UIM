@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-class PasswordReset extends Model
+final class PasswordReset extends Model
 {
     protected $connection = 'default';
     protected $table = 'user_password_reset';

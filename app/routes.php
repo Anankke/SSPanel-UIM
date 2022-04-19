@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Middleware\Admin;
+use App\Middleware\Auth;
+use App\Middleware\AuthorizationBearer;
+use App\Middleware\Guest;
+use App\Middleware\NodeToken;
 use Slim\App as SlimApp;
 
 return function (SlimApp $app): void {
@@ -34,23 +39,23 @@ return function (SlimApp $app): void {
         $this->get('/invite', App\Controllers\UserController::class . ':invite');
         $this->get('/disable', App\Controllers\UserController::class . ':disable');
 
-        $this->get('/node', App\Controllers\User\NodeController::class . ':user_node_page');
-        $this->get('/node/{id}/ajax', App\Controllers\User\NodeController::class . ':user_node_ajax');
-        $this->get('/node/{id}', App\Controllers\User\NodeController::class . ':user_node_info');
+        $this->get('/node', App\Controllers\User\NodeController::class . ':userNodePage');
+        $this->get('/node/{id}/ajax', App\Controllers\User\NodeController::class . ':userNodeAjax');
+        $this->get('/node/{id}', App\Controllers\User\NodeController::class . ':userNodeInfo');
 
-        $this->get('/detect', App\Controllers\UserController::class . ':detect_index');
-        $this->get('/detect/log', App\Controllers\UserController::class . ':detect_log');
+        $this->get('/detect', App\Controllers\User\DetectController::class . ':detectIndex');
+        $this->get('/detect/log', App\Controllers\User\DetectController::class . ':detectLog');
 
-        $this->get('/shop', App\Controllers\UserController::class . ':shop');
-        $this->post('/coupon_check', App\Controllers\UserController::class . ':CouponCheck');
-        $this->post('/buy', App\Controllers\UserController::class . ':buy');
-        $this->post('/buy_traffic_package', App\Controllers\UserController::class . ':buy_traffic_package');
+        $this->get('/shop', App\Controllers\User\ShopController::class . ':shop');
+        $this->post('/coupon_check', App\Controllers\User\ShopController::class . ':couponCheck');
+        $this->post('/buy', App\Controllers\User\ShopController::class . ':buy');
+        $this->post('/buy_traffic_package', App\User\ShopController\UserController::class . ':buyTrafficPackage');
 
         $this->get('/ticket', App\Controllers\User\TicketController::class . ':ticket');
-        $this->get('/ticket/create', App\Controllers\User\TicketController::class . ':ticket_create');
-        $this->post('/ticket', App\Controllers\User\TicketController::class . ':ticket_add');
-        $this->get('/ticket/{id}/view', App\Controllers\User\TicketController::class . ':ticket_view');
-        $this->put('/ticket/{id}', App\Controllers\User\TicketController::class . ':ticket_update');
+        $this->get('/ticket/create', App\Controllers\User\TicketController::class . ':ticketCreate');
+        $this->post('/ticket', App\Controllers\User\TicketController::class . ':ticketAdd');
+        $this->get('/ticket/{id}/view', App\Controllers\User\TicketController::class . ':ticketView');
+        $this->put('/ticket/{id}', App\Controllers\User\TicketController::class . ':ticketUpdate');
 
         $this->post('/buy_invite', App\Controllers\UserController::class . ':buyInvite');
         $this->post('/custom_invite', App\Controllers\UserController::class . ':customInvite');
@@ -74,25 +79,25 @@ return function (SlimApp $app): void {
         $this->get('/backtoadmin', App\Controllers\UserController::class . ':backtoadmin');
         $this->get('/code', App\Controllers\UserController::class . ':code');
 
-        $this->get('/code_check', App\Controllers\UserController::class . ':code_check');
-        $this->post('/code', App\Controllers\UserController::class . ':codepost');
-        $this->post('/gacheck', App\Controllers\UserController::class . ':GaCheck');
-        $this->post('/gaset', App\Controllers\UserController::class . ':GaSet');
-        $this->get('/gareset', App\Controllers\UserController::class . ':GaReset');
-        $this->get('/telegram_reset', App\Controllers\UserController::class . ':telegram_reset');
-        $this->post('/resetport', App\Controllers\UserController::class . ':ResetPort');
-        $this->post('/specifyport', App\Controllers\UserController::class . ':SpecifyPort');
-        $this->post('/unblock', App\Controllers\UserController::class . ':Unblock');
+        $this->get('/code_check', App\Controllers\UserController::class . ':codeCheck');
+        $this->post('/code', App\Controllers\UserController::class . ':codePost');
+        $this->post('/gacheck', App\Controllers\UserController::class . ':gaCheck');
+        $this->post('/gaset', App\Controllers\UserController::class . ':gaSet');
+        $this->get('/gareset', App\Controllers\UserController::class . ':gaReset');
+        $this->get('/telegram_reset', App\Controllers\UserController::class . ':telegramReset');
+        $this->post('/resetport', App\Controllers\UserController::class . ':resetPort');
+        $this->post('/specifyport', App\Controllers\UserController::class . ':specifyPort');
+        $this->post('/unblock', App\Controllers\UserController::class . ':unblock');
         $this->get('/bought', App\Controllers\UserController::class . ':bought');
         $this->delete('/bought', App\Controllers\UserController::class . ':deleteBoughtGet');
         $this->get('/url_reset', App\Controllers\UserController::class . ':resetURL');
         $this->put('/invite', App\Controllers\UserController::class . ':resetInviteURL');
 
-        $this->get('/order', App\Controllers\UserController::class . ':user_order');
-        $this->get('/product', App\Controllers\UserController::class . ':product_index');
+        $this->get('/order', App\Controllers\UserController::class . ':userOrder');
+        $this->get('/product', App\Controllers\UserController::class . ':productIndex');
 
         // 订阅记录
-        $this->get('/subscribe_log', App\Controllers\UserController::class . ':subscribe_log');
+        $this->get('/subscribe_log', App\Controllers\UserController::class . ':subscribeLog');
 
         // getUserAllURL
         $this->get('/getUserAllURL', App\Controllers\UserController::class . ':getUserAllURL');
@@ -116,14 +121,14 @@ return function (SlimApp $app): void {
     // Auth
     $app->group('/auth', function (): void {
         $this->get('/login', App\Controllers\AuthController::class . ':login');
-        $this->post('/qrcode_check', App\Controllers\AuthController::class . ':qrcode_check');
+        $this->post('/qrcode_check', App\Controllers\AuthController::class . ':qrcodeCheck');
         $this->post('/login', App\Controllers\AuthController::class . ':loginHandle');
-        $this->post('/qrcode_login', App\Controllers\AuthController::class . ':qrcode_loginHandle');
+        $this->post('/qrcode_login', App\Controllers\AuthController::class . ':qrcodeLoginHandle');
         $this->get('/register', App\Controllers\AuthController::class . ':register');
         $this->post('/register', App\Controllers\AuthController::class . ':registerHandle');
         $this->post('/send', App\Controllers\AuthController::class . ':sendVerify');
         $this->get('/logout', App\Controllers\AuthController::class . ':logout');
-        $this->get('/telegram_oauth', App\Controllers\AuthController::class . ':telegram_oauth');
+        $this->get('/telegram_oauth', App\Controllers\AuthController::class . ':telegramOauth');
         $this->get('/login_getCaptcha', App\Controllers\AuthController::class . ':getCaptcha');
     })->add(new Guest());
 
@@ -144,7 +149,7 @@ return function (SlimApp $app): void {
         $this->get('/invite', App\Controllers\AdminController::class . ':invite');
         $this->post('/invite', App\Controllers\AdminController::class . ':addInvite');
         $this->post('/chginvite', App\Controllers\AdminController::class . ':chgInvite');
-        $this->post('/payback/ajax', App\Controllers\AdminController::class . ':ajax_payback');
+        $this->post('/payback/ajax', App\Controllers\AdminController::class . ':ajaxPayback');
 
         // Node Mange
         $this->get('/node', App\Controllers\Admin\NodeController::class . ':index');
@@ -164,7 +169,7 @@ return function (SlimApp $app): void {
 
         // Shop Mange
         $this->get('/shop', App\Controllers\Admin\ShopController::class . ':index');
-        $this->post('/shop/ajax', App\Controllers\Admin\ShopController::class . ':ajax_shop');
+        $this->post('/shop/ajax', App\Controllers\Admin\ShopController::class . ':ajaxShop');
         $this->get('/shop/create', App\Controllers\Admin\ShopController::class . ':create');
         $this->post('/shop', App\Controllers\Admin\ShopController::class . ':add');
         $this->get('/shop/{id}/edit', App\Controllers\Admin\ShopController::class . ':edit');
@@ -174,7 +179,7 @@ return function (SlimApp $app): void {
         // Bought Mange
         $this->get('/bought', App\Controllers\Admin\ShopController::class . ':bought');
         $this->delete('/bought', App\Controllers\Admin\ShopController::class . ':deleteBoughtGet');
-        $this->post('/bought/ajax', App\Controllers\Admin\ShopController::class . ':ajax_bought');
+        $this->post('/bought/ajax', App\Controllers\Admin\ShopController::class . ':ajaxBought');
 
         // Product
         $this->get('/product', App\Controllers\Admin\ProductController::class . ':index');
@@ -201,8 +206,8 @@ return function (SlimApp $app): void {
         $this->put('/detect/{id}', App\Controllers\Admin\DetectController::class . ':update');
         $this->delete('/detect', App\Controllers\Admin\DetectController::class . ':delete');
         $this->get('/detect/log', App\Controllers\Admin\DetectController::class . ':log');
-        $this->post('/detect/ajax', App\Controllers\Admin\DetectController::class . ':ajax_rule');
-        $this->post('/detect/log/ajax', App\Controllers\Admin\DetectController::class . ':ajax_log');
+        $this->post('/detect/ajax', App\Controllers\Admin\DetectController::class . ':ajaxRule');
+        $this->post('/detect/log/ajax', App\Controllers\Admin\DetectController::class . ':ajaxLog');
 
         // IP Mange
         $this->get('/block', App\Controllers\Admin\IpController::class . ':block');
@@ -210,18 +215,18 @@ return function (SlimApp $app): void {
         $this->post('/unblock', App\Controllers\Admin\IpController::class . ':doUnblock');
         $this->get('/login', App\Controllers\Admin\IpController::class . ':index');
         $this->get('/alive', App\Controllers\Admin\IpController::class . ':alive');
-        $this->post('/block/ajax', App\Controllers\Admin\IpController::class . ':ajax_block');
-        $this->post('/unblock/ajax', App\Controllers\Admin\IpController::class . ':ajax_unblock');
-        $this->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajax_login');
-        $this->post('/alive/ajax', App\Controllers\Admin\IpController::class . ':ajax_alive');
+        $this->post('/block/ajax', App\Controllers\Admin\IpController::class . ':ajaxBlock');
+        $this->post('/unblock/ajax', App\Controllers\Admin\IpController::class . ':ajaxUnblock');
+        $this->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
+        $this->post('/alive/ajax', App\Controllers\Admin\IpController::class . ':ajaxAlive');
 
         // Code Mange
         $this->get('/code', App\Controllers\Admin\CodeController::class . ':index');
         $this->get('/code/create', App\Controllers\Admin\CodeController::class . ':create');
         $this->post('/code', App\Controllers\Admin\CodeController::class . ':add');
-        $this->get('/donate/create', App\Controllers\Admin\CodeController::class . ':donate_create');
-        $this->post('/donate', App\Controllers\Admin\CodeController::class . ':donate_add');
-        $this->post('/code/ajax', App\Controllers\Admin\CodeController::class . ':ajax_code');
+        $this->get('/donate/create', App\Controllers\Admin\CodeController::class . ':donateCreate');
+        $this->post('/donate', App\Controllers\Admin\CodeController::class . ':donateAdd');
+        $this->post('/code/ajax', App\Controllers\Admin\CodeController::class . ':ajaxCode');
 
         // User Mange
         $this->get('/user', App\Controllers\Admin\UserController::class . ':index');
@@ -235,21 +240,21 @@ return function (SlimApp $app): void {
         // Coupon Mange
         $this->get('/coupon', App\Controllers\AdminController::class . ':coupon');
         $this->post('/coupon', App\Controllers\AdminController::class . ':addCoupon');
-        $this->post('/coupon/ajax', App\Controllers\AdminController::class . ':ajax_coupon');
+        $this->post('/coupon/ajax', App\Controllers\AdminController::class . ':ajaxCoupon');
 
         // Subscribe Log Mange
         $this->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
-        $this->post('/subscribe/ajax', App\Controllers\Admin\SubscribeLogController::class . ':ajax_subscribe_log');
+        $this->post('/subscribe/ajax', App\Controllers\Admin\SubscribeLogController::class . ':ajaxSubscribeLog');
 
         // Detect Ban Mange
         $this->get('/detect/ban', App\Controllers\Admin\DetectBanLogController::class . ':index');
-        $this->post('/detect/ban/ajax', App\Controllers\Admin\DetectBanLogController::class . ':ajax_log');
+        $this->post('/detect/ban/ajax', App\Controllers\Admin\DetectBanLogController::class . ':ajaxLog');
 
         // 指定用户购买记录以及添加套餐
         $this->get('/user/{id}/bought', App\Controllers\Admin\UserLog\BoughtLogController::class . ':bought');
-        $this->post('/user/{id}/bought/ajax', App\Controllers\Admin\UserLog\BoughtLogController::class . ':bought_ajax');
-        $this->delete('/user/bought', App\Controllers\Admin\UserLog\BoughtLogController::class . ':bought_delete');
-        $this->post('/user/{id}/bought/buy', App\Controllers\Admin\UserLog\BoughtLogController::class . ':bought_add');
+        $this->post('/user/{id}/bought/ajax', App\Controllers\Admin\UserLog\BoughtLogController::class . ':boughtAjax');
+        $this->delete('/user/bought', App\Controllers\Admin\UserLog\BoughtLogController::class . ':boughtDelete');
+        $this->post('/user/{id}/bought/buy', App\Controllers\Admin\UserLog\BoughtLogController::class . ':boughtAdd');
 
         // 指定用户充值记录
         $this->get('/user/{id}/code', App\Controllers\Admin\UserLog\CodeLogController::class . ':index');
@@ -279,7 +284,7 @@ return function (SlimApp $app): void {
             $this->get('/update/{key}/edit', App\Controllers\Admin\GConfigController::class . ':edit');
 
             $this->get('/telegram', App\Controllers\Admin\GConfigController::class . ':telegram');
-            $this->post('/telegram/ajax', App\Controllers\Admin\GConfigController::class . ':telegram_ajax');
+            $this->post('/telegram/ajax', App\Controllers\Admin\GConfigController::class . ':telegramAjax');
         });
     })->add(new Admin());
 
@@ -299,28 +304,27 @@ return function (SlimApp $app): void {
     // mu
     $app->group('/mod_mu', function (): void {
         // 流媒体检测
-        $this->post('/media/saveReport', App\Controllers\Mod_Mu\NodeController::class . ':saveReport');
+        $this->post('/media/saveReport', App\Controllers\Node\NodeController::class . ':saveReport');
         // 其他
-        $this->get('/nodes/{id}/info', App\Controllers\Mod_Mu\NodeController::class . ':get_info');
-        $this->post('/nodes/{id}/info', App\Controllers\Mod_Mu\NodeController::class . ':info');
-        $this->get('/nodes', App\Controllers\Mod_Mu\NodeController::class . ':get_all_info');
-        $this->post('/nodes/config', App\Controllers\Mod_Mu\NodeController::class . ':getConfig');
+        $this->get('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':getInfo');
+        $this->post('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':info');
+        $this->get('/nodes', App\Controllers\Node\NodeController::class . ':getAllInfo');
+        $this->post('/nodes/config', App\Controllers\Node\NodeController::class . ':getConfig');
 
-        $this->get('/users', App\Controllers\Mod_Mu\UserController::class . ':index');
-        $this->post('/users/traffic', App\Controllers\Mod_Mu\UserController::class . ':addTraffic');
-        $this->post('/users/aliveip', App\Controllers\Mod_Mu\UserController::class . ':addAliveIp');
-        $this->post('/users/detectlog', App\Controllers\Mod_Mu\UserController::class . ':addDetectLog');
+        $this->get('/users', App\Controllers\Node\UserController::class . ':index');
+        $this->post('/users/traffic', App\Controllers\Node\UserController::class . ':addTraffic');
+        $this->post('/users/aliveip', App\Controllers\Node\UserController::class . ':addAliveIp');
+        $this->post('/users/detectlog', App\Controllers\Node\UserController::class . ':addDetectLog');
 
-        $this->get('/func/detect_rules', App\Controllers\Mod_Mu\FuncController::class . ':get_detect_logs');
-        $this->post('/func/block_ip', App\Controllers\Mod_Mu\FuncController::class . ':addBlockIp');
-        $this->get('/func/block_ip', App\Controllers\Mod_Mu\FuncController::class . ':get_blockip');
-        $this->get('/func/unblock_ip', App\Controllers\Mod_Mu\FuncController::class . ':get_unblockip');
-        $this->get('/func/ping', App\Controllers\Mod_Mu\FuncController::class . ':ping');
-        //============================================
-    })->add(new Mod_Mu());
+        $this->get('/func/detect_rules', App\Controllers\Node\FuncController::class . ':getDetectLogs');
+        $this->post('/func/block_ip', App\Controllers\Node\FuncController::class . ':addBlockIp');
+        $this->get('/func/block_ip', App\Controllers\Node\FuncController::class . ':getBlockip');
+        $this->get('/func/unblock_ip', App\Controllers\Node\FuncController::class . ':getUnblockip');
+        $this->get('/func/ping', App\Controllers\Node\FuncController::class . ':ping');
+    })->add(new NodeToken());
 
     $app->group('/link', function (): void {
-        $this->get('/{token}', App\Controllers\LinkController::class . ':GetContent');
+        $this->get('/{token}', App\Controllers\LinkController::class . ':getContent');
     });
 
     //通用訂閲

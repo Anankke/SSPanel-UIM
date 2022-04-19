@@ -13,7 +13,7 @@ use Exception;
  *
  * @package App\Services
  */
-class Password
+final class Password
 {
     /**
      * 发送重置密码邮件

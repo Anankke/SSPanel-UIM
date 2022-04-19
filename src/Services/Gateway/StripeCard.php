@@ -9,7 +9,7 @@ use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 
-class StripeCard extends AbstractPayment
+final class StripeCard extends AbstractPayment
 {
     public static function _name()
     {
@@ -23,6 +23,11 @@ class StripeCard extends AbstractPayment
         }
 
         return false;
+    }
+
+    public static function _readableName()
+    {
+        return 'Stripe';
     }
 
     public function purchase($request, $response, $args): void

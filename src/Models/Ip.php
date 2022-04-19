@@ -11,7 +11,7 @@ use App\Utils\Tools;
 /**
  * Ip Model
  */
-class Ip extends Model
+final class Ip extends Model
 {
     protected $connection = 'default';
     protected $table = 'alive_ip';
@@ -27,7 +27,7 @@ class Ip extends Model
     /**
      * 用户名
      */
-    public function user_name(): string
+    public function userName(): string
     {
         if ($this->user() === null) {
             return '用户已不存在';
@@ -46,7 +46,7 @@ class Ip extends Model
     /**
      * 节点名
      */
-    public function node_name(): string
+    public function nodeName(): string
     {
         if ($this->node() === null) {
             return '节点已不存在';
@@ -77,7 +77,7 @@ class Ip extends Model
     /**
      * 是否为中转连接
      */
-    public function is_node(): string
+    public function isNode(): string
     {
         return Node::where('node_ip', Tools::getRealIp($this->ip))->first() ? '是' : '否';
     }

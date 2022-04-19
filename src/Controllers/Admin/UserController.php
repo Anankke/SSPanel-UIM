@@ -5,20 +5,30 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
-use Auth;
+use App\Models\Bought;
+use App\Models\DetectBanLog;
+use App\Models\Setting;
+use App\Models\Shop;
+use App\Models\User;
+use App\Services\Auth;
+use App\Services\Mail;
+use App\Utils\Cookie;
+use App\Utils\GA;
+use App\Utils\Hash;
+use App\Utils\Tools;
 use Exception;
-use GA;
 use Ramsey\Uuid\Uuid;
-use Request;
-use User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class UserController extends AdminController
+final class UserController extends AdminController
 {
     /**
      * @param array     $args
      */
     public function index(Request $request, Response $response, array $args)
     {
+        $table_config = [];
         $table_config['total_column'] = [
             'op' => '操作',
             'querys' => '查询',
@@ -135,6 +145,7 @@ class UserController extends AdminController
         $user->ga_token = $secret;
         $user->ga_enable = 0;
         if ($user->save()) {
+            $res = [];
             $res['ret'] = 1;
             $res['msg'] = '新用户注册成功 用户名: ' . $email . ' 随机初始密码: ' . $pass;
             $res['email_error'] = 'success';
@@ -194,22 +205,15 @@ class UserController extends AdminController
         $id = $args['id'];
         $user = User::find($id);
 
-        $email1 = $user->email;
-
         $user->email = $request->getParam('email');
-
-        $email2 = $request->getParam('email');
-
-        $passwd = $request->getParam('passwd');
 
         if ($request->getParam('pass') !== '') {
             $user->pass = Hash::passwordHash($request->getParam('pass'));
-            $user->clean_link();
+            $user->cleanLink();
         }
 
         $user->auto_reset_day = $request->getParam('auto_reset_day');
         $user->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
-        $origin_port = $user->port;
         $user->port = $request->getParam('port');
 
         $user->addMoneyLog($request->getParam('money') - $user->money);
@@ -276,7 +280,7 @@ class UserController extends AdminController
     public function delete(Request $request, Response $response, array $args)
     {
         $user = User::find((int) $request->getParam('id'));
-        if (! $user->kill_user()) {
+        if (! $user->killUser()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '删除失败',
@@ -347,52 +351,53 @@ class UserController extends AdminController
         );
 
         $data = [];
+        /** @var User $value */
         foreach ($query['datas'] as $value) {
-            /** @var User $value */
-
-            $tempdata['op'] = '' .
-                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/edit">编辑</a>' .
-                '<a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>' .
-                '<a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show(\'' . $value->id . '\')">切换为该用户</a>';
-
-            $tempdata['querys'] = '' .
-                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/bought">套餐</a>' .
-                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/code">充值</a>' .
-                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/sublog">订阅</a>' .
-                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/detect">审计</a>' .
-                '<a class="btn btn-brand" href="/admin/user/' . $value->id . '/login">登录</a>';
-
-            $tempdata['id'] = $value->id;
-            $tempdata['user_name'] = $value->user_name;
-            $tempdata['remark'] = $value->remark;
-            $tempdata['email'] = $value->email;
-            $tempdata['money'] = $value->money;
-            $tempdata['im_type'] = $value->im_type();
-            $tempdata['im_value'] = $value->im_value();
-            $tempdata['node_group'] = $value->node_group;
-            $tempdata['expire_in'] = $value->expire_in;
-            $tempdata['class'] = $value->class;
-            $tempdata['class_expire'] = $value->class_expire;
-            $tempdata['passwd'] = $value->passwd;
-            $tempdata['port'] = $value->port;
-            $tempdata['method'] = $value->method;
-            $tempdata['protocol'] = $value->protocol;
-            $tempdata['obfs'] = $value->obfs;
-            $tempdata['obfs_param'] = $value->obfs_param;
-            $tempdata['online_ip_count'] = $value->online_ip_count();
-            $tempdata['last_ss_time'] = $value->lastSsTime();
-            $tempdata['used_traffic'] = Tools::flowToGB($value->u + $value->d);
-            $tempdata['enable_traffic'] = Tools::flowToGB($value->transfer_enable);
-            $tempdata['last_checkin_time'] = $value->lastCheckInTime();
-            $tempdata['today_traffic'] = $value->TodayusedTraffic();
-            $tempdata['enable'] = $value->enable === 1 ? '可用' : '禁用';
-            $tempdata['reg_date'] = $value->reg_date;
-            $tempdata['reg_ip'] = $value->reg_ip;
-            $tempdata['auto_reset_day'] = $value->auto_reset_day;
-            $tempdata['auto_reset_bandwidth'] = $value->auto_reset_bandwidth;
-            $tempdata['ref_by'] = $value->ref_by;
-            $tempdata['ref_by_user_name'] = $value->ref_by_user_name();
-            $tempdata['top_up'] = $value->get_top_up();
+            $tempdata = [
+                'op' => <<<EOF
+                    <a class="btn btn-brand" href="/admin/user/{$value->id}/edit">编辑</a>
+                    <a class="btn btn-brand-accent" id="delete" href="javascript:void(0);" onClick="delete_modal_show('{$value->id}')">删除</a>
+                    <a class="btn btn-brand" id="changetouser" href="javascript:void(0);" onClick="changetouser_modal_show('{$value->id}')">切换为该用户</a>
+                EOF,
+                'querys' => <<<EOF
+                    <a class="btn btn-brand" href="/admin/user/{$value->id}/bought">套餐</a>
+                    <a class="btn btn-brand" href="/admin/user/{$value->id}/code">充值</a>
+                    <a class="btn btn-brand" href="/admin/user/{$value->id}/sublog">订阅</a>
+                    <a class="btn btn-brand" href="/admin/user/{$value->id}/detect">审计</a>
+                    <a class="btn btn-brand" href="/admin/user/{$value->id}/login">登录</a>
+                EOF,
+                'id' => $value->id,
+                'user_name' => $value->user_name,
+                'remark' => $value->remark,
+                'email' => $value->email,
+                'money' => $value->money,
+                'im_type' => $value->imType(),
+                'im_value' => $value->imValue(),
+                'node_group' => $value->node_group,
+                'expire_in' => $value->expire_in,
+                'class' => $value->class,
+                'class_expire' => $value->class_expire,
+                'passwd' => $value->passwd,
+                'port' => $value->port,
+                'method' => $value->method,
+                'protocol' => $value->protocol,
+                'obfs' => $value->obfs,
+                'obfs_param' => $value->obfs_param,
+                'online_ip_count' => $value->onlineIpCount(),
+                'last_ss_time' => $value->lastSsTime(),
+                'used_traffic' => Tools::flowToGB($value->u + $value->d),
+                'enable_traffic' => Tools::flowToGB($value->transfer_enable),
+                'last_checkin_time' => $value->lastCheckInTime(),
+                'today_traffic' => $value->todayUsedTraffic(),
+                'enable' => $value->enable === 1 ? '可用' : '禁用',
+                'reg_date' => $value->reg_date,
+                'reg_ip' => $value->reg_ip,
+                'auto_reset_day' => $value->auto_reset_day,
+                'auto_reset_bandwidth' => $value->auto_reset_bandwidth,
+                'ref_by' => $value->ref_by,
+                'ref_by_user_name' => $value->refByUserName(),
+                'top_up' => $value->getTopUp(),
+            ];
 
             $data[] = $tempdata;
         }

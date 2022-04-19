@@ -21,7 +21,7 @@ use Paymentwall_Config;
 use Paymentwall_Pingback;
 use Paymentwall_Widget;
 
-class PaymentWall extends AbstractPayment
+final class PaymentWall extends AbstractPayment
 {
     public static function _name()
     {
@@ -31,6 +31,11 @@ class PaymentWall extends AbstractPayment
     public static function _enable()
     {
         return self::getActiveGateway('paymentwall');
+    }
+
+    public static function _readableName()
+    {
+        return 'PaymentWall';
     }
 
     public function purchase($request, $response, $args): void
@@ -50,11 +55,11 @@ class PaymentWall extends AbstractPayment
             $pingback = new Paymentwall_Pingback($_GET, $_SERVER['REMOTE_ADDR']);
             if ($pingback->validate()) {
                 $virtualCurrency = $pingback->getVirtualCurrencyAmount();
-                if ($pingback->isDeliverable()) {
-                    // deliver the virtual currency
-                } elseif ($pingback->isCancelable()) {
-                    // withdraw the virual currency
-                }
+                // if ($pingback->isDeliverable()) {
+                //     // deliver the virtual currency
+                // } elseif ($pingback->isCancelable()) {
+                //     // withdraw the virual currency
+                // }
                 $user = User::find($pingback->getUserId());
                 $user->money += $pingback->getVirtualCurrencyAmount();
                 $user->save();
@@ -74,9 +79,9 @@ class PaymentWall extends AbstractPayment
                 echo 'OK'; // Paymentwall expects response to be OK, otherwise the pingback will be resent
                 if ($_ENV['enable_donate'] === true) {
                     if ($user->is_hide === 1) {
-                        Telegram::Send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
+                        Telegram::send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
                     } else {
-                        Telegram::Send('姐姐姐姐，' . $user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
+                        Telegram::send('姐姐姐姐，' . $user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
                     }
                 }
             } else {

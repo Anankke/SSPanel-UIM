@@ -10,11 +10,12 @@ use App\Models\Ip;
 use App\Models\LoginIp;
 use App\Models\UnblockIp;
 use App\Utils\QQWry;
+use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class IpController extends AdminController
+final class IpController extends AdminController
 {
     /**
      * 后台登录记录页面
@@ -23,20 +24,17 @@ class IpController extends AdminController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'userid' => '用户ID',
-            'user_name' => '用户名',
-            'ip' => 'IP',
-            'location' => '归属地',
-            'datetime' => '时间',
-            'type' => '类型',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'login/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'userid' => '用户ID',
+                    'user_name' => '用户名',
+                    'ip' => 'IP',
+                    'location' => '归属地',
+                    'datetime' => '时间',
+                    'type' => '类型',
+                ], 'login/ajax'))
                 ->display('admin/ip/login.tpl')
         );
     }
@@ -46,7 +44,7 @@ class IpController extends AdminController
      *
      * @param array     $args
      */
-    public function ajax_login(Request $request, Response $response, array $args)
+    public function ajaxLogin(Request $request, Response $response, array $args)
     {
         $query = LoginIp::getTableDataFromAdmin(
             $request,
@@ -66,13 +64,13 @@ class IpController extends AdminController
             /** @var LoginIp $value */
 
             if ($value->user() === null) {
-                LoginIp::user_is_null($value);
+                LoginIp::userIsNull($value);
                 continue;
             }
             $tempdata = [];
             $tempdata['id'] = $value->id;
             $tempdata['userid'] = $value->userid;
-            $tempdata['user_name'] = $value->user_name();
+            $tempdata['user_name'] = $value->userName();
             $tempdata['ip'] = $value->ip;
             $tempdata['location'] = $value->location($QQWry);
             $tempdata['datetime'] = $value->datetime();
@@ -96,22 +94,19 @@ class IpController extends AdminController
      */
     public function alive(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'userid' => '用户ID',
-            'user_name' => '用户名',
-            'nodeid' => '节点ID',
-            'node_name' => '节点名',
-            'ip' => 'IP',
-            'location' => '归属地',
-            'datetime' => '时间',
-            'is_node' => '是否为中转连接',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'alive/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'userid' => '用户ID',
+                    'user_name' => '用户名',
+                    'nodeid' => '节点ID',
+                    'node_name' => '节点名',
+                    'ip' => 'IP',
+                    'location' => '归属地',
+                    'datetime' => '时间',
+                    'is_node' => '是否为中转连接',
+                ], 'alive/ajax'))
                 ->display('admin/ip/alive.tpl')
         );
     }
@@ -121,7 +116,7 @@ class IpController extends AdminController
      *
      * @param array     $args
      */
-    public function ajax_alive(Request $request, Response $response, array $args)
+    public function ajaxAlive(Request $request, Response $response, array $args)
     {
         $query = Ip::getTableDataFromAdmin(
             $request,
@@ -149,13 +144,13 @@ class IpController extends AdminController
             $tempdata = [];
             $tempdata['id'] = $value->id;
             $tempdata['userid'] = $value->userid;
-            $tempdata['user_name'] = $value->user_name();
+            $tempdata['user_name'] = $value->userName();
             $tempdata['nodeid'] = $value->nodeid;
-            $tempdata['node_name'] = $value->node_name();
+            $tempdata['node_name'] = $value->nodeName();
             $tempdata['ip'] = Tools::getRealIp($value->ip);
             $tempdata['location'] = $value->location($QQWry);
             $tempdata['datetime'] = $value->datetime();
-            $tempdata['is_node'] = $value->is_node();
+            $tempdata['is_node'] = $value->isNode();
 
             $data[] = $tempdata;
         }
@@ -175,18 +170,15 @@ class IpController extends AdminController
      */
     public function block(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'node_name' => '节点名称',
-            'ip' => 'IP',
-            'location' => '归属地',
-            'datetime' => '时间',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'block/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'node_name' => '节点名称',
+                    'ip' => 'IP',
+                    'location' => '归属地',
+                    'datetime' => '时间',
+                ], 'block/ajax'))
                 ->display('admin/ip/block.tpl')
         );
     }
@@ -196,7 +188,7 @@ class IpController extends AdminController
      *
      * @param array     $args
      */
-    public function ajax_block(Request $request, Response $response, array $args)
+    public function ajaxBlock(Request $request, Response $response, array $args)
     {
         $query = BlockIp::getTableDataFromAdmin(
             $request,
@@ -241,7 +233,7 @@ class IpController extends AdminController
     public function doUnblock(Request $request, Response $response, array $args)
     {
         $ip = trim($request->getParam('ip'));
-        $BIP = BlockIp::where('ip', $ip)->delete();
+        BlockIp::where('ip', $ip)->delete();
         $UIP = new UnblockIp();
         $UIP->userid = $this->user->id;
         $UIP->ip = $ip;
@@ -261,19 +253,16 @@ class IpController extends AdminController
      */
     public function unblock(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'userid' => '用户ID',
-            'user_name' => '用户名',
-            'ip' => 'IP',
-            'location' => '归属地',
-            'datetime' => '时间',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'unblock/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'userid' => '用户ID',
+                    'user_name' => '用户名',
+                    'ip' => 'IP',
+                    'location' => '归属地',
+                    'datetime' => '时间',
+                ], 'unblock/ajax'))
                 ->display('admin/ip/unblock.tpl')
         );
     }
@@ -283,7 +272,7 @@ class IpController extends AdminController
      *
      * @param array     $args
      */
-    public function ajax_unblock(Request $request, Response $response, array $args)
+    public function ajaxUnblock(Request $request, Response $response, array $args)
     {
         $query = UnblockIp::getTableDataFromAdmin(
             $request,
@@ -305,7 +294,7 @@ class IpController extends AdminController
             $tempdata = [];
             $tempdata['id'] = $value->id;
             $tempdata['userid'] = $value->userid;
-            $tempdata['user_name'] = $value->user_name();
+            $tempdata['user_name'] = $value->userName();
             $tempdata['ip'] = $value->ip;
             $tempdata['location'] = $value->location($QQWry);
             $tempdata['datetime'] = $value->datetime();

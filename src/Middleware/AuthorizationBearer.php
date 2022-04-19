@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
-class AuthorizationBearer
+final class AuthorizationBearer
 {
-    protected string $token;
+    private string $token;
 
     public function __construct(string $token)
     {

@@ -6,9 +6,9 @@ namespace App\Utils;
 
 use App\Models\TelegramSession;
 
-class TelegramSessionManager
+final class TelegramSessionManager
 {
-    public static function GenerateRandomLink()
+    public static function generateRandomLink()
     {
         $i = 0;
         for ($i = 0; $i < 10; $i++) {
@@ -22,7 +22,7 @@ class TelegramSessionManager
         return "couldn't alloc token";
     }
 
-    public static function GenerateLoginRandomLink()
+    public static function generateLoginRandomLink()
     {
         $i = 0;
         for ($i = 0; $i < 10; $i++) {
@@ -37,12 +37,12 @@ class TelegramSessionManager
         return "couldn't alloc token";
     }
 
-    public static function add_bind_session($user)
+    public static function addBindSession($user)
     {
         $Elink = TelegramSession::where('type', '=', 0)->where('user_id', '=', $user->id)->first();
         if ($Elink !== null) {
             $Elink->datetime = time();
-            $Elink->session_content = self::GenerateRandomLink();
+            $Elink->session_content = self::generateRandomLink();
             $Elink->save();
             return $Elink->session_content;
         }
@@ -51,13 +51,13 @@ class TelegramSessionManager
         $NLink->type = 0;
         $NLink->user_id = $user->id;
         $NLink->datetime = time();
-        $NLink->session_content = self::GenerateRandomLink();
+        $NLink->session_content = self::generateRandomLink();
         $NLink->save();
 
         return $NLink->session_content;
     }
 
-    public static function verify_bind_session($token)
+    public static function verifyBindSession($token)
     {
         $Elink = TelegramSession::where('type', '=', 0)->where('session_content', $token)->where('datetime', '>', time() - 600)->orderBy('datetime', 'desc')->first();
         if ($Elink !== null) {
@@ -68,19 +68,19 @@ class TelegramSessionManager
         return 0;
     }
 
-    public static function add_login_session()
+    public static function addLoginSession()
     {
         $NLink = new TelegramSession();
         $NLink->type = 1;
         $NLink->user_id = 0;
         $NLink->datetime = time();
-        $NLink->session_content = self::GenerateLoginRandomLink();
+        $NLink->session_content = self::generateLoginRandomLink();
         $NLink->save();
 
         return $NLink->session_content;
     }
 
-    public static function verify_login_session($token, $uid)
+    public static function verifyLoginSession($token, $uid)
     {
         $Elink = TelegramSession::where('type', '=', 1)->where('user_id', 0)->where('session_content', 'LIKE', $token . '|%')->where('datetime', '>', time() - 90)->orderBy('datetime', 'desc')->first();
         if ($Elink !== null) {
@@ -91,7 +91,7 @@ class TelegramSessionManager
         return 0;
     }
 
-    public static function verify_login_number($token, $uid)
+    public static function verifyLoginNumber($token, $uid)
     {
         $Elink = TelegramSession::where('type', '=', 1)->where('user_id', 0)->where('session_content', 'LIKE', '%|' . $token)->where('datetime', '>', time() - 90)->orderBy('datetime', 'desc')->first();
         if ($Elink !== null) {
@@ -102,7 +102,7 @@ class TelegramSessionManager
         return 0;
     }
 
-    public static function step2_verify_login_session($token, $number)
+    public static function step2VerifyLoginSession($token, $number)
     {
         $Elink = TelegramSession::where('type', '=', 1)->where('session_content', $token . '|' . $number)->where('datetime', '>', time() - 90)->orderBy('datetime', 'desc')->first();
         if ($Elink !== null) {
@@ -113,7 +113,7 @@ class TelegramSessionManager
         return 0;
     }
 
-    public static function check_login_session($token, $number)
+    public static function checkLoginSession($token, $number)
     {
         $Elink = TelegramSession::where('type', '=', 1)->where('session_content', $token . '|' . $number)->orderBy('datetime', 'desc')->first();
         if ($Elink !== null) {

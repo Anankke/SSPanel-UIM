@@ -14,7 +14,7 @@ namespace App\Models;
  * @property        int     $auto_reset_bandwidth
  * @property        int     $status
  */
-class Shop extends Model
+final class Shop extends Model
 {
     protected $connection = 'default';
 
@@ -77,22 +77,22 @@ class Shop extends Model
         return $this->content['reset'] ?? 0;
     }
 
-    public function reset_value()
+    public function resetValue()
     {
         return $this->content['reset_value'] ?? 0;
     }
 
-    public function reset_exp()
+    public function resetExp()
     {
         return $this->content['reset_exp'] ?? 0;
     }
 
-    public function traffic_package()
+    public function trafficPackage()
     {
         return isset($this->content['traffic_package']);
     }
 
-    public function content_extra()
+    public function contentExtra()
     {
         if (isset($this->content['content_extra'])) {
             $content_extra = explode(';', $this->content['content_extra']);
@@ -110,12 +110,12 @@ class Shop extends Model
         return 0;
     }
 
-    public function user_class()
+    public function userClass()
     {
         return $this->content['class'] ?? 0;
     }
 
-    public function class_expire()
+    public function classExpire()
     {
         return $this->content['class_expire'] ?? 0;
     }
@@ -196,9 +196,9 @@ class Shop extends Model
     /*
      * 是否周期内循环重置性商品
      */
-    public function use_loop(): bool
+    public function useLoop(): bool
     {
-        return $this->reset() !== 0 && $this->reset_value() !== 0 && $this->reset_exp() !== 0;
+        return $this->reset() !== 0 && $this->resetValue() !== 0 && $this->resetExp() !== 0;
     }
 
     /*
@@ -216,7 +216,7 @@ class Shop extends Model
     /*
      * 自动续费时间
      */
-    public function auto_renew(): string
+    public function autoRenew(): string
     {
         return $this->auto_renew === 0 ? '不自动续费' : $this->auto_renew . ' 天后续费';
     }
@@ -224,7 +224,7 @@ class Shop extends Model
     /*
      * 流量是否自动重置
      */
-    public function auto_reset_bandwidth(): string
+    public function autoResetBandwidthString(): string
     {
         return $this->auto_reset_bandwidth === 0 ? '不自动重置' : '自动重置';
     }

@@ -9,7 +9,7 @@ use App\Utils\QQWry;
 /**
  * Ip Model
  */
-class LoginIp extends Model
+final class LoginIp extends Model
 {
     protected $connection = 'default';
 
@@ -22,7 +22,7 @@ class LoginIp extends Model
     /**
      * [静态方法] 删除不存在的用户的记录
      */
-    public static function user_is_null(LoginIp $LoginIp): void
+    public static function userIsNull(LoginIp $LoginIp): void
     {
         self::where('userid', $LoginIp->userid)->delete();
     }
@@ -38,7 +38,7 @@ class LoginIp extends Model
     /**
      * 登录用户
      */
-    public function user_name(): string
+    public function userName(): string
     {
         if ($this->user() === null) {
             return '用户已不存在';

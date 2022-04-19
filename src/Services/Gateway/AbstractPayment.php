@@ -17,7 +17,8 @@ use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Telegram;
-use Request;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 abstract class AbstractPayment
 {
@@ -34,21 +35,19 @@ abstract class AbstractPayment
     /**
      * 支付网关的 codeName, 规则为 [0-9a-zA-Z_]*
      */
-    abstract public static function _name(): void;
+    abstract public static function _name(): string;
 
     /**
      * 是否启用支付网关
      *
      * TODO: 传入目前用户信, etc..
      */
-    abstract public static function _enable(): void;
+    abstract public static function _enable(): boolean;
 
     /**
      * 显示给用户的名称
      */
-    public static function _readableName() {
-        return static::class::_name() . ' 充值';
-    }
+    abstract public static function _readableName(): string;
 
     /**
      * @param array     $args
@@ -61,23 +60,6 @@ abstract class AbstractPayment
     abstract public function getStatus(Request $request, Response $response, array $args): void;
 
     abstract public static function getPurchaseHTML(): void;
-
-    protected static function getCallbackUrl() {
-        return $_ENV['baseUrl'] . '/payment/notify/' . static::class::_name();
-    }
-
-    protected static function getUserReturnUrl() {
-        return $_ENV['baseUrl'] . '/user/payment/return/' . static::class::_name();
-    }
-
-    protected static function getActiveGateway($key) {
-        $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
-        $active_gateways = json_decode($payment_gateways->value);
-        if (in_array($key, $active_gateways)) {
-            return true;
-        }
-        return false;
-    }
 
     public function postPayment($pid, $method)
     {
@@ -108,9 +90,9 @@ abstract class AbstractPayment
 
         if ($_ENV['enable_donate'] === true) {
             if ($user->is_hide === 1) {
-                Telegram::Send('一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元!');
+                Telegram::send('一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元!');
             } else {
-                Telegram::Send($user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元！');
+                Telegram::send($user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元！');
             }
         }
         return 0;
@@ -129,7 +111,26 @@ abstract class AbstractPayment
             . substr($charid, 20, 12)
             . chr(125);
         $uuid = str_replace(['}', '{', '-'], '', $uuid);
-        $uuid = substr($uuid, 0, 8);
-        return $uuid;
+        return substr($uuid, 0, 8);
+    }
+
+    protected static function getCallbackUrl()
+    {
+        return $_ENV['baseUrl'] . '/payment/notify/' . get_called_class()::_name();
+    }
+
+    protected static function getUserReturnUrl()
+    {
+        return $_ENV['baseUrl'] . '/user/payment/return/' . get_called_class()::_name();
+    }
+
+    protected static function getActiveGateway($key)
+    {
+        $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
+        $active_gateways = json_decode($payment_gateways->value);
+        if (in_array($key, $active_gateways)) {
+            return true;
+        }
+        return false;
     }
 }

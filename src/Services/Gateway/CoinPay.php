@@ -12,7 +12,7 @@ use App\Services\Gateway\CoinPay\CoinPayConfig;
 use App\Services\Gateway\CoinPay\CoinPayException;
 use App\Services\Gateway\CoinPay\CoinPayUnifiedOrder;
 
-class CoinPay extends AbstractPayment
+final class CoinPay extends AbstractPayment
 {
     private $coinPaySecret;
     private $coinPayGatewayUrl;
@@ -62,12 +62,12 @@ class CoinPay extends AbstractPayment
         $total_fee = (float) $amount;
 
         $report_data = new CoinPayUnifiedOrder();
-        $report_data->SetSubject($subject);
-        $report_data->SetOut_trade_no($out_trade_no);
-        $report_data->SetTotal_amount($total_fee);
-        $report_data->SetTimestamp(date('Y-m-d H:i:s', time()));
-        $report_data->SetReturn_url($_ENV['baseUrl'] . '/user/code');
-        $report_data->SetNotify_url(self::getCallbackUrl());
+        $report_data->setSubject($subject);
+        $report_data->setOutTradeNo($out_trade_no);
+        $report_data->setTotalAmount($total_fee);
+        $report_data->setTimestamp(date('Y-m-d H:i:s', time()));
+        $report_data->setReturnUrl($_ENV['baseUrl'] . '/user/code');
+        $report_data->setNotifyUrl(self::getCallbackUrl());
 //        $report_data->SetBody(json_encode($pl));
 //        $report_data->SetTransCurrency("CNY");
 //        $report_data->SetAttach("");
@@ -84,7 +84,7 @@ class CoinPay extends AbstractPayment
     public function verify($data, $sign): bool
     {
         $payConfig = new CoinPayConfig();
-        if ($sign === self::Sign($data, $payConfig->GetSecret())) {
+        if ($sign === self::sign($data, $payConfig->getSecret())) {
             return true;
         }
         return false;
@@ -100,7 +100,7 @@ class CoinPay extends AbstractPayment
         $raw = file_get_contents('php://input');
         file_put_contents(BASE_PATH . '/coinpay_purchase.log', $raw . "\r\n", FILE_APPEND);
         $data = json_decode($raw, true);
-        if (empty($data)) {
+        if (is_null($data)) {
             file_put_contents(BASE_PATH . '/coinpay_purchase.log', "返回数据异常\r\n", FILE_APPEND);
             echo 'fail';
             die;
@@ -184,7 +184,7 @@ class CoinPay extends AbstractPayment
 ';
     }
 
-    private function Sign($value, $secret)
+    private function sign($value, $secret)
     {
         ksort($value);
         reset($value);

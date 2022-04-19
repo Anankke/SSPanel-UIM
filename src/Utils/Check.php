@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-class Check
+final class Check
 {
     public static function isEmailLegal($email)
     {
+        $res = [];
         $res['ret'] = 0;
 
         if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {

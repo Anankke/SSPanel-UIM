@@ -7,30 +7,28 @@ namespace App\Controllers\Admin;
 use App\Controllers\AdminController;
 use App\Models\DetectLog;
 use App\Models\DetectRule;
+use App\Utils\ResponseHelper;
 use App\Utils\Telegram;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class DetectController extends AdminController
+final class DetectController extends AdminController
 {
     /**
      * @param array     $args
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'op' => '操作',
-            'id' => 'ID',
-            'name' => '名称',
-            'text' => '介绍',
-            'regex' => '正则表达式',
-            'type' => '类型',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'detect/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'op' => '操作',
+                    'id' => 'ID',
+                    'name' => '名称',
+                    'text' => '介绍',
+                    'regex' => '正则表达式',
+                    'type' => '类型',
+                ], 'detect/ajax'))
                 ->display('admin/detect/index.tpl')
         );
     }
@@ -38,7 +36,7 @@ class DetectController extends AdminController
     /**
      * @param array     $args
      */
-    public function ajax_rule(Request $request, Response $response, array $args)
+    public function ajaxRule(Request $request, Response $response, array $args)
     {
         $query = DetectRule::getTableDataFromAdmin(
             $request,
@@ -101,7 +99,7 @@ class DetectController extends AdminController
             ]);
         }
 
-        Telegram::SendMarkdown('有新的审计规则：' . $rule->name);
+        Telegram::sendMarkdown('有新的审计规则：' . $rule->name);
         return $response->withJson([
             'ret' => 1,
             'msg' => '添加成功',
@@ -141,7 +139,7 @@ class DetectController extends AdminController
                 'msg' => '修改失败',
             ]);
         }
-        Telegram::SendMarkdown('规则更新：' . PHP_EOL . $request->getParam('name'));
+        Telegram::sendMarkdown('规则更新：' . PHP_EOL . $request->getParam('name'));
         return $response->withJson([
             'ret' => 1,
             'msg' => '修改成功',
@@ -172,24 +170,21 @@ class DetectController extends AdminController
      */
     public function log(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'id' => 'ID',
-            'user_id' => '用户ID',
-            'user_name' => '用户名',
-            'node_id' => '节点ID',
-            'node_name' => '节点名',
-            'list_id' => '规则ID',
-            'rule_name' => '规则名',
-            'rule_text' => '规则描述',
-            'rule_regex' => '规则正则表达式',
-            'rule_type' => '规则类型',
-            'datetime' => '时间',
-        ];
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'log/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'id' => 'ID',
+                    'user_id' => '用户ID',
+                    'user_name' => '用户名',
+                    'node_id' => '节点ID',
+                    'node_name' => '节点名',
+                    'list_id' => '规则ID',
+                    'rule_name' => '规则名',
+                    'rule_text' => '规则描述',
+                    'rule_regex' => '规则正则表达式',
+                    'rule_type' => '规则类型',
+                    'datetime' => '时间',
+                ], 'log/ajax'))
                 ->display('admin/detect/log.tpl')
         );
     }
@@ -197,7 +192,7 @@ class DetectController extends AdminController
     /**
      * @param array     $args
      */
-    public function ajax_log(Request $request, Response $response, array $args)
+    public function ajaxLog(Request $request, Response $response, array $args)
     {
         $query = DetectLog::getTableDataFromAdmin(
             $request,
@@ -219,28 +214,28 @@ class DetectController extends AdminController
             /** @var DetectLog $value */
 
             if ($value->rule() === null) {
-                DetectLog::rule_is_null($value);
+                DetectLog::ruleIsNull($value);
                 continue;
             }
             if ($value->node() === null) {
-                DetectLog::node_is_null($value);
+                DetectLog::nodeIsNull($value);
                 continue;
             }
             if ($value->user() === null) {
-                DetectLog::user_is_null($value);
+                DetectLog::userIsNull($value);
                 continue;
             }
             $tempdata = [];
             $tempdata['id'] = $value->id;
             $tempdata['user_id'] = $value->user_id;
-            $tempdata['user_name'] = $value->user_name();
+            $tempdata['user_name'] = $value->userName();
             $tempdata['node_id'] = $value->node_id;
-            $tempdata['node_name'] = $value->node_name();
+            $tempdata['node_name'] = $value->nodeName();
             $tempdata['list_id'] = $value->list_id;
-            $tempdata['rule_name'] = $value->rule_name();
-            $tempdata['rule_text'] = $value->rule_text();
-            $tempdata['rule_regex'] = $value->rule_regex();
-            $tempdata['rule_type'] = $value->rule_type();
+            $tempdata['rule_name'] = $value->ruleName();
+            $tempdata['rule_text'] = $value->ruleText();
+            $tempdata['rule_regex'] = $value->ruleRegex();
+            $tempdata['rule_type'] = $value->ruleType();
             $tempdata['datetime'] = $value->datetime();
 
             $data[] = $tempdata;

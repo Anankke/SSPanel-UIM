@@ -8,7 +8,7 @@ use App\Models\Node;
 use App\Models\User;
 use App\Utils\Tools;
 
-class Analytics
+final class Analytics
 {
     public function getTotalUser()
     {

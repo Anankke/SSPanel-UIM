@@ -7,12 +7,15 @@ namespace App\Controllers\Admin;
 use App\Controllers\AdminController;
 use App\Models\Node;
 use App\Services\Config;
+use App\Utils\CloudflareDriver;
+use App\Utils\Telegram;
+use App\Utils\Tools;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Request;
-use Tools;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class NodeController extends AdminController
+final class NodeController extends AdminController
 {
     /**
      * 后台节点页面
@@ -21,6 +24,7 @@ class NodeController extends AdminController
      */
     public function index(Request $request, Response $response, array $args): ResponseInterface
     {
+        $table_config = [];
         $table_config['total_column'] = [
             'op' => '操作',
             'id' => 'ID',
@@ -94,7 +98,7 @@ class NodeController extends AdminController
         $success = true;
         $server_list = explode(';', $node->server);
 
-        if (Tools::is_ip($req_node_ip)) {
+        if (Tools::isIp($req_node_ip)) {
             $success = $node->changeNodeIp($req_node_ip);
         } else {
             $success = $node->changeNodeIp($server_list[0]);
@@ -120,7 +124,7 @@ class NodeController extends AdminController
 
         if (Config::getconfig('Telegram.bool.AddNode')) {
             try {
-                Telegram::Send(
+                Telegram::send(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
@@ -189,7 +193,7 @@ class NodeController extends AdminController
         $success = true;
         $server_list = explode(';', $node->server);
 
-        if (Tools::is_ip($req_node_ip)) {
+        if (Tools::isIp($req_node_ip)) {
             $success = $node->changeNodeIp($req_node_ip);
         } else {
             $success = $node->changeNodeIp($server_list[0]);
@@ -211,7 +215,7 @@ class NodeController extends AdminController
 
         if (Config::getconfig('Telegram.bool.UpdateNode')) {
             try {
-                Telegram::Send(
+                Telegram::send(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
@@ -251,7 +255,7 @@ class NodeController extends AdminController
 
         if (Config::getconfig('Telegram.bool.DeleteNode')) {
             try {
-                Telegram::Send(
+                Telegram::send(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
@@ -302,7 +306,7 @@ class NodeController extends AdminController
             $tempdata['type'] = $value->type();
             $tempdata['sort'] = $value->sort();
             $tempdata['server'] = $value->server;
-            $tempdata['outaddress'] = $value->get_out_address();
+            $tempdata['outaddress'] = $value->getOutAddress();
             $tempdata['node_ip'] = $value->node_ip;
             $tempdata['info'] = $value->info;
             $tempdata['status'] = $value->status;
@@ -313,8 +317,8 @@ class NodeController extends AdminController
             $tempdata['node_bandwidth'] = Tools::flowToGB($value->node_bandwidth);
             $tempdata['node_bandwidth_limit'] = Tools::flowToGB($value->node_bandwidth_limit);
             $tempdata['bandwidthlimit_resetday'] = $value->bandwidthlimit_resetday;
-            $tempdata['node_heartbeat'] = $value->node_heartbeat();
-            $tempdata['mu_only'] = $value->mu_only();
+            $tempdata['node_heartbeat'] = $value->nodeHeartbeat();
+            $tempdata['mu_only'] = $value->muOnly();
 
             $data[] = $tempdata;
         }

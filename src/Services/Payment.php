@@ -6,7 +6,7 @@ namespace App\Services;
 
 use App\Utils\ClassHelper;
 
-class Payment
+final class Payment
 {
     // public static function getClient()
     // {

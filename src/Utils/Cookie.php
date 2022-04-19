@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-class Cookie
+final class Cookie
 {
     public static function set($arg, $time): void
     {

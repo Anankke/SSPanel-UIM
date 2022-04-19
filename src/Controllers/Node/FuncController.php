@@ -2,15 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Controllers\Mod_Mu;
+namespace App\Controllers\Node;
 
 use App\Controllers\BaseController;
+use App\Models\BlockIp;
+use App\Models\DetectRule;
+use App\Models\Node;
+use App\Models\UnblockIp;
 use App\Utils\Tools;
-use Node;
 use Psr\Http\Message\ResponseInterface;
-use Request;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class FuncController extends BaseController
+final class FuncController extends BaseController
 {
     /**
      * @param array     $args
@@ -27,7 +31,7 @@ class FuncController extends BaseController
     /**
      * @param array     $args
      */
-    public function get_detect_logs(Request $request, Response $response, array $args): ResponseInterface
+    public function getDetectLogs(Request $request, Response $response, array $args): ResponseInterface
     {
         $rules = DetectRule::all();
 
@@ -46,7 +50,7 @@ class FuncController extends BaseController
     /**
      * @param array     $args
      */
-    public function get_blockip(Request $request, Response $response, array $args): ResponseInterface
+    public function getBlockip(Request $request, Response $response, array $args): ResponseInterface
     {
         $block_ips = BlockIp::Where('datetime', '>', time() - 60)->get();
 
@@ -65,7 +69,7 @@ class FuncController extends BaseController
     /**
      * @param array     $args
      */
-    public function get_unblockip(Request $request, Response $response, array $args): ResponseInterface
+    public function getUnblockip(Request $request, Response $response, array $args): ResponseInterface
     {
         $unblock_ips = UnblockIp::Where('datetime', '>', time() - 60)->get();
 

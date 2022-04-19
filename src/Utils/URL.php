@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use App\Controllers\LinkController;
+use App\Models\Node;
+use App\Models\User;
 use App\Services\Config;
-use User;
 
-class URL
+final class URL
 {
     /*
     * 1 SSR can
     * 2 SS can
     * 3 Both can
     */
-    public static function CanMethodConnect($method)
+    public static function canMethodConnect($method)
     {
         $ss_aead_method_list = Config::getSupportParam('ss_aead_method');
         if (in_array($method, $ss_aead_method_list)) {
@@ -29,7 +30,7 @@ class URL
     * 2 SS can
     * 3 Both can
     */
-    public static function CanProtocolConnect($protocol)
+    public static function canProtocolConnect($protocol)
     {
         if ($protocol !== 'origin') {
             if (strpos($protocol, '_compatible') === false) {
@@ -48,7 +49,7 @@ class URL
     * 4 Both can, But ssr need set obfs to plain
     * 5 Both can, But ss need set obfs to plain
     */
-    public static function CanObfsConnect($obfs)
+    public static function canObfsConnect($obfs)
     {
         if ($obfs !== 'plain') {
             //SS obfs only
@@ -74,7 +75,7 @@ class URL
     /**
      * parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
      */
-    public static function parse_args(string $origin): array
+    public static function parseArgs(string $origin): array
     {
         // parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
         $args_explode = explode('|', $origin);
@@ -89,38 +90,44 @@ class URL
         return $return_array;
     }
 
-    public static function SSCanConnect(User $user, $mu_port = 0): void
+    public static function SSCanConnect(User $user, $mu_port = 0): int
     {
         if ($mu_port !== 0) {
-            $mu_user = User::where('port', '=', $mu_port)->where('is_multi_user', '<>', 0)->first();
+            $mu_user = User::where('port', '=', $mu_port)
+                ->where('is_multi_user', '<>', 0)->first();
             if ($mu_user === null) {
-                return;
+                return 0;
             }
             return self::SSCanConnect($mu_user);
         }
-        return self::CanMethodConnect($user->method) >= 2 && self::CanProtocolConnect($user->protocol) >= 2 && self::CanObfsConnect($user->obfs) >= 2;
+        return self::canMethodConnect($user->method) >= 2 &&
+            self::canProtocolConnect($user->protocol) >= 2 &&
+            self::canObfsConnect($user->obfs) >= 2;
     }
 
-    public static function SSRCanConnect(User $user, $mu_port = 0): void
+    public static function SSRCanConnect(User $user, $mu_port = 0): int
     {
         if ($mu_port !== 0) {
-            $mu_user = User::where('port', '=', $mu_port)->where('is_multi_user', '<>', 0)->first();
+            $mu_user = User::where('port', '=', $mu_port)
+                ->where('is_multi_user', '<>', 0)->first();
             if ($mu_user === null) {
-                return;
+                return 0;
             }
             return self::SSRCanConnect($mu_user);
         }
-        return self::CanMethodConnect($user->method) !== 2 && self::CanProtocolConnect($user->protocol) !== 2 && self::CanObfsConnect($user->obfs) !== 2;
+        return self::canMethodConnect($user->method) !== 2 &&
+            self::canProtocolConnect($user->protocol) !== 2 &&
+            self::canObfsConnect($user->obfs) !== 2;
     }
 
     public static function getSSConnectInfo(User $user)
     {
         $new_user = clone $user;
-        if (self::CanObfsConnect($new_user->obfs) === 5) {
+        if (self::canObfsConnect($new_user->obfs) === 5) {
             $new_user->obfs = 'plain';
             $new_user->obfs_param = '';
         }
-        if (self::CanProtocolConnect($new_user->protocol) === 3) {
+        if (self::canProtocolConnect($new_user->protocol) === 3) {
             $new_user->protocol = 'origin';
             $new_user->protocol_param = '';
         }
@@ -132,7 +139,7 @@ class URL
     public static function getSSRConnectInfo(User $user)
     {
         $new_user = clone $user;
-        if (self::CanObfsConnect($new_user->obfs) === 4) {
+        if (self::canObfsConnect($new_user->obfs) === 4) {
             $new_user->obfs = 'plain';
             $new_user->obfs_param = '';
         }
@@ -147,8 +154,11 @@ class URL
      * @param mixed $sort  数值或数组
      * @param array $rules 节点筛选规则
      */
-    public static function getNodes(User $user, $sort, array $rules = []): \Illuminate\Database\Eloquent\Collection
-    {
+    public static function getNodes(
+        User $user,
+        $sort,
+        array $rules = []
+    ): \Illuminate\Database\Eloquent\Collection {
         $query = Node::query();
         if (is_array($sort)) {
             $query->whereIn('sort', $sort);
@@ -191,7 +201,7 @@ class URL
      * @param User  $user 用户
      * @param array $Rule 节点筛选规则
      */
-    public static function getNew_AllItems(User $user, array $Rule): array
+    public static function getNewAllItems(User $user, array $Rule): array
     {
         $is_ss = [0];
         $is_mu = ($Rule['is_mu'] ?? (int) $_ENV['mergeSub']);
@@ -277,7 +287,8 @@ class URL
             // SS 节点
             if (in_array($node->sort, [0])) {
                 // 节点非只启用单端口 && 只获取普通端口
-                if ($node->mu_only !== 1 && ($is_mu === 0 || ($is_mu !== 0 && $_ENV['mergeSub'] === true))) {
+                if ($node->mu_only !== 1 &&
+                    ($is_mu === 0 || ($is_mu !== 0 && $_ENV['mergeSub'] === true))) {
                     foreach ($is_ss as $ss) {
                         $item = $node->getItem($user, 0, $ss, $emoji);
                         if ($item !== null) {
@@ -325,13 +336,13 @@ class URL
      * @param User  $user 用户
      * @param array $Rule 节点筛选规则
      */
-    public static function get_NewAllUrl(User $user, array $Rule): string
+    public static function getNewAllUrl(User $user, array $Rule): string
     {
         $return_url = '';
         if (strtotime($user->expire_in) < time()) {
             return $return_url;
         }
-        $items = URL::getNew_AllItems($user, $Rule);
+        $items = URL::getNewAllItems($user, $Rule);
         foreach ($items as $item) {
             if ($item['type'] === 'vmess') {
                 $out = LinkController::getListItem($item, 'v2rayn');
@@ -388,8 +399,12 @@ class URL
      *
      * @return array|string
      */
-    public static function getV2Url(User $user, Node $node, bool $arrout = false, bool $emoji = false)
-    {
+    public static function getV2Url(
+        User $user,
+        Node $node,
+        bool $arrout = false,
+        bool $emoji = false
+    ) {
         $item = Tools::v2Array($node->server);
         $item['v'] = '2';
         $item['type'] = 'vmess';
@@ -408,8 +423,11 @@ class URL
     /**
      * 获取全部 V2Ray 节点
      */
-    public static function getAllVMessUrl(User $user, bool $arrout = false, bool $emoji = false)
-    {
+    public static function getAllVMessUrl(
+        User $user,
+        bool $arrout = false,
+        bool $emoji = false
+    ) {
         $nodes = self::getNodes($user, [11]);
         # 增加中转配置，后台目前配置user=0的话是自由门直接中转
         $tmp_nodes = [];
@@ -455,10 +473,11 @@ class URL
      *
      * @param User $user 用户
      */
-    public static function get_trojan_url(User $user, Node $node): string
+    public static function getTrojanUrl(User $user, Node $node): string
     {
         $server = $node->getTrojanItem($user);
-        $return = 'trojan://' . $server['passwd'] . '@' . $server['address'] . ':' . $server['port'];
+        $return = 'trojan://' . $server['passwd']
+            . '@' . $server['address'] . ':' . $server['port'];
         if ($server['host'] !== $server['address']) {
             $return .= '?peer=' . $server['host'] . '&sni=' . $server['host'];
         }

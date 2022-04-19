@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
+use App\Models\Ticket;
+use App\Models\User;
+use App\Utils\ResponseHelper;
 use App\Utils\Tools;
-use Request;
-use User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use voku\helper\AntiXSS;
 
-class TicketController extends AdminController
+final class TicketController extends AdminController
 {
     /**
      * 后台工单页面
@@ -19,23 +22,17 @@ class TicketController extends AdminController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'op' => '操作',
-            'id' => 'ID',
-            'datetime' => '时间',
-            'title' => '标题',
-            'userid' => '用户ID',
-            'user_name' => '用户名',
-            'status' => '状态',
-        ];
-        $table_config['default_show_column'] = [
-            'op', 'id',
-            'datetime', 'title', 'userid', 'user_name', 'status',
-        ];
-        $table_config['ajax_url'] = 'ticket/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'op' => '操作',
+                    'id' => 'ID',
+                    'datetime' => '时间',
+                    'title' => '标题',
+                    'userid' => '用户ID',
+                    'user_name' => '用户名',
+                    'status' => '状态',
+                ], 'ticket/ajax'))
                 ->display('admin/ticket/index.tpl')
         );
     }
@@ -49,7 +46,6 @@ class TicketController extends AdminController
     {
         $title = $request->getParam('title');
         $content = $request->getParam('content');
-        $markdown = $request->getParam('markdown');
         $userid = $request->getParam('userid');
         if ($title === '' || $content === '') {
             return $response->withJson([
@@ -156,7 +152,7 @@ class TicketController extends AdminController
         $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
         $ticketset->setPath('/admin/ticket/' . $id . '/view');
 
-        $render = Tools::paginate_render($ticketset);
+        $render = Tools::paginateRender($ticketset);
         return $response->write(
             $this->view()
                 ->assign('ticketset', $ticketset)
@@ -193,7 +189,7 @@ class TicketController extends AdminController
             /** @var Ticket $value */
 
             if ($value->user() === null) {
-                Ticket::user_is_null($value);
+                Ticket::userIsNull($value);
                 continue;
             }
             $tempdata = [];
@@ -202,7 +198,7 @@ class TicketController extends AdminController
             $tempdata['datetime'] = $value->datetime();
             $tempdata['title'] = $value->title;
             $tempdata['userid'] = $value->userid;
-            $tempdata['user_name'] = $value->user_name();
+            $tempdata['user_name'] = $value->userName();
             $tempdata['status'] = $value->status();
 
             $data[] = $tempdata;

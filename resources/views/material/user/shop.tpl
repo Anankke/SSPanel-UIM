@@ -52,18 +52,18 @@
             <div data-areatype="orders">
                 <div class="shop-flex">
                     {foreach $shops as $shop}
-                    {if $shop->traffic_package() == 0}
+                    {if $shop->trafficPackage() == 0}
                         <div class="card">
                             <div class="card-main">
                                 <div class="shop-name">{$shop->name}</div>
                                 <div class="shop-price">{$shop->price}</div>
                                 <div class="shop-tat">
-                                    <span>{$shop->bandwidth()}</span> / <span>{$shop->class_expire()}</span>
+                                    <span>{$shop->bandwidth()}</span> / <span>{$shop->classExpire()}</span>
                                 </div>
                                 <div class="shop-cube">
                                     <div>
                                         <div class="cube-detail">
-                                            <span>Lv.</span>{$shop->user_class()}
+                                            <span>Lv.</span>{$shop->userClass()}
                                         </div>
                                         <div class="cube-title">
                                             VIP
@@ -94,18 +94,18 @@
                                     <div class="shop-content-left">账号有效期:</div>
                                     <div class="shop-content-right">{$shop->expire()}<span>天</span></div>
                                     <div class="shop-content-left">重置周期:</div>
-                                    <div class="shop-content-right">{if {$shop->reset()} == '0' }N / A{else}{$shop->reset_exp()}
+                                    <div class="shop-content-right">{if {$shop->reset()} == '0' }N / A{else}{$shop->resetExp()}
                                             <span>天</span>
                                         {/if}</div>
                                     <div class="shop-content-left">重置频率:</div>
-                                    <div class="shop-content-right">{if {$shop->reset()} == '0' }N / A{else}{$shop->reset_value()}
+                                    <div class="shop-content-right">{if {$shop->reset()} == '0' }N / A{else}{$shop->resetValue()}
                                             <span>G</span>
                                             / {$shop->reset()}
                                             <span>天</span>
                                         {/if}</div>
                                 </div>
                                 <div class="shop-content-extra">
-                                    {foreach $shop->content_extra() as $service}
+                                    {foreach $shop->contentExtra() as $service}
                                         <div><span class="icon">{$service[0]}</span> {$service[1]}</div>
                                     {/foreach}
                                 </div>
@@ -120,15 +120,15 @@
                 </div>
                 <div class="shop-table">
                     {foreach $shops as $shop}
-                    {if $shop->traffic_package() == 0}
+                    {if $shop->trafficPackage() == 0}
                         <div class="shop-gridarea">
                             <div class="card">
                                 <div>
                                     <div class="shop-name"><span>{$shop->name}</span></div>
-                                    <div class="card-tag tag-gold">VIP {$shop->user_class()}</div>
+                                    <div class="card-tag tag-gold">VIP {$shop->userClass()}</div>
                                     <div class="card-tag tag-orange">¥ {$shop->price}</div>
                                     <div class="card-tag tag-cyan">{$shop->bandwidth()} G</div>
-                                    <div class="card-tag tag-blue">{$shop->class_expire()} 天</div>
+                                    <div class="card-tag tag-blue">{$shop->classExpire()} 天</div>
                                 </div>
                                 <div>
                                     <i class="material-icons">expand_more</i>
@@ -144,9 +144,9 @@
                                     <div class="card-tag tag-blue">N/A</div>
                                 {else}
                                     <div class="card-tag tag-black">重置周期</div>
-                                    <div class="card-tag tag-blue">{$shop->reset_exp()} 天</div>
+                                    <div class="card-tag tag-blue">{$shop->resetExp()} 天</div>
                                     <div class="card-tag tag-black">重置频率</div>
-                                    <div class="card-tag tag-blue">{$shop->reset_value()}G/{$shop->reset()}天</div>
+                                    <div class="card-tag tag-blue">{$shop->resetValue()}G/{$shop->reset()}天</div>
                                 {/if}
                                 {if {$shop->speedlimit()} == '0' }
                                     <div class="card-tag tag-black">端口速率</div>
@@ -171,7 +171,7 @@
             <div style="display: none;" data-areatype="trafficePackages">
                 <div class="shop-table" style="display: flex">
                     {foreach $shops as $shop}
-                    {if $shop->traffic_package() != 0}
+                    {if $shop->trafficPackage() != 0}
                     <div class="shop-gridarea">
                         <div class="card">
                             <div>

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-class Auth
+final class Auth
 {
-    protected $user;
+    private $user;
 
     public static function login($uid, $time): void
     {

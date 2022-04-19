@@ -11,7 +11,7 @@ use Telegram\Bot\Commands\Command;
 /**
  * Class CheckinCommand.
  */
-class CheckinCommand extends Command
+final class CheckinCommand extends Command
 {
     /**
      * @var string Command Name

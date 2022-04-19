@@ -2,15 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Controllers\Mod_Mu;
+namespace App\Controllers\Node;
 
 use App\Controllers\BaseController;
+use App\Models\DetectLog;
+use App\Models\Ip;
+use App\Models\Node;
+use App\Models\NodeOnlineLog;
+use App\Models\User;
 use App\Utils\Tools;
-use Ip;
 use Psr\Http\Message\ResponseInterface;
-use Request;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class UserController extends BaseController
+final class UserController extends BaseController
 {
     /**
      * User List
@@ -48,7 +53,7 @@ class UserController extends BaseController
 
         if (in_array($node->sort, [0, 10]) && $node->mu_only !== -1) {
             $mu_port_migration = $_ENV['mu_port_migration'];
-            $muPort = Tools::get_MuOutPortArray($node->server);
+            $muPort = Tools::getMutilUserOutPortArray($node->server);
         } else {
             $mu_port_migration = false;
         }

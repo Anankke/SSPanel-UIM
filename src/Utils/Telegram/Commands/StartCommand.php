@@ -13,7 +13,7 @@ use Telegram\Bot\Commands\Command;
 /**
  * Class StratCommand.
  */
-class StartCommand extends Command
+final class StartCommand extends Command
 {
     /**
      * @var string Command Name
@@ -73,7 +73,7 @@ class StartCommand extends Command
             // 发送 '输入中' 会话状态
             $this->replyWithChatAction(['action' => Actions::TYPING]);
             // 回送信息
-            $response = $this->replyWithMessage(
+            $this->replyWithMessage(
                 [
                     'text' => '喵喵喵.',
                 ]
@@ -83,7 +83,7 @@ class StartCommand extends Command
 
     public function bindingAccount($SendUser, $MessageText): void
     {
-        $Uid = TelegramSessionManager::verify_bind_session($MessageText);
+        $Uid = TelegramSessionManager::verifyBindSession($MessageText);
         if ($Uid === 0) {
             $text = '绑定失败了呢，经检查发现：【' . $MessageText . '】的有效期为 10 分钟，您可以在我们网站上的 **资料编辑** 页面刷新后重试.';
         } else {

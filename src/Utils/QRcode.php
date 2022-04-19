@@ -6,7 +6,7 @@ namespace App\Utils;
 
 use Zxing\QrReader;
 
-class QRcode
+final class QRcode
 {
     /**
      * Decode QR code

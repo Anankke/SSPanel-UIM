@@ -10,7 +10,7 @@ use Telegram\Bot\Commands\Command;
 /**
  * Class MenuCommand.
  */
-class MenuCommand extends Command
+final class MenuCommand extends Command
 {
     /**
      * @var string Command Name
@@ -29,9 +29,6 @@ class MenuCommand extends Command
     {
         $Update = $this->getUpdate();
         $Message = $Update->getMessage();
-
-        // 消息 ID
-        $MessageID = $Message->getMessageId();
 
         // 消息会话 ID
         $ChatID = $Message->getChat()->getId();

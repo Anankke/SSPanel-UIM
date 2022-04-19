@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-class NodeOnlineLog extends Model
+final class NodeOnlineLog extends Model
 {
     protected $connection = 'default';
     protected $table = 'node_online_log';

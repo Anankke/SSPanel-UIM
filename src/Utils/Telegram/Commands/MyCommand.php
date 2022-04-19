@@ -12,7 +12,7 @@ use Telegram\Bot\Commands\Command;
 /**
  * Class MyCommand.
  */
-class MyCommand extends Command
+final class MyCommand extends Command
 {
     /**
      * @var string Command Name
@@ -75,20 +75,20 @@ class MyCommand extends Command
                 $response = $this->triggerCommand('menu');
             } else {
                 // 群组
-                $response = $this->Group($User, $SendUser, $ChatID, $Message, $MessageID);
+                $response = $this->group($User, $SendUser, $ChatID, $Message, $MessageID);
             }
         }
 
         return $response;
     }
 
-    public function Group($User, $SendUser, $ChatID, $Message, $MessageID)
+    public function group($User, $SendUser, $ChatID, $Message, $MessageID)
     {
         $text = Reply::getUserTitle($User);
         $text .= PHP_EOL . PHP_EOL;
         $text .= Reply::getUserTrafficInfo($User);
         $text .= PHP_EOL;
-        $text .= '流量重置时间：' . $User->valid_use_loop();
+        $text .= '流量重置时间：' . $User->validUseLoop();
         // 回送信息
         return $this->replyWithMessage(
             [

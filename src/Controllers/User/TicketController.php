@@ -5,16 +5,18 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\UserController;
+use App\Models\Ticket;
+use App\Models\User;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
-use Request;
-use User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use voku\helper\AntiXSS;
 
 /**
  *  TicketController
  */
-class TicketController extends UserController
+final class TicketController extends UserController
 {
     /**
      * @param array     $args
@@ -34,7 +36,7 @@ class TicketController extends UserController
                 'tickets' => $tickets,
             ]);
         }
-        $render = Tools::paginate_render($tickets);
+        $render = Tools::paginateRender($tickets);
 
         return $response->write(
             $this->view()
@@ -47,7 +49,7 @@ class TicketController extends UserController
     /**
      * @param array     $args
      */
-    public function ticket_create(Request $request, Response $response, array $args): ResponseInterface
+    public function ticketCreate(Request $request, Response $response, array $args): ResponseInterface
     {
         return $response->write(
             $this->view()
@@ -58,7 +60,7 @@ class TicketController extends UserController
     /**
      * @param array     $args
      */
-    public function ticket_add(Request $request, Response $response, array $args): ResponseInterface
+    public function ticketAdd(Request $request, Response $response, array $args): ResponseInterface
     {
         $title = $request->getParam('title');
         $content = $request->getParam('content');
@@ -124,7 +126,7 @@ class TicketController extends UserController
     /**
      * @param array     $args
      */
-    public function ticket_update(Request $request, Response $response, array $args): ResponseInterface
+    public function ticketUpdate(Request $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $content = $request->getParam('content');
@@ -229,7 +231,7 @@ class TicketController extends UserController
     /**
      * @param array     $args
      */
-    public function ticket_view(Request $request, Response $response, array $args): ResponseInterface
+    public function ticketView(Request $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $ticket_main = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->where('rootid', '=', 0)->first();
@@ -255,7 +257,7 @@ class TicketController extends UserController
                 'tickets' => $ticketset,
             ]);
         }
-        $render = Tools::paginate_render($ticketset);
+        $render = Tools::paginateRender($ticketset);
         return $response->write(
             $this->view()
                 ->assign('ticketset', $ticketset)

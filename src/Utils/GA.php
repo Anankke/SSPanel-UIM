@@ -15,9 +15,9 @@ namespace App\Utils;
  *
  * @link http://www.phpgangsta.de/
  */
-class GA
+final class GA
 {
-    protected $_codeLength = 6;
+    private $codeLength = 6;
 
     /**
      * Create new secret.
@@ -61,8 +61,8 @@ class GA
         // Only 32 bits
         $value &= 0x7FFFFFFF;
 
-        $modulo = 10 ** $this->_codeLength;
-        return str_pad($value % $modulo, $this->_codeLength, '0', STR_PAD_LEFT);
+        $modulo = 10 ** $this->codeLength;
+        return str_pad($value % $modulo, $this->codeLength, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -115,7 +115,7 @@ class GA
      */
     public function setCodeLength(int $length)
     {
-        $this->_codeLength = $length;
+        $this->codeLength = $length;
         return $this;
     }
 
@@ -126,9 +126,9 @@ class GA
      *
      * @return bool|string
      */
-    protected function _base32Decode($secret)
+    private function _base32Decode($secret)
     {
-        if (empty($secret)) {
+        if ($secret === '') {
             return '';
         }
 
@@ -155,7 +155,7 @@ class GA
                 return false;
             }
             for ($j = 0; $j < 8; $j++) {
-                $x .= str_pad(base_convert(@$base32charsFlipped[@$secret[$i + $j]], 10, 2), 5, '0', STR_PAD_LEFT);
+                $x .= str_pad(base_convert($base32charsFlipped[$secret[$i + $j]], 10, 2), 5, '0', STR_PAD_LEFT);
             }
             $eightBits = str_split($x, 8);
             foreach ($eightBits as $zValue) {
@@ -168,9 +168,9 @@ class GA
     /**
      * Helper class to encode base32
      */
-    protected function _base32Encode(string $secret, bool $padding = true): string
+    private function _base32Encode(string $secret, bool $padding = true): string
     {
-        if (empty($secret)) {
+        if ($secret !== '') {
             return '';
         }
 
@@ -188,7 +188,9 @@ class GA
             $base32 .= $base32chars[base_convert(str_pad($fiveBitBinaryArray[$i], 5, '0'), 2, 10)];
             $i++;
         }
-        if ($padding && ($x = strlen($binaryString) % 40) !== 0) {
+        $x = strlen($binaryString) % 40;
+
+        if ($padding && $x !== 0) {
             if ($x === 8) {
                 $base32 .= str_repeat($base32chars[32], 6);
             } elseif ($x === 16) {
@@ -207,7 +209,7 @@ class GA
      *
      * @return array
      */
-    protected function _getBase32LookupTable(): array
+    private function _getBase32LookupTable(): array
     {
         return [
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', //  7

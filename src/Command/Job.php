@@ -28,14 +28,15 @@ use App\Utils\Telegram;
 use App\Utils\Tools;
 use Exception;
 
-class Job extends Command
+final class Job extends Command
 {
-    public $description = ''
-        . '├─=: php xcat Job [选项]' . PHP_EOL
-        . '│ ├─ SendMail                - 处理邮件队列' . PHP_EOL
-        . '│ ├─ DailyJob                - 每日任务' . PHP_EOL
-        . '│ ├─ CheckJob                - 检查任务，每分钟' . PHP_EOL
-        . '│ ├─ UserJob                 - 用户账户相关任务，每小时' . PHP_EOL;
+    public $description = <<<EOL
+├─=: php xcat Job [选项]
+│ ├─ SendMail                - 处理邮件队列
+│ ├─ DailyJob                - 每日任务
+│ ├─ CheckJob                - 检查任务，每分钟
+│ ├─ UserJob                 - 用户账户相关任务，每小时
+EOL;
 
     public function boot(): void
     {
@@ -67,7 +68,7 @@ class Job extends Command
         fwrite($myfile, $txt);
         fclose($myfile);
         // 分块处理，节省内存
-        EmailQueue::chunkById(1000, function ($email_queues): void {
+        EmailQueue::chunkById(1000, static function ($email_queues): void {
             foreach ($email_queues as $email_queue) {
                 try {
                     Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, json_decode($email_queue->array), []);
@@ -107,8 +108,8 @@ class Job extends Command
 
         // ------- 重置自增 ID
         $db = new DatatablesHelper();
-        Tools::reset_auto_increment($db, 'node_online_log');
-        Tools::reset_auto_increment($db, 'node_info');
+        Tools::resetAutoIncrement($db, 'node_online_log');
+        Tools::resetAutoIncrement($db, 'node_info');
         // ------- 重置自增 ID
 
         // ------- 用户流量重置
@@ -129,9 +130,9 @@ class Job extends Command
                 continue;
             }
             $bought_users[] = $bought->userid;
-            if ($bought->valid() && $bought->used_days() % $shop->reset() === 0 && $bought->used_days() !== 0) {
+            if ($bought->valid() && $bought->usedDays() % $shop->reset() === 0 && $bought->usedDays() !== 0) {
                 echo '流量重置-' . $user->id . "\n";
-                $user->transfer_enable = Tools::toGB($shop->reset_value());
+                $user->transfer_enable = Tools::toGB($shop->resetValue());
                 $user->u = 0;
                 $user->d = 0;
                 $user->last_day_t = 0;
@@ -140,7 +141,7 @@ class Job extends Command
                     $_ENV['appName'] . '-您的流量被重置了',
                     'news/warn.tpl',
                     [
-                        'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->reset_value() . 'GB',
+                        'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->resetValue() . 'GB',
                     ],
                     [],
                     $_ENV['email_queue']
@@ -149,7 +150,7 @@ class Job extends Command
         }
         // ------- 用户流量重置
 
-        User::chunkById(1000, function ($users) use ($bought_users): void {
+        User::chunkById(1000, static function ($users) use ($bought_users): void {
             foreach ($users as $user) {
                 /** @var User $user */
                 $user->last_day_t = $user->u + $user->d;
@@ -182,7 +183,7 @@ class Job extends Command
 
         // ------- 发送每日系统运行报告
         if (Config::getconfig('Telegram.bool.DailyJob')) {
-            Telegram::Send(Config::getconfig('Telegram.string.DailyJob'));
+            Telegram::send(Config::getconfig('Telegram.string.DailyJob'));
         }
         // ------- 发送每日系统运行报告
     }
@@ -238,7 +239,7 @@ class Job extends Command
                     }
 
                     if (Config::getconfig('Telegram.bool.NodeOffline')) {
-                        Telegram::Send($notice_text);
+                        Telegram::send($notice_text);
                     }
 
                     $node->online = false;
@@ -283,7 +284,7 @@ class Job extends Command
                     }
 
                     if (Config::getconfig('Telegram.bool.NodeOnline')) {
-                        Telegram::Send($notice_text);
+                        Telegram::send($notice_text);
                     }
 
                     $node->online = true;
@@ -297,8 +298,8 @@ class Job extends Command
         $nodes = Node::get();
         foreach ($nodes as $node) {
             /** @var Node $node */
-            $server = $node->get_out_address();
-            if (! Tools::is_ip($server) && $node->changeNodeIp($server)) {
+            $server = $node->getOutAddress();
+            if (! Tools::isIp($server) && $node->changeNodeIp($server)) {
                 $node->save();
             }
         }
@@ -387,7 +388,7 @@ class Job extends Command
                     [],
                     $_ENV['email_queue']
                 );
-                $user->kill_user();
+                $user->killUser();
                 continue;
             }
 
@@ -409,7 +410,7 @@ class Job extends Command
                     [],
                     $_ENV['email_queue']
                 );
-                $user->kill_user();
+                $user->killUser();
                 continue;
             }
 
@@ -428,7 +429,7 @@ class Job extends Command
                     [],
                     $_ENV['email_queue']
                 );
-                $user->kill_user();
+                $user->killUser();
                 continue;
             }
 

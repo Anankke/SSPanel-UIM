@@ -6,13 +6,13 @@ namespace App\Services\Gateway\CoinPay;
 
 use App\Models\Setting;
 
-class CoinPayConfig extends CoinPayConfigInterface
+final class CoinPayConfig extends CoinPayConfigInterface
 {
     /**
      * 系统secret加密字符串
      * 【注意:请勿泄露该key,如果不慎泄露请登录后台进行重置该key】
      */
-    public function GetSecret(): string
+    public function getSecret(): string
     {
         return Setting::obtain('coinpay_secret');
     }
@@ -20,7 +20,7 @@ class CoinPayConfig extends CoinPayConfigInterface
     /**
      * 设置当前应用AppID
      */
-    public function GetAppId(): string
+    public function getAppId(): string
     {
         return Setting::obtain('coinpay_appid');
     }
@@ -28,7 +28,7 @@ class CoinPayConfig extends CoinPayConfigInterface
     /**
      * 设置默认POST回调url
      */
-    public function GetNotifyUrl(): string
+    public function getNotifyUrl(): string
     {
         return Setting::obtain('coinpay_notify');
     }
@@ -36,7 +36,7 @@ class CoinPayConfig extends CoinPayConfigInterface
     /**
      * 设置同步返回url
      */
-    public function GetReturnUrl(): string
+    public function getReturnUrl(): string
     {
         return Setting::obtain('coinpay_return');
     }
@@ -44,22 +44,22 @@ class CoinPayConfig extends CoinPayConfigInterface
     /**
      * 设置当前提交参数字符编码 默认UTF-8
      */
-    public function GetPostCharset(): string
+    public function getPostCharset(): string
     {
         return 'UTF-8';
     }
 
-    public function GetAttach(): void
+    public function getAttach(): void
     {
         // TODO: Implement GetAttach() method.
     }
 
-    public function GetTransCurrency(): void
+    public function getTransCurrency(): void
     {
         // TODO: Implement GetTransCurrency() method.
     }
 
-    public function GetBody(): void
+    public function getBody(): void
     {
         // TODO: Implement GetBody() method.
     }

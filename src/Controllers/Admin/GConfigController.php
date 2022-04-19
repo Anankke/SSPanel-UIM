@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class GConfigController extends AdminController
+final class GConfigController extends AdminController
 {
     /**
      * @param array     $args
@@ -51,6 +51,7 @@ class GConfigController extends AdminController
      */
     public function telegram(Request $request, Response $response, array $args): ResponseInterface
     {
+        $table_config = [];
         $table_config['total_column'] = [
             'op' => '操作',
             'name' => '配置名称',
@@ -76,7 +77,7 @@ class GConfigController extends AdminController
     /**
      * @param array     $args
      */
-    public function telegram_ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function telegramAjax(Request $request, Response $response, array $args): ResponseInterface
     {
         $query = GConfig::getTableDataFromAdmin(
             $request,

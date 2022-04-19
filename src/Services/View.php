@@ -7,14 +7,14 @@ namespace App\Services;
 use App\Utils;
 use Smarty;
 
-class View
+final class View
 {
     public static $connection;
     public static $beginTime;
 
     public static function getSmarty()
     {
-        $smarty = new smarty(); //实例化smarty
+        $smarty = new Smarty(); //实例化smarty
 
         $user = Auth::getUser();
 

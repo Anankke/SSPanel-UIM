@@ -56,17 +56,17 @@
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="traffic-package-min">最低可购买用户等级</label>
                                 <input class="form-control maxwidth-edit" id="traffic-package-min" type="text"
-                                value="{if $shop->traffic_package()}{$shop->content['traffic_package']['class']['min']}{else}0{/if}">
+                                value="{if $shop->trafficPackage()}{$shop->content['traffic_package']['class']['min']}{else}0{/if}">
                             </div>
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="traffic-package-max">最高可购买用户等级</label>
                                 <input class="form-control maxwidth-edit" id="traffic-package-max" type="text"
-                                value="{if $shop->traffic_package()}{$shop->content['traffic_package']['class']['max']}{else}0{/if}">
+                                value="{if $shop->trafficPackage()}{$shop->content['traffic_package']['class']['max']}{else}0{/if}">
                             </div>
                             <div class="form-group form-group-label">
                                 <div class="checkbox switch">
                                     <label for="traffic-package-enable">
-                                        <input {if $shop->traffic_package()}checked{/if} class="access-hide" id="traffic-package-enable" type="checkbox">
+                                        <input {if $shop->trafficPackage()}checked{/if} class="access-hide" id="traffic-package-enable" type="checkbox">
                                         <span class="switch-toggle"></span>是否设置此商品为流量叠加包
                                     </label>
                                     <p class="form-control-guide">
@@ -95,12 +95,12 @@
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="class">等级</label>
                                 <input class="form-control maxwidth-edit" id="class" type="text"
-                                       value="{$shop->user_class()}">
+                                       value="{$shop->userClass()}">
                             </div>
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="class_expire">等级有效期天数</label>
                                 <input class="form-control maxwidth-edit" id="class_expire" type="text"
-                                       value="{$shop->class_expire()}">
+                                       value="{$shop->classExpire()}">
                             </div>
                             <p class="form-control-guide"><i class="material-icons">info</i>如需使用等级功能，请同时填写【等级】和【等级有效期天数】这两个项目</p>
                         </div>
@@ -112,7 +112,7 @@
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="reset_exp">多少天内</label>
                                 <input class="form-control maxwidth-edit" id="reset_exp" type="number"
-                                       value="{$shop->reset_exp()}">
+                                       value="{$shop->resetExp()}">
                             </div>
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="reset">每多少天</label>
@@ -122,7 +122,7 @@
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="reset_value">重置流量为多少G</label>
                                 <input class="form-control maxwidth-edit" id="reset_value" type="number"
-                                       value="{$shop->reset_value()}">
+                                       value="{$shop->resetValue()}">
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="content_extra">服务支持</label>
                                 <input class="form-control maxwidth-edit" id="content_extra" type="text"
-                                       value="{foreach $shop->content_extra() as $service}{$service[0]}-{$service[1]}{if $service@last}{else};{/if}{/foreach}">
+                                       value="{foreach $shop->contentExtra() as $service}{$service[0]}-{$service[1]}{if $service@last}{else};{/if}{/foreach}">
                                 <p class="form-control-guide"><i class="material-icons">info</i>例：<code>check-全球节点分布;clear-快速客服响应</code>，减号左边为icon代号右边为文字,以;隔开
                                 </p>
                                 <p class="form-control-guide">icon代号参阅：<a

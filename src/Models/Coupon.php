@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-class Coupon extends Model
+final class Coupon extends Model
 {
     protected $connection = 'default';
     protected $table = 'coupon';

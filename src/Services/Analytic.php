@@ -7,7 +7,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Utils\Tools;
 
-class Analytic
+final class Analytic
 {
     public function userCount()
     {

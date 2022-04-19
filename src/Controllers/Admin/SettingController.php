@@ -6,7 +6,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
 
-class SettingController extends AdminController
+final class SettingController extends AdminController
 {
     public function index($request, $response, $args)
     {
@@ -25,8 +25,8 @@ class SettingController extends AdminController
             $this->view()
                 //->registerClass('Setting', Setting::class)
                 ->assign('settings', $config)
-                ->assign('payment_gateways', self::return_gateways_list())
-                ->assign('active_payment_gateway', self::return_active_gateways())
+                ->assign('payment_gateways', self::returnGatewaysList())
+                ->assign('active_payment_gateway', self::returnActiveGateways())
                 ->display('admin/setting.tpl')
         );
     }
@@ -163,7 +163,7 @@ class SettingController extends AdminController
         ]);
     }
 
-    public function return_gateways_list()
+    public function returnGatewaysList()
     {
         return [
             // 网关名 网关代号
@@ -177,7 +177,7 @@ class SettingController extends AdminController
         ];
     }
 
-    public function return_active_gateways()
+    public function returnActiveGateways()
     {
         $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
         return json_decode($payment_gateways->value);
@@ -186,8 +186,7 @@ class SettingController extends AdminController
     public function payment($request, $response, $args)
     {
         $gateway_in_use = [];
-        $payment_gateways = self::return_gateways_list();
-        foreach ($payment_gateways as $key => $value) {
+        foreach (array_values(self::returnGatewaysList()) as $value) {
             $payment_switch = $request->getParam("${value}");
             if ($payment_switch === '1') {
                 array_push($gateway_in_use, $value);

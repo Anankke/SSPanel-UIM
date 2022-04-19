@@ -7,7 +7,7 @@ namespace App\Services;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Sentry;
 
-class Boot
+final class Boot
 {
     public static function setTime(): void
     {
@@ -35,7 +35,7 @@ class Boot
 
     public static function bootSentry(): void
     {
-        if (! empty($_ENV['sentry_dsn'])) {
+        if (! isset($_ENV['sentry_dsn'])) {
             Sentry\init([
                 'dsn' => $_ENV['sentry_dsn'],
                 'prefixes' => [

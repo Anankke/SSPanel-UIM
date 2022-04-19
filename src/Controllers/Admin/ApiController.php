@@ -7,9 +7,10 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Node;
 use Psr\Http\Message\ResponseInterface;
-use Request;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class ApiController extends BaseController
+final class ApiController extends BaseController
 {
     /**
      * @param array     $args

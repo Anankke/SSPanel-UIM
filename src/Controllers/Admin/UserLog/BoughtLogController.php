@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Controllers\Admin\UserLog;
 
 use App\Controllers\AdminController;
+use App\Models\Bought;
+use App\Models\Shop;
+use App\Models\User;
 use Psr\Http\Message\ResponseInterface;
-use Request;
-use User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class BoughtLogController extends AdminController
+final class BoughtLogController extends AdminController
 {
     /**
      * @param array     $args
@@ -18,6 +21,7 @@ class BoughtLogController extends AdminController
     {
         $id = $args['id'];
         $user = User::find($id);
+        $table_config = [];
         $table_config['total_column'] = [
             'op' => '操作',
             'id' => 'ID',
@@ -45,7 +49,7 @@ class BoughtLogController extends AdminController
     /**
      * @param array     $args
      */
-    public function bought_ajax(Request $request, Response $response, array $args): ResponseInterface
+    public function boughtAjax(Request $request, Response $response, array $args): ResponseInterface
     {
         $user = User::find($args['id']);
         $query = Bought::getTableDataFromAdmin(
@@ -68,7 +72,7 @@ class BoughtLogController extends AdminController
             /** @var Bought $value */
 
             if ($value->shop() === null) {
-                Bought::shop_is_null($value);
+                Bought::shopIsNull($value);
                 continue;
             }
             $tempdata = [];
@@ -78,13 +82,13 @@ class BoughtLogController extends AdminController
             $tempdata['content'] = $value->content();
             $tempdata['renew'] = $value->renew();
             $tempdata['datetime'] = $value->datetime();
-            if ($value->shop()->use_loop()) {
+            if ($value->shop()->useLoop()) {
                 $tempdata['valid'] = ($value->valid() ? '有效' : '已过期');
             } else {
                 $tempdata['valid'] = '-';
             }
-            $tempdata['reset_time'] = $value->reset_time();
-            $tempdata['exp_time'] = $value->exp_time();
+            $tempdata['reset_time'] = $value->resetTime();
+            $tempdata['exp_time'] = $value->expTime();
 
             $data[] = $tempdata;
         }
@@ -100,7 +104,7 @@ class BoughtLogController extends AdminController
     /**
      * @param array     $args
      */
-    public function bought_delete(Request $request, Response $response, array $args): ResponseInterface
+    public function boughtDelete(Request $request, Response $response, array $args): ResponseInterface
     {
         $id = $request->getParam('id');
         $Bought = Bought::find($id);
@@ -119,7 +123,7 @@ class BoughtLogController extends AdminController
     /**
      * @param array     $args
      */
-    public function bought_add(Request $request, Response $response, array $args): ResponseInterface
+    public function boughtAdd(Request $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $user = User::find($id);

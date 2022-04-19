@@ -14,11 +14,11 @@ namespace App\Utils;
 use App\Services\Config;
 use Smarty;
 
-class ConfRender
+final class ConfRender
 {
     public static function getTemplateRender()
     {
-        $smarty = new smarty();
+        $smarty = new Smarty();
 
         $smarty->settemplatedir(BASE_PATH . '/resources/conf/');
         $smarty->setcompiledir(BASE_PATH . '/storage/framework/smarty/compile/');

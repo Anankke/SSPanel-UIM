@@ -7,7 +7,7 @@ namespace App\Services\Aws;
 use App\Models\Setting;
 use Aws\Sdk;
 
-class Factory
+final class Factory
 {
     public static function createAwsClient()
     {

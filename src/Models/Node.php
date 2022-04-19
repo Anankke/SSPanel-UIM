@@ -29,7 +29,7 @@ use App\Services\Config;
 use App\Utils\Tools;
 use App\Utils\URL;
 
-class Node extends Model
+final class Node extends Model
 {
     protected $connection = 'default';
 
@@ -82,7 +82,7 @@ class Node extends Model
     /**
      * 单端口多用户启用类型
      */
-    public function mu_only(): string
+    public function muOnly(): string
     {
         switch ($this->mu_only) {
             case -1:
@@ -105,7 +105,7 @@ class Node extends Model
      *
      * @return string [国家].png OR unknown.png
      */
-    public function get_node_flag(): string
+    public function getNodeFlag(): string
     {
         $regex = $_ENV['flag_regex'];
         $matches = [];
@@ -116,7 +116,7 @@ class Node extends Model
     /**
      * 节点最后活跃时间
      */
-    public function node_heartbeat(): string
+    public function nodeHeartbeat(): string
     {
         return date('Y-m-d H:i:s', $this->node_heartbeat);
     }
@@ -158,7 +158,7 @@ class Node extends Model
     /**
      * 获取节点 5 分钟内最新的在线人数
      */
-    public function get_node_online_user_count(): int
+    public function getNodeOnlineUserCount(): int
     {
         if (in_array($this->sort, [9])) {
             return -1;
@@ -175,7 +175,7 @@ class Node extends Model
      *
      * @return int 0 = new node OR -1 = offline OR 1 = online
      */
-    public function get_node_online_status(): int
+    public function getNodeOnlineStatus(): int
     {
         // 类型 9 或者心跳为 0
         if ($this->node_heartbeat === 0 || in_array($this->sort, [9])) {
@@ -187,7 +187,7 @@ class Node extends Model
     /**
      * 获取节点最新负载
      */
-    public function get_node_latest_load(): int
+    public function getNodeLatestLoad(): int
     {
         $log = NodeInfoLog::where('node_id', $this->id)->where('log_time', '>', time() - 300)->orderBy('id', 'desc')->first();
         if ($log === null) {
@@ -199,16 +199,16 @@ class Node extends Model
     /**
      * 获取节点最新负载文本信息
      */
-    public function get_node_latest_load_text(): string
+    public function getNodeLatestLoadText(): string
     {
-        $load = $this->get_node_latest_load();
+        $load = $this->getNodeLatestLoad();
         return $load === -1 ? 'N/A' : $load . '%';
     }
 
     /**
      * 获取节点速率文本信息
      */
-    public function get_node_speedlimit(): string
+    public function getNodeSpeedlimit(): string
     {
         if ($this->node_speedlimit === 0.0) {
             return 0;
@@ -251,7 +251,7 @@ class Node extends Model
      */
     public function changeNodeIp(string $server_name): bool
     {
-        if (! Tools::is_ip($server_name)) {
+        if (! Tools::isIp($server_name)) {
             $ip = gethostbyname($server_name);
             if ($ip === '') {
                 return false;
@@ -276,7 +276,7 @@ class Node extends Model
     /**
      * 获取出口地址 | 用于节点IP获取的地址
      */
-    public function get_out_address(): string
+    public function getOutAddress(): string
     {
         return explode(';', $this->server)[0];
     }
@@ -284,7 +284,7 @@ class Node extends Model
     /**
      * 获取入口地址
      */
-    public function get_entrance_address(): string
+    public function getEntranceAddress(): string
     {
         if ($this->sort === 13) {
             $server = Tools::ssv2Array($this->server);
@@ -293,7 +293,7 @@ class Node extends Model
         $explode = explode(';', $this->server);
         if (in_array($this->sort, [0]) && isset($explode[1])) {
             if (stripos($explode[1], 'server=') !== false) {
-                return URL::parse_args($explode[1])['server'];
+                return URL::parseArgs($explode[1])['server'];
             }
         }
         return $explode[0];
@@ -306,7 +306,7 @@ class Node extends Model
      */
     public function getOffsetPort($port)
     {
-        return Tools::OutPort($this->server, $this->name, $port)['port'];
+        return Tools::outPort($this->server, $this->name, $port)['port'];
     }
 
     /**
@@ -315,6 +315,7 @@ class Node extends Model
     public function getItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): ?array
     {
         $node_name = $this->name;
+        $return_array = [];
         if ($mu_port !== 0) {
             $mu_user = User::where('port', '=', $mu_port)->where('is_multi_user', '<>', 0)->first();
             if ($mu_user === null) {
@@ -345,14 +346,14 @@ class Node extends Model
             $user = URL::getSSRConnectInfo($user);
             $return_array['type'] = 'ssr';
         }
-        $return_array['address'] = $this->get_entrance_address();
+        $return_array['address'] = $this->getEntranceAddress();
         $return_array['port'] = $user->port;
         $return_array['protocol'] = $user->protocol;
         $return_array['protocol_param'] = $user->protocol_param;
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
         if ($mu_port !== 0 && strpos($this->server, ';') !== false) {
-            $node_tmp = Tools::OutPort($this->server, $this->name, $mu_port);
+            $node_tmp = Tools::outPort($this->server, $this->name, $mu_port);
             $return_array['port'] = $node_tmp['port'];
             $node_name = $node_tmp['name'];
         }
@@ -410,7 +411,7 @@ class Node extends Model
                 $return_array['obfs_param'] = 'mode=ws;security=none;path=' . $return_array['path'] .
                     ';host=' . $return_array['host'];
             }
-            $return_array['path'] = $return_array['path'] . '?redirect=' . $user->getMuMd5();
+            $return_array['path'] .= '?redirect=' . $user->getMuMd5();
         }
         $return_array['class'] = $this->node_class;
         $return_array['group'] = $_ENV['appName'];
@@ -429,8 +430,9 @@ class Node extends Model
     {
         $server = explode(';', $this->server);
         $opt = [];
+        $item = [];
         if (isset($server[1])) {
-            $opt = URL::parse_args($server[1]);
+            $opt = URL::parseArgs($server[1]);
         }
         $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
         $item['type'] = 'trojan';

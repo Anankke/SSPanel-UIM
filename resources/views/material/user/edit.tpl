@@ -48,7 +48,7 @@
                                     <button class="btn btn-flat" id="method-update"><span class="icon">check</span>&nbsp</button>
                                 </div>
                                 <p>
-                                    当前加密方式：<code id="ajax-user-method" data-default="method">[{if URL::CanMethodConnect($user->method) == 2}SS{else}SS/SSR{/if}可连接] {$user->method}</code>
+                                    当前加密方式：<code id="ajax-user-method" data-default="method">[{if URL::canMethodConnect($user->method) == 2}SS{else}SS/SSR{/if}可连接] {$user->method}</code>
                                 </p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="method">加密方式</label>
@@ -57,10 +57,10 @@
                                     <ul class="dropdown-menu" aria-labelledby="method">
                                         {$method_list = $config_service->getSupportParam('method')}
                                         {foreach $method_list as $method}
-                                            <li class="{if URL::CanMethodConnect($user->method) == 2}filter-item-ss{else}filter-item-universal{/if}">
+                                            <li class="{if URL::canMethodConnect($user->method) == 2}filter-item-ss{else}filter-item-universal{/if}">
                                                 <a href="#" class="dropdown-option" onclick="return false;"
                                                    val="{$method}"
-                                                   data="method">[{if URL::CanMethodConnect($method) == 2}SS{else}SS/SSR{/if}
+                                                   data="method">[{if URL::canMethodConnect($method) == 2}SS{else}SS/SSR{/if}
                                                     可连接] {$method}</a>
                                             </li>
                                         {/foreach}
@@ -72,7 +72,7 @@
                                     <div class="card-heading">协议&混淆设置</div>
                                     <button class="btn btn-flat" id="ssr-update"><span class="icon">check</span>&nbsp;</button>
                                 </div>
-                                <p>当前协议：<code id="ajax-user-protocol" data-default="protocol">[{if URL::CanProtocolConnect($user->protocol) == 3}SS/SSR{else}SSR{/if}可连接] {$user->protocol}</code></p>
+                                <p>当前协议：<code id="ajax-user-protocol" data-default="protocol">[{if URL::canProtocolConnect($user->protocol) == 3}SS/SSR{else}SSR{/if}可连接] {$user->protocol}</code></p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="protocol">协议</label>
                                     <button id="protocol" class="form-control maxwidth-edit" data-toggle="dropdown"
@@ -80,9 +80,9 @@
                                     <ul class="dropdown-menu" aria-labelledby="protocol">
                                         {$protocol_list = $config_service->getSupportParam('protocol')}
                                         {foreach $protocol_list as $protocol}
-                                            <li class="{if URL::CanProtocolConnect($protocol) == 3}filter-item-universal{else}filter-item-ssr{/if}">
+                                            <li class="{if URL::canProtocolConnect($protocol) == 3}filter-item-universal{else}filter-item-ssr{/if}">
                                                 <a href="#" class="dropdown-option" onclick="return false;" val="{$protocol}" data="protocol">
-                                                    [{if URL::CanProtocolConnect($protocol) == 3}SS/SSR{else}SSR{/if}
+                                                    [{if URL::canProtocolConnect($protocol) == 3}SS/SSR{else}SSR{/if}
                                                     可连接] {$protocol}
                                                 </a>
                                             </li>
@@ -91,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="card-inner">
-                                <p>当前混淆方式：<code id="ajax-user-obfs" data-default="obfs">[{if URL::CanObfsConnect($user->obfs) >= 3}SS/SSR{elseif URL::CanObfsConnect($user->obfs) == 1}SSR{else}SS{/if}可连接] {$user->obfs}</code></p>
+                                <p>当前混淆方式：<code id="ajax-user-obfs" data-default="obfs">[{if URL::canObfsConnect($user->obfs) >= 3}SS/SSR{elseif URL::canObfsConnect($user->obfs) == 1}SSR{else}SS{/if}可连接] {$user->obfs}</code></p>
                                 <p>SS 和 SSR 支持的混淆类型有所不同，simple_obfs_* 为 SS 的混淆方式，其他为 SSR 的混淆方式</p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
                                     <label class="floating-label" for="obfs">混淆方式</label>
@@ -99,9 +99,9 @@
                                     <ul class="dropdown-menu" aria-labelledby="obfs">
                                         {$obfs_list = $config_service->getSupportParam('obfs')}
                                         {foreach $obfs_list as $obfs}
-                                            <li class="{if URL::CanObfsConnect($obfs) >= 3}filter-item-universal{else}{if URL::CanObfsConnect($obfs) == 1}filter-item-ssr{else}filter-item-ss{/if}{/if}">
+                                            <li class="{if URL::canObfsConnect($obfs) >= 3}filter-item-universal{else}{if URL::canObfsConnect($obfs) == 1}filter-item-ssr{else}filter-item-ss{/if}{/if}">
                                                 <a href="#" class="dropdown-option" onclick="return false;" val="{$obfs}" data="obfs">
-                                                    [{if URL::CanObfsConnect($obfs) >= 3}SS/SSR{else}{if URL::CanObfsConnect($obfs) == 1}SSR{else}SS{/if}{/if}可连接] {$obfs}
+                                                    [{if URL::canObfsConnect($obfs) >= 3}SS/SSR{else}{if URL::canObfsConnect($obfs) == 1}SSR{else}SS{/if}{/if}可连接] {$obfs}
                                                 </a>
                                             </li>
                                         {/foreach}

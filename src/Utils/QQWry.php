@@ -8,7 +8,7 @@ namespace App\Utils;
 * @author joyphper
 */
 
-class QQWry
+final class QQWry
 {
     private $fp;
 
@@ -22,9 +22,9 @@ class QQWry
     {
         $filename = BASE_PATH . '/storage/qqwry.dat';
 
-        $this->fp = 0;
+        $this->fp = fopen($filename, 'rb');
 
-        if (($this->fp = fopen($filename, 'rb')) !== false) {
+        if ($this->fp !== false) {
             $this->firstip = $this->getlong();
 
             $this->lastip = $this->getlong();
@@ -50,6 +50,7 @@ class QQWry
             return null;
         }
 
+        $location = [];
         $location['ip'] = gethostbyname($ip);
 
         $ip = $this->packip($location['ip']);

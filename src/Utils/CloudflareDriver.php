@@ -16,7 +16,7 @@ use Cloudflare\API\Auth\APIKey;
 use Cloudflare\API\Endpoints\DNS;
 use Cloudflare\API\Endpoints\Zones;
 
-class CloudflareDriver
+final class CloudflareDriver
 {
     // @todo: parameters
     public static function modifyRecord(DNS $dns, $zoneID, $recordID, $name, $content, $proxied = false)

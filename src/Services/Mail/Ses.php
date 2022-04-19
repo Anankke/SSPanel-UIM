@@ -6,7 +6,7 @@ namespace App\Services\Mail;
 
 use App\Services\Aws\Factory;
 
-class Ses extends Base
+final class Ses extends Base
 {
     protected $client;
 

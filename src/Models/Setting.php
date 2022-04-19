@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-class Setting extends Model
+final class Setting extends Model
 {
     protected $connection = 'default';
     protected $table = 'config';

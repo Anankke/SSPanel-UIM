@@ -6,7 +6,7 @@ namespace App\Models;
 
 use App\Utils\QQWry;
 
-class BlockIp extends Model
+final class BlockIp extends Model
 {
     protected $connection = 'default';
 
@@ -23,7 +23,7 @@ class BlockIp extends Model
     /**
      * 节点名
      */
-    public function node_name(): string
+    public function nodeName(): string
     {
         if ($this->node() === null) {
             return '节点已不存在';

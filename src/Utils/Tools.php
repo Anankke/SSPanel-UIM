@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use App\Models\Link;
+use App\Models\Model;
+use App\Models\User;
 use App\Services\Config;
 use DateTime;
-use Link;
 
-class Tools
+final class Tools
 {
     // 请将冷门的国家或地区放置在上方，热门的中继起源放置在下方
     // 以便于兼容如：【上海 -> 美国】等节点名称
@@ -299,7 +301,7 @@ class Tools
         return self::genRandomChar(64);
     }
 
-    public static function is_ip($a)
+    public static function isIp($a)
     {
         return preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/", $a);
     }
@@ -349,20 +351,21 @@ class Tools
         return $port[0];
     }
 
-    public static function base64_url_encode($input)
+    public static function base64UrlEncode($input)
     {
         return strtr(base64_encode($input), ['+' => '-', '/' => '_', '=' => '']);
     }
 
-    public static function base64_url_decode($input)
+    public static function base64UrlDecode($input)
     {
         return base64_decode(strtr($input, '-_', '+/'));
     }
 
     public static function getDir($dir)
     {
-        $dirArray[] = null;
-        if (($handle = opendir($dir)) !== false) {
+        $dirArray = [];
+        $handle = opendir($dir);
+        if ($handle !== false) {
             $i = 0;
             while (($file = readdir($handle)) !== false) {
                 if ($file !== '.' && $file !== '..' && ! strpos($file, '.')) {
@@ -375,75 +378,19 @@ class Tools
         return $dirArray;
     }
 
-    public static function is_validate($str)
+    public static function isValidate($str)
     {
         $pattern = "/[^A-Za-z0-9\-_\.]/";
         return ! preg_match($pattern, $str);
     }
 
-    public static function get_middle_text($origin_text, $begin_text, $end_text)
-    {
-        $begin_pos = strpos($origin_text, $begin_text);
-        if ($begin_pos === false) {
-            return null;
-        }
-
-        $end_pos = strpos($origin_text, $end_text, $begin_pos + strlen($begin_text));
-        if ($end_pos === false) {
-            return null;
-        }
-
-        return substr($origin_text, $begin_pos + strlen($begin_text), $end_pos - $begin_pos - strlen($begin_text));
-    }
-
-    public static function is_param_validate($type, $str)
+    public static function isParamValidate($type, $str)
     {
         $list = Config::getSupportParam($type);
         if (in_array($str, $list)) {
             return true;
         }
         return false;
-    }
-
-    public static function has_conflict_rule(
-        $input_rule,
-        $ruleset,
-        $edit_rule_id = 0,
-        $origin_node_id = 0,
-        $user_id = 0
-    ) {
-        foreach ($ruleset as $rule) {
-            if (($rule->source_node_id === $input_rule->dist_node_id) && (($rule->port === $input_rule->port || $input_rule->port === 0) || $rule->port === 0)) {
-                if ($rule->dist_node_id === $origin_node_id && $rule->id !== $edit_rule_id) {
-                    return $rule->id;
-                }
-
-                //递归处理这个节点
-                $maybe_rule_id = self::has_conflict_rule(
-                    $rule,
-                    $ruleset,
-                    $edit_rule_id,
-                    $origin_node_id,
-                    $rule->user_id
-                );
-                if ($maybe_rule_id !== 0) {
-                    return $maybe_rule_id;
-                }
-            }
-        }
-
-        if (($input_rule->id === $edit_rule_id || $edit_rule_id === 0) && $input_rule->dist_node_id !== -1) {
-            $dist_node = Node::find($input_rule->dist_node_id);
-            if ($input_rule->source_node_id === 0 && ($dist_node->sort === 10 || $dist_node->sort === 12)) {
-                return -1;
-            }
-
-            if ($input_rule->dist_node_id === $input_rule->source_node_id) {
-                return -1;
-            }
-        }
-
-        return 0;
     }
 
     public static function insertPathRule($single_rule, $pathset, $port)
@@ -464,7 +411,7 @@ class Tools
                 if ($single_rule->dist_node_id === $path->begin_node->id) {
                     $path->begin_node = $single_rule->Source_Node();
                     if ($path->begin_node->isNodeAccessable() === false) {
-                        $path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node()->name . '</span>' . ' → ' . $path->path;
+                        $path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node()->name . '</span> → ' . $path->path;
                         $path->status = '阻断';
                     } else {
                         $path->path = $single_rule->Source_Node()->name . ' → ' . $path->path;
@@ -476,7 +423,7 @@ class Tools
                 if ($path->end_node->id === $single_rule->source_node_id) {
                     $path->end_node = $single_rule->Dist_Node();
                     if ($path->end_node->isNodeAccessable() === false) {
-                        $path->path .= ' → ' . '<span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
+                        $path->path .= ' → <span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
                         $path->status = '阻断';
                     } else {
                         $path->path .= ' → ' . $single_rule->Dist_Node()->name;
@@ -498,7 +445,7 @@ class Tools
 
         $new_path->end_node = $single_rule->Dist_Node();
         if ($new_path->end_node->isNodeAccessable() === false) {
-            $new_path->path .= ' -> ' . '<span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
+            $new_path->path .= ' -> <span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
             $new_path->status = '阻断';
         } else {
             $new_path->path .= ' -> ' . $single_rule->Dist_Node()->name;
@@ -589,7 +536,7 @@ class Tools
             }
         }
         if (count($server) >= 6 && $server[5] !== '') {
-            $item = array_merge($item, URL::parse_args($server[5]));
+            $item = array_merge($item, URL::parseArgs($server[5]));
             if (array_key_exists('server', $item)) {
                 $item['add'] = $item['server'];
                 unset($item['server']);
@@ -644,7 +591,7 @@ class Tools
     public static function checkTls($node)
     {
         $server = self::v2Array($node);
-        return ! ($server['tls'] === 'tls' && self::is_ip($server['add']));
+        return ! ($server['tls'] === 'tls' && self::isIp($server['add']));
     }
 
     public static function ssv2Array($node)
@@ -678,7 +625,7 @@ class Tools
             }
         }
         if (count($server) >= 6) {
-            $item = array_merge($item, URL::parse_args($server[5]));
+            $item = array_merge($item, URL::parseArgs($server[5]));
             if (array_key_exists('server', $item)) {
                 $item['add'] = $item['server'];
                 unset($item['server']);
@@ -703,14 +650,14 @@ class Tools
         return $item;
     }
 
-    public static function OutPort($server, $node_name, $mu_port)
+    public static function outPort($server, $node_name, $mu_port)
     {
         $node_server = explode(';', $server);
         $node_port = $mu_port;
 
         if (isset($node_server[1])) {
             if (strpos($node_server[1], 'port') !== false) {
-                $item = URL::parse_args($node_server[1]);
+                $item = URL::parseArgs($node_server[1]);
                 if (strpos($item['port'], '#') !== false) { // 端口偏移，指定端口，格式：8.8.8.8;port=80#1080
                     if (strpos($item['port'], '+') !== false) { // 多个单端口节点，格式：8.8.8.8;port=80#1080+443#8443
                         $args_explode = explode('+', $item['port']);
@@ -737,14 +684,14 @@ class Tools
         ];
     }
 
-    public static function get_MuOutPortArray($server)
+    public static function getMutilUserOutPortArray($server)
     {
         $type = 0; //偏移
         $port = []; //指定
         $node_server = explode(';', $server);
         if (isset($node_server[1])) {
             if (strpos($node_server[1], 'port') !== false) {
-                $item = URL::parse_args($node_server[1]);
+                $item = URL::parseArgs($node_server[1]);
                 if (strpos($item['port'], '#') !== false) {
                     if (strpos($item['port'], '+') !== false) {
                         $args_explode = explode('+', $item['port']);
@@ -829,7 +776,7 @@ class Tools
     public static function folderToZip(string $folder, ZipArchive &$zipFile, int $exclusiveLength): void
     {
         $handle = opendir($folder);
-        while (false !== $f = readdir($handle)) {
+        while (($f = readdir($handle)) !== false) {
             if ($f !== '.' && $f !== '..') {
                 $filePath = "${folder}/${f}";
                 // Remove prefix from file path before add to zip.
@@ -853,7 +800,8 @@ class Tools
      */
     public static function delDirAndFile($dirPath): void
     {
-        if ($handle = opendir($dirPath)) {
+        $handle = opendir($dirPath);
+        if ($handle) {
             while (($item = readdir($handle)) !== false) {
                 if ($item !== '.' && $item !== '..') {
                     if (is_dir($dirPath . '/' . $item)) {
@@ -870,7 +818,7 @@ class Tools
     /**
      * 重置自增列 ID
      */
-    public static function reset_auto_increment(DatatablesHelper $db, string $table): void
+    public static function resetAutoIncrement(DatatablesHelper $db, string $table): void
     {
         $maxid = $db->query(
             "SELECT `auto_increment` AS `maxid` FROM `information_schema`.`tables` WHERE `table_schema` = '" . $_ENV['db_database'] . "' AND `table_name` = '" . $table . "'"
@@ -885,7 +833,7 @@ class Tools
      *
      * @param mixed $data
      */
-    public static function paginate_render($data): string
+    public static function paginateRender($data): string
     {
         $totalPage = $data->lastPage();
         $currentPage = $data->currentPage();
@@ -967,5 +915,16 @@ class Tools
         }
 
         return "couldn't alloc token";
+    }
+
+    public static function searchEnvName($name)
+    {
+        global $_ENV;
+        foreach ($_ENV as $configKey => $configValue) {
+            if (strtoupper($configKey) === $name) {
+                return $configKey;
+            }
+        }
+        return null;
     }
 }

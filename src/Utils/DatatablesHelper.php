@@ -6,23 +6,19 @@ namespace App\Utils;
 
 use App\Services\Config;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Database\QueryException;
 use Ozdemir\Datatables\DB\DatabaseInterface;
 
-class DatatablesHelper implements DatabaseInterface
+final class DatatablesHelper implements DatabaseInterface
 {
-    protected $escape = [];
-    protected $connection;
+    private $escape = [];
+    private $connection;
 
     public function __construct($config = null)
     {
         $capsule = new Capsule();
         $capsule->addConnection(Config::getDbConfig(), 'default');
         $this->connection = $capsule->getConnection('default');
-        try {
-            $this->connection->select("set session sql_mode='';");
-        } catch (QueryException $e) {
-        }
+        $this->connection->run("set session sql_mode='';");
     }
 
     public function connect()

@@ -9,7 +9,7 @@ use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 
-class PAYJS extends AbstractPayment
+final class PAYJS extends AbstractPayment
 {
     private $appSecret;
     private $gatewayUri;
@@ -31,6 +31,11 @@ class PAYJS extends AbstractPayment
     public static function _enable()
     {
         return self::getActiveGateway('payjs');
+    }
+
+    public static function _readableName()
+    {
+        return 'PAYJS';
     }
     /**
      * @name    准备签名/验签字符串
@@ -86,7 +91,6 @@ class PAYJS extends AbstractPayment
     public function purchase($request, $response, $args)
     {
         $price = $request->getParam('price');
-        $type = $request->getParam('type');
         if ($price <= 0) {
             return json_encode(['code' => -1, 'errmsg' => '非法的金额.']);
         }
@@ -99,6 +103,7 @@ class PAYJS extends AbstractPayment
         //if ($type != 'alipay') {
         //$type = '';
         //}
+        $data = [];
         $data['mchid'] = Setting::obtain('payjs_mchid');
         //$data['type'] = $type;
         $data['out_trade_no'] = $pl->tradeno;
@@ -115,6 +120,7 @@ class PAYJS extends AbstractPayment
     }
     public function query($tradeNo)
     {
+        $data = [];
         $data['payjs_order_id'] = $tradeNo;
         $params = $this->prepareSign($data);
         $data['sign'] = $this->sign($params);
@@ -131,15 +137,16 @@ class PAYJS extends AbstractPayment
             $data = array_filter($data);
             ksort($data);
             $sign = strtoupper(md5(urldecode(http_build_query($data) . '&key=' . $this->appSecret)));
-            $resultVerify = $sign ? true : false;
 
-            //$str_to_sign = $this->prepareSign($data);
-            //$resultVerify = $this->verify($str_to_sign, $request->getParam('sign'));
+            $resultVerify = $sign !== strtoupper($in_sign);
+            // $resultVerify = $sign ? true : false;
+
+            // $str_to_sign = $this->prepareSign($data);
+            // $resultVerify = $this->verify($str_to_sign, $in_sign);
 
             if ($resultVerify) {
                 // 验重
                 $p = Paylist::where('tradeno', '=', $data['out_trade_no'])->first();
-                $money = $p->total;
                 if ($p->status !== 1) {
                     $this->postPayment($data['out_trade_no'], '微信支付');
                     echo 'SUCCESS';
@@ -155,6 +162,7 @@ class PAYJS extends AbstractPayment
     }
     public function refund($merchantTradeNo)
     {
+        $data = [];
         $data['payjs_order_id'] = $merchantTradeNo;
         $params = $this->prepareSign($data);
         $data['sign'] = $this->sign($params);
@@ -179,7 +187,7 @@ class PAYJS extends AbstractPayment
             $data = array_filter($data);
             ksort($data);
             $sign = strtoupper(md5(urldecode(http_build_query($data) . '&key=' . $this->appSecret)));
-            $resultVerify = $sign ? true : false;
+            $resultVerify = $sign !== strtoupper($in_sign);
 
             if ($resultVerify) {
                 $this->postPayment($data['out_trade_no'], '微信支付');

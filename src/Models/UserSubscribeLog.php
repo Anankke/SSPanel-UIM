@@ -7,7 +7,7 @@ namespace App\Models;
 use App\Utils\QQWry;
 use voku\helper\AntiXSS;
 
-class UserSubscribeLog extends Model
+final class UserSubscribeLog extends Model
 {
     protected $connection = 'default';
 
@@ -16,7 +16,7 @@ class UserSubscribeLog extends Model
     /**
      * [静态方法] 删除不存在的用户的记录
      */
-    public static function user_is_null(UserSubscribeLog $UserSubscribeLog): void
+    public static function userIsNull(UserSubscribeLog $UserSubscribeLog): void
     {
         self::where('user_id', $UserSubscribeLog->user_id)->delete();
     }

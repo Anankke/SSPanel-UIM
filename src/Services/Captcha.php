@@ -7,7 +7,7 @@ namespace App\Services;
 use App\Models\Setting;
 use App\Utils\Geetest;
 
-class Captcha
+final class Captcha
 {
     public static function generate(): array
     {

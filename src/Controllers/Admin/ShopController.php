@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
-use Request;
-use Shop;
+use App\Models\Bought;
+use App\Models\Shop;
+use App\Utils\ResponseHelper;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class ShopController extends AdminController
+final class ShopController extends AdminController
 {
     /**
      * 后台商品页面
@@ -17,25 +20,19 @@ class ShopController extends AdminController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'op' => '操作',
-            'id' => 'ID',
-            'name' => '商品名称',
-            'price' => '价格',
-            'content' => '商品内容',
-            'auto_renew' => '自动续费',
-            'auto_reset_bandwidth' => '续费时是否重置流量',
-            'status' => '状态',
-            'period_sales' => '周期销量',
-        ];
-        $table_config['default_show_column'] = [];
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
-        $table_config['ajax_url'] = 'shop/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'op' => '操作',
+                    'id' => 'ID',
+                    'name' => '商品名称',
+                    'price' => '价格',
+                    'content' => '商品内容',
+                    'auto_renew' => '自动续费',
+                    'auto_reset_bandwidth' => '续费时是否重置流量',
+                    'status' => '状态',
+                    'period_sales' => '周期销量',
+                ], 'shop/ajax'))
                 ->display('admin/shop/index.tpl')
         );
     }
@@ -242,25 +239,19 @@ class ShopController extends AdminController
      */
     public function bought(Request $request, Response $response, array $args)
     {
-        $table_config['total_column'] = [
-            'op' => '操作',
-            'id' => 'ID',
-            'datetime' => '购买日期',
-            'content' => '内容',
-            'price' => '价格',
-            'userid' => '用户ID',
-            'user_name' => '用户名',
-            'renew' => '自动续费时间',
-            'auto_reset_bandwidth' => '续费时是否重置流量',
-        ];
-        $table_config['default_show_column'] = [];
-        foreach ($table_config['total_column'] as $column => $value) {
-            $table_config['default_show_column'][] = $column;
-        }
-        $table_config['ajax_url'] = 'bought/ajax';
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('table_config', ResponseHelper::buildTableConfig([
+                    'op' => '操作',
+                    'id' => 'ID',
+                    'datetime' => '购买日期',
+                    'content' => '内容',
+                    'price' => '价格',
+                    'userid' => '用户ID',
+                    'user_name' => '用户名',
+                    'renew' => '自动续费时间',
+                    'auto_reset_bandwidth' => '续费时是否重置流量',
+                ], 'bought/ajax'))
                 ->display('admin/shop/bought.tpl')
         );
     }
@@ -292,7 +283,7 @@ class ShopController extends AdminController
      *
      * @param array     $args
      */
-    public function ajax_shop(Request $request, Response $response, array $args)
+    public function ajaxShop(Request $request, Response $response, array $args)
     {
         $query = Shop::getTableDataFromAdmin(
             $request,
@@ -313,8 +304,8 @@ class ShopController extends AdminController
             $tempdata['name'] = $value->name;
             $tempdata['price'] = $value->price;
             $tempdata['content'] = $value->content();
-            $tempdata['auto_renew'] = $value->auto_renew();
-            $tempdata['auto_reset_bandwidth'] = $value->auto_reset_bandwidth();
+            $tempdata['auto_renew'] = $value->autoRenew();
+            $tempdata['auto_reset_bandwidth'] = $value->autoResetBandwidthString();
             $tempdata['status'] = $value->status();
             $tempdata['period_sales'] = $value->getSales();
 
@@ -334,7 +325,7 @@ class ShopController extends AdminController
      *
      * @param array     $args
      */
-    public function ajax_bought(Request $request, Response $response, array $args)
+    public function ajaxBought(Request $request, Response $response, array $args)
     {
         $query = Bought::getTableDataFromAdmin(
             $request,
@@ -362,9 +353,9 @@ class ShopController extends AdminController
             $tempdata['content'] = $value->content();
             $tempdata['price'] = $value->price;
             $tempdata['userid'] = $value->userid;
-            $tempdata['user_name'] = $value->user_name();
+            $tempdata['user_name'] = $value->userName();
             $tempdata['renew'] = $value->renew();
-            $tempdata['auto_reset_bandwidth'] = $value->auto_reset_bandwidth();
+            $tempdata['auto_reset_bandwidth'] = $value->autoResetBandwidthString();
 
             $data[] = $tempdata;
         }

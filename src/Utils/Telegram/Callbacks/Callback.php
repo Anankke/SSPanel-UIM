@@ -5,51 +5,60 @@ declare(strict_types=1);
 namespace App\Utils\Telegram\Callbacks;
 
 use App\Controllers\LinkController;
+use App\Models\InviteCode;
+use App\Models\Ip;
+use App\Models\LoginIp;
+use App\Models\Node;
+use App\Models\Payback;
+use App\Models\Setting;
+use App\Models\UserSubscribeLog;
 use App\Services\Config;
-use Ip;
-use Tools;
+use App\Utils\QQWry;
+use App\Utils\Telegram\Reply;
+use App\Utils\Telegram\TelegramTools;
+use App\Utils\Tools;
 
-class Callback
+final class Callback
 {
     /**
      * Bot
      */
-    protected $bot;
+    private $bot;
 
     /**
      * 触发用户
      */
-    protected $User;
+    private $User;
 
     /**
      * 触发用户TG信息
      */
-    protected $triggerUser;
+    private $triggerUser;
 
     /**
      * 回调
      */
-    protected $Callback;
+    private $Callback;
 
     /**
      * 回调数据内容
      */
-    protected $CallbackData;
+    private $CallbackData;
 
     /**
      * 消息会话 ID
      */
-    protected $ChatID;
+    private $ChatID;
 
     /**
      * 触发源信息 ID
      */
-    protected $MessageID;
+    private $MessageID;
 
     /**
      * 源消息是否可编辑
      */
-    protected $AllowEditMessage;
+    private $AllowEditMessage;
 
     public function __construct(\Telegram\Bot\Api $bot, \Telegram\Bot\Objects\CallbackQuery $Callback)
     {
@@ -124,7 +133,7 @@ class Callback
             $sendMessage
         );
         if ($this->AllowEditMessage) {
-            TelegramTools::SendPost('editMessageText', $sendMessage);
+            TelegramTools::sendPost('editMessageText', $sendMessage);
         } else {
             $this->bot->sendMessage($sendMessage);
         }
@@ -151,7 +160,7 @@ class Callback
             ],
             $sendMessage
         );
-        TelegramTools::SendPost('answerCallbackQuery', $sendMessage);
+        TelegramTools::sendPost('answerCallbackQuery', $sendMessage);
     }
 
     /**
@@ -240,7 +249,7 @@ class Callback
         $text .= PHP_EOL . PHP_EOL;
         $text .= Reply::getUserInfo($user);
         $text .= PHP_EOL;
-        $text .= '流量重置时间：' . $user->valid_use_loop();
+        $text .= '流量重置时间：' . $user->validUseLoop();
         if (Config::getconfig('Telegram.bool.show_group_link')) {
             $Keyboard[] = [
                 [
@@ -276,15 +285,15 @@ class Callback
         switch ($op_1) {
             case 'edit':
                 // 资料编辑
-                $this->UserEdit();
+                $this->userEdit();
                 break;
             case 'subscribe':
                 // 订阅中心
-                $this->UserSubscribe();
+                $this->userSubscribe();
                 break;
             case 'invite':
                 // 分享计划
-                $this->UserInvite();
+                $this->userInvite();
                 break;
             case 'checkin':
                 // 签到
@@ -295,11 +304,11 @@ class Callback
                     ]);
                     return;
                 }
-                $this->UserCheckin();
+                $this->userCheckin();
                 break;
             case 'center':
                 // 用户中心
-                $this->UserCenter();
+                $this->userCenter();
                 break;
             default:
                 // 用户首页
@@ -361,7 +370,7 @@ class Callback
     /**
      * 用户中心
      */
-    public function UserCenter(): void
+    public function userCenter(): void
     {
         $back = [
             [
@@ -559,7 +568,7 @@ class Callback
     /**
      * 用户编辑
      */
-    public function UserEdit()
+    public function userEdit()
     {
         if ($this->ChatID < 0) {
             return $this->answerCallbackQuery([
@@ -585,7 +594,7 @@ class Callback
         switch ($op_2) {
             case 'update_link':
                 // 重置订阅链接
-                $this->User->clean_link();
+                $this->User->cleanLink();
                 $this->answerCallbackQuery([
                     'text' => '订阅链接重置成功，请在下方重新更新订阅.',
                     'show_alert' => true,
@@ -810,7 +819,7 @@ class Callback
             case 'unban':
                 // 群组解封
                 if (isset($Operate[3]) && $Operate[3] === 'update') {
-                    TelegramTools::SendPost(
+                    TelegramTools::sendPost(
                         'unbanChatMember',
                         [
                             'chat_id' => $_ENV['telegram_chatid'],
@@ -969,7 +978,7 @@ class Callback
     /**
      * 用户订阅
      */
-    public function UserSubscribe(): void
+    public function userSubscribe(): void
     {
         $CallbackDataExplode = explode('|', $this->CallbackData);
         // 订阅中心
@@ -987,7 +996,7 @@ class Callback
                     ],
                 ],
             ];
-            $token = LinkController::GenerateSSRSubCode($this->User->id);
+            $token = LinkController::generateSSRSubCode($this->User->id);
             $UserApiUrl = LinkController::getSubinfo($this->User, 0)['link'];
             switch ($CallbackDataExplode[1]) {
                 case '?clash=1':
@@ -1087,7 +1096,9 @@ class Callback
 
     public function getUserInviteKeyboard()
     {
-        if (! $paybacks_sum = Payback::where('ref_by', $this->User->id)->sum('ref_get')) {
+        $paybacks_sum = Payback::where('ref_by', $this->User->id)->sum('ref_get');
+
+        if (! is_null($paybacks_sum)) {
             $paybacks_sum = 0;
         }
         $invitation = Setting::getClass('invite');
@@ -1123,7 +1134,7 @@ class Callback
     /**
      * 分享计划
      */
-    public function UserInvite(): void
+    public function userInvite(): void
     {
         $CallbackDataExplode = explode('|', $this->CallbackData);
         $Operate = explode('.', $CallbackDataExplode[0]);
@@ -1172,7 +1183,7 @@ class Callback
     /**
      * 每日签到
      */
-    public function UserCheckin(): void
+    public function userCheckin(): void
     {
         $checkin = $this->User->checkin();
         $this->answerCallbackQuery([
@@ -1187,7 +1198,7 @@ class Callback
             $temp['text'] .= PHP_EOL . PHP_EOL;
             $temp['text'] .= Reply::getUserTrafficInfo($this->User);
             $temp['text'] .= PHP_EOL;
-            $temp['text'] .= '流量重置时间：' . $this->User->valid_use_loop();
+            $temp['text'] .= '流量重置时间：' . $this->User->validUseLoop();
             $temp['keyboard'] = [
                 [
                     [

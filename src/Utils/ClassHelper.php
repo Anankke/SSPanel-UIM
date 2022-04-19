@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-class ClassHelper
+final class ClassHelper
 {
     private static $composer = null;
     private static $classes = [];
@@ -16,7 +16,7 @@ class ClassHelper
 
         self::$composer = require __DIR__ . '/../../vendor/autoload.php';
 
-        if (empty(self::$composer) === false) {
+        if (is_null(self::$composer) === false) {
             self::$classes = array_keys(self::$composer->getClassMap());
         }
     }
@@ -25,7 +25,7 @@ class ClassHelper
     {
         $allClasses = [];
 
-        if (empty(self::$classes) === false) {
+        if (is_null(self::$classes) === false) {
             foreach (self::$classes as $class) {
                 $allClasses[] = '\\' . $class;
             }
@@ -41,7 +41,7 @@ class ClassHelper
         }
 
         $termUpper = strtoupper($namespace);
-        return array_filter($this->getClasses(), function ($class) use ($termUpper) {
+        return array_filter($this->getClasses(), static function ($class) use ($termUpper) {
             $className = strtoupper($class);
             if (
                 strpos($className, $termUpper) === 0 and
