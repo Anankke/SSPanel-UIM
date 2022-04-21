@@ -274,6 +274,11 @@ class AuthController extends BaseController
         $user->theme = $_ENV['theme'];
         $groups = explode(',', $_ENV['random_group']);
         $user->node_group = $groups[array_rand($groups)];
+        // 标记邀请人
+        $c = InviteCode::where('code', $code)->first();
+        if ($c != null) {
+            $user->ref_by = $c->user_id;
+        }
         $user->save();
 
         if ($auto_login) {

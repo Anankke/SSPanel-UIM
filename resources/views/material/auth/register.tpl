@@ -47,7 +47,7 @@
                         {if $config['register_mode'] != 'close' }
                             <div class="mb-3">
                                 <div class="input-group input-group-flat">
-                                    <input id="code" type="text" class="form-control" placeholder="注册邀请码" value="{$code}">
+                                    <input id="code" type="text" class="form-control" placeholder="注册邀请码{if $config['register_mode'] == 'open'}（可选）{else}（必填）{/if}" value="{$code}">
                                 </div>
                             </div>
                         {/if}
