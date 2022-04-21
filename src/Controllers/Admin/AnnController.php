@@ -1,17 +1,10 @@
 <?php
-
 namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
-use App\Models\{
-    Ann,
-    User
-};
-use App\Utils\Telegram;
-use Slim\Http\{
-    Request,
-    Response
-};
+use App\Models\Ann;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class AnnController extends AdminController
 {
@@ -25,13 +18,13 @@ class AnnController extends AdminController
     public function index($request, $response, $args)
     {
         $table_config['total_column'] = array(
-            'op'      => '操作',
-            'id'      => 'ID',
-            'date'    => '日期',
-            'content' => '内容'
+            'op' => '操作',
+            'id' => 'ID',
+            'date' => '日期',
+            'content' => '内容',
         );
         $table_config['default_show_column'] = array(
-            'op', 'id', 'date', 'content'
+            'op', 'id', 'date', 'content',
         );
         $table_config['ajax_url'] = 'announcement/ajax';
         return $response->write(
@@ -59,24 +52,24 @@ class AnnController extends AdminController
             }
         );
 
-        $data  = [];
+        $data = [];
         foreach ($query['datas'] as $value) {
             /** @var Ann $value */
 
-            $tempdata            = [];
-            $tempdata['op']      = '<a class="btn btn-brand" href="/admin/announcement/' . $value->id . '/edit">编辑</a> <a class="btn btn-brand-accent" id="delete" value="' . $value->id . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>';
-            $tempdata['id']      = $value->id;
-            $tempdata['date']    = $value->date;
+            $tempdata = [];
+            $tempdata['op'] = '<a class="btn btn-brand" href="/admin/announcement/' . $value->id . '/edit">编辑</a> <a class="btn btn-brand-accent" id="delete" value="' . $value->id . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>';
+            $tempdata['id'] = $value->id;
+            $tempdata['date'] = $value->date;
             $tempdata['content'] = $value->content;
 
             $data[] = $tempdata;
         }
 
         return $response->withJson([
-            'draw'            => $request->getParam('draw'),
-            'recordsTotal'    => Ann::count(),
+            'draw' => $request->getParam('draw'),
+            'recordsTotal' => Ann::count(),
             'recordsFiltered' => $query['count'],
-            'data'            => $data,
+            'data' => $data,
         ]);
     }
 
@@ -104,55 +97,15 @@ class AnnController extends AdminController
      */
     public function add($request, $response, $args)
     {
-        $issend   = $request->getParam('issend');
-        $vip      = $request->getParam('vip');
-        $content  = $request->getParam('content');
-        $subject  = $_ENV['appName'] . '-公告';
+        $ann = new Ann();
+        $ann->content = $request->getParam('content');
+        $ann->markdown = $request->getParam('markdown');
+        $ann->date = date('Y-m-d H:i:s');
+        $ann->save();
 
-        if ($request->getParam('page') == 1) {
-            $ann           = new Ann();
-            $ann->date     = date('Y-m-d H:i:s');
-            $ann->content  = $content;
-            $ann->markdown = $request->getParam('markdown');
-
-            if (!$ann->save()) {
-                return $response->withJson([
-                    'ret' => 0,
-                    'msg' => '添加失败'
-                ]);
-            }
-        }
-        if ($issend == 1) {
-            $beginSend = ($request->getParam('page') - 1) * $_ENV['sendPageLimit'];
-            $users     = User::where('class', '>=', $vip)->skip($beginSend)->limit($_ENV['sendPageLimit'])->get();
-            foreach ($users as $user) {
-                $user->sendMail(
-                    $subject,
-                    'news/warn.tpl',
-                    [
-                        'user' => $user,
-                        'text' => $content
-                    ],
-                    [],
-                    $_ENV['email_queue']
-                );
-            }
-            if (count($users) == $_ENV['sendPageLimit']) {
-                return $response->withJson([
-                    'ret' => 2,
-                    'msg' => $request->getParam('page') + 1
-                ]);
-            }
-        }
-        Telegram::SendMarkdown('新公告：' . PHP_EOL . $request->getParam('markdown'));
-        if ($issend == 1) {
-            $msg = '公告添加成功，邮件发送成功';
-        } else {
-            $msg = '公告添加成功';
-        }
         return $response->withJson([
             'ret' => 1,
-            'msg' => $msg
+            'msg' => '公告添加成功',
         ]);
     }
 
@@ -182,20 +135,19 @@ class AnnController extends AdminController
      */
     public function update($request, $response, $args)
     {
-        $ann           = Ann::find($args['id']);
-        $ann->content  = $request->getParam('content');
+        $ann = Ann::find($args['id']);
+        $ann->content = $request->getParam('content');
         $ann->markdown = $request->getParam('markdown');
-        $ann->date     = date('Y-m-d H:i:s');
+        $ann->date = date('Y-m-d H:i:s');
         if (!$ann->save()) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '修改失败'
+                'msg' => '修改失败',
             ]);
         }
-        Telegram::SendMarkdown('公告更新：' . PHP_EOL . $request->getParam('markdown'));
         return $response->withJson([
             'ret' => 1,
-            'msg' => '修改成功'
+            'msg' => '修改成功',
         ]);
     }
 
@@ -212,12 +164,12 @@ class AnnController extends AdminController
         if (!$ann->delete()) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '删除失败'
+                'msg' => '删除失败',
             ]);
         }
         return $response->withJson([
             'ret' => 1,
-            'msg' => '删除成功'
+            'msg' => '删除成功',
         ]);
     }
 }
