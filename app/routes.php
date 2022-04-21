@@ -186,13 +186,8 @@ return function (SlimApp $app) {
         $this->post('/detect/log/ajax',         App\Controllers\Admin\DetectController::class . ':ajax_log');
 
         // IP Mange
-        $this->get('/block',                    App\Controllers\Admin\IpController::class . ':block');
-        $this->get('/unblock',                  App\Controllers\Admin\IpController::class . ':unblock');
-        $this->post('/unblock',                 App\Controllers\Admin\IpController::class . ':doUnblock');
         $this->get('/login',                    App\Controllers\Admin\IpController::class . ':index');
         $this->get('/alive',                    App\Controllers\Admin\IpController::class . ':alive');
-        $this->post('/block/ajax',              App\Controllers\Admin\IpController::class . ':ajax_block');
-        $this->post('/unblock/ajax',            App\Controllers\Admin\IpController::class . ':ajax_unblock');
         $this->post('/login/ajax',              App\Controllers\Admin\IpController::class . ':ajax_login');
         $this->post('/alive/ajax',              App\Controllers\Admin\IpController::class . ':ajax_alive');
 
@@ -236,14 +231,19 @@ return function (SlimApp $app) {
 
     if ($_ENV['enableAdminApi']){
         $app->group('/admin/api', function () {
-            $this->get('/nodes',     App\Controllers\Admin\ApiController::class . ':getNodeList');
-            $this->get('/node/{id}', App\Controllers\Admin\ApiController::class . ':getNodeInfo');
-            $this->get('/ping',      App\Controllers\Admin\ApiController::class . ':ping');
+            // e.g curl -H "Authorization: BEARER 7cb4ddeaea0a1a7a42f351f71a28124a" https://domain.com/admin/api/nodes | jq .
+            $this->get('/ping',              App\Controllers\Admin\ApiController::class . ':ping');
+            $this->get('/nodes',             App\Controllers\Admin\ApiController::class . ':getNodeList');
+            $this->get('/node/{id}',         App\Controllers\Admin\ApiController::class . ':getNodeInfo');
+            $this->get('/nodes/relay',       App\Controllers\Admin\ApiController::class . ':getNodeRelayList');
+            $this->get('/nodeid/{ip}',       App\Controllers\Admin\ApiController::class . ':getNodeId');
+            $this->put('/node/{id}/port',    App\Controllers\Admin\ApiController::class . ':change');
+            $this->get('/node/{id}/status',  App\Controllers\Admin\ApiController::class . ':getNodeStatus');
 
             // Re-bind controller, bypass admin token require
-            $this->post('/node',       App\Controllers\Admin\NodeController::class . ':add');
-            $this->put('/node/{id}',   App\Controllers\Admin\NodeController::class . ':update');
-            $this->delete('/node',     App\Controllers\Admin\NodeController::class . ':delete');
+            $this->post('/node',             App\Controllers\Admin\NodeController::class . ':add');
+            $this->put('/node/{id}',         App\Controllers\Admin\NodeController::class . ':update');
+            $this->delete('/node',           App\Controllers\Admin\NodeController::class . ':delete');
         })->add(new AuthorizationBearer($_ENV['adminApiToken']));
     }
 

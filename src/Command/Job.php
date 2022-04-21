@@ -93,6 +93,21 @@ class Job extends Command
         Tools::reset_auto_increment($db, 'node_online_log');
         Tools::reset_auto_increment($db, 'node_info');
 
+        // 获取每日全体用户流量用量
+        User::chunkById(1000, function ($users) {
+            $lastday_total = 0;
+            foreach ($users as $user) {
+                $lastday_total += (($user->u + $user->d) - $user->last_day_t);
+            }
+
+            // 记录每日全体用户流量用量
+            $traffic = new StatisticsModel;
+            $traffic->item = 'traffic';
+            $traffic->value = Tools::flowAutoShow($lastday_total);
+            $traffic->created_at = time();
+            $traffic->save();
+        });
+
         // 用户流量重置
         User::chunkById(1000, function ($users) {
             foreach ($users as $user) {
@@ -222,29 +237,11 @@ class Job extends Command
 
     public function Statistics()
     {
-        // 获取每日签到用户数
-        $sts = new Analytics();
-        $check_in_num = $sts->getTodayCheckinUser();
-
-        // 获取每日全体用户流量用量
-        User::chunkById(1000, function ($users) {
-            $lastday_total = 0;
-            foreach ($users as $user) {
-                $lastday_total += (($user->u + $user->d) - $user->last_day_t);
-            }
-
-            // 记录每日全体用户流量用量
-            $traffic = new StatisticsModel;
-            $traffic->item = 'traffic';
-            $traffic->value = Tools::flowAutoShow($lastday_total);
-            $traffic->created_at = time();
-            $traffic->save();
-        });
-
         // 记录每日签到用户数
+        $sts = new Analytics();
         $check_in = new StatisticsModel;
         $check_in->item = 'checkin';
-        $check_in->value = $check_in_num;
+        $check_in->value = $sts->getTodayCheckinUser();
         $check_in->created_at = time();
         $check_in->save();
 

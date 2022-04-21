@@ -22,7 +22,7 @@ class AuthorizationBearer {
         if (!$request->hasHeader('Authorization')) {
             return $response->withStatus(401)->withJson([
                 'ret'  => 0,
-                'data' => 'Authorization failed',
+                'data' => 'The Authorization request header cannot be empty.',
             ]);
         }
 
@@ -32,7 +32,7 @@ class AuthorizationBearer {
         if (strtoupper(substr($authHeader, 0, 6)) != 'BEARER') {
             return $response->withStatus(401)->withJson([
                 'ret'  => 0,
-                'data' => 'Authorization failed',
+                'data' => 'BEARER in the Authorization request header cannot be empty.',
             ]);
         }
 
@@ -41,7 +41,7 @@ class AuthorizationBearer {
         if ($realToken != $this->token) {
             return $response->withStatus(401)->withJson([
                 'ret'  => 0,
-                'data' => 'Authorization failed',
+                'data' => 'The admin key is incorrect.',
             ]);
         }
 
