@@ -115,7 +115,6 @@
 <script>
     $("#copy-button").click(function() {
         client = $("#client").val();
-        console.log(client);
         $("#copy-button").attr('data-clipboard-text', client);
 
         var clipboard = new ClipboardJS('.btn');

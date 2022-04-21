@@ -1,18 +1,17 @@
 <?php
 namespace App\Controllers;
 
+use App\Models\EmailVerify;
+use App\Models\InviteCode;
+use App\Models\Setting;
+use App\Models\User;
+use App\Services\Auth;
+use App\Services\Mail;
 use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use Ramsey\Uuid\Uuid;
-use App\Services\Auth;
-use App\Services\Mail;
-use Slim\Http\Response;
 use voku\helper\AntiXSS;
-use App\Models\User;
-use App\Models\Setting;
-use App\Models\InviteCode;
-use App\Models\EmailVerify;
 
 class AuthController extends BaseController
 {
@@ -26,7 +25,6 @@ class AuthController extends BaseController
         $code = $request->getParam('code');
         $email = strtolower(trim($request->getParam('email')));
         $passwd = $request->getParam('passwd');
-        $rememberMe = $request->getParam('remember_me');
         $user = User::where('email', $email)->first();
 
         try {
@@ -39,8 +37,7 @@ class AuthController extends BaseController
             }
             if ($user->ga_enable == 1) {
                 $ga = new GA();
-                $rcode = $ga->verifyCode($user->ga_token, $code);
-                if (!$rcode) {
+                if (!$ga->verifyCode($user->ga_token, $code)) {
                     throw new \Exception('两步验证码错误，如丢失密钥，请重置密码');
                 }
             }
@@ -51,13 +48,13 @@ class AuthController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '登录成功，欢迎回来'
+            'msg' => '登录成功，欢迎回来',
         ]);
     }
 
@@ -82,14 +79,14 @@ class AuthController extends BaseController
                 throw new \Exception('此邮箱已注册');
             }
             $ipcount = EmailVerify::where('ip', $_SERVER['REMOTE_ADDR'])
-            ->where('expire_in', '>', time())
-            ->count();
+                ->where('expire_in', '>', time())
+                ->count();
             if ($ipcount >= Setting::obtain('email_verify_ip_limit')) {
                 throw new \Exception('此IP请求次数过多');
             }
             $mailcount = EmailVerify::where('email', $email)
-            ->where('expire_in', '>', time())
-            ->count();
+                ->where('expire_in', '>', time())
+                ->count();
             if ($mailcount >= 3) {
                 throw new \Exception('此邮箱请求次数过多');
             }
@@ -105,19 +102,19 @@ class AuthController extends BaseController
             Mail::send($email, $_ENV['appName'] . ' - 验证邮件', 'auth/verify.tpl',
                 [
                     'code' => $code,
-                    'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl'))
+                    'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl')),
                 ], []
             );
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '请查收验证码'
+            'msg' => '发送成功，请查收验证码',
         ]);
     }
 
@@ -128,7 +125,6 @@ class AuthController extends BaseController
 
         return $this->view()
             ->assign('code', $code)
-            ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
             ->display('auth/register.tpl');
     }
 
@@ -184,12 +180,13 @@ class AuthController extends BaseController
             if ($_ENV['enable_reg_im']) {
                 $imtype = $request->getParam('im_type');
                 $imvalue = $request->getParam('im_value');
-                if ($imtype == '0' || $imtype != '1' && $imtype != '2' && $imtype != '4' && $imtype != '5' || $imvalue == '') {
+                $legal_scope = ['1', '2', '4', '5'];
+                if (!in_array($imtype, $legal_scope)) {
                     throw new \Exception('选择社交软件并填写社交账户');
                 }
                 $imtype_exist = User::where('im_value', $imvalue)
-                ->where('im_type', $imtype)
-                ->first();
+                    ->where('im_type', $imtype)
+                    ->first();
                 if ($imtype_exist != null) {
                     throw new \Exception('此社交账户已被使用');
                 }
@@ -203,11 +200,11 @@ class AuthController extends BaseController
             }
             if (Setting::obtain('reg_email_verify')) {
                 $mailcount = EmailVerify::where('email', $email)
-                ->where('code', $emailcode)
-                ->where('expire_in', '>', time())
-                ->first();
+                    ->where('code', $emailcode)
+                    ->where('expire_in', '>', time())
+                    ->first();
                 if ($mailcount == null) {
-                    throw new \Exception('邮箱验证码不正确');
+                    throw new \Exception('邮箱验证码不正确或已超时');
                 }
             }
 
@@ -215,7 +212,7 @@ class AuthController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
@@ -227,7 +224,7 @@ class AuthController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '注册成功'
+            'msg' => '注册成功',
         ]);
     }
 
@@ -249,7 +246,7 @@ class AuthController extends BaseController
         $user->t = 0;
         $user->u = 0;
         $user->d = 0;
-        $user->transfer_enable = 0;
+        $user->transfer_enable = $_ENV['reg_default_traffic'] * 1024 * 1024 * 1024;
         $user->invite_num = $_ENV['reg_invite_num'];
         $user->sendDailyMail = 0; // 默认不发送
         $user->obfs = $_ENV['reg_obfs'];
@@ -266,9 +263,9 @@ class AuthController extends BaseController
         $user->ga_token = $ga->createSecret();
         $user->node_connector = 0;
         $user->node_speedlimit = 0;
-        $user->class = 0;
-        $user->expire_in = date('Y-m-d H:i:s', time());
-        $user->class_expire = date('Y-m-d H:i:s', time());
+        $user->class = $_ENV['reg_default_class'];
+        $user->expire_in = date('Y-m-d H:i:s', time() + $_ENV['reg_default_time'] * 3600);
+        $user->class_expire = date('Y-m-d H:i:s', time() + $_ENV['reg_default_class_time'] * 3600);
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = (empty($_SERVER['REMOTE_ADDR'])) ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];

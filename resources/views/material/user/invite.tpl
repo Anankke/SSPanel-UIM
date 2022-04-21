@@ -44,8 +44,7 @@
                         <div class="card-footer">
                             <div class="d-flex">
                                 <a id="reset-url" class="btn text-red btn-link">重置</a>
-                                <a id="copy-url" data-clipboard-text="{$invite_url}"
-                                    class="copy btn btn-primary ms-auto">复制</a>
+                                <a data-clipboard-text="{$invite_url}" class="copy btn btn-primary ms-auto">复制</a>
                             </div>
                         </div>
                     </div>

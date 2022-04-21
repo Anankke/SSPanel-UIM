@@ -45,8 +45,6 @@ class Config
             'enable_email_verify'     => $public_configs['reg_email_verify'],
             'enable_reg_im'           => $_ENV['enable_reg_im'],
             // 订阅
-            'subscribe_client'        => $_ENV['subscribe_client'],
-            'subscribe_client_url'    => $_ENV['subscribe_client_url'],
             'subscribeLog'            => $_ENV['subscribeLog'],
             'subscribeLog_show'       => $_ENV['subscribeLog_show'],
             'subscribeLog_keep_days'  => $_ENV['subscribeLog_keep_days'],
@@ -54,7 +52,6 @@ class Config
             'enable_telegram'         => $_ENV['enable_telegram'],
             'telegram_bot'            => $_ENV['telegram_bot'],
             'use_new_telegram_bot'    => $_ENV['use_new_telegram_bot'],
-            'enable_telegram_login'   => $_ENV['enable_telegram_login'],
             // 自定义页面
             'user_media_page_custom'        => $_ENV['user_media_page_custom'],
             'user_media_page_custom_text'   => $_ENV['user_media_page_custom_text'],

@@ -10,6 +10,7 @@ use App\Models\NodeInfoLog;
 use App\Models\NodeOnlineLog;
 use App\Models\PasswordReset;
 use App\Models\Statistics as StatisticsModel;
+use App\Models\StreamMedia;
 use App\Models\TelegramSession;
 use App\Models\Token;
 use App\Models\User;
@@ -82,6 +83,7 @@ class Job extends Command
         Token::where('expire_time', '<', time())->delete();
         DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
         NodeInfoLog::where('log_time', '<', time() - 86400 * 3)->delete();
+        StreamMedia::where('created_at', '<', time() - 86400 * 24)->delete();
         EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
         PasswordReset::where('expire_time', '<', time() - 86400 * 3)->delete();
         TelegramSession::where('datetime', '<', time() - 900)->delete();

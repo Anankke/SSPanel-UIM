@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         {/if}
-                        {if $enable_email_verify == true}
+                        {if $config['enable_email_verify'] == true}
                             <div class="mb-3">
                                 <div class="input-group mb-2">
                                     <input id="emailcode" type="text" class="form-control" placeholder="邮箱验证码">
@@ -173,7 +173,7 @@
     </div>
 
     <script>
-        {if $enable_email_verify == true}
+        {if $config['enable_email_verify'] == true}
             $("#email-verify").click(function() {
                 $.ajax({
                     type: 'POST',
@@ -205,7 +205,7 @@
                         im_value: $('#im_value').val(),
                         im_type: $('#im_type').val(),
                     {/if}
-                    {if $enable_email_verify == true}
+                    {if $config['enable_email_verify'] == true}
                         emailcode: $('#emailcode').val(),
                     {/if}
                     tos: $('#tos').prop('checked'), // true / false (string)
