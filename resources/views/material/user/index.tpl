@@ -263,21 +263,15 @@
                                     <div class="row">
                                         <div class="col-auto d-flex align-items-center pe-2">
                                             <span class="legend me-2 bg-primary"></span>
-                                            <span>过去用量</span>
-                                            <span
-                                                class="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{$user->LastusedTraffic()}</span>
+                                            <span>过去用量 {$user->LastusedTraffic()}</span>
                                         </div>
                                         <div class="col-auto d-flex align-items-center px-2">
                                             <span class="legend me-2 bg-success"></span>
-                                            <span>今日用量</span>
-                                            <span
-                                                class="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{$user->TodayusedTraffic()}</span>
+                                            <span>今日用量 {$user->TodayusedTraffic()}</span>
                                         </div>
                                         <div class="col-auto d-flex align-items-center ps-2">
                                             <span class="legend me-2"></span>
-                                            <span>剩余流量</span>
-                                            <span
-                                                class="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{$user->unusedTraffic()}</span>
+                                            <span>剩余流量 {$user->unusedTraffic()}</span>
                                         </div>
                                     </div>
                                     <p class="my-3">

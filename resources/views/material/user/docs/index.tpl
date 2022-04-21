@@ -10,7 +10,7 @@
                 <div class="mb-3">
                     <select id="client" class="form-select">
                         {foreach $subInfo as $client => $suburl}
-                            {if $client != 'link'}
+                            {if $client != 'link' && !in_array($client, $config['docs_sub_hidden'])}
                                 <option value="{$suburl}">{$client}</option>
                             {/if}
                         {/foreach}

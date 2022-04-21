@@ -62,6 +62,8 @@ class Config
             'user_product_page_custom_text' => $_ENV['user_product_page_custom_text'],
             'enable_faq'                    => $_ENV['enable_faq'],
             'enable_ticket'                 => $_ENV['enable_ticket'],
+            'enable_docs'                   => $_ENV['enable_docs'],
+            'docs_sub_hidden'               => $_ENV['docs_sub_hidden'],
             // 其他
             'enable_checkin'          => $_ENV['enable_checkin'],
             'checkinMin'              => $_ENV['checkinMin'],
@@ -69,7 +71,6 @@ class Config
             'checkin_add_time'        => $_ENV['checkin_add_time'],
             'checkin_add_time_hour'   => $_ENV['checkin_add_time_hour'],
             'jump_delay'              => $_ENV['jump_delay'],
-            'enable_docs'             => $_ENV['enable_docs'],
             'enable_kill'             => $_ENV['enable_kill'],
             'enable_change_email'     => $_ENV['enable_change_email'],
             'pwdMethod'               => $_ENV['pwdMethod'],
