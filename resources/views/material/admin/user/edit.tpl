@@ -18,7 +18,7 @@
                                        value="{$edit_user->email}">
                             </div>
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="user_name">用户昵称</label>
+                                <label class="floating-label" for="user_name">昵称</label>
                                 <input class="form-control maxwidth-edit" id="user_name" type="text"
                                        value="{$edit_user->user_name}">
                             </div>
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="money">金钱</label>
+                                <label class="floating-label" for="money">余额</label>
                                 <input class="form-control maxwidth-edit" id="money" type="text"
                                        value="{$edit_user->money}">
                             </div>
@@ -184,13 +184,13 @@
                     <div class="card-main">
                         <div class="card-inner">
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="node_speedlimit">用户限速，用户在每个节点所享受到的速度(Mbps)</label>
+                                <label class="floating-label" for="node_speedlimit">限制速率 (Mbps)</label>
                                 <input class="form-control maxwidth-edit" id="node_speedlimit" type="text"
                                        value="{$edit_user->node_speedlimit}">
                                 <p class="form-control-guide"><i class="material-icons">info</i>0 为不限制</p>
                             </div>
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="node_connector">用户同时连接 IP 数</label>
+                                <label class="floating-label" for="node_connector">限制设备数</label>
                                 <input class="form-control maxwidth-edit" id="node_connector" type="text"
                                        value="{$edit_user->node_connector}">
                                 <p class="form-control-guide"><i class="material-icons">info</i>0 为不限制</p>

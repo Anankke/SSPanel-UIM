@@ -131,7 +131,7 @@
                                             {/if}
                                             <a class="dropdown-item" href="/user/invite">
                                                 <i class="ti ti-friends"></i>&nbsp;
-                                                邀请链接
+                                                邀请注册
                                             </a>
                                         </div>
                                     </div>

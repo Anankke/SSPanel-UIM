@@ -24,7 +24,7 @@
                         <div class="card-body">
                             <div class="m-0 my-2">
                                 <div>
-                                    <p>账户当前余额为：<code>{$user->money}</code> 元，剩余流量为：<code>{$user->unusedTraffic()}</code>
+                                    <p style="line-height: 26px;">账户当前余额为：<code>{$user->money}</code> 元，剩余流量为：<code>{$user->unusedTraffic()}</code>
                                         {if time() > strtotime($user->expire_in)}
                                             ，你的账户已经过期了
                                         {else}

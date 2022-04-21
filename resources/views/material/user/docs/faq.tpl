@@ -5,7 +5,7 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title">使用问题</span>
+                        <span class="home-title">使用问答</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">常见的使用问题问答和其他相关内容介绍</span>

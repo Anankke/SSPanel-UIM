@@ -37,7 +37,7 @@
                                     <a id="email-verify" class="btn btn-link">获取验证码</a>
                                     <button id="modify-email" class="btn btn-primary ms-auto">修改</button>
                                 {else}
-                                    <button id="modify-email" class="btn btn-primary ms-auto" disabled>无法修改</button>
+                                    <button id="modify-email" class="btn btn-primary ms-auto" disabled>暂不允许修改</button>
                                 {/if}
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title">更换订阅地址</h3>
-                            <p>点击会重置您的订阅链接，您需要更新客户端中所配置的订阅地址方可继续使用</p>
+                            <p>更换订阅地址后，旧的订阅地址将无法获取配置，但节点配置仍能使用。如果希望旧的节点配置不能使用，请配合修改连接密码操作</p>
                         </div>
                         <div class="card-footer">
                             <div class="d-flex">
@@ -74,8 +74,8 @@
                 <div class="col-sm-12 col-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="card-title">修改连接密码</h3>
-                            <p>重置连接密码与 UUID ，修改后需更新订阅才能继续使用</p>
+                            <h3 class="card-title">重置连接密码</h3>
+                            <p>重置连接密码与UUID ，重置后需更新订阅，才能继续使用</p>
                         </div>
                         <div class="card-footer">
                             <div class="d-flex">
@@ -106,12 +106,12 @@
                 <div class="col-sm-12 col-md-4">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="card-title">修改每日推送</h3>
+                            <h3 class="card-title">每日用量推送</h3>
                             <div class="mb-3">
                                 <select id="daily-report" class="form-select">
                                     <option value="0" {if $user->sendDailyMail == '0'}selected{/if}>不发送</option>
                                     <option value="1" {if $user->sendDailyMail == '1'}selected{/if}>邮件接收</option>
-                                    <option value="2" {if $user->sendDailyMail == '2'}selected{/if}>TelegramBot接收
+                                    <option value="2" {if $user->sendDailyMail == '2'}selected{/if}>Telegram Bot 接收
                                     </option>
                                 </select>
                             </div>

@@ -24,7 +24,7 @@
                         <div class="card-body">
                             <h3 class="card-title">邀请规则</h3>
                             <ul>
-                                <li>邀请注册的用户在账单确认后，您可获得订单金额的 <code>{$config['code_payback'] * 100} %</code>
+                                <li>邀请注册的用户在账单确认后，您可获得其账单金额的 <code>{$config['code_payback'] * 100} %</code>
                                     作为返利</li>
                                 <li>具体邀请返利规则请查看公告，或通过工单系统询问管理员</li>
                             </ul>
