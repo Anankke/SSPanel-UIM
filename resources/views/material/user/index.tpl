@@ -239,7 +239,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-sm-12">
                     <div class="row row-deck row-cards">
                         <div class="col-12">
                             <div class="card">
@@ -330,6 +330,193 @@
                     <div class="row row-cards">
                         <div class="col-12">
                             <div class="card">
+                                <ul class="nav nav-tabs nav-fill" data-bs-toggle="tabs">
+                                    <li class="nav-item">
+                                        <a href="#windows" class="nav-link active" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-brand-windows" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path
+                                                    d="M17.8 20l-12 -1.5c-1 -.1 -1.8 -.9 -1.8 -1.9v-9.2c0 -1 .8 -1.8 1.8 -1.9l12 -1.5c1.2 -.1 2.2 .8 2.2 1.9v12.1c0 1.2 -1.1 2.1 -2.2 1.9z">
+                                                </path>
+                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                <line x1="4" y1="12" x2="20" y2="12"></line>
+                                            </svg>
+                                            &nbsp;Windows
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#macos" class="nav-link" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-device-laptop" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <line x1="3" y1="19" x2="21" y2="19"></line>
+                                                <rect x="5" y="6" width="14" height="10" rx="1"></rect>
+                                            </svg>
+                                            &nbsp;Macos
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#android" class="nav-link" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-brand-android" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <line x1="4" y1="10" x2="4" y2="16"></line>
+                                                <line x1="20" y1="10" x2="20" y2="16"></line>
+                                                <path d="M7 9h10v8a1 1 0 0 1 -1 1h-8a1 1 0 0 1 -1 -1v-8a5 5 0 0 1 10 0">
+                                                </path>
+                                                <line x1="8" y1="3" x2="9" y2="5"></line>
+                                                <line x1="16" y1="3" x2="15" y2="5"></line>
+                                                <line x1="9" y1="18" x2="9" y2="21"></line>
+                                                <line x1="15" y1="18" x2="15" y2="21"></line>
+                                            </svg>
+                                            &nbsp;Android
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#ios" class="nav-link" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-brand-apple" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path
+                                                    d="M9 7c-3 0 -4 3 -4 5.5c0 3 2 7.5 4 7.5c1.088 -.046 1.679 -.5 3 -.5c1.312 0 1.5 .5 3 .5s4 -3 4 -5c-.028 -.01 -2.472 -.403 -2.5 -3c-.019 -2.17 2.416 -2.954 2.5 -3c-1.023 -1.492 -2.951 -1.963 -3.5 -2c-1.433 -.111 -2.83 1 -3.5 1c-.68 0 -1.9 -1 -3 -1z">
+                                                </path>
+                                                <path d="M12 4a2 2 0 0 0 2 -2a2 2 0 0 0 -2 2"></path>
+                                            </svg>
+                                            &nbsp;IOS
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#route" class="nav-link" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-router" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <rect x="3" y="13" width="18" height="8" rx="2"></rect>
+                                                <line x1="17" y1="17" x2="17" y2="17.01"></line>
+                                                <line x1="13" y1="17" x2="13" y2="17.01"></line>
+                                                <line x1="15" y1="13" x2="15" y2="11"></line>
+                                                <path d="M11.75 8.75a4 4 0 0 1 6.5 0"></path>
+                                                <path d="M8.5 6.5a8 8 0 0 1 13 0"></path>
+                                            </svg>
+                                            &nbsp;Route
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#linux" class="nav-link" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-devices-pc" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M3 5h6v14h-6z"></path>
+                                                <path d="M12 9h10v7h-10z"></path>
+                                                <path d="M14 19h6"></path>
+                                                <path d="M17 16v3"></path>
+                                                <path d="M6 13v.01"></path>
+                                                <path d="M6 16v.01"></path>
+                                            </svg>
+                                            &nbsp;Linux
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active show" id="windows">
+                                            <div>
+                                                <p>
+                                                    适用于 v2rayN 的订阅：<code>{$subInfo['v2ray']}</code>
+                                                </p>
+                                                <p>
+                                                    适用于 Clash 的订阅：<code>{$subInfo['clash']}</code>
+                                                </p>
+                                                <a data-clipboard-text="{$subInfo['v2ray']}"
+                                                    class="copy btn btn-primary ms-auto">
+                                                    复制 v2rayN
+                                                </a>
+                                                <a data-clipboard-text="{$subInfo['clash']}"
+                                                    class="copy btn btn-primary ms-auto">
+                                                    复制 Clash
+                                                </a>
+                                                <p>
+                                                    <button id="v2-text" data-clipboard-text="{$text['v2ray']}"
+                                                        class="copy btn btn-primary ms-auto my-2">复制 V2ray 文本配置</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="macos">
+                                            <p>
+                                                适用于 ClashX 的订阅：<code>{$subInfo['clash']}</code>
+                                            </p>
+                                            <p>
+                                                适用于 v2rayU 的订阅：<code>{$subInfo['v2ray']}</code>
+                                            </p>
+                                            <a data-clipboard-text="{$subInfo['clash']}"
+                                                class="copy btn btn-primary ms-auto">
+                                                复制 ClashX
+                                            </a>
+                                            <a data-clipboard-text="{$subInfo['v2ray']}"
+                                                class="copy btn btn-primary ms-auto">
+                                                复制 v2rayU
+                                            </a>
+                                        </div>
+                                        <div class="tab-pane" id="android">
+                                            <p>
+                                                适用于 Clash For Android 的订阅：<code>{$subInfo['clash']}</code>
+                                            </p>
+                                            <p>
+                                                适用于 v2rayNG 的订阅：<code>{$subInfo['v2ray']}</code>
+                                            </p>
+                                            <a data-clipboard-text="{$subInfo['clash']}"
+                                                class="copy btn btn-primary ms-auto">
+                                                复制 Clash
+                                            </a>
+                                            <a data-clipboard-text="{$subInfo['v2ray']}"
+                                                class="copy btn btn-primary ms-auto">
+                                                复制 v2rayNG
+                                            </a>
+                                        </div>
+                                        <div class="tab-pane" id="ios">
+                                            <p>
+                                                在安装 Shadowrocket 或 Quantumult 后，只需 <span style="color: red;">使用 Safari
+                                                    浏览器</span> 点击下方按钮，然后在弹出的弹窗中点击 <b>打开</b>，即可快捷完成订阅设置
+                                            </p>
+                                            <a href="sub://{base64_encode($subInfo['v2ray'])}"
+                                                class="btn btn-primary ms-auto">
+                                                点击设置 Shadowrocket 订阅
+                                            </a>
+                                            <p class="my-2">
+                                                <a href="quantumult://configuration?server={base64_encode($subInfo['quantumult'])}"
+                                                    class="btn btn-primary ms-auto my-1">
+                                                    点击设置 Quantumult 订阅
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="tab-pane" id="route">
+                                            <div>紧张准备中...</div>
+                                        </div>
+                                        <div class="tab-pane" id="linux">
+                                            <div>紧张准备中...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row row-cards">
+                        <div class="col-12">
+                            <div class="card">
                                 <div class="card-body">
                                     <h3 class="card-title">过去七日用量（正在开发）</h3>
                                     <div id="past-usage"></div>
@@ -403,6 +590,12 @@
     </div>
 
     <script>
+        var clipboard = new ClipboardJS('.copy');
+        clipboard.on('success', function(e) {
+            $('#success-message').text('已复制到剪切板');
+            $('#success-dialog').modal('show');
+        });
+
         $("#check-in").click(function() {
             $.ajax({
                 type: "POST",

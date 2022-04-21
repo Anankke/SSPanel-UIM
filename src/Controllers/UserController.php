@@ -990,11 +990,18 @@ class UserController extends BaseController
             'past_traffic_usage' => ($t_e == 0) ? 0 : $user->last_day_t / $t_e * 100,
             'residual_flow' => ($t_e == 0) ? 0 : ($t_e - ($user->u + $user->d)) / $t_e * 100,
         ];
+        $text = [
+            'ss' => URL::get_NewAllUrl($user, ['type' => 'ss']) . PHP_EOL,
+            'ssr' => URL::get_NewAllUrl($user, ['type' => 'ssr']) . PHP_EOL,
+            'v2ray' => URL::get_NewAllUrl($user, ['type' => 'vmess']) . PHP_EOL,
+        ];
 
         return $response->write(
             $this->view()
                 ->assign('data', $data)
+                ->assign('text', $text)
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
+                ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
                 ->display('user/index.tpl')
         );
     }
