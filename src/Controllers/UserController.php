@@ -20,7 +20,6 @@ use App\Models\Token;
 use App\Models\User;
 use App\Models\UserSubscribeLog;
 use App\Services\Auth;
-use App\Services\Captcha;
 use App\Services\Config;
 use App\Services\Payment;
 use App\Utils\Check;
@@ -33,7 +32,6 @@ use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
 use App\Utils\URL;
 use Ramsey\Uuid\Uuid;
-use Slim\Http\Response;
 use voku\helper\AntiXSS;
 
 class UserController extends BaseController
@@ -41,8 +39,8 @@ class UserController extends BaseController
     public function productIndex($request, $response, $args)
     {
         $products = Product::where('status', '1')
-        ->orderBy('sort', 'asc')
-        ->get();
+            ->orderBy('sort', 'asc')
+            ->get();
 
         $product_tab_lists = [
             [
@@ -175,13 +173,13 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'order_id' => $order->no
+            'order_id' => $order->no,
         ]);
     }
 
@@ -189,8 +187,8 @@ class UserController extends BaseController
     {
         $order_no = $args['no'];
         $order = ProductOrder::where('user_id', $this->user->id)
-        ->where('no', $order_no)
-        ->first();
+            ->where('no', $order_no)
+            ->first();
 
         return $response->write(
             $this->view()
@@ -206,7 +204,7 @@ class UserController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'status' => $order->order_status
+            'status' => $order->order_status,
         ]);
     }
 
@@ -228,8 +226,8 @@ class UserController extends BaseController
         $order_no = $request->getParam('order_no');
 
         $order = ProductOrder::where('user_id', $user->id)
-        ->where('no', $order_no)
-        ->first();
+            ->where('no', $order_no)
+            ->first();
 
         $payments = $_ENV['active_payments'];
         $order->order_payment = empty($payments[$payment]['name']) ? 'balance' : $payments[$payment]['name'];
@@ -268,13 +266,13 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 2, // 0时表示错误; 1是在线支付订单创建成功状态码; 2分配给账户余额支付
-            'msg' => '购买成功'
+            'msg' => '购买成功',
         ]);
     }
 
@@ -302,8 +300,7 @@ class UserController extends BaseController
             }
 
             $product_content = json_decode($product->content, true);
-            foreach ($product_content as $key => $value)
-            {
+            foreach ($product_content as $key => $value) {
                 switch ($key) {
                     case 'product_time':
                         if (!empty($product_content['product_reset_time']) && $product_content['product_reset_time'] == '1') {
@@ -366,6 +363,14 @@ class UserController extends BaseController
             if ($invite_user != null) {
                 $invite_user->money += $product->rebate_amount / 100;
                 $invite_user->save();
+                // 添加返利记录
+                $payback = new Payback;
+                $payback->total = $order->order_price / 100;
+                $payback->userid = $order->user_id;
+                $payback->ref_by = $invite_user->id;
+                $payback->ref_get = $product->rebate_amount / 100;
+                $payback->datetime = time();
+                $payback->save();
             }
         }
     }
@@ -401,13 +406,13 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '兑换成功，添加了账户余额 ' . $giftcard->balance . ' 元'
+            'msg' => '兑换成功，添加了账户余额 ' . $giftcard->balance . ' 元',
         ]);
     }
 
@@ -416,21 +421,21 @@ class UserController extends BaseController
         $temp = $this->user->ResetPort();
         return $response->withJson([
             'ret' => ($temp['ok'] == true ? 1 : 0),
-            'msg' => '新的端口是 '. $temp['msg']
+            'msg' => '新的端口是 ' . $temp['msg'],
         ]);
     }
 
     public function profile($request, $response, $args)
     {
         $use_logs = Ip::where('userid', $this->user->id)
-        ->where('datetime', '>=', time() - 300)
-        ->get();
+            ->where('datetime', '>=', time() - 300)
+            ->get();
 
         $totallogin = LoginIp::where('userid', $this->user->id)
-        ->orderBy('datetime', 'desc')
-        ->where('type', '0')
-        ->take(10)
-        ->get();
+            ->orderBy('datetime', 'desc')
+            ->where('type', '0')
+            ->take(10)
+            ->get();
 
         return $response->write(
             $this->view()
@@ -473,7 +478,7 @@ class UserController extends BaseController
         if (!isset($_SERVER['HTTPS'])) {
             return false;
         }
-        if ($_SERVER['HTTPS'] === 1) {  //Apache
+        if ($_SERVER['HTTPS'] === 1) { //Apache
             return true;
         }
         if ($_SERVER['HTTPS'] === 'on') { //IIS
@@ -505,13 +510,13 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '验证码正确'
+            'msg' => '验证码正确',
         ]);
     }
 
@@ -524,7 +529,7 @@ class UserController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '设置成功'
+            'msg' => '设置成功',
         ]);
     }
 
@@ -538,7 +543,7 @@ class UserController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '重置成功'
+            'msg' => '重置成功',
         ]);
     }
 
@@ -613,9 +618,9 @@ class UserController extends BaseController
         if (Setting::obtain('reg_email_verify')) {
             $emailcode = $request->getParam('emailcode');
             $mailcount = EmailVerify::where('email', '=', $newemail)
-            ->where('code', '=', $emailcode)
-            ->where('expire_in', '>', time())
-            ->first();
+                ->where('code', '=', $emailcode)
+                ->where('expire_in', '>', time())
+                ->first();
 
             if ($mailcount == null) {
                 $res['ret'] = 0;
@@ -685,7 +690,7 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
@@ -735,9 +740,9 @@ class UserController extends BaseController
     public function detect_log($request, $response, $args)
     {
         $logs = DetectLog::where('user_id', $this->user->id)
-        ->orderBy('id', 'desc')
-        ->limit(500)
-        ->get();
+            ->orderBy('id', 'desc')
+            ->limit(500)
+            ->get();
 
         return $this->view()
             ->assign('logs', $logs)
@@ -771,9 +776,9 @@ class UserController extends BaseController
         }
 
         $logs = UserSubscribeLog::where('user_id', $this->user->id)
-        ->orderBy('id', 'desc')
-        ->limit(500)
-        ->get();
+            ->orderBy('id', 'desc')
+            ->limit(500)
+            ->get();
 
         return $this->view()
             ->assign('logs', $logs)
@@ -835,13 +840,13 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '修改成功'
+            'msg' => '修改成功',
         ]);
     }
 
@@ -900,13 +905,13 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '修改成功'
+            'msg' => '修改成功',
         ]);
     }
 
@@ -939,13 +944,13 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '签到获得了 ' . $rand_traffic . ' MB 流量'
+            'msg' => '签到获得了 ' . $rand_traffic . ' MB 流量',
         ]);
     }
 
@@ -966,13 +971,13 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '修改成功'
+            'msg' => '修改成功',
         ]);
     }
 
@@ -1000,26 +1005,24 @@ class UserController extends BaseController
         $db = new DatatablesHelper;
         $nodes = $db->query('SELECT DISTINCT node_id FROM stream_media');
 
-        foreach ($nodes as $node_id)
-        {
+        foreach ($nodes as $node_id) {
             $node = Node::where('id', $node_id)->first();
 
             $unlock = StreamMedia::where('node_id', $node_id)
-            ->orderBy('id', 'desc')
-            ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
-            ->first();
+                ->orderBy('id', 'desc')
+                ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
+                ->first();
 
             if ($unlock != null && $node != null) {
                 $details = json_decode($unlock->result, true);
                 $details = str_replace('Originals Only', '仅限自制', $details);
                 $details = str_replace('Oversea Only', '仅限海外', $details);
 
-                foreach ($details as $key => $value)
-                {
+                foreach ($details as $key => $value) {
                     $info = [
                         'node_name' => $node->name,
                         'created_at' => $unlock->created_at,
-                        'unlock_item' => $details
+                        'unlock_item' => $details,
                     ];
                 }
 
@@ -1027,14 +1030,13 @@ class UserController extends BaseController
             }
         }
 
-        if ($_ENV['streaming_media_unlock_multiplexing'] != null ) {
-            foreach ($_ENV['streaming_media_unlock_multiplexing'] as $key => $value)
-            {
+        if ($_ENV['streaming_media_unlock_multiplexing'] != null) {
+            foreach ($_ENV['streaming_media_unlock_multiplexing'] as $key => $value) {
                 $key_node = Node::where('id', $key)->first();
                 $value_node = StreamMedia::where('node_id', $value)
-                ->orderBy('id', 'desc')
-                ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
-                ->first();
+                    ->orderBy('id', 'desc')
+                    ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
+                    ->first();
 
                 if ($value_node != null) {
                     $details = json_decode($value_node->result, true);
@@ -1044,12 +1046,12 @@ class UserController extends BaseController
                     $info = [
                         'node_name' => $key_node->name,
                         'created_at' => $value_node->created_at,
-                        'unlock_item' => $details
+                        'unlock_item' => $details,
                     ];
 
                     array_push($results, $info);
                 }
-           }
+            }
         }
 
         array_multisort(array_column($results, 'node_name'), SORT_ASC, $results);
@@ -1060,10 +1062,10 @@ class UserController extends BaseController
     }
 
     /*
-        上面是整理好的
+    上面是整理好的
 
-        下面是等待整理的
-    */
+    下面是等待整理的
+     */
 
     public function backtoadmin($request, $response, $args)
     {
@@ -1084,7 +1086,7 @@ class UserController extends BaseController
                 'old_key' => null,
                 'old_ip' => null,
                 'old_expire_in' => null,
-                'old_local' => null
+                'old_local' => null,
             ], time() - 1000);
         }
         $expire_in = Cookie::get('old_expire_in');
@@ -1100,7 +1102,7 @@ class UserController extends BaseController
             'old_key' => null,
             'old_ip' => null,
             'old_expire_in' => null,
-            'old_local' => null
+            'old_local' => null,
         ], $expire_in);
         return $response->withStatus(302)->withHeader('Location', $local);
     }
