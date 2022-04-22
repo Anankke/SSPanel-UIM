@@ -60,6 +60,7 @@ class AuthController extends BaseController
 
     public function sendVerify($request, $response, $next)
     {
+        $email_verify_ttl = Setting::obtain('email_verify_ttl');
         try {
             if (!Setting::obtain('reg_email_verify')) {
                 throw new \Exception('不需要验证邮箱');
@@ -73,6 +74,20 @@ class AuthController extends BaseController
             }
             if (!Tools::emailCheck($email)) {
                 throw new \Exception('邮箱格式不正确');
+            }
+            if ($_ENV['mail_filter'] != '0') {
+                $mail_suffix = explode('@', $email)[1];
+                if ($_ENV['mail_filter'] != '1') {
+                    // 白名单模式
+                    if (!in_array($mail_suffix, $_ENV['mail_filter_list'])) {
+                        throw new \Exception('不支持此邮箱域');
+                    }
+                } else {
+                    // 黑名单模式
+                    if (in_array($mail_suffix, $_ENV['mail_filter_list'])) {
+                        throw new \Exception('不支持此邮箱域');
+                    }
+                }
             }
             $user = User::where('email', $email)->first();
             if ($user != null) {
@@ -90,10 +105,16 @@ class AuthController extends BaseController
             if ($mailcount >= 3) {
                 throw new \Exception('此邮箱请求次数过多');
             }
+            $one_minute_limit = EmailVerify::where('email', $email)
+                ->orderBy('id', 'desc')
+                ->first();
+            if ($one_minute_limit != null && ($one_minute_limit->expire_in - $email_verify_ttl) > (time() - 60)) {
+                throw new \Exception('一分钟内只能请求一次验证码邮件');
+            }
 
             $code = Tools::genRandomNum(6);
             $ev = new EmailVerify();
-            $ev->expire_in = time() + Setting::obtain('email_verify_ttl');
+            $ev->expire_in = time() + $email_verify_ttl;
             $ev->ip = $_SERVER['REMOTE_ADDR'];
             $ev->email = $email;
             $ev->code = $code;
@@ -102,7 +123,7 @@ class AuthController extends BaseController
             Mail::send($email, $_ENV['appName'] . ' - 验证邮件', 'auth/verify.tpl',
                 [
                     'code' => $code,
-                    'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl')),
+                    'expire' => date('Y-m-d H:i:s', time() + $email_verify_ttl),
                 ], []
             );
         } catch (\Exception $e) {
@@ -151,6 +172,20 @@ class AuthController extends BaseController
             }
             if (!Tools::emailCheck($email)) {
                 throw new \Exception('邮箱格式不正确');
+            }
+            if ($_ENV['mail_filter'] != '0') {
+                $mail_suffix = explode('@', $email)[1];
+                if ($_ENV['mail_filter'] != '1') {
+                    // 白名单模式
+                    if (!in_array($mail_suffix, $_ENV['mail_filter_list'])) {
+                        throw new \Exception('不支持此邮箱域');
+                    }
+                } else {
+                    // 黑名单模式
+                    if (in_array($mail_suffix, $_ENV['mail_filter_list'])) {
+                        throw new \Exception('不支持此邮箱域');
+                    }
+                }
             }
             if (strlen($passwd) < 8) {
                 throw new \Exception('密码长度不足8位');
