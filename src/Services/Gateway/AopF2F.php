@@ -97,7 +97,7 @@ final class AopF2F extends AbstractPayment
         }
     }
 
-    public static function getPurchaseHTML(): ResponseInterface
+    public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('user/aopf2f.tpl');
     }

@@ -129,7 +129,7 @@ final class CoinPay extends AbstractPayment
         die;
     }
 
-    public static function getPurchaseHTML(): ResponseInterface
+    public static function getPurchaseHTML(): string
     {
         return '<div class="card-inner">
 						<div class="form-group pull-left">

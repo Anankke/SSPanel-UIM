@@ -8,15 +8,18 @@ use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 final class StripeCard extends AbstractPayment
 {
-    public static function _name()
+    public static function _name(): string
     {
         return 'stripe_card';
     }
 
-    public static function _enable()
+    public static function _enable(): bool
     {
         if (self::getActiveGateway('stripe') && Setting::obtain('stripe_card')) {
             return true;
@@ -25,12 +28,12 @@ final class StripeCard extends AbstractPayment
         return false;
     }
 
-    public static function _readableName()
+    public static function _readableName(): string
     {
         return 'Stripe';
     }
 
-    public function purchase($request, $response, $args): void
+    public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
         $trade_no = uniqid();
         $user = Auth::getUser();
@@ -72,17 +75,16 @@ final class StripeCard extends AbstractPayment
         header('Location: ' . $session->url);
     }
 
-    public function notify($request, $response, $args): void
+    public function notify($request, $response, $args): ResponseInterface
     {
-        return;
     }
 
-    public static function getPurchaseHTML()
+    public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('user/stripe_card.tpl');
     }
 
-    public function getReturnHTML($request, $response, $args): void
+    public function getReturnHTML($request, $response, $args): ResponseInterface
     {
         $sign = $request->getParam('sign');
         $trade_no = $request->getParam('trade_no');

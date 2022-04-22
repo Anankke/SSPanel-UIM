@@ -8,6 +8,9 @@ use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 final class PAYJS extends AbstractPayment
 {
@@ -23,17 +26,17 @@ final class PAYJS extends AbstractPayment
         $this->appSecret = Setting::obtain('payjs_key');
         $this->gatewayUri = 'https://payjs.cn/api/';
     }
-    public static function _name()
+    public static function _name(): string
     {
         return 'payjs';
     }
 
-    public static function _enable()
+    public static function _enable(): bool
     {
         return self::getActiveGateway('payjs');
     }
 
-    public static function _readableName()
+    public static function _readableName(): string
     {
         return 'PAYJS';
     }
@@ -88,7 +91,7 @@ final class PAYJS extends AbstractPayment
         curl_close($curl);
         return $data;
     }
-    public function purchase($request, $response, $args)
+    public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
         $price = $request->getParam('price');
         if ($price <= 0) {
@@ -126,7 +129,7 @@ final class PAYJS extends AbstractPayment
         $data['sign'] = $this->sign($params);
         return json_decode($this->post($data, $type = 'query'), true);
     }
-    public function notify($request, $response, $args): void
+    public function notify($request, $response, $args): ResponseInterface
     {
         $data = $_POST;
 
@@ -168,11 +171,11 @@ final class PAYJS extends AbstractPayment
         $data['sign'] = $this->sign($params);
         return $this->post($data, 'refund');
     }
-    public static function getPurchaseHTML()
+    public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('user/payjs.tpl');
     }
-    public function getReturnHTML($request, $response, $args)
+    public function getReturnHTML($request, $response, $args): ResponseInterface
     {
         $pid = $_GET['merchantTradeNo'];
         $p = Paylist::where('tradeno', '=', $pid)->first();

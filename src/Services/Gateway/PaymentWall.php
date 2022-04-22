@@ -20,30 +20,33 @@ use App\Utils\Telegram;
 use Paymentwall_Config;
 use Paymentwall_Pingback;
 use Paymentwall_Widget;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 final class PaymentWall extends AbstractPayment
 {
-    public static function _name()
+    public static function _name(): string
     {
         return 'paymentwall';
     }
 
-    public static function _enable()
+    public static function _enable(): bool
     {
         return self::getActiveGateway('paymentwall');
     }
 
-    public static function _readableName()
+    public static function _readableName(): string
     {
         return 'PaymentWall';
     }
 
-    public function purchase($request, $response, $args): void
+    public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
         // TODO: Implement purchase() method.
     }
 
-    public function notify($request, $response, $args): void
+    public function notify($request, $response, $args): ResponseInterface
     {
         $configs = Setting::getClass('pmw');
         if ($configs['pmw_publickey'] !== '') {
@@ -92,7 +95,7 @@ final class PaymentWall extends AbstractPayment
         }
     }
 
-    public static function getPurchaseHTML()
+    public static function getPurchaseHTML(): string
     {
         $configs = Setting::getClass('pmw');
         Paymentwall_Config::getInstance()->set([

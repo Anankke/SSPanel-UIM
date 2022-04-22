@@ -70,7 +70,7 @@ abstract class AbstractPayment
         ]);
     }
 
-    abstract public static function getPurchaseHTML(): ResponseInterface;
+    abstract public static function getPurchaseHTML(): string;
 
     public function postPayment($pid, $method)
     {

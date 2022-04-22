@@ -7,25 +7,28 @@ namespace App\Services\Gateway;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 final class Vmqpay extends AbstractPayment
 {
-    public static function _name()
+    public static function _name(): string
     {
         return 'vmqpay';
     }
 
-    public static function _enable()
+    public static function _enable(): bool
     {
         return self::getActiveGateway('vmqpay');
     }
 
-    public static function _readableName()
+    public static function _readableName(): string
     {
         return 'Vmq 支付';
     }
 
-    public function purchase($request, $response, $args): void
+    public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
         $trade_no = time();
         $user = Auth::getUser();
@@ -59,7 +62,7 @@ final class Vmqpay extends AbstractPayment
         header('Location: ' . $pay_url);
     }
 
-    public function notify($request, $response, $args): void
+    public function notify($request, $response, $args): ResponseInterface
     {
         $key = Setting::obtain('vmq_key');
         $payId = $request->getParam('payId');
@@ -79,7 +82,7 @@ final class Vmqpay extends AbstractPayment
         die('success');
     }
 
-    public static function getPurchaseHTML()
+    public static function getPurchaseHTML(): string
     {
         return '
             <div class="card-inner">

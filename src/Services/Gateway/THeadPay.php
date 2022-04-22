@@ -9,6 +9,9 @@ use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 final class THeadPay extends AbstractPayment
 {
@@ -24,22 +27,22 @@ final class THeadPay extends AbstractPayment
             'theadpay_key' => $configs['theadpay_key'],
         ]);
     }
-    public static function _name()
+    public static function _name(): string
     {
         return 'theadpay';
     }
 
-    public static function _enable()
+    public static function _enable(): bool
     {
         return self::getActiveGateway('theadpay');
     }
 
-    public static function _readableName()
+    public static function _readableName(): string
     {
         return 'THeadPay 平头哥支付';
     }
 
-    public function purchase($request, $response, $args)
+    public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
         $amount = (int) $request->getParam('amount');
         $user = Auth::getUser();
@@ -78,7 +81,7 @@ final class THeadPay extends AbstractPayment
         }
     }
 
-    public function notify($request, $response, $args): void
+    public function notify($request, $response, $args): ResponseInterface
     {
         $inputString = file_get_contents('php://input', 'r');
         $inputStripped = str_replace(["\r", "\n", "\t", "\v"], '', $inputString);
@@ -93,7 +96,7 @@ final class THeadPay extends AbstractPayment
         die('fail');
     }
 
-    public static function getPurchaseHTML()
+    public static function getPurchaseHTML(): string
     {
         return View::getSmarty()->fetch('user/theadpay.tpl');
     }
