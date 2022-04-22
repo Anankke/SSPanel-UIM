@@ -64,7 +64,8 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <a href="/logout" class="dropdown-item">登出</a>
+                            <a href="/user/logout" class="dropdown-item">登出</a>
+                            <a href="/user" class="dropdown-item">用户中心</a>
                         </div>
                     </div>
                 </div>

@@ -478,6 +478,7 @@ class User extends Model
                 $end_yesterday = mktime(0, 0, 0, date('m'), date('d'), date('Y')) -1;
                 $amount = ProductOrder::where('created_at', '>', $begin_yesterday)
                 ->where('created_at', '<', $end_yesterday)
+                ->where('order_status', 'paid')
                 ->sum('order_price');
                 break;
             case "today":
@@ -485,6 +486,7 @@ class User extends Model
                 $end_today = mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')) - 1;
                 $amount = ProductOrder::where('created_at', '>', $begin_today)
                 ->where('created_at', '<', $end_today)
+                ->where('order_status', 'paid')
                 ->sum('order_price');
                 break;
             case "this month":
@@ -492,6 +494,7 @@ class User extends Model
                 $end_this_month = mktime(23, 59, 59, date('m'), date('t'), date('Y'));
                 $amount = ProductOrder::where('created_at', '>', $begin_this_month)
                 ->where('created_at', '<', $end_this_month)
+                ->where('order_status', 'paid')
                 ->sum('order_price');
                 break;
             case "last month":
@@ -499,10 +502,12 @@ class User extends Model
                 $end_begin_last_month = date('Y-m-d 23:59:59', strtotime(-date('d') . 'day'));
                 $amount = ProductOrder::where('created_at', '>', $begin_last_month)
                 ->where('created_at', '<', $end_begin_last_month)
+                ->where('order_status', 'paid')
                 ->sum('order_price');
                 break;
             default:
-                $amount = ProductOrder::sum('order_price');
+                $amount = ProductOrder::where('order_status', 'paid')
+                ->sum('order_price');
                 break;
         }
 
