@@ -13,12 +13,7 @@
                     <div class="card margin-bottom-no">
                         <div class="card-main">
                             <div class="card-inner">
-                                <p>下面是系统运行情况简报。</p>
-                                <p>
-                                    付费用户：{$user->paidUserCount()}<br/>
-                                    总共用户：{$user->count()}<br/>
-                                    总转换率：{round($user->paidUserCount()/$user->count()*100,2)}%
-                                </p>
+                                <p>下面是系统运行情况简报</p>
                                 <p>
                                     今日流水：￥{$user->calIncome("today")}<br/>
                                     昨日流水：￥{$user->calIncome("yesterday")}<br/>

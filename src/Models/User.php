@@ -470,9 +470,43 @@ class User extends Model
      *
      * @param string $req
      */
-    public function calIncome(string $req): float
+    public function calIncome(string $req): string
     {
-        return 0.00;
+        switch ($req) {
+            case "yesterday":
+                $begin_yesterday = mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
+                $end_yesterday = mktime(0, 0, 0, date('m'), date('d'), date('Y')) -1;
+                $amount = ProductOrder::where('created_at', '>', $begin_yesterday)
+                ->where('created_at', '<', $end_yesterday)
+                ->sum('order_price');
+                break;
+            case "today":
+                $begin_today = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+                $end_today = mktime(0, 0, 0, date('m'), date('d') + 1, date('Y')) - 1;
+                $amount = ProductOrder::where('created_at', '>', $begin_today)
+                ->where('created_at', '<', $end_today)
+                ->sum('order_price');
+                break;
+            case "this month":
+                $begin_this_month = mktime(0, 0, 0, date('m'), 1, date('Y'));
+                $end_this_month = mktime(23, 59, 59, date('m'), date('t'), date('Y'));
+                $amount = ProductOrder::where('created_at', '>', $begin_this_month)
+                ->where('created_at', '<', $end_this_month)
+                ->sum('order_price');
+                break;
+            case "last month":
+                $begin_last_month = date('Y-m-01 00:00:00', strtotime('-1 month'));
+                $end_begin_last_month = date('Y-m-d 23:59:59', strtotime(-date('d') . 'day'));
+                $amount = ProductOrder::where('created_at', '>', $begin_last_month)
+                ->where('created_at', '<', $end_begin_last_month)
+                ->sum('order_price');
+                break;
+            default:
+                $amount = ProductOrder::sum('order_price');
+                break;
+        }
+
+        return is_null($amount) ? 0.00 : sprintf("%.2f", $amount / 100);
     }
 
     /**
