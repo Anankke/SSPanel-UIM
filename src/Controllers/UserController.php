@@ -356,7 +356,7 @@ class UserController extends BaseController
         // 1 此商品不返利
         // 2 此商品返利金额使用下方数值
         if ($product->rebate_mode == '0' && $user->ref_by > 0) {
-            Payback::rebate($user->id, ($order->order_price / 100));
+            Payback::rebate($user->id, ($order->order_price / 100), $order->no);
         }
         if ($product->rebate_mode == '2') {
             $invite_user = User::find($user->ref_by);
@@ -401,7 +401,7 @@ class UserController extends BaseController
             $giftcard->save();
 
             if ($user->ref_by > 0 && $_ENV['gift_card_rebate'] == true) {
-                Payback::rebate($user->id, $giftcard->balance);
+                Payback::rebate($user->id, $giftcard->balance, $card);
             }
         } catch (\Exception $e) {
             return $response->withJson([

@@ -114,7 +114,7 @@
                         </a>
                         <ul class="menu-collapse collapse in" id="ui_menu_user">
                             <li>
-                                <a href="/admin/invite"><i class="icon icon-lg">loyalty</i>&nbsp;
+                                <a href="/admin/payback"><i class="icon icon-lg">loyalty</i>&nbsp;
                                     邀请返利
                                 </a>
                             </li>

@@ -3,7 +3,7 @@
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
-            <h1 class="content-heading"> 添加规则</h1>
+            <h1 class="content-heading">添加规则</h1>
         </div>
     </div>
     <div class="container">
@@ -35,14 +35,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-group-label">
-                                    <button id="submit" type="submit" class="btn btn-block btn-brand waves-attach waves-light">添加</button>
+                                    <button id="submit" type="submit"
+                                        class="btn btn-block btn-brand waves-attach waves-light">添加</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
                 {include file='dialog.tpl'}
-            <
         </div>
     </div>
 </main>
@@ -51,25 +51,25 @@
 
 <script>
     {literal}
-    $('#main_form').validate({
-        rules: {
-            name: {required: true},
-            text: {required: true},
-            regex: {required: true}
-        },
+        $('#main_form').validate({
+            rules: {
+                name: {required: true},
+                text: {required: true},
+                regex: {required: true}
+            },
         {/literal}
-        submitHandler: function () {
+        submitHandler: function() {
             {literal}
-            $.ajax({
-                type: "POST",
-                url: "/admin/detect",
-                dataType: "json",
-                data: {
-                    name: $$getValue("name"),
-                    text: $$getValue("text"),
-                    regex: $$getValue("regex"),
-                    type: $$getValue("type")
-                },
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/detect",
+                    dataType: "json",
+                    data: {
+                        name: $$getValue("name"),
+                        text: $$getValue("text"),
+                        regex: $$getValue("regex"),
+                        type: $$getValue("type")
+                    },
                 {/literal}
                 success: data => {
                     if (data.ret) {

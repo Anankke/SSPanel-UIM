@@ -126,10 +126,8 @@ return function (SlimApp $app) {
         $this->get('',                          App\Controllers\AdminController::class . ':index');
         $this->get('/',                         App\Controllers\AdminController::class . ':index');
 
-        $this->get('/invite',                   App\Controllers\AdminController::class . ':invite');
-        $this->post('/invite',                  App\Controllers\AdminController::class . ':addInvite');
-        $this->post('/chginvite',               App\Controllers\AdminController::class . ':chgInvite');
-        $this->post('/payback/ajax',            App\Controllers\AdminController::class . ':ajax_payback');
+        $this->get('/payback',                  App\Controllers\Admin\PaybackController::class . ':index');
+        $this->post('/payback/ajax',            App\Controllers\Admin\PaybackController::class . ':ajaxQuery');
 
         // Node Mange
         $this->get('/node',                     App\Controllers\Admin\NodeController::class . ':index');
