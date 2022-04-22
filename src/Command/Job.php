@@ -16,6 +16,7 @@ use App\Models\NodeInfoLog;
 use App\Models\NodeOnlineLog;
 use App\Models\PasswordReset;
 use App\Models\Shop;
+use App\Models\StreamMedia;
 use App\Models\TelegramSession;
 use App\Models\Token;
 use App\Models\UnblockIp;
@@ -103,6 +104,7 @@ EOL;
         Ip::where('datetime', '<', time() - 300)->delete();
         UnblockIp::where('datetime', '<', time() - 300)->delete();
         BlockIp::where('datetime', '<', time() - 86400)->delete();
+        StreamMedia::where('created_at', '<', time() - 86400 * 24)->delete();
         TelegramSession::where('datetime', '<', time() - 900)->delete();
         // ------- 清理各表记录
 
