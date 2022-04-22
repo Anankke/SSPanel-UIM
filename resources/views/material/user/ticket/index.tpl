@@ -57,6 +57,7 @@
                                             <th>创建时间</th>
                                             <th>最后更新</th>
                                             <th>状态</th>
+                                            <th>等待回复</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -70,6 +71,7 @@
                                                 <td>{$ticket->created_at}</td>
                                                 <td>{$ticket->updated_at}</td>
                                                 <td>{$ticket->closed_by}</td>
+                                                <td>{($ticket->wait_reply == 'user') ? '您' : '管理员'}</td>
                                             </tr>
                                         {/foreach}
                                     </tbody>
@@ -219,6 +221,8 @@
         });
 
         $("td:contains('开启中')").css("color", "green");
+        $("td:contains('管理员')").css("color", "purple");
+        $("td:contains('您')").css("color", "orange");
     </script>
 
 {include file='user/tabler_footer.tpl'}

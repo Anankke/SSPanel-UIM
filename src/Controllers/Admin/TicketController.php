@@ -28,7 +28,8 @@ class TicketController extends AdminController
                 'created_at' => '创建时间',
                 'updated_at' => '更新时间',
                 'closed_at' => '关闭时间',
-                'closed_by' => '状态'
+                'closed_by' => '状态',
+                'wait_reply' => '等待回复',
             ],
             'search_dialog' => [
                 [
@@ -137,6 +138,7 @@ class TicketController extends AdminController
             $ticket->save();
 
             $topic->updated_at = time();
+            $topic->wait_reply = 'user';
             $topic->save();
         } catch (\Exception $e) {
             return $response->withJson([

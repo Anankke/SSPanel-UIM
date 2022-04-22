@@ -75,6 +75,7 @@ class TicketController extends UserController
             $ticket_content .= '问题详情：' . $content . PHP_EOL;
             $ticket->content = $anti_xss->xss_clean($ticket_content);
             $ticket->user_id = $this->user->id;
+            $ticket->wait_reply = 'admin';
             $ticket->created_at = time();
             $ticket->updated_at = time();
             $ticket->closed_at = null;
@@ -143,6 +144,7 @@ class TicketController extends UserController
             $ticket->save();
 
             $topic->updated_at = time();
+            $topic->wait_reply = 'admin';
             $topic->save();
         } catch (\Exception $e) {
             return $response->withJson([

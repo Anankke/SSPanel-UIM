@@ -212,6 +212,8 @@
         function adjustStyle() {
             $("td:contains('开启中')").css("color", "green");
             $("td:contains('null')").css("font-style", "italic");
+            $("td:contains('admin')").css("color", "orange");
+            $("td:contains('user')").css("color", "purple");
         }
 
         function loadTable() {
