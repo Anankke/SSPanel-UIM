@@ -110,17 +110,12 @@
                             </li>
                         </ul>
                         <a class="waves-attach" data-toggle="collapse" href="#ui_menu_user">
-                            用户
+                            日志
                         </a>
                         <ul class="menu-collapse collapse in" id="ui_menu_user">
                             <li>
-                                <a href="/admin/user"><i class="icon icon-lg">supervisor_account</i>&nbsp;
-                                    用户列表
-                                </a>
-                            </li>
-                            <li>
                                 <a href="/admin/invite"><i class="icon icon-lg">loyalty</i>&nbsp;
-                                    邀请与返利
+                                    邀请返利
                                 </a>
                             </li>
                             <li>
@@ -140,7 +135,7 @@
                             </li>
                         </ul>
                         <a class="waves-attach" data-toggle="collapse" href="#ui_menu_config">
-                            配置
+                            管理
                         </a>
                         <ul class="menu-collapse collapse in" id="ui_menu_config">
                             <li>
@@ -149,23 +144,13 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="/admin/user"><i class="icon icon-lg">supervisor_account</i>&nbsp;
+                                    用户列表
+                                </a>
+                            </li>
+                            <li>
                                 <a href="/admin/node"><i class="icon icon-lg">router</i>&nbsp;
                                     节点列表
-                                </a>
-                            </li>
-                        </ul>
-                        <a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">
-                            审计
-                        </a>
-                        <ul class="menu-collapse collapse in" id="ui_menu_detect">
-                            <li>
-                                <a href="/admin/detect"><i class="icon icon-lg">account_balance</i>&nbsp;
-                                    审计规则
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/admin/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;
-                                    审计记录
                                 </a>
                             </li>
                         </ul>
@@ -192,7 +177,27 @@
                                 </a>
                             </li>
                         </ul>
-                    <li><a href="/user"><i class="icon icon-lg">person</i>&nbsp;用户中心</a></li>
+                        <a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">
+                            审计
+                        </a>
+                        <ul class="menu-collapse collapse in" id="ui_menu_detect">
+                            <li>
+                                <a href="/admin/detect"><i class="icon icon-lg">account_balance</i>&nbsp;
+                                    审计规则
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;
+                                    审计记录
+                                </a>
+                            </li>
+                        </ul>
+                    <li>
+                        <a href="/user">
+                            <i class="icon icon-lg">person</i>&nbsp;
+                            用户中心
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

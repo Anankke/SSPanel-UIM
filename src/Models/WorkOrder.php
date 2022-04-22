@@ -8,17 +8,17 @@ class WorkOrder extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return date('Y-m-d H:i:s', $value);
+        return date('m-d H:i', $value);
     }
 
     public function getUpdatedAtAttribute($value)
     {
-        return date('Y-m-d H:i:s', $value);
+        return date('m-d H:i', $value);
     }
 
     public function getClosedAtAttribute($value)
     {
-        return ($value == null) ? 'null' : date('Y-m-d H:i:s', $value);
+        return ($value == null) ? 'null' : date('y-m-d H:i', $value);
     }
 
     public function getClosedByAttribute($value)

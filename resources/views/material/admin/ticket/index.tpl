@@ -255,8 +255,8 @@
             item_id = id;
             action = 'delete';
 
-            $('#fail-message').text('确定要删除此项么');
-            $('#fail-dialog').modal('show');
+            $('#notice-message').text('确定要删除此工单么');
+            $('#notice-dialog').modal('show');
         }
 
         function closeItem(id) {
