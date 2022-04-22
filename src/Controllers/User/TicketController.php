@@ -71,12 +71,6 @@ final class TicketController extends BaseController
                 'msg' => '非法输入',
             ]);
         }
-        if (strpos($content, 'admin') !== false || strpos($content, 'user') !== false) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '请求中有不当词语',
-            ]);
-        }
 
         $ticket = new Ticket();
         $antiXss = new AntiXSS();
@@ -136,12 +130,6 @@ final class TicketController extends BaseController
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '非法输入',
-            ]);
-        }
-        if (strpos($content, 'admin') !== false || strpos($content, 'user') !== false) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '请求中有不当词语',
             ]);
         }
         $ticket_main = Ticket::where('id', $id)->where('userid', $this->user->id)->where('rootid', 0)->first();
