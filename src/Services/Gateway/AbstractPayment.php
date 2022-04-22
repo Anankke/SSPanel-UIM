@@ -17,9 +17,9 @@ use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Telegram;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractPayment
 {
@@ -144,6 +144,4 @@ abstract class AbstractPayment
         }
         return false;
     }
-
-
 }

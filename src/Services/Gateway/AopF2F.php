@@ -17,9 +17,9 @@ use App\Services\Auth;
 use App\Services\View;
 use Exception;
 use Omnipay\Omnipay;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Psr\Http\Message\ResponseInterface;
 
 final class AopF2F extends AbstractPayment
 {

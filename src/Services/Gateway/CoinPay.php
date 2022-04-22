@@ -11,10 +11,9 @@ use App\Services\Gateway\CoinPay\CoinPayApi;
 use App\Services\Gateway\CoinPay\CoinPayConfig;
 use App\Services\Gateway\CoinPay\CoinPayException;
 use App\Services\Gateway\CoinPay\CoinPayUnifiedOrder;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Psr\Http\Message\ResponseInterface;
-
 
 final class CoinPay extends AbstractPayment
 {

@@ -120,5 +120,4 @@ final class PaymentWall extends AbstractPayment
         );
         return $widget->getHtmlCode(['height' => $configs['pmw_height'], 'width' => '100%']);
     }
-
 }

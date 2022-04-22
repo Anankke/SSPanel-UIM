@@ -16,11 +16,11 @@
     in
     {
       devShell = (pkgs.mkShell {
-        buildInputs = with pkgs; let
-          phpWithExtensions = php74.withExtensions ({ enabled, all }:
+        buildInputs = with pkgs; with php80Packages; let
+          phpWithExtensions = php.withExtensions ({ enabled, all }:
             enabled ++ [ all.imagick all.xdebug ]);
         in [
-          phpWithExtensions php74Packages.composer
+          phpWithExtensions composer
         ];
       });
     }

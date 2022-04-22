@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
+use App\Models\DetectLog;
+use App\Models\DetectRule;
+use App\Utils\Tools;
 use Slim\Http\Request;
 use Slim\Http\Response;
 

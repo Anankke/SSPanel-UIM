@@ -6,8 +6,6 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\Setting;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use App\Services\Mail;
 
 final class SettingController extends BaseController

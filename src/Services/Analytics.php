@@ -67,7 +67,7 @@ final class Analytics
     public function getTotalTraffic()
     {
         $total = User::sum('transfer_enable');
-        return Tools::flowAutoShow($total);
+        return Tools::flowAutoShow(intval($total));
     }
 
     public function getRawTotalTraffic()
