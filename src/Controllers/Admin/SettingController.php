@@ -67,6 +67,9 @@ class SettingController extends AdminController
             case 'stripe':
                 $list = array('stripe_card', 'stripe_currency', 'stripe_pk', 'stripe_sk', 'stripe_webhook_key', 'stripe_min_recharge', 'stripe_max_recharge');
                 break;
+			case 'e_pay':
+                $list = array('epay_url', 'epay_pid', 'epay_key');
+                break;
             // 邮件
             case 'mail':
                 $list = array('mail_driver');
@@ -183,7 +186,8 @@ class SettingController extends AdminController
             "PaymentWall" => "paymentwall",
             "Stripe" => "stripe",
             "TheadPay" => "theadpay",
-            "V免签" => "vmqpay"
+            "V免签" => "vmqpay",
+			"易支付（还未测试通过）" => "epay"
         );
 
         return $payment_gateways;

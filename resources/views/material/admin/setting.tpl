@@ -447,6 +447,34 @@
                                         
                                         <button id="submit_f2f_pay" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
+                               
+								
+								<div class="tab-pane fade" id="epay">
+                                        <p class="form-control-guide"><i class="material-icons">info</i> SSPanel-UIM Dev Team提醒您注意：易支付商家经常跑路！造成的损失由您自行承担</p>
+                                        <!-- epay_url -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">易支付URL</label>
+                                            <input class="form-control maxwidth-edit" id="epay_url" value="{$settings['epay_url']}">
+											<p class="form-control-guide"><i class="material-icons">info</i>不同易支付url后缀不同，1：域名后面带/ 2：域名后面带submit.php/</p>
+                                        </div>
+                                        <!-- epay_pid -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">商户ID</label>
+                                            <input class="form-control maxwidth-edit" id="epay_pid" value="{$settings['epay_pid']}">
+                                            <p class="form-control-guide"><i class="material-icons">info</i>必填</p>
+                                        </div>
+                                        <!-- epay_key -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">商户Key</label>
+											<input class="form-control maxwidth-edit" id="epay_key" value="{$settings['epay_key']}">
+                                        
+											<p class="form-control-guide"><i class="material-icons">info</i>必填</p>
+                                        </div>
+                                        
+                                       
+                                        
+                                        <button id="submit_e_pay" type="submit" class="btn btn-block btn-brand">提交</button>
+                                     </div>
                                 </div>
 
                                 <div class="tab-pane fade" id="customer_service_system_settings">
@@ -913,7 +941,36 @@
         })
     })
 </script>
-
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_e_pay').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'e_pay',
+                    epay_url: $$getValue('epay_url'),
+                    epay_pid: $$getValue('epay_pid'),
+                    epay_key: $$getValue('epay_key')
+                    
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
 <script>
     window.addEventListener('load', () => {
         $$.getElementById('submit_payment').addEventListener('click', () => {

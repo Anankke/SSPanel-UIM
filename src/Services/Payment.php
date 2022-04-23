@@ -8,7 +8,8 @@ use App\Services\Gateway\{
     PaymentWall,
     PAYJS,
     THeadPay,
-    CoinPay
+    CoinPay,
+	Epay
 };
 use App\Utils\ClassHelper;
 
