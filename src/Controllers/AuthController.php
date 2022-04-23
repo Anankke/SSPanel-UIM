@@ -302,11 +302,13 @@ class AuthController extends BaseController
         }
         $user->save();
 
-        $f = new Fingerprint;
-        $f->user_id = $user->id;
-        $f->fingerprint = (empty($fingerprint)) ? 'null' : $fingerprint;
-        $f->created_at = time();
-        $f->save();
+        if (!empty($fingerprint) && $fingerprint != 'null') {
+            $f = new Fingerprint;
+            $f->user_id = $user->id;
+            $f->fingerprint = $fingerprint;
+            $f->created_at = time();
+            $f->save();
+        }
 
         if ($auto_login) {
             Auth::login($user->id, 3600);

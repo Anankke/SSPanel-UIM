@@ -361,14 +361,19 @@ class UserController extends BaseController
         if ($product->rebate_mode == '2') {
             $invite_user = User::find($user->ref_by);
             if ($invite_user != null) {
-                $invite_user->money += $product->rebate_amount / 100;
-                $invite_user->save();
                 // 添加返利记录
                 $payback = new Payback;
                 $payback->total = $order->order_price / 100;
                 $payback->userid = $order->user_id;
                 $payback->ref_by = $invite_user->id;
                 $payback->ref_get = $product->rebate_amount / 100;
+                $payback->associated_order = $order->no;
+                if (!Payback::fraudDetection($user) && $_ENV['rebate_risk_control'] == true) {
+                    $payback->fraud_detect = 1; // 0为通过; 1为欺诈
+                } else {
+                    $invite_user->money += $product->rebate_amount / 100;
+                    $invite_user->save();
+                }
                 $payback->datetime = time();
                 $payback->save();
             }
