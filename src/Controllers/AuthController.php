@@ -9,6 +9,7 @@ use App\Services\Auth;
 use App\Services\Mail;
 use App\Utils\GA;
 use App\Utils\Hash;
+use App\Utils\Check;
 use App\Utils\Tools;
 use Ramsey\Uuid\Uuid;
 use voku\helper\AntiXSS;
@@ -75,19 +76,8 @@ class AuthController extends BaseController
             if (!Tools::emailCheck($email)) {
                 throw new \Exception('邮箱格式不正确');
             }
-            if ($_ENV['mail_filter'] != '0') {
-                $mail_suffix = explode('@', $email)[1];
-                if ($_ENV['mail_filter'] != '1') {
-                    // 白名单模式
-                    if (!in_array($mail_suffix, $_ENV['mail_filter_list'])) {
-                        throw new \Exception('不支持此邮箱域');
-                    }
-                } else {
-                    // 黑名单模式
-                    if (in_array($mail_suffix, $_ENV['mail_filter_list'])) {
-                        throw new \Exception('不支持此邮箱域');
-                    }
-                }
+            if (!Check::isEmailLegal($email)) {
+                throw new \Exception('不支持此邮箱域');
             }
             $user = User::where('email', $email)->first();
             if ($user != null) {
@@ -173,19 +163,8 @@ class AuthController extends BaseController
             if (!Tools::emailCheck($email)) {
                 throw new \Exception('邮箱格式不正确');
             }
-            if ($_ENV['mail_filter'] != '0') {
-                $mail_suffix = explode('@', $email)[1];
-                if ($_ENV['mail_filter'] != '1') {
-                    // 白名单模式
-                    if (!in_array($mail_suffix, $_ENV['mail_filter_list'])) {
-                        throw new \Exception('不支持此邮箱域');
-                    }
-                } else {
-                    // 黑名单模式
-                    if (in_array($mail_suffix, $_ENV['mail_filter_list'])) {
-                        throw new \Exception('不支持此邮箱域');
-                    }
-                }
+            if (!Check::isEmailLegal($email)) {
+                throw new \Exception('不支持此邮箱域');
             }
             if (strlen($passwd) < 8) {
                 throw new \Exception('密码长度不足8位');

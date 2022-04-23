@@ -629,9 +629,10 @@ class UserController extends BaseController
             }
         }
 
-        $check_res = Check::isEmailLegal($newemail);
-        if ($check_res['ret'] == 0) {
-            return $response->withJson($check_res);
+        if (!Check::isEmailLegal($newemail)) {
+            $res['ret'] = 0;
+            $res['msg'] = '不支持此邮箱域';
+            return $response->withJson($res);
         }
 
         if ($otheruser != null) {
