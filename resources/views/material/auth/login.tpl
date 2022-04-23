@@ -117,7 +117,8 @@
                     code: $('#code').val(),
                     email: $('#email').val(),
                     passwd: $('#passwd').val(),
-                    remember_me: $('#remember_me').val()
+                    remember_me: $('#remember_me').val(),
+                    fingerprint: visitorId,
                 },
                 success: function(data) {
                     if (data.ret == 1) {

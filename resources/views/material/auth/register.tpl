@@ -214,6 +214,7 @@
                     email: $('#email').val(),
                     passwd: $('#passwd').val(),
                     repasswd: $('#repasswd').val(),
+                    fingerprint: visitorId,
                 },
                 success: function(data) {
                     if (data.ret == 1) {

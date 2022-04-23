@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Models\EmailVerify;
+use App\Models\Fingerprint;
 use App\Models\InviteCode;
 use App\Models\Setting;
 use App\Models\User;
@@ -24,8 +25,9 @@ class AuthController extends BaseController
     public function loginHandle($request, $response, $args)
     {
         $code = $request->getParam('code');
-        $email = strtolower(trim($request->getParam('email')));
         $passwd = $request->getParam('passwd');
+        $fingerprint = $request->getParam('fingerprint');
+        $email = strtolower(trim($request->getParam('email')));
         $user = User::where('email', $email)->first();
 
         try {
@@ -42,6 +44,12 @@ class AuthController extends BaseController
                     throw new \Exception('两步验证码错误，如丢失密钥，请重置密码');
                 }
             }
+
+            $f = new Fingerprint;
+            $f->user_id = $user->id;
+            $f->fingerprint = (empty($fingerprint)) ? 'null' : $fingerprint;
+            $f->created_at = time();
+            $f->save();
 
             $time = 3600 * 24;
             Auth::login($user->id, $time);
@@ -149,6 +157,7 @@ class AuthController extends BaseController
             $code = trim($request->getParam('code'));
             $emailcode = trim($request->getParam('emailcode'));
             $email = strtolower(trim($request->getParam('email')));
+            $fingerprint = $request->getParam('fingerprint');
             $reg_mode = Setting::obtain('reg_mode');
 
             if ($tos == 'false') {
@@ -221,6 +230,12 @@ class AuthController extends BaseController
                     throw new \Exception('邮箱验证码不正确或已超时');
                 }
             }
+
+            $f = new Fingerprint;
+            $f->user_id = $user->id;
+            $f->fingerprint = (empty($fingerprint)) ? 'null' : $fingerprint;
+            $f->created_at = time();
+            $f->save();
 
             self::register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0);
         } catch (\Exception $e) {
