@@ -81,6 +81,7 @@ $_ENV['streaming_media_unlock_multiplexing'] = [
     注册用户行为限制
 */
 
+$_ENV['rebate_risk_control'] = false; // 返利风控，开启时会通过比对邀请人和被邀请人在注册和登录时收集的浏览器指纹是否有交集来判断是否欺诈
 $_ENV['enable_kill'] = false; // 是否允许用户主动删除账户
 $_ENV['enable_change_email'] = false;  // 是否允许用户主动更改账户邮箱
 $_ENV['enable_checkin'] = true; // 是否允许用户签到

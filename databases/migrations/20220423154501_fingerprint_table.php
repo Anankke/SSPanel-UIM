@@ -22,7 +22,7 @@ final class FingerprintTable extends AbstractMigration
         $table->addColumn('user_id', 'integer', array('comment' => '用户编号'))
             ->addColumn('fingerprint', 'string', array('comment' => '浏览器指纹', 'limit' => 255))
             ->addIndex(array('fingerprint'))
-            ->addColumn('created_at', 'integer', array('comment' => '时间限制'))
+            ->addColumn('created_at', 'integer', array('comment' => '创建时间'))
             ->create();
     }
 }

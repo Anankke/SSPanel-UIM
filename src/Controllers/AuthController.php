@@ -231,13 +231,7 @@ class AuthController extends BaseController
                 }
             }
 
-            $f = new Fingerprint;
-            $f->user_id = $user->id;
-            $f->fingerprint = (empty($fingerprint)) ? 'null' : $fingerprint;
-            $f->created_at = time();
-            $f->save();
-
-            self::register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0);
+            self::register_helper($name, $email, $passwd, $code, $imtype, $imvalue, 0, true, $fingerprint);
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
@@ -257,7 +251,8 @@ class AuthController extends BaseController
         ]);
     }
 
-    public static function register_helper($name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $auto_login = true)
+    public static function register_helper(
+        $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $auto_login = true, $fingerprint)
     {
         $ga = new GA();
         $user = new User();
@@ -306,6 +301,12 @@ class AuthController extends BaseController
             $user->ref_by = $c->user_id;
         }
         $user->save();
+
+        $f = new Fingerprint;
+        $f->user_id = $user->id;
+        $f->fingerprint = (empty($fingerprint)) ? 'null' : $fingerprint;
+        $f->created_at = time();
+        $f->save();
 
         if ($auto_login) {
             Auth::login($user->id, 3600);

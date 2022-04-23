@@ -62,6 +62,7 @@
                                             <th>#</th>
                                             <th>邀请用户昵称</th>
                                             <th>返利金额</th>
+                                            <th>结算审核</th>
                                             <th>返利时间</th>
                                         </tr>
                                     </thead>
@@ -75,7 +76,8 @@
                                                     <td>已注销</td>
                                                 {/if}
                                                 <td>{$payback->ref_get} 元</td>
-                                                <td>{date('Y-m-d H:i:s', $payback->datetime)}</td>
+                                                <td>{$payback->fraud_detect}</td>
+                                                <td>{$payback->datetime}</td>
                                             </tr>
                                         {/foreach}
                                     </tbody>
@@ -154,6 +156,9 @@
     </div>
 
     <script>
+        $("td:contains('通过')").css("color", "green");
+        $("td:contains('欺诈')").css("color", "red");
+
         var clipboard = new ClipboardJS('.copy');
         clipboard.on('success', function(e) {
             $('#success-message').text('已复制到剪切板');

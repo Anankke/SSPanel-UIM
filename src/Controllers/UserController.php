@@ -266,7 +266,7 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage(),
+                'msg' => $e->getFile() . $e->getLine() . $e->getMessage(),
             ]);
         }
 

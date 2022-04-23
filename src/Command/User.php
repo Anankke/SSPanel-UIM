@@ -158,7 +158,7 @@ class User extends Command
 
         if (strtolower($y) == 'y') {
             try {
-                AuthController::register_helper('admin', $email, $passwd, '', '1', '', 0, false);
+                AuthController::register_helper('admin', $email, $passwd, '', '1', '', 0, false, 'null');
                 $last_user = ModelsUser::where('email', $email)->first();
                 $last_user->is_admin = 1;
                 $last_user->save();

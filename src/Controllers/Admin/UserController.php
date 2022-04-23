@@ -90,7 +90,7 @@ class UserController extends AdminController
         }
 
         $pwd = Tools::genRandomChar(16);
-        AuthController::register_helper('nickname', $email, $pwd, '', '1', '', 0, false);
+        AuthController::register_helper('nickname', $email, $pwd, '', '1', '', 0, false, 'null');
 
         if (Setting::obtain('mail_driver') != 'none') {
             $text = "使用以下信息登录：<br/>邮箱：$email <br/>密码：$pwd <br/>";
