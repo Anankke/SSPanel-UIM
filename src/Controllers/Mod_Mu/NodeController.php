@@ -1,19 +1,15 @@
 <?php
 namespace App\Controllers\Mod_Mu;
 
-use Slim\Http\{
-    Request,
-    Response
-};
-use App\Models\{
-    Node,
-    StreamMedia,
-    NodeInfoLog
-};
-use App\Utils\Tools;
-use App\Services\Config;
 use App\Controllers\BaseController;
+use App\Models\Node;
+use App\Models\NodeInfoLog;
+use App\Models\StreamMedia;
+use App\Services\Config;
+use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class NodeController extends BaseController
 {
@@ -31,14 +27,14 @@ class NodeController extends BaseController
 
         /* $node = Node::where('node_ip', $request_ip)->first();
         if ($node != null) {
-            $report = new StreamMedia;
-            $report->node_id = $node->id;
-            $report->result = json_encode($result);
-            $report->created_at = time();
-            $report->save();
-            die('ok');
+        $report = new StreamMedia;
+        $report->node_id = $node->id;
+        $report->result = json_encode($result);
+        $report->created_at = time();
+        $report->save();
+        die('ok');
         } */
-        
+
         $report = new StreamMedia;
         $report->node_id = $node_id;
         $report->result = json_encode($result);
@@ -46,7 +42,7 @@ class NodeController extends BaseController
         $report->save();
         die('ok');
     }
-    
+
     /**
      * @param Request   $request
      * @param Response  $response
@@ -85,7 +81,7 @@ class NodeController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function get_info($request, $response, $args): ResponseInterface
+    public function getInfo($request, $response, $args): ResponseInterface
     {
         $node_id = $args['id'];
         if ($node_id == '0') {
@@ -95,7 +91,7 @@ class NodeController extends BaseController
         $node = Node::find($node_id);
         if ($node == null) {
             $res = [
-                'ret' => 0
+                'ret' => 0,
             ];
             return $response->withJson($res);
         }
@@ -116,12 +112,12 @@ class NodeController extends BaseController
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'disconnect_time' => $_ENV['disconnect_time'],
             'type' => 'SSPanel-UIM',
-            'version' => '2021.11'
+            'version' => '2021.11',
         ];
 
         $res = [
             'ret' => 1,
-            'data' => $data
+            'data' => $data,
         ];
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($data);
@@ -137,7 +133,7 @@ class NodeController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function get_all_info($request, $response, $args): ResponseInterface
+    public function getAllInfo($request, $response, $args): ResponseInterface
     {
         $nodes = Node::where('node_ip', '<>', null)->where(
             static function ($query) {
@@ -150,7 +146,7 @@ class NodeController extends BaseController
         )->get();
         $res = [
             'ret' => 1,
-            'data' => $nodes
+            'data' => $nodes,
         ];
 
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');

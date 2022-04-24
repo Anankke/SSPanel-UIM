@@ -147,14 +147,14 @@ return function (SlimApp $app) {
         $this->post('/ticket/ajax',             App\Controllers\Admin\TicketController::class . ':ajaxQuery');
         $this->delete('/ticket/{id}',           App\Controllers\Admin\TicketController::class . ':delete');
 
-        // Product
+        // Product Mange
         $this->get('/product',                  App\Controllers\Admin\ProductController::class . ':index');
         $this->get('/product/details/{id}',     App\Controllers\Admin\ProductController::class . ':get');
         $this->post('/product',                 App\Controllers\Admin\ProductController::class . ':save');
         $this->put('/product/{id}',             App\Controllers\Admin\ProductController::class . ':update');
         $this->delete('/product/{id}',          App\Controllers\Admin\ProductController::class . ':delete');
 
-        // Order
+        // Order Mange
         $this->get('/order',                    App\Controllers\Admin\OrderController::class . ':index');
         $this->post('/order/ajax',              App\Controllers\Admin\OrderController::class . ':ajaxQuery');
 
@@ -163,6 +163,12 @@ return function (SlimApp $app) {
         $this->post('/giftcard',                App\Controllers\Admin\GiftCardController::class . ':add');
         $this->post('/giftcard/ajax',           App\Controllers\Admin\GiftCardController::class . ':ajaxQuery');
         $this->delete('/giftcard/{id}',         App\Controllers\Admin\GiftCardController::class . ':delete');
+
+        // Log Mange
+        $this->get('/log',                      App\Controllers\Admin\LogController::class . ':index');
+        $this->post('/log/ajax',                App\Controllers\Admin\LogController::class . ':ajaxQuery');
+        $this->put('/log/{id}',                 App\Controllers\Admin\LogController::class . ':update');
+        $this->delete('/log/{id}',              App\Controllers\Admin\LogController::class . ':delete');
 
         // Ann Mange
         $this->get('/announcement',             App\Controllers\Admin\AnnController::class . ':index');
@@ -251,10 +257,10 @@ return function (SlimApp $app) {
         // 流媒体检测
         $this->post('/media/saveReport',    App\Controllers\Mod_Mu\NodeController::class . ':saveReport');
         // 其他
-        $this->get('/nodes/{id}/info',      App\Controllers\Mod_Mu\NodeController::class . ':get_info');
-        $this->post('/nodes/{id}/info',     App\Controllers\Mod_Mu\NodeController::class . ':info');
-        $this->get('/nodes',                App\Controllers\Mod_Mu\NodeController::class . ':get_all_info');
+        $this->get('/nodes',                App\Controllers\Mod_Mu\NodeController::class . ':getAllInfo');
         $this->post('/nodes/config',        App\Controllers\Mod_Mu\NodeController::class . ':getConfig');
+        $this->get('/nodes/{id}/info',      App\Controllers\Mod_Mu\NodeController::class . ':getInfo');
+        $this->post('/nodes/{id}/info',     App\Controllers\Mod_Mu\NodeController::class . ':info');
 
         $this->get('/users',                App\Controllers\Mod_Mu\UserController::class . ':index');
         $this->get('/users/traffic',        App\Controllers\Mod_Mu\UserController::class . ':getTraffic');
@@ -262,12 +268,13 @@ return function (SlimApp $app) {
         $this->post('/users/aliveip',       App\Controllers\Mod_Mu\UserController::class . ':addAliveIp');
         $this->post('/users/detectlog',     App\Controllers\Mod_Mu\UserController::class . ':addDetectLog');
 
-        $this->get('/func/detect_rules',    App\Controllers\Mod_Mu\FuncController::class . ':get_detect_logs');
+        $this->get('/func/detect_rules',    App\Controllers\Mod_Mu\FuncController::class . ':getDetectLogs');
         $this->post('/func/block_ip',       App\Controllers\Mod_Mu\FuncController::class . ':addBlockIp');
-        $this->get('/func/block_ip',        App\Controllers\Mod_Mu\FuncController::class . ':get_blockip');
-        $this->get('/func/unblock_ip',      App\Controllers\Mod_Mu\FuncController::class . ':get_unblockip');
+        $this->get('/func/block_ip',        App\Controllers\Mod_Mu\FuncController::class . ':getBlockip');
+        $this->get('/func/unblock_ip',      App\Controllers\Mod_Mu\FuncController::class . ':getUnblockip');
         $this->get('/func/ping',            App\Controllers\Mod_Mu\FuncController::class . ':ping');
-        //============================================
+        $this->post('/func/log',            App\Controllers\Mod_Mu\FuncController::class . ':log');
+        // e.g curl -X POST https:///domain.com/mod_mu/func/log?key=123456 -d 'type=1&reporter=2&level=low&msg=4'
     })->add(new Mod_Mu());
 
     $app->group('/link', function () {

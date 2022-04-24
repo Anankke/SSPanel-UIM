@@ -1,21 +1,16 @@
 <?php
-
 namespace App\Controllers\Mod_Mu;
 
 use App\Controllers\BaseController;
-use App\Models\{
-    Ip,
-    Node,
-    User,
-    DetectLog,
-    NodeOnlineLog
-};
+use App\Models\DetectLog;
+use App\Models\Ip;
+use App\Models\Node;
+use App\Models\NodeOnlineLog;
+use App\Models\User;
 use App\Utils\Tools;
-use Slim\Http\{
-    Request,
-    Response
-};
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class UserController extends BaseController
 {
@@ -50,8 +45,8 @@ class UserController extends BaseController
         if (($node->node_bandwidth_limit != 0) && $node->node_bandwidth_limit < $node->node_bandwidth) {
             $users = null;
             return $response->withJson([
-                'ret'  => 1,
-                'data' => $users
+                'ret' => 1,
+                'data' => $users,
             ]);
         }
 
@@ -88,7 +83,7 @@ class UserController extends BaseController
         } else {
             $key_list = array(
                 'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param', 'node_speedlimit',
-                'is_multi_user', 'id', 'port', 'passwd', 'node_connector', 'alive_ip'
+                'is_multi_user', 'id', 'port', 'passwd', 'node_connector', 'alive_ip',
             );
         }
 
@@ -127,8 +122,8 @@ class UserController extends BaseController
             return $response->withStatus(304);
         }
         return $response->withHeader('ETAG', $etag)->withJson([
-            'ret'  => 1,
-            'data' => $users
+            'ret' => 1,
+            'data' => $users,
         ]);
     }
 
@@ -230,7 +225,7 @@ class UserController extends BaseController
 
         if ($node == null) {
             $res = [
-                'ret' => 0
+                'ret' => 0,
             ];
             return $response->withJson($res);
         }
@@ -275,7 +270,7 @@ class UserController extends BaseController
 
         if ($node == null) {
             $res = [
-                'ret' => 0
+                'ret' => 0,
             ];
             return $response->withJson($res);
         }

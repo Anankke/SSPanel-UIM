@@ -1,13 +1,14 @@
 <?php
 namespace App\Controllers\Mod_Mu;
 
-use App\Utils\Tools;
-use App\Models\Node;
+use App\Controllers\BaseController;
 use App\Models\DetectRule;
+use App\Models\Node;
+use App\Models\Log;
+use App\Utils\Tools;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use App\Controllers\BaseController;
-use Psr\Http\Message\ResponseInterface;
 
 class FuncController extends BaseController
 {
@@ -30,7 +31,7 @@ class FuncController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function get_detect_logs($request, $response, $args): ResponseInterface
+    public function getDetectLogs($request, $response, $args): ResponseInterface
     {
         $rules = DetectRule::all();
 
@@ -51,7 +52,7 @@ class FuncController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function get_blockip($request, $response, $args): ResponseInterface
+    public function getBlockip($request, $response, $args): ResponseInterface
     {
         $block_ips = [];
 
@@ -72,7 +73,7 @@ class FuncController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function get_unblockip($request, $response, $args): ResponseInterface
+    public function getUnblockip($request, $response, $args): ResponseInterface
     {
         $unblock_ips = [];
 
@@ -122,5 +123,33 @@ class FuncController extends BaseController
             'data' => 'ok',
         ];
         return $response->withJson($res);
+    }
+
+    /**
+     * @param Request   $request
+     * @param Response  $response
+     * @param array     $args
+     */
+    public function log($request, $response, $args)
+    {
+        $type = $request->getParam('type');
+        $reporter = $request->getParam('reporter');
+        $level = $request->getParam('level');
+        $msg = $request->getParam('msg');
+
+        $l = new Log;
+        $l->type = $type;
+        $l->reporter = $reporter;
+        $l->level = $level;
+        $l->msg = $msg;
+        $l->status = 0;
+        $l->created_at = time();
+
+        if ($l->save()) {
+            return $response->withJson([
+                'ret' => 1,
+                'data' => 'ok',
+            ]);
+        }
     }
 }
