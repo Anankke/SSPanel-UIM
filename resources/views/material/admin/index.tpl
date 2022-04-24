@@ -1,286 +1,379 @@
-{include file='admin/main.tpl'}
-
-<main class="content">
-    <div class="content-header ui-content-header">
-        <div class="container">
-            <h1 class="content-heading">汇总</h1>
+{include file='admin/tabler_admin_header.tpl'}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        <span class="home-title">系统概况</span>
+                    </h2>
+                    <div class="page-pretitle">
+                        <span class="home-subtitle">在这里查看系统的的各项运营指标</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="container">
-        <section class="content-inner margin-top-no">
-            <div class="row">
-                <div class="col-xx-12">
-                    <div class="card margin-bottom-no">
-                        <div class="card-main">
-                            <div class="card-inner">
-                                <p>下面是系统运行情况简报</p>
-                                <p>
-                                    今日流水：￥{$user->calIncome("today")}<br/>
-                                    昨日流水：￥{$user->calIncome("yesterday")}<br/>
-                                    这月流水：￥{$user->calIncome("this month")}<br/>
-                                    上月流水：￥{$user->calIncome("last month")}<br/>
-                                    总共流水：￥{$user->calIncome("total")}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="ui-card-wrap">
-                <div class="row">
-                    <div class="col-xx-12 col-sm-6">
-                        <div class="card">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    <div id="check_chart" style="height: 300px; width: 100%;"></div>
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
-                                    <script>
-                                        var chart = new CanvasJS.Chart("check_chart",
-                                                {
-                                                    title: {
-                                                        text: "用户签到情况(总用户 {$sts->getTotalUser()}人)",
-                                                        fontFamily: "Impact",
-                                                        fontWeight: "normal"
-                                                    },
-
-                                                    legend: {
-                                                        verticalAlign: "bottom",
-                                                        horizontalAlign: "center"
-                                                    },
-                                                    data: [
-                                                        {
-                                                            //startAngle: 45,
-                                                            indexLabelFontSize: 20,
-                                                            indexLabelFontFamily: "Garamond",
-                                                            indexLabelFontColor: "darkgrey",
-                                                            indexLabelLineColor: "darkgrey",
-                                                            indexLabelPlacement: "outside",
-                                                            type: "doughnut",
-                                                            showInLegend: true,
-                                                            dataPoints: [
-                                                                {
-                                                                    y: {(1-($sts->getCheckinUser()/$sts->getTotalUser()))*100},
-                                                                    legendText: "没有签到过的用户 {number_format((1-($sts->getCheckinUser()/$sts->getTotalUser()))*100,2)}% {$sts->getTotalUser()-$sts->getCheckinUser()}人",
-                                                                    indexLabel: "没有签到过的用户 {number_format((1-($sts->getCheckinUser()/$sts->getTotalUser()))*100,2)}% {$sts->getTotalUser()-$sts->getCheckinUser()}人"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getCheckinUser()-$sts->getTodayCheckinUser())/$sts->getTotalUser())*100},
-                                                                    legendText: "曾经签到过的用户 {number_format((($sts->getCheckinUser()-$sts->getTodayCheckinUser())/$sts->getTotalUser())*100,2)}% {$sts->getCheckinUser()-$sts->getTodayCheckinUser()}人",
-                                                                    indexLabel: "曾经签到过的用户 {number_format((($sts->getCheckinUser()-$sts->getTodayCheckinUser())/$sts->getTotalUser())*100,2)}% {$sts->getCheckinUser()-$sts->getTodayCheckinUser()}人"
-                                                                },
-                                                                {
-                                                                    y: {$sts->getTodayCheckinUser()/$sts->getTotalUser()*100},
-                                                                    legendText: "今日签到用户 {number_format($sts->getTodayCheckinUser()/$sts->getTotalUser()*100,2)}% {$sts->getTodayCheckinUser()}人",
-                                                                    indexLabel: "今日签到用户 {number_format($sts->getTodayCheckinUser()/$sts->getTotalUser()*100,2)}% {$sts->getTodayCheckinUser()}人"
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                });
-                                        chart.render();
-                                        function chartRender(chart) {
-                                            chart.render();
-                                            chart.ctx.shadowBlur = 8;
-                                            chart.ctx.shadowOffsetX = 4;
-                                            chart.ctx.shadowColor = "black";
-                                            for (let i in chart.plotInfo.plotTypes) {
-                                                let plotType = chart.plotInfo.plotTypes[i];
-                                                for (let j in plotType.plotUnits) {
-                                                    let plotUnit = plotType.plotUnits[j];
-                                                    if (plotUnit.type === "doughnut") {
-                                                        // For Column Chart
-                                                        chart.renderDoughnut(plotUnit);
-                                                    } else if (plotUnit.type === "bar") {
-                                                        // For Bar Chart
-                                                        chart.renderBar(plotUnit);
-                                                    }
-                                                }
-                                            }
-                                            chart.ctx.shadowBlur = 0;
-                                            chart.ctx.shadowOffsetX = 0;
-                                            chart.ctx.shadowColor = "transparent";
-                                        }
-                                    </script>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-12">
+                    <div class="row row-cards">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-info text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-calendar-event" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                    <rect x="8" y="15" width="2" height="2"></rect>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                ￥{$user->calIncome("today")}
+                                            </div>
+                                            <div class="text-muted">
+                                                今日流水
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    <div id="alive_chart" style="height: 300px; width: 100%;"></div>
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
-                                    <script type="text/javascript">
-                                        var chart = new CanvasJS.Chart("alive_chart",
-                                                {
-                                                    title: {
-                                                        text: "用户在线情况(总用户 {$sts->getTotalUser()}人)",
-                                                        fontFamily: "Impact",
-                                                        fontWeight: "normal"
-                                                    },
-                                                    legend: {
-                                                        verticalAlign: "bottom",
-                                                        horizontalAlign: "center"
-                                                    },
-                                                    data: [
-                                                        {
-                                                            //startAngle: 45,
-                                                            indexLabelFontSize: 20,
-                                                            indexLabelFontFamily: "Garamond",
-                                                            indexLabelFontColor: "darkgrey",
-                                                            indexLabelLineColor: "darkgrey",
-                                                            indexLabelPlacement: "outside",
-                                                            type: "doughnut",
-                                                            showInLegend: true,
-                                                            dataPoints: [
-                                                                {
-                                                                    y: {(($sts->getUnusedUser()/$sts->getTotalUser()))*100},
-                                                                    legendText: "从未在线的用户 {number_format((($sts->getUnusedUser()/$sts->getTotalUser()))*100,2)}% {(($sts->getUnusedUser()))}人",
-                                                                    indexLabel: "从未在线的用户 {number_format((($sts->getUnusedUser()/$sts->getTotalUser()))*100,2)}% {(($sts->getUnusedUser()))}人"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())/$sts->getTotalUser())*100},
-                                                                    legendText: "一天以前在线的用户 {number_format((($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())/$sts->getTotalUser())*100,2)}% {($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())}人",
-                                                                    indexLabel: "一天以前在线的用户 {number_format((($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())/$sts->getTotalUser())*100,2)}% {($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())}人"
-                                                                },
-                                                                {
-                                                                    y: {($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))/$sts->getTotalUser()*100},
-                                                                    legendText: "一天内在线的用户 {number_format(($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))}人",
-                                                                    indexLabel: "一天内在线的用户 {number_format(($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))}人"
-                                                                },
-                                                                {
-                                                                    y: {($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))/$sts->getTotalUser()*100},
-                                                                    legendText: "一小时内在线的用户 {number_format(($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))}人",
-                                                                    indexLabel: "一小时内在线的用户 {number_format(($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))}人"
-                                                                },
-                                                                {
-                                                                    y: {($sts->getOnlineUser(60))/$sts->getTotalUser()*100},
-                                                                    legendText: "一分钟内在线的用户 {number_format(($sts->getOnlineUser(60))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(60))}人",
-                                                                    indexLabel: "一分钟内在线的用户 {number_format(($sts->getOnlineUser(60))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(60))}人"
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                });
-                                        chart.render();
-                                    </script>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-blue text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-calendar-minus" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                    <line x1="10" y1="16" x2="14" y2="16"></line>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                ￥{$user->calIncome("yesterday")}
+                                            </div>
+                                            <div class="text-muted">
+                                                昨日流水
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xx-12 col-sm-6">
-                        <div class="card">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    <div id="node_chart" style="height: 300px; width: 100%;"></div>
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
-                                    <script type="text/javascript">
-                                        var chart = new CanvasJS.Chart("node_chart",
-                                                {
-                                                    title: {
-                                                        text: "节点在线情况(节点数 {$sts->getTotalNodes()}个)",
-                                                        fontFamily: "Impact",
-                                                        fontWeight: "normal"
-                                                    },
-                                                    legend: {
-                                                        verticalAlign: "bottom",
-                                                        horizontalAlign: "center"
-                                                    },
-                                                    data: [
-                                                        {
-                                                            //startAngle: 45,
-                                                            indexLabelFontSize: 20,
-                                                            indexLabelFontFamily: "Garamond",
-                                                            indexLabelFontColor: "darkgrey",
-                                                            indexLabelLineColor: "darkgrey",
-                                                            indexLabelPlacement: "outside",
-                                                            type: "doughnut",
-                                                            showInLegend: true,
-                                                            dataPoints: [
-                                                                {if $sts->getTotalNodes()!=0}
-                                                                {
-                                                                    y: {(1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100},
-                                                                    legendText: "离线节点 {number_format((1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getTotalNodes()-$sts->getAliveNodes()}个",
-                                                                    indexLabel: "离线节点 {number_format((1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getTotalNodes()-$sts->getAliveNodes()}个"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getAliveNodes()/$sts->getTotalNodes()))*100},
-                                                                    legendText: "在线节点 {number_format((($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getAliveNodes()}个",
-                                                                    indexLabel: "在线节点 {number_format((($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getAliveNodes()}个"
-                                                                }
-                                                                {/if}
-                                                            ]
-                                                        }
-                                                    ]
-                                                });           
-                                        chart.render();
-                                    </script>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-warning text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-calendar-stats" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path
+                                                        d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4">
+                                                    </path>
+                                                    <path d="M18 14v4h4"></path>
+                                                    <circle cx="18" cy="18" r="4"></circle>
+                                                    <path d="M15 3v4"></path>
+                                                    <path d="M7 3v4"></path>
+                                                    <path d="M3 11h16"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                ￥{$user->calIncome("this month")}
+                                            </div>
+                                            <div class="text-muted">
+                                                这月流水
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    <div id="traffic_chart" style="height: 300px; width: 100%;"></div>
-                                    <script src="//cdn.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
-                                    <script type="text/javascript">
-                                        var chart = new CanvasJS.Chart("traffic_chart",
-                                                {
-                                                    title: {
-                                                        text: "流量使用情况(总分配流量 {$sts->getTotalTraffic()})",
-                                                        fontFamily: "Impact",
-                                                        fontWeight: "normal"
-                                                    },
-
-                                                    legend: {
-                                                        verticalAlign: "bottom",
-                                                        horizontalAlign: "center"
-                                                    },
-                                                    data: [
-                                                        {
-                                                            //startAngle: 45,
-                                                            indexLabelFontSize: 20,
-                                                            indexLabelFontFamily: "Garamond",
-                                                            indexLabelFontColor: "darkgrey",
-                                                            indexLabelLineColor: "darkgrey",
-                                                            indexLabelPlacement: "outside",
-                                                            type: "doughnut",
-                                                            showInLegend: true,
-                                                            dataPoints: [
-                                                                {if $sts->getRawTotalTraffic()!=0}
-                                                                {
-                                                                    y: {(($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100},
-                                                                    label: "总剩余可用",
-                                                                    legendText: "总剩余可用 {number_format((($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getUnusedTrafficUsage()))}",
-                                                                    indexLabel: "总剩余可用 {number_format((($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getUnusedTrafficUsage()))}"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100},
-                                                                    label: "总过去已用",
-                                                                    legendText: "总过去已用 {number_format((($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getLastTrafficUsage()))}",
-                                                                    indexLabel: "总过去已用 {number_format((($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getLastTrafficUsage()))}"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100},
-                                                                    label: "总今日已用",
-                                                                    legendText: "总今日已用 {number_format((($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getTodayTrafficUsage()))}",
-                                                                    indexLabel: "总今日已用 {number_format((($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getTodayTrafficUsage()))}"
-                                                                }
-                                                                {/if}
-                                                            ]
-                                                        }
-                                                    ]
-                                                });
-
-                                        chart.render();
-                                    </script>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-danger text-white avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="icon icon-tabler icon-tabler-calendar-plus" width="24"
+                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    stroke="currentColor" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <rect x="4" y="5" width="16" height="16" rx="2"></rect>
+                                                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                                                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                                                    <line x1="4" y1="11" x2="20" y2="11"></line>
+                                                    <line x1="10" y1="16" x2="14" y2="16"></line>
+                                                    <line x1="12" y1="14" x2="12" y2="18"></line>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                ￥{$user->calIncome("total")}
+                                            </div>
+                                            <div class="text-muted">
+                                                累计流水
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{$data['total']['user']} 位用户的签到情况</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="check-in"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{$data['total']['node']} 个服务器的在线情况</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="node-online"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">用户在线</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="user-online"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">流量用量</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="traffic-usage"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
     </div>
-</main>
 
-{include file='admin/footer.tpl'}
+    <script>
+        // @formatter:off
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('check-in'), {
+                chart: {
+                    type: "donut",
+                    fontFamily: 'inherit',
+                    height: 300,
+                    sparkline: {
+                        enabled: true
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{$data['check-in']['none']}, {$data['check-in']['last']}, {$data['check-in']['today']}],
+                labels: ["没有签到", "曾经签到", "今日签到"],
+                grid: {
+                    strokeDashArray: 3,
+                },
+                colors: ["#0780cf", "#009db2", "#fa6d1d"],
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    offsetY: 12,
+                    markers: {
+                        width: 10,
+                        height: 10,
+                        radius: 100,
+                    },
+                    itemMargin: {
+                        horizontal: 8,
+                        vertical: 8
+                    },
+                },
+                tooltip: {
+                    fillSeriesColor: false
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+    <script>
+        // @formatter:off
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('node-online'), {
+                chart: {
+                    type: "donut",
+                    fontFamily: 'inherit',
+                    height: 300,
+                    sparkline: {
+                        enabled: true
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{$data['node']['online']}, {$data['node']['offline']}],
+                labels: ["在线", "离线"],
+                grid: {
+                    strokeDashArray: 2,
+                },
+                colors: ["#71ae46", "#d85d2a"],
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    offsetY: 12,
+                    markers: {
+                        width: 10,
+                        height: 10,
+                        radius: 100,
+                    },
+                    itemMargin: {
+                        horizontal: 8,
+                        vertical: 8
+                    },
+                },
+                tooltip: {
+                    fillSeriesColor: false
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+    <script>
+        // @formatter:off
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('user-online'), {
+                chart: {
+                    type: "donut",
+                    fontFamily: 'inherit',
+                    height: 300,
+                    sparkline: {
+                        enabled: true
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{$data['user']['none']}, {$data['user']['oneDayAgo']}, {$data['user']['inOneDay']}, {$data['user']['inOneHour']}, {$data['user']['inOneMin']}],
+                labels: ["从未在线", "一天前在线", "一天内在线", "一小时内在线", "一分钟内在线"],
+                grid: {
+                    strokeDashArray: 4,
+                },
+                colors: ["#0e72cc", "#6ca30f", "#f59311", "#fa4343", "#16afcc"],
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    offsetY: 12,
+                    markers: {
+                        width: 10,
+                        height: 10,
+                        radius: 100,
+                    },
+                    itemMargin: {
+                        horizontal: 8,
+                        vertical: 8
+                    },
+                },
+                tooltip: {
+                    fillSeriesColor: false
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+    <script>
+        // @formatter:off
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('traffic-usage'), {
+                chart: {
+                    type: "donut",
+                    fontFamily: 'inherit',
+                    height: 300,
+                    sparkline: {
+                        enabled: true
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{$data['traffic']['today']}, {$data['traffic']['last']}, {$data['traffic']['over']}],
+                labels: ["今日已用", "过去已用", "剩余流量"],
+                grid: {
+                    strokeDashArray: 3,
+                },
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    offsetY: 12,
+                    markers: {
+                        width: 10,
+                        height: 10,
+                        radius: 100,
+                    },
+                    itemMargin: {
+                        horizontal: 8,
+                        vertical: 8
+                    },
+                },
+                tooltip: {
+                    fillSeriesColor: false
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+{include file='admin/tabler_admin_footer.tpl'}

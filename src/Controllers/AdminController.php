@@ -19,9 +19,39 @@ class AdminController extends UserController
      */
     public function index($request, $response, $args)
     {
+        $sts = new Analytics();
+        $data = [
+            'total' => [
+                'user' => $sts->getTotalUser(),
+                'node' => $sts->getTotalNodes(),
+                'traffic' => $sts->getTotalTraffic(),
+            ],
+            'check-in' => [
+                'none' => $sts->getTotalUser() - $sts->getCheckinUser(),
+                'last' => $sts->getCheckinUser() - $sts->getTodayCheckinUser(),
+                'today' => $sts->getTodayCheckinUser(),
+            ],
+            'node' => [
+                'online' => $sts->getAliveNodes(),
+                'offline' => $sts->getTotalNodes() - $sts->getAliveNodes(),
+            ],
+            'user' => [
+                'none' => $sts->getUnusedUser(),
+                'oneDayAgo' => $sts->getTotalUser() - $sts->getOnlineUser(86400) - $sts->getUnusedUser(),
+                'inOneDay' => $sts->getOnlineUser(86400) - $sts->getOnlineUser(3600),
+                'inOneHour' => $sts->getOnlineUser(3600) - $sts->getOnlineUser(60),
+                'inOneMin' => $sts->getOnlineUser(60),
+            ],
+            'traffic' => [
+                'today' => round($sts->getRawTodayTrafficUsage() / 1073741824, 2),
+                'last' => round($sts->getRawLastTrafficUsage() / 1073741824, 2),
+                'over' => round($sts->getRawUnusedTrafficUsage() / 1073741824, 2),
+            ],
+        ];
+
         return $response->write(
             $this->view()
-                ->assign('sts', new Analytics())
+                ->assign('data', $data)
                 ->display('admin/index.tpl')
         );
     }
