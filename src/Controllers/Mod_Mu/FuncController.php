@@ -132,17 +132,18 @@ class FuncController extends BaseController
      */
     public function log($request, $response, $args)
     {
-        $type = $request->getParam('type');
-        $reporter = $request->getParam('reporter');
-        $level = $request->getParam('level');
         $msg = $request->getParam('msg');
+        $type = $request->getParam('type');
+        $level = $request->getParam('level');
+        $status = $request->getParam('status');
+        $reporter = $request->getParam('reporter');
 
         $l = new Log;
         $l->type = $type;
         $l->reporter = $reporter;
         $l->level = $level;
         $l->msg = $msg;
-        $l->status = 0;
+        $l->status = (empty($status)) ? 0 : $status;
         $l->created_at = time();
 
         if ($l->save()) {

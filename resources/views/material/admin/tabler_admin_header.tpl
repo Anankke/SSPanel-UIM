@@ -200,6 +200,10 @@
                                         <i class="ti ti-router"></i>&nbsp;
                                         在线
                                     </a>
+                                    <a class="dropdown-item" href="/admin/log">
+                                        <i class="ti ti-book-download"></i>&nbsp;
+                                        自定义
+                                    </a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
