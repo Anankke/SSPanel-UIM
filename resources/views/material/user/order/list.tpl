@@ -226,7 +226,8 @@
                     "sSortAscending": ": 以升序排列此列",
                     "sSortDescending": ": 以降序排列此列"
                 }
-            }
+            },
+            fnRowCallback: adjustStyle,
         });
 
         $("#redeem-button").click(function() {
@@ -253,9 +254,11 @@
             location.reload();
         });
 
-        $("td:contains('已支付')").css("color", "green");
-        $("td:contains('等待支付')").css("color", "orange");
-        $("td:contains('null')").css("font-style", "italic");
+        function adjustStyle() {
+            $("td:contains('已支付')").css("color", "green");
+            $("td:contains('等待支付')").css("color", "orange");
+            $("td:contains('null')").css("font-style", "italic");
+        }
     </script>
 
 {include file='user/tabler_footer.tpl'}

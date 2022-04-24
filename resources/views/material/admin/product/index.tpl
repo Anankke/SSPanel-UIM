@@ -455,7 +455,8 @@
                     "sSortAscending": ": 以升序排列此列",
                     "sSortDescending": ": 以降序排列此列"
                 }
-            }
+            },
+            fnRowCallback: adjustStyle,
         });
 
         $("#product-update").hide();
@@ -467,8 +468,10 @@
             $("#product-create").show();
         });
 
-        $("td:contains('销售')").css("color", "green");
-        $("td:contains('下架')").css("color", "red");
+        function adjustStyle() {
+            $("td:contains('销售')").css("color", "green");
+            $("td:contains('下架')").css("color", "red");
+        }
     </script>
 
 {include file='admin/tabler_admin_footer.tpl'}

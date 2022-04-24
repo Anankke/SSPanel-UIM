@@ -246,7 +246,8 @@
                         "sSortAscending": ": 以升序排列此列",
                         "sSortDescending": ": 以降序排列此列"
                     }
-                }
+                },
+                fnRowCallback: adjustStyle,
             });
         }
 
@@ -312,7 +313,6 @@
         });
 
         loadTable();
-        adjustStyle();
     </script>
 
 {include file='admin/tabler_admin_footer.tpl'}

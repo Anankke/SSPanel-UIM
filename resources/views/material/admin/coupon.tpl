@@ -353,7 +353,8 @@
                     "sSortAscending": ": 以升序排列此列",
                     "sSortDescending": ": 以降序排列此列"
                 }
-            }
+            },
+            fnRowCallback: adjustStyle,
         });
 
         $("#coupon-update").hide();
@@ -366,9 +367,11 @@
             $('#time_limit').removeAttr('disabled');
         });
 
-        $("td:contains('可用')").css("color", "green");
-        $("td:contains('已用尽')").css("color", "orange");
-        $("td:contains('已过期')").css("color", "red");
+        function adjustStyle() {
+            $("td:contains('可用')").css("color", "green");
+            $("td:contains('已用尽')").css("color", "orange");
+            $("td:contains('已过期')").css("color", "red");
+        }
     </script>
 
 {include file='admin/tabler_admin_footer.tpl'}
