@@ -20,8 +20,7 @@
                                 </div>
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="server">节点地址</label>
-                                    <input class="form-control maxwidth-edit" id="server" name="server" type="text"
-                                           value="{$node->server}">
+                                    <textarea class="form-control maxwidth-edit" id="server" name="server" rows="3" type="text">{$node->server}</textarea>
                                     <p class="form-control-guide"><i class="material-icons">info</i>如果填写为域名，“节点IP”会自动设置为解析的IP</p>
                                 </div>
                                 <div class="form-group form-group-label">

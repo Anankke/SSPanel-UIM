@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="server">节点地址</label>
-                                    <input class="form-control maxwidth-edit" id="server" type="text" name="server">
+                                    <textarea class="form-control maxwidth-edit" rows="3" id="server" type="text" name="server"></textarea>
                                     <p class="form-control-guide"><i class="material-icons">info</i>如果填写为域名，“节点IP”会自动设置为解析的IP</p>
                                 </div>
                                 <div class="form-group form-group-label">

@@ -99,6 +99,9 @@ class UserController extends BaseController
             if ($coupon == null) {
                 throw new \Exception('优惠码不存在');
             }
+            if (time() > $coupon->expired_at) {
+                throw new \Exception('优惠码已过期');
+            }
             if ($coupon->product_limit != '0') {
                 $scope = explode(',', $coupon->product_limit);
                 if (!in_array($product_id, $scope)) {
@@ -108,10 +111,12 @@ class UserController extends BaseController
             if ($coupon->use_count > $coupon->total_limit) {
                 throw new \Exception('优惠码已达总使用限制');
             }
-            if (time() > $coupon->expired_at) {
-                throw new \Exception('优惠码已过期');
+            $coupon_order_count = ProductOrder::where('order_status', 'paid')
+                ->where('order_coupon', $coupon_code)
+                ->count();
+            if ($coupon_order_count >= $coupon->user_limit) {
+                throw new \Exception('此优惠码已达个人使用限制');
             }
-            // 差一个检查用户使用此优惠码限制的代码
         } catch (\Exception $e) {
             $res['ret'] = 0;
             $res['msg'] = $e->getMessage();
@@ -137,6 +142,9 @@ class UserController extends BaseController
                 if ($coupon == null) {
                     throw new \Exception('优惠码不存在');
                 }
+                if (time() > $coupon->expired_at) {
+                    throw new \Exception('优惠码已过期');
+                }
                 if ($coupon->product_limit != '0') {
                     $scope = explode(',', $coupon->product_limit);
                     if (!in_array($product_id, $scope)) {
@@ -146,8 +154,11 @@ class UserController extends BaseController
                 if ($coupon->use_count > $coupon->total_limit) {
                     throw new \Exception('优惠码已达总使用限制');
                 }
-                if (time() > $coupon->expired_at) {
-                    throw new \Exception('优惠码已过期');
+                $coupon_order_count = ProductOrder::where('order_status', 'paid')
+                    ->where('order_coupon', $coupon_code)
+                    ->count();
+                if ($coupon_order_count >= $coupon->user_limit) {
+                    throw new \Exception('此优惠码已达个人使用限制');
                 }
             }
 
@@ -234,10 +245,6 @@ class UserController extends BaseController
         $order->save();
 
         $product = Product::find($order->product_id);
-        if ($order->order_coupon != null) {
-            $coupon = Coupon::where('coupon', $order->order_coupon)->first();
-        }
-
         try {
             if (time() > $order->expired_at) {
                 throw new \Exception('此订单已过期');
@@ -256,9 +263,6 @@ class UserController extends BaseController
                 $user->money -= $order->order_price / 100;
                 $user->save();
 
-                $order->order_payment = 'balance';
-                $order->save();
-
                 self::execute($order->no);
             } else {
                 return Payment::create($payment, $order->no, ($order->order_price / 100));
@@ -266,7 +270,8 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getFile() . $e->getLine() . $e->getMessage(),
+                //'msg' => $e->getFile() . $e->getLine() . $e->getMessage(),
+                'msg' => $e->getMessage(),
             ]);
         }
 
@@ -281,10 +286,10 @@ class UserController extends BaseController
         $order = ProductOrder::where('no', $order_no)->first();
         $product = Product::find($order->product_id);
         $user = User::find($order->user_id);
-        $order->updated_at = time();
 
         if ($order->execute_status != '1') {
             $order->order_status = 'paid';
+            $order->updated_at = time();
             $order->paid_at = time();
             $order->save();
 
@@ -306,7 +311,11 @@ class UserController extends BaseController
                         if (!empty($product_content['product_reset_time']) && $product_content['product_reset_time'] == '1') {
                             $user->expire_in = date('Y-m-d H:i:s', time() + ($value * 86400));
                         } else {
-                            $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + ($value * 86400));
+                            if (time() > strtotime($user->expire_in)) {
+                                $user->expire_in = date('Y-m-d H:i:s', time() + ($value * 86400));
+                            } else {
+                                $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + ($value * 86400));
+                            }
                         }
                         break;
                     case 'product_traffic':
@@ -326,7 +335,11 @@ class UserController extends BaseController
                             if ($user->class != $product_content['product_class']) {
                                 $user->class_expire = date('Y-m-d H:i:s', time() + ($pct * 86400));
                             } else {
-                                $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + ($pct * 86400));
+                                if (time() > strtotime($user->class_expire)) {
+                                    $user->class_expire = date('Y-m-d H:i:s', time() + ($pct * 86400));
+                                } else {
+                                    $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + ($pct * 86400));
+                                }
                             }
                         } elseif ($product_content['product_reset_class_time'] == '2') {
                             // 用户等级与套餐等级不同时，重置为套餐等级时长；相同时重置
@@ -345,38 +358,42 @@ class UserController extends BaseController
                         break;
                 }
             }
-
             $user->save();
-        }
 
-        $order->execute_status = 1;
-        $order->save();
-
-        // 0 此商品返利规则跟随系统设置
-        // 1 此商品不返利
-        // 2 此商品返利金额使用下方数值
-        if ($product->rebate_mode == '0' && $user->ref_by > 0) {
-            Payback::rebate($user->id, ($order->order_price / 100), $order->no);
-        }
-        if ($product->rebate_mode == '2') {
-            $invite_user = User::find($user->ref_by);
-            if ($invite_user != null) {
-                // 添加返利记录
-                $payback = new Payback;
-                $payback->total = $order->order_price / 100;
-                $payback->userid = $order->user_id;
-                $payback->ref_by = $invite_user->id;
-                $payback->ref_get = $product->rebate_amount / 100;
-                $payback->associated_order = $order->no;
-                if (!Payback::fraudDetection($user) && $_ENV['rebate_risk_control'] == true) {
-                    $payback->fraud_detect = 1; // 0为通过; 1为欺诈
-                } else {
-                    $invite_user->money += $product->rebate_amount / 100;
-                    $invite_user->save();
+            // 处理返利
+            // 0 此商品返利规则跟随系统设置
+            // 1 此商品不返利
+            // 2 此商品返利金额使用下方数值
+            if ($product->rebate_mode == '0' && $user->ref_by > 0) {
+                $invite_user = User::find($user->ref_by);
+                if ($invite_user != null) {
+                    Payback::rebate($user->id, ($order->order_price / 100), $order->no);
                 }
-                $payback->datetime = time();
-                $payback->save();
             }
+            if ($product->rebate_mode == '2' && $user->ref_by > 0) {
+                $invite_user = User::find($user->ref_by);
+                if ($invite_user != null) {
+                    // 添加返利记录
+                    $payback = new Payback;
+                    $payback->total = $order->order_price / 100;
+                    $payback->userid = $order->user_id;
+                    $payback->ref_by = $invite_user->id;
+                    $payback->ref_get = $product->rebate_amount / 100;
+                    $payback->associated_order = $order->no;
+                    if (!Payback::fraudDetection($user) && $_ENV['rebate_risk_control'] == true) {
+                        $payback->fraud_detect = 1; // 0为通过; 1为欺诈
+                    } else {
+                        $invite_user->money += $product->rebate_amount / 100;
+                        $invite_user->save();
+                    }
+                    $payback->datetime = time();
+                    $payback->save();
+                }
+            }
+
+            // 如果上面的代码执行成功，没有报错，再标记为已处理
+            $order->execute_status = 1;
+            $order->save();
         }
     }
 
@@ -406,7 +423,10 @@ class UserController extends BaseController
             $giftcard->save();
 
             if ($user->ref_by > 0 && $_ENV['gift_card_rebate'] == true) {
-                Payback::rebate($user->id, $giftcard->balance, $card);
+                $invite_user = User::find($user->ref_by);
+                if ($invite_user != null) {
+                    Payback::rebate($user->id, $giftcard->balance, $card);
+                }
             }
         } catch (\Exception $e) {
             return $response->withJson([
@@ -460,7 +480,9 @@ class UserController extends BaseController
         }
 
         $paybacks = Payback::where('ref_by', $this->user->id)->get();
-        $paybacks_sum = Payback::where('ref_by', $this->user->id)->sum('ref_get');
+        $paybacks_sum = Payback::where('ref_by', $this->user->id)
+            ->where('fraud_detect', 0) // 不统计被判定为欺诈的
+            ->sum('ref_get');
         $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;
 
         return $this->view()
@@ -606,59 +628,51 @@ class UserController extends BaseController
         $user = $this->user;
         $oldemail = $user->email;
         $newemail = $request->getParam('newemail');
-        $otheruser = User::where('email', $newemail)->first();
 
-        if ($_ENV['enable_change_email'] != true) {
-            $res['ret'] = 0;
-            $res['msg'] = '此项不允许自行修改，请联系管理员操作';
-            return $response->withJson($res);
-        }
-
-        if ($newemail == '') {
-            $res['ret'] = 0;
-            $res['msg'] = '未填写邮箱';
-            return $response->withJson($res);
-        }
-
-        if (Setting::obtain('reg_email_verify')) {
-            $emailcode = $request->getParam('emailcode');
-            $mailcount = EmailVerify::where('email', '=', $newemail)
-                ->where('code', '=', $emailcode)
-                ->where('expire_in', '>', time())
-                ->first();
-
-            if ($mailcount == null) {
-                $res['ret'] = 0;
-                $res['msg'] = '邮箱验证码不正确';
-                return $response->withJson($res);
+        try {
+            if (!$_ENV['enable_change_email']) {
+                throw new \Exception('此项不允许自行修改，请联系管理员操作');
             }
+            if ($newemail == '') {
+                throw new \Exception('请填写新邮箱');
+            }
+            if (!Tools::emailCheck($newemail)) {
+                throw new \Exception('新邮箱格式有误');
+            }
+            if (!Check::isEmailLegal($newemail)) {
+                throw new \Exception('新邮箱的域不受支持');
+            }
+            if ($newemail == $oldemail) {
+                throw new \Exception('你正在使用此邮箱，无需更改');
+            }
+            $otheruser = User::where('email', $newemail)->first();
+            if ($otheruser != null) {
+                throw new \Exception('此邮箱已是注册账户');
+            }
+            if (Setting::obtain('reg_email_verify')) {
+                $emailcode = $request->getParam('emailcode');
+                $mailcount = EmailVerify::where('email', $newemail)
+                    ->where('code', $emailcode)
+                    ->where('expire_in', '>', time())
+                    ->first();
+
+                if ($mailcount == null) {
+                    throw new \Exception('邮箱验证码不正确');
+                }
+            }
+            $user->email = $newemail;
+            $user->save();
+        } catch (\Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $e->getMessage(),
+            ]);
         }
 
-        if (!Check::isEmailLegal($newemail)) {
-            $res['ret'] = 0;
-            $res['msg'] = '不支持此邮箱域';
-            return $response->withJson($res);
-        }
-
-        if ($otheruser != null) {
-            $res['ret'] = 0;
-            $res['msg'] = '此邮箱已注册';
-            return $response->withJson($res);
-        }
-
-        if ($newemail == $oldemail) {
-            $res['ret'] = 0;
-            $res['msg'] = '新邮箱不能和旧邮箱一样';
-            return $response->withJson($res);
-        }
-
-        $antiXss = new AntiXSS();
-        $user->email = $antiXss->xss_clean($newemail);
-        $user->save();
-
-        $res['ret'] = 1;
-        $res['msg'] = '修改成功';
-        return $response->withJson($res);
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+        ]);
     }
 
     public function updateUsername($request, $response, $args)
@@ -796,19 +810,29 @@ class UserController extends BaseController
     {
         $user = $this->user;
         $theme = $request->getParam('theme');
+        $themes = Tools::getDir(BASE_PATH . '/resources/views');
 
-        if ($theme == '') {
-            $res['ret'] = 0;
-            $res['msg'] = '请从给出的主题列表中选择一个';
-            return $response->withJson($res);
+        try {
+            if (!in_array($theme, $themes)) {
+                throw new \Exception('请从给出的主题列表中选择一个');
+            }
+            if ($user->theme == $theme) {
+                throw new \Exception('正在使用此主题，无需更改');
+            }
+
+            $user->theme = $theme;
+            $user->save();
+        } catch (\Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $e->getMessage(),
+            ]);
         }
 
-        $user->theme = filter_var($theme, FILTER_SANITIZE_STRING);
-        $user->save();
-
-        $res['ret'] = 1;
-        $res['msg'] = '设置成功';
-        return $response->withJson($res);
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '修改成功',
+        ]);
     }
 
     public function edit($request, $response, $args)
@@ -877,17 +901,14 @@ class UserController extends BaseController
     public function updateSSR($request, $response, $args)
     {
         $user = $this->user;
-        $obfs = $request->getParam('obfs');
-        $method = $request->getParam('method');
-        $protocol = $request->getParam('protocol');
-        $obfs_param = trim($request->getParam('obfs_param'));
+        $obfs = $request->getParam('obfs'); // 混淆
+        $method = $request->getParam('method'); // 加密
+        $protocol = $request->getParam('protocol'); // 协议
+        $obfs_param = trim($request->getParam('obfs_param')); // 混淆参数
 
         try {
             if ($method == '') {
                 throw new \Exception('加密无效');
-            }
-            if (!Tools::is_param_validate('obfs', $obfs)) {
-                throw new \Exception('混淆无效');
             }
             if (!Tools::is_param_validate('obfs', $obfs)) {
                 throw new \Exception('混淆无效');
@@ -899,7 +920,7 @@ class UserController extends BaseController
                 throw new \Exception('协议无效');
             }
             if (!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
-                throw new \Exception('组合无效');
+                throw new \Exception('此组合无效，因为没有客户端可以连接');
             }
 
             $antiXss = new AntiXSS();
@@ -967,13 +988,9 @@ class UserController extends BaseController
         $new_uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user->email . '|' . time());
 
         try {
-            if (!Tools::is_validate($pwd)) {
-                throw new \Exception('密码无效');
-            }
-
             $user->uuid = $new_uuid;
+            $user->passwd = $pwd;
             $user->save();
-            $user->updateSsPwd($pwd);
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,

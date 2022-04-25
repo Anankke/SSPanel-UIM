@@ -160,7 +160,7 @@
                                 <p class="form-control-guide"><i class="material-icons">info</i>用户只能访问到组别等于这个数字或0的节点</p>
                             </div>
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="class">用户级别</label>
+                                <label class="floating-label" for="class">用户等级</label>
                                 <input class="form-control maxwidth-edit" id="class" type="number"
                                        value="{$edit_user->class}">
                                 <p class="form-control-guide"><i class="material-icons">info</i>用户只能访问到等级小于等于这个数字的节点</p>
