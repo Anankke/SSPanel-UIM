@@ -76,7 +76,7 @@
                                         <div class="row row-cards">
                                             {foreach $servers as $server}
                                                 {if $server->node_class == $grade['node_class']}
-                                                    <div class="col-md-3 col-sm-12">
+                                                    <div class="col-md-4 col-sm-12">
                                                         <div class="card">
                                                             <div class="card-body">
                                                                 <div class="row g-3 align-items-center">

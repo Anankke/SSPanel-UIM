@@ -19,6 +19,7 @@ class NodeController extends UserController
         $servers = Node::where('type' ,1)
         ->where('sort', '!=', '9') // 我也不懂为什么
         ->whereIn('node_group', $user_group) // 筛选用户所在分组的服务器
+        ->orderBy('name', 'asc')
         ->get();
 
         $class = Node::select('node_class')

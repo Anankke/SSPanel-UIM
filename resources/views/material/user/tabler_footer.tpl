@@ -31,6 +31,7 @@
 <!-- Tabler Core -->
 <script src="/theme/tabler/js/tabler.min.js"></script>
 <script src="/theme/tabler/js/demo.min.js"></script>
+{include file='live_chat.tpl'}
 </body>
 
 </html>

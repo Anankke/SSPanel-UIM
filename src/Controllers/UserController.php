@@ -9,6 +9,7 @@ use App\Models\EmailVerify;
 use App\Models\GiftCard;
 use App\Models\InviteCode;
 use App\Models\Ip;
+use App\Models\Link;
 use App\Models\LoginIp;
 use App\Models\Node;
 use App\Models\Payback;
@@ -1020,15 +1021,19 @@ class UserController extends BaseController
             'v2ray' => URL::get_NewAllUrl($user, ['type' => 'vmess']) . PHP_EOL,
         ];
 
-        $servers = Node::where('type' ,1)
-        ->where('sort', '!=', '9') // 我也不懂为什么
-        ->whereIn('node_group', $user_group) // 筛选用户所在分组的服务器
-        ->get(['sort']);
+        $servers = Node::where('type', 1)
+            ->where('sort', '!=', '9') // 我也不懂为什么
+            ->whereIn('node_group', $user_group) // 筛选用户所在分组的服务器
+            ->get(['sort']);
+
+        $token = Link::where('userid', $user->id)->first();
+        $qt_url = base64_encode($_ENV['subUrl'] . $token->token . '?list=quantumult');
 
         return $response->write(
             $this->view()
                 ->assign('data', $data)
                 ->assign('text', $text)
+                ->assign('qt_url', $qt_url)
                 ->assign('servers', $servers)
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
                 ->assign('subInfo', LinkController::getSubinfo($this->user, 0))

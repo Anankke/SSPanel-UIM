@@ -516,7 +516,7 @@
                                                 class="btn btn-primary ms-auto">
                                                 导入 Shadowrocket
                                             </a>
-                                            <a href="quantumult://configuration?server={base64_encode($subInfo['quantumult'])}"
+                                            <a href="quantumult://configuration?server={$qt_url}"
                                                 class="btn btn-primary ms-auto my-1">
                                                 导入 Quantumult
                                             </a>
