@@ -29,6 +29,7 @@ class NodeController extends UserController
             $this->view()
                 ->assign('class', $class)
                 ->assign('servers', $servers)
+                ->registerClass('URL', URL::class)
                 ->display('user/node/servers.tpl')
         );
     }

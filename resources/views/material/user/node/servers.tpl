@@ -11,6 +11,35 @@
                         <span class="home-subtitle">查看节点在线情况</span>
                     </div>
                 </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                            data-bs-target="#connect-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-info"
+                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                                <path d="M11 14h1v4h1"></path>
+                                <path d="M12 11h.01"></path>
+                            </svg>
+                            连接信息
+                        </a>
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                            data-bs-target="#connect-info">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-info"
+                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                                <path d="M11 14h1v4h1"></path>
+                                <path d="M12 11h.01"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -65,7 +94,8 @@
                                                                             <span class="card-subtitle my-2"
                                                                                 style="font-size: 10px;">
                                                                                 {if $server->node_bandwidth_limit == '0'}
-                                                                                    {round($server->node_bandwidth / 1073741824)} GB / 不限
+                                                                                    {round($server->node_bandwidth / 1073741824)} GB /
+                                                                                    不限
                                                                                 {else}
                                                                                     {round($server->node_bandwidth / 1073741824)}
                                                                                     GB /
@@ -119,6 +149,64 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="connect-info" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">连接信息</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table table-vcenter card-table">
+                                <thead>
+                                    <tr>
+                                        <th>项目</th>
+                                        <th>内容</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>端口</td>
+                                        <td>{$user->port}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>加密</td>
+                                        <td>{$user->method}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>协议</td>
+                                        <td>{$user->protocol}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>混淆</td>
+                                        <td>{$user->obfs}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>混淆参数</td>
+                                        <td>{$user->obfs_param}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>连接密码</td>
+                                        <td>{$user->passwd}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>UUID</td>
+                                        <td>{$user->uuid}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">确认</button>
                 </div>
             </div>
         </div>

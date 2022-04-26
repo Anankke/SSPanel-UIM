@@ -1008,6 +1008,7 @@ class UserController extends BaseController
     {
         $user = $this->user;
         $t_e = $user->transfer_enable;
+        $user_group = ($user->node_group != 0 ? [0, $user->node_group] : [0]);
         $data = [
             'today_traffic_usage' => ($t_e == 0) ? 0 : ($user->u + $user->d - $user->last_day_t) / $t_e * 100,
             'past_traffic_usage' => ($t_e == 0) ? 0 : $user->last_day_t / $t_e * 100,
@@ -1019,10 +1020,16 @@ class UserController extends BaseController
             'v2ray' => URL::get_NewAllUrl($user, ['type' => 'vmess']) . PHP_EOL,
         ];
 
+        $servers = Node::where('type' ,1)
+        ->where('sort', '!=', '9') // 我也不懂为什么
+        ->whereIn('node_group', $user_group) // 筛选用户所在分组的服务器
+        ->get(['sort']);
+
         return $response->write(
             $this->view()
                 ->assign('data', $data)
                 ->assign('text', $text)
+                ->assign('servers', $servers)
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
                 ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
                 ->display('user/index.tpl')

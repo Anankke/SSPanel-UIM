@@ -394,7 +394,7 @@
                                             &nbsp;IOS
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a href="#route" class="nav-link" data-bs-toggle="tab">
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 class="icon icon-tabler icon-tabler-router" width="24" height="24"
@@ -410,7 +410,7 @@
                                             </svg>
                                             &nbsp;Route
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item">
                                         <a href="#linux" class="nav-link" data-bs-toggle="tab">
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -426,6 +426,24 @@
                                                 <path d="M6 16v.01"></path>
                                             </svg>
                                             &nbsp;Linux
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#config" class="nav-link" data-bs-toggle="tab">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-file-text" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                                <path
+                                                    d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                                </path>
+                                                <line x1="9" y1="9" x2="10" y2="9"></line>
+                                                <line x1="9" y1="13" x2="15" y2="13"></line>
+                                                <line x1="9" y1="17" x2="15" y2="17"></line>
+                                            </svg>
+                                            &nbsp;Config
                                         </a>
                                     </li>
                                 </ul>
@@ -447,42 +465,46 @@
                                                     class="copy btn btn-primary ms-auto">
                                                     复制 Clash
                                                 </a>
-                                                <p>
-                                                    <button id="v2-text" data-clipboard-text="{$text['v2ray']}"
-                                                        class="copy btn btn-primary ms-auto my-2">复制 V2ray 文本配置</button>
-                                                </p>
+                                                <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
+                                                    class="btn btn-primary ms-auto my-2">
+                                                    导入 Clash
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="macos">
                                             <p>
-                                                适用于 ClashX 的订阅：<code>{$subInfo['clash']}</code>
-                                            </p>
-                                            <p>
                                                 适用于 v2rayU 的订阅：<code>{$subInfo['v2ray']}</code>
                                             </p>
-                                            <a data-clipboard-text="{$subInfo['clash']}"
-                                                class="copy btn btn-primary ms-auto">
-                                                复制 ClashX
-                                            </a>
+                                            <p>
+                                                适用于 ClashX 的订阅：<code>{$subInfo['clash']}</code>
+                                            </p>
                                             <a data-clipboard-text="{$subInfo['v2ray']}"
                                                 class="copy btn btn-primary ms-auto">
                                                 复制 v2rayU
                                             </a>
+                                            <a data-clipboard-text="{$subInfo['clash']}"
+                                                class="copy btn btn-primary ms-auto my-2">
+                                                复制 ClashX
+                                            </a>
                                         </div>
                                         <div class="tab-pane" id="android">
                                             <p>
-                                                适用于 Clash For Android 的订阅：<code>{$subInfo['clash']}</code>
-                                            </p>
-                                            <p>
                                                 适用于 v2rayNG 的订阅：<code>{$subInfo['v2ray']}</code>
                                             </p>
+                                            <p>
+                                                适用于 Clash 的订阅：<code>{$subInfo['clash']}</code>
+                                            </p>
+                                            <a data-clipboard-text="{$subInfo['v2ray']}"
+                                                class="copy btn btn-primary ms-auto">
+                                                复制 v2rayNG
+                                            </a>
                                             <a data-clipboard-text="{$subInfo['clash']}"
                                                 class="copy btn btn-primary ms-auto">
                                                 复制 Clash
                                             </a>
-                                            <a data-clipboard-text="{$subInfo['v2ray']}"
-                                                class="copy btn btn-primary ms-auto">
-                                                复制 v2rayNG
+                                            <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
+                                                class="btn btn-primary ms-auto my-2">
+                                                导入 Clash
                                             </a>
                                         </div>
                                         <div class="tab-pane" id="ios">
@@ -492,20 +514,35 @@
                                             </p>
                                             <a href="sub://{base64_encode($subInfo['v2ray'])}"
                                                 class="btn btn-primary ms-auto">
-                                                点击设置 Shadowrocket 订阅
+                                                导入 Shadowrocket
                                             </a>
-                                            <p class="my-2">
-                                                <a href="quantumult://configuration?server={base64_encode($subInfo['quantumult'])}"
-                                                    class="btn btn-primary ms-auto my-1">
-                                                    点击设置 Quantumult 订阅
-                                                </a>
-                                            </p>
-                                        </div>
-                                        <div class="tab-pane" id="route">
-                                            <div>紧张准备中...</div>
+                                            <a href="quantumult://configuration?server={base64_encode($subInfo['quantumult'])}"
+                                                class="btn btn-primary ms-auto my-1">
+                                                导入 Quantumult
+                                            </a>
                                         </div>
                                         <div class="tab-pane" id="linux">
                                             <div>紧张准备中...</div>
+                                        </div>
+                                        <div class="tab-pane" id="config">
+                                            {if $servers->where('sort', '0')->count() > '0'}
+                                                <button data-clipboard-text="{$text['ss']}"
+                                                    class="copy btn btn-primary ms-auto">
+                                                    复制 SS 文本配置
+                                                </button>
+                                            {/if}
+                                            {if $servers->where('sort', '1')->count() > '0'}
+                                                <button data-clipboard-text="{$text['ssr']}"
+                                                    class="copy btn btn-primary ms-auto">
+                                                    复制 SSR 文本配置
+                                                </button>
+                                            {/if}
+                                            {if $servers->where('sort', '11')->count() > '0'}
+                                                <button data-clipboard-text="{$text['v2ray']}"
+                                                    class="copy btn btn-primary ms-auto">
+                                                    复制 V2ray 文本配置
+                                                </button>
+                                            {/if}
                                         </div>
                                     </div>
                                 </div>
