@@ -1,4 +1,4 @@
-{include file='user/tabler_admin_header.tpl'}
+{include file='admin/tabler_admin_header.tpl'}
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -202,4 +202,4 @@
             location.reload();
         });
     </script>
-{include file='user/tabler_admin_footer.tpl'}
+{include file='admin/tabler_admin_footer.tpl'}
