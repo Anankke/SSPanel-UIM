@@ -170,6 +170,7 @@
                             <option value="all">所有状态</option>
                             <option value="paid">已支付</option>
                             <option value="pending_payment">未支付</option>
+                            <option value="abnormal">异常</option>
                         </select>
                     </div>
                     <div class="form-group mb-3 row">

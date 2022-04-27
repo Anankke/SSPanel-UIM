@@ -66,10 +66,14 @@ class OrderController extends AdminController
             if ($result->order_status == 'paid') {
                 $result->order_status = '已支付';
             } else {
-                if (time() > $result->expired_at) {
-                    $result->order_status = '超时';
+                if ($result->order_status == 'abnormal') {
+                    $result->order_status = '异常';
                 } else {
-                    $result->order_status = '等待支付';
+                    if (time() > $result->expired_at) {
+                        $result->order_status = '超时';
+                    } else {
+                        $result->order_status = '等待支付';
+                    }
                 }
             }
         }

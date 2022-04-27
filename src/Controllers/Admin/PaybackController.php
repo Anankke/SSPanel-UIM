@@ -2,6 +2,7 @@
 namespace App\Controllers\Admin;
 
 use App\Models\Payback;
+use App\Controllers\AdminController;
 
 class PaybackController extends AdminController
 {

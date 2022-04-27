@@ -23,13 +23,13 @@ class TicketController extends AdminController
             ],
             'field' => [
                 'tk_id' => '#',
+                'wait_reply' => '等待回复',
                 'title' => '主题',
                 'user_id' => '提交用户',
                 'created_at' => '创建时间',
                 'updated_at' => '更新时间',
                 'closed_at' => '关闭时间',
                 'closed_by' => '状态',
-                'wait_reply' => '等待回复',
             ],
             'search_dialog' => [
                 [
