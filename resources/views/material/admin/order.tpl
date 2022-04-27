@@ -266,6 +266,7 @@
                                 "</td><td>" + data.result[i].product_price +
                                 "</td><td>" + data.result[i].order_coupon +
                                 "</td><td>" + data.result[i].order_price +
+                                "</td><td>" + data.result[i].balance_payment +
                                 "</td><td>" + data.result[i].order_status +
                                 "</td><td>" + data.result[i].order_payment +
                                 "</td><td>" + data.result[i].created_at +
