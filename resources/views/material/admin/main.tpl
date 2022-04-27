@@ -13,10 +13,10 @@
     <link href="//fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <link href="/theme/material/css/material.min.css" rel="stylesheet">
     <link href="/theme/material/css/dataTables.material.min.css" rel="stylesheet">
-    <link href="/theme/material/css/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.staticfile.org/jsoneditor/9.5.8/jsoneditor.min.css" rel="stylesheet" type="text/css">
     <!-- js -->
     <script src="/theme/material/js/jquery.min.js"></script>
-    <!-- <script src="/theme/material/js/jsoneditor.min.js"></script> -->
+    <script src="https://cdn.staticfile.org/jsoneditor/9.5.8/jsoneditor.min.js"></script>
     <style>
         body {
             position: relative;
@@ -107,6 +107,26 @@
                                 </a>
                             </li>
                         </ul>
+                        <a class="waves-attach" data-toggle="collapse" href="#ui_menu_config">
+                            管理
+                        </a>
+                        <ul class="menu-collapse collapse in" id="ui_menu_config">
+                            <li>
+                                <a href="/admin/setting"><i class="icon icon-lg">settings</i>&nbsp;
+                                    设置中心
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/user"><i class="icon icon-lg">supervisor_account</i>&nbsp;
+                                    用户列表
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/node"><i class="icon icon-lg">router</i>&nbsp;
+                                    节点列表
+                                </a>
+                            </li>
+                        </ul>
                         <a class="waves-attach" data-toggle="collapse" href="#ui_menu_user">
                             日志
                         </a>
@@ -129,26 +149,6 @@
                             <li>
                                 <a href="/admin/alive"><i class="icon icon-lg">important_devices</i>&nbsp;
                                     在线IP
-                                </a>
-                            </li>
-                        </ul>
-                        <a class="waves-attach" data-toggle="collapse" href="#ui_menu_config">
-                            管理
-                        </a>
-                        <ul class="menu-collapse collapse in" id="ui_menu_config">
-                            <li>
-                                <a href="/admin/setting"><i class="icon icon-lg">settings</i>&nbsp;
-                                    设置中心
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/admin/user"><i class="icon icon-lg">supervisor_account</i>&nbsp;
-                                    用户列表
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/admin/node"><i class="icon icon-lg">router</i>&nbsp;
-                                    节点列表
                                 </a>
                             </li>
                         </ul>
