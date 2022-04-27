@@ -8,27 +8,6 @@ use App\Utils\ClassHelper;
 
 final class Payment
 {
-    // public static function getClient()
-    // {
-    //     $method = $_ENV['payment_system'];
-    //     switch ($method) {
-    //         case ('vmqpay'):
-    //             return new Vmqpay();
-    //         case ('paymentwall'):
-    //             return new PaymentWall();
-    //         case ('f2fpay'):
-    //             return new AopF2F();
-    //         case ('payjs'):
-    //             return new PAYJS();
-    //         case ('theadpay'):
-    //             return new THeadPay();
-    //         case ('coinpay'):
-    //             return new CoinPay();
-    //         default:
-    //             return null;
-    //     }
-    // }
-
     public static function getPaymentsEnabled()
     {
         $payments = [];

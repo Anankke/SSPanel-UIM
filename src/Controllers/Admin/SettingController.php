@@ -7,6 +7,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Setting;
 use App\Services\Mail;
+use App\Services\Payment;
 
 final class SettingController extends BaseController
 {
@@ -59,6 +60,9 @@ final class SettingController extends BaseController
                 break;
             case 'stripe':
                 $list = ['stripe_card', 'stripe_currency', 'stripe_pk', 'stripe_sk', 'stripe_webhook_key', 'stripe_min_recharge', 'stripe_max_recharge'];
+                break;
+			case 'e_pay':
+                $list = array('epay_url', 'epay_pid', 'epay_key');
                 break;
             // 邮件
             case 'mail':
@@ -167,16 +171,14 @@ final class SettingController extends BaseController
 
     public function returnGatewaysList()
     {
-        return [
-            // 网关名 网关代号
-            'CoinPay' => 'coinpay',
-            '当面付' => 'f2fpay',
-            'PayJs' => 'payjs',
-            'PaymentWall' => 'paymentwall',
-            'Stripe' => 'stripe',
-            'TheadPay' => 'theadpay',
-            'V免签' => 'vmqpay',
-        ];
+
+        $result = [];
+
+        foreach (payment::getPaymentsEnabled() as $payment) {
+            $result[$payment::_readableName()] = $payment::_name();
+        }
+
+        return $result;
     }
 
     public function returnActiveGateways()

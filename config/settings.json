@@ -938,5 +938,35 @@
         "type": "int",
         "default": "1000",
         "mark": "最高充值限额"
+    },
+	{
+        "id": null,
+        "item": "epay_url",
+        "value": "1000",
+        "class": "epay",
+        "is_public": 0,
+        "type": "string",
+        "default": "1000",
+        "mark": "易支付url"
+    },
+	{
+        "id": null,
+        "item": "epay_pid",
+        "value": "1000",
+        "class": "epay",
+        "is_public": 0,
+        "type": "string",
+        "default": "1000",
+        "mark": "易支付商户ID"
+    },
+	{
+        "id": null,
+        "item": "epay_key",
+        "value": "1000",
+        "class": "epay",
+        "is_public": 0,
+        "type": "string",
+        "default": "1000",
+        "mark": "易支付商户Key"
     }
 ]
