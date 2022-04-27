@@ -3,9 +3,10 @@ namespace App\Controllers\Admin;
 
 use App\Models\Payback;
 
-class PaybackController extends UserController
+class PaybackController extends AdminController
 {
-    public static function page(){
+    public static function page()
+    {
         $details = [
             'route' => 'payback',
             'title' => [
@@ -20,7 +21,7 @@ class PaybackController extends UserController
                 'ref_get' => '返利金额',
                 'fraud_detect' => '是否欺诈',
                 'associated_order' => '关联订单',
-                'datetime' => '返利时间'
+                'datetime' => '返利时间',
             ],
             'search_dialog' => [
                 [
@@ -71,8 +72,8 @@ class PaybackController extends UserController
     public function index($request, $response, $args)
     {
         $logs = Payback::orderBy('id', 'desc')
-        ->limit(500)
-        ->get();
+            ->limit(500)
+            ->get();
 
         return $response->write(
             $this->view()
@@ -86,15 +87,14 @@ class PaybackController extends UserController
     {
         $condition = [];
         $details = self::page();
-        foreach ($details['search_dialog'] as $from)
-        {
+        foreach ($details['search_dialog'] as $from) {
             $field = $from['id'];
             $keyword = $request->getParam($field);
             if ($from['type'] == 'input') {
                 if ($from['exact']) {
                     ($keyword != '') && array_push($condition, [$field, '=', $keyword]);
                 } else {
-                    ($keyword != '') && array_push($condition, [$field, 'like', '%'.$keyword.'%']);
+                    ($keyword != '') && array_push($condition, [$field, 'like', '%' . $keyword . '%']);
                 }
             }
             if ($from['type'] == 'select') {
@@ -103,13 +103,13 @@ class PaybackController extends UserController
         }
 
         $results = Payback::orderBy('id', 'desc')
-        ->where($condition)
-        ->limit(500)
-        ->get();
+            ->where($condition)
+            ->limit(500)
+            ->get();
 
         return $response->withJson([
             'ret' => 1,
-            'result' => $results
+            'result' => $results,
         ]);
     }
 
@@ -120,7 +120,7 @@ class PaybackController extends UserController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '删除成功'
+            'msg' => '删除成功',
         ]);
     }
 }

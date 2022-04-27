@@ -197,13 +197,16 @@ return function (SlimApp $app) {
         $this->post('/alive/ajax',              App\Controllers\Admin\IpController::class . ':ajax_alive');
 
         // User Mange
-        $this->get('/user',                     App\Controllers\Admin\UserController::class . ':index');
+        //$this->get('/user',                     App\Controllers\Admin\UserController::class . ':index');
         $this->get('/user/{id}/edit',           App\Controllers\Admin\UserController::class . ':edit');
         $this->put('/user/{id}',                App\Controllers\Admin\UserController::class . ':update');
-        $this->delete('/user',                  App\Controllers\Admin\UserController::class . ':delete');
-        $this->post('/user/changetouser',       App\Controllers\Admin\UserController::class . ':changetouser');
-        $this->post('/user/ajax',               App\Controllers\Admin\UserController::class . ':ajax');
-        $this->post('/user/create',             App\Controllers\Admin\UserController::class . ':createNewUser');
+        //$this->delete('/user',                  App\Controllers\Admin\UserController::class . ':delete');
+        //$this->post('/user/changetouser',       App\Controllers\Admin\UserController::class . ':changetouser');
+        //$this->post('/user/ajax',               App\Controllers\Admin\UserController::class . ':ajax');
+        //$this->post('/user/create',             App\Controllers\Admin\UserController::class . ':createNewUser');
+        $this->get('/user',                     App\Controllers\Admin\UserController::class . ':index');
+        $this->post('/user/ajax',               App\Controllers\Admin\UserController::class . ':ajaxQuery');
+        $this->delete('/user/{id}',             App\Controllers\Admin\UserController::class . ':delete');
 
         // Coupon Mange
         $this->get('/coupon',                   App\Controllers\Admin\CouponController::class . ':index');
