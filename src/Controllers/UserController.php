@@ -174,7 +174,7 @@ class UserController extends BaseController
             $order->order_coupon = (empty($coupon)) ? null : $coupon_code;
             $order->order_price = (empty($coupon)) ? $product->price : $product->price * $coupon->discount;
             $order->order_payment = 'balance';
-            if ($user->money <= 0 || $user->money >= $order->order_price) {
+            if ($user->money <= 0 || $user->money >= ($order->order_price / 100)) {
                 $order->balance_payment = 0;
             } else {
                 $order->balance_payment = $user->money * 100;
