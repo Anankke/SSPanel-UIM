@@ -15,7 +15,7 @@
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="content">内容</label>
                                 <link rel="stylesheet"
-                                      href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
+                                    href="/theme/material/editormd/editormd.min.css" />
                                 <div id="editormd">
                                     <textarea style="display:none;" id="content">{$ann->markdown}</textarea>
                                 </div>
@@ -30,7 +30,7 @@
                                 <div class="row">
                                     <div class="col-md-10 col-md-push-1">
                                         <button id="submit" type="submit"
-                                                class="btn btn-block btn-brand waves-attach waves-light">修改
+                                            class="btn btn-block btn-brand waves-attach waves-light">修改
                                         </button>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
 
 {include file='admin/footer.tpl'}
 
-<script src="https://cdn.staticfile.org/editor-md/1.5.0/editormd.min.js"></script>
+<script src="/theme/material/editormd/editormd.min.js"></script>
 <script>
     (() => {
         editor = editormd("editormd", {
