@@ -179,10 +179,12 @@ class Job extends Command
         foreach ($users as $user) {
             // 账户过期检测
             if (strtotime($user->expire_in) < time() && $user->expire_notified == false) {
-                $user->transfer_enable = 0;
-                $user->u = 0;
-                $user->d = 0;
-                $user->last_day_t = 0;
+                if ($_ENV['clear_traffic_after_expire']) {
+                    $user->transfer_enable = 0;
+                    $user->u = 0;
+                    $user->d = 0;
+                    $user->last_day_t = 0;
+                }
                 $user->sendMail($_ENV['appName'] . ' - 您的用户账户已经过期了', 'news/warn.tpl',
                     [
                         'text' => '您好，系统发现您的账号已经过期了。',
@@ -194,46 +196,6 @@ class Job extends Command
                 $user->expire_notified = false;
                 $user->save();
             }
-
-            // 余量不足检测
-            if ($_ENV['notify_limit_mode'] != false) {
-                $user_traffic_left = $user->transfer_enable - $user->u - $user->d;
-                $under_limit = false;
-
-                if ($user->transfer_enable != 0 && $user->class != 0) {
-                    if (
-                        $_ENV['notify_limit_mode'] == 'per' &&
-                        $user_traffic_left / $user->transfer_enable * 100 < $_ENV['notify_limit_value']
-                    ) {
-                        $under_limit = true;
-                        $unit_text = '%';
-                    } elseif (
-                        $_ENV['notify_limit_mode'] == 'mb' &&
-                        Tools::flowToMB($user_traffic_left) < $_ENV['notify_limit_value']
-                    ) {
-                        $under_limit = true;
-                        $unit_text = 'MB';
-                    }
-                }
-
-                if ($under_limit == true && $user->traffic_notified == false) {
-                    $result = $user->sendMail(
-                        $_ENV['appName'] . ' - 您的剩余流量过低', 'news/warn.tpl',
-                        [
-                            'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。',
-                        ], [], $_ENV['email_queue']
-                    );
-                    if ($result) {
-                        $user->traffic_notified = true;
-                        $user->save();
-                    }
-                } elseif ($under_limit == false && $user->traffic_notified == true) {
-                    $user->traffic_notified = false;
-                    $user->save();
-                }
-            }
-
-            $user->save();
         }
     }
 

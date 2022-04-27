@@ -93,6 +93,7 @@ $_ENV['checkin_add_time_hour'] = '4'; // 签到增加多长小时的时间
 $_ENV['enable_ticket'] = true; // 是否开启工单系统
 $_ENV['mail_ticket'] = true; // 是否开启工单邮件提醒
 $_ENV['gift_card_rebate'] = false; // 当用户兑换礼品卡添加余额时，是否执行返利
+$_ENV['clear_traffic_after_expire'] = false; // 当用户到期后，是否清空账号的剩余流量
 
 /*
     页面自定义
@@ -145,8 +146,6 @@ $_ENV['sendPageLimit'] = 50; // 发信分页数
 $_ENV['email_queue'] = true; // 邮件队列开关
 $_ENV['mail_filter'] = 0; // 0关闭; 1白名单模式; 2黑名单模式
 $_ENV['mail_filter_list'] = ['qq.com', 'vip.qq.com', 'foxmail.com'];
-$_ENV['notify_limit_mode'] = true; // false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
-$_ENV['notify_limit_value'] = 20; // 当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
 /*
     后端设置
