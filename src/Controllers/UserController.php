@@ -174,6 +174,11 @@ class UserController extends BaseController
             $order->order_coupon = (empty($coupon)) ? null : $coupon_code;
             $order->order_price = (empty($coupon)) ? $product->price : $product->price * $coupon->discount;
             $order->order_payment = 'balance';
+            if ($user->money <= 0 || $user->money >= $order->order_price) {
+                $order->balance_payment = 0;
+            } else {
+                $order->balance_payment = $user->money * 100;
+            }
             $order->order_status = 'pending_payment';
             $order->created_at = time();
             $order->updated_at = time();
@@ -258,7 +263,7 @@ class UserController extends BaseController
             }
             if ($payment == 'balance') {
                 if ($user->money < ($order->order_price / 100)) {
-                    throw new \Exception('账户余额不足');
+                    throw new \Exception('余额已抵扣此账单，差额请使用其他方式支付');
                 }
 
                 $user->money -= $order->order_price / 100;
@@ -266,7 +271,12 @@ class UserController extends BaseController
 
                 self::execute($order->no);
             } else {
-                return Payment::create($payment, $order->no, ($order->order_price / 100));
+                if ($order->balance_payment == 0) {
+                    return Payment::create($payment, $order->no, ($order->order_price / 100));
+                } else {
+                    $new_price = ($order->order_price - $order->balance_payment) / 100;
+                    return Payment::create($payment, $order->no, $new_price);
+                }
             }
         } catch (\Exception $e) {
             return $response->withJson([
@@ -287,6 +297,18 @@ class UserController extends BaseController
         $order = ProductOrder::where('no', $order_no)->first();
         $product = Product::find($order->product_id);
         $user = User::find($order->user_id);
+
+        if ($order->balance_payment != 0) {
+            if ($user->money - ($order->balance_payment / 100) < 0) {
+                $order->order_status = 'abnormal';
+                $order->updated_at = time();
+                $order->paid_at = time();
+                $order->save();
+                return false;
+            }
+            $user->money -= $order->balance_payment / 100;
+            $user->save();
+        }
 
         if ($order->execute_status != '1') {
             $order->order_status = 'paid';

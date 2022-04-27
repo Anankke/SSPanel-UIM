@@ -20,7 +20,7 @@
         <div class="container-xl">
             <div class="card card-md">
                 <div class="card-stamp">
-                    {if time() > $order->expired_at && $order->order_status != 'paid'}
+                    {if time() > $order->expired_at && $order->order_status != 'paid' && $order->order_status != 'abnormal'}
                         <div class="card-stamp-icon bg-red">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24"
                                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -50,6 +50,17 @@
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M5 12l5 5l10 -10"></path>
+                            </svg>
+                        </div>
+                    {/if}
+                    {if $order->order_status == 'abnormal'}
+                        <div class="card-stamp-icon bg-red">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-ban" width="24"
+                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <line x1="5.7" y1="5.7" x2="18.3" y2="18.3"></line>
                             </svg>
                         </div>
                     {/if}
@@ -93,25 +104,57 @@
                                 </td>
                             </tr>
                         {/if}
-                        <tr>
-                            <td colspan="4" class="strong font-weight-bold text-uppercase text-end">应付</td>
-                            <td class="font-weight-bold text-end">{sprintf("%.2f", $order->order_price / 100)}</td>
-                        </tr>
+                        {if $order->balance_payment != '0'}
+                            <tr>
+                                <td colspan="4" class="strong font-weight-bold text-uppercase text-end">余额抵扣</td>
+                                <td class="font-weight-bold text-end">-&nbsp;{sprintf("%.2f", $order->balance_payment / 100)}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="strong font-weight-bold text-uppercase text-end">应付</td>
+                                <td class="font-weight-bold text-end">
+                                    {sprintf("%.2f", ($order->order_price - $order->balance_payment) / 100)}
+                                </td>
+                            </tr>
+                        {else}
+                            <tr>
+                                <td colspan="4" class="strong font-weight-bold text-uppercase text-end">应付</td>
+                                <td class="font-weight-bold text-end">
+                                    {sprintf("%.2f", $order->order_price / 100)}
+                                </td>
+                            </tr>
+                        {/if}
                     </table>
                     {if time() > $order->expired_at && $order->order_status != 'paid'}
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="mb-3 my-5">
-                                    <div class="card">
-                                        <div class="card-status-top bg-danger"></div>
-                                        <div class="card-body">
-                                            <h3 class="card-title">账单已过期</h3>
-                                            <p class="text-muted">这个账单过期了。如有需要，请前往 <a href="/user/product">商店</a> 重新下单</p>
+                        {if $order->order_status != 'abnormal'}
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3 my-5">
+                                        <div class="card">
+                                            <div class="card-status-top bg-danger"></div>
+                                            <div class="card-body">
+                                                <h3 class="card-title">账单已过期</h3>
+                                                <p class="text-muted">这个账单过期了。如有需要，请前往 <a href="/user/product">商店</a> 重新下单</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {else}
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3 my-5">
+                                        <div class="card">
+                                            <div class="card-status-top bg-danger"></div>
+                                            <div class="card-body">
+                                                <h3 class="card-title">账单异常</h3>
+                                                <p class="text-muted">这份账单存在异常。原因是创建了多笔使用余额抵扣的账单，并支付了这些账单中的多份。请提交工单联系管理员，为此账单申请退款</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {/if}
                     {else}
                         {if time() < $order->expired_at && $order->order_status != 'paid'}
                             <div class="row">

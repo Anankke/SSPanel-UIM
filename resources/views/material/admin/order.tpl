@@ -58,6 +58,7 @@
                                         <th>售价</th>
                                         <th>优惠码</th>
                                         <th>订单金额</th>
+                                        <th>余额付款</th>
                                         <th>订单状态</th>
                                         <th>支付方式</th>
                                         <th>创建时间</th>
@@ -76,13 +77,18 @@
                                             <td>{sprintf("%.2f", $log->product_price / 100)}</td>
                                             <td>{(empty($log->order_coupon)) ? 'null' : $log->order_coupon}</td>
                                             <td>{sprintf("%.2f", $log->order_price / 100)}</td>
+                                            <td>{sprintf("%.2f", $log->balance_payment / 100)}</td>
                                             {if $log->order_status == 'paid'}
                                                 <td>已支付</td>
                                             {else}
-                                                {if time() > $log->expired_at}
-                                                    <td>超时</td>
+                                                {if $log->order_status != 'abnormal'}
+                                                    {if time() > $log->expired_at}
+                                                        <td>超时</td>
+                                                    {else}
+                                                        <td>等待支付</td>
+                                                    {/if}
                                                 {else}
-                                                    <td>等待支付</td>
+                                                    <td>异常</td>
                                                 {/if}
                                             {/if}
                                             <td>{$log->order_payment}</td>
@@ -224,6 +230,7 @@
 
         function adjustStyle() {
             $("td:contains('已支付')").css("color", "green");
+            $("td:contains('异常')").css("color", "red");
             $("td:contains('等待支付')").css("color", "orange");
             $("td:contains('已执行')").css("color", "green");
             $("td:contains('未执行')").css("color", "orange");

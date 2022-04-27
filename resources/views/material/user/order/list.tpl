@@ -81,10 +81,14 @@
                                             {if $order->order_status == 'paid'}
                                                 <td>已支付</td>
                                             {else}
-                                                {if time() > $order->expired_at}
-                                                    <td>超时</td>
+                                                {if $order->order_status != 'abnormal'}
+                                                    {if time() > $order->expired_at}
+                                                        <td>超时</td>
+                                                    {else}
+                                                        <td>等待支付</td>
+                                                    {/if}
                                                 {else}
-                                                    <td>等待支付</td>
+                                                    <td>异常</td>
                                                 {/if}
                                             {/if}
                                             <td>{$order->order_payment}</td>
@@ -256,6 +260,7 @@
 
         function adjustStyle() {
             $("td:contains('已支付')").css("color", "green");
+            $("td:contains('异常')").css("color", "red");
             $("td:contains('等待支付')").css("color", "orange");
             $("td:contains('null')").css("font-style", "italic");
         }
