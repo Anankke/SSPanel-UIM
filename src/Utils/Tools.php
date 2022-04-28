@@ -493,7 +493,7 @@ final class Tools
 
     public static function v2Array($node)
     {
-        $server = explode(';', $node);
+        $server = explode(';', $node->server);
         $item = [
             'host' => '',
             'path' => '',
@@ -535,8 +535,8 @@ final class Tools
                 }
             }
         }
-        if (count($server) >= 6 && $server[5] !== '') {
-            $item = array_merge($item, URL::parseArgs($server[5]));
+        if (count($server) >= 5) {
+            $item = array_merge($item, $node->getArgs());
             if (array_key_exists('server', $item)) {
                 $item['add'] = $item['server'];
                 unset($item['server']);
@@ -588,15 +588,9 @@ final class Tools
         return $item;
     }
 
-    public static function checkTls($node)
-    {
-        $server = self::v2Array($node);
-        return ! ($server['tls'] === 'tls' && self::isIp($server['add']));
-    }
-
     public static function ssv2Array($node)
     {
-        $server = explode(';', $node);
+        $server = explode(';', $node->server);
         $item = [
             'host' => 'microsoft.com',
             'path' => '',
@@ -624,8 +618,8 @@ final class Tools
                 $item['tls'] = 'tls';
             }
         }
-        if (count($server) >= 6) {
-            $item = array_merge($item, URL::parseArgs($server[5]));
+        if (count($server) >= 5) {
+            $item = array_merge($item, $node->getArgs());
             if (array_key_exists('server', $item)) {
                 $item['add'] = $item['server'];
                 unset($item['server']);
@@ -654,26 +648,24 @@ final class Tools
     {
         $node_server = explode(';', $server);
         $node_port = $mu_port;
+        $item = $server->getArgs();
 
-        if (isset($node_server[1])) {
-            if (strpos($node_server[1], 'port') !== false) {
-                $item = URL::parseArgs($node_server[1]);
-                if (strpos($item['port'], '#') !== false) { // 端口偏移，指定端口，格式：8.8.8.8;port=80#1080
-                    if (strpos($item['port'], '+') !== false) { // 多个单端口节点，格式：8.8.8.8;port=80#1080+443#8443
-                        $args_explode = explode('+', $item['port']);
-                        foreach ($args_explode as $arg) {
-                            if ((int) substr($arg, 0, strpos($arg, '#')) === $mu_port) {
-                                $node_port = (int) substr($arg, strpos($arg, '#') + 1);
-                            }
-                        }
-                    } else {
-                        if ((int) substr($item['port'], 0, strpos($item['port'], '#')) === $mu_port) {
-                            $node_port = (int) substr($item['port'], strpos($item['port'], '#') + 1);
+        if (isset($item['port'])) {
+            if (strpos($item['port'], '#') !== false) { // 端口偏移，指定端口，格式：8.8.8.8;port=80#1080
+                if (strpos($item['port'], '+') !== false) { // 多个单端口节点，格式：8.8.8.8;port=80#1080+443#8443
+                    $args_explode = explode('+', $item['port']);
+                    foreach ($args_explode as $arg) {
+                        if ((int) substr($arg, 0, strpos($arg, '#')) === $mu_port) {
+                            $node_port = (int) substr($arg, strpos($arg, '#') + 1);
                         }
                     }
-                } else { // 端口偏移，偏移端口，格式：8.8.8.8;port=1000 or 8.8.8.8;port=-1000
-                    $node_port = $mu_port + (int) $item['port'];
+                } else {
+                    if ((int) substr($item['port'], 0, strpos($item['port'], '#')) === $mu_port) {
+                        $node_port = (int) substr($item['port'], strpos($item['port'], '#') + 1);
+                    }
                 }
+            } else { // 端口偏移，偏移端口，格式：8.8.8.8;port=1000 or 8.8.8.8;port=-1000
+                $node_port = $mu_port + (int) $item['port'];
             }
         }
 
@@ -688,46 +680,25 @@ final class Tools
     {
         $type = 0; //偏移
         $port = []; //指定
-        $node_server = explode(';', $server);
-        if (isset($node_server[1])) {
-            if (strpos($node_server[1], 'port') !== false) {
-                $item = URL::parseArgs($node_server[1]);
-                if (strpos($item['port'], '#') !== false) {
-                    if (strpos($item['port'], '+') !== false) {
-                        $args_explode = explode('+', $item['port']);
-                        foreach ($args_explode as $arg) {
-                            $replace_port = substr($arg, strpos($arg, '#') + 1);
+        $item = $server->getArgs();
 
-                            if (strpos($replace_port, '@') !== false) {
-                                $display_port = substr($replace_port, 0, strpos($replace_port, '@'));
-                                $backend_port = substr($replace_port, strpos($replace_port, '@') + 1);
-
-                                $port[substr($arg, 0, strpos($arg, '#'))] = [
-                                    'backend' => (int) $backend_port,
-                                    'display' => (int) $display_port,
-                                ];
-                            } else {
-                                $user_port = substr($arg, 0, strpos($arg, '#'));
-
-                                $port[$user_port] = [
-                                    'backend' => (int) $user_port,
-                                    'display' => (int) $user_port,
-                                ];
-                            }
-                        }
-                    } else {
-                        $replace_port = substr($item['port'], strpos($item['port'], '#') + 1);
+        if (isset($item['port'])) {
+            if (strpos($item['port'], '#') !== false) {
+                if (strpos($item['port'], '+') !== false) {
+                    $args_explode = explode('+', $item['port']);
+                    foreach ($args_explode as $arg) {
+                        $replace_port = substr($arg, strpos($arg, '#') + 1);
 
                         if (strpos($replace_port, '@') !== false) {
                             $display_port = substr($replace_port, 0, strpos($replace_port, '@'));
                             $backend_port = substr($replace_port, strpos($replace_port, '@') + 1);
 
-                            $port[substr($item['port'], 0, strpos($item['port'], '#'))] = [
+                            $port[substr($arg, 0, strpos($arg, '#'))] = [
                                 'backend' => (int) $backend_port,
                                 'display' => (int) $display_port,
                             ];
                         } else {
-                            $user_port = substr($item['port'], 0, strpos($item['port'], '#'));
+                            $user_port = substr($arg, 0, strpos($arg, '#'));
 
                             $port[$user_port] = [
                                 'backend' => (int) $user_port,
@@ -736,8 +707,27 @@ final class Tools
                         }
                     }
                 } else {
-                    $type = (int) $item['port'];
+                    $replace_port = substr($item['port'], strpos($item['port'], '#') + 1);
+
+                    if (strpos($replace_port, '@') !== false) {
+                        $display_port = substr($replace_port, 0, strpos($replace_port, '@'));
+                        $backend_port = substr($replace_port, strpos($replace_port, '@') + 1);
+
+                        $port[substr($item['port'], 0, strpos($item['port'], '#'))] = [
+                            'backend' => (int) $backend_port,
+                            'display' => (int) $display_port,
+                        ];
+                    } else {
+                        $user_port = substr($item['port'], 0, strpos($item['port'], '#'));
+
+                        $port[$user_port] = [
+                            'backend' => (int) $user_port,
+                            'display' => (int) $user_port,
+                        ];
+                    }
                 }
+            } else {
+                $type = (int) $item['port'];
             }
         }
 

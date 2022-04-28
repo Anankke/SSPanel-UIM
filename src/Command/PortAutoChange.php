@@ -13,7 +13,6 @@ namespace App\Command;
 
 use App\Models\Node;
 use App\Models\User;
-use App\Utils\URL;
 
 final class PortAutoChange extends Command
 {
@@ -67,7 +66,7 @@ final class PortAutoChange extends Command
                 if ($mu_user === null) {
                     continue;
                 }
-                $port = $this->outPort($node->server, $mu_node->server);
+                $port = $this->outPort($node, $mu_node->server);
                 $api_url = $_ENV['detect_gfw_url'];
                 $api_url = str_replace(
                     ['{ip}', '{port}'],
@@ -123,7 +122,7 @@ final class PortAutoChange extends Command
                 $mu_user->port = $new_port;
                 $mu_user->save();
                 foreach ($mu_port_nodes as $mu_port_node) {
-                    $node_port = $this->outPort($mu_port_node->server, $port);
+                    $node_port = $this->outPort($mu_port_node, $port);
                     if (in_array($mu_port_node->id, $array) && ! in_array($mu_port_node->id, $this->Config['exception_node_id'])) {
                         if ($node_port !== $port) {
                             if ($node_port === $new_port) {
@@ -172,7 +171,7 @@ final class PortAutoChange extends Command
                         continue;
                     }
                     $node = Node::find($node_id);
-                    $node_port = $this->outPort($node->server, $port);
+                    $node_port = $this->outPort($node, $port);
                     if ($node_port !== $port) {
                         if (strpos($node->server, '#' . $node_port) !== false) {
                             echo '#' . $node->id . ' - 节点 - ' . $node->name . ' - 端口从' . $node_port . '偏移到了新的端口 ' . $new_port . PHP_EOL;
@@ -196,29 +195,27 @@ final class PortAutoChange extends Command
         }
     }
 
-    public function outPort($server, $mu_port)
+    public function outPort($node, $mu_port)
     {
         $node_port = $mu_port;
-        if (strpos($server, ';') !== false) {
-            $node_server = explode(';', $server);
-            if (strpos($node_server[1], 'port') !== false) {
-                $item = URL::parseArgs($node_server[1]);
-                if (strpos($item['port'], '#') !== false) {
-                    if (strpos($item['port'], '+') !== false) {
-                        $args_explode = explode('+', $item['port']);
-                        foreach ($args_explode as $arg) {
-                            if ((int) substr($arg, 0, strpos($arg, '#')) === $mu_port) {
-                                $node_port = (int) substr($arg, strpos($arg, '#') + 1);
-                            }
-                        }
-                    } else {
-                        if ((int) substr($item['port'], 0, strpos($item['port'], '#')) === $mu_port) {
-                            $node_port = (int) substr($item['port'], strpos($item['port'], '#') + 1);
+        $item = $node->getArgs();
+
+        if (isset($item['port'])) {
+            if (strpos($item['port'], '#') !== false) {
+                if (strpos($item['port'], '+') !== false) {
+                    $args_explode = explode('+', $item['port']);
+                    foreach ($args_explode as $arg) {
+                        if ((int) substr($arg, 0, strpos($arg, '#')) === $mu_port) {
+                            $node_port = (int) substr($arg, strpos($arg, '#') + 1);
                         }
                     }
                 } else {
-                    $node_port = $mu_port + (int) $item['port'];
+                    if ((int) substr($item['port'], 0, strpos($item['port'], '#')) === $mu_port) {
+                        $node_port = (int) substr($item['port'], strpos($item['port'], '#') + 1);
+                    }
                 }
+            } else {
+                $node_port = $mu_port + (int) $item['port'];
             }
         }
 

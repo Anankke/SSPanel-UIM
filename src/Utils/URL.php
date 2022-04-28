@@ -72,24 +72,6 @@ final class URL
         return 3;
     }
 
-    /**
-     * parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
-     */
-    public static function parseArgs(string $origin): array
-    {
-        // parse xxx=xxx|xxx=xxx to array(xxx => xxx, xxx => xxx)
-        $args_explode = explode('|', $origin);
-
-        $return_array = [];
-        foreach ($args_explode as $arg) {
-            $split_point = strpos($arg, '=');
-
-            $return_array[substr($arg, 0, $split_point)] = substr($arg, $split_point + 1);
-        }
-
-        return $return_array;
-    }
-
     public static function SSCanConnect(User $user, $mu_port = 0): bool
     {
         if ($mu_port !== 0) {

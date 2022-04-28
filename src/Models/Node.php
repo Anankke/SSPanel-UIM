@@ -281,20 +281,34 @@ final class Node extends Model
         return explode(';', $this->server)[0];
     }
 
+    public function getArgs(): array
+    {
+        return json_decode($this->custom_config);
+    }
+
+    public function setArgs(string $key, mixed $value): void
+    {
+        $current = json_decode($this->custom_config);
+        $current[$key] = $value;
+        $this->custom_config = json_encode($current);
+        $this->save();
+    }
+
     /**
      * 获取入口地址
      */
     public function getEntranceAddress(): string
     {
         if ($this->sort === 13) {
-            $server = Tools::ssv2Array($this->server);
+            $server = Tools::ssv2Array($this);
             return $server['add'];
         }
+
         $explode = explode(';', $this->server);
-        if (in_array($this->sort, [0]) && isset($explode[1])) {
-            if (stripos($explode[1], 'server=') !== false) {
-                return URL::parseArgs($explode[1])['server'];
-            }
+        $values = $this->getArgs();
+
+        if (in_array($this->sort, [0]) && isset($values['server'])) {
+            return $values['server'];
         }
         return $explode[0];
     }
@@ -372,7 +386,7 @@ final class Node extends Model
      */
     public function getV2RayItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): array
     {
-        $item = Tools::v2Array($this->server);
+        $item = Tools::v2Array($this);
         $item['type'] = 'vmess';
         $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
         $item['id'] = $user->uuid;
@@ -389,7 +403,7 @@ final class Node extends Model
      */
     public function getV2RayPluginItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): ?array
     {
-        $return_array = Tools::ssv2Array($this->server);
+        $return_array = Tools::ssv2Array($this);
         // 非 AEAD 加密无法使用
         if ($return_array['net'] !== 'obfs' && ! in_array($user->method, Config::getSupportParam('ss_aead_method'))) {
             return null;
@@ -431,9 +445,8 @@ final class Node extends Model
         $server = explode(';', $this->server);
         $opt = [];
         $item = [];
-        if (isset($server[1])) {
-            $opt = URL::parseArgs($server[1]);
-        }
+        $opt = $this->getArgs();
+
         $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
         $item['type'] = 'trojan';
         $item['address'] = $server[0];
