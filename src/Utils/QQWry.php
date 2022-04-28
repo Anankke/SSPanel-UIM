@@ -64,7 +64,7 @@ final class QQWry
         while ($l <= $u) {
             $i = floor(($l + $u) / 2);
 
-            fseek($this->fp, $this->firstip + $i * 7);
+            fseek($this->fp, (int) ($this->firstip + $i * 7));
 
             $beginip = strrev(fread($this->fp, 4));
 
@@ -78,7 +78,7 @@ final class QQWry
                 if ($ip > $endip) {
                     $l = $i + 1;
                 } else {
-                    $findip = $this->firstip + $i * 7;
+                    $findip = (int) ($this->firstip + $i * 7);
 
                     break;
                 }
