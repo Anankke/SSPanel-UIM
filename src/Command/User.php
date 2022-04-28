@@ -1,15 +1,13 @@
 <?php
 namespace App\Command;
 
-use Exception;
+use App\Controllers\AuthController;
+use App\Models\User as ModelsUser;
 use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Tools;
+use Exception;
 use Ramsey\Uuid\Uuid;
-use App\Services\Config;
-use App\Models\Setting;
-use App\Models\User as ModelsUser;
-use App\Controllers\AuthController;
 
 class User extends Command
 {
@@ -21,7 +19,8 @@ class User extends Command
         . '│ ├─ resetAllPort            - 重置所有用户端口' . PHP_EOL
         . '│ ├─ resetTraffic            - 重置所有用户流量' . PHP_EOL
         . '│ ├─ generateUUID            - 为所有用户生成新的 UUID' . PHP_EOL
-        . '│ ├─ generateGa              - 为所有用户生成新的 Ga Secret' . PHP_EOL;
+        . '│ ├─ generateGa              - 为所有用户生成新的 Ga Secret' . PHP_EOL
+        . '│ ├─ resetUserLevel          - 重置用户等级' . PHP_EOL;
 
     public function boot()
     {
@@ -66,7 +65,7 @@ class User extends Command
         $users = ModelsUser::all();
         foreach ($users as $user) {
             $origin_port = $user->port;
-            $user->port  = Tools::getAvPort();
+            $user->port = Tools::getAvPort();
             echo '$origin_port=' . $origin_port . '&$user->port=' . $user->port . PHP_EOL;
             $user->save();
         }
@@ -81,8 +80,8 @@ class User extends Command
     {
         try {
             ModelsUser::where('enable', 1)->update([
-                'd'          => 0,
-                'u'          => 0,
+                'd' => 0,
+                'u' => 0,
                 'last_day_t' => 0,
             ]);
         } catch (Exception $e) {
@@ -127,6 +126,22 @@ class User extends Command
     }
 
     /**
+     * 重置用户等级
+     *
+     * @return void
+     */
+    public function resetUserLevel()
+    {
+        $users = ModelsUser::all();
+        foreach ($users as $user) {
+            $user->class = 0;
+            $user->class_expire = $user->expire_in;
+            $user->save();
+        }
+        echo 'All user levels have been reset to 0, and the level expiration time is synchronized with the account expiration time.' . PHP_EOL;
+    }
+
+    /**
      * 创建 Admin 账户
      *
      * @return void
@@ -152,7 +167,7 @@ class User extends Command
             fwrite(STDOUT, "(3/3) 按 Y 或 y 确认创建：");
             $y = trim(fgets(STDIN));
         } elseif (count($this->argv) === 5) {
-            [,,, $email, $passwd] = $this->argv;
+            [, , , $email, $passwd] = $this->argv;
             $y = 'y';
         }
 
