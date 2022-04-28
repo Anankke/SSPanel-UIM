@@ -7,8 +7,35 @@ namespace App\Services;
 use App\Models\GConfig;
 use App\Models\Setting;
 
+// Config is singleton instance store all config
 final class Config
 {
+    private static $instnace = null;
+    private $kv = [];
+    private function __construct()
+    {
+    }
+
+    public static function getConfigInstance(): Config
+    {
+        if (! isset(self::$instnace)) {
+            self::$instnace = new static();
+
+            $settings = Setting::all();
+
+            foreach ($settings as $setting) {
+                self::$instnace->kv[$setting->item] = $setting->value;
+            }
+        }
+
+        return self::$instnace;
+    }
+
+    public static function getConf($key): mixed
+    {
+        return self::getConfigInstance()->getConfigCache($key);
+    }
+
     // TODO: remove
     public static function get($key)
     {
@@ -220,5 +247,14 @@ final class Config
                     'xchacha20-ietf-poly1305',
                 ];
         }
+    }
+
+    private function getConfigCache($key): mixed
+    {
+        if (isset($kv[$key])) {
+            return $kv[$key];
+        }
+
+        return null;
     }
 }

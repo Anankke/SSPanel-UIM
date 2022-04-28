@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Db\Migrations;
-
 use Phinx\Migration\AbstractMigration;
 
 final class CreateStreamMediaTable extends AbstractMigration
@@ -19,12 +17,17 @@ final class CreateStreamMediaTable extends AbstractMigration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function change(): void
+    public function up(): void
     {
         $table = $this->table('stream_media');
         $table->addColumn('node_id', 'integer', ['comment' => '节点id'])
             ->addColumn('result', 'text', ['comment' => '检测结果'])
             ->addColumn('created_at', 'integer', ['comment' => '创建时间'])
             ->create();
+    }
+
+    public function down(): void
+    {
+        $this->table('stream_media')->drop()->update();
     }
 }

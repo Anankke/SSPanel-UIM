@@ -34,7 +34,7 @@ final class THeadPaySDK
         $data = curl_exec($curl);
         curl_close($curl);
 
-        $result = json_decode($data, true);
+        $result = json_decode((string) $data, true);
         if (! is_array($result) || ! isset($result['status'])) {
             throw new \Exception('网络连接异常: 无法连接支付网关');
         }

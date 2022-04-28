@@ -8,7 +8,8 @@ use App\Utils\ClassHelper;
 
 final class Payment
 {
-    public static function getPaymentsEnabled()
+
+    public static function getAllPaymentMap(): array
     {
         $payments = [];
 
@@ -17,13 +18,18 @@ final class Payment
 
         foreach ($class_list as $clazz) {
             if (get_parent_class($clazz) === 'App\\Services\\Gateway\\AbstractPayment') {
-                if ($clazz::_enable()) {
-                    $payments[] = $clazz;
-                }
+                $payments[] = $clazz;
             }
         }
 
         return $payments;
+    }
+
+    public static function getPaymentsEnabled()
+    {
+        return array_values(array_filter(Payment::getAllPaymentMap(), function ($payment) {
+            return $payment::_enable();
+        }));
     }
 
     public static function getPaymentMap()

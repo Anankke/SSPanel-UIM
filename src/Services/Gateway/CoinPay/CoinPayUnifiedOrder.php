@@ -71,7 +71,7 @@ final class CoinPayUnifiedOrder extends CoinPayDataBase
     /**
      * 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
      */
-    public function setOutTradNo(string $value): void
+    public function setOutTradeNo(string $value): void
     {
         $this->values['out_trade_no'] = $value;
     }
@@ -99,7 +99,7 @@ final class CoinPayUnifiedOrder extends CoinPayDataBase
     /**
      * 设置订单总金额，只能为整数，详见支付金额
      */
-    public function setTotalAmount(string $value): void
+    public function setTotalAmount(float $value): void
     {
         $this->values['total_amount'] = $value;
     }

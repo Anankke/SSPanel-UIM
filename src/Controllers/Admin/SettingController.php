@@ -61,8 +61,8 @@ final class SettingController extends BaseController
             case 'stripe':
                 $list = ['stripe_card', 'stripe_currency', 'stripe_pk', 'stripe_sk', 'stripe_webhook_key', 'stripe_min_recharge', 'stripe_max_recharge'];
                 break;
-			case 'e_pay':
-                $list = array('epay_url', 'epay_pid', 'epay_key');
+            case 'e_pay':
+                $list = ['epay_url', 'epay_pid', 'epay_key'];
                 break;
             // 邮件
             case 'mail':
@@ -171,10 +171,9 @@ final class SettingController extends BaseController
 
     public function returnGatewaysList()
     {
-
         $result = [];
 
-        foreach (payment::getPaymentsEnabled() as $payment) {
+        foreach (Payment::getAllPaymentMap() as $payment) {
             $result[$payment::_readableName()] = $payment::_name();
         }
 

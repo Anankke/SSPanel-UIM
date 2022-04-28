@@ -18,6 +18,7 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Utils\Telegram;
 use Psr\Http\Message\ResponseInterface;
+use Ramsey\Uuid\Uuid;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -111,18 +112,7 @@ abstract class AbstractPayment
 
     public static function generateGuid()
     {
-        mt_srand((float) microtime() * 10000);
-        $charid = strtoupper(md5(uniqid(mt_rand() + time(), true)));
-        $hyphen = chr(45);
-        $uuid = chr(123)
-            . substr($charid, 0, 8) . $hyphen
-            . substr($charid, 8, 4) . $hyphen
-            . substr($charid, 12, 4) . $hyphen
-            . substr($charid, 16, 4) . $hyphen
-            . substr($charid, 20, 12)
-            . chr(125);
-        $uuid = str_replace(['}', '{', '-'], '', $uuid);
-        return substr($uuid, 0, 8);
+        return substr(Uuid::uuid4()->toString(), 0, 8);
     }
 
     protected static function getCallbackUrl()

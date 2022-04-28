@@ -77,7 +77,7 @@ final class CoinPay extends AbstractPayment
         $config = new CoinPayConfig();
         try {
             $url = CoinPayApi::unifiedOrder($config, $report_data);
-            return json_encode(['code' => 0, 'url' => $this->coinPayGatewayUrl . 'api/gateway?' . $url]);
+            return $response->withJson(['code' => 0, 'url' => $this->coinPayGatewayUrl . 'api/gateway?' . $url]);
         } catch (CoinPayException $exception) {
             print_r($exception->getMessage());
             die;

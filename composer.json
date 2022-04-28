@@ -29,7 +29,8 @@
         "telegram-bot/api": "^2.2",
         "voku/anti-xss": "^4",
         "zeuxisoo/slim-whoops": "0.5.*",
-        "guzzlehttp/guzzle": "^7.4"
+        "guzzlehttp/guzzle": "^7.4",
+        "symfony/console": "*"
     },
     "autoload": {
         "psr-4": {

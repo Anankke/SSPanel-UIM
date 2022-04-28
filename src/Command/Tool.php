@@ -18,6 +18,7 @@ final class Tool extends Command
 │ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置
 │ ├─ exportAllSettings       - 导出所有设置
 │ ├─ importAllSettings       - 导入所有设置
+│ ├─ upgradeDatabase         - 升级(如果不存在的话初始化) 数据库
 EOL;
 
     public function boot(): void
@@ -32,6 +33,12 @@ EOL;
                 echo '方法不存在.' . PHP_EOL;
             }
         }
+    }
+
+    public function upgradeDatabase(): void
+    {
+        $phinx = new \Phinx\Console\PhinxApplication();
+        $phinx->run();
     }
 
     public function setTelegram(): void
@@ -129,29 +136,32 @@ EOL;
         $json_settings = file_get_contents('./config/settings.json');
         $settings = json_decode($json_settings, true);
         $number = count($settings);
-        $counter = '0';
+        $counter = 0;
 
-        for ($i = 0; $i < $number; $i++) {
-            $item = $settings[$i]['item'];
+        foreach ($settings as $item) {
+            $itemName = $item['item'];
 
-            if ($db->query("SELECT id FROM config WHERE item = '${item}'") === null) {
+            $query = Setting::where('item', '=', $item['item'])->first();
+
+            if ($query === null) {
                 $new_item = new Setting();
                 $new_item->id = null;
-                $new_item->item = $settings[$i]['item'];
-                $new_item->value = $settings[$i]['value'];
-                $new_item->class = $settings[$i]['class'];
-                $new_item->is_public = $settings[$i]['is_public'];
-                $new_item->type = $settings[$i]['type'];
-                $new_item->default = $settings[$i]['default'];
-                $new_item->mark = $settings[$i]['mark'];
+                $new_item->item = $item['item'];
+                $new_item->value = $item['value'];
+                $new_item->class = $item['class'];
+                $new_item->is_public = $item['is_public'];
+                $new_item->type = $item['type'];
+                $new_item->default = $item['default'];
+                $new_item->mark = $item['mark'];
                 $new_item->save();
 
-                echo "添加新设置：${item}" . PHP_EOL;
+                echo "添加新设置：${itemName}" . PHP_EOL;
                 $counter += 1;
             }
         }
 
-        if ($counter !== '0') {
+
+        if ($counter !== 0) {
             echo "总计添加了 ${counter} 条新设置." . PHP_EOL;
         } else {
             echo '没有任何新设置需要添加.' . PHP_EOL;
