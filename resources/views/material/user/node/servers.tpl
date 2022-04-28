@@ -15,27 +15,27 @@
                     <div class="btn-list">
                         <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#connect-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-info"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <desc>Download more icon variants from https://tabler-icons.io/i/info-circle</desc>
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
-                                <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
-                                <path d="M11 14h1v4h1"></path>
-                                <path d="M12 11h.01"></path>
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                <polyline points="11 12 12 12 12 16 13 16"></polyline>
                             </svg>
                             连接信息
                         </a>
                         <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
                             data-bs-target="#connect-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-info"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <desc>Download more icon variants from https://tabler-icons.io/i/info-circle</desc>
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
-                                <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
-                                <path d="M11 14h1v4h1"></path>
-                                <path d="M12 11h.01"></path>
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                <polyline points="11 12 12 12 12 16 13 16"></polyline>
                             </svg>
                         </a>
                     </div>
@@ -120,6 +120,11 @@
                                                                                 <li class="list-inline-item">
                                                                                     <i class="ti ti-rocket"></i>&nbsp;
                                                                                     {$server->traffic_rate}x
+                                                                                </li>
+                                                                                <li class="list-inline-item">
+                                                                                    <a class="ti ti-copy"
+                                                                                        data-clipboard-text="{URL::getV2Url($user, $server)}"
+                                                                                        style="text-decoration: none;"></a>
                                                                                 </li>
                                                                                 <li class="list-inline-item">
                                                                                     <span id="more-details" class="pop form-help"
@@ -212,7 +217,43 @@
         </div>
     </div>
 
+    <div class="modal modal-blur fade" id="success-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-success"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M9 12l2 2l4 -4" />
+                    </svg>
+                    <p id="success-message" class="text-muted">成功</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn w-100" data-bs-dismiss="modal">
+                                    好
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        var clipboard = new ClipboardJS('.ti-copy');
+        clipboard.on('success', function(e) {
+            $('#success-message').text('已复制到剪切板');
+            $('#success-dialog').modal('show');
+        });
+
         {literal}                     
             // https://zablog.me/2015/10/25/Popover/ 非常感谢
             $(document).ready(

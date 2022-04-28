@@ -95,10 +95,12 @@ class TicketController extends AdminController
             return null;
         }
 
+        $user = User::find($topic->user_id);
         $discussions = WorkOrder::where('tk_id', $tk_id)->get();
 
         return $response->write(
             $this->view()
+                ->assign('user', $user)
                 ->assign('topic', $topic)
                 ->assign('discussions', $discussions)
                 ->display('admin/ticket/read.tpl')

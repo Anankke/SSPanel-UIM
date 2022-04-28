@@ -53,6 +53,7 @@ class OrderController extends AdminController
             $result->created_at = date('Y-m-d H:i:s', $result->created_at);
             $result->order_price = sprintf("%.2f", $result->order_price / 100);
             $result->product_price = sprintf("%.2f", $result->product_price / 100);
+            $result->balance_payment = sprintf("%.2f", $result->balance_payment / 100);
             if ($result->order_status == 'paid') {
                 $result->paid_at = date('Y-m-d H:i:s', $result->paid_at);
                 $result->execute_status = '已执行';

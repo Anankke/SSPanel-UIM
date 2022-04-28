@@ -303,10 +303,15 @@
                             <div class="card-body">
                                 <h3 class="card-title">每日签到</h3>
                                 <p class="text-muted">
-                                    签到可领取 <code>{$config['checkinMin']} MB</code> 至 <code>{$config['checkinMax']} MB</code>
-                                    范围内的流量，
+                                    签到可领取
+                                    {if $config['checkinMin'] != $config['checkinMax']}
+                                        &nbsp;<code>{$config['checkinMin']} MB</code> 至 <code>{$config['checkinMax']} MB</code>
+                                        范围内的流量，
+                                    {else}
+                                        <code>{$config['checkinMin']} MB</code>
+                                    {/if}
                                     {if $config['checkin_add_time'] == true}
-                                        并获得 <code>{$config['checkin_add_time_hour']}</code> 小时的时长，
+                                        流量并获得 <code>{$config['checkin_add_time_hour']}</code> 小时的时长，
                                     {/if}
                                     每日零时后就可以可签到了
                                 </p>
@@ -511,6 +516,9 @@
                                             <p>
                                                 在安装 Shadowrocket 或 Quantumult 后，只需 <span style="color: red;">使用 Safari
                                                     浏览器</span> 点击下方按钮，然后在弹出的弹窗中点击 <b>打开</b>，即可快捷完成订阅设置
+                                            </p>
+                                            <p style="color: red;">
+                                                如若提示无法打开，是因为需要先安装对应 APP，然后才能导入
                                             </p>
                                             <a href="sub://{base64_encode($subInfo['v2ray'])}"
                                                 class="btn btn-primary ms-auto">
