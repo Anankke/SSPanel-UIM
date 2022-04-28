@@ -8,7 +8,6 @@ use App\Utils\ClassHelper;
 
 final class Payment
 {
-
     public static function getAllPaymentMap(): array
     {
         $payments = [];
@@ -27,7 +26,7 @@ final class Payment
 
     public static function getPaymentsEnabled()
     {
-        return array_values(array_filter(Payment::getAllPaymentMap(), function ($payment) {
+        return array_values(array_filter(Payment::getAllPaymentMap(), static function ($payment) {
             return $payment::_enable();
         }));
     }

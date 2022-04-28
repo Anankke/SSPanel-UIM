@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\Setting;
-use App\Utils\DatatablesHelper;
 use App\Utils\QQWry;
 
 final class Tool extends Command
@@ -131,11 +130,8 @@ EOL;
 
     public function importAllSettings(): void
     {
-        $db = new DatatablesHelper();
-
         $json_settings = file_get_contents('./config/settings.json');
         $settings = json_decode($json_settings, true);
-        $number = count($settings);
         $counter = 0;
 
         foreach ($settings as $item) {
@@ -159,7 +155,6 @@ EOL;
                 $counter += 1;
             }
         }
-
 
         if ($counter !== 0) {
             echo "总计添加了 ${counter} 条新设置." . PHP_EOL;

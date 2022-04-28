@@ -36,6 +36,11 @@ return [
                 'src/Command/PortAutoChange.php',
             ],
         ],
+        // Db migration should not have a class declaration
+        // If they have, phinx will unable to found them
+        PHP_CodeSniffer\Standards\PSR1\Sniffs\Classes\ClassDeclarationSniff::class => [
+            'exclude' => [ 'db/migrations' ],
+        ],
     ],
 
     'exclude' => [
