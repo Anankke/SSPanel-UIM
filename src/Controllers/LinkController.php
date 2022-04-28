@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models\Link;
 use App\Models\User;
+use App\Models\Node;
 use App\Models\UserSubscribeLog;
 use App\Utils\AppURI;
 use App\Utils\ConfGenerate;
@@ -562,15 +563,10 @@ class LinkController extends BaseController
             if ($user->transfer_enable == 0) {
                 $unusedTraffic = '剩余流量：0';
             } else {
-                $unusedTraffic = '剩余流量：' . $user->unusedTraffic();
+                $unusedTraffic = '剩余 ' . $user->unusedTraffic();
             }
-            $expire_in = '过期时间：';
-            if ($user->class_expire != '1989-06-04 00:05:00') {
-                $userClassExpire = explode(' ', $user->class_expire);
-                $expire_in .= $userClassExpire[0];
-            } else {
-                $expire_in .= '无限期';
-            }
+            $diff = round((strtotime($user->expire_in) - time()) / 86400);
+            $expire_in = '剩余' . $diff .' ('.$user->expire_in.')';
         } else {
             $unusedTraffic  = '账户已过期，请续费后使用';
             $expire_in      = '账户已过期，请续费后使用';
@@ -581,27 +577,52 @@ class LinkController extends BaseController
         }
         $baseUrl = explode('//', $_ENV['baseUrl'])[1];
         $baseUrl = explode('/', $baseUrl)[0];
-        $Extend = [
-            'remark'          => '',
-            'type'            => '',
-            'add'             => $baseUrl,
-            'address'         => $baseUrl,
-            'port'            => 10086,
-            'method'          => 'chacha20-ietf',
-            'passwd'          => $user->passwd,
-            'id'              => $user->uuid,
-            'aid'             => 0,
-            'net'             => 'tcp',
-            'headerType'      => 'none',
-            'host'            => '',
-            'path'            => '/',
-            'tls'             => '',
-            'protocol'        => 'origin',
-            'protocol_param'  => '',
-            'obfs'            => 'plain',
-            'obfs_param'      => '',
-            'group'           => $_ENV['appName']
-        ];
+        if (!$_ENV['sub_overlay_node']) {
+            $Extend = [
+                'remark'          => '',
+                'type'            => '',
+                'add'             => $baseUrl,
+                'address'         => $baseUrl,
+                'port'            => 10086,
+                'method'          => 'chacha20-ietf',
+                'passwd'          => $user->passwd,
+                'id'              => $user->uuid,
+                'aid'             => 0,
+                'net'             => 'tcp',
+                'headerType'      => 'none',
+                'host'            => '',
+                'path'            => '/',
+                'tls'             => '',
+                'protocol'        => 'origin',
+                'protocol_param'  => '',
+                'obfs'            => 'plain',
+                'obfs_param'      => '',
+                'group'           => $_ENV['appName']
+            ];
+        } else {
+            $overlay_node_list = $_ENV['sub_overlay_node_list'];
+            shuffle($overlay_node_list);
+            $overlay_node = Node::find($overlay_node_list[0]);
+            $connect_info = Tools::v2Array($overlay_node->server);
+            $Extend = [
+                'id'              => $user->uuid,
+                'aid'             => $connect_info['aid'],
+                'sni'             => $connect_info['host'],
+                'net'             => $connect_info['net'],
+                'add'             => $connect_info['add'],
+                'tls'             => $connect_info['tls'],
+                'host'            => $connect_info['host'],
+                'path'            => $connect_info['path'],
+                'port'            => $connect_info['port'],
+                'passwd'          => $user->passwd,
+                'address'         => $connect_info['add'],
+                'type'            => '',
+                'remark'          => '',
+                'headerType'      => 'none',
+                'vtype'           => 'vmess://',
+                'group'           => $_ENV['appName'],
+            ];
+        }
         if ($list == 'shadowrocket') {
             $return[] = ('STATUS=' . $unusedTraffic . '.♥.' . $expire_in . PHP_EOL . 'REMARKS=' . $_ENV['appName']);
         }
