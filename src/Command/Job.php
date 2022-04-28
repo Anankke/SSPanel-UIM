@@ -110,6 +110,18 @@ class Job extends Command
             $traffic->save();
         });
 
+        // 记录每个用户的每日用量
+        User::chunkById(1000, function ($users) {
+            foreach ($users as $user) {
+                $traffic = new StatisticsModel;
+                $traffic->item = 'user_traffic';
+                $traffic->value = (($user->u + $user->d) - $user->last_day_t) / 1048576; // to mb
+                $traffic->user_id = $user->id;
+                $traffic->created_at = time();
+                $traffic->save();
+            }
+        });
+
         // 用户流量重置
         User::chunkById(1000, function ($users) {
             foreach ($users as $user) {
