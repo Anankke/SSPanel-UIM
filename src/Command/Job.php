@@ -74,9 +74,6 @@ class Job extends Command
     {
         ini_set('memory_limit', '-1');
 
-        // 重置节点流量
-        Node::where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
-
         // 清理各表记录
         $limit = date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days']);
         Ip::where('datetime', '<', time() - 300)->delete();
@@ -110,25 +107,62 @@ class Job extends Command
             $traffic->save();
         });
 
-        // 记录每个用户的每日用量
-        User::chunkById(1000, function ($users) {
-            foreach ($users as $user) {
-                $traffic = new StatisticsModel;
-                $traffic->item = 'user_traffic';
-                $traffic->value = (($user->u + $user->d) - $user->last_day_t) / 1048576; // to mb
-                $traffic->user_id = $user->id;
-                $traffic->created_at = time();
-                $traffic->save();
-            }
-        });
-
         // 用户流量重置
         User::chunkById(1000, function ($users) {
             foreach ($users as $user) {
+                // 记录每个用户的每日用量
+                $traffic = new StatisticsModel;
+                $traffic->item = 'user_traffic';
+                $usage = (($user->u + $user->d) - $user->last_day_t) / 1048576; // to mb
+                $traffic->value = round($usage, 2);
+                $traffic->user_id = $user->id;
+                $traffic->created_at = time();
+                $traffic->save();
+
                 $user->last_day_t = ($user->u + $user->d);
                 $user->save();
             }
         });
+
+        // 记录节点流量用量
+        $nodes = Node::all();
+        foreach ($nodes as $node) {
+            $before_usage = StatisticsModel::where('node_id', $node->id)
+                ->where('item', 'node_traffic_log')
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $before_usage_v = (empty($before_usage)) ? '0' : $before_usage->node_bandwidth;
+
+            $traffic = new StatisticsModel;
+            $traffic->item = 'node_traffic_log';
+            $traffic->value = $node->node_bandwidth;
+            $traffic->node_id = $node->id;
+            $traffic->created_at = time();
+            $traffic->save();
+
+            $usage = new StatisticsModel;
+            $usage->item = 'node_traffic';
+            // today_usage 记录的实际上是昨天的，因为今天才开始统计
+            $today_usage = round(($node->node_bandwidth - $before_usage_v) / 1048576, 2); // to mb;
+            if ($today_usage > 0) {
+                $usage->value = $today_usage;
+            } else {
+                // 如果昨天是重置日
+                if ($node->bandwidthlimit_resetday == (date('d') - 1)) {
+                    $usage->value = $node_bandwidth;
+                } else {
+                    // 如果昨天不是重置日，但today_usage是负数，那就是在后台将节点流量用量改小了
+                    $usage->value = 0;
+                }
+            }
+            $usage->node_id = $node->id;
+            $usage->created_at = time();
+            $usage->save();
+        }
+
+        // 重置节点流量
+        Node::where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
 
         // 更新 IP 库
         if (date('d') == '1' || date('d') == '10' || date('d') == '20') {
