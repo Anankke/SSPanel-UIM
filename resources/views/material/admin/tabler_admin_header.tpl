@@ -153,7 +153,7 @@
                                 </a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="/admin/announcement">
-                                        <i class="ti ti-flag"></i>&nbsp;
+                                        <i class="ti ti-speakerphone"></i>&nbsp;
                                         公告
                                     </a>
                                     <a class="dropdown-item" href="/admin/ticket">

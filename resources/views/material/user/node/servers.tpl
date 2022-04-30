@@ -121,11 +121,13 @@
                                                                                     <i class="ti ti-rocket"></i>&nbsp;
                                                                                     {$server->traffic_rate}x
                                                                                 </li>
-                                                                                <li class="list-inline-item">
-                                                                                    <a class="ti ti-copy"
-                                                                                        data-clipboard-text="{URL::getV2Url($user, $server)}"
-                                                                                        style="text-decoration: none;"></a>
-                                                                                </li>
+                                                                                {if $server->sort == '11'}
+                                                                                    <li class="list-inline-item">
+                                                                                        <a class="ti ti-copy"
+                                                                                            data-clipboard-text="{URL::getV2Url($user, $server)}"
+                                                                                            style="text-decoration: none;"></a>
+                                                                                    </li>
+                                                                                {/if}
                                                                                 <li class="list-inline-item">
                                                                                     <span id="more-details" class="pop form-help"
                                                                                         data-bs-toggle="popover"

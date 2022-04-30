@@ -287,7 +287,10 @@
                             str += "<tr><td>" +
                                 '<a class=\"text-red\" href="#" onclick="deleteItem(' + data
                                 .result[i].id + ')">删除</a>' +
-                                "</td><td>" + data.result[i].id +
+                                '&nbsp;<a class=\"text-orange\" href="#" onclick="closeItem(' + data
+                                .result[i].id + ')">关闭</a>' +
+                                '&nbsp;<a class=\"text-blue\" href="/admin/ticket/' + data
+                                .result[i].id + '/view">回复</a>' +
                                 {foreach $details['field'] as $key => $value}
                                     {if $key != 'id'}
                                         "</td><td>" + data.result[i].{$key} +

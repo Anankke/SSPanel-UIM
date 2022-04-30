@@ -232,7 +232,6 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">最新公告 <span class="card-subtitle">{$ann->date}</span></h3>
-                            <hr />
                             <p class="text-muted">
                                 {$ann->content}
                             </p>

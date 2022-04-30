@@ -132,7 +132,7 @@ class Job extends Command
                 ->orderBy('id', 'desc')
                 ->first();
 
-            $before_usage_v = (empty($before_usage)) ? '0' : $before_usage->node_bandwidth;
+            $before_usage_v = (empty($before_usage)) ? '0' : $before_usage->value;
 
             $traffic = new StatisticsModel;
             $traffic->item = 'node_traffic_log';

@@ -200,7 +200,7 @@
                                 </a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="/user/announcement">
-                                        <i class="ti ti-flag"></i>&nbsp;
+                                        <i class="ti ti-speakerphone"></i>&nbsp;
                                         站点公告
                                     </a>
                                     {if $config['subscribeLog_show'] == true && $config['subscribeLog'] == true}
