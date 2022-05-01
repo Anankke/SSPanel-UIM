@@ -141,24 +141,26 @@ class Job extends Command
             $traffic->created_at = time();
             $traffic->save();
 
-            $usage = new StatisticsModel;
-            $usage->item = 'node_traffic';
-            // today_usage 记录的实际上是昨天的，因为今天才开始统计
-            $today_usage = round(($node->node_bandwidth - $before_usage_v) / 1048576, 2); // to mb;
-            if ($today_usage > 0) {
-                $usage->value = $today_usage;
-            } else {
-                // 如果昨天是重置日
-                if ($node->bandwidthlimit_resetday == (date('d') - 1)) {
-                    $usage->value = $node_bandwidth;
+            if ($before_usage_v != '0') {
+                $usage = new StatisticsModel;
+                $usage->item = 'node_traffic';
+                // today_usage 记录的实际上是昨天的，因为今天才开始统计
+                $today_usage = round(($node->node_bandwidth - $before_usage_v) / 1048576, 2); // to mb;
+                if ($today_usage > 0) {
+                    $usage->value = $today_usage;
                 } else {
-                    // 如果昨天不是重置日，但today_usage是负数，那就是在后台将节点流量用量改小了
-                    $usage->value = 0;
+                    // 如果昨天是重置日
+                    if ($node->bandwidthlimit_resetday == (date('d') - 1)) {
+                        $usage->value = $node_bandwidth;
+                    } else {
+                        // 如果昨天不是重置日，但today_usage是负数，那就是在后台将节点流量用量改小了
+                        $usage->value = 0;
+                    }
                 }
+                $usage->node_id = $node->id;
+                $usage->created_at = time();
+                $usage->save();
             }
-            $usage->node_id = $node->id;
-            $usage->created_at = time();
-            $usage->save();
         }
 
         // 重置节点流量
