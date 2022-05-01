@@ -172,7 +172,7 @@ $_ENV['telegram_token'] = ''; // 机器人token
 $_ENV['telegram_chatid'] = ''; // 群组会话id
 $_ENV['enable_telegram'] = false; // 机器人开关
 $_ENV['use_new_telegram_bot'] = true; // 新版机器人开关
-$_ENV['telegram_group_quiet'] = false; // 是否在群组中回应
+$_ENV['telegram_group_quiet'] = false; // 是否在群组中不回应
 $_ENV['telegram_request_token'] = '51d38e0819930dbdb808a5c3e65d08a9'; // 修改为随机字符串
 
 // 功能设置
@@ -188,6 +188,10 @@ $_ENV['enable_delete_user_cmd'] = false; // 删除用户触发的 bot 回复功�
 $_ENV['help_any_command'] = false; // 其他未知命令触发 /help 回复
 $_ENV['enable_user_email_group_show'] = false; // false时隐藏用户完整邮箱
 $_ENV['enable_detect_offline'] = false; // 节点掉线检测
+$_ENV['show_group_link'] = false; // 是否展示群组链接
+$_ENV['group_link'] = ''; // 群组链接
+$_ENV['unbind_kick_member'] = false; // 当用户解除绑定时，是否将其从用户群中移除
+$_ENV['group_bound_user'] = false; // 仅允许绑定的用户加入群组
 
 /*
     订阅设置

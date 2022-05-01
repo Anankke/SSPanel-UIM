@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
-use App\Utils\Telegram\TelegramTools;
 use App\Utils\TelegramSessionManager;
+use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -42,8 +41,8 @@ class StartCommand extends Command
 
             // 触发用户
             $SendUser = [
-                'id'       => $Message->getFrom()->getId(),
-                'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+                'id' => $Message->getFrom()->getId(),
+                'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
                 'username' => $Message->getFrom()->getUsername(),
             ];
             // 消息内容
@@ -59,7 +58,7 @@ class StartCommand extends Command
             // 回送信息
             $this->replyWithMessage(
                 [
-                    'text'       => '发送 /help 获取帮助',
+                    'text' => '发送 /help 获取帮助',
                     'parse_mode' => 'Markdown',
                 ]
             );
@@ -85,10 +84,10 @@ class StartCommand extends Command
         if ($Uid == 0) {
             $text = '绑定失败了呢，经检查发现：【' . $MessageText . '】的有效期为 10 分钟，您可以在我们网站上的 **资料编辑** 页面刷新后重试.';
         } else {
-            $BinsUser              = User::where('id', $Uid)->first();
+            $BinsUser = User::where('id', $Uid)->first();
             $BinsUser->telegram_id = $SendUser['id'];
-            $BinsUser->im_type     = 4;
-            $BinsUser->im_value    = $SendUser['username'];
+            $BinsUser->im_type = 4;
+            $BinsUser->im_value = $SendUser['username'];
             $BinsUser->save();
             if ($BinsUser->is_admin >= 1) {
                 $text = '尊敬的**管理员**您好，恭喜绑定成功。' . PHP_EOL . '当前绑定邮箱为：' . $BinsUser->email;
@@ -103,7 +102,7 @@ class StartCommand extends Command
         // 回送信息
         $this->replyWithMessage(
             [
-                'text'       => $text,
+                'text' => $text,
                 'parse_mode' => 'Markdown',
             ]
         );

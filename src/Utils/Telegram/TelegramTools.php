@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Utils\Telegram;
 
 use App\Models\User;
@@ -50,9 +49,9 @@ class TelegramTools
     public static function getUserSearchMethods()
     {
         return [
-            'id'    => [],
+            'id' => [],
             'email' => ['邮箱'],
-            'port'  => ['端口'],
+            'port' => ['端口'],
         ];
     }
 
@@ -64,24 +63,24 @@ class TelegramTools
     public static function getUserActionOption()
     {
         return [
-            'is_admin'          => ['管理员'],
-            'enable'            => ['用户启用'],
-            'money'             => ['金钱', '余额'],
-            'port'              => ['端口'],
-            'transfer_enable'   => ['流量'],
-            'passwd'            => ['连接密码'],
-            'method'            => ['加密'],
-            'protocol'          => ['协议'],
-            'protocol_param'    => ['协参', '协议参数'],
-            'obfs'              => ['混淆'],
-            'obfs_param'        => ['混参', '混淆参数'],
-            'invite_num'        => ['邀请数量'],
-            'node_group'        => ['用户组', '用户分组'],
-            'class'             => ['等级'],
-            'class_expire'      => ['等级过期时间'],
-            'expire_in'         => ['账号过期时间'],
-            'node_speedlimit'   => ['限速'],
-            'node_connector'    => ['连接数', '客户端'],
+            'is_admin' => ['管理员'],
+            'enable' => ['用户启用'],
+            'money' => ['金钱', '余额'],
+            'port' => ['端口'],
+            'transfer_enable' => ['流量'],
+            'passwd' => ['连接密码'],
+            'method' => ['加密'],
+            'protocol' => ['协议'],
+            'protocol_param' => ['协参', '协议参数'],
+            'obfs' => ['混淆'],
+            'obfs_param' => ['混参', '混淆参数'],
+            'invite_num' => ['邀请数量'],
+            'node_group' => ['用户组', '用户分组'],
+            'class' => ['等级'],
+            'class_expire' => ['等级过期时间'],
+            'expire_in' => ['账号过期时间'],
+            'node_speedlimit' => ['限速'],
+            'node_connector' => ['连接数', '客户端'],
         ];
     }
 
@@ -96,7 +95,7 @@ class TelegramTools
         $old = $User->$useOptionMethod;
         $useOptionMethodName = self::getUserActionOption()[$useOptionMethod][0];
         switch ($useOptionMethod) {
-                // ##############
+            // ##############
             case 'enable':
             case 'is_admin':
                 $strArray = [
@@ -106,7 +105,7 @@ class TelegramTools
                 ];
                 if (strpos($value, ' ') !== false) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
@@ -118,18 +117,18 @@ class TelegramTools
                     $new = '禁用';
                 } else {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
                 $old = ($old ? '启用' : '禁用');
                 break;
-                // ##############
+            // ##############
             case 'port':
                 // 支持正整数或 0 随机选择
                 if (!is_numeric($value) || strpos($value, '-') === 0) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '提供的端口非数值，如要随机重置请指定为 0.',
                     ];
                 }
@@ -146,14 +145,14 @@ class TelegramTools
                         '错误详情：' . $temp['msg'],
                     ];
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => self::StrArrayToCode($strArray),
                     ];
                 }
                 $new = $User->$useOptionMethod;
                 $User->$useOptionMethod = $new;
                 break;
-                // ##############
+            // ##############
             case 'transfer_enable':
                 $strArray = [
                     '// 支持的写法，不支持单位 b，不区分大小写',
@@ -166,14 +165,14 @@ class TelegramTools
                 ];
                 if (strpos($value, ' ') !== false) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
                 $new = self::TrafficMethod($User->$useOptionMethod, $value);
                 if ($new === null) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
@@ -181,7 +180,7 @@ class TelegramTools
                 $old = Tools::flowAutoShow($old);
                 $new = Tools::flowAutoShow($new);
                 break;
-                // ##############
+            // ##############
             case 'expire_in':
             case 'class_expire':
                 $strArray = [
@@ -209,7 +208,7 @@ class TelegramTools
                     } else {
                         if (strtotime($value) === false) {
                             return [
-                                'ok'  => false,
+                                'ok' => false,
                                 'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                             ];
                         }
@@ -225,7 +224,7 @@ class TelegramTools
                     } else {
                         if (strtotime($value) === false) {
                             return [
-                                'ok'  => false,
+                                'ok' => false,
                                 'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                             ];
                         }
@@ -235,7 +234,7 @@ class TelegramTools
                 }
                 $User->$useOptionMethod = $new;
                 break;
-                // ##############
+            // ##############
             case 'obfs':
             case 'method':
             case 'protocol':
@@ -260,25 +259,25 @@ class TelegramTools
                     ];
                 }
                 return [
-                    'ok'  => $temp['ok'],
+                    'ok' => $temp['ok'],
                     'msg' => self::StrArrayToCode($strArray),
                 ];
                 break;
-                // ##############
+            // ##############
             case 'passwd':
             case 'obfs_param':
             case 'protocol_param':
                 // 参数值中不允许有空格
                 if (strpos($value, ' ') !== false) {
                     return [
-                        'ok'  => false,
+                        'ok' => false,
                         'msg' => '处理出错，协议中含有空格等字符.',
                     ];
                 }
                 $new = $value;
                 $User->$useOptionMethod = $new;
                 break;
-                // ##############
+            // ##############
             case 'money':
                 $strArray = [
                     '// 参数值中不允许有空格，结果会含小数 2 位',
@@ -291,13 +290,13 @@ class TelegramTools
                 $new = self::ComputingMethod($User->$useOptionMethod, $value, true);
                 if ($new === null) {
                     return [
-                        'ok'  => false,
-                        'msg' => '处理出错，不支持的写法.'  . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
+                        'ok' => false,
+                        'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
                 $User->$useOptionMethod = $new;
                 break;
-                // ##############
+            // ##############
             case 'class':
             case 'invite_num':
             case 'node_group':
@@ -314,16 +313,16 @@ class TelegramTools
                 $new = self::ComputingMethod($User->$useOptionMethod, $value, false);
                 if ($new === null) {
                     return [
-                        'ok'  => false,
-                        'msg' => '处理出错，不支持的写法.'  . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
+                        'ok' => false,
+                        'msg' => '处理出错，不支持的写法.' . PHP_EOL . PHP_EOL . self::StrArrayToCode($strArray),
                     ];
                 }
                 $User->$useOptionMethod = $new;
                 break;
-                // ##############
+            // ##############
             default:
                 return [
-                    'ok'  => false,
+                    'ok' => false,
                     'msg' => '尚不支持.',
                 ];
                 break;
@@ -336,12 +335,12 @@ class TelegramTools
                 '修改后为：' . $new,
             ];
             return [
-                'ok'  => true,
+                'ok' => true,
                 'msg' => self::StrArrayToCode($strArray),
             ];
         } else {
             return [
-                'ok'  => false,
+                'ok' => false,
                 'msg' => '保存出错',
             ];
         }
@@ -486,7 +485,10 @@ class TelegramTools
                 $number = Tools::flowAutoShowZ(substr($Value, 1));
             } else {
                 $number = substr($Value, 1, strlen($Value) - 1);
-                if (!is_numeric($number)) return null;
+                if (!is_numeric($number)) {
+                    return null;
+                }
+
             }
             if ($number === null) {
                 return null;

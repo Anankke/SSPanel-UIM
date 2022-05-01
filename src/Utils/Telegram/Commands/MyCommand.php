@@ -3,9 +3,7 @@
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
-use App\Services\Config;
 use App\Utils\Telegram\Reply;
-use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -54,8 +52,8 @@ class MyCommand extends Command
 
         // 触发用户
         $SendUser = [
-            'id'       => $Message->getFrom()->getId(),
-            'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+            'id' => $Message->getFrom()->getId(),
+            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
 
@@ -64,9 +62,9 @@ class MyCommand extends Command
             // 回送信息
             $response = $this->replyWithMessage(
                 [
-                    'text'                  => '需要先在用户中心绑定你的账户',
-                    'reply_to_message_id'   => $MessageID,
-                    'parse_mode'            => 'Markdown',
+                    'text' => '需要先在用户中心的资料编辑页面绑定你的账户哦',
+                    'reply_to_message_id' => $MessageID,
+                    'parse_mode' => 'Markdown',
                 ]
             );
         } else {
@@ -92,19 +90,19 @@ class MyCommand extends Command
         // 回送信息
         return $this->replyWithMessage(
             [
-                'text'                  => $text,
-                'parse_mode'            => 'Markdown',
-                'reply_to_message_id'   => $MessageID,
-                'reply_markup'          => json_encode(
+                'text' => $text,
+                'parse_mode' => 'Markdown',
+                'reply_to_message_id' => $MessageID,
+                'reply_markup' => json_encode(
                     [
                         'inline_keyboard' => [
                             [
                                 [
-                                    'text'          => (!$User->isAbleToCheckin() ? '已签到' : '签到'),
-                                    'callback_data' => 'user.checkin.' . $SendUser['id']
-                                ]
+                                    'text' => (!$User->isAbleToCheckin() ? '已签到' : '签到'),
+                                    'callback_data' => 'user.checkin.' . $SendUser['id'],
+                                ],
                             ],
-                        ]
+                        ],
                     ]
                 ),
             ]

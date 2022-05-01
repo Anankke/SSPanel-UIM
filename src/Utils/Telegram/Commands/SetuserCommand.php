@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
-use App\Services\Config;
-use App\Utils\Telegram\{Reply, TelegramTools};
+use App\Utils\Telegram\Reply;
+use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -39,19 +38,20 @@ class SetuserCommand extends Command
 
         // 触发用户
         $SendUser = [
-            'id'       => $Message->getFrom()->getId(),
-            'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+            'id' => $Message->getFrom()->getId(),
+            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
 
         if (!in_array($SendUser['id'], $_ENV['telegram_admins'])) {
             $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
             if ($AdminUser == null) {
+                // 非管理员回复消息
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '您无权限',
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => '您无操作权限',
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
@@ -73,17 +73,17 @@ class SetuserCommand extends Command
         if ($Message->getReplyToMessage() != null) {
             // 回复源消息用户
             $FindUser = [
-                'id'       => $Message->getReplyToMessage()->getFrom()->getId(),
-                'name'     => $Message->getReplyToMessage()->getFrom()->getFirstName() . ' ' . $Message->getReplyToMessage()->getFrom()->getLastName(),
+                'id' => $Message->getReplyToMessage()->getFrom()->getId(),
+                'name' => $Message->getReplyToMessage()->getFrom()->getFirstName() . ' ' . $Message->getReplyToMessage()->getFrom()->getLastName(),
                 'username' => $Message->getReplyToMessage()->getFrom()->getUsername(),
             ];
             $User = TelegramTools::getUser($FindUser['id']);
             if ($User == null) {
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '无此用户',
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => '没有找到这个用户',
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
@@ -93,8 +93,8 @@ class SetuserCommand extends Command
                 // 无参数时回复用户信息
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => Reply::getUserInfoFromAdmin($User, $ChatID),
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => Reply::getUserInfoFromAdmin($User, $ChatID),
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
@@ -118,9 +118,9 @@ class SetuserCommand extends Command
             ];
             $response = $this->replyWithMessage(
                 [
-                    'text'                  => TelegramTools::StrArrayToCode($strArray),
-                    'parse_mode'            => 'HTML',
-                    'reply_to_message_id'   => $MessageID,
+                    'text' => TelegramTools::StrArrayToCode($strArray),
+                    'parse_mode' => 'HTML',
+                    'reply_to_message_id' => $MessageID,
                 ]
             );
             return;
@@ -136,9 +136,9 @@ class SetuserCommand extends Command
             if (count($Options) < 3) {
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '没有提供选项或操作值.',
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => '没有提供选项或操作值.',
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
@@ -154,9 +154,9 @@ class SetuserCommand extends Command
             if (count($Options) < 2) {
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '没有提供选项或操作值.',
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => '没有提供选项或操作值.',
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
@@ -188,9 +188,9 @@ class SetuserCommand extends Command
 
                 $response = $this->replyWithMessage(
                     [
-                        'text'                  => '无此用户',
-                        'parse_mode'            => 'HTML',
-                        'reply_to_message_id'   => $MessageID,
+                        'text' => '没有找到这个用户',
+                        'parse_mode' => 'HTML',
+                        'reply_to_message_id' => $MessageID,
                     ]
                 );
                 return;
@@ -204,9 +204,9 @@ class SetuserCommand extends Command
         if ($useOptionMethod == '') {
             $response = $this->replyWithMessage(
                 [
-                    'text'                  => '无此字段',
-                    'parse_mode'            => 'HTML',
-                    'reply_to_message_id'   => $MessageID,
+                    'text' => '没有找到这个字段',
+                    'parse_mode' => 'HTML',
+                    'reply_to_message_id' => $MessageID,
                 ]
             );
             return;
@@ -216,9 +216,9 @@ class SetuserCommand extends Command
         $reply = TelegramTools::OperationUser($User, $useOptionMethod, $value, $ChatID);
         $response = $this->replyWithMessage(
             [
-                'text'                  => $reply['msg'],
-                'parse_mode'            => 'HTML',
-                'reply_to_message_id'   => $MessageID,
+                'text' => $reply['msg'],
+                'parse_mode' => 'HTML',
+                'reply_to_message_id' => $MessageID,
             ]
         );
         return;

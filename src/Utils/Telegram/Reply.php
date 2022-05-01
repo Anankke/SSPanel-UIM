@@ -78,9 +78,7 @@ class Reply
             '剩余流量：' . $user->unusedTraffic(),
             '等级到期：' . $user->class_expire,
             '账户到期：' . $user->expire_in,
-            '套餐详情：'
         ];
-
         return implode(PHP_EOL, $strArray);
     }
 }

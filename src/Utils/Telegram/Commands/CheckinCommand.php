@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
-use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -49,8 +47,8 @@ class CheckinCommand extends Command
 
         // 触发用户
         $SendUser = [
-            'id'       => $Message->getFrom()->getId(),
-            'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+            'id' => $Message->getFrom()->getId(),
+            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
 
@@ -59,18 +57,51 @@ class CheckinCommand extends Command
             // 回送信息
             $response = $this->replyWithMessage(
                 [
-                    'text'       => '需要先在用户中心绑定你的账户',
+                    'text' => '需要先在用户中心的资料编辑页面绑定你的账户，然后才能签到哦',
                     'parse_mode' => 'Markdown',
                 ]
             );
         } else {
-            $checkin = $User->checkin();
+            /* $checkin = $User->checkin();
             // 回送信息
             $response = $this->replyWithMessage(
+            [
+            'text'                  => $checkin['msg'],
+            'reply_to_message_id'   => $Message->getMessageId(),
+            'parse_mode'            => 'Markdown',
+            ]
+            ); */
+            if ($_ENV['enable_checkin'] == false) {
+                $msg = '暂时不能签到';
+            } else {
+                if ($_ENV['enable_expired_checkin'] == false && strtotime($User->expire_in) < time()) {
+                    $msg = '账户过期时不能签到';
+                } else {
+                    if (!$User->isAbleToCheckin()) {
+                        $msg = '今天已经签到过了';
+                    } else {
+                        $rand_traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
+                        $User->transfer_enable += Tools::toMB($rand_traffic);
+                        $User->last_check_in_time = time();
+                        if ($_ENV['checkin_add_time']) {
+                            $add_timestamp = $_ENV['checkin_add_time_hour'] * 3600;
+                            if (time() > strtotime($User->expire_in)) {
+                                $User->expire_in = date('Y-m-d H:i:s', time() + $add_timestamp);
+                            } else {
+                                $User->expire_in = date('Y-m-d H:i:s', strtotime($User->expire_in) + $add_timestamp);
+                            }
+                        }
+                        $User->save();
+                        $msg = '签到获得了 ' . $rand_traffic . ' MB 流量';
+                    }
+                }
+            }
+
+            $response = $this->replyWithMessage(
                 [
-                    'text'                  => $checkin['msg'],
-                    'reply_to_message_id'   => $Message->getMessageId(),
-                    'parse_mode'            => 'Markdown',
+                    'text' => $msg,
+                    'reply_to_message_id' => $Message->getMessageId(),
+                    'parse_mode' => 'Markdown',
                 ]
             );
         }

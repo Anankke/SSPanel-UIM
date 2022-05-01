@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
-use App\Services\Config;
-use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -39,8 +36,8 @@ class UnbindCommand extends Command
 
         // 触发用户
         $SendUser = [
-            'id'       => $Message->getFrom()->getId(),
-            'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+            'id' => $Message->getFrom()->getId(),
+            'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
 
@@ -56,7 +53,7 @@ class UnbindCommand extends Command
                 // 回送信息
                 $this->replyWithMessage(
                     [
-                        'text'       => '需要先在用户中心绑定你的账户',
+                        'text' => '需要先在用户中心的资料编辑页面绑定你的账户哦',
                         'parse_mode' => 'Markdown',
                     ]
                 );
@@ -72,8 +69,8 @@ class UnbindCommand extends Command
                 // 回送信息
                 $this->replyWithMessage(
                     [
-                        'text'          => $text,
-                        'parse_mode'    => 'Markdown',
+                        'text' => $text,
+                        'parse_mode' => 'Markdown',
                     ]
                 );
                 return;
@@ -87,8 +84,8 @@ class UnbindCommand extends Command
             // 回送信息
             $this->replyWithMessage(
                 [
-                    'text'                  => $text,
-                    'parse_mode'            => 'Markdown',
+                    'text' => $text,
+                    'parse_mode' => 'Markdown',
                 ]
             );
         }
@@ -97,6 +94,9 @@ class UnbindCommand extends Command
     public function sendtext()
     {
         $text = '发送 **/unbind 账户邮箱** 进行解绑.';
+        if ($_ENV['unbind_kick_member']) {
+            $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，您解绑账户将会被自动移出用户群.';
+        }
         return $text;
     }
 }

@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Utils\Telegram\Commands;
 
-use App\Utils\Telegram\{TelegramTools};
+use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -26,7 +25,7 @@ class MenuCommand extends Command
      */
     public function handle()
     {
-        $Update  = $this->getUpdate();
+        $Update = $this->getUpdate();
         $Message = $Update->getMessage();
 
         // 消息 ID
@@ -43,8 +42,8 @@ class MenuCommand extends Command
 
             // 触发用户
             $SendUser = [
-                'id'       => $Message->getFrom()->getId(),
-                'name'     => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
+                'id' => $Message->getFrom()->getId(),
+                'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
                 'username' => $Message->getFrom()->getUsername(),
             ];
 
@@ -58,13 +57,13 @@ class MenuCommand extends Command
             // 回送信息
             return $this->replyWithMessage(
                 [
-                    'text'                      => $reply['text'],
-                    'parse_mode'                => 'Markdown',
-                    'disable_web_page_preview'  => false,
-                    'reply_to_message_id'       => null,
-                    'reply_markup'              => json_encode(
+                    'text' => $reply['text'],
+                    'parse_mode' => 'Markdown',
+                    'disable_web_page_preview' => false,
+                    'reply_to_message_id' => null,
+                    'reply_markup' => json_encode(
                         [
-                            'inline_keyboard' => $reply['keyboard']
+                            'inline_keyboard' => $reply['keyboard'],
                         ]
                     ),
                 ]
