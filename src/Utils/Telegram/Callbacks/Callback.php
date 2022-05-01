@@ -227,7 +227,7 @@ class Callback
 
     public static function getUserIndexKeyboard($user)
     {
-        $checkin = (!$user->isAbleToCheckin() ? '已签到' : '签到');
+        $checkin = (!$user->isAbleToCheckin() ? '已签到' : '立即签到');
         $Keyboard = [
             [
                 [
@@ -1205,9 +1205,34 @@ class Callback
      */
     public function UserCheckin()
     {
-        $checkin = $this->User->checkin();
+        if ($_ENV['enable_checkin'] == false) {
+            $msg = '暂时不能签到';
+        } else {
+            if ($_ENV['enable_expired_checkin'] == false && strtotime($User->expire_in) < time()) {
+                $msg = '账户过期时不能签到';
+            } else {
+                if (!$User->isAbleToCheckin()) {
+                    $msg = '今天已经签到过了';
+                } else {
+                    $rand_traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
+                    $User->transfer_enable += Tools::toMB($rand_traffic);
+                    $User->last_check_in_time = time();
+                    if ($_ENV['checkin_add_time']) {
+                        $add_timestamp = $_ENV['checkin_add_time_hour'] * 3600;
+                        if (time() > strtotime($User->expire_in)) {
+                            $User->expire_in = date('Y-m-d H:i:s', time() + $add_timestamp);
+                        } else {
+                            $User->expire_in = date('Y-m-d H:i:s', strtotime($User->expire_in) + $add_timestamp);
+                        }
+                    }
+                    $User->save();
+                    $msg = '签到获得了 ' . $rand_traffic . ' MB 流量';
+                }
+            }
+        }
+
         $this->answerCallbackQuery([
-            'text' => $checkin['msg'],
+            'text' => $msg,
             'show_alert' => true,
         ]);
         // 回送信息
@@ -1229,7 +1254,7 @@ class Callback
             ];
         }
         $this->replyWithMessage([
-            'text' => $temp['text'] . PHP_EOL . PHP_EOL . $checkin['msg'],
+            'text' => $msg,
             'reply_to_message_id' => $this->MessageID,
             'parse_mode' => 'Markdown',
             'reply_markup' => json_encode(
