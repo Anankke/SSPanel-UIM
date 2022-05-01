@@ -1205,6 +1205,7 @@ class Callback
      */
     public function UserCheckin()
     {
+        $User = $this->User;
         if ($_ENV['enable_checkin'] == false) {
             $msg = '暂时不能签到';
         } else {
