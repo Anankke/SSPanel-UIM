@@ -38,6 +38,7 @@ storage/*.*
 public/.user.ini
 
 resources/views/material/analytics.tpl
+/home/wwwroot/tabler/resources/views/material/user/docs
 
 .envrc.local
 .direnv/
