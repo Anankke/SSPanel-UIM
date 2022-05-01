@@ -38,7 +38,7 @@ storage/*.*
 public/.user.ini
 
 resources/views/material/analytics.tpl
-resources/views/material/user/docs
+resources/views/material/user/docs/*
 
 .envrc.local
 .direnv/
