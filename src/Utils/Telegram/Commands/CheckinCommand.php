@@ -2,6 +2,7 @@
 namespace App\Utils\Telegram\Commands;
 
 use App\Models\User;
+use App\Utils\Tools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
