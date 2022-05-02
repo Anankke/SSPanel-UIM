@@ -114,6 +114,7 @@ class UserController extends BaseController
             }
             $coupon_order_count = ProductOrder::where('order_status', 'paid')
                 ->where('order_coupon', $coupon_code)
+                ->where('user_id', $this->user->id)
                 ->count();
             if ($coupon_order_count >= $coupon->user_limit) {
                 throw new \Exception('此优惠码已达个人使用限制');
@@ -157,6 +158,7 @@ class UserController extends BaseController
                 }
                 $coupon_order_count = ProductOrder::where('order_status', 'paid')
                     ->where('order_coupon', $coupon_code)
+                    ->where('user_id', $user->id)
                     ->count();
                 if ($coupon_order_count >= $coupon->user_limit) {
                     throw new \Exception('此优惠码已达个人使用限制');
