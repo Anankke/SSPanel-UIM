@@ -27,7 +27,7 @@ class TopController extends AdminController
                 ->assign('logs', $logs)
                 ->assign('next_day', date('Ymd', $day_start + 86400))
                 ->assign('previous_day', date('Ymd', $day_start - 86400))
-                ->display('admin/top/node.tpl')
+                ->display('admin/top/user.tpl')
         );
     }
 

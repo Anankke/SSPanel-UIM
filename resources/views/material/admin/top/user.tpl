@@ -8,7 +8,7 @@
                         <span class="home-title">{$date}</span>
                     </h2>
                     <div class="page-pretitle">
-                        <span class="home-subtitle">当日累计用量：{round($logs->sum('value') / 1024 / 1024, 2)} GB</span>
+                        <span class="home-subtitle">当日累计用量：{round($logs->sum('value') / 1024 / 1024, 2)} TB</span>
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
