@@ -14,7 +14,7 @@ final class NodeToken
         $key = $request->getQueryParam('key');
         if ($key === null) {
             // 未提供 key
-            return $response->withjson([
+            return $response->withJson([
                 'ret' => 0,
                 'data' => 'Your key is null.',
             ]);

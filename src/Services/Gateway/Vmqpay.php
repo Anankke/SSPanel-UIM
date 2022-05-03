@@ -59,7 +59,7 @@ final class Vmqpay extends AbstractPayment
         ];
 
         $pay_url = $gateway . '/createOrder?' . http_build_query($params);
-        header('Location: ' . $pay_url);
+        return $response->withRedirect($pay_url);
     }
 
     public function notify($request, $response, $args): ResponseInterface
