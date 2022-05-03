@@ -179,6 +179,10 @@ return function (SlimApp $app) {
         $this->delete('/announcement',          App\Controllers\Admin\AnnController::class . ':delete');
         $this->post('/announcement/ajax',       App\Controllers\Admin\AnnController::class . ':ajax');
 
+        // Top Mange
+        $this->get('/top/user/{date}',          App\Controllers\Admin\TopController::class . ':user');
+        $this->get('/top/node/{date}',          App\Controllers\Admin\TopController::class . ':node');
+
         // Detect Mange
         $this->get('/detect',                   App\Controllers\Admin\DetectController::class . ':index');
         $this->get('/detect/create',            App\Controllers\Admin\DetectController::class . ':create');
