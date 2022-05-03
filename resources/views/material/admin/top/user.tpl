@@ -66,7 +66,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="table-responsive">
-                            <table class="table table-vcenter card-table">
+                            <table id="data_table" class="table table-vcenter card-table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -81,7 +81,7 @@
                                         <tr>
                                             <td>{$count++}</td>
                                             <td>{$log->user_id}</td>
-                                            <td>{sprintf("%.2f", round($log->value, 2))} GB</td>
+                                            <td>{sprintf("%.2f", round($log->value / 1024, 2))} GB</td>
                                             <td>{date('Y-m-d H:i:s', $log->created_at)}</td>
                                         </tr>
                                     {/foreach}
@@ -93,4 +93,40 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('#data_table').DataTable({
+            'iDisplayLength': 25,
+            'order': [
+                [3, 'desc']
+            ],
+            "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row card-footer d-flex align-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 条",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(在 _MAX_ 项中查找)",
+                "sInfoPostFix": "",
+                "sSearch": "<i class=\"ti ti-search\"></i> ",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "<i class=\"ti ti-arrow-left\"></i>",
+                    "sNext": "<i class=\"ti ti-arrow-right\"></i>",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+        });
+    </script>
 {include file='admin/tabler_admin_footer.tpl'}
