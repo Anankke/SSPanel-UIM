@@ -19,8 +19,7 @@ class TopController extends AdminController
         $logs = Statistics::where('item', 'user_traffic')
             ->where('created_at', '>', $start_timestamp + 3600) // 记录的是 n-1 天前的数据
             ->where('created_at', '<', $stop_timestamp + 3600)
-            ->orderBy('value', 'desc')
-            ->limit(100)
+            ->where('value', '!=', '0')
             ->get();
 
         return $response->write(
@@ -45,8 +44,7 @@ class TopController extends AdminController
         $logs = Statistics::where('item', 'node_traffic')
             ->where('created_at', '>', $start_timestamp + 3600)
             ->where('created_at', '<', $stop_timestamp + 3600)
-            ->orderBy('value', 'desc')
-            ->limit(100)
+            ->where('value', '!=', '0')
             ->get();
 
         $nodes = Node::all();
