@@ -72,7 +72,7 @@
                                         <th>#</th>
                                         <th>节点编号</th>
                                         <th>节点名称</th>
-                                        <th>流量用量</th>
+                                        <th>流量用量(GB)</th>
                                         <th>记录时间</th>
                                     </tr>
                                 </thead>
@@ -83,7 +83,7 @@
                                             <td>{$count++}</td>
                                             <td>{$log->node_id}</td>
                                             <td>{$names[$log->node_id]}</td>
-                                            <td>{sprintf("%.2f", round($log->value / 1024, 2))} GB</td>
+                                            <td>{sprintf("%.2f", $log->value / 1024)}</td>
                                             <td>{date('Y-m-d H:i:s', $log->created_at)}</td>
                                         </tr>
                                     {/foreach}

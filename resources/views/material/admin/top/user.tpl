@@ -71,7 +71,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>用户编号</th>
-                                        <th>流量用量</th>
+                                        <th>流量用量(GB)</th>
                                         <th>记录时间</th>
                                     </tr>
                                 </thead>
@@ -81,7 +81,7 @@
                                         <tr>
                                             <td>{$count++}</td>
                                             <td>{$log->user_id}</td>
-                                            <td>{sprintf("%.2f", round($log->value / 1024, 2))} GB</td>
+                                            <td>{sprintf("%.2f", $log->value / 1024)}</td>
                                             <td>{date('Y-m-d H:i:s', $log->created_at)}</td>
                                         </tr>
                                     {/foreach}

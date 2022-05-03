@@ -161,11 +161,11 @@
                                         工单
                                     </a>
                                     <a class="dropdown-item" href="/admin/top/user/{date('Ymd')}">
-                                        <i class="ti ti-messages"></i>&nbsp;
+                                        <i class="ti ti-sort-ascending-2"></i>&nbsp;
                                         用户流量排行
                                     </a>
                                     <a class="dropdown-item" href="/admin/top/node/{date('Ymd')}">
-                                        <i class="ti ti-messages"></i>&nbsp;
+                                        <i class="ti ti-sort-descending-2"></i>&nbsp;
                                         节点流量排行
                                     </a>
                                 </div>
