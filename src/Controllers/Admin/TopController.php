@@ -17,8 +17,6 @@ class TopController extends AdminController
             ->where('created_at', '>', $day_start + 86400)
             ->where('created_at', '<', $day_start + 86400 + 86400)
             ->where('value', '!=', '0')
-            ->orderBy('value', 'desc')
-            ->limit(100)
             ->get();
 
         return $response->write(

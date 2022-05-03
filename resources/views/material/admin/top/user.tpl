@@ -95,7 +95,7 @@
         $('#data_table').DataTable({
             'iDisplayLength': 25,
             'order': [
-                [2, 'desc']
+                [1, 'desc']
             ],
             "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
