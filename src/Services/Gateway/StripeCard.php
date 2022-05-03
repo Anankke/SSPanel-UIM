@@ -72,11 +72,12 @@ final class StripeCard extends AbstractPayment
             'cancel_url' => $_ENV['baseUrl'] . '/user/code',
         ]);
 
-        header('Location: ' . $session->url);
+        return $response->withRedirect($session->url);
     }
 
     public function notify($request, $response, $args): ResponseInterface
     {
+        return $response->write('ok');
     }
 
     public static function getPurchaseHTML(): string
@@ -102,7 +103,7 @@ final class StripeCard extends AbstractPayment
             $this->postPayment($trade_no, '银行卡支付');
         }
 
-        header('Location: ' . $_ENV['baseUrl'] . '/user/code');
+        return $response->withRedirect($_ENV['baseUrl'] . '/user/code');
     }
 
     public static function exchange($currency)

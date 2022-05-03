@@ -43,6 +43,7 @@ final class PaymentWall extends AbstractPayment
 
     public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
+        return $response->withStatus(204);
         // TODO: Implement purchase() method.
     }
 
@@ -78,8 +79,6 @@ final class PaymentWall extends AbstractPayment
                 if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
                     Payback::rebate($user->id, $virtualCurrency);
                 }
-                // 通知
-                echo 'OK'; // Paymentwall expects response to be OK, otherwise the pingback will be resent
                 if ($_ENV['enable_donate'] === true) {
                     if ($user->is_hide === 1) {
                         Telegram::send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
@@ -87,12 +86,13 @@ final class PaymentWall extends AbstractPayment
                         Telegram::send('姐姐姐姐，' . $user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
                     }
                 }
-            } else {
-                echo $pingback->getErrorSummary();
+
+                return $response->write('OK');
             }
-        } else {
-            echo 'error';
+
+            return $response->write($pingback->getErrorSummary());
         }
+        return $response->write('error');
     }
 
     public static function getPurchaseHTML(): string

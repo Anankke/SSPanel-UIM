@@ -16,6 +16,8 @@ use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\View;
 use Exception;
+use Omnipay\Alipay\AbstractAopGateway;
+use Omnipay\Alipay\AopF2FGateway;
 use Omnipay\Omnipay;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
@@ -57,6 +59,7 @@ final class AopF2F extends AbstractPayment
 
         $gateway = $this->createGateway();
 
+        /** @var AopTradePreCreateRequest $request */
         $request = $gateway->purchase();
         $request->setBizContent([
             'subject' => $pl->tradeno,
@@ -81,6 +84,7 @@ final class AopF2F extends AbstractPayment
     public function notify($request, $response, $args): ResponseInterface
     {
         $gateway = $this->createGateway();
+        /** @var AopCompletePurchaseRequest $aliRequest */
         $aliRequest = $gateway->completePurchase();
         $aliRequest->setParams($_POST);
 
@@ -102,9 +106,10 @@ final class AopF2F extends AbstractPayment
         return View::getSmarty()->fetch('user/aopf2f.tpl');
     }
 
-    private function createGateway()
+    private function createGateway(): AbstractAopGateway
     {
         $configs = Setting::getClass('f2f');
+        /** @var AopF2FGateway $gateway */
         $gateway = Omnipay::create('Alipay_AopF2F');
         $gateway->setSignType('RSA2'); //RSA/RSA2
         $gateway->setAppId($configs['f2f_pay_app_id']);

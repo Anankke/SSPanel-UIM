@@ -55,7 +55,7 @@ final class PAYJS extends AbstractPayment
      *
      * @param sourceData
      */
-    public function sign($data): 签名数据
+    public function sign($data): string
     {
         return strtoupper(md5(urldecode($data) . '&key=' . $this->appSecret));
     }
@@ -152,17 +152,16 @@ final class PAYJS extends AbstractPayment
                 $p = Paylist::where('tradeno', '=', $data['out_trade_no'])->first();
                 if ($p->status !== 1) {
                     $this->postPayment($data['out_trade_no'], '微信支付');
-                    echo 'SUCCESS';
-                } else {
-                    echo 'ERROR';
+                    return $response->write('SUCCESS');
                 }
-            } else {
-                echo 'FAIL2';
+                return $response->write('ERROR');
             }
-        } else {
-            echo 'FAIL1';
+            return $response->write('FAIL2');
         }
+
+        return $response->write('FAIL1');
     }
+
     public function refund($merchantTradeNo)
     {
         $data = [];

@@ -65,7 +65,7 @@ abstract class AbstractPayment
     public function getStatus(Request $request, Response $response, array $args): ResponseInterface
     {
         $p = Paylist::where('tradeno', $_POST['pid'])->first();
-        return json_encode([
+        return $response->withJson([
             'ret' => 1,
             'result' => $p->satatus,
         ]);

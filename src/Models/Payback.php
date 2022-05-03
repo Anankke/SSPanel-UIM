@@ -20,7 +20,7 @@ final class Payback extends Model
         return $user;
     }
 
-    public function rebate($user_id, $order_amount): void
+    public static function rebate($user_id, $order_amount): void
     {
         $configs = Setting::getClass('invite');
         $user = User::where('id', $user_id)->first();

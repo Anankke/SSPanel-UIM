@@ -83,10 +83,7 @@ final class THeadPay extends AbstractPayment
 
     public function notify($request, $response, $args): ResponseInterface
     {
-        $inputString = file_get_contents('php://input', 'r');
-        $inputStripped = str_replace(["\r", "\n", "\t", "\v"], '', $inputString);
-        $params = json_decode($inputStripped, true); //convert JSON into array
-
+        $params = $request->getParsedBody();
         if ($this->sdk->verify($params)) {
             $pid = $params['out_trade_no'];
             $this->postPayment($pid, 'THeadPay 平头哥支付 ' . $pid);

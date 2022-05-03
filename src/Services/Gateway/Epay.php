@@ -12,6 +12,7 @@ namespace App\Services\Gateway;
 
 use App\Models\Paylist;
 use App\Services\Auth;
+use App\Services\Config;
 use App\Services\Gateway\Epay\EpayNotify;
 use App\Services\Gateway\Epay\EpaySubmit;
 use App\Services\View;
@@ -25,9 +26,9 @@ final class Epay extends AbstractPayment
 
     public function __construct()
     {
-        $this->epay['apiurl'] = Config::get('epay_url');//易支付API地址
-        $this->epay['partner'] = Config::get('epay_pid');//易支付商户pid
-        $this->epay['key'] = Config::get('epay_key');//易支付商户Key
+        $this->epay['apiurl'] = Config::getConf('epay_url');//易支付API地址
+        $this->epay['partner'] = Config::getConf('epay_pid');//易支付商户pid
+        $this->epay['key'] = Config::getConf('epay_key');//易支付商户Key
         $this->epay['sign_type'] = strtoupper('MD5'); //签名方式
         $this->epay['input_charset'] = strtolower('utf-8');//字符编码
         $this->epay['transport'] = 'https';//协议 http 或者https
@@ -105,11 +106,11 @@ final class Epay extends AbstractPayment
             $trade_status = $_GET['trade_status'];
             if ($trade_status === 'TRADE_SUCCESS') {
                 $this->postPayment($out_trade_no, $type);
-                return json_encode(['state' => 'success', 'msg' => '支付成功']);
+                return $response->withJson(['state' => 'success', 'msg' => '支付成功']);
             }
-            return json_encode(['state' => 'fail', 'msg' => '支付失败']);
+            return $response->withJson(['state' => 'fail', 'msg' => '支付失败']);
         }
-        return '非法請求';
+        return $response->write('非法請求');
     }
     public static function getPurchaseHTML(): string
     {
