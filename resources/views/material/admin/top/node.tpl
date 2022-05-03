@@ -8,7 +8,7 @@
                         <span class="home-title">{$date}</span>
                     </h2>
                     <div class="page-pretitle">
-                        <span class="home-subtitle">浏览节点流量用量排行榜</span>
+                        <span class="home-subtitle">当日累计用量：{round($logs->sum('value') / 1024 / 1024, 2)} GB</span>
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
@@ -69,7 +69,6 @@
                             <table id="data_table" class="table table-vcenter card-table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>节点编号</th>
                                         <th>节点名称</th>
                                         <th>流量用量(GB)</th>
@@ -77,10 +76,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {$count = 1}
                                     {foreach $logs as $log}
                                         <tr>
-                                            <td>{$count++}</td>
                                             <td>{$log->node_id}</td>
                                             <td>{$names[$log->node_id]}</td>
                                             <td>{sprintf("%.2f", $log->value / 1024)}</td>
@@ -100,7 +97,7 @@
         $('#data_table').DataTable({
             'iDisplayLength': 25,
             'order': [
-                [3, 'desc']
+                [2, 'desc']
             ],
             "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
