@@ -109,7 +109,7 @@ class UserController extends BaseController
                     throw new \Exception('优惠码不适用于此商品');
                 }
             }
-            if ($coupon->use_count > $coupon->total_limit) {
+            if ($coupon->use_count >= $coupon->total_limit) {
                 throw new \Exception('优惠码已达总使用限制');
             }
             $coupon_order_count = ProductOrder::where('order_status', 'paid')
@@ -153,7 +153,7 @@ class UserController extends BaseController
                         throw new \Exception('优惠码不适用于此商品');
                     }
                 }
-                if ($coupon->use_count > $coupon->total_limit) {
+                if ($coupon->use_count >= $coupon->total_limit) {
                     throw new \Exception('优惠码已达总使用限制');
                 }
                 $coupon_order_count = ProductOrder::where('order_status', 'paid')
