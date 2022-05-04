@@ -70,13 +70,14 @@ class Epay
 
         $sign = $request->getParam('sign');
         $config = $_ENV['active_payments']['epay'];
+        $out_trade_no = $request->getParam('out_trade_no');
         $str = stripslashes(urldecode(http_build_query($params))) . $config['key'];
 
         if ($sign != md5($str)) {
             return false;
         }
 
-        UserController::execute($order_no);
+        UserController::execute($out_trade_no);
         die('success');
     }
 }
