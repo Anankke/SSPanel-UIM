@@ -28,7 +28,7 @@ class Payment
             case 'universal':
                 return Universal::notify($request, $response, $args);
             case 'epay':
-                return Epay::notify($amount, $order_no);
+                return Epay::notify($request, $response, $args);
         }
     }
 }
