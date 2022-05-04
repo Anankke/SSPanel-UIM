@@ -1,18 +1,16 @@
 <?php
 namespace App\Controllers\Admin;
 
-use App\Services\Auth;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use App\Utils\Tools;
-use App\Services\Mail;
-use App\Models\Setting;
-use App\Models\GiftCard;
 use App\Controllers\AdminController;
+use App\Models\GiftCard;
+use App\Models\Setting;
+use App\Services\Mail;
+use App\Utils\Tools;
 
 class GiftCardController extends AdminController
 {
-    public static function page(){
+    public static function page()
+    {
         $details = [
             'route' => 'giftcard',
             'title' => [
@@ -26,7 +24,7 @@ class GiftCardController extends AdminController
                 'created_at' => '创建时间',
                 'status' => '使用状态',
                 'used_at' => '使用时间',
-                'use_user' => '使用用户'
+                'use_user' => '使用用户',
             ],
             'search_dialog' => [
                 [
@@ -91,9 +89,9 @@ class GiftCardController extends AdminController
                         '24' => '24位',
                         '30' => '30位',
                         '36' => '36位',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ];
 
         return $details;
@@ -102,8 +100,8 @@ class GiftCardController extends AdminController
     public function index($request, $response, $args)
     {
         $logs = GiftCard::orderBy('id', 'desc')
-        ->limit(500)
-        ->get();
+            ->limit(500)
+            ->get();
 
         return $response->write(
             $this->view()
@@ -149,20 +147,20 @@ class GiftCardController extends AdminController
             if (Setting::obtain('mail_driver') != 'none') {
                 Mail::send($receive_mailbox, $_ENV['appName'] . '- 充值码', 'giftcard.tpl',
                     [
-                        'text' => implode('<br/>', $cards)
+                        'text' => implode('<br/>', $cards),
                     ], []
                 );
             }
         } catch (\Exception $e) {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => $e->getMessage()
+                'msg' => $e->getMessage(),
             ]);
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '添加成功'
+            'msg' => '添加成功',
         ]);
     }
 
@@ -170,8 +168,7 @@ class GiftCardController extends AdminController
     {
         $condition = [];
         $details = self::page();
-        foreach ($details['search_dialog'] as $from)
-        {
+        foreach ($details['search_dialog'] as $from) {
             $field = $from['id'];
             $keyword = $request->getParam($field);
             if (!empty($keyword) && $field == 'balance') {
@@ -181,7 +178,7 @@ class GiftCardController extends AdminController
                 if ($from['exact']) {
                     ($keyword != '') && array_push($condition, [$field, '=', $keyword]);
                 } else {
-                    ($keyword != '') && array_push($condition, [$field, 'like', '%'.$keyword.'%']);
+                    ($keyword != '') && array_push($condition, [$field, 'like', '%' . $keyword . '%']);
                 }
             }
             if ($from['type'] == 'select') {
@@ -190,13 +187,13 @@ class GiftCardController extends AdminController
         }
 
         $results = GiftCard::orderBy('id', 'desc')
-        ->where($condition)
-        ->limit(500)
-        ->get();
+            ->where($condition)
+            ->limit(500)
+            ->get();
 
         return $response->withJson([
             'ret' => 1,
-            'result' => $results
+            'result' => $results,
         ]);
     }
 
@@ -207,7 +204,7 @@ class GiftCardController extends AdminController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '删除成功'
+            'msg' => '删除成功',
         ]);
     }
 }

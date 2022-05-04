@@ -45,7 +45,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="h1 my-2 mb-3">#{$topic->id} {$topic->title}</div>
+                            <div class="h1 my-2 mb-3">#{$topic->tk_id} {$topic->title}</div>
                         </div>
                     </div>
                 </div>

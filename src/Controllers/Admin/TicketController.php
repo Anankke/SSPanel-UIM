@@ -46,13 +46,13 @@ class TicketController extends AdminController
                     'placeholder' => '请输入',
                     'exact' => false,
                 ],
-                [
+                /* [
                     'id' => 'content',
                     'info' => '工单回复内容',
                     'type' => 'input',
                     'placeholder' => '请输入',
                     'exact' => false,
-                ],
+                ], */
                 [
                     'id' => 'closed_by',
                     'info' => '工单状态',

@@ -19,11 +19,19 @@ class AopF2F
         return $gateway;
     }
 
-    public static function createOrder($amount, $order_no)
+    public static function createOrder($amount, $order_no, $user_id)
     {
         $config = $_ENV['active_payments']['alipay_f2f'];
 
         try {
+            if (!$config['enable']) {
+                throw new \Exception('此方式暂未启用');
+            }
+            if ($config['visible_range']) {
+                if ($user_id < $config['visible_min_range'] || $user_id > $config['visible_max_range']) {
+                    throw new \Exception('此方式暂未启用');
+                }
+            }
             if ($config['min'] != false && $amount < $config['min']) {
                 throw new \Exception('账单金额低于支付方式限额');
             }

@@ -57,6 +57,18 @@ $_ENV['active_payments'] = [
         'sign_key' => '',
         'enable' => false,
     ],
+    'epay' => [
+        'name' => '易支付',
+        'min' => '10',
+        'max' => '1000',
+        'visible_range' => false, // 限制支付方式的可见范围
+        'visible_min_range' => '', // 此支付方式可见最小用户id（含）
+        'visible_max_range' => '', // 可见最大用户id（含）
+        'gateway' => '',
+        'uid' => '',
+        'key' => '',
+        'enable' => false,
+    ],
 ];
 
 /*

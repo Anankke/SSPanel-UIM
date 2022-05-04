@@ -274,10 +274,10 @@ class UserController extends BaseController
                 self::execute($order->no);
             } else {
                 if ($order->balance_payment == 0) {
-                    return Payment::create($payment, $order->no, ($order->order_price / 100));
+                    return Payment::create($user->id, $payment, $order->no, ($order->order_price / 100));
                 } else {
                     $new_price = ($order->order_price - $order->balance_payment) / 100;
-                    return Payment::create($payment, $order->no, $new_price);
+                    return Payment::create($user->id, $payment, $order->no, $new_price);
                 }
             }
         } catch (\Exception $e) {
