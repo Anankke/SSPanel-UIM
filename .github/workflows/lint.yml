@@ -1,5 +1,7 @@
 name: Lint code
 on:
+  pull_request:
+    types: [opened, reopened, synchronize]
   push:
 
 jobs:
