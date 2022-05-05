@@ -14,8 +14,6 @@ use App\Models\Ip;
 use App\Models\LoginIp;
 use App\Models\Node;
 use App\Models\Payback;
-use App\Models\Product;
-use App\Models\ProductOrder;
 use App\Models\Setting;
 use App\Models\StreamMedia;
 use App\Models\Token;
@@ -48,33 +46,6 @@ use voku\helper\AntiXSS;
  */
 final class UserController extends BaseController
 {
-    public function userOrder($request, $response, $args)
-    {
-        $user = $this->user;
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $orders = ProductOrder::where('user_id', $user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
-        $orders->setPath('/user/order');
-        $render = Tools::paginateRender($orders);
-
-        return $response->write(
-            $this->view()
-                ->assign('orders', $orders)
-                ->assign('render', $render)
-                ->display('user/order.tpl')
-        );
-    }
-
-    public function productIndex($request, $response, $args)
-    {
-        $products = Product::all();
-
-        return $response->write(
-            $this->view()
-                ->assign('products', $products)
-                ->display('user/product.tpl')
-        );
-    }
-
     /**
      * @param array     $args
      */
@@ -716,7 +687,6 @@ final class UserController extends BaseController
 
         if ($_ENV['enable_change_email'] !== true) {
             return ResponseHelper::error($response, '此项不允许自行修改，请联系管理员操作');
-            return $response->withJson($res);
         }
 
         if (Setting::obtain('reg_email_verify')) {
