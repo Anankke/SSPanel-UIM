@@ -9,6 +9,7 @@ use App\Models\Model;
 use App\Models\User;
 use App\Services\Config;
 use DateTime;
+use ZipArchive;
 
 final class Tools
 {
@@ -214,6 +215,7 @@ final class Tools
         if (! is_numeric($number)) {
             return null;
         }
+        $number = intval($number);
         $unit = strtoupper(substr($Value, -2));
         $kb = 1024;
         $mb = 1048576;
