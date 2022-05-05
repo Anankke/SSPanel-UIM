@@ -91,7 +91,7 @@ final class ShopController extends BaseController
 
         $shop = Shop::where('id', $shop)->where('status', 1)->first();
 
-        $orders = Bought::where('userid', $this->user->id)->get();
+        $orders = Bought::where('userid', $user->id)->get();
         foreach ($orders as $order) {
             if ($order->shop()->useLoop()) {
                 if ($order->valid()) {
