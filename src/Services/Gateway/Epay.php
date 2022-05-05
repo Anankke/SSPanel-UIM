@@ -59,10 +59,10 @@ class Epay
         $params = [
             'pid' => $request->getParam('pid'),
             'money' => $request->getParam('money'),
-            'name' => $request->getParam('name'),
-            'notify_url' => $request->getParam('notify_url'),
-            'return_url' => $request->getParam('return_url'),
+            'trade_status' => $request->getParam('trade_status'),
+            'type' => $request->getParam('type'),
             'out_trade_no' => $request->getParam('out_trade_no'),
+            'trade_no' => $request->getParam('trade_no'),
         ];
 
         ksort($params);
@@ -70,14 +70,13 @@ class Epay
 
         $sign = $request->getParam('sign');
         $config = $_ENV['active_payments']['epay'];
-        $out_trade_no = $request->getParam('out_trade_no');
         $str = stripslashes(urldecode(http_build_query($params))) . $config['key'];
 
         if ($sign != md5($str)) {
-            return false;
+            die('fail');
         }
 
-        UserController::execute($out_trade_no);
+        UserController::execute($params['out_trade_no']);
         die('success');
     }
 }
