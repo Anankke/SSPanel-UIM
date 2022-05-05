@@ -576,7 +576,7 @@
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_ios">
                                             {if $display_ios_class>=0}
-                                                {if $user->class>=$display_ios_class && $user->get_top_up()>=$display_ios_topup}
+                                                {if $user->class>=$display_ios_class && $user->getTopUp()>=$display_ios_topup}
                                                 <div><span class="icon icon-lg text-white">account_box</span> 本站iOS账户：</div>
                                                 <div class="float-clear">
                                                     <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
