@@ -77,9 +77,9 @@ final class Cookie extends Base
     {
         $time = time() - 1000;
         Utils\Cookie::set([
-            'uid' => null,
-            'email' => null,
-            'key' => null,
+            'uid' => '',
+            'email' => '',
+            'key' => '',
         ], $time);
     }
 }

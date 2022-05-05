@@ -12,7 +12,7 @@ final class Config
 {
     private static $instnace = null;
     private $kv = [];
-    private function __construct()
+    public function __construct()
     {
     }
 
