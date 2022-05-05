@@ -123,7 +123,7 @@ final class User extends Model
      */
     public function lastSsTime(): string
     {
-        return $this->t === 0 ? '从未使用喵' : Tools::toDateTime($this->t);
+        return $this->t === 0 || $this->t === null ? '从未使用喵' : Tools::toDateTime($this->t);
     }
 
     /**

@@ -193,7 +193,7 @@ final class Node extends Model
         if ($log === null) {
             return -1;
         }
-        return explode(' ', $log->load)[0] * 100;
+        return ((int)explode(' ', $log->load)[0]) * 100;
     }
 
     /**
@@ -211,7 +211,7 @@ final class Node extends Model
     public function getNodeSpeedlimit(): string
     {
         if ($this->node_speedlimit === 0.0) {
-            return 0;
+            return '0';
         }
         if ($this->node_speedlimit >= 1024.00) {
             return round($this->node_speedlimit / 1024.00, 1) . 'Gbps';
@@ -283,7 +283,7 @@ final class Node extends Model
 
     public function getArgs(): array
     {
-        return json_decode($this->custom_config);
+        return json_decode($this->custom_config, true);
     }
 
     public function setArgs(string $key, mixed $value): void
@@ -450,7 +450,7 @@ final class Node extends Model
         $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
         $item['type'] = 'trojan';
         $item['address'] = $server[0];
-        $item['port'] = (isset($opt['port']) ? (int) $opt['port'] : 443);
+        $item['port'] = (isset($opt['offset_port_user']) ? (int) $opt['offset_port_user'] : 443);
         $item['passwd'] = $user->uuid;
         $item['host'] = $item['address'];
         $item['net'] = (isset($opt['grpc']) ? 'grpc' : '');

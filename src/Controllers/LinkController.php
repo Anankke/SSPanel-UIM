@@ -750,7 +750,7 @@ final class LinkController extends BaseController
      * @param array $opts  request
      * @param array $Rule  节点筛选规则
      */
-    public static function getClash(User $user, int $clash, array $opts, array $Rule): string
+    public static function getClash(User $user, $clash, array $opts, array $Rule): string
     {
         $items = URL::getNewAllItems($user, $Rule);
         $Proxys = [];
@@ -789,10 +789,10 @@ final class LinkController extends BaseController
      * @param array  $opts request
      * @param array  $Rule 节点筛选规则
      */
-    public static function getSub(User $user, int $sub, array $opts, array $Rule): string
+    public static function getSub(User $user, $sub, array $opts, array $Rule): string
     {
         $return_url = '';
-        switch ($sub) {
+        switch (((int)$sub)) {
             case 2: // SS
                 $Rule['type'] = 'ss';
                 $getListExtend = $Rule['extend'] ? self::getListExtend($user, 'ss') : [];
