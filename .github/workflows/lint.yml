@@ -21,4 +21,4 @@ jobs:
       shell:  nix develop -c -- bash {0}
       run: |
         composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-        ./vendor/bin/phpinsights --format=github-action
+        ./vendor/bin/phpinsights --no-interaction --format=github-action --min-style=100 --min-architecture=100 --min-quality=100
