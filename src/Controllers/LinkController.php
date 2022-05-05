@@ -792,7 +792,7 @@ final class LinkController extends BaseController
     public static function getSub(User $user, $sub, array $opts, array $Rule): string
     {
         $return_url = '';
-        switch (((int)$sub)) {
+        switch (((int) $sub)) {
             case 2: // SS
                 $Rule['type'] = 'ss';
                 $getListExtend = $Rule['extend'] ? self::getListExtend($user, 'ss') : [];

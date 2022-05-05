@@ -193,7 +193,7 @@ final class Node extends Model
         if ($log === null) {
             return -1;
         }
-        return ((int)explode(' ', $log->load)[0]) * 100;
+        return ((int) explode(' ', $log->load)[0]) * 100;
     }
 
     /**

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
+use App\Models\Bought;
 use App\Models\Coupon;
 use App\Models\Payback;
 use App\Models\Shop;
-use App\Models\Bought;
 use App\Utils\ResponseHelper;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -145,12 +145,12 @@ final class ShopController extends BaseController
             return $response->withJson(['ret' => -1]);
         }
 
-        if (bccomp((string)$user->money, (string)$price, 2) === -1) {
+        if (bccomp((string) $user->money, (string) $price, 2) === -1) {
             return ResponseHelper::error($response, '喵喵喵~ 当前余额不足，总价为'
                 . $price . '元。</br><a href="/user/code">点击进入充值界面</a>');
         }
 
-        $user->money = bcsub((string)$user->money, (string)$price, 2);
+        $user->money = bcsub((string) $user->money, (string) $price, 2);
         $user->save();
 
         if ($disableothers === 1) {
@@ -206,12 +206,12 @@ final class ShopController extends BaseController
             return $response->withJson([ 'ret' => -1 ]);
         }
 
-        if (bccomp((string)$user->money, (string)$price, 2) === -1) {
+        if (bccomp((string) $user->money, (string) $price, 2) === -1) {
             return ResponseHelper::error($response, '喵喵喵~ 当前余额不足，总价为'
                 . $price . '元。</br><a href="/user/code">点击进入充值界面</a>');
         }
 
-        $user->money = bcsub((string)$user->money, (string)$price, 2);
+        $user->money = bcsub((string) $user->money, (string) $price, 2);
         $user->save();
 
         $bought = new Bought();
