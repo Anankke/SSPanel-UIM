@@ -494,7 +494,7 @@ final class User extends Model
                 $number = Code::sum('number');
                 break;
         }
-        return is_null($number) ? 0.00 : round($number, 2);
+        return is_null($number) ? 0.00 : round(floatval($number), 2);
     }
 
     /**
