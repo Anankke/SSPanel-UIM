@@ -55,7 +55,7 @@
                                     <button id="method" class="form-control maxwidth-edit" data-toggle="dropdown"
                                             value="{$user->method}"></button>
                                     <ul class="dropdown-menu" aria-labelledby="method">
-                                        {$method_list = $config_service->getSupportParam('method')}
+                                        {$method_list = Config::getSupportParam('method')}
                                         {foreach $method_list as $method}
                                             <li class="{if URL::canMethodConnect($user->method) == 2}filter-item-ss{else}filter-item-universal{/if}">
                                                 <a href="#" class="dropdown-option" onclick="return false;"
@@ -78,7 +78,7 @@
                                     <button id="protocol" class="form-control maxwidth-edit" data-toggle="dropdown"
                                             value="{$user->protocol}"></button>
                                     <ul class="dropdown-menu" aria-labelledby="protocol">
-                                        {$protocol_list = $config_service->getSupportParam('protocol')}
+                                        {$protocol_list = Config::getSupportParam('protocol')}
                                         {foreach $protocol_list as $protocol}
                                             <li class="{if URL::canProtocolConnect($protocol) == 3}filter-item-universal{else}filter-item-ssr{/if}">
                                                 <a href="#" class="dropdown-option" onclick="return false;" val="{$protocol}" data="protocol">
@@ -97,7 +97,7 @@
                                     <label class="floating-label" for="obfs">混淆方式</label>
                                     <button id="obfs" class="form-control maxwidth-edit" data-toggle="dropdown" value="{$user->obfs}"></button>
                                     <ul class="dropdown-menu" aria-labelledby="obfs">
-                                        {$obfs_list = $config_service->getSupportParam('obfs')}
+                                        {$obfs_list = Config::getSupportParam('obfs')}
                                         {foreach $obfs_list as $obfs}
                                             <li class="{if URL::canObfsConnect($obfs) >= 3}filter-item-universal{else}{if URL::canObfsConnect($obfs) == 1}filter-item-ssr{else}filter-item-ss{/if}{/if}">
                                                 <a href="#" class="dropdown-option" onclick="return false;" val="{$obfs}" data="obfs">

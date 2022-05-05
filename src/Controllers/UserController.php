@@ -547,8 +547,6 @@ final class UserController extends BaseController
 
         $bind_token = TelegramSessionManager::addBindSession($this->user);
 
-        $config_service = new Config();
-
         return $this->view()
             ->assign('user', $this->user)
             ->assign('themes', $themes)
@@ -556,7 +554,7 @@ final class UserController extends BaseController
             ->assign('Block', $Block)
             ->assign('bind_token', $bind_token)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
-            ->assign('config_service', $config_service)
+            ->registerClass('Config', Config::class)
             ->registerClass('URL', URL::class)
             ->display('user/edit.tpl');
     }
