@@ -69,6 +69,28 @@ $_ENV['active_payments'] = [
         'key' => '',
         'enable' => false,
     ],
+    'vmq_alipay' => [
+        'name' => '支付宝',
+        'min' => '10',
+        'max' => '1000',
+        'visible_range' => false, // 限制支付方式的可见范围
+        'visible_min_range' => '', // 此支付方式可见最小用户id（含）
+        'visible_max_range' => '', // 可见最大用户id（含）
+        'gateway' => '',
+        'key' => '',
+        'enable' => false,
+    ],
+    'vmq_wechat' => [
+        'name' => '微信',
+        'min' => '10',
+        'max' => '1000',
+        'visible_range' => false, // 限制支付方式的可见范围
+        'visible_min_range' => '', // 此支付方式可见最小用户id（含）
+        'visible_max_range' => '', // 可见最大用户id（含）
+        'gateway' => '',
+        'key' => '',
+        'enable' => false,
+    ],
 ];
 
 /*
