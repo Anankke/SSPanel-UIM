@@ -8,6 +8,7 @@ use App\Models\DetectRule;
 use App\Models\EmailVerify;
 use App\Models\GiftCard;
 use App\Models\InviteCode;
+use App\Models\Statistics;
 use App\Models\Ip;
 use App\Models\Link;
 use App\Models\LoginIp;
@@ -1050,8 +1051,26 @@ class UserController extends BaseController
             ->whereIn('node_group', $user_group) // 筛选用户所在分组的服务器
             ->get(['sort']);
 
-        $token = Link::where('userid', $user->id)->first();
-        $qt_url = base64_encode($_ENV['subUrl'] . $token->token . '?list=quantumult');
+        $user_token = LinkController::GenerateSSRSubCode($user->id);
+        $qt_url = base64_encode($_ENV['subUrl'] . $user_token . '?list=quantumult');
+
+        $last_seven_days = Statistics::where('item', 'user_traffic')
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(7)
+            ->get();
+
+        $chart_traffic_data = [];
+        foreach ($last_seven_days as $traffic) {
+            $chart_traffic_data[] = $traffic->value;
+        }
+
+        $chart_date_data = [];
+        foreach ($last_seven_days as $date) {
+            $chart_date_data[] = "'" . date('m-d', $date->created_at - 86400) . "'";
+        }
+
+        // var_dump(array_reverse($chart_date_data));
 
         return $response->write(
             $this->view()
@@ -1059,6 +1078,8 @@ class UserController extends BaseController
                 ->assign('text', $text)
                 ->assign('qt_url', $qt_url)
                 ->assign('servers', $servers)
+                ->assign('chart_date_data', array_reverse($chart_date_data))
+                ->assign('chart_traffic_data', array_reverse($chart_traffic_data))
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
                 ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
                 ->display('user/index.tpl')

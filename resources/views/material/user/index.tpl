@@ -562,7 +562,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3 class="card-title">过去七日用量（正在开发）</h3>
+                                    <h3 class="card-title">过去七日用量（单位：MB）</h3>
                                     <div id="past-usage"></div>
                                 </div>
                             </div>
@@ -685,7 +685,7 @@
                 },
                 series: [{
                     name: "流量用量",
-                    data: [155, 65, 465, 265, 225, 325, 80]
+                    data: [{implode(',', $chart_traffic_data)}]
                 }],
                 grid: {
                     padding: {
@@ -699,11 +699,11 @@
                 xaxis: {
                     labels: {
                         padding: 0,
+                        format: 'MM/dd',
                     },
                     tooltip: {
                         enabled: false
                     },
-                    type: 'datetime',
                 },
                 yaxis: {
                     labels: {
@@ -711,8 +711,7 @@
                     },
                 },
                 labels: [
-                    '2020-06-20', '2020-06-21', '2020-06-22', '2020-06-23', '2020-06-24',
-                    '2020-06-25', '2020-06-26'
+                    {implode(',', $chart_date_data)}
                 ],
                 colors: ["#206bc4"],
                 legend: {
