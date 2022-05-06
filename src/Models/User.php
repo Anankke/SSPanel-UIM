@@ -808,6 +808,7 @@ class User extends Model
     {
         $loginip           = new LoginIp();
         $loginip->ip       = $ip;
+        $loginip->attribution = Tools::getIpInfo($ip);
         $loginip->userid   = $this->id;
         $loginip->datetime = time();
         $loginip->type     = $type;

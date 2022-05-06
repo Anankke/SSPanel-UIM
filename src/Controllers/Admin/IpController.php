@@ -23,7 +23,7 @@ class IpController extends AdminController
                 'id' => '#',
                 'userid' => '用户编号',
                 'ip' => '公网地址',
-                'location' => '归属地',
+                'attribution' => '归属地',
                 'datetime' => '登录时间',
                 'result' => '登录结果',
             ],
@@ -66,7 +66,6 @@ class IpController extends AdminController
             ->get();
 
         foreach ($logs as $log) {
-            $log->location = Tools::getIpInfo($log->ip);
             $log->datetime = date('Y-m-d H:i:s', $log->datetime);
             $log->result = ($log->type == '0') ? '成功' : '失败';
         }
@@ -104,7 +103,6 @@ class IpController extends AdminController
             ->get();
 
         foreach ($results as $result) {
-            $result->location = Tools::getIpInfo($result->ip);
             $result->datetime = date('Y-m-d H:i:s', $result->datetime);
             $result->result = ($result->type == '0') ? '成功' : '失败';
         }

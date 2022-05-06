@@ -1,20 +1,21 @@
 <?php
-
 namespace App\Command;
 
-use App\Utils\QQWry;
+use App\Models\LoginIp;
 use App\Models\Setting;
-use App\Utils\DatatablesHelper;
+use App\Utils\QQWry;
+use App\Utils\Tools;
 
 class Tool extends Command
 {
     public $description = ''
         . '├─=: php xcat Tool [选项]' . PHP_EOL
-        . '│ ├─ initQQWry               - 下载 IP 解析库' . PHP_EOL
-        . '│ ├─ setTelegram             - 设置 Telegram 机器人' . PHP_EOL
-        . '│ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置' . PHP_EOL
-        . '│ ├─ exportAllSettings       - 导出所有设置' . PHP_EOL
-        . '│ ├─ importAllSettings       - 导入所有设置' . PHP_EOL;
+        . '│ ├─ initQQWry                     - 下载 IP 解析库' . PHP_EOL
+        . '│ ├─ setTelegram                   - 设置 Telegram 机器人' . PHP_EOL
+        . '│ ├─ resetAllSettings              - 使用默认值覆盖设置中心设置' . PHP_EOL
+        . '│ ├─ exportAllSettings             - 导出所有设置' . PHP_EOL
+        . '│ ├─ importAllSettings             - 导入所有设置' . PHP_EOL
+        . '│ ├─ supplementaryLoginAttribution - 补充登录日志归属' . PHP_EOL;
 
     public function boot()
     {
@@ -29,7 +30,7 @@ class Tool extends Command
             }
         }
     }
-    
+
     public function setTelegram()
     {
         if ($_ENV['use_new_telegram_bot'] === true) {
@@ -52,11 +53,11 @@ class Tool extends Command
             }
         }
     }
-    
+
     public function initQQWry()
     {
         echo ('正在下载或更新纯真ip数据库...') . PHP_EOL;
-        $path  = BASE_PATH . '/storage/qqwry.dat';
+        $path = BASE_PATH . '/storage/qqwry.dat';
         $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
         if ($qqwry != '') {
             if (is_file($path)) {
@@ -67,8 +68,8 @@ class Tool extends Command
                 fwrite($fp, $qqwry);
                 fclose($fp);
                 echo ('纯真ip数据库下载成功.') . PHP_EOL;
-                $iplocation   = new QQWry();
-                $location     = $iplocation->getlocation('8.8.8.8');
+                $iplocation = new QQWry();
+                $location = $iplocation->getlocation('8.8.8.8');
                 $Userlocation = $location['country'];
                 if (iconv('gbk', 'utf-8//IGNORE', $Userlocation) !== '美国') {
                     unlink($path);
@@ -83,13 +84,12 @@ class Tool extends Command
             echo ('纯真ip数据库下载失败，请检查下载地址') . PHP_EOL;
         }
     }
-    
+
     public function resetAllSettings()
     {
         $settings = Setting::all();
-        
-        foreach ($settings as $setting)
-        {
+
+        foreach ($settings as $setting) {
             $setting->value = $setting->default;
             $setting->save();
         }
@@ -100,15 +100,14 @@ class Tool extends Command
     public function exportAllSettings()
     {
         $settings = Setting::all();
-        foreach ($settings as $setting)
-        {
+        foreach ($settings as $setting) {
             // 因为主键自增所以即便设置为 null 也会在导入时自动分配 id
             // 同时避免多位开发者 pull request 时 settings.json 文件 id 重复所可能导致的冲突
             $setting->id = null;
             // 避免开发者调试配置泄露
             $setting->value = $setting->default;
         }
-        
+
         $json_settings = json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         file_put_contents('./config/settings.json', $json_settings);
 
@@ -118,27 +117,26 @@ class Tool extends Command
     public function importAllSettings()
     {
         $json_settings = file_get_contents('./config/settings.json');
-        $settings      = json_decode($json_settings, true);
-        $number        = count($settings);
-        $counter       = '0';
-        
-        for ($i = 0; $i < $number; $i++)
-        {
+        $settings = json_decode($json_settings, true);
+        $number = count($settings);
+        $counter = '0';
+
+        for ($i = 0; $i < $number; $i++) {
             $item = $settings[$i]['item'];
             $object = Setting::where('item', $item)->first();
-            
+
             if ($object == null) {
-                $new_item            = new Setting;
-                $new_item->id        = null;
-                $new_item->item      = $settings[$i]['item'];
-                $new_item->value     = $settings[$i]['value'];
-                $new_item->class     = $settings[$i]['class'];
+                $new_item = new Setting;
+                $new_item->id = null;
+                $new_item->item = $settings[$i]['item'];
+                $new_item->value = $settings[$i]['value'];
+                $new_item->class = $settings[$i]['class'];
                 $new_item->is_public = $settings[$i]['is_public'];
-                $new_item->type      = $settings[$i]['type'];
-                $new_item->default   = $settings[$i]['default'];
-                $new_item->mark      = $settings[$i]['mark'];
+                $new_item->type = $settings[$i]['type'];
+                $new_item->default = $settings[$i]['default'];
+                $new_item->mark = $settings[$i]['mark'];
                 $new_item->save();
-                
+
                 echo "添加新设置：$item" . PHP_EOL;
                 $counter += 1;
             }
@@ -149,5 +147,17 @@ class Tool extends Command
         } else {
             echo "没有任何新设置需要添加." . PHP_EOL;
         }
+    }
+
+    public function supplementaryLoginAttribution()
+    {
+        LoginIp::chunkById(1000, function ($logs) {
+            foreach ($logs as $log) {
+                if ($log->attribution == null) {
+                    $log->attribution = Tools::getIpInfo($log->ip);
+                    $log->save();
+                }
+            }
+        });
     }
 }
