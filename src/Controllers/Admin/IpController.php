@@ -1,41 +1,118 @@
 <?php
 namespace App\Controllers\Admin;
 
+use App\Controllers\AdminController;
 use App\Models\Ip;
 use App\Models\LoginIp;
 use App\Utils\QQWry;
 use App\Utils\Tools;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use App\Controllers\AdminController;
 
 class IpController extends AdminController
 {
-    /**
-     * 后台登录记录页面
-     *
-     * @param Request   $request
-     * @param Response  $response
-     * @param array     $args
-     */
+    public static function page()
+    {
+        $details = [
+            'route' => 'login',
+            'title' => [
+                'title' => '登录记录',
+                'subtitle' => '用户登录信息，仅显示最近的 500 条记录',
+            ],
+            'field' => [
+                'id' => '#',
+                'userid' => '用户编号',
+                'ip' => '公网地址',
+                'location' => '归属地',
+                'datetime' => '登录时间',
+                'result' => '登录结果',
+            ],
+            'search_dialog' => [
+                [
+                    'id' => 'userid',
+                    'info' => '用户编号',
+                    'type' => 'input',
+                    'placeholder' => '',
+                    'exact' => true, // 精确匹配; false 时模糊匹配
+                ],
+                [
+                    'id' => 'ip',
+                    'info' => '公网地址',
+                    'type' => 'input',
+                    'placeholder' => '模糊匹配',
+                    'exact' => false,
+                ],
+                [
+                    'id' => 'type',
+                    'info' => '登录结果',
+                    'type' => 'select',
+                    'select' => [
+                        'all' => '所有结果',
+                        '1' => '失败',
+                        '0' => '成功',
+                    ],
+                    'exact' => true,
+                ],
+            ],
+        ];
+
+        return $details;
+    }
+
     public function index($request, $response, $args)
     {
-        $table_config['total_column'] = array(
-            'id' => 'ID',
-            'userid' => '用户ID',
-            'user_name' => '用户名',
-            'ip' => 'IP',
-            'location' => '归属地',
-            'datetime' => '时间',
-            'type' => '类型',
-        );
-        $table_config['default_show_column'] = array_keys($table_config['total_column']);
-        $table_config['ajax_url'] = 'login/ajax';
+        $logs = LoginIp::orderBy('id', 'desc')
+            ->limit(500)
+            ->get();
+
+        foreach ($logs as $log) {
+            $log->location = Tools::getIpInfo($log->ip);
+            $log->datetime = date('Y-m-d H:i:s', $log->datetime);
+            $log->result = ($log->type == '0') ? '成功' : '失败';
+        }
+
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('logs', $logs)
+                ->assign('details', self::page())
                 ->display('admin/ip/login.tpl')
         );
+    }
+
+    public function ajaxQuery($request, $response, $args)
+    {
+        $condition = [];
+        $details = self::page();
+        foreach ($details['search_dialog'] as $from) {
+            $field = $from['id'];
+            $keyword = $request->getParam($field);
+            if ($from['type'] == 'input') {
+                if ($from['exact']) {
+                    ($keyword != '') && array_push($condition, [$field, '=', $keyword]);
+                } else {
+                    ($keyword != '') && array_push($condition, [$field, 'like', '%' . $keyword . '%']);
+                }
+            }
+            if ($from['type'] == 'select') {
+                ($keyword != 'all') && array_push($condition, [$field, '=', $keyword]);
+            }
+        }
+
+        $results = LoginIp::orderBy('id', 'desc')
+            ->where($condition)
+            ->limit(500)
+            ->get();
+
+        foreach ($results as $result) {
+            $result->location = Tools::getIpInfo($result->ip);
+            $result->datetime = date('Y-m-d H:i:s', $result->datetime);
+            $result->result = ($result->type == '0') ? '成功' : '失败';
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'result' => $results,
+        ]);
     }
 
     /**
