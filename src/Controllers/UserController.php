@@ -1062,7 +1062,7 @@ class UserController extends BaseController
 
         $chart_traffic_data = [];
         foreach ($last_seven_days as $traffic) {
-            $chart_traffic_data[] = $traffic->value;
+            $chart_traffic_data[] = round($traffic->value, 2);
         }
 
         $chart_date_data = [];

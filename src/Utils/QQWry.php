@@ -3,8 +3,8 @@
 namespace App\Utils;
 
 /*
-* @author joyphper
-*/
+ * @author joyphper
+ */
 
 class QQWry
 {
@@ -15,7 +15,6 @@ class QQWry
     private $lastip;
 
     private $totalip;
-
 
     public function __construct()
     {
@@ -34,7 +33,6 @@ class QQWry
         }
     }
 
-
     public function __destruct()
     {
         if ($this->fp) {
@@ -44,14 +42,12 @@ class QQWry
         $this->fp = 0;
     }
 
-
     private function getlong()
     {
         $result = unpack('Vlong', fread($this->fp, 4));
 
         return $result['long'];
     }
-
 
     private function getlong3()
     {
@@ -60,12 +56,10 @@ class QQWry
         return $result['long'];
     }
 
-
     private function packip($ip)
     {
-        return pack('N', (int)ip2long($ip));
+        return pack('N', (int) ip2long($ip));
     }
-
 
     private function getstring($data = '')
     {
@@ -107,7 +101,6 @@ class QQWry
         return $area;
     }
 
-
     public function getlocation($ip)
     {
         if (!$this->fp) {
@@ -117,7 +110,6 @@ class QQWry
         $location['ip'] = gethostbyname($ip);
 
         $ip = $this->packip($location['ip']);
-
 
         $l = 0;
 
@@ -148,7 +140,6 @@ class QQWry
                 }
             }
         }
-
 
         fseek($this->fp, $findip);
 
