@@ -153,7 +153,7 @@ class Tool extends Command
     {
         LoginIp::chunkById(1000, function ($logs) {
             foreach ($logs as $log) {
-                if ($log->attribution == null) {
+                if (empty($log->attribution)) {
                     $log->attribution = Tools::getIpInfo($log->ip);
                     $log->save();
                 }
