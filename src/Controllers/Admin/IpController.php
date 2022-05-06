@@ -43,6 +43,13 @@ class IpController extends AdminController
                     'exact' => false,
                 ],
                 [
+                    'id' => 'attribution',
+                    'info' => '归属地',
+                    'type' => 'input',
+                    'placeholder' => '模糊匹配',
+                    'exact' => false,
+                ],
+                [
                     'id' => 'type',
                     'info' => '登录结果',
                     'type' => 'select',
