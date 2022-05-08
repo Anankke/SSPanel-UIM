@@ -112,7 +112,7 @@ class Job extends Command
 
         $traffic = new StatisticsModel;
         $traffic->item = 'traffic';
-        $traffic->value = round($lastday_total / 1048576, 2); // to mb
+        $traffic->value = round($lastday_total / 1073741824, 2); // to gb
         $traffic->created_at = time();
         $traffic->save();
 
