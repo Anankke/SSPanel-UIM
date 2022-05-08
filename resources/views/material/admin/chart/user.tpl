@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="/admin/top/user/{$previous_day}" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="/admin/chart/user/{$previous_day}" class="btn btn-primary d-none d-sm-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -24,7 +24,7 @@
                             </svg>
                             上一日
                         </a>
-                        <a href="/admin/top/user/{$previous_day}" class="btn btn-primary d-sm-none btn-icon">
+                        <a href="/admin/chart/user/{$previous_day}" class="btn btn-primary d-sm-none btn-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -34,7 +34,7 @@
                                 <line x1="5" y1="12" x2="11" y2="6"></line>
                             </svg>
                         </a>
-                        <a href="/admin/top/user/{$next_day}" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="/admin/chart/user/{$next_day}" class="btn btn-primary d-none d-sm-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -45,7 +45,7 @@
                             </svg>
                             下一日
                         </a>
-                        <a href="/admin/top/user/{$next_day}" class="btn btn-primary d-sm-none btn-icon">
+                        <a href="/admin/chart/user/{$next_day}" class="btn btn-primary d-sm-none btn-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">

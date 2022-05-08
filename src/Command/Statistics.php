@@ -52,7 +52,7 @@ class Statistics extends Command
         $log->value = (int) User::whereBetween('reg_date', [$start, $stop])->count();
         $log->created_at = strtotime($stop);
         $log->save();
-        echo 'Counting sales has been completed.' . PHP_EOL;
+        echo 'Count of registered users completed yesterday.' . PHP_EOL;
 
         $order_amount = ProductOrder::whereBetween('created_at', [strtotime($start), strtotime($stop)])
             ->sum('order_price');
@@ -71,7 +71,7 @@ class Statistics extends Command
         $log->value = $deal_amount / 100;
         $log->created_at = strtotime($stop);
         $log->save();
-        echo 'Counting registrations has been completed.' . PHP_EOL;
+        echo 'Count yesterday's order amount has been completed.' . PHP_EOL;
     }
 
     public function CountHistoryRegister()
