@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="/admin/top/user/{$previous_day}" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="/admin/top/node/{$previous_day}" class="btn btn-primary d-none d-sm-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -24,7 +24,7 @@
                             </svg>
                             上一日
                         </a>
-                        <a href="/admin/top/user/{$previous_day}" class="btn btn-primary d-sm-none btn-icon">
+                        <a href="/admin/top/node/{$previous_day}" class="btn btn-primary d-sm-none btn-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -34,7 +34,7 @@
                                 <line x1="5" y1="12" x2="11" y2="6"></line>
                             </svg>
                         </a>
-                        <a href="/admin/top/user/{$next_day}" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="/admin/top/node/{$next_day}" class="btn btn-primary d-none d-sm-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -45,7 +45,7 @@
                             </svg>
                             下一日
                         </a>
-                        <a href="/admin/top/user/{$next_day}" class="btn btn-primary d-sm-none btn-icon">
+                        <a href="/admin/top/node/{$next_day}" class="btn btn-primary d-sm-none btn-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -69,7 +69,8 @@
                             <table id="data_table" class="table table-vcenter card-table">
                                 <thead>
                                     <tr>
-                                        <th>用户编号</th>
+                                        <th>节点编号</th>
+                                        <th>节点名称</th>
                                         <th>流量用量(GB)</th>
                                         <th>记录时间</th>
                                     </tr>
@@ -77,7 +78,8 @@
                                 <tbody>
                                     {foreach $logs as $log}
                                         <tr>
-                                            <td>{$log->user_id}</td>
+                                            <td>{$log->node_id}</td>
+                                            <td>{$names[$log->node_id]}</td>
                                             <td>{sprintf("%.2f", $log->value / 1024)}</td>
                                             <td>{date('Y-m-d H:i:s', $log->created_at)}</td>
                                         </tr>
@@ -94,8 +96,9 @@
     <script>
         $('#data_table').DataTable({
             'iDisplayLength': 25,
+            'scrollX': true,
             'order': [
-                [1, 'desc']
+                [2, 'desc']
             ],
             "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +

@@ -180,8 +180,8 @@ return function (SlimApp $app) {
         $this->post('/announcement/ajax',       App\Controllers\Admin\AnnController::class . ':ajax');
 
         // Top Mange
-        $this->get('/top/user/{date}',          App\Controllers\Admin\TopController::class . ':user');
-        $this->get('/top/node/{date}',          App\Controllers\Admin\TopController::class . ':node');
+        $this->get('/chart/user/{date}',        App\Controllers\Admin\ChartController::class . ':user');
+        $this->get('/chart/node/{date}',        App\Controllers\Admin\ChartController::class . ':node');
 
         // Detect Mange
         $this->get('/detect',                   App\Controllers\Admin\DetectController::class . ':index');

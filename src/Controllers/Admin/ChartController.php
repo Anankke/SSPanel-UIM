@@ -5,7 +5,7 @@ use App\Models\Node;
 use App\Models\Statistics;
 use App\Controllers\AdminController;
 
-class TopController extends AdminController
+class ChartController extends AdminController
 {
     public function user($request, $response, $args)
     {
@@ -25,7 +25,7 @@ class TopController extends AdminController
                 ->assign('logs', $logs)
                 ->assign('next_day', date('Ymd', $day_start + 86400))
                 ->assign('previous_day', date('Ymd', $day_start - 86400))
-                ->display('admin/top/user.tpl')
+                ->display('admin/chart/user.tpl')
         );
     }
 
@@ -57,7 +57,7 @@ class TopController extends AdminController
                 ->assign('names', $names)
                 ->assign('next_day', date('Ymd', $day_start + 86400))
                 ->assign('previous_day', date('Ymd', $day_start - 86400))
-                ->display('admin/top/node.tpl')
+                ->display('admin/chart/node.tpl')
         );
     }
 }

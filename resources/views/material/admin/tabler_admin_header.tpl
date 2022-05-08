@@ -160,11 +160,38 @@
                                         <i class="ti ti-messages"></i>&nbsp;
                                         工单
                                     </a>
-                                    <a class="dropdown-item" href="/admin/top/user/{date("Ymd", strtotime("-1 day"))}">
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-report-analytics" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <desc>Download more icon variants from
+                                                https://tabler-icons.io/i/report-analytics</desc>
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path
+                                                d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2">
+                                            </path>
+                                            <rect x="9" y="3" width="6" height="4" rx="2"></rect>
+                                            <path d="M9 17v-5"></path>
+                                            <path d="M12 17v-1"></path>
+                                            <path d="M15 17v-3"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="nav-link-title">
+                                        报表
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/admin/chart/user/{date("Ymd", strtotime("-1 day"))}">
                                         <i class="ti ti-sort-ascending-2"></i>&nbsp;
                                         用户流量排行
                                     </a>
-                                    <a class="dropdown-item" href="/admin/top/node/{date("Ymd", strtotime("-1 day"))}">
+                                    <a class="dropdown-item" href="/admin/chart/node/{date("Ymd", strtotime("-1 day"))}">
                                         <i class="ti ti-sort-descending-2"></i>&nbsp;
                                         节点流量排行
                                     </a>
