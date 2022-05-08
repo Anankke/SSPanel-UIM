@@ -187,13 +187,20 @@
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/admin/chart/user/{date("Ymd", strtotime("-1 day"))}">
-                                        <i class="ti ti-sort-ascending-2"></i>&nbsp;
-                                        用户流量排行
+                                    <a class="dropdown-item"
+                                        href="/admin/chart/index">
+                                        <i class="ti ti-timeline"></i>&nbsp;
+                                        总览
                                     </a>
-                                    <a class="dropdown-item" href="/admin/chart/node/{date("Ymd", strtotime("-1 day"))}">
+                                    <a class="dropdown-item"
+                                        href="/admin/chart/user/{date("Ymd", strtotime("-1 day"))}">
+                                        <i class="ti ti-sort-ascending-2"></i>&nbsp;
+                                        用户流量
+                                    </a>
+                                    <a class="dropdown-item"
+                                        href="/admin/chart/node/{date("Ymd", strtotime("-1 day"))}">
                                         <i class="ti ti-sort-descending-2"></i>&nbsp;
-                                        节点流量排行
+                                        节点流量
                                     </a>
                                 </div>
                             </li>
@@ -202,16 +209,20 @@
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-file-code-2" width="24" height="24"
+                                            class="icon icon-tabler icon-tabler-address-book" width="24" height="24"
                                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                             stroke-linecap="round" stroke-linejoin="round">
+                                            <desc>Download more icon variants from
+                                                https://tabler-icons.io/i/address-book</desc>
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M10 12h-1v5h1"></path>
-                                            <path d="M14 12h1v5h-1"></path>
-                                            <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
                                             <path
-                                                d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                                d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z">
                                             </path>
+                                            <path d="M10 16h6"></path>
+                                            <circle cx="13" cy="11" r="2"></circle>
+                                            <path d="M4 8h3"></path>
+                                            <path d="M4 12h3"></path>
+                                            <path d="M4 16h3"></path>
                                         </svg>
                                     </span>
                                     <span class="nav-link-title">

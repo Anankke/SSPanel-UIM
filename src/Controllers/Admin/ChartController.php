@@ -1,12 +1,75 @@
 <?php
 namespace App\Controllers\Admin;
 
+use App\Controllers\AdminController;
 use App\Models\Node;
 use App\Models\Statistics;
-use App\Controllers\AdminController;
 
 class ChartController extends AdminController
 {
+    public function encode($item, $offset = false)
+    {
+        $items = Statistics::where('item', $item)
+            ->orderBy('created_at', 'desc')
+            ->limit($_ENV['statistics_range'][$item])
+            ->get();
+
+        $chart_x = [];
+        $chart_y = [];
+
+        foreach ($items as $record) {
+            $timestamp = ($offset) ? $record->created_at - 86400 : $record->created_at;
+            $chart_x[] = "'" . date('m-d', $timestamp) . "'";
+            $chart_y[] = $record->value;
+        }
+
+        $result = [
+            'x' => array_reverse($chart_x),
+            'y' => array_reverse($chart_y),
+        ];
+
+        return $result;
+    }
+
+    public function index($request, $response, $args)
+    {
+        $traffic = self::encode('traffic', true);
+        $check_in = self::encode('checkin', false);
+        $register = self::encode('register', true);
+        $deal_amount = self::encode('deal_amount', true);
+        $order_amount = self::encode('order_amount', true);
+
+        $charts = [
+            'checkin' => [
+                'element_id' => 'check-in',
+                'series_name' => '人数',
+                'x' => $check_in['x'],
+                'y' => $check_in['y'],
+            ],
+            'traffic' => [
+                'element_id' => 'total-traffic',
+                'series_name' => '流量',
+                'x' => $traffic['x'],
+                'y' => $traffic['y'],
+            ],
+            'regitser' => [
+                'element_id' => 'register',
+                'series_name' => '人数',
+                'x' => $register['x'],
+                'y' => $register['y'],
+            ],
+        ];
+
+        return $response->write(
+            $this->view()
+                ->assign('charts', $charts)
+                ->assign('deal_amount', $deal_amount)
+                ->assign('order_amount', $order_amount)
+                ->assign('range', $_ENV['statistics_range'])
+                ->display('admin/chart/index.tpl')
+        );
+    }
+
     public function user($request, $response, $args)
     {
         $date = $args['date'];
