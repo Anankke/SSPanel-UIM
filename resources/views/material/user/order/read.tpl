@@ -244,8 +244,8 @@
                     <div class="w-100">
                         <div class="row">
                             <div class="col">
-                                <a id="success-confirm" href="#" class="btn btn-primary w-100" data-bs-dismiss="modal">
-                                    好
+                                <a id="success-confirm" href="#" class="btn w-100" data-bs-dismiss="modal">
+                                    确认
                                 </a>
                             </div>
                         </div>

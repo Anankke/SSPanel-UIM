@@ -8,15 +8,14 @@ use App\Models\DetectRule;
 use App\Models\EmailVerify;
 use App\Models\GiftCard;
 use App\Models\InviteCode;
-use App\Models\Statistics;
 use App\Models\Ip;
-use App\Models\Link;
 use App\Models\LoginIp;
 use App\Models\Node;
 use App\Models\Payback;
 use App\Models\Product;
 use App\Models\ProductOrder;
 use App\Models\Setting;
+use App\Models\Statistics;
 use App\Models\StreamMedia;
 use App\Models\Token;
 use App\Models\User;
@@ -266,7 +265,10 @@ class UserController extends BaseController
             }
             if ($payment == 'balance') {
                 if ($user->money < ($order->order_price / 100)) {
-                    throw new \Exception('余额已抵扣此账单，差额请使用其他方式支付');
+                    if ($user->money > 0) {
+                        throw new \Exception('余额已抵扣此账单，差额请使用其他方式支付');
+                    }
+                    throw new \Exception('账户余额不足，请使用其他方式支付');
                 }
 
                 $user->money -= $order->order_price / 100;
