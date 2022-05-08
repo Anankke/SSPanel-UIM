@@ -71,7 +71,7 @@ class Statistics extends Command
         $log->value = $deal_amount / 100;
         $log->created_at = strtotime($stop);
         $log->save();
-        echo 'Count yesterday's order amount has been completed.' . PHP_EOL;
+        echo "Count yesterday's order amount has been completed." . PHP_EOL;
     }
 
     public function CountHistoryRegister()
