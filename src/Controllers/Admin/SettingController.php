@@ -174,7 +174,7 @@ final class SettingController extends BaseController
         $result = [];
 
         foreach (Payment::getAllPaymentMap() as $payment) {
-            $result[$payment::_readableName()] = $payment::_name();
+            $result[$payment::_name()] = $payment::_name();
         }
 
         return $result;

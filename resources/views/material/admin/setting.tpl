@@ -350,7 +350,7 @@
                                         <button id="submit_theadpay" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
 
-                                    <div class="tab-pane fade" id="stripe">
+                                    <div class="tab-pane fade" id="stripe_card">
                                         <p class="form-control-guide"><i class="material-icons">warning</i>提供虚拟专用网络业务符合 Stripe 用户协议，但可能不符合 Stripe 提供的部分支付通道（如支付宝、微信）用户协议，相关支付通道可能存在被关闭的风险</p>
                                         <h5>支付渠道</h5>
                                         <!-- stripe_card -->
