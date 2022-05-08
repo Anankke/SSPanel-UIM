@@ -4,8 +4,22 @@ namespace App\Services\Gateway;
 use App\Controllers\UserController;
 use Omnipay\Omnipay;
 
-class AopF2F
+class AlipayF2f
 {
+    public static function _name(): string
+    {
+        return 'alipay_f2f';
+    }
+
+    public static function _enable(): bool
+    {
+        if (empty($_ENV['active_payments']['alipay_f2f']) || $_ENV['active_payments']['alipay_f2f']['enable'] == false) {
+            return false;
+        }
+
+        return true;
+    }
+
     private function createGateway()
     {
         $configs = $_ENV['active_payments']['alipay_f2f'];
@@ -21,21 +35,21 @@ class AopF2F
 
     public static function createOrder($amount, $order_no, $user_id)
     {
-        $config = $_ENV['active_payments']['alipay_f2f'];
+        $configs = $_ENV['active_payments']['alipay_f2f'];
 
         try {
-            if (!$config['enable']) {
+            if (!$configs['enable']) {
                 throw new \Exception('此方式暂未启用');
             }
-            if ($config['visible_range']) {
-                if ($user_id < $config['visible_min_range'] || $user_id > $config['visible_max_range']) {
+            if ($configs['visible_range']) {
+                if ($user_id < $configs['visible_min_range'] || $user_id > $configs['visible_max_range']) {
                     throw new \Exception('此方式暂未启用');
                 }
             }
-            if ($config['min'] != false && $amount < $config['min']) {
+            if ($configs['min'] != false && $amount < $configs['min']) {
                 throw new \Exception('账单金额低于支付方式限额');
             }
-            if ($config['max'] != false && $amount > $config['max']) {
+            if ($configs['max'] != false && $amount > $configs['max']) {
                 throw new \Exception('账单金额高于支付方式限额');
             }
 

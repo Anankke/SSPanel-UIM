@@ -5,23 +5,37 @@ use App\Controllers\UserController;
 
 class Universal
 {
+    public static function _name(): string
+    {
+        return 'universal';
+    }
+
+    public static function _enable(): bool
+    {
+        if (empty($_ENV['active_payments']['universal']) || $_ENV['active_payments']['universal']['enable'] == false) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static function createOrder($amount, $order_no, $user_id)
     {
-        $config = $_ENV['active_payments']['universal'];
+        $configs = $_ENV['active_payments']['universal'];
 
         try {
-            if (!$config['enable']) {
+            if (!$configs['enable']) {
                 throw new \Exception('此方式暂未启用');
             }
-            if ($config['visible_range']) {
-                if ($user_id < $config['visible_min_range'] || $user_id > $config['visible_max_range']) {
+            if ($configs['visible_range']) {
+                if ($user_id < $configs['visible_min_range'] || $user_id > $configs['visible_max_range']) {
                     throw new \Exception('此方式暂未启用');
                 }
             }
-            if ($config['min'] != false && $amount < $config['min']) {
+            if ($configs['min'] != false && $amount < $configs['min']) {
                 throw new \Exception('账单金额低于支付方式限额');
             }
-            if ($config['max'] != false && $amount > $config['max']) {
+            if ($configs['max'] != false && $amount > $configs['max']) {
                 throw new \Exception('账单金额高于支付方式限额');
             }
 
@@ -31,7 +45,7 @@ class Universal
                 'return_url' => $_ENV['baseUrl'] . '/user/order/' . $order_no,
             ];
 
-            $order = file_get_contents($config['gateway'] . '/create?' . http_build_query($params));
+            $order = file_get_contents($configs['gateway'] . '/create?' . http_build_query($params));
             $order = json_decode($order, true);
 
             return json_encode([
@@ -52,8 +66,8 @@ class Universal
         $id = $request->getParam('id'); // 支付服务商生成的订单号
         $sign = $request->getParam('sign'); // 支付服务商对订单的签名
         $order_no = $request->getParam('order_no'); // 接收订单提交方生成的订单号
-        $config = $_ENV['active_payments']['universal']; // 获取支付服务商参数
-        $_sign = md5($id . $config['sign_key']); // 验证签名
+        $configs = $_ENV['active_payments']['universal']; // 获取支付服务商参数
+        $_sign = md5($id . $configs['sign_key']); // 验证签名
 
         if ($sign != $_sign) {
             die('error_sign');
