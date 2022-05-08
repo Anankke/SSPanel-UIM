@@ -153,6 +153,7 @@ EOL;
             $user = new ModelsUser();
             $user->user_name = 'admin';
             $user->email = $email;
+            $user->remark = 'admin';
             $user->pass = Hash::passwordHash($passwd);
             $user->passwd = Tools::genRandomChar(16);
             $user->uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
@@ -179,12 +180,12 @@ EOL;
             $user->ga_enable = 0;
 
             if ($user->save()) {
-                echo '创建成功，请在主页登录';
+                echo '创建成功，请在主页登录' . PHP_EOL;
             } else {
-                echo '创建失败，请检查数据库配置';
+                echo '创建失败，请检查数据库配置' . PHP_EOL;
             }
         } else {
-            echo '已取消创建';
+            echo '已取消创建' . PHP_EOL;
         }
     }
 

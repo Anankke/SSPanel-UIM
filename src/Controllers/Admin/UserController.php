@@ -206,6 +206,7 @@ final class UserController extends BaseController
         $user = User::find($id);
 
         $user->email = $request->getParam('email');
+        $user->remark = '';
 
         if ($request->getParam('pass') !== '') {
             $user->pass = Hash::passwordHash($request->getParam('pass'));
