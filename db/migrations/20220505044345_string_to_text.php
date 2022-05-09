@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
@@ -14,7 +15,6 @@ final class StringToText extends AbstractMigration
         $this->table('shop')
             ->changeColumn('content', 'text')
             ->save();
-
 
         $this->table('ticket')
             ->changeColumn('content', 'text')
@@ -48,7 +48,6 @@ final class StringToText extends AbstractMigration
         $this->table('shop')
             ->changeColumn('content', 'string')
             ->save();
-
 
         $this->table('ticket')
             ->changeColumn('content', 'string')
