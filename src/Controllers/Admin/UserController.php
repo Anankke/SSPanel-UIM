@@ -2,7 +2,11 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
+use App\Controllers\AuthController;
+use App\Models\Product;
+use App\Models\Setting;
 use App\Models\User;
+use App\Services\Mail;
 use App\Utils\Hash;
 use App\Utils\Tools;
 
@@ -76,6 +80,29 @@ class UserController extends AdminController
                     'exact' => true,
                 ],
             ],
+            'create_dialog' => [
+                [
+                    'id' => 'email',
+                    'info' => '登录邮箱',
+                    'type' => 'input',
+                    'placeholder' => '',
+                ],
+                [
+                    'id' => 'password',
+                    'info' => '登录密码',
+                    'type' => 'input',
+                    'placeholder' => '留空则随机生成',
+                ],
+                [
+                    'id' => 'email_notify',
+                    'info' => '登录凭证',
+                    'type' => 'select',
+                    'select' => [
+                        '1' => '发送登录凭证至新用户邮箱',
+                        '0' => '不发送',
+                    ],
+                ],
+            ],
         ];
 
         return $details;
@@ -92,10 +119,13 @@ class UserController extends AdminController
             $log->last_day_t = round($log->last_day_t / 1073741824, 2);
         }
 
+        $products = Product::where('type', '!=', 'other')->get();
+
         return $response->write(
             $this->view()
                 ->assign('logs', $logs)
                 ->assign('details', self::page())
+                ->assign('products', $products)
                 ->display('admin/user/index.tpl')
         );
     }
@@ -210,6 +240,86 @@ class UserController extends AdminController
         return $response->withJson([
             'ret' => 1,
             'msg' => '修改成功',
+        ]);
+    }
+
+    public function createNewUser($request, $response, $args)
+    {
+        $email = $request->getParam('email');
+        $password = $request->getParam('password');
+        $email_notify = $request->getParam('email_notify');
+        $dispense_product = $request->getParam('dispense_product');
+
+        try {
+            if ($email == '') {
+                throw new \Exception('请填写邮箱');
+            }
+            if (!Tools::emailCheck($email)) {
+                throw new \Exception('邮箱格式不正确');
+            }
+            $exist = User::where('email', $email)->first();
+            if ($exist != null) {
+                throw new \Exception('此邮箱已注册');
+            }
+            if ($password == '') {
+                $password = Tools::genRandomChar(10);
+            }
+            if ($email_notify == '1') {
+                if (Setting::obtain('mail_driver') == 'none') {
+                    throw new \Exception('没有有效的发信配置');
+                }
+            }
+            AuthController::register_helper('user', $email, $password, '', '1', '', 0, false, 'null');
+            if ($email_notify == '1') {
+                $subject = $_ENV['appName'] . ' - 您的账户已创建';
+                $text = '请在 ' . $_ENV['baseUrl'] . ' 使用以下信息登录：'
+                    . '<br/>账户：' . $email
+                    . '<br/>密码：' . $password
+                    . '<br/>'
+                    . '<br/>建议您登录后前往 <b>资料编辑</b> 页面重新设定登录密码。如需帮助，可通过工单系统联系我们'
+                    . '<br/>';
+                Mail::send($email, $subject, 'newuser.tpl', [
+                    'text' => $text,
+                ], []);
+            }
+            if ($dispense_product != '0') {
+                $user = User::where('email', $email)->first();
+                $product = Product::find($dispense_product);
+                $product_content = json_decode($product->content, true);
+                foreach ($product_content as $key => $value) {
+                    switch ($key) {
+                        case 'product_time':
+                            $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + ($value * 86400));
+                            break;
+                        case 'product_traffic':
+                            $user->transfer_enable += $value * 1073741824;
+                            break;
+                        case 'product_class':
+                            $user->class = $value;
+                            break;
+                        case 'product_class_time':
+                            $user->class_expire = $user->expire_in;
+                            break;
+                        case 'product_speed':
+                            $user->node_speedlimit = $value;
+                            break;
+                        case 'product_device':
+                            $user->node_connector = $value;
+                            break;
+                    }
+                }
+                $user->save();
+            }
+        } catch (\Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $e->getMessage(),
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '添加成功',
         ]);
     }
 }

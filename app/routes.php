@@ -208,7 +208,7 @@ return function (SlimApp $app) {
         //$this->delete('/user',                  App\Controllers\Admin\UserController::class . ':delete');
         //$this->post('/user/changetouser',       App\Controllers\Admin\UserController::class . ':changetouser');
         //$this->post('/user/ajax',               App\Controllers\Admin\UserController::class . ':ajax');
-        //$this->post('/user/create',             App\Controllers\Admin\UserController::class . ':createNewUser');
+        $this->post('/user/create',             App\Controllers\Admin\UserController::class . ':createNewUser');
         $this->get('/user',                     App\Controllers\Admin\UserController::class . ':index');
         $this->post('/user/ajax',               App\Controllers\Admin\UserController::class . ':ajaxQuery');
         $this->delete('/user/{id}',             App\Controllers\Admin\UserController::class . ':delete');

@@ -36,6 +36,27 @@
                                 <line x1="21" y1="21" x2="15" y2="15"></line>
                             </svg>
                         </a>
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                            data-bs-target="#create-dialog">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24"
+                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            创建
+                        </a>
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                            data-bs-target="#create-dialog">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24"
+                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -156,6 +177,60 @@
         </div>
     </div>
 
+    <div class="modal modal-blur fade" id="create-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加用户</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {foreach $details['create_dialog'] as $from}
+                        {if $from['type'] == 'input'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
+                                <div class="col">
+                                    <input id="{$from['id']}" type="text" class="form-control"
+                                        placeholder="{$from['placeholder']}">
+                                </div>
+                            </div>
+                        {/if}
+                        {if $from['type'] == 'textarea'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
+                                <textarea id="{$from['id']}" class="col form-control" rows="{$from['rows']}"
+                                    placeholder="{$from['placeholder']}"></textarea>
+                            </div>
+                        {/if}
+                        {if $from['type'] == 'select'}
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
+                                <select id="{$from['id']}" class="col form-select">
+                                    {foreach $from['select'] as $key => $value}
+                                        <option value="{$key}">{$value}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        {/if}
+                    {/foreach}
+                    <div class="form-group mb-3 row">
+                        <label class="form-label col-3 col-form-label">开通商品</label>
+                        <select id="dispense_product" class="col form-select">
+                            <option value="0">不开通</option>
+                            {foreach $products as $product}
+                                <option value="{$product->id}">{$product->name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
+                    <button id="create-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -256,6 +331,29 @@
             $('#notice-dialog').modal('show');
         }
 
+        $("#create-button").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/admin/{$details['route']}/create",
+                dataType: "json",
+                data: {
+                    {foreach $details['create_dialog'] as $from}
+                        {$from['id']}: $('#{$from['id']}').val(),
+                    {/foreach}
+                    dispense_product: $('#dispense_product').val(),
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
         $("#submit-query").click(function() {
             $.ajax({
                 type: "POST",
@@ -273,7 +371,8 @@
                             str += "<tr><td>" +
                                 '<a class=\"text-red\" href="#" onclick="deleteItem(' + data
                                 .result[i].id + ')">删除</a>' +
-                                '&nbsp;<a class=\"text-blue\" href="/admin/user/' + data.result[i].id +
+                                '&nbsp;<a class=\"text-blue\" href="/admin/user/' + data.result[i]
+                                .id +
                                 '/edit">编辑</a>' +
                                 "</td><td>" + data.result[i].id +
                                 {foreach $details['field'] as $key => $value}
