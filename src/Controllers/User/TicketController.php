@@ -73,7 +73,8 @@ class TicketController extends UserController
             $ticket_content = '我的设备：' . $ticket_client . PHP_EOL;
             $ticket_content .= '设备时间：' . $ticket_device_time . PHP_EOL;
             $ticket_content .= '问题详情：' . $content . PHP_EOL;
-            $ticket->content = $anti_xss->xss_clean($ticket_content);
+            $ticket_content = $anti_xss->xss_clean($ticket_content);
+            $ticket->content = $ticket_content;
             $ticket->user_id = $this->user->id;
             $ticket->wait_reply = 'admin';
             $ticket->created_at = time();
@@ -93,7 +94,8 @@ class TicketController extends UserController
             foreach ($admins as $admin) {
                 $admin->sendMail($_ENV['appName'] . ' - 新的工单', 'news/warn.tpl',
                     [
-                        'text' => '新工单开启：' . $anti_xss->xss_clean($title)
+                        'text' => '新工单：' . $anti_xss->xss_clean($title) . '<br />'
+                        . nl2br($ticket_content),
                     ], []
                 );
             }
