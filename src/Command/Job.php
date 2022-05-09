@@ -15,7 +15,6 @@ use App\Models\TelegramSession;
 use App\Models\Token;
 use App\Models\User;
 use App\Models\UserSubscribeLog;
-use App\Services\Analytics;
 use App\Services\Mail;
 use App\Utils\DatatablesHelper;
 use App\Utils\Tools;
@@ -118,6 +117,7 @@ class Job extends Command
 
         // 记录节点流量用量
         $nodes = Node::all();
+        $timestamp_limit = strtotime(date('Y-m-d') . '00:03:00');
         foreach ($nodes as $node) {
             $before_usage = StatisticsModel::where('node_id', $node->id)
                 ->where('item', 'node_traffic_log')
@@ -126,12 +126,14 @@ class Job extends Command
 
             $before_usage_v = (empty($before_usage)) ? '0' : $before_usage->value;
 
-            $traffic = new StatisticsModel;
-            $traffic->item = 'node_traffic_log';
-            $traffic->value = $node->node_bandwidth;
-            $traffic->node_id = $node->id;
-            $traffic->created_at = time();
-            $traffic->save();
+            if ($timestamp_limit > time()) {
+                $traffic = new StatisticsModel;
+                $traffic->item = 'node_traffic_log';
+                $traffic->value = $node->node_bandwidth;
+                $traffic->node_id = $node->id;
+                $traffic->created_at = time();
+                $traffic->save();
+            }
 
             if ($before_usage_v != '0') {
                 $usage = new StatisticsModel;
@@ -143,7 +145,7 @@ class Job extends Command
                 } else {
                     // 如果昨天是重置日
                     if ($node->bandwidthlimit_resetday == (date('j') - 1)) {
-                        $usage->value = $node_bandwidth;
+                        $usage->value = $node->$node_bandwidth;
                     } else {
                         // 如果昨天不是重置日，但today_usage是负数，那就是在后台将节点流量用量改小了
                         $usage->value = 0;
