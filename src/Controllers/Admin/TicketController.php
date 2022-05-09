@@ -100,7 +100,7 @@ class TicketController extends AdminController
 
         return $response->write(
             $this->view()
-                ->assign('user', $user)
+                ->assign('tk_user', $user)
                 ->assign('topic', $topic)
                 ->assign('discussions', $discussions)
                 ->display('admin/ticket/read.tpl')

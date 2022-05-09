@@ -96,17 +96,17 @@
                     <div class="card">
                         <div class="card-body">
                             <p style="line-height: 24px;">
-                                提交用户：<code>{$user->id}</code>
-                                ，昵称：<code>{$user->user_name}</code>
-                                ，注册邮箱：<code>{$user->email}</code>
-                                ，<a href="/admin/user/{$user->id}/edit">编辑用户</a>
+                                提交用户：<code>{$tk_user->id}</code>
+                                ，昵称：<code>{$tk_user->user_name}</code>
+                                ，注册邮箱：<code>{$tk_user->email}</code>
+                                ，<a href="/admin/user/{$tk_user->id}/edit">编辑用户</a>
                             </p>
                             <p style="line-height: 24px;">
-                                用户等级：<code>{$user->class}</code>
-                                ，等级时间：<code>{$user->class_expire}</code>
-                                ，到期时间：<code>{$user->expire_in}</code>
-                                ，流量限制：<code>{round($user->transfer_enable / 1073741824, 2)}</code> GB
-                                ，历史用量：<code>{round($user->last_day_t / 1073741824, 2)}</code> GB
+                                用户等级：<code>{$tk_user->class}</code>
+                                ，等级时间：<code>{$tk_user->class_expire}</code>
+                                ，到期时间：<code>{$tk_user->expire_in}</code>
+                                ，流量限制：<code>{round($tk_user->transfer_enable / 1073741824, 2)}</code> GB
+                                ，历史用量：<code>{round($tk_user->last_day_t / 1073741824, 2)}</code> GB
                             </p>
                         </div>
                     </div>
