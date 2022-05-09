@@ -333,7 +333,7 @@ $_ENV['detect_gfw_interval']             = 3600;                                
 $_ENV['detect_gfw_port']                 = 22;                                                                 //所有节点服务器都打开的TCP端口，常用的为22（SSH端口）
 $_ENV['detect_gfw_url']                  = 'http://cn-sh-tcping.sspanel.org:8080/tcping?ip={ip}&port={port}'; //检测节点是否被gfw墙了的API的URL
 //判断是否被墙的依据，json_tcping为上方URL返回的json数组
-$_ENV['detect_gfw_judge']                = function($json_tcping): boolean {
+$_ENV['detect_gfw_judge']                = function($json_tcping): bool {
     return $json_tcping['status'] === "true";
 };
 

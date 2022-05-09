@@ -78,7 +78,9 @@
                         <div class="card-main">
                             <div class="card-inner">
                                 <div class="card-inner">
-                                    <p>管理员尚未启用此功能</p>
+                                    <p>
+                                        管理员尚未启用此功能，访问 <a href="https://github.com/Anankke/SSPanel-Uim/issues/1403" target="view_window">issue #1403</a> 了解更多
+                                    </p>
                                 </div>
                             </div>
                         </div>

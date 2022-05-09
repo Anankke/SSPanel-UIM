@@ -294,6 +294,7 @@ final class AuthController extends BaseController
 
         $user->user_name = $antiXss->xss_clean($name);
         $user->email = $email;
+        $user->remark = '';
         $user->pass = Hash::passwordHash($passwd);
         $user->passwd = Tools::genRandomChar(16);
         $user->uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
