@@ -21,7 +21,7 @@ final class StripeCard extends AbstractPayment
 
     public static function _enable(): bool
     {
-        if (self::getActiveGateway('stripe') && Setting::obtain('stripe_card')) {
+        if (self::getActiveGateway('stripe_card') && Setting::obtain('stripe_card')) {
             return true;
         }
 
