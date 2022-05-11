@@ -469,7 +469,7 @@ final class User extends Model
     public function getTopUp(): float
     {
         $number = Code::where('userid', $this->id)->sum('number');
-        return is_null($number) ? 0.00 : round($number, 2);
+        return is_null($number) ? 0.00 : round((float) $number, 2);
     }
 
     /**

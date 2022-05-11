@@ -183,27 +183,27 @@ final class Tools
         $gb = 1073741824;
         $tb = $gb * 1024;
         $pb = $tb * 1024;
-        if (abs($value) > $pb) {
-            return round($value / $pb, 2) . 'PB';
+        if (abs((float) $value) > $pb) {
+            return round((float) $value / $pb, 2) . 'PB';
         }
 
-        if (abs($value) > $tb) {
-            return round($value / $tb, 2) . 'TB';
+        if (abs((float) $value) > $tb) {
+            return round((float) $value / $tb, 2) . 'TB';
         }
 
-        if (abs($value) > $gb) {
-            return round($value / $gb, 2) . 'GB';
+        if (abs((float) $value) > $gb) {
+            return round((float) $value / $gb, 2) . 'GB';
         }
 
-        if (abs($value) > $mb) {
-            return round($value / $mb, 2) . 'MB';
+        if (abs((float) $value) > $mb) {
+            return round((float) $value / $mb, 2) . 'MB';
         }
 
-        if (abs($value) > $kb) {
-            return round($value / $kb, 2) . 'KB';
+        if (abs((float) $value) > $kb) {
+            return round((float) $value / $kb, 2) . 'KB';
         }
 
-        return round($value, 2) . 'B';
+        return round((float) $value, 2) . 'B';
     }
 
     /**
