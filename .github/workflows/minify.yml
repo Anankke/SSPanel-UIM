@@ -37,7 +37,7 @@ jobs:
         with:
           directory: 'public/assets/js'
       - name: Auto committing minified files
-        uses: stefanzweifel/git-auto-commit-action@v3.0.0
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           repository: 'public'
           commit_message: "Github Action: Auto Minified Theme CSS/JS Files"
