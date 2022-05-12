@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-use Exception;
+use App\Controllers\LinkController;
 use App\Services\Config;
 use App\Services\Mail;
 use App\Utils\GA;
@@ -9,8 +9,8 @@ use App\Utils\Hash;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 use App\Utils\URL;
+use Exception;
 use Ramsey\Uuid\Uuid;
-use App\Controllers\LinkController;
 
 class User extends Model
 {
@@ -31,17 +31,17 @@ class User extends Model
      * @var array
      */
     protected $casts = [
-        't'               => 'float',
-        'u'               => 'float',
-        'd'               => 'float',
-        'port'            => 'int',
+        't' => 'float',
+        'u' => 'float',
+        'd' => 'float',
+        'port' => 'int',
         'transfer_enable' => 'float',
-        'enable'          => 'int',
-        'is_admin'        => 'boolean',
-        'is_multi_user'   => 'int',
+        'enable' => 'int',
+        'is_admin' => 'boolean',
+        'is_multi_user' => 'int',
         'node_speedlimit' => 'float',
-        'sendDailyMail'   => 'int',
-        'ref_by'          => 'int'
+        'sendDailyMail' => 'int',
+        'ref_by' => 'int',
     ];
 
     /**
@@ -161,7 +161,7 @@ class User extends Model
     public function updateMethod(string $method): array
     {
         $return = [
-            'ok' => false
+            'ok' => false,
         ];
         if ($method == '') {
             $return['msg'] = '非法输入';
@@ -183,10 +183,10 @@ class User extends Model
         $this->save();
         $return['ok'] = true;
         if (!URL::SSCanConnect($this)) {
-            $return['msg']  = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks 原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
+            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks 原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
         }
         if (!URL::SSRCanConnect($this)) {
-            $return['msg']  = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
+            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
         }
         $return['msg'] = '设置成功，您可自由选用两种客户端来进行连接。';
         return $return;
@@ -201,8 +201,8 @@ class User extends Model
             $temp_code = Tools::genRandomChar(10);
             if (InviteCode::where('code', $temp_code)->first() == null) {
                 if (InviteCode::where('user_id', $this->id)->count() == 0) {
-                    $code          = new InviteCode();
-                    $code->code    = $temp_code;
+                    $code = new InviteCode();
+                    $code->code = $temp_code;
                     $code->user_id = $this->id;
                     $code->save();
                     return $temp_code;
@@ -266,8 +266,8 @@ class User extends Model
         if ($this->transfer_enable == 0) {
             return 0;
         }
-        $percent  = ($this->u + $this->d) / $this->transfer_enable;
-        $percent  = round($percent, 2);
+        $percent = ($this->u + $this->d) / $this->transfer_enable;
+        $percent = round($percent, 2);
         $percent *= 100;
         return $percent;
     }
@@ -288,9 +288,9 @@ class User extends Model
         if ($this->transfer_enable == 0) {
             return 0;
         }
-        $unused   = $this->transfer_enable - ($this->u + $this->d);
-        $percent  = $unused / $this->transfer_enable;
-        $percent  = round($percent, 2);
+        $unused = $this->transfer_enable - ($this->u + $this->d);
+        $percent = $unused / $this->transfer_enable;
+        $percent = round($percent, 2);
         $percent *= 100;
         return $percent;
     }
@@ -312,9 +312,9 @@ class User extends Model
             return 0;
         }
         $Todayused = $this->u + $this->d - $this->last_day_t;
-        $percent   = $Todayused / $this->transfer_enable;
-        $percent   = round($percent, 2);
-        $percent  *= 100;
+        $percent = $Todayused / $this->transfer_enable;
+        $percent = round($percent, 2);
+        $percent *= 100;
         return $percent;
     }
 
@@ -335,8 +335,8 @@ class User extends Model
             return 0;
         }
         $Lastused = $this->last_day_t;
-        $percent  = $Lastused / $this->transfer_enable;
-        $percent  = round($percent, 2);
+        $percent = $Lastused / $this->transfer_enable;
+        $percent = round($percent, 2);
         $percent *= 100;
         return $percent;
     }
@@ -438,7 +438,7 @@ class User extends Model
      */
     public function kill_user(): bool
     {
-        $uid   = $this->id;
+        $uid = $this->id;
         $email = $this->email;
 
         DetectLog::where('user_id', '=', $uid)->delete();
@@ -476,7 +476,7 @@ class User extends Model
         switch ($req) {
             case "yesterday":
                 $start = mktime(0, 0, 0, date('m'), date('d') - 1, date('Y'));
-                $stop = mktime(0, 0, 0, date('m'), date('d'), date('Y')) -1;
+                $stop = mktime(0, 0, 0, date('m'), date('d'), date('Y')) - 1;
                 break;
             case "today":
                 $start = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
@@ -554,38 +554,38 @@ class User extends Model
     public function setProtocol($Protocol): array
     {
         $return = [
-            'ok'  => true,
-            'msg' => '设置成功，您可自由选用客户端来连接。'
+            'ok' => true,
+            'msg' => '设置成功，您可自由选用客户端来连接。',
         ];
         if ($Protocol == '') {
-            $return['ok']   = false;
-            $return['msg']  = '非法输入';
+            $return['ok'] = false;
+            $return['msg'] = '非法输入';
             return $return;
         }
         if (!Tools::is_param_validate('protocol', $Protocol)) {
-            $return['ok']   = false;
-            $return['msg']  = '协议无效';
+            $return['ok'] = false;
+            $return['msg'] = '协议无效';
             return $return;
         }
         $this->protocol = $Protocol;
         if (!Tools::checkNoneProtocol($this)) {
-            $return['ok']   = false;
-            $return['msg']  = '系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议【' . implode(',', Config::getSupportParam('allow_none_protocol')) . '】之内，请您先修改您的加密方式，再来修改此处设置。';
+            $return['ok'] = false;
+            $return['msg'] = '系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议【' . implode(',', Config::getSupportParam('allow_none_protocol')) . '】之内，请您先修改您的加密方式，再来修改此处设置。';
             return $return;
         }
         if (!URL::SSCanConnect($this) && !URL::SSRCanConnect($this)) {
-            $return['ok']   = false;
-            $return['msg']  = '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。';
+            $return['ok'] = false;
+            $return['msg'] = '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。';
             return $return;
         }
         $this->save();
         if (!URL::SSCanConnect($this)) {
-            $return['ok']   = true;
-            $return['msg']  = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks 原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
+            $return['ok'] = true;
+            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks 原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
         }
         if (!URL::SSRCanConnect($this)) {
-            $return['ok']   = true;
-            $return['msg']  = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
+            $return['ok'] = true;
+            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
         }
         return $return;
     }
@@ -598,33 +598,33 @@ class User extends Model
     public function setObfs($Obfs): array
     {
         $return = [
-            'ok'  => true,
-            'msg' => '设置成功，您可自由选用客户端来连接。'
+            'ok' => true,
+            'msg' => '设置成功，您可自由选用客户端来连接。',
         ];
         if ($Obfs == '') {
-            $return['ok']   = false;
-            $return['msg']  = '非法输入';
+            $return['ok'] = false;
+            $return['msg'] = '非法输入';
             return $return;
         }
         if (!Tools::is_param_validate('obfs', $Obfs)) {
-            $return['ok']   = false;
-            $return['msg']  = '混淆无效';
+            $return['ok'] = false;
+            $return['msg'] = '混淆无效';
             return $return;
         }
         $this->obfs = $Obfs;
         if (!URL::SSCanConnect($this) && !URL::SSRCanConnect($this)) {
-            $return['ok']   = false;
-            $return['msg']  = '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。';
+            $return['ok'] = false;
+            $return['msg'] = '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。';
             return $return;
         }
         $this->save();
         if (!URL::SSCanConnect($this)) {
-            $return['ok']   = true;
-            $return['msg']  = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks 原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
+            $return['ok'] = true;
+            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks 原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
         }
         if (!URL::SSRCanConnect($this)) {
-            $return['ok']   = true;
-            $return['msg']  = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
+            $return['ok'] = true;
+            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
         }
         return $return;
     }
@@ -635,8 +635,8 @@ class User extends Model
     public function TelegramReset(): array
     {
         $return = [
-            'ok'  => true,
-            'msg' => '解绑成功.'
+            'ok' => true,
+            'msg' => '解绑成功.',
         ];
 
         $telegram_id = $this->telegram_id;
@@ -644,8 +644,8 @@ class User extends Model
 
         if (!$this->save()) {
             $return = [
-                'ok'  => false,
-                'msg' => '解绑失败.'
+                'ok' => false,
+                'msg' => '解绑失败.',
             ];
         }
 
@@ -662,15 +662,15 @@ class User extends Model
         $PortOccupied = User::pluck('port')->toArray();
         if (in_array($Port, $PortOccupied) == true) {
             return [
-                'ok'  => false,
-                'msg' => '端口已被占用'
+                'ok' => false,
+                'msg' => '端口已被占用',
             ];
         }
         $this->port = $Port;
         $this->save();
         return [
-            'ok'  => true,
-            'msg' => $this->port
+            'ok' => true,
+            'msg' => $this->port,
         ];
     }
 
@@ -683,8 +683,8 @@ class User extends Model
         $this->setPort($Port);
         $this->save();
         return [
-            'ok'  => true,
-            'msg' => $this->port
+            'ok' => true,
+            'msg' => $this->port,
         ];
     }
 
@@ -728,7 +728,7 @@ class User extends Model
                     $template,
                     array_merge(
                         [
-                            'user' => $this
+                            'user' => $this,
                         ],
                         $ary
                     ),
@@ -777,16 +777,16 @@ class User extends Model
                     $_ENV['appName'] . '-每日流量报告以及公告',
                     'news/daily-traffic-report.tpl',
                     [
-                        'user'    => $this,
-                        'text'    => '下面是系统中目前的公告:<br><br>' . $ann . '<br><br>晚安！',
-                        'lastday' => $lastday
+                        'user' => $this,
+                        'text' => '下面是系统中目前的公告:<br><br>' . $ann . '<br><br>晚安！',
+                        'lastday' => $lastday,
                     ],
                     []
                 );
                 break;
             case 2:
                 echo 'Send daily Telegram message to user: ' . $this->id;
-                $text  = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
+                $text = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
                 $text .= '流量总计：' . $this->enableTraffic() . PHP_EOL;
                 $text .= '已用流量：' . $this->usedTraffic() . PHP_EOL;
                 $text .= '剩余流量：' . $this->unusedTraffic() . PHP_EOL;
@@ -806,12 +806,12 @@ class User extends Model
      */
     public function collectLoginIP(string $ip, int $type = 0): bool
     {
-        $loginip           = new LoginIp();
-        $loginip->ip       = $ip;
+        $loginip = new LoginIp();
+        $loginip->ip = $ip;
         $loginip->attribution = Tools::getIpInfo($ip);
-        $loginip->userid   = $this->id;
+        $loginip->userid = $this->id;
         $loginip->datetime = time();
-        $loginip->type     = $type;
+        $loginip->type = $type;
 
         return $loginip->save();
     }

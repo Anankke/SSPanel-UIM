@@ -21,7 +21,8 @@ namespace App\Models;
  */
 
 use App\Services\Config;
-use App\Utils\{Tools, URL};
+use App\Utils\Tools;
+use App\Utils\URL;
 
 class Node extends Model
 {
@@ -31,11 +32,11 @@ class Node extends Model
 
     protected $casts = [
         'node_speedlimit' => 'float',
-        'traffic_rate'    => 'float',
-        'mu_only'         => 'int',
-        'sort'            => 'int',
-        'type'            => 'bool',
-        'node_heartbeat'  => 'int',
+        'traffic_rate' => 'float',
+        'mu_only' => 'int',
+        'sort' => 'int',
+        'type' => 'bool',
+        'node_heartbeat' => 'int',
     ];
 
     /**
@@ -253,7 +254,7 @@ class Node extends Model
      */
     public function getNodeIp(): string
     {
-        $node_ip_str   = $this->node_ip;
+        $node_ip_str = $this->node_ip;
         $node_ip_array = explode(',', $node_ip_str);
         return $node_ip_array[0];
     }
@@ -302,7 +303,7 @@ class Node extends Model
      * @param int  $is_ss
      * @param bool $emoji
      */
-    public function getItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false):? array
+    public function getItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): ?array
     {
         $node_name = $this->name;
         if ($mu_port != 0) {
@@ -311,11 +312,11 @@ class Node extends Model
                 return null;
             }
             // 如果混淆和协议均为SS原生且为单端口的，即判断为AEAD单端口类型，密码配置为用户自身密码
-            if ($mu_user->obfs == "plain" && $mu_user->protocol == "origin"){
+            if ($mu_user->obfs == "plain" && $mu_user->protocol == "origin") {
                 $mu_user->passwd = $user->passwd;
-                $mu_user->obfs_param     = "";
+                $mu_user->obfs_param = "";
                 $mu_user->protocol_param = "";
-            }else{
+            } else {
                 $mu_user->obfs_param = $user->getMuMd5();
                 $mu_user->protocol_param = $user->id . ':' . $user->passwd;
             }
@@ -335,23 +336,23 @@ class Node extends Model
             $user = URL::getSSRConnectInfo($user);
             $return_array['type'] = 'ssr';
         }
-        $return_array['address']        = $this->get_entrance_address();
-        $return_array['port']           = $user->port;
-        $return_array['protocol']       = $user->protocol;
+        $return_array['address'] = $this->get_entrance_address();
+        $return_array['port'] = $user->port;
+        $return_array['protocol'] = $user->protocol;
         $return_array['protocol_param'] = $user->protocol_param;
-        $return_array['obfs']           = $user->obfs;
-        $return_array['obfs_param']     = $user->obfs_param;
+        $return_array['obfs'] = $user->obfs;
+        $return_array['obfs_param'] = $user->obfs_param;
         if ($mu_port != 0 && strpos($this->server, ';') !== false) {
-            $node_tmp             = Tools::OutPort($this->server, $this->name, $mu_port);
+            $node_tmp = Tools::OutPort($this->server, $this->name, $mu_port);
             $return_array['port'] = $node_tmp['port'];
-            $node_name            = $node_tmp['name'];
+            $node_name = $node_tmp['name'];
         }
         $return_array['passwd'] = $user->passwd;
         $return_array['method'] = $user->method;
         $return_array['remark'] = ($emoji ? Tools::addEmoji($node_name) : $node_name);
-        $return_array['class']  = $this->node_class;
-        $return_array['group']  = $_ENV['appName'];
-        $return_array['ratio']  = $this->traffic_rate;
+        $return_array['class'] = $this->node_class;
+        $return_array['group'] = $_ENV['appName'];
+        $return_array['ratio'] = $this->traffic_rate;
 
         return $return_array;
     }
@@ -366,14 +367,13 @@ class Node extends Model
      */
     public function getV2RayItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): array
     {
-        $item           = Tools::v2Array($this->server);
-        $item['type']   = 'vmess';
+        $item = Tools::v2Array($this->server);
+        $item['type'] = 'vmess';
         $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
-        $item['id']     = $user->uuid;
-        $item['class']  = $this->node_class;
+        $item['id'] = $user->uuid;
+        $item['class'] = $this->node_class;
         return $item;
     }
-
 
     /**
      * 获取 V2RayPlugin | obfs 节点
@@ -392,11 +392,11 @@ class Node extends Model
         if ($return_array['net'] != 'obfs' && !in_array($user->method, Config::getSupportParam('ss_aead_method'))) {
             return null;
         }
-        $return_array['remark']         = ($emoji ? Tools::addEmoji($this->name) : $this->name);
-        $return_array['address']        = $return_array['add'];
-        $return_array['method']         = $user->method;
-        $return_array['passwd']         = $user->passwd;
-        $return_array['protocol']       = 'origin';
+        $return_array['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
+        $return_array['address'] = $return_array['add'];
+        $return_array['method'] = $user->method;
+        $return_array['passwd'] = $user->passwd;
+        $return_array['protocol'] = 'origin';
         $return_array['protocol_param'] = '';
         if ($return_array['net'] == 'obfs') {
             $return_array['obfs_param'] = $user->getMuMd5();
@@ -430,31 +430,29 @@ class Node extends Model
     public function getTrojanItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): array
     {
         $server = explode(';', $this->server);
-        $opt    = [];
+        $opt = [];
         if (isset($server[1])) {
             $opt = URL::parse_args($server[1]);
         }
-        $item['remark']   = ($emoji ? Tools::addEmoji($this->name) : $this->name);
-        $item['type']     = 'trojan';
-        $item['address']  = $server[0];
-        $item['port']     = (isset($opt['port']) ? (int) $opt['port'] : 443);
-        $item['passwd']   = $user->uuid;
-        $item['host']     = $item['address'];
-        $item['net']	  = (isset($opt['grpc']) ? "grpc" :'');
-        $item['servicename'] = (isset($opt['servicename']) ? $opt['servicename'] :'');
-        $item['flow']	  = (isset($opt['flow']) ? $opt['flow'] :'');
-        $xtls			= (isset($opt['enable_xtls']) ? $opt['enable_xtls'] :'');
-        if($xtls == 'true'){
-          $item['tls'] =  'xtls';
-        }else {
-          $item['tls'] =  'tls';
+        $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
+        $item['type'] = 'trojan';
+        $item['address'] = $server[0];
+        $item['port'] = (isset($opt['port']) ? (int) $opt['port'] : 443);
+        $item['passwd'] = $user->uuid;
+        $item['host'] = $item['address'];
+        $item['net'] = (isset($opt['grpc']) ? "grpc" : '');
+        $item['servicename'] = (isset($opt['servicename']) ? $opt['servicename'] : '');
+        $item['flow'] = (isset($opt['flow']) ? $opt['flow'] : '');
+        $xtls = (isset($opt['enable_xtls']) ? $opt['enable_xtls'] : '');
+        if ($xtls == 'true') {
+            $item['tls'] = 'xtls';
+        } else {
+            $item['tls'] = 'tls';
         }
         if (isset($opt['host'])) {
-          $item['host'] = $opt['host'];
+            $item['host'] = $opt['host'];
         }
         return $item;
     }
-
-
 
 }
