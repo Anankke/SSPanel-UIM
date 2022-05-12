@@ -177,7 +177,7 @@ class Node extends Model
         if ($log == null) {
             return -1;
         }
-        return (explode(' ', $log->load))[0] * 100;
+        return ((int) explode(' ', $log->load)[0]) * 100;
     }
 
     /**
@@ -195,7 +195,7 @@ class Node extends Model
     public function get_node_speedlimit(): string
     {
         if ($this->node_speedlimit == 0.0) {
-            return 0;
+            return '0';
         } elseif ($this->node_speedlimit >= 1024.00) {
             return round($this->node_speedlimit / 1024.00, 1) . 'Gbps';
         } else {
@@ -437,7 +437,7 @@ class Node extends Model
         $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
         $item['type'] = 'trojan';
         $item['address'] = $server[0];
-        $item['port'] = (isset($opt['port']) ? (int) $opt['port'] : 443);
+        $item['port'] = (isset($opt['offset_port_user']) ? (int) $opt['offset_port_user'] : 443);
         $item['passwd'] = $user->uuid;
         $item['host'] = $item['address'];
         $item['net'] = (isset($opt['grpc']) ? "grpc" : '');

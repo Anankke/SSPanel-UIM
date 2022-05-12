@@ -110,7 +110,7 @@ class User extends Model
      */
     public function lastSsTime(): string
     {
-        return $this->t == 0 ? '没有记录' : Tools::toDateTime($this->t);
+        return $this->t === 0 || $this->t === null ? '没有记录' : Tools::toDateTime($this->t);
     }
 
     /**
