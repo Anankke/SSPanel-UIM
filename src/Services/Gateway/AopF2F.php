@@ -73,7 +73,7 @@ final class AopF2F extends AbstractPayment
         // 获取收款二维码内容
         $qrCodeContent = $aliResponse->getQrCode();
 
-        return json_encode([
+        return $response->withJson([
             'ret' => 1,
             'qrcode' => $qrCodeContent,
             'amount' => $pl->total,
