@@ -454,7 +454,7 @@ final class Node extends Model
         $item['passwd'] = $user->uuid;
         $item['host'] = $item['address'];
         $item['net'] = (isset($opt['grpc']) ? 'grpc' : (strpos(implode($server), 'grpc=1') ? 'grpc' : ''));
-        $item['servicename'] = ($opt['servicename'] ?? (strpos(implode($server), 'servicename=') ? substr(explode('|', $server[1])[3] ,12) : '' ));
+        $item['servicename'] = ($opt['servicename'] ?? (strpos(implode($server), 'servicename=') ? substr(explode('|', $server[1])[3], 12) : '' ));
         $item['flow'] = ($opt['flow'] ?? '');
         $xtls = ($opt['enable_xtls'] ?? '');
         if ($xtls === 'true') {
