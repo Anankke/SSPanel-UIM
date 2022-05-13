@@ -146,6 +146,7 @@
                         <label class="form-label col-3 col-form-label">商品类型</label>
                         <select id="product_type" class="col form-select">
                             <option value="all">所有类型</option>
+                            <option value="recharge">账户充值</option>
                             <option value="tatp">时间流量包</option>
                             <option value="time">时间包</option>
                             <option value="traffic">流量包</option>

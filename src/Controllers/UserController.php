@@ -135,10 +135,12 @@ class UserController extends BaseController
         $user = $this->user;
         $coupon_code = $request->getParam('coupon');
         $product_id = $request->getParam('product_id');
-
         $product = Product::find($product_id);
 
         try {
+            if ($product == null) {
+                throw new \Exception('商品不存在');
+            }
             if ($coupon_code != '') {
                 $coupon = Coupon::where('coupon', $coupon_code)->first();
                 if ($coupon == null) {
@@ -248,40 +250,47 @@ class UserController extends BaseController
             ->where('no', $order_no)
             ->first();
 
-        $payments = $_ENV['active_payments'];
-        $order->order_payment = empty($payments[$payment]['name']) ? 'balance' : $payments[$payment]['name'];
-        $order->save();
-
-        $product = Product::find($order->product_id);
         try {
+            $payments = $_ENV['active_payments'];
+            if (empty($payments[$payment]) && $payment != 'balance') {
+                throw new \Exception('提交的支付方式不存在，请从给出的选项中选择');
+            }
+            $order->order_payment = empty($payments[$payment]) ? 'balance' : $payments[$payment]['name'];
+            $order->save();
             if (time() > $order->expired_at) {
                 throw new \Exception('此订单已过期');
             }
             if ($order->order_status == 'paid') {
                 throw new \Exception('此订单已支付');
             }
-            if ($product->stock <= 0) {
-                throw new \Exception('商品库存不足');
-            }
-            if ($payment == 'balance') {
-                if ($user->money < ($order->order_price / 100)) {
-                    if ($user->money > 0) {
-                        throw new \Exception('余额已抵扣此账单，差额请使用其他方式支付');
+            if ($order->product_id != '0') {
+                $product = Product::find($order->product_id);
+                if ($product->stock <= 0) {
+                    throw new \Exception('商品库存不足');
+                }
+                if ($payment == 'balance') {
+                    if ($user->money < ($order->order_price / 100)) {
+                        if ($user->money > 0) {
+                            throw new \Exception('余额已抵扣此账单，差额请使用其他方式支付');
+                        }
+                        throw new \Exception('账户余额不足，请使用其他方式支付');
                     }
-                    throw new \Exception('账户余额不足，请使用其他方式支付');
-                }
 
-                $user->money -= $order->order_price / 100;
-                $user->save();
+                    $user->money -= $order->order_price / 100;
+                    $user->save();
 
-                self::execute($order->no);
-            } else {
-                if ($order->balance_payment == 0) {
-                    return Payment::create($user->id, $payment, $order->no, ($order->order_price / 100));
+                    self::execute($order->no);
                 } else {
-                    $new_price = ($order->order_price - $order->balance_payment) / 100;
-                    return Payment::create($user->id, $payment, $order->no, $new_price);
+                    if ($order->balance_payment == 0) {
+                        return Payment::create($user->id, $payment, $order->no, ($order->order_price / 100));
+                    } else {
+                        $new_price = ($order->order_price - $order->balance_payment) / 100;
+                        return Payment::create($user->id, $payment, $order->no, $new_price);
+                    }
                 }
+            } else {
+                // 为充值账户余额向支付网关提交订单
+                return Payment::create($user->id, $payment, $order->no, ($order->order_price / 100));
             }
         } catch (\Exception $e) {
             return $response->withJson([
@@ -300,6 +309,32 @@ class UserController extends BaseController
     public static function execute($order_no)
     {
         $order = ProductOrder::where('no', $order_no)->first();
+        if ($order->product_id == '0') {
+            return self::executeRecharge($order);
+        } else {
+            return self::executeProduct($order);
+        }
+    }
+
+    public static function executeRecharge($order)
+    {
+        if ($order->execute_status != '1') {
+            $order->paid_at = time();
+            $order->updated_at = time();
+            $order->order_status = 'paid';
+            $order->save();
+
+            $user = User::find($order->user_id);
+            $user->money += $order->order_price / 100;
+            $user->save();
+
+            $order->execute_status = 1;
+            $order->save();
+        }
+    }
+
+    public static function executeProduct($order)
+    {
         $product = Product::find($order->product_id);
         $user = User::find($order->user_id);
 
@@ -466,6 +501,57 @@ class UserController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '兑换成功，添加了账户余额 ' . $giftcard->balance . ' 元',
+        ]);
+    }
+
+    public function balanceCharge($request, $response, $args)
+    {
+        $user = $this->user;
+        $amount = $request->getParam('recharge_amount');
+
+        try {
+            if ($amount == '') {
+                throw new \Exception('请输入充值金额');
+            }
+            if ($amount <= 0) {
+                throw new \Exception('充值金额应当大于零');
+            }
+            $max_price_product = Product::where('status', '1')->max('price');
+            if (($max_price_product / 100) < $amount) {
+                throw new \Exception('充值金额不可大于商店在售状态中的最高价商品');
+            }
+            $amount = sprintf("%.2f", $amount);
+
+            $order = new ProductOrder;
+            $order->no = substr(md5(time()), 20);
+            $order->user_id = $user->id;
+            $order->product_id = 0;
+            $order->product_name = '账户充值';
+            $order->product_type = 'recharge';
+            $order->product_content = '账户充值 ' . $amount . ' 元';
+            $order->product_price = $amount * 100;
+            $order->order_price = $amount * 100;
+            $order->order_coupon = null;
+            $order->order_payment = 'balance';
+            $order->balance_payment = 0;
+            $order->order_status = 'pending_payment';
+            $order->created_at = time();
+            $order->updated_at = time();
+            $order->expired_at = time() + 600;
+            $order->paid_at = time();
+            $order->paid_action = json_encode(['action' => 'balance_recharge', 'params' => $amount * 100]);
+            $order->execute_status = 0;
+            $order->save();
+        } catch (\Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $e->getMessage(),
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'order_id' => $order->no,
         ]);
     }
 

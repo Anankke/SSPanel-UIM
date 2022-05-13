@@ -13,6 +13,37 @@
                         <span class="home-subtitle">在这里浏览商店商品并根据需要下单</span>
                     </div>
                 </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                            data-bs-target="#account-recharge">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-coin" width="24"
+                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path
+                                    d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1 -1.8 -1">
+                                </path>
+                                <path d="M12 6v2m0 8v2"></path>
+                            </svg>
+                            充值余额
+                        </a>
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                            data-bs-target="#account-recharge">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-coin" width="24"
+                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path
+                                    d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1 -1.8 -1">
+                                </path>
+                                <path d="M12 6v2m0 8v2"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -236,6 +267,30 @@
         </div>
     </div>
 
+    <div class="modal modal-blur fade" id="account-recharge" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">账户充值</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3 row">
+                        <label class="form-label col-2 col-form-label">金额</label>
+                        <div class="col">
+                            <input id="recharge_amount" type="text" class="form-control" placeholder="请输入充值金额">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
+                    <button id="create-recharge-order" type="button" class="btn btn-primary"
+                        data-bs-dismiss="modal">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function buy(product_id) {
             order_product_id = product_id;
@@ -280,6 +335,30 @@
                 data: {
                     coupon: $('#coupon').val(),
                     product_id: order_product_id
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text('正在准备您的订单');
+                        $('#success-dialog').modal('show');
+                        setTimeout(function() {
+                            $(location).attr('href', '/user/order/' + data.order_id);
+                        }, 1500);
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#product-buy-dialog').modal('hide');
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
+        $("#create-recharge-order").click(function() {
+            $.ajax({
+                url: '/user/charge',
+                type: 'POST',
+                dataType: "json",
+                data: {
+                    recharge_amount: $('#recharge_amount').val(),
                 },
                 success: function(data) {
                     if (data.ret == 1) {

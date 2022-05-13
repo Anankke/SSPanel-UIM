@@ -107,7 +107,8 @@
                         {if $order->balance_payment != '0'}
                             <tr>
                                 <td colspan="4" class="strong font-weight-bold text-uppercase text-end">余额抵扣</td>
-                                <td class="font-weight-bold text-end">-&nbsp;{sprintf("%.2f", $order->balance_payment / 100)}
+                                <td class="font-weight-bold text-end">
+                                    -&nbsp;{sprintf("%.2f", $order->balance_payment / 100)}
                                 </td>
                             </tr>
                             <tr>
@@ -148,7 +149,8 @@
                                             <div class="card-status-top bg-danger"></div>
                                             <div class="card-body">
                                                 <h3 class="card-title">账单异常</h3>
-                                                <p class="text-muted">这份账单存在异常。原因是创建了多笔使用余额抵扣的账单，并支付了这些账单中的多份。请提交工单联系管理员，为此账单申请退款</p>
+                                                <p class="text-muted">
+                                                    这份账单存在异常。原因是创建了多笔使用余额抵扣的账单，并支付了这些账单中的多份。请提交工单联系管理员，为此账单申请退款</p>
                                             </div>
                                         </div>
                                     </div>
@@ -164,18 +166,20 @@
                                             <h1>支付方式</h1>
                                         </div>
                                         <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
-                                            <label class="form-selectgroup-item flex-fill">
-                                                <input value="balance" type="radio" name="payment-method"
-                                                    class="form-selectgroup-input" checked="">
-                                                <div class="form-selectgroup-label d-flex align-items-center p-3">
-                                                    <div class="me-3">
-                                                        <span class="form-selectgroup-check"></span>
+                                            {if $order->product_type != 'recharge'}
+                                                <label class="form-selectgroup-item flex-fill">
+                                                    <input value="balance" type="radio" name="payment-method"
+                                                        class="form-selectgroup-input" checked="">
+                                                    <div class="form-selectgroup-label d-flex align-items-center p-3">
+                                                        <div class="me-3">
+                                                            <span class="form-selectgroup-check"></span>
+                                                        </div>
+                                                        <div>
+                                                            账户余额
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        账户余额
-                                                    </div>
-                                                </div>
-                                            </label>
+                                                </label>
+                                            {/if}
                                             {foreach $config['active_payments'] as $key => $value}
                                                 {if $value['enable'] == true}
                                                     {if ($value['visible_range'] == true && $user->id >= $value['visible_min_range'] && $user->id <= $value['visible_max_range']) || $value['visible_range'] == false}
