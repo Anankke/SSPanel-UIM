@@ -90,12 +90,13 @@ final class AnnController extends BaseController
      */
     public function add(Request $request, Response $response, array $args)
     {
-        $issend = $request->getParam('issend');
-        $vip = $request->getParam('vip');
-        $content = $request->getParam('content');
-        $subject = $_ENV['appName'] . '-公告';
+        $vip = (int) $request->getParam('vip');
+        $page = (int) $request->getParam('page');
+        $issend = (int) $request->getParam('issend');
+        $content = (string) $request->getParam('content');
+        $subject = $_ENV['appName'] . ' - 公告';
 
-        if ($request->getParam('page') === 1) {
+        if ($page === 1) {
             $ann = new Ann();
             $ann->date = date('Y-m-d H:i:s');
             $ann->content = $content;
@@ -104,13 +105,17 @@ final class AnnController extends BaseController
             if (! $ann->save()) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '添加失败',
+                    'msg' => '公告保存失败',
                 ]);
             }
         }
         if ($issend === 1) {
-            $beginSend = ($request->getParam('page') - 1) * $_ENV['sendPageLimit'];
-            $users = User::where('class', '>=', $vip)->skip($beginSend)->limit($_ENV['sendPageLimit'])->get();
+            $beginSend = $page * $_ENV['sendPageLimit'];
+            $users = User::where('class', '>=', $vip)
+                ->skip($beginSend)
+                ->limit($_ENV['sendPageLimit'])
+                ->get();
+
             foreach ($users as $user) {
                 $user->sendMail(
                     $subject,
@@ -123,6 +128,7 @@ final class AnnController extends BaseController
                     $_ENV['email_queue']
                 );
             }
+
             if (count($users) === $_ENV['sendPageLimit']) {
                 return $response->withJson([
                     'ret' => 2,
@@ -130,15 +136,14 @@ final class AnnController extends BaseController
                 ]);
             }
         }
-        Telegram::sendMarkdown('新公告：' . PHP_EOL . $request->getParam('markdown'));
-        if ($issend === 1) {
-            $msg = '公告添加成功，邮件发送成功';
-        } else {
-            $msg = '公告添加成功';
+
+        if ($_ENV['enable_telegram']) {
+            Telegram::sendMarkdown('新公告：' . PHP_EOL . $request->getParam('markdown'));
         }
+
         return $response->withJson([
             'ret' => 1,
-            'msg' => $msg,
+            'msg' => $issend === 1 ? '公告添加成功，邮件发送成功' : '公告添加成功',
         ]);
     }
 
