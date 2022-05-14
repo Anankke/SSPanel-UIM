@@ -143,7 +143,7 @@ final class AnnController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => ($issend === 1) ? '公告添加成功，邮件发送成功' : '公告添加成功',
+            'msg' => $issend === 1 ? '公告添加成功，邮件发送成功' : '公告添加成功',
         ]);
     }
 
