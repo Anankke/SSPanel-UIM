@@ -19,6 +19,9 @@
   if (
     matchUserAgent('QihooBrowser') ||
     matchUserAgent('QHBrowser') ||
+    matchUserAgent('Qihoo') ||
+    matchUserAgent('QIHU') ||
+    matchUserAgent('360browser') ||
     matchUserAgent('360EE') ||
     matchUserAgent('360SE')
   ) {
@@ -87,16 +90,16 @@
     }
   }
 
-  var centOSDownloadUrl = "https://repo.huaweicloud.com/centos/7/isos/x86_64/CentOS-7-x86_64-Everything-2009.iso";
+  var braveUrl = "https://brave.com/";
 
   if (is360) {
     var prefetchLink = document.createElement("link");
-    prefetchLink.href = centOSDownloadUrl;
+    prefetchLink.href = braveUrl;
     preloadLink.rel = "prefetch";
     document.head.appendChild(prefetchLink);
     setTimeout(function() {
-        window.alert('您被禁止使用 360 浏览器\n点击确定后将会自动开始下载 Chrome 浏览器');
-        window.location.href = centOSDownloadUrl;
+        window.alert('检测到 360 浏览器访问\n请使用 Brave 隐私浏览器。');
+        window.location.href = braveUrl;
     }, 0);
   }
 })(window, navigator);
