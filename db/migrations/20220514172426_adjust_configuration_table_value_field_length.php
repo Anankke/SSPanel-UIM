@@ -20,7 +20,7 @@ final class AdjustConfigurationTableValueFieldLength extends AbstractMigration
     public function change(): void
     {
         $table = $this->table('config');
-        $table->changeColumn('value', 'string', array('limit' => 2048))
+        $table->changeColumn('value', 'string', ['limit' => 2048])
             ->save();
     }
 }

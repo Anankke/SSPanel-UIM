@@ -117,10 +117,15 @@ final class AnnController extends BaseController
                 ->get();
 
             foreach ($users as $user) {
-                $user->sendMail($subject, 'news/warn.tpl', [
-                    'user' => $user,
-                    'text' => $content,
-                ], [], $_ENV['email_queue']
+                $user->sendMail(
+                    $subject,
+                    'news/warn.tpl',
+                    [
+                        'user' => $user,
+                        'text' => $content,
+                    ],
+                    [],
+                    $_ENV['email_queue']
                 );
             }
 
