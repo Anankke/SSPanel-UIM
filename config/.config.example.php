@@ -145,9 +145,9 @@ $_ENV['clear_traffic_after_expire'] = false; // 当用户到期后，是否清�
     页面自定义
 */
 
-$_ENV['user_media_page_custom'] = true; // 流媒体解锁页面自定义说明开关
+$_ENV['user_media_page_custom'] = false; // 流媒体解锁页面自定义说明开关
 $_ENV['user_media_page_custom_text'] = '<p>Hi</p>'; // 流媒体解锁页面自定义说明文本，支持html
-$_ENV['user_product_page_custom'] = true; // 商品页面自定义说明开关
+$_ENV['user_product_page_custom'] = false; // 商品页面自定义说明开关
 $_ENV['user_product_page_custom_text'] = '<p>Hi</p>'; // 商品页面自定义说明文本，支持html
 $_ENV['enable_docs'] = true; // 是否开启文档系统
 $_ENV['docs_sub_hidden'] = ['ssa', 'anxray']; // 文档中心首页订阅选项隐藏列表
