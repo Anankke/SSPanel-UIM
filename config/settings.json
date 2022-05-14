@@ -351,6 +351,16 @@
     },
     {
         "id": null,
+        "item": "payjs_url",
+        "value": "",
+        "class": "payjs",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "payjs_url"
+    },
+    {
+        "id": null,
         "item": "payjs_mchid",
         "value": "",
         "class": "payjs",

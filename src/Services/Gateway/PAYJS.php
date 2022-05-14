@@ -115,7 +115,8 @@ final class PAYJS extends AbstractPayment
         //$data['callback_url'] = $_ENV['baseUrl'] . '/user/code';
         $params = $this->prepareSign($data);
         $data['sign'] = $this->sign($params);
-        $url = 'https://payjs.cn/api/cashier?' . http_build_query($data);
+        //$url = 'https://payjs.cn/api/cashier?' . http_build_query($data);
+        $url = Setting::obtain('payjs_url') . http_build_query($data);
         return $response->withJson(['code' => 0, 'url' => $url, 'pid' => $data['out_trade_no']]);
         //$result = json_decode($this->post($data), true);
         //$result['pid'] = $pl->tradeno;
