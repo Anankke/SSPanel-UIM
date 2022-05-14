@@ -12,8 +12,8 @@ on:
       - 'public/assets/js/**'
       - 'public/theme/material/css/**'
       - 'public/theme/material/js/**'
-  pull_request:
-    branches: [ dev ]
+  #pull_request:
+    #branches: [ dev ]
 
 jobs:
   build:
@@ -43,4 +43,4 @@ jobs:
         with:
           repository: 'public'
           commit_message: "Github Action: Auto Minified Theme CSS/JS Files"
-          branch: ${{ github.ref }}
+          branch: dev
