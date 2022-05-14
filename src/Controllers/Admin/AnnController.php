@@ -102,7 +102,7 @@ final class AnnController extends BaseController
             $ann->content = $content;
             $ann->markdown = $request->getParam('markdown');
 
-            if (!$ann->save()) {
+            if (! $ann->save()) {
                 return $response->withJson([
                     'ret' => 0,
                     'msg' => '公告保存失败',
@@ -168,7 +168,7 @@ final class AnnController extends BaseController
         $ann->content = $request->getParam('content');
         $ann->markdown = $request->getParam('markdown');
         $ann->date = date('Y-m-d H:i:s');
-        if (!$ann->save()) {
+        if (! $ann->save()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '修改失败',
@@ -189,7 +189,7 @@ final class AnnController extends BaseController
     public function delete(Request $request, Response $response, array $args)
     {
         $ann = Ann::find($request->getParam('id'));
-        if (!$ann->delete()) {
+        if (! $ann->delete()) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '删除失败',
