@@ -289,6 +289,11 @@
 
                                     <div class="tab-pane fade" id="payjs">
                                         <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://payjs.cn" target="view_window">https://payjs.cn</a></p>
+                                        <!-- payjs_url -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">payjs_url</label>
+                                            <input class="form-control maxwidth-edit" id="payjs_url" value="{$settings['payjs_url']}">
+                                        </div>
                                         <!-- payjs_mchid -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">payjs_mchid</label>
@@ -1347,6 +1352,7 @@
                 dataType: "json",
                 data: {
                     class: 'payjs_pay',
+                    payjs_url: $$getValue('payjs_url'),
                     payjs_mchid: $$getValue('payjs_mchid'),
                     payjs_key: $$getValue('payjs_key')
                 },
