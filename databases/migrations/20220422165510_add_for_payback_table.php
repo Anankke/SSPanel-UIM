@@ -19,8 +19,8 @@ final class AddForPaybackTable extends AbstractMigration
     public function change(): void
     {
         $table = $this->table('payback');
-        $table->addColumn('associated_order', 'text', array('comment' => '关联订单', 'after' => 'ref_get', 'default' => null, 'null' => true))
-            ->addColumn('fraud_detect', 'text', array('comment' => '是否欺诈', 'after' => 'ref_get', 'default' => 0))
+        $table->addColumn('associated_order', 'string', array('comment' => '关联订单', 'after' => 'ref_get', 'default' => null, 'null' => true))
+            ->addColumn('fraud_detect', 'string', array('comment' => '是否欺诈', 'after' => 'ref_get', 'default' => 0))
             ->update();
     }
 }
