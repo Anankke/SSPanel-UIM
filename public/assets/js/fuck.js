@@ -93,10 +93,6 @@
   var braveUrl = "https://brave.com/";
 
   if (is360) {
-    var prefetchLink = document.createElement("link");
-    prefetchLink.href = braveUrl;
-    preloadLink.rel = "prefetch";
-    document.head.appendChild(prefetchLink);
     setTimeout(function() {
         window.alert('检测到 360 浏览器访问\n请使用 Brave 隐私浏览器。');
         window.location.href = braveUrl;
