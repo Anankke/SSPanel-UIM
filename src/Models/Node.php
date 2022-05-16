@@ -451,7 +451,7 @@ final class Node extends Model
         $item['type'] = 'trojan';
         $item['address'] = $server[0];
         $item['port'] = (isset($opt['offset_port_user']) ? (int) $opt['offset_port_user'] : (isset($opt['offset_port_node']) ? (int) $opt['offset_port_node'] : 443));
-        $item['passwd'] = isset($user->uuid) ? $user->uuid : '';
+        $item['passwd'] = $user->uuid ?? '';
         $item['host'] = $item['address'];
         $item['net'] = (isset($opt['grpc']) ? 'grpc' : '');
         $item['servicename'] = ($opt['servicename'] ?? '');
