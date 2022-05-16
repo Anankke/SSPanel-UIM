@@ -450,11 +450,11 @@ final class Node extends Model
         $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
         $item['type'] = 'trojan';
         $item['address'] = $server[0];
-        $item['port'] = (isset($opt['offset_port_user']) ? (int) $opt['offset_port_user'] : (isset($opt['offset_port_node']) ? (int) $opt['offset_port_node'] : (int) substr(explode('|', $server[1])[0], 5, strpos($server[1], '#') ? strpos($server[1], '#') - 5 : 5)));
-        $item['passwd'] = $user->uuid;
+        $item['port'] = (isset($opt['offset_port_user']) ? (int) $opt['offset_port_user'] : (isset($opt['offset_port_node']) ? (int) $opt['offset_port_node'] : 443));
+        $item['passwd'] = $user->uuid ?? '';
         $item['host'] = $item['address'];
-        $item['net'] = (isset($opt['grpc']) ? 'grpc' : (strpos(implode($server), 'grpc=1') ? 'grpc' : ''));
-        $item['servicename'] = ($opt['servicename'] ?? (strpos(implode($server), 'servicename=') ? substr(explode('|', $server[1])[3], 12) : ''));
+        $item['net'] = (isset($opt['grpc']) ? 'grpc' : '');
+        $item['servicename'] = ($opt['servicename'] ?? '');
         $item['flow'] = ($opt['flow'] ?? '');
         $xtls = ($opt['enable_xtls'] ?? '');
         if ($xtls === 'true') {
