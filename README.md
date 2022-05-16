@@ -19,8 +19,9 @@ SSPanel UIM 是一款专为 Shadowsocks / ShadowsocksR / V2Ray / Trojan 设计�
 
 ## 特性
 
-- 集成支付宝当面付，PAYJS，码支付，Paymentwall等超过 8 种支付系统
-- 重构面板首页、节点列表、商品列表；新增 SPA（Single Page Apps）版 UI
+- 集成支付宝当面付，PAYJS，Paymentwall 等多个支付系统
+- 重构面板首页、节点列表、商品列表
+- 新增 SPA（Single Page Apps）版 UI
 - 商品增加同时连接设备数，用户限速属性
 - 新用户注册现金奖励、用户常规端口切换与指定
 - 公共库文件加载使用 jsDelivr
@@ -33,21 +34,26 @@ SSPanel UIM 是一款专为 Shadowsocks / ShadowsocksR / V2Ray / Trojan 设计�
 SSPanel UIM 的需要以下程序才能正常的安装和运行：
 
 - Git
-- MySQL
-- PHP 7.2+
+- PHP 8.0+
 - Composer
+- MySQL / MariaDB
 
-SSPanel UIM 支持安装在 LNMP、宝塔面板、Plesk、Oneinstack 等集成环境中。安装教程请参阅 [文档](https://wiki.sspanel.org)。
+SSPanel UIM 支持安装在 LNMP、CloudPanel 等集成环境中。安装教程请参阅 [文档](https://wiki.sspanel.org)。
 
 ## 演示
 
-[演示站](https://demo.sspanel.org/) 每天更新 `dev` 分支最新源码。
+### new-feat 分支
+
+[演示站](https://demo.sspanel.org)
 
 ```
 账号：admin@sspanel.org
 密码：password
-mukey ShirakamiFubuki
 ```
+
+### dev 分支
+
+暂无
 
 ## 文档
 
