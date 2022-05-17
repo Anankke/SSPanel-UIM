@@ -112,7 +112,7 @@ final class SubController extends BaseController
                         ];
                     } else {
                         //優先級是 mu_port > offset_port_user > offset_port_node ，v2 和 trojan 同理
-                        $mu_port = isset($node_custom_config['mu_port']) ? $node_custom_config['mu_port'] : (isset($node_custom_config['offset_port_user']) ? $node_custom_config['offset_port_user'] :(isset($node_custom_config['offset_port_node']) ? $node_custom_config['offset_port_node'] : 0));
+                        $mu_port = $node_custom_config['mu_port'] ?? ($node_custom_config['offset_port_user'] ??($node_custom_config['offset_port_node'] ?? 0));
                         $mu_password = $node_custom_config['mu_password'] ?? '';
                         $mu_encryption = $node_custom_config['mu_encryption'] ?? '';
                         $mu_protocol = $node_custom_config['mu_protocol'] ?? '';
@@ -141,7 +141,7 @@ final class SubController extends BaseController
                         $node = null;
                         break;
                     }
-                    $mu_port = isset($node_custom_config['v2_port']) ? $node_custom_config['v2_port'] : (isset($node_custom_config['offset_port_user']) ? $node_custom_config['offset_port_user'] :(isset($node_custom_config['offset_port_node']) ? $node_custom_config['offset_port_node'] : 443));
+                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ??($node_custom_config['offset_port_node'] ?? 443));
                     //默認值有問題的請懂 V2 怎麽用的人來改一改。
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'none';
@@ -182,7 +182,7 @@ final class SubController extends BaseController
                         $node = null;
                         break;
                     }
-                    $mu_port = isset($node_custom_config['trojan_port']) ? $node_custom_config['trojan_port'] : (isset($node_custom_config['offset_port_user']) ? $node_custom_config['offset_port_user'] :(isset($node_custom_config['offset_port_node']) ? $node_custom_config['offset_port_node'] : 443));
+                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ??($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
                     $security = $node_custom_config['security'] ?? array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
