@@ -10,7 +10,7 @@ services:
         volumes:
             - ./config/.config.php:/var/www/config/.config.php
     mariadb:
-        image: mariadb:10.6
+        image: mariadb:10.7
         container_name: mariadb
         restart: always
         environment:
