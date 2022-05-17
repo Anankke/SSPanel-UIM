@@ -112,14 +112,7 @@ final class SubController extends BaseController
                         ];
                     } else {
                         //優先級是 mu_port > offset_port_user > offset_port_node ，v2 和 trojan 同理
-                        if (! array_key_exists('mu_port', $node_custom_config)
-                            && ! array_key_exists('offset_port_user', $node_custom_config)) {
-                            $mu_port = $node_custom_config['offset_port_node'];
-                        } elseif (! array_key_exists('mu_port', $node_custom_config)) {
-                            $mu_port = $node_custom_config['offset_port_user'];
-                        } else {
-                            $mu_port = $node_custom_config['mu_port'];
-                        }
+                        $mu_port = $node_custom_config['mu_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 0));
                         $mu_password = $node_custom_config['mu_password'] ?? '';
                         $mu_encryption = $node_custom_config['mu_encryption'] ?? '';
                         $mu_protocol = $node_custom_config['mu_protocol'] ?? '';
@@ -148,19 +141,8 @@ final class SubController extends BaseController
                         $node = null;
                         break;
                     }
-                    if (! array_key_exists('v2_port', $node_custom_config)
-                        && ! array_key_exists('offset_port_user', $node_custom_config)
-                        && ! array_key_exists('offset_port_node', $node_custom_config)) {
-                        $v2_port = 443;
-                    } elseif (! array_key_exists('v2_port', $node_custom_config)
-                        && ! array_key_exists('offset_port_user', $node_custom_config)) {
-                        $v2_port = $node_custom_config['offset_port_node'];
-                    } elseif (! array_key_exists('v2_port', $node_custom_config)) {
-                        $v2_port = $node_custom_config['offset_port_user'];
-                    } else {
-                        $v2_port = $node_custom_config['v2_port'];
-                    }
-                    //V2Ray 真給我整不會了，有好好的 Trojan 不用用什麽 V2。默認值有問題的請懂 V2 怎麽用的人來改一改。
+                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
+                    //默認值有問題的請懂 V2 怎麽用的人來改一改。
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'none';
                     $flow = $node_custom_config['flow'] ?? '';
@@ -200,21 +182,9 @@ final class SubController extends BaseController
                         $node = null;
                         break;
                     }
-                    if (! array_key_exists('trojan_port', $node_custom_config)
-                        && ! array_key_exists('offset_port_user', $node_custom_config)
-                        && ! array_key_exists('offset_port_node', $node_custom_config)) {
-                        $trojan_port = 443;
-                    } elseif (! array_key_exists('trojan_port', $node_custom_config)
-                        && ! array_key_exists('offset_port_user', $node_custom_config)) {
-                        $trojan_port = $node_custom_config['offset_port_node'];
-                    } elseif (! array_key_exists('trojan_port', $node_custom_config)) {
-                        $trojan_port = $node_custom_config['offset_port_user'];
-                    } else {
-                        $trojan_port = $node_custom_config['trojan_port'];
-                    }
+                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
-                    //Trojan-Go 啥都好，就是特性連個支持的付費後端都沒有
                     $security = $node_custom_config['security'] ?? array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
                     $mux = $node_custom_config['mux'] ?? '';
                     $transport = $node_custom_config['transport'] ?? array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
