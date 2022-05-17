@@ -132,27 +132,23 @@ final class PAYJS extends AbstractPayment
     }
     public function notify($request, $response, $args): ResponseInterface
     {
-        $data = $_POST;
-        $return_code = isset($data['return_code']) ?? 0;
+        $data = $request->getParsedBody();
+        $return_code = $data['return_code'] ?? 0;
 
         if ($return_code === 1) {
             // 验证签名
-            $in_sign = $data['sign'];
+            // $in_sign = $data['sign'];
             unset($data['sign']);
             $data = array_filter($data);
             ksort($data);
             $sign = strtoupper(md5(urldecode(http_build_query($data) . '&key=' . $this->appSecret)));
-            $resultVerify = $sign !== strtoupper($in_sign);
-            // $resultVerify = $sign ? true : false;
-
-            // $str_to_sign = $this->prepareSign($data);
-            // $resultVerify = $this->verify($str_to_sign, $in_sign);
+            $resultVerify = $sign ? true : false;
 
             if ($resultVerify) {
                 // 验重
                 $p = Paylist::where('tradeno', '=', $data['out_trade_no'])->first();
                 if ($p->status !== 1) {
-                    $this->postPayment($data['out_trade_no'], 'PAYJS');
+                    $this->postPayment($data['out_trade_no'], 'PAYJS ' . $data['out_trade_no']);
                     return $response->write('SUCCESS');
                 }
                 return $response->write('ERROR');
@@ -179,23 +175,23 @@ final class PAYJS extends AbstractPayment
 
     public function getReturnHTML($request, $response, $args): ResponseInterface
     {
-        $pid = $_GET['merchantTradeNo'];
+        $pid = (int) $_GET['merchantTradeNo'];
         $p = Paylist::where('tradeno', '=', $pid)->first();
         $money = $p->total;
         if ($p->status === 1) {
             $success = 1;
         } else {
-            $data = $_POST;
+            $data = $request->getParsedBody();
 
-            $in_sign = $data['sign'];
+            // $in_sign = $data['sign'];
             unset($data['sign']);
             $data = array_filter($data);
             ksort($data);
             $sign = strtoupper(md5(urldecode(http_build_query($data) . '&key=' . $this->appSecret)));
-            $resultVerify = $sign !== strtoupper($in_sign);
+            $resultVerify = $sign ? true : false;
 
             if ($resultVerify) {
-                $this->postPayment($data['out_trade_no'], 'PAYJS');
+                $this->postPayment($data['out_trade_no'], 'PAYJS ' . $data['out_trade_no']);
                 $success = 1;
             } else {
                 $success = 0;
@@ -207,7 +203,7 @@ final class PAYJS extends AbstractPayment
     public function getStatus($request, $response, $args): ResponseInterface
     {
         $return = [];
-        $p = Paylist::where('tradeno', $_POST['pid'])->first();
+        $p = Paylist::where('tradeno', $request->getParam('pid'))->first();
         $return['ret'] = 1;
         $return['result'] = $p->status;
         return $response->withJson($return);
