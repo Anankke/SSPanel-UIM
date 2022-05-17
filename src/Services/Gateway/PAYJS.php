@@ -133,7 +133,7 @@ final class PAYJS extends AbstractPayment
     public function notify($request, $response, $args): ResponseInterface
     {
         $data = $_POST;
-        $return_code = isset($data['return_code']) ? $data['return_code'] : 0;
+        $return_code = isset($data['return_code']) ?? 0;
 
         if ($return_code === 1) {
             // 验证签名
