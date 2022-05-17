@@ -6,9 +6,9 @@
     </div>
 </div>
 <div id="qrarea">
-    <button class="btn btn-flat waves-attach" id="btnSubmit" name="type" onclick="payjs('wechat')">
+    <button class="btn btn-flat waves-attach" id="btnSubmit" name="type" onclick="payjs('alipay')">
         <!-- iCon by SFont.Cn -->
-        <img src="data:image/svg+xml;base64,CjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDEwMDAgMTAwMCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTAwMCAxMDAwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPG1ldGFkYXRhPiDnn6Lph4/lm77moIfkuIvovb0gOiBodHRwOi8vd3d3LnNmb250LmNuLyA8L21ldGFkYXRhPjxnPjxwYXRoIGQ9Ik0zMTIuNiwzMTUuN2MtMTkuMSwwLTM4LjMsMTIuNi0zOC4zLDMxLjhjMCwxOSwxOS4yLDMxLjcsMzguMywzMS43YzE5LjEsMCwzMS43LTEyLjgsMzEuNy0zMS44QzM0NC4zLDMyOC4yLDMzMS43LDMxNS43LDMxMi42LDMxNS43TDMxMi42LDMxNS43TDMxMi42LDMxNS43eiBNNDkwLjMsMzc5LjFjMTkuMiwwLDMxLjgtMTIuOCwzMS44LTMxLjdjMC0xOS4xLTEyLjYtMzEuOC0zMS44LTMxLjhjLTE5LDAtMzguMSwxMi42LTM4LjEsMzEuOEM0NTIuMywzNjYuNCw0NzEuNCwzNzkuMSw0OTAuMywzNzkuMUw0OTAuMywzNzkuMUw0OTAuMywzNzkuMXogTTU3Mi45LDUwMGMtMTIuNiwwLTI1LjQsMTIuNi0yNS40LDI1LjNjMCwxMi44LDEyLjgsMjUuNCwyNS40LDI1LjRjMTkuMiwwLDMxLjgtMTIuNiwzMS44LTI1LjRDNjA0LjcsNTEyLjYsNTkyLjIsNTAwLDU3Mi45LDUwMEw1NzIuOSw1MDBMNTcyLjksNTAweiBNNzEyLjcsNTAwYy0xMi42LDAtMjUuMywxMi43LTI1LjMsMjUuNGMwLDEyLjgsMTIuOCwyNS40LDI1LjMsMjUuNGMxOS4xLDAsMzEuOC0xMi42LDMxLjgtMjUuNEM3NDQuNSw1MTIuNiw3MzEuOCw1MDAsNzEyLjcsNTAwTDcxMi43LDUwMEw3MTIuNyw1MDB6IE04MDEuNSwxMEgxOTguNEM5NC40LDEwLDEwLDk0LjQsMTAsMTk4LjR2NjAzLjJDMTAsOTA1LjYsOTQuMyw5OTAsMTk4LjQsOTkwaDYwMy4xYzkyLjcsMCwxNjkuOC02NywxODUuNS0xNTUuMmwyLjktMTUzLjlWMTk4LjRDOTkwLDk0LjQsOTA1LjYsMTAsODAxLjUsMTBMODAxLjUsMTBMODAxLjUsMTB6IE0zOTUuMiw2MzkuOGMtMzEuNywwLTU3LjItNi40LTg4LjktMTIuN2wtODguOCw0NC41bDI1LjQtNzYuNGMtNjMuNi00NC41LTEwMS43LTEwMS44LTEwMS43LTE3MS41YzAtMTIwLjksMTE0LjQtMjE2LDI1NC4xLTIxNmMxMjQuOSwwLDIzNC4zLDc2LjEsMjU2LjMsMTc4LjRjLTguMi0wLjktMTYuNC0xLjUtMjQuNS0xLjVjLTEyMC43LDAtMjE1LjksOTAtMjE1LjksMjAxYzAsMTguNiwyLjksMzYuNCw3LjgsNTMuM0M0MTEsNjM5LjQsNDAzLjEsNjM5LjgsMzk1LjIsNjM5LjhMMzk1LjIsNjM5LjhMMzk1LjIsNjM5Ljh6IE03NjkuNyw3MjguOGwxOS4yLDYzLjVsLTY5LjctMzguM2MtMjUuNCw2LjQtNTAuOSwxMi43LTc2LjIsMTIuN2MtMTIwLjksMC0yMTYtODIuNS0yMTYtMTg0LjNjMC0xMDEuNiw5NS4xLTE4NC4zLDIxNi0xODQuM2MxMTQuMSwwLDIxNS44LDgyLjgsMjE1LjgsMTg0LjNDODU4LjgsNjM5LjgsODIwLjgsNjkwLjUsNzY5LjcsNzI4LjhMNzY5LjcsNzI4LjhMNzY5LjcsNzI4Ljh6IiBzdHlsZT0iZmlsbDojMTFjZDZlIj48L3BhdGg+PC9nPjwvc3ZnPiAg"
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAB3lJREFUeF7tW3tQVGUU/93dZdkHL9EEE/CBIOGzfNvgK0vKFB9lWYpC6jQ15ZhNk+mMWo39Ye+pPxwfYDaa/qGU4AMhGFObUhExnSQRFBQWFRZ1Yd+3OXdhXOHey929K7LKmblzd7jfPd/v/L7zne+c7/IxEJJtNSkAEgEMAcOMABAv2LZzPigFy54GcA7ABaRH/soHk2nzx81VUVAFbAEwrXPa5TWqw7DblmBpVJW7hvsJyDSkgsV2r7vwhxcZLMLiiJ9aoN4jILPmObBMnj/YIBsjw07F4sh80uMiYEtlOJTqW7IV+5MCh7U7lkTXuQjIqM0A2MX+hF8+ViYTaT3TGGw3zIYTe+Ur9EMNCsxhsLV6HRSKtX4IXz5kp3M9g22GvWAwW742P9TAYh+DDMMlALEdBX/tcD3WDdfzdldYY8PkQ/UdBYX6KSMC2I7ssSA5DJMi1Z2FAHQR0OUBXVOgo2NAN0yKDHicY4CfEyAUwaWuJGuH60RXgc/OmqBiAJWCLgYBLb8ZxvW35nuA229XewbHDDYU1lilQuHaebwKEAG0lHVGmXzI2EVAh3iAnNEXnwJWrC9ulKP+wXuALHQAN326MsGuVPgRqQUKkoXXdLlTRer7319oxPK/70pt3qadx8uguwax+ew1Ig9ffCHXiCPXPVv73buQRQDV9m0/LIhb4E3tvSJRh1B1254uGO0YlFXnIWX3N5dFgKyeJb78VpwWW54N5m298Z9GfHTKe/f3KhOUiNtnzXKmhuGlKP6gOfFgPY4abLL66tQekBimwvlZ4bwGFt2yY8R+ee7f6T1g9VA9Pn+Gf//w07MmrD1jkjX6nZ6AkzPCMbK7itfIkfvrcPqW/eEQEKVXYFZMIBJCVXhSp0Bv7lJyd0OTEwazEzV0b75K6u0oqLGiyuSUDDg1VoPtSSG87TMumZF+7LZkXWINJccAnYrBsngtZkSrMaUXf1BqDxERkX/dij9v2LhLjJCimeF4Opx/9JMO1ONYrbzg14JVEgEE5NsxwZgQwb+V1Z7hQs+P19pwotaG36utOHTtXjLzej8Ndk3kH/1dl81446hvRl9SDJjfX4NN44IRTFszbkIjUFhtRYhagZAAhrsoWRkUpkKkVuExJ2YHCyJk52UzVg3RY0CIklfH87lG5MnI/ForFfWAdxO0+GHsvSTkjo3FmjMm5FRaUHbHIWhkXIgSo3sEYFQPFcb3pLtvPGfvFQvmFjR4TK5XMaCXVoHj07uhX5BrJP5tcCAl34jS28KGC3VEAZM8aV7fQFngX84zIqfK+7yfr3NBD/hyVBBWDtJx75y8acPobPnf7IaFqzC/nwYLYjXciuGpUPKzq9yM3eUWVJo8HwjJBNDSdm1eD679eaMdg2UWHK077qlRID1Og/Q4LWi6eCMHqqzYXW5GdpUVdRbpy6ukGJASE4isKaFc21HZ9Th10zdLTuvOtSoGS+I0oIKHvMMbaXKw+KXcguxKuqywOj2rN3mnwMaRQfhwsA4d9bk6e2oYpgsUPJ6QUnHXwZGQe93KrRRETnvCS0DLTs/6YhPWFcvPt8VA/DwhBG/217SH0+Pn1U1OLunKq7Zy96pG/mnyUAn4cWww3knQChpHuYFG6emWS1t1NC3yrtuQX+3yDMpIW0SUgG/ON+KDk/I2HISs+2JEED4e4lpl+CT5iBGHr1nx9kAtlifqkBDqXbDk0/3XDVcGSkSIEkD5+vgc+ctfaxD7poRyxZSQvFbYgD0VlvseJ/dWc0TQ3ZfCSwDNSZqbJCn5Dfit8n4w3gJIigjAjqQQ9GlOrvj0LDtxB5tLmwS7oLpk2UAt5xm+EF4CwgMVqHilO5f/15qdmJZrRHGdvNr7/UQdvhsdJIo59Y/b2FFmlmRXtF6BhbFavPeU1qvaQzQG0MOvRwVhRXMmeNXkwIaSRmy6KDwyQqhf7RuItDgtXhRxXUq21hSZkHXVc0+jIJk6QIO0ARqMfcLzmkO0GDoxvRvGuSk9eM2Kg1UWZF4ygwojMUmLI1BakNuLydb/mjjjaQNFrszpEwjaSKFETqq0ux/ALu7Jq4s+RtyyOHHTzHJ32iWK0im5e7ReyZXHYkIGk+FEgK+F9i3IKxbGaqBWiONolwAC19oT5AImV19dZAJ92HiQQksnFV4L+msEA68kAgjknkmhoPnsrTRYWW6zY2e5mftXlo4U8oKl8S6PGNMqTkgmgADPiA7EzGg1d4+QuOtzrt7uMvyyBRRMH7ZM663G0ngt5vZxDaZHBLiDp39yiNErEBOkdN31Sty0OHHptgOX7zhQYXLgyl0nrtx9+EbzkT4gWIkl8VqOgIt+eCLMV45UymBbzU4wzHxfafQrPSy7iwhYBYbZ4FfAfQWWZT8hAlLAMFm+0ulXelh2VvOhKcOhR/CgZHtjcRhpEckuAlynRSvbe+ORem63RdMpUreDk4/BqdGWEXQ7Pdrq6OxjcHrU7dSoKxFqLdwp0sCvHr2DlEwmHJaVdFrU3WThUokOVNqdw8AohoLB0I48WeajWFMGFiVgnSVQKc5iUcQ+Pr3/Aw3MHuuJsV+YAAAAAElFTkSuQmCC"
              width="64" height="64">
     </button>
 </div>
@@ -16,8 +16,6 @@
     var pid = 0;
     var flag = false;
     function payjs(type) {
-        if (type = 'wechat') {
-        }
         var price = parseFloat($$getValue('amount-payjs'));
         //console.log("将要使用 " + type + " 充值" + price + "元");
         if (isNaN(price)) {
@@ -41,7 +39,7 @@
                     $("#readytopay").modal('hide');
                     {
                         pid = data.pid;
-                        $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>使用微信扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>';
+                        $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>使用支付宝扫描二维码支付.</p><div align="center" id="qrcode" style="padding-top:10px;"></div><p>充值完毕后会自动跳转</p></div>';
                         var qrcode = new QRCode("qrcode", {
                             correctLevel: 3,  //解决超过200字符的二维码生成问题
                             render: "canvas",
@@ -84,6 +82,6 @@
                 //console.log(jqXHR);
             }
         });
-        tid = setTimeout(f, 1000); //循环调用触发setTimeout
+        tid = setTimeout(fpayjs, 1000); //循环调用触发setTimeout
     }
 </script>
