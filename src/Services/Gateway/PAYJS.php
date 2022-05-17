@@ -137,7 +137,7 @@ final class PAYJS extends AbstractPayment
 
         if ($return_code === 1) {
             // 验证签名
-            $in_sign = $data['sign'];
+            // $in_sign = $data['sign'];
             unset($data['sign']);
             $data = array_filter($data);
             ksort($data);
@@ -183,7 +183,7 @@ final class PAYJS extends AbstractPayment
         } else {
             $data = $request->getParsedBody();
 
-            $in_sign = $data['sign'];
+            // $in_sign = $data['sign'];
             unset($data['sign']);
             $data = array_filter($data);
             ksort($data);
