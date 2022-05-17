@@ -24,9 +24,9 @@ final class Code extends Model
     /**
      * 用户 ID
      */
-    public function userid(): string
+    public function userid(): int
     {
-        return $this->userid === 0 ? '未使用' : $this->userid;
+        return $this->userid;
     }
 
     /**
