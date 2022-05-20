@@ -169,6 +169,21 @@ class Node extends Model
     }
 
     /**
+     * 获取节点在线状态指示颜色
+     */
+    public function getNodeStatusColor(): string
+    {
+        // 类型 9 或者心跳为 0
+        if ($this->node_heartbeat == 0 || in_array($this->sort, [9])) {
+            return 'orange';
+        }
+        if ($this->node_bandwidth_limit != 0 && $this->node_bandwidth >= $this->node_bandwidth_limit) {
+            return 'yellow';
+        }
+        return $this->node_heartbeat + 300 > time() ? 'green' : 'red';
+    }
+
+    /**
      * 获取节点最新负载
      */
     public function get_node_latest_load(): int
@@ -454,5 +469,4 @@ class Node extends Model
         }
         return $item;
     }
-
 }

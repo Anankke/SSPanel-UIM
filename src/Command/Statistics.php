@@ -55,9 +55,11 @@ class Statistics extends Command
         echo 'Count of registered users completed yesterday.' . PHP_EOL;
 
         $order_amount = ProductOrder::whereBetween('created_at', [strtotime($start), strtotime($stop)])
+            ->where('product_type', '!=', 'recharge')
             ->sum('order_price');
         $deal_amount = ProductOrder::where('order_status', 'paid')
             ->whereBetween('created_at', [strtotime($start), strtotime($stop)])
+            ->where('product_type', '!=', 'recharge')
             ->sum('order_price');
 
         $log = new StatisticsModel;
@@ -103,9 +105,12 @@ class Statistics extends Command
                 $stop_day = $i - 1;
                 $start = strtotime(date('Y-m-d 00:00:00', strtotime("-{$i} day")));
                 $stop = strtotime(date('Y-m-d 00:00:00', strtotime("-{$stop_day} day")));
-                $order_amount = ProductOrder::whereBetween('created_at', [$start, $stop])->sum('order_price');
+                $order_amount = ProductOrder::whereBetween('created_at', [$start, $stop])
+                    ->where('product_type', '!=', 'recharge')
+                    ->sum('order_price');
                 $deal_amount = ProductOrder::where('order_status', 'paid')
                     ->whereBetween('created_at', [$start, $stop])
+                    ->where('product_type', '!=', 'recharge')
                     ->sum('order_price');
 
                 $log = new StatisticsModel;

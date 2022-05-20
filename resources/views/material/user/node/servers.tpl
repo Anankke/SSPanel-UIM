@@ -51,6 +51,7 @@
                         <div class="card-body">
                             <div class="m-0 my-2">
                                 描述中分别表述为：该节点的在线人数，该节点的流量倍率
+                                <p class="my-2">指示灯为绿色表示正常运行；为黄色表示当月流量用尽；为橙色表示未配置成功；为红色表示已离线，不可使用</p>
                             </div>
                         </div>
                     </div>
@@ -82,7 +83,7 @@
                                                                 <div class="row g-3 align-items-center">
                                                                     <div class="col-auto">
                                                                         <span
-                                                                            class="status-indicator status-{if ($server->get_node_online_status() == '1')}green{else}red{/if} status-indicator-animated">
+                                                                            class="status-indicator status-{$server->getNodeStatusColor()} status-indicator-animated">
                                                                             <span class="status-indicator-circle"></span>
                                                                             <span class="status-indicator-circle"></span>
                                                                             <span class="status-indicator-circle"></span>

@@ -275,6 +275,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <p style="color: red;">温馨提示：新的商店系统已支持直接下单扫码付款，无需先充值再购买。此功能是提供给在支付账单时遇到账单金额低于支付限额的用户</p>
                     <div class="form-group mb-3 row">
                         <label class="form-label col-2 col-form-label">金额</label>
                         <div class="col">

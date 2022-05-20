@@ -29,6 +29,7 @@ class UserController extends AdminController
                 'transfer_enable' => '流量限制',
                 'last_day_t' => '累计用量',
                 'class' => '等级',
+                'reg_date' => '注册时间',
                 'expire_in' => '账户过期',
                 'class_expire' => '等级过期',
             ],

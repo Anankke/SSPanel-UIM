@@ -24,23 +24,7 @@ class VmqWechat
         $configs = $_ENV['active_payments']['vmq_wechat'];
 
         try {
-            if (!$configs['enable']) {
-                throw new \Exception('此方式暂未启用');
-            }
-            if ($configs['visible_range']) {
-                if ($user_id < $configs['visible_min_range'] || $user_id > $configs['visible_max_range']) {
-                    throw new \Exception('此方式暂未启用');
-                }
-            }
-            if ($configs['min'] != false && $amount < $configs['min']) {
-                throw new \Exception('账单金额低于支付方式限额');
-            }
-            if ($configs['max'] != false && $amount > $configs['max']) {
-                throw new \Exception('账单金额高于支付方式限额');
-            }
-
             $sign = md5($order_no . $user_id . '1' . $amount . $configs['key']);
-
             $params = [
                 'payId' => $order_no,
                 'type' => '1', // 1: wechat; 2: alipay

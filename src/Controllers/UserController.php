@@ -281,12 +281,36 @@ class UserController extends BaseController
 
                     self::execute($order->no);
                 } else {
+                    // 计算结账金额
                     if ($order->balance_payment == 0) {
-                        return Payment::create($user->id, $payment, $order->no, ($order->order_price / 100));
+                        $checkout_amount = $order->order_price / 100;
                     } else {
-                        $new_price = ($order->order_price - $order->balance_payment) / 100;
-                        return Payment::create($user->id, $payment, $order->no, $new_price);
+                        $checkout_amount = ($order->order_price - $order->balance_payment) / 100;
                     }
+                    // 获取支付网关设置参数
+                    $selected_payment = $payments[$payment];
+                    // 若支付未启用或不适用此用户
+                    if (!$selected_payment['enable']) {
+                        throw new \Exception('此方式暂未启用');
+                    }
+                    if ($selected_payment['visible_range']) {
+                        if ($user->id < $selected_payment['visible_min_range']) {
+                            throw new \Exception('此方式暂未启用');
+                        }
+                        if ($user->id > $selected_payment['visible_max_range']) {
+                            throw new \Exception('此方式暂未启用');
+                        }
+                    }
+                    // 若账单金额不在支付限额内
+                    if ($selected_payment['min'] != false && $checkout_amount < $selected_payment['min']) {
+                        $min_amount = $selected_payment['min'];
+                        throw new \Exception("账单金额低于支付方式限额。建议您返回商店页面，在右上角使用账户充值功能，金额填写此支付方式要求的最低限额{$min_amount}元，并完成支付。完成后刷新此页面，选择使用余额支付即可");
+                    }
+                    if ($selected_payment['max'] != false && $checkout_amount > $selected_payment['max']) {
+                        throw new \Exception('账单金额高于支付方式限额');
+                    }
+                    // 提交订单
+                    return Payment::create($user->id, $payment, $order->no, $checkout_amount);
                 }
             } else {
                 // 为充值账户余额向支付网关提交订单

@@ -501,7 +501,9 @@ class User extends Model
             array_push($condition, ['created_at', '<', $stop]);
         }
 
-        $amount = ProductOrder::where($condition)->sum('order_price');
+        $amount = ProductOrder::where($condition)
+            ->where('product_type', '!=', 'recharge')
+            ->sum('order_price');
 
         return is_null($amount) ? 0.00 : sprintf("%.2f", $amount / 100);
     }

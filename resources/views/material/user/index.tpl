@@ -278,7 +278,7 @@
                                             你的账户过期了，可以前往 <a href="/user/product">商店</a> 购买套餐
                                         {else}
                                             {$diff = round((strtotime($user->expire_in) - time()) / 86400)}
-                                            你的账户大约还有 {$diff} 天到期
+                                            你的账户大约还有 {$diff} 天到期（{$user->expire_in}）
                                         {/if}
                                     </p>
                                 </div>
