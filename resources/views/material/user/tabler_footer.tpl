@@ -31,7 +31,9 @@
 <!-- Tabler Core -->
 <script src="/theme/tabler/js/tabler.min.js"></script>
 <script src="/theme/tabler/js/demo.min.js"></script>
-{include file='live_chat.tpl'}
+{if !in_array($user->id, $config['invisible_livechat_users'])}
+    {include file='live_chat.tpl'}
+{/if}
 </body>
 
 </html>

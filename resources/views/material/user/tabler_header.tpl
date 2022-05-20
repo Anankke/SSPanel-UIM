@@ -170,10 +170,12 @@
                                         <i class="ti ti-server"></i>&nbsp;
                                         节点列表
                                     </a>
-                                    <a class="dropdown-item" href="/user/node">
-                                        <i class="ti ti-server-2"></i>&nbsp;
-                                        节点列表（旧）
-                                    </a>
+                                    {if $config['hide_old_server_list'] == false}
+                                        <a class="dropdown-item" href="/user/node">
+                                            <i class="ti ti-server-2"></i>&nbsp;
+                                            节点列表（旧）
+                                        </a>
+                                    {/if}
                                     <a class="dropdown-item" href="/user/media">
                                         <i class="ti ti-key"></i>&nbsp;
                                         流媒体解锁
@@ -211,37 +213,38 @@
                                     {/if}
                                 </div>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
-                                    data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-shield-check" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M9 12l2 2l4 -4"></path>
-                                            <path
-                                                d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <span class="nav-link-title">
-                                        审计
-                                    </span>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/user/detect">
-                                        <i class="ti ti-barrier-block"></i>&nbsp;
-                                        审计规则
+                            {if $config['hide_audit_rules_and_logs'] == false}
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-shield-check" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M9 12l2 2l4 -4"></path>
+                                                <path
+                                                    d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                        <span class="nav-link-title">
+                                            审计
+                                        </span>
                                     </a>
-                                    <a class="dropdown-item" href="/user/detect/log">
-                                        <i class="ti ti-notes"></i>&nbsp;
-                                        审计日志
-                                    </a>
-                                </div>
-                            </li>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="/user/detect">
+                                            <i class="ti ti-barrier-block"></i>&nbsp;
+                                            审计规则
+                                        </a>
+                                        <a class="dropdown-item" href="/user/detect/log">
+                                            <i class="ti ti-notes"></i>&nbsp;
+                                            审计日志
+                                        </a>
+                                    </div>
+                                </li>
+                            {/if}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">

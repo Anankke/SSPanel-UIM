@@ -69,6 +69,7 @@ class AuthController extends BaseController
 
     public function sendVerify($request, $response, $next)
     {
+        $reg_mode = Setting::obtain('reg_mode');
         $email_verify_ttl = Setting::obtain('email_verify_ttl');
         try {
             if (!Setting::obtain('reg_email_verify')) {
@@ -76,6 +77,9 @@ class AuthController extends BaseController
             }
             if (Setting::obtain('mail_driver') == 'none') {
                 throw new \Exception('没有有效的发信配置');
+            }
+            if ($reg_mode == 'close') {
+                throw new \Exception('未开放注册');
             }
             $email = strtolower(trim($request->getParam('email')));
             if ($email == '') {

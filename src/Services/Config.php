@@ -61,6 +61,10 @@ class Config
             'enable_ticket'                 => $_ENV['enable_ticket'],
             'enable_docs'                   => $_ENV['enable_docs'],
             'docs_sub_hidden'               => $_ENV['docs_sub_hidden'],
+            'hide_old_server_list'          => $_ENV['hide_old_server_list'],
+            'hide_audit_rules_and_logs'     => $_ENV['hide_audit_rules_and_logs'],
+            'invisible_livechat_users'      => $_ENV['invisible_livechat_users'],
+            'show_live_chat_on_logout_page' => $_ENV['show_live_chat_on_logout_page'],
             // 其他
             'enable_checkin'          => $_ENV['enable_checkin'],
             'checkinMin'              => $_ENV['checkinMin'],

@@ -43,8 +43,10 @@ return function (SlimApp $app) {
         $this->put('/invite',                   App\Controllers\UserController::class . ':resetInviteURL');
 
         // 审计系统
-        $this->get('/detect',                   App\Controllers\UserController::class . ':detect_index');
-        $this->get('/detect/log',               App\Controllers\UserController::class . ':detect_log');
+        if (!$_ENV['hide_audit_rules_and_logs']) {
+            $this->get('/detect',               App\Controllers\UserController::class . ':detect_index');
+            $this->get('/detect/log',           App\Controllers\UserController::class . ':detect_log');
+        }
 
         // 工单系统
         $this->get('/ticket',                   App\Controllers\User\TicketController::class . ':ticket');
@@ -83,10 +85,12 @@ return function (SlimApp $app) {
         $this->post('/port',                    App\Controllers\UserController::class . ':resetPort');
 
         // 节点列表
-        $this->get('/node',                     App\Controllers\User\NodeController::class . ':user_node_page');
         $this->get('/server',                   App\Controllers\User\NodeController::class . ':serverList');
-        $this->get('/node/{id}/ajax',           App\Controllers\User\NodeController::class . ':user_node_ajax');
-        $this->get('/node/{id}',                App\Controllers\User\NodeController::class . ':user_node_info');
+        if (!$_ENV['hide_old_server_list']) {
+            $this->get('/node',                 App\Controllers\User\NodeController::class . ':user_node_page');
+            $this->get('/node/{id}',            App\Controllers\User\NodeController::class . ':user_node_info');
+            $this->get('/node/{id}/ajax',       App\Controllers\User\NodeController::class . ':user_node_ajax');
+        }
 
         // 其他
         $this->get('/logout',                   App\Controllers\UserController::class . ':logout');

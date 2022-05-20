@@ -140,6 +140,10 @@ $_ENV['enable_ticket'] = true; // 是否开启工单系统
 $_ENV['mail_ticket'] = true; // 是否开启工单邮件提醒
 $_ENV['gift_card_rebate'] = false; // 当用户兑换礼品卡添加余额时，是否执行返利
 $_ENV['clear_traffic_after_expire'] = false; // 当用户到期后，是否清空账号的剩余流量
+$_ENV['hide_old_server_list'] = false; // 是否隐藏旧的服务器列表入口
+$_ENV['hide_audit_rules_and_logs'] = false; // 是否隐藏审计规则与日志入口
+$_ENV['show_live_chat_on_logout_page'] = false; // 是否在未登录页面显示livechat
+$_ENV['invisible_livechat_users'] = ['0']; // 不可见livechat的用户id列表
 
 /*
     页面自定义

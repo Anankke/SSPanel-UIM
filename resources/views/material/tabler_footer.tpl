@@ -12,4 +12,6 @@
             visitorId = result.visitorId
         })
 </script>
-{include file='live_chat.tpl'}
+{if $config['show_live_chat_on_logout_page'] == true}
+    {include file='live_chat.tpl'}
+{/if}
