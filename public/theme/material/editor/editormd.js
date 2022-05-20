@@ -3364,7 +3364,7 @@
 
     // Emoji graphics files url path
     editormd.emoji     = {
-        path  : "https://cdn.jsdelivr.net/npm/emoji-cst@1.0.0/graphics/emojis/",
+        path  : "https://fastly.jsdelivr.net/npm/emoji-cst@1.0.0/graphics/emojis/",
         ext   : ".png"
     };
 

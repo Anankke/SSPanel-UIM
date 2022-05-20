@@ -15,7 +15,7 @@
                             <div class="form-group form-group-label">
                                 <label class="floating-label" for="content">内容</label>
                                 <link rel="stylesheet"
-                                      href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
+                                      href="https://fastly.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
                                 <div id="editormd">
                                     <textarea style="display:none;" id="content"></textarea>
                                 </div>
@@ -62,7 +62,7 @@
 <script>
     (() => {
         editor = editormd("editormd", {
-            path: "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
+            path: "https://fastly.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
             height: 720,
             saveHTMLToTextarea: true
         });
