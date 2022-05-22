@@ -52,11 +52,11 @@ final class AuthController extends BaseController
         }
 
         return $this->view()
-            ->assign('geetest_html', $geetest_html)
             ->assign('login_token', $login_token)
+            ->assign('geetest_html', $geetest_html)
             ->assign('login_number', $login_number)
-            ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->assign('base_url', $_ENV['baseUrl'])
+            ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->assign('recaptcha_sitekey', $captcha['recaptcha'])
             ->display('auth/login.tpl');
     }
@@ -79,11 +79,10 @@ final class AuthController extends BaseController
      */
     public function loginHandle(Request $request, Response $response, array $args)
     {
-        $email = trim($request->getParam('email'));
-        $email = strtolower($email);
-        $passwd = $request->getParam('passwd');
         $code = $request->getParam('code');
+        $passwd = $request->getParam('passwd');
         $rememberMe = $request->getParam('remember_me');
+        $email = strtolower(trim($request->getParam('email')));
 
         if (Setting::obtain('enable_login_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
@@ -190,14 +189,14 @@ final class AuthController extends BaseController
         }
 
         return $this->view()
-            ->assign('geetest_html', $geetest_html)
-            ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
             ->assign('code', $code)
-            ->assign('recaptcha_sitekey', $captcha['recaptcha'])
-            ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->assign('base_url', $_ENV['baseUrl'])
             ->assign('login_token', $login_token)
             ->assign('login_number', $login_number)
+            ->assign('geetest_html', $geetest_html)
+            ->assign('telegram_bot', $_ENV['telegram_bot'])
+            ->assign('recaptcha_sitekey', $captcha['recaptcha'])
+            ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
             ->display('auth/register.tpl');
     }
 
@@ -221,11 +220,15 @@ final class AuthController extends BaseController
             if ($user !== null) {
                 return ResponseHelper::error($response, '此邮箱已经注册');
             }
-            $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])->where('expire_in', '>', time())->count();
+            $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])
+                ->where('expire_in', '>', time())
+                ->count();
             if ($ipcount >= Setting::obtain('email_verify_ip_limit')) {
                 return ResponseHelper::error($response, '此IP请求次数过多');
             }
-            $mailcount = EmailVerify::where('email', '=', $email)->where('expire_in', '>', time())->count();
+            $mailcount = EmailVerify::where('email', '=', $email)
+                ->where('expire_in', '>', time())
+                ->count();
             if ($mailcount >= 3) {
                 return ResponseHelper::error($response, '此邮箱请求次数过多');
             }
@@ -380,8 +383,6 @@ final class AuthController extends BaseController
         $passwd = $request->getParam('passwd');
         $repasswd = $request->getParam('repasswd');
         $code = trim($request->getParam('code'));
-        $emailcode = $request->getParam('emailcode');
-        $emailcode = trim($emailcode);
 
         if ($_ENV['enable_reg_im'] === true) {
             $imtype = $request->getParam('im_type');
@@ -417,7 +418,11 @@ final class AuthController extends BaseController
         }
 
         if (Setting::obtain('reg_email_verify')) {
-            $mailcount = EmailVerify::where('email', '=', $email)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
+            $email_code = trim($request->getParam('emailcode'));
+            $mailcount = EmailVerify::where('email', '=', $email)
+                ->where('code', '=', $email_code)
+                ->where('expire_in', '>', time())
+                ->first();
             if ($mailcount === null) {
                 return ResponseHelper::error($response, '您的邮箱验证码不正确');
             }
@@ -446,7 +451,8 @@ final class AuthController extends BaseController
     public function logout(Request $request, Response $response, $next)
     {
         Auth::logout();
-        return $response->withStatus(302)->withHeader('Location', '/auth/login');
+        return $response->withStatus(302)
+            ->withHeader('Location', '/auth/login');
     }
 
     /**
@@ -487,18 +493,14 @@ final class AuthController extends BaseController
                         ->display('telegram_error.tpl');
                 }
                 Auth::login($user->id, 3600);
-
-                // 记录登录成功
                 $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
 
-                // 登陆成功！
                 return $this->view()
                     ->assign('title', '登录成功')
                     ->assign('message', '正在前往仪表盘')
                     ->assign('redirect', '/user')
                     ->display('telegram_success.tpl');
             }
-            // 验证失败
             return $this->view()
                 ->assign('title', '登陆超时或非法构造信息')
                 ->assign('message', '很抱歉带来的不便，请重新试试')
@@ -529,11 +531,9 @@ final class AuthController extends BaseController
         if (strcmp($hash, $check_hash) !== 0) {
             return false; // Bad Data :(
         }
-
         if (time() - $auth_data['auth_date'] > 300) { // Expire @ 5mins
             return false;
         }
-
         return true; // Good to Go
     }
 }
