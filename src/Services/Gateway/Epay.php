@@ -67,7 +67,7 @@ final class Epay extends AbstractPayment
 
         //请求参数
         $data = [
-            'pid' => trim($this->epay['partner']),
+            'pid' => trim($this->epay['epay_pid']),
             'type' => $type,
             'out_trade_no' => $pl->tradeno,
             'notify_url' => Config::get('baseUrl') . '/epay/notify',
