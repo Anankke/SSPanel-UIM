@@ -71,7 +71,6 @@
                                         <label class="floating-label" for="sort">节点类型</label>
                                         <select id="sort" class="form-control maxwidth-edit" name="sort">
                                             <option value="0">Shadowsocks</option>
-                                            <option value="1">Shadowsocksr</option>
                                             <option value="9">Shadowsocksr 单端口多用户（旧）</option>
                                             <option value="11">V2Ray</option>
                                             <option value="14">Trojan</option>

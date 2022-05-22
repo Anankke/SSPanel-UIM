@@ -82,74 +82,57 @@ final class ShopController extends BaseController
     public function buy(Request $request, Response $response, array $args)
     {
         $user = $this->user;
-        $coupon = $request->getParam('coupon');
-        $coupon = trim($coupon);
-        $code = $coupon;
         $shop = $request->getParam('shop');
-        $disableothers = $request->getParam('disableothers');
+        $coupon = trim($request->getParam('coupon'));
         $autorenew = $request->getParam('autorenew');
+        $disableothers = $request->getParam('disableothers');
+        $coupon_code = $coupon;
 
-        $shop = Shop::where('id', $shop)->where('status', 1)->first();
+        $shop = Shop::where('id', $shop)
+            ->where('status', 1)
+            ->first();
+
+        if ($shop === null) {
+            return ResponseHelper::error($response, '商品不存在或已下架');
+        }
 
         $orders = Bought::where('userid', $user->id)->get();
         foreach ($orders as $order) {
             if ($order->shop()->useLoop()) {
                 if ($order->valid()) {
-                    return ResponseHelper::error(
-                        $response,
-                        '您购买的含有自动重置系统的套餐还未过期，无法购买新套餐'
-                    );
+                    return ResponseHelper::error($response, '您购买的含有自动重置系统的套餐还未过期，无法购买新套餐');
                 }
             }
-        }
-
-        if ($shop === null) {
-            return ResponseHelper::error($response, '非法请求');
         }
 
         if ($coupon === '') {
             $credit = 0;
         } else {
             $coupon = Coupon::where('code', $coupon)->first();
-
             if ($coupon === null) {
-                $credit = 0;
-            } else {
-                if ($coupon->onetime === 1) {
-                    $onetime = true;
-                }
-
-                $credit = $coupon->credit;
+                return ResponseHelper::error($response, '此优惠码不存在');
             }
-
+            $credit = $coupon->credit;
             if ($coupon->order($shop->id) === false) {
-                return ResponseHelper::error($response, '此优惠码不可用于此商品');
+                return ResponseHelper::error($response, '此优惠码不适用于此商品');
             }
-
             if ($coupon->expire < time()) {
                 return ResponseHelper::error($response, '此优惠码已过期');
             }
-
-            $use_limit = $coupon->onetime;
-            if ($use_limit > 0) {
-                $use_count = Bought::where('userid', $user->id)->where('coupon', $coupon->code)->count();
-                if ($use_count >= $use_limit) {
-                    return ResponseHelper::error($response, '优惠码次数已用完');
+            if ($coupon->onetime > 0) {
+                $use_count = Bought::where('userid', $user->id)
+                    ->where('coupon', $coupon->code)
+                    ->count();
+                if ($use_count >= $coupon->onetime) {
+                    return ResponseHelper::error($response, '此优惠码使用次数已达上限');
                 }
             }
         }
 
         $price = $shop->price * (100 - $credit) / 100;
-
-        if (! $user->isLogin) {
-            return $response->withJson(['ret' => -1]);
-        }
-
         if (bccomp((string) $user->money, (string) $price, 2) === -1) {
-            return ResponseHelper::error($response, '喵喵喵~ 当前余额不足，总价为'
-                . $price . '元。</br><a href="/user/code">点击进入充值界面</a>');
+            return ResponseHelper::error($response, '账户余额不足，请先充值');
         }
-
         $user->money = bcsub((string) $user->money, (string) $price, 2);
         $user->save();
 
@@ -170,15 +153,9 @@ final class ShopController extends BaseController
         } else {
             $bought->renew = time() + $shop->auto_renew * 86400;
         }
-
-        $bought->coupon = $code;
-
-        if (isset($onetime)) {
-            $price = $shop->price;
-        }
+        $bought->coupon = $coupon_code;
         $bought->price = $price;
         $bought->save();
-
         $shop->buy($user);
 
         return ResponseHelper::successfully($response, '购买成功');

@@ -74,7 +74,6 @@
                                         <label class="floating-label" for="sort">节点类型</label>
                                         <select id="sort" class="form-control maxwidth-edit" name="sort">
                                             <option value="0" {if $node->sort==0}selected{/if}>Shadowsocks</option>
-                                            <option value="1" {if $node->sort==1}selected{/if}>Shadowsocksr</option>
                                             <option value="9" {if $node->sort==9}selected{/if}>Shadowsocksr 单端口多用户（旧）</option>
                                             <option value="11" {if $node->sort==11}selected{/if}>V2Ray</option>
                                             <option value="14" {if $node->sort==14}selected{/if}>Trojan</option>
