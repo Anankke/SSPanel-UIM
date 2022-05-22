@@ -204,7 +204,7 @@ final class AdminController extends BaseController
     {
         $generate_type = (int) $request->getParam('generate_type');
         $final_code = $request->getParam('prefix');
-        if ($final_code && in_array($generate_type, [1, 3])) {
+        if (! isset($final_code) && in_array($generate_type, [1, 3])) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '优惠码不能为空',
