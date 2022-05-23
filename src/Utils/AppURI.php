@@ -58,7 +58,7 @@ final class AppURI
         $return = null;
         switch ($item['type']) {
             case 'vmess':
-                if (! isset($item['vtype']) && (string) $item['vtype'] === 'vmess://') {
+                if (isset($item['vtype']) && (string) $item['vtype'] === 'vmess://') {
                     $node = [
                         'v' => '2',
                         'ps' => $item['remark'],
