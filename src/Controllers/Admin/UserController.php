@@ -95,6 +95,12 @@ class UserController extends AdminController
                     'placeholder' => '留空则随机生成',
                 ],
                 [
+                    'id' => 'ref_by',
+                    'info' => '邀请人',
+                    'type' => 'input',
+                    'placeholder' => '',
+                ],
+                [
                     'id' => 'email_notify',
                     'info' => '登录凭证',
                     'type' => 'select',
@@ -247,6 +253,7 @@ class UserController extends AdminController
     public function createNewUser($request, $response, $args)
     {
         $email = $request->getParam('email');
+        $ref_by = $request->getParam('ref_by');
         $password = $request->getParam('password');
         $email_notify = $request->getParam('email_notify');
         $dispense_product = $request->getParam('dispense_product');
@@ -308,6 +315,9 @@ class UserController extends AdminController
                             $user->node_connector = $value;
                             break;
                     }
+                }
+                if ($ref_by != '') {
+                    $user->ref_by = $ref_by;
                 }
                 $user->save();
             }
