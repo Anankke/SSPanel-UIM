@@ -162,7 +162,7 @@ final class UserController extends BaseController
                 $user->u += $u * $node->traffic_rate;
                 $user->d += $d * $node->traffic_rate;
                 $this_time_total_bandwidth += $u + $d;
-                if (!$user->save()) {
+                if (! $user->save()) {
                     $res = [
                         'ret' => 0,
                         'data' => 'update failed',
