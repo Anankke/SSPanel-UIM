@@ -77,9 +77,7 @@ final class UserController extends BaseController
             }
         )->where('enable', 1)->where('expire_in', '>', date('Y-m-d H:i:s'))->get();
 
-        if ($node->sort === 14) {
-            $key_list = ['node_speedlimit', 'id', 'node_connector', 'uuid', 'alive_ip'];
-        } elseif ($node->sort === 11) {
+        if (in_array($node->sort, [11, 14])) {
             $key_list = ['node_speedlimit', 'id', 'node_connector', 'uuid', 'alive_ip'];
         } else {
             $key_list = [
@@ -164,7 +162,7 @@ final class UserController extends BaseController
                 $user->u += $u * $node->traffic_rate;
                 $user->d += $d * $node->traffic_rate;
                 $this_time_total_bandwidth += $u + $d;
-                if (! $user->save()) {
+                if (!$user->save()) {
                     $res = [
                         'ret' => 0,
                         'data' => 'update failed',
