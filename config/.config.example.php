@@ -35,6 +35,7 @@ $_ENV['db_collation'] = 'utf8mb4_unicode_ci';
 $_ENV['active_payments'] = [
     'alipay_f2f' => [
         'name' => '支付宝',
+        'rate' => '0.0038', // 网关费率
         'min' => '10',
         'max' => '1000',
         'visible_range' => false, // 限制支付方式的可见范围
@@ -48,6 +49,7 @@ $_ENV['active_payments'] = [
     ],
     'universal' => [
         'name' => '',
+        'rate' => '0',
         'min' => '10',
         'max' => '1000',
         'visible_range' => false, // 限制支付方式的可见范围
@@ -59,6 +61,7 @@ $_ENV['active_payments'] = [
     ],
     'epay' => [
         'name' => '易支付',
+        'rate' => '0',
         'min' => '10',
         'max' => '1000',
         'visible_range' => false, // 限制支付方式的可见范围
@@ -71,6 +74,7 @@ $_ENV['active_payments'] = [
     ],
     'vmq_alipay' => [
         'name' => '支付宝',
+        'rate' => '0',
         'min' => '10',
         'max' => '1000',
         'visible_range' => false, // 限制支付方式的可见范围
@@ -82,6 +86,7 @@ $_ENV['active_payments'] = [
     ],
     'vmq_wechat' => [
         'name' => '微信',
+        'rate' => '0',
         'min' => '10',
         'max' => '1000',
         'visible_range' => false, // 限制支付方式的可见范围
@@ -93,6 +98,7 @@ $_ENV['active_payments'] = [
     ],
     'well_pay' => [
         'name' => 'WellPay',
+        'rate' => '0',
         'min' => '10',
         'max' => '1000',
         'visible_range' => false, // 限制支付方式的可见范围

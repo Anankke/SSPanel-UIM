@@ -3,6 +3,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\AdminController;
 use App\Models\Node;
+use App\Models\ProductOrder;
 use App\Models\Statistics;
 
 class ChartController extends AdminController
@@ -121,6 +122,69 @@ class ChartController extends AdminController
                 ->assign('next_day', date('Ymd', $day_start + 86400))
                 ->assign('previous_day', date('Ymd', $day_start - 86400))
                 ->display('admin/chart/node.tpl')
+        );
+    }
+
+    public function finance($request, $response, $args)
+    {
+        $begin_time = strtotime(date('Y-m-01 00:00:00', strtotime('-1 month')));
+        $end_time = strtotime(date('Y-m-d 23:59:59', strtotime(-date('d') . 'day')));
+
+        $result = [];
+        $total_fee = 0;
+        $total_net_income = 0;
+        $total_deal_amount = 0;
+        $total_customer_price = 0;
+        $total_deal_order_count = 0;
+        $total_balance_payment_amount = 0;
+        $active_payments = $_ENV['active_payments'];
+        foreach ($active_payments as $payment) {
+            $key = $payment['name'];
+            $payment_fee = empty($payment['rate']) ? '0' : $payment['rate'];
+            $condition = [
+                ['created_at', '>', $begin_time],
+                ['created_at', '<', $end_time],
+                ['order_payment', '=', $key],
+                ['order_status', '=', 'paid'],
+            ];
+            $balance_payment_amount = ProductOrder::where($condition)->sum('balance_payment');
+            $deal_order = ProductOrder::where($condition)->get();
+            $deal_amount = $deal_order->sum('order_price');
+            $deal_order_count = $deal_order->count();
+            $fee = ($deal_amount - $balance_payment_amount) * $payment_fee;
+            $net_income = $deal_amount - $balance_payment_amount - $fee;
+
+            $result[$key] = [
+                'fee' => round($fee / 100, 2), // 网关手续费
+                'net_income' => round($net_income / 100, 2), // 净收入
+                'deal_amount' => $deal_amount / 100, // 成交额
+                'customer_price' => round(($net_income / 100) / $deal_order_count, 2), // 客单价
+                'deal_order_count' => $deal_order_count, //成交数
+                'balance_payment_amount' => $balance_payment_amount / 100, // 余额抵扣金额
+            ];
+
+            // 累加统计数据
+            $total_fee += $result[$key]['fee'];
+            $total_net_income += $result[$key]['net_income'];
+            $total_deal_amount += $result[$key]['deal_amount'];
+            $total_customer_price += $result[$key]['customer_price'];
+            $total_deal_order_count += $result[$key]['deal_order_count'];
+            $total_balance_payment_amount += $result[$key]['balance_payment_amount'];
+        }
+
+        $result['Total'] = [
+            'fee' => $total_fee,
+            'net_income' => $total_net_income,
+            'deal_amount' => $total_deal_amount,
+            'customer_price' => round($total_customer_price / count($active_payments), 2),
+            'deal_order_count' => $total_deal_order_count,
+            'balance_payment_amount' => $total_balance_payment_amount,
+        ];
+
+        return $response->write(
+            $this->view()
+                ->assign('result', $result)
+                ->display('admin/chart/finance.tpl')
         );
     }
 }

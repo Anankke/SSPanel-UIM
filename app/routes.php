@@ -186,6 +186,7 @@ return function (SlimApp $app) {
 
         // Top Mange
         $this->get('/chart/index',              App\Controllers\Admin\ChartController::class . ':index');
+        $this->get('/chart/finance',            App\Controllers\Admin\ChartController::class . ':finance');
         $this->get('/chart/user/{date}',        App\Controllers\Admin\ChartController::class . ':user');
         $this->get('/chart/node/{date}',        App\Controllers\Admin\ChartController::class . ':node');
 

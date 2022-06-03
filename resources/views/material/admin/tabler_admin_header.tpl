@@ -193,6 +193,11 @@
                                         总览
                                     </a>
                                     <a class="dropdown-item"
+                                        href="/admin/chart/finance">
+                                        <i class="ti ti-businessplan"></i>&nbsp;
+                                        财务
+                                    </a>
+                                    <a class="dropdown-item"
                                         href="/admin/chart/user/{date("Ymd", strtotime("-1 day"))}">
                                         <i class="ti ti-sort-ascending-2"></i>&nbsp;
                                         用户流量
