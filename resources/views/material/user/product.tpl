@@ -112,7 +112,7 @@
                                                                         {$product->html}
                                                                     </ul>
                                                                     <div class="row g-2">
-                                                                        {if $product->stock - $product->sales > '0'}
+                                                                        {if $product->stock - $product->sales >= '0'}
                                                                             <div class="col">
                                                                                 <button onclick="buy('{$product->id}')" href="#"
                                                                                     class="btn btn-primary w-100">购买</button>
