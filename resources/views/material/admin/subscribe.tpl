@@ -9,7 +9,7 @@
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">
-                            在最近 {$config['subscribeLog_keep_days']} 天内所有用户的订阅记录。表格仅展示最近 500 条记录
+                            在最近 {$config['subscribeLog_keep_days']} 天内所有用户的订阅记录。表格仅展示最近 {$config['page_load_data_entry']} 条记录
                         </span>
                     </div>
                 </div>

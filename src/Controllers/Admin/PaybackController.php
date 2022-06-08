@@ -73,7 +73,7 @@ class PaybackController extends AdminController
     public function index($request, $response, $args)
     {
         $logs = Payback::orderBy('id', 'desc')
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         return $response->write(
@@ -105,7 +105,7 @@ class PaybackController extends AdminController
 
         $results = Payback::orderBy('id', 'desc')
             ->where($condition)
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         return $response->withJson([

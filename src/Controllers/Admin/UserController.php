@@ -18,7 +18,7 @@ class UserController extends AdminController
             'route' => 'user',
             'title' => [
                 'title' => '用户列表',
-                'subtitle' => '系统中所有的注册用户，表格仅展示 500 条',
+                'subtitle' => '系统中部分注册用户，表格仅展示 ' . $_ENV['page_load_data_entry'] . ' 条',
             ],
             'field' => [
                 'id' => '#',
@@ -118,7 +118,7 @@ class UserController extends AdminController
     public function index($request, $response, $args)
     {
         $logs = User::orderBy('id', 'desc')
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         foreach ($logs as $log) {
@@ -158,7 +158,7 @@ class UserController extends AdminController
 
         $results = User::orderBy('id', 'desc')
             ->where($condition)
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         foreach ($results as $result) {

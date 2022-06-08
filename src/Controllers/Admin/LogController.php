@@ -77,7 +77,7 @@ class LogController extends AdminController
     public function index($request, $response, $args)
     {
         $logs = Log::orderBy('id', 'desc')
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         return $response->write(
@@ -131,7 +131,7 @@ class LogController extends AdminController
 
         $results = Log::orderBy('id', 'desc')
             ->where($condition)
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         return $response->withJson([

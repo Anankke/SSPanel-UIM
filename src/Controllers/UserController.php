@@ -899,7 +899,7 @@ class UserController extends BaseController
     {
         $logs = DetectLog::where('user_id', $this->user->id)
             ->orderBy('id', 'desc')
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         return $this->view()
@@ -935,7 +935,7 @@ class UserController extends BaseController
 
         $logs = UserSubscribeLog::where('user_id', $this->user->id)
             ->orderBy('id', 'desc')
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         return $this->view()

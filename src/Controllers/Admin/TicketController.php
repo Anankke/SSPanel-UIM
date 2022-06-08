@@ -188,7 +188,7 @@ class TicketController extends AdminController
 
         $results = WorkOrder::orderBy('id', 'desc')
         ->where($condition)
-        ->limit(500)
+        ->limit($_ENV['page_load_data_entry'])
         ->get();
 
         return $response->withJson([

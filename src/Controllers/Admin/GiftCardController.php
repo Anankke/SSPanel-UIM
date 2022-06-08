@@ -15,7 +15,7 @@ class GiftCardController extends AdminController
             'route' => 'giftcard',
             'title' => [
                 'title' => '礼品卡',
-                'subtitle' => '生成和管理礼品卡。表格仅展示最近 500 条记录',
+                'subtitle' => '生成和管理礼品卡。表格仅展示最近 ' . $_ENV['page_load_data_entry'] . ' 条记录',
             ],
             'field' => [
                 'id' => '#',
@@ -100,7 +100,7 @@ class GiftCardController extends AdminController
     public function index($request, $response, $args)
     {
         $logs = GiftCard::orderBy('id', 'desc')
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         return $response->write(
@@ -188,7 +188,7 @@ class GiftCardController extends AdminController
 
         $results = GiftCard::orderBy('id', 'desc')
             ->where($condition)
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         return $response->withJson([

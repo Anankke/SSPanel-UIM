@@ -155,6 +155,7 @@ $_ENV['invisible_livechat_users'] = ['0']; // 不可见livechat的用户id列表
     页面自定义
 */
 
+$_ENV['page_load_data_entry'] = 1000; // 页面加载数据条目
 $_ENV['user_media_page_custom'] = false; // 流媒体解锁页面自定义说明开关
 $_ENV['user_media_page_custom_text'] = '<p>Hi</p>'; // 流媒体解锁页面自定义说明文本，支持html
 $_ENV['user_product_page_custom'] = false; // 商品页面自定义说明开关

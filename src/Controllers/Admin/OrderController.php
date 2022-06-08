@@ -11,7 +11,7 @@ class OrderController extends AdminController
     public function index($request, $response, $args)
     {
         $logs = ProductOrder::orderBy('id', 'desc')
-        ->limit(500)
+        ->limit($_ENV['page_load_data_entry'])
         ->get();
 
         return $response->write(
@@ -45,7 +45,7 @@ class OrderController extends AdminController
 
         $results = ProductOrder::orderBy('id', 'desc')
         ->where($condition)
-        ->limit(500)
+        ->limit($_ENV['page_load_data_entry'])
         ->get();
 
         foreach($results as $result)

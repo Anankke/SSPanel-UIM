@@ -17,7 +17,7 @@ class IpController extends AdminController
             'route' => 'login',
             'title' => [
                 'title' => '登录记录',
-                'subtitle' => '用户登录信息，仅显示最近的 500 条记录',
+                'subtitle' => '用户登录信息，仅显示最近的 ' . $_ENV['page_load_data_entry'] . ' 条记录',
             ],
             'field' => [
                 'id' => '#',
@@ -69,7 +69,7 @@ class IpController extends AdminController
     public function index($request, $response, $args)
     {
         $logs = LoginIp::orderBy('id', 'desc')
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         foreach ($logs as $log) {
@@ -106,7 +106,7 @@ class IpController extends AdminController
 
         $results = LoginIp::orderBy('id', 'desc')
             ->where($condition)
-            ->limit(500)
+            ->limit($_ENV['page_load_data_entry'])
             ->get();
 
         foreach ($results as $result) {

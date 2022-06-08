@@ -9,7 +9,7 @@
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">
-                            注册用户的所有订单。表格仅展示最近 500 条记录
+                            注册用户的所有订单。表格仅展示最近 {$config['page_load_data_entry']} 条记录
                         </span>
                     </div>
                 </div>

@@ -14,7 +14,7 @@ class SubscribeLogController extends AdminController
     public function index($request, $response, $args)
     {
         $logs = UserSubscribeLog::orderBy('id', 'desc')
-        ->limit(500)
+        ->limit($_ENV['page_load_data_entry'])
         ->get();
 
         return $response->write(
@@ -45,7 +45,7 @@ class SubscribeLogController extends AdminController
 
         $results = UserSubscribeLog::orderBy('id', 'desc')
         ->where($condition)
-        ->limit(500)
+        ->limit($_ENV['page_load_data_entry'])
         ->get();
 
         foreach($results as $result)
