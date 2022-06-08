@@ -147,20 +147,26 @@ class ChartController extends AdminController
                 ['order_payment', '=', $key],
                 ['order_status', '=', 'paid'],
             ];
-            $balance_payment_amount = ProductOrder::where($condition)->sum('balance_payment');
             $deal_order = ProductOrder::where($condition)->get();
+            $balance_payment_amount = $deal_order->sum('balance_payment');
             $deal_amount = $deal_order->sum('order_price');
             $deal_order_count = $deal_order->count();
             $fee = ($deal_amount - $balance_payment_amount) * $payment_fee;
             $net_income = $deal_amount - $balance_payment_amount - $fee;
 
+            if ($deal_order_count == 0) {
+                $customer_price = 0;
+            } else {
+                $customer_price = round(($net_income / 100) / $deal_order_count, 2);
+            }
+
             $result[$key] = [
-                'fee' => round($fee / 100, 2), // 网关手续费
-                'net_income' => round($net_income / 100, 2), // 净收入
-                'deal_amount' => $deal_amount / 100, // 成交额
-                'customer_price' => round(($net_income / 100) / $deal_order_count, 2), // 客单价
-                'deal_order_count' => $deal_order_count, //成交数
-                'balance_payment_amount' => $balance_payment_amount / 100, // 余额抵扣金额
+                'fee' => round($fee / 100, 2),                             // 手续费
+                'net_income' => round($net_income / 100, 2),               // 净收入
+                'deal_amount' => $deal_amount / 100,                       // 成交额
+                'customer_price' => $customer_price,                       // 客单价
+                'deal_order_count' => $deal_order_count,                   // 成交数
+                'balance_payment_amount' => $balance_payment_amount / 100, // 余额抵扣
             ];
 
             // 累加统计数据
