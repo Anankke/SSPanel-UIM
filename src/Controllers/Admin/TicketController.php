@@ -19,7 +19,7 @@ class TicketController extends AdminController
             'route' => 'ticket',
             'title' => [
                 'title' => '工单列表',
-                'subtitle' => '所有用户提交的工单',
+                'subtitle' => '所有用户提交的非关闭状态工单',
             ],
             'field' => [
                 'tk_id' => '#',
@@ -73,6 +73,7 @@ class TicketController extends AdminController
     public function index($request, $response, $args)
     {
         $logs = WorkOrder::where('is_topic', 1)
+        ->whereNull('closed_by')
         ->orderBy('id', 'desc')
         ->get();
 
@@ -187,6 +188,7 @@ class TicketController extends AdminController
         }
 
         $results = WorkOrder::orderBy('id', 'desc')
+        ->where('is_topic', '1')
         ->where($condition)
         ->limit($_ENV['page_load_data_entry'])
         ->get();
@@ -214,7 +216,7 @@ class TicketController extends AdminController
         $ticket->closed_by = 'admin';
         $ticket->save();
 
-        if ($_ENV['mail_ticket']) {
+        /* if ($_ENV['mail_ticket']) {
             $anti_xss = new AntiXSS();
             $user = User::find($ticket->user_id);
             $user->sendMail($_ENV['appName'] . ' - 工单被关闭', 'news/warn.tpl',
@@ -222,7 +224,7 @@ class TicketController extends AdminController
                     'text' => '工单主题：' . $anti_xss->xss_clean($ticket->title)
                 ], []
             );
-        }
+        } */
 
         return $response->withJson([
             'ret' => 1,
