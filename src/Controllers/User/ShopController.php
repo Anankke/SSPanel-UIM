@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Bought;
 use App\Models\Coupon;
 use App\Models\Payback;
+use App\Models\Setting;
 use App\Models\Shop;
 use App\Utils\ResponseHelper;
 use Slim\Http\Request;
@@ -157,6 +158,11 @@ final class ShopController extends BaseController
         $bought->price = $price;
         $bought->save();
         $shop->buy($user);
+
+        // 返利
+        if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_purchase') {
+            Payback::rebate($user->id, $price);
+        }
 
         return ResponseHelper::successfully($response, '购买成功');
     }
