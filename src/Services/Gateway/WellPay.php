@@ -1,117 +1,209 @@
 <?php
+
 namespace App\Services\Gateway;
 
+use App\Services\View;
+use App\Services\Auth;
+use App\Services\Config;
+use App\Models\Paylist;
 use App\Controllers\UserController;
 
 class WellPay
 {
-    public static function _name(): string
+
+    private $appid;
+    private $appkey;
+    private $gatewayUri;
+
+    /**
+     * 签名初始化
+     * @param merKey    签名密钥
+     */
+
+    public static function _name()
     {
-        return 'well_pay';
+        return 'wellpay';
     }
 
-    public static function _enable(): bool
+    public static function _enable()
     {
-        if (empty($_ENV['active_payments']['well_pay']) || $_ENV['active_payments']['well_pay']['enable'] == false) {
+        if (empty($_ENV['active_payments']['wellpay']) || $_ENV['active_payments']['wellpay']['enable'] == false) {
             return false;
         }
 
         return true;
     }
-
-    public static function postOrder($url, $data): array
+    public static function _readableName() {
+        return "wellpay";
+    }
+    public function __construct()
     {
-        if (is_array($data)) {
-            $data = http_build_query($data, null, '&');
+        $this->appid = $_ENV['active_payments']['wellpay']['wellpay_app_id'];
+        $this->appSecret = $_ENV['active_payments']['wellpay']['wellpay_app_secret'];
+        $this->serverID = $_ENV['active_payments']['wellpay']['server_id'];
+        $this->gatewayUri = 'https://api.crossz.pro/v1/service/payment';
+    }
+
+    public function createOrder($amount, $order_no, $user_id)
+    {
+        $price = $amount;
+        if ($price <1) {
+            return json_encode(['code' => -1, 'msg' => '付款金额至少要1.00元.']);
         }
+        $data = array(
+            'appid'=>$this->appid,//商户编号
+            'orderno' => $order_no,//商户订单号，需保证在商户平台唯一
+            'totalfee'=> $price,//单位元
+            'server_id'=> $this->serverID,//
+            'panel'=> 'ssp-newfeat',//
+            'ver'=> '101',//
+            'request_time'=> time(),//
+            'remark'=> '',//
+            'notifyurl' =>'/payments/notify/wellpay',//	异步通知地址
+            'returnurl' => '/user/order/' . $order_no
+        );
+        $data['sign'] = $this->sign($data);
+        $resdata = $this->post($data);
+        $result = json_decode($resdata,true);
+        if (!isset($result['resultCode'])!=0) {
+            return ['errcode' => -1, 'errmsg' => '处理支付网关失败。'];
+        }
+        return json_encode([
+            'ret' => 1,
+            'type' => 'link',
+            'link' => $result['data']['payUrl'],
+        ]);
 
+    }
+    public function notify($request, $response, $args)
+    {
+        $params = json_decode(@file_get_contents("php://input"),true);
+        if (!$this->verify($params)) {
+            abort(500,'签名错误');
+        }
+        UserController::execute($params['orderno']);
+        die('success');
+    }
+    /**
+     * @name    准备签名/验签字符串
+     */
+    public function prepareSign($data)
+    {
+        ksort($data);
+        return htmlspecialchars(http_build_query($data));
+    }
+
+    public function verify(array $data)
+    {
+        $sign = $data['sign'] ?? null;
+        return $sign === $this->sign($data);
+    }
+
+    private function sign(array $data)
+    {
+        $str = urldecode(http_build_query($this->argSorts($this->paraFilters($data))));
+        return md5($str . "&app_secret=" . $this->appSecret);
+    }
+    private function paraFilters(array $para)
+    {
+        return array_filter($para, function ($item, $key) {
+            if ($key != "sign" && !empty($item)) return true;
+        }, ARRAY_FILTER_USE_BOTH);
+    }
+    private function argSorts(array $para)
+    {
+        ksort($para);
+        reset($para);
+        return $para;
+    }
+
+    public function post($data)
+    {
+        if (is_array($data))
+        {
+            $data = http_build_query($data);
+        }
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_URL, $this->gatewayUri);
         curl_setopt($curl, CURLOPT_HEADER, 0);
-
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/x-www-form-urlencoded',
-        ]);
-
+        curl_setopt($curl, CURLOPT_HTTPHEADER,  array(
+            "Content-Type: application/x-www-form-urlencoded") );
         $data = curl_exec($curl);
+        // $data = curl_getinfo($curl,CURLINFO_EFFECTIVE_URL);
         curl_close($curl);
-        return json_decode($data, true);
+        return $data;
     }
-
-    public function createOrder($amount, $order_no, $user_id)
+    public static function getPurchaseHTML()
     {
-        $configs = $_ENV['active_payments']['well_pay'];
-
-        try {
-            $params = [
-                'appid' => $configs['appid'],
-                'orderno' => $order_no,
-                'totalfee' => sprintf("%.2f", $amount),
-                'notifyurl' => $_ENV['baseUrl'] . '/payments/notify/well_pay',
-                'returnurl' => $_ENV['baseUrl'] . '/user/order/' . $order_no,
-            ];
-
-            $business = [
-                'ip' => $_SERVER['REMOTE_ADDR'],
-                'remark' => '',
-                'version' => '1.01',
-                'request_time' => time(),
-            ];
-
-            ksort($params);
-            $sign = htmlspecialchars(http_build_query($params));
-            $sign = strtolower(md5($sign . $configs['appkey']));
-            $business['sign'] = $sign;
-            $business['data'] = $params;
-            $response = self::postOrder($configs['gateway'], $business);
-
-            return json_encode([
-                'ret' => 1,
-                'type' => 'link',
-                'link' => $response['data']['url'],
-            ]);
-        } catch (\Exception $e) {
-            return json_encode([
-                'ret' => 0,
-                'msg' => $e->getMessage(),
-            ]);
-        }
-    }
-
-    public static function verifySign($context_arr, $signature)
-    {
-        $sign_key = $_ENV['active_payments']['well_pay']['appkey'];
-        $return_arr_forsort = [];
-        foreach ($context_arr as $key => $val) {
-            if ($key != 'sign' && $key != 'sign_type' && $key != 'data' && !empty($val)) {
-                $return_arr_forsort[$key] = $val;
+        return '<div class="card-inner">
+						<div class="form-group pull-left">
+                            <p class="modal-title">wellpay支持多种充值</p>
+                            <div class="form-group form-group-label">
+                                <label class="floating-label" for="amount-coinpay">充值金额</label>
+                                <input id="amount-coinpay" class="form-control maxwidth-edit" name="amount-coinpay" />
+                            </div>
+                            <div class="form-group form-group-label">
+                               <label><input name="paytype" type="radio" value="alipay" checked="checked"/>支付宝 </label>
+                                <label><input name="paytype" type="radio" value="wxpay" />微信 </label>
+                            </div>
+                             <a class="btn btn-flat waves-attach" id="submitCoinPay" style="padding: 8px 24px;color: #fff;background: #1890ff;"><span class="icon">check</span>&nbsp;充&nbsp;值&nbsp;</a>
+                        </div>
+                    </div>
+                        <script>
+                        window.onload = function(){
+        $("#submitCoinPay").click(function() {
+            var price = parseFloat($("#amount-coinpay").val());
+            var paytype = $("input[name=\'paytype\']:checked").val();;
+            if (isNaN(price)) {
+                $("#result").modal();
+                $("#msg").html("非法的金额!");
+                return false;
             }
-            if ($key == 'data') {
-                foreach ($val as $key1 => $val1) {
-                    if (!empty($val1)) {
-                        $return_arr_forsort[$key1] = $val1;
+            $(\'#readytopay\').modal();
+            $("#readytopay").on(\'shown.bs.modal\', function () {
+                $.ajax({
+                    \'url\': "/user/payment/purchase/wellpay",
+                    \'data\': {
+                        \'price\': price,
+                        \'paytype\':paytype,
+                    },
+                    \'dataType\': \'json\',
+                    \'type\': "POST",
+                    success: (data) => {
+                        if (data.code == 0) {
+                            $("#result").modal();
+                            $("#msg").html("正在跳转WellPay支付网关...");
+                            window.location.href = data.url;
+                        } else {
+                            $("#result").modal();
+                            $$.getElementById(\'msg\').innerHTML = data.msg;
+                            console.log(data);
+                        }
                     }
-                }
-            }
-        }
-        ksort($return_arr_forsort);
-        $signStr = htmlspecialchars(http_build_query($return_arr_forsort));
-        $sign2 = strtolower(md5($signStr . $sign_key));
-        return $sign2 === $signature;
+                });
+            });
+        });
+    };</script>
+';
     }
 
-    public function notify($request, $response, $args)
+    public function getReturnHTML($request, $response, $args)
     {
-        if (!self::verifySign($request->getParams(), $request->getParam('sign'))) {
-            die('fail');
-        }
-        $order_no = $request->getParam('orderno');
-        UserController::execute($order_no);
-        die('success');
+        header('Location:/user/code');
     }
+
+    public function getStatus($request, $response, $args)
+    {
+        $return = [];
+        $p = Paylist::where('tradeno', $_POST['pid'])->first();
+        $return['ret'] = 1;
+        $return['result'] = $p->status;
+        return json_encode($return);
+    }
+
 }
