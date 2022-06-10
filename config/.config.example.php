@@ -99,13 +99,13 @@ $_ENV['active_payments'] = [
     'well_pay' => [
         'name' => 'WellPay',
         'rate' => '0',
-        'min' => '1', //支付的最小金额
+        'min' => '10',
         'max' => '1000',
         'visible_range' => false, // 限制支付方式的可见范围
         'visible_min_range' => '', // 此支付方式可见最小用户id（含）
         'visible_max_range' => '', // 可见最大用户id（含）
-        'wellpay_app_id' => '',
-	    'wellpay_app_secret' => '',
+        'wellpay_app_id' => '', //应用ID
+	'wellpay_app_secret' => '', //应用秘钥
         'enable' => false,
     ],
 ];
