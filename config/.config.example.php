@@ -99,14 +99,13 @@ $_ENV['active_payments'] = [
     'well_pay' => [
         'name' => 'WellPay',
         'rate' => '0',
-        'min' => '10',
+        'min' => '1', //支付的最小金额
         'max' => '1000',
         'visible_range' => false, // 限制支付方式的可见范围
         'visible_min_range' => '', // 此支付方式可见最小用户id（含）
         'visible_max_range' => '', // 可见最大用户id（含）
-        'gateway' => 'https://check.bbapk.xyz/api/Wellpay/create',
-        'appid' => '',
-        'appkey' => '',
+        'wellpay_app_id' => '',
+	    'wellpay_app_secret' => '',
         'enable' => false,
     ],
 ];
