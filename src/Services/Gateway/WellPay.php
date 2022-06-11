@@ -138,60 +138,6 @@ class WellPay
         curl_close($curl);
         return $data;
     }
-    public static function getPurchaseHTML()
-    {
-        return '<div class="card-inner">
-						<div class="form-group pull-left">
-                            <p class="modal-title">wellpay支持多种充值</p>
-                            <div class="form-group form-group-label">
-                                <label class="floating-label" for="amount-coinpay">充值金额</label>
-                                <input id="amount-coinpay" class="form-control maxwidth-edit" name="amount-coinpay" />
-                            </div>
-                            <div class="form-group form-group-label">
-                               <label><input name="paytype" type="radio" value="alipay" checked="checked"/>支付宝 </label>
-                                <label><input name="paytype" type="radio" value="wxpay" />微信 </label>
-                            </div>
-                             <a class="btn btn-flat waves-attach" id="submitCoinPay" style="padding: 8px 24px;color: #fff;background: #1890ff;"><span class="icon">check</span>&nbsp;充&nbsp;值&nbsp;</a>
-                        </div>
-                    </div>
-                        <script>
-                        window.onload = function(){
-        $("#submitCoinPay").click(function() {
-            var price = parseFloat($("#amount-coinpay").val());
-            var paytype = $("input[name=\'paytype\']:checked").val();;
-            if (isNaN(price)) {
-                $("#result").modal();
-                $("#msg").html("非法的金额!");
-                return false;
-            }
-            $(\'#readytopay\').modal();
-            $("#readytopay").on(\'shown.bs.modal\', function () {
-                $.ajax({
-                    \'url\': "/user/payment/purchase/wellpay",
-                    \'data\': {
-                        \'price\': price,
-                        \'paytype\':paytype,
-                    },
-                    \'dataType\': \'json\',
-                    \'type\': "POST",
-                    success: (data) => {
-                        if (data.code == 0) {
-                            $("#result").modal();
-                            $("#msg").html("正在跳转WellPay支付网关...");
-                            window.location.href = data.url;
-                        } else {
-                            $("#result").modal();
-                            $$.getElementById(\'msg\').innerHTML = data.msg;
-                            console.log(data);
-                        }
-                    }
-                });
-            });
-        });
-    };</script>
-';
-    }
-
     public function getReturnHTML($request, $response, $args)
     {
         header('Location:/user/code');
