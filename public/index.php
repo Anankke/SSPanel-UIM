@@ -9,6 +9,10 @@
 
 declare(strict_types=1);
 
+if (PHP_VERSION_ID >= 80100) {
+    error_reporting(E_ALL ^ E_DEPRECATED);
+}
+
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/.config.php';
 require __DIR__ . '/../config/appprofile.php';
