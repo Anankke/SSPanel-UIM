@@ -7,7 +7,8 @@ namespace App\Middleware;
 use App\Models\Node;
 use App\Services\Config;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\{Request, Response};
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 final class NodeToken
 {
@@ -49,11 +50,11 @@ final class NodeToken
 
         if ($_ENV['checkNodeIp'] === true) {
             $ip = $request->getServerParam('REMOTE_ADDR');
-            if ($ip != '127.0.0.1') {
-                if (!Node::where('node_ip', 'LIKE', "$ip%")->exists()) {
+            if ($ip !== '127.0.0.1') {
+                if (! Node::where('node_ip', 'LIKE', "${ip}%")->exists()) {
                     return $response->withJson([
                         'ret' => 0,
-                        'data' => "IP is invalid. Now, your IP address is $ip",
+                        'data' => "IP is invalid. Now, your IP address is ${ip}",
                     ]);
                 }
             }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Capsule\Manager as Capsule;
 use Closure;
 use DateTimeInterface;
 use Illuminate\Contracts\Pagination\Cursor;
@@ -12,6 +11,7 @@ use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,11 +25,14 @@ use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\LazyCollection;
 
 /**
+ * Eloquent Model
  *
  * @version illuminate/database:v9.17.0
  *
  * @codingStandardsIgnoreStart
+ *
  * @see \Illuminate\Database\Eloquent\Builder
+ *
  * @method static static                            make(array $attributes = [])                                                                                    Create and return an un-saved model instance.
  * @method static $this                             withGlobalScope(string $identifier, Scope|Closure $scope)                                                       Register a new global scope.
  * @method static $this                             withoutGlobalScope(Scope|string $scope)                                                                         Remove a registered global scope.
@@ -140,6 +143,7 @@ use Illuminate\Support\LazyCollection;
  * @method static $this                             tap(callback $callback)                                                                         Pass the query to a given callback.
  *
  * @see \Illuminate\Database\Eloquent\Concerns\QueriesRelationships
+ *
  * @method static Builder|static    has(Relation|string $relation, string $operator = '>=', int $count = 1, string $boolean = 'and', ?Closure $callback = null)                                         Add a relationship count / exists condition to the query.
  * @method static Builder|static    orHas(string $relation, string $operator = '>=', int $count = 1)                                                                                                    Add a relationship count / exists condition to the query with an "or".
  * @method static Builder|static    doesntHave(string $relation, string $boolean = 'and', ?Closure $callback = null)                                                                                    Add a relationship count / exists condition to the query.
@@ -177,9 +181,11 @@ use Illuminate\Support\LazyCollection;
  * @method static Builder|static    mergeConstraintsFrom(Builder $from)                                                                                                                                 Merge the where constraints from another query to the current query.
  *
  * @see \Illuminate\Database\Concerns\ExplainsQueries
+ *
  * @method SupportCollection    explain()   Explains the query.
  *
  * @see \Illuminate\Database\Query\Builder
+ *
  * @method $this                select(array|mixed $columns = ['*'])                                                                                                                                                    Set the columns to be selected.
  * @method $this                selectSub(Closure|QueryBuilder|string $query, string $as)                                                                                                                               Add a subselect expression to the query.
  * @method $this                selectRaw(string $expression, array $bindings = [])                                                                                                                                     Add a new "raw" select expression to the query.
@@ -337,6 +343,7 @@ use Illuminate\Support\LazyCollection;
  * @method $this                cloneWithoutBindings(array $except)                                                                                                                                                     Clone the query without the given bindings.
  * @method QueryBuilder         dump()                                                                                                                                                                                  Dump the current SQL and bindings.
  * @method void                 dd()                                                                                                                                                                                    Die and dump the current SQL and bindings.
+ *
  * @codingStandardsIgnoreEnd
  */
 abstract class Model extends EloquentModel

@@ -43,7 +43,7 @@ final class UserController extends BaseController
             $node = Node::where('node_ip', $request->getServerParam('REMOTE_ADDR'))->first();
         } else {
             $node = Node::where('id', '=', $node_id)->first();
-            if ($node == null) {
+            if ($node === null) {
                 return $response->withJson([
                     'ret' => 0,
                 ]);
@@ -67,7 +67,7 @@ final class UserController extends BaseController
 
         $users_raw = User::where('enable', 1)
             ->where('expire_in', '>', date('Y-m-d H:i:s'))
-            ->where(function (Builder $query) use ($node) {
+            ->where(static function (Builder $query) use ($node): void {
                 $query->whereRaw(
                     'class >= ? AND IF(? = 0, 1, node_group = ?)',
                     [$node->node_class, $node->node_group, $node->node_group]
@@ -116,7 +116,7 @@ final class UserController extends BaseController
 
         $body = json_encode($users);
         $etag = sha1($body);
-        if ($header_etag == $etag) {
+        if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
         $response->getBody()->write($body);
@@ -150,7 +150,7 @@ final class UserController extends BaseController
         }
         $node = Node::find($node_id);
 
-        if ($node == null) {
+        if ($node === null) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -164,8 +164,8 @@ final class UserController extends BaseController
             if ($user_id) {
                 User::where('id', $user_id)->update([
                     't' => time(),
-                    'u' => DB::raw("u + $u"),
-                    'd' => DB::raw("d + $d")
+                    'u' => DB::raw("u + ${u}"),
+                    'd' => DB::raw("d + ${d}"),
                 ]);
             }
             $sum += $u + $d;
@@ -175,7 +175,7 @@ final class UserController extends BaseController
         NodeOnlineLog::insert([
             'node_id' => $node_id,
             'online_user' => count($data),
-            'log_time' => time()
+            'log_time' => time(),
         ]);
 
         return $response->withJson([

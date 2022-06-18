@@ -369,7 +369,6 @@ final class UserController extends BaseController
             ->orderBy('datetime', 'desc')
             ->paginate(15, ['*'], 'page', $pageNum);
 
-
         // 登录IP
         $totallogin = LoginIp::where('userid', '=', $this->user->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
 
