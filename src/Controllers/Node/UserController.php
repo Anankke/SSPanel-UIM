@@ -114,7 +114,10 @@ final class UserController extends BaseController
 
         $header_etag = $request->getHeaderLine('If-None-Match');
 
-        $body = json_encode($users);
+        $body = json_encode([
+            'ret' => 1,
+            'data' => $users,
+        ]);
         $etag = sha1($body);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
