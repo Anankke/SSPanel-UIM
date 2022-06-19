@@ -6,10 +6,22 @@ namespace App\Middleware;
 
 use App\Models\Node;
 use App\Services\Config;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 final class NodeToken
 {
-    public function __invoke(\Slim\Http\Request $request, \Slim\Http\Response $response, callable $next): \Slim\Http\Response
+    /**
+     * MID /mod_mu/
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param callable $next
+     *
+     * @return ResponseInterface
+     */
+    public function __invoke($request, $response, $next)
     {
         $key = $request->getQueryParam('key');
         if ($key === null) {
@@ -20,7 +32,7 @@ final class NodeToken
             ]);
         }
 
-        if (! in_array($key, Config::getMuKey())) {
+        if (!in_array($key, Config::getMuKey())) {
             // key 不存在
             return $response->withJson([
                 'ret' => 0,
@@ -37,12 +49,12 @@ final class NodeToken
         }
 
         if ($_ENV['checkNodeIp'] === true) {
-            if ($_SERVER['REMOTE_ADDR'] !== '127.0.0.1') {
-                $node = Node::where('node_ip', 'LIKE', $_SERVER['REMOTE_ADDR'] . '%')->first();
-                if ($node === null) {
+            $ip = $request->getServerParam('REMOTE_ADDR');
+            if ($ip !== '127.0.0.1') {
+                if (! Node::where('node_ip', 'LIKE', "${ip}%")->exists()) {
                     return $response->withJson([
                         'ret' => 0,
-                        'data' => 'IP is invalid. Now, your IP address is ' . $_SERVER['REMOTE_ADDR'],
+                        'data' => "IP is invalid. Now, your IP address is ${ip}",
                     ]);
                 }
             }

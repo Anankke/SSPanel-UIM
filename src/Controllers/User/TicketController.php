@@ -28,7 +28,6 @@ final class TicketController extends BaseController
         }
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $tickets = Ticket::where('userid', $this->user->id)->where('rootid', 0)->orderBy('datetime', 'desc')->paginate(15, ['*'], 'page', $pageNum);
-        $tickets->setPath('/user/ticket');
 
         if ($request->getParam('json') === 1) {
             return $response->withJson([
@@ -234,7 +233,6 @@ final class TicketController extends BaseController
         }
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
-        $ticketset->setPath('/user/ticket/' . $id . '/view');
         if ($request->getParam('json') === 1) {
             foreach ($ticketset as $set) {
                 $set->username = $set->user()->user_name;

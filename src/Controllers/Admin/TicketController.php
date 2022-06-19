@@ -150,7 +150,6 @@ final class TicketController extends BaseController
 
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
-        $ticketset->setPath('/admin/ticket/' . $id . '/view');
 
         $render = Tools::paginateRender($ticketset);
         return $response->write(

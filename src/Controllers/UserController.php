@@ -115,7 +115,6 @@ final class UserController extends BaseController
             ->orderBy('id', 'desc')
             ->paginate(15, ['*'], 'page', $pageNum);
 
-        $codes->setPath('/user/code');
         $render = Tools::paginateRender($codes);
 
         return $response->write(
@@ -144,7 +143,6 @@ final class UserController extends BaseController
                     ->orWhere('type', '=', -2);
             }
         )->where('isused', 1)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
-        $codes->setPath('/user/donate');
         $render = Tools::paginateRender($codes);
         return $response->write(
             $this->view()
@@ -371,8 +369,6 @@ final class UserController extends BaseController
             ->orderBy('datetime', 'desc')
             ->paginate(15, ['*'], 'page', $pageNum);
 
-        $paybacks->setPath('/user/profile');
-
         // 登录IP
         $totallogin = LoginIp::where('userid', '=', $this->user->id)->where('type', '=', 0)->orderBy('datetime', 'desc')->take(10)->get();
 
@@ -552,7 +548,6 @@ final class UserController extends BaseController
             $paybacks_sum = 0;
         }
 
-        $paybacks->setPath('/user/invite');
         $render = Tools::paginateRender($paybacks);
 
         $invite_url = $_ENV['baseUrl'] . '/auth/register?code=' . $code->code;
@@ -775,7 +770,6 @@ final class UserController extends BaseController
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $shops = Bought::where('userid', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
-        $shops->setPath('/user/bought');
         if ($request->getParam('json') === 1) {
             foreach ($shops as $shop) {
                 $shop->datetime = $shop->datetime();
@@ -1194,7 +1188,6 @@ final class UserController extends BaseController
 
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = UserSubscribeLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
-        $logs->setPath('/user/subscribe_log');
 
         $render = Tools::paginateRender($logs);
         return $this->view()

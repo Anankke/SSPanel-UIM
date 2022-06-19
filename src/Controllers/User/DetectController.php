@@ -28,7 +28,6 @@ final class DetectController extends BaseController
             ]);
         }
 
-        $logs->setPath('/user/detect');
         $render = Tools::paginateRender($logs);
         return $this->view()
             ->assign('rules', $logs)
@@ -68,7 +67,6 @@ final class DetectController extends BaseController
             ]);
         }
 
-        $logs->setPath('/user/detect/log');
         $render = Tools::paginateRender($logs);
         return $this->view()
             ->assign('logs', $logs)
