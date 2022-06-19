@@ -350,6 +350,8 @@ abstract class Model extends EloquentModel
 {
     public $timestamps = false;
 
+    protected $guarded = [];
+
     /**
      * 获取表名
      */
