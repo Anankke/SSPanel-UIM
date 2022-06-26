@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace App\Services\Gateway;
 
 use App\Models\Paylist;
+use App\Models\Setting;
 use App\Services\Auth;
 use App\Services\Config;
 use App\Services\Gateway\Epay\EpayNotify;
@@ -26,9 +27,9 @@ final class Epay extends AbstractPayment
 
     public function __construct()
     {
-        $this->epay['apiurl'] = Config::getConf('epay_url');//易支付API地址
-        $this->epay['partner'] = Config::getConf('epay_pid');//易支付商户pid
-        $this->epay['key'] = Config::getConf('epay_key');//易支付商户Key
+        $this->epay['apiurl'] = Setting::obtain('epay_url');//易支付API地址
+        $this->epay['partner'] = Setting::obtain('epay_pid');//易支付商户pid
+        $this->epay['key'] = Setting::obtain('epay_key');//易支付商户Key
         $this->epay['sign_type'] = strtoupper('MD5'); //签名方式
         $this->epay['input_charset'] = strtolower('utf-8');//字符编码
         $this->epay['transport'] = 'https';//协议 http 或者https
@@ -70,8 +71,8 @@ final class Epay extends AbstractPayment
             'pid' => trim($this->epay['partner']),
             'type' => $type,
             'out_trade_no' => $pl->tradeno,
-            'notify_url' => Config::get('baseUrl') . '/epay/notify',
-            'return_url' => Config::get('baseUrl') . '/epay/return',
+            'notify_url' => Config::get('baseUrl') . '/payment/notify/epay',
+            'return_url' => Config::get('baseUrl') . '/user/payment/return/epay',
             'name' => $pl->tradeno,
             #"name" =>  $user->mobile . "" . $price . "",
             'money' => $price,
@@ -110,7 +111,7 @@ final class Epay extends AbstractPayment
             }
             return $response->withJson(['state' => 'fail', 'msg' => '支付失败']);
         }
-        return $response->write('非法請求');
+        return $response->write('非法请求');
     }
     public static function getPurchaseHTML(): string
     {
@@ -121,13 +122,13 @@ final class Epay extends AbstractPayment
     {
         $money = $_GET['money'];
         $html = <<<HTML
-您已成功充值 ${money} 元,正在跳转..
-<script>
-    setTimeout(function() {
-      location.href="/user/code";
-    },500)
-</script>
-HTML;
+        您已成功充值 ${money} 元，正在跳转..
+        <script>
+            setTimeout(function() {
+                location.href="/user/code";
+            },500)
+        </script>
+        HTML;
         return $response->write($html);
     }
 }
