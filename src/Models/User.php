@@ -214,7 +214,7 @@ final class User extends Model
                     $code->save();
                     return $temp_code;
                 }
-                return (InviteCode::where('user_id', $this->id)->first())->code;
+                return InviteCode::where('user_id', $this->id)->first()->code;
             }
         }
     }
