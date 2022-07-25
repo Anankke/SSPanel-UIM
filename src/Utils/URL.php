@@ -387,7 +387,7 @@ final class URL
         bool $arrout = false,
         bool $emoji = false
     ) {
-        $item = Tools::v2Array($node->server);
+        $item = Tools::v2Array($node);
         $item['v'] = '2';
         $item['type'] = 'vmess';
         $item['ps'] = ($emoji ? Tools::addEmoji($node->name) : $node->name);
