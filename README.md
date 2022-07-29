@@ -11,7 +11,7 @@
 [![Telegram Channel](https://img.shields.io/badge/news-t.me%2Fsspanel_uim-0d86d7?style=flat-square)](https://t.me/sspanel_uim)
 [![Telegram Chat](https://img.shields.io/badge/chat-t.me%2Fssunion-0d86d7?style=flat-square)](https://t.me/ssunion)
 
-[使用文档](https://wiki.sspanel.org) | [更新日志](https://github.com/Anankke/SSPanel-Uim/releases) | [配套SS/SSR后端](https://github.com/Anankke/shadowsocks-mod) | [Telegram 频道](https://t.me/sspanel_uim) | [Telegram 水群](https://t.me/ssunion) | [API 文档](https://marcosteam.gitbook.io/sspanel-api/)
+[使用文档](https://wiki.sspanel.org) | [配套SS/SSR后端](https://github.com/Anankke/shadowsocks-mod) | [配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 频道](https://t.me/sspanel_uim) | [Telegram 水群](https://t.me/ssunion) | [后端 API 文档](https://github.com/sspanel-uim/API-documents) | [WebAPI 文档](https://github.com/sspanel-uim/WebAPI-documents)
 
 ## 简介
 
@@ -50,10 +50,6 @@ SSPanel UIM 支持安装在 LNMP、CloudPanel 等集成环境中。安装教程�
 账号：admin@sspanel.org
 密码：password
 ```
-
-### dev 分支
-
-暂无
 
 ## 文档
 
@@ -146,7 +142,10 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 - Wiki 维护与重写部分安装教程
 - 面板 Bug 修复与维护
-- 前端公共库版本更新
+
+[**Irohaede**](https://github.com/Irohaede)
+
+- TrojanX 开发与维护
 
 </details>
 
@@ -168,5 +167,6 @@ SSPanel UIM 离不开所有 [贡献代码](https://github.com/Anankke/SSPanel-Ui
 
 #### M1Screw
 
-- [Vultr-不用我多解釋了吧](https://www.vultr.com/?ref=8941355-8H)
+- [Vultr](https://www.vultr.com/?ref=8941355-8H)
+- 返利将会被用于维护 SSPanel-UIM 基础设施，比如 RPM/DEB 包的 Mirror 服务器，自动构建服务器，项目相关的域名等。
 
