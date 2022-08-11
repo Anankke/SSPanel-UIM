@@ -536,8 +536,9 @@ final class Tools
                         break;
                 }
             }
-        }
-        if (count($server) >= 5) {
+            if (count($server) >= 6 && $server[5] !== '') {
+                $item = array_merge($item, URL::parseArgs($server[5]));
+            }
             $item = array_merge($item, $node->getArgs());
             if (array_key_exists('server', $item)) {
                 $item['add'] = $item['server'];
@@ -619,8 +620,9 @@ final class Tools
             } elseif ($server[4] === 'tls') {
                 $item['tls'] = 'tls';
             }
-        }
-        if (count($server) >= 5) {
+            if (count($server) >= 6 && $server[5] !== '') {
+                $item = array_merge($item, URL::parseArgs($server[5]));
+            }
             $item = array_merge($item, $node->getArgs());
             if (array_key_exists('server', $item)) {
                 $item['add'] = $item['server'];
@@ -635,6 +637,7 @@ final class Tools
                 unset($item['outside_port']);
             }
         }
+
         if ($item['net'] === 'obfs') {
             if (stripos($server[4], 'http') !== false) {
                 $item['obfs'] = 'simple_obfs_http';
