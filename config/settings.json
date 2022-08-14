@@ -982,21 +982,21 @@
     {
         "id": null,
         "item": "telegram_enable",
-        "value": "false",
+        "value": "0",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "false",
+        "default": "0",
         "mark": "是否启用Telegram机器人"
     },
     {
         "id": null,
         "item": "telegram_add_node",
-        "value": "true",
+        "value": "1",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "true",
+        "default": "1",
         "mark": "是否启用Telegram机器人添加节点通知"
     },
     {
@@ -1012,11 +1012,11 @@
     {
         "id": null,
         "item": "telegram_update_node",
-        "value": "true",
+        "value": "1",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "true",
+        "default": "1",
         "mark": "是否启用Telegram机器人修改节点通知"
     },
     {
@@ -1032,11 +1032,11 @@
     {
         "id": null,
         "item": "telegram_delete_node",
-        "value": "true",
+        "value": "1",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "true",
+        "default": "1",
         "mark": "是否启用Telegram机器人删除节点通知"
     },
     {
@@ -1052,11 +1052,11 @@
     {
         "id": null,
         "item": "telegram_node_gfwed",
-        "value": "true",
+        "value": "1",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "true",
+        "default": "1",
         "mark": "是否启用Telegram机器人节点被墙通知"
     },
     {
@@ -1072,11 +1072,11 @@
     {
         "id": null,
         "item": "telegram_node_ungfwed",
-        "value": "true",
+        "value": "1",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "true",
+        "default": "1",
         "mark": "是否启用Telegram机器人节点被墙恢复通知"
     },
     {
@@ -1092,11 +1092,11 @@
     {
         "id": null,
         "item": "telegram_node_online",
-        "value": "true",
+        "value": "1",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "true",
+        "default": "1",
         "mark": "是否启用Telegram机器人节点恢复上线通知"
     },
     {
@@ -1112,11 +1112,11 @@
     {
         "id": null,
         "item": "telegram_node_offline",
-        "value": "true",
+        "value": "1",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "true",
+        "default": "1",
         "mark": "是否启用Telegram机器人节点离线通知"
     },
     {
@@ -1132,11 +1132,11 @@
     {
         "id": null,
         "item": "telegram_daily_job",
-        "value": "true",
+        "value": "1",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "true",
+        "default": "1",
         "mark": "是否启用Telegram机器人每日任务通知"
     },
     {
@@ -1152,11 +1152,11 @@
     {
         "id": null,
         "item": "telegram_diary",
-        "value": "true",
+        "value": "1",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "true",
+        "default": "1",
         "mark": "是否启用Telegram机器人系统运行状况通知"
     },
     {
@@ -1172,31 +1172,31 @@
     {
         "id": null,
         "item": "telegram_unbind_kick_member",
-        "value": "false",
+        "value": "0",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "false",
+        "default": "0",
         "mark": "解绑Telegram账户后自动踢出群组"
     },
     {
         "id": null,
         "item": "telegram_group_bound_user",
-        "value": "false",
+        "value": "0",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "false",
+        "default": "0",
         "mark": "是否仅允许已绑定Telegram账户的用户加入群组"
     },
     {
         "id": null,
         "item": "telegram_show_group_link",
-        "value": "false",
+        "value": "0",
         "class": "telegram",
         "is_public": 0,
         "type": "bool",
-        "default": "false",
+        "default": "0",
         "mark": "是否启用Telegram机器人显示用户群组链接"
     },
     {
