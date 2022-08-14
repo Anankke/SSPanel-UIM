@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Utils\DatatablesHelper;
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Database\Schema\Blueprint;
 
 final class Update extends Command
 {
@@ -33,8 +31,6 @@ final class Update extends Command
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
         $config_new = file_get_contents(BASE_PATH . '/config/.config.example.php');
 
-        //执行版本升级
-        $version_old = $_ENV['version'] ?? 0;
         $this->addColumns('user', 'uuid', 'TEXT', true, 'NULL', 'uuid', 'passwd');
 
         //将旧config迁移到新config上

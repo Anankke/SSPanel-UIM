@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Setting;
 use App\Controllers\LinkController;
 use App\Services\Config;
 use App\Services\Mail;

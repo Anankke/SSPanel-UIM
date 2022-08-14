@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\Node;
-use App\Models\User;
 use App\Models\Setting;
+use App\Models\User;
 use App\Utils\Telegram;
 
 final class DetectGFW extends Command

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\Ann;
-use App\Models\User;
 use App\Models\Setting;
+use App\Models\User;
 use App\Services\Analytics;
 use App\Utils\Telegram;
 use App\Utils\Tools;
