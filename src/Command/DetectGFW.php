@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\Node;
+use App\Models\Setting;
 use App\Models\User;
-use App\Services\Config;
 use App\Utils\Telegram;
 
 final class DetectGFW extends Command
@@ -68,10 +68,10 @@ final class DetectGFW extends Command
                             $notice_text = str_replace(
                                 '%node_name%',
                                 $node->name,
-                                Config::getconfig('Telegram.string.NodeGFW')
+                                Setting::obtain('telegram_node_gfwed_text')
                             );
                         }
-                        if (Config::getconfig('Telegram.bool.NodeGFW')) {
+                        if (Setting::obtain('telegram_node_gfwed')) {
                             Telegram::send($notice_text);
                         }
                         $node->gfw_block = true;
@@ -95,10 +95,10 @@ final class DetectGFW extends Command
                             $notice_text = str_replace(
                                 '%node_name%',
                                 $node->name,
-                                Config::getconfig('Telegram.string.NodeGFW_recover')
+                                Setting::obtain('telegram_node_ungfwed_text')
                             );
                         }
-                        if (Config::getconfig('Telegram.bool.NodeGFW_recover')) {
+                        if (Setting::obtain('telegram_node_ungfwed')) {
                             Telegram::send($notice_text);
                         }
                         $node->gfw_block = false;

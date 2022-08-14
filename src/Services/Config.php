@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\GConfig;
 use App\Models\Setting;
 
 // Config is singleton instance store all config
@@ -40,15 +39,6 @@ final class Config
     public static function get($key)
     {
         return $_ENV[$key];
-    }
-
-    public static function getconfig($key)
-    {
-        $value = GConfig::where('key', '=', $key)->first();
-        if ($value === null) {
-            $value = DefaultConfig::firstOrCreate($key);
-        }
-        return $value->getValue();
     }
 
     public static function getPublicConfig()

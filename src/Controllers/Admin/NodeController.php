@@ -6,7 +6,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\Node;
-use App\Services\Config;
+use App\Models\Setting;
 use App\Utils\CloudflareDriver;
 use App\Utils\Telegram;
 use App\Utils\Tools;
@@ -122,13 +122,13 @@ final class NodeController extends BaseController
             CloudflareDriver::updateRecord($domain_name[0], $node->node_ip);
         }
 
-        if (Config::getconfig('Telegram.bool.AddNode')) {
+        if (Setting::obtain('telegram_add_node')) {
             try {
                 Telegram::send(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
-                        Config::getconfig('Telegram.string.AddNode')
+                        Setting::obtain('telegram_add_node_text')
                     )
                 );
             } catch (Exception $e) {
@@ -213,13 +213,13 @@ final class NodeController extends BaseController
 
         $node->save();
 
-        if (Config::getconfig('Telegram.bool.UpdateNode')) {
+        if (Setting::obtain('telegram_update_node')) {
             try {
                 Telegram::send(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
-                        Config::getconfig('Telegram.string.UpdateNode')
+                        Setting::obtain('telegram_update_node_text')
                     )
                 );
             } catch (Exception $e) {
@@ -253,13 +253,13 @@ final class NodeController extends BaseController
             ]);
         }
 
-        if (Config::getconfig('Telegram.bool.DeleteNode')) {
+        if (Setting::obtain('telegram_delete_node')) {
             try {
                 Telegram::send(
                     str_replace(
                         '%node_name%',
                         $request->getParam('name'),
-                        Config::getconfig('Telegram.string.DeleteNode')
+                        Setting::obtain('telegram_delete_node_text')
                     )
                 );
             } catch (Exception $e) {

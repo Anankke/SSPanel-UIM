@@ -6,6 +6,7 @@
 composer.lock
 .php_cs.cache
 .env
+.vscode
 vendor
 
 php_errors.log

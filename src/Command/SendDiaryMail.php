@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\Ann;
+use App\Models\Setting;
 use App\Models\User;
 use App\Services\Analytics;
-use App\Services\Config;
 use App\Utils\Telegram;
 use App\Utils\Tools;
 
@@ -36,7 +36,7 @@ final class SendDiaryMail extends Command
 
         $sts = new Analytics();
 
-        if (Config::getconfig('Telegram.bool.Diary')) {
+        if (Setting::obtain('telegram_diary')) {
             Telegram::send(
                 str_replace(
                     [
@@ -47,7 +47,7 @@ final class SendDiaryMail extends Command
                         $sts->getTodayCheckinUser(),
                         Tools::flowAutoShow($lastday_total),
                     ],
-                    Config::getconfig('Telegram.string.Diary')
+                    Setting::obtain('telegram_diary_text')
                 )
             );
         }

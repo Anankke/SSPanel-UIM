@@ -103,7 +103,6 @@
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_config">配置</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_config">
                         <li><a href="/admin/setting"><i class="icon icon-lg">settings</i>&nbsp;设置中心</a></li>
-                        <li><a href="/admin/config/telegram"><i class="icon icon-lg">supervisor_account</i>&nbsp;Telegram</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_detect">
@@ -111,7 +110,7 @@
                         <li><a href="/admin/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a></li>
                         <li><a href="/admin/detect/ban"><i class="icon icon-lg">text_fields</i>&nbsp;审计封禁</a></li>
                     </ul>
-                    <a class="waves-attach" data-toggle="collapse" href="#ui_menu_trade">交易</a>
+                    <a class="waves-attach" data-toggle="collapse" href="#ui_menu_trade">财务</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_trade">
                         <li><a href="/admin/code">
                                 <i class="icon icon-lg">code</i>

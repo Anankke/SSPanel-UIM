@@ -120,6 +120,9 @@ final class SettingController extends BaseController
             case 'rebate_mode':
                 $list = ['invitation_mode', 'invite_rebate_mode', 'rebate_ratio', 'rebate_frequency_limit', 'rebate_amount_limit', 'rebate_time_range_limit'];
                 break;
+            case 'telegram':
+                $list = ['telegram_add_node', 'telegram_add_node_text', 'telegram_update_node', 'telegram_update_node_text', 'telegram_delete_node', 'telegram_delete_node_text', 'telegram_node_gfwed', 'telegram_node_gfwed_text', 'telegram_node_ungfwed', 'telegram_node_ungfwed_text', 'telegram_node_online', 'telegram_node_online_text', 'telegram_node_offline', 'telegram_node_offline_text', 'telegram_daily_job', 'telegram_daily_job_text', 'telegram_diary', 'telegram_diary_text', 'telegram_unbind_kick_member', 'telegram_group_bound_user', 'telegram_show_group_link', 'telegram_group_link'];
+                break;
         }
 
         foreach ($list as $item) {

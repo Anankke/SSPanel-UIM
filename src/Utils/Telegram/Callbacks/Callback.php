@@ -250,11 +250,11 @@ final class Callback
         $text .= Reply::getUserInfo($user);
         $text .= PHP_EOL;
         $text .= '流量重置时间：' . $user->validUseLoop();
-        if (Config::getconfig('Telegram.bool.show_group_link')) {
+        if (Setting::obtain('telegram_show_group_link')) {
             $Keyboard[] = [
                 [
                     'text' => '加入用户群',
-                    'url' => Config::getconfig('Telegram.string.group_link'),
+                    'url' => Setting::obtain('telegram_group_link'),
                 ],
             ];
         }
@@ -805,7 +805,7 @@ final class Callback
                 // Telegram 账户解绑
                 $this->AllowEditMessage = false;
                 $text = '发送 **/unbind 账户邮箱** 进行解绑.';
-                if (Config::getconfig('Telegram.bool.unbind_kick_member') === true) {
+                if (Setting::obtain('telegram_unbind_kick_member') === true) {
                     $text .= PHP_EOL . PHP_EOL . '根据管理员的设定，您解绑账户将会被自动移出用户群.';
                 }
                 $sendMessage = [

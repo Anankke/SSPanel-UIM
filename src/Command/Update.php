@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Services\DefaultConfig;
 use App\Utils\DatatablesHelper;
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Database\Schema\Blueprint;
 
 final class Update extends Command
 {
@@ -25,9 +22,6 @@ final class Update extends Command
 
         echo PHP_EOL;
 
-        // 检查并创建新增的配置项
-        echo DefaultConfig::detectConfigs();
-
         echo '开始升级 QQWry...' . PHP_EOL;
         (new Tool($this->argv))->initQQWry();
         echo '升级 QQWry结束' . PHP_EOL;
@@ -37,9 +31,6 @@ final class Update extends Command
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
         $config_new = file_get_contents(BASE_PATH . '/config/.config.example.php');
 
-        //执行版本升级
-        $version_old = $_ENV['version'] ?? 0;
-        $this->oldToNew($version_old);
         $this->addColumns('user', 'uuid', 'TEXT', true, 'NULL', 'uuid', 'passwd');
 
         //将旧config迁移到新config上
@@ -147,130 +138,5 @@ final class Update extends Command
         }
         $isnull = $isnull ? ' NULL ' : ' NOT NULL ';
         $datatables->query('ALTER TABLE `' . $table . '` ADD COLUMN `' . $columu . '` ' . $type . $isnull . 'DEFAULT ' . $default . " COMMENT '" . $comment . "' AFTER `" . $after . '`');
-    }
-
-    public function oldToNew($version_old): void
-    {
-        if ($version_old < 2) {
-            // 版本 2 开始
-            if (! is_file(BASE_PATH . '/config/appprofile.php')) {
-                echo '创建 appprofile 文件.' . PHP_EOL;
-                system('cp ' . BASE_PATH . '/config/appprofile.example.php ' . BASE_PATH . '/config/appprofile.php', $ret);
-                echo $ret;
-            }
-            if (! Capsule::schema()->hasTable('gconfig')) {
-                echo '创建 gconfig 表.' . PHP_EOL;
-                Capsule::schema()->create(
-                    'gconfig',
-                    static function (Blueprint $table): void {
-                        $table->engine = 'InnoDB';
-                        $table->charset = 'utf8mb4';
-                        $table->collation = 'utf8mb4_unicode_ci';
-                        $table->integer('id', true, true);
-                        $table->string('key', 128)->comment('配置键名');
-                        $table->string('type', 32)->comment('值类型');
-                        $table->text('value')->comment('配置值');
-                        $table->text('oldvalue')->comment('之前的配置值');
-                        $table->string('name', 128)->comment('配置名称');
-                        $table->text('comment')->comment('配置描述');
-                        $table->integer('operator_id', false, true)->comment('操作员 ID');
-                        $table->string('operator_name', 128)->comment('操作员名称');
-                        $table->string('operator_email', 32)->comment('操作员邮箱');
-                        $table->bigInteger('last_update')->comment('修改时间');
-                    }
-                );
-            }
-            if (! Capsule::schema()->hasTable('user_subscribe_log')) {
-                echo '创建 user_subscribe_log 表.' . PHP_EOL;
-                Capsule::schema()->create(
-                    'user_subscribe_log',
-                    static function (Blueprint $table): void {
-                        $table->engine = 'InnoDB';
-                        $table->charset = 'utf8mb4';
-                        $table->collation = 'utf8mb4_unicode_ci';
-                        $table->integer('id', true, true);
-                        $table->string('user_name', 128)->comment('用户名');
-                        $table->integer('user_id', false, true)->comment('用户 ID');
-                        $table->string('email', 32)->comment('用户邮箱');
-                        $table->string('subscribe_type', 20)->default(null)->comment('获取的订阅类型');
-                        $table->string('request_ip', 128)->default(null)->comment('请求 IP');
-                        $table->dateTime('request_time')->default(null)->comment('请求时间');
-                        $table->text('request_user_agent')->comment('请求 UA 信息');
-                    }
-                );
-            }
-            if (! Capsule::schema()->hasTable('detect_ban_log')) {
-                echo '创建 detect_ban_log 表.' . PHP_EOL;
-                Capsule::schema()->create(
-                    'detect_ban_log',
-                    static function (Blueprint $table): void {
-                        $table->engine = 'InnoDB';
-                        $table->charset = 'utf8mb4';
-                        $table->collation = 'utf8mb4_unicode_ci';
-                        $table->integer('id', true, true);
-                        $table->string('user_name', 128)->comment('用户名');
-                        $table->integer('user_id')->comment('用户 ID');
-                        $table->string('email', 32)->comment('用户邮箱');
-                        $table->integer('detect_number')->comment('本次违规次数');
-                        $table->integer('ban_time')->comment('本次封禁时长');
-                        $table->bigInteger('start_time')->comment('统计开始时间');
-                        $table->bigInteger('end_time')->comment('统计结束时间');
-                        $table->integer('all_detect_number')->comment('累计违规次数');
-                    }
-                );
-            }
-            // hasColumn 方法在 MySQL 8.0 存在永远返回 false，故不使用
-            // if (!Capsule::schema()->hasColumn('user', 'last_detect_ban_time')) {
-            //     Capsule::schema()->table(
-            //         'user',
-            //         function (Blueprint $table) {
-            //             $table->dateTime('last_detect_ban_time')->default('1989-06-04 00:05:00')->after('enable');
-            //         }
-            //     );
-            // }
-            $UserAttributes = array_keys((new \App\Models\User())->first()->getAttributes());
-            if (! in_array('last_detect_ban_time', $UserAttributes)) {
-                echo '添加 last_detect_ban_time 到 user 表.' . PHP_EOL;
-                Capsule::schema()->table(
-                    'user',
-                    static function (Blueprint $table): void {
-                        $table->dateTime('last_detect_ban_time')->default('1989-06-04 00:05:00')->after('enable');
-                    }
-                );
-            }
-            if (! in_array('all_detect_number', $UserAttributes)) {
-                echo '添加 all_detect_number 到 user 表.' . PHP_EOL;
-                Capsule::schema()->table(
-                    'user',
-                    static function (Blueprint $table): void {
-                        $table->integer('all_detect_number')->default(0)->after('last_detect_ban_time');
-                    }
-                );
-            }
-            /*
-             * 避免表中无记录而导致导致添加失败
-             */
-            $DetectLog = new \App\Models\DetectLog();
-            $DetectLog->user_id = 0;
-            $DetectLog->list_id = 0;
-            $DetectLog->node_id = 0;
-            $DetectLog->datetime = 0;
-            $DetectLog->save();
-            $DetectlogAttributes = array_keys((new \App\Models\DetectLog())->first()->getAttributes());
-            if (! in_array('status', $DetectlogAttributes)) {
-                echo '添加 status 到 detect_log 表.' . PHP_EOL;
-                Capsule::schema()->table(
-                    'detect_log',
-                    static function (Blueprint $table): void {
-                        $table->integer('status')->default(0)->after('node_id');
-                    }
-                );
-            }
-            /*
-             * 删除该记录
-             */
-            $DetectLog->delete();
-            // 版本 2 结束
-        }
     }
 }
