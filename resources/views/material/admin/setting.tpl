@@ -921,8 +921,8 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">添加节点通知</label>
                                             <select id="telegram_add_node" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_add_node'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_add_node'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_add_node'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_add_node'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_add_node_text -->
@@ -934,8 +934,8 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">修改节点通知</label>
                                             <select id="telegram_update_node" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_update_node'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_update_node'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_update_node'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_update_node'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_update_node_text -->
@@ -947,8 +947,8 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">删除节点通知</label>
                                             <select id="telegram_delete_node" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_delete_node'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_delete_node'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_delete_node'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_delete_node'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_delete_node_text -->
@@ -960,8 +960,8 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">节点被墙通知</label>
                                             <select id="telegram_node_gfwed" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_node_gfwed'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_node_gfwed'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_node_gfwed'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_node_gfwed'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_node_gfwed_text -->
@@ -973,8 +973,8 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">节点被墙恢复通知</label>
                                             <select id="telegram_node_ungfwed" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_node_ungfwed'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_node_ungfwed'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_node_ungfwed'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_node_ungfwed'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_node_ungfwed_text -->
@@ -986,8 +986,8 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">节点恢复上线通知</label>
                                             <select id="telegram_node_online" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_node_online'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_node_online'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_node_online'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_node_online'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_node_online_text -->
@@ -999,8 +999,8 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">节点离线通知</label>
                                             <select id="telegram_node_offline" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_node_offline'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_node_offline'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_node_offline'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_node_offline'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_node_offline_text -->
@@ -1012,8 +1012,8 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">每日任务通知</label>
                                             <select id="telegram_daily_job" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_daily_job'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_daily_job'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_daily_job'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_daily_job'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_daily_job_text -->
@@ -1025,8 +1025,8 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">系统运行状况通知</label>
                                             <select id="telegram_diary" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_diary'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_diary'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_diary'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_diary'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_diary_text -->
@@ -1038,24 +1038,24 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">解绑Telegram账户后自动踢出群组</label>
                                             <select id="telegram_unbind_kick_member" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_unbind_kick_member'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_unbind_kick_member'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_unbind_kick_member'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_unbind_kick_member'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_group_bound_user -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">仅允许已绑定Telegram账户的用户加入群组</label>
                                             <select id="telegram_group_bound_user" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_group_bound_user'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_group_bound_user'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_group_bound_user'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_group_bound_user'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_show_group_link -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">启用Telegram机器人显示用户群组链接</label>
                                             <select id="telegram_show_group_link" class="form-control maxwidth-edit">
-                                                <option value="false" {if $settings['telegram_show_group_link'] == false}selected{/if}>关闭</option>
-                                                <option value="true" {if $settings['telegram_show_group_link'] == true}selected{/if}>开启</option>
+                                                <option value="0" {if $settings['telegram_show_group_link'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['telegram_show_group_link'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
                                         <!-- telegram_group_link -->
