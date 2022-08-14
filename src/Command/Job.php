@@ -16,13 +16,13 @@ use App\Models\NodeInfoLog;
 use App\Models\NodeOnlineLog;
 use App\Models\PasswordReset;
 use App\Models\Shop;
+use App\Models\Setting;
 use App\Models\StreamMedia;
 use App\Models\TelegramSession;
 use App\Models\Token;
 use App\Models\UnblockIp;
 use App\Models\User;
 use App\Models\UserSubscribeLog;
-use App\Services\Config;
 use App\Services\Mail;
 use App\Utils\DatatablesHelper;
 use App\Utils\Telegram;
@@ -184,8 +184,8 @@ EOL;
         // ------- 更新 IP 库
 
         // ------- 发送每日系统运行报告
-        if (Config::getconfig('Telegram.bool.DailyJob')) {
-            Telegram::send(Config::getconfig('Telegram.string.DailyJob'));
+        if (Setting::obtain('telegram_daily_job')) {
+            Telegram::send(Setting::obtain('telegram_daily_job_text'));
         }
         // ------- 发送每日系统运行报告
     }
@@ -236,11 +236,11 @@ EOL;
                         $notice_text = str_replace(
                             '%node_name%',
                             $node->name,
-                            Config::getconfig('Telegram.string.NodeOffline')
+                            Setting::obtain('telegram_node_offline_text')
                         );
                     }
 
-                    if (Config::getconfig('Telegram.bool.NodeOffline')) {
+                    if (Setting::obtain('telegram_node_offline')) {
                         Telegram::send($notice_text);
                     }
 
@@ -281,11 +281,11 @@ EOL;
                         $notice_text = str_replace(
                             '%node_name%',
                             $node->name,
-                            Config::getconfig('Telegram.string.NodeOnline')
+                            Setting::obtain('telegram_node_online_text')
                         );
                     }
 
-                    if (Config::getconfig('Telegram.bool.NodeOnline')) {
+                    if (Setting::obtain('telegram_node_online')) {
                         Telegram::send($notice_text);
                     }
 

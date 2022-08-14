@@ -35,6 +35,9 @@
                                 <li>
                                     <a data-toggle="tab" href="#invitation_settings"><i class="icon icon-lg">loyalty</i>&nbsp;邀请</a>
                                 </li>
+                                <li>
+                                    <a data-toggle="tab" href="#telegram_settings"><i class="icon icon-lg">loyalty</i>&nbsp;Telegram</a>
+                                </li>
                             </ul>
                         </nav>
                                 
@@ -905,6 +908,165 @@
                                     </div>
                                 </div>
 
+                                <div class="tab-pane fade" id="telegram_settings">
+                                    <nav class="tab-nav margin-top-no">
+                                        <ul class="nav nav-list">
+                                            <li class="active">
+                                                <a data-toggle="tab" href="#telegram_gernal_settings"><i class="icon icon-lg">settings</i>&nbsp;通用设置</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <div class="tab-pane fade active in" id="telegram_gernal_settings">
+                                        <!-- telegram_add_node -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">添加节点通知</label>
+                                            <select id="telegram_add_node" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_add_node'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_add_node'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_add_node_text -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">添加节点通知文本</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_add_node_text" value="{$settings['telegram_add_node_text']}">
+                                        </div>
+                                        <!-- telegram_update_node -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">修改节点通知</label>
+                                            <select id="telegram_update_node" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_update_node'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_update_node'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_update_node_text -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">修改节点通知文本</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_update_node_text" value="{$settings['telegram_update_node_text']}">
+                                        </div>
+                                        <!-- telegram_delete_node -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">删除节点通知</label>
+                                            <select id="telegram_delete_node" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_delete_node'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_delete_node'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_delete_node_text -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">删除节点通知文本</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_delete_node_text" value="{$settings['telegram_delete_node_text']}">
+                                        </div>
+                                        <!-- telegram_node_gfwed -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">节点被墙通知</label>
+                                            <select id="telegram_node_gfwed" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_node_gfwed'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_node_gfwed'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_node_gfwed_text -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">节点被墙通知文本</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_node_gfwed_text" value="{$settings['telegram_node_gfwed_text']}">
+                                        </div>
+                                        <!-- telegram_node_ungfwed -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">节点被墙恢复通知</label>
+                                            <select id="telegram_node_ungfwed" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_node_ungfwed'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_node_ungfwed'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_node_ungfwed_text -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">节点被墙恢复通知文本</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_node_ungfwed_text" value="{$settings['telegram_node_ungfwed_text']}">
+                                        </div>
+                                        <!-- telegram_node_online -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">节点恢复上线通知</label>
+                                            <select id="telegram_node_online" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_node_online'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_node_online'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_node_online_text -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">节点恢复上线通知文本</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_node_online_text" value="{$settings['telegram_node_online_text']}">
+                                        </div>
+                                        <!-- telegram_node_offline -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">节点离线通知</label>
+                                            <select id="telegram_node_offline" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_node_offline'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_node_offline'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_node_offline_text -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">节点离线通知文本</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_node_offline_text" value="{$settings['telegram_node_offline_text']}">
+                                        </div>
+                                        <!-- telegram_daily_job -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">每日任务通知</label>
+                                            <select id="telegram_daily_job" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_daily_job'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_daily_job'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_daily_job_text -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">每日任务通知文本</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_daily_job_text" value="{$settings['telegram_daily_job_text']}">
+                                        </div>
+                                        <!-- telegram_diary -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">系统运行状况通知</label>
+                                            <select id="telegram_diary" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_diary'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_diary'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_diary_text -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">系统运行状况通知文本</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_diary_text" value="{$settings['telegram_diary_text']}">
+                                        </div>
+                                        <!-- telegram_unbind_kick_member -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">解绑Telegram账户后自动踢出群组</label>
+                                            <select id="telegram_unbind_kick_member" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_unbind_kick_member'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_unbind_kick_member'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_group_bound_user -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">仅允许已绑定Telegram账户的用户加入群组</label>
+                                            <select id="telegram_group_bound_user" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_group_bound_user'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_group_bound_user'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_show_group_link -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">启用Telegram机器人显示用户群组链接</label>
+                                            <select id="telegram_show_group_link" class="form-control maxwidth-edit">
+                                                <option value="false" {if $settings['telegram_show_group_link'] == false}selected{/if}>关闭</option>
+                                                <option value="true" {if $settings['telegram_show_group_link'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+                                        <!-- telegram_group_link -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">用户群组链接</label>
+                                            <input class="form-control maxwidth-edit" id="telegram_group_link" value="{$settings['telegram_group_link']}">
+                                        </div>
+
+                                        <button id="submit_telegram_gernal_settings" type="submit" class="btn btn-block btn-brand">提交</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1706,6 +1868,55 @@
                     rebate_frequency_limit: $$getValue('rebate_frequency_limit'),
                     rebate_amount_limit: $$getValue('rebate_amount_limit'),
                     rebate_time_range_limit: $$getValue('rebate_time_range_limit')
+                },
+                success: data => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                    if (data.ret) {
+                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
+                    }
+                },
+                error: jqXHR => {
+                    alert(`发生错误：${
+                            jqXHR.status
+                            }`);
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        $$.getElementById('submit_telegram_gernal_settings').addEventListener('click', () => {
+            $.ajax({
+                type: "POST",
+                url: "/admin/setting",
+                dataType: "json",
+                data: {
+                    class: 'telegram',
+                    telegram_add_node: $$getValue('telegram_add_node'),
+                    telegram_add_node_text: $$getValue('telegram_add_node_text'),
+                    telegram_update_node: $$getValue('telegram_update_node'),
+                    telegram_update_node_text: $$getValue('telegram_update_node_text'),
+                    telegram_delete_node: $$getValue('telegram_delete_node'),
+                    telegram_delete_node_text: $$getValue('telegram_delete_node_text'),
+                    telegram_node_gfwed: $$getValue('telegram_node_gfwed'),
+                    telegram_node_gfwed_text: $$getValue('telegram_node_gfwed_text'),
+                    telegram_node_ungfwed: $$getValue('telegram_node_ungfwed'),
+                    telegram_node_ungfwed_text: $$getValue('telegram_node_ungfwed_text'),
+                    telegram_node_online: $$getValue('telegram_node_online'),
+                    telegram_node_online_text: $$getValue('telegram_node_online_text'),
+                    telegram_node_offline: $$getValue('telegram_node_offline'),
+                    telegram_node_offline_text: $$getValue('telegram_node_offline_text'),
+                    telegram_daily_job: $$getValue('telegram_daily_job'),
+                    telegram_daily_job_text: $$getValue('telegram_daily_job_text'),
+                    telegram_diary: $$getValue('telegram_diary'),
+                    telegram_diary_text: $$getValue('telegram_diary_text'),
+                    telegram_unbind_kick_member: $$getValue('telegram_unbind_kick_member'),
+                    telegram_group_bound_user: $$getValue('telegram_group_bound_user'),
+                    telegram_show_group_link: $$getValue('telegram_show_group_link'),
+                    telegram_group_link: $$getValue('telegram_group_link')
                 },
                 success: data => {
                     $("#result").modal();

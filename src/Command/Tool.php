@@ -13,7 +13,6 @@ final class Tool extends Command
 ├─=: php xcat Tool [选项]
 │ ├─ initQQWry               - 下载 IP 解析库
 │ ├─ setTelegram             - 设置 Telegram 机器人
-│ ├─ detectConfigs           - 检查数据库内新增的配置
 │ ├─ resetAllSettings        - 使用默认值覆盖设置中心设置
 │ ├─ exportAllSettings       - 导出所有设置
 │ ├─ importAllSettings       - 导入所有设置
@@ -92,11 +91,6 @@ EOL;
         } else {
             echo '纯真ip数据库下载失败，请检查下载地址' . PHP_EOL;
         }
-    }
-
-    public function detectConfigs(): void
-    {
-        echo \App\Services\DefaultConfig::detectConfigs();
     }
 
     public function resetAllSettings(): void

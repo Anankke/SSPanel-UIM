@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram;
 
-use App\Services\Config;
+use App\Models\Setting;
 use App\Utils\TelegramSessionManager;
 
 final class Message
@@ -178,7 +178,7 @@ final class Message
             $NewUser = TelegramTools::getUser($Member['id']);
             $deNewChatMember = json_decode($NewChatMember, true);
             if (
-                Config::getconfig('Telegram.bool.group_bound_user') === true
+                Setting::obtain('telegram_group_bound_user') === true
                 &&
                 $this->ChatID === $_ENV['telegram_chatid']
                 &&
