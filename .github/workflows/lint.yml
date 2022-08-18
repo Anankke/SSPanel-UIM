@@ -12,12 +12,10 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: 8.0
-
-      - name: Install & Run PHP Insights
-        run: |
-          curl -OL https://getcomposer.org/download/latest-2.x/composer.phar
+      
+      - run: |
           composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-          php composer.phar global require nunomaduro/phpinsights
-          php composer.phar clearcache -q
-          php ~/.composer/vendor/bin/phpinsights --version
-          php ~/.composer/vendor/bin/phpinsights --no-interaction --format=github-action --min-style=100 --min-architecture=100 --min-quality=100
+          composer global require nunomaduro/phpinsights
+          composer clearcache -q
+          vendor/bin/phpinsights --version
+          vendor/bin/phpinsights --no-interaction --format=github-action --min-style=100 --min-architecture=100 --min-quality=100
