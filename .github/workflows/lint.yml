@@ -24,6 +24,7 @@ jobs:
           php composer.phar global require nunomaduro/phpinsights
           php composer.phar clearcache -q
           php ~/.composer/vendor/bin/phpinsights --version
+          ls -a
 
       - uses: Novusvetus/action-phpinsights@1.1.6
         with:
