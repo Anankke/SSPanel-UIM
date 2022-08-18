@@ -1,13 +1,8 @@
 name: Lint code
 on:
   push:
-    paths:
-      - "**.php"
-      - ".github/workflows/lint.yml"
   pull_request:
-    paths:
-      - "**.php"
-      - ".github/workflows/lint.yml"
+    types: [opened, reopened, synchronize]
 
 jobs:
   lint:
@@ -17,21 +12,11 @@ jobs:
         with:
           fetch-depth: 0 # important!
 
-      - name: Install PHP Insights
+      - name: Install & Run PHP Insights
         run: |
           curl -OL https://getcomposer.org/download/latest-2.x/composer.phar
           composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           php composer.phar global require nunomaduro/phpinsights
           php composer.phar clearcache -q
           php ~/.composer/vendor/bin/phpinsights --version
-          ls -a
-
-      - uses: Novusvetus/action-phpinsights@1.1.6
-        with:
-          files: "**.php"
-          scan_all: true
-          phpinsights_path: "php ~/.composer/vendor/bin/phpinsights"
-          min_quality: 100
-          min_complexity: 0
-          min_architecture: 100
-          min_style: 100
+          php ~/.composer/vendor/bin/phpinsights --no-interaction --format=github-action --min-style=100 --min-architecture=100 --min-quality=100
