@@ -8,7 +8,9 @@ final class DropGConfigTable extends AbstractMigration
 {
     public function up(): void
     {
-        $this->table('gconfig')->drop()->update();
+        if ($this->hasTable('gconfig')) {
+            $this->table('gconfig')->drop()->update();
+        }
     }
 
     public function down(): void

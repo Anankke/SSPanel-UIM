@@ -9,7 +9,7 @@ RUN cp config/.config.example.php "config/.config.php" && \
     chmod -R 755 storage && \
     chmod -R 777 /var/www/storage/framework/smarty/compile/ && \
     mv db/migrations/20000101000000_init_database.php.new db/migrations/20000101000000_init_database.php && \
-    wget https://getcomposer.org/installer -O composer.phar && \
+    curl -SL https://getcomposer.org/installer -o composer.phar && \
     php composer.phar && \
     php composer.phar install && \
     php vendor/bin/phinx migrate && \
