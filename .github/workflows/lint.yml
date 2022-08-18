@@ -31,5 +31,6 @@ jobs:
           scan_all: true
           phpinsights_path: "php ~/.composer/vendor/bin/phpinsights"
           min_quality: 100
+          min_complexity: 0
           min_architecture: 100
           min_style: 100
