@@ -1,24 +1,34 @@
 name: Lint code
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
   push:
+    paths:
+      - "**.php"
+      - ".github/workflows/lint.yml"
+  pull_request:
+    paths:
+      - "**.php"
+      - ".github/workflows/lint.yml"
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - uses: cachix/install-nix-action@master
-      with:
-        nix_path: nixpkgs=channel:nixos-unstable
-        install_url: https://github.com/numtide/nix-unstable-installer/releases/download/nix-2.8.0pre20220408_a52e369/install
-        extra_nix_config: |
-          experimental-features = nix-command flakes
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # important!
 
-    - name: Lint
-      shell:  nix develop -c -- bash {0}
-      run: |
-        composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-        ./vendor/bin/phpinsights --no-interaction --format=github-action --min-style=100 --min-architecture=100 --min-quality=100
+      - name: Install PHP Insights
+        run: |
+          curl -OL https://getcomposer.org/download/latest-2.x/composer.phar
+          php composer.phar global require nunomaduro/phpinsights
+          php composer.phar clearcache -q
+          php ~/.composer/vendor/bin/phpinsights --version
+
+      - uses: Novusvetus/action-phpinsights@1.1.7
+        with:
+          files: "**.php"
+          scan_all: true
+          phpinsights_path: "php ~/.composer/vendor/bin/phpinsights"
+          min_quality: 100
+          min_architecture: 100
+          min_style: 100
