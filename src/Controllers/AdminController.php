@@ -150,7 +150,7 @@ final class AdminController extends BaseController
                 'msg' => '邀请次数添加失败，检查用户id或者用户邮箱是否输入正确',
             ]);
         }
-        $user->addInviteNum($num);
+        $user->addInviteNum((int)$num);
         return $response->withJson([
             'ret' => 1,
             'msg' => '邀请次数添加成功',
