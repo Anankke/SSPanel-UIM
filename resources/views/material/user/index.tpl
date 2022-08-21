@@ -447,7 +447,7 @@
                                                         <a id="win_ssr" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=ssr","#win_ssr","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_4</span> V2RayN - [ SS/VMess ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_3</span> V2RayN - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="{if $config["subscribe_client"]===true}{if $config["subscribe_client_url"]==''}/user/getPcClient{else}{$config["subscribe_client_url"]}/getClient/{$getClient}{/if}?type=v2rayn-win{else}/clients/v2rayn.zip{/if}"><i class="material-icons icon-sm">cloud_download</i> 本站下载 </a>
@@ -461,7 +461,7 @@
                                                         <a id="win_v2rayn" class="copy-config btn-dl" onclick=Copyconfig("/user/getUserAllURL?type=v2ray","#win_v2rayn","")><i class="material-icons icon-sm">send</i> 拷贝全部节点 URL</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_5</span> Clash for Windows - [ SS/VMess/Trojan ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_4</span> Clash for Windows - [ SS/VMess/Trojan ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Clash-Windows.exe"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
@@ -475,7 +475,7 @@
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_6</span> Qv2ray - [ SS/VMess ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_5</span> Qv2ray - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Qv2ray.7z"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
@@ -740,7 +740,7 @@
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['v2ray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                     </p>
                                                 <hr/>
-                                                    <p><span class="icon icon-lg text-white">filter_3</span> AxXray - [ SS/SSR/VMess/Trojan ]：</p>
+                                                    <p><span class="icon icon-lg text-white">filter_4</span> AxXray - [ SS/SSR/VMess/Trojan ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="https://github.com/XTLS/AnXray/releases" target="_blank"><i class="material-icons icon-sm">cloud_download</i> 官方下载</a>
@@ -750,7 +750,7 @@
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['anxray']}"><i class="material-icons icon-sm">send</i> 拷贝订阅链接</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_4</span> Surfboard - [ SS/VMess ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_5</span> Surfboard - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Surfboard.apk"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
@@ -764,7 +764,7 @@
                                                         <a class="btn-dl" href="{$subInfo['surfboard']}"><i class="material-icons icon-sm">send</i> 配置文件下载</a>
                                                     </p>
                                                 <hr/>
-                                                <p><span class="icon icon-lg text-white">filter_5</span> Kitsunebi - [ SS/VMess ]：</p>
+                                                <p><span class="icon icon-lg text-white">filter_6</span> Kitsunebi - [ SS/VMess ]：</p>
                                                     <p>该客户端专属订阅链接支持同时订阅 SS 和 V2Ray 节点.</p>
                                                     <p>
                                                         应用下载：
@@ -777,7 +777,7 @@
                                                         <a class="copy-text btn-dl" data-clipboard-text="{$subInfo['kitsunebi']}"><i class="material-icons icon-sm">send</i> 拷贝该应用专属订阅链接</a>
                                                     </p>
                                                 <hr/>
-                                                    <p><span class="icon icon-lg text-white">filter_6</span> Clash for Android - [ SS/VMess ]：</p>
+                                                    <p><span class="icon icon-lg text-white">filter_7</span> Clash for Android - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Clash-Android.apk"><i class="material-icons icon-sm">cloud_download</i> 本站下载</a>
