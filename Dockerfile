@@ -11,6 +11,7 @@ RUN cp config/.config.example.php "config/.config.php" && \
     mv db/migrations/20000101000000_init_database.php.new db/migrations/20000101000000_init_database.php && \
     curl -SL https://getcomposer.org/installer -o composer.phar && \
     php composer.phar && \
+    php composer.phar config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true && \
     php composer.phar install && \
     php vendor/bin/phinx migrate && \
     php xcat Tool importAllSettings && \

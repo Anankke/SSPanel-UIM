@@ -107,9 +107,8 @@ final class NodeController extends BaseController
             'sort' => $node->sort,
             'server' => $node_server,
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
-            'disconnect_time' => $_ENV['disconnect_time'],
             'type' => 'SSPanel-UIM',
-            'version' => '2021.11',
+            'version' => '2022.8',
         ];
 
         $res = [
