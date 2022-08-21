@@ -31,15 +31,9 @@ final class Update extends Command
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
         $config_new = file_get_contents(BASE_PATH . '/config/.config.example.php');
 
-        $this->addColumns('user', 'uuid', 'TEXT', true, 'NULL', 'uuid', 'passwd');
-
         //将旧config迁移到新config上
         $migrated = [];
         foreach ($_ENV as $key => $value_reserve) {
-            if ($key === 'config_migrate_notice' || $key === 'version') {
-                continue;
-            }
-
             $regex = '/_ENV\[\'' . $key . '\'\].*?;/s';
             $matches_new = [];
             preg_match($regex, $config_new, $matches_new);
@@ -62,12 +56,6 @@ final class Update extends Command
         preg_match_all($regex_new, $config_new, $matches_new_all);
         $differences = array_diff($matches_new_all[0], $migrated);
         foreach ($differences as $difference) {
-            if (
-                $difference === '_ENV[\'config_migrate_notice\']' ||
-                $difference === '_ENV[\'version\']'
-            ) {
-                continue;
-            }
             //匹配注释
             $regex_comment = '/' . $difference . '.*?;.*?(?=\n)/s';
             $regex_comment = str_replace(['[', ']'], ['\[', '\]'], $regex_comment);
@@ -93,29 +81,6 @@ final class Update extends Command
         }
         echo '新增配置项通常带有默认值，因此通常即使不作任何改动网站也可以正常运行' . PHP_EOL;
 
-        //输出notice
-        $regex_notice = '/_ENV\[\'config_migrate_notice\'\].*?(?=\';)/s';
-        $matches_notice = [];
-        preg_match($regex_notice, $config_new, $matches_notice);
-        $notice_new = $matches_notice[0];
-        $notice_new = substr(
-            $notice_new,
-            strpos(
-                $notice_new,
-                '\'',
-                strpos($notice_new, '=') //查找'='之后的第一个'\''，然后substr其后面的notice
-            ) + 1
-        );
-        echo '以下是迁移附注：';
-        if (isset($_ENV['config_migrate_notice'])) {
-            if ($_ENV['config_migrate_notice'] !== $notice_new) {
-                echo $notice_new;
-            }
-        } else {
-            echo $notice_new;
-        }
-        echo PHP_EOL;
-
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
         echo PHP_EOL . '迁移完成' . PHP_EOL;
 
@@ -127,16 +92,5 @@ final class Update extends Command
         echo '升级composer依赖结束，请自行根据上方输出确认是否升级成功' . PHP_EOL;
         system('rm -rf ' . BASE_PATH . '/storage/framework/smarty/compile/*');
         system('chown -R ' . $_ENV['php_user_group'] . ' ' . BASE_PATH . '/storage');
-    }
-
-    public function addColumns($table, $columu, $type, $isnull, $default, $comment, $after): void
-    {
-        $datatables = new DatatablesHelper();
-        $exists = $datatables->query("SELECT COUNT(*) as cc FROM information_schema.columns WHERE `table_schema` = '" . $_ENV['db_database'] . "' AND `table_name` = '" . $table . "' AND `column_name` = '" . $columu . "'");
-        if ($exists[0]['cc'] > 0) {
-            return;
-        }
-        $isnull = $isnull ? ' NULL ' : ' NOT NULL ';
-        $datatables->query('ALTER TABLE `' . $table . '` ADD COLUMN `' . $columu . '` ' . $type . $isnull . 'DEFAULT ' . $default . " COMMENT '" . $comment . "' AFTER `" . $after . '`');
     }
 }
