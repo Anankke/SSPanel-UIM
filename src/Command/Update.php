@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Utils\DatatablesHelper;
-
 final class Update extends Command
 {
     public $description = '├─=: php xcat Update         - 更新并迁移配置' . PHP_EOL;
