@@ -29,7 +29,13 @@ final class Setting extends Model
         $all_configs = Setting::where('class', $class)->get();
 
         foreach ($all_configs as $config) {
-            $configs[$config->item] = $config->value;
+            if ($config->type === 'bool') {
+                $configs[$config->item] = (bool) $config->value;
+            } elseif ($config->type === 'int') {
+                $configs[$config->item] = (int) $config->value;
+            } else {
+                $configs[$config->item] = (string) $config->value;
+            }
         }
 
         return $configs;
@@ -41,7 +47,13 @@ final class Setting extends Model
         $all_configs = Setting::where('is_public', '1')->get();
 
         foreach ($all_configs as $config) {
-            $configs[$config->item] = $config->value;
+            if ($config->type === 'bool') {
+                $configs[$config->item] = (bool) $config->value;
+            } elseif ($config->type === 'int') {
+                $configs[$config->item] = (int) $config->value;
+            } else {
+                $configs[$config->item] = (string) $config->value;
+            }
         }
 
         return $configs;
