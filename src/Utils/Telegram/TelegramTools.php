@@ -15,7 +15,7 @@ final class TelegramTools
      * @param string $value  搜索值
      * @param string $method 查找列
      */
-    public static function getUser(string $value, string $method = 'telegram_id'): \App\Models\User
+    public static function getUser($value, $method = 'telegram_id')
     {
         return User::where($method, $value)->first();
     }
@@ -26,7 +26,7 @@ final class TelegramTools
      *
      * @param array $params
      */
-    public static function sendPost($Method, $Params): string
+    public static function sendPost($Method, $Params): void
     {
         $URL = 'https://api.telegram.org/bot' . $_ENV['telegram_token'] . '/' . $Method;
         $POSTData = json_encode($Params);

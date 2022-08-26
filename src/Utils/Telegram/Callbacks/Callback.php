@@ -17,6 +17,7 @@ use App\Utils\QQWry;
 use App\Utils\Telegram\Reply;
 use App\Utils\Telegram\TelegramTools;
 use App\Utils\Tools;
+use Telegram\Bot\FileUpload\InputFile;
 
 final class Callback
 {
@@ -59,7 +60,6 @@ final class Callback
      * 源消息是否可编辑
      */
     private $AllowEditMessage;
-
     public function __construct(\Telegram\Bot\Api $bot, \Telegram\Bot\Objects\CallbackQuery $Callback)
     {
         $this->bot = $bot;
@@ -79,14 +79,13 @@ final class Callback
             // 群组中不回应
             return;
         }
-
         switch (true) {
             case strpos($this->CallbackData, 'user.') === 0:
                 // 用户相关
                 $this->userCallback();
                 break;
             default:
-                // 游客回调数据处理
+                //游客回调数据处理
                 $this->guestCallback();
                 break;
         }
@@ -97,7 +96,7 @@ final class Callback
      *
      * @return array
      */
-    public static function getGuestIndexKeyboard(): array
+    public static function getGuestIndexKeyboard()
     {
         $Keyboard = [
             [
@@ -216,7 +215,7 @@ final class Callback
 
     public static function getUserIndexKeyboard($user)
     {
-        $checkin = (! $user->isAbleToCheckin() ? '已签到' : '签到');
+        $checkin = (!$user->isAbleToCheckin() ? '已签到' : '签到');
         $Keyboard = [
             [
                 [
@@ -297,7 +296,7 @@ final class Callback
                 break;
             case 'checkin':
                 // 签到
-                if ($Operate[2] !== $this->triggerUser['id']) {
+                if ((int) $Operate[2] !== $this->triggerUser['id']) {
                     $this->answerCallbackQuery([
                         'text' => '您好，您无法操作他人的账户.',
                         'show_alert' => true,
@@ -386,8 +385,8 @@ final class Callback
         ];
         $CallbackDataExplode = explode('|', $this->CallbackData);
         $Operate = explode('.', $CallbackDataExplode[0]);
-        $op_2 = $Operate[2];
-        switch ($op_2) {
+        $OpEnd = end($Operate);
+        switch ($OpEnd) {
             case 'login_log':
                 // 登录记录
                 $iplocation = new QQWry();
@@ -396,7 +395,7 @@ final class Callback
                 foreach ($totallogin as $single) {
                     $location = $iplocation->getlocation($single->ip);
                     $loginiplocation = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-                    if (! in_array($loginiplocation, $userloginip)) {
+                    if (!in_array($loginiplocation, $userloginip)) {
                         $userloginip[] = $loginiplocation;
                     }
                 }
@@ -590,8 +589,8 @@ final class Callback
         ];
         $CallbackDataExplode = explode('|', $this->CallbackData);
         $Operate = explode('.', $CallbackDataExplode[0]);
-        $op_2 = $Operate[2];
-        switch ($op_2) {
+        $OpEnd = end($Operate);
+        switch ($OpEnd) {
             case 'update_link':
                 // 重置订阅链接
                 $this->User->cleanLink();
@@ -770,8 +769,8 @@ final class Callback
                     ],
                     $back[0],
                 ];
-                $op_3 = $Operate[3];
-                switch ($op_3) {
+                $OpEnd = end($Operate);
+                switch ($OpEnd) {
                     case 'update':
                         $this->User->sendDailyMail = ($this->User->sendDailyMail === 0 ? 1 : 0);
                         if ($this->User->save()) {
@@ -818,19 +817,6 @@ final class Callback
                 break;
             case 'unban':
                 // 群组解封
-                if (isset($Operate[3]) && $Operate[3] === 'update') {
-                    TelegramTools::sendPost(
-                        'unbanChatMember',
-                        [
-                            'chat_id' => $_ENV['telegram_chatid'],
-                            'user_id' => $this->triggerUser['id'],
-                        ]
-                    );
-                    $this->answerCallbackQuery([
-                        'text' => '已提交解封，如您仍无法加入群组，请联系管理员.',
-                        'show_alert' => true,
-                    ]);
-                }
                 $sendMessage = [
                     'text' => '如果您已经身处用户群，请勿随意点击解封，否则会导致您被移除出群组.',
                     'disable_web_page_preview' => false,
@@ -841,7 +827,7 @@ final class Callback
                                 [
                                     [
                                         'text' => '点击提交解封',
-                                        'callback_data' => 'user.edit.unban.update',
+                                        'callback_data' => 'user.edit.unban_update',
                                     ],
                                 ],
                                 $back[0],
@@ -849,6 +835,20 @@ final class Callback
                         ]
                     ),
                 ];
+                break;
+            case 'unban_update':
+                // 提交群组解封
+                TelegramTools::sendPost(
+                    'unbanChatMember',
+                    [
+                        'chat_id' => $_ENV['telegram_chatid'],
+                        'user_id' => $this->triggerUser['id'],
+                    ]
+                );
+                $this->answerCallbackQuery([
+                    'text' => '已提交解封，如您仍无法加入群组，请联系管理员.',
+                    'show_alert' => true,
+                ]);
                 break;
             default:
                 $temp = $this->getUserEditKeyboard();
@@ -1004,13 +1004,22 @@ final class Callback
                     $filename = 'Clash_' . $token . '_' . time() . '.yaml';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
-                    $string = LinkController::getClash($this->User, 1, [], [], false);
+                    $opts = [
+                        'clash' => 1,
+                    ];
+                    $Rule = [
+                        'type'    => 'all',
+                        'is_mu'   => 1,
+                        'emoji'   => true,
+                        'extend' => true,
+                    ];
+                    $string = LinkController::getClash($this->User, 1, $opts, $Rule);
                     fwrite($fh, $string);
                     fclose($fh);
                     $this->bot->sendDocument(
                         [
                             'chat_id' => $this->ChatID,
-                            'document' => $filepath,
+                            'document' => InputFile::create($filepath),
                             'caption' => $temp['text'],
                         ]
                     );
@@ -1021,13 +1030,22 @@ final class Callback
                     $filename = 'Quantumult_' . $token . '_' . time() . '.conf';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
-                    $string = LinkController::GetQuantumult($this->User, 3, [], [], false);
+                    $opts = [
+                        'quantumult' => 3,
+                    ];
+                    $Rule = [
+                        'type'    => 'all',
+                        'is_mu'   => 1,
+                        'emoji'   => true,
+                        'extend' => true,
+                    ];
+                    $string = LinkController::GetQuantumult($this->User, 3, $opts, $Rule);
                     fwrite($fh, $string);
                     fclose($fh);
                     $this->bot->sendDocument(
                         [
                             'chat_id' => $this->ChatID,
-                            'document' => $filepath,
+                            'document' => InputFile::create($filepath),
                             'caption' => $temp['text'],
                         ]
                     );
@@ -1038,13 +1056,22 @@ final class Callback
                     $filename = 'Surge_' . $token . '_' . time() . '.conf';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
-                    $string = LinkController::getSurge($this->User, 2, [], [], false);
+                    $opts = [
+                        'surge' => 2,
+                    ];
+                    $Rule = [
+                        'type'    => 'ss',
+                        'is_mu'   => 1,
+                        'emoji'   => true,
+                        'extend' => true,
+                    ];
+                    $string = LinkController::getSurge($this->User, 2, $opts, $Rule);
                     fwrite($fh, $string);
                     fclose($fh);
                     $this->bot->sendDocument(
                         [
                             'chat_id' => $this->ChatID,
-                            'document' => $filepath,
+                            'document' => InputFile::create($filepath),
                             'caption' => $temp['text'],
                         ]
                     );
@@ -1055,13 +1082,22 @@ final class Callback
                     $filename = 'Surge_' . $token . '_' . time() . '.conf';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
-                    $string = LinkController::getSurge($this->User, 3, [], [], false);
+                    $opts = [
+                        'surge' => 3,
+                    ];
+                    $Rule = [
+                        'type'    => 'ss',
+                        'is_mu'   => 1,
+                        'emoji'   => true,
+                        'extend' => true,
+                    ];
+                    $string = LinkController::getSurge($this->User, 3, $opts, $Rule);
                     fwrite($fh, $string);
                     fclose($fh);
                     $this->bot->sendDocument(
                         [
                             'chat_id' => $this->ChatID,
-                            'document' => $filepath,
+                            'document' => InputFile::create($filepath),
                             'caption' => $temp['text'],
                         ]
                     );
@@ -1098,7 +1134,7 @@ final class Callback
     {
         $paybacks_sum = Payback::where('ref_by', $this->User->id)->sum('ref_get');
 
-        if (! is_null($paybacks_sum)) {
+        if (!is_null($paybacks_sum)) {
             $paybacks_sum = 0;
         }
         $invitation = Setting::getClass('invite');
@@ -1138,8 +1174,8 @@ final class Callback
     {
         $CallbackDataExplode = explode('|', $this->CallbackData);
         $Operate = explode('.', $CallbackDataExplode[0]);
-        $op_2 = $Operate[2];
-        switch ($op_2) {
+        $OpEnd = end($Operate);
+        switch ($OpEnd) {
             case 'get':
                 $this->AllowEditMessage = false;
                 $code = InviteCode::where('user_id', $this->User->id)->first();
@@ -1202,7 +1238,7 @@ final class Callback
             $temp['keyboard'] = [
                 [
                     [
-                        'text' => (! $this->User->isAbleToCheckin() ? '已签到' : '签到'),
+                        'text' => (!$this->User->isAbleToCheckin() ? '已签到' : '签到'),
                         'callback_data' => 'user.checkin.' . $this->triggerUser['id'],
                     ],
                 ],

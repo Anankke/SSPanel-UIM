@@ -288,14 +288,14 @@ final class User extends Model
     /*
      * 剩余流量占总流量的百分比
      */
-    public function unusedTrafficPercent(): int
+    public function unusedTrafficPercent(): float
     {
         if ($this->transfer_enable === 0) {
             return 0;
         }
         $unused = $this->transfer_enable - ($this->u + $this->d);
         $percent = $unused / $this->transfer_enable;
-        $percent = round($percent, 2);
+        $percent = round($percent, 4);
         return $percent * 100;
     }
 
@@ -310,14 +310,14 @@ final class User extends Model
     /*
      * 今天使用的流量占总流量的百分比
      */
-    public function todayUsedTrafficPercent(): int
+    public function todayUsedTrafficPercent(): float
     {
         if ($this->transfer_enable === 0) {
             return 0;
         }
         $Todayused = $this->u + $this->d - $this->last_day_t;
-        $percent = $Todayused / $this->transfer_enable;
-        $percent = round($percent, 2);
+         $percent = $Todayused / $this->transfer_enable;
+         $percent = round($percent, 4);
         return $percent * 100;
     }
 
@@ -332,14 +332,14 @@ final class User extends Model
     /*
      * 今天之前已使用的流量占总流量的百分比
      */
-    public function lastUsedTrafficPercent(): int
+    public function lastUsedTrafficPercent(): float
     {
         if ($this->transfer_enable === 0) {
             return 0;
         }
         $Lastused = $this->last_day_t;
         $percent = $Lastused / $this->transfer_enable;
-        $percent = round($percent, 2);
+        $percent = round($percent, 4);
         return $percent * 100;
     }
 

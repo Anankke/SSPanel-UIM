@@ -73,8 +73,8 @@ final class SetuserCommand extends Command
     {
         $User = null;
         $FindUser = null;
-        $arguments = implode(' ', array_splice(explode(' ', trim($Message->getText())), 1));
-
+        $argumentsExplode = explode(' ', trim($Message->getText()));
+        $arguments = implode(' ', $argumentsExplode);
         if ($Message->getReplyToMessage() !== null) {
             // 回复源消息用户
             $FindUser = [
@@ -94,7 +94,7 @@ final class SetuserCommand extends Command
                 return;
             }
 
-            if ($arguments === '') {
+            if ($arguments === '/setuser') {
                 // 无参数时回复用户信息
                 $this->replyWithMessage(
                     [
@@ -106,7 +106,7 @@ final class SetuserCommand extends Command
             }
         }
 
-        if ($arguments === '') {
+        if ($arguments === '/setuser') {
             $strArray = [
                 '/setuser [用户识别] [操作字段] [操作参数]',
                 '',
