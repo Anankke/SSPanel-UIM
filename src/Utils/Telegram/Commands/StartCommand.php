@@ -7,6 +7,7 @@ namespace App\Utils\Telegram\Commands;
 use App\Models\User;
 use App\Utils\Telegram\TelegramTools;
 use App\Utils\TelegramSessionManager;
+
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -49,14 +50,15 @@ final class StartCommand extends Command
                 'username' => $Message->getFrom()->getUsername(),
             ];
             // 消息内容
-            $MessageText = implode(' ', array_splice(explode(' ', trim($Message->getText())), 1));
+            $MessageText = explode(' ', trim($Message->getText()));
+            $MessageKey = array_splice($MessageText, -1)[0];
             if (
-                $MessageText !== ''
+                $MessageKey !== ''
                 && TelegramTools::getUser($SendUser['id']) === null
-                && strlen($MessageText) === 16
+                && strlen($MessageKey) === 16
             ) {
                 // 新用户绑定
-                return $this->bindingAccount($SendUser, $MessageText);
+                return $this->bindingAccount($SendUser, $MessageKey);
             }
             // 回送信息
             $this->replyWithMessage(
@@ -76,6 +78,8 @@ final class StartCommand extends Command
             $this->replyWithMessage(
                 [
                     'text' => '喵喵喵.',
+                    'parse_mode' => 'Markdown',
+                    'reply_to_message_id' => $Message->getMessageId(),
                 ]
             );
         }

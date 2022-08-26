@@ -8,6 +8,7 @@ namespace App\Controllers;
 
 use App\Models\Link;
 use App\Models\User;
+
 use App\Models\UserSubscribeLog;
 use App\Utils\AppURI;
 use App\Utils\ConfGenerate;
@@ -609,7 +610,7 @@ final class LinkController extends BaseController
      * @param array $opts  request
      * @param array $Rule  节点筛选规则
      */
-    public static function getSurge(User $user, int $surge, array $opts, array $Rule): string
+    public static function getSurge(User $user, $surge, array $opts, array $Rule): string
     {
         if ($surge !== 4) {
             $Rule['type'] = 'ss';
@@ -630,8 +631,7 @@ final class LinkController extends BaseController
         } else {
             $Profiles = ($surge === 2 ? $_ENV['Surge2_DefaultProfiles'] : $_ENV['Surge_DefaultProfiles']);
         }
-
-        return ConfGenerate::getSurgeConfs($user, $All_Proxy, $Nodes, $_ENV[$variable][$Profiles]);
+       return ConfGenerate::getSurgeConfs($user, $All_Proxy, $Nodes, $_ENV[$variable][$Profiles]);
     }
 
     /**
@@ -642,7 +642,7 @@ final class LinkController extends BaseController
      * @param array $opts       request
      * @param array $Rule       节点筛选规则
      */
-    public static function getQuantumult(User $user, int $quantumult, array $opts, array $Rule): string
+    public static function getQuantumult(User $user, $quantumult, array $opts, array $Rule): string
     {
         switch ($quantumult) {
             case 2:
@@ -696,7 +696,6 @@ final class LinkController extends BaseController
         ];
         $render = ConfRender::getTemplateRender();
         $render->assign('All_Proxy', $All_Proxy)->assign('ProxyGroups', $ProxyGroups);
-
         return $render->fetch('quantumult/quantumult.tpl');
     }
 
@@ -708,7 +707,7 @@ final class LinkController extends BaseController
      * @param array $opts        request
      * @param array $Rule        节点筛选规则
      */
-    public static function getQuantumultX(User $user, int $quantumultx, array $opts, array $Rule): string
+    public static function getQuantumultX(User $user, $quantumultx, array $opts, array $Rule): string
     {
         return '';
     }
@@ -765,7 +764,6 @@ final class LinkController extends BaseController
         } else {
             $Profiles = $_ENV['Clash_DefaultProfiles']; // 默认策略组
         }
-
         return ConfGenerate::getClashConfs($user, $Proxys, $_ENV['Clash_Profiles'][$Profiles]);
     }
 

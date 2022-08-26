@@ -91,7 +91,7 @@ final class ConfGenerate
      * @param array  $Nodes         节点数组
      * @param string $SourceContent 配置内容
      */
-    public static function getSurgeConfs(User $User, string $AllProxys, array $Nodes, $Configs): string
+    public static function getSurgeConfs(object $User, string $AllProxys, array $Nodes, $Configs): string
     {
         $General = (isset($Configs['General']) ? self::getSurgeConfGeneral($Configs['General']) : '');
 

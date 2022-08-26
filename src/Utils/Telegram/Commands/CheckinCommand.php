@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram\Commands;
 
-use App\Models\User;
+use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
@@ -54,14 +54,14 @@ final class CheckinCommand extends Command
             'name' => $Message->getFrom()->getFirstName() . ' ' . $Message->getFrom()->getLastName(),
             'username' => $Message->getFrom()->getUsername(),
         ];
-
-        $User = User::where('telegram_id', $SendUser['id'])->first();
+        $User = TelegramTools::getUser($SendUser['id']);
         if ($User === null) {
             // 回送信息
             $response = $this->replyWithMessage(
                 [
                     'text' => $_ENV['user_not_bind_reply'],
                     'parse_mode' => 'Markdown',
+                    'reply_to_message_id' => $Message->getMessageId(),
                 ]
             );
         } else {
@@ -70,8 +70,8 @@ final class CheckinCommand extends Command
             $response = $this->replyWithMessage(
                 [
                     'text' => $checkin['msg'],
-                    'reply_to_message_id' => $Message->getMessageId(),
                     'parse_mode' => 'Markdown',
+                    'reply_to_message_id' => $Message->getMessageId(),
                 ]
             );
         }
