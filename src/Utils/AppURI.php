@@ -582,6 +582,18 @@ final class AppURI
                 if ($item['tls'] === 'xtls') {
                     $return .= ('&security=' . $item['tls'] . '&flow=' . $item['flow']);
                 }
+                if ($item['net'] === 'grpc') {
+                    $params = [];
+                    // shadowrocket
+                    $params['obfs'] = 'grpc';
+                    $params['path'] = $item['servicename'];
+                    $params['obfsParam'] = $item['host'];
+                    // v2rayn
+                    $params['type'] = 'grpc';
+                    $params['security'] = 'tls';
+                    $params['serviceName'] = $item['servicename'];
+                    $return .= '&' . http_build_query($params);
+                }
                 $return .= '#' . rawurlencode($item['remark']);
                 break;
         }
