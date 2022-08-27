@@ -407,18 +407,8 @@
                                     {else}
                                     </div>
                                         <p>二维码或绑定码有效期 10 分钟，超时请刷新本页面以重新获取，每个只能使用一次</p>
-                                        {if $config['use_new_telegram_bot'] === true}
-                                            <p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="/start {$bind_token}">点击拷贝绑定码</button> 私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}"  target="view_window">@{$telegram_bot}</a> 以绑定 Telegram</p>
-                                            <p><a class="btn btn-subscription" type="button" target="view_window" href="https://t.me/{$telegram_bot}?start={$bind_token}">一键绑定至账户</a> 手机电脑平板等如已安装 Telegram 可点击</p>
-                                        {else}
-                                            <p>截图保存下方的二维码图片，切勿拍照保存否则会导致解码失败</p>
-                                            <p>私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a> 以绑定 Telegram</p>
-                                            <div class="form-group form-group-label">
-                                                <div class="text-center">
-                                                    <div id="telegram-qr" class="qr-center"></div>
-                                                </div>
-                                            </div>
-                                        {/if}
+                                        <p><button class="copy-text btn btn-subscription" type="button" data-clipboard-text="/start {$bind_token}">点击拷贝绑定码</button> 私聊发给 Telegram 机器人 <a href="https://t.me/{$telegram_bot}"  target="view_window">@{$telegram_bot}</a> 以绑定 Telegram</p>
+                                        <p><a class="btn btn-subscription" type="button" target="view_window" href="https://t.me/{$telegram_bot}?start={$bind_token}">一键绑定至账户</a> 手机电脑平板等如已安装 Telegram 可点击</p>
                                     {/if}
                                 </div>
                             </div>
