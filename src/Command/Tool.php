@@ -45,7 +45,7 @@ EOL;
         $telegram = new \Telegram\Bot\Api($_ENV['telegram_token']);
         $telegram->removeWebhook();
         if ($telegram->setWebhook(['url' => $WebhookUrl])) {
-            echo 'New Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
+            echo 'Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
         } else {
             echo '设置失败！' . PHP_EOL;
         }

@@ -21,8 +21,22 @@ And we **recommend** adhering to the [PSR-12 standard](https://github.com/php-fi
 
 ### Commit message
 
-The Commit message **must** containe all the changes you maked in sort.  
-Please **do not** use words like "fix", "improve" only.
+The Commit message must concisely contain all your changes.  
+Please **do not** use words like "fix", "improve" only.    
+Please try to use **English** in the Commit message and use the following Type tags.
+- feat: add or modify a feature (feature)
+- fix: fix bugs (bug fix)
+- docs: documents (documentation)
+- style: formatting    
+        changes that do not affect the operation of the code, e.g. white-space, formatting, missing semi colons
+- refactor: refactoring    
+        Code changes that do not add features or fix bugs
+- perf: improves performance
+- test: when adding missing tests
+- chore: maintenance    
+        Changes to builders or helpers that do not affect the operation of the code, e.g., changes to config, Grunt Task task management tools
+- revert: undo a previous commit    
+        Example: revert: type(scope):subject
 
 ### Rule
 
@@ -46,9 +60,26 @@ Please use the function from PSR-7 like `$request->getParsedBodyParam()`, `getPa
 
 ### Commit 消息
 
-Commit 消息必须简洁地包含你所有的修改。请不要仅使用「修复」、「改进」等字样。
+Commit 消息必须简洁地包含你所有的修改。请**不要**仅使用「修复」、「改进」等字样。    
+在 Commit 消息中请尽量使用**英文**，并且使用以下 Type 标签：
+- feat：新增或修改功能（feature）
+- fix：修补 bug（bug fix）
+- docs：文件（documentation）
+- style：格式    
+        不影响程式码运行的变动，例如：white-space, formatting, missing semi colons
+- refactor：重构    
+        不是新增功能，也非修补 bug 的程式码变动
+- perf：改善效能（improves performance）
+- test：增加测试（when adding missing tests）
+- chore：维护    
+        不影响程式码运行，建构程序或辅助工具的变动，例如修改 config、Grunt Task 任务管理工具
+- revert：撤销回覆先前的 commit    
+        例如：revert：type(scope):subject
 
 ### 规范
 
 若你需要新增/修改 Router callback，请依照类似 HomeController 的形式。  
 如无必要，请不要使用`$request->getParam()`并尽量使用 PSR-7 中的`$request->getParsedBodyParam()`、`getParsedBodyParam()`等一系列用于获取参数的方法。
+
+参考资料：    
+<https://heidiliu2020.github.io/git-commit-message>
