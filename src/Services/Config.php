@@ -103,7 +103,6 @@ final class Config
 
             'enable_telegram' => $_ENV['enable_telegram'],
             'telegram_bot' => $_ENV['telegram_bot'],
-            'use_new_telegram_bot' => $_ENV['use_new_telegram_bot'],
 
             'enable_telegram_login' => $_ENV['enable_telegram_login'],
 

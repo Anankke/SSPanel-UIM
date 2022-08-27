@@ -41,24 +41,13 @@ EOL;
 
     public function setTelegram(): void
     {
-        if ($_ENV['use_new_telegram_bot'] === true) {
-            $WebhookUrl = $_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token'];
-            $telegram = new \Telegram\Bot\Api($_ENV['telegram_token']);
-            $telegram->removeWebhook();
-            if ($telegram->setWebhook(['url' => $WebhookUrl])) {
-                echo 'New Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
-            }
+        $WebhookUrl = $_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token'];
+        $telegram = new \Telegram\Bot\Api($_ENV['telegram_token']);
+        $telegram->removeWebhook();
+        if ($telegram->setWebhook(['url' => $WebhookUrl])) {
+            echo 'New Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
         } else {
-            $bot = new \TelegramBot\Api\BotApi($_ENV['telegram_token']);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, sprintf('https://api.telegram.org/bot%s/deleteWebhook', $_ENV['telegram_token']));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-            $deleteWebhookReturn = json_decode(curl_exec($ch));
-            curl_close($ch);
-            if ($deleteWebhookReturn->ok && $deleteWebhookReturn->result && $bot->setWebhook($_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token']) === 1) {
-                echo 'Old Bot 设置成功！' . PHP_EOL;
-            }
+            echo '设置失败！' . PHP_EOL;
         }
     }
 

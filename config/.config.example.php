@@ -157,7 +157,6 @@ $_ENV['auto_detect_ban'] = [
 //Bot 设置--------------------------------------------------------------------------------------------
 # Telegram bot
 $_ENV['enable_telegram']                    = false;        //是否开启 Telegram bot
-$_ENV['use_new_telegram_bot']               = true;         //是否使用新的 Telegram bot
 $_ENV['telegram_token']                     = '';           //Telegram bot,bot 的 token ，跟 father bot 申请
 $_ENV['telegram_chatid']                    = -111;         //Telegram bot,群组会话 ID,把机器人拉进群里之后跟他 /ping 一下即可得到
 $_ENV['telegram_bot']                       = '_bot';       //Telegram 机器人账号

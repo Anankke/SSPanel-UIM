@@ -26,7 +26,6 @@
         "smarty/smarty": "^3",
         "stripe/stripe-php": "^7.105",
         "symfony/yaml": "^5",
-        "telegram-bot/api": "^2.2",
         "voku/anti-xss": "^4",
         "zeuxisoo/slim-whoops": "0.5.*",
         "guzzlehttp/guzzle": "^7.4",
