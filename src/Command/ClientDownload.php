@@ -40,14 +40,40 @@ final class ClientDownload extends Command
         //     ],
         // ],
         [
+            'name' => 'Shadowsocks-Windows',
+            'tagMethod' => 'github_release',
+            'gitRepo' => 'shadowsocks/shadowsocks-windows',
+            'savePath' => 'public/clients/',
+            'downloads' => [
+                [
+                    'sourceName' => 'Shadowsocks-%tagName%.zip',
+                    'saveName' => 'Shadowsocks.zip',
+                    'apkpureUrl' => '',
+                ],
+            ],
+        ],
+        [
             'name' => 'ShadowsocksR-Windows',
             'tagMethod' => 'github_release',
             'gitRepo' => 'HMBSbige/ShadowsocksR-Windows',
             'savePath' => 'public/clients/',
             'downloads' => [
                 [
-                    'sourceName' => 'ShadowsocksR-%tagName%.7z',
-                    'saveName' => 'ssr-win.7z',
+                    'sourceName' => 'ShadowsocksR-Win64-%tagName%.7z',
+                    'saveName' => 'ShadowsocksR.7z',
+                    'apkpureUrl' => '',
+                ],
+            ],
+        ],
+        [
+            'name' => 'v2rayN',
+            'tagMethod' => 'github_release',
+            'gitRepo' => '2dust/v2rayN',
+            'savePath' => 'public/clients/',
+            'downloads' => [
+                [
+                    'sourceName' => 'v2rayN-Core.zip',
+                    'saveName' => 'v2rayN.zip',
                     'apkpureUrl' => '',
                 ],
             ],
@@ -66,7 +92,7 @@ final class ClientDownload extends Command
             ],
         ],
         [
-            'name' => 'ClashforWindows',
+            'name' => 'Clash for Windows',
             'tagMethod' => 'github_release',
             'gitRepo' => 'Fndroid/clash_for_windows_pkg',
             'savePath' => 'public/clients/',
@@ -79,6 +105,11 @@ final class ClientDownload extends Command
                 [
                     'sourceName' => 'Clash.for.Windows-%tagName%.dmg',
                     'saveName' => 'Clash-Windows.dmg',
+                    'apkpureUrl' => '',
+                ],
+                [
+                    'sourceName' => 'Clash.for.Windows-%tagName%-x64-linux.tar.gz',
+                    'saveName' => 'Clash-Windows.tar.gz',
                     'apkpureUrl' => '',
                 ],
             ],
@@ -136,7 +167,7 @@ final class ClientDownload extends Command
             ],
         ],
         [
-            'name' => 'ClashforAndroid',
+            'name' => 'Clash for Android',
             'tagMethod' => 'github_pre_release',
             'gitRepo' => 'Kr328/ClashForAndroid',
             'savePath' => 'public/clients/',
@@ -149,14 +180,14 @@ final class ClientDownload extends Command
             ],
         ],
         [
-            'name' => 'ShadowsocksAndroid',
+            'name' => 'Shadowsocks-Android',
             'tagMethod' => 'github_release',
             'gitRepo' => 'shadowsocks/shadowsocks-android',
             'savePath' => 'public/clients/',
             'downloads' => [
                 [
                     'sourceName' => 'shadowsocks--universal-%tagName%.apk',
-                    'saveName' => 'ss-android.apk',
+                    'saveName' => 'Shadowsocks.apk',
                     'apkpureUrl' => '',
                 ],
             ],
@@ -169,7 +200,7 @@ final class ClientDownload extends Command
             'downloads' => [
                 [
                     'sourceName' => 'shadowsocksr-android-%tagName%.apk',
-                    'saveName' => 'ssr-android.apk',
+                    'saveName' => 'ShadowsocksR.apk',
                     'apkpureUrl' => '',
                 ],
             ],
