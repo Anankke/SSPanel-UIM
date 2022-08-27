@@ -55,7 +55,7 @@
                                         <div class="nodehead node-flex" title="节点名称">
 {*                                        *}{if $config['enable_flag'] === true}
                                             <div class="flag">
-                                                <img src="/images/prefix/{$node['flag']}">
+                                                <img src="https://countryflagsapi.com/svg/{$node['flag']}" height="50"/>
                                             </div>
 {*                                        *}{/if}
                                             <div class="nodename">{$node['name']}</div>
@@ -152,7 +152,7 @@
                                                     <div class="text-overflow node-textcolor">
                                                         <span class="enable-flag" title="节点名称">
 {*                                                        *}{if $config['enable_flag'] === true}
-                                                            <img src="/images/prefix/{$node['flag']}" height="22"/>
+                                                            <img src="https://countryflagsapi.com/svg/{$node['flag']}" height="25"/>
 {*                                                        *}{/if}
                                                             {$node['name']}
                                                         </span>
