@@ -99,9 +99,6 @@ return function (SlimApp $app): void {
         // getUserAllURL
         $this->get('/getUserAllURL', App\Controllers\UserController::class . ':getUserAllURL');
 
-        // getPcClient
-        $this->get('/getPcClient', App\Controllers\UserController::class . ':getPcClient');
-
         //Reconstructed Payment System
         $this->post('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');
         $this->get('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');
@@ -112,7 +109,6 @@ return function (SlimApp $app): void {
         $this->get('/notify/{type}', App\Services\Payment::class . ':notify');
         $this->post('/notify/{type}', App\Services\Payment::class . ':notify');
         $this->post('/status/{type}', App\Services\Payment::class . ':getStatus');
-        // $this->post('/coinpay/notify',  App\Services\CoinPayment::class. ':notify');
     });
 
     // Auth
@@ -310,9 +306,5 @@ return function (SlimApp $app): void {
     //通用訂閲
     $app->group('/sub', function (): void {
         $this->get('/{token}/{subtype}', App\Controllers\SubController::class . ':getContent');
-    });
-
-    $app->group('/getClient', function (): void {
-        $this->get('/{token}', App\Controllers\UserController::class . ':getClientfromToken');
     });
 };

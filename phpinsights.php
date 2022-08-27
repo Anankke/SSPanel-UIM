@@ -47,7 +47,6 @@ return [
         'storage',
 
         // TODO: mute legacy contents error
-        'src/Services/Gateway/CoinPay/CoinPayDataBase.php',
         'src/Services/Gateway/Epay',
         'src/Services/Mail.php',
         'src/Services/Password.php',

@@ -273,22 +273,6 @@
 
                                         <button id="submit_payment" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
-                                    
-                                    <div class="tab-pane fade" id="coinpay">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://www.coinpayapp.com" target="view_window">https://www.coinpayapp.com</a></p>
-                                        <!-- coinpay_appid -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">CoinPay应用ID</label>
-                                            <input class="form-control maxwidth-edit" id="coinpay_appid" value="{$settings['coinpay_appid']}">
-                                        </div>
-                                        <!-- coinpay_secret -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">CoinPay验证密钥</label>
-                                            <input class="form-control maxwidth-edit" id="coinpay_secret" value="{$settings['coinpay_secret']}">
-                                        </div>
-
-                                        <button id="submit_coinpay" type="submit" class="btn btn-block btn-brand">提交</button>
-                                    </div>
 
                                     <div class="tab-pane fade" id="payjs">
                                         <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://payjs.cn" target="view_window">https://payjs.cn</a></p>
@@ -1675,35 +1659,6 @@
                     stripe_pk: $$getValue('stripe_pk'),
                     stripe_sk: $$getValue('stripe_sk'),
                     stripe_webhook_key: $$getValue('stripe_webhook_key')
-                },
-                success: data => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    if (data.ret) {
-                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
-                    }
-                },
-                error: jqXHR => {
-                    alert(`发生错误：${
-                            jqXHR.status
-                            }`);
-                }
-            })
-        })
-    })
-</script>
-
-<script>
-    window.addEventListener('load', () => {
-        $$.getElementById('submit_coinpay').addEventListener('click', () => {
-            $.ajax({
-                type: "POST",
-                url: "/admin/setting",
-                dataType: "json",
-                data: {
-                    class: 'coinpay',
-                    coinpay_appid: $$getValue('coinpay_appid'),
-                    coinpay_secret: $$getValue('coinpay_secret')
                 },
                 success: data => {
                     $("#result").modal();

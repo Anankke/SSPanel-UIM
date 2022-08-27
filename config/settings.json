@@ -501,26 +501,6 @@
     },
     {
         "id": null,
-        "item": "coinpay_appid",
-        "value": "",
-        "class": "coinpay",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "CoinPay应用ID"
-    },
-    {
-        "id": null,
-        "item": "coinpay_secret",
-        "value": "",
-        "class": "coinpay",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "CoinPay验证密钥"
-    },
-    {
-        "id": null,
         "item": "user_center_bg",
         "value": "0",
         "class": "personalise",

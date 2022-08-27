@@ -52,9 +52,6 @@ final class SettingController extends BaseController
             case 'theadpay':
                 $list = ['theadpay_url', 'theadpay_mchid', 'theadpay_key'];
                 break;
-            case 'coinpay':
-                $list = ['coinpay_appid', 'coinpay_secret'];
-                break;
             case 'paymentwall':
                 $list = ['pmw_publickey', 'pmw_privatekey', 'pmw_widget', 'pmw_height'];
                 break;
