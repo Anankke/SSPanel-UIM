@@ -1,4 +1,4 @@
-<img src="https://fastly.jsdelivr.net/npm/skx@0.1.3/img/uim-logo-round.png" alt="logo" width="130" height="130" align="left" />
+<img src="https://raw.githubusercontent.com/Anankke/SSPanel-Uim/dev/public/images/uim-logo-round.png" alt="logo" width="130" height="130" align="left" />
 
 <h1>SSPanel UIM</h1>
 
@@ -8,10 +8,11 @@
 
 [![License](https://img.shields.io/github/license/Anankke/SSPanel-Uim?style=flat-square)](https://github.com/Anankke/SSPanel-Uim/blob/dev/LICENSE)
 ![GitHub repo size](https://img.shields.io/github/repo-size/anankke/sspanel-uim?style=flat-square&color=328657)
-[![Telegram Channel](https://img.shields.io/badge/news-t.me%2Fsspanel_uim-0d86d7?style=flat-square)](https://t.me/sspanel_uim)
-[![Telegram Chat](https://img.shields.io/badge/chat-t.me%2Fssunion-0d86d7?style=flat-square)](https://t.me/ssunion)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Anankke/SSPanel-Uim?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Anankke/SSPanel-Uim/Lint%20code?label=Lint&style=flat-square)
 
-[使用文档](https://wiki.sspanel.org) | [配套SS/SSR后端](https://github.com/Anankke/shadowsocks-mod) | [配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 频道](https://t.me/sspanel_uim) | [Telegram 水群](https://t.me/ssunion) | [后端 API 文档](https://github.com/sspanel-uim/API-documents) | [WebAPI 文档](https://github.com/sspanel-uim/WebAPI-documents)
+
+[使用文档](https://wiki.sspanel.org) | [配套SS/SSR后端](https://github.com/Anankke/shadowsocks-mod) | [配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 频道](https://t.me/sspanel_uim) | [Telegram 水群](https://t.me/ssunion) | [API 文档](https://github.com/sspanel-uim/API-documents)
 
 ## 简介
 
@@ -19,12 +20,11 @@ SSPanel UIM 是一款专为 Shadowsocks / ShadowsocksR / V2Ray / Trojan 设计�
 
 ## 特性
 
-- 集成支付宝当面付，PAYJS，Paymentwall 等多个支付系统
+- 集成支付宝当面付，Stripe 银行卡，彩虹易支付 等多个支付系统
 - 重构面板首页、节点列表、商品列表
-- 新增 SPA（Single Page Apps）版 UI
-- 商品增加同时连接设备数，用户限速属性
+- 配置数据库化，管理面板一键配置
 - 新用户注册现金奖励、用户常规端口切换与指定
-- 公共库文件加载使用 jsDelivr
+- 公共库文件加载使用 jsDelivr 和 Staticfile CDN
 - 支持 V2Ray & Trojan
 - 性能优化，程序逻辑改善，代码质量修正
 - 更多新功能写不下了
