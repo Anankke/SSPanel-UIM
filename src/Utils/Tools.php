@@ -6,6 +6,7 @@ namespace App\Utils;
 
 use App\Models\Link;
 use App\Models\Model;
+use App\Models\Setting;
 use App\Models\User;
 use App\Services\Config;
 use DateTime;
@@ -344,11 +345,11 @@ final class Tools
 
     public static function getAvPort()
     {
-        if ($_ENV['min_port'] > 65535 || $_ENV['min_port'] <= 0 || $_ENV['max_port'] > 65535 || $_ENV['max_port'] <= 0) {
+        if (Setting::obtain('min_port') > 65535 || Setting::obtain('min_port') <= 0 || Setting::obtain('max_port') > 65535 || Setting::obtain('max_port') <= 0) {
             return 0;
         }
         $det = User::pluck('port')->toArray();
-        $port = array_diff(range($_ENV['min_port'], $_ENV['max_port']), $det);
+        $port = array_diff(range(Setting::obtain('min_port'), Setting::obtain('max_port')), $det);
         shuffle($port);
         return $port[0];
     }

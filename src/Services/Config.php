@@ -78,28 +78,30 @@ final class Config
             // 注册
             'register_mode' => $public_configs['reg_mode'],
             'enable_email_verify' => $public_configs['reg_email_verify'],
+            'enable_reg_im' => $public_configs['enable_reg_im'],
+            'min_port' => $public_configs['min_port'],
+            'max_port' => $public_configs['max_port'],
+            'invite_price' => $public_configs['invite_price'],
+            'custom_invite_price' => $public_configs['custom_invite_price'],
             // 邀请
             'invite_get_money' => $public_configs['invitation_to_register_balance_reward'],
             'invite_gift' => $public_configs['invitation_to_register_traffic_reward'],
             'code_payback' => $public_configs['rebate_ratio'],
             // 待处理
-            'min_port' => $_ENV['min_port'],
-            'max_port' => $_ENV['max_port'],
             'enable_checkin' => $_ENV['enable_checkin'],
             'checkinMin' => $_ENV['checkinMin'],
             'checkinMax' => $_ENV['checkinMax'],
-            'invite_price' => $_ENV['invite_price'],
+
             'port_price' => $_ENV['port_price'],
             'port_price_specify' => $_ENV['port_price_specify'],
             'jump_delay' => $_ENV['jump_delay'],
             'enable_analytics_code' => $_ENV['enable_analytics_code'],
             'enable_donate' => $_ENV['enable_donate'],
             'enable_ticket' => $_ENV['enable_ticket'],
-            'enable_reg_im' => $_ENV['enable_reg_im'],
+
             'enable_flag' => $_ENV['enable_flag'],
             'enable_kill' => $_ENV['enable_kill'],
             'enable_change_email' => $_ENV['enable_change_email'],
-            'custom_invite_price' => $_ENV['custom_invite_price'],
 
             'enable_telegram' => $_ENV['enable_telegram'],
             'telegram_bot' => $_ENV['telegram_bot'],

@@ -565,7 +565,7 @@ final class UserController extends BaseController
      */
     public function buyInvite(Request $request, Response $response, array $args)
     {
-        $price = $_ENV['invite_price'];
+        $price = Setting::obtain('invite_price');
         $num = $request->getParam('num');
         $num = trim($num);
 
@@ -596,7 +596,7 @@ final class UserController extends BaseController
      */
     public function customInvite(Request $request, Response $response, array $args)
     {
-        $price = $_ENV['custom_invite_price'];
+        $price = Setting::obtain('custom_invite_price');
         $customcode = $request->getParam('customcode');
         $customcode = trim($customcode);
 

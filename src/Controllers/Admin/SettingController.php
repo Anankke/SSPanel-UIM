@@ -104,19 +104,15 @@ final class SettingController extends BaseController
                 break;
             // 注册设置
             case 'register':
-                $list = ['reg_mode', 'reg_email_verify', 'email_verify_ttl', 'email_verify_ip_limit'];
-                break;
-            case 'register_default_value':
-                $list = ['sign_up_for_free_traffic', 'sign_up_for_free_time', 'sign_up_for_class', 'sign_up_for_class_time', 'sign_up_for_invitation_codes', 'connection_device_limit', 'connection_rate_limit', 'sign_up_for_method', 'sign_up_for_protocol', 'sign_up_for_protocol_param', 'sign_up_for_obfs', 'sign_up_for_obfs_param', 'sign_up_for_daily_report'];
+                $list = ['reg_mode', 'reg_email_verify', 'email_verify_ttl', 'email_verify_ip_limit', 'random_group', 'min_port', 'max_port',   'sign_up_for_free_traffic','free_user_reset_day', 'free_user_reset_bandwidth', 'sign_up_for_free_time', 'sign_up_for_class', 'sign_up_for_class_time', 'sign_up_for_invitation_codes', 'connection_device_limit', 'connection_rate_limit', 'sign_up_for_method', 'sign_up_for_protocol', 'sign_up_for_protocol_param', 'sign_up_for_obfs', 'sign_up_for_obfs_param', 'mu_suffix', 'mu_regex', 'reg_forbidden_ip', 'reg_forbidden_port', 'enable_reg_im', 'sign_up_for_daily_report'];
                 break;
             // 邀请设置
-            case 'invitation_reward':
-                $list = ['invitation_to_register_balance_reward', 'invitation_to_register_traffic_reward'];
+            case 'invite':
+                $list = ['invitation_to_register_balance_reward', 'invitation_to_register_traffic_reward', 'invite_price', 'custom_invite_price',
+                    'invitation_mode', 'invite_rebate_mode', 'rebate_ratio', 'rebate_frequency_limit', 'rebate_amount_limit', 'rebate_time_range_limit',
+                ];
                 break;
-            // 返利设置
-            case 'rebate_mode':
-                $list = ['invitation_mode', 'invite_rebate_mode', 'rebate_ratio', 'rebate_frequency_limit', 'rebate_amount_limit', 'rebate_time_range_limit'];
-                break;
+            // Telegram 设置
             case 'telegram':
                 $list = ['telegram_add_node', 'telegram_add_node_text', 'telegram_update_node', 'telegram_update_node_text', 'telegram_delete_node', 'telegram_delete_node_text', 'telegram_node_gfwed', 'telegram_node_gfwed_text', 'telegram_node_ungfwed', 'telegram_node_ungfwed_text', 'telegram_node_online', 'telegram_node_online_text', 'telegram_node_offline', 'telegram_node_offline_text', 'telegram_daily_job', 'telegram_daily_job_text', 'telegram_diary', 'telegram_diary_text', 'telegram_unbind_kick_member', 'telegram_group_bound_user', 'telegram_show_group_link', 'telegram_group_link'];
                 break;

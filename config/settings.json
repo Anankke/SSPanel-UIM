@@ -631,6 +631,86 @@
     },
     {
         "id": null,
+        "item": "enable_reg_im",
+        "value": "0",
+        "class": "register",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "注册时是否要求用户输入IM联系方式"
+    },
+    {
+        "id": null,
+        "item": "reg_forbidden_ip",
+        "value": "127.0.0.0/8,::1/128",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "127.0.0.0/8,::1/128",
+        "mark": "注册时默认禁止访问IP列表"
+    },
+    {
+        "id": null,
+        "item": "reg_forbidden_port",
+        "value": "",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "注册时默认禁止访问端口列表"
+    },
+    {
+        "id": null,
+        "item": "random_group",
+        "value": "",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "注册时随机分配到的分组"
+    },
+    {
+        "id": null,
+        "item": "min_port",
+        "value": "10000",
+        "class": "register",
+        "is_public": 1,
+        "type": "int",
+        "default": "10000",
+        "mark": "用户端口池最小值"
+    },
+    {
+        "id": null,
+        "item": "max_port",
+        "value": "65535",
+        "class": "register",
+        "is_public": 1,
+        "type": "int",
+        "default": "65535",
+        "mark": "用户端口池最大值"
+    },
+    {
+        "id": null,
+        "item": "free_user_reset_day",
+        "value": "0",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "免费用戶的流量重置日"
+    },
+    {
+        "id": null,
+        "item": "free_user_reset_bandwidth",
+        "value": "0",
+        "class": "register",
+        "is_public": 0,
+        "type": "int",
+        "default": "0",
+        "mark": "需要重置的免费流量"
+    },
+    {
+        "id": null,
         "item": "sign_up_for_free_traffic",
         "value": "20",
         "class": "register",
@@ -741,6 +821,26 @@
     },
     {
         "id": null,
+        "item": "mu_suffix",
+        "value": "microsoft.com",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "microsoft.com",
+        "mark": "单端口多用户混淆参数后缀"
+    },
+    {
+        "id": null,
+        "item": "mu_regex",
+        "value": "%5m%id.%suffix",
+        "class": "register",
+        "is_public": 0,
+        "type": "string",
+        "default": "%5m%id.%suffix",
+        "mark": "单端口多用户混淆参数表达式"
+    },
+    {
+        "id": null,
         "item": "sign_up_for_daily_report",
         "value": "0",
         "class": "register",
@@ -748,6 +848,26 @@
         "type": "bool",
         "default": "0",
         "mark": "注册后是否默认接收每日用量邮件推送"
+    },
+    {
+        "id": null,
+        "item": "invite_price",
+        "value": "-1",
+        "class": "invite",
+        "is_public": 1,
+        "type": "int",
+        "default": "-1",
+        "mark": "用户购买邀请码所需要的价格"
+    },
+    {
+        "id": null,
+        "item": "custom_invite_price",
+        "value": "-1",
+        "class": "invite",
+        "is_public": 1,
+        "type": "int",
+        "default": "-1",
+        "mark": "用户定制邀请码所需要的价格"
     },
     {
         "id": null,
