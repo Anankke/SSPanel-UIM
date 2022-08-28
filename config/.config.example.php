@@ -43,27 +43,6 @@ $_ENV['auto_backup_email']  = '';                               //接收备份�
 $_ENV['auto_backup_password'] = '';                               //备份的压缩密码
 $_ENV['backup_notify']      = false;                            //备份通知到TG群中
 
-
-//用户注册设置-----------------------------------------------------------------------------------------
-$_ENV['free_user_reset_day']            = 0;                         //免费用戶的流量重置日，0为不重置
-$_ENV['free_user_reset_bandwidth']      = 0;                         //需要重置的免费流量，0为不重置
-$_ENV['random_group']              = '0';                       //注册时随机分组，注册时随机分配到的分组，多个分组请用英文半角逗号分隔
-
-$_ENV['enable_reg_im']             = false;                      //注册时是否要求用户输入IM联系方式
-
-$_ENV['reg_forbidden_ip']          = '127.0.0.0/8,::1/128';     //注册时默认禁止访问IP列表，半角英文逗号分割
-$_ENV['min_port']                  = 10000;                     //用户端口池最小值，如果该数值为0则用户在注册的时候不会被分配多用户端口，适合纯V2Ray/Trojan机场
-$_ENV['max_port']                  = 65535;                     //用户端口池最大值，如果该数值为0则用户在注册的时候不会被分配多用户端口，适合纯V2Ray/Trojan机场
-$_ENV['reg_forbidden_port']        = '';                        //注册时默认禁止访问端口列表，半角英文逗号分割，支持端口段
-
-$_ENV['mu_suffix']                 = 'microsoft.com';           //单端口多用户混淆参数后缀，可以随意修改，但请保持前后端一致
-$_ENV['mu_regex']                  = '%5m%id.%suffix';          //单端口多用户混淆参数表达式，%5m代表取用户特征 md5 的前五位，%id 代表用户id, %suffix 代表上面这个后缀。
-
-#邀请链接
-$_ENV['invite_price']              = -1;                        //用户购买邀请码所需要的价格，价格小于0时视为不开放购买
-$_ENV['custom_invite_price']       = -1;                        //用户定制邀请码所需要的价格，价格小于0时视为不开放购买
-
-
 //已注册用户设置---------------------------------------------------------------------------------------
 #基础
 $_ENV['enable_checkin']             = true;         //是否啓用簽到功能
@@ -237,80 +216,6 @@ $_ENV['display_ios_class']    = -1;        //至少等级为多少的用户可�
 $_ENV['display_ios_topup']    = 0;         //满足等级要求后，累计充值高于多少的用户可以看见
 $_ENV['ios_account']          = '';        //iOS账户
 $_ENV['ios_password']         = '';        //iOS密码
-
-#用户中心首页添加其他客户端的支持，可配合 subconverter 等 Api
-$_ENV['userCenterClient']     = [
-    'iOS'     => [
-        [
-            'name'           => 'Loon',
-            'support'        => 'SS/SSR/VMess',
-            'download_urls'  => [
-                [
-                    'name' => '本站下载',
-                    'url'  => 'https://google.com',
-                ],
-                [
-                    'name' => '官方下载',
-                    'url'  => 'https://baidu.com',
-                ]
-            ],
-            'tutorial_url'   => '/doc/#/iOS/Loon',
-            'description'    => '其他说明.',
-            'subscribe_urls' => [
-                [
-                    'name' => 'SS 订阅',
-                    'type' => 'href',
-                    'url'  => '%userUrl%?sub=2',
-                ],
-                [
-                    'name' => 'SSR 订阅',
-                    'type' => 'href',
-                    'url'  => '%userUrl%?sub=1',
-                ],
-                [
-                    'name' => 'V2Ray 订阅',
-                    'type' => 'copy',
-                    'url'  => '%userUrl%?sub=3',
-                ]
-            ]
-        ]
-    ],
-    'macOS'   => [],
-    'Linux'   => [],
-    'Router'  => [],
-    'Android' => [],
-    'Windows' => [
-        [
-            'name'           => 'Netch',
-            'support'        => 'SS/SSR/VMess',
-            'download_urls'  => [
-                [
-                    'name' => '官方下载',
-                    'url'  => 'https://github.com/NetchX/Netch/releases',
-                ]
-            ],
-            'tutorial_url'   => '/doc/#/Windows/Netch',
-            'description'    => '其他说明.',
-            'subscribe_urls' => [
-                [
-                    'name' => 'SS 订阅',
-                    'type' => 'href',
-                    'url'  => '%userUrl%?sub=2',
-                ],
-                [
-                    'name' => 'SSR 订阅',
-                    'type' => 'href',
-                    'url'  => '%userUrl%?sub=1',
-                ],
-                [
-                    'name' => 'V2Ray 订阅',
-                    'type' => 'copy',
-                    'url'  => '%userUrl%?sub=3',
-                ]
-            ]
-        ]
-    ]
-];
 
 //节点检测-----------------------------------------------------------------------------------------------
 #GFW检测，请通过crontab进行【开启/关闭】

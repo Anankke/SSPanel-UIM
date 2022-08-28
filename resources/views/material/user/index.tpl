@@ -345,37 +345,6 @@
                                                     </li>
                                                 </ul>
                                             </nav>
-                                            {function name=printClient items=null}
-                                                {foreach $items as $item}
-                                                    <hr/>
-                                                    <p><span class="icon icon-lg text-white">filter_9_plus</span> {$item['name']} - [ {$item['support']} ]：</p>
-                                                    <p>
-                                                        应用下载：
-                                                        {foreach $item['download_urls'] as $download_url}
-                                                        {if !$download_url@first}.{/if}
-                                                        <a class="btn-dl" href="{$download_url['url']}"><i class="material-icons icon-sm">cloud_download</i> {$download_url['name']}</a>
-                                                        {/foreach}
-                                                    </p>
-                                                    {if isset($item['description'])}
-                                                    <p>
-                                                        相关说明：
-                                                        {$item['description']}
-                                                    </p>
-                                                    {/if}
-                                                    <p>
-                                                        使用方式：
-                                                        {foreach $item['subscribe_urls'] as $subscribe_url}
-                                                        {if !$subscribe_url@first}.{/if}
-                                                        {$url=$subscribe_url['url']|replace:'%userUrl%':$subInfo['link']}
-                                                        {if $subscribe_url['type'] == 'href'}
-                                                        <a class="btn-dl" href="{$url}"><i class="material-icons icon-sm">send</i> {$subscribe_url['name']}</a>
-                                                        {else}
-                                                        <a class="copy-text btn-dl" data-clipboard-text="{$url}"><i class="material-icons icon-sm">send</i> {$subscribe_url['name']}</a>
-                                                        {/if}
-                                                        {/foreach}
-                                                    </p>
-                                                {/foreach}
-                                            {/function}
                                             <div class="tab-pane fade active in" id="sub_center_universal_subscription">
                                                 <p>此处为通用订阅，适用于多种应用的订阅。</p>
                                                 <hr/>
@@ -459,11 +428,6 @@
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
                                                 <hr/>
-                                            {if array_key_exists('Windows',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['Windows']) != 0}
-                                                    {printClient items=$config['userCenterClient']['Windows']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_mac">
                                                 <p><span class="icon icon-lg text-white">filter_1</span> Surge - [ SS/VMess ]：</p>
@@ -522,11 +486,6 @@
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
                                                 <hr/>
-                                            {if array_key_exists('macOS',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['macOS']) != 0}
-                                                    {printClient items=$config['userCenterClient']['macOS']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_ios">
                                             {if $display_ios_class>=0}
@@ -610,11 +569,6 @@
                                                         <a class="btn-dl" href="stash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
                                                 <hr/>
-                                            {if array_key_exists('iOS',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['iOS']) != 0}
-                                                    {printClient items=$config['userCenterClient']['iOS']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_android">
                                                 <p><span class="icon icon-lg text-white">filter_1</span> SS - [ SS ]：</p>
@@ -665,11 +619,6 @@
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
                                                 <hr/>
-                                            {if array_key_exists('Android',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['Android']) != 0}
-                                                    {printClient items=$config['userCenterClient']['Android']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_linux">
                                                 <p><span class="icon icon-lg text-white">filter_1</span> Clash for Windows - [ SS/VMess/Trojan ]：</p>
@@ -686,11 +635,6 @@
                                                         <a class="btn-dl" href="clash://install-config?url={urlencode($subInfo['clash'])}"><i class="material-icons icon-sm">send</i> 配置一键导入</a>
                                                     </p>
                                                 <hr/>
-                                            {if array_key_exists('Linux',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['Linux']) != 0}
-                                                    {printClient items=$config['userCenterClient']['Linux']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_router">
                                                 <p><span class="icon icon-lg text-white">filter_1</span> Koolshare 固件路由器/软路由：</p>
@@ -699,11 +643,6 @@
                                                         <a class="btn-dl" href="https://github.com/hq450/fancyss_history_package"><i class="material-icons icon-sm">cloud_download</i> FancySS 下载页面</a>
                                                     </p>
                                                 <hr/>
-                                            {if array_key_exists('Router',$config['userCenterClient'])}
-                                                {if count($config['userCenterClient']['Router']) != 0}
-                                                    {printClient items=$config['userCenterClient']['Router']}
-                                                {/if}
-                                            {/if}
                                             </div>
                                         </div>
                                     </div>

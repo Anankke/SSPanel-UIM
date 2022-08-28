@@ -310,15 +310,15 @@ final class AuthController extends BaseController
         $user->protocol_param = $configs['sign_up_for_protocol_param'];
         $user->obfs = $configs['sign_up_for_obfs'];
         $user->obfs_param = $configs['sign_up_for_obfs_param'];
-        $user->forbidden_ip = $_ENV['reg_forbidden_ip'];
-        $user->forbidden_port = $_ENV['reg_forbidden_port'];
+        $user->forbidden_ip = Setting::obtain('reg_forbidden_ip');
+        $user->forbidden_port = Setting::obtain('reg_forbidden_port');
         $user->im_type = $imtype;
         $user->im_value = $antiXss->xss_clean($imvalue);
 
         $user->transfer_enable = Tools::toGB($configs['sign_up_for_free_traffic']);
         $user->invite_num = $configs['sign_up_for_invitation_codes'];
-        $user->auto_reset_day = $_ENV['free_user_reset_day'];
-        $user->auto_reset_bandwidth = $_ENV['free_user_reset_bandwidth'];
+        $user->auto_reset_day = Setting::obtain('free_user_reset_day');
+        $user->auto_reset_bandwidth = Setting::obtain('free_user_reset_bandwidth');
         $user->money = 0;
         $user->sendDailyMail = $configs['sign_up_for_daily_report'];
 
@@ -354,7 +354,7 @@ final class AuthController extends BaseController
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
-        $groups = explode(',', $_ENV['random_group']);
+        $groups = explode(',', Setting::obtain('random_group'));
         $user->node_group = $groups[array_rand($groups)];
 
         if ($user->save()) {

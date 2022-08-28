@@ -25,7 +25,6 @@ use App\Services\Captcha;
 use App\Services\Config;
 use App\Services\Payment;
 use App\Utils\Check;
-use App\Utils\ClientProfiles;
 use App\Utils\Cookie;
 use App\Utils\DatatablesHelper;
 use App\Utils\GA;
@@ -566,7 +565,7 @@ final class UserController extends BaseController
      */
     public function buyInvite(Request $request, Response $response, array $args)
     {
-        $price = $_ENV['invite_price'];
+        $price = Setting::obtain('invite_price');
         $num = $request->getParam('num');
         $num = trim($num);
 
@@ -597,7 +596,7 @@ final class UserController extends BaseController
      */
     public function customInvite(Request $request, Response $response, array $args)
     {
-        $price = $_ENV['custom_invite_price'];
+        $price = Setting::obtain('custom_invite_price');
         $customcode = $request->getParam('customcode');
         $customcode = trim($customcode);
 
@@ -1195,77 +1194,5 @@ final class UserController extends BaseController
             ->assign('render', $render)
             ->registerClass('Tools', Tools::class)
             ->fetch('user/subscribe_log.tpl');
-    }
-
-    /**
-     * 获取包含订阅信息的客户端压缩档，PHP 需安装 zip 扩展
-     *
-     * @param array    $args
-     */
-    public function getPcClient(Request $request, Response $response, array $args)
-    {
-        $zipArc = new \ZipArchive();
-        $user_token = LinkController::generateSSRSubCode($this->user->id);
-        $type = trim($request->getQueryParams()['type']);
-        // 临时文件存放路径
-        $temp_file_path = BASE_PATH . '/storage/';
-        // 客户端文件存放路径
-        $client_path = BASE_PATH . '/resources/clients/';
-        switch ($type) {
-            case 'ss-win':
-                $user_config_file_name = 'gui-config.json';
-                $content = ClientProfiles::getSSPcConf($this->user);
-                break;
-            case 'ssr-win':
-                $user_config_file_name = 'gui-config.json';
-                $content = ClientProfiles::getSSRPcConf($this->user);
-                break;
-            case 'v2rayn-win':
-                $user_config_file_name = 'guiNConfig.json';
-                $content = ClientProfiles::getV2RayNPcConf($this->user);
-                break;
-            default:
-                return 'gg';
-        }
-        $temp_file_path .= $type . '_' . $user_token . '.zip';
-        $client_path .= $type . '/';
-        // 文件存在则先删除
-        if (is_file($temp_file_path)) {
-            unlink($temp_file_path);
-        }
-        // 超链接文件内容
-        $site_url_content = '[InternetShortcut]' . PHP_EOL . 'URL=' . $_ENV['baseUrl'];
-        // 创建 zip 并添加内容
-        $zipArc->open($temp_file_path, \ZipArchive::CREATE);
-        $zipArc->addFromString($user_config_file_name, $content);
-        $zipArc->addFromString('点击访问_' . $_ENV['appName'] . '.url', $site_url_content);
-        Tools::folderToZip($client_path, $zipArc, strlen($client_path));
-        $zipArc->close();
-
-        $newResponse = $response->withHeader('Content-type', ' application/octet-stream')->withHeader('Content-Disposition', ' attachment; filename=' . $type . '.zip');
-        $newResponse->write(file_get_contents($temp_file_path));
-        unlink($temp_file_path);
-
-        return $newResponse;
-    }
-
-    /**
-     * 从使用同数据库的其他面板下载客户端[内置节点]
-     *
-     * @param array    $args
-     */
-    public function getClientfromToken(Request $request, Response $response, array $args)
-    {
-        $token = $args['token'];
-        $Etoken = Token::where('token', '=', $token)->where('create_time', '>', time() - 60 * 10)->first();
-        if ($Etoken === null) {
-            return '下载链接已失效，请刷新页面后重新点击.';
-        }
-        $user = User::find($Etoken->user_id);
-        if ($user === null) {
-            return null;
-        }
-        $this->user = $user;
-        return $this->getPcClient($request, $response, $args);
     }
 }

@@ -102,8 +102,8 @@ final class User extends Model
     {
         $str = str_replace(
             ['%id', '%suffix'],
-            [$this->id, $_ENV['mu_suffix']],
-            $_ENV['mu_regex']
+            [$this->id, Setting::obtain('mu_suffix')],
+            Setting::obtain('mu_regex')
         );
         preg_match_all("|%-?[1-9]\d*m|U", $str, $matches, PREG_PATTERN_ORDER);
         foreach ($matches[0] as $key) {
@@ -751,7 +751,7 @@ final class User extends Model
                 'msg' => '余额不足',
             ];
         }
-        if ($Port < $_ENV['min_port'] || $Port > $_ENV['max_port'] || Tools::isInt($Port) === false) {
+        if ($Port < Setting::obtain('min_port') || $Port > Setting::obtain('max_port') || Tools::isInt($Port) === false) {
             return [
                 'ok' => false,
                 'msg' => '端口不在要求范围内',

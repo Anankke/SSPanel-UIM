@@ -36,7 +36,7 @@
                                     <a data-toggle="tab" href="#invitation_settings"><i class="icon icon-lg">loyalty</i>&nbsp;邀请</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#telegram_settings"><i class="icon icon-lg">loyalty</i>&nbsp;Telegram</a>
+                                    <a data-toggle="tab" href="#telegram_settings"><i class="icon icon-lg">send</i>&nbsp;Telegram</a>
                                 </li>
                             </ul>
                         </nav>
@@ -272,22 +272,6 @@
                                         </div>
 
                                         <button id="submit_payment" type="submit" class="btn btn-block btn-brand">提交</button>
-                                    </div>
-                                    
-                                    <div class="tab-pane fade" id="coinpay">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://www.coinpayapp.com" target="view_window">https://www.coinpayapp.com</a></p>
-                                        <!-- coinpay_appid -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">CoinPay应用ID</label>
-                                            <input class="form-control maxwidth-edit" id="coinpay_appid" value="{$settings['coinpay_appid']}">
-                                        </div>
-                                        <!-- coinpay_secret -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">CoinPay验证密钥</label>
-                                            <input class="form-control maxwidth-edit" id="coinpay_secret" value="{$settings['coinpay_secret']}">
-                                        </div>
-
-                                        <button id="submit_coinpay" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
 
                                     <div class="tab-pane fade" id="payjs">
@@ -743,15 +727,40 @@
                                             <input class="form-control maxwidth-edit" id="email_verify_ip_limit" value="{$settings['email_verify_ip_limit']}">
                                         </div>
 
-                                        <button id="submit_reg_mode_and_verify" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <button id="submit_register_settings" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
 
                                     <div class="tab-pane fade" id="register_default_value">
                                         <h5>注册默认</h5>
+                                        <!-- random_group -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">注册时随机分配到的分组，多个分组请用英文半角逗号分隔</label>
+                                            <input class="form-control maxwidth-edit" id="random_group" value="{$settings['random_group']}">
+                                        </div>
+                                        <!-- min_port -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">用户端口池最小值，0为用户在注册的时候不会被分配多用户端口</label>
+                                            <input class="form-control maxwidth-edit" id="min_port" value="{$settings['min_port']}">
+                                        </div>
+                                        <!-- max_port -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">用户端口池最大值，0为用户在注册的时候不会被分配多用户端口</label>
+                                            <input class="form-control maxwidth-edit" id="max_port" value="{$settings['max_port']}">
+                                        </div>
                                         <!-- sign_up_for_free_traffic -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">注册时赠送的流量（单位：GB）</label>
                                             <input class="form-control maxwidth-edit" id="sign_up_for_free_traffic" value="{$settings['sign_up_for_free_traffic']}">
+                                        </div>
+                                        <!-- free_user_reset_day -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">免费用戶的流量重置日，0为不重置</label>
+                                            <input class="form-control maxwidth-edit" id="free_user_reset_day" value="{$settings['free_user_reset_day']}">
+                                        </div>
+                                        <!-- free_user_reset_bandwidth -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">需要重置的免费流量，0为不重置</label>
+                                            <input class="form-control maxwidth-edit" id="free_user_reset_bandwidth" value="{$settings['free_user_reset_bandwidth']}">
                                         </div>
                                         <!-- sign_up_for_free_time -->
                                         <div class="form-group form-group-label">
@@ -810,7 +819,27 @@
                                             <label class="floating-label">默认混淆参数</label>
                                             <input class="form-control maxwidth-edit" id="sign_up_for_obfs_param" value="{$settings['sign_up_for_obfs_param']}">
                                         </div>
+                                        <!-- mu_suffix -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">单端口多用户混淆参数后缀</label>
+                                            <input class="form-control maxwidth-edit" id="mu_suffix" value="{$settings['mu_suffix']}">
+                                        </div>
+                                        <!-- mu_regex -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">单端口多用户混淆参数表达式</label>
+                                            <input class="form-control maxwidth-edit" id="mu_regex" value="{$settings['mu_regex']}">
+                                        </div>
                                         <h5>其他</h5>
+                                        <!-- reg_forbidden_ip -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">注册时默认禁止访问IP列表</label>
+                                            <input class="form-control maxwidth-edit" id="reg_forbidden_ip" value="{$settings['reg_forbidden_ip']}">
+                                        </div>
+                                        <!-- reg_forbidden_port -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">注册时默认禁止访问端口列表</label>
+                                            <input class="form-control maxwidth-edit" id="reg_forbidden_port" value="{$settings['reg_forbidden_port']}">
+                                        </div>
                                         <!-- sign_up_for_daily_report -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">注册后是否默认接收每日用量邮件推送</label>
@@ -819,19 +848,27 @@
                                                 <option value="1" {if $settings['sign_up_for_daily_report'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
+                                        <!-- enable_reg_im -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">注册时是否要求用户输入IM联系方式</label>
+                                            <select id="enable_reg_im" class="form-control maxwidth-edit">
+                                                <option value="0" {if $settings['enable_reg_im'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['enable_reg_im'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
 
-                                        <button id="submit_register_default_value" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <button id="submit_register_settings" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade" id="invitation_settings">
+                                <div class="tab-pane fade" id="invite_settings">
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
                                                 <a data-toggle="tab" href="#rebate_mode"><i class="icon icon-lg">developer_mode</i>&nbsp;模式</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#invitation_reward"><i class="icon icon-lg">card_giftcard</i>&nbsp;奖励</a>
+                                                <a data-toggle="tab" href="#invite_gernal_settings"><i class="icon icon-lg">cog</i>&nbsp;通用设置</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -889,10 +926,10 @@
                                         <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 10 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，若返点设置为 20% ，则第一次购买返利为 2；第二次为 4；第三次为 4；第四次及之后的购买，邀请人所能获得的返利均为 0（假设设置为在购买时返利）</p>
                                         <p class="form-control-guide"><i class="material-icons">info</i>在进行第三次返利计算时，按设置应返利订单金额的 20% ，即 10 元。但因已获得历史返利 6 元，则只能获得返利总金额限制与历史返利的差值</p>
                                         
-                                        <br/><button id="submit_rebate_mode" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <br/><button id="submit_invite_settings" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
 
-                                    <div class="tab-pane fade" id="invitation_reward">
+                                    <div class="tab-pane fade" id="invite_gernal_settings">
                                         <!-- invitation_to_register_balance_reward -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">若有人使用现存用户的邀请链接注册，被邀请人所能获得的余额奖励（单位：元）</label>
@@ -903,8 +940,18 @@
                                             <label class="floating-label">若有人使用现存用户的邀请链接注册，邀请人所能获得的流量奖励（单位：GB）</label>
                                             <input class="form-control maxwidth-edit" id="invitation_to_register_traffic_reward" value="{$settings['invitation_to_register_traffic_reward']}">
                                         </div>
+                                        <!-- invite_price -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">用户购买邀请码所需要的价格，价格小于0时视为不开放购买</label>
+                                            <input class="form-control maxwidth-edit" id="invite_price" value="{$settings['invite_price']}">
+                                        </div>
+                                        <!-- custom_invite_price -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">用户定制邀请码所需要的价格，价格小于0时视为不开放购买</label>
+                                            <input class="form-control maxwidth-edit" id="custom_invite_price" value="{$settings['custom_invite_price']}">
+                                        </div>
 
-                                        <button id="submit_invitation_reward" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <button id="submit_invite_settings" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
                                 </div>
 
@@ -1695,35 +1742,6 @@
 
 <script>
     window.addEventListener('load', () => {
-        $$.getElementById('submit_coinpay').addEventListener('click', () => {
-            $.ajax({
-                type: "POST",
-                url: "/admin/setting",
-                dataType: "json",
-                data: {
-                    class: 'coinpay',
-                    coinpay_appid: $$getValue('coinpay_appid'),
-                    coinpay_secret: $$getValue('coinpay_secret')
-                },
-                success: data => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    if (data.ret) {
-                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
-                    }
-                },
-                error: jqXHR => {
-                    alert(`发生错误：${
-                            jqXHR.status
-                            }`);
-                }
-            })
-        })
-    })
-</script>
-
-<script>
-    window.addEventListener('load', () => {
         $$.getElementById('submit_custom_background_image').addEventListener('click', () => {
             $.ajax({
                 type: "POST",
@@ -1755,7 +1773,7 @@
 
 <script>
     window.addEventListener('load', () => {
-        $$.getElementById('submit_reg_mode_and_verify').addEventListener('click', () => {
+        $$.getElementById('submit_register_settings').addEventListener('click', () => {
             $.ajax({
                 type: "POST",
                 url: "/admin/setting",
@@ -1765,35 +1783,13 @@
                     reg_mode: $$getValue('reg_mode'),
                     reg_email_verify: $$getValue('reg_email_verify'),
                     email_verify_ttl: $$getValue('email_verify_ttl'),
-                    email_verify_ip_limit: $$getValue('email_verify_ip_limit')
-                },
-                success: data => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    if (data.ret) {
-                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
-                    }
-                },
-                error: jqXHR => {
-                    alert(`发生错误：${
-                            jqXHR.status
-                            }`);
-                }
-            })
-        })
-    })
-</script>
-
-<script>
-    window.addEventListener('load', () => {
-        $$.getElementById('submit_register_default_value').addEventListener('click', () => {
-            $.ajax({
-                type: "POST",
-                url: "/admin/setting",
-                dataType: "json",
-                data: {
-                    class: 'register_default_value',
+                    email_verify_ip_limit: $$getValue('email_verify_ip_limit'),
+                    random_group: $$getValue('random_group'),
+                    min_port: $$getValue('min_port'),
+                    max_port: $$getValue('max_port'),
                     sign_up_for_free_traffic: $$getValue('sign_up_for_free_traffic'),
+                    free_user_reset_day: $$getValue('free_user_reset_day'),
+                    free_user_reset_bandwidth: $$getValue('free_user_reset_bandwidth'),
                     sign_up_for_free_time: $$getValue('sign_up_for_free_time'),
                     sign_up_for_class: $$getValue('sign_up_for_class'),
                     sign_up_for_class_time: $$getValue('sign_up_for_class_time'),
@@ -1805,7 +1801,12 @@
                     sign_up_for_protocol_param: $$getValue('sign_up_for_protocol_param'),
                     sign_up_for_obfs: $$getValue('sign_up_for_obfs'),
                     sign_up_for_obfs_param: $$getValue('sign_up_for_obfs_param'),
-                    sign_up_for_daily_report: $$getValue('sign_up_for_daily_report')
+                    mu_suffix: $$getValue('mu_suffix'),
+                    mu_regex: $$getValue('mu_regex'),
+                    reg_forbidden_ip: $$getValue('reg_forbidden_ip'),
+                    reg_forbidden_port: $$getValue('reg_forbidden_port'),
+                    sign_up_for_daily_report: $$getValue('sign_up_for_daily_report'),
+                    enable_reg_im: $$getValue('enable_reg_im')
                 },
                 success: data => {
                     $("#result").modal();
@@ -1826,48 +1827,23 @@
 
 <script>
     window.addEventListener('load', () => {
-        $$.getElementById('submit_invitation_reward').addEventListener('click', () => {
+        $$.getElementById('submit_invite_settings').addEventListener('click', () => {
             $.ajax({
                 type: "POST",
                 url: "/admin/setting",
                 dataType: "json",
                 data: {
-                    class: 'invitation_reward',
-                    invitation_to_register_balance_reward: $$getValue('invitation_to_register_balance_reward'),
-                    invitation_to_register_traffic_reward: $$getValue('invitation_to_register_traffic_reward')
-                },
-                success: data => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    if (data.ret) {
-                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
-                    }
-                },
-                error: jqXHR => {
-                    alert(`发生错误：${
-                            jqXHR.status
-                            }`);
-                }
-            })
-        })
-    })
-</script>
-
-<script>
-    window.addEventListener('load', () => {
-        $$.getElementById('submit_rebate_mode').addEventListener('click', () => {
-            $.ajax({
-                type: "POST",
-                url: "/admin/setting",
-                dataType: "json",
-                data: {
-                    class: 'rebate_mode',
+                    class: 'invite',
                     invitation_mode: $$getValue('invitation_mode'),
                     invite_rebate_mode: $$getValue('invite_rebate_mode'),
                     rebate_ratio: $$getValue('rebate_ratio'),
                     rebate_frequency_limit: $$getValue('rebate_frequency_limit'),
                     rebate_amount_limit: $$getValue('rebate_amount_limit'),
-                    rebate_time_range_limit: $$getValue('rebate_time_range_limit')
+                    rebate_time_range_limit: $$getValue('rebate_time_range_limit'),
+                    invitation_to_register_balance_reward: $$getValue('invitation_to_register_balance_reward'),
+                    invitation_to_register_traffic_reward: $$getValue('invitation_to_register_traffic_reward'),
+                    invite_price: $$getValue('invite_price'),
+                    custom_invite_price: $$getValue('custom_invite_price')
                 },
                 success: data => {
                     $("#result").modal();
