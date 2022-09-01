@@ -662,11 +662,11 @@
     {
         "id": null,
         "item": "random_group",
-        "value": "",
+        "value": "0",
         "class": "register",
         "is_public": 0,
         "type": "string",
-        "default": "",
+        "default": "0",
         "mark": "注册时随机分配到的分组"
     },
     {

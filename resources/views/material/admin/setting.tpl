@@ -861,7 +861,7 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade" id="invite_settings">
+                                <div class="tab-pane fade" id="invitation_settings">
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
