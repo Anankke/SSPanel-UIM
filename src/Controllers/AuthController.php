@@ -355,7 +355,11 @@ final class AuthController extends BaseController
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
         $groups = explode(',', Setting::obtain('random_group'));
-        $user->node_group = $groups[array_rand($groups)];
+        if ($groups === '') {
+            $user->node_group = 0;
+        } else {
+            $user->node_group = $groups[array_rand($groups)];
+        }
 
         if ($user->save()) {
             Auth::login($user->id, 3600);
