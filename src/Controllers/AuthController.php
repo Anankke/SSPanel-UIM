@@ -384,7 +384,7 @@ final class AuthController extends BaseController
         $repasswd = $request->getParam('repasswd');
         $code = trim($request->getParam('code'));
 
-        if ($_ENV['enable_reg_im'] === true) {
+        if (Setting::obtain('enable_reg_im') === true) {
             $imtype = $request->getParam('im_type');
             $imvalue = $request->getParam('im_value');
             if ($imtype === '' || $imvalue === '') {
