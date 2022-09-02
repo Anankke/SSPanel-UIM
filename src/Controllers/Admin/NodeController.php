@@ -98,7 +98,7 @@ final class NodeController extends BaseController
         $success = true;
         $server_list = explode(';', $node->server);
 
-        if (Tools::isIp($req_node_ip)) {
+        if (Tools::isIPv4($req_node_ip)) {
             $success = $node->changeNodeIp($req_node_ip);
         } else {
             $success = $node->changeNodeIp($server_list[0]);
@@ -193,7 +193,7 @@ final class NodeController extends BaseController
         $success = true;
         $server_list = explode(';', $node->server);
 
-        if (Tools::isIp($req_node_ip)) {
+        if (Tools::isIPv4($req_node_ip)) {
             $success = $node->changeNodeIp($req_node_ip);
         } else {
             $success = $node->changeNodeIp($server_list[0]);

@@ -301,7 +301,7 @@ EOL;
         foreach ($nodes as $node) {
             /** @var Node $node */
             $server = $node->getOutAddress();
-            if (! Tools::isIp($server) && $node->changeNodeIp($server)) {
+            if (! Tools::isIPv4($server) && $node->changeNodeIp($server)) {
                 $node->save();
             }
         }

@@ -232,7 +232,7 @@ final class AuthController extends BaseController
             if ($mailcount >= 3) {
                 return ResponseHelper::error($response, '此邮箱请求次数过多');
             }
-            $code = Tools::genRandomNum(6);
+            $code = Tools::genRandomChar(6);
             $ev = new EmailVerify();
             $ev->expire_in = time() + Setting::obtain('email_verify_ttl');
             $ev->ip = $_SERVER['REMOTE_ADDR'];
@@ -354,11 +354,11 @@ final class AuthController extends BaseController
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
-        $groups = explode(',', Setting::obtain('random_group'));
-        if ($groups === '') {
+        $random_group = Setting::obtain('random_group');
+        if ($random_group === '') {
             $user->node_group = 0;
         } else {
-            $user->node_group = $groups[array_rand($groups)];
+            $user->node_group = $random_group[array_rand(explode(',', $random_group))];
         }
 
         if ($user->save()) {

@@ -835,7 +835,7 @@ final class User extends Model
             return true;
         }
         // 验证邮箱地址是否正确
-        if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+        if (Tools::isEmail($this->email)) {
             // 发送邮件
             try {
                 Mail::send(

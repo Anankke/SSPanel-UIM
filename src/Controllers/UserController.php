@@ -600,10 +600,10 @@ final class UserController extends BaseController
         $customcode = $request->getParam('customcode');
         $customcode = trim($customcode);
 
-        if (! Tools::isValidate($customcode) || $price < 0 || $customcode === '' || strlen($customcode) > 32) {
+        if (Tools::isSpecialChars($customcode) || $price < 0 || $customcode === '' || strlen($customcode) > 32) {
             return ResponseHelper::error(
                 $response,
-                '非法请求,邀请链接后缀不能包含特殊符号且长度不能大于32字符'
+                '定制失败，邀请链接不能为空，后缀不能包含特殊符号且长度不能大于32字符'
             );
         }
 
@@ -958,15 +958,9 @@ final class UserController extends BaseController
         $pwd = Tools::genRandomChar(16);
         $current_timestamp = time();
         $new_uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user->email . '|' . $current_timestamp);
-        $otheruuid = User::where('uuid', $new_uuid)->first();
+        $existing_uuid = User::where('uuid', $new_uuid)->first();
 
-        if ($pwd === '') {
-            return ResponseHelper::error($response, '密码不能为空');
-        }
-        if (! Tools::isValidate($pwd)) {
-            return ResponseHelper::error($response, '密码无效');
-        }
-        if ($otheruuid !== null) {
+        if ($existing_uuid !== null) {
             return ResponseHelper::error($response, '目前出现一些问题，请稍后再试');
         }
 

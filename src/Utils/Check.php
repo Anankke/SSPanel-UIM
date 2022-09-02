@@ -11,7 +11,7 @@ final class Check
         $res = [];
         $res['ret'] = 0;
 
-        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (! Tools::isEmail($email)) {
             $res['msg'] = '邮箱不规范';
             return $res;
         }
