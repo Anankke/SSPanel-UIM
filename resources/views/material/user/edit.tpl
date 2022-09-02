@@ -15,9 +15,9 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">重置连接密码</div>
-                                    <button class="btn btn-brand-accent btn-flat" id="passwd_reset"><span class="icon">autorenew</span>&nbsp;</button>
+                                    <button class="btn btn-flat" id="passwd_reset"><span class="icon">autorenew</span>&nbsp;</button>
                                 </div>
-                                <p>当前连接密码：<code id="ajax-user-passwd">{$user->passwd}</code>
+                                <p>当前连接密码：<code>{$user->passwd}</code>
                                     <button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">
                                         点击拷贝
                                     </button>
@@ -35,7 +35,7 @@
 							<div class="card-inner">
 								<div class="cardbtn-edit">
 									<div class="card-heading">重置订阅链接</div>
-                                    <button class="btn btn-brand-accent btn-flat" id="url_reset"><span class="icon">autorenew</span>&nbsp;</button>
+                                    <button class="btn btn-flat" id="url_reset"><span class="icon">autorenew</span>&nbsp;</button>
 								</div>
                                 <p>点击会重置您的订阅链接，您需要更新客户端中所配置的订阅地址方可继续使用。</p>
 							</div>
@@ -195,6 +195,7 @@
                                         <div class="card-heading">账户邮箱修改</div>
                                         <button class="btn btn-flat" id="email-update"><span class="icon">check</span>&nbsp;
                                         </button>
+                                        <p>当前账户邮箱：<code>{$user->email}</code></p>
                                     </div>
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="newemail">新邮箱</label>
@@ -226,6 +227,7 @@
                                     <div class="card-heading">用戶名修改</div>
                                     <button class="btn btn-flat" id="username-update"><span class="icon">check</span>&nbsp;
                                     </button>
+                                    <p>当前用戶名：<code>{$user->user_name}</code></p>
                                 </div>
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="newusername">新用戶名</label>
@@ -280,7 +282,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">每日使用报告设置</div>
-                                    <button class="btn btn-flat" id="mail-update"><span class="icon">check</span>&nbsp;
+                                    <button class="btn btn-flat" id="dailyreport-update"><span class="icon">check</span>&nbsp;
                                     </button>
                                 </div>
                                 <p class="card-heading"></p>
@@ -315,7 +317,7 @@
                                     </button>
                                 </div>
                                 <p>当前联络方式：
-                                    <code id="ajax-im" data-default="imtype">
+                                    <code data-default="imtype">
                                         {if $user->im_type==1}微信{/if}
                                         {if $user->im_type==2}QQ{/if}
                                         {if $user->im_type==4}Telegram{/if}
@@ -602,6 +604,7 @@
                 success: (data) => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = data.msg;
+                    window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
@@ -630,6 +633,7 @@
                     success: (data) => {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     },
                     error: (jqXHR) => {
                         $("#result").modal();
@@ -720,7 +724,6 @@
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $$.getElementById('ajax-im').innerHTML = `${$("#imtype").find("option:selected").text()} ${$$getValue('contact')}`
                         $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
@@ -853,9 +856,10 @@
                     if (data.ret) {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = '修改成功';
+                        window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $$.getElementById('msg').innerHTML = '修改失败';
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
                 error: (jqXHR) => {
@@ -878,9 +882,10 @@
                     if (data.ret) {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = '修改成功';
+                        window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $$.getElementById('msg').innerHTML = '修改失败';
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
                 error: (jqXHR) => {
@@ -903,9 +908,10 @@
                     if (data.ret) {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = '修改成功';
+                        window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
-                        $$.getElementById('msg').innerHTML = '修改失败';
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
                 error: (jqXHR) => {
@@ -919,7 +925,7 @@
 {/literal}
 <script>
     $(document).ready(function () {
-        $("#mail-update").click(function () {
+        $("#dailyreport-update").click(function () {
             $.ajax({
                 type: "POST",
                 url: "mail",
@@ -930,7 +936,7 @@
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
+                        $$.getElementById('msg').innerHTML = '修改成功';
                         window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
@@ -960,7 +966,7 @@
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
+                        $$.getElementById('msg').innerHTML = '修改成功';
                         window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
