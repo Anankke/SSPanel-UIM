@@ -64,11 +64,11 @@ return function (SlimApp $app): void {
         $this->post('/username', App\Controllers\UserController::class . ':updateUsername');
         $this->post('/password', App\Controllers\UserController::class . ':updatePassword');
         $this->post('/send', App\Controllers\AuthController::class . ':sendVerify');
-        $this->post('/wechat', App\Controllers\UserController::class . ':updateWechat');
+        $this->post('/contact_update', App\Controllers\UserController::class . ':updateContact');
         $this->post('/ssr', App\Controllers\UserController::class . ':updateSSR');
         $this->post('/theme', App\Controllers\UserController::class . ':updateTheme');
         $this->post('/mail', App\Controllers\UserController::class . ':updateMail');
-        $this->post('/sspwd', App\Controllers\UserController::class . ':updateSsPwd');
+        $this->post('/passwd_reset', App\Controllers\UserController::class . ':resetPasswd');
         $this->post('/method', App\Controllers\UserController::class . ':updateMethod');
         $this->post('/hide', App\Controllers\UserController::class . ':updateHide');
         $this->get('/sys', App\Controllers\UserController::class . ':sys');
@@ -81,16 +81,16 @@ return function (SlimApp $app): void {
 
         $this->get('/code_check', App\Controllers\UserController::class . ':codeCheck');
         $this->post('/code', App\Controllers\UserController::class . ':codePost');
-        $this->post('/gacheck', App\Controllers\UserController::class . ':gaCheck');
-        $this->post('/gaset', App\Controllers\UserController::class . ':gaSet');
-        $this->get('/gareset', App\Controllers\UserController::class . ':gaReset');
-        $this->get('/telegram_reset', App\Controllers\UserController::class . ':telegramReset');
-        $this->post('/resetport', App\Controllers\UserController::class . ':resetPort');
+        $this->post('/ga_check', App\Controllers\UserController::class . ':checkGa');
+        $this->post('/ga_set', App\Controllers\UserController::class . ':setGa');
+        $this->get('/ga_reset', App\Controllers\UserController::class . ':resetGa');
+        $this->post('/telegram_reset', App\Controllers\UserController::class . ':resetTelegram');
+        $this->post('/port_reset', App\Controllers\UserController::class . ':resetPort');
         $this->post('/specifyport', App\Controllers\UserController::class . ':specifyPort');
         $this->post('/unblock', App\Controllers\UserController::class . ':unblock');
         $this->get('/bought', App\Controllers\UserController::class . ':bought');
         $this->delete('/bought', App\Controllers\UserController::class . ':deleteBoughtGet');
-        $this->get('/url_reset', App\Controllers\UserController::class . ':resetURL');
+        $this->post('/url_reset', App\Controllers\UserController::class . ':resetURL');
         $this->put('/invite', App\Controllers\UserController::class . ':resetInviteURL');
 
         // 订阅记录

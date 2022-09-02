@@ -60,7 +60,7 @@ final class UserController extends BaseController
 
         if (in_array($node->sort, [0, 10]) && $node->mu_only !== -1) {
             $mu_port_migration = $_ENV['mu_port_migration'];
-            $muPort = Tools::getMutilUserOutPortArray($node->server);
+            $muPort = Tools::getMutilUserOutPortArray($node);
         } else {
             $mu_port_migration = false;
         }

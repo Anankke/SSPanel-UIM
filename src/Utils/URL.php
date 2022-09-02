@@ -96,7 +96,7 @@ final class URL
             $mu_user = User::where('port', '=', $mu_port)
                 ->where('is_multi_user', '<>', 0)->first();
             if ($mu_user === null) {
-                return 0;
+                return false;
             }
             return self::SSCanConnect($mu_user);
         }
@@ -188,7 +188,6 @@ final class URL
      * ```
      * $Rule = [
      *      'type'    => 'all | ss | ssr | vmess | trojan',
-     *      'emoji'   => false,
      *      'is_mu'   => 1,
      *      'content' => [
      *          'noclass' => [0, 1, 2],
@@ -205,7 +204,6 @@ final class URL
     {
         $is_ss = [0];
         $is_mu = ($Rule['is_mu'] ?? (int) $_ENV['mergeSub']);
-        $emoji = ($Rule['emoji'] ?? false);
 
         switch ($Rule['type']) {
             case 'ss':
@@ -276,7 +274,7 @@ final class URL
                     14 => 'getTrojanItem',          // Trojan
                 ];
                 $class = $node_class[$node->sort];
-                $item = $node->$class($user, 0, 0, $emoji);
+                $item = $node->$class($user, 0, 0);
                 if ($item !== null) {
                     $return_array[] = $item;
                 }
@@ -290,7 +288,7 @@ final class URL
                 if ($node->mu_only !== 1 &&
                     ($is_mu === 0 || ($is_mu !== 0 && $_ENV['mergeSub'] === true))) {
                     foreach ($is_ss as $ss) {
-                        $item = $node->getItem($user, 0, $ss, $emoji);
+                        $item = $node->getItem($user, 0, $ss);
                         if ($item !== null) {
                             $return_array[] = $item;
                         }
@@ -302,7 +300,7 @@ final class URL
                 if ($node->mu_only !== -1 && $is_mu !== 0) {
                     foreach ($is_ss as $ss) {
                         foreach ($mu_nodes as $mu_node) {
-                            $item = $node->getItem($user, $mu_node->server, $ss, $emoji);
+                            $item = $node->getItem($user, $mu_node->server, $ss);
                             if ($item !== null) {
                                 $return_array[] = $item;
                             }
@@ -323,7 +321,6 @@ final class URL
      * ```
      *  $Rule = [
      *      'type'    => 'ss | ssr | vmess',
-     *      'emoji'   => false,
      *      'is_mu'   => 1,
      *      'content' => [
      *          'noclass' => [0, 1, 2],
@@ -368,7 +365,7 @@ final class URL
      *
      * @return array
      */
-    public static function getAllSSItems(User $user, bool $emoji = false): array
+    public static function getAllSSItems(User $user): array
     {
         return self::getNodes($user, [0, 10]);
     }
@@ -380,12 +377,12 @@ final class URL
      *
      * @return array
      */
-    public static function getAllV2RayPluginItems(User $user, bool $emoji = false): array
+    public static function getAllV2RayPluginItems(User $user): array
     {
         $return_array = [];
         $nodes = self::getNodes($user, 13);
         foreach ($nodes as $node) {
-            $item = $node->getV2RayPluginItem($user, 0, 0, $emoji);
+            $item = $node->getV2RayPluginItem($user, 0, 0);
             if ($item !== null) {
                 $return_array[] = $item;
             }
@@ -402,13 +399,12 @@ final class URL
     public static function getV2Url(
         User $user,
         Node $node,
-        bool $arrout = false,
-        bool $emoji = false
+        bool $arrout = false
     ) {
         $item = Tools::v2Array($node);
         $item['v'] = '2';
         $item['type'] = 'vmess';
-        $item['ps'] = ($emoji ? Tools::addEmoji($node->name) : $node->name);
+        $item['ps'] = $node->name;
         $item['remark'] = $item['ps'];
         $item['id'] = $user->uuid;
         $item['class'] = $node->node_class;
@@ -425,8 +421,7 @@ final class URL
      */
     public static function getAllVMessUrl(
         User $user,
-        bool $arrout = false,
-        bool $emoji = false
+        bool $arrout = false
     ) {
         $nodes = self::getNodes($user, [11]);
         # 增加中转配置，后台目前配置user=0的话是自由门直接中转
@@ -438,12 +433,12 @@ final class URL
         if (! $arrout) {
             $result = '';
             foreach ($nodes as $node) {
-                $result .= self::getV2Url($user, $node, $arrout, $emoji) . PHP_EOL;
+                $result .= self::getV2Url($user, $node, $arrout) . PHP_EOL;
             }
         } else {
             $result = [];
             foreach ($nodes as $node) {
-                $result[] = self::getV2Url($user, $node, $arrout, $emoji);
+                $result[] = self::getV2Url($user, $node, $arrout);
             }
         }
         return $result;
@@ -454,12 +449,12 @@ final class URL
      *
      * @param User $user 用户
      */
-    public static function getAllTrojan(User $user, bool $emoji = false): array
+    public static function getAllTrojan(User $user): array
     {
         $return_array = [];
         $nodes = self::getNodes($user, 14);
         foreach ($nodes as $node) {
-            $item = $node->getTrojanItem($user, 0, 0, $emoji);
+            $item = $node->getTrojanItem($user, 0, 0);
             if ($item !== null) {
                 $return_array[] = $item;
             }

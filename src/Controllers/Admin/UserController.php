@@ -91,7 +91,7 @@ final class UserController extends BaseController
             ]);
         }
 
-        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (! Tools::isEmail($email)) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '邮箱不规范',

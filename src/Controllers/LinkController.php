@@ -107,12 +107,6 @@ final class LinkController extends BaseController
             $Rule['content']['regex'] = trim(urldecode($opts['regex']));
         }
 
-        // Emoji
-        $Rule['emoji'] = $_ENV['add_emoji_to_node_name'];
-        if (isset($opts['emoji'])) {
-            $Rule['emoji'] = (bool) $opts['emoji'];
-        }
-
         // 显示流量以及到期时间等
         $Rule['extend'] = $_ENV['enable_sub_extend'];
         if (isset($opts['extend'])) {
@@ -490,10 +484,6 @@ final class LinkController extends BaseController
         }
         if ($list === 'quantumult') {
             $Rule['type'] = 'vmess';
-        }
-        if ($list === 'shadowrocket') {
-            // Shadowrocket 自带 emoji
-            $Rule['emoji'] = false;
         }
         $items = URL::getNewAllItems($user, $Rule);
         $return = [];

@@ -13,8 +13,6 @@ RUN cp config/.config.example.php "config/.config.php" && \
     php composer.phar && \
     php composer.phar config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true && \
     php composer.phar install && \
-    php vendor/bin/phinx migrate && \
-    php xcat Tool importAllSettings && \
     php xcat initQQWry && \
     php xcat ClientDownload && \
     crontab -l | { cat; echo "30 23 * * * php /var/www/xcat SendDiaryMail"; } | crontab - && \

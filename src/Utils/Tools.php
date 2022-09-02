@@ -14,156 +14,6 @@ use ZipArchive;
 
 final class Tools
 {
-    // 请将冷门的国家或地区放置在上方，热门的中继起源放置在下方
-    // 以便于兼容如：【上海 -> 美国】等节点名称
-    private static $emoji = [
-        '🇦🇷' => [
-            '阿根廷',
-        ],
-        '🇦🇹' => [
-            '奥地利',
-            '维也纳',
-        ],
-        '🇦🇺' => [
-            '澳大利亚',
-            '悉尼',
-        ],
-        '🇧🇷' => [
-            '巴西',
-            '圣保罗',
-        ],
-        '🇨🇦' => [
-            '加拿大',
-            '蒙特利尔',
-            '温哥华',
-        ],
-        '🇨🇭' => [
-            '瑞士',
-            '苏黎世',
-        ],
-        '🇩🇪' => [
-            '德国',
-            '法兰克福',
-        ],
-        '🇫🇮' => [
-            '芬兰',
-            '赫尔辛基',
-        ],
-        '🇫🇷' => [
-            '法国',
-            '巴黎',
-        ],
-        '🇬🇧' => [
-            '英国',
-            '伦敦',
-        ],
-        '🇮🇩' => [
-            '印尼',
-            '印度尼西亚',
-            '雅加达',
-        ],
-        '🇮🇪' => [
-            '爱尔兰',
-            '都柏林',
-        ],
-        '🇮🇳' => [
-            '印度',
-            '孟买',
-        ],
-        '🇮🇹' => [
-            '意大利',
-            '米兰',
-        ],
-        '🇰🇵' => [
-            '朝鲜',
-        ],
-        '🇲🇾' => [
-            '马来西亚',
-        ],
-        '🇳🇱' => [
-            '荷兰',
-            '阿姆斯特丹',
-        ],
-        '🇵🇭' => [
-            '菲律宾',
-        ],
-        '🇷🇴' => [
-            '罗马尼亚',
-        ],
-        '🇷🇺' => [
-            '俄罗斯',
-            '伯力',
-            '莫斯科',
-            '圣彼得堡',
-            '西伯利亚',
-            '新西伯利亚',
-        ],
-        '🇸🇬' => [
-            '新加坡',
-        ],
-        '🇹🇭' => [
-            '泰国',
-            '曼谷',
-        ],
-        '🇹🇷' => [
-            '土耳其',
-            '伊斯坦布尔',
-        ],
-        '🇺🇲' => [
-            '美国',
-            '波特兰',
-            '俄勒冈',
-            '凤凰城',
-            '费利蒙',
-            '硅谷',
-            '拉斯维加斯',
-            '洛杉矶',
-            '圣克拉拉',
-            '西雅图',
-            '芝加哥',
-            '沪美',
-        ],
-        '🇻🇳' => [
-            '越南',
-        ],
-        '🇿🇦' => [
-            '南非',
-        ],
-        '🇰🇷' => [
-            '韩国',
-            '首尔',
-        ],
-        '🇲🇴' => [
-            '澳门',
-        ],
-        '🇯🇵' => [
-            '日本',
-            '东京',
-            '大阪',
-            '埼玉',
-            '沪日',
-        ],
-        '🇹🇼' => [
-            '台湾',
-            '台北',
-            '台中',
-        ],
-        '🇭🇰' => [
-            '香港',
-            '深港',
-        ],
-        '🇨🇳' => [
-            '中国',
-            '江苏',
-            '北京',
-            '上海',
-            '深圳',
-            '杭州',
-            '徐州',
-            '宁波',
-            '镇江',
-        ],
-    ];
     /**
      * 查询IP归属
      */
@@ -275,38 +125,14 @@ final class Tools
         return $traffic / $gb;
     }
 
-    //获取随机字符串
-
-    public static function genRandomNum($length = 8)
-    {
-        // 来自Miku的 6位随机数 注册验证码 生成方案
-        $chars = '0123456789';
-        $char = '';
-        for ($i = 0; $i < $length; $i++) {
-            $char .= $chars[random_int(0, strlen($chars) - 1)];
-        }
-        return $char;
-    }
-
     public static function genRandomChar($length = 8)
     {
-        // 密码字符集，可任意添加你需要的字符
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $char = '';
-        for ($i = 0; $i < $length; $i++) {
-            $char .= $chars[random_int(0, strlen($chars) - 1)];
-        }
-        return $char;
+        return bin2hex(openssl_random_pseudo_bytes($length / 2));
     }
 
     public static function genToken()
     {
         return self::genRandomChar(64);
-    }
-
-    public static function isIp($a)
-    {
-        return preg_match("/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/", $a);
     }
 
     // Unix time to Date Time
@@ -381,10 +207,9 @@ final class Tools
         return $dirArray;
     }
 
-    public static function isValidate($str)
+    public static function isSpecialChars($input)
     {
-        $pattern = "/[^A-Za-z0-9\-_\.]/";
-        return ! preg_match($pattern, $str);
+        return ! preg_match('/[^A-Za-z0-9\-_\.]/', $input);
     }
 
     public static function isParamValidate($type, $str)
@@ -394,70 +219,6 @@ final class Tools
             return true;
         }
         return false;
-    }
-
-    public static function insertPathRule($single_rule, $pathset, $port)
-    {
-        /* path
-          path pathtext
-          begin_node_id id
-          end_node id
-          port port
-        */
-
-        if ($single_rule->dist_node_id === -1) {
-            return $pathset;
-        }
-
-        foreach ($pathset as $path) {
-            if ($path->port === $port) {
-                if ($single_rule->dist_node_id === $path->begin_node->id) {
-                    $path->begin_node = $single_rule->Source_Node();
-                    if ($path->begin_node->isNodeAccessable() === false) {
-                        $path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node()->name . '</span> → ' . $path->path;
-                        $path->status = '阻断';
-                    } else {
-                        $path->path = $single_rule->Source_Node()->name . ' → ' . $path->path;
-                        $path->status = '通畅';
-                    }
-                    return $pathset;
-                }
-
-                if ($path->end_node->id === $single_rule->source_node_id) {
-                    $path->end_node = $single_rule->Dist_Node();
-                    if ($path->end_node->isNodeAccessable() === false) {
-                        $path->path .= ' → <span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
-                        $path->status = '阻断';
-                    } else {
-                        $path->path .= ' → ' . $single_rule->Dist_Node()->name;
-                    }
-                    return $pathset;
-                }
-            }
-        }
-
-        $new_path = new \stdClass();
-        $new_path->begin_node = $single_rule->Source_Node();
-        if ($new_path->begin_node->isNodeAccessable() === false) {
-            $new_path->path = '<span style="color: #FF0000; ">' . $single_rule->Source_Node()->name . '</span>';
-            $new_path->status = '阻断';
-        } else {
-            $new_path->path = $single_rule->Source_Node()->name;
-            $new_path->status = '通畅';
-        }
-
-        $new_path->end_node = $single_rule->Dist_Node();
-        if ($new_path->end_node->isNodeAccessable() === false) {
-            $new_path->path .= ' -> <span style="color: #FF0000; ">' . $single_rule->Dist_Node()->name . '</span>';
-            $new_path->status = '阻断';
-        } else {
-            $new_path->path .= ' -> ' . $single_rule->Dist_Node()->name;
-        }
-
-        $new_path->port = $port;
-        $pathset->append($new_path);
-
-        return $pathset;
     }
 
     /**
@@ -485,13 +246,36 @@ final class Tools
         return str_replace('::ffff:', '', $rawIp);
     }
 
-    public static function isInt($str)
+    public static function isEmail($input)
     {
-        if ($str[0] === '-') {
-            $str = substr($str, 1);
+        if (filter_var($input, FILTER_VALIDATE_EMAIL) === false) {
+            return false;
         }
+        return true;
+    }
 
-        return ctype_digit($str);
+    public static function isIPv4($input)
+    {
+        if (filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function isIPv6($input)
+    {
+        if (filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function isInt($input)
+    {
+        if (filter_var($input, FILTER_VALIDATE_INT) === false) {
+            return false;
+        }
+        return true;
     }
 
     public static function v2Array($node)
@@ -650,11 +434,11 @@ final class Tools
         return $item;
     }
 
-    public static function outPort($server, $node_name, $mu_port)
+    public static function outPort($server, $node_name, $mu_port, $custom_config)
     {
         $node_server = explode(';', $server);
         $node_port = $mu_port;
-        $item = $server->getArgs();
+        $item = $custom_config;
 
         if (isset($item['port'])) {
             if (strpos($item['port'], '#') !== false) { // 端口偏移，指定端口，格式：8.8.8.8;port=80#1080
@@ -682,11 +466,11 @@ final class Tools
         ];
     }
 
-    public static function getMutilUserOutPortArray($server)
+    public static function getMutilUserOutPortArray($node)
     {
         $type = 0; //偏移
         $port = []; //指定
-        $item = $server->getArgs();
+        $item = $node->getArgs();
 
         if (isset($item['port'])) {
             if (strpos($item['port'], '#') !== false) {
@@ -741,27 +525,6 @@ final class Tools
             'type' => $type,
             'port' => $port,
         ];
-    }
-
-    public static function addEmoji($Name)
-    {
-        $done = [
-            'index' => -1,
-            'emoji' => '',
-        ];
-        foreach (self::$emoji as $key => $value) {
-            foreach ($value as $item) {
-                $index = strpos($Name, $item);
-                if ($index !== false) {
-                    $done['index'] = $index;
-                    $done['emoji'] = $key;
-                    continue 2;
-                }
-            }
-        }
-        return $done['index'] === -1
-            ? $Name
-            : ($done['emoji'] . ' ' . $Name);
     }
 
     /**

@@ -251,7 +251,7 @@ final class Node extends Model
      */
     public function changeNodeIp(string $server_name): bool
     {
-        if (! Tools::isIp($server_name)) {
+        if (! Tools::isIPv4($server_name)) {
             $ip = gethostbyname($server_name);
             if ($ip === '') {
                 return false;
@@ -320,13 +320,13 @@ final class Node extends Model
      */
     public function getOffsetPort($port)
     {
-        return Tools::outPort($this->server, $this->name, $port)['port'];
+        return Tools::outPort($this->server, $this->name, $port, $this->getArgs())['port'];
     }
 
     /**
      * 获取 SS/SSR 节点
      */
-    public function getItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): ?array
+    public function getItem(User $user, int $mu_port = 0, int $is_ss = 0): ?array
     {
         $node_name = $this->name;
         $return_array = [];
@@ -367,13 +367,13 @@ final class Node extends Model
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
         if ($mu_port !== 0 && strpos($this->server, ';') !== false) {
-            $node_tmp = Tools::outPort($this->server, $this->name, $mu_port);
+            $node_tmp = Tools::outPort($this->server, $this->name, $mu_port, $this->getArgs());
             $return_array['port'] = $node_tmp['port'];
             $node_name = $node_tmp['name'];
         }
         $return_array['passwd'] = $user->passwd;
         $return_array['method'] = $user->method;
-        $return_array['remark'] = ($emoji ? Tools::addEmoji($node_name) : $node_name);
+        $return_array['remark'] = $node_name;
         $return_array['class'] = $this->node_class;
         $return_array['group'] = $_ENV['appName'];
         $return_array['ratio'] = $this->traffic_rate;
@@ -384,11 +384,11 @@ final class Node extends Model
     /**
      * 获取 V2Ray 节点
      */
-    public function getV2RayItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): array
+    public function getV2RayItem(User $user, int $mu_port = 0, int $is_ss = 0): array
     {
         $item = Tools::v2Array($this);
         $item['type'] = 'vmess';
-        $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
+        $item['remark'] = $this->name;
         $item['id'] = $user->uuid;
         $item['class'] = $this->node_class;
         return $item;
@@ -401,14 +401,14 @@ final class Node extends Model
      *
      * @return array|null
      */
-    public function getV2RayPluginItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): ?array
+    public function getV2RayPluginItem(User $user, int $mu_port = 0, int $is_ss = 0): ?array
     {
         $return_array = Tools::ssv2Array($this);
         // 非 AEAD 加密无法使用
         if ($return_array['net'] !== 'obfs' && ! in_array($user->method, Config::getSupportParam('ss_aead_method'))) {
             return null;
         }
-        $return_array['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
+        $return_array['remark'] = $this->name;
         $return_array['address'] = $return_array['add'];
         $return_array['method'] = $user->method;
         $return_array['passwd'] = $user->passwd;
@@ -440,14 +440,14 @@ final class Node extends Model
      *
      * @param User $user 用户
      */
-    public function getTrojanItem(User $user, int $mu_port = 0, int $is_ss = 0, bool $emoji = false): array
+    public function getTrojanItem(User $user, int $mu_port = 0, int $is_ss = 0): array
     {
         $server = explode(';', $this->server);
         $opt = [];
         $item = [];
         $opt = $this->getArgs();
 
-        $item['remark'] = ($emoji ? Tools::addEmoji($this->name) : $this->name);
+        $item['remark'] = $this->name;
         $item['type'] = 'trojan';
         $item['address'] = $server[0];
         $item['port'] = (isset($opt['offset_port_user']) ? (int) $opt['offset_port_user'] : (isset($opt['offset_port_node']) ? (int) $opt['offset_port_node'] : 443));

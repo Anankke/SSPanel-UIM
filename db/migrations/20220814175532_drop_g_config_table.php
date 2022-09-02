@@ -15,8 +15,7 @@ final class DropGConfigTable extends AbstractMigration
 
     public function down(): void
     {
-        $table = $this->table('gconfig');
-        $table->table('gconfig', [ 'id' => false, 'primary_key' => [ 'id' ]])
+        $this->table('gconfig', [ 'id' => false, 'primary_key' => [ 'id' ]])
             ->addColumn('id', 'integer', [ 'identity' => true,'signed' => false ])
             ->addColumn('key', 'string', [ 'comment' => '配置键名' ])
             ->addColumn('type', 'string', [ 'comment' => '值类型' ])

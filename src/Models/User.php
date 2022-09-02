@@ -154,15 +154,6 @@ final class User extends Model
     }
 
     /**
-     * 更新连接密码
-     */
-    public function updateSsPwd(string $pwd): bool
-    {
-        $this->passwd = $pwd;
-        return $this->save();
-    }
-
-    /**
      * 更新加密方式
      */
     public function updateMethod(string $method): array
@@ -835,7 +826,7 @@ final class User extends Model
             return true;
         }
         // 验证邮箱地址是否正确
-        if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+        if (Tools::isEmail($this->email)) {
             // 发送邮件
             try {
                 Mail::send(

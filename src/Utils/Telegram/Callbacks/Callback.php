@@ -1010,7 +1010,6 @@ final class Callback
                     $Rule = [
                         'type'    => 'all',
                         'is_mu'   => 1,
-                        'emoji'   => true,
                         'extend' => true,
                     ];
                     $string = LinkController::getClash($this->User, 1, $opts, $Rule);
@@ -1036,7 +1035,6 @@ final class Callback
                     $Rule = [
                         'type'    => 'all',
                         'is_mu'   => 1,
-                        'emoji'   => true,
                         'extend' => true,
                     ];
                     $string = LinkController::GetQuantumult($this->User, 3, $opts, $Rule);
@@ -1062,7 +1060,6 @@ final class Callback
                     $Rule = [
                         'type'    => 'ss',
                         'is_mu'   => 1,
-                        'emoji'   => true,
                         'extend' => true,
                     ];
                     $string = LinkController::getSurge($this->User, 2, $opts, $Rule);
@@ -1088,7 +1085,6 @@ final class Callback
                     $Rule = [
                         'type'    => 'ss',
                         'is_mu'   => 1,
-                        'emoji'   => true,
                         'extend' => true,
                     ];
                     $string = LinkController::getSurge($this->User, 3, $opts, $Rule);
