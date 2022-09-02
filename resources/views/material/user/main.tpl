@@ -41,11 +41,6 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
-                    <a class="waves-attach" href="/user/edit">
-                        <span class="icon icon-lg margin-right">edit</span>资料编辑
-                    </a>
-                </li>
-                <li>
                     <a class="padding-right-cd waves-attach" href="/user/logout">
                         <span class="icon icon-lg margin-right">exit_to_app</span>登出
                     </a>
@@ -67,6 +62,9 @@
                         </li>
                         <li>
                             <a href="/user/profile"><i class="icon icon-lg">account_box</i>&nbsp;账户信息</a>
+                        </li>
+                        <li>
+                            <a href="/user/edit"><i class="icon icon-lg">edit</i>&nbsp;资料编辑</a>
                         </li>
                         {if $config['subscribeLog']===true && $config['subscribeLog_show']===true}
                         <li>

@@ -154,15 +154,6 @@ final class User extends Model
     }
 
     /**
-     * 更新连接密码
-     */
-    public function updateSsPwd(string $pwd): bool
-    {
-        $this->passwd = $pwd;
-        return $this->save();
-    }
-
-    /**
      * 更新加密方式
      */
     public function updateMethod(string $method): array

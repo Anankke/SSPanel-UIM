@@ -14,8 +14,8 @@
                         <div class="card-inner">
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
-                                    <div class="card-heading">节点连接密码修改</div>
-                                    <button class="btn btn-flat" id="ss-pwd-update"><span class="icon">check</span>&nbsp;</button>
+                                    <div class="card-heading">重置连接密码</div>
+                                    <button class="btn btn-brand-accent btn-flat" id="passwd_reset"><span class="icon">autorenew</span>&nbsp;</button>
                                 </div>
                                 <p>当前连接密码：<code id="ajax-user-passwd">{$user->passwd}</code>
                                     <button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">
@@ -23,11 +23,24 @@
                                     </button>
                                 </p>
                                 <p>点击重置按钮将会自动生成由随机字母和数字组成的连接密码。</p>
-                                <p>修改连接密码同时也会自动为您重新生成 V2Ray 和 Trojan 节点的 UUID。</p>
-                                <p>修改连接密码后，您需要更新订阅或修改客户端配置方可继续使用。</p>
+                                <p>重置连接密码同时也会自动为您重新生成 V2Ray 和 Trojan 节点的 UUID。</p>
+                                <p>重置连接密码后，您需要更新订阅或修改客户端配置方可继续使用。</p>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="card margin-bottom-no">
+					<div class="card-main">
+						<div class="card-inner">
+							<div class="card-inner">
+								<div class="cardbtn-edit">
+									<div class="card-heading">重置订阅链接</div>
+                                    <button class="btn btn-brand-accent btn-flat" id="url_reset"><span class="icon">autorenew</span>&nbsp;</button>
+								</div>
+                                <p>点击会重置您的订阅链接，您需要更新客户端中所配置的订阅地址方可继续使用。</p>
+							</div>
+						</div>
+					</div>
                 </div>
                 <div class="card margin-bottom-no">
                     <div class="card-main">
@@ -118,20 +131,58 @@
                         </div>
                     </div>
                 </div>
-				<div class="card margin-bottom-no">
-					<div class="card-main">
-						<div class="card-inner">
-							<div class="card-inner">
-								<div class="cardbtn-edit">
-									<div class="card-heading">重置订阅链接</div>
-									<div class="reset-flex">
-										<a class="reset-link btn btn-brand-accent btn-flat" ><i class="icon">autorenew</i>&nbsp;</a>
-									</div>
-								</div>
-                                <p>点击会重置您的订阅链接，您需要更新客户端中所配置的订阅地址方可继续使用。</p>
-							</div>
-						</div>
-					</div>
+                <div class="card margin-bottom-no">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div class="card-inner">
+                                <p class="card-heading">两步验证</p>
+                                <p>请使用 TOTP 两步验证器扫描下面的二维码。</p>
+                                <p><i class="icon icon-lg" aria-hidden="true">android</i><a
+                                            href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">&nbsp;Android</a>
+                                </p>
+                                <p><i class="icon icon-lg" aria-hidden="true">tablet_mac</i><a
+                                            href="https://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">&nbsp;iOS</a>
+                                </p>
+                                <p>在没有测试完成绑定成功之前请不要启用。</p>
+                                <p>当前设置：<code data-default="ga-enable">{if $user->ga_enable==1} 要求验证 {else} 不要求 {/if}</code>
+                                </p>
+                                <p>当前服务器时间：{date("Y-m-d H:i:s")}</p>
+                                <div class="form-group form-group-label control-highlight-custom dropdown">
+                                    <label class="floating-label" for="ga-enable">验证设置</label>
+                                    <button type="button" id="ga-enable" class="form-control maxwidth-edit"
+                                            data-toggle="dropdown" value="{$user->ga_enable}"></button>
+                                    <ul class="dropdown-menu" aria-labelledby="ga-enable">
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="0"
+                                               data="ga-enable">不要求</a></li>
+                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="1"
+                                               data="ga-enable">要求验证</a></li>
+                                    </ul>
+                                </div>
+                                <div class="form-group form-group-label">
+                                    <div class="text-center">
+                                        <div id="ga-qr" class="qr-center"></div>
+                                        密钥：{$user->ga_token}
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="code">测试一下</label>
+                                    <input type="text" id="code" placeholder="输入验证器生成的数字来测试"
+                                           class="form-control maxwidth-edit">
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <div class="card-action-btn pull-left">
+                                    <a class="btn btn-brand-accent btn-flat waves-attach" href="/user/ga_reset"><span
+                                                class="icon">format_color_reset</span>&nbsp;重置</a>
+                                    <button class="btn btn-flat waves-attach" id="ga-test"><span
+                                                class="icon">extension</span>&nbsp;测试
+                                    </button>
+                                    <button class="btn btn-brand btn-flat waves-attach" id="ga-set"><span class="icon">perm_data_setting</span>&nbsp;设置
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-xx-12 col-sm-6">
@@ -260,7 +311,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">联络方式修改</div>
-                                    <button class="btn btn-flat" id="wechat-update"><span class="icon">check</span>&nbsp;
+                                    <button class="btn btn-flat" id="contact_update"><span class="icon">check</span>&nbsp;
                                     </button>
                                 </div>
                                 <p>当前联络方式：
@@ -292,61 +343,8 @@
                                     </ul>
                                 </div>
                                 <div class="form-group form-group-label">
-                                    <label class="floating-label" for="wechat">在这输入联络方式账号</label>
-                                    <input class="form-control maxwidth-edit" id="wechat" type="text">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card margin-bottom-no">
-                    <div class="card-main">
-                        <div class="card-inner">
-                            <div class="card-inner">
-                                <p class="card-heading">两步验证</p>
-                                <p>请使用 TOTP 两步验证器扫描下面的二维码。</p>
-                                <p><i class="icon icon-lg" aria-hidden="true">android</i><a
-                                            href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">&nbsp;Android</a>
-                                </p>
-                                <p><i class="icon icon-lg" aria-hidden="true">tablet_mac</i><a
-                                            href="https://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">&nbsp;iOS</a>
-                                </p>
-                                <p>在没有测试完成绑定成功之前请不要启用。</p>
-                                <p>当前设置：<code data-default="ga-enable">{if $user->ga_enable==1} 要求验证 {else} 不要求 {/if}</code>
-                                </p>
-                                <p>当前服务器时间：{date("Y-m-d H:i:s")}</p>
-                                <div class="form-group form-group-label control-highlight-custom dropdown">
-                                    <label class="floating-label" for="ga-enable">验证设置</label>
-                                    <button type="button" id="ga-enable" class="form-control maxwidth-edit"
-                                            data-toggle="dropdown" value="{$user->ga_enable}"></button>
-                                    <ul class="dropdown-menu" aria-labelledby="ga-enable">
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="0"
-                                               data="ga-enable">不要求</a></li>
-                                        <li><a href="#" class="dropdown-option" onclick="return false;" val="1"
-                                               data="ga-enable">要求验证</a></li>
-                                    </ul>
-                                </div>
-                                <div class="form-group form-group-label">
-                                    <div class="text-center">
-                                        <div id="ga-qr" class="qr-center"></div>
-                                        密钥：{$user->ga_token}
-                                    </div>
-                                </div>
-                                <div class="form-group form-group-label">
-                                    <label class="floating-label" for="code">测试一下</label>
-                                    <input type="text" id="code" placeholder="输入验证器生成的数字来测试"
-                                           class="form-control maxwidth-edit">
-                                </div>
-                            </div>
-                            <div class="card-action">
-                                <div class="card-action-btn pull-left">
-                                    <a class="btn btn-brand-accent btn-flat waves-attach" href="/user/gareset"><span
-                                                class="icon">format_color_reset</span>&nbsp;重置</a>
-                                    <button class="btn btn-flat waves-attach" id="ga-test"><span
-                                                class="icon">extension</span>&nbsp;测试
-                                    </button>
-                                    <button class="btn btn-brand btn-flat waves-attach" id="ga-set"><span class="icon">perm_data_setting</span>&nbsp;设置
-                                    </button>
+                                    <label class="floating-label" for="contact">在这输入联络方式账号</label>
+                                    <input class="form-control maxwidth-edit" id="contact" type="text">
                                 </div>
                             </div>
                         </div>
@@ -399,7 +397,7 @@
                                     <div class="cardbtn-edit">
                                         <div class="card-heading">Telegram 绑定</div>
                                     {if $user->telegram_id != 0}
-                                        <div><a class="btn btn-flat btn-brand-accent" href="/user/telegram_reset"><span class="icon">not_interested</span>&nbsp;</a></div>
+                                        <button class="btn btn-brand-accent btn-flat" id="telegram_reset"><span class="icon">not_interested</span>&nbsp;</button>
                                     </div>
                                         <div class="text-center">
                                             <p>当前绑定的 Telegram 账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a></p>
@@ -509,7 +507,7 @@
         $("#portreset").click(function () {
             $.ajax({
                 type: "POST",
-                url: "resetport",
+                url: "port_reset",
                 dataType: "json",
                 data: {},
                 success: (data) => {
@@ -710,19 +708,19 @@
 {literal}
 <script>
     $(document).ready(function () {
-        $("#wechat-update").click(function () {
+        $("#contact_update").click(function () {
             $.ajax({
                 type: "POST",
-                url: "wechat",
+                url: "contact_update",
                 dataType: "json",
                 data: {
-                    wechat: $$getValue('wechat'),
+                    contact: $$getValue('contact'),
                     imtype: $$getValue('imtype')
                 },
                 success: (data) => {
                     if (data.ret) {
                         $("#result").modal();
-                        $$.getElementById('ajax-im').innerHTML = `${$("#imtype").find("option:selected").text()} ${$$getValue('wechat')}`
+                        $$.getElementById('ajax-im').innerHTML = `${$("#imtype").find("option:selected").text()} ${$$getValue('contact')}`
                         $$.getElementById('msg').innerHTML = data.msg;
                     } else {
                         $("#result").modal();
@@ -804,7 +802,7 @@
         $("#ga-test").click(function () {
             $.ajax({
                 type: "POST",
-                url: "gacheck",
+                url: "ga_check",
                 dataType: "json",
                 data: {
                     code: $$getValue('code')
@@ -826,7 +824,7 @@
         $("#ga-set").click(function () {
             $.ajax({
                 type: "POST",
-                url: "gaset",
+                url: "ga_set",
                 dataType: "json",
                 data: {
                     enable: $$getValue('ga-enable')
@@ -845,10 +843,60 @@
 </script>
 <script>
     $(document).ready(function () {
-        $("#ss-pwd-update").click(function () {
+        $("#passwd_reset").click(function () {
             $.ajax({
                 type: "POST",
-                url: "sspwd",
+                url: "passwd_reset",
+                dataType: "json",
+                data: {},
+                success: (data) => {
+                    if (data.ret) {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = '修改成功';
+                    } else {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = '修改失败';
+                    }
+                },
+                error: (jqXHR) => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                }
+            })
+        })
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $("#telegram_reset").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "telegram_reset",
+                dataType: "json",
+                data: {},
+                success: (data) => {
+                    if (data.ret) {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = '修改成功';
+                    } else {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = '修改失败';
+                    }
+                },
+                error: (jqXHR) => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                }
+            })
+        })
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $("#url_reset").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "url_reset",
                 dataType: "json",
                 data: {},
                 success: (data) => {
@@ -961,13 +1009,3 @@
     })
 </script>
 {/literal}
-<script>
-    $(function () {
-        new ClipboardJS('.reset-link');
-    });
-    $(".reset-link").click(function () {
-        $("#result").modal();
-        $$.getElementById('msg').innerHTML = '已重置您的订阅链接，请变更或添加您的订阅链接！';
-        window.setTimeout("location.href='/user/url_reset'", {$config['jump_delay']});
-    });
-</script>

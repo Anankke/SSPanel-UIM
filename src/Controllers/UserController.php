@@ -276,7 +276,7 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function gaCheck(Request $request, Response $response, array $args)
+    public function checkGa(Request $request, Response $response, array $args)
     {
         $code = $request->getParam('code');
         if ($code === '') {
@@ -303,7 +303,7 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function gaSet(Request $request, Response $response, array $args)
+    public function setGa(Request $request, Response $response, array $args)
     {
         $enable = $request->getParam('enable');
         if ($enable === '') {
@@ -348,7 +348,7 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function gaReset(Request $request, Response $response, array $args)
+    public function resetGa(Request $request, Response $response, array $args)
     {
         $ga = new GA();
         $secret = $ga->createSecret();
@@ -812,33 +812,32 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function updateWechat(Request $request, Response $response, array $args)
+    public function updateContact(Request $request, Response $response, array $args)
     {
         $type = $request->getParam('imtype');
-        $wechat = $request->getParam('wechat');
-        $wechat = trim($wechat);
+        $contact = trim($request->getParam('contact'));
 
         $user = $this->user;
 
-        if ($user->telegram_id !== 0) {
+        if ($user->telegram_id !== null) {
             return ResponseHelper::error(
                 $response,
                 '您绑定了 Telegram ，所以此项并不能被修改。'
             );
         }
 
-        if ($wechat === '' || $type === '') {
+        if ($contact === '' || $type === '') {
             return ResponseHelper::error($response, '非法输入');
         }
 
-        $user1 = User::where('im_value', $wechat)->where('im_type', $type)->first();
+        $user1 = User::where('im_value', $contact)->where('im_type', $type)->first();
         if ($user1 !== null) {
             return ResponseHelper::error($response, '此联络方式已经被注册');
         }
 
         $user->im_type = $type;
         $antiXss = new AntiXSS();
-        $user->im_value = $antiXss->xss_clean($wechat);
+        $user->im_value = $antiXss->xss_clean($contact);
         $user->save();
 
         return ResponseHelper::successfully($response, '修改成功');
@@ -952,7 +951,7 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function updateSsPwd(Request $request, Response $response, array $args)
+    public function resetPasswd(Request $request, Response $response, array $args)
     {
         $user = $this->user;
         $pwd = Tools::genRandomChar(16);
@@ -965,8 +964,9 @@ final class UserController extends BaseController
         }
 
         $user->uuid = $new_uuid;
+        $user->passwd = $pwd;
         $user->save();
-        $user->updateSsPwd($pwd);
+
         return ResponseHelper::successfully($response, '修改成功');
     }
 
@@ -1068,11 +1068,12 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function telegramReset(Request $request, Response $response, array $args)
+    public function resetTelegram(Request $request, Response $response, array $args)
     {
         $user = $this->user;
         $user->telegramReset();
-        return $response->withStatus(302)->withHeader('Location', '/user/edit');
+        
+        return ResponseHelper::successfully($response, '重置成功');
     }
 
     /**
@@ -1082,7 +1083,8 @@ final class UserController extends BaseController
     {
         $user = $this->user;
         $user->cleanLink();
-        return $response->withStatus(302)->withHeader('Location', '/user');
+        
+        return ResponseHelper::successfully($response, '重置成功');
     }
 
     /**
