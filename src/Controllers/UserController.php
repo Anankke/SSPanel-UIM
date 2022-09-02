@@ -921,7 +921,8 @@ final class UserController extends BaseController
             return ResponseHelper::error($response, '非法输入');
         }
 
-        $user->theme = filter_var($theme, FILTER_SANITIZE_STRING);
+        $antiXss = new AntiXSS();
+        $user->theme = $antiXss->xss_clean($theme);
         $user->save();
 
         return ResponseHelper::successfully($response, '设置成功');

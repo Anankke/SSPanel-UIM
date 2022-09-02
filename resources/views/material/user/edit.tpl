@@ -195,8 +195,8 @@
                                         <div class="card-heading">账户邮箱修改</div>
                                         <button class="btn btn-flat" id="email-update"><span class="icon">check</span>&nbsp;
                                         </button>
-                                        <p>当前账户邮箱：<code>{$user->email}</code></p>
                                     </div>
+                                    <p>当前账户邮箱：<code>{$user->email}</code></p>
                                     <div class="form-group form-group-label">
                                         <label class="floating-label" for="newemail">新邮箱</label>
                                         <input class="form-control maxwidth-edit" id="newemail" type="text">
@@ -227,8 +227,8 @@
                                     <div class="card-heading">用戶名修改</div>
                                     <button class="btn btn-flat" id="username-update"><span class="icon">check</span>&nbsp;
                                     </button>
-                                    <p>当前用戶名：<code>{$user->user_name}</code></p>
                                 </div>
+                                <p>当前用戶名：<code>{$user->user_name}</code></p>
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="newusername">新用戶名</label>
                                     <input class="form-control maxwidth-edit" id="newusername" type="text">
@@ -459,7 +459,6 @@
         $$.getElementById('msg').innerHTML = '已复制到您的剪贴板。';
     });
 </script>
-{literal}
 <script>
     /*
      * 筛选 SS/SSR 加密、混淆和协议的选项
@@ -473,12 +472,16 @@
      */
     (() => {
         const hideFilterItem = (itemType) => {
-            for (let i of $$.getElementsByClassName(`filter-item-${itemType}`)) {
+            for (let i of $$.getElementsByClassName(`filter-item-${
+                itemType
+            }`)) {
                 i.style.display = 'none';
             }
         };
         const showFilterItem = (itemType) => {
-            for (let i of $$.getElementsByClassName(`filter-item-${itemType}`)) {
+            for (let i of $$.getElementsByClassName(`filter-item-${
+                itemType
+            }`)) {
                 i.style.display = 'block';
             }
         };
@@ -500,10 +503,9 @@
         $$.getElementById('filter-btn-ss').addEventListener('click', chooseSS);
         $$.getElementById('filter-btn-ssr').addEventListener('click', chooseSSR);
         $$.getElementById('filter-btn-universal').addEventListener('click', chooseUniversal);
-    })();
+    }
+    )();
 </script>
-{/literal}
-{literal}
 <script>
     $(document).ready(function () {
         $("#portreset").click(function () {
@@ -526,9 +528,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
@@ -556,9 +556,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
@@ -582,15 +580,12 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
     })
 </script>
-{/literal}
 <script>
     $(document).ready(function () {
         $("#username-update").click(function () {
@@ -608,9 +603,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                        data.msg
-                    } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
@@ -637,9 +630,7 @@
                     },
                     error: (jqXHR) => {
                         $("#result").modal();
-                        $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                        } 出现了一些错误`;
+                        $$.getElementById('msg').innerHTML = data.msg;
                     }
                 })
             })
@@ -684,9 +675,7 @@
                         },
                         error: (jqXHR) => {
                             $("#result").modal();
-                            $$.getElementById('msg').innerHTML = `${
-                                data.msg
-                            } 出现了一些错误`;
+                            $$.getElementById('msg').innerHTML = data.msg;
                         }
                     })
                 })
@@ -709,7 +698,6 @@
     }
     {/if}
 </script>
-{literal}
 <script>
     $(document).ready(function () {
         $("#contact_update").click(function () {
@@ -725,6 +713,7 @@
                     if (data.ret) {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.href='/user/edit'", {$config['jump_delay']});
                     } else {
                         $("#result").modal();
                         $$.getElementById('msg').innerHTML = data.msg;
@@ -732,7 +721,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
@@ -764,7 +753,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
@@ -794,7 +783,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
@@ -816,7 +805,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
@@ -838,7 +827,7 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
@@ -922,7 +911,6 @@
         })
     })
 </script>
-{/literal}
 <script>
     $(document).ready(function () {
         $("#dailyreport-update").click(function () {
@@ -943,12 +931,10 @@
                         $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-                {literal}
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${data.msg} 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
-                {/literal}
             })
         })
     })
@@ -973,12 +959,9 @@
                         $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-{literal}
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
@@ -1006,12 +989,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${
-                            data.msg
-                            } 出现了一些错误`;
+                    $$.getElementById('msg').innerHTML = data.msg;
                 }
             })
         })
     })
 </script>
-{/literal}
