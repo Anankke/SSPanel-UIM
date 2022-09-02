@@ -434,11 +434,11 @@ final class Tools
         return $item;
     }
 
-    public static function outPort($server, $node_name, $mu_port)
+    public static function outPort($server, $node_name, $mu_port, $custom_config)
     {
         $node_server = explode(';', $server);
         $node_port = $mu_port;
-        $item = $server->getArgs();
+        $item = $custom_config;
 
         if (isset($item['port'])) {
             if (strpos($item['port'], '#') !== false) { // 端口偏移，指定端口，格式：8.8.8.8;port=80#1080
@@ -466,11 +466,11 @@ final class Tools
         ];
     }
 
-    public static function getMutilUserOutPortArray($server)
+    public static function getMutilUserOutPortArray($node)
     {
         $type = 0; //偏移
         $port = []; //指定
-        $item = $server->getArgs();
+        $item = $node->getArgs();
 
         if (isset($item['port'])) {
             if (strpos($item['port'], '#') !== false) {

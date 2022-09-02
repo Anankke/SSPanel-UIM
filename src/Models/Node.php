@@ -320,7 +320,7 @@ final class Node extends Model
      */
     public function getOffsetPort($port)
     {
-        return Tools::outPort($this->server, $this->name, $port)['port'];
+        return Tools::outPort($this->server, $this->name, $port, $this->getArgs())['port'];
     }
 
     /**
@@ -367,7 +367,7 @@ final class Node extends Model
         $return_array['obfs'] = $user->obfs;
         $return_array['obfs_param'] = $user->obfs_param;
         if ($mu_port !== 0 && strpos($this->server, ';') !== false) {
-            $node_tmp = Tools::outPort($this->server, $this->name, $mu_port);
+            $node_tmp = Tools::outPort($this->server, $this->name, $mu_port, $this->getArgs());
             $return_array['port'] = $node_tmp['port'];
             $node_name = $node_tmp['name'];
         }

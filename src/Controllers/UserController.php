@@ -1073,7 +1073,7 @@ final class UserController extends BaseController
     {
         $user = $this->user;
         $user->telegramReset();
-        
+
         return ResponseHelper::successfully($response, '重置成功');
     }
 
@@ -1084,7 +1084,7 @@ final class UserController extends BaseController
     {
         $user = $this->user;
         $user->cleanLink();
-        
+
         return ResponseHelper::successfully($response, '重置成功');
     }
 
