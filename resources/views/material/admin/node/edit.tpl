@@ -1,5 +1,7 @@
 {include file='admin/main.tpl'}
 
+<script src="https://cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.js"></script>
+
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -145,7 +147,7 @@
 <script>
     const container = document.getElementById('custom_config');
     var options = {
-        mode: 'tree'
+        modes: ['code', 'tree'],
     };
     const editor = new JSONEditor(container, options);
     editor.set({$node->custom_config})

@@ -40,7 +40,6 @@ return function (SlimApp $app): void {
         $this->get('/disable', App\Controllers\UserController::class . ':disable');
 
         $this->get('/node', App\Controllers\User\NodeController::class . ':userNodePage');
-        $this->get('/node/{id}/ajax', App\Controllers\User\NodeController::class . ':userNodeAjax');
         $this->get('/node/{id}', App\Controllers\User\NodeController::class . ':userNodeInfo');
 
         $this->get('/detect', App\Controllers\User\DetectController::class . ':detectIndex');

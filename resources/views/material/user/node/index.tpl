@@ -1,6 +1,5 @@
 ﻿{include file='user/main.tpl'}
 
-<script src="//fastly.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
 <script type="application/x-javascript"> addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
     }, false);
