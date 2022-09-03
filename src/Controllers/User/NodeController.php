@@ -86,23 +86,6 @@ final class NodeController extends BaseController
     /**
      * @param array     $args
      */
-    public function userNodeAjax(Request $request, Response $response, array $args): ResponseInterface
-    {
-        $id = $args['id'];
-        $point_node = Node::find($id);
-        $prefix = explode(' - ', $point_node->name);
-        return $response->write(
-            $this->view()
-                ->assign('point_node', $point_node)
-                ->assign('prefix', $prefix[0])
-                ->assign('id', $id)
-                ->display('user/node/nodeajax.tpl')
-        );
-    }
-
-    /**
-     * @param array     $args
-     */
     public function userNodeInfo(Request $request, Response $response, array $args): ResponseInterface
     {
         $user = $this->user;

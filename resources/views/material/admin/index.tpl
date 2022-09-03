@@ -1,11 +1,11 @@
 {include file='admin/main.tpl'}
 
-<script src="//fastly.jsdelivr.net/gh/M1Screw/canvasjs.js/canvasjs.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/chart.js"></script>
 
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
-            <h1 class="content-heading">汇总</h1>
+            <h1 class="content-heading">运营总览</h1>
         </div>
     </div>
     <div class="container">
@@ -39,135 +39,14 @@
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-                                    <div id="check_chart" style="height: 300px; width: 100%;"></div>
-                                    <script>
-                                        var chart = new CanvasJS.Chart("check_chart",
-                                                {
-                                                    title: {
-                                                        text: "用户签到情况(总用户 {$sts->getTotalUser()}人)",
-                                                        fontFamily: "Impact",
-                                                        fontWeight: "normal"
-                                                    },
-
-                                                    legend: {
-                                                        verticalAlign: "bottom",
-                                                        horizontalAlign: "center"
-                                                    },
-                                                    data: [
-                                                        {
-                                                            //startAngle: 45,
-                                                            indexLabelFontSize: 20,
-                                                            indexLabelFontFamily: "Garamond",
-                                                            indexLabelFontColor: "darkgrey",
-                                                            indexLabelLineColor: "darkgrey",
-                                                            indexLabelPlacement: "outside",
-                                                            type: "doughnut",
-                                                            showInLegend: true,
-                                                            dataPoints: [
-                                                                {
-                                                                    y: {(1-($sts->getCheckinUser()/$sts->getTotalUser()))*100},
-                                                                    legendText: "没有签到过的用户 {number_format((1-($sts->getCheckinUser()/$sts->getTotalUser()))*100,2)}% {$sts->getTotalUser()-$sts->getCheckinUser()}人",
-                                                                    indexLabel: "没有签到过的用户 {number_format((1-($sts->getCheckinUser()/$sts->getTotalUser()))*100,2)}% {$sts->getTotalUser()-$sts->getCheckinUser()}人"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getCheckinUser()-$sts->getTodayCheckinUser())/$sts->getTotalUser())*100},
-                                                                    legendText: "曾经签到过的用户 {number_format((($sts->getCheckinUser()-$sts->getTodayCheckinUser())/$sts->getTotalUser())*100,2)}% {$sts->getCheckinUser()-$sts->getTodayCheckinUser()}人",
-                                                                    indexLabel: "曾经签到过的用户 {number_format((($sts->getCheckinUser()-$sts->getTodayCheckinUser())/$sts->getTotalUser())*100,2)}% {$sts->getCheckinUser()-$sts->getTodayCheckinUser()}人"
-                                                                },
-                                                                {
-                                                                    y: {$sts->getTodayCheckinUser()/$sts->getTotalUser()*100},
-                                                                    legendText: "今日签到用户 {number_format($sts->getTodayCheckinUser()/$sts->getTotalUser()*100,2)}% {$sts->getTodayCheckinUser()}人",
-                                                                    indexLabel: "今日签到用户 {number_format($sts->getTodayCheckinUser()/$sts->getTotalUser()*100,2)}% {$sts->getTodayCheckinUser()}人"
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                });
-                                        chart.render();
-                                        function chartRender(chart) {
-                                            chart.render();
-                                            chart.ctx.shadowBlur = 8;
-                                            chart.ctx.shadowOffsetX = 4;
-                                            chart.ctx.shadowColor = "black";
-                                            for (let i in chart.plotInfo.plotTypes) {
-                                                let plotType = chart.plotInfo.plotTypes[i];
-                                                for (let j in plotType.plotUnits) {
-                                                    let plotUnit = plotType.plotUnits[j];
-                                                    if (plotUnit.type === "doughnut") {
-                                                        // For Column Chart
-                                                        chart.renderDoughnut(plotUnit);
-                                                    } else if (plotUnit.type === "bar") {
-                                                        // For Bar Chart
-                                                        chart.renderBar(plotUnit);
-                                                    }
-                                                }
-                                            }
-                                            chart.ctx.shadowBlur = 0;
-                                            chart.ctx.shadowOffsetX = 0;
-                                            chart.ctx.shadowColor = "transparent";
-                                        }
-                                    </script>
+                                    <canvas id="check_chart"></canvas>
                                 </div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-                                    <div id="alive_chart" style="height: 300px; width: 100%;"></div>
-                                    <script type="text/javascript">
-                                        var chart = new CanvasJS.Chart("alive_chart",
-                                                {
-                                                    title: {
-                                                        text: "用户在线情况(总用户 {$sts->getTotalUser()}人)",
-                                                        fontFamily: "Impact",
-                                                        fontWeight: "normal"
-                                                    },
-                                                    legend: {
-                                                        verticalAlign: "bottom",
-                                                        horizontalAlign: "center"
-                                                    },
-                                                    data: [
-                                                        {
-                                                            //startAngle: 45,
-                                                            indexLabelFontSize: 20,
-                                                            indexLabelFontFamily: "Garamond",
-                                                            indexLabelFontColor: "darkgrey",
-                                                            indexLabelLineColor: "darkgrey",
-                                                            indexLabelPlacement: "outside",
-                                                            type: "doughnut",
-                                                            showInLegend: true,
-                                                            dataPoints: [
-                                                                {
-                                                                    y: {(($sts->getUnusedUser()/$sts->getTotalUser()))*100},
-                                                                    legendText: "从未在线的用户 {number_format((($sts->getUnusedUser()/$sts->getTotalUser()))*100,2)}% {(($sts->getUnusedUser()))}人",
-                                                                    indexLabel: "从未在线的用户 {number_format((($sts->getUnusedUser()/$sts->getTotalUser()))*100,2)}% {(($sts->getUnusedUser()))}人"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())/$sts->getTotalUser())*100},
-                                                                    legendText: "一天以前在线的用户 {number_format((($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())/$sts->getTotalUser())*100,2)}% {($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())}人",
-                                                                    indexLabel: "一天以前在线的用户 {number_format((($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())/$sts->getTotalUser())*100,2)}% {($sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser())}人"
-                                                                },
-                                                                {
-                                                                    y: {($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))/$sts->getTotalUser()*100},
-                                                                    legendText: "一天内在线的用户 {number_format(($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))}人",
-                                                                    indexLabel: "一天内在线的用户 {number_format(($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(86400)-$sts->getOnlineUser(3600))}人"
-                                                                },
-                                                                {
-                                                                    y: {($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))/$sts->getTotalUser()*100},
-                                                                    legendText: "一小时内在线的用户 {number_format(($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))}人",
-                                                                    indexLabel: "一小时内在线的用户 {number_format(($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(3600)-$sts->getOnlineUser(60))}人"
-                                                                },
-                                                                {
-                                                                    y: {($sts->getOnlineUser(60))/$sts->getTotalUser()*100},
-                                                                    legendText: "一分钟内在线的用户 {number_format(($sts->getOnlineUser(60))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(60))}人",
-                                                                    indexLabel: "一分钟内在线的用户 {number_format(($sts->getOnlineUser(60))/$sts->getTotalUser()*100,2)}% {($sts->getOnlineUser(60))}人"
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                });
-                                        chart.render();
-                                    </script>
+                                    <canvas id="alive_chart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -176,106 +55,14 @@
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-                                    <div id="node_chart" style="height: 300px; width: 100%;"></div>
-                                    <script type="text/javascript">
-                                        var chart = new CanvasJS.Chart("node_chart",
-                                                {
-                                                    title: {
-                                                        text: "节点在线情况(节点数 {$sts->getTotalNodes()}个)",
-                                                        fontFamily: "Impact",
-                                                        fontWeight: "normal"
-                                                    },
-                                                    legend: {
-                                                        verticalAlign: "bottom",
-                                                        horizontalAlign: "center"
-                                                    },
-                                                    data: [
-                                                        {
-                                                            //startAngle: 45,
-                                                            indexLabelFontSize: 20,
-                                                            indexLabelFontFamily: "Garamond",
-                                                            indexLabelFontColor: "darkgrey",
-                                                            indexLabelLineColor: "darkgrey",
-                                                            indexLabelPlacement: "outside",
-                                                            type: "doughnut",
-                                                            showInLegend: true,
-                                                            dataPoints: [
-                                                                {if $sts->getTotalNodes()!=0}
-                                                                {
-                                                                    y: {(1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100},
-                                                                    legendText: "离线节点 {number_format((1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getTotalNodes()-$sts->getAliveNodes()}个",
-                                                                    indexLabel: "离线节点 {number_format((1-($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getTotalNodes()-$sts->getAliveNodes()}个"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getAliveNodes()/$sts->getTotalNodes()))*100},
-                                                                    legendText: "在线节点 {number_format((($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getAliveNodes()}个",
-                                                                    indexLabel: "在线节点 {number_format((($sts->getAliveNodes()/$sts->getTotalNodes()))*100,2)}% {$sts->getAliveNodes()}个"
-                                                                }
-                                                                {/if}
-                                                            ]
-                                                        }
-                                                    ]
-                                                });           
-                                        chart.render();
-                                    </script>
+                                    <canvas id="node_chart"></canvas>
                                 </div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-main">
                                 <div class="card-inner">
-                                    <div id="traffic_chart" style="height: 300px; width: 100%;"></div>
-                                    <script type="text/javascript">
-                                        var chart = new CanvasJS.Chart("traffic_chart",
-                                                {
-                                                    title: {
-                                                        text: "流量使用情况(总分配流量 {$sts->getTotalTraffic()})",
-                                                        fontFamily: "Impact",
-                                                        fontWeight: "normal"
-                                                    },
-
-                                                    legend: {
-                                                        verticalAlign: "bottom",
-                                                        horizontalAlign: "center"
-                                                    },
-                                                    data: [
-                                                        {
-                                                            //startAngle: 45,
-                                                            indexLabelFontSize: 20,
-                                                            indexLabelFontFamily: "Garamond",
-                                                            indexLabelFontColor: "darkgrey",
-                                                            indexLabelLineColor: "darkgrey",
-                                                            indexLabelPlacement: "outside",
-                                                            type: "doughnut",
-                                                            showInLegend: true,
-                                                            dataPoints: [
-                                                                {if $sts->getRawTotalTraffic()!=0}
-                                                                {
-                                                                    y: {(($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100},
-                                                                    label: "总剩余可用",
-                                                                    legendText: "总剩余可用 {number_format((($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getUnusedTrafficUsage()))}",
-                                                                    indexLabel: "总剩余可用 {number_format((($sts->getRawUnusedTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getUnusedTrafficUsage()))}"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100},
-                                                                    label: "总过去已用",
-                                                                    legendText: "总过去已用 {number_format((($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getLastTrafficUsage()))}",
-                                                                    indexLabel: "总过去已用 {number_format((($sts->getRawLastTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getLastTrafficUsage()))}"
-                                                                },
-                                                                {
-                                                                    y: {(($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100},
-                                                                    label: "总今日已用",
-                                                                    legendText: "总今日已用 {number_format((($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getTodayTrafficUsage()))}",
-                                                                    indexLabel: "总今日已用 {number_format((($sts->getRawTodayTrafficUsage()/$sts->getRawTotalTraffic()))*100,2)}% {(($sts->getTodayTrafficUsage()))}"
-                                                                }
-                                                                {/if}
-                                                            ]
-                                                        }
-                                                    ]
-                                                });
-
-                                        chart.render();
-                                    </script>
+                                    <canvas id="traffic_chart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -287,3 +74,203 @@
 </main>
 
 {include file='admin/footer.tpl'}
+
+<script>
+    const check_chart = new Chart(
+        document.getElementById('check_chart'),
+        config = {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    '没有签到过的用户（{$sts->getTotalUser()-$sts->getCheckinUser()}人）', 
+                    '曾经签到过的用户（{$sts->getCheckinUser()-$sts->getTodayCheckinUser()}人）', 
+                    '今日签到用户（{$sts->getTodayCheckinUser()}人）'
+                ],
+                datasets: [{
+                    label: '用户签到状态',
+                    data: [
+                        {$sts->getTotalUser()-$sts->getCheckinUser()}, 
+                        {$sts->getCheckinUser()-$sts->getTodayCheckinUser()},
+                        {$sts->getTodayCheckinUser()}
+                    ],
+                    backgroundColor: [
+                        'rgb(205, 180, 219)',
+                        'rgb(255, 175, 204)',
+                        'rgb(162, 210, 255)'
+                    ]
+                }]
+            },
+            options: {
+                aspectRatio: 2,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    title: {
+                        display: true,
+                        position: 'top',
+                        text: '用户签到状态',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        },
+    );
+</script>
+
+<script>
+    const alive_chart = new Chart(
+        document.getElementById('alive_chart'),
+        config = {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    '从未在线的用户（{$sts->getUnusedUser()}人）', 
+                    '一天以前在线的用户（{$sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser()}人）', 
+                    '一天内在线的用户({$sts->getOnlineUser(86400)}人)',
+                    '一小时内在线的用户({$sts->getOnlineUser(3600)}人)',
+                    '一分钟内在线的用户({$sts->getOnlineUser(60)}人)'
+                ],
+                datasets: [{
+                    label: '用户在线状态',
+                    data: [
+                        {$sts->getUnusedUser()}, 
+                        {$sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser()},
+                        {$sts->getOnlineUser(86400)},
+                        {$sts->getOnlineUser(3600)},
+                        {$sts->getOnlineUser(60)}
+                    ],
+                    backgroundColor: [
+                        'rgb(205, 180, 219)',
+                        'rgb(255, 200, 221)',
+                        'rgb(255, 175, 204)',
+                        'rgb(189, 224, 254)',
+                        'rgb(162, 210, 255)'
+                    ]
+                }]
+            },
+            options: {
+                aspectRatio: 2,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    title: {
+                        display: true,
+                        position: 'top',
+                        text: '用户在线状态',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        },
+    );
+</script>
+
+
+<script>
+    const node_chart = new Chart(
+        document.getElementById('node_chart'),
+        config = {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    '离线节点（{$sts->getTotalNodes()-$sts->getAliveNodes()}个）', 
+                    '在线节点（{$sts->getAliveNodes()}个）'
+                ],
+                datasets: [{
+                    label: '节点状态',
+                    data: [
+                        {$sts->getTotalNodes()-$sts->getAliveNodes()}, 
+                        {$sts->getAliveNodes()}
+                    ],
+                    backgroundColor: [
+                        'rgb(205, 180, 219)',
+                        'rgb(162, 210, 255)'
+                    ]
+                }]
+            },
+            options: {
+                aspectRatio: 2,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    title: {
+                        display: true,
+                        position: 'top',
+                        text: '节点状态',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        },
+    );
+</script>
+
+<script>
+    const traffic_chart = new Chart(
+        document.getElementById('traffic_chart'),
+        config = {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    '总剩余可用（{$sts->getUnusedTrafficUsage()}）',
+                    '总过去已用（{$sts->getLastTrafficUsage()}）',
+                    '总今日已用（{$sts->getTodayTrafficUsage()}）'
+                ],
+                datasets: [{
+                    label: '流量使用状态',
+                    data: [
+                        {$sts->getRawUnusedTrafficUsage()}, 
+                        {$sts->getRawLastTrafficUsage()},
+                        {$sts->getRawTodayTrafficUsage()}
+                    ],
+                    backgroundColor: [
+                        'rgb(205, 180, 219)',
+                        'rgb(255, 175, 204)',
+                        'rgb(162, 210, 255)'
+                    ]
+                }]
+            },
+            options: {
+                aspectRatio: 2,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    title: {
+                        display: true,
+                        position: 'top',
+                        text: '流量使用状态',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        },
+    );
+</script>
