@@ -15,7 +15,6 @@
     <link href="https://cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.css" rel="stylesheet" type="text/css">
     <!-- js -->
     <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.js"></script>
     <!-- favicon -->
     <!-- ... -->
     <style>
