@@ -17,7 +17,6 @@ jobs:
       - run: |
           composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer require nunomaduro/phpinsights --dev
-          composer require friendsofphp/php-cs-fixer:3.9.5
           php vendor/bin/phpinsights --version
           php vendor/bin/phpinsights analyse --no-interaction --format=github-action \
           --min-style=100 --min-architecture=100 --min-quality=100
