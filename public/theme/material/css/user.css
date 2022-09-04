@@ -137,19 +137,19 @@ pre {
 }
 
 .node-load,.node-mothed {
-    color: #828282;
+    color: #525252;
 }
 
 .node-band {
-    color: #aaaaaa;
+    color: #525252;
 }
 
 .node-tr {
-    color: #a5a5a5;
+    color: #525252;
 }
 
-.node-status {
-    color: #c4c4c4;
+.node-type {
+    color: #525252;
 }
 
 .usercheck {
