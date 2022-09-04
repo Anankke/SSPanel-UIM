@@ -167,6 +167,7 @@
                     </div>
                 </form>
                 {include file='dialog.tpl'}
+            </section>
         </div>
     </div>
 </main>
