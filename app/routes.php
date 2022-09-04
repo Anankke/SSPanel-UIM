@@ -148,6 +148,7 @@ return function (SlimApp $app): void {
         $this->get('/node/create', App\Controllers\Admin\NodeController::class . ':create');
         $this->post('/node', App\Controllers\Admin\NodeController::class . ':add');
         $this->get('/node/{id}/edit', App\Controllers\Admin\NodeController::class . ':edit');
+        $this->post('/node/{id}/password_reset', App\Controllers\Admin\NodeController::class . ':resetNodePassword');
         $this->put('/node/{id}', App\Controllers\Admin\NodeController::class . ':update');
         $this->delete('/node', App\Controllers\Admin\NodeController::class . ':delete');
         $this->post('/node/ajax', App\Controllers\Admin\NodeController::class . ':ajax');

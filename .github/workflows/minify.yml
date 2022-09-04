@@ -12,8 +12,6 @@ on:
       - 'public/assets/js/**'
       - 'public/theme/material/css/**'
       - 'public/theme/material/js/**'
-  #pull_request:
-    #branches: [ dev ]
 
 jobs:
   build:

@@ -61,7 +61,7 @@ final class SettingController extends BaseController
             case 'e_pay':
                 $list = ['epay_url', 'epay_pid', 'epay_key'];
                 break;
-            // 邮件
+                // 邮件
             case 'mail':
                 $list = ['mail_driver'];
                 break;
@@ -77,7 +77,7 @@ final class SettingController extends BaseController
             case 'ses':
                 $list = ['aws_access_key_id', 'aws_secret_access_key'];
                 break;
-            // 验证码
+                // 验证码
             case 'verify_code':
                 $list = ['captcha_provider', 'enable_reg_captcha', 'enable_login_captcha', 'enable_checkin_captcha'];
                 break;
@@ -87,32 +87,32 @@ final class SettingController extends BaseController
             case 'verify_code_geetest':
                 $list = ['geetest_id', 'geetest_key'];
                 break;
-            // 备份
+                // 备份
             case 'email_backup':
                 $list = ['auto_backup_email', 'auto_backup_password', 'auto_backup_notify'];
                 break;
-            // 客户服务
+                // 客户服务
             case 'admin_contact':
                 $list = ['enable_admin_contact', 'admin_contact1', 'admin_contact2', 'admin_contact3'];
                 break;
             case 'web_customer_service_system':
                 $list = ['live_chat', 'tawk_id', 'crisp_id', 'livechat_id', 'mylivechat_id'];
                 break;
-            // 个性化
+                // 个性化
             case 'background_image':
                 $list = ['user_center_bg', 'admin_center_bg', 'user_center_bg_addr', 'admin_center_bg_addr'];
                 break;
-            // 注册设置
+                // 注册设置
             case 'register':
                 $list = ['reg_mode', 'reg_email_verify', 'email_verify_ttl', 'email_verify_ip_limit', 'random_group', 'min_port', 'max_port',   'sign_up_for_free_traffic','free_user_reset_day', 'free_user_reset_bandwidth', 'sign_up_for_free_time', 'sign_up_for_class', 'sign_up_for_class_time', 'sign_up_for_invitation_codes', 'connection_device_limit', 'connection_rate_limit', 'sign_up_for_method', 'sign_up_for_protocol', 'sign_up_for_protocol_param', 'sign_up_for_obfs', 'sign_up_for_obfs_param', 'mu_suffix', 'mu_regex', 'reg_forbidden_ip', 'reg_forbidden_port', 'enable_reg_im', 'sign_up_for_daily_report'];
                 break;
-            // 邀请设置
+                // 邀请设置
             case 'invite':
                 $list = ['invitation_to_register_balance_reward', 'invitation_to_register_traffic_reward', 'invite_price', 'custom_invite_price',
                     'invitation_mode', 'invite_rebate_mode', 'rebate_ratio', 'rebate_frequency_limit', 'rebate_amount_limit', 'rebate_time_range_limit',
                 ];
                 break;
-            // Telegram 设置
+                // Telegram 设置
             case 'telegram':
                 $list = ['telegram_add_node', 'telegram_add_node_text', 'telegram_update_node', 'telegram_update_node_text', 'telegram_delete_node', 'telegram_delete_node_text', 'telegram_node_gfwed', 'telegram_node_gfwed_text', 'telegram_node_ungfwed', 'telegram_node_ungfwed_text', 'telegram_node_online', 'telegram_node_online_text', 'telegram_node_offline', 'telegram_node_offline_text', 'telegram_daily_job', 'telegram_daily_job_text', 'telegram_diary', 'telegram_diary_text', 'telegram_unbind_kick_member', 'telegram_group_bound_user', 'telegram_show_group_link', 'telegram_group_link'];
                 break;

@@ -145,7 +145,6 @@ final class LinkController extends BaseController
             if (isset($opts[$key])) {
                 $query_value = $opts[$key];
                 if ($query_value !== '0' && $query_value !== '') {
-
                     // 兼容代码开始
                     if ($key === 'sub' && $query_value > 4) {
                         $query_value = 1;
@@ -621,7 +620,7 @@ final class LinkController extends BaseController
         } else {
             $Profiles = ($surge === 2 ? $_ENV['Surge2_DefaultProfiles'] : $_ENV['Surge_DefaultProfiles']);
         }
-       return ConfGenerate::getSurgeConfs($user, $All_Proxy, $Nodes, $_ENV[$variable][$Profiles]);
+        return ConfGenerate::getSurgeConfs($user, $All_Proxy, $Nodes, $_ENV[$variable][$Profiles]);
     }
 
     /**

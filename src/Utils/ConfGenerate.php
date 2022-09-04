@@ -57,9 +57,9 @@ final class ConfGenerate
                 }
                 break;
             case ! isset($Rule['content']['class'])
-                && ! isset($Rule['content']['noclass'])
-                && isset($Rule['content']['regex'])
-                && preg_match('/' . $Rule['content']['regex'] . '/i', $Proxy['remark']):
+            && ! isset($Rule['content']['noclass'])
+            && isset($Rule['content']['regex'])
+            && preg_match('/' . $Rule['content']['regex'] . '/i', $Proxy['remark']):
                 $return = $Proxy;
                 break;
         }

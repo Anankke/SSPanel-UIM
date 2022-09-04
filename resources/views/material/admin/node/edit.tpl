@@ -33,11 +33,6 @@
                                     <p class="form-control-guide"><i class="material-icons">info</i>如果“节点地址”填写为域名，则此处的值会被忽视
                                     </p>
                                 </div>
-                                <div class="form-group">
-                                    <dev id="custom_config"></dev>
-                                    <p class="form-control-guide"><i class="material-icons">info</i>请参考 <a href="//wiki.sspanel.org/#/setup-custom-config" target="_blank">wiki.sspanel.org/#/setup-custom-config</a> 进行配置
-                                    </p>
-                                </div>
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="rate">流量比例</label>
                                     <input class="form-control maxwidth-edit" id="rate" name="rate" type="text"
@@ -52,12 +47,6 @@
                                         </select>
                                     </label>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-inner">
                                 <div class="form-group form-group-label">
                                     <div class="checkbox switch">
                                         <label for="type">
@@ -66,22 +55,62 @@
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-main">
+                            <div class="card-inner">         
+                                <div class="form-group form-group-label">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-sm-6">
+                                            <label class="floating-label" for="password">节点通讯密钥</label>
+                                            <input class="form-control maxwidth-edit" id="password" name="password" type="text"
+                                            value="{$node->password}" disabled>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-3">
+                                            <button type="button" class="btn btn-block btn-brand waves-attach waves-light copy-text" data-clipboard-text="{$node->password}">复制
+                                            </button>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-3">
+                                            <button type="button" class="btn btn-block btn-brand waves-attach waves-light" id="reset_node_password">重置
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="form-control-guide"><i class="material-icons">info</i>通讯密钥用于 gRPC API 鉴权，如需更改请点击重置
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-main">
+                            <div class="card-inner">         
+                                <div class="form-group">
+                                    <dev id="custom_config"></dev>
+                                    <p class="form-control-guide"><i class="material-icons">info</i>请参考 <a href="//wiki.sspanel.org/#/setup-custom-config" target="_blank">wiki.sspanel.org/#/setup-custom-config</a> 修改节点自定义配置
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-main">
+                            <div class="card-inner">
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="sort">节点类型</label>
+                                    <select id="sort" class="form-control maxwidth-edit" name="sort">
+                                        <option value="0" {if $node->sort==0}selected{/if}>Shadowsocks</option>
+                                        <option value="9" {if $node->sort==9}selected{/if}>Shadowsocksr 单端口多用户（旧）</option>
+                                        <option value="11" {if $node->sort==11}selected{/if}>V2Ray</option>
+                                        <option value="14" {if $node->sort==14}selected{/if}>Trojan</option>
+                                    </select>
+                                </div>
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="status">节点状态</label>
                                     <input class="form-control maxwidth-edit" id="status" name="status" type="text"
                                            value="{$node->status}">
-                                </div>
-                                <div class="form-group form-group-label">
-                                    <div class="form-group form-group-label">
-                                        <label class="floating-label" for="sort">节点类型</label>
-                                        <select id="sort" class="form-control maxwidth-edit" name="sort">
-                                            <option value="0" {if $node->sort==0}selected{/if}>Shadowsocks</option>
-                                            <option value="9" {if $node->sort==9}selected{/if}>Shadowsocksr 单端口多用户（旧）</option>
-                                            <option value="11" {if $node->sort==11}selected{/if}>V2Ray</option>
-                                            <option value="14" {if $node->sort==14}selected{/if}>Trojan</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                </div> 
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="info">节点描述</label>
                                     <input class="form-control maxwidth-edit" id="info" name="info" type="text"
@@ -138,12 +167,22 @@
                     </div>
                 </form>
                 {include file='dialog.tpl'}
+            </section>
         </div>
     </div>
 </main>
 
 {include file='admin/footer.tpl'}
 
+<script>
+    $(function () {
+        new ClipboardJS('.copy-text');
+    });
+    $(".copy-text").click(function () {
+        $("#result").modal();
+        $$.getElementById('msg').innerHTML = '已复制到您的剪贴板。';
+    });
+</script>
 <script>
     const container = document.getElementById('custom_config');
     var options = {
@@ -216,4 +255,30 @@
         }
     });
 {/literal}
+</script>
+<script>
+    $(document).ready(function () {
+        $("#reset_node_password").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/admin/node/{$node->id}/password_reset",
+                dataType: "json",
+                data: {},
+                success: (data) => {
+                    if (data.ret) {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                        window.setTimeout("location.href='/admin/node/{$node->id}/edit'", {$config['jump_delay']});
+                    } else {
+                        $("#result").modal();
+                        $$.getElementById('msg').innerHTML = data.msg;
+                    }
+                },
+                error: (jqXHR) => {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                }
+            })
+        })
+    })
 </script>

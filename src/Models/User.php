@@ -307,8 +307,8 @@ final class User extends Model
             return 0;
         }
         $Todayused = $this->u + $this->d - $this->last_day_t;
-         $percent = $Todayused / $this->transfer_enable;
-         $percent = round($percent, 4);
+        $percent = $Todayused / $this->transfer_enable;
+        $percent = round($percent, 4);
         return $percent * 100;
     }
 

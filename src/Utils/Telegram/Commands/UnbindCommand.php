@@ -9,7 +9,6 @@ use App\Utils\Telegram\TelegramTools;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 
-
 /**
  * Class UnbindCommand.
  */
@@ -77,8 +76,8 @@ final class UnbindCommand extends Command
             if ($MessageKey !== '') {
                 $text = '键入的 Email 地址与您的账户不匹配.';
             }
-            if ($MessageKey === '/unbind'){
-               $text = $this->sendtext();
+            if ($MessageKey === '/unbind') {
+                $text = $this->sendtext();
             }
 
             // 回送信息

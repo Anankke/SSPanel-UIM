@@ -94,7 +94,7 @@ final class TelegramTools
         $old = $User->$useOptionMethod;
         $useOptionMethodName = self::getUserActionOption()[$useOptionMethod][0];
         switch ($useOptionMethod) {
-                // ##############
+            // ##############
             case 'enable':
             case 'is_admin':
                 $strArray = [

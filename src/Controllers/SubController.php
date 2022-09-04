@@ -88,7 +88,7 @@ final class SubController extends BaseController
                         'remark' => $node_raw->info,
                     ];
                     break;
-                //單獨加了一種SSR節點類型用來同時處理多端口和單端口SSR的訂閲下發
+                    //單獨加了一種SSR節點類型用來同時處理多端口和單端口SSR的訂閲下發
                 case '1':
                     if (! in_array($subtype, ['ssr', 'all'])) {
                         $node = null;

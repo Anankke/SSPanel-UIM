@@ -9,7 +9,6 @@
     <div class="container">
         <div class="col-lg-12 col-sm-12">
             <section class="content-inner margin-top-no">
-
                 <div class="card">
                     <div class="card-main">
                         <div class="card-inner">
@@ -54,6 +53,7 @@
                     </div>
                 </div>
                 {include file='dialog.tpl'}
+            </section>
         </div>
     </div>
 </main>

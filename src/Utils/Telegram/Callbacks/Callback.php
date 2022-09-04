@@ -1008,8 +1008,8 @@ final class Callback
                         'clash' => 1,
                     ];
                     $Rule = [
-                        'type'    => 'all',
-                        'is_mu'   => 1,
+                        'type' => 'all',
+                        'is_mu' => 1,
                         'extend' => true,
                     ];
                     $string = LinkController::getClash($this->User, 1, $opts, $Rule);
@@ -1033,8 +1033,8 @@ final class Callback
                         'quantumult' => 3,
                     ];
                     $Rule = [
-                        'type'    => 'all',
-                        'is_mu'   => 1,
+                        'type' => 'all',
+                        'is_mu' => 1,
                         'extend' => true,
                     ];
                     $string = LinkController::GetQuantumult($this->User, 3, $opts, $Rule);
@@ -1058,8 +1058,8 @@ final class Callback
                         'surge' => 2,
                     ];
                     $Rule = [
-                        'type'    => 'ss',
-                        'is_mu'   => 1,
+                        'type' => 'ss',
+                        'is_mu' => 1,
                         'extend' => true,
                     ];
                     $string = LinkController::getSurge($this->User, 2, $opts, $Rule);
@@ -1083,8 +1083,8 @@ final class Callback
                         'surge' => 3,
                     ];
                     $Rule = [
-                        'type'    => 'ss',
-                        'is_mu'   => 1,
+                        'type' => 'ss',
+                        'is_mu' => 1,
                         'extend' => true,
                     ];
                     $string = LinkController::getSurge($this->User, 3, $opts, $Rule);

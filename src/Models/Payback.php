@@ -45,7 +45,7 @@ final class Payback extends Model
             // 调整返利 (adjust_rebate) 是指：若历史返利总额在加上此次预计返利金额超过总返利限制，总返利限制与历史返利总额的差值
             if ($total_rebate_amount + $expected_rebate > $configs['rebate_amount_limit']
                 && $total_rebate_amount <= $configs['rebate_amount_limit']
-                ) {
+            ) {
                 $adjust_rebate = $configs['rebate_amount_limit'] - $total_rebate_amount;
                 if ($adjust_rebate > 0) {
                     self::executeRebate($user_id, $gift_user_id, $order_amount, $adjust_rebate);

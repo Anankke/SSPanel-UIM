@@ -59,15 +59,28 @@
 {*                                        *}{/if}
                                             <div class="nodename">{$node['name']}</div>
                                         </div>
-                                        <!-- 在线人数 -->
-                                        <div class="nodemiddle node-flex" title="在线人数">
-                                            <div class="onlinemember node-flex">
+                                        <div class="nodemiddle node-flex">
+                                            <!-- 在线人数 -->
+                                            <div class="onlinemember node-flex" title="在线人数">
                                                 <i class="material-icons node-icon">people</i>
                                                 <span>{if $node['online_user'] == -1} N/A{else} {$node['online_user']}{/if}</span>
                                             </div>
-                                            <div class="nodetype" title="节点状态">{$node['status']}</div>
+                                            <!-- 节点类型 -->
+                                            <div class="nodetype node-flex" title="节点类型">
+                                                <span>  
+                                                {if $node['sort'] == 0}
+                                                Shadowsocks
+                                                {elseif $node['sort'] == 9}
+                                                Shadowsocksr
+                                                {elseif $node['sort'] == 11}
+                                                V2ray
+                                                {elseif $node['sort'] == 14}
+                                                Trojan
+                                                {/if}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="nodeinfo node-flex">
+                                        <div class="nodeinfo node-flex">  
                                             <!-- 节点已用/剩余可用流量 -->
                                             <div class="nodetraffic node-flex" title="节点已用/剩余可用流量">
                                                 <i class="material-icons node-icon">swap_vertical_circle</i>
@@ -157,19 +170,25 @@
                                                         </span>
                                                         |
                                                         <span class="node-icon"><i class="icon icon-lg">people</i></span>
-                                                        <strong><b><span class="node-alive" title="在线人数">{if $node['online_user'] == -1}N/A{else}{$node['online_user']}{/if}</span></b></strong>
+                                                        <b><span class="node-alive" title="在线人数">{if $node['online_user'] == -1}N/A{else}{$node['online_user']}{/if}</span></b>
                                                         |
-                                                        <span class="node-icon"><i class="icon icon-lg">notifications_none</i></span>
-                                                        <span class="node-status" title="节点状态">{$node['status']}</span>
+                                                        <span class="node-type" title="节点类型">
+                                                        {if $node['sort'] == 0}
+                                                        Shadowsocks
+                                                        {elseif $node['sort'] == 9}
+                                                        Shadowsocksr
+                                                        {elseif $node['sort'] == 11}
+                                                        V2ray
+                                                        {elseif $node['sort'] == 14}
+                                                        Trojan
+                                                        {/if}
+                                                        </span>
                                                         |
                                                         <span class="node-icon"><i class="icon icon-lg">swap_vertical_circle</i></span>
-{*                                                    *}{if $node['traffic_limit']>0}<span class="node-band" title="节点已用/剩余可用流量">{$node['traffic_used']}/{$node['traffic_limit']}</span>{else}{$node['traffic_used']}GB{/if}
+{*                                                    *}<span class="node-band" title="节点已用/剩余可用流量">{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}GB{else}{$node['traffic_used']}GB{/if}</span>
                                                         |
                                                         <span class="node-icon"><i class="icon icon-lg">stacked_line_chart</i></span>
-                                                        <span class="node-tr" title="节点流量倍率">{$node['traffic_rate']}倍</span>
-                                                        |
-                                                        <span class="node-icon"><i class="icon icon-lg">compare_arrows</i></span>
-                                                        <span class="node-mothed" title="节点速率">{if {$node['bandwidth']}==0}不限速{else}{$node['bandwidth']}{/if}</span>
+                                                        <span class="node-tr" title="节点流量倍率">{$node['traffic_rate']}x</span>
                                                         |
                                                         <span class="node-icon"><i class="icon icon-lg">dns</i></span>
                                                         <span class="node-load" title="节点系统负载">负载：{$node['latest_load']}</span>
@@ -206,19 +225,6 @@
                                                         </div>
                                                     </div>
 {*                                                *}{/if}
-                                                    <div class="card">
-                                                        <div class="card-main">
-                                                            <div class="card-inner" id="info{$index}">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <script>
-                                                        $().ready(function () {
-                                                            $('#heading{$node['id']}').on("shown.bs.tile", function () {
-                                                                $("#info{$index++}").load("/user/node/{$node['id']}/ajax");
-                                                            });
-                                                        });
-                                                    </script>
                                                 </div>
                                             </div>
                                         </div>
