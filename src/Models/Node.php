@@ -110,7 +110,7 @@ final class Node extends Model
         $regex = $_ENV['flag_regex'];
         $matches = [];
         preg_match($regex, $this->name, $matches);
-        return isset($matches[0]) ? $matches[0] : 'us';
+        return $matches[0] ?? 'us';
     }
 
     /**

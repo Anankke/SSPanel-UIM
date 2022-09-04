@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Models\Node;
 use App\Models\Setting;
 use App\Utils\QQWry;
+use App\Utils\Tools;
 
 final class Tool extends Command
 {
@@ -17,6 +19,7 @@ final class Tool extends Command
 │ ├─ exportAllSettings       - 导出所有设置
 │ ├─ importAllSettings       - 导入所有设置
 │ ├─ upgradeDatabase         - 升级(如果不存在的话初始化) 数据库
+│ ├─ resetNodePassword       - 重置所有节点通讯密钥
 EOL;
 
     public function boot(): void
@@ -30,24 +33,6 @@ EOL;
             } else {
                 echo '方法不存在.' . PHP_EOL;
             }
-        }
-    }
-
-    public function upgradeDatabase(): void
-    {
-        $phinx = new \Phinx\Console\PhinxApplication();
-        $phinx->run();
-    }
-
-    public function setTelegram(): void
-    {
-        $WebhookUrl = $_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token'];
-        $telegram = new \Telegram\Bot\Api($_ENV['telegram_token']);
-        $telegram->removeWebhook();
-        if ($telegram->setWebhook(['url' => $WebhookUrl])) {
-            echo 'Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
-        } else {
-            echo '设置失败！' . PHP_EOL;
         }
     }
 
@@ -79,6 +64,18 @@ EOL;
             }
         } else {
             echo '纯真ip数据库下载失败，请检查下载地址' . PHP_EOL;
+        }
+    }
+
+    public function setTelegram(): void
+    {
+        $WebhookUrl = $_ENV['baseUrl'] . '/telegram_callback?token=' . $_ENV['telegram_request_token'];
+        $telegram = new \Telegram\Bot\Api($_ENV['telegram_token']);
+        $telegram->removeWebhook();
+        if ($telegram->setWebhook(['url' => $WebhookUrl])) {
+            echo 'Bot @' . $telegram->getMe()->getUsername() . ' 设置成功！' . PHP_EOL;
+        } else {
+            echo '设置失败！' . PHP_EOL;
         }
     }
 
@@ -144,5 +141,21 @@ EOL;
         } else {
             echo '没有任何新设置需要添加.' . PHP_EOL;
         }
+    }
+
+    public function upgradeDatabase(): void
+    {
+        $phinx = new \Phinx\Console\PhinxApplication();
+        $phinx->run();
+    }
+
+    public function resetNodePassword(): void
+    {
+        $nodes = Node::all();
+        foreach ($nodes as $node) {
+            $node->password = Tools::genRandomChar(32);
+            $node->save();
+        }
+        echo '已重置所有节点密码.' . PHP_EOL;
     }
 }

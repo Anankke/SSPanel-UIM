@@ -61,6 +61,15 @@
 {include file='admin/footer.tpl'}
 
 <script>
+    $(function () {
+        new ClipboardJS('.copy-text');
+    });
+    $(".copy-text").click(function () {
+        $("#result").modal();
+        $$.getElementById('msg').innerHTML = '已复制到您的剪贴板。';
+    });
+</script>
+<script>
     function delete_modal_show(id) {
         deleteid = id;
         $("#delete_modal").modal();
