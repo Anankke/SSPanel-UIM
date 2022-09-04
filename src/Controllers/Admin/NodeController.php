@@ -279,7 +279,7 @@ final class NodeController extends BaseController
                 Telegram::send(
                     str_replace(
                         '%node_name%',
-                        $request->getParam('name'),
+                        $node->name,
                         Setting::obtain('telegram_delete_node_text')
                     )
                 );
