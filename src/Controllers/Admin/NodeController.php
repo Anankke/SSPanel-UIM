@@ -323,7 +323,6 @@ final class NodeController extends BaseController
                 'op' => <<<EOF
                     <a class="btn btn-brand" href="/admin/node/{$value->id}/edit">编辑</a>
                     <a class="btn btn-brand-accent" id="delete" value="{$value->id}" href="javascript:void(0);" onClick="delete_modal_show('{$value->id}')">删除</a>
-                    <a class="btn btn-brand copy-text" data-clipboard-text="{$value->password}">复制通讯密钥</a>
                 EOF,
                 'id' => $value->id,
                 'name' => $value->name,

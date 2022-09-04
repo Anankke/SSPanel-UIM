@@ -1,5 +1,7 @@
 {include file='admin/main.tpl'}
 
+<script src="https://cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.js"></script>
+
 <main class="content">
     <div class="content-header ui-content-header">
         <div class="container">
@@ -28,11 +30,6 @@
                                     <p class="form-control-guide"><i class="material-icons">info</i>如果“节点地址”填写为域名，则此处的值会被忽视
                                     </p>
                                 </div>
-                                <div class="form-group">
-                                    <dev id="custom_config"></dev>
-                                    <p class="form-control-guide"><i class="material-icons">info</i>请参考 <a href="//wiki.sspanel.org/#/setup-custom-config" target="_blank">wiki.sspanel.org/#/setup-custom-config</a> 进行配置
-                                    </p>
-                                </div>
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="rate">流量比例</label>
                                     <input class="form-control maxwidth-edit" id="rate" type="text" name="rate"
@@ -47,12 +44,6 @@
                                         </select>
                                     </label>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-inner">
                                 <div class="form-group form-group-label">
                                     <div class="checkbox switch">
                                         <label for="type">
@@ -61,22 +52,38 @@
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-main">
+                            <div class="card-inner">         
+                                <div class="form-group">
+                                    <dev id="custom_config"></dev>
+                                    <p class="form-control-guide"><i class="material-icons">info</i>请参考 <a href="//wiki.sspanel.org/#/setup-custom-config" target="_blank">wiki.sspanel.org/#/setup-custom-config</a> 修改节点自定义配置
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-main">
+                            <div class="card-inner">
+                                <div class="form-group form-group-label">
+                                    <label class="floating-label" for="sort">节点类型</label>
+                                    <select id="sort" class="form-control maxwidth-edit" name="sort">
+                                        <option value="0">Shadowsocks</option>
+                                        <option value="9">Shadowsocksr 单端口多用户（旧）</option>
+                                        <option value="11">V2Ray</option>
+                                        <option value="14">Trojan</option>
+                                    </select>
+                                </div>
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="status">节点状态</label>
                                     <input class="form-control maxwidth-edit" id="status" type="text" name="status"
                                            value="可用">
                                 </div>
-                                <div class="form-group form-group-label">
-                                    <div class="form-group form-group-label">
-                                        <label class="floating-label" for="sort">节点类型</label>
-                                        <select id="sort" class="form-control maxwidth-edit" name="sort">
-                                            <option value="0">Shadowsocks</option>
-                                            <option value="9">Shadowsocksr 单端口多用户（旧）</option>
-                                            <option value="11">V2Ray</option>
-                                            <option value="14">Trojan</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group form-group-label">
                                     <label class="floating-label" for="info">节点描述</label>
                                     <input class="form-control maxwidth-edit" id="info" type="text" name="info"
