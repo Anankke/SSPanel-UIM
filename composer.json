@@ -41,6 +41,6 @@
         "optimize-autoloader": true
     },
     "require-dev": {
-        "nunomaduro/phpinsights": "^2.2"
+        "nunomaduro/phpinsights": "^2.5"
     }
 }
