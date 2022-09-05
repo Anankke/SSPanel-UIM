@@ -1505,19 +1505,13 @@ img {
 /*ICON图标大小*/
 .icon-lg {
 	font-size: 1.4em;
-	vertical-align: -20%
 }
 /*ICON菜单图标大小*/
 .icon-cd {
 	font-size: 2.2em;
-	vertical-align: -20%
 }
 
-@media screen and (min--moz-device-pixel-ratio:0) {
-	.icon-lg {
-		vertical-align: -26%
-	}
-}/*!
+/*!
  * waves v0.7.4
  * http://fian.my.id/Waves
  */.waves-effect .waves-ripple {
