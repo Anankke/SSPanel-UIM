@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="card-action">
                                     <div class="card-action-btn pull-left">
-                                        <button class="btn btn-flat waves-attach" id="hide-update"><span class="icon">check</span>&nbsp;提交
+                                        <button class="btn btn-flat waves-attach" id="hide-update"><span class="mdi mdi-check"></span>&nbsp;提交
                                         </button>
                                     </div>
                                 </div>

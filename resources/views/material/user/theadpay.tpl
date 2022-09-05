@@ -12,7 +12,7 @@
         </div>
     </div>
 </div>
-<a class="btn btn-flat waves-attach" id="theadpay" onclick="theadpay();"><span class="icon">check</span>&nbsp;立即充值</a>
+<a class="btn btn-flat waves-attach" id="theadpay" onclick="theadpay();"><span class="mdi mdi-check"></span>&nbsp;立即充值</a>
 <script>
     var pid = 0;
     var flag = false;

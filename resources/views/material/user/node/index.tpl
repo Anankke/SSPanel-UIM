@@ -100,7 +100,7 @@
                                     </div>
                                     <div class="nodestatus">
                                         <div class="{if $node['online'] == '1'}nodeonline{elseif $node['online'] == '0'}nodeunset{else}nodeoffline{/if}">
-                                            {if $node['online']=='1'}<i class="mdi mdi-cloud">{elseif $node['online']=='0'}<i class="mdi mdi-cloud-alert">{else}<i class="mdi mdi-cloud-question">{/if}</i>
+                                            {if $node['online']=='1'}<span class="mdi mdi-cloud">{elseif $node['online']=='0'}<span class="mdi mdi-cloud-alert">{else}<span class="mdi mdi-cloud-question">{/if}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@
                                             <div data-toggle="tile" data-target="#heading{$node['id']}">
                                                 <div class="tile-side pull-left" data-ignore="tile">
                                                     <div class="avatar avatar-sm {if $node['online']=='1'}nodeonline{elseif $node['online']=='0'}nodeunset{else}nodeoffline{/if}">
-                                                    {if $node['online']=='1'}<i class="mdi mdi-cloud">{elseif $node['online']=='0'}<i class="mdi mdi-cloud-alert">{else}<i class="mdi mdi-cloud-question">{/if}</i>
+                                                    {if $node['online']=='1'}<span class="mdi mdi-cloud">{elseif $node['online']=='0'}<span class="mdi mdi-cloud-alert">{else}<span class="mdi mdi-cloud-question">{/if}</span>
                                                     </div>
                                                 </div>
                                                 <div class="tile-inner">

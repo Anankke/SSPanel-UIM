@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="shop-content-extra">
                                     {foreach $shop->contentExtra() as $service}
-                                        <div><span class="icon">{$service[0]}</span> {$service[1]}</div>
+                                        <div><span class="mdi mdi-{$service[0]}"></span> {$service[1]}</div>
                                     {/foreach}
                                 </div>
                                 <a class="btn btn-brand-accent shop-btn" href="javascript:void(0);"

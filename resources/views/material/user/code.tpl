@@ -56,7 +56,7 @@
                                     <div class="cardbtn-edit">
                                         <div class="card-heading">充值码</div>
                                         <button class="btn btn-flat" id="code-update">
-                                            <span class="icon">favorite_border</span>
+                                            <span class="mdi mdi-check"></span>
                                         </button>
                                     </div>
                                     <div class="form-group form-group-label">

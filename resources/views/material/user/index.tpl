@@ -90,7 +90,7 @@
                         </div>
                         <div class="user-info-bottom">
                             <div class="nodeinfo node-flex">
-                                <span><i class="mdi mdi-account icon-md">attach_money</i>到期账户自动删除</span>
+                                <span><i class="mdi mdi-account icon-md"></i>到期账户自动删除</span>
                                 <a href="/user/code" class="card-tag tag-green">充值</a>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                         </div>
                         <div class="user-info-bottom">
                             <div class="nodeinfo node-flex">
-                                <span><i class="mdi mdi-devices icon-md">donut_large</i>在线设备/设备限制数</span>
+                                <span><i class="mdi mdi-devices icon-md"></i>在线设备/设备限制数</span>
                             </div>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                         </div>
                         <div class="user-info-bottom">
                             <div class="nodeinfo node-flex">
-                                <span><i class="mdi mdi-signal icon-md">signal_cellular_alt</i>账户最高下行网速</span>
+                                <span><i class="mdi mdi-signal icon-md"></i>账户最高下行网速</span>
                             </div>
                         </div>
                     </div>
@@ -222,12 +222,12 @@
                                     <div class="usercheck pull-left">
                                         {if $user->isAbleToCheckin() }
                                             <div id="checkin-btn">
-                                                <button id="checkin" class="btn btn-brand btn-flat"><span class="icon">check</span>&nbsp;点我签到&nbsp;
-                                                    <div><span class="icon">screen_rotation</span>&nbsp;或者摇动手机签到</div>
+                                                <button id="checkin" class="btn btn-brand btn-flat"><span class="mdi mdi-check"></span>&nbsp;点我签到&nbsp;
+                                                    <div><span class="mdi mdi-screen-rotation"></span>&nbsp;或者摇动手机签到</div>
                                                     </button>
                                             </div>
                                         {else}
-                                            <p><a class="btn btn-brand disabled btn-flat" href="#"><span class="icon">check</span>&nbsp;今日已签到</a></p>
+                                            <p><a class="btn btn-brand disabled btn-flat" href="#"><span class="mdi mdi-check"></span>&nbsp;今日已签到</a></p>
                                         {/if}
                                     </div>
                                 </div>
@@ -727,7 +727,7 @@
     };
     {/if}
     {if $geetest_html == null}
-    var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">check</span>&nbsp;已签到</a></p>';
+    var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="mdi mdi-check"></span>&nbsp;已签到</a></p>';
     window.onload = function () {
         var myShakeEvent = new Shake({
             threshold: 15
@@ -817,7 +817,7 @@
             c.show();
         }
     };
-    var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">check</span>&nbsp;已签到</a></p>';
+    var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="mdi mdi-check"></span>&nbsp;已签到</a></p>';
     var handlerPopup = function (captchaObj) {
         c = captchaObj;
         captchaObj.onSuccess(function () {
