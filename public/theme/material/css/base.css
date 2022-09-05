@@ -6267,8 +6267,8 @@ html.no-touchevents .tile-action-show,html.no-touchevents .tile:hover .tile-acti
 .cardbtn-edit a.btn-flat.btn-brand-accent.reset-link i {
 	font-size: 30px;
 	position: relative;
-	top: 2px;
-	right: 4px;
+	top: 0.2em;
+	right: 0.15em;
 }
 
 .cardbtn-edit a.btn-flat.btn-brand-accent.reset-link {

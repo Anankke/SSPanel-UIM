@@ -23,7 +23,7 @@
         "sendgrid/sendgrid": "^7",
         "sentry/sentry": "^3",
         "slim/slim": "~3.0",
-        "smarty/smarty": "^3",
+        "smarty/smarty": "^4",
         "stripe/stripe-php": "^7.105",
         "symfony/yaml": "^5",
         "voku/anti-xss": "^4",

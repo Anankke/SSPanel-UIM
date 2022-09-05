@@ -35,7 +35,7 @@
 							<div class="card-inner">
 								<div class="cardbtn-edit">
 									<div class="card-heading">重置订阅链接</div>
-                                    <button class="btn btn-flat" id="url_reset"><span class="mdi mdi-autorenew">autorenew</span>&nbsp;</button>
+                                    <button class="btn btn-flat" id="url_reset"><span class="mdi mdi-autorenew"></span>&nbsp;</button>
 								</div>
                                 <p>点击会重置您的订阅链接，您需要更新客户端中所配置的订阅地址方可继续使用。</p>
 							</div>
@@ -399,7 +399,7 @@
                                     <div class="cardbtn-edit">
                                         <div class="card-heading">Telegram 绑定</div>
                                     {if $user->telegram_id != 0}
-                                        <button class="btn btn-brand-accent btn-flat" id="telegram_reset"><span class="mdi mdi-block-helper"></span>&nbsp;</button>
+                                        <button class="btn btn-flat" id="telegram_reset"><span class="mdi mdi-block-helper"></span>&nbsp;</button>
                                     </div>
                                         <div class="text-center">
                                             <p>当前绑定的 Telegram 账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a></p>
