@@ -840,14 +840,11 @@ ul.dropdown-menu {
 }
 
 .node-table .avatar.avatar-sm span {
-    top: .4rem;
     position: relative;
     font-size: 20px;
     color: white;
 }
-.node-table .avatar.avatar-sm.nodeonline span {
-    top: .25rem;
-}
+
 .node-table .avatar.avatar-sm.nodeoffline span {
     left: .05rem
 }
@@ -938,13 +935,13 @@ ul.dropdown-menu {
 	font-size: 22px;
 }
 
-.nodestatus i {
+.nodestatus span {
     position: relative;
     font-size: 35px;
-    bottom: 3px;
+    top: 4px;
     right: 2.5px;
-    color: white;
-}
+    color: #fff;
+  }
 
 .nodeunset i {
 	bottom: 0;

@@ -15,7 +15,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">重置连接密码</div>
-                                    <button class="btn btn-flat" id="passwd_reset"><span class="icon">autorenew</span>&nbsp;</button>
+                                    <button class="btn btn-flat" id="passwd_reset"><span class="mdi mdi-autorenew"></span>&nbsp;</button>
                                 </div>
                                 <p>当前连接密码：<code>{$user->passwd}</code>
                                     <button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">
@@ -35,7 +35,7 @@
 							<div class="card-inner">
 								<div class="cardbtn-edit">
 									<div class="card-heading">重置订阅链接</div>
-                                    <button class="btn btn-flat" id="url_reset"><span class="icon">autorenew</span>&nbsp;</button>
+                                    <button class="btn btn-flat" id="url_reset"><span class="mdi mdi-autorenew">autorenew</span>&nbsp;</button>
 								</div>
                                 <p>点击会重置您的订阅链接，您需要更新客户端中所配置的订阅地址方可继续使用。</p>
 							</div>
@@ -58,7 +58,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">加密方式修改</div>
-                                    <button class="btn btn-flat" id="method-update"><span class="icon">check</span>&nbsp</button>
+                                    <button class="btn btn-flat" id="method-update"><span class="mdi mdi-check"></span>&nbsp</button>
                                 </div>
                                 <p>
                                     当前加密方式：<code id="ajax-user-method" data-default="method">[{if URL::canMethodConnect($user->method) == 2}SS{else}SS/SSR{/if}可连接] {$user->method}</code>
@@ -83,7 +83,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">协议&混淆设置</div>
-                                    <button class="btn btn-flat" id="ssr-update"><span class="icon">check</span>&nbsp;</button>
+                                    <button class="btn btn-flat" id="ssr-update"><span class="mdi mdi-check"></span>&nbsp;</button>
                                 </div>
                                 <p>当前协议：<code id="ajax-user-protocol" data-default="protocol">[{if URL::canProtocolConnect($user->protocol) == 3}SS/SSR{else}SSR{/if}可连接] {$user->protocol}</code></p>
                                 <div class="form-group form-group-label control-highlight-custom dropdown">
@@ -137,10 +137,10 @@
                             <div class="card-inner">
                                 <p class="card-heading">两步验证</p>
                                 <p>请使用 TOTP 两步验证器扫描下面的二维码。</p>
-                                <p><i class="icon icon-lg" aria-hidden="true">android</i><a
+                                <p><i class="mdi mdi-android icon-lg" aria-hidden="true"></i><a
                                             href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">&nbsp;Android</a>
                                 </p>
-                                <p><i class="icon icon-lg" aria-hidden="true">tablet_mac</i><a
+                                <p><i class="mdi mdi-apple-ios icon-lg" aria-hidden="true"></i><a
                                             href="https://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">&nbsp;iOS</a>
                                 </p>
                                 <p>在没有测试完成绑定成功之前请不要启用。</p>
@@ -173,11 +173,11 @@
                             <div class="card-action">
                                 <div class="card-action-btn pull-left">
                                     <a class="btn btn-brand-accent btn-flat waves-attach" href="/user/ga_reset"><span
-                                                class="icon">format_color_reset</span>&nbsp;重置</a>
+                                                class="mdi mdi-autorenew"></span>&nbsp;重置</a>
                                     <button class="btn btn-flat waves-attach" id="ga-test"><span
-                                                class="icon">extension</span>&nbsp;测试
+                                                class="mdi mdi-check-all"></span>&nbsp;测试
                                     </button>
-                                    <button class="btn btn-brand btn-flat waves-attach" id="ga-set"><span class="icon">perm_data_setting</span>&nbsp;设置
+                                    <button class="btn btn-brand btn-flat waves-attach" id="ga-set"><span class="mdi mdi-check"></span>&nbsp;设置
                                     </button>
                                 </div>
                             </div>
@@ -193,7 +193,7 @@
                                 <div class="card-inner">
                                     <div class="cardbtn-edit">
                                         <div class="card-heading">账户邮箱修改</div>
-                                        <button class="btn btn-flat" id="email-update"><span class="icon">check</span>&nbsp;
+                                        <button class="btn btn-flat" id="email-update"><span class="mdi mdi-check"></span>&nbsp;
                                         </button>
                                     </div>
                                     <p>当前账户邮箱：<code>{$user->email}</code></p>
@@ -225,7 +225,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">用戶名修改</div>
-                                    <button class="btn btn-flat" id="username-update"><span class="icon">check</span>&nbsp;
+                                    <button class="btn btn-flat" id="username-update"><span class="mdi mdi-check"></span>&nbsp;
                                     </button>
                                 </div>
                                 <p>当前用戶名：<code>{$user->user_name}</code></p>
@@ -243,7 +243,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">账号登录密码修改</div>
-                                    <button class="btn btn-flat" id="pwd-update"><span class="icon">check</span>&nbsp;
+                                    <button class="btn btn-flat" id="pwd-update"><span class="mdi mdi-check"></span>&nbsp;
                                     </button>
                                 </div>
                                 <div class="form-group form-group-label">
@@ -268,7 +268,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">IP 解封</div>
-                                    <button class="btn btn-flat" id="unblock"><span class="icon">not_interested</span>&nbsp;
+                                    <button class="btn btn-flat" id="unblock"><span class="mdi mdi-block-helper"></span>&nbsp;
                                     </button>
                                 </div>
                                 <p>当前状态：<code id="ajax-block">{$Block}</code></p>
@@ -282,7 +282,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">每日使用报告设置</div>
-                                    <button class="btn btn-flat" id="dailyreport-update"><span class="icon">check</span>&nbsp;
+                                    <button class="btn btn-flat" id="dailyreport-update"><span class="mdi mdi-check"></span>&nbsp;
                                     </button>
                                 </div>
                                 <p class="card-heading"></p>
@@ -313,7 +313,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">联络方式修改</div>
-                                    <button class="btn btn-flat" id="contact_update"><span class="icon">check</span>&nbsp;
+                                    <button class="btn btn-flat" id="contact_update"><span class="mdi mdi-check"></span>&nbsp;
                                     </button>
                                 </div>
                                 <p>当前联络方式：
@@ -361,7 +361,7 @@
                                         <div class="cardbtn-edit">
                                             <div class="card-heading">重置端口</div>
                                             <button class="btn btn-flat" id="portreset"><span
-                                                        class="icon">autorenew</span>&nbsp;
+                                                        class="mdi mdi-autorenew"></span>&nbsp;
                                             </button>
                                         </div>
                                         <p>对号码不满意？来摇号吧～！</p>
@@ -375,7 +375,7 @@
                                         <div class="cardbtn-edit">
                                             <div class="card-heading">钦定端口</div>
                                             <button class="btn btn-flat" id="portspecify"><span
-                                                        class="icon">call_made</span>&nbsp;
+                                                        class="mdi mdi-check"></span>&nbsp;
                                             </button>
                                         </div>
                                         <p>不想摇号？来钦定端口吧～！</p>
@@ -399,7 +399,7 @@
                                     <div class="cardbtn-edit">
                                         <div class="card-heading">Telegram 绑定</div>
                                     {if $user->telegram_id != 0}
-                                        <button class="btn btn-brand-accent btn-flat" id="telegram_reset"><span class="icon">not_interested</span>&nbsp;</button>
+                                        <button class="btn btn-brand-accent btn-flat" id="telegram_reset"><span class="mdi mdi-block-helper"></span>&nbsp;</button>
                                     </div>
                                         <div class="text-center">
                                             <p>当前绑定的 Telegram 账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a></p>
@@ -421,7 +421,7 @@
                             <div class="card-inner">
                                 <div class="cardbtn-edit">
                                     <div class="card-heading">主题修改</div>
-                                    <button class="btn btn-flat" id="theme-update"><span class="icon">check</span>&nbsp;
+                                    <button class="btn btn-flat" id="theme-update"><span class="mdi mdi-check"></span>&nbsp;
                                     </button>
                                 </div>
                                 <p>当前主题：<code data-default="theme">{$user->theme}</code></p>

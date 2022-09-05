@@ -38,7 +38,7 @@
                                                     <div class="reset-flex">
                                                     <span>重置链接</span>
                                                     <a onclick="replaceInviteUrl()" class="reset-link btn btn-brand-accent btn-flat">
-                                                        <i class="icon">autorenew</i>&nbsp;
+                                                        <i class="mdi mdi-autorenew"></i>&nbsp;
                                                     </a>
                                                 </div>
                                             </div>
@@ -71,7 +71,7 @@
                                                                 class="card-tag tag-green">{$config['custom_invite_price']}
                                                             RMB/次</code></div>
                                                     <button class="btn btn-flat" id="custom-invite-confirm"><span
-                                                                class="icon">check</span>&nbsp;
+                                                                class="mdi mdi-check"></span>&nbsp;
                                                     </button>
                                                 </div>
                                                 <p>例:输入<code>vip</code>则链接变为<code>{$config['baseUrl']}
@@ -100,7 +100,7 @@
                                                             class="card-tag tag-green">{$config['invite_price']}
                                                         RMB/个</code></div>
                                                 <button class="btn btn-flat" id="buy-invite"><span
-                                                            class="material-icons">shopping_cart</span></button>
+                                                            class="mdi mdi-cart-plus"></span></button>
                                             </div>
                                             <p>在下方输入需要购买的邀请次数</p>
                                             <div class="form-group form-group-label">

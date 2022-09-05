@@ -9,13 +9,13 @@
     <!-- css -->
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="/theme/material/css/user.min.css">
+    <link href="/theme/material/css/user.min.css" rel="stylesheet">
+    <link href="//fastly.jsdelivr.net/npm/@mdi/font@7.0.96/css/materialdesignicons.min.css" rel="stylesheet">
     <!-- jquery -->
-    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://fastly.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
+    <script src="//cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
     <!-- js -->
     <script src="/assets/js/fuck.min.js"></script>
+    <script src="//fastly.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
     <style>
     {if $config['user_center_bg'] == true}
         .page-orange .ui-content-header {
@@ -29,7 +29,7 @@
     <ul class="nav nav-list pull-left">
         <div>
             <a data-toggle="menu" href="#ui_menu">
-                <span class="icon icon-lg text-white">menu</span>
+                <span class="mdi mdi-menu icon-lg text-white"></span>
             </a>
         </div>
     </ul>
@@ -42,7 +42,7 @@
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
                     <a class="padding-right-cd waves-attach" href="/user/logout">
-                        <span class="icon icon-lg margin-right">exit_to_app</span>登出
+                        <span class="mdi mdi-exit-to-app icon-lg margin-right"></span>登出
                     </a>
                 </li>
             </ul>
@@ -52,74 +52,74 @@
 <nav aria-hidden="true" class="menu menu-left nav-drawer nav-drawer-md" id="ui_menu" tabindex="-1">
     <div class="menu-scroll">
         <div class="menu-content">
-            <a class="menu-logo" href="/"><i class="icon icon-lg">language</i>&nbsp;{$config['appName']}</a>
+            <a class="menu-logo" href="/">&nbsp;{$config['appName']}</a>
             <ul class="nav">
                 <li>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_me">我的</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_me">
                         <li>
-                            <a href="/user"><i class="icon icon-lg">account_balance_wallet</i>&nbsp;用户中心</a>
+                            <a href="/user"><i class="mdi mdi-home icon-lg"></i>&nbsp;用户中心</a>
                         </li>
                         <li>
-                            <a href="/user/profile"><i class="icon icon-lg">account_box</i>&nbsp;账户信息</a>
+                            <a href="/user/profile"><i class="mdi mdi-account-box icon-lg"></i>&nbsp;账户信息</a>
                         </li>
                         <li>
-                            <a href="/user/edit"><i class="icon icon-lg">edit</i>&nbsp;资料编辑</a>
+                            <a href="/user/edit"><i class="mdi mdi-account-edit icon-lg"></i>&nbsp;资料编辑</a>
                         </li>
                         {if $config['subscribeLog']===true && $config['subscribeLog_show']===true}
                         <li>
-                            <a href="/user/subscribe_log"><i class="icon icon-lg">important_devices</i>&nbsp;订阅记录</a>
+                            <a href="/user/subscribe_log"><i class="mdi mdi-file-find icon-lg"></i>&nbsp;订阅记录</a>
                         </li>
                         {/if}
                         {if $config['enable_ticket']===true}
                             <li>
-                                <a href="/user/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单系统</a>
+                                <a href="/user/ticket"><i class="mdi mdi-comment-question icon-lg"></i>&nbsp;工单系统</a>
                             </li>
                         {/if}
                         <li>
-                            <a href="/user/invite"><i class="icon icon-lg">loyalty</i>&nbsp;邀请链接</a>
+                            <a href="/user/invite"><i class="mdi mdi-account-multiple-plus icon-lg"></i>&nbsp;邀请链接</a>
                         </li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_use">使用</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_use">
                         <li>
-                            <a href="/user/node"><i class="icon icon-lg">airplanemode_active</i>&nbsp;节点列表</a>
+                            <a href="/user/node"><i class="mdi mdi-server icon-lg"></i>&nbsp;节点列表</a>
                         </li>
                         <li>
-                            <a href="/user/media"><i class="icon icon-lg">ondemand_video</i>&nbsp;流媒体解锁</a>
+                            <a href="/user/media"><i class="mdi mdi-multimedia icon-lg"></i>&nbsp;流媒体解锁</a>
                         </li>
                         <li>
-                            <a href="/user/announcement"><i class="icon icon-lg">announcement</i>&nbsp;站点公告</a>
+                            <a href="/user/announcement"><i class="mdi mdi-bullhorn-variant icon-lg"></i>&nbsp;站点公告</a>
                         </li>
                         <li>
-                            <a href="/user/detect"><i class="icon icon-lg">account_balance</i>&nbsp;审计规则</a>
+                            <a href="/user/detect"><i class="mdi mdi-account-filter icon-lg"></i>&nbsp;审计规则</a>
                         </li>
                         <li>
-                            <a href="/user/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a>
+                            <a href="/user/detect/log"><i class="mdi mdi-calendar-filter icon-lg"></i>&nbsp;审计记录</a>
                         </li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_help">商店</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_help">
                         <li>
-                            <a href="/user/code"><i class="icon icon-lg">code</i>&nbsp;充值</a>
+                            <a href="/user/code"><i class="mdi mdi-wallet-plus icon-lg"></i>&nbsp;充值</a>
                         </li>
                         <li>
-                            <a href="/user/shop"><i class="icon icon-lg">shop</i>&nbsp;套餐购买</a>
+                            <a href="/user/shop"><i class="mdi mdi-wallet-travel icon-lg"></i>&nbsp;套餐购买</a>
                         </li>
                         <li>
-                            <a href="/user/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a>
+                            <a href="/user/bought"><i class="mdi mdi-list-box icon-lg"></i>&nbsp;购买记录</a>
                         </li>
                         {if $config['enable_donate']===true}
                             <li>
-                                <a href="/user/donate"><i class="icon icon-lg">attach_money</i>&nbsp;捐赠公示</a>
+                                <a href="/user/donate"><i class="mdi mdi-gift icon-lg"></i>&nbsp;捐赠公示</a>
                             </li>
                         {/if}
                     </ul>
                     {if $user->is_admin}
-                        <a href="/admin"><i class="icon icon-lg">person_pin</i>&nbsp;管理面板</a>
+                        <a href="/admin"><i class="mdi mdi-account-tie icon-lg"></i>&nbsp;管理面板</a>
                     {/if}
                     {if $can_backtoadmin}
-                        <a href="/user/backtoadmin"><i class="icon icon-lg">person_pin</i>&nbsp;返回管理员身份</a>
+                        <a href="/user/backtoadmin"><i class="mdi mdi-keyboard-return icon-lg"></i>&nbsp;返回管理员身份</a>
                     {/if}
                 </li>
             </ul>

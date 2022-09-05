@@ -14,7 +14,7 @@
                         <div class="card-inner">
                             <p>商品不可叠加，新购商品会覆盖旧商品的效果。</p>
                             <p>购买新套餐时，如果未关闭旧套餐自动续费，则旧套餐的自动续费依然生效。</p>
-                            <p><i class="icon icon-lg">attach_money</i>当前余额：<font color="#399AF2" size="5">{$user->money}</font> 元</p>
+                            <p><i class="mdi mdi-currency-usd icon-lg"></i>当前余额：<font color="#399AF2" size="5">{$user->money}</font> 元</p>
                         </div>
                     </div>
                 </div>
@@ -24,12 +24,12 @@
                             <div class="card-inner ui-switch-inner">
                                 <div class="switch-btn" id="switch-cards">
                                     <a href="#" onclick="return false">
-                                        <i class="mdui-icon material-icons">apps</i>
+                                        <i class="mdi mdi-apps"></i>
                                     </a>
                                 </div>
                                 <div class="switch-btn" id="switch-table">
                                     <a href="#" onclick="return false">
-                                        <i class="mdui-icon material-icons">dehaze</i>
+                                        <i class="mdi mdi-format-list-bulleted"></i>
                                     </a>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="shop-content-extra">
                                     {foreach $shop->contentExtra() as $service}
-                                        <div><span class="icon">{$service[0]}</span> {$service[1]}</div>
+                                        <div><span class="mdi mdi-{$service[0]}"></span> {$service[1]}</div>
                                     {/foreach}
                                 </div>
                                 <a class="btn btn-brand-accent shop-btn" href="javascript:void(0);"
@@ -131,7 +131,7 @@
                                     <div class="card-tag tag-blue">{$shop->classExpire()} 天</div>
                                 </div>
                                 <div>
-                                    <i class="material-icons">expand_more</i>
+                                    <i class="mdi mdi-chevron-down"></i>
                                 </div>
                             </div>
                             <a class="btn btn-brand-accent shop-btn" href="javascript:void(0);"
@@ -180,7 +180,7 @@
                                 <div class="card-tag tag-cyan">{$shop->bandwidth()} G</div>
                             </div>
                             <div>
-                                <i class="material-icons">expand_more</i>
+                                <i class="mdi mdi-chevron-down"></i>
                             </div>
                         </div>
                         <a class="btn btn-brand-accent shop-btn" href="javascript:void(0);"

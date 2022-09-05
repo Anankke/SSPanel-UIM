@@ -133,9 +133,9 @@
                 labels: [
                     '从未在线的用户（{$sts->getUnusedUser()}人）', 
                     '一天以前在线的用户（{$sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser()}人）', 
-                    '一天内在线的用户({$sts->getOnlineUser(86400)}人)',
-                    '一小时内在线的用户({$sts->getOnlineUser(3600)}人)',
-                    '一分钟内在线的用户({$sts->getOnlineUser(60)}人)'
+                    '一天内在线的用户（{$sts->getOnlineUser(86400)}人）',
+                    '一小时内在线的用户（{$sts->getOnlineUser(3600)}人）',
+                    '一分钟内在线的用户（{$sts->getOnlineUser(60)}人）'
                 ],
                 datasets: [{
                     label: '用户在线状态',

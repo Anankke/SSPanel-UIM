@@ -6,7 +6,6 @@ name: Auto Minify CSS/JS file
 # events but only for the dev branch
 on:
   push:
-    branches: [ dev ]
     paths:
       - 'public/assets/css/**'
       - 'public/assets/js/**'
@@ -41,4 +40,3 @@ jobs:
         with:
           repository: 'public'
           commit_message: "Github Action: Auto Minified Theme CSS/JS Files"
-          branch: dev

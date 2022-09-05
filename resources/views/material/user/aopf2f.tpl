@@ -12,7 +12,7 @@
         </div>
     </div>
 </div>
-<a class="btn btn-flat waves-attach" id="f2fpay" onclick="f2fpay();"><span class="icon">check</span>&nbsp;充值</a>
+<a class="btn btn-flat waves-attach" id="f2fpay" onclick="f2fpay();"><span class="mdi mdi-check"></span>&nbsp;充值</a>
 <script>
     var pid = 0; 
     var flag = false;

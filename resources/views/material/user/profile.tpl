@@ -20,7 +20,7 @@
                                             <div class="account-flex">
                                                 <span>注销账号</span>
                                                 <a class="btn btn-flat" href="kill">
-                                                    <span class="icon">not_interested</span>&nbsp;
+                                                    <span class="mdi mdi-account-cancel"></span>&nbsp;
                                                 </a>
                                             </div>
                                         </div>

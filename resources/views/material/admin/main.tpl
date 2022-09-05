@@ -10,11 +10,11 @@
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdn.staticfile.org/material-design-lite/1.3.0/material.min.css" rel="stylesheet">
-    <link href="https://cdn.staticfile.org/datatables/1.10.19/css/dataTables.material.min.css" rel="stylesheet">
-    <link href="https://cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    <link href="//fastly.jsdelivr.net/npm/@mdi/font@7.0.96/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="//cdn.staticfile.org/material-design-lite/1.3.0/material.min.css" rel="stylesheet">
+    <link href="//cdn.staticfile.org/datatables/1.10.19/css/dataTables.material.min.css" rel="stylesheet">
     <!-- js -->
-    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
     <!-- favicon -->
     <!-- ... -->
     <style>
