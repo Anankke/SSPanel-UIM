@@ -26,12 +26,12 @@
                                     <div class="card-inner ui-switch-inner">
                                         <div class="switch-btn" id="switch-cards">
                                             <a href="#" onclick="return false">
-                                                <i class="mdui-icon material-icons">apps</i>
+                                                <i class="mdi mdi-apps"></i>
                                             </a>
                                         </div>
                                         <div class="switch-btn" id="switch-table">
                                             <a href="#" onclick="return false">
-                                                <i class="mdui-icon material-icons">dehaze</i>
+                                                <i class="mdi mdi-format-list-bulleted"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -44,7 +44,7 @@
                             <div class="nodetitle">
                                 <a class="waves-effect waves-button" data-toggle="collapse" href="#cardgroup{$node_class - 1000}" aria-expanded="true" aria-controls="cardgroup{$node_class - 1000}">
                                     <span>{if $node_class < 1000}试用{elseif $node_class == 1000}免费{else}等级 {$node_class - 1000} {/if}用户节点</span>
-                                    <i class="material-icons">expand_more</i>
+                                    <i class="mdi mdi-chevron-down"></i>
                                 </a>
                             </div>
                             <div class="card-row collapse in" id="cardgroup{$node_class - 1000}">
@@ -62,7 +62,7 @@
                                         <div class="nodemiddle node-flex">
                                             <!-- 在线人数 -->
                                             <div class="onlinemember node-flex" title="在线人数">
-                                                <i class="material-icons node-icon">people</i>
+                                                <i class="mdi mdi-account-group node-icon"></i>
                                                 <span>{if $node['online_user'] == -1} N/A{else} {$node['online_user']}{/if}</span>
                                             </div>
                                             <!-- 节点类型 -->
@@ -83,31 +83,24 @@
                                         <div class="nodeinfo node-flex">  
                                             <!-- 节点已用/剩余可用流量 -->
                                             <div class="nodetraffic node-flex" title="节点已用/剩余可用流量">
-                                                <i class="material-icons node-icon">swap_vertical_circle</i>
+                                                <i class="mdi mdi-swap-vertical-circle node-icon"></i>
                                                 <span>{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}GB{else}{$node['traffic_used']}GB{/if}</span>
                                             </div>
                                             <!-- 节点流量倍率 -->
                                             <div class="nodecheck node-flex" title="节点流量倍率">
-                                                <i class="material-icons node-icon">stacked_line_chart</i>
+                                                <i class="mdi mdi-chart-line-stacked node-icon"></i>
                                                 <span>{$node['traffic_rate']}x</span>
                                             </div>
-                                            <!-- 节点速率 -->
-                                            {if {$node['bandwidth']}!=0}
-                                            <div class="nodeband node-flex" title="节点速率">
-                                                <i class="material-icons node-icon">compare_arrows</i>
-                                                <span>{$node['bandwidth']}</span>
-                                            </div>
-                                            {/if}
                                             <!-- 节点系统负载 -->
                                             <div class="nodeband node-flex" title="节点系统负载">
-                                                <i class="material-icons node-icon">dns</i>
+                                                <i class="mdi mdi-server-network node-icon"></i>
                                                 <span>{$node['latest_load']}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="nodestatus">
                                         <div class="{if $node['online'] == '1'}nodeonline{elseif $node['online'] == '0'}nodeunset{else}nodeoffline{/if}">
-                                            <i class="material-icons">{if $node['online']=='1'}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</i>
+                                            {if $node['online']=='1'}<i class="mdi mdi-cloud">{elseif $node['online']=='0'}<i class="mdi mdi-cloud-alert">{else}<i class="mdi mdi-cloud-question">{/if}</i>
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +108,7 @@
 {*                            *}{if $node['class'] > $user->class}
                                     <p class="card-heading" align="center">
                                         <b>
-                                            <i class="icon icon-lg">visibility_off</i>您当前等级不足以使用该节点，如需升级请<a href="/user/shop">点击这里</a>升级套餐
+                                            <i class="mdi mdi-currency-usd-off icon-lg"></i>您当前等级不足以使用该节点，如需升级请<a href="/user/shop">点击这里</a>升级套餐
                                         </b>
                                     </p>
 {*                            *}{else}
@@ -126,7 +119,7 @@
                                             <div class="label label-brand-accent">↑↑点击节点查看↑↑</div>
 {*                                        *}{if $mu_port != 0}
                                             <div>
-                                                <span class="node-icon"><i class="icon icon-lg">cloud</i></span>
+                                                <span class="node-icon"><i class="mdi mdi-cloud icon-lg"></i></span>
                                                 <span class="node-load">单端口：<code>{$mu_port}</code></span>
                                             </div>
 {*                                        *}{/if}
@@ -136,7 +129,7 @@
 {*                                *}{/foreach}
                                     <div class="tipmiddle">
                                         <div>
-                                            <span class="node-icon"><i class="icon icon-lg">chat</i> </span>{$node['info']}
+                                            <span class="node-icon"><i class="mdi mdi-chat icon-lg"></i> </span>{$node['info']}
                                         </div>
                                     </div>
 {*                            *}{/if}
@@ -157,7 +150,7 @@
                                             <div data-toggle="tile" data-target="#heading{$node['id']}">
                                                 <div class="tile-side pull-left" data-ignore="tile">
                                                     <div class="avatar avatar-sm {if $node['online']=='1'}nodeonline{elseif $node['online']=='0'}nodeunset{else}nodeoffline{/if}">
-                                                        <span class="material-icons">{if $node['online']=='1'}cloud_queue{elseif $node['online']=='0'}wifi_off{else}flash_off{/if}</span>
+                                                    {if $node['online']=='1'}<i class="mdi mdi-cloud">{elseif $node['online']=='0'}<i class="mdi mdi-cloud-alert">{else}<i class="mdi mdi-cloud-question">{/if}</i>
                                                     </div>
                                                 </div>
                                                 <div class="tile-inner">
@@ -169,7 +162,7 @@
                                                             {$node['name']}
                                                         </span>
                                                         |
-                                                        <span class="node-icon"><i class="icon icon-lg">people</i></span>
+                                                        <span class="node-icon"><i class="mdi mdi-account-group icon-lg"></i></span>
                                                         <b><span class="node-alive" title="在线人数">{if $node['online_user'] == -1}N/A{else}{$node['online_user']}{/if}</span></b>
                                                         |
                                                         <span class="node-type" title="节点类型">
@@ -184,13 +177,13 @@
                                                         {/if}
                                                         </span>
                                                         |
-                                                        <span class="node-icon"><i class="icon icon-lg">swap_vertical_circle</i></span>
+                                                        <span class="node-icon"><i class="mdi mdi-swap-vertical-circle icon-lg"></i></span>
 {*                                                    *}<span class="node-band" title="节点已用/剩余可用流量">{if $node['traffic_limit']>0}{$node['traffic_used']}/{$node['traffic_limit']}GB{else}{$node['traffic_used']}GB{/if}</span>
                                                         |
-                                                        <span class="node-icon"><i class="icon icon-lg">stacked_line_chart</i></span>
+                                                        <span class="node-icon"><i class="mdi mdi-chart-line-stacked icon-lg"></i></span>
                                                         <span class="node-tr" title="节点流量倍率">{$node['traffic_rate']}x</span>
                                                         |
-                                                        <span class="node-icon"><i class="icon icon-lg">dns</i></span>
+                                                        <span class="node-icon"><i class="mdi mdi-server-network icon-lg"></i></span>
                                                         <span class="node-load" title="节点系统负载">负载：{$node['latest_load']}</span>
                                                     </div>
                                                 </div>
@@ -203,7 +196,7 @@
                                                         <div class="card-main">
                                                             <div class="card-inner">
                                                                 <p class="card-heading" align="center">
-                                                                <b><i class="icon icon-lg">visibility_off</i> 您当前等级不足以使用该节点，如需升级请<a href="/user/shop">点击这里</a>升级套餐</b>
+                                                                <b><i class="mdi mdi-currency-usd-off icon-lg"></i> 您当前等级不足以使用该节点，如需升级请<a href="/user/shop">点击这里</a>升级套餐</b>
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -220,7 +213,7 @@
                                                                 </p>
                                                                 <hr/>
 {*                                                        *}{/foreach}
-                                                                <div><i class="icon icon-lg node-icon">chat</i> {$node['info']}</div>
+                                                                <div><i class="mdi mdi-chat icon-lg node-icon"></i> {$node['info']}</div>
                                                             </div>
                                                         </div>
                                                     </div>

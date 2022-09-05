@@ -137,10 +137,10 @@
                             <div class="card-inner">
                                 <p class="card-heading">两步验证</p>
                                 <p>请使用 TOTP 两步验证器扫描下面的二维码。</p>
-                                <p><i class="icon icon-lg" aria-hidden="true">android</i><a
+                                <p><i class="mdi mdi-android icon-lg" aria-hidden="true"></i><a
                                             href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">&nbsp;Android</a>
                                 </p>
-                                <p><i class="icon icon-lg" aria-hidden="true">tablet_mac</i><a
+                                <p><i class="mdi mdi-apple-ios icon-lg" aria-hidden="true"></i><a
                                             href="https://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">&nbsp;iOS</a>
                                 </p>
                                 <p>在没有测试完成绑定成功之前请不要启用。</p>

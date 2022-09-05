@@ -100,7 +100,7 @@
                                                             class="card-tag tag-green">{$config['invite_price']}
                                                         RMB/个</code></div>
                                                 <button class="btn btn-flat" id="buy-invite"><span
-                                                            class="material-icons">shopping_cart</span></button>
+                                                            class="mdi mdi-cart-plus"></span></button>
                                             </div>
                                             <p>在下方输入需要购买的邀请次数</p>
                                             <div class="form-group form-group-label">

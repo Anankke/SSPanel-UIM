@@ -27,9 +27,9 @@
                             <dl class="dl-horizontal">
                             {foreach $config['auto_detect_ban'] as $key => $value}
                                 {if $value['type']=='kill'}
-                                <dt><i class="material-icons icon-sm">info_outline</i> 当您触碰审计规则达 <strong>{$key}</strong> 次，将会被直接 <strong>删除账号</strong></dt>
+                                <dt><i class="mdi mdi-information-outline icon-sm"></i> 当您触碰审计规则达 <strong>{$key}</strong> 次，将会被直接 <strong>删除账号</strong></dt>
                                 {else}
-                                <dt><i class="material-icons icon-sm">info_outline</i> 当您触碰审计规则达 <strong>{$key}</strong> 次，将会被封禁 <strong>{$value['time']}</strong> 分钟</dt>
+                                <dt><i class="mdi mdi-information-outline icon-sm"></i> 当您触碰审计规则达 <strong>{$key}</strong> 次，将会被封禁 <strong>{$value['time']}</strong> 分钟</dt>
                                 {/if}
                             {/foreach}
                             </dl>

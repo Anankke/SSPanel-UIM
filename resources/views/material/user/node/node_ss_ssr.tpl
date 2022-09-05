@@ -33,10 +33,10 @@
                                         <nav class="tab-nav">
                                             <ul class="nav nav-list">
                                                 <li {if $ssr_prefer}class="active"{/if}>
-                                                    <a class="" data-toggle="tab" href="#ssr_info"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+                                                    <a class="" data-toggle="tab" href="#ssr_info"><i class="mdi mdi-airplane-takeoff icon-lg"></i>&nbsp;ShadowsocksR</a>
                                                 </li>
                                                 <li {if !$ssr_prefer}class="active"{/if}>
-                                                    <a class="" data-toggle="tab" href="#ss_info"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+                                                    <a class="" data-toggle="tab" href="#ss_info"><i class="mdi mdi-airplane-landing icon-lg"></i>&nbsp;Shadowsocks</a>
                                                 </li>
                                             </ul>
                                         </nav>

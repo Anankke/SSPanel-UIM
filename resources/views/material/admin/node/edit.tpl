@@ -1,6 +1,7 @@
 {include file='admin/main.tpl'}
 
-<script src="https://cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.js"></script>
+<script src="//cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.js"></script>
+<link href="//cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.css" rel="stylesheet" type="text/css">
 
 <main class="content">
     <div class="content-header ui-content-header">

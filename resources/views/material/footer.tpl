@@ -6,7 +6,7 @@
 </footer>
 
 <!-- js -->
-<script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
 {if isset($geetest_html)}
     <script src="//static.geetest.com/static/tools/gt.js"></script>
 {/if}

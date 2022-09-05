@@ -10,9 +10,10 @@
     <!-- css -->
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+    <link href="//fastly.jsdelivr.net/npm/@mdi/font@7.0.96/css/materialdesignicons.min.css" rel="stylesheet">
     <!-- jquery -->
-    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
     <!-- favicon -->
     <!-- ... -->
     <style>
