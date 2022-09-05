@@ -20,6 +20,7 @@ final class Tool extends Command
 │ ├─ importAllSettings       - 导入所有设置
 │ ├─ upgradeDatabase         - 升级(如果不存在的话初始化) 数据库
 │ ├─ resetNodePassword       - 重置所有节点通讯密钥
+
 EOL;
 
     public function boot(): void
@@ -112,11 +113,14 @@ EOL;
     {
         $json_settings = file_get_contents('./config/settings.json');
         $settings = json_decode($json_settings, true);
-        $counter = 0;
+        $config = [];
+        $add_counter = 0;
+        $del_counter = 0;
 
+        // 检查新增
         foreach ($settings as $item) {
-            $itemName = $item['item'];
-
+            $config[] = $item['item'];
+            $item_name = $item['item'];
             $query = Setting::where('item', '=', $item['item'])->first();
 
             if ($query === null) {
@@ -131,15 +135,26 @@ EOL;
                 $new_item->mark = $item['mark'];
                 $new_item->save();
 
-                echo "添加新设置：${itemName}" . PHP_EOL;
-                $counter += 1;
+                echo "添加新设置：${item_name}" . PHP_EOL;
+                $add_counter += 1;
+            }
+        }
+        // 检查移除
+        $db_settings = Setting::all();
+        foreach ($db_settings as $db_setting) {
+            if (! in_array($db_setting->item, $config)) {
+                $db_setting->delete();
+                $del_counter += 1;
             }
         }
 
-        if ($counter !== 0) {
-            echo "总计添加了 ${counter} 条新设置." . PHP_EOL;
+        if ($add_counter !== 0) {
+            echo "总计添加了 ${add_counter} 条新设置." . PHP_EOL;
         } else {
             echo '没有任何新设置需要添加.' . PHP_EOL;
+        }
+        if ($del_counter !== 0) {
+            echo "总计移除了 ${del_counter} 条设置." . PHP_EOL;
         }
     }
 
