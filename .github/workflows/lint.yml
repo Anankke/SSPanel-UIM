@@ -1,7 +1,11 @@
 name: Lint code
 on:
   push:
+    paths:
+      - "**.php"
   pull_request:
+    paths:
+      - "**.php"
     types: [opened, reopened, synchronize]
 
 jobs:
