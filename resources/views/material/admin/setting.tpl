@@ -727,7 +727,7 @@
                                             <input class="form-control maxwidth-edit" id="email_verify_ip_limit" value="{$settings['email_verify_ip_limit']}">
                                         </div>
 
-                                        <button id="submit_register_settings" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <button type="submit" class="btn btn-block btn-brand submit_register_settings">提交</button>
                                     </div>
 
                                     <div class="tab-pane fade" id="register_default_value">
@@ -857,7 +857,7 @@
                                             </select>
                                         </div>
 
-                                        <button id="submit_register_settings" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <button type="submit" class="btn btn-block btn-brand submit_register_settings">提交</button>
                                     </div>
                                 </div>
 
@@ -926,7 +926,9 @@
                                         <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 10 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，若返点设置为 20% ，则第一次购买返利为 2；第二次为 4；第三次为 4；第四次及之后的购买，邀请人所能获得的返利均为 0（假设设置为在购买时返利）</p>
                                         <p class="form-control-guide"><i class="material-icons">info</i>在进行第三次返利计算时，按设置应返利订单金额的 20% ，即 10 元。但因已获得历史返利 6 元，则只能获得返利总金额限制与历史返利的差值</p>
                                         
-                                        <br/><button id="submit_invite_settings" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <br/>
+                                        
+                                        <button type="submit" class="btn btn-block btn-brand submit_invite_settings">提交</button>
                                     </div>
 
                                     <div class="tab-pane fade" id="invite_gernal_settings">
@@ -951,7 +953,9 @@
                                             <input class="form-control maxwidth-edit" id="custom_invite_price" value="{$settings['custom_invite_price']}">
                                         </div>
 
-                                        <button id="submit_invite_settings" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <br/>
+                                        
+                                        <button type="submit" class="btn btn-block btn-brand submit_invite_settings">提交</button>
                                     </div>
                                 </div>
 
@@ -1773,7 +1777,7 @@
 
 <script>
     window.addEventListener('load', () => {
-        $$.getElementById('submit_register_settings').addEventListener('click', () => {
+        $('.submit_register_settings').click( () => {
             $.ajax({
                 type: "POST",
                 url: "/admin/setting",
@@ -1827,8 +1831,8 @@
 
 <script>
     window.addEventListener('load', () => {
-        $$.getElementById('submit_invite_settings').addEventListener('click', () => {
-            $.ajax({
+        $('.submit_invite_settings').click( () => {
+            $.ajax( {
                 type: "POST",
                 url: "/admin/setting",
                 dataType: "json",
@@ -1857,9 +1861,9 @@
                             jqXHR.status
                             }`);
                 }
-            })
-        })
-    })
+            } )
+        } )
+    } )
 </script>
 
 <script>
