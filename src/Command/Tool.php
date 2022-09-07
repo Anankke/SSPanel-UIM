@@ -39,9 +39,9 @@ EOL;
 
     public function initQQWry(): void
     {
-        echo '正在下载或更新纯真ip数据库...' . PHP_EOL;
+        echo '正在下载或更新纯真 IP 数据库...' . PHP_EOL;
         $path = BASE_PATH . '/storage/qqwry.dat';
-        $qqwry = file_get_contents('https://qqwry.mirror.noc.one/QQWry.Dat?from=sspanel_uim');
+        $qqwry = file_get_contents('https://cdn.jsdelivr.net/gh/sspanel-uim/qqwry.dat@latest/qqwry.dat');
         if ($qqwry !== '') {
             if (is_file($path)) {
                 rename($path, $path . '.bak');
@@ -50,7 +50,7 @@ EOL;
             if ($fp) {
                 fwrite($fp, $qqwry);
                 fclose($fp);
-                echo '纯真ip数据库下载成功.' . PHP_EOL;
+                echo '纯真 IP 数据库下载成功.' . PHP_EOL;
                 $iplocation = new QQWry();
                 $location = $iplocation->getlocation('8.8.8.8');
                 $Userlocation = $location['country'];
@@ -61,10 +61,10 @@ EOL;
                     }
                 }
             } else {
-                echo '纯真ip数据库保存失败，请检查权限' . PHP_EOL;
+                echo '纯真 IP 数据库保存失败，请检查权限' . PHP_EOL;
             }
         } else {
-            echo '纯真ip数据库下载失败，请检查下载地址' . PHP_EOL;
+            echo '纯真 IP 数据库下载失败，请检查下载地址' . PHP_EOL;
         }
     }
 
