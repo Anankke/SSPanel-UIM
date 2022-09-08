@@ -55,7 +55,7 @@ final class Epay extends AbstractPayment
         $type = $request->getParam('type');
         $price = $request->getParam('price');
         if ($price <= 0) {
-            return json_encode(['errcode' => -1, 'errmsg' => '非法的金额.']);
+            return \json_encode(['errcode' => -1, 'errmsg' => '非法的金额.']);
         }
         $user = Auth::getUser();
         $pl = new Paylist();

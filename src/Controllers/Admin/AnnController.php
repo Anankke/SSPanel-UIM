@@ -43,7 +43,7 @@ final class AnnController extends BaseController
         $query = Ann::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['op'])) {
+                if (\in_array($order_field, ['op'])) {
                     $order_field = 'id';
                 }
             }

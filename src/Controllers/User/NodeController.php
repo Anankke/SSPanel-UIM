@@ -52,7 +52,7 @@ final class NodeController extends BaseController
             $array_node['bandwidth'] = $node->getNodeSpeedlimit();
 
             $all_connect = [];
-            if (in_array($node->sort, [0])) {
+            if (\in_array($node->sort, [0])) {
                 if ($node->mu_only !== 1) {
                     $all_connect[] = 0;
                 }

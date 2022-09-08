@@ -39,11 +39,13 @@ final class FuncController extends BaseController
             'ret' => 1,
             'data' => $rules,
         ];
+
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($rules);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
+
         return $response->withHeader('ETAG', $etag)->withJson($res);
     }
 
@@ -52,17 +54,19 @@ final class FuncController extends BaseController
      */
     public function getBlockip(Request $request, Response $response, array $args): ResponseInterface
     {
-        $block_ips = BlockIp::Where('datetime', '>', time() - 60)->get();
+        $block_ips = BlockIp::Where('datetime', '>', \time() - 60)->get();
 
         $res = [
             'ret' => 1,
             'data' => $block_ips,
         ];
+
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($block_ips);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
+
         return $response->withHeader('ETAG', $etag)->withJson($res);
     }
 
@@ -71,17 +75,19 @@ final class FuncController extends BaseController
      */
     public function getUnblockip(Request $request, Response $response, array $args): ResponseInterface
     {
-        $unblock_ips = UnblockIp::Where('datetime', '>', time() - 60)->get();
+        $unblock_ips = UnblockIp::Where('datetime', '>', \time() - 60)->get();
 
         $res = [
             'ret' => 1,
             'data' => $unblock_ips,
         ];
+
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($unblock_ips);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
+
         return $response->withHeader('ETAG', $etag)->withJson($res);
     }
 
@@ -119,7 +125,7 @@ final class FuncController extends BaseController
                 $ip_block = new BlockIp();
                 $ip_block->ip = $ip;
                 $ip_block->nodeid = $node_id;
-                $ip_block->datetime = time();
+                $ip_block->datetime = \time();
                 $ip_block->save();
             }
         }

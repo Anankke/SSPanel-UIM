@@ -54,7 +54,7 @@ final class Payback extends Model
                 self::executeRebate($user_id, $gift_user_id, $order_amount);
             }
         } elseif ($invite_rebate_mode === 'limit_time_range') {
-            if (strtotime($user->reg_date) + $configs['rebate_time_range_limit'] * 86400 > time()) {
+            if (strtotime($user->reg_date) + $configs['rebate_time_range_limit'] * 86400 > \time()) {
                 self::executeRebate($user_id, $gift_user_id, $order_amount);
             }
         }
@@ -74,7 +74,7 @@ final class Payback extends Model
             $Payback->userid = $user_id;
             $Payback->ref_by = $gift_user_id;
             $Payback->ref_get = $adjust_rebate ?? $rebate_amount;
-            $Payback->datetime = time();
+            $Payback->datetime = \time();
             $Payback->save();
         }
     }

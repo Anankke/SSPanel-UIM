@@ -123,7 +123,7 @@ final class PortAutoChange extends Command
                 $mu_user->save();
                 foreach ($mu_port_nodes as $mu_port_node) {
                     $node_port = $this->outPort($mu_port_node, $port);
-                    if (in_array($mu_port_node->id, $array) && ! in_array($mu_port_node->id, $this->Config['exception_node_id'])) {
+                    if (\in_array($mu_port_node->id, $array) && ! \in_array($mu_port_node->id, $this->Config['exception_node_id'])) {
                         if ($node_port !== $port) {
                             if ($node_port === $new_port) {
                                 if (strpos($mu_port_node->server, $port . '#') !== false) {
@@ -167,7 +167,7 @@ final class PortAutoChange extends Command
                 }
             } else {
                 foreach ($array as $node_id) {
-                    if (in_array($node_id, $this->Config['exception_node_id'])) {
+                    if (\in_array($node_id, $this->Config['exception_node_id'])) {
                         continue;
                     }
                     $node = Node::find($node_id);
@@ -227,7 +227,7 @@ final class PortAutoChange extends Command
         $result_tcping = false;
         $detect_time = $_ENV['detect_gfw_count'];
         for ($i = 1; $i <= $detect_time; $i++) {
-            $json_tcping = json_decode(file_get_contents($api_url), true);
+            $json_tcping = \json_decode(file_get_contents($api_url), true);
             if ($_ENV['detect_gfw_judge']($json_tcping)) {
                 $result_tcping = true;
                 break;

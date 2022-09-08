@@ -41,7 +41,7 @@ final class DetectController extends BaseController
         $query = DetectRule::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['op'])) {
+                if (\in_array($order_field, ['op'])) {
                     $order_field = 'id';
                 }
             }
@@ -197,13 +197,13 @@ final class DetectController extends BaseController
         $query = DetectLog::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['node_name'])) {
+                if (\in_array($order_field, ['node_name'])) {
                     $order_field = 'node_id';
                 }
-                if (in_array($order_field, ['rule_name', 'rule_text', 'rule_regex', 'rule_type'])) {
+                if (\in_array($order_field, ['rule_name', 'rule_text', 'rule_regex', 'rule_type'])) {
                     $order_field = 'list_id';
                 }
-                if (in_array($order_field, ['user_name'])) {
+                if (\in_array($order_field, ['user_name'])) {
                     $order_field = 'user_id';
                 }
             }

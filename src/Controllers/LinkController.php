@@ -156,7 +156,7 @@ final class LinkController extends BaseController
                     } else {
                         $SubscribeExtend = self::getSubscribeExtend($key, $query_value);
                     }
-                    $filename = $SubscribeExtend['filename'] . '_' . time() . '.' . $SubscribeExtend['suffix'];
+                    $filename = $SubscribeExtend['filename'] . '_' . \time() . '.' . $SubscribeExtend['suffix'];
                     $subscribe_type = $SubscribeExtend['filename'];
 
                     $class = 'get' . $SubscribeExtend['class'];
@@ -220,7 +220,7 @@ final class LinkController extends BaseController
                     3 => 'v2rayn',
                     4 => 'trojan',
                 ];
-                $str = (! in_array($value, $strArray) ? $strArray[$value] : $strArray[1]);
+                $str = (! \in_array($value, $strArray) ? $strArray[$value] : $strArray[1]);
                 $return = self::getSubscribeExtend($str);
                 break;
             case 'clash':
@@ -505,7 +505,7 @@ final class LinkController extends BaseController
         }
         switch ($list) {
             case 'ssa':
-                return json_encode($return, 320);
+                return \json_encode($return, 320);
                 break;
             case 'clash':
                 return \Symfony\Component\Yaml\Yaml::dump(['proxies' => $return], 4, 2);
@@ -522,7 +522,7 @@ final class LinkController extends BaseController
     {
         $return = [];
         $info_array = (count($_ENV['sub_message']) !== 0 ? (array) $_ENV['sub_message'] : []);
-        if (strtotime($user->expire_in) > time()) {
+        if (strtotime($user->expire_in) > \time()) {
             if ($user->transfer_enable === 0) {
                 $unusedTraffic = '剩余流量：0';
             } else {
@@ -539,7 +539,7 @@ final class LinkController extends BaseController
             $unusedTraffic = '账户已过期，请续费后使用';
             $expire_in = '账户已过期，请续费后使用';
         }
-        if (! in_array($list, ['quantumult', 'quantumultx', 'shadowrocket'])) {
+        if (! \in_array($list, ['quantumult', 'quantumultx', 'shadowrocket'])) {
             $info_array[] = $unusedTraffic;
             $info_array[] = $expire_in;
         }
@@ -571,7 +571,7 @@ final class LinkController extends BaseController
         }
         foreach ($info_array as $remark) {
             $Extend['remark'] = $remark;
-            if (in_array($list, ['kitsunebi', 'quantumult', 'v2rayn'])) {
+            if (\in_array($list, ['kitsunebi', 'quantumult', 'v2rayn'])) {
                 $Extend['type'] = 'vmess';
                 $out = self::getListItem($Extend, $list);
             } elseif ($list === 'trojan') {
@@ -615,7 +615,7 @@ final class LinkController extends BaseController
             }
         }
         $variable = ($surge === 2 ? 'Surge2_Profiles' : 'Surge_Profiles');
-        if (isset($opts['profiles']) && in_array($opts['profiles'], array_keys($_ENV[$variable]))) {
+        if (isset($opts['profiles']) && \in_array($opts['profiles'], array_keys($_ENV[$variable]))) {
             $Profiles = $opts['profiles'];
         } else {
             $Profiles = ($surge === 2 ? $_ENV['Surge2_DefaultProfiles'] : $_ENV['Surge_DefaultProfiles']);
@@ -721,7 +721,7 @@ final class LinkController extends BaseController
                 $All_Proxy .= $out . PHP_EOL;
             }
         }
-        if (isset($opts['profiles']) && in_array($opts['profiles'], array_keys($_ENV['Surfboard_Profiles']))) {
+        if (isset($opts['profiles']) && \in_array($opts['profiles'], array_keys($_ENV['Surfboard_Profiles']))) {
             $Profiles = $opts['profiles'];
         } else {
             $Profiles = $_ENV['Surfboard_DefaultProfiles']; // 默认策略组
@@ -748,7 +748,7 @@ final class LinkController extends BaseController
                 $Proxys[] = $Proxy;
             }
         }
-        if (isset($opts['profiles']) && in_array($opts['profiles'], array_keys($_ENV['Clash_Profiles']))) {
+        if (isset($opts['profiles']) && \in_array($opts['profiles'], array_keys($_ENV['Clash_Profiles']))) {
             $Profiles = $opts['profiles'];
         } else {
             $Profiles = $_ENV['Clash_DefaultProfiles']; // 默认策略组

@@ -77,7 +77,7 @@ final class TicketController extends BaseController
         $ticket->content = $antiXss->xss_clean($content);
         $ticket->rootid = 0;
         $ticket->userid = $this->user->id;
-        $ticket->datetime = time();
+        $ticket->datetime = \time();
         $ticket->save();
 
         if ($_ENV['mail_ticket'] === true && $markdown !== '') {
@@ -203,7 +203,7 @@ final class TicketController extends BaseController
         $ticket->content = $antiXss->xss_clean($content);
         $ticket->rootid = $ticket_main->id;
         $ticket->userid = $this->user->id;
-        $ticket->datetime = time();
+        $ticket->datetime = \time();
         $ticket_main->status = $status;
 
         $ticket_main->save();

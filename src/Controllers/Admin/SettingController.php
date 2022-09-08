@@ -122,7 +122,7 @@ final class SettingController extends BaseController
             $setting = Setting::where('item', '=', $item)->first();
 
             if ($setting->type === 'array') {
-                $setting->value = json_encode($request->getParam("${item}"));
+                $setting->value = \json_encode($request->getParam("${item}"));
             } else {
                 $setting->value = $request->getParam("${item}");
             }
@@ -179,7 +179,7 @@ final class SettingController extends BaseController
     public function returnActiveGateways()
     {
         $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
-        return json_decode($payment_gateways->value);
+        return \json_decode($payment_gateways->value);
     }
 
     public function payment($request, $response, $args)
@@ -193,7 +193,7 @@ final class SettingController extends BaseController
         }
 
         $gateway = Setting::where('item', '=', 'payment_gateway')->first();
-        $gateway->value = json_encode($gateway_in_use);
+        $gateway->value = \json_encode($gateway_in_use);
         $gateway->save();
 
         return $response->withJson([

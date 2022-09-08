@@ -24,22 +24,22 @@ final class NodeController extends BaseController
         // $request_ip = $_SERVER["REMOTE_ADDR"];
         $node_id = $request->getParam('node_id');
         $content = $request->getParam('content');
-        $result = json_decode(base64_decode($content), true);
+        $result = \json_decode(base64_decode($content), true);
 
         /* $node = Node::where('node_ip', $request_ip)->first();
         if ($node != null) {
             $report = new StreamMedia;
             $report->node_id = $node->id;
-            $report->result = json_encode($result);
-            $report->created_at = time();
+            $report->result = \json_encode($result);
+            $report->created_at = \time();
             $report->save();
             die('ok');
         } */
 
         $report = new StreamMedia();
         $report->node_id = $node_id;
-        $report->result = json_encode($result);
-        $report->created_at = time();
+        $report->result = \json_encode($result);
+        $report->created_at = \time();
         $report->save();
         die('ok');
     }
@@ -60,7 +60,7 @@ final class NodeController extends BaseController
         $log->node_id = $node_id;
         $log->load = $load;
         $log->uptime = $uptime;
-        $log->log_time = time();
+        $log->log_time = \time();
         if (! $log->save()) {
             $res = [
                 'ret' => 0,
@@ -92,7 +92,7 @@ final class NodeController extends BaseController
             ];
             return $response->withJson($res);
         }
-        if (in_array($node->sort, [0])) {
+        if (\in_array($node->sort, [0])) {
             $node_explode = explode(';', $node->server);
             $node_server = $node_explode[0];
         } else {
@@ -106,15 +106,16 @@ final class NodeController extends BaseController
             'mu_only' => $node->mu_only,
             'sort' => $node->sort,
             'server' => $node_server,
-            'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
+            'custom_config' => \json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'type' => 'SSPanel-UIM',
-            'version' => '2022.8',
+            'version' => VERSION,
         ];
 
         $res = [
             'ret' => 1,
             'data' => $data,
         ];
+
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($data);
         if ($header_etag === $etag) {

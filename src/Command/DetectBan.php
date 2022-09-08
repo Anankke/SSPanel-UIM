@@ -26,7 +26,7 @@ final class DetectBan extends Command
             $user_logs = [];
             foreach ($new_logs as $log) {
                 // 分类各个用户的记录数量
-                if (! in_array($log->user_id, array_keys($user_logs))) {
+                if (! \in_array($log->user_id, array_keys($user_logs))) {
                     $user_logs[$log->user_id] = 0;
                 }
                 $user_logs[$log->user_id]++;
@@ -43,7 +43,7 @@ final class DetectBan extends Command
                 $user->all_detect_number += $value;
                 $user->save();
 
-                if ($user->enable === 0 || ($user->is_admin && $_ENV['auto_detect_ban_allow_admin'] === true) || in_array($user->id, $_ENV['auto_detect_ban_allow_users'])) {
+                if ($user->enable === 0 || ($user->is_admin && $_ENV['auto_detect_ban_allow_admin'] === true) || \in_array($user->id, $_ENV['auto_detect_ban_allow_users'])) {
                     // 如果用户已被封禁
                     // 如果用户是管理员
                     // 如果属于钦定用户

@@ -215,7 +215,7 @@ final class Tools
     public static function isParamValidate($type, $str)
     {
         $list = Config::getSupportParam($type);
-        if (in_array($str, $list)) {
+        if (\in_array($str, $list)) {
             return true;
         }
         return false;
@@ -229,7 +229,7 @@ final class Tools
     public static function keyFilter(Model $object, array $filter_array): Model
     {
         foreach ($object->toArray() as $key => $value) {
-            if (! in_array($key, $filter_array)) {
+            if (! \in_array($key, $filter_array)) {
                 unset($object->$key);
             }
         }
@@ -238,7 +238,7 @@ final class Tools
 
     public static function checkNoneProtocol($user)
     {
-        return ! ($user->method === 'none' && ! in_array($user->protocol, Config::getSupportParam('allow_none_protocol')));
+        return ! ($user->method === 'none' && ! \in_array($user->protocol, Config::getSupportParam('allow_none_protocol')));
     }
 
     public static function getRealIp($rawIp)
@@ -308,7 +308,7 @@ final class Tools
             }
         }
         if (count($server) >= 5) {
-            if (in_array($item['net'], ['kcp', 'http', 'mkcp'])) {
+            if (\in_array($item['net'], ['kcp', 'http', 'mkcp'])) {
                 $item['headerType'] = $server[4];
             } else {
                 switch ($server[4]) {
@@ -660,7 +660,7 @@ final class Tools
 
     public static function etag($data)
     {
-        return sha1(json_encode($data));
+        return \hash('crc32c', $data);
     }
 
     public static function genSubToken()

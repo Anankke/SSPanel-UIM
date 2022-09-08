@@ -45,7 +45,7 @@ final class LoginLogController extends BaseController
         $query = LoginIp::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['location'])) {
+                if (\in_array($order_field, ['location'])) {
                     $order_field = 'ip';
                 }
             },

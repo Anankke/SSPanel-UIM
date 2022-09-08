@@ -414,7 +414,7 @@ final class User extends Model
     public function onlineIpCount(): int
     {
         // 根据 IP 分组去重
-        $total = Ip::where('datetime', '>=', time() - 90)->where('userid', $this->id)->orderBy('userid', 'desc')->groupBy('ip')->get();
+        $total = Ip::where('datetime', '>=', \time() - 90)->where('userid', $this->id)->orderBy('userid', 'desc')->groupBy('ip')->get();
         $ip_list = [];
         foreach ($total as $single_record) {
             $ip = Tools::getRealIp($single_record->ip);
@@ -562,7 +562,7 @@ final class User extends Model
         } else {
             $traffic = random_int((int) $_ENV['checkinMin'], (int) $_ENV['checkinMax']);
             $this->transfer_enable += Tools::toMB($traffic);
-            $this->last_check_in_time = time();
+            $this->last_check_in_time = \time();
             $this->save();
             $return['msg'] = '获得了 ' . $traffic . 'MB 流量.';
         }
@@ -694,7 +694,7 @@ final class User extends Model
     public function setPort(int $Port): array
     {
         $PortOccupied = User::pluck('port')->toArray();
-        if (in_array($Port, $PortOccupied) === true) {
+        if (\in_array($Port, $PortOccupied) === true) {
             return [
                 'ok' => false,
                 'msg' => '端口已被占用',
@@ -749,7 +749,7 @@ final class User extends Model
             ];
         }
         $PortOccupied = User::pluck('port')->toArray();
-        if (in_array($Port, $PortOccupied) === true) {
+        if (\in_array($Port, $PortOccupied) === true) {
             return [
                 'ok' => false,
                 'msg' => '端口已被占用',
@@ -819,9 +819,9 @@ final class User extends Model
             $new_emailqueue->to_email = $this->email;
             $new_emailqueue->subject = $subject;
             $new_emailqueue->template = $template;
-            $new_emailqueue->time = time();
+            $new_emailqueue->time = \time();
             $ary = array_merge(['user' => $this], $ary);
-            $new_emailqueue->array = json_encode($ary);
+            $new_emailqueue->array = \json_encode($ary);
             $new_emailqueue->save();
             return true;
         }
@@ -913,7 +913,7 @@ final class User extends Model
         $loginip = new LoginIp();
         $loginip->ip = $ip;
         $loginip->userid = $this->id;
-        $loginip->datetime = time();
+        $loginip->datetime = \time();
         $loginip->type = $type;
 
         return $loginip->save();

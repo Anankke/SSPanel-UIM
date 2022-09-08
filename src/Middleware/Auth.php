@@ -15,7 +15,7 @@ final class Auth
             return $response->withStatus(302)->withHeader('Location', '/auth/login');
         }
         $enablePages = ['/user/disable', '/user/backtoadmin', '/user/logout'];
-        if ($user->enable === 0 && ! in_array($_SERVER['REQUEST_URI'], $enablePages)) {
+        if ($user->enable === 0 && ! \in_array($_SERVER['REQUEST_URI'], $enablePages)) {
             return $response->withStatus(302)->withHeader('Location', '/user/disable');
         }
         return $next($request, $response);

@@ -95,7 +95,7 @@ final class PAYJS extends AbstractPayment
     {
         $price = $request->getParam('price');
         if ($price <= 0) {
-            return json_encode(['code' => -1, 'errmsg' => '非法的金额.']);
+            return \json_encode(['code' => -1, 'errmsg' => '非法的金额.']);
         }
         $user = Auth::getUser();
         $pl = new Paylist();
@@ -118,9 +118,9 @@ final class PAYJS extends AbstractPayment
         //$url = 'https://payjs.cn/api/cashier?' . http_build_query($data);
         $url = Setting::obtain('payjs_url') . '/cashier?' . http_build_query($data);
         return $response->withJson(['code' => 0, 'url' => $url, 'pid' => $data['out_trade_no']]);
-        //$result = json_decode($this->post($data), true);
+        //$result = \json_decode($this->post($data), true);
         //$result['pid'] = $pl->tradeno;
-        //return json_encode($result);
+        //return \json_encode($result);
     }
     public function query($tradeNo)
     {
@@ -128,7 +128,7 @@ final class PAYJS extends AbstractPayment
         $data['payjs_order_id'] = $tradeNo;
         $params = $this->prepareSign($data);
         $data['sign'] = $this->sign($params);
-        return json_decode($this->post($data, $type = 'query'), true);
+        return \json_decode($this->post($data, $type = 'query'), true);
     }
     public function notify($request, $response, $args): ResponseInterface
     {

@@ -24,8 +24,8 @@ final class Password
     {
         $pwdRst = new PasswordReset();
         $pwdRst->email = $email;
-        $pwdRst->init_time = time();
-        $pwdRst->expire_time = time() + 3600 * 24;
+        $pwdRst->init_time = \time();
+        $pwdRst->expire_time = \time() + 3600 * 24;
         $pwdRst->token = Tools::genRandomChar(64);
         if (! $pwdRst->save()) {
             return false;

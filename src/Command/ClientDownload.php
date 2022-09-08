@@ -253,7 +253,7 @@ final class ClientDownload extends Command
     {
         $url = 'https://api.github.com/repos/' . $repo . '/releases/latest' . ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
         $request = $this->client->get($url);
-        return (string) json_decode(
+        return (string) \json_decode(
             $request->getBody()->getContents(),
             true
         )['tag_name'];
@@ -266,7 +266,7 @@ final class ClientDownload extends Command
     {
         $url = 'https://api.github.com/repos/' . $repo . '/releases' . ($_ENV['github_access_token'] !== '' ? '?access_token=' . $_ENV['github_access_token'] : '');
         $request = $this->client->get($url);
-        $latest = json_decode(
+        $latest = \json_decode(
             $request->getBody()->getContents(),
             true
         )[0];
@@ -289,7 +289,7 @@ final class ClientDownload extends Command
      */
     private function isJson(string $string): bool
     {
-        return json_decode($string, true) !== false;
+        return \json_decode($string, true) !== false;
     }
 
     /**
@@ -305,9 +305,9 @@ final class ClientDownload extends Command
             echo '本地软体版本库 ClientDownloadVersion.json 不存在，创建文件中...' . PHP_EOL;
             $result = file_put_contents(
                 $filePath,
-                json_encode(
+                \json_encode(
                     [
-                        'createTime' => time(),
+                        'createTime' => \time(),
                     ]
                 )
             );
@@ -321,7 +321,7 @@ final class ClientDownload extends Command
             echo 'ClientDownloadVersion.json 文件格式异常，脚本中止.' . PHP_EOL;
             exit(0);
         }
-        return json_decode($fileContent, true);
+        return \json_decode($fileContent, true);
     }
 
     /**
@@ -333,7 +333,7 @@ final class ClientDownload extends Command
         $filePath = BASE_PATH . '/config/' . $fileName;
         return (bool) file_put_contents(
             $filePath,
-            json_encode(
+            \json_encode(
                 $versions
             )
         );

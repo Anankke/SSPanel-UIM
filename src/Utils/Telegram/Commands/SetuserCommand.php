@@ -46,7 +46,7 @@ final class SetuserCommand extends Command
             'username' => $Message->getFrom()->getUsername(),
         ];
 
-        if (! in_array($SendUser['id'], $_ENV['telegram_admins'])) {
+        if (! \in_array($SendUser['id'], $_ENV['telegram_admins'])) {
             $AdminUser = User::where('is_admin', 1)->where('telegram_id', $SendUser['id'])->first();
             if ($AdminUser === null) {
                 // 非管理员回复消息

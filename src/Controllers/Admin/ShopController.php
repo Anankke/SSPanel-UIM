@@ -288,7 +288,7 @@ final class ShopController extends BaseController
         $query = Shop::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['op', 'period_sales'])) {
+                if (\in_array($order_field, ['op', 'period_sales'])) {
                     $order_field = 'id';
                 }
             }
@@ -330,13 +330,13 @@ final class ShopController extends BaseController
         $query = Bought::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['op'])) {
+                if (\in_array($order_field, ['op'])) {
                     $order_field = 'id';
                 }
-                if (in_array($order_field, ['content', 'auto_reset_bandwidth'])) {
+                if (\in_array($order_field, ['content', 'auto_reset_bandwidth'])) {
                     $order_field = 'shopid';
                 }
-                if (in_array($order_field, ['user_name'])) {
+                if (\in_array($order_field, ['user_name'])) {
                     $order_field = 'userid';
                 }
             }
