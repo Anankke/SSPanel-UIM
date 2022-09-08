@@ -115,6 +115,7 @@ final class NodeController extends BaseController
             'ret' => 1,
             'data' => $data,
         ];
+
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($data);
         if ($header_etag === $etag) {

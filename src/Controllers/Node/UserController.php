@@ -21,7 +21,6 @@ use function in_array;
 use function is_array;
 use function json_decode;
 use function json_encode;
-use function sha1;
 use function time;
 
 final class UserController extends BaseController
@@ -112,16 +111,17 @@ final class UserController extends BaseController
             $users[] = $user_raw;
         }
 
-        $header_etag = $request->getHeaderLine('If-None-Match');
-
         $body = json_encode([
             'ret' => 1,
             'data' => $users,
         ]);
-        $etag = sha1($body);
+
+        $header_etag = $request->getHeaderLine('If-None-Match');
+        $etag = Tools::etag($users);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
+
         $response->getBody()->write($body);
         return $response->withHeader('ETag', $etag)->withHeader('Content-Type', 'application/json');
     }

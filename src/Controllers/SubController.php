@@ -240,6 +240,7 @@ final class SubController extends BaseController
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
+
         return $response->withHeader('ETAG', $etag)->withJson([
             $sub_info,
         ]);

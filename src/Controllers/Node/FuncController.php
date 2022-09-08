@@ -39,11 +39,13 @@ final class FuncController extends BaseController
             'ret' => 1,
             'data' => $rules,
         ];
+
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($rules);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
+
         return $response->withHeader('ETAG', $etag)->withJson($res);
     }
 
@@ -58,11 +60,13 @@ final class FuncController extends BaseController
             'ret' => 1,
             'data' => $block_ips,
         ];
+
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($block_ips);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
+
         return $response->withHeader('ETAG', $etag)->withJson($res);
     }
 
@@ -77,11 +81,13 @@ final class FuncController extends BaseController
             'ret' => 1,
             'data' => $unblock_ips,
         ];
+
         $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
         $etag = Tools::etag($unblock_ips);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
+
         return $response->withHeader('ETAG', $etag)->withJson($res);
     }
 
