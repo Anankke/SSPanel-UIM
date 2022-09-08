@@ -108,7 +108,7 @@ final class NodeController extends BaseController
             'server' => $node_server,
             'custom_config' => json_decode($node->custom_config, true, JSON_UNESCAPED_SLASHES),
             'type' => 'SSPanel-UIM',
-            'version' => '2022.8',
+            'version' => VERSION,
         ];
 
         $res = [
