@@ -35,7 +35,7 @@ final class ConfGenerate
         $return = null;
         switch (true) {
             case isset($Rule['content']['class']):
-                if (in_array($Proxy['class'], $Rule['content']['class'])) {
+                if (\in_array($Proxy['class'], $Rule['content']['class'])) {
                     if (isset($Rule['content']['regex'])) {
                         if (preg_match('/' . $Rule['content']['regex'] . '/i', $Proxy['remark'])) {
                             $return = $Proxy;
@@ -46,7 +46,7 @@ final class ConfGenerate
                 }
                 break;
             case isset($Rule['content']['noclass']):
-                if (! in_array($Proxy['class'], $Rule['content']['noclass'])) {
+                if (! \in_array($Proxy['class'], $Rule['content']['noclass'])) {
                     if (isset($Rule['content']['regex'])) {
                         if (preg_match('/' . $Rule['content']['regex'] . '/i', $Proxy['remark'])) {
                             $return = $Proxy;
@@ -180,7 +180,7 @@ final class ConfGenerate
     {
         $return = [];
         foreach ($ProxyGroups as $ProxyGroup) {
-            if (in_array($ProxyGroup['type'], ['select', 'url-test', 'fallback', 'load-balance'])) {
+            if (\in_array($ProxyGroup['type'], ['select', 'url-test', 'fallback', 'load-balance'])) {
                 $proxies = [];
                 if (
                     isset($ProxyGroup['content']['left-proxies'])
@@ -190,7 +190,7 @@ final class ConfGenerate
                 }
                 foreach ($Nodes as $item) {
                     $item = self::getMatchProxy($item, $ProxyGroup);
-                    if ($item !== null && ! in_array($item['remark'], $proxies)) {
+                    if ($item !== null && ! \in_array($item['remark'], $proxies)) {
                         $proxies[] = $item['remark'];
                     }
                 }
@@ -221,7 +221,7 @@ final class ConfGenerate
         $clean_names = [];
         $newProxyGroups = [];
         foreach ($ProxyGroups as $ProxyGroup) {
-            if (in_array($ProxyGroup['name'], $checks) && count($ProxyGroup['proxies']) === 0) {
+            if (\in_array($ProxyGroup['name'], $checks) && count($ProxyGroup['proxies']) === 0) {
                 $clean_names[] = $ProxyGroup['name'];
                 continue;
             }
@@ -231,10 +231,10 @@ final class ConfGenerate
             $ProxyGroups = $newProxyGroups;
             $newProxyGroups = [];
             foreach ($ProxyGroups as $ProxyGroup) {
-                if (! in_array($ProxyGroup['name'], $checks) && $ProxyGroup['type'] !== 'ssid') {
+                if (! \in_array($ProxyGroup['name'], $checks) && $ProxyGroup['type'] !== 'ssid') {
                     $newProxies = [];
                     foreach ($ProxyGroup['proxies'] as $proxie) {
-                        if (! in_array($proxie, $clean_names)) {
+                        if (! \in_array($proxie, $clean_names)) {
                             $newProxies[] = $proxie;
                         }
                     }
@@ -257,9 +257,9 @@ final class ConfGenerate
         $return = '';
         foreach ($ProxyGroups as $ProxyGroup) {
             $str = '';
-            if (in_array($ProxyGroup['type'], ['select', 'url-test', 'fallback', 'load-balance'])) {
+            if (\in_array($ProxyGroup['type'], ['select', 'url-test', 'fallback', 'load-balance'])) {
                 $proxies = implode(', ', $ProxyGroup['proxies']);
-                if (in_array($ProxyGroup['type'], ['url-test', 'fallback', 'load-balance'])) {
+                if (\in_array($ProxyGroup['type'], ['url-test', 'fallback', 'load-balance'])) {
                     $str .= ($ProxyGroup['name']
                         . ' = '
                         . $ProxyGroup['type']
@@ -357,7 +357,7 @@ final class ConfGenerate
         $return = [];
         foreach ($ProxyGroups as $ProxyGroup) {
             $tmp = [];
-            if (in_array($ProxyGroup['type'], ['select', 'url-test', 'fallback', 'load-balance'])) {
+            if (\in_array($ProxyGroup['type'], ['select', 'url-test', 'fallback', 'load-balance'])) {
                 $proxies = [];
                 if (
                     isset($ProxyGroup['content']['left-proxies'])
@@ -368,7 +368,7 @@ final class ConfGenerate
                 foreach ($Nodes as $item) {
                     $item['remark'] = $item['name'];
                     $item = self::getMatchProxy($item, $ProxyGroup);
-                    if ($item !== null && ! in_array($item['name'], $proxies)) {
+                    if ($item !== null && ! \in_array($item['name'], $proxies)) {
                         $proxies[] = $item['name'];
                     }
                 }
@@ -406,7 +406,7 @@ final class ConfGenerate
         $clean_names = [];
         $newProxyGroups = [];
         foreach ($ProxyGroups as $ProxyGroup) {
-            if (in_array($ProxyGroup['name'], $checks) && count($ProxyGroup['proxies']) === 0) {
+            if (\in_array($ProxyGroup['name'], $checks) && count($ProxyGroup['proxies']) === 0) {
                 $clean_names[] = $ProxyGroup['name'];
                 continue;
             }
@@ -416,10 +416,10 @@ final class ConfGenerate
             $ProxyGroups = $newProxyGroups;
             $newProxyGroups = [];
             foreach ($ProxyGroups as $ProxyGroup) {
-                if (! in_array($ProxyGroup['name'], $checks)) {
+                if (! \in_array($ProxyGroup['name'], $checks)) {
                     $newProxies = [];
                     foreach ($ProxyGroup['proxies'] as $proxie) {
-                        if (! in_array($proxie, $clean_names)) {
+                        if (! \in_array($proxie, $clean_names)) {
                             $newProxies[] = $proxie;
                         }
                     }

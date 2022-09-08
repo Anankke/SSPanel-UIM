@@ -41,7 +41,7 @@ final class SubController extends BaseController
         }
 
         $subtype_list = ['all', 'ss', 'ssr', 'v2ray', 'trojan'];
-        if (! in_array($subtype, $subtype_list)) {
+        if (! \in_array($subtype, $subtype_list)) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -58,7 +58,7 @@ final class SubController extends BaseController
             ->get();
 
         foreach ($nodes_raw as $node_raw) {
-            $node_custom_config = json_decode($node_raw->custom_config, true);
+            $node_custom_config = \json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
             if (! array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
@@ -68,7 +68,7 @@ final class SubController extends BaseController
             switch ($node_raw->sort) {
                 case '0':
                     //只給下發正確類型的節點
-                    if (! in_array($subtype, ['ss', 'all'])) {
+                    if (! \in_array($subtype, ['ss', 'all'])) {
                         $node = null;
                         break;
                     }
@@ -90,7 +90,7 @@ final class SubController extends BaseController
                     break;
                     //單獨加了一種SSR節點類型用來同時處理多端口和單端口SSR的訂閲下發
                 case '1':
-                    if (! in_array($subtype, ['ssr', 'all'])) {
+                    if (! \in_array($subtype, ['ssr', 'all'])) {
                         $node = null;
                         break;
                     }
@@ -137,7 +137,7 @@ final class SubController extends BaseController
                     }
                     break;
                 case '11':
-                    if (! in_array($subtype, ['v2ray', 'all'])) {
+                    if (! \in_array($subtype, ['v2ray', 'all'])) {
                         $node = null;
                         break;
                     }
@@ -153,7 +153,7 @@ final class SubController extends BaseController
                     $host = $node_custom_config['host'] ?? '';
                     $servicename = $node_custom_config['servicename'] ?? '';
                     $path = $node_custom_config['path'] ?? '/';
-                    $tls = in_array($security, ['tls', 'xtls']) ? '1' : '0';
+                    $tls = \in_array($security, ['tls', 'xtls']) ? '1' : '0';
                     $enable_vless = $node_custom_config['enable_vless'] ?? '0';
                     $node = [
                         'name' => $node_raw->name,
@@ -178,7 +178,7 @@ final class SubController extends BaseController
                     ];
                     break;
                 case '14':
-                    if (! in_array($subtype, ['trojan', 'all'])) {
+                    if (! \in_array($subtype, ['trojan', 'all'])) {
                         $node = null;
                         break;
                     }

@@ -47,7 +47,7 @@ final class CodeController extends BaseController
         $query = Code::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['user_name'])) {
+                if (\in_array($order_field, ['user_name'])) {
                     $order_field = 'userid';
                 }
             }

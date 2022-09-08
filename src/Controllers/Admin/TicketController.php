@@ -66,7 +66,7 @@ final class TicketController extends BaseController
         $ticket->content = $antiXss->xss_clean($content);
         $ticket->rootid = 0;
         $ticket->userid = $userid;
-        $ticket->datetime = time();
+        $ticket->datetime = \time();
         $ticket->save();
 
         $user = User::find($userid);
@@ -124,7 +124,7 @@ final class TicketController extends BaseController
         $ticket->content = $antiXss->xss_clean($content);
         $ticket->rootid = $main->id;
         $ticket->userid = $this->user->id;
-        $ticket->datetime = time();
+        $ticket->datetime = \time();
         $ticket->save();
         $main->status = $status;
         $main->save();
@@ -171,10 +171,10 @@ final class TicketController extends BaseController
         $query = Ticket::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['op'])) {
+                if (\in_array($order_field, ['op'])) {
                     $order_field = 'id';
                 }
-                if (in_array($order_field, ['user_name'])) {
+                if (\in_array($order_field, ['user_name'])) {
                     $order_field = 'userid';
                 }
             },

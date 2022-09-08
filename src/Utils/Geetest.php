@@ -18,7 +18,7 @@ final class Geetest
         $configs = Setting::getClass('geetest');
         $GtSdk = new GeetestLib($configs['geetest_id'], $configs['geetest_key']);
         $status = $GtSdk->preProcess($user_id);
-        $ret = json_decode($GtSdk->getResponseStr());
+        $ret = \json_decode($GtSdk->getResponseStr());
         session_start();
         $_SESSION['gtserver'] = $status;
         $_SESSION['user_id'] = $user_id;

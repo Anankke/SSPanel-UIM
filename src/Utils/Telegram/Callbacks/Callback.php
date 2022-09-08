@@ -73,7 +73,7 @@ final class Callback
         $this->Callback = $Callback;
         $this->MessageID = $Callback->getMessage()->getMessageId();
         $this->CallbackData = $Callback->getData();
-        $this->AllowEditMessage = time() < $Callback->getMessage()->getDate() + 172800;
+        $this->AllowEditMessage = \time() < $Callback->getMessage()->getDate() + 172800;
 
         if ($this->ChatID < 0 && $_ENV['telegram_group_quiet'] === true) {
             // 群组中不回应
@@ -175,7 +175,7 @@ final class Callback
                     'text' => $_ENV['telegram_general_pricing'],
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => self::getGuestIndexKeyboard()['keyboard'],
                         ]
@@ -188,7 +188,7 @@ final class Callback
                     'text' => $_ENV['telegram_general_terms'],
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => self::getGuestIndexKeyboard()['keyboard'],
                         ]
@@ -202,7 +202,7 @@ final class Callback
                     'text' => $temp['text'],
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $temp['keyboard'],
                         ]
@@ -317,7 +317,7 @@ final class Callback
                     'parse_mode' => 'HTML',
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $temp['keyboard'],
                         ]
@@ -395,7 +395,7 @@ final class Callback
                 foreach ($totallogin as $single) {
                     $location = $iplocation->getlocation($single->ip);
                     $loginiplocation = iconv('gbk', 'utf-8//IGNORE', $location['country'] . $location['area']);
-                    if (!in_array($loginiplocation, $userloginip)) {
+                    if (!\in_array($loginiplocation, $userloginip)) {
                         $userloginip[] = $loginiplocation;
                     }
                 }
@@ -407,7 +407,7 @@ final class Callback
                     'disable_web_page_preview' => false,
                     'parse_mode' => 'HTML',
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $back,
                         ]
@@ -417,7 +417,7 @@ final class Callback
             case 'usage_log':
                 // 使用记录
                 $iplocation = new QQWry();
-                $total = Ip::where('datetime', '>=', time() - 300)->where('userid', '=', $this->User->id)->get();
+                $total = Ip::where('datetime', '>=', \time() - 300)->where('userid', '=', $this->User->id)->get();
                 $userip = [];
                 foreach ($total as $single) {
                     $single->ip = Tools::getRealIp($single->ip);
@@ -436,7 +436,7 @@ final class Callback
                     'disable_web_page_preview' => false,
                     'parse_mode' => 'HTML',
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $back,
                         ]
@@ -458,7 +458,7 @@ final class Callback
                     'disable_web_page_preview' => false,
                     'parse_mode' => 'HTML',
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $back,
                         ]
@@ -482,7 +482,7 @@ final class Callback
                     'disable_web_page_preview' => false,
                     'parse_mode' => 'HTML',
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $back,
                         ]
@@ -495,7 +495,7 @@ final class Callback
                     'text' => $temp['text'],
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $temp['keyboard'],
                         ]
@@ -603,7 +603,7 @@ final class Callback
                     'text' => $temp['text'],
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $temp['keyboard'],
                         ]
@@ -628,7 +628,7 @@ final class Callback
                     'text' => $temp['text'],
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $temp['keyboard'],
                         ]
@@ -639,7 +639,7 @@ final class Callback
                 // 加密方式更改
                 $keyboard = $back;
                 if (isset($CallbackDataExplode[1])) {
-                    if (in_array($CallbackDataExplode[1], Config::getSupportParam('method'))) {
+                    if (\in_array($CallbackDataExplode[1], Config::getSupportParam('method'))) {
                         $temp = $this->User->setMethod($CallbackDataExplode[1]);
                         if ($temp['ok'] === true) {
                             $text = '您当前的加密方式为：' . $this->User->method . PHP_EOL . PHP_EOL . $temp['msg'];
@@ -669,7 +669,7 @@ final class Callback
                     'text' => $text,
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $keyboard,
                         ]
@@ -680,7 +680,7 @@ final class Callback
                 // 协议更改
                 $keyboard = $back;
                 if (isset($CallbackDataExplode[1])) {
-                    if (in_array($CallbackDataExplode[1], Config::getSupportParam('protocol'))) {
+                    if (\in_array($CallbackDataExplode[1], Config::getSupportParam('protocol'))) {
                         $temp = $this->User->setProtocol($CallbackDataExplode[1]);
                         if ($temp['ok'] === true) {
                             $text = '您当前的协议为：' . $this->User->protocol . PHP_EOL . PHP_EOL . $temp['msg'];
@@ -710,7 +710,7 @@ final class Callback
                     'text' => $text,
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $keyboard,
                         ]
@@ -721,7 +721,7 @@ final class Callback
                 // 混淆更改
                 $keyboard = $back;
                 if (isset($CallbackDataExplode[1])) {
-                    if (in_array($CallbackDataExplode[1], Config::getSupportParam('obfs'))) {
+                    if (\in_array($CallbackDataExplode[1], Config::getSupportParam('obfs'))) {
                         $temp = $this->User->setObfs($CallbackDataExplode[1]);
                         if ($temp['ok'] === true) {
                             $text = '您当前的协议为：' . $this->User->obfs . PHP_EOL . PHP_EOL . $temp['msg'];
@@ -751,7 +751,7 @@ final class Callback
                     'text' => $text,
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $keyboard,
                         ]
@@ -793,7 +793,7 @@ final class Callback
                     'text' => $text,
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $keyboard,
                         ]
@@ -821,7 +821,7 @@ final class Callback
                     'text' => '如果您已经身处用户群，请勿随意点击解封，否则会导致您被移除出群组.',
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => [
                                 [
@@ -862,7 +862,7 @@ final class Callback
                     'text' => $text,
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $temp['keyboard'],
                         ]
@@ -1001,7 +1001,7 @@ final class Callback
             switch ($CallbackDataExplode[1]) {
                 case '?clash=1':
                     $temp['text'] = '您的 Clash 配置文件.' . PHP_EOL . '同时，您也可使用该订阅链接：' . $UserApiUrl . $CallbackDataExplode[1];
-                    $filename = 'Clash_' . $token . '_' . time() . '.yaml';
+                    $filename = 'Clash_' . $token . '_' . \time() . '.yaml';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
                     $opts = [
@@ -1026,7 +1026,7 @@ final class Callback
                     break;
                 case '?quantumult=3':
                     $temp['text'] = '点击打开配置文件，选择分享 拷贝到 Quantumult，选择更新配置.';
-                    $filename = 'Quantumult_' . $token . '_' . time() . '.conf';
+                    $filename = 'Quantumult_' . $token . '_' . \time() . '.conf';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
                     $opts = [
@@ -1051,7 +1051,7 @@ final class Callback
                     break;
                 case '?surge=2':
                     $temp['text'] = '点击打开配置文件，选择分享 拷贝到 Surge，点击启动.';
-                    $filename = 'Surge_' . $token . '_' . time() . '.conf';
+                    $filename = 'Surge_' . $token . '_' . \time() . '.conf';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
                     $opts = [
@@ -1076,7 +1076,7 @@ final class Callback
                     break;
                 case '?surge=3':
                     $temp['text'] = '点击打开配置文件，选择分享 拷贝到 Surge，点击启动.';
-                    $filename = 'Surge_' . $token . '_' . time() . '.conf';
+                    $filename = 'Surge_' . $token . '_' . \time() . '.conf';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
                     $opts = [
@@ -1110,7 +1110,7 @@ final class Callback
             'text' => $temp['text'],
             'disable_web_page_preview' => false,
             'reply_to_message_id' => null,
-            'reply_markup' => json_encode(
+            'reply_markup' => \json_encode(
                 [
                     'inline_keyboard' => $temp['keyboard'],
                 ]
@@ -1194,7 +1194,7 @@ final class Callback
                     'text' => $temp['text'],
                     'disable_web_page_preview' => false,
                     'reply_to_message_id' => null,
-                    'reply_markup' => json_encode(
+                    'reply_markup' => \json_encode(
                         [
                             'inline_keyboard' => $temp['keyboard'],
                         ]
@@ -1244,7 +1244,7 @@ final class Callback
             'text' => $temp['text'] . PHP_EOL . PHP_EOL . $checkin['msg'],
             'reply_to_message_id' => $this->MessageID,
             'parse_mode' => 'Markdown',
-            'reply_markup' => json_encode(
+            'reply_markup' => \json_encode(
                 [
                     'inline_keyboard' => $temp['keyboard'],
                 ]

@@ -19,7 +19,7 @@ final class Captcha
                 $recaptcha = Setting::obtain('recaptcha_sitekey');
                 break;
             case 'geetest':
-                $geetest = Geetest::get(time() . random_int(1, 10000));
+                $geetest = Geetest::get(\time() . random_int(1, 10000));
                 break;
         }
 
@@ -41,7 +41,7 @@ final class Captcha
                 if (isset($param['recaptcha'])) {
                     if ($param['recaptcha'] !== '') {
                         $json = file_get_contents('https://recaptcha.net/recaptcha/api/siteverify?secret=' . Setting::obtain('recaptcha_secret') . '&response=' . $param['recaptcha']);
-                        $result = json_decode($json)->success;
+                        $result = \json_decode($json)->success;
                     }
                 }
                 break;

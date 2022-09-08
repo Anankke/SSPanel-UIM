@@ -40,7 +40,7 @@ EOL;
 		where TO_DAYS(NOW()) - TO_DAYS(code.usedatetime) = 1 and code.type = -1 and code.isused= 1'
         );
         $text_json = $datatables->generate();
-        $text_array = json_decode($text_json, true);
+        $text_array = \json_decode($text_json, true);
         $codes = $text_array['data'];
         $text_html = '<table border=1><tr><td>金额</td><td>用户ID</td><td>用户名</td><td>充值时间</td>';
         $income_count = 0;
@@ -93,7 +93,7 @@ EOL;
         );
         //每周的第一天是周日，因此统计周日～周六的七天
         $text_json = $datatables->generate();
-        $text_array = json_decode($text_json, true);
+        $text_array = \json_decode($text_json, true);
         $codes = $text_array['data'];
         $text_html = '';
         $income_count = 0;
@@ -137,7 +137,7 @@ EOL;
 		where date_format(code.usedatetime,\'%Y-%m\')=date_format(date_sub(curdate(), interval 1 month),\'%Y-%m\') and code.type = -1 and code.isused= 1'
         );
         $text_json = $datatables->generate();
-        $text_array = json_decode($text_json, true);
+        $text_array = \json_decode($text_json, true);
         $codes = $text_array['data'];
         $text_html = '';
         $income_count = 0;

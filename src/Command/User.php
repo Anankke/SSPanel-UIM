@@ -93,7 +93,7 @@ EOL;
     public function generateUUID(): void
     {
         $users = ModelsUser::all();
-        $current_timestamp = time();
+        $current_timestamp = \time();
         foreach ($users as $user) {
             /** @var ModelsUser $user */
             $user->generateUUID($current_timestamp);
@@ -146,7 +146,7 @@ EOL;
         }
 
         if (strtolower($y) === 'y') {
-            $current_timestamp = time();
+            $current_timestamp = \time();
             // create admin user
             $configs = Setting::getClass('register');
             // do reg user
@@ -165,7 +165,7 @@ EOL;
             $user->invite_num = $configs['sign_up_for_invitation_codes'];
             $user->ref_by = 0;
             $user->is_admin = 1;
-            $user->expire_in = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
+            $user->expire_in = date('Y-m-d H:i:s', \time() + $configs['sign_up_for_free_time'] * 86400);
             $user->reg_date = date('Y-m-d H:i:s');
             $user->money = 0;
             $user->im_type = 1;
@@ -196,7 +196,7 @@ EOL;
     {
         if (count($this->argv) === 4) {
             $user = ModelsUser::find($this->argv[3]);
-            $expire_in = 86400 + time();
+            $expire_in = 86400 + \time();
             echo Hash::cookieHash($user->pass, $expire_in) . ' ' . $expire_in;
         }
     }

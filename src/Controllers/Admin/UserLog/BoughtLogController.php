@@ -55,10 +55,10 @@ final class BoughtLogController extends BaseController
         $query = Bought::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['op', 'reset_time', 'valid', 'exp_time'])) {
+                if (\in_array($order_field, ['op', 'reset_time', 'valid', 'exp_time'])) {
                     $order_field = 'id';
                 }
-                if (in_array($order_field, ['content', 'name'])) {
+                if (\in_array($order_field, ['content', 'name'])) {
                     $order_field = 'shopid';
                 }
             },
@@ -160,7 +160,7 @@ final class BoughtLogController extends BaseController
         $bought = new Bought();
         $bought->userid = $user->id;
         $bought->shopid = $shop->id;
-        $bought->datetime = time();
+        $bought->datetime = \time();
         $bought->renew = 0;
         $bought->coupon = '';
         $bought->price = $shop->price;

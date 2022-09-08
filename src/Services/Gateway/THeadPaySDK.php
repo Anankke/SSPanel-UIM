@@ -21,7 +21,7 @@ final class THeadPaySDK
             'return_url' => $order['return_url'],
         ];
         $params['sign'] = $this->sign($params);
-        $data = json_encode($params);
+        $data = \json_encode($params);
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $this->config['theadpay_url'] . "/{$this->config['theadpay_mchid']}");
@@ -34,8 +34,8 @@ final class THeadPaySDK
         $data = curl_exec($curl);
         curl_close($curl);
 
-        $result = json_decode((string) $data, true);
-        if (! is_array($result) || ! isset($result['status'])) {
+        $result = \json_decode((string) $data, true);
+        if (! \is_array($result) || ! isset($result['status'])) {
             throw new \Exception('网络连接异常: 无法连接支付网关');
         }
         if ($result['status'] !== 'success') {

@@ -30,7 +30,7 @@ final class Vmqpay extends AbstractPayment
 
     public function purchase(Request $request, Response $response, array $args): ResponseInterface
     {
-        $trade_no = time();
+        $trade_no = \time();
         $user = Auth::getUser();
         $configs = Setting::getClass('vmq');
 

@@ -63,8 +63,8 @@ final class UserController extends BaseController
                 }
             }
             $getClient->user_id = $this->user->id;
-            $getClient->create_time = time();
-            $getClient->expire_time = time() + 10 * 60;
+            $getClient->create_time = \time();
+            $getClient->expire_time = \time() + 10 * 60;
             $getClient->save();
         } else {
             $token = '';
@@ -249,8 +249,8 @@ final class UserController extends BaseController
         }
 
         if ($codeq->type === 10002) {
-            if (time() > strtotime($user->expire_in)) {
-                $user->expire_in = date('Y-m-d H:i:s', time() + $codeq->number * 86400);
+            if (\time() > strtotime($user->expire_in)) {
+                $user->expire_in = date('Y-m-d H:i:s', \time() + $codeq->number * 86400);
             } else {
                 $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + $codeq->number * 86400);
             }
@@ -259,7 +259,7 @@ final class UserController extends BaseController
 
         if ($codeq->type >= 1 && $codeq->type <= 10000) {
             if ($user->class === 0 || $user->class !== $codeq->type) {
-                $user->class_expire = date('Y-m-d H:i:s', time());
+                $user->class_expire = date('Y-m-d H:i:s', \time());
                 $user->save();
             }
             $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + $codeq->number * 86400);
@@ -374,7 +374,7 @@ final class UserController extends BaseController
         // 使用IP
         $userip = [];
         $iplocation = new QQWry();
-        $total = Ip::where('datetime', '>=', time() - 300)->where('userid', '=', $this->user->id)->get();
+        $total = Ip::where('datetime', '>=', \time() - 300)->where('userid', '=', $this->user->id)->get();
         foreach ($total as $single) {
             $single->ip = Tools::getRealIp($single->ip);
             $is_node = Node::where('node_ip', $single->ip)->first();
@@ -444,11 +444,11 @@ final class UserController extends BaseController
 
             $unlock = StreamMedia::where('node_id', $node_id)
                 ->orderBy('id', 'desc')
-                ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
+                ->where('created_at', '>', \time() - 86460) // 只获取最近一天零一分钟内上报的数据
                 ->first();
 
             if ($unlock !== null && $node !== null) {
-                $details = json_decode($unlock->result, true);
+                $details = \json_decode($unlock->result, true);
                 $details = str_replace('Originals Only', '仅限自制', $details);
                 $details = str_replace('Oversea Only', '仅限海外', $details);
 
@@ -469,11 +469,11 @@ final class UserController extends BaseController
                 $key_node = Node::where('id', $key)->first();
                 $value_node = StreamMedia::where('node_id', $value)
                     ->orderBy('id', 'desc')
-                    ->where('created_at', '>', time() - 86460) // 只获取最近一天零一分钟内上报的数据
+                    ->where('created_at', '>', \time() - 86460) // 只获取最近一天零一分钟内上报的数据
                     ->first();
 
                 if ($value_node !== null) {
-                    $details = json_decode($value_node->result, true);
+                    $details = \json_decode($value_node->result, true);
                     $details = str_replace('Originals Only', '仅限自制', $details);
                     $details = str_replace('Oversea Only', '仅限海外', $details);
 
@@ -685,7 +685,7 @@ final class UserController extends BaseController
 
         if (Setting::obtain('reg_email_verify')) {
             $emailcode = $request->getParam('emailcode');
-            $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
+            $mailcount = EmailVerify::where('email', '=', $newemail)->where('code', '=', $emailcode)->where('expire_in', '>', \time())->first();
             if ($mailcount === null) {
                 return ResponseHelper::error($response, '您的邮箱验证码不正确');
             }
@@ -756,7 +756,7 @@ final class UserController extends BaseController
         $UIP = new UnblockIp();
         $UIP->userid = $user->id;
         $UIP->ip = $_SERVER['REMOTE_ADDR'];
-        $UIP->datetime = time();
+        $UIP->datetime = \time();
         $UIP->save();
 
         return ResponseHelper::successfully($response, $_SERVER['REMOTE_ADDR']);
@@ -934,7 +934,7 @@ final class UserController extends BaseController
     public function updateMail(Request $request, Response $response, array $args)
     {
         $value = (int) $request->getParam('mail');
-        if (in_array($value, [0, 1, 2])) {
+        if (\in_array($value, [0, 1, 2])) {
             $user = $this->user;
             if ($value === 2 && $_ENV['enable_telegram'] === false) {
                 return ResponseHelper::error(
@@ -956,7 +956,7 @@ final class UserController extends BaseController
     {
         $user = $this->user;
         $pwd = Tools::genRandomChar(16);
-        $current_timestamp = time();
+        $current_timestamp = \time();
         $new_uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user->email . '|' . $current_timestamp);
         $existing_uuid = User::where('uuid', $new_uuid)->first();
 
@@ -1008,7 +1008,7 @@ final class UserController extends BaseController
             }
         }
 
-        if (strtotime($this->user->expire_in) < time()) {
+        if (strtotime($this->user->expire_in) < \time()) {
             return ResponseHelper::error($response, '没有过期的账户才可以签到');
         }
 
@@ -1122,7 +1122,7 @@ final class UserController extends BaseController
                 'old_ip' => null,
                 'old_expire_in' => null,
                 'old_local' => null,
-            ], time() - 1000);
+            ], \time() - 1000);
         }
         $expire_in = Cookie::get('old_expire_in');
         $local = Cookie::get('old_local');

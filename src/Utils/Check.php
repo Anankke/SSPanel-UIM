@@ -27,13 +27,13 @@ final class Check
                 return $res;
             case 1:
                 // 白名单
-                if (in_array($mail_suffix, $mail_filter_list)) {
+                if (\in_array($mail_suffix, $mail_filter_list)) {
                     $res['ret'] = 1;
                 }
                 return $res;
             case 2:
                 // 黑名单
-                if (! in_array($mail_suffix, $mail_filter_list)) {
+                if (! \in_array($mail_suffix, $mail_filter_list)) {
                     $res['ret'] = 1;
                 }
                 return $res;

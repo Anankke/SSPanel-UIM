@@ -52,7 +52,7 @@ final class GeetestLib
      */
     public function getResponseStr()
     {
-        return json_encode($this->response);
+        return \json_encode($this->response);
     }
 
     /**
@@ -269,7 +269,7 @@ final class GeetestLib
         $array_value = str_split($string);
         for ($i = 0, $iMax = strlen($challenge); $i < $iMax; $i++) {
             $item = $array_challenge[$i];
-            if (in_array($item, $chongfu)) {
+            if (\in_array($item, $chongfu)) {
                 continue;
             }
 

@@ -31,7 +31,7 @@ final class AppURI
             $personal_info = $item['method'] . ':' . $item['passwd'];
             $ssurl = 'ss://' . Tools::base64UrlEncode($personal_info) . '@' . $item['address'] . ':' . $item['port'];
             $plugin = '';
-            if ($item['obfs'] === 'v2ray' || in_array($item['obfs'], $ss_obfs_list)) {
+            if ($item['obfs'] === 'v2ray' || \in_array($item['obfs'], $ss_obfs_list)) {
                 if (strpos($item['obfs'], 'http') !== false) {
                     $plugin .= 'obfs-local;obfs=http';
                 } elseif (strpos($item['obfs'], 'tls') !== false) {
@@ -74,7 +74,7 @@ final class AppURI
                         'sni' => $item['sni'],
                     ];
                     $return = 'vmess://' . base64_encode(
-                        json_encode($node, 320)
+                        \json_encode($node, 320)
                     );
                 } else {
                     $return = 'vless://' . $item['id'] . '@' . (string) $item['add'] . ':' . $item['port'] . '?encryption=none';
@@ -131,7 +131,7 @@ final class AppURI
                         $return = $item['remark'] . ' = ss, ' . $item['address'] . ', ' . $item['port'] . ', encrypt-method=' . $item['method'] . ', password=' . $item['passwd'] . URL::getSurgeObfs($item) . ', udp-relay=true';
                         break;
                     case 'vmess':
-                        if (! in_array($item['net'], ['ws', 'tcp'])) {
+                        if (! \in_array($item['net'], ['ws', 'tcp'])) {
                             break;
                         }
                         if ($item['tls'] === 'tls') {
@@ -166,7 +166,7 @@ final class AppURI
                 $return = $item['remark'] . ' = shadowsocksr, ' . $item['address'] . ', ' . $item['port'] . ', ' . $item['method'] . ', "' . $item['passwd'] . '", protocol=' . $item['protocol'] . ', protocol_param=' . $item['protocol_param'] . ', obfs=' . $item['obfs'] . ', obfs_param="' . $item['obfs_param'] . '", group=' . $_ENV['appName'];
                 break;
             case 'vmess':
-                if (! in_array($item['net'], ['ws', 'tcp', 'http'])) {
+                if (! \in_array($item['net'], ['ws', 'tcp', 'http'])) {
                     break;
                 }
                 $tls = ', over-tls=false, certificate=1';
@@ -179,7 +179,7 @@ final class AppURI
                     }
                 }
                 $obfs = '';
-                if (in_array($item['net'], ['ws', 'http'])) {
+                if (\in_array($item['net'], ['ws', 'http'])) {
                     $obfs = ', obfs=' . $item['net'] . ', obfs-path="' . $item['path'] . '", obfs-header="Host: ' . $item['host'] . '[Rr][Nn]User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_0_0 like Mac OS X) AppleWebKit/888.8.88 (KHTML, like Gecko) Mobile/6666666"';
                 }
                 $return = $item['remark'] . ' = vmess, ' . $item['add'] . ', ' . $item['port'] . ', chacha20-ietf-poly1305, "' . $item['id'] . '", group=' . $_ENV['appName'] . '_VMess' . $tls . $obfs;
@@ -235,7 +235,7 @@ final class AppURI
                 // ;vmess=example.com:443, method=none, password=23ad6b10-8d1a-40f7-8ad0-e3e35cd32291, obfs=over-tls, fast-open=false, udp-relay=false, tag=vmess-tls
                 // ;vmess=example.com:80, method=chacha20-poly1305, password=23ad6b10-8d1a-40f7-8ad0-e3e35cd32291, obfs=ws, obfs-uri=/ws, fast-open=false, udp-relay=false, tag=vmess-ws
                 // ;vmess=example.com:443, method=chacha20-poly1305, password=23ad6b10-8d1a-40f7-8ad0-e3e35cd32291, obfs=wss, obfs-uri=/ws, fast-open=false, udp-relay=false, tag=vmess-ws-tls
-                if (! in_array($item['net'], ['ws', 'tcp'])) {
+                if (! \in_array($item['net'], ['ws', 'tcp'])) {
                     break;
                 }
                 $return = 'vmess=' . $item['add'] . ':' . $item['port'] . ', method=chacha20-poly1305, password=' . $item['id'];
@@ -271,7 +271,7 @@ final class AppURI
                 $return = $item['remark'] . ' = custom, ' . $item['address'] . ', ' . $item['port'] . ', ' . $item['method'] . ', ' . $item['passwd'] . ', https://raw.githubusercontent.com/lhie1/Rules/master/SSEncrypt.module' . URL::getSurgeObfs($item);
                 break;
             case 'vmess':
-                if (! in_array($item['net'], ['ws', 'tcp'])) {
+                if (! \in_array($item['net'], ['ws', 'tcp'])) {
                     break;
                 }
                 $tls = ($item['tls'] === 'tls'
@@ -292,7 +292,7 @@ final class AppURI
         switch ($item['type']) {
             case 'ss':
                 $method = ['rc4-md5-6', 'camellia-128-cfb', 'camellia-192-cfb', 'camellia-256-cfb', 'bf-cfb', 'cast5-cfb', 'des-cfb', 'des-ede3-cfb', 'idea-cfb', 'rc2-cfb', 'seed-cfb', 'salsa20', 'chacha20', 'xsalsa20', 'none'];
-                if (in_array($item['method'], $method)) {
+                if (\in_array($item['method'], $method)) {
                     // 不支持的
                     break;
                 }
@@ -339,9 +339,9 @@ final class AppURI
                 break;
             case 'ssr':
                 if (
-                    in_array($item['method'], ['chacha20', 'camellia-128-cfb', 'camellia-192-cfb', 'camellia-256-cfb', 'rc4-md5-6', 'bf-cfb', 'cast5-cfb', 'des-cfb', 'des-ede3-cfb', 'idea-cfb', 'rc2-cfb', 'seed-cfb', 'salsa20', 'xsalsa20', 'none'])
+                    \in_array($item['method'], ['chacha20', 'camellia-128-cfb', 'camellia-192-cfb', 'camellia-256-cfb', 'rc4-md5-6', 'bf-cfb', 'cast5-cfb', 'des-cfb', 'des-ede3-cfb', 'idea-cfb', 'rc2-cfb', 'seed-cfb', 'salsa20', 'xsalsa20', 'none'])
                     ||
-                    in_array($item['protocol'], ['auth_chain_c', 'auth_chain_d', 'auth_chain_e', 'auth_chain_f', 'verify_deflate'])
+                    \in_array($item['protocol'], ['auth_chain_c', 'auth_chain_d', 'auth_chain_e', 'auth_chain_f', 'verify_deflate'])
                 ) {
                     // 不支持的
                     break;
@@ -360,7 +360,7 @@ final class AppURI
                 ];
                 break;
             case 'vmess':
-                if (! in_array($item['net'], ['ws', 'tcp', 'grpc'])) {
+                if (! \in_array($item['net'], ['ws', 'tcp', 'grpc'])) {
                     break;
                 }
                 $return = [
@@ -419,7 +419,7 @@ final class AppURI
         $return = null;
         switch ($item['type']) {
             case 'ss':
-                if (in_array($item['obfs'], Config::getSupportParam('ss_obfs'))) {
+                if (\in_array($item['obfs'], Config::getSupportParam('ss_obfs'))) {
                     $return = self::getItemUrl($item, 1);
                 } else {
                     if ($item['obfs'] === 'v2ray') {
@@ -431,7 +431,7 @@ final class AppURI
                             'mode' => 'websocket',
                         ];
                         $v2rayplugin['tls'] = $item['tls'] === 'tls' ? true : false;
-                        $return = 'ss://' . Tools::base64UrlEncode($item['method'] . ':' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']) . '?v2ray-plugin=' . base64_encode(json_encode($v2rayplugin)) . '#' . rawurlencode($item['remark']);
+                        $return = 'ss://' . Tools::base64UrlEncode($item['method'] . ':' . $item['passwd'] . '@' . $item['address'] . ':' . $item['port']) . '?v2ray-plugin=' . base64_encode(\json_encode($v2rayplugin)) . '#' . rawurlencode($item['remark']);
                     }
                     if ($item['obfs'] === 'plain') {
                         $return = self::getItemUrl($item, 2);
@@ -442,7 +442,7 @@ final class AppURI
                 $return = self::getItemUrl($item, 0);
                 break;
             case 'vmess':
-                if (! in_array($item['net'], ['tcp', 'ws', 'http', 'h2'])) {
+                if (! \in_array($item['net'], ['tcp', 'ws', 'http', 'h2'])) {
                     break;
                 }
                 $obfs = '';
@@ -492,7 +492,7 @@ final class AppURI
         $return = null;
         switch ($item['type']) {
             case 'ss':
-                if (in_array($item['obfs'], ['v2ray', 'simple_obfs_http', 'simple_obfs_tls'])) {
+                if (\in_array($item['obfs'], ['v2ray', 'simple_obfs_http', 'simple_obfs_tls'])) {
                     break;
                 }
                 $return = self::getItemUrl($item, 2);

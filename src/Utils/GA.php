@@ -41,7 +41,7 @@ final class GA
     public function getCode(string $secret, ?int $timeSlice = null): string
     {
         if ($timeSlice === null) {
-            $timeSlice = floor(time() / 30);
+            $timeSlice = floor(\time() / 30);
         }
 
         $secretkey = $this->_base32Decode($secret);
@@ -90,12 +90,12 @@ final class GA
      * Check if the code is correct. This will accept codes starting from $discrepancy*30sec ago to $discrepancy*30sec from now
      *
      * @param int $discrepancy This is the allowed time drift in 30 second units (8 means 4 minutes before or after)
-     * @param int|null $currentTimeSlice time slice if we want use other that time()
+     * @param int|null $currentTimeSlice time slice if we want use other that \time()
      */
     public function verifyCode(string $secret, string $code, int $discrepancy = 1, ?int $currentTimeSlice = null): bool
     {
         if ($currentTimeSlice === null) {
-            $currentTimeSlice = floor(time() / 30);
+            $currentTimeSlice = floor(\time() / 30);
         }
 
         for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
@@ -137,7 +137,7 @@ final class GA
 
         $paddingCharCount = substr_count($secret, $base32chars[32]);
         $allowedValues = [6, 4, 3, 1, 0];
-        if (! in_array($paddingCharCount, $allowedValues)) {
+        if (! \in_array($paddingCharCount, $allowedValues)) {
             return false;
         }
         for ($i = 0; $i < 4; $i++) {
@@ -151,7 +151,7 @@ final class GA
         $binaryString = '';
         for ($i = 0, $iMax = count($secret); $i < $iMax; $i += 8) {
             $x = '';
-            if (! in_array($secret[$i], $base32chars)) {
+            if (! \in_array($secret[$i], $base32chars)) {
                 return false;
             }
             for ($j = 0; $j < 8; $j++) {

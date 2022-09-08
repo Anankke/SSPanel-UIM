@@ -49,10 +49,10 @@ final class IpController extends BaseController
         $query = LoginIp::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['user_name'])) {
+                if (\in_array($order_field, ['user_name'])) {
                     $order_field = 'userid';
                 }
-                if (in_array($order_field, ['location'])) {
+                if (\in_array($order_field, ['location'])) {
                     $order_field = 'ip';
                 }
             }
@@ -121,18 +121,18 @@ final class IpController extends BaseController
         $query = Ip::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['user_name'])) {
+                if (\in_array($order_field, ['user_name'])) {
                     $order_field = 'userid';
                 }
-                if (in_array($order_field, ['node_name', 'is_node'])) {
+                if (\in_array($order_field, ['node_name', 'is_node'])) {
                     $order_field = 'nodeid';
                 }
-                if (in_array($order_field, ['location'])) {
+                if (\in_array($order_field, ['location'])) {
                     $order_field = 'ip';
                 }
             },
             static function ($query): void {
-                $query->where('datetime', '>=', time() - 60);
+                $query->where('datetime', '>=', \time() - 60);
             }
         );
 
@@ -193,10 +193,10 @@ final class IpController extends BaseController
         $query = BlockIp::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['node_name'])) {
+                if (\in_array($order_field, ['node_name'])) {
                     $order_field = 'nodeid';
                 }
-                if (in_array($order_field, ['location'])) {
+                if (\in_array($order_field, ['location'])) {
                     $order_field = 'ip';
                 }
             }
@@ -237,7 +237,7 @@ final class IpController extends BaseController
         $UIP = new UnblockIp();
         $UIP->userid = $this->user->id;
         $UIP->ip = $ip;
-        $UIP->datetime = time();
+        $UIP->datetime = \time();
         $UIP->save();
 
         return $response->withJson([
@@ -277,10 +277,10 @@ final class IpController extends BaseController
         $query = UnblockIp::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['user_name'])) {
+                if (\in_array($order_field, ['user_name'])) {
                     $order_field = 'userid';
                 }
-                if (in_array($order_field, ['location'])) {
+                if (\in_array($order_field, ['location'])) {
                     $order_field = 'ip';
                 }
             }

@@ -32,7 +32,7 @@ final class NodeToken
             ]);
         }
 
-        if (!in_array($key, Config::getMuKey())) {
+        if (!\in_array($key, Config::getMuKey())) {
             // key 不存在
             return $response->withJson([
                 'ret' => 0,

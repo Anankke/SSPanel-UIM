@@ -307,10 +307,10 @@ final class NodeController extends BaseController
         $query = Node::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['op'])) {
+                if (\in_array($order_field, ['op'])) {
                     $order_field = 'id';
                 }
-                if (in_array($order_field, ['outaddress'])) {
+                if (\in_array($order_field, ['outaddress'])) {
                     $order_field = 'server';
                 }
             }

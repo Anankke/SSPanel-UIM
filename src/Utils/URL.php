@@ -19,7 +19,7 @@ final class URL
     public static function canMethodConnect($method)
     {
         $ss_aead_method_list = Config::getSupportParam('ss_aead_method');
-        if (in_array($method, $ss_aead_method_list)) {
+        if (\in_array($method, $ss_aead_method_list)) {
             return 2;
         }
         return 3;
@@ -54,7 +54,7 @@ final class URL
         if ($obfs !== 'plain') {
             //SS obfs only
             $ss_obfs = Config::getSupportParam('ss_obfs');
-            if (in_array($obfs, $ss_obfs)) {
+            if (\in_array($obfs, $ss_obfs)) {
                 if (strpos($obfs, '_compatible') === false) {
                     return 2;
                 }
@@ -160,7 +160,7 @@ final class URL
         array $rules = []
     ): \Illuminate\Database\Eloquent\Collection {
         $query = Node::query();
-        if (is_array($sort)) {
+        if (\is_array($sort)) {
             $query->whereIn('sort', $sort);
         } else {
             $query->where('sort', $sort);
@@ -231,7 +231,7 @@ final class URL
 
         // 单端口 sort = 9
         $mu_nodes = [];
-        if ($is_mu !== 0 && in_array($Rule['type'], ['all', 'ss', 'ssr'])) {
+        if ($is_mu !== 0 && \in_array($Rule['type'], ['all', 'ss', 'ssr'])) {
             $mu_node_query = Node::query();
             $mu_node_query->where('sort', 9)->where('type', '1');
             if ($is_mu !== 1) {
@@ -267,7 +267,7 @@ final class URL
             // 筛选 End
 
             // 其他类型单端口节点
-            if (in_array($node->sort, [11, 13, 14])) {
+            if (\in_array($node->sort, [11, 13, 14])) {
                 $node_class = [
                     11 => 'getV2RayItem',           // V2Ray
                     13 => 'getV2RayPluginItem',     // Rico SS (V2RayPlugin && obfs)
@@ -283,7 +283,7 @@ final class URL
             // 其他类型单端口节点 End
 
             // SS 节点
-            if (in_array($node->sort, [0])) {
+            if (\in_array($node->sort, [0])) {
                 // 节点非只启用单端口 && 只获取普通端口
                 if ($node->mu_only !== 1 &&
                     ($is_mu === 0 || ($is_mu !== 0 && $_ENV['mergeSub'] === true))) {
@@ -336,7 +336,7 @@ final class URL
     public static function getNewAllUrl(User $user, array $Rule): string
     {
         $return_url = '';
-        if (strtotime($user->expire_in) < time()) {
+        if (strtotime($user->expire_in) < \time()) {
             return $return_url;
         }
         $items = URL::getNewAllItems($user, $Rule);
@@ -410,7 +410,7 @@ final class URL
         $item['class'] = $node->node_class;
         if (! $arrout) {
             return 'vmess://' . base64_encode(
-                json_encode($item, 320)
+                \json_encode($item, 320)
             );
         }
         return $item;
@@ -483,7 +483,7 @@ final class URL
     {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
         $plugin = '';
-        if (in_array($item['obfs'], $ss_obfs_list)) {
+        if (\in_array($item['obfs'], $ss_obfs_list)) {
             if (strpos($item['obfs'], 'http') !== false) {
                 $plugin .= 'obfs-local --obfs http';
             } else {
@@ -500,7 +500,7 @@ final class URL
     {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
         $plugin = '';
-        if (in_array($item['obfs'], $ss_obfs_list)) {
+        if (\in_array($item['obfs'], $ss_obfs_list)) {
             if (strpos($item['obfs'], 'http') !== false) {
                 $plugin .= ', obfs=http';
             } else {

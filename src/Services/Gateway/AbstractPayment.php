@@ -78,7 +78,7 @@ abstract class AbstractPayment
         $p = Paylist::where('tradeno', $pid)->first();
 
         if ($p->status === 1) {
-            return json_encode(['errcode' => 0]);
+            return \json_encode(['errcode' => 0]);
         }
 
         $p->status = 1;
@@ -128,8 +128,8 @@ abstract class AbstractPayment
     protected static function getActiveGateway($key)
     {
         $payment_gateways = Setting::where('item', '=', 'payment_gateway')->first();
-        $active_gateways = json_decode($payment_gateways->value);
-        if (in_array($key, $active_gateways)) {
+        $active_gateways = \json_decode($payment_gateways->value);
+        if (\in_array($key, $active_gateways)) {
             return true;
         }
         return false;

@@ -44,7 +44,7 @@ final class DetectBanLogController extends BaseController
         $query = DetectBanLog::getTableDataFromAdmin(
             $request,
             static function (&$order_field): void {
-                if (in_array($order_field, ['ban_end_time'])) {
+                if (\in_array($order_field, ['ban_end_time'])) {
                     $order_field = 'end_time';
                 }
             }

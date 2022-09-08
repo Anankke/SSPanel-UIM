@@ -72,7 +72,7 @@ EOL;
         EmailQueue::chunkById(1000, static function ($email_queues): void {
             foreach ($email_queues as $email_queue) {
                 try {
-                    Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, json_decode($email_queue->array), []);
+                    Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, \json_decode($email_queue->array), []);
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
@@ -94,18 +94,18 @@ EOL;
         Node::where('bandwidthlimit_resetday', date('d'))->update(['node_bandwidth' => 0]);
 
         // ------- 清理各表记录
-        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
-        Token::where('expire_time', '<', time())->delete();
-        NodeInfoLog::where('log_time', '<', time() - 86400 * 3)->delete();
-        NodeOnlineLog::where('log_time', '<', time() - 86400 * 3)->delete();
-        DetectLog::where('datetime', '<', time() - 86400 * 3)->delete();
-        EmailVerify::where('expire_in', '<', time() - 86400 * 3)->delete();
-        PasswordReset::where('expire_time', '<', time() - 86400 * 3)->delete();
-        Ip::where('datetime', '<', time() - 300)->delete();
-        UnblockIp::where('datetime', '<', time() - 300)->delete();
-        BlockIp::where('datetime', '<', time() - 86400)->delete();
-        StreamMedia::where('created_at', '<', time() - 86400 * 24)->delete();
-        TelegramSession::where('datetime', '<', time() - 900)->delete();
+        UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', \time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
+        Token::where('expire_time', '<', \time())->delete();
+        NodeInfoLog::where('log_time', '<', \time() - 86400 * 3)->delete();
+        NodeOnlineLog::where('log_time', '<', \time() - 86400 * 3)->delete();
+        DetectLog::where('datetime', '<', \time() - 86400 * 3)->delete();
+        EmailVerify::where('expire_in', '<', \time() - 86400 * 3)->delete();
+        PasswordReset::where('expire_time', '<', \time() - 86400 * 3)->delete();
+        Ip::where('datetime', '<', \time() - 300)->delete();
+        UnblockIp::where('datetime', '<', \time() - 300)->delete();
+        BlockIp::where('datetime', '<', \time() - 86400)->delete();
+        StreamMedia::where('created_at', '<', \time() - 86400 * 24)->delete();
+        TelegramSession::where('datetime', '<', \time() - 900)->delete();
         // ------- 清理各表记录
 
         // ------- 重置自增 ID
@@ -157,7 +157,7 @@ EOL;
                 /** @var User $user */
                 $user->last_day_t = $user->u + $user->d;
                 $user->save();
-                if (in_array($user->id, $bought_users)) {
+                if (\in_array($user->id, $bought_users)) {
                     continue;
                 }
                 if (date('d') === $user->auto_reset_day) {
@@ -314,7 +314,7 @@ EOL;
     {
         $users = User::all();
         foreach ($users as $user) {
-            if (strtotime($user->expire_in) < time() && $user->expire_notified === false) {
+            if (strtotime($user->expire_in) < \time() && $user->expire_notified === false) {
                 $user->transfer_enable = 0;
                 $user->u = 0;
                 $user->d = 0;
@@ -330,7 +330,7 @@ EOL;
                 );
                 $user->expire_notified = true;
                 $user->save();
-            } elseif (strtotime($user->expire_in) > time() && $user->expire_notified === true) {
+            } elseif (strtotime($user->expire_in) > \time() && $user->expire_notified === true) {
                 $user->expire_notified = false;
                 $user->save();
             }
@@ -378,7 +378,7 @@ EOL;
 
             if (
                 $_ENV['account_expire_delete_days'] >= 0 &&
-                strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < time() &&
+                strtotime($user->expire_in) + $_ENV['account_expire_delete_days'] * 86400 < \time() &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
                 $user->sendMail(
@@ -399,7 +399,7 @@ EOL;
                 max(
                     $user->last_check_in_time,
                     strtotime($user->reg_date)
-                ) + ($_ENV['auto_clean_uncheck_days'] * 86400) < time() &&
+                ) + ($_ENV['auto_clean_uncheck_days'] * 86400) < \time() &&
                 $user->class === 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
@@ -418,7 +418,7 @@ EOL;
 
             if (
                 $_ENV['auto_clean_unused_days'] > 0 &&
-                max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < time() &&
+                max($user->t, strtotime($user->reg_date)) + ($_ENV['auto_clean_unused_days'] * 86400) < \time() &&
                 $user->class === 0 &&
                 $user->money <= $_ENV['auto_clean_min_money']
             ) {
@@ -437,7 +437,7 @@ EOL;
 
             if (
                 $user->class !== 0 &&
-                strtotime($user->class_expire) < time() &&
+                strtotime($user->class_expire) < \time() &&
                 strtotime($user->class_expire) > 1420041600
             ) {
                 $text = '您好，系统发现您的账号等级已经过期了。';
@@ -465,7 +465,7 @@ EOL;
             if ($user->enable === 0) {
                 $logs = DetectBanLog::where('user_id', $user->id)->orderBy('id', 'desc')->first();
                 if ($logs !== null) {
-                    if (($logs->end_time + $logs->ban_time * 60) <= time()) {
+                    if (($logs->end_time + $logs->ban_time * 60) <= \time()) {
                         $user->enable = 1;
                     }
                 }
@@ -475,7 +475,7 @@ EOL;
         }
 
         //自动续费
-        $boughts = Bought::where('renew', '<', time() + 60)->where('renew', '<>', 0)->get();
+        $boughts = Bought::where('renew', '<', \time() + 60)->where('renew', '<>', 0)->get();
         foreach ($boughts as $bought) {
             /** @var Bought $bought */
             $user = $bought->user();
@@ -509,8 +509,8 @@ EOL;
                 $bought_new = new Bought();
                 $bought_new->userid = $user->id;
                 $bought_new->shopid = $shop->id;
-                $bought_new->datetime = time();
-                $bought_new->renew = time() + $shop->auto_renew * 86400;
+                $bought_new->datetime = \time();
+                $bought_new->renew = \time() + $shop->auto_renew * 86400;
                 $bought_new->price = $shop->price;
                 $bought_new->coupon = '';
                 $bought_new->save();

@@ -141,7 +141,7 @@ final class Node extends Model
 
     public function getNodeUpRate()
     {
-        $log = NodeOnlineLog::where('node_id', $this->id)->where('log_time', '>=', time() - 86400)->count();
+        $log = NodeOnlineLog::where('node_id', $this->id)->where('log_time', '>=', \time() - 86400)->count();
         return $log / 1440;
     }
 
@@ -160,10 +160,10 @@ final class Node extends Model
      */
     public function getNodeOnlineUserCount(): int
     {
-        if (in_array($this->sort, [9])) {
+        if (\in_array($this->sort, [9])) {
             return -1;
         }
-        $log = NodeOnlineLog::where('node_id', $this->id)->where('log_time', '>', time() - 300)->orderBy('id', 'desc')->first();
+        $log = NodeOnlineLog::where('node_id', $this->id)->where('log_time', '>', \time() - 300)->orderBy('id', 'desc')->first();
         if ($log === null) {
             return 0;
         }
@@ -178,10 +178,10 @@ final class Node extends Model
     public function getNodeOnlineStatus(): int
     {
         // 类型 9 或者心跳为 0
-        if ($this->node_heartbeat === 0 || in_array($this->sort, [9])) {
+        if ($this->node_heartbeat === 0 || \in_array($this->sort, [9])) {
             return 0;
         }
-        return $this->node_heartbeat + 300 > time() ? 1 : -1;
+        return $this->node_heartbeat + 300 > \time() ? 1 : -1;
     }
 
     /**
@@ -189,7 +189,7 @@ final class Node extends Model
      */
     public function getNodeLatestLoad(): int
     {
-        $log = NodeInfoLog::where('node_id', $this->id)->where('log_time', '>', time() - 300)->orderBy('id', 'desc')->first();
+        $log = NodeInfoLog::where('node_id', $this->id)->where('log_time', '>', \time() - 300)->orderBy('id', 'desc')->first();
         if ($log === null) {
             return -1;
         }
@@ -227,7 +227,7 @@ final class Node extends Model
         if ($this->node_heartbeat === 0) {
             return false;
         }
-        return $this->node_heartbeat > time() - 300;
+        return $this->node_heartbeat > \time() - 300;
     }
 
     /**
@@ -283,14 +283,14 @@ final class Node extends Model
 
     public function getArgs(): array
     {
-        return json_decode($this->custom_config, true);
+        return \json_decode($this->custom_config, true);
     }
 
     public function setArgs(string $key, mixed $value): void
     {
-        $current = json_decode($this->custom_config);
+        $current = \json_decode($this->custom_config);
         $current[$key] = $value;
-        $this->custom_config = json_encode($current);
+        $this->custom_config = \json_encode($current);
         $this->save();
     }
 
@@ -307,7 +307,7 @@ final class Node extends Model
         $explode = explode(';', $this->server);
         $values = $this->getArgs();
 
-        if (in_array($this->sort, [0]) && isset($values['server'])) {
+        if (\in_array($this->sort, [0]) && isset($values['server'])) {
             return $values['server'];
         }
         return $explode[0];
@@ -405,7 +405,7 @@ final class Node extends Model
     {
         $return_array = Tools::ssv2Array($this);
         // 非 AEAD 加密无法使用
-        if ($return_array['net'] !== 'obfs' && ! in_array($user->method, Config::getSupportParam('ss_aead_method'))) {
+        if ($return_array['net'] !== 'obfs' && ! \in_array($user->method, Config::getSupportParam('ss_aead_method'))) {
             return null;
         }
         $return_array['remark'] = $this->name;

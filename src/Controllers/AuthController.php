@@ -221,20 +221,20 @@ final class AuthController extends BaseController
                 return ResponseHelper::error($response, '此邮箱已经注册');
             }
             $ipcount = EmailVerify::where('ip', '=', $_SERVER['REMOTE_ADDR'])
-                ->where('expire_in', '>', time())
+                ->where('expire_in', '>', \time())
                 ->count();
             if ($ipcount >= Setting::obtain('email_verify_ip_limit')) {
                 return ResponseHelper::error($response, '此IP请求次数过多');
             }
             $mailcount = EmailVerify::where('email', '=', $email)
-                ->where('expire_in', '>', time())
+                ->where('expire_in', '>', \time())
                 ->count();
             if ($mailcount >= 3) {
                 return ResponseHelper::error($response, '此邮箱请求次数过多');
             }
             $code = Tools::genRandomChar(6);
             $ev = new EmailVerify();
-            $ev->expire_in = time() + Setting::obtain('email_verify_ttl');
+            $ev->expire_in = \time() + Setting::obtain('email_verify_ttl');
             $ev->ip = $_SERVER['REMOTE_ADDR'];
             $ev->email = $email;
             $ev->code = $code;
@@ -246,7 +246,7 @@ final class AuthController extends BaseController
                     'auth/verify.tpl',
                     [
                         'code' => $code,
-                        'expire' => date('Y-m-d H:i:s', time() + Setting::obtain('email_verify_ttl')),
+                        'expire' => date('Y-m-d H:i:s', \time() + Setting::obtain('email_verify_ttl')),
                     ],
                     []
                 );
@@ -293,7 +293,7 @@ final class AuthController extends BaseController
         // do reg user
         $user = new User();
         $antiXss = new AntiXSS();
-        $current_timestamp = time();
+        $current_timestamp = \time();
 
         $user->user_name = $antiXss->xss_clean($name);
         $user->email = $email;
@@ -346,11 +346,11 @@ final class AuthController extends BaseController
         $secret = $ga->createSecret();
         $user->ga_token = $secret;
         $user->ga_enable = 0;
-        $user->class_expire = date('Y-m-d H:i:s', time() + $configs['sign_up_for_class_time'] * 86400);
+        $user->class_expire = date('Y-m-d H:i:s', \time() + $configs['sign_up_for_class_time'] * 86400);
         $user->class = $configs['sign_up_for_class'];
         $user->node_connector = $configs['connection_device_limit'];
         $user->node_speedlimit = $configs['connection_rate_limit'];
-        $user->expire_in = date('Y-m-d H:i:s', time() + $configs['sign_up_for_free_time'] * 86400);
+        $user->expire_in = date('Y-m-d H:i:s', \time() + $configs['sign_up_for_free_time'] * 86400);
         $user->reg_date = date('Y-m-d H:i:s');
         $user->reg_ip = $_SERVER['REMOTE_ADDR'];
         $user->theme = $_ENV['theme'];
@@ -425,7 +425,7 @@ final class AuthController extends BaseController
             $email_code = trim($request->getParam('emailcode'));
             $mailcount = EmailVerify::where('email', '=', $email)
                 ->where('code', '=', $email_code)
-                ->where('expire_in', '>', time())
+                ->where('expire_in', '>', \time())
                 ->first();
             if ($mailcount === null) {
                 return ResponseHelper::error($response, '您的邮箱验证码不正确');
@@ -530,12 +530,12 @@ final class AuthController extends BaseController
         }
         sort($data_check_arr);
         $data_check_string = implode("\n", $data_check_arr);
-        $secret_key = hash('sha256', $bot_token, true);
+        $secret_key = \hash('sha256', $bot_token, true);
         $hash = hash_hmac('sha256', $data_check_string, $secret_key);
         if (strcmp($hash, $check_hash) !== 0) {
             return false; // Bad Data :(
         }
-        if (time() - $auth_data['auth_date'] > 300) { // Expire @ 5mins
+        if (\time() - $auth_data['auth_date'] > 300) { // Expire @ 5mins
             return false;
         }
         return true; // Good to Go

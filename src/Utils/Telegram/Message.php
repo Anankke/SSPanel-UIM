@@ -142,7 +142,7 @@ final class Message
         ];
         if ($NewChatMember->getUsername() === $_ENV['telegram_bot']) {
             // 机器人加入新群组
-            if ($_ENV['allow_to_join_new_groups'] !== true && ! in_array($this->ChatID, $_ENV['group_id_allowed_to_join'])) {
+            if ($_ENV['allow_to_join_new_groups'] !== true && ! \in_array($this->ChatID, $_ENV['group_id_allowed_to_join'])) {
                 // 退群
                 $this->replyWithMessage(
                     [
@@ -176,7 +176,7 @@ final class Message
         } else {
             // 新成员加入群组
             $NewUser = TelegramTools::getUser($Member['id']);
-            $deNewChatMember = json_decode($NewChatMember, true);
+            $deNewChatMember = \json_decode($NewChatMember, true);
             if (
                 Setting::obtain('telegram_group_bound_user') === true
                 &&

@@ -103,7 +103,7 @@ EOL;
             $setting->value = $setting->default;
         }
 
-        $json_settings = json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $json_settings = \json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         file_put_contents('./config/settings.json', $json_settings);
 
         echo '已导出所有设置.' . PHP_EOL;
@@ -112,7 +112,7 @@ EOL;
     public function importAllSettings(): void
     {
         $json_settings = file_get_contents('./config/settings.json');
-        $settings = json_decode($json_settings, true);
+        $settings = \json_decode($json_settings, true);
         $config = [];
         $add_counter = 0;
         $del_counter = 0;
@@ -142,7 +142,7 @@ EOL;
         // 检查移除
         $db_settings = Setting::all();
         foreach ($db_settings as $db_setting) {
-            if (! in_array($db_setting->item, $config)) {
+            if (! \in_array($db_setting->item, $config)) {
                 $db_setting->delete();
                 $del_counter += 1;
             }
