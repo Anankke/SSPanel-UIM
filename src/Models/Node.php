@@ -130,7 +130,7 @@ final class Node extends Model
         if ($uptime === null) {
             return '未知';
         }
-        return Tools::secondsToTime((int) $uptime->uptime);
+        return Tools::secondsToTime((int) $uptime);
     }
 
     /**
