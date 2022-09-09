@@ -121,33 +121,34 @@ final class Node extends Model
         return date('Y-m-d H:i:s', $this->node_heartbeat);
     }
 
-    public function getLastNodeInfoLog()
+    /**
+     * 获取节点在线时间
+     */
+    public function getNodeUptime(): string
     {
-        $log = NodeInfoLog::where('node_id', $this->id)->orderBy('id', 'desc')->first();
-        if ($log === null) {
-            return null;
+        $uptime = $this->uptime;
+        if ($uptime === null) {
+            return '未知';
         }
-        return $log;
+        return Tools::secondsToTime((int) $uptime);
     }
 
-    public function getNodeUptime()
+    /**
+     * 获取节点负载
+     */
+    public function getNodeLoad(): float
     {
-        $log = $this->getLastNodeInfoLog();
-        if ($log === null) {
-            return '暂无数据';
+        $load = $this->load;
+        if ($load === null) {
+            return 0;
         }
-        return Tools::secondsToTime((int) $log->uptime);
+        return (float) number_format(((float) explode(' ', $load)[0]), 2, '.', '');
     }
 
     public function getNodeUpRate()
     {
         $log = NodeOnlineLog::where('node_id', $this->id)->where('log_time', '>=', \time() - 86400)->count();
         return $log / 1440;
-    }
-
-    public function getNodeLoad()
-    {
-        return NodeInfoLog::where('node_id', $this->id)->orderBy('id', 'desc')->whereRaw('`log_time`%1800<60')->limit(48)->get();
     }
 
     public function getNodeAlive()
@@ -182,27 +183,6 @@ final class Node extends Model
             return 0;
         }
         return $this->node_heartbeat + 300 > \time() ? 1 : -1;
-    }
-
-    /**
-     * 获取节点最新负载
-     */
-    public function getNodeLatestLoad(): int
-    {
-        $log = NodeInfoLog::where('node_id', $this->id)->where('log_time', '>', \time() - 300)->orderBy('id', 'desc')->first();
-        if ($log === null) {
-            return -1;
-        }
-        return ((int) explode(' ', $log->load)[0]) * 100;
-    }
-
-    /**
-     * 获取节点最新负载文本信息
-     */
-    public function getNodeLatestLoadText(): string
-    {
-        $load = $this->getNodeLatestLoad();
-        return $load === -1 ? 'N/A' : $load . '%';
     }
 
     /**

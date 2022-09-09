@@ -6,7 +6,6 @@ namespace App\Controllers\Node;
 
 use App\Controllers\BaseController;
 use App\Models\Node;
-use App\Models\NodeInfoLog;
 use App\Models\StreamMedia;
 use App\Services\Config;
 use App\Utils\Tools;
@@ -56,12 +55,10 @@ final class NodeController extends BaseController
         }
         $load = $request->getParam('load');
         $uptime = $request->getParam('uptime');
-        $log = new NodeInfoLog();
-        $log->node_id = $node_id;
-        $log->load = $load;
-        $log->uptime = $uptime;
-        $log->log_time = \time();
-        if (! $log->save()) {
+        $node = Node::find($node_id);
+        $node->load = $load;
+        $node->uptime = $uptime;
+        if (! $node->save()) {
             $res = [
                 'ret' => 0,
                 'data' => 'update failed',

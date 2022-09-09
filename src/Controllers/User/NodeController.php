@@ -44,7 +44,8 @@ final class NodeController extends BaseController
             $array_node['flag'] = $node->getNodeFlag();
             $array_node['online_user'] = $node->getNodeOnlineUserCount();
             $array_node['online'] = $node->getNodeOnlineStatus();
-            $array_node['latest_load'] = $node->getNodeLatestLoadText();
+            $array_node['load'] = $node->getNodeLoad();
+            $array_node['uptime'] = $node->getNodeUptime();
             $array_node['traffic_rate'] = $node->traffic_rate;
             $array_node['status'] = $node->status;
             $array_node['traffic_used'] = (int) Tools::flowToGB($node->node_bandwidth);
