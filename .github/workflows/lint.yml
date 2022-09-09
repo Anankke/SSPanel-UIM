@@ -14,15 +14,15 @@ jobs:
       with:
         fetch-depth: 0
     - uses: dorny/paths-filter@v2
-      id: changes
+      id: filter
       with:
         filters: |
           php:
             - '**/*.php'
   lint:
-    runs-on: ubuntu-latest
     needs: changes
     if: ${{ needs.changes.outputs.php == 'true' }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
