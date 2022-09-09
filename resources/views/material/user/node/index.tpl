@@ -94,7 +94,7 @@
                                             <!-- 节点系统负载 -->
                                             <div class="nodeband node-flex" title="节点系统负载">
                                                 <i class="mdi mdi-server-network node-icon"></i>
-                                                <span>{$node['latest_load']}</span>
+                                                <span>{$node['load']}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -184,7 +184,7 @@
                                                         <span class="node-tr" title="节点流量倍率">{$node['traffic_rate']}x</span>
                                                         |
                                                         <span class="node-icon"><i class="mdi mdi-server-network icon-lg"></i></span>
-                                                        <span class="node-load" title="节点系统负载">负载：{$node['latest_load']}</span>
+                                                        <span class="node-load" title="节点系统负载">负载：{$node['load']}</span>
                                                     </div>
                                                 </div>
                                             </div>
