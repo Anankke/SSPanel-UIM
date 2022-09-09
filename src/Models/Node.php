@@ -142,7 +142,7 @@ final class Node extends Model
         if ($load === null) {
             return 0;
         }
-        return (float) explode(' ', $load)[0];
+        return (float) number_format(((float) explode(' ', $load)[0]), 2, '.', '');
     }
 
     public function getNodeUpRate()
