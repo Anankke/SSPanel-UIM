@@ -8,8 +8,7 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      src: ${{ steps.filter.outputs.src }}
-      app: ${{ steps.filter.outputs.app }}
+      php: ${{ steps.filter.outputs.php }}
     steps:
     - uses: actions/checkout@v2
       with:
@@ -18,14 +17,12 @@ jobs:
       id: changes
       with:
         filters: |
-          src:
-            - 'src/**'
-          app:
-            - 'app/**'
+          php:
+            - '**/*.php'
   lint:
     runs-on: ubuntu-latest
     needs: changes
-    if: ${{ (needs.changes.outputs.src == 'true') || (needs.changes.outputs.app == 'true') }}
+    if: ${{ needs.changes.outputs.php == 'true' }}
     steps:
       - uses: actions/checkout@v2
         with:
