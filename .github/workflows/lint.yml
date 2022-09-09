@@ -1,34 +1,28 @@
-name: Lint code
+name: Lint php code
 on:
   push:
   pull_request:
     types: [opened, reopened, synchronize]
 
 jobs:
-  check_php_files:
+  changes:
     runs-on: ubuntu-latest
     outputs:
-      php_changed: ${{ steps.check_file_changed.outputs.php_file_changed }}
+      php: ${{ steps.filter.outputs.php }}
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 2
-    - shell: pwsh
-      id: check_php_file_changed
-      run: |
-        # Diff HEAD with the previous commit
-        $diff = git diff --name-only HEAD^ HEAD
-
-        # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
-        $SourceDiff = $diff | Where-Object { $_ -match '.php$' }
-        $HasDiff = $SourceDiff.Length -gt 0
-
-        # Set the output named "docs_changed"
-        Write-Host "::set-output name=php_file_changed::$HasDiff"
+        fetch-depth: 0
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          php:
+            - '**/*.php'
   lint:
+    needs: changes
+    if: ${{ needs.changes.outputs.php == 'true' }}
     runs-on: ubuntu-latest
-    needs: [ check_php_files ]
-    if: needs.check_php_files.outputs.php_file_changed == 'True'
     steps:
       - uses: actions/checkout@v2
         with:

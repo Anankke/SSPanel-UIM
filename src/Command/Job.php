@@ -12,7 +12,6 @@ use App\Models\EmailQueue;
 use App\Models\EmailVerify;
 use App\Models\Ip;
 use App\Models\Node;
-use App\Models\NodeInfoLog;
 use App\Models\NodeOnlineLog;
 use App\Models\PasswordReset;
 use App\Models\Setting;
@@ -96,7 +95,6 @@ EOL;
         // ------- 清理各表记录
         UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', \time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
         Token::where('expire_time', '<', \time())->delete();
-        NodeInfoLog::where('log_time', '<', \time() - 86400 * 3)->delete();
         NodeOnlineLog::where('log_time', '<', \time() - 86400 * 3)->delete();
         DetectLog::where('datetime', '<', \time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', \time() - 86400 * 3)->delete();
