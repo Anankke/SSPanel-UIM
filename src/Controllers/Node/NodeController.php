@@ -113,13 +113,13 @@ final class NodeController extends BaseController
             'data' => $data,
         ];
 
-        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $header_etag = $request->getHeaderLine('If-None-Match');
         $etag = Tools::etag($data);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson($res);
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
     }
 
     /**
@@ -141,13 +141,13 @@ final class NodeController extends BaseController
             'data' => $nodes,
         ];
 
-        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $header_etag = $request->getHeaderLine('If-None-Match');
         $etag = Tools::etag($nodes);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson($res);
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
     }
 
     /**

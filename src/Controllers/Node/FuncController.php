@@ -40,13 +40,13 @@ final class FuncController extends BaseController
             'data' => $rules,
         ];
 
-        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $header_etag = $request->getHeaderLine('If-None-Match');
         $etag = Tools::etag($rules);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson($res);
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
     }
 
     /**
@@ -61,13 +61,13 @@ final class FuncController extends BaseController
             'data' => $block_ips,
         ];
 
-        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $header_etag = $request->getHeaderLine('If-None-Match');
         $etag = Tools::etag($block_ips);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson($res);
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
     }
 
     /**
@@ -82,13 +82,13 @@ final class FuncController extends BaseController
             'data' => $unblock_ips,
         ];
 
-        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $header_etag = $request->getHeaderLine('If-None-Match');
         $etag = Tools::etag($unblock_ips);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson($res);
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
     }
 
     /**

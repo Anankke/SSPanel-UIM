@@ -117,7 +117,7 @@ final class UserController extends BaseController
         }
 
         $response->getBody()->write($body);
-        return $response->withHeader('ETag', $etag)->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('ETag', $etag)->withHeader('WebAPI-ETAG', $etag)->withHeader('Content-Type', 'application/json');
     }
 
     /**

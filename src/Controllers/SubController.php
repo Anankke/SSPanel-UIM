@@ -235,13 +235,13 @@ final class SubController extends BaseController
             UserSubscribeLog::addSubscribeLog($user, $subtype, $request->getHeaderLine('User-Agent'));
         }
         //Etag相關，從 WebAPI 那邊抄的
-        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $header_etag = $request->getHeaderLine('If-None-Match');
         $etag = Tools::etag($sub_info);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson([
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson([
             $sub_info,
         ]);
     }
