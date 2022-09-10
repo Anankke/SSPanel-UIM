@@ -113,7 +113,7 @@ final class NodeController extends BaseController
             'data' => $data,
         ];
 
-        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $header_etag = $request->getHeaderLine('If-None-Match');
         $etag = Tools::etag($data);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
@@ -141,7 +141,7 @@ final class NodeController extends BaseController
             'data' => $nodes,
         ];
 
-        $header_etag = $request->getHeaderLine('IF_NONE_MATCH');
+        $header_etag = $request->getHeaderLine('If-None-Match');
         $etag = Tools::etag($nodes);
         if ($header_etag === $etag) {
             return $response->withStatus(304);
