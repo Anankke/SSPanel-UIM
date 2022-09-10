@@ -660,7 +660,7 @@ final class Tools
 
     public static function etag($data)
     {
-        return \hash('crc32c', $data);
+        return \hash('crc32c', (string) \json_encode($data));
     }
 
     public static function genSubToken()
