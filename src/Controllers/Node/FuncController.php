@@ -46,7 +46,7 @@ final class FuncController extends BaseController
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson($res);
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
     }
 
     /**
@@ -67,7 +67,7 @@ final class FuncController extends BaseController
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson($res);
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
     }
 
     /**
@@ -88,7 +88,7 @@ final class FuncController extends BaseController
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson($res);
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
     }
 
     /**

@@ -241,7 +241,7 @@ final class SubController extends BaseController
             return $response->withStatus(304);
         }
 
-        return $response->withHeader('ETAG', $etag)->withJson([
+        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson([
             $sub_info,
         ]);
     }
