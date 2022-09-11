@@ -32,7 +32,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <p class="form-control-guide"><i class="material-icons">info</i>生成的充值码将会发送到你的邮箱中（需要提前设置好邮件发信参数，且测试发信能够成功）</p>
+                            <p class="form-control-guide"><i class="mdi mdi-information"></i>生成的充值码将会发送到你的邮箱中（需要提前设置好邮件发信参数，且测试发信能够成功）</p>
                         </div>
                     </div>
                 </div>

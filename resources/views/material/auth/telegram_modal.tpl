@@ -27,7 +27,6 @@
                 <div class="text-center">
                     <h2><code id="code_number">{$login_number}</code></h2>
                 </div>
-
             </div>
         </div>
         <div class="tab-pane fade" id="qrcode_login">

@@ -12,7 +12,7 @@
     <div class="copy-container center-xy">
         <p>MIT许可证（The MIT License）</p>
         <p class="copyright">&copy;2015 orvice</p>
-        <p class="copyright">&copy;{date("Y")} SSPanel UIM Dev Team</p>
+        <p class="copyright">&copy;{date("Y")} SSPanel UIM</p>
         <p>特此免费授予任何获得副本的人这个软件和相关的文档文件（“软件”）来处理在软件中没有限制，
             包括但不限于权利使用，复制，修改，合并，发布，分发，再许可和/或销售该软件的副本，
             并允许软件所属的人员提供这样做，但须符合以下条件：</p>
@@ -24,7 +24,7 @@
         <h1>免责声明</h1>
         <p>您当前所访问的站点使用的是下面所提到的开源程序。您能看到这个页面仅代表这个站点使用了本程序，其使用过程中发生的一切问题需要其自行解决，本程序不承担任何责任。</p>
         <br>
-        <h1>SSPanel UIM Dev Team（排名不分先后）：</h1>
+        <h1>SSPanel UIM 贡献者（排名不分先后）：</h1>
         <p><a href="https://t.me/Anankke">芋头</a></p>
         <p><a href="https://github.com/ZJY2003">Tony Zou</a></p>
         <p><a href="https://github.com/M1Screw">兩足貓</a></p>

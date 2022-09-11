@@ -38,14 +38,14 @@
                 <div class="fbtn-container">
                     <div class="fbtn-inner">
                         <a class="fbtn fbtn-lg fbtn-brand-accent waves-attach waves-circle waves-light"
-                           data-toggle="dropdown"><span class="fbtn-ori icon">add</span><span class="fbtn-sub icon">close</span></a>
+                           data-toggle="dropdown"><span class="fbtn-ori mdi mdi-plus"></span><span class="fbtn-sub mdi mdi-close"></span></a>
                         <div class="fbtn-dropup">
                             <a class="fbtn fbtn-brand waves-attach waves-circle waves-light"
                                href="/admin/code/create"><span class="fbtn-text fbtn-text-left">充值码</span><span
-                                        class="icon">code</span></a> {if $config['enable_donate']===true}
+                                        class="mdi mdi-code-tags"></span></a> {if $config['enable_donate']===true}
                                 <a class="fbtn fbtn-green waves-attach waves-circle waves-light"
                                    href="/admin/donate/create"><span class="fbtn-text fbtn-text-left">捐赠和支出</span><span
-                                            class="icon">attach_money</span></a>
+                                            class="mdi mdi-wallet-plus"></span></a>
                             {/if}
                         </div>
                     </div>

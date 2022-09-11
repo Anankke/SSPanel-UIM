@@ -15,28 +15,28 @@
                         <nav class="tab-nav margin-top-no">
                             <ul class="nav nav-list">
                                 <li class="active">
-                                    <a data-toggle="tab" href="#payment_settings"><i class="icon icon-lg">payment</i>&nbsp;支付</a>
+                                    <a data-toggle="tab" href="#payment_settings"><i class="mdi mdi-credit-card-outline icon-lg"></i>&nbsp;支付</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#mail_settings"><i class="icon icon-lg">email</i>&nbsp;邮件</a>
+                                    <a data-toggle="tab" href="#mail_settings"><i class="mdi mdi-email icon-lg"></i>&nbsp;邮件</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#customer_service_system_settings"><i class="icon icon-lg">message</i>&nbsp;客服</a>
+                                    <a data-toggle="tab" href="#customer_service_system_settings"><i class="mdi mdi-face-agent icon-lg"></i>&nbsp;客服</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#verification_code_settings"><i class="icon icon-lg">verified_user</i>&nbsp;验证</a>
+                                    <a data-toggle="tab" href="#verification_code_settings"><i class="mdi mdi-shield-check icon-lg"></i>&nbsp;验证</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#personalise_settings"><i class="icon icon-lg">color_lens</i>&nbsp;个性化</a>
+                                    <a data-toggle="tab" href="#personalise_settings"><i class="mdi mdi-magic-staff icon-lg"></i>&nbsp;个性化</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#registration_settings"><i class="icon icon-lg">group_add</i>&nbsp;注册</a>
+                                    <a data-toggle="tab" href="#registration_settings"><i class="mdi mdi-account-plus icon-lg"></i>&nbsp;注册</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#invitation_settings"><i class="icon icon-lg">loyalty</i>&nbsp;邀请</a>
+                                    <a data-toggle="tab" href="#invitation_settings"><i class="mdi mdi-account-multiple-plus icon-lg"></i>&nbsp;邀请</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#telegram_settings"><i class="icon icon-lg">send</i>&nbsp;Telegram</a>
+                                    <a data-toggle="tab" href="#telegram_settings"><i class="mdi mdi-send-circle icon-lg"></i>&nbsp;Telegram</a>
                                 </li>
                             </ul>
                         </nav>
@@ -47,22 +47,22 @@
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#email_auth_settings"><i class="icon icon-lg">settings</i>&nbsp;设置</a>
+                                                <a data-toggle="tab" href="#email_auth_settings">&nbsp;设置</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#email_backup_settings"><i class="icon icon-lg">backup</i>&nbsp;备份</a>
+                                                <a data-toggle="tab" href="#email_backup_settings">&nbsp;备份</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#smtp"><i class="icon icon-lg">contact_mail</i>&nbsp;smtp</a>
+                                                <a data-toggle="tab" href="#smtp">&nbsp;smtp</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#sendgrid"><i class="icon icon-lg">markunread_mailbox</i>&nbsp;sendgrid</a>
+                                                <a data-toggle="tab" href="#sendgrid"><&nbsp;sendgrid</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#mailgun"><i class="icon icon-lg">send</i>&nbsp;mailgun</a>
+                                                <a data-toggle="tab" href="#mailgun">&nbsp;mailgun</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#ses"><i class="icon icon-lg">arrow_forward</i>&nbsp;ses</a>
+                                                <a data-toggle="tab" href="#ses">&nbsp;ses</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -86,17 +86,17 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">测试邮件收件人</label>
                                             <input class="form-control maxwidth-edit" id="testing_email_recipients">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>邮件配置保存完成后，如需验证是否可用，可在上方填写一个有效邮箱，系统将发送一封测试邮件到该邮箱。如果能够正常接收，则说明配置可用</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>邮件配置保存完成后，如需验证是否可用，可在上方填写一个有效邮箱，系统将发送一封测试邮件到该邮箱。如果能够正常接收，则说明配置可用</p>
                                             {if $settings['mail_driver'] == "none"}
-                                            <p class="form-control-guide"><i class="material-icons">info</i>如需使用发信测试功能，请先在上方选择一个发信方式，并配置有效的相关参数</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>如需使用发信测试功能，请先在上方选择一个发信方式，并配置有效的相关参数</p>
                                             {/if}
                                         </div>
                                         
                                         <button id="submit_email_test" type="submit" class="btn btn-brand btn-dense" {if $settings['mail_driver'] == "none"}disabled{/if}>测试</button>
                                     </div>
                                     <div class="tab-pane fade" id="email_backup_settings">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>需添加定时任务：php /this/is/your/website/path/xcat Backup full / simple</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>full 将整体数据备份；simple 将只备份核心数据</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>需添加定时任务：php /this/is/your/website/path/xcat Backup full / simple</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>full 将整体数据备份；simple 将只备份核心数据</p>
                                         <!-- auto_backup_email -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">接收备份的邮箱</label>
@@ -106,7 +106,7 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">备份的压缩密码</label>
                                             <input class="form-control maxwidth-edit" id="auto_backup_password" value="{$settings['auto_backup_password']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>留空将不加密备份压缩包</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>留空将不加密备份压缩包</p>
                                         </div>
                                         <!-- auto_backup_notify -->
                                         <div class="form-group form-group-label">
@@ -124,19 +124,19 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">SMTP主机地址</label>
                                             <input class="form-control maxwidth-edit" id="smtp_host" value="{$settings['smtp_host']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>例如：smtpdm-ap-southeast-1.aliyun.com</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>例如：smtpdm-ap-southeast-1.aliyun.com</p>
                                         </div>
                                         <!-- smtp_username -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">SMTP账户名</label>
                                             <input class="form-control maxwidth-edit" id="smtp_username" value="{$settings['smtp_username']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>例如：no-reply@airport.com</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>例如：no-reply@airport.com</p>
                                         </div>
                                         <!-- smtp_password -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">SMTP账户密码</label>
                                             <input class="form-control maxwidth-edit" id="smtp_password" value="{$settings['smtp_password']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>如果你使用 QQ 邮箱或 163 邮箱，此处应当填写单独的授权码</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>如果你使用 QQ 邮箱或 163 邮箱，此处应当填写单独的授权码</p>
                                         </div>
                                         <!-- smtp_port -->
                                         <div class="form-group form-group-label">
@@ -147,19 +147,19 @@
                                                 <option value="2525" {if $settings['smtp_port'] == "2525"}selected{/if}>2525</option>
                                                 <option value="25" {if $settings['smtp_port'] == "25"}selected{/if}>25</option>
                                             </select>
-                                            <p class="form-control-guide"><i class="material-icons">info</i>常见端口一般就这些</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>常见端口一般就这些</p>
                                         </div>
                                         <!-- smtp_name -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">SMTP发信名称</label>
                                             <input class="form-control maxwidth-edit" id="smtp_name" value="{$settings['smtp_name']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>这里的设置在邮箱的邮件列表中可见。你可以设置为网站名称</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>这里的设置在邮箱的邮件列表中可见。你可以设置为网站名称</p>
                                         </div>
                                         <!-- smtp_sender -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">SMTP账户发信地址</label>
                                             <input class="form-control maxwidth-edit" id="smtp_sender" value="{$settings['smtp_sender']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>如不知道填什么，请与此项保持一致：SMTP账户名</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>如不知道填什么，请与此项保持一致：SMTP账户名</p>
                                         </div>
                                         <!-- smtp_ssl -->
                                         <div class="form-group form-group-label">
@@ -173,7 +173,7 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">发给用户的邮件密送给指定邮箱备份</label>
                                             <input class="form-control maxwidth-edit" id="smtp_bbc" value="{$settings['smtp_bbc']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>如无需使用此功能，请留空</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>如无需使用此功能，请留空</p>
                                         </div>
 
                                         <button id="submit_smtp" type="submit" class="btn  btn-brand btn-dense">提交</button>
@@ -236,7 +236,7 @@
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#public_payment_settings"><i class="icon icon-lg">settings</i>&nbsp;设置</a>
+                                                <a data-toggle="tab" href="#public_payment_settings">&nbsp;设置</a>
                                             </li>
                                             {foreach $payment_gateways as $key => $value}
                                             <li>
@@ -275,7 +275,7 @@
                                     </div>
 
                                     <div class="tab-pane fade" id="payjs">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://payjs.cn" target="view_window">https://payjs.cn</a></p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>此处申请： <a href="https://payjs.cn" target="view_window">https://payjs.cn</a></p>
                                         <!-- payjs_url -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">payjs_url</label>
@@ -296,7 +296,7 @@
                                     </div>
 
                                     <div class="tab-pane fade" id="paymentwall">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://www.paymentwall.com/cn" target="view_window">https://www.paymentwall.com/cn</a></p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>此处申请： <a href="https://www.paymentwall.com/cn" target="view_window">https://www.paymentwall.com/cn</a></p>
                                         <!-- pmw_publickey -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">pmw公钥</label>
@@ -322,7 +322,7 @@
                                     </div>
                                     
                                     <div class="tab-pane fade" id="theadpay">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请：<a href="https://theadpay.com" target="view_window">https://theadpay.com</a></p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>此处申请：<a href="https://theadpay.com" target="view_window">https://theadpay.com</a></p>
                                         <!-- theadpay_url -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">theadpay_url</label>
@@ -343,7 +343,7 @@
                                     </div>
 
                                     <div class="tab-pane fade" id="stripe_card">
-                                        <p class="form-control-guide"><i class="material-icons">warning</i>提供虚拟专用网络业务符合 Stripe 用户协议，但可能不符合 Stripe 提供的部分支付通道（如支付宝、微信）用户协议，相关支付通道可能存在被关闭的风险</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-alert"></i>提供虚拟专用网络业务符合 Stripe 用户协议，但可能不符合 Stripe 提供的部分支付通道（如支付宝、微信）用户协议，相关支付通道可能存在被关闭的风险</p>
                                         <h5>支付渠道</h5>
                                         <!-- stripe_card_select -->
                                         <div class="form-group form-group-label">
@@ -391,14 +391,14 @@
                                     </div>
                                     
                                     <div class="tab-pane fade" id="vmqpay">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>此支付方式需自建网关并配置各项参数。访问 <a href="https://github.com/szvone/vmqphp" target="view_window">https://github.com/szvone/vmqphp</a> 了解更多</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>开源的 Android 监听端（推荐）：<a href="https://gitee.com/yuniks/VMQAPK" target="view_window">https://gitee.com/yuniks/VMQAPK</a></p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>不开源的 Windows 监听端（不推荐）：<a href="https://toscode.gitee.com/pmhw/Vpay" target="view_window">https://toscode.gitee.com/pmhw/Vpay</a></p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>此支付方式需自建网关并配置各项参数。访问 <a href="https://github.com/szvone/vmqphp" target="view_window">https://github.com/szvone/vmqphp</a> 了解更多</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>开源的 Android 监听端（推荐）：<a href="https://gitee.com/yuniks/VMQAPK" target="view_window">https://gitee.com/yuniks/VMQAPK</a></p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>不开源的 Windows 监听端（不推荐）：<a href="https://toscode.gitee.com/pmhw/Vpay" target="view_window">https://toscode.gitee.com/pmhw/Vpay</a></p>
                                         <!-- vmq_gateway -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">V免签网关</label>
                                             <input class="form-control maxwidth-edit" id="vmq_gateway" value="{$settings['vmq_gateway']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>形如：https://pay.com</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>形如：https://pay.com</p>
                                         </div>
                                         <!-- vmq_key -->
                                         <div class="form-group form-group-label">
@@ -410,7 +410,7 @@
                                     </div>
                                     
                                     <div class="tab-pane fade" id="f2fpay">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>此处申请： <a href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001003" target="view_window">https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001003</a></p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>此处申请： <a href="https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001003" target="view_window">https://b.alipay.com/signing/productDetailV2.htm?productId=I1011000290000001003</a></p>
                                         <!-- f2f_pay_app_id -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">App ID</label>
@@ -420,7 +420,7 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">PID</label>
                                             <input class="form-control maxwidth-edit" id="f2f_pay_pid" value="{$settings['f2f_pay_pid']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>此项可留空，不影响使用</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>此项可留空，不影响使用</p>
                                         </div>
                                         <!-- f2f_pay_public_key -->
                                         <div class="form-group form-group-label">
@@ -436,7 +436,7 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">自定义回调地址</label>
                                             <input class="form-control maxwidth-edit" id="f2f_pay_notify_url" value="{$settings['f2f_pay_notify_url']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>此项可留空，不影响使用</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>此项可留空，不影响使用</p>
                                         </div>
                                         
                                         <button id="submit_f2f_pay" type="submit" class="btn btn-block btn-brand">提交</button>
@@ -444,25 +444,25 @@
                                
 								
 								<div class="tab-pane fade" id="epay">
-                                        <p class="form-control-guide"><i class="material-icons">info</i> SSPanel-UIM Dev Team提醒您注意：易支付商家经常跑路！造成的损失由您自行承担</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i> SSPanel-UIM Dev Team提醒您注意：易支付商家经常跑路！造成的损失由您自行承担</p>
                                         <!-- epay_url -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">易支付URL</label>
                                             <input class="form-control maxwidth-edit" id="epay_url" value="{$settings['epay_url']}">
-											<p class="form-control-guide"><i class="material-icons">info</i>不同易支付url后缀不同，1：域名后面带/ 2：域名后面带submit.php/</p>
+											<p class="form-control-guide"><i class="mdi mdi-information"></i>不同易支付url后缀不同，1：域名后面带/ 2：域名后面带submit.php/</p>
                                         </div>
                                         <!-- epay_pid -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">商户ID</label>
                                             <input class="form-control maxwidth-edit" id="epay_pid" value="{$settings['epay_pid']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>必填</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>必填</p>
                                         </div>
                                         <!-- epay_key -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">商户Key</label>
 											<input class="form-control maxwidth-edit" id="epay_key" value="{$settings['epay_key']}">
                                         
-											<p class="form-control-guide"><i class="material-icons">info</i>必填</p>
+											<p class="form-control-guide"><i class="mdi mdi-information"></i>必填</p>
                                         </div>
                                         
                                        
@@ -475,10 +475,10 @@
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#web_customer_service_system"><i class="icon icon-lg">settings</i>&nbsp;网页客服</a>
+                                                <a data-toggle="tab" href="#web_customer_service_system">&nbsp;网页客服</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#admin_contact"><i class="icon icon-lg">call</i>&nbsp;联系站长</a>
+                                                <a data-toggle="tab" href="#admin_contact">&nbsp;联系站长</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -493,43 +493,43 @@
                                                 <option value="livechat" {if $settings['live_chat'] == "livechat"}selected{/if}>LiveChat</option>
                                                 <option value="mylivechat" {if $settings['live_chat'] == "mylivechat"}selected{/if}>MyLiveChat</option>
                                             </select>
-                                            <p class="form-control-guide"><i class="material-icons">info</i>目前仅 Crisp 与 LiveChat 支持在聊天时传递用户部分账户信息（如账户余额、到期时间、已用流量和剩余流量等）</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>目前仅 Crisp 与 LiveChat 支持在聊天时传递用户部分账户信息（如账户余额、到期时间、已用流量和剩余流量等）</p>
                                         </div>
                                         <!-- tawk_id -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">Tawk</label>
                                             <input class="form-control maxwidth-edit" id="tawk_id" value="{$settings['tawk_id']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>在 <a href="https://tawk.to" target="view_window">https://tawk.to</a> 申请，这应该是 24 位字符</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>在 <a href="https://tawk.to" target="view_window">https://tawk.to</a> 申请，这应该是 24 位字符</p>
                                         </div>
                                         <!-- crisp_id -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">Crisp</label>
                                             <input class="form-control maxwidth-edit" id="crisp_id" value="{$settings['crisp_id']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>在 <a href="https://crisp.chat/en" target="view_window">https://crisp.chat/en</a> 申请，这应该是一个 UUID</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>在 <a href="https://crisp.chat/en" target="view_window">https://crisp.chat/en</a> 申请，这应该是一个 UUID</p>
                                         </div>
                                         <!-- livechat_id -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">LiveChat</label>
                                             <input class="form-control maxwidth-edit" id="livechat_id" value="{$settings['livechat_id']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>在 <a href="https://www.livechat.com/cn" target="view_window">https://www.livechat.com/cn</a> 申请，这应该是 8 位数字</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>在 <a href="https://www.livechat.com/cn" target="view_window">https://www.livechat.com/cn</a> 申请，这应该是 8 位数字</p>
                                         </div>
                                         <!-- mylivechat_id -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">MyLiveChat</label>
                                             <input class="form-control maxwidth-edit" id="mylivechat_id" value="{$settings['mylivechat_id']}">
-                                            <p class="form-control-guide"><i class="material-icons">info</i>在 <a href="https://www.mylivechat.com" target="view_window">https://www.mylivechat.com</a> 申请，这个我不知道</p>
+                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>在 <a href="https://www.mylivechat.com" target="view_window">https://www.mylivechat.com</a> 申请，这个我不知道</p>
                                         </div>
 
                                         <button id="submit_web_customer_service_system" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
                                     <div class="tab-pane fade" id="admin_contact">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>注意：留空的联系方式将不显示</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>支持使用 HTML 标签。你可以通过配置 a 标签，达到点击即可唤起对应app会话窗口的效果</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>若开启此功能，此页面展示的联系方式将显示在：</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>1. 注册或重置密码页面点击【无法收到验证码】按钮</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>2. 用户账户被停用的告知页面</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>3. 充值页面提示充值未到账的用户</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>4. 用户中心首页公告栏下方</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>注意：留空的联系方式将不显示</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>支持使用 HTML 标签。你可以通过配置 a 标签，达到点击即可唤起对应app会话窗口的效果</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>若开启此功能，此页面展示的联系方式将显示在：</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>1. 注册或重置密码页面点击【无法收到验证码】按钮</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>2. 用户账户被停用的告知页面</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>3. 充值页面提示充值未到账的用户</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>4. 用户中心首页公告栏下方</p>
                                         <!-- enable_admin_contact -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">是否显示站长联系方式</label>
@@ -562,13 +562,13 @@
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#verification_code_public_settings"><i class="icon icon-lg">settings</i>&nbsp;设置</a>
+                                                <a data-toggle="tab" href="#verification_code_public_settings">&nbsp;设置</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#recaptcha"><i class="icon icon-lg">face</i>&nbsp;reCAPTCHA</a>
+                                                <a data-toggle="tab" href="#recaptcha">&nbsp;reCAPTCHA</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#geetest"><i class="icon icon-lg">extension</i>&nbsp;Geetest</a>
+                                                <a data-toggle="tab" href="#geetest">&nbsp;Geetest</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -610,7 +610,7 @@
                                         <button id="submit_verify_code" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
                                     <div class="tab-pane fade" id="recaptcha">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>在 <a href="https://www.google.com/recaptcha/admin/create" target="view_window">https://www.google.com/recaptcha/admin/create</a> 申请，选择【reCAPTCHA 第 2 版】的子选项【进行人机身份验证复选框】</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>在 <a href="https://www.google.com/recaptcha/admin/create" target="view_window">https://www.google.com/recaptcha/admin/create</a> 申请，选择【reCAPTCHA 第 2 版】的子选项【进行人机身份验证复选框】</p>
                                         <!-- recaptcha_sitekey -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">reCaptcha Site Key</label>
@@ -625,7 +625,7 @@
                                         <button id="submit_recaptcha" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
                                     <div class="tab-pane fade" id="geetest">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>在 <a href="https://gtaccount.geetest.com/sensebot/overview" target="view_window">https://gtaccount.geetest.com/sensebot/overview</a> 申请</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>在 <a href="https://gtaccount.geetest.com/sensebot/overview" target="view_window">https://gtaccount.geetest.com/sensebot/overview</a> 申请</p>
                                         <!-- geetest_id -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">Geetest ID</label>
@@ -645,16 +645,16 @@
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#custom_background_image"><i class="icon icon-lg">image</i>&nbsp;背景图像</a>
+                                                <a data-toggle="tab" href="#custom_background_image">&nbsp;背景图像</a>
                                             </li>
                                         </ul>
                                     </nav>
                                             
                                     <div class="tab-pane fade active in" id="custom_background_image">
-                                        <p class="form-control-guide"><i class="material-icons">info</i>默认背景图片地址：/theme/material/css/images/bg/amber.jpg <a href="/theme/material/css/images/bg/amber.jpg">预览</a></p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>自带背景图片一地址：/theme/material/css/images/bg/streak.jpg <a href="/theme/material/css/images/bg/streak.jpg">预览</a></p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>自带背景图片二地址：/theme/material/css/images/bg/geometry.jpg <a href="/theme/material/css/images/bg/geometry.jpg">预览</a></p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>如需自定义，图片地址可以指向 public 目录或图床图片地址</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>默认背景图片地址：/theme/material/css/images/bg/amber.jpg <a href="/theme/material/css/images/bg/amber.jpg">预览</a></p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>自带背景图片一地址：/theme/material/css/images/bg/streak.jpg <a href="/theme/material/css/images/bg/streak.jpg">预览</a></p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>自带背景图片二地址：/theme/material/css/images/bg/geometry.jpg <a href="/theme/material/css/images/bg/geometry.jpg">预览</a></p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>如需自定义，图片地址可以指向 public 目录或图床图片地址</p>
                                         <!-- user_center_bg -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">是否启用自定义用户中心背景图片</label>
@@ -690,10 +690,10 @@
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#reg_mode_and_verify"><i class="icon icon-lg">vpn_key</i>&nbsp;注册模式与验证</a>
+                                                <a data-toggle="tab" href="#reg_mode_and_verify">&nbsp;注册模式与验证</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#register_default_value"><i class="icon icon-lg">sd_card</i>&nbsp;默认值</a>
+                                                <a data-toggle="tab" href="#register_default_value">&nbsp;默认值</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -865,10 +865,10 @@
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#rebate_mode"><i class="icon icon-lg">developer_mode</i>&nbsp;模式</a>
+                                                <a data-toggle="tab" href="#rebate_mode">&nbsp;模式</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#invite_gernal_settings"><i class="icon icon-lg">cog</i>&nbsp;通用设置</a>
+                                                <a data-toggle="tab" href="#invite_gernal_settings">&nbsp;通用设置</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -906,7 +906,7 @@
                                             <input class="form-control maxwidth-edit" id="rebate_ratio" value="{$settings['rebate_ratio']}">
                                         </div>
                                         <h5>返利限制模式</h5>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>以下设置项仅在选择对应返利限制模式时生效</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>以下设置项仅在选择对应返利限制模式时生效</p>
                                         <!-- rebate_time_range_limit -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">返利时间范围限制（单位：天）</label>
@@ -917,14 +917,14 @@
                                             <label class="floating-label">返利总次数限制</label>
                                             <input class="form-control maxwidth-edit" id="rebate_frequency_limit" value="{$settings['rebate_frequency_limit']}">
                                         </div>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 3 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，则只对前三笔订单返利（假设设置为在购买时返利）</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>例如：设置为 3 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，则只对前三笔订单返利（假设设置为在购买时返利）</p>
                                         <!-- rebate_amount_limit -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">返利总金额限制</label>
                                             <input class="form-control maxwidth-edit" id="rebate_amount_limit" value="{$settings['rebate_amount_limit']}">
                                         </div>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>例如：设置为 10 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，若返点设置为 20% ，则第一次购买返利为 2；第二次为 4；第三次为 4；第四次及之后的购买，邀请人所能获得的返利均为 0（假设设置为在购买时返利）</p>
-                                        <p class="form-control-guide"><i class="material-icons">info</i>在进行第三次返利计算时，按设置应返利订单金额的 20% ，即 10 元。但因已获得历史返利 6 元，则只能获得返利总金额限制与历史返利的差值</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>例如：设置为 10 时，一个被邀请用户先后购买了售价为 10，20，50，100 的商品，若返点设置为 20% ，则第一次购买返利为 2；第二次为 4；第三次为 4；第四次及之后的购买，邀请人所能获得的返利均为 0（假设设置为在购买时返利）</p>
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>在进行第三次返利计算时，按设置应返利订单金额的 20% ，即 10 元。但因已获得历史返利 6 元，则只能获得返利总金额限制与历史返利的差值</p>
                                         
                                         <br/>
                                         
@@ -963,7 +963,7 @@
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#telegram_gernal_settings"><i class="icon icon-lg">settings</i>&nbsp;通用设置</a>
+                                                <a data-toggle="tab" href="#telegram_gernal_settings">&nbsp;通用设置</a>
                                             </li>
                                         </ul>
                                     </nav>
