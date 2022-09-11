@@ -56,7 +56,7 @@
                                                 <a data-toggle="tab" href="#smtp">&nbsp;smtp</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#sendgrid"><&nbsp;sendgrid</a>
+                                                <a data-toggle="tab" href="#sendgrid">&nbsp;sendgrid</a>
                                             </li>
                                             <li>
                                                 <a data-toggle="tab" href="#mailgun">&nbsp;mailgun</a>
