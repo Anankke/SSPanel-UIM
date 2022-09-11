@@ -111,7 +111,6 @@
                             </div>
                         </div>
                     {/if}
-
                     {if $geetest_html != null}
                         <div class="rowtocol">
                             <div class="form-group form-group-label">

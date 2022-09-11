@@ -24,7 +24,7 @@
                                 <label class="floating-label" for="auto_renew">自动续订天数</label>
                                 <input class="form-control maxwidth-edit" id="auto_renew" type="text"
                                        value="{$shop->auto_renew}">
-                                <p class="form-control-guide"><i class="material-icons">info</i>0为不允许自动续订，其他为到了那么多天之后就会自动从用户的账户上划钱抵扣
+                                <p class="form-control-guide"><i class="mdi mdi-information"></i>0为不允许自动续订，其他为到了那么多天之后就会自动从用户的账户上划钱抵扣
                                 </p>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                         <span class="switch-toggle"></span>是否设置此商品为流量叠加包
                                     </label>
                                     <p class="form-control-guide">
-                                        <i class="material-icons">info</i>
+                                        <i class="mdi mdi-information"></i>
                                         设置为流量叠加包后除购买时获得流量外的设置无效
                                     </p>
                                 </div>
@@ -102,7 +102,7 @@
                                 <input class="form-control maxwidth-edit" id="class_expire" type="text"
                                        value="{$shop->classExpire()}">
                             </div>
-                            <p class="form-control-guide"><i class="material-icons">info</i>如需使用等级功能，请同时填写【等级】和【等级有效期天数】这两个项目</p>
+                            <p class="form-control-guide"><i class="mdi mdi-information"></i>如需使用等级功能，请同时填写【等级】和【等级有效期天数】这两个项目</p>
                         </div>
                     </div>
                 </div>
@@ -150,10 +150,10 @@
                                 <label class="floating-label" for="content_extra">服务支持</label>
                                 <input class="form-control maxwidth-edit" id="content_extra" type="text"
                                        value="{foreach $shop->contentExtra() as $service}{$service[0]}-{$service[1]}{if $service@last}{else};{/if}{/foreach}">
-                                <p class="form-control-guide"><i class="material-icons">info</i>例：<code>check-全球节点分布;clear-快速客服响应</code>，减号左边为icon代号右边为文字,以;隔开
+                                <p class="form-control-guide"><i class="mdi mdi-information"></i>例：<code>check-全球节点分布;clear-快速客服响应</code>，减号左边为icon代号右边为文字,以;隔开
                                 </p>
                                 <p class="form-control-guide">icon代号参阅：<a
-                                            href="https://material.io/tools/icons/?icon=clear&style=baseline">Material-icon</a>
+                                            href="https://materialdesignicons.com/">Material Design Icons</a>
                                 </p>
                             </div>
                         </div>

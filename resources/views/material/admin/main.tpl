@@ -9,13 +9,11 @@
     <!-- css -->
     <link href="/theme/material/css/base.min.css" rel="stylesheet">
     <link href="/theme/material/css/project.min.css" rel="stylesheet">
-    <link href="//fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <link href="//fastly.jsdelivr.net/npm/@mdi/font@7.0.96/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="//cdn.staticfile.org/material-design-lite/1.3.0/material.min.css" rel="stylesheet">
     <link href="//cdn.staticfile.org/datatables/1.10.19/css/dataTables.material.min.css" rel="stylesheet">
     <!-- js -->
     <script src="https://cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
-    <!-- favicon -->
     <!-- ... -->
     <style>
         body {
@@ -51,7 +49,7 @@
     <ul class="nav nav-list pull-left">
         <div>
             <a data-toggle="menu" href="#ui_menu">
-                <span class="icon icon-lg">menu</span>
+                <span class="mdi mdi-menu icon-lg"></span>
             </a>
         </div>
     </ul>
@@ -63,11 +61,8 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
-                    <a class="waves-attach" href="/user/"><span class="icon icon-lg margin-right">account_box</span>用户中心</a>
-                </li>
-                <li>
                     <a class="waves-attach" href="/user/logout"><span
-                                class="icon icon-lg margin-right">exit_to_app</span>登出</a>
+                                class="mdi mdi-exit-to-app icon-lg margin-right"></span>登出</a>
                 </li>
             </ul>
         </div>
@@ -76,50 +71,50 @@
 <nav aria-hidden="true" class="menu menu-left nav-drawer nav-drawer-md" id="ui_menu" tabindex="-1">
     <div class="menu-scroll">
         <div class="menu-content">
-            <a class="menu-logo" href="/"><i class="icon icon-lg">person_pin</i>&nbsp;管理面板</a>
+            <a class="menu-logo" href="/">&nbsp;管理面板</a>
             <ul class="nav">
                 <li>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_me">我的</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_me">
-                        <li><a href="/admin"><i class="icon icon-lg">business_center</i>&nbsp;系统概览</a></li>
-                        <li><a href="/admin/announcement"><i class="icon icon-lg">announcement</i>&nbsp;公告管理</a></li>
-                        <li><a href="/admin/ticket"><i class="icon icon-lg">question_answer</i>&nbsp;工单管理</a></li>
+                        <li><a href="/admin"><i class="mdi mdi-eye icon-lg"></i>&nbsp;系统概览</a></li>
+                        <li><a href="/admin/announcement"><i class="mdi mdi-bullhorn-variant icon-lg"></i>&nbsp;公告管理</a></li>
+                        <li><a href="/admin/ticket"><i class="mdi mdi-comment-question icon-lg"></i>&nbsp;工单管理</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_node">节点</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_node">
-                        <li><a href="/admin/node"><i class="icon icon-lg">router</i>&nbsp;节点列表</a></li>
-                        <li><a href="/admin/block"><i class="icon icon-lg">dialer_sip</i>&nbsp;已封禁IP</a></li>
-                        <li><a href="/admin/unblock"><i class="icon icon-lg">dialer_sip</i>&nbsp;已解封IP</a></li>
+                        <li><a href="/admin/node"><i class="mdi mdi-server icon-lg"></i>&nbsp;节点列表</a></li>
+                        <li><a href="/admin/block"><i class="mdi mdi-block-helper icon-lg"></i>&nbsp;已封禁IP</a></li>
+                        <li><a href="/admin/unblock"><i class="mdi mdi-check icon-lg"></i>&nbsp;已解封IP</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_user">用户</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_user">
-                        <li><a href="/admin/user"><i class="icon icon-lg">supervisor_account</i>&nbsp;用户列表</a></li>
-                        <li><a href="/admin/invite"><i class="icon icon-lg">loyalty</i>&nbsp;邀请与返利</a></li>
-                        <li><a href="/admin/subscribe"><i class="icon icon-lg">dialer_sip</i>&nbsp;订阅记录</a></li>
-                        <li><a href="/admin/login"><i class="icon icon-lg">text_fields</i>&nbsp;登录记录</a></li>
-                        <li><a href="/admin/alive"><i class="icon icon-lg">important_devices</i>&nbsp;在线IP</a></li>
+                        <li><a href="/admin/user"><i class="mdi mdi-account-group icon-lg"></i>&nbsp;用户列表</a></li>
+                        <li><a href="/admin/invite"><i class="mdi mdi-account-multiple-plus icon-lg"></i>&nbsp;邀请与返利</a></li>
+                        <li><a href="/admin/subscribe"><i class="mdi mdi-file-find icon-lg"></i>&nbsp;订阅记录</a></li>
+                        <li><a href="/admin/login"><i class="mdi mdi-text-account icon-lg"></i>&nbsp;登录记录</a></li>
+                        <li><a href="/admin/alive"><i class="mdi mdi-account-badge icon-lg"></i>&nbsp;在线IP</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_config">配置</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_config">
-                        <li><a href="/admin/setting"><i class="icon icon-lg">settings</i>&nbsp;设置中心</a></li>
+                        <li><a href="/admin/setting"><i class="mdi mdi-cog icon-lg"></i>&nbsp;设置中心</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_detect">
-                        <li><a href="/admin/detect"><i class="icon icon-lg">account_balance</i>&nbsp;审计规则</a></li>
-                        <li><a href="/admin/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a></li>
-                        <li><a href="/admin/detect/ban"><i class="icon icon-lg">text_fields</i>&nbsp;审计封禁</a></li>
+                        <li><a href="/admin/detect"><i class="mdi mdi-account-filter icon-lg"></i>&nbsp;审计规则</a></li>
+                        <li><a href="/admin/detect/log"><i class="mdi mdi-calendar-filter icon-lg"></i>&nbsp;审计记录</a></li>
+                        <li><a href="/admin/detect/ban"><i class="mdi mdi-account-cancel icon-lg"></i>&nbsp;审计封禁</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_trade">财务</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_trade">
                         <li><a href="/admin/code">
-                                <i class="icon icon-lg">code</i>
+                                <i class="mdi mdi-currency-usd icon-lg"></i>
                                 &nbsp;{if $config['enable_donate']===true}充值与捐赠记录{else}充值记录{/if}</a>
                         </li>
-                        <li><a href="/admin/shop"><i class="icon icon-lg">shop</i>&nbsp;商品</a></li>
-                        <li><a href="/admin/coupon"><i class="icon icon-lg">card_giftcard</i>&nbsp;优惠码</a></li>
-                        <li><a href="/admin/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>
+                        <li><a href="/admin/shop"><i class="mdi mdi-shopping icon-lg"></i>&nbsp;商品</a></li>
+                        <li><a href="/admin/coupon"><i class="mdi mdi-code-tags icon-lg"></i>&nbsp;优惠码</a></li>
+                        <li><a href="/admin/bought"><i class="mdi mdi-shopping-search icon-lg"></i>&nbsp;购买记录</a></li>
                     </ul>
-                <li><a href="/user"><i class="icon icon-lg">person</i>&nbsp;用户中心</a></li>
+                <li><a href="/user"><i class="mdi mdi-account icon-lg"></i>&nbsp;用户中心</a></li>
             </ul>
         </div>
     </div>

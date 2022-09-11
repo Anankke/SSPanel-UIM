@@ -29,7 +29,7 @@
                         </div>
                         <div class="card-action">
                             <div class="card-action-btn pull-left">
-                                <a class="btn btn-flat waves-attach" id="unblock"><span class="icon">check</span>&nbsp;解封</a>
+                                <a class="btn btn-flat waves-attach" id="unblock"><span class="mdi mdi-check"></span>&nbsp;解封</a>
                             </div>
                         </div>
                     </div>

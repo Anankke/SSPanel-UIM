@@ -52,7 +52,7 @@
                         <div class="card-action">
                             <div class="card-action-btn pull-left">
                                 <a class="btn btn-flat waves-attach waves-light" id="quick_create_confirm"><span
-                                            class="icon">check</span>&nbsp;创建</a>
+                                            class="mdi mdi-check"></span>&nbsp;创建</a>
                             </div>
                         </div>
                     </div>

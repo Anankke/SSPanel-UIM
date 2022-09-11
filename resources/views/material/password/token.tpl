@@ -1,6 +1,5 @@
 {include file='header.tpl'}
 
-
 <!-- 新的 -->
 <div class="authpage">
     <div class="container">
@@ -53,15 +52,9 @@
     </div>
 </div>
 
-
 {include file='dialog.tpl'}
 
-
-
-
-
 {include file='footer.tpl'}
-
 
 <script>
     $(document).ready(function () {
@@ -106,6 +99,3 @@
         });
     })
 </script>
-
-
-

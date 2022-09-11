@@ -42,7 +42,7 @@
                         <div class="card-action">
                             <div class="card-action-btn pull-left">
                                 <a class="btn btn-flat waves-attach waves-light" id="ticket_create"><span
-                                            class="icon">check</span>&nbsp;添加</a>
+                                            class="mdi mdi-check"></span>&nbsp;添加</a>
                             </div>
                         </div>
                     </div>

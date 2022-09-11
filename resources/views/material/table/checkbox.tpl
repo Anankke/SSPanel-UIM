@@ -5,7 +5,7 @@
                    {if in_array($key, $table_config['default_show_column']) || count($table_config['default_show_column']) == 0}checked=""{/if}
                    class="access-hide" id="checkbox_{$key}" name="checkbox_{$key}" type="checkbox">{$value}
             <span class="checkbox-circle"></span><span class="checkbox-circle-check"></span><span
-                    class="checkbox-circle-icon icon">done</span>
+                    class="checkbox-circle-icon mdi mdi-check"></span>
         </label>
     </div>
 {/foreach}

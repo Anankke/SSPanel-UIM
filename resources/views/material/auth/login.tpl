@@ -60,7 +60,7 @@
                                        type="checkbox">记住我</input>
                                 <span class="checkbox-circle"></span>
                                 <span class="checkbox-circle-check"></span>
-                                <span class="checkbox-circle-icon icon">done</span>
+                                <span class="checkbox-circle-icon mdi mdi-check"></span>
                             </label>
                         </div>
                         <a href="/password/reset">忘记密码？</a>
@@ -70,7 +70,7 @@
                     <div class="auth-bottom auth-row">
                         <div class="tgauth">
                             <span>Telegram</span>
-                            <button class="btn" id="calltgauth"><i class="icon icon-lg">near_me</i></button>
+                            <button class="btn" id="calltgauth"><i class="mdi mdi-send-circle icon-lg"></i></button>
                             <span>快捷登录</span>
                         </div>
                     </div>

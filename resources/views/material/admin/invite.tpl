@@ -23,7 +23,7 @@
 						<div class="form-group form-group-label">
 							<label class="floating-label" for="userid">需要修改邀请者的用户</label>
 							<input class="form-control maxwidth-edit" id="userid" type="text">
-							<p class="form-control-guide"><i class="material-icons">info</i>填写用户的ID</p>
+							<p class="form-control-guide"><i class="mdi mdi-information"></i>填写用户的ID</p>
 						</div>
 						<div class="form-group form-group-label">
 							<label class="floating-label" for="refid">邀请者的ID</label>
@@ -32,7 +32,7 @@
 					</div>
 					<div class="card-action">
 						<div class="card-action-btn pull-left">
-							<a class="btn btn-flat waves-attach" id="confirm"><span class="icon">check</span>&nbsp;更改</a>
+							<a class="btn btn-flat waves-attach" id="confirm"><span class="mdi mdi-check"></span>&nbsp;更改</a>
 						</div>
 					</div>
 				</div>
@@ -44,7 +44,7 @@
                         <div class="form-group form-group-label">
                             <label class="floating-label" for="uid">需要增加邀请链接数量的用户</label>
                             <input class="form-control maxwidth-edit" id="uid" type="text">
-                            <p class="form-control-guide"><i class="material-icons">info</i>填写用户的ID，或者用户的完整邮箱</p>
+                            <p class="form-control-guide"><i class="mdi mdi-information"></i>填写用户的ID，或者用户的完整邮箱</p>
                         </div>
                         <div class="form-group form-group-label">
                             <label class="floating-label" for="prefix">邀请链接数量</label>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="card-action">
                         <div class="card-action-btn pull-left">
-                            <a class="btn btn-flat waves-attach" id="invite"><span class="icon">check</span>&nbsp;增加</a>
+                            <a class="btn btn-flat waves-attach" id="invite"><span class="mdi mdi-check"></span>&nbsp;增加</a>
                         </div>
                     </div>
                 </div>

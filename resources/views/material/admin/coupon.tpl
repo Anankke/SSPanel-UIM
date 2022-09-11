@@ -14,12 +14,12 @@
                         <div class="form-group form-group-label">
                             <label class="floating-label" for="prefix">优惠码</label>
                             <input class="form-control maxwidth-edit" id="prefix" type="text">
-                            <p class="form-control-guide"><i class="material-icons">info</i>生成随机优惠码不填</p>
+                            <p class="form-control-guide"><i class="mdi mdi-information"></i>生成随机优惠码不填</p>
                         </div>
                         <div class="form-group form-group-label">
                             <label class="floating-label" for="credit">优惠码额度</label>
                             <input class="form-control maxwidth-edit" id="credit" type="text">
-                            <p class="form-control-guide"><i class="material-icons">info</i>百分比，九折就填 10</p>
+                            <p class="form-control-guide"><i class="mdi mdi-information"></i>百分比，九折就填 10</p>
                         </div>
                         <div class="form-group form-group-label">
                             <label class="floating-label" for="expire">优惠码有效期(h)</label>
@@ -28,7 +28,7 @@
                         <div class="form-group form-group-label">
                             <label class="floating-label" for="shop">优惠码可用商品ID</label>
                             <input class="form-control maxwidth-edit" id="shop" type="text">
-                            <p class="form-control-guide"><i class="material-icons">info</i>不填即为所有商品可用，多个的话用英文半角逗号分割</p>
+                            <p class="form-control-guide"><i class="mdi mdi-information"></i>不填即为所有商品可用，多个的话用英文半角逗号分割</p>
                         </div>
                         <div class="form-group form-group-label">
                             <label class="floating-label" for="shop">优惠码每个用户可用次数，-1为无限次</label>
