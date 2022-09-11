@@ -247,16 +247,6 @@
                                     </nav>
                                             
                                     <div class="tab-pane fade active in" id="public_payment_settings">
-                                        <!-- payment_gateway 
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">支付网关</label>
-                                            <select id="payment_gateway" class="form-control maxwidth-edit">
-                                                {foreach $payment_gateways as $key => $value}
-                                                <option value="{$value}" {if $settings['payment_gateway'] == "{$value}"}selected{/if}>{$key}</option>
-                                                {/foreach}
-                                            </select>
-                                        </div> -->
-
                                         <div class="form-group form-group-label">
                                         {foreach $payment_gateways as $key => $value}
                                             <div class="checkbox switch">
@@ -444,7 +434,6 @@
                                
 								
 								<div class="tab-pane fade" id="epay">
-                                        <p class="form-control-guide"><i class="mdi mdi-information"></i> SSPanel-UIM Dev Team提醒您注意：易支付商家经常跑路！造成的损失由您自行承担</p>
                                         <!-- epay_url -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">易支付URL</label>
@@ -865,15 +854,42 @@
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#rebate_mode">&nbsp;模式</a>
+                                                <a data-toggle="tab" href="#invite_gernal_settings">&nbsp;设置</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#invite_gernal_settings">&nbsp;通用设置</a>
+                                                <a data-toggle="tab" href="#rebate_mode">&nbsp;模式</a>
                                             </li>
                                         </ul>
                                     </nav>
+
+                                    <div class="tab-pane fade active in" id="invite_gernal_settings">
+                                        <!-- invitation_to_register_balance_reward -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">若有人使用现存用户的邀请链接注册，被邀请人所能获得的余额奖励（单位：元）</label>
+                                            <input class="form-control maxwidth-edit" id="invitation_to_register_balance_reward" value="{$settings['invitation_to_register_balance_reward']}">
+                                        </div>
+                                        <!-- invitation_to_register_traffic_reward -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">若有人使用现存用户的邀请链接注册，邀请人所能获得的流量奖励（单位：GB）</label>
+                                            <input class="form-control maxwidth-edit" id="invitation_to_register_traffic_reward" value="{$settings['invitation_to_register_traffic_reward']}">
+                                        </div>
+                                        <!-- invite_price -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">用户购买邀请码所需要的价格，价格小于0时视为不开放购买</label>
+                                            <input class="form-control maxwidth-edit" id="invite_price" value="{$settings['invite_price']}">
+                                        </div>
+                                        <!-- custom_invite_price -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">用户定制邀请码所需要的价格，价格小于0时视为不开放购买</label>
+                                            <input class="form-control maxwidth-edit" id="custom_invite_price" value="{$settings['custom_invite_price']}">
+                                        </div>
+
+                                        <br/>
+                                        
+                                        <button type="submit" class="btn btn-block btn-brand submit_invite_settings">提交</button>
+                                    </div>
                                             
-                                    <div class="tab-pane fade active in" id="rebate_mode">
+                                    <div class="tab-pane fade" id="rebate_mode">
                                         <!-- invitation_mode -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">邀请模式</label>
@@ -930,40 +946,13 @@
                                         
                                         <button type="submit" class="btn btn-block btn-brand submit_invite_settings">提交</button>
                                     </div>
-
-                                    <div class="tab-pane fade" id="invite_gernal_settings">
-                                        <!-- invitation_to_register_balance_reward -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">若有人使用现存用户的邀请链接注册，被邀请人所能获得的余额奖励（单位：元）</label>
-                                            <input class="form-control maxwidth-edit" id="invitation_to_register_balance_reward" value="{$settings['invitation_to_register_balance_reward']}">
-                                        </div>
-                                        <!-- invitation_to_register_traffic_reward -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">若有人使用现存用户的邀请链接注册，邀请人所能获得的流量奖励（单位：GB）</label>
-                                            <input class="form-control maxwidth-edit" id="invitation_to_register_traffic_reward" value="{$settings['invitation_to_register_traffic_reward']}">
-                                        </div>
-                                        <!-- invite_price -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">用户购买邀请码所需要的价格，价格小于0时视为不开放购买</label>
-                                            <input class="form-control maxwidth-edit" id="invite_price" value="{$settings['invite_price']}">
-                                        </div>
-                                        <!-- custom_invite_price -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">用户定制邀请码所需要的价格，价格小于0时视为不开放购买</label>
-                                            <input class="form-control maxwidth-edit" id="custom_invite_price" value="{$settings['custom_invite_price']}">
-                                        </div>
-
-                                        <br/>
-                                        
-                                        <button type="submit" class="btn btn-block btn-brand submit_invite_settings">提交</button>
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane fade" id="telegram_settings">
                                     <nav class="tab-nav margin-top-no">
                                         <ul class="nav nav-list">
                                             <li class="active">
-                                                <a data-toggle="tab" href="#telegram_gernal_settings">&nbsp;通用设置</a>
+                                                <a data-toggle="tab" href="#telegram_gernal_settings">&nbsp;设置</a>
                                             </li>
                                         </ul>
                                     </nav>

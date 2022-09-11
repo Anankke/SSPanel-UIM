@@ -70,7 +70,7 @@
                     <div class="auth-bottom auth-row">
                         <div class="tgauth">
                             <span>Telegram</span>
-                            <button class="btn" id="calltgauth"><i class="mdi mdi-near-me icon-lg"></i></button>
+                            <button class="btn" id="calltgauth"><i class="mdi mdi-send-circle icon-lg"></i></button>
                             <span>快捷登录</span>
                         </div>
                     </div>
