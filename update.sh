@@ -6,7 +6,9 @@ do_upgrade_sspanel(){
     git fetch --all
     git reset --hard origin/dev
     git pull
-    php composer.phar u
+    rm -r storage/framework/smarty/compile/*
+    php composer.phar update
+    php composer.phar selfupdate
     php vendor/bin/phinx migrate
     php xcat Update
     php xcat Tool importAllSettings
