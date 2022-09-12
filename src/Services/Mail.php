@@ -18,9 +18,6 @@ use Smarty;
 
 final class Mail
 {
-    /**
-     * @return Mailgun|NullMail|SendGrid|Ses|Smtp|null
-     */
     public static function getClient()
     {
         $driver = Setting::obtain('mail_driver');
@@ -38,12 +35,6 @@ final class Mail
         }
     }
 
-    /**
-     * @param $template
-     * @param $ary
-     *
-     * @return mixed
-     */
     public static function genHtml($template, $ary)
     {
         $smarty = new Smarty();
@@ -58,15 +49,6 @@ final class Mail
         return $smarty->fetch($template);
     }
 
-    /**
-     * @param $to
-     * @param $subject
-     * @param $template
-     * @param $ary
-     * @param $files
-     *
-     * @return bool|void
-     */
     public static function send($to, $subject, $template, $ary = [], $files = [])
     {
         $text = self::genHtml($template, $ary);

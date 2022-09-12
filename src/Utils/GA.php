@@ -4,17 +4,6 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-/**
- * PHP Class for handling Google Authenticator 2-factor authentication
- *
- * @author Michael Kliewe
- *
- * @copyright 2012 Michael Kliewe
- *
- * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- *
- * @link http://www.phpgangsta.de/
- */
 final class GA
 {
     private $codeLength = 6;
@@ -86,12 +75,6 @@ final class GA
         return $urlencoded;
     }
 
-    /**
-     * Check if the code is correct. This will accept codes starting from $discrepancy*30sec ago to $discrepancy*30sec from now
-     *
-     * @param int $discrepancy This is the allowed time drift in 30 second units (8 means 4 minutes before or after)
-     * @param int|null $currentTimeSlice time slice if we want use other that \time()
-     */
     public function verifyCode(string $secret, string $code, int $discrepancy = 1, ?int $currentTimeSlice = null): bool
     {
         if ($currentTimeSlice === null) {
@@ -108,24 +91,12 @@ final class GA
         return false;
     }
 
-    /**
-     * Set the code length, should be >=6
-     *
-     * @return GA|PHPGangsta_GoogleAuthenticator
-     */
     public function setCodeLength(int $length)
     {
         $this->codeLength = $length;
         return $this;
     }
 
-    /**
-     * Helper class to decode base32
-     *
-     * @param $secret
-     *
-     * @return bool|string
-     */
     private function _base32Decode($secret)
     {
         if ($secret === '') {
@@ -165,9 +136,6 @@ final class GA
         return $binaryString;
     }
 
-    /**
-     * Helper class to encode base32
-     */
     private function _base32Encode(string $secret, bool $padding = true): string
     {
         if ($secret !== '') {
@@ -204,11 +172,6 @@ final class GA
         return $base32;
     }
 
-    /**
-     * Get array with all 32 characters for decoding from/encoding to base32
-     *
-     * @return array
-     */
     private function _getBase32LookupTable(): array
     {
         return [

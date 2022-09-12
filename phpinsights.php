@@ -45,12 +45,6 @@ return [
 
     'exclude' => [
         'storage',
-
-        // TODO: mute legacy contents error
-        'src/Services/Gateway/Epay',
-        'src/Services/Mail.php',
-        'src/Services/Password.php',
-        'src/Utils/GA.php',
         'src/Utils/GeetestLib.php',
     ],
 ];
