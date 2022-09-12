@@ -9,7 +9,7 @@ use App\Models\BlockIp;
 use App\Models\DetectRule;
 use App\Models\Node;
 use App\Models\UnblockIp;
-use App\Utils\Tools;
+use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -35,18 +35,10 @@ final class FuncController extends BaseController
     {
         $rules = DetectRule::all();
 
-        $res = [
+        return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
             'data' => $rules,
-        ];
-
-        $header_etag = $request->getHeaderLine('If-None-Match');
-        $etag = Tools::etag($rules);
-        if ($header_etag === $etag) {
-            return $response->withStatus(304);
-        }
-
-        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
+        ]);
     }
 
     /**
@@ -56,18 +48,10 @@ final class FuncController extends BaseController
     {
         $block_ips = BlockIp::Where('datetime', '>', \time() - 60)->get();
 
-        $res = [
+        return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
             'data' => $block_ips,
-        ];
-
-        $header_etag = $request->getHeaderLine('If-None-Match');
-        $etag = Tools::etag($block_ips);
-        if ($header_etag === $etag) {
-            return $response->withStatus(304);
-        }
-
-        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
+        ]);
     }
 
     /**
@@ -77,18 +61,10 @@ final class FuncController extends BaseController
     {
         $unblock_ips = UnblockIp::Where('datetime', '>', \time() - 60)->get();
 
-        $res = [
+        return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
             'data' => $unblock_ips,
-        ];
-
-        $header_etag = $request->getHeaderLine('If-None-Match');
-        $etag = Tools::etag($unblock_ips);
-        if ($header_etag === $etag) {
-            return $response->withStatus(304);
-        }
-
-        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
+        ]);
     }
 
     /**

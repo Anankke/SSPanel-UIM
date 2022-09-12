@@ -11,6 +11,7 @@ use App\Models\Node;
 use App\Models\NodeOnlineLog;
 use App\Models\User;
 use App\Services\DB;
+use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Illuminate\Database\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
@@ -105,19 +106,10 @@ final class UserController extends BaseController
             $users[] = $user_raw;
         }
 
-        $body = \json_encode([
+        return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
             'data' => $users,
         ]);
-
-        $header_etag = $request->getHeaderLine('If-None-Match');
-        $etag = Tools::etag($users);
-        if ($header_etag === $etag) {
-            return $response->withStatus(304);
-        }
-
-        $response->getBody()->write($body);
-        return $response->withHeader('ETag', $etag)->withHeader('WebAPI-ETAG', $etag)->withHeader('Content-Type', 'application/json');
     }
 
     /**
