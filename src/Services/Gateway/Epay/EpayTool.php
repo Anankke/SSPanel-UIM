@@ -2,37 +2,16 @@
 
 declare(strict_types=1);
 
-/**
- * Copyright (c) 2019.
- * Author:Alone88
- * Github:https://github.com/anhao
- */
-
 namespace App\Services\Gateway\Epay;
 
 final class EpayTool
 {
-    /**
-     * 签名字符串
-     *
-     * @param $prestr 需要签名的字符串
-     * @param $key 私钥
-     * return 签名结果
-     */
     public static function md5Sign($prestr, $key)
     {
         $prestr .= $key;
         return md5($prestr);
     }
 
-    /**
-     * 验证签名
-     *
-     * @param $prestr 需要签名的字符串
-     * @param $sign 签名结果
-     * @param $key 私钥
-     * return 签名结果
-     */
     public static function md5Verify($prestr, $sign, $key)
     {
         $prestr .= $key;
@@ -44,12 +23,6 @@ final class EpayTool
         return false;
     }
 
-    /**
-     * 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
-     *
-     * @param $para 需要拼接的数组
-     * return 拼接完成以后的字符串
-     */
     public static function createLinkstring($para)
     {
         $arg = '';
@@ -62,12 +35,7 @@ final class EpayTool
         //如果存在转义字符，那么去掉转义
         return stripslashes($arg);
     }
-    /**
-     * 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串，并对字符串做urlencode编码
-     *
-     * @param $para 需要拼接的数组
-     * return 拼接完成以后的字符串
-     */
+
     public static function createLinkstringUrlencode($para)
     {
         $arg = '';
@@ -84,12 +52,7 @@ final class EpayTool
 
         return stripslashes($arg);
     }
-    /**
-     * 除去数组中的空值和签名参数
-     *
-     * @param $para 签名参数组
-     * return 去掉空值与签名参数后的新签名参数组
-     */
+
     public static function paraFilter($para)
     {
         $para_filter = [];
@@ -106,24 +69,14 @@ final class EpayTool
 //        }
         return $para_filter;
     }
-    /**
-     * 对数组排序
-     *
-     * @param $para 排序前的数组
-     * return 排序后的数组
-     */
+
     public static function argSort($para)
     {
         ksort($para);
         reset($para);
         return $para;
     }
-    /**
-     * 写日志，方便测试（看网站需求，也可以改成把记录存入数据库）
-     * 注意：服务器需要开通fopen配置
-     *
-     * @param $word 要写入日志里的文本内容 默认值：空值
-     */
+
     public static function logResult($word = ''): void
     {
         $fp = fopen('/storage/epaylog.txt', 'a');
@@ -133,18 +86,6 @@ final class EpayTool
         fclose($fp);
     }
 
-    /**
-     * 远程获取数据，POST模式
-     * 注意：
-     * 1.使用Crul需要修改服务器中php.ini文件的设置，找到php_curl.dll去掉前面的";"就行了
-     * 2.文件夹中cacert.pem是SSL证书请保证其路径有效，目前默认路径是：getcwd().'\\cacert.pem'
-     *
-     * @param $url 指定URL完整路径地址
-     * @param $cacert_url 指定当前工作目录绝对路径
-     * @param $para 请求的数据
-     * @param $input_charset 编码格式。默认值：空值
-     * return 远程输出的数据
-     */
     public static function getHttpResponsePOST($url, $cacert_url, $para, $input_charset = '')
     {
         if (trim($input_charset) !== '') {
@@ -165,16 +106,6 @@ final class EpayTool
         return $responseText;
     }
 
-    /**
-     * 远程获取数据，GET模式
-     * 注意：
-     * 1.使用Crul需要修改服务器中php.ini文件的设置，找到php_curl.dll去掉前面的";"就行了
-     * 2.文件夹中cacert.pem是SSL证书请保证其路径有效，目前默认路径是：getcwd().'\\cacert.pem'
-     *
-     * @param $url 指定URL完整路径地址
-     * @param $cacert_url 指定当前工作目录绝对路径
-     * return 远程输出的数据
-     */
     public static function getHttpResponseGET($url, $cacert_url)
     {
         $curl = curl_init($url);
@@ -190,14 +121,6 @@ final class EpayTool
         return $responseText;
     }
 
-    /**
-     * 实现多种字符编码方式
-     *
-     * @param $input 需要编码的字符串
-     * @param $_output_charset 输出的编码格式
-     * @param $_input_charset 输入的编码格式
-     * return 编码后的字符串
-     */
     public static function charsetEncode($input, $_output_charset, $_input_charset)
     {
         $output = '';
@@ -215,14 +138,7 @@ final class EpayTool
         }
         return $output;
     }
-    /**
-     * 实现多种字符解码方式
-     *
-     * @param $input 需要解码的字符串
-     * @param $_output_charset 输出的解码格式
-     * @param $_input_charset 输入的解码格式
-     * return 解码后的字符串
-     */
+
     public static function charsetDecode($input, $_input_charset, $_output_charset)
     {
         $output = '';

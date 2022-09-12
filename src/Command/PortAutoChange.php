@@ -228,7 +228,7 @@ final class PortAutoChange extends Command
         $detect_time = $_ENV['detect_gfw_count'];
         for ($i = 1; $i <= $detect_time; $i++) {
             $json_tcping = \json_decode(file_get_contents($api_url), true);
-            if ($_ENV['detect_gfw_judge']($json_tcping)) {
+            if ($json_tcping['status'] === 'true') {
                 $result_tcping = true;
                 break;
             }

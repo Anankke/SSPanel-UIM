@@ -2,12 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * Copyright (c) 2019.
- * Author:Alone88
- * Github:https://github.com/anhao
- */
-
 namespace App\Services\Gateway\Epay;
 
 final class EpayNotify
@@ -20,11 +14,6 @@ final class EpayNotify
         $this->http_verify_url = $this->alipay_config['apiurl'] . 'api.php?';
     }
 
-    /**
-     * 针对notify_url验证消息是否是支付宝发出的合法消息
-     *
-     * @return 验证结果
-     */
     public function verifyNotify()
     {
         if (is_null($_GET)) {//判断POST来的数组是否为空
@@ -45,11 +34,6 @@ final class EpayNotify
         return false;
     }
 
-    /**
-     * 针对return_url验证消息是否是支付宝发出的合法消息
-     *
-     * @return 验证结果
-     */
     public function verifyReturn()
     {
         if (is_null($_GET)) {//判断POST来的数组是否为空
@@ -70,14 +54,6 @@ final class EpayNotify
         return false;
     }
 
-    /**
-     * 获取返回时的签名验证结果
-     *
-     * @param $para_temp 通知返回来的参数数组
-     * @param $sign 返回的签名结果
-     *
-     * @return 签名验证结果
-     */
     public function getSignVeryfy($para_temp, $sign)
     {
         //除去待签名参数数组中的空值和签名参数
@@ -92,17 +68,6 @@ final class EpayNotify
         return EpayTool::md5Verify($prestr, $sign, $this->alipay_config['key']);
     }
 
-    /**
-     * 获取远程服务器ATN结果,验证返回URL
-     *
-     * @param $notify_id 通知校验ID
-     *
-     * @return 服务器ATN结果
-     * 验证结果集：
-     * invalid命令参数不对 出现这个错误，请检测返回处理中partner和key是否为空
-     * true 返回正确信息
-     * false 请检查防火墙或者是服务器阻止端口问题以及验证时间是否超过一分钟
-     */
     public function getResponse($notify_id)
     {
         $transport = strtolower(trim($this->alipay_config['transport']));

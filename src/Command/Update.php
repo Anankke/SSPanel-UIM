@@ -81,14 +81,5 @@ final class Update extends Command
 
         file_put_contents(BASE_PATH . '/config/.config.php', $config_new);
         echo PHP_EOL . '迁移完成' . PHP_EOL;
-
-        echo PHP_EOL;
-
-        echo '开始升级composer依赖...' . PHP_EOL;
-        system('php ' . BASE_PATH . '/composer.phar selfupdate');
-        system('php ' . BASE_PATH . '/composer.phar install -d ' . BASE_PATH);
-        echo '升级composer依赖结束，请自行根据上方输出确认是否升级成功' . PHP_EOL;
-        system('rm -rf ' . BASE_PATH . '/storage/framework/smarty/compile/*');
-        system('chown -R ' . $_ENV['php_user_group'] . ' ' . BASE_PATH . '/storage');
     }
 }
