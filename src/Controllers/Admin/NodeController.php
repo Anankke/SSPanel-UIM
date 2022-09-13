@@ -114,8 +114,9 @@ final class NodeController extends BaseController
         $node->node_class = $request->getParam('class');
         $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
-
         $node->password = Tools::genRandomChar(32);
+        $node->load = '';
+        $node->uptime = 0;
 
         $node->save();
 

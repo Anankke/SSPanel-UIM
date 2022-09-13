@@ -10,12 +10,12 @@ final class MergeNodeInfo extends AbstractMigration
     {
         if (! $this->table('node')->hasColumn('load')) {
             $this->table('node')
-                ->addColumn('load', 'string')
+                ->addColumn('load', 'string', ['default' => ''])
                 ->save();
         }
         if (! $this->table('node')->hasColumn('uptime')) {
             $this->table('node')
-                ->addColumn('uptime', 'integer')
+                ->addColumn('uptime', 'integer', ['default' => 0])
                 ->save();
         }
         if ($this->hasTable('node_info')) {
