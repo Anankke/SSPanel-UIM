@@ -431,7 +431,6 @@
                                         
                                         <button id="submit_f2f_pay" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
-                               
 								
 								<div class="tab-pane fade" id="epay">
                                         <!-- epay_url -->
@@ -453,9 +452,46 @@
                                         
 											<p class="form-control-guide"><i class="mdi mdi-information"></i>必填</p>
                                         </div>
-                                        
-                                       
-                                        
+                                        <!-- epay_alipay -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">支付宝</label>
+                                            <select id="epay_alipay" class="form-control maxwidth-edit">
+                                                <option value="0">停用</option>
+                                                <option value="1" {if $settings['epay_alipay'] == true}selected{/if}>
+                                                    启用
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- epay_wechat -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">微信支付</label>
+                                            <select id="epay_wechat" class="form-control maxwidth-edit">
+                                                <option value="0">停用</option>
+                                                <option value="1" {if $settings['epay_wechat'] == true}selected{/if}>
+                                                    启用
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- epay_qq -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">QQ钱包</label>
+                                            <select id="epay_qq" class="form-control maxwidth-edit">
+                                                <option value="0">停用</option>
+                                                <option value="1" {if $settings['epay_qq'] == true}selected{/if}>
+                                                    启用
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- epay_usdt -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">USDT</label>
+                                            <select id="epay_usdt" class="form-control maxwidth-edit">
+                                                <option value="0">停用</option>
+                                                <option value="1" {if $settings['epay_usdt'] == true}selected{/if}>
+                                                    启用
+                                                </option>
+                                            </select>
+                                        </div>
                                         <button id="submit_e_pay" type="submit" class="btn btn-block btn-brand">提交</button>
                                      </div>
                                 </div>
@@ -1161,7 +1197,11 @@
                     class: 'e_pay',
                     epay_url: $$getValue('epay_url'),
                     epay_pid: $$getValue('epay_pid'),
-                    epay_key: $$getValue('epay_key')
+                    epay_key: $$getValue('epay_key'),
+                    epay_alipay: $$getValue('epay_alipay'),
+                    epay_wechat: $$getValue('epay_wechat'),
+                    epay_qq: $$getValue('epay_qq'),
+                    epay_usdt: $$getValue('epay_usdt')
                     
                 },
                 success: data => {
