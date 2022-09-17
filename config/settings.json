@@ -81,6 +81,226 @@
     },
     {
         "id": null,
+        "item": "payjs_url",
+        "value": "",
+        "class": "payjs",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "payjs_url"
+    },
+    {
+        "id": null,
+        "item": "payjs_mchid",
+        "value": "",
+        "class": "payjs",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "payjs_mchid"
+    },
+    {
+        "id": null,
+        "item": "payjs_key",
+        "value": "",
+        "class": "payjs",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "payjs_key"
+    },
+    {
+        "id": null,
+        "item": "theadpay_url",
+        "value": "",
+        "class": "theadpay",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "theadpay_url"
+    },
+    {
+        "id": null,
+        "item": "theadpay_mchid",
+        "value": "",
+        "class": "theadpay",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "theadpay_mchid"
+    },
+    {
+        "id": null,
+        "item": "theadpay_key",
+        "value": "",
+        "class": "theadpay",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "theadpay_key"
+    },
+    {
+        "id": null,
+        "item": "stripe_currency",
+        "value": "HKD",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "string",
+        "default": "HKD",
+        "mark": "货币代码"
+    },
+    {
+        "id": null,
+        "item": "stripe_sk",
+        "value": "stripe_sk",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "string",
+        "default": "stripe_sk",
+        "mark": "stripe_sk"
+    },
+    {
+        "id": null,
+        "item": "stripe_pk",
+        "value": "stripe_pk",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "string",
+        "default": "stripe_pk",
+        "mark": "stripe_pk"
+    },
+    {
+        "id": null,
+        "item": "stripe_webhook_key",
+        "value": "stripe_webhook_key",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "string",
+        "default": "stripe_webhook_key",
+        "mark": "web_hook密钥"
+    },
+    {
+        "id": null,
+        "item": "stripe_min_recharge",
+        "value": "10",
+        "class": "stripe",
+        "is_public": 1,
+        "type": "int",
+        "default": "10",
+        "mark": "最低充值限额"
+    },
+    {
+        "id": null,
+        "item": "stripe_card",
+        "value": "0",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "银行卡支付"
+    },
+    {
+        "id": null,
+        "item": "stripe_alipay",
+        "value": "0",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "支付宝支付"
+    },
+    {
+        "id": null,
+        "item": "stripe_wechat",
+        "value": "0",
+        "class": "stripe",
+        "is_public": 0,
+        "type": "bool",
+        "default": "0",
+        "mark": "微信支付"
+    },
+    {
+        "id": null,
+        "item": "stripe_max_recharge",
+        "value": "1000",
+        "class": "stripe",
+        "is_public": 1,
+        "type": "int",
+        "default": "1000",
+        "mark": "最高充值限额"
+    },
+    {
+        "id": null,
+        "item": "epay_url",
+        "value": "1000",
+        "class": "epay",
+        "is_public": 0,
+        "type": "string",
+        "default": "1000",
+        "mark": "易支付url"
+    },
+	{
+        "id": null,
+        "item": "epay_pid",
+        "value": "1000",
+        "class": "epay",
+        "is_public": 0,
+        "type": "string",
+        "default": "1000",
+        "mark": "易支付商户ID"
+    },
+	{
+        "id": null,
+        "item": "epay_key",
+        "value": "1000",
+        "class": "epay",
+        "is_public": 0,
+        "type": "string",
+        "default": "1000",
+        "mark": "易支付商户Key"
+    },
+    {
+        "id": null,
+        "item": "epay_alipay",
+        "value": "1",
+        "class": "epay",
+        "is_public": 1,
+        "type": "bool",
+        "default": "1",
+        "mark": "启用支付宝"
+    },
+    {
+        "id": null,
+        "item": "epay_wechat",
+        "value": "0",
+        "class": "epay",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用微信支付"
+    },
+    {
+        "id": null,
+        "item": "epay_qq",
+        "value": "0",
+        "class": "epay",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用QQ钱包"
+    },
+    {
+        "id": null,
+        "item": "epay_usdt",
+        "value": "0",
+        "class": "epay",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "启用USDT"
+    },
+    {
+        "id": null,
         "item": "smtp_host",
         "value": "",
         "class": "smtp",
@@ -351,36 +571,6 @@
     },
     {
         "id": null,
-        "item": "payjs_url",
-        "value": "",
-        "class": "payjs",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "payjs_url"
-    },
-    {
-        "id": null,
-        "item": "payjs_mchid",
-        "value": "",
-        "class": "payjs",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "payjs_mchid"
-    },
-    {
-        "id": null,
-        "item": "payjs_key",
-        "value": "",
-        "class": "payjs",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "payjs_key"
-    },
-    {
-        "id": null,
         "item": "enable_admin_contact",
         "value": "0",
         "class": "contact",
@@ -468,36 +658,6 @@
         "type": "string",
         "default": "none",
         "mark": "客服系统开关"
-    },
-    {
-        "id": null,
-        "item": "theadpay_url",
-        "value": "",
-        "class": "theadpay",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "theadpay_url"
-    },
-    {
-        "id": null,
-        "item": "theadpay_mchid",
-        "value": "",
-        "class": "theadpay",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "theadpay_mchid"
-    },
-    {
-        "id": null,
-        "item": "theadpay_key",
-        "value": "",
-        "class": "theadpay",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "theadpay_key"
     },
     {
         "id": null,
@@ -958,126 +1118,6 @@
         "type": "int",
         "default": "180",
         "mark": "返利时间范围限制（单位：天）"
-    },
-    {
-        "id": null,
-        "item": "stripe_currency",
-        "value": "HKD",
-        "class": "stripe",
-        "is_public": 0,
-        "type": "string",
-        "default": "HKD",
-        "mark": "货币代码"
-    },
-    {
-        "id": null,
-        "item": "stripe_sk",
-        "value": "stripe_sk",
-        "class": "stripe",
-        "is_public": 0,
-        "type": "string",
-        "default": "stripe_sk",
-        "mark": "stripe_sk"
-    },
-    {
-        "id": null,
-        "item": "stripe_pk",
-        "value": "stripe_pk",
-        "class": "stripe",
-        "is_public": 0,
-        "type": "string",
-        "default": "stripe_pk",
-        "mark": "stripe_pk"
-    },
-    {
-        "id": null,
-        "item": "stripe_webhook_key",
-        "value": "stripe_webhook_key",
-        "class": "stripe",
-        "is_public": 0,
-        "type": "string",
-        "default": "stripe_webhook_key",
-        "mark": "web_hook密钥"
-    },
-    {
-        "id": null,
-        "item": "stripe_min_recharge",
-        "value": "10",
-        "class": "stripe",
-        "is_public": 1,
-        "type": "int",
-        "default": "10",
-        "mark": "最低充值限额"
-    },
-    {
-        "id": null,
-        "item": "stripe_card",
-        "value": "0",
-        "class": "stripe",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "银行卡支付"
-    },
-    {
-        "id": null,
-        "item": "stripe_alipay",
-        "value": "0",
-        "class": "stripe",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "支付宝支付"
-    },
-    {
-        "id": null,
-        "item": "stripe_wechat",
-        "value": "0",
-        "class": "stripe",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "微信支付"
-    },
-    {
-        "id": null,
-        "item": "stripe_max_recharge",
-        "value": "1000",
-        "class": "stripe",
-        "is_public": 1,
-        "type": "int",
-        "default": "1000",
-        "mark": "最高充值限额"
-    },
-	{
-        "id": null,
-        "item": "epay_url",
-        "value": "1000",
-        "class": "epay",
-        "is_public": 0,
-        "type": "string",
-        "default": "1000",
-        "mark": "易支付url"
-    },
-	{
-        "id": null,
-        "item": "epay_pid",
-        "value": "1000",
-        "class": "epay",
-        "is_public": 0,
-        "type": "string",
-        "default": "1000",
-        "mark": "易支付商户ID"
-    },
-	{
-        "id": null,
-        "item": "epay_key",
-        "value": "1000",
-        "class": "epay",
-        "is_public": 0,
-        "type": "string",
-        "default": "1000",
-        "mark": "易支付商户Key"
     },
     {
         "id": null,

@@ -59,7 +59,7 @@ final class SettingController extends BaseController
                 $list = ['stripe_card', 'stripe_currency', 'stripe_pk', 'stripe_sk', 'stripe_webhook_key', 'stripe_min_recharge', 'stripe_max_recharge'];
                 break;
             case 'e_pay':
-                $list = ['epay_url', 'epay_pid', 'epay_key'];
+                $list = ['epay_url', 'epay_pid', 'epay_key', 'epay_alipay', 'epay_wechat', 'epay_qq', 'epay_usdt'];
                 break;
                 // 邮件
             case 'mail':

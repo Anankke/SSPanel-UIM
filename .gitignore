@@ -9,6 +9,9 @@ composer.lock
 .vscode
 vendor
 
+.stylelintrc.json
+.stylelintignore
+
 php_errors.log
 composer.phar
 
@@ -42,3 +45,7 @@ resources/views/material/analytics.tpl
 
 .envrc.local
 .direnv/
+
+node_modules
+package.json
+package-lock.json

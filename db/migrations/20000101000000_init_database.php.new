@@ -367,7 +367,6 @@ final class InitDatabase extends AbstractMigration
         $this->table('paylist')->drop()->update();
         $this->table('shop')->drop()->update();
         $this->table('user_invite_code')->drop()->update();
-        $this->table('node_info')->drop()->update();
         $this->table('node_online_log')->drop()->update();
         $this->table('user_password_reset')->drop()->update();
         $this->table('telegram_session')->drop()->update();

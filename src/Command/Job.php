@@ -109,7 +109,6 @@ EOL;
         // ------- 重置自增 ID
         $db = new DatatablesHelper();
         Tools::resetAutoIncrement($db, 'node_online_log');
-        Tools::resetAutoIncrement($db, 'node_info');
         // ------- 重置自增 ID
 
         // ------- 用户流量重置
