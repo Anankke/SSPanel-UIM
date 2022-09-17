@@ -87,6 +87,11 @@ final class Config
             'invite_get_money' => $public_configs['invitation_to_register_balance_reward'],
             'invite_gift' => $public_configs['invitation_to_register_traffic_reward'],
             'code_payback' => $public_configs['rebate_ratio'],
+            // EPay
+            'epay_alipay' => $public_configs['epay_alipay'],
+            'epay_wechat' => $public_configs['epay_wechat'],
+            'epay_qq' => $public_configs['epay_qq'],
+            'epay_usdt' => $public_configs['epay_usdt'],
             // 待处理
             'enable_checkin' => $_ENV['enable_checkin'],
             'checkinMin' => $_ENV['checkinMin'],

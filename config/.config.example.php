@@ -2,6 +2,9 @@
 
 //基本设置--------------------------------------------------------------------------------------------
 $_ENV['key']        = 'ChangeMe';                     //请务必修改此key为随机字符串
+$_ENV['pwdMethod']  = 'md5';                          //密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
+$_ENV['salt']       = '';                             //推荐配合 md5/sha256， bcrypt/argon2i/argon2id 会忽略此项
+
 $_ENV['debug']      = false;                          //debug模式开关，生产环境请保持为false
 $_ENV['appName']    = 'SSPanel-UIM';                  //站点名称
 $_ENV['baseUrl']    = 'https://example.com';          //站点地址
@@ -243,8 +246,6 @@ $_ENV['WebAPI']     = true;
 
 #杂项
 $_ENV['authDriver']             = 'cookie';            //不能更改此项
-$_ENV['pwdMethod']              = 'md5';               //密码加密 可选 md5, sha256, bcrypt, argon2i, argon2id（argon2i需要至少php7.2）
-$_ENV['salt']                   = '';                  //推荐配合 md5/sha256， bcrypt/argon2i/argon2id 会忽略此项
 $_ENV['sessionDriver']          = 'cookie';            //可选: cookie
 $_ENV['cacheDriver']            = 'cookie';            //可选: cookie
 $_ENV['tokenDriver']            = 'db';                //可选: db
