@@ -381,7 +381,7 @@
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Shadowsocks.zip"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载</a>
                                                         .
-                                                        <a class="btn-dl" href="https://github.com/shadowsocks/shadowsocks-windows/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方下载</a>
+                                                        <a class="btn-dl" href="https://github.com/shadowsocks/shadowsocks-windows/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -405,7 +405,7 @@
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/v2rayN.zip"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载 </a>
                                                         .
-                                                        <a class="btn-dl" href="https://github.com/2dust/v2rayN/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方下载</a>
+                                                        <a class="btn-dl" href="https://github.com/2dust/v2rayN/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -419,7 +419,7 @@
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Clash-Windows.exe"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载</a>
                                                         .
-                                                        <a class="btn-dl" href="https://github.com/Fndroid/clash_for_windows_pkg/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方下载</a>
+                                                        <a class="btn-dl" href="https://github.com/Fndroid/clash_for_windows_pkg/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -433,7 +433,7 @@
                                                 <p>Surge - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
-                                                        <a class="btn-dl" href="https://nssurge.com/mac/v3/Surge-latest.zip"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方下载</a>
+                                                        <a class="btn-dl" href="https://nssurge.com/mac/v3/Surge-latest.zip"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方网站下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -451,7 +451,7 @@
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/ClashX.dmg"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载</a>
                                                         .
-                                                        <a class="btn-dl" href="https://github.com/yichengchen/clashX/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方下载</a>
+                                                        <a class="btn-dl" href="https://github.com/yichengchen/clashX/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -466,6 +466,8 @@
                                                         <a class="btn-dl" href="/clients/V2rayU.dmg"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载(x86_64)</a>
                                                         .
                                                         <a class="btn-dl" href="/clients/V2rayU-arm64.dmg"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载(arm64)</a>
+                                                        .
+                                                        <a class="btn-dl" href="https://github.com/yanue/V2rayU/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -477,7 +479,7 @@
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Clash-Windows.dmg"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载</a>
                                                         .
-                                                        <a class="btn-dl" href="https://github.com/Fndroid/clash_for_windows_pkg/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方下载</a>
+                                                        <a class="btn-dl" href="https://github.com/Fndroid/clash_for_windows_pkg/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -509,7 +511,7 @@
                                                 <p>Surge - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
-                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/surge-3/id1442620678?ls=1&mt=8"><i class="mdi mdi-tray-arrow-down icon-sm"></i> Appstore 购买</a>
+                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/surge-3/id1442620678?ls=1&mt=8"><i class="mdi mdi-currency-usd icon-sm"></i> Appstore 购买</a>
                                                     </p>
                                                     <p>
                                                         相关说明：
@@ -530,7 +532,7 @@
                                                 <p>Kitsunebi - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
-                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/kitsunebi-proxy-utility/id1446584073?ls=1&mt=8"><i class="mdi mdi-tray-arrow-down icon-sm"></i> Appstore 购买</a>
+                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/kitsunebi-proxy-utility/id1446584073?ls=1&mt=8"><i class="mdi mdi-currency-usd icon-sm"></i> Appstore 购买</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -540,7 +542,7 @@
                                                 <p>QuantumultX - [ SS/SSR/VMess ]：</p>
                                                     <p>
                                                         应用下载：
-                                                        <a class="btn-dl" href="https://apps.apple.com/us/app/quantumult-x/id1443988620"><i class="mdi mdi-tray-arrow-down icon-sm"></i> Appstore 购买</a>
+                                                        <a class="btn-dl" href="https://apps.apple.com/us/app/quantumult-x/id1443988620"><i class="mdi mdi-currency-usd icon-sm"></i> Appstore 购买</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -550,7 +552,7 @@
                                                 <p>Shadowrocket - [ SS/SSR/VMess/Trojan ]：</p>
                                                     <p>
                                                         应用下载：
-                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/shadowrocket/id932747118?mt=8"><i class="mdi mdi-tray-arrow-down icon-sm"></i> Appstore 购买</a>
+                                                        <a class="btn-dl" href="https://itunes.apple.com/us/app/shadowrocket/id932747118?mt=8"><i class="mdi mdi-currency-usd icon-sm"></i> Appstore 购买</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -562,7 +564,7 @@
                                                 <p>Stash - [ SS/SSR/VMess/Trojan ]：</p>
                                                     <p>
                                                         应用下载：
-                                                        <a class="btn-dl" href="https://apps.apple.com/app/stash/id1596063349"><i class="mdi mdi-tray-arrow-down icon-sm"></i> Appstore 购买</a>
+                                                        <a class="btn-dl" href="https://apps.apple.com/app/stash/id1596063349"><i class="mdi mdi-currency-usd icon-sm"></i> Appstore 购买</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -576,7 +578,7 @@
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Shadowsocks.apk"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载</a>
                                                         .
-                                                        <a class="btn-dl" href="https://github.com/shadowsocks/shadowsocks-android/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方下载</a>
+                                                        <a class="btn-dl" href="https://github.com/shadowsocks/shadowsocks-android/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -586,7 +588,7 @@
                                                 <p>ShadowsocksR Android - [ SSR ]：</p>
                                                     <p>
                                                         应用下载：
-                                                        <a class="btn-dl" href="/clients/ShadowsocksR.apk"><i class="mdi mdi-tray-arrow-down icon-sm"></i> SSR 本站下载</a>
+                                                        <a class="btn-dl" href="/clients/ShadowsocksR.apk"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -598,7 +600,7 @@
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/v2rayng.apk"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载</a>
                                                         .
-                                                        <a class="btn-dl" href="https://github.com/2dust/v2rayNG/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方下载</a>
+                                                        <a class="btn-dl" href="https://github.com/2dust/v2rayNG/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -610,7 +612,7 @@
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Clash-Android.apk"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载</a>
                                                         .
-                                                        <a class="btn-dl" href="https://play.google.com/store/apps/details?id=com.github.kr328.clash"><i class="mdi mdi-tray-arrow-down icon-sm"></i> Google Play 下载</a>
+                                                        <a class="btn-dl" href="https://github.com/Kr328/ClashForAndroid/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -626,7 +628,7 @@
                                                         应用下载：
                                                         <a class="btn-dl" href="/clients/Clash-Windows.tar.gz"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 本站下载</a>
                                                         .
-                                                        <a class="btn-dl" href="https://github.com/Fndroid/clash_for_windows_pkg/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> 官方下载</a>
+                                                        <a class="btn-dl" href="https://github.com/Fndroid/clash_for_windows_pkg/releases"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                     <p>
                                                         使用方式：
@@ -637,10 +639,10 @@
                                                 <hr/>
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_router">
-                                                <p>Koolshare 固件路由器/软路由：</p>
+                                                <p>Fancyss [ SS/SSR/VMess/Trojan ]：</p>
                                                     <p>
                                                         应用下载：
-                                                        <a class="btn-dl" href="https://github.com/hq450/fancyss_history_package"><i class="mdi mdi-tray-arrow-down icon-sm"></i> FancySS 下载页面</a>
+                                                        <a class="btn-dl" href="https://github.com/hq450/fancyss_history_package"><i class="mdi mdi-tray-arrow-down icon-sm"></i> GitHub 下载</a>
                                                     </p>
                                                 <hr/>
                                             </div>
