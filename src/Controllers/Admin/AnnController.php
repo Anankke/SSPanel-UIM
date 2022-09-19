@@ -125,7 +125,7 @@ final class AnnController extends BaseController
                         'text' => $content,
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
             }
 

@@ -23,6 +23,7 @@ use App\Models\UnblockIp;
 use App\Models\User;
 use App\Models\UserSubscribeLog;
 use App\Services\Mail;
+use App\Services\DB;
 use App\Utils\DatatablesHelper;
 use App\Utils\Telegram;
 use App\Utils\Tools;
@@ -32,8 +33,7 @@ final class Job extends Command
 {
     public $description = <<<EOL
 ├─=: php xcat Job [选项]
-│ ├─ SendMail                - 处理邮件队列
-│ ├─ DailyJob                - 每日任务
+│ ├─ DailyJob                - 每日任务，每天
 │ ├─ CheckJob                - 检查任务，每分钟
 │ ├─ UserJob                 - 用户账户相关任务，每小时
 EOL;
@@ -50,36 +50,6 @@ EOL;
                 echo '方法不存在.' . PHP_EOL;
             }
         }
-    }
-
-    /**
-     * 发邮件
-     *
-     * @return void
-     */
-    public function SendMail()
-    {
-        if (file_exists(BASE_PATH . '/storage/email_queue')) {
-            echo '程序正在运行中' . PHP_EOL;
-            return false;
-        }
-        $myfile = fopen(BASE_PATH . '/storage/email_queue', 'wb+') or die('Unable to open file!');
-        $txt = '1';
-        fwrite($myfile, $txt);
-        fclose($myfile);
-        // 分块处理，节省内存
-        EmailQueue::chunkById(1000, static function ($email_queues): void {
-            foreach ($email_queues as $email_queue) {
-                try {
-                    Mail::send($email_queue->to_email, $email_queue->subject, $email_queue->template, \json_decode($email_queue->array), []);
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
-                echo '发送邮件至 ' . $email_queue->to_email . PHP_EOL;
-                $email_queue->delete();
-            }
-        });
-        unlink(BASE_PATH . '/storage/email_queue');
     }
 
     /**
@@ -143,7 +113,7 @@ EOL;
                         'text' => '您好，根据您所订购的订单 ID:' . $bought->id . '，流量已经被重置为' . $shop->resetValue() . 'GB',
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
             }
         }
@@ -170,7 +140,7 @@ EOL;
                             'text' => '您好，您的免费流量已经被重置为' . $user->auto_reset_bandwidth . 'GB',
                         ],
                         [],
-                        $_ENV['email_queue']
+                        true
                     );
                 }
             }
@@ -192,6 +162,33 @@ EOL;
      */
     public function CheckJob(): void
     {
+        //记录当前时间戳
+        $timestatmp = \time();
+        //邮件队列处理
+        while (true) {
+            if (\time() - $timestatmp > 59) {
+                echo '邮件队列处理超时，已跳过' . PHP_EOL;
+                break;
+            }
+            DB::beginTransaction();
+            $email_queues = DB::select('SELECT * FROM email_queue LIMIT 1 LOCK FOR UPDATE SKIP LOCKED');
+            if (count($email_queues) === 0) {
+                return;
+            }
+            $email_queue = $email_queues[0];
+            echo '发送邮件至 ' . $email_queue['to_email'] . PHP_EOL;
+            DB::delete('DELETE FROM email_queue WHERE id = ?', [$email_queue['id']]);
+            if (Tools::isEmail($email_queue['to_email'])) {
+                try {
+                    Mail::send($email_queue['to_email'], $email_queue['subject'], $email_queue['template'], \json_decode($email_queue['array']), []);
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            } else {
+                echo $email_queue['to_email'] . ' 邮箱格式错误，已跳过' . PHP_EOL;
+            }
+            DB::commit();
+        }
         //节点掉线检测
         if ($_ENV['enable_detect_offline'] === true) {
             echo '节点掉线检测开始' . PHP_EOL;
@@ -228,7 +225,7 @@ EOL;
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 掉线了，请您及时处理。',
                             ],
                             [],
-                            $_ENV['email_queue']
+                            true
                         );
                         $notice_text = str_replace(
                             '%node_name%',
@@ -273,7 +270,7 @@ EOL;
                                 'text' => '管理员您好，系统发现节点 ' . $node->name . ' 恢复上线了。',
                             ],
                             [],
-                            $_ENV['email_queue']
+                            true
                         );
                         $notice_text = str_replace(
                             '%node_name%',
@@ -323,7 +320,7 @@ EOL;
                         'text' => '您好，系统发现您的账号已经过期了。',
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
                 $user->expire_notified = true;
                 $user->save();
@@ -361,7 +358,7 @@ EOL;
                             'text' => '您好，系统发现您剩余流量已经低于 ' . $_ENV['notify_limit_value'] . $unit_text . ' 。',
                         ],
                         [],
-                        $_ENV['email_queue']
+                        true
                     );
                     if ($result) {
                         $user->traffic_notified = true;
@@ -385,7 +382,7 @@ EOL;
                         'text' => '您好，系统发现您的账户已经过期 ' . $_ENV['account_expire_delete_days'] . ' 天了，帐号已经被删除。',
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
                 $user->killUser();
                 continue;
@@ -407,7 +404,7 @@ EOL;
                         'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_uncheck_days'] . ' 天没签到了，帐号已经被删除。',
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
                 $user->killUser();
                 continue;
@@ -426,7 +423,7 @@ EOL;
                         'text' => '您好，系统发现您的账号已经 ' . $_ENV['auto_clean_unused_days'] . ' 天没使用了，帐号已经被删除。',
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
                 $user->killUser();
                 continue;
@@ -453,7 +450,7 @@ EOL;
                         'text' => $text,
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
                 $user->class = 0;
             }
@@ -490,7 +487,7 @@ EOL;
                         'text' => '您好，系统为您自动续费商品时，发现该商品已被下架，为能继续正常使用，建议您登录用户面板购买新的商品。',
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
                 $bought->is_notified = true;
                 $bought->save();
@@ -519,7 +516,7 @@ EOL;
                         'text' => '您好，系统已经为您自动续费，商品名：' . $shop->name . ',金额:' . $shop->price . ' 元。',
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
 
                 $bought->is_notified = true;
@@ -532,7 +529,7 @@ EOL;
                         'text' => '您好，系统为您自动续费商品名：' . $shop->name . ',金额:' . $shop->price . ' 元 时，发现您余额不足，请及时充值。充值后请稍等系统便会自动为您续费。',
                     ],
                     [],
-                    $_ENV['email_queue']
+                    true
                 );
                 $bought->is_notified = true;
                 $bought->save();

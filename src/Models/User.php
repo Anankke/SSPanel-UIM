@@ -815,14 +815,14 @@ final class User extends Model
     {
         $result = false;
         if ($is_queue) {
-            $new_emailqueue = new EmailQueue();
-            $new_emailqueue->to_email = $this->email;
-            $new_emailqueue->subject = $subject;
-            $new_emailqueue->template = $template;
-            $new_emailqueue->time = \time();
+            $emailqueue = new EmailQueue();
+            $emailqueue->to_email = $this->email;
+            $emailqueue->subject = $subject;
+            $emailqueue->template = $template;
+            $emailqueue->time = \time();
             $ary = array_merge(['user' => $this], $ary);
-            $new_emailqueue->array = \json_encode($ary);
-            $new_emailqueue->save();
+            $emailqueue->array = \json_encode($ary);
+            $emailqueue->save();
             return true;
         }
         // 验证邮箱地址是否正确
