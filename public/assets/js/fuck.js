@@ -31,7 +31,6 @@
   if (
     hasMime('type', 'application/gameplugin') ||
     hasMime('type', 'application/360softmgrplugin') ||
-    hasMime('type', 'application/mozilla-npqihooquicklogin') ||
     hasMime('type', 'application/mozilla-npqihooquicklogin')
   ) {
     is360 = true;

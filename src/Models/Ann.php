@@ -16,6 +16,5 @@ namespace App\Models;
 final class Ann extends Model
 {
     protected $connection = 'default';
-
     protected $table = 'announcement';
 }

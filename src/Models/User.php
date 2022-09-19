@@ -107,7 +107,7 @@ final class User extends Model
         );
         preg_match_all("|%-?[1-9]\d*m|U", $str, $matches, PREG_PATTERN_ORDER);
         foreach ($matches[0] as $key) {
-            $key_match = str_replace(['%', 'm'], '', $key);
+            $key_match = (int) str_replace(['%', 'm'], '', $key);
             $md5 = substr(
                 md5($this->id . $this->passwd . $this->method . $this->obfs . $this->protocol),
                 ($key_match < 0 ? $key_match : 0),
@@ -808,21 +808,20 @@ final class User extends Model
     /**
      * 发送邮件
      *
-     * @param array  $ary
+     * @param array  $array
      * @param array  $files
      */
-    public function sendMail(string $subject, string $template, array $ary = [], array $files = [], $is_queue = false): bool
+    public function sendMail(string $subject, string $template, array $array = [], array $files = [], $is_queue = false): bool
     {
-        $result = false;
         if ($is_queue) {
-            $new_emailqueue = new EmailQueue();
-            $new_emailqueue->to_email = $this->email;
-            $new_emailqueue->subject = $subject;
-            $new_emailqueue->template = $template;
-            $new_emailqueue->time = \time();
-            $ary = array_merge(['user' => $this], $ary);
-            $new_emailqueue->array = \json_encode($ary);
-            $new_emailqueue->save();
+            $emailqueue = new EmailQueue();
+            $emailqueue->to_email = $this->email;
+            $emailqueue->subject = $subject;
+            $emailqueue->template = $template;
+            $emailqueue->time = \time();
+            $array = array_merge(['user' => $this], $array);
+            $emailqueue->array = \json_encode($array);
+            $emailqueue->save();
             return true;
         }
         // 验证邮箱地址是否正确
@@ -837,16 +836,16 @@ final class User extends Model
                         [
                             'user' => $this,
                         ],
-                        $ary
+                        $array
                     ),
                     $files
                 );
-                $result = true;
+                return true;
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
         }
-        return $result;
+        return false;
     }
 
     /**
@@ -883,10 +882,11 @@ final class User extends Model
                     'news/daily-traffic-report.tpl',
                     [
                         'user' => $this,
-                        'text' => '下面是系统中目前的公告:<br><br>' . $ann . '<br><br>晚安！',
+                        'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',
                         'lastday' => $lastday,
                     ],
-                    []
+                    [],
+                    true
                 );
                 break;
             case 2:

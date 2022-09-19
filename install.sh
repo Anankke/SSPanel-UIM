@@ -46,10 +46,8 @@ do_install_sspanel() {
     php xcat Tool initQQwry
     current_dir=$(pwd)
     crontab -l > cron.tmp
-    echo "*/1 * * * * /usr/bin/php $current_dir/xcat Job SendMail" >> cron.tmp
     echo "*/1 * * * * /usr/bin/php $current_dir/xcat Job CheckJob" >> cron.tmp
     echo "0 */1 * * * /usr/bin/php $current_dir/xcat Job UserJob" >> cron.tmp
-    echo "30 23 * * * /usr/bin/php $current_dir/xcat SendDiaryMail" >> cron.tmp
     echo "0 0 * * *   /usr/bin/php -n $current_dir/xcat Job DailyJob" >> cron.tmp
     crontab cron.tmp
     rm cron.tmp
