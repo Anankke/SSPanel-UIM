@@ -170,10 +170,14 @@ EOL;
                 break;
             }
             DB::beginTransaction();
-            $email_queues = DB::select('SELECT * FROM email_queue LIMIT 1 LOCK FOR UPDATE SKIP LOCKED');
-            if (count($email_queues) === 0) {
-                return;
+            $email_queues_raw = DB::select('SELECT * FROM email_queue LIMIT 1 FOR UPDATE SKIP LOCKED');
+            if (count($email_queues_raw) === 0) {
+                DB::commit();
+                break;
             }
+            $email_queues = array_map(function ($value) {
+                return (array)$value;
+            }, $email_queues_raw);
             $email_queue = $email_queues[0];
             echo '发送邮件至 ' . $email_queue['to_email'] . PHP_EOL;
             DB::delete('DELETE FROM email_queue WHERE id = ?', [$email_queue['id']]);

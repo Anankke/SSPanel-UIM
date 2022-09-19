@@ -107,7 +107,7 @@ final class User extends Model
         );
         preg_match_all("|%-?[1-9]\d*m|U", $str, $matches, PREG_PATTERN_ORDER);
         foreach ($matches[0] as $key) {
-            $key_match = str_replace(['%', 'm'], '', $key);
+            $key_match = (int) str_replace(['%', 'm'], '', $key);
             $md5 = substr(
                 md5($this->id . $this->passwd . $this->method . $this->obfs . $this->protocol),
                 ($key_match < 0 ? $key_match : 0),
@@ -813,7 +813,6 @@ final class User extends Model
      */
     public function sendMail(string $subject, string $template, array $ary = [], array $files = [], $is_queue = false): bool
     {
-        $result = false;
         if ($is_queue) {
             $emailqueue = new EmailQueue();
             $emailqueue->to_email = $this->email;
@@ -846,7 +845,7 @@ final class User extends Model
                 echo $e->getMessage();
             }
         }
-        return $result;
+        return false;
     }
 
     /**
@@ -886,7 +885,8 @@ final class User extends Model
                         'text' => '下面是系统中目前的公告:<br><br>' . $ann . '<br><br>晚安！',
                         'lastday' => $lastday,
                     ],
-                    []
+                    [],
+                    true
                 );
                 break;
             case 2:

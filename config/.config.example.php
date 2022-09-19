@@ -35,7 +35,6 @@ $_ENV['streaming_media_unlock_multiplexing'] = [
 ];
 
 //邮件设置--------------------------------------------------------------------------------------------
-$_ENV['sendPageLimit']      = 50;           //发信分页 解决大站发公告超时问题
 $_ENV['mail_filter']        = 0;            //0: 关闭; 1: 白名单模式; 2; 黑名单模式;
 $_ENV['mail_filter_list']   = array("qq.com", "vip.qq.com", "foxmail.com");
 

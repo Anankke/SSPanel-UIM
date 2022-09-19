@@ -110,10 +110,7 @@ final class AnnController extends BaseController
             }
         }
         if ($issend === 1) {
-            $beginSend = $page * $_ENV['sendPageLimit'];
             $users = User::where('class', '>=', $vip)
-                ->skip($beginSend)
-                ->limit($_ENV['sendPageLimit'])
                 ->get();
 
             foreach ($users as $user) {
@@ -127,13 +124,6 @@ final class AnnController extends BaseController
                     [],
                     true
                 );
-            }
-
-            if (count($users) === $_ENV['sendPageLimit']) {
-                return $response->withJson([
-                    'ret' => 2,
-                    'msg' => $request->getParam('page') + 1,
-                ]);
             }
         }
 
