@@ -808,10 +808,10 @@ final class User extends Model
     /**
      * 发送邮件
      *
-     * @param array  $ary
+     * @param array  $array
      * @param array  $files
      */
-    public function sendMail(string $subject, string $template, array $ary = [], array $files = [], $is_queue = false): bool
+    public function sendMail(string $subject, string $template, array $array = [], array $files = [], $is_queue = false): bool
     {
         if ($is_queue) {
             $emailqueue = new EmailQueue();
@@ -819,8 +819,8 @@ final class User extends Model
             $emailqueue->subject = $subject;
             $emailqueue->template = $template;
             $emailqueue->time = \time();
-            $ary = array_merge(['user' => $this], $ary);
-            $emailqueue->array = \json_encode($ary);
+            $array = array_merge(['user' => $this], $array);
+            $emailqueue->array = \json_encode($array);
             $emailqueue->save();
             return true;
         }
@@ -836,11 +836,11 @@ final class User extends Model
                         [
                             'user' => $this,
                         ],
-                        $ary
+                        $array
                     ),
                     $files
                 );
-                $result = true;
+                return true;
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
@@ -882,7 +882,7 @@ final class User extends Model
                     'news/daily-traffic-report.tpl',
                     [
                         'user' => $this,
-                        'text' => '下面是系统中目前的公告:<br><br>' . $ann . '<br><br>晚安！',
+                        'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',
                         'lastday' => $lastday,
                     ],
                     [],
