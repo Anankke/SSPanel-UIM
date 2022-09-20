@@ -147,7 +147,7 @@
                                                             </td>
                                                             <td class="alignright"
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                align="right" valign="top">{$user->enableTraffic()}
+                                                                align="right" valign="top">{$enable_traffic}
                                                             </td>
                                                         </tr>
                                                         <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -156,7 +156,7 @@
                                                             </td>
                                                             <td class="alignright"
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                align="right" valign="top">{$user->usedTraffic()}
+                                                                align="right" valign="top">{$used_traffic}
                                                             </td>
                                                         </tr>
                                                         <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -165,7 +165,7 @@
                                                             </td>
                                                             <td class="alignright"
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                align="right" valign="top">{$user->unusedTraffic()}
+                                                                align="right" valign="top">{$unused_traffic}
                                                             </td>
                                                         </tr>
 

@@ -152,7 +152,7 @@ EOL;
         // ------- 免费用户流量重置
 
         // ------- 用户每日流量报告
-        $ann_latest_raw = Ann::find(DB::table('announcement')->max('id'))->get();
+        $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
         $ann_latest = $ann_latest_raw->content . '<br><br>';
 
         $lastday_total = 0;
@@ -170,25 +170,33 @@ EOL;
         // ------- 发送系统运行状况通知
         $sts = new Analytics();
         if (Setting::obtain('telegram_diary')) {
-            Telegram::send(
-                str_replace(
-                    [
-                        '%getTodayCheckinUser%',
-                        '%lastday_total%',
-                    ],
-                    [
-                        $sts->getTodayCheckinUser(),
-                        Tools::flowAutoShow($lastday_total),
-                    ],
-                    Setting::obtain('telegram_diary_text')
-                )
-            );
+            try {
+                Telegram::send(
+                    str_replace(
+                        [
+                            '%getTodayCheckinUser%',
+                            '%lastday_total%',
+                        ],
+                        [
+                            $sts->getTodayCheckinUser(),
+                            Tools::flowAutoShow($lastday_total),
+                        ],
+                        Setting::obtain('telegram_diary_text')
+                    )
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
         }
         // ------- 发送系统运行状况通知
 
         // ------- 发送每日任务运行报告
         if (Setting::obtain('telegram_daily_job')) {
-            Telegram::send(Setting::obtain('telegram_daily_job_text'));
+            try {
+                Telegram::send(Setting::obtain('telegram_daily_job_text'));
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
         }
         // ------- 发送每日系统运行报告
     }
