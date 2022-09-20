@@ -854,12 +854,16 @@ final class User extends Model
     public function sendTelegram(string $text): bool
     {
         $result = false;
-        if ($this->telegram_id > 0) {
-            Telegram::send(
-                $text,
-                $this->telegram_id
-            );
-            $result = true;
+        try {
+            if ($this->telegram_id > 0) {
+                Telegram::send(
+                    $text,
+                    $this->telegram_id
+                );
+                $result = true;
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
         return $result;
     }
