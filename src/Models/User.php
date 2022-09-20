@@ -876,6 +876,9 @@ final class User extends Model
     public function sendDailyNotification(string $ann = ''): void
     {
         $lastday = ($this->u + $this->d - $this->last_day_t) / 1024 / 1024;
+        $enable_traffic = $this->enableTraffic();
+        $used_traffic = $this->usedTraffic();
+        $unused_traffic = $this->unusedTraffic();
         switch ($this->sendDailyMail) {
             case 0:
                 return;
@@ -888,6 +891,9 @@ final class User extends Model
                         'user' => $this,
                         'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',
                         'lastday' => $lastday,
+                        'enable_traffic' => $enable_traffic,
+                        'used_traffic' => $used_traffic,
+                        'unused_traffic' => $unused_traffic,
                     ],
                     [],
                     true
@@ -896,9 +902,9 @@ final class User extends Model
             case 2:
                 echo 'Send daily Telegram message to user: ' . $this->id;
                 $text = date('Y-m-d') . ' 流量使用报告' . PHP_EOL . PHP_EOL;
-                $text .= '流量总计：' . $this->enableTraffic() . PHP_EOL;
-                $text .= '已用流量：' . $this->usedTraffic() . PHP_EOL;
-                $text .= '剩余流量：' . $this->unusedTraffic() . PHP_EOL;
+                $text .= '流量总计：' . $enable_traffic . PHP_EOL;
+                $text .= '已用流量：' . $used_traffic . PHP_EOL;
+                $text .= '剩余流量：' . $unused_traffic . PHP_EOL;
                 $text .= '今日使用：' . $lastday . 'MB';
                 $this->sendTelegram(
                     $text
