@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
 
 final class InitDatabase extends AbstractMigration
@@ -196,7 +197,7 @@ final class InitDatabase extends AbstractMigration
             ->addColumn('to_email', 'string', [])
             ->addColumn('subject', 'string', [])
             ->addColumn('template', 'string', [])
-            ->addColumn('array', 'string', [])
+            ->addColumn('array', 'text', ['limit' => MysqlAdapter::TEXT_LONG])
             ->addColumn('time', 'integer', [])
             ->create();
 
