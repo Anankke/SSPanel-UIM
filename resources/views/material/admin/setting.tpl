@@ -219,13 +219,23 @@
                                     <div class="tab-pane fade" id="ses">
                                         <!-- aws_access_key_id -->
                                         <div class="form-group form-group-label">
-                                            <label class="floating-label">密钥 ID</label>
+                                            <label class="floating-label">AWS 密钥 ID</label>
                                             <input class="form-control maxwidth-edit" id="aws_access_key_id" value="{$settings['aws_access_key_id']}">
                                         </div>
                                         <!-- aws_secret_access_key -->
                                         <div class="form-group form-group-label">
-                                            <label class="floating-label">密钥 KEY</label>
+                                            <label class="floating-label">AWS 密钥 KEY</label>
                                             <input class="form-control maxwidth-edit" id="aws_secret_access_key" value="{$settings['aws_secret_access_key']}">
+                                        </div>
+                                        <!-- aws_region -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">AWS 区域</label>
+                                            <input class="form-control maxwidth-edit" id="aws_region" value="{$settings['aws_region']}">
+                                        </div>
+                                        <!-- aws_ses_sender -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">AWS SES 发送者</label>
+                                            <input class="form-control maxwidth-edit" id="aws_ses_sender" value="{$settings['aws_ses_sender']}">
                                         </div>
 
                                         <button id="submit_ses" type="submit" class="btn btn-brand btn-dense">提交</button>
@@ -1536,7 +1546,9 @@
                 data: {
                     class: 'ses',
                     aws_access_key_id: $$getValue('aws_access_key_id'),
-                    aws_secret_access_key: $$getValue('aws_secret_access_key')
+                    aws_secret_access_key: $$getValue('aws_secret_access_key'),
+                    aws_region: $$getValue('aws_region'),
+                    aws_ses_sender: $$getValue('aws_ses_sender'),
                 },
                 success: data => {
                     $("#result").modal();

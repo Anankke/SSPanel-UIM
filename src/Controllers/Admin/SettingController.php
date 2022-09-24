@@ -75,7 +75,7 @@ final class SettingController extends BaseController
                 $list = ['sendgrid_key', 'sendgrid_sender', 'sendgrid_name'];
                 break;
             case 'ses':
-                $list = ['aws_access_key_id', 'aws_secret_access_key'];
+                $list = ['aws_access_key_id', 'aws_secret_access_key', 'aws_region,', 'aws_ses_sender'];
                 break;
                 // 验证码
             case 'verify_code':

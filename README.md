@@ -25,9 +25,7 @@ SSPanel UIM 是一款专为 Shadowsocks / ShadowsocksR / V2Ray / Trojan 设计�
 - 配置数据库化，管理面板一键配置
 - 新用户注册现金奖励、用户常规端口切换与指定
 - 公共库文件加载使用 jsDelivr 和 Staticfile CDN
-- 支持 V2Ray & Trojan
 - 性能优化，程序逻辑改善，代码质量修正
-- 更多新功能写不下了
 
 ## 安装
 
@@ -35,8 +33,8 @@ SSPanel UIM 的需要以下程序才能正常的安装和运行：
 
 - Git
 - Nginx / Apache
-- PHP 8.0+
-- MySQL 8.0+ / MariaDB 10.6+
+- PHP 8.0
+- MySQL 8.0 / MariaDB 10.6+
 
 SSPanel UIM 支持安装在 LNMP、CloudPanel 等集成环境中。安装教程请参阅 [文档](https://wiki.sspanel.org)。
 

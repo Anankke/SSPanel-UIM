@@ -551,6 +551,26 @@
     },
     {
         "id": null,
+        "item": "aws_region",
+        "value": "",
+        "class": "aws_ses",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "aws区域"
+    },
+    {
+        "id": null,
+        "item": "aws_ses_sender",
+        "value": "",
+        "class": "aws_ses",
+        "is_public": 0,
+        "type": "string",
+        "default": "",
+        "mark": "aws ses发送者"
+    },
+    {
+        "id": null,
         "item": "auto_backup_email",
         "value": "",
         "class": "backup",
