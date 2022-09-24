@@ -1548,7 +1548,7 @@
                     aws_access_key_id: $$getValue('aws_access_key_id'),
                     aws_secret_access_key: $$getValue('aws_secret_access_key'),
                     aws_region: $$getValue('aws_region'),
-                    aws_ses_sender: $$getValue('aws_ses_sender'),
+                    aws_ses_sender: $$getValue('aws_ses_sender')
                 },
                 success: data => {
                     $("#result").modal();
