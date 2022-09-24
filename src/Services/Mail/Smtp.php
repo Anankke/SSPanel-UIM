@@ -10,48 +10,32 @@ use PHPMailer\PHPMailer\PHPMailer;
 final class Smtp extends Base
 {
     private $mail;
-    private $config;
 
     public function __construct()
     {
-        $this->config = $this->getConfig();
+        $configs = Setting::getClass('smtp');
+
         $mail = new PHPMailer();
         //$mail->SMTPDebug = 3;                               // Enable verbose debug output
         $mail->isSMTP();                                      // Set mailer to use SMTP
-        $mail->Host = $this->config['host'];                  // Specify main and backup SMTP servers
-        $mail->Port = $this->config['port'];                  // TCP port to connect to
+        $mail->Host = $configs['smtp_host'];                  // Specify main and backup SMTP servers
+        $mail->Port = $configs['smtp_port'];                  // TCP port to connect to
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
         $mail->CharSet = 'UTF-8';                             // Set utf-8 character set
-        $mail->Username = $this->config['username'];          // SMTP username
-        $mail->Password = $this->config['passsword'];         // SMTP password
-        $mail->setFrom($this->config['sender'], $this->config['name']);
+        $mail->Username = $configs['smtp_username'];          // SMTP username
+        $mail->Password = $configs['smtp_password'];          // SMTP password
+        $mail->setFrom($configs['smtp_sender'], $configs['smtp_name']);
 
-        if ($this->config['smtp_ssl'] === true) {
+        if ($configs['smtp_ssl'] === true) {
             // Enable TLS encryption, `ssl` also accepted
-            $mail->SMTPSecure = ($this->config['port'] === '587' ? 'tls' : 'ssl');
+            $mail->SMTPSecure = ($configs['smtp_port'] === '587' ? 'tls' : 'ssl');
         }
 
-        if ($this->config['smtp_bbc'] !== '') {
-            $mail->addBCC($this->config['smtp_bbc']);
+        if ($configs['smtp_bbc'] !== '') {
+            $mail->addBCC($configs['smtp_bbc']);
         }
 
         $this->mail = $mail;
-    }
-
-    public function getConfig()
-    {
-        $configs = Setting::getClass('smtp');
-
-        return [
-            'host' => $configs['smtp_host'],
-            'port' => $configs['smtp_port'],
-            'username' => $configs['smtp_username'],
-            'passsword' => $configs['smtp_password'],
-            'smtp_ssl' => $configs['smtp_ssl'],
-            'name' => $configs['smtp_name'],
-            'sender' => $configs['smtp_sender'],
-            'smtp_bbc' => $configs['smtp_bbc'],
-        ];
     }
 
     public function send($to, $subject, $text, $files): void
