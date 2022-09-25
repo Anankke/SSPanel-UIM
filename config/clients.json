@@ -1,0 +1,170 @@
+{
+    "clients":[
+        {
+            "name": "Shadowsocks-Windows",
+            "tagMethod": "github_release",
+            "gitRepo": "shadowsocks/shadowsocks-windows",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "Shadowsocks-%tagName%.zip",
+                    "saveName": "Shadowsocks.zip",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "ShadowsocksR-Windows",
+            "tagMethod": "github_release",
+            "gitRepo": "HMBSbige/ShadowsocksR-Windows",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "ShadowsocksR-Win64-%tagName%.7z",
+                    "saveName": "ShadowsocksR.7z",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "v2rayN",
+            "tagMethod": "github_release",
+            "gitRepo": "2dust/v2rayN",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "v2rayN-Core.zip",
+                    "saveName": "v2rayN.zip",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "Netch",
+            "tagMethod": "github_release",
+            "gitRepo": "netchx/Netch",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "Netch.7z",
+                    "saveName": "Netch.7z",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "Clash for Windows",
+            "tagMethod": "github_release",
+            "gitRepo": "Fndroid/clash_for_windows_pkg",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "Clash.for.Windows.Setup.%tagName%.exe",
+                    "saveName": "Clash-Windows.exe",
+                    "apkpureUrl": ""
+                },
+                {
+                    "sourceName": "Clash.for.Windows-%tagName%.dmg",
+                    "saveName": "Clash-Windows.dmg",
+                    "apkpureUrl": ""
+                },
+                {
+                    "sourceName": "Clash.for.Windows-%tagName%-x64-linux.tar.gz",
+                    "saveName": "Clash-Windows.tar.gz",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "ClashX",
+            "tagMethod": "github_release",
+            "gitRepo": "yichengchen/clashX",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "ClashX.dmg",
+                    "saveName": "ClashX.dmg",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "V2RayU x86_64",
+            "tagMethod": "github_release",
+            "gitRepo": "yanue/V2rayU",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "V2rayU-64.dmg",
+                    "saveName": "V2rayU.dmg",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "V2RayU arm64",
+            "tagMethod": "github_release",
+            "gitRepo": "yanue/V2rayU",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "V2rayU-arm64.dmg",
+                    "saveName": "V2rayU-arm64.dmg",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "V2RayNG",
+            "tagMethod": "github_release",
+            "gitRepo": "2dust/v2rayNG",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "v2rayNG_%tagName%_arm64-v8a.apk",
+                    "saveName": "v2rayng.apk",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "Clash for Android",
+            "tagMethod": "github_pre_release",
+            "gitRepo": "Kr328/ClashForAndroid",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "cfa-%tagName1%-premium-universal-release.apk",
+                    "saveName": "Clash-Android.apk",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "Shadowsocks-Android",
+            "tagMethod": "github_release",
+            "gitRepo": "shadowsocks/shadowsocks-android",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "shadowsocks--universal-%tagName%.apk",
+                    "saveName": "Shadowsocks.apk",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "ShadowsocksR-Android",
+            "tagMethod": "github_release",
+            "gitRepo": "HMBSbige/ShadowsocksR-Android",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "shadowsocksr-android-%tagName%.apk",
+                    "saveName": "ShadowsocksR.apk",
+                    "apkpureUrl": ""
+                }
+            ]
+        }
+    ]
+}
