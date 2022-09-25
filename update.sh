@@ -3,8 +3,8 @@
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script!"; exit 1; }
 
 do_upgrade_sspanel(){
-    git reset --hard origin/dev
     git pull
+    git reset --hard origin/dev
     git fetch --prune --prune-tags
     rm -r storage/framework/smarty/compile/*
     php composer.phar update
