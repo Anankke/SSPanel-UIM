@@ -25,196 +25,20 @@ final class ClientDownload extends Command
     /**
      * 下载配置
      */
-    private $softs = [
-        // [
-        //     'name'      => '示例名称备注',
-        //     'tagMethod' => 'github_release | github_pre_release | apkpure',
-        //     'gitRepo'   => 'Github 仓库或参照 Surfboard',
-        //     'savePath'  => '基础路径下的分类路径，可不填写',
-        //     'downloads' => [
-        //         [
-        //             'sourceName' => '来源文件名，以该文件名储存则 saveName 不填写',
-        //             'saveName'   => '储存文件名，',
-        //             'apkpureUrl' => '参照 Surfboard'
-        //         ],
-        //     ],
-        // ],
-        [
-            'name' => 'Shadowsocks-Windows',
-            'tagMethod' => 'github_release',
-            'gitRepo' => 'shadowsocks/shadowsocks-windows',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'Shadowsocks-%tagName%.zip',
-                    'saveName' => 'Shadowsocks.zip',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'ShadowsocksR-Windows',
-            'tagMethod' => 'github_release',
-            'gitRepo' => 'HMBSbige/ShadowsocksR-Windows',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'ShadowsocksR-Win64-%tagName%.7z',
-                    'saveName' => 'ShadowsocksR.7z',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'v2rayN',
-            'tagMethod' => 'github_release',
-            'gitRepo' => '2dust/v2rayN',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'v2rayN-Core.zip',
-                    'saveName' => 'v2rayN.zip',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Netch',
-            'tagMethod' => 'github_release',
-            'gitRepo' => 'netchx/Netch',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'Netch.7z',
-                    'saveName' => 'Netch.7z',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Clash for Windows',
-            'tagMethod' => 'github_release',
-            'gitRepo' => 'Fndroid/clash_for_windows_pkg',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'Clash.for.Windows.Setup.%tagName%.exe',
-                    'saveName' => 'Clash-Windows.exe',
-                    'apkpureUrl' => '',
-                ],
-                [
-                    'sourceName' => 'Clash.for.Windows-%tagName%.dmg',
-                    'saveName' => 'Clash-Windows.dmg',
-                    'apkpureUrl' => '',
-                ],
-                [
-                    'sourceName' => 'Clash.for.Windows-%tagName%-x64-linux.tar.gz',
-                    'saveName' => 'Clash-Windows.tar.gz',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'ClashX',
-            'tagMethod' => 'github_release',
-            'gitRepo' => 'yichengchen/clashX',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'ClashX.dmg',
-                    'saveName' => 'ClashX.dmg',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'V2RayU x86_64',
-            'tagMethod' => 'github_release',
-            'gitRepo' => 'yanue/V2rayU',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'V2rayU-64.dmg',
-                    'saveName' => 'V2rayU.dmg',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'V2RayU arm64',
-            'tagMethod' => 'github_release',
-            'gitRepo' => 'yanue/V2rayU',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'V2rayU-arm64.dmg',
-                    'saveName' => 'V2rayU-arm64.dmg',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'V2RayNG',
-            'tagMethod' => 'github_release',
-            'gitRepo' => '2dust/v2rayNG',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'v2rayNG_%tagName%_arm64-v8a.apk',
-                    'saveName' => 'v2rayng.apk',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Clash for Android',
-            'tagMethod' => 'github_pre_release',
-            'gitRepo' => 'Kr328/ClashForAndroid',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'cfa-%tagName1%-premium-universal-release.apk',
-                    'saveName' => 'Clash-Android.apk',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Shadowsocks-Android',
-            'tagMethod' => 'github_release',
-            'gitRepo' => 'shadowsocks/shadowsocks-android',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'shadowsocks--universal-%tagName%.apk',
-                    'saveName' => 'Shadowsocks.apk',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-        [
-            'name' => 'ShadowsocksR-Android',
-            'tagMethod' => 'github_release',
-            'gitRepo' => 'HMBSbige/ShadowsocksR-Android',
-            'savePath' => 'public/clients/',
-            'downloads' => [
-                [
-                    'sourceName' => 'shadowsocksr-android-%tagName%.apk',
-                    'saveName' => 'ShadowsocksR.apk',
-                    'apkpureUrl' => '',
-                ],
-            ],
-        ],
-    ];
-
     private $version;
 
     public function boot(): void
     {
         $this->client = new \GuzzleHttp\Client();
         $this->version = $this->getLocalVersions();
-        foreach ($this->softs as $soft) {
-            $this->getSoft($soft);
+        $clientsPath = BASE_PATH . '/config/clients.json';
+        if (! is_file($clientsPath)) {
+            echo 'clients.json 不存在，脚本中止.' . PHP_EOL;
+            exit(0);
+        }
+        $clients = \json_decode(file_get_contents($clientsPath), true);
+        foreach ($clients['clients'] as $client) {
+            $this->getSoft($client);
         }
     }
 
@@ -299,10 +123,10 @@ final class ClientDownload extends Command
      */
     private function getLocalVersions(): array
     {
-        $fileName = 'ClientDownloadVersion.json';
-        $filePath = BASE_PATH . '/config/' . $fileName;
+        $fileName = 'LocalClientVersion.json';
+        $filePath = BASE_PATH . '/storage/' . $fileName;
         if (! is_file($filePath)) {
-            echo '本地软体版本库 ClientDownloadVersion.json 不存在，创建文件中...' . PHP_EOL;
+            echo '本地软体版本库 LocalClientVersion.json 不存在，创建文件中...' . PHP_EOL;
             $result = file_put_contents(
                 $filePath,
                 \json_encode(
@@ -312,13 +136,13 @@ final class ClientDownload extends Command
                 )
             );
             if ($result === false) {
-                echo 'ClientDownloadVersion.json 创建失败，脚本中止.' . PHP_EOL;
+                echo 'LocalClientVersion.json 创建失败，脚本中止.' . PHP_EOL;
                 exit(0);
             }
         }
         $fileContent = file_get_contents($filePath);
         if (! $this->isJson($fileContent)) {
-            echo 'ClientDownloadVersion.json 文件格式异常，脚本中止.' . PHP_EOL;
+            echo 'LocalClientVersion.json 文件格式异常，脚本中止.' . PHP_EOL;
             exit(0);
         }
         return \json_decode($fileContent, true);
@@ -329,8 +153,8 @@ final class ClientDownload extends Command
      */
     private function setLocalVersions(array $versions): bool
     {
-        $fileName = 'ClientDownloadVersion.json';
-        $filePath = BASE_PATH . '/config/' . $fileName;
+        $fileName = 'LocalClientVersion.json';
+        $filePath = BASE_PATH . '/storage/' . $fileName;
         return (bool) file_put_contents(
             $filePath,
             \json_encode(

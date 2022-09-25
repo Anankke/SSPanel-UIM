@@ -50,9 +50,6 @@
                                                 <a data-toggle="tab" href="#email_auth_settings">&nbsp;设置</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#email_backup_settings">&nbsp;备份</a>
-                                            </li>
-                                            <li>
                                                 <a data-toggle="tab" href="#smtp">&nbsp;smtp</a>
                                             </li>
                                             <li>
@@ -93,31 +90,6 @@
                                         </div>
                                         
                                         <button id="submit_email_test" type="submit" class="btn btn-brand btn-dense" {if $settings['mail_driver'] == "none"}disabled{/if}>测试</button>
-                                    </div>
-                                    <div class="tab-pane fade" id="email_backup_settings">
-                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>需添加定时任务：php /this/is/your/website/path/xcat Backup full / simple</p>
-                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>full 将整体数据备份；simple 将只备份核心数据</p>
-                                        <!-- auto_backup_email -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">接收备份的邮箱</label>
-                                            <input class="form-control maxwidth-edit" id="auto_backup_email" value="{$settings['auto_backup_email']}">
-                                        </div>
-                                        <!-- auto_backup_password -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">备份的压缩密码</label>
-                                            <input class="form-control maxwidth-edit" id="auto_backup_password" value="{$settings['auto_backup_password']}">
-                                            <p class="form-control-guide"><i class="mdi mdi-information"></i>留空将不加密备份压缩包</p>
-                                        </div>
-                                        <!-- auto_backup_notify -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">备份是否通知到TG群中</label>
-                                            <select id="auto_backup_notify" class="form-control maxwidth-edit">
-                                                <option value="0" {if $settings['auto_backup_notify'] == "0"}selected{/if}>关闭</option>
-                                                <option value="1" {if $settings['auto_backup_notify'] == "1"}selected{/if}>开启</option>
-                                            </select>
-                                        </div>
-                                        
-                                        <button id="submit_email_backup" type="submit" class="btn btn-brand btn-dense">提交</button>
                                     </div>
                                     <div class="tab-pane fade" id="smtp">
                                         <!-- smtp_host -->
@@ -1549,36 +1521,6 @@
                     aws_secret_access_key: $$getValue('aws_secret_access_key'),
                     aws_region: $$getValue('aws_region'),
                     aws_ses_sender: $$getValue('aws_ses_sender')
-                },
-                success: data => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    if (data.ret) {
-                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
-                    }
-                },
-                error: jqXHR => {
-                    alert(`发生错误：${
-                            jqXHR.status
-                            }`);
-                }
-            })
-        })
-    })
-</script>
-
-<script>
-    window.addEventListener('load', () => {
-        $$.getElementById('submit_email_backup').addEventListener('click', () => {
-            $.ajax({
-                type: "POST",
-                url: "/admin/setting",
-                dataType: "json",
-                data: {
-                    class: 'email_backup',
-                    auto_backup_email: $$getValue('auto_backup_email'),
-                    auto_backup_password: $$getValue('auto_backup_password'),
-                    auto_backup_notify: $$getValue('auto_backup_notify')
                 },
                 success: data => {
                     $("#result").modal();

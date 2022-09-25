@@ -12,6 +12,5 @@
         window.location.href = "/auth/login"
     </script>
     {/if}
-    <link rel="stylesheet" href="/assets/css/index.min.css">
 </head>
 </html>
