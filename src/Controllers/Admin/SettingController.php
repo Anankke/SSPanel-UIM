@@ -87,10 +87,6 @@ final class SettingController extends BaseController
             case 'verify_code_geetest':
                 $list = ['geetest_id', 'geetest_key'];
                 break;
-                // 备份
-            case 'email_backup':
-                $list = ['auto_backup_email', 'auto_backup_password', 'auto_backup_notify'];
-                break;
                 // 客户服务
             case 'admin_contact':
                 $list = ['enable_admin_contact', 'admin_contact1', 'admin_contact2', 'admin_contact3'];

@@ -38,12 +38,6 @@ $_ENV['streaming_media_unlock_multiplexing'] = [
 $_ENV['mail_filter']        = 0;            //0: 关闭; 1: 白名单模式; 2; 黑名单模式;
 $_ENV['mail_filter_list']   = array("qq.com", "vip.qq.com", "foxmail.com");
 
-
-//备份设置--------------------------------------------------------------------------------------------
-$_ENV['auto_backup_email']  = '';                               //接收备份的邮箱
-$_ENV['auto_backup_password'] = '';                               //备份的压缩密码
-$_ENV['backup_notify']      = false;                            //备份通知到TG群中
-
 //已注册用户设置---------------------------------------------------------------------------------------
 #基础
 $_ENV['enable_checkin']             = true;         //是否啓用簽到功能

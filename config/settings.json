@@ -571,26 +571,6 @@
     },
     {
         "id": null,
-        "item": "auto_backup_email",
-        "value": "",
-        "class": "backup",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "接收备份的邮箱"
-    },
-    {
-        "id": null,
-        "item": "auto_backup_password",
-        "value": "",
-        "class": "backup",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "备份的压缩密码"
-    },
-    {
-        "id": null,
         "item": "enable_admin_contact",
         "value": "0",
         "class": "contact",
@@ -758,16 +738,6 @@
         "type": "string",
         "default": "350px",
         "mark": "pmw_height"
-    },
-    {
-        "id": null,
-        "item": "auto_backup_notify",
-        "value": "0",
-        "class": "backup",
-        "is_public": 0,
-        "type": "bool",
-        "default": "0",
-        "mark": "备份是否通知到用户群中"
     },
     {
         "id": null,

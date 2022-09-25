@@ -33,7 +33,6 @@ return [
         PHP_CodeSniffer\Standards\PSR1\Sniffs\Methods\CamelCapsMethodNameSniff::class => [
             'exclude' => [
                 'src/Command/Job.php',
-                'src/Command/PortAutoChange.php',
             ],
         ],
         // Db migration should not have a class declaration

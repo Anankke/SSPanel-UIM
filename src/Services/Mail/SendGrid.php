@@ -46,7 +46,7 @@ final class SendGrid extends Base
                 'application/octet-stream',
                 basename($file),
                 'attachment',
-                'backup'
+                'attachment'
             );
         }
 
