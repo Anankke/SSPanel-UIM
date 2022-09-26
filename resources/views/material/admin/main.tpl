@@ -92,6 +92,7 @@
                         <li><a href="/admin/invite"><i class="mdi mdi-account-multiple-plus icon-lg"></i>&nbsp;邀请与返利</a></li>
                         <li><a href="/admin/subscribe"><i class="mdi mdi-file-find icon-lg"></i>&nbsp;订阅记录</a></li>
                         <li><a href="/admin/login"><i class="mdi mdi-text-account icon-lg"></i>&nbsp;登录记录</a></li>
+                        <li><a href="/admin/trafficlog"><i class="mdi mdi-swap-vertical icon-lg"></i>&nbsp;流量记录</a></li>
                         <li><a href="/admin/alive"><i class="mdi mdi-account-badge icon-lg"></i>&nbsp;在线IP</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_config">配置</a>
