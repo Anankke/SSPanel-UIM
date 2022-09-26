@@ -40,7 +40,7 @@ final class SubController extends BaseController
             ]);
         }
 
-        $subtype_list = ['all', 'ss', 'ssr', 'v2ray', 'trojan'];
+        $subtype_list = ['all', 'clash'];
         if (! \in_array($subtype, $subtype_list)) {
             return $response->withJson([
                 'ret' => 0,
@@ -67,12 +67,6 @@ final class SubController extends BaseController
             }
             switch ($node_raw->sort) {
                 case '0':
-                    //只給下發正確類型的節點
-                    if (! \in_array($subtype, ['ss', 'all'])) {
-                        $node = null;
-                        break;
-                    }
-                    //處理一下 Undefined Index
                     $plugin = $node_custom_config['plugin'] ?? '';
                     $plugin_option = $node_custom_config['plugin_option'] ?? '';
                     $node = [
@@ -88,59 +82,7 @@ final class SubController extends BaseController
                         'remark' => $node_raw->info,
                     ];
                     break;
-                    //單獨加了一種SSR節點類型用來同時處理多端口和單端口SSR的訂閲下發
-                case '1':
-                    if (! \in_array($subtype, ['ssr', 'all'])) {
-                        $node = null;
-                        break;
-                    }
-                    //判斷一下是普通SSR節點還是單端口SSR節點，混淆式单端就去掉了，配起来怪麻烦的
-                    if ($node_raw->mu_only === -1) {
-                        $node = [
-                            'name' => $node_raw->name,
-                            'id' => $node_raw->id,
-                            'type' => 'ssr',
-                            'address' => $server,
-                            'port' => $user->port,
-                            'password' => $user->passwd,
-                            'encryption' => $user->method,
-                            'protocol' => $user->protocol,
-                            'protocol_param' => $user->protocol_param,
-                            'obfs' => $user->obfs,
-                            'obfs_param' => $user->obfs_param,
-                            'remark' => $node_raw->info,
-                        ];
-                    } else {
-                        //優先級是 mu_port > offset_port_user > offset_port_node ，v2 和 trojan 同理
-                        $mu_port = $node_custom_config['mu_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 0));
-                        $mu_password = $node_custom_config['mu_password'] ?? '';
-                        $mu_encryption = $node_custom_config['mu_encryption'] ?? '';
-                        $mu_protocol = $node_custom_config['mu_protocol'] ?? '';
-                        $mu_obfs = $node_custom_config['mu_obfs'] ?? '';
-                        $mu_suffix = $node_custom_config['mu_suffix'] ?? '';
-                        //現在就只能用協議式單端口。理論上應該加個協議式單端口和混淆式單端口的配置項，然後這裏寫個判斷切換的。先咕了，SSR不是重點。
-                        $user_protocol_param = $user->id . ':' . $user->passwd;
-                        $node = [
-                            'name' => $node_raw->name,
-                            'id' => $node_raw->id,
-                            'type' => 'ssr',
-                            'address' => $server,
-                            'port' => $mu_port,
-                            'password' => $mu_password,
-                            'encryption' => $mu_encryption,
-                            'protocol' => $mu_protocol,
-                            'protocol_param' => $user_protocol_param,
-                            'obfs' => $mu_obfs,
-                            'obfs_param' => $mu_suffix,
-                            'remark' => $node_raw->info,
-                        ];
-                    }
-                    break;
                 case '11':
-                    if (! \in_array($subtype, ['v2ray', 'all'])) {
-                        $node = null;
-                        break;
-                    }
                     $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     //默認值有問題的請懂 V2 怎麽用的人來改一改。
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
@@ -158,7 +100,7 @@ final class SubController extends BaseController
                     $node = [
                         'name' => $node_raw->name,
                         'id' => $node_raw->id,
-                        'type' => 'v2ray',
+                        'type' => 'vmess',
                         'address' => $server,
                         'port' => $v2_port,
                         'uuid' => $user->uuid,
@@ -178,10 +120,6 @@ final class SubController extends BaseController
                     ];
                     break;
                 case '14':
-                    if (! \in_array($subtype, ['trojan', 'all'])) {
-                        $node = null;
-                        break;
-                    }
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
