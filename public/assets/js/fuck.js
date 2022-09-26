@@ -89,12 +89,12 @@
     }
   }
 
-  var braveUrl = "https://brave.com/";
+  var redirectUrl = "https://www.mozilla.org/en-US/firefox/new/";
 
   if (is360) {
     setTimeout(function() {
-        window.alert('检测到 360 浏览器访问\n请使用 Brave 隐私浏览器');
-        window.location.href = braveUrl;
+        window.alert('检测到 360 浏览器访问\n请使用 Firefox 浏览器');
+        window.location.href = redirectUrl;
     }, 0);
   }
 })(window, navigator);
