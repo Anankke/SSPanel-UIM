@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class SubscribeLogController extends BaseController
+final class TrafficLogController extends BaseController
 {
     /**
      * 后台流量记录页面
@@ -24,8 +24,8 @@ final class SubscribeLogController extends BaseController
         $table_config['total_column'] = [
             'id' => 'ID',
             'user_id' => '用户ID',
-            'traffic' => '累计使用流量',
-            'hourly_usage' => '过去一小时使用流量',
+            'traffic' => '累计使用流量/GB',
+            'hourly_usage' => '过去一小时使用流量/GB',
             'datetime' => '时间',
         ];
         $table_config['default_show_column'] = ['id', 'user_id', 'traffic', 'hourly_usage', 'datetime'];
@@ -57,10 +57,6 @@ final class SubscribeLogController extends BaseController
         foreach ($query['datas'] as $value) {
             /** @var TrafficLog $value */
 
-            if ($value->user() === null) {
-                UserHourlyUsage::userIsNull($value);
-                continue;
-            }
             $tempdata = [];
             $tempdata['id'] = $value->id;
             $tempdata['user_id'] = $value->user_id;
