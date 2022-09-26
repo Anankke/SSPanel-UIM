@@ -231,6 +231,10 @@ return function (SlimApp $app): void {
         $this->get('/subscribe', App\Controllers\Admin\SubscribeLogController::class . ':index');
         $this->post('/subscribe/ajax', App\Controllers\Admin\SubscribeLogController::class . ':ajaxSubscribeLog');
 
+        // Traffic Log Mange
+        $this->get('/trafficlog', App\Controllers\Admin\TrafficLogController::class . ':index');
+        $this->post('/trafficlog/ajax', App\Controllers\Admin\TrafficLogController::class . ':ajaxTrafficLog');
+
         // Detect Ban Mange
         $this->get('/detect/ban', App\Controllers\Admin\DetectBanLogController::class . ':index');
         $this->post('/detect/ban/ajax', App\Controllers\Admin\DetectBanLogController::class . ':ajaxLog');

@@ -134,8 +134,7 @@ final class UserController extends BaseController
         $data = \json_decode($request->getBody()->__toString());
         if (!$data || !\is_array($data?->data)) {
             return $response->withJson([
-                'ret' => 1,
-                'data' => 'ok',
+                'ret' => 0,
             ]);
         }
         $data = $data->data;
@@ -163,6 +162,7 @@ final class UserController extends BaseController
                     't' => \time(),
                     'u' => DB::raw("u + ${u}"),
                     'd' => DB::raw("d + ${d}"),
+                    'transfer_total' => DB::raw("transfer_total + ${u} + ${d}"),
                 ]);
             }
             $sum += $u + $d;
