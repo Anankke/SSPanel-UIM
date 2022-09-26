@@ -10,6 +10,7 @@ vendor
 
 .vs/
 .vscode
+.editorconfig
 
 .stylelintrc.json
 .stylelintignore
@@ -45,6 +46,9 @@ public/.user.ini
 resources/views/material/analytics.tpl
 
 .envrc.local
+.envrc
+flake.lock
+flake.nix
 .direnv/
 
 node_modules
