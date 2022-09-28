@@ -402,7 +402,13 @@
                                         <button class="btn btn-flat" id="telegram_reset"><span class="mdi mdi-block-helper"></span>&nbsp;</button>
                                     </div>
                                         <div class="text-center">
-                                            <p>当前绑定的 Telegram 账户：<a href="https://t.me/{$user->im_value}">@{$user->im_value}</a></p>
+                                            <p>当前绑定的 Telegram 账户：
+                                            {if $user->im_value === '用戶名未设置'}
+                                            <a>{$user->telegram_id}</a>
+                                            {else}
+                                            <a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
+                                            {/if}
+                                            </p>
                                         </div>
                                     {else}
                                     </div>
