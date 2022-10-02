@@ -231,6 +231,11 @@ final class User extends Model
         return $this->save();
     }
 
+    public function lastDayTraffic(): string
+    {
+        return Tools::flowAutoShow($this->u + $this->d - $this->last_day_t);
+    }
+
     /*
      * 总流量[自动单位]
      */
@@ -875,7 +880,7 @@ final class User extends Model
      */
     public function sendDailyNotification(string $ann = ''): void
     {
-        $lastday = ($this->u + $this->d - $this->last_day_t) / 1024 / 1024;
+        $lastday = $this->lastDayTraffic();
         $enable_traffic = $this->enableTraffic();
         $used_traffic = $this->usedTraffic();
         $unused_traffic = $this->unusedTraffic();
@@ -905,7 +910,7 @@ final class User extends Model
                 $text .= '流量总计：' . $enable_traffic . PHP_EOL;
                 $text .= '已用流量：' . $used_traffic . PHP_EOL;
                 $text .= '剩余流量：' . $unused_traffic . PHP_EOL;
-                $text .= '今日使用：' . $lastday . 'MB';
+                $text .= '今日使用：' . $lastday;
                 $this->sendTelegram(
                     $text
                 );
