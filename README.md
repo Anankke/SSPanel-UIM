@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/github/license/Anankke/SSPanel-Uim?style=flat-square)](https://github.com/Anankke/SSPanel-Uim/blob/dev/LICENSE)
 ![GitHub repo size](https://img.shields.io/github/repo-size/anankke/sspanel-uim?style=flat-square&color=328657)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Anankke/SSPanel-Uim?style=flat-square)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Anankke/SSPanel-Uim/Lint%20code?label=Lint&style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Anankke/SSPanel-Uim/Lint%20code?label=lint&style=flat-square)
 
 
 [使用文档](https://wiki.sspanel.org) | [API 文档](https://github.com/sspanel-uim/API-documents) | [配套SS/SSR后端](https://github.com/Anankke/shadowsocks-mod) | [配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 频道](https://t.me/sspanel_uim) | [Telegram 水群](https://t.me/ssunion)
