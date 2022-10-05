@@ -403,7 +403,7 @@
                                     </div>
                                         <div class="text-center">
                                             <p>当前绑定的 Telegram 账户：
-                                            {if $user->im_value === '用戶名未设置'}
+                                            {if $user->im_value === "用戶名未设置"}
                                             <a>{$user->telegram_id}</a>
                                             {else}
                                             <a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
