@@ -1,0 +1,85 @@
+<div class="card-inner">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <p class="card-heading">支付宝/微信在线充值</p>
+            <div class="form-group form-group-label">
+                <label class="floating-label" for="amount-theadpay">金额</label>
+                <input class="form-control" id="amount-theadpay" type="text">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="h5 margin-top-sm text-black-hint" id="qrarea"></div>
+        </div>
+    </div>
+</div>
+<a class="btn btn-flat waves-attach" id="theadpay" onclick="theadpay();"><span class="mdi mdi-check"></span>&nbsp;立即充值</a>
+<script>
+    var pid = 0;
+    var flag = false;
+    function theadpay() {
+        $("#readytopay").modal('show');
+        $.ajax({
+            type: "POST",
+            url: "/user/payment/purchase/theadpay",
+            dataType: "json",
+            data: {
+                amount: $$getValue('amount-theadpay')
+            },
+            success: (data) => {
+                if (data.ret) {
+                    //console.log(data);
+                    pid = data.pid;
+                    $$.getElementById('qrarea').innerHTML = '<div class="text-center"><p>请使用<b>支付宝</b>或<b>微信</b>扫描二维码支付</p><a id="qrcode" style="padding-top:10px;display:inline-block"></a><p>手机可点击二维码进行快捷支付</p></div>'
+                    $("#readytopay").modal('hide');
+                    new QRCode("qrcode", {
+                        render: "canvas",
+                        width: 200,
+                        height: 200,
+                        text: encodeURI(data.qrcode)
+                    });
+                    $$.getElementById('qrcode').setAttribute('href', data.qrcode);
+                    if(flag == false){
+                        setTimeout(fthead, 1000);
+                        flag = true;
+                    }else{
+                        return 0;
+                    }
+                } else {
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = data.msg;
+                }
+            },
+            error: (jqXHR) => {
+                //console.log(jqXHR);
+                $("#readytopay").modal('hide');
+                $("#result").modal();
+                $$.getElementById('msg').innerHTML = `${
+                        jqXHR
+                        } 发生错误了`;
+            }
+        })
+    }
+    function fthead() {
+        $.ajax({
+            type: "POST",
+            url: "/payment/status/theadpay",
+            dataType: "json",
+            data: {
+                pid: pid
+            },
+            success: (data) => {
+                if (data.result) {
+                    //console.log(data);
+                    $("#alipay").modal('hide');
+                    $("#result").modal();
+                    $$.getElementById('msg').innerHTML = '充值成功';
+                    window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
+                }
+            },
+            error: (jqXHR) => {
+                //console.log(jqXHR);
+            }
+        });
+        tid = setTimeout(f, 1000); //循环调用触发setTimeout
+    }
+</script>
