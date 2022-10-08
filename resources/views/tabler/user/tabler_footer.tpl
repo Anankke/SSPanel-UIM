@@ -23,16 +23,10 @@
 </footer>
 </div>
 </div>
-<!-- Libs JS -->
-<script src="/theme/tabler/libs/apexcharts/dist/apexcharts.min.js"></script>
-<script src="/theme/tabler/libs/jsvectormap/dist/js/jsvectormap.min.js"></script>
-<script src="/theme/tabler/libs/jsvectormap/dist/maps/world.js"></script>
-<script src="/theme/tabler/libs/jsvectormap/dist/maps/world-merc.js"></script>
-<!-- Tabler Core -->
-<script src="https://fastly.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
-{if !in_array($user->id, $config['invisible_livechat_users'])}
-    {include file='live_chat.tpl'}
-{/if}
+<!-- js -->
+<script src="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script src="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
+<script>console.table([['数据库查询', '执行时间'], ['{count($queryLog)} 次', '{$optTime} ms']])</script>
 </body>
 
 </html>

@@ -1,12 +1,4 @@
 <!doctype html>
-<!--
-* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
-* @version 1.0.0-beta9
-* @link https://tabler.io
-* Copyright 2018-2022 The Tabler Authors
-* Copyright 2018-2022 codecalm.net Paweł Kuna
-* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
--->
 <html lang="zh">
 
 <head>
@@ -17,19 +9,16 @@
     <meta name="referrer" content="never">
     <title>{$config['appName']}</title>
     <!-- CSS files -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css">
-    <link href="/theme/tabler/css/tabler-flags.min.css" rel="stylesheet" />
-    <link href="/theme/tabler/css/tabler-payments.min.css" rel="stylesheet" />
-    <link href="/theme/tabler/css/tabler-vendors.min.css" rel="stylesheet" />
-    <link href="/theme/tabler/css/demo.min.css" rel="stylesheet" />
-    <link href="/theme/tabler/icons/iconfont/tabler-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/theme/tabler/css/datatables.min.css" />
+    <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
+    <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler-payments.min.css" rel="stylesheet" />
+    <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler-vendors.min.css" rel="stylesheet" />
+    <link href="//fastly.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
     <!-- JS files -->
-    <script src="/theme/tabler/js/qrcode.min.js"></script>
-    <script src="/theme/tabler/js/clipboard.min.js"></script>
-    <script src="/theme/tabler/js/jquery-3.6.0.min.js"></script>
-    <script src="/theme/tabler/js/jquery.dataTables.min.js"></script>
-    <script src="/theme/tabler/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/assets/js/fuck.min.js"></script>
+    <script src="//fastly.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
+    <script src="//cdn.staticfile.org/clipboard.js/2.0.11/clipboard.min.js"></script>
+    <script src="//cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
     <style>
         .home-subtitle {
             font-size: 14px;
@@ -49,15 +38,14 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                    <img src="/theme/tabler/static/logo-white.svg" width="110" height="32" alt="Tabler"
-                        class="navbar-brand-image">
+                    <img src="/images/uim-logo-round.png" height="32" alt="SSPanel-UIM" class="navbar-brand-image">
                 </h1>
                 <div class="navbar-nav flex-row order-md-last">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
                             aria-label="Open user menu">
                             <span class="avatar avatar-sm"
-                                style="background-image: url(/theme/tabler/static/avatars/000m.jpg)"></span>
+                                style="background-image: url({$user->gravatar})"></span>
                             <div class="d-none d-xl-block ps-2">
                                 <div>{$user->email}</div>
                                 <div class="mt-1 small text-muted">{$user->user_name}</div>
@@ -77,15 +65,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/user">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/home -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <polyline points="5 12 3 12 12 3 21 12 19 12" />
-                                            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-                                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-                                        </svg>
+                                        <i class="ti ti-home" style="font-size:20px;"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         主页
@@ -96,17 +76,7 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/package -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3" />
-                                            <line x1="12" y1="12" x2="20" y2="7.5" />
-                                            <line x1="12" y1="12" x2="12" y2="21" />
-                                            <line x1="12" y1="12" x2="4" y2="7.5" />
-                                            <line x1="16" y1="5.25" x2="8" y2="9.75" />
-                                        </svg>
+                                        <i class="ti ti-user" style="font-size:20px;"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         我的
@@ -141,41 +111,17 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-brand-telegram" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"></path>
-                                        </svg>
+                                        <i class="ti ti-brand-telegram" style="font-size:20px;"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         使用
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
-                                    {if $config['enable_docs'] == true}
-                                        <a class="dropdown-item" href="/user/docs/index">
-                                            <i class="ti ti-book"></i>&nbsp;
-                                            文档
-                                        </a>
-                                    {/if}
-                                    {if $config['enable_faq'] == true}
-                                        <a class="dropdown-item" href="/user/faq">
-                                            <i class="ti ti-zoom-question"></i>&nbsp;
-                                            问答
-                                        </a>
-                                    {/if}
                                     <a class="dropdown-item" href="/user/server">
                                         <i class="ti ti-server"></i>&nbsp;
                                         节点列表
                                     </a>
-                                    {if $config['hide_old_server_list'] == false}
-                                        <a class="dropdown-item" href="/user/node">
-                                            <i class="ti ti-server-2"></i>&nbsp;
-                                            节点列表（旧）
-                                        </a>
-                                    {/if}
                                     <a class="dropdown-item" href="/user/media">
                                         <i class="ti ti-key"></i>&nbsp;
                                         流媒体解锁
@@ -186,15 +132,7 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-brand-tinder" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path
-                                                d="M18.918 8.174c2.56 4.982 .501 11.656 -5.38 12.626c-7.702 1.687 -12.84 -7.716 -7.054 -13.229c.309 -.305 1.161 -1.095 1.516 -1.349c0 .528 .27 3.475 1 3.167c3 0 4 -4.222 3.587 -7.389c2.7 1.411 4.987 3.376 6.331 6.174z">
-                                            </path>
-                                        </svg>
+                                        <i class="ti ti-dots-circle-horizontal" style="font-size:20px;"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         更多
@@ -213,56 +151,32 @@
                                     {/if}
                                 </div>
                             </li>
-                            {if $config['hide_audit_rules_and_logs'] == false}
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
-                                        data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-shield-check" width="24" height="24"
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M9 12l2 2l4 -4"></path>
-                                                <path
-                                                    d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3">
-                                                </path>
-                                            </svg>
-                                        </span>
-                                        <span class="nav-link-title">
-                                            审计
-                                        </span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <i class="ti ti-shield-check" style="font-size:20px;"></i>
+                                    </span>
+                                    <span class="nav-link-title">
+                                        审计
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/user/detect">
+                                        <i class="ti ti-barrier-block"></i>&nbsp;
+                                        审计规则
                                     </a>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="/user/detect">
-                                            <i class="ti ti-barrier-block"></i>&nbsp;
-                                            审计规则
-                                        </a>
-                                        <a class="dropdown-item" href="/user/detect/log">
-                                            <i class="ti ti-notes"></i>&nbsp;
-                                            审计日志
-                                        </a>
-                                    </div>
-                                </li>
-                            {/if}
+                                    <a class="dropdown-item" href="/user/detect/log">
+                                        <i class="ti ti-notes"></i>&nbsp;
+                                        审计日志
+                                    </a>
+                                </div>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/layout-2 -->
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-building-store" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <line x1="3" y1="21" x2="21" y2="21"></line>
-                                            <path
-                                                d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4">
-                                            </path>
-                                            <line x1="5" y1="21" x2="5" y2="10.85"></line>
-                                            <line x1="19" y1="21" x2="19" y2="10.85"></line>
-                                            <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
-                                        </svg>
+                                        <i class="ti ti-building-store" style="font-size:20px;"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         商店
@@ -287,16 +201,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/admin">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-settings" width="24" height="24"
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path
-                                                    d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
-                                                </path>
-                                                <circle cx="12" cy="12" r="3"></circle>
-                                            </svg>
+                                            <i class="ti ti-settings" style="font-size:20px;"></i>
                                         </span>
                                         <span class="nav-link-title">
                                             管理
