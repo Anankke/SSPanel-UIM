@@ -40,7 +40,7 @@ final class SubController extends BaseController
             ]);
         }
 
-        $subtype_list = ['all', 'clash'];
+        $subtype_list = ['json', 'clash'];
         if (! \in_array($subtype, $subtype_list)) {
             return $response->withJson([
                 'ret' => 0,
@@ -158,7 +158,7 @@ final class SubController extends BaseController
         }
 
         $sub_info = [
-            'version' => 1,
+            'version' => 2,
             'sub_name' => $_ENV['appName'],
             'user_email' => $user->email,
             'user_name' => $user->user_name,
