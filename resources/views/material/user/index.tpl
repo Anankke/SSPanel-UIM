@@ -348,8 +348,8 @@
                                             <div class="tab-pane fade active in" id="sub_center_universal_subscription">
                                                 <p>此处为通用订阅，适用于多种应用的订阅。</p>
                                                 <hr/>
-                                                <p>[ 所有节点 ]：
-                                                    <a class="copy-text btn-dl" data-clipboard-text="{$getUniversalSub}/all"><i class="mdi mdi-send icon-sm"></i> 拷贝链接</a>
+                                                <p>[ json ]：
+                                                    <a class="copy-text btn-dl" data-clipboard-text="{$getUniversalSub}/json"><i class="mdi mdi-send icon-sm"></i> 拷贝链接</a>
                                                 </p>
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_general">
