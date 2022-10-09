@@ -37,7 +37,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+                <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3" style="filter: none;">
                     <img src="/images/uim-logo-round.png" height="32" alt="SSPanel-UIM" class="navbar-brand-image">
                 </h1>
                 <div class="navbar-nav flex-row order-md-last">
@@ -52,10 +52,9 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <a href="/user/darkmode" class="dropdown-item">切换至深色模式</a>
+                            <a href="/user/lightmode" class="dropdown-item">切换至浅色模式</a>
                             <a href="/user/logout" class="dropdown-item">登出</a>
-                            {if $user->is_admin}
-                                <a href="/admin" class="dropdown-item">管理后台</a>
-                            {/if}
                         </div>
                     </div>
                 </div>
@@ -185,13 +184,13 @@
                                 <div class="dropdown-menu">
                                     <div class="dropdown-menu-columns">
                                         <div class="dropdown-menu-column">
-                                            <a class="dropdown-item" href="/user/product">
+                                            <a class="dropdown-item" href="/user/shop">
                                                 <i class="ti ti-shopping-cart"></i>&nbsp;
-                                                商品列表
+                                                套餐购买
                                             </a>
-                                            <a class="dropdown-item" href="/user/order">
+                                            <a class="dropdown-item" href="/user/code">
                                                 <i class="ti ti-checklist"></i>&nbsp;
-                                                账单列表
+                                                账户充值
                                             </a>
                                         </div>
                                     </div>
