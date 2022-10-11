@@ -173,11 +173,11 @@
                                                 </p>
                                                 <a data-clipboard-text="{$getUniversalSub}/json"
                                                     class="copy btn btn-primary ms-auto">
-                                                    复制 json 通用订阅
+                                                    复制通用订阅（json）
                                                 </a>
                                                 <a data-clipboard-text="{$subInfo['clash']}"
                                                     class="copy btn btn-primary ms-auto">
-                                                    复制 Clash
+                                                    复制通用订阅（clash）
                                                 </a>
                                                 <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
                                                     class="btn btn-primary ms-auto my-2">
@@ -202,11 +202,15 @@
                                         </div>
                                         <div class="tab-pane" id="macos">
                                             <p>
-                                                适用于 ClashX 的订阅：<code>{$subInfo['clash']}</code>
+                                                适用于 Clash 的订阅：<code>{$subInfo['clash']}</code>
                                             </p>
                                             <a data-clipboard-text="{$subInfo['clash']}"
                                                 class="copy btn btn-primary ms-auto my-2">
-                                                复制 ClashX
+                                                复制 Clash
+                                            </a>
+                                            <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
+                                                class="btn btn-primary ms-auto my-2">
+                                                导入 Clash
                                             </a>
                                         </div>
                                         <div class="tab-pane" id="android">
@@ -230,31 +234,64 @@
                                             <p style="color: red;">
                                                 如若提示无法打开，是因为需要先安装对应 APP，然后才能导入
                                             </p>
+                                            <a data-clipboard-text="{$subInfo['clash']}"
+                                                class="copy btn btn-primary ms-auto">
+                                                复制 Clash
+                                            </a>
                                             <a href="sub://{base64_encode($subInfo['clash'])}"
                                                 class="btn btn-primary ms-auto">
                                                 导入 Shadowrocket
                                             </a>
                                         </div>
                                         <div class="tab-pane" id="linux">
-                                            <div>紧张准备中...</div>
+                                            <p>
+                                                适用于 Clash 的订阅：<code>{$subInfo['clash']}</code>
+                                            </p>
+                                            <a data-clipboard-text="{$subInfo['clash']}"
+                                                class="copy btn btn-primary ms-auto">
+                                                复制 Clash
+                                            </a>
+                                            <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
+                                                class="btn btn-primary ms-auto my-2">
+                                                导入 Clash
+                                            </a>
                                         </div>
                                         <div class="tab-pane" id="config">
-                                            <button data-clipboard-text="{$subInfo['ss']}"
-                                                class="copy btn btn-primary ms-auto">
-                                                复制 SS 文本配置
-                                            </button>
-                                            <button data-clipboard-text="{$subInfo['ssr']}"
-                                                class="copy btn btn-primary ms-auto">
-                                                复制 SSR 文本配置
-                                            </button>
-                                            <button data-clipboard-text="{$subInfo['v2ray']}"
-                                                class="copy btn btn-primary ms-auto">
-                                                复制 V2ray 文本配置
-                                            </button>
-                                            <button data-clipboard-text="{$subInfo['trojan']}"
-                                                class="copy btn btn-primary ms-auto">
-                                                复制 Trojan 文本配置
-                                            </button>
+                                            <p>您的连接信息：</p>
+                                            <div class="table-responsive">
+                                                <table class="table table-vcenter card-table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><strong>端口</strong></td>
+                                                        <td>{$user->port}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>连接密码</strong></td>
+                                                        <td>{$user->passwd}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>UUID</strong></td>
+                                                        <td>{$user->uuid}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>自定义加密</strong></td>
+                                                        <td>{$user->method}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>自定义协议</strong></td>
+                                                        <td>{$user->protocol}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>自定义混淆</strong></td>
+                                                        <td>{$user->obfs}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>自定义混淆参数</strong></td>
+                                                        <td>{$user->obfs_param}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

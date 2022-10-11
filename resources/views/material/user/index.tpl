@@ -223,8 +223,7 @@
                                         {if $user->isAbleToCheckin() }
                                             <div id="checkin-btn">
                                                 <button id="checkin" class="btn btn-brand btn-flat"><span class="mdi mdi-check"></span>&nbsp;点我签到&nbsp;
-                                                    <div><span class="mdi mdi-screen-rotation"></span>&nbsp;或者摇动手机签到</div>
-                                                    </button>
+                                                </button>
                                             </div>
                                         {else}
                                             <p><a class="btn btn-brand disabled btn-flat" href="#"><span class="mdi mdi-check"></span>&nbsp;今日已签到</a></p>
@@ -661,7 +660,6 @@
 
 {include file='user/footer.tpl'}
 
-<script src="https://fastly.jsdelivr.net/npm/shake.js@1.2.2/shake.min.js"></script>
 <script>
     function DateParse(str_date) {
         var str_date_splited = str_date.split(/[^0-9]/);
@@ -730,48 +728,6 @@
     {/if}
     {if $geetest_html == null}
     var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="mdi mdi-check"></span>&nbsp;已签到</a></p>';
-    window.onload = function () {
-        var myShakeEvent = new Shake({
-            threshold: 15
-        });
-        myShakeEvent.start();
-        window.addEventListener('shake', shakeEventDidOccur, false);
-        function shakeEventDidOccur() {
-            if ("vibrate" in navigator) {
-                navigator.vibrate(500);
-            }
-            $.ajax({
-                type: "POST",
-                url: "/user/checkin",
-                dataType: "json",
-                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
-                data: {
-                    recaptcha: grecaptcha.getResponse()
-                },
-                {/if}
-                success: (data) => {
-                    if (data.ret) {
-
-                        $$.getElementById('checkin-msg').innerHTML = data.msg;
-                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
-                        $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
-                },
-                error: (jqXHR) => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `发生错误：${
-                            jqXHR.status
-                            }`;
-                }
-            });
-        }
-    };
     $(document).ready(function () {
         $("#checkin").click(function () {
             $.ajax({
@@ -806,19 +762,6 @@
         })
     })
     {else}
-    window.onload = function () {
-        var myShakeEvent = new Shake({
-            threshold: 15
-        });
-        myShakeEvent.start();
-        window.addEventListener('shake', shakeEventDidOccur, false);
-        function shakeEventDidOccur() {
-            if ("vibrate" in navigator) {
-                navigator.vibrate(500);
-            }
-            c.show();
-        }
-    };
     var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="mdi mdi-check"></span>&nbsp;已签到</a></p>';
     var handlerPopup = function (captchaObj) {
         c = captchaObj;
