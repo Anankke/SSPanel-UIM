@@ -11,15 +11,6 @@
                         <span class="home-subtitle">查看节点在线情况</span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
-                    <div class="btn-list">
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
-                            data-bs-target="#connect-info">
-                            <i class="ti ti-info-circle icon"></i>
-                            连接信息
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -62,11 +53,11 @@
                                                         <div class="col-auto">
                                                             <span
                                                                 class="status-indicator
-                                                                {if $server["traffic_used"] >= $server["traffic_limit"]}
+                                                                {if $server["traffic_limit"] != '0' && $server["traffic_used"] >= $server["traffic_limit"]}
                                                                 status-yellow 
-                                                                {elseif $server["online"] =="1"}
+                                                                {elseif $server["online"] == "1"}
                                                                 status-green 
-                                                                {elseif $node["online"] =="0"}
+                                                                {elseif $node["online"] == "0"}
                                                                 status-orange 
                                                                 {else}
                                                                 status-red 
@@ -101,6 +92,18 @@
                                                                         <i class="ti ti-rocket"></i>&nbsp;
                                                                         {$server["traffic_rate"]} 倍
                                                                     </li>
+                                                                    <li class="list-inline-item">
+                                                                        <i class="ti ti-server-2"></i>&nbsp;
+                                                                        {if $server['sort'] == 0}
+                                                                        Shadowsocks
+                                                                        {elseif $server['sort'] == 9}
+                                                                        Shadowsocksr
+                                                                        {elseif $server['sort'] == 11}
+                                                                        V2ray
+                                                                        {elseif $server['sort'] == 14}
+                                                                        Trojan
+                                                                        {/if}
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -113,64 +116,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal modal-blur fade" id="connect-info" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">连接信息</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-                        <div class="table-responsive">
-                            <table class="table table-vcenter card-table">
-                                <thead>
-                                    <tr>
-                                        <th>项目</th>
-                                        <th>内容</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>端口</td>
-                                        <td>{$user->port}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>加密</td>
-                                        <td>{$user->method}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>协议</td>
-                                        <td>{$user->protocol}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>混淆</td>
-                                        <td>{$user->obfs}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>混淆参数</td>
-                                        <td>{$user->obfs_param}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>连接密码</td>
-                                        <td>{$user->passwd}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>UUID</td>
-                                        <td>{$user->uuid}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">确认</button>
                 </div>
             </div>
         </div>
