@@ -92,7 +92,7 @@ final class UserController extends BaseController
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
                 ->assign('geetest_html', $geetest_html)
                 ->assign('mergeSub', $_ENV['mergeSub'])
-                ->assign('subUrl', $_ENV['subUrl'])
+                ->assign('subUrl', $_ENV['subUrl'] . '/link/')
                 ->registerClass('URL', URL::class)
                 ->assign('recaptcha_sitekey', $captcha['recaptcha'])
                 ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
@@ -151,32 +151,6 @@ final class UserController extends BaseController
                 ->assign('render', $render)
                 ->display('user/donate.tpl')
         );
-    }
-
-    public function isHTTPS()
-    {
-        define('HTTPS', false);
-        if (defined('HTTPS') && HTTPS) {
-            return true;
-        }
-        if (! isset($_SERVER)) {
-            return false;
-        }
-        if (! isset($_SERVER['HTTPS'])) {
-            return false;
-        }
-        if ($_SERVER['HTTPS'] === 1) {  //Apache
-            return true;
-        }
-
-        if ($_SERVER['HTTPS'] === 'on') { //IIS
-            return true;
-        }
-
-        if ($_SERVER['SERVER_PORT'] === 443) { //其他
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -1191,5 +1165,24 @@ final class UserController extends BaseController
             ->assign('render', $render)
             ->registerClass('Tools', Tools::class)
             ->fetch('user/subscribe_log.tpl');
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function switchThemeMode(Request $request, Response $response, array $args)
+    {
+        $user = $this->user;
+        if ($user->is_dark_mode === 1) {
+            $user->is_dark_mode = 0;
+        } else {
+            $user->is_dark_mode = 1;
+        }
+        $user->save();
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '切換成功',
+        ]);
     }
 }

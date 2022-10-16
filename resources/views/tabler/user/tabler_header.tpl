@@ -30,7 +30,11 @@
     </style>
 </head>
 
+{if $user->is_dark_mode}
+<body class='theme-dark'>
+{else}
 <body>
+{/if}
     <div class="page">
         <header class="navbar navbar-expand-md navbar-dark navbar-overlap d-print-none">
             <div class="container-xl" style="background-image: none;">
@@ -52,8 +56,11 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <a href="/user/darkmode" class="dropdown-item">切换至深色模式</a>
-                            <a href="/user/lightmode" class="dropdown-item">切换至浅色模式</a>
+                            {if $user->is_dark_mode}
+                            <a id="switch_theme_mode" class="dropdown-item">切换至浅色模式</a>
+                            {else}
+                            <a id="switch_theme_mode" class="dropdown-item">切换至深色模式</a>
+                            {/if}
                             <a href="/user/logout" class="dropdown-item">登出</a>
                         </div>
                     </div>
@@ -64,7 +71,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/user">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-home" style="font-size:20px;"></i>
+                                        <i class="ti ti-home icon"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         主页
@@ -75,7 +82,7 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-user" style="font-size:20px;"></i>
+                                        <i class="ti ti-user icon"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         我的
@@ -110,7 +117,7 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-brand-telegram" style="font-size:20px;"></i>
+                                        <i class="ti ti-brand-telegram icon"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         使用
@@ -131,7 +138,7 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-dots-circle-horizontal" style="font-size:20px;"></i>
+                                        <i class="ti ti-dots-circle-horizontal icon"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         更多
@@ -154,7 +161,7 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-shield-check" style="font-size:20px;"></i>
+                                        <i class="ti ti-shield-check icon"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         审计
@@ -175,7 +182,7 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-building-store" style="font-size:20px;"></i>
+                                        <i class="ti ti-building-store icon"></i>
                                     </span>
                                     <span class="nav-link-title">
                                         商店
@@ -200,7 +207,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/admin">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                            <i class="ti ti-settings" style="font-size:20px;"></i>
+                                            <i class="ti ti-settings icon"></i>
                                         </span>
                                         <span class="nav-link-title">
                                             管理

@@ -25,7 +25,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-blue text-white avatar">
-                                                <i class="ti ti-star" style="font-size:20px;"></i>
+                                                <i class="ti ti-star icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
@@ -46,7 +46,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-green text-white avatar">
-                                                <i class="ti ti-coin" style="font-size:20px;"></i>
+                                                <i class="ti ti-coin icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
@@ -67,7 +67,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-twitter text-white avatar">
-                                                <i class="ti ti-devices-pc" style="font-size:20px;"></i>
+                                                <i class="ti ti-devices-pc icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
@@ -92,7 +92,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-facebook text-white avatar">
-                                                <i class="ti ti-rocket" style="font-size:20px;"></i>
+                                                <i class="ti ti-rocket icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
@@ -120,43 +120,43 @@
                                 <ul class="nav nav-tabs nav-fill" data-bs-toggle="tabs">
                                     <li class="nav-item">
                                         <a href="#sub" class="nav-link active" data-bs-toggle="tab">
-                                            <i class="ti ti-rss" style="font-size:20px;"></i>
+                                            <i class="ti ti-rss icon"></i>
                                             &nbsp;通用订阅
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#windows" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-windows" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-windows icon"></i>
                                             &nbsp;Windows
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#macos" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-finder" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-finder icon"></i>
                                             &nbsp;Macos
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#android" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-android" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-android icon"></i>
                                             &nbsp;Android
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#ios" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-apple" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-apple icon"></i>
                                             &nbsp;IOS
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#linux" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-debian" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-debian icon"></i>
                                             &nbsp;Linux
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#config" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-file-text" style="font-size:20px;"></i>
+                                            <i class="ti ti-file-text icon"></i>
                                             &nbsp;Config
                                         </a>
                                     </li>
@@ -346,7 +346,7 @@
                 <div class="col-lg-6 col-sm-12">
                     <div class="card">
                         <div class="ribbon ribbon-top bg-yellow">
-                            <i class="ti ti-bell-ringing" style="font-size:20px;"></i>
+                            <i class="ti ti-bell-ringing icon"></i>
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">最新公告 <span class="card-subtitle">{$ann->date}</span></h3>
@@ -392,66 +392,6 @@
                     </div>
                 {/if}
                 
-            </div>
-        </div>
-    </div>
-
-    <div class="modal modal-blur fade" id="success-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-status bg-success"></div>
-                <div class="modal-body text-center py-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24"
-                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <circle cx="12" cy="12" r="9" />
-                        <path d="M9 12l2 2l4 -4" />
-                    </svg>
-                    <p id="success-message" class="text-muted">成功</p>
-                </div>
-                <div class="modal-footer">
-                    <div class="w-100">
-                        <div class="row">
-                            <div class="col">
-                                <a id="success-confirm" href="" class="btn w-100" data-bs-dismiss="modal">
-                                    好
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal modal-blur fade" id="fail-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-status bg-danger"></div>
-                <div class="modal-body text-center py-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
-                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 9v2m0 4v.01" />
-                        <path
-                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
-                    </svg>
-                    <p id="fail-message" class="text-muted">失败</p>
-                </div>
-                <div class="modal-footer">
-                    <div class="w-100">
-                        <div class="row">
-                            <div class="col">
-                                <a href="" class="btn btn-danger w-100" data-bs-dismiss="modal">
-                                    确认
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

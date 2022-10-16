@@ -395,7 +395,7 @@ final class LinkController extends BaseController
         if ($int === 0) {
             $int = '';
         }
-        $userapiUrl = $_ENV['subUrl'] . self::generateSSRSubCode($user->id);
+        $userapiUrl = $_ENV['subUrl'] . '/link/' . self::generateSSRSubCode($user->id);
         $return_info = [
             'link' => '',
             // sub
