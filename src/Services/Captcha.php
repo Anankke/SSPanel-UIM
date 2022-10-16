@@ -48,10 +48,10 @@ final class Captcha
                         );
 
                         $opts = ['http' => [
-                                'method' => 'POST',
-                                'header' => 'Content-Type: application/x-www-form-urlencoded',
-                                'content' => $postdata,
-                            ],
+                            'method' => 'POST',
+                            'header' => 'Content-Type: application/x-www-form-urlencoded',
+                            'content' => $postdata,
+                        ],
                         ];
 
                         $json = file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, stream_context_create($opts));
