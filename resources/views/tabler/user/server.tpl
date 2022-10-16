@@ -1,4 +1,4 @@
-{include file='user/tabler_header.tpl'}
+{include file="user/tabler_header.tpl"}
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
@@ -15,28 +15,8 @@
                     <div class="btn-list">
                         <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#connect-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle"
-                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <desc>Download more icon variants from https://tabler-icons.io/i/info-circle</desc>
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <circle cx="12" cy="12" r="9"></circle>
-                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                                <polyline points="11 12 12 12 12 16 13 16"></polyline>
-                            </svg>
+                            <i class="ti ti-info-circle icon"></i>
                             连接信息
-                        </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                            data-bs-target="#connect-info">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle"
-                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <desc>Download more icon variants from https://tabler-icons.io/i/info-circle</desc>
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <circle cx="12" cy="12" r="9"></circle>
-                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                                <polyline points="11 12 12 12 12 16 13 16"></polyline>
-                            </svg>
                         </a>
                     </div>
                 </div>
@@ -62,20 +42,12 @@
                             <div class="tab-content">
                                 <div class="row row-cards">
                                     {foreach $servers as $server}
-                                        {if $user->class < $server['class']}
+                                        {if $user->class < $server["class"]}
                                         <div class="col-lg-12">
                                             <div class="card bg-primary-lt">
                                                 <div class="card-body">
                                                     <p class="text-muted">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-blue"
-                                                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                                            stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <circle cx="12" cy="12" r="9"></circle>
-                                                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                                                            <polyline points="11 12 12 12 12 16 13 16"></polyline>
-                                                        </svg>
+                                                        <i class="ti ti-info-circle icon text-blue"></i>
                                                         你当前的账户等级小于下列节点等级，因此仅能查看公开信息而无法使用。可前往 <a
                                                             href="/user/product">商店</a> 订购相应等级套餐
                                                     </p>
@@ -89,7 +61,17 @@
                                                     <div class="row g-3 align-items-center">
                                                         <div class="col-auto">
                                                             <span
-                                                                class="status-indicator status-indicator-animated">
+                                                                class="status-indicator
+                                                                {if $server["traffic_used"] >= $server["traffic_limit"]}
+                                                                status-yellow 
+                                                                {elseif $server["online"] =="1"}
+                                                                status-green 
+                                                                {elseif $node["online"] =="0"}
+                                                                status-orange 
+                                                                {else}
+                                                                status-red 
+                                                                {/if}
+                                                                status-indicator-animated">
                                                                 <span class="status-indicator-circle"></span>
                                                                 <span class="status-indicator-circle"></span>
                                                                 <span class="status-indicator-circle"></span>
@@ -97,16 +79,15 @@
                                                         </div>
                                                         <div class="col">
                                                             <h2 class="page-title" style="font-size: 16px;">
-                                                                {$server['name']}&nbsp;
+                                                                {$server["name"]}&nbsp;
                                                                 <span class="card-subtitle my-2"
                                                                     style="font-size: 10px;">
-                                                                    {if $server['traffic_limit'] == '0'}
-                                                                        {round($server['traffic_used'] / 1073741824)} GB /
+                                                                    {if $server["traffic_limit"] == "0"}
+                                                                        {round($server["traffic_used"])} GB /
                                                                         不限
                                                                     {else}
-                                                                        {round($server['traffic_used'] / 1073741824)} GB /
-                                                                        {round($server['traffic_limit'] / 1073741824)}
-                                                                        GB
+                                                                        {round($server["traffic_used"])} GB /
+                                                                        {round($server["traffic_limit"])} GB
                                                                     {/if}
                                                                 </span>
                                                             </h2>
@@ -114,11 +95,11 @@
                                                                 <ul class="list-inline list-inline-dots mb-0">
                                                                     <li class="list-inline-item">
                                                                         <i class="ti ti-users"></i>&nbsp;
-                                                                        {$server['online_user']}
+                                                                        {$server["online_user"]}
                                                                     </li>
                                                                     <li class="list-inline-item">
                                                                         <i class="ti ti-rocket"></i>&nbsp;
-                                                                        {$server['traffic_rate']} 倍
+                                                                        {$server["traffic_rate"]} 倍
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -196,10 +177,10 @@
     </div>
 
     <script>
-        var clipboard = new ClipboardJS('.ti-copy');
-        clipboard.on('success', function(e) {
-            $('#success-message').text('已复制到剪切板');
-            $('#success-dialog').modal('show');
+        var clipboard = new ClipboardJS(".ti-copy");
+        clipboard.on("success", function(e) {
+            $("#success-message").text("已复制到剪切板");
+            $("#success-dialog").modal("show");
         });
     </script>
-{include file='user/tabler_footer.tpl'}
+{include file="user/tabler_footer.tpl"}

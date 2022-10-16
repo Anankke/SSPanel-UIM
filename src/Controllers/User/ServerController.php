@@ -7,7 +7,6 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Utils\Tools;
-use App\Utils\URL;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
