@@ -411,6 +411,11 @@
                 type: "POST",
                 url: "/user/checkin",
                 dataType: "json",
+                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                data: {
+                    turnstile: turnstile.getResponse(),
+                },
+                {/if}
                 success: function(data) {
                     if (data.ret == 1) {
                         $('#success-message').text(data.msg);
