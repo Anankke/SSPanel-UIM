@@ -194,6 +194,6 @@ final class SubController extends BaseController
             $token->token = Tools::genSubToken();
             $token->save();
         }
-        return $_ENV['baseUrl'] . '/sub/' . $token->token;
+        return $_ENV['subUrl'] . '/sub/' . $token->token;
     }
 }

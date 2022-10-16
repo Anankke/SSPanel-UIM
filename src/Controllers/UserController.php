@@ -92,7 +92,7 @@ final class UserController extends BaseController
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
                 ->assign('geetest_html', $geetest_html)
                 ->assign('mergeSub', $_ENV['mergeSub'])
-                ->assign('subUrl', $_ENV['subUrl'])
+                ->assign('subUrl', $_ENV['subUrl'] . '/link/')
                 ->registerClass('URL', URL::class)
                 ->assign('recaptcha_sitekey', $captcha['recaptcha'])
                 ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
