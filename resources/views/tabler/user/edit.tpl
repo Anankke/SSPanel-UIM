@@ -63,24 +63,24 @@
                                                             placeholder="新邮箱" {if $config['enable_change_email'] == false}disabled=""{/if}>
                                                     </div>
                                                     {if $config['enable_email_verify'] == true && $config['enable_change_email'] == true}
-                                                        <div class="mb-3">
-                                                            <input id="email-code" type="text" class="form-control"
-                                                                placeholder="验证码">
-                                                        </div>
+                                                    <div class="mb-3">
+                                                        <input id="email-code" type="text" class="form-control"
+                                                            placeholder="验证码">
+                                                    </div>
                                                     {/if}
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
                                                         {if $config['enable_email_verify'] == true && $config['enable_change_email'] == true}
-                                                            <a id="email-verify" class="btn btn-link">获取验证码</a>
-                                                            <button id="modify-email"
-                                                                class="btn btn-primary ms-auto">修改</button>
+                                                        <a id="email-verify" class="btn btn-link">获取验证码</a>
+                                                        <button id="modify-email"
+                                                            class="btn btn-primary ms-auto">修改</button>
                                                         {elseif $config['enable_change_email'] == true}
-                                                            <button id="modify-email"
-                                                                class="btn btn-primary ms-auto">修改</button>
+                                                        <button id="modify-email"
+                                                            class="btn btn-primary ms-auto">修改</button>
                                                         {else}
-                                                            <button id="modify-email" class="btn btn-primary ms-auto"
-                                                                disabled>暂不允许修改</button>
+                                                        <button id="modify-email" class="btn btn-primary ms-auto"
+                                                            disabled>暂不允许修改</button>
                                                         {/if}
                                                     </div>
                                                 </div>
@@ -134,64 +134,64 @@
                                             </div>
                                         </div>
                                         {if $config['enable_telegram'] == true}
-                                            <div class="col-sm-12 col-md-6">
-                                                {if $user->telegram_id != 0}
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h3 class="card-title">解绑 Telegram</h3>
-                                                            <p>当前绑定的 Telegram 账户：
-                                                                {if $user->im_value === "用戶名未设置"}
-                                                                <code>{$user->telegram_id}</code>
-                                                                {else}
-                                                                <a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
-                                                                {/if}
-                                                            </p>
-                                                        </div>
-                                                        <div class="card-footer">
-                                                            <div class="d-flex">
-                                                                <a href="/user/telegram_reset"
-                                                                    class="btn btn-red ms-auto">解绑</a>
-                                                            </div>
-                                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            {if $user->telegram_id != 0}
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h3 class="card-title">解绑 Telegram</h3>
+                                                    <p>当前绑定的 Telegram 账户：
+                                                        {if $user->im_value === "用戶名未设置"}
+                                                        <code>{$user->telegram_id}</code>
+                                                        {else}
+                                                        <a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
+                                                        {/if}
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="d-flex">
+                                                        <a href="/user/telegram_reset"
+                                                            class="btn btn-red ms-auto">解绑</a>
                                                     </div>
-                                                {else}
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h3 class="card-title">绑定 Telegram</h3>
-                                                            {if $config['use_new_telegram_bot'] == true}
-                                                                <div class="row">
-                                                                    <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
-                                                                        手机电脑平板等如已安装 Telegram 可点击
-                                                                    </div>
-                                                                    <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
-                                                                        <a href="https://t.me/{$telegram_bot}?start={$bind_token}"
-                                                                            class="btn btn-primary w-100">
-                                                                            一键绑定
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
-                                                                        向机器人 <a
-                                                                            href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>
-                                                                        发送验证码绑定
-                                                                    </div>
-                                                                    <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
-                                                                        <button data-clipboard-text="{$bind_token}"
-                                                                            class="copy btn btn-primary w-100">
-                                                                            复制验证码
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            {else}
-                                                                <p>向机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>
-                                                                    发送图片绑定，拍照可能导致解码失败</p>
-                                                                <p id="qrcode-telegram"></p>
-                                                            {/if}
-                                                        </div>
-                                                    </div>
-                                                {/if}
+                                                </div>
                                             </div>
+                                            {else}
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h3 class="card-title">绑定 Telegram</h3>
+                                                    {if $config['use_new_telegram_bot'] == true}
+                                                    <div class="row">
+                                                        <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
+                                                            手机电脑平板等如已安装 Telegram 可点击
+                                                        </div>
+                                                        <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
+                                                            <a href="https://t.me/{$telegram_bot}?start={$bind_token}"
+                                                                class="btn btn-primary w-100">
+                                                                一键绑定
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
+                                                            向机器人 <a
+                                                                href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>
+                                                            发送验证码绑定
+                                                        </div>
+                                                        <div class="col-6 col-sm-2 col-md-2 col-sm mb-3">
+                                                            <button data-clipboard-text="{$bind_token}"
+                                                                class="copy btn btn-primary w-100">
+                                                                复制验证码
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    {else}
+                                                    <p>向机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>
+                                                        发送图片绑定，拍照可能导致解码失败</p>
+                                                    <p id="qrcode-telegram"></p>
+                                                    {/if}
+                                                </div>
+                                            </div>
+                                            {/if}
+                                        </div>
                                         {/if}
                                     </div>
                                 </div>
@@ -252,7 +252,7 @@
                                         <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h3 class="card-title">登录密码</h3>
+                                                    <h3 class="card-title">修改登录密码</h3>
                                                     <div class="mb-3">
                                                         <form>
                                                             <input id="password" type="password" class="form-control"
@@ -358,6 +358,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">修改主题</h3>
@@ -376,8 +378,10 @@
                                                         <a id="modify-user-theme" class="btn btn-primary ms-auto">修改</a>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            {if $config['enable_kill'] == true}
+                                            </div>   
+                                        </div>
+                                        {if $config['enable_kill'] == true}
+                                        <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-stamp">
                                                     <div class="card-stamp-icon bg-red">
@@ -394,9 +398,9 @@
                                                         确认删除
                                                     </a>
                                                 </div>
-                                            </div>
-                                            {/if}
+                                            </div>  
                                         </div>
+                                        {/if}
                                     </div>
                                 </div>
                             </div>
