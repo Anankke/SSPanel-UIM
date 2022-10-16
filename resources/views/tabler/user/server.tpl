@@ -123,7 +123,7 @@
                                                                     {if $server['sort'] == '11' && $user->class >= $server['class']}
                                                                     <li class="list-inline-item">
                                                                         <a class="ti ti-copy"
-                                                                            data-clipboard-text="{URL::getV2Url($user, $server)}"
+                                                                            data-clipboard-text="{$server['v2_url']}"
                                                                             style="text-decoration: none;">
                                                                         </a>
                                                                     </li>
@@ -131,7 +131,7 @@
                                                                     {if $server['sort'] == '14' && $user->class >= $server['class']}
                                                                     <li class="list-inline-item">
                                                                         <a class="ti ti-copy"
-                                                                            data-clipboard-text="{URL::getTrojanUrl($user, $node)}"
+                                                                            data-clipboard-text="{$server['trojan_url']}"
                                                                             style="text-decoration: none;">
                                                                         </a>
                                                                     </li>

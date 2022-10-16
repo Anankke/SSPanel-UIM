@@ -7,6 +7,7 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Utils\Tools;
+use App\Utils\URL;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -47,6 +48,9 @@ final class ServerController extends BaseController
             $array_node['traffic_used'] = (int) Tools::flowToGB($node->node_bandwidth);
             $array_node['traffic_limit'] = (int) Tools::flowToGB($node->node_bandwidth_limit);
             $array_node['bandwidth'] = $node->getNodeSpeedlimit();
+
+            $array_node['v2_url'] = URL::getV2Url($user, $node);
+            $array_node['trojan_url'] = URL::getTrojanUrl($user, $node);
 
             $all_node[] = $array_node;
         }
