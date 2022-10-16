@@ -52,6 +52,12 @@ final class UserController extends BaseController
     {
         $captcha = Captcha::generate();
 
+        if ($this->user->is_dark_mode === true || $this->user->is_dark_mode === 1) {
+            $is_dark_mode = true;
+        } else {
+            $is_dark_mode = false;
+        }
+
         if ($_ENV['subscribe_client_url'] !== '') {
             $getClient = new Token();
             for ($i = 0; $i < 10; $i++) {
@@ -84,6 +90,7 @@ final class UserController extends BaseController
 
         return $response->write(
             $this->view()
+                ->assign('is_dark_mode', $is_dark_mode)
                 ->assign('ssr_sub_token', $this->user->getSublink())
                 ->assign('display_ios_class', $_ENV['display_ios_class'])
                 ->assign('display_ios_topup', $_ENV['display_ios_topup'])
@@ -151,32 +158,6 @@ final class UserController extends BaseController
                 ->assign('render', $render)
                 ->display('user/donate.tpl')
         );
-    }
-
-    public function isHTTPS()
-    {
-        define('HTTPS', false);
-        if (defined('HTTPS') && HTTPS) {
-            return true;
-        }
-        if (! isset($_SERVER)) {
-            return false;
-        }
-        if (! isset($_SERVER['HTTPS'])) {
-            return false;
-        }
-        if ($_SERVER['HTTPS'] === 1) {  //Apache
-            return true;
-        }
-
-        if ($_SERVER['HTTPS'] === 'on') { //IIS
-            return true;
-        }
-
-        if ($_SERVER['SERVER_PORT'] === 443) { //其他
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -1191,5 +1172,24 @@ final class UserController extends BaseController
             ->assign('render', $render)
             ->registerClass('Tools', Tools::class)
             ->fetch('user/subscribe_log.tpl');
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function switchThemeMode(Request $request, Response $response, array $args)
+    {
+        $user = $this->user;
+        if ($user->is_dark_mode === 1) {
+            $user->is_dark_mode = 0;
+        } else {
+            $user->is_dark_mode = 1;
+        }
+        $user->save();
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '切換成功',
+        ]);
     }
 }

@@ -30,7 +30,11 @@
     </style>
 </head>
 
+{if $is_dark_mode == true}
+<body class='theme-dark'>
+{else}
 <body>
+{/if}
     <div class="page">
         <header class="navbar navbar-expand-md navbar-dark navbar-overlap d-print-none">
             <div class="container-xl" style="background-image: none;">
@@ -52,8 +56,11 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <a href="/user/darkmode" class="dropdown-item">切换至深色模式</a>
-                            <a href="/user/lightmode" class="dropdown-item">切换至浅色模式</a>
+                            {if $is_dark_mode == true}
+                            <a id="switch_theme_mode" class="dropdown-item">切换至深色模式</a>
+                            {else}
+                            <a id="switch_theme_mode" class="dropdown-item">切换至浅色模式</a>
+                            {/if}
                             <a href="/user/logout" class="dropdown-item">登出</a>
                         </div>
                     </div>

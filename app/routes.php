@@ -92,6 +92,9 @@ return function (SlimApp $app): void {
         $this->post('/url_reset', App\Controllers\UserController::class . ':resetURL');
         $this->put('/invite', App\Controllers\UserController::class . ':resetInviteURL');
 
+        //深色模式
+        $this->post('/switch_theme_mode', App\Controllers\UserController::class . ':switchThemeMode');
+
         // 订阅记录
         $this->get('/subscribe_log', App\Controllers\UserController::class . ':subscribeLog');
 

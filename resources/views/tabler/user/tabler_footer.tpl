@@ -24,6 +24,25 @@
 </div>
 </div>
 <!-- js -->
+<script>
+    $("#switch_theme_mode").click(function() {
+        $.ajax({
+            type: "POST",
+            url: "/user/switch_theme_mode",
+            dataType: "json",
+            success: function(data) {
+                if (data.ret == 1) {
+                    $('#success-message').text(data.msg);
+                    $('#success-dialog').modal('show');
+                    location.reload();
+                } else {
+                    $('#fail-message').text(data.msg);
+                    $('#fail-dialog').modal('show');
+                }
+            }
+        })
+    });
+</script>
 <script src="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 <script>console.table([['数据库查询', '执行时间'], ['{count($queryLog)} 次', '{$optTime} ms']])</script>
