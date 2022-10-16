@@ -360,64 +360,6 @@
                                         <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h3 class="card-title">修改连接参数</h3>
-                                                    <p>SS/SSR
-                                                        支持的加密方式和混淆方式有所不同，请根据实际情况来进行选择。在这里选择你需要使用的客户端可以帮助你筛选加密方式和混淆方式。<code>auth_chain</code>
-                                                        系为实验性协议，可能造成不稳定或无法使用</p>
-                                                    <div class="form-group mb-3 row">
-                                                        <label class="form-label col-3 col-form-label">加密方式</label>
-                                                        <div class="col">
-                                                            <select id="method" class="form-select">
-                                                                {$method_list = $config_service->getSupportParam('method')}
-                                                                {foreach $method_list as $method}
-                                                                    <option value="{$method}"
-                                                                        {if $user->method == $method}selected{/if}>{$method}
-                                                                    </option>
-                                                                {/foreach}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-3 row">
-                                                        <label class="form-label col-3 col-form-label">协议</label>
-                                                        <div class="col">
-                                                            <select id="protocol" class="form-select">
-                                                                {$protocol_list = $config_service->getSupportParam('protocol')}
-                                                                {foreach $protocol_list as $protocol}
-                                                                    <option value="{$protocol}"
-                                                                        {if $user->protocol == $protocol}selected{/if}>
-                                                                        {$protocol}</option>
-                                                                {/foreach}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-3 row">
-                                                        <label class="form-label col-3 col-form-label">混淆</label>
-                                                        <div class="col">
-                                                            <select id="obfs" class="form-select">
-                                                                {$obfs_list = $config_service->getSupportParam('obfs')}
-                                                                {foreach $obfs_list as $obfs}
-                                                                    <option value="{$obfs}"
-                                                                        {if $user->obfs == $obfs}selected{/if}>{$obfs}
-                                                                    </option>
-                                                                {/foreach}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <input id="obfs_param" type="text" class="form-control"
-                                                            value="{$user->obfs_param}" placeholder="混淆参数">
-                                                    </div>
-                                                </div>
-                                                <div class="card-footer">
-                                                    <div class="d-flex">
-                                                        <a id="modify-config" class="btn btn-primary ms-auto">修改</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="card">
-                                                <div class="card-body">
                                                     <h3 class="card-title">每日用量推送</h3>
                                                     <div class="mb-3">
                                                         <select id="daily-report" class="form-select">
@@ -540,17 +482,6 @@
             colorLight: '#ffffff',
             correctLevel: QRCode.CorrectLevel.H
         });
-
-        {if $config['use_new_telegram_bot'] == false}
-            var tgqrcode = new QRCode('qrcode-telegram', {
-                text: 'mod://bind/{$bind_token}',
-                width: 128,
-                height: 128,
-                colorDark: '#000000',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.H
-            });
-        {/if}
 
         var clipboard = new ClipboardJS('.copy');
         clipboard.on('success', function(e) {

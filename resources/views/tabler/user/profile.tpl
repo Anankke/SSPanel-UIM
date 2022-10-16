@@ -65,37 +65,6 @@
                 <div class="col-md-6 com-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">最近使用记录</h3>
-                        </div>
-                        {if $use_logs->count() != '0'}
-                            <div class="table-responsive">
-                                <table class="table table-vcenter card-table">
-                                    <thead>
-                                        <tr>
-                                            <th>IP</th>
-                                            <th>归属</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {foreach $use_logs as $use_log}
-                                            <tr>
-                                                <td>{$use_log->ip}</td>
-                                                <td>{Tools::getIpInfo($use_log->ip)}</td>
-                                            </tr>
-                                        {/foreach}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {else}
-                            <div class="card-body">
-                                <p>没有记录</p>
-                            </div>
-                        {/if}
-                    </div>
-                </div>
-                <div class="col-md-6 com-sm-12">
-                    <div class="card">
-                        <div class="card-header">
                             <h3 class="card-title">最近登录记录</h3>
                         </div>
                         <div class="table-responsive">

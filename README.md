@@ -12,7 +12,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Anankke/SSPanel-Uim/Lint%20code?label=lint&style=flat-square)
 
 
-[使用文档](https://wiki.sspanel.org) | [API 文档](https://github.com/sspanel-uim/API-documents) | [配套SS/SSR后端](https://github.com/Anankke/shadowsocks-mod) | [配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 频道](https://t.me/sspanel_uim) | [Telegram 水群](https://t.me/ssunion)
+[使用文档](https://wiki.sspanel.org) | [API 文档](https://github.com/sspanel-uim/API-documents) | [配套SS/SSR后端](https://github.com/sspanel-uim/shadowsocks-mod) | [配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 水群](https://t.me/ssunion) | [Telegram 通知频道](https://t.me/sspanel_uim) | [Telegram 开发频道](https://t.me/sspanel_uim_dev)
 
 ## 简介
 
