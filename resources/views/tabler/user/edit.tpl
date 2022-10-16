@@ -60,7 +60,7 @@
                                                     <p>当前邮箱：<code>{$user->email}</code></p>
                                                     <div class="mb-3">
                                                         <input id="new-email" type="email" class="form-control"
-                                                            placeholder="新邮箱" {if $config['enable_change_email'] != true}disabled=""{/if}>
+                                                            placeholder="新邮箱" {if $config['enable_change_email'] == false}disabled=""{/if}>
                                                     </div>
                                                     {if $config['enable_email_verify'] == true && $config['enable_change_email'] == true}
                                                         <div class="mb-3">
@@ -73,6 +73,9 @@
                                                     <div class="d-flex">
                                                         {if $config['enable_email_verify'] == true && $config['enable_change_email'] == true}
                                                             <a id="email-verify" class="btn btn-link">获取验证码</a>
+                                                            <button id="modify-email"
+                                                                class="btn btn-primary ms-auto">修改</button>
+                                                        {elseif $config['enable_change_email'] == true}
                                                             <button id="modify-email"
                                                                 class="btn btn-primary ms-auto">修改</button>
                                                         {else}
@@ -404,6 +407,7 @@
         </div>
     </div>
 
+    {if $config['enable_kill'] == true}
     <div class="modal modal-blur fade" id="destroy-account" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -489,6 +493,7 @@
             </div>
         </div>
     </div>
+    {/if}
 
     <script>
         var qrcode = new QRCode('qrcode', {
@@ -782,7 +787,8 @@
                 }
             })
         });
-
+        
+        {if $config['enable_kill'] == true}
         $("#confirm-destroy").click(function() {
             $.ajax({
                 type: "POST",
@@ -802,5 +808,6 @@
                 }
             })
         });
+        {/if}
     </script>
 {include file='user/tabler_footer.tpl'}
