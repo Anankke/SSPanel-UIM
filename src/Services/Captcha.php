@@ -41,20 +41,19 @@ final class Captcha
                 if (isset($param['turnstile'])) {
                     if ($param['turnstile'] !== '') {
                         $postdata = http_build_query(
-                            array(
+                            [
                                 'secret' => Setting::obtain('turnstile_secret'),
-                                'response' => $param['turnstile']
-                            )
+                                'response' => $param['turnstile'],
+                            ]
                         );
-                        
-                        $opts = array('http' =>
-                            array(
-                                'method'  => 'POST',
-                                'header'  => 'Content-Type: application/x-www-form-urlencoded',
-                                'content' => $postdata
-                            )
-                        );
-                    
+
+                        $opts = ['http' => [
+                                'method' => 'POST',
+                                'header' => 'Content-Type: application/x-www-form-urlencoded',
+                                'content' => $postdata,
+                            ],
+                        ];
+
                         $json = file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, stream_context_create($opts));
                         $result = \json_decode($json)->success;
                     }
