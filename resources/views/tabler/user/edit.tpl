@@ -23,61 +23,28 @@
                             <li class="nav-item" role="presentation">
                                 <a href="#personal_information" class="nav-link active" data-bs-toggle="tab"
                                     aria-selected="true" role="tab">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"
-                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                        stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-                                    </svg>&nbsp;
+                                    <i class="ti ti-chart-candle icon"></i>&nbsp;
                                     资料
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a href="#login_security" class="nav-link" data-bs-toggle="tab" aria-selected="true"
                                     role="tab">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-shield-lock" width="24" height="24"
-                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path
-                                            d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3">
-                                        </path>
-                                        <circle cx="12" cy="11" r="1"></circle>
-                                        <line x1="12" y1="12" x2="12" y2="14.5"></line>
-                                    </svg>&nbsp;
+                                    <i class="ti ti-shield-lock icon"></i>&nbsp;
                                     登录
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a href="#use_safety" class="nav-link" data-bs-toggle="tab" aria-selected="false"
                                     tabindex="-1" role="tab">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-car"
-                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                        stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <circle cx="7" cy="17" r="2"></circle>
-                                        <circle cx="17" cy="17" r="2"></circle>
-                                        <path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5">
-                                        </path>
-                                    </svg>&nbsp;
+                                    <i class="ti ti-brand-telegram icon"></i>&nbsp;
                                     使用
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a href="#other_settings" class="nav-link" data-bs-toggle="tab" aria-selected="false"
                                     tabindex="-1" role="tab">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail"
-                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                        stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                                        <polyline points="3 7 12 13 21 7"></polyline>
-                                    </svg>&nbsp;
+                                    <i class="ti ti-settings icon"></i>&nbsp;
                                     其他
                                 </a>
                             </li>
@@ -93,13 +60,12 @@
                                                     <p>当前邮箱：<code>{$user->email}</code></p>
                                                     <div class="mb-3">
                                                         <input id="new-email" type="email" class="form-control"
-                                                            placeholder="新邮箱"
-                                                            {if $config['enable_change_email'] != true}disabled{/if}>
+                                                            placeholder="新邮箱" {if $config['enable_change_email'] != true}disabled=""{/if}>
                                                     </div>
                                                     {if $config['enable_email_verify'] == true && $config['enable_change_email'] == true}
                                                         <div class="mb-3">
                                                             <input id="email-code" type="text" class="form-control"
-                                                                placeholder="新邮箱收到的验证码">
+                                                                placeholder="验证码">
                                                         </div>
                                                     {/if}
                                                 </div>
@@ -154,7 +120,7 @@
                                                     <p>当前用戶名：<code>{$user->user_name}</code></p>
                                                     <div class="mb-3">
                                                         <input id="new-nickname" type="text" class="form-control"
-                                                            value="新用戶名" autocomplete="off">
+                                                        placeholder="新用戶名" autocomplete="off">
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
@@ -172,7 +138,7 @@
                                                             <h3 class="card-title">解绑 Telegram</h3>
                                                             <p>当前绑定的 Telegram 账户：
                                                                 {if $user->im_value === "用戶名未设置"}
-                                                                <a>{$user->telegram_id}</a>
+                                                                <code>{$user->telegram_id}</code>
                                                                 {else}
                                                                 <a href="https://t.me/{$user->im_value}">@{$user->im_value}</a>
                                                                 {/if}
@@ -421,17 +387,8 @@
                                                 <div class="card-footer">
                                                     <a href="#" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
                                                         data-bs-target="#destroy-account">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
-                                                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <line x1="4" y1="7" x2="20" y2="7"></line>
-                                                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                                                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-                                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                                                        </svg>
-                                                        删除账户
+                                                        <i class="ti ti-trash icon"></i>
+                                                        确认删除
                                                     </a>
                                                 </div>
                                             </div>
@@ -453,16 +410,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-status bg-danger"></div>
                 <div class="modal-body text-center py-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
-                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 9v2m0 4v.01" />
-                        <path
-                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
-                    </svg>
+                    <i class="ti ti-alert-circle icon mb-2 text-danger icon-lg"></i>
                     <h3>删除确认</h3>
-                    <div class="text-muted">真的要删除你的账户么，此操作无法撤销</div>
+                    <div class="text-muted">请确认是否真的要删除你的账户，此操作无法撤销，你的所有账户数据将会被从服务器上彻底删除</div>
                     <div class="py-3">
                         <form>
                             <input id="confirm-passwd" type="password" class="form-control" placeholder="输入登录密码"
@@ -496,13 +446,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-status bg-success"></div>
                 <div class="modal-body text-center py-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-green icon-lg" width="24" height="24"
-                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <circle cx="12" cy="12" r="9" />
-                        <path d="M9 12l2 2l4 -4" />
-                    </svg>
+                    <i class="ti ti-circle-check icon mb-2 text-green icon-lg"></i>
                     <h3>删除成功</h3>
                     <p id="success-message" class="text-muted">删除成功</p>
                 </div>
@@ -527,14 +471,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-status bg-danger"></div>
                 <div class="modal-body text-center py-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24"
-                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 9v2m0 4v.01" />
-                        <path
-                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
-                    </svg>
+                    <i class="ti ti-circle-x icon mb-2 text-danger icon-lg"></i>
                     <h3>删除失败</h3>
                     <p id="error-message" class="text-muted">删除失败</p>
                 </div>

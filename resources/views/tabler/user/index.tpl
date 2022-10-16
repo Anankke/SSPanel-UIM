@@ -25,7 +25,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-blue text-white avatar">
-                                                <i class="ti ti-star" style="font-size:20px;"></i>
+                                                <i class="ti ti-star icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
@@ -46,7 +46,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-green text-white avatar">
-                                                <i class="ti ti-coin" style="font-size:20px;"></i>
+                                                <i class="ti ti-coin icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
@@ -67,7 +67,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-twitter text-white avatar">
-                                                <i class="ti ti-devices-pc" style="font-size:20px;"></i>
+                                                <i class="ti ti-devices-pc icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
@@ -92,7 +92,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-facebook text-white avatar">
-                                                <i class="ti ti-rocket" style="font-size:20px;"></i>
+                                                <i class="ti ti-rocket icon"></i>
                                             </span>
                                         </div>
                                         <div class="col">
@@ -120,43 +120,43 @@
                                 <ul class="nav nav-tabs nav-fill" data-bs-toggle="tabs">
                                     <li class="nav-item">
                                         <a href="#sub" class="nav-link active" data-bs-toggle="tab">
-                                            <i class="ti ti-rss" style="font-size:20px;"></i>
+                                            <i class="ti ti-rss icon"></i>
                                             &nbsp;通用订阅
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#windows" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-windows" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-windows icon"></i>
                                             &nbsp;Windows
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#macos" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-finder" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-finder icon"></i>
                                             &nbsp;Macos
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#android" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-android" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-android icon"></i>
                                             &nbsp;Android
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#ios" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-apple" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-apple icon"></i>
                                             &nbsp;IOS
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#linux" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-debian" style="font-size:20px;"></i>
+                                            <i class="ti ti-brand-debian icon"></i>
                                             &nbsp;Linux
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#config" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-file-text" style="font-size:20px;"></i>
+                                            <i class="ti ti-file-text icon"></i>
                                             &nbsp;Config
                                         </a>
                                     </li>
@@ -346,7 +346,7 @@
                 <div class="col-lg-6 col-sm-12">
                     <div class="card">
                         <div class="ribbon ribbon-top bg-yellow">
-                            <i class="ti ti-bell-ringing" style="font-size:20px;"></i>
+                            <i class="ti ti-bell-ringing icon"></i>
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">最新公告 <span class="card-subtitle">{$ann->date}</span></h3>
