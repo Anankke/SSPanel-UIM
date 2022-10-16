@@ -158,7 +158,6 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">绑定 Telegram</h3>
-                                                    {if $config['use_new_telegram_bot'] == true}
                                                     <div class="row">
                                                         <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
                                                             手机电脑平板等如已安装 Telegram 可点击
@@ -183,11 +182,6 @@
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    {else}
-                                                    <p>向机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>
-                                                        发送图片绑定，拍照可能导致解码失败</p>
-                                                    <p id="qrcode-telegram"></p>
-                                                    {/if}
                                                 </div>
                                             </div>
                                             {/if}

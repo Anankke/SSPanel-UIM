@@ -216,7 +216,7 @@
                                     <div id="popup-captcha"></div>
                                 {/if}
                                 {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile' && $user->isAbleToCheckin()}
-                                    <div class="cf-turnstile" data-sitekey="{$turnstile_sitekey}"></div>
+                                    <div class="cf-turnstile" data-sitekey="{$turnstile_sitekey}" data-theme="light"></div>
                                 {/if}
                                 <div class="card-action">
                                     <div class="usercheck pull-left">
@@ -736,7 +736,7 @@
                 dataType: "json",
                 {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
                 data: {
-                    turnstile: turnstile.getResponse()
+                    turnstile: turnstile.getResponse(),
                 },
                 {/if}
                 success: (data) => {

@@ -382,7 +382,7 @@
                             <div class="card-footer">
                                 <div class="d-flex">
                                     {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile' && $user->isAbleToCheckin()}
-                                    <div class="cf-turnstile" data-sitekey="{$turnstile_sitekey}"></div>
+                                    <div class="cf-turnstile" data-sitekey="{$turnstile_sitekey}" data-theme="light"></div>
                                     {/if}
                                     {if !$user->isAbleToCheckin()}
                                     <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
