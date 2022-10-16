@@ -215,8 +215,8 @@
                                 {if $geetest_html != null}
                                     <div id="popup-captcha"></div>
                                 {/if}
-                                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha' && $user->isAbleToCheckin()}
-                                    <div class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+                                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile' && $user->isAbleToCheckin()}
+                                    <div class="cf-turnstile" data-sitekey="{$turnstile_sitekey}" data-theme="light"></div>
                                 {/if}
                                 <div class="card-action">
                                     <div class="usercheck pull-left">
@@ -734,9 +734,9 @@
                 type: "POST",
                 url: "/user/checkin",
                 dataType: "json",
-                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
                 data: {
-                    recaptcha: grecaptcha.getResponse()
+                    turnstile: turnstile.getResponse(),
                 },
                 {/if}
                 success: (data) => {
@@ -813,6 +813,6 @@
     {/if}
 </script>
 
-{if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
-    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+{if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
 {/if}

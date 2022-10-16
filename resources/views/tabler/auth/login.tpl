@@ -39,10 +39,10 @@
                         <div id="embed-captcha"></div>
                     </div>
                 {/if}
-                {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
                     <div class="form-group-label auth-row">
                         <div class="row">
-                            <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+                            <div align="center" class="cf-turnstile" data-sitekey="{$turnstile_sitekey}" data-theme="light"></div>
                         </div>
                     </div>
                 {/if}
@@ -119,8 +119,8 @@
                 url: location.pathname,
                 dataType: "json",
                 data: {
-                    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
-                    recaptcha: grecaptcha.getResponse(),
+                    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                    turnstile: turnstile.getResponse(),
                     {/if}
                     {if $geetest_html != null}
                     geetest_challenge: validate.geetest_challenge,
@@ -203,6 +203,6 @@
     </script>
 {/if}
 
-{if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
-    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+{if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
 {/if}

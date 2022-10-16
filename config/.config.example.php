@@ -62,7 +62,7 @@ $_ENV['enable_kill']                = true;         //是否允许用户注销�
 $_ENV['enable_change_email']        = true;         //是否允许用户更改賬戶郵箱
 
 #用户流量余量不足邮件提醒
-$_ENV['notify_limit_mode']          = true;         //false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
+$_ENV['notify_limit_mode']          = false;         //false为关闭，per为按照百分比提醒，mb为按照固定剩余流量提醒
 $_ENV['notify_limit_value']         = 20;           //当上一项为per时，此处填写百分比；当上一项为mb时，此处填写流量
 
 //订阅设置---------------------------------------------------------------------------------------

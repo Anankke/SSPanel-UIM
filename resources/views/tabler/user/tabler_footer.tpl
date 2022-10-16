@@ -4,7 +4,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             <div class="modal-status bg-success"></div>
             <div class="modal-body text-center py-4">
-                <i class="ti ti-circle-check icon mb-2 text-green icon-lg"></i>
+                <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
                 <p id="success-message" class="text-muted">成功</p>
             </div>
             <div class="modal-footer">
@@ -28,7 +28,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             <div class="modal-status bg-danger"></div>
             <div class="modal-body text-center py-4">
-                <i class="ti ti-circle-x icon mb-2 text-danger icon-lg"></i>
+                <i class="ti ti-circle-x icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
                 <p id="fail-message" class="text-muted">失败</p>
             </div>
             <div class="modal-footer">

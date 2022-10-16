@@ -158,7 +158,6 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">绑定 Telegram</h3>
-                                                    {if $config['use_new_telegram_bot'] == true}
                                                     <div class="row">
                                                         <div class="col-6 col-sm-2 col-md-2 col-xl mb-3">
                                                             手机电脑平板等如已安装 Telegram 可点击
@@ -183,11 +182,6 @@
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    {else}
-                                                    <p>向机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>
-                                                        发送图片绑定，拍照可能导致解码失败</p>
-                                                    <p id="qrcode-telegram"></p>
-                                                    {/if}
                                                 </div>
                                             </div>
                                             {/if}
@@ -418,7 +412,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-status bg-danger"></div>
                 <div class="modal-body text-center py-4">
-                    <i class="ti ti-alert-circle icon mb-2 text-danger icon-lg"></i>
+                    <i class="ti ti-alert-circle icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
                     <h3>删除确认</h3>
                     <div class="text-muted">请确认是否真的要删除你的账户，此操作无法撤销，你的所有账户数据将会被从服务器上彻底删除</div>
                     <div class="py-3">
@@ -454,7 +448,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-status bg-success"></div>
                 <div class="modal-body text-center py-4">
-                    <i class="ti ti-circle-check icon mb-2 text-green icon-lg"></i>
+                    <i class="ti ti-circle-check icon mb-2 text-green icon-lg" style="font-size:3.5rem;"></i>
                     <h3>删除成功</h3>
                     <p id="success-message" class="text-muted">删除成功</p>
                 </div>
@@ -479,7 +473,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-status bg-danger"></div>
                 <div class="modal-body text-center py-4">
-                    <i class="ti ti-circle-x icon mb-2 text-danger icon-lg"></i>
+                    <i class="ti ti-circle-x icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
                     <h3>删除失败</h3>
                     <p id="error-message" class="text-muted">删除失败</p>
                 </div>
@@ -607,6 +601,7 @@
                     if (data.ret == 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
+                        window.setTimeout("location.reload()", {$config['jump_delay']});
                     } else {
                         $('#fail-message').text(data.msg);
                         $('#fail-dialog').modal('show');
