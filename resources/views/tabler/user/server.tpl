@@ -100,12 +100,12 @@
                                                                 {$server['name']}&nbsp;
                                                                 <span class="card-subtitle my-2"
                                                                     style="font-size: 10px;">
-                                                                    {if $server['node_bandwidth_limit'] == '0'}
-                                                                        {round($server['node_bandwidth'] / 1073741824)} GB /
+                                                                    {if $server['traffic_limit'] == '0'}
+                                                                        {round($server['traffic_used'] / 1073741824)} GB /
                                                                         不限
                                                                     {else}
-                                                                        {round($server['node_bandwidth'] / 1073741824)} GB /
-                                                                        {round($server['node_bandwidth_limit'] / 1073741824)}
+                                                                        {round($server['traffic_used'] / 1073741824)} GB /
+                                                                        {round($server['traffic_limit'] / 1073741824)}
                                                                         GB
                                                                     {/if}
                                                                 </span>
