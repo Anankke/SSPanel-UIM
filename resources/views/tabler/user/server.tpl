@@ -120,22 +120,6 @@
                                                                         <i class="ti ti-rocket"></i>&nbsp;
                                                                         {$server['traffic_rate']} 倍
                                                                     </li>
-                                                                    {if $server['sort'] == '11' && $user->class >= $server['class']}
-                                                                    <li class="list-inline-item">
-                                                                        <a class="ti ti-copy"
-                                                                            data-clipboard-text="{$server['v2_url']}"
-                                                                            style="text-decoration: none;">
-                                                                        </a>
-                                                                    </li>
-                                                                    {/if}
-                                                                    {if $server['sort'] == '14' && $user->class >= $server['class']}
-                                                                    <li class="list-inline-item">
-                                                                        <a class="ti ti-copy"
-                                                                            data-clipboard-text="{$server['trojan_url']}"
-                                                                            style="text-decoration: none;">
-                                                                        </a>
-                                                                    </li>
-                                                                    {/if}
                                                                 </ul>
                                                             </div>
                                                         </div>

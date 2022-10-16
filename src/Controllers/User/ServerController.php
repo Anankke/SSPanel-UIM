@@ -49,9 +49,6 @@ final class ServerController extends BaseController
             $array_node['traffic_limit'] = (int) Tools::flowToGB($node->node_bandwidth_limit);
             $array_node['bandwidth'] = $node->getNodeSpeedlimit();
 
-            $array_node['v2_url'] = URL::getV2Url($user, $node);
-            $array_node['trojan_url'] = URL::getTrojanUrl($user, $node);
-
             $all_node[] = $array_node;
         }
 
