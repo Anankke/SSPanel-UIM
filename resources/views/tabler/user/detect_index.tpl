@@ -24,20 +24,6 @@
                         <div class="card-body">
                             <div class="m-0 my-2">
                                 <p>为了防止滥用与确保站点可以稳定运行，特制定了如下过滤规则，当您使用节点执行这些动作时，您的通信就会被截断。</p>
-                                {if $config['enable_auto_detect_ban']===true}
-                                    {if $config['auto_detect_ban_type']==1}
-                                    <p>每当您触发审计规则达 <strong>{$config['auto_detect_ban_number']}</strong> 次，将会被停止使用服务 <strong>{$config    ['auto_detect_ban_time']}</strong> 分钟</p>
-                                    {else}
-                                    <p>审计将以以下规则执行：</p>
-                                    {foreach $config['auto_detect_ban'] as $key => $value}
-                                        {if $value['type']=='kill'}
-                                        <p><i class="mdi mdi-information-outline icon-sm"></i> 当您触碰审计规则达 <strong>{$key}</strong> 次，将会被直接 <strong>删除   账号</strong></p>
-                                        {else}
-                                        <p><i class="mdi mdi-information-outline icon-sm"></i> 当您触碰审计规则达 <strong>{$key}</strong> 次，将会被封禁 <strong>   {$value['time']}</strong> 分钟</p>
-                                        {/if}
-                                    {/foreach}
-                                    {/if}
-                                {/if}
                             </div>
                         </div>
                     </div>
