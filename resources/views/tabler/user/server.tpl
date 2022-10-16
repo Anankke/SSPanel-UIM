@@ -62,29 +62,26 @@
                             <div class="tab-content">
                                 <div class="row row-cards">
                                     {foreach $servers as $server}
-                                        {if $user->class < $server->node_class}
-                                            {if $display_marker == '0'}
-                                                <div class="col-lg-12">
-                                                    <div class="card bg-primary-lt">
-                                                        <div class="card-body">
-                                                            <p class="text-muted">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon text-blue"
-                                                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                                    stroke="currentColor" fill="none" stroke-linecap="round"
-                                                                    stroke-linejoin="round">
-                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                    <circle cx="12" cy="12" r="9"></circle>
-                                                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                                                                    <polyline points="11 12 12 12 12 16 13 16"></polyline>
-                                                                </svg>
-                                                                你当前的账户等级小于下列节点等级，因此仅能查看公开信息而无法使用。可前往 <a
-                                                                    href="/user/product">商店</a> 订购相应等级套餐
-                                                            </p>
-                                                        </div>
-                                                    </div>
+                                        {if $user->class < $server['class']}
+                                        <div class="col-lg-12">
+                                            <div class="card bg-primary-lt">
+                                                <div class="card-body">
+                                                    <p class="text-muted">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-blue"
+                                                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                            stroke="currentColor" fill="none" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <circle cx="12" cy="12" r="9"></circle>
+                                                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                                            <polyline points="11 12 12 12 12 16 13 16"></polyline>
+                                                        </svg>
+                                                        你当前的账户等级小于下列节点等级，因此仅能查看公开信息而无法使用。可前往 <a
+                                                            href="/user/product">商店</a> 订购相应等级套餐
+                                                    </p>
                                                 </div>
-                                                {$display_marker = $display_marker + 1}
-                                            {/if}
+                                            </div>
+                                        </div>
                                         {/if}
                                         <div class="col-md-4 col-sm-12">
                                             <div class="card">
@@ -100,16 +97,15 @@
                                                         </div>
                                                         <div class="col">
                                                             <h2 class="page-title" style="font-size: 16px;">
-                                                                {$server->name}&nbsp;
+                                                                {$server['name']}&nbsp;
                                                                 <span class="card-subtitle my-2"
                                                                     style="font-size: 10px;">
-                                                                    {if $server->node_bandwidth_limit == '0'}
-                                                                        {round($server->node_bandwidth / 1073741824)} GB /
+                                                                    {if $server['node_bandwidth_limit'] == '0'}
+                                                                        {round($server['node_bandwidth'] / 1073741824)} GB /
                                                                         不限
                                                                     {else}
-                                                                        {round($server->node_bandwidth / 1073741824)}
-                                                                        GB /
-                                                                        {round($server->node_bandwidth_limit / 1073741824)}
+                                                                        {round($server['node_bandwidth'] / 1073741824)} GB /
+                                                                        {round($server['node_bandwidth_limit'] / 1073741824)}
                                                                         GB
                                                                     {/if}
                                                                 </span>
@@ -118,33 +114,20 @@
                                                                 <ul class="list-inline list-inline-dots mb-0">
                                                                     <li class="list-inline-item">
                                                                         <i class="ti ti-users"></i>&nbsp;
-                                                                        {$server->get_node_online_user_count()}
+                                                                        {$server['online_user']}
                                                                     </li>
                                                                     <li class="list-inline-item">
                                                                         <i class="ti ti-rocket"></i>&nbsp;
-                                                                        {$server->traffic_rate}x
+                                                                        {$server['traffic_rate']} 倍
                                                                     </li>
                                                                     {if $server->sort == '11' && $user->class >= $server->node_class}
-                                                                        <li class="list-inline-item">
-                                                                            <a class="ti ti-copy"
-                                                                                data-clipboard-text="{URL::getV2Url($user, $server)}"
-                                                                                style="text-decoration: none;">
-                                                                            </a>
-                                                                        </li>
-                                                                    {/if}
                                                                     <li class="list-inline-item">
-                                                                        <span id="more-details" class="pop form-help"
-                                                                            data-bs-toggle="popover"
-                                                                            data-bs-placement="top" data-bs-content="
-                                                                            <p>每月 {$server->bandwidthlimit_resetday} 日重置用量</p>
-                                                                            <p>{$server->info}</p>
-                                                                            {if $user->is_admin}
-                                                                                <p>节点备注：{$server->remark}</p>
-                                                                                <a href='/admin/node/{$server->id}/edit'>编辑节点</a>
-                                                                            {/if}" data-bs-html="true"
-                                                                            data-bs-original-title="" title="">?
-                                                                        </span>
+                                                                        <a class="ti ti-copy"
+                                                                            data-clipboard-text="{URL::getV2Url($user, $server)}"
+                                                                            style="text-decoration: none;">
+                                                                        </a>
                                                                     </li>
+                                                                    {/if}
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -226,32 +209,5 @@
             $('#success-message').text('已复制到剪切板');
             $('#success-dialog').modal('show');
         });
-
-        {literal}                     
-        // https://zablog.me/2015/10/25/Popover/ 非常感谢
-        $(document).ready(
-            function() {
-                $(".pop").popover({placement:'left', trigger:'manual', delay: {show: 100, hide: 100}, html: true,
-                title: function() {
-                    return $("#data-original-title").html();
-                },
-                content: function() {
-                    return $("#data-content").html(); // 把content变成html
-                }
-            });
-        $('body').click(function(event) {
-            var target = $(event.target); // 判断自己当前点击的内容
-            if (!target.hasClass('popover') &&
-                !target.hasClass('pop') &&
-                !target.hasClass('popover-content') &&
-                !target.hasClass('popover-title') &&
-                !target.hasClass('arrow')) {
-                $('.pop').popover('hide'); // 当点击body的非弹出框相关的内容的时候，关闭所有popover
-            }
-        });
-        $(".pop").click(function(event) {
-            $('.pop').popover('hide'); // 当点击一个按钮的时候把其他的所有内容先关闭
-        });
-        {/literal}
     </script>
 {include file='user/tabler_footer.tpl'}
