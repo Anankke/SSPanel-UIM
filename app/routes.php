@@ -42,6 +42,8 @@ return function (SlimApp $app): void {
         $this->get('/node', App\Controllers\User\NodeController::class . ':userNodePage');
         $this->get('/node/{id}', App\Controllers\User\NodeController::class . ':userNodeInfo');
 
+        $this->get('/server', App\Controllers\User\ServerController::class . ':userServerPage');
+
         $this->get('/detect', App\Controllers\User\DetectController::class . ':detectIndex');
         $this->get('/detect/log', App\Controllers\User\DetectController::class . ':detectLog');
 
