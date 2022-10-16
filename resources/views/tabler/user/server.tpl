@@ -120,10 +120,18 @@
                                                                         <i class="ti ti-rocket"></i>&nbsp;
                                                                         {$server['traffic_rate']} 倍
                                                                     </li>
-                                                                    {if $server->sort == '11' && $user->class >= $server->node_class}
+                                                                    {if $server['sort'] == '11' && $user->class >= $server['class']}
                                                                     <li class="list-inline-item">
                                                                         <a class="ti ti-copy"
                                                                             data-clipboard-text="{URL::getV2Url($user, $server)}"
+                                                                            style="text-decoration: none;">
+                                                                        </a>
+                                                                    </li>
+                                                                    {/if}
+                                                                    {if $server['sort'] == '14' && $user->class >= $server['class']}
+                                                                    <li class="list-inline-item">
+                                                                        <a class="ti ti-copy"
+                                                                            data-clipboard-text="{URL::getTrojanUrl($user, $node)}"
                                                                             style="text-decoration: none;">
                                                                         </a>
                                                                     </li>
