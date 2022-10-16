@@ -30,11 +30,21 @@
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.</p>
         <br>
-        <h1><a href="https://wiki.sspanel.org/#/contributors">贡献者清单 | </a></h1>
-        <h1><a href="https://github.com/Anankke/SSPanel-Uim">GitHub</a></h1>
+        <h1><a href="https://wiki.sspanel.org/#/contributors">贡献者清单</a></h1>
+        <br>
+        <h1><a href="https://github.com/Anankke/SSPanel-Uim">GitHub</h1>
+        <br>
+        <h1>SSPanel-UIM 中所使用的开源项目</h1>
+        <p><a href="https://github.com/smarty-php/smarty">Smarty template engine</a></p>
+        <p><a href="https://github.com/slimphp/Slim">Slim Framework</a></p>
+        <p><a href="https://github.com/cakephp/phinx">Phinx</a></p>
+        <p><a href="https://github.com/orvice/ss-panel">ss-panel</a></p>
+        <p><a href="https://github.com/tabler/tabler">tabler</a></p>      
+        <p><a href="https://github.com/Dogfalo/materialize">materialize</a></p>
+        <p><a href="https://github.com/Templarian/MaterialDesign">Material Design Icons</a></p>
         <br>
         <h1>鸣谢</h1>
-        <p>所有被引用过代码的使用者，以及所有提交过 PR 的贡献者。当然，还有在使用这份程序的你我Ta。</p>
+        <p>所有被引用过代码的开发者，以及所有提交过 PR 的贡献者。当然，还有在使用这份程序的你我Ta。</p>
     </div>
 </div>
 </body>
