@@ -30,7 +30,7 @@
     </style>
 </head>
 
-{if $is_dark_mode == true}
+{if $user->is_dark_mode}
 <body class='theme-dark'>
 {else}
 <body>
@@ -56,10 +56,10 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            {if $is_dark_mode == true}
-                            <a id="switch_theme_mode" class="dropdown-item">切换至深色模式</a>
-                            {else}
+                            {if $user->is_dark_mode}
                             <a id="switch_theme_mode" class="dropdown-item">切换至浅色模式</a>
+                            {else}
+                            <a id="switch_theme_mode" class="dropdown-item">切换至深色模式</a>
                             {/if}
                             <a href="/user/logout" class="dropdown-item">登出</a>
                         </div>

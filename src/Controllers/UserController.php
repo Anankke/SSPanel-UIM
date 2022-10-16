@@ -52,12 +52,6 @@ final class UserController extends BaseController
     {
         $captcha = Captcha::generate();
 
-        if ($this->user->is_dark_mode === true || $this->user->is_dark_mode === 1) {
-            $is_dark_mode = true;
-        } else {
-            $is_dark_mode = false;
-        }
-
         if ($_ENV['subscribe_client_url'] !== '') {
             $getClient = new Token();
             for ($i = 0; $i < 10; $i++) {
@@ -90,7 +84,6 @@ final class UserController extends BaseController
 
         return $response->write(
             $this->view()
-                ->assign('is_dark_mode', $is_dark_mode)
                 ->assign('ssr_sub_token', $this->user->getSublink())
                 ->assign('display_ios_class', $_ENV['display_ios_class'])
                 ->assign('display_ios_topup', $_ENV['display_ios_topup'])
