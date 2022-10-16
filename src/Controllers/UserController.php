@@ -94,7 +94,7 @@ final class UserController extends BaseController
                 ->assign('mergeSub', $_ENV['mergeSub'])
                 ->assign('subUrl', $_ENV['subUrl'] . '/link/')
                 ->registerClass('URL', URL::class)
-                ->assign('recaptcha_sitekey', $captcha['recaptcha'])
+                ->assign('turnstile_sitekey', $captcha['turnstile'])
                 ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
                 ->assign('getUniversalSub', SubController::getUniversalSub($this->user))
                 ->assign('getClient', $token)

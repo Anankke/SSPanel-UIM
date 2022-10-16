@@ -392,11 +392,11 @@
     {
         "id": null,
         "item": "captcha_provider",
-        "value": "recaptcha",
+        "value": "turnstile",
         "class": "captcha",
         "is_public": 1,
         "type": "string",
-        "default": "recaptcha",
+        "default": "turnstile",
         "mark": "验证码提供商"
     },
     {
@@ -431,23 +431,23 @@
     },
     {
         "id": null,
-        "item": "recaptcha_sitekey",
+        "item": "turnstile_sitekey",
         "value": "",
-        "class": "recaptcha",
+        "class": "turnstile",
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "reCaptcha网站密钥"
+        "mark": "Turnstile网站密钥"
     },
     {
         "id": null,
-        "item": "recaptcha_secret",
+        "item": "turnstile_secret",
         "value": "",
-        "class": "recaptcha",
+        "class": "turnstile",
         "is_public": 0,
         "type": "string",
         "default": "",
-        "mark": "reCaptcha密钥"
+        "mark": "Turnstile密钥"
     },
     {
         "id": null,

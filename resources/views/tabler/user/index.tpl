@@ -381,10 +381,13 @@
                             </div>
                             <div class="card-footer">
                                 <div class="d-flex">
+                                    {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile' && $user->isAbleToCheckin()}
+                                    <div class="cf-turnstile" data-sitekey="{$turnstile_sitekey}"></div>
+                                    {/if}
                                     {if !$user->isAbleToCheckin()}
-                                        <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
+                                    <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
                                     {else}
-                                        <button id="check-in" class="btn btn-primary ms-auto">签到</button>
+                                    <button id="check-in" class="btn btn-primary ms-auto">签到</button>
                                     {/if}
                                 </div>
                             </div>
@@ -420,4 +423,8 @@
             })
         });
     </script>
+
+    {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
+    {/if}
 {include file='user/tabler_footer.tpl'}

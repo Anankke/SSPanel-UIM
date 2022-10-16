@@ -57,7 +57,7 @@ final class AuthController extends BaseController
             ->assign('login_number', $login_number)
             ->assign('base_url', $_ENV['baseUrl'])
             ->assign('telegram_bot', $_ENV['telegram_bot'])
-            ->assign('recaptcha_sitekey', $captcha['recaptcha'])
+            ->assign('turnstile_sitekey', $captcha['turnstile'])
             ->display('auth/login.tpl');
     }
 
@@ -68,7 +68,7 @@ final class AuthController extends BaseController
     {
         $captcha = Captcha::generate();
         return $response->withJson([
-            'recaptchaKey' => $captcha['recaptcha'],
+            'turnstileKey' => $captcha['turnstile'],
             'GtSdk' => $captcha['geetest'],
             'respon' => 1,
         ]);
@@ -195,7 +195,7 @@ final class AuthController extends BaseController
             ->assign('login_number', $login_number)
             ->assign('geetest_html', $geetest_html)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
-            ->assign('recaptcha_sitekey', $captcha['recaptcha'])
+            ->assign('turnstile_sitekey', $captcha['turnstile'])
             ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
             ->display('auth/register.tpl');
     }

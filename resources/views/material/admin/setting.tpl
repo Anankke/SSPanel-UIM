@@ -572,7 +572,7 @@
                                                 <a data-toggle="tab" href="#verification_code_public_settings">&nbsp;设置</a>
                                             </li>
                                             <li>
-                                                <a data-toggle="tab" href="#recaptcha">&nbsp;reCAPTCHA</a>
+                                                <a data-toggle="tab" href="#turnstile">&nbsp;Turnstile</a>
                                             </li>
                                             <li>
                                                 <a data-toggle="tab" href="#geetest">&nbsp;Geetest</a>
@@ -585,7 +585,7 @@
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">验证码提供商</label>
                                             <select id="captcha_provider" class="form-control maxwidth-edit">
-                                                <option value="recaptcha" {if $settings['captcha_provider'] == "recaptcha"}selected{/if}>reCaptcha</option>
+                                                <option value="turnstile" {if $settings['captcha_provider'] == "turnstile"}selected{/if}>Turnstile</option>
                                                 <option value="geetest" {if $settings['captcha_provider'] == "geetest"}selected{/if}>Geetest</option>
                                             </select>
                                         </div>
@@ -616,20 +616,20 @@
 
                                         <button id="submit_verify_code" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
-                                    <div class="tab-pane fade" id="recaptcha">
-                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>在 <a href="https://www.google.com/recaptcha/admin/create" target="view_window">https://www.google.com/recaptcha/admin/create</a> 申请，选择【reCAPTCHA 第 2 版】的子选项【进行人机身份验证复选框】</p>
-                                        <!-- recaptcha_sitekey -->
+                                    <div class="tab-pane fade" id="turnstile">
+                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>在 <a href="https://developers.cloudflare.com/turnstile/get-started/#sitekey-and-secret-key" target="view_window">https://developers.cloudflare.com/turnstile/get-started/#sitekey-and-secret-key</a> 申请</p>
+                                        <!-- turnstile_sitekey -->
                                         <div class="form-group form-group-label">
-                                            <label class="floating-label">reCaptcha Site Key</label>
-                                            <input class="form-control maxwidth-edit" id="recaptcha_sitekey" value="{$settings['recaptcha_sitekey']}">
+                                            <label class="floating-label">Turnstile Site Key</label>
+                                            <input class="form-control maxwidth-edit" id="turnstile_sitekey" value="{$settings['turnstile_sitekey']}">
                                         </div>
-                                        <!-- recaptcha_secret -->
+                                        <!-- turnstile_secret -->
                                         <div class="form-group form-group-label">
-                                            <label class="floating-label">reCaptcha Secret</label>
-                                            <input class="form-control maxwidth-edit" id="recaptcha_secret" value="{$settings['recaptcha_secret']}">
+                                            <label class="floating-label">Turnstile Secret</label>
+                                            <input class="form-control maxwidth-edit" id="turnstile_secret" value="{$settings['turnstile_secret']}">
                                         </div>
 
-                                        <button id="submit_recaptcha" type="submit" class="btn btn-block btn-brand">提交</button>
+                                        <button id="submit_turnstile" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
                                     <div class="tab-pane fade" id="geetest">
                                         <p class="form-control-guide"><i class="mdi mdi-information"></i>在 <a href="https://gtaccount.geetest.com/sensebot/overview" target="view_window">https://gtaccount.geetest.com/sensebot/overview</a> 申请</p>
@@ -1421,15 +1421,15 @@
 
 <script>
     window.addEventListener('load', () => {
-        $$.getElementById('submit_recaptcha').addEventListener('click', () => {
+        $$.getElementById('submit_turnstile').addEventListener('click', () => {
             $.ajax({
                 type: "POST",
                 url: "/admin/setting",
                 dataType: "json",
                 data: {
-                    class: 'verify_code_recaptcha',
-                    recaptcha_sitekey: $$getValue('recaptcha_sitekey'),
-                    recaptcha_secret: $$getValue('recaptcha_secret')
+                    class: 'verify_code_turnstile',
+                    turnstile_sitekey: $$getValue('turnstile_sitekey'),
+                    turnstile_secret: $$getValue('turnstile_secret')
                 },
                 success: data => {
                     $("#result").modal();

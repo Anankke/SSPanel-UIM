@@ -118,10 +118,10 @@
                             </div>
                         </div>
                     {/if}
-                    {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
+                    {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
                         <div class="form-group form-group-label">
                             <div class="row">
-                                <div align="center" class="g-recaptcha" data-sitekey="{$recaptcha_sitekey}"></div>
+                                <div align="center" class="cf-turnstile" data-sitekey="{$turnstile_sitekey}"></div>
                             </div>
                         </div>
                     {/if}
@@ -260,8 +260,8 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                     url: location.pathname,
                     dataType: "json",
                     data: {
-                        {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
-                        recaptcha: grecaptcha.getResponse(),
+                        {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                            turnstile: turnstile.getResponse(),
                         {/if}
                         {if $geetest_html != null}
                         geetest_challenge: validate.geetest_challenge,
@@ -426,8 +426,8 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
     </script>
 {/if}
 
-{if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'recaptcha'}
-    <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+{if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
 {/if}
 
 {*dumplin:aff链*}
