@@ -8,7 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Models\StreamMedia;
 use App\Services\Config;
-use App\Utils\Tools;
+use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -108,18 +108,10 @@ final class NodeController extends BaseController
             'version' => VERSION,
         ];
 
-        $res = [
+        return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
             'data' => $data,
-        ];
-
-        $header_etag = $request->getHeaderLine('If-None-Match');
-        $etag = Tools::etag($data);
-        if ($header_etag === $etag) {
-            return $response->withStatus(304);
-        }
-
-        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
+        ]);
     }
 
     /**
@@ -136,18 +128,11 @@ final class NodeController extends BaseController
                     ->orWhere('sort', '=', 14);
             }
         )->get();
-        $res = [
+
+        return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
             'data' => $nodes,
-        ];
-
-        $header_etag = $request->getHeaderLine('If-None-Match');
-        $etag = Tools::etag($nodes);
-        if ($header_etag === $etag) {
-            return $response->withStatus(304);
-        }
-
-        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson($res);
+        ]);
     }
 
     /**

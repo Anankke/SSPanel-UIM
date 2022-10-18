@@ -11,6 +11,7 @@ use App\Models\Node;
 use App\Models\NodeOnlineLog;
 use App\Models\User;
 use App\Services\DB;
+use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Illuminate\Database\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
@@ -105,19 +106,10 @@ final class UserController extends BaseController
             $users[] = $user_raw;
         }
 
-        $body = \json_encode([
+        return ResponseHelper::etagJson($request, $response, [
             'ret' => 1,
             'data' => $users,
         ]);
-
-        $header_etag = $request->getHeaderLine('If-None-Match');
-        $etag = Tools::etag($users);
-        if ($header_etag === $etag) {
-            return $response->withStatus(304);
-        }
-
-        $response->getBody()->write($body);
-        return $response->withHeader('ETag', $etag)->withHeader('WebAPI-ETAG', $etag)->withHeader('Content-Type', 'application/json');
     }
 
     /**
@@ -152,18 +144,17 @@ final class UserController extends BaseController
             ]);
         }
 
+        $pdo = DB::getPdo();
+        $stat = $pdo->prepare('UPDATE user SET t = UNIX_TIMESTAMP(), u = u + ?, d = d + ? WHERE id = ?');
+
+        $rate = (float) $node->traffic_rate;
         $sum = 0;
         foreach ($data as $log) {
-            $u = (int) $log?->u;
-            $d = (int) $log?->d;
-            $user_id = (int) $log?->user_id;
+            $u = $log?->u;
+            $d = $log?->d;
+            $user_id = $log?->user_id;
             if ($user_id) {
-                User::where('id', $user_id)->update([
-                    't' => \time(),
-                    'u' => DB::raw("u + ${u}"),
-                    'd' => DB::raw("d + ${d}"),
-                    'transfer_total' => DB::raw("transfer_total + ${u} + ${d}"),
-                ]);
+                $stat->execute([(int) ($u * $rate), (int) ($d * $rate), $user_id]);
             }
             $sum += $u + $d;
         }
