@@ -179,10 +179,6 @@
                                                     class="copy btn btn-primary ms-auto">
                                                     复制通用订阅（clash）
                                                 </a>
-                                                <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
-                                                    class="btn btn-primary ms-auto my-2">
-                                                    导入 Clash
-                                                </a>
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="windows">
@@ -193,6 +189,10 @@
                                                 <a data-clipboard-text="{$subInfo['clash']}"
                                                     class="copy btn btn-primary ms-auto">
                                                     复制 Clash
+                                                </a>
+                                                <a href="/clients/Clash-Windows.exe"
+                                                    class="btn btn-primary ms-auto">
+                                                    下载 Clash for Windows
                                                 </a>
                                                 <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
                                                     class="btn btn-primary ms-auto my-2">
@@ -208,6 +208,10 @@
                                                 class="copy btn btn-primary ms-auto my-2">
                                                 复制 Clash
                                             </a>
+                                            <a href="/clients/Clash-Windows.dmg"
+                                                class="btn btn-primary ms-auto">
+                                                下载 Clash for Windows
+                                            </a>
                                             <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
                                                 class="btn btn-primary ms-auto my-2">
                                                 导入 Clash
@@ -221,6 +225,10 @@
                                                 class="copy btn btn-primary ms-auto">
                                                 复制 Clash
                                             </a>
+                                            <a href="/clients/Clash-Android.apk"
+                                                class="btn btn-primary ms-auto">
+                                                下载 Clash for Android
+                                            </a>
                                             <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
                                                 class="btn btn-primary ms-auto my-2">
                                                 导入 Clash
@@ -228,15 +236,22 @@
                                         </div>
                                         <div class="tab-pane" id="ios">
                                             <p>
-                                                在安装 Shadowrocket 后，只需 <span style="color: red;">使用 Safari
+                                                适用于 Shadowrocket 的订阅：<code>{$subInfo['clash']}</code>
+                                            </p>
+                                            <p>
+                                                在购买并安装 Shadowrocket 后，只需 <span style="color: red;">使用 Safari
                                                     浏览器</span> 点击下方按钮，然后在弹出的弹窗中点击 <b>打开</b>，即可快捷完成订阅设置
                                             </p>
                                             <p style="color: red;">
                                                 如若提示无法打开，是因为需要先安装对应 APP，然后才能导入
                                             </p>
+                                            <a href="https://apps.apple.com/us/app/shadowrocket/id932747118"
+                                                class="btn btn-primary ms-auto">
+                                                购买 Shadowrocket
+                                            </a>
                                             <a data-clipboard-text="{$subInfo['clash']}"
                                                 class="copy btn btn-primary ms-auto">
-                                                复制 Clash
+                                                复制 Shadowrocket
                                             </a>
                                             <a href="sub://{base64_encode($subInfo['clash'])}"
                                                 class="btn btn-primary ms-auto">
@@ -250,6 +265,10 @@
                                             <a data-clipboard-text="{$subInfo['clash']}"
                                                 class="copy btn btn-primary ms-auto">
                                                 复制 Clash
+                                            </a>
+                                            <a href="/clients/Clash-Windows.tar.gz"
+                                                class="btn btn-primary ms-auto">
+                                                下载 Clash for Windows
                                             </a>
                                             <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
                                                 class="btn btn-primary ms-auto my-2">
