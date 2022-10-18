@@ -47,6 +47,33 @@ final class SubController extends BaseController
             ]);
         }
 
+        $sub_info = [];
+
+        if ($subtype === 'json') {
+            $sub_info = self::getJson($user);
+        }
+
+        if ($subtype === 'clash') {
+            $sub_info = self::getClash($user);
+        }
+
+        if ($_ENV['subscribeLog'] === true) {
+            UserSubscribeLog::addSubscribeLog($user, $subtype, $request->getHeaderLine('User-Agent'));
+        }
+
+        if ($subtype === 'json') {
+            return $response->withJson([
+                $sub_info,
+            ]);
+        }
+
+        return $response->write(
+            $sub_info
+        );
+    }
+
+    public static function getJson($user)
+    {
         $nodes = [];
         //篩選出用戶能連接的節點，感謝 @AVX512
         $nodes_raw = Node::where('type', 1)
@@ -157,7 +184,7 @@ final class SubController extends BaseController
             $nodes[] = $node;
         }
 
-        $sub_info = [
+        return [
             'version' => 2,
             'sub_name' => $_ENV['appName'],
             'user_email' => $user->email,
@@ -168,20 +195,10 @@ final class SubController extends BaseController
             'user_used_traffic' => $user->u + $user->d,
             'nodes' => $nodes,
         ];
+    }
 
-        if ($_ENV['subscribeLog'] === true) {
-            UserSubscribeLog::addSubscribeLog($user, $subtype, $request->getHeaderLine('User-Agent'));
-        }
-        //Etag相關，從 WebAPI 那邊抄的
-        $header_etag = $request->getHeaderLine('If-None-Match');
-        $etag = Tools::etag($sub_info);
-        if ($header_etag === $etag) {
-            return $response->withStatus(304);
-        }
-
-        return $response->withHeader('ETAG', $etag)->withHeader('WebAPI-ETAG', $etag)->withJson([
-            $sub_info,
-        ]);
+    public static function getClash($user): void
+    {
     }
 
     public static function getUniversalSub($user)
