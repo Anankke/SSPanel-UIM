@@ -429,12 +429,12 @@
             $.ajax({
                 type: "POST",
                 url: "/user/checkin",
-                dataType: "json",
-                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                dataType: "json",              
                 data: {
+                    {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
                     turnstile: turnstile.getResponse(),
+                    {/if}
                 },
-                {/if}
                 success: function(data) {
                     if (data.ret == 1) {
                         $('#success-message').text(data.msg);

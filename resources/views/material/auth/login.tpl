@@ -34,7 +34,7 @@
                     </div>
                 </div>
 
-                {if $geetest_html != null}
+                {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'geetest'}
                     <div class="form-group-label labelgeetest auth-row">
                         <div id="embed-captcha"></div>
                     </div>
@@ -204,5 +204,5 @@
 {/if}
 
 {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
 {/if}

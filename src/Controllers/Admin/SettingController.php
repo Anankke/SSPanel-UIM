@@ -79,7 +79,7 @@ final class SettingController extends BaseController
                 break;
                 // 验证码
             case 'verify_code':
-                $list = ['captcha_provider', 'enable_reg_captcha', 'enable_login_captcha', 'enable_checkin_captcha'];
+                $list = ['captcha_provider', 'enable_reg_captcha', 'enable_login_captcha', 'enable_checkin_captcha', 'enable_reset_password_captcha'];
                 break;
             case 'verify_code_turnstile':
                 $list = ['turnstile_sitekey', 'turnstile_secret'];

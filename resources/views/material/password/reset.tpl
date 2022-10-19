@@ -22,7 +22,13 @@
                     <input class="form-control maxwidth-auth" id="email" type="email" inputmode="email" autocomplete="username">
                 </div>
             </div>
-
+            {if $config['enable_reset_password_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+            <div class="form-group-label auth-row">
+                <div class="row">
+                    <div align="center" class="cf-turnstile" data-sitekey="{$turnstile_sitekey}" data-theme="light"></div>
+                </div>
+            </div>
+            {/if}
             <div class="btn-auth auth-row">
                 <button id="reset" type="submit" class="btn btn-block btn-brand waves-attach waves-light">重置密码</button>
             </div>
@@ -81,6 +87,9 @@
                 dataType: "json",
                 data: {
                     email: $$getValue('email'),
+                    {if $config['enable_reset_password_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                    turnstile: turnstile.getResponse(),
+                    {/if}
                 },
                 success: (data) => {
                     if (data.ret == 1) {
@@ -109,3 +118,7 @@
         });
     })
 </script>
+
+{if $config['enable_reset_password_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
+{/if}

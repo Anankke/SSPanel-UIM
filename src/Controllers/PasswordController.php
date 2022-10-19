@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\PasswordReset;
+use App\Models\Setting;
 use App\Models\User;
+use App\Services\Captcha;
 use App\Services\Password;
 use App\Utils\Hash;
 use App\Utils\ResponseHelper;
@@ -35,16 +37,26 @@ final class PasswordController extends BaseController
      */
     public function handleReset(Request $request, Response $response, array $args)
     {
+        if (Setting::obtain('enable_reset_password_captcha') === true) {
+            $ret = Captcha::verify($request->getParams());
+            if (! $ret) {
+                return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试');
+            }
+        }
+
         $email = strtolower($request->getParam('email'));
         $user = User::where('email', $email)->first();
+
         if ($user === null) {
-            return ResponseHelper::error($response, '此邮箱不存在');
+            $msg = '如果你的账户存在于我们的数据库中，那么重置密码的链接将会发送到你账户所对应的邮箱。';
         }
+
         if (Password::sendResetEmail($email)) {
-            $msg = '重置邮件已经发送,请检查邮箱.';
+            $msg = '如果你的账户存在于我们的数据库中，那么重置密码的链接将会发送到你账户所对应的邮箱。';
         } else {
             $msg = '邮件发送失败，请联系网站管理员。';
         }
+
         return ResponseHelper::successfully($response, $msg);
     }
 
@@ -57,6 +69,7 @@ final class PasswordController extends BaseController
         if ($token === null) {
             return $response->withStatus(302)->withHeader('Location', '/password/reset');
         }
+
         return $response->write(
             $this->view()->display('password/token.tpl')
         );

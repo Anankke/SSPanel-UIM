@@ -431,6 +431,16 @@
     },
     {
         "id": null,
+        "item": "enable_reset_password_captcha",
+        "value": "0",
+        "class": "captcha",
+        "is_public": 1,
+        "type": "bool",
+        "default": "0",
+        "mark": "重置密码验证码"
+    },
+    {
+        "id": null,
         "item": "turnstile_sitekey",
         "value": "",
         "class": "turnstile",

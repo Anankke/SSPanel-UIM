@@ -261,7 +261,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                     dataType: "json",
                     data: {
                         {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
-                            turnstile: turnstile.getResponse(),
+                        turnstile: turnstile.getResponse(),
                         {/if}
                         {if $geetest_html != null}
                         geetest_challenge: validate.geetest_challenge,
@@ -427,7 +427,7 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
 {/if}
 
 {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
 {/if}
 
 {*dumplin:aff链*}
