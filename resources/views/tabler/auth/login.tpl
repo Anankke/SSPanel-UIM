@@ -39,7 +39,7 @@
                     {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
                     <div class="mb-2">
                         <div class="input-group mb-2">
-                            <div class="cf-turnstile" data-sitekey="{$turnstile_sitekey}" data-theme="light"></div>
+                            <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
                         </div>
                     </div>
                     {/if}

@@ -50,7 +50,11 @@ final class UserController extends BaseController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $captcha = Captcha::generate();
+        $captcha = [];
+
+        if (Setting::obtain('enable_checkin_captcha') === true) {
+            $captcha = Captcha::generate();
+        }
 
         if ($_ENV['subscribe_client_url'] !== '') {
             $getClient = new Token();
@@ -70,12 +74,6 @@ final class UserController extends BaseController
             $token = '';
         }
 
-        if (Setting::obtain('enable_checkin_captcha') === true) {
-            $geetest_html = $captcha['geetest'];
-        } else {
-            $geetest_html = null;
-        }
-
         $data = [
             'today_traffic_usage' => (int) $this->user->transfer_enable === 0 ? 0 : ($this->user->u + $this->user->d - $this->user->last_day_t) / $this->user->transfer_enable * 100,
             'past_traffic_usage' => (int) $this->user->transfer_enable === 0 ? 0 : $this->user->last_day_t / $this->user->transfer_enable * 100,
@@ -85,20 +83,15 @@ final class UserController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('ssr_sub_token', $this->user->getSublink())
-                ->assign('display_ios_class', $_ENV['display_ios_class'])
-                ->assign('display_ios_topup', $_ENV['display_ios_topup'])
-                ->assign('ios_account', $_ENV['ios_account'])
-                ->assign('ios_password', $_ENV['ios_password'])
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
-                ->assign('geetest_html', $geetest_html)
                 ->assign('mergeSub', $_ENV['mergeSub'])
                 ->assign('subUrl', $_ENV['subUrl'] . '/link/')
                 ->registerClass('URL', URL::class)
-                ->assign('turnstile_sitekey', $captcha['turnstile'])
                 ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
                 ->assign('getUniversalSub', SubController::getUniversalSub($this->user))
                 ->assign('getClient', $token)
                 ->assign('data', $data)
+                ->assign('captcha', $captcha)
                 ->display('user/index.tpl')
         );
     }
@@ -120,7 +113,6 @@ final class UserController extends BaseController
             $this->view()
                 ->assign('codes', $codes)
                 ->assign('payments', Payment::getPaymentsEnabled())
-                // ->assign('pmw', Payment::purchaseHTML())
                 ->assign('render', $render)
                 ->display('user/code.tpl')
         );

@@ -27,8 +27,16 @@ final class PasswordController extends BaseController
      */
     public function reset(Request $request, Response $response, array $args)
     {
+        $captcha = [];
+
+        if (Setting::obtain('enable_login_captcha') === true) {
+            $captcha = Captcha::generate();
+        }
+
         return $response->write(
-            $this->view()->display('password/reset.tpl')
+            $this->view()
+                ->assign('captcha', $captcha)
+                ->display('password/reset.tpl')
         );
     }
 

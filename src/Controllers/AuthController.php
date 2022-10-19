@@ -33,7 +33,11 @@ final class AuthController extends BaseController
      */
     public function login(Request $request, Response $response, array $args)
     {
-        $captcha = Captcha::generate();
+        $captcha = [];
+
+        if (Setting::obtain('enable_login_captcha') === true) {
+            $captcha = Captcha::generate();
+        }
 
         if ($_ENV['enable_telegram_login'] === true) {
             $login_text = TelegramSessionManager::addLoginSession();
@@ -45,33 +49,13 @@ final class AuthController extends BaseController
             $login_number = '';
         }
 
-        if (Setting::obtain('enable_login_captcha') === true) {
-            $geetest_html = $captcha['geetest'];
-        } else {
-            $geetest_html = null;
-        }
-
         return $this->view()
             ->assign('login_token', $login_token)
-            ->assign('geetest_html', $geetest_html)
             ->assign('login_number', $login_number)
             ->assign('base_url', $_ENV['baseUrl'])
             ->assign('telegram_bot', $_ENV['telegram_bot'])
-            ->assign('turnstile_sitekey', $captcha['turnstile'])
+            ->assign('captcha', $captcha)
             ->display('auth/login.tpl');
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function getCaptcha(Request $request, Response $response, array $args)
-    {
-        $captcha = Captcha::generate();
-        return $response->withJson([
-            'turnstileKey' => $captcha['turnstile'],
-            'GtSdk' => $captcha['geetest'],
-            'respon' => 1,
-        ]);
     }
 
     /**
@@ -163,14 +147,18 @@ final class AuthController extends BaseController
      */
     public function register(Request $request, Response $response, $next)
     {
+        $captcha = [];
+
+        if (Setting::obtain('enable_reg_captcha') === true) {
+            $captcha = Captcha::generate();
+        }
+
         $ary = $request->getQueryParams();
         $code = '';
         if (isset($ary['code'])) {
             $antiXss = new AntiXSS();
             $code = $antiXss->xss_clean($ary['code']);
         }
-
-        $captcha = Captcha::generate();
 
         if ($_ENV['enable_telegram_login'] === true) {
             $login_text = TelegramSessionManager::addLoginSession();
@@ -182,21 +170,14 @@ final class AuthController extends BaseController
             $login_number = '';
         }
 
-        if (Setting::obtain('enable_reg_captcha') === true) {
-            $geetest_html = $captcha['geetest'];
-        } else {
-            $geetest_html = null;
-        }
-
         return $this->view()
             ->assign('code', $code)
             ->assign('base_url', $_ENV['baseUrl'])
             ->assign('login_token', $login_token)
             ->assign('login_number', $login_number)
-            ->assign('geetest_html', $geetest_html)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
-            ->assign('turnstile_sitekey', $captcha['turnstile'])
             ->assign('enable_email_verify', Setting::obtain('reg_email_verify'))
+            ->assign('captcha', $captcha)
             ->display('auth/register.tpl');
     }
 

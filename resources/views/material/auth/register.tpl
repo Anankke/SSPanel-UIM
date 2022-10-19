@@ -111,17 +111,10 @@
                             </div>
                         </div>
                     {/if}
-                    {if $geetest_html != null}
-                        <div class="rowtocol">
-                            <div class="form-group form-group-label">
-                                <div id="embed-captcha"></div>
-                            </div>
-                        </div>
-                    {/if}
                     {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
                         <div class="form-group form-group-label">
                             <div class="row">
-                                <div align="center" class="cf-turnstile" data-sitekey="{$turnstile_sitekey}" data-theme="light"></div>
+                                <div align="center" class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
                             </div>
                         </div>
                     {/if}
@@ -263,11 +256,6 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                         {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
                         turnstile: turnstile.getResponse(),
                         {/if}
-                        {if $geetest_html != null}
-                        geetest_challenge: validate.geetest_challenge,
-                        geetest_validate: validate.geetest_validate,
-                        geetest_seccode: validate.geetest_seccode,
-                        {/if}
                         {if $config['enable_reg_im'] == true}
                         im_value: $$getValue('im_value'),
                         im_type: $$getValue('im_type'),
@@ -292,9 +280,6 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                             setCookie('code', '', 0);
                             $("#code").val(getCookie('code'));
                             document.getElementById("tos").disabled = false;
-                            {if $geetest_html != null}
-                            captcha.refresh();
-                            {/if}
                         }
                     },
                     error: (jqXHR) => {
@@ -304,9 +289,6 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                                 jqXHR.status
                                 }`;
                         document.getElementById("tos").disabled = false;
-                        {if $geetest_html != null}
-                        captcha.refresh();
-                        {/if}
                     }
                 });
             }
@@ -317,32 +299,11 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                 }
             });
 
-            {if $geetest_html != null}
-            $('div.modal').on('shown.bs.modal', function () {
-                $("div.gt_slider_knob").hide();
-            });
-
-
-            $('div.modal').on('hidden.bs.modal', function () {
-                $("div.gt_slider_knob").show();
-            });
-
-
-            {/if}
-
             $("#reg").click(function () {
                 register();
             });
 
             $("#tos").click(function () {
-                {if $geetest_html != null}
-                if (typeof validate === 'undefined' || !validate) {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = '请滑动验证码来完成验证'
-                    return;
-                }
-
-                {/if}
                 $("#tos_modal").modal();
             });
         })
@@ -399,30 +360,6 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
                 })
             })
         })
-    </script>
-{/if}
-
-{if $geetest_html != null}
-    <script>
-        var handlerEmbed = function (captchaObj) {
-            // 将验证码加到id为captcha的元素里
-
-            captchaObj.onSuccess(function () {
-                validate = captchaObj.getValidate();
-            });
-
-            captchaObj.appendTo("#embed-captcha");
-
-            captcha = captchaObj;
-            // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
-        };
-
-        initGeetest({
-            gt: "{$geetest_html->gt}",
-            challenge: "{$geetest_html->challenge}",
-            product: "embed", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
-            offline: {if $geetest_html->success}0{else}1{/if} // 表示用户后台检测极验服务器是否宕机，与SDK配合，用户一般不需要关注
-        }, handlerEmbed);
     </script>
 {/if}
 

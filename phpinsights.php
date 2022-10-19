@@ -44,6 +44,5 @@ return [
 
     'exclude' => [
         'storage',
-        'src/Utils/GeetestLib.php',
     ],
 ];

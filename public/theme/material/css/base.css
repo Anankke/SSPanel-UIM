@@ -6833,23 +6833,6 @@ html.no-touchevents .tile:hover .tile-action {
   background: white;
 }
 
-/* geetest */
-
-#embed-captcha .geetest_holder.geetest_wind,
-#popup-captcha .geetest_holder.geetest_wind {
-  width: 100% !important;
-  min-width: unset;
-}
-
-#embed-captcha .geetest_holder.geetest_wind .geetest_radar_btn,
-#popup-captcha .geetest_holder.geetest_wind .geetest_radar_btn {
-  background: white;
-  background-image: unset;
-  box-shadow: 2px 3px 5px #e0e0e0;
-  border-radius: 5px;
-  min-width: unset;
-}
-
 .tgme_widget_login.large button.tgme_widget_login_button {
   max-width: 80%;
 }

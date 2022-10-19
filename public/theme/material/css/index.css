@@ -471,12 +471,6 @@ select {
   min-height: 44px;
 }
 
-#embed-captcha-reg .geetest_btn {
-  margin-left: auto;
-  margin-right: auto;
-  width: 87%;
-}
-
 .auth-tg {
   margin-top: 2rem;
 }
