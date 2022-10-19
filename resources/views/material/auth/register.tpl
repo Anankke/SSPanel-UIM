@@ -213,14 +213,12 @@ document.getElementById('passwd').addEventListener('input', checkStrong);
     <script>
         $(document).ready(function () {
             function register() {
-                {if $config['register_mode'] == 'invite'}
-                code = $$getValue('code');
-                {else}
-                code = 0;
                 if ((getCookie('code')) != '') {
                     code = getCookie('code');
+                } else {
+                    code = $$getValue('code');
                 }
-                {/if}
+                
                 document.getElementById("tos").disabled = true;
 
                 $.ajax({

@@ -250,7 +250,7 @@ final class AuthController extends BaseController
             return ResponseHelper::error($response, '暂时不对外开放注册');
         }
 
-        if ($code === '') {
+        if (Setting::obtain('reg_mode') === 'invite' && $code === '') {
             return ResponseHelper::error($response, '注册需要填写邀请码');
         }
 
