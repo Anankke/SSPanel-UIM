@@ -10,22 +10,20 @@ final class Captcha
 {
     public static function generate(): array
     {
-        $geetest = null;
-        $turnstile = null;
-
         switch (Setting::obtain('captcha_provider')) {
             case 'turnstile':
-                $turnstile = Setting::obtain('turnstile_sitekey');
+                return [
+                    'turnstile_sitekey' => Setting::obtain('turnstile_sitekey'),
+                ];
                 break;
             case 'geetest':
-                $geetest = Setting::obtain('geetest_id');
+                return [
+                    'geetest_id' => Setting::obtain('geetest_id'),
+                ];
                 break;
         }
 
-        return [
-            'geetest' => $geetest,
-            'turnstile' => $turnstile,
-        ];
+        return [];
     }
 
     /**
