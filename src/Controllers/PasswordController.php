@@ -29,7 +29,7 @@ final class PasswordController extends BaseController
     {
         $captcha = [];
 
-        if (Setting::obtain('enable_login_captcha') === true) {
+        if (Setting::obtain('enable_reset_password_captcha') === true) {
             $captcha = Captcha::generate();
         }
 

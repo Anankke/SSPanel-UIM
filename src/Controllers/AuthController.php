@@ -63,11 +63,6 @@ final class AuthController extends BaseController
      */
     public function loginHandle(Request $request, Response $response, array $args)
     {
-        $code = $request->getParam('code');
-        $passwd = $request->getParam('passwd');
-        $rememberMe = $request->getParam('remember_me');
-        $email = strtolower(trim($request->getParam('email')));
-
         if (Setting::obtain('enable_login_captcha') === true) {
             $ret = Captcha::verify($request->getParams());
             if (! $ret) {
@@ -77,6 +72,11 @@ final class AuthController extends BaseController
                 ]);
             }
         }
+
+        $code = $request->getParam('code');
+        $passwd = $request->getParam('passwd');
+        $rememberMe = $request->getParam('remember_me');
+        $email = strtolower(trim($request->getParam('email')));
 
         $user = User::where('email', $email)->first();
         if ($user === null) {
@@ -361,6 +361,13 @@ final class AuthController extends BaseController
             return ResponseHelper::error($response, '未开放注册。');
         }
 
+        if (Setting::obtain('enable_reg_captcha') === true) {
+            $ret = Captcha::verify($request->getParams());
+            if (! $ret) {
+                return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试。');
+            }
+        }
+
         $name = $request->getParam('name');
         $email = $request->getParam('email');
         $email = trim($email);
@@ -382,13 +389,6 @@ final class AuthController extends BaseController
         } else {
             $imtype = 1;
             $imvalue = '';
-        }
-
-        if (Setting::obtain('enable_reg_captcha') === true) {
-            $ret = Captcha::verify($request->getParams());
-            if (! $ret) {
-                return ResponseHelper::error($response, '系统无法接受您的验证结果，请刷新页面后重试。');
-            }
         }
 
         // check email format

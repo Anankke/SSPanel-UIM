@@ -104,9 +104,6 @@
                                             class="btn-reg btn btn-block btn-brand-accent waves-attach waves-light">
                                         获取验证码
                                     </button>
-                                    <a href="" onclick="return false;" data-toggle='modal'
-                                       data-target='#email_nrcy_modal'
-                                       class="auth-help-reg">收不到验证码？</a>
                                 </div>
                             </div>
                         </div>
@@ -165,28 +162,6 @@
         </div>
     </div>
 </div>
-
-<div aria-hidden="true" class="modal modal-va-middle fade" id="email_nrcy_modal" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-heading">
-                <h2 class="modal-title">收不到验证码？</h2>
-            </div>
-            <div class="modal-inner">
-                {include file='email_nrcy.tpl'}
-            </div>
-            <div class="modal-footer">
-                <p class="text-right">
-                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal"
-                            type="button">我知道了
-                    </button>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="tiphidden"></div>
 
 {include file='dialog.tpl'}
 
