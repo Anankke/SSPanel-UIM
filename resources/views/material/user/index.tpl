@@ -212,11 +212,8 @@
                                 <p class="card-heading"><i class="mdi mdi-account-circle icon-md"></i> 签到</p>
                                 <p>上次签到时间：{$user->lastCheckInTime()}</p>
                                 <p id="checkin-msg"></p>
-                                {if $geetest_html != null}
-                                    <div id="popup-captcha"></div>
-                                {/if}
                                 {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile' && $user->isAbleToCheckin()}
-                                    <div class="cf-turnstile" data-sitekey="{$turnstile_sitekey}" data-theme="light"></div>
+                                    <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
                                 {/if}
                                 <div class="card-action">
                                     <div class="usercheck pull-left">
@@ -489,24 +486,6 @@
                                                 <hr/>
                                             </div>
                                             <div class="tab-pane fade" id="sub_center_ios">
-                                            {if $display_ios_class>=0}
-                                                {if $user->class>=$display_ios_class && $user->getTopUp()>=$display_ios_topup}
-                                                <div><span class="mdi mdi-account-box icon-lg text-white"></span> 本站iOS账户：</div>
-                                                <div class="float-clear">
-                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_account}" readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_account}">点击复制</button>
-                                                    <br>
-                                                </div>
-                                                <div><span class="mdi mdi-account-lock icon-lg text-white"></span> 本站iOS密码：</div>
-                                                <div class="float-clear">
-                                                    <input type="text" class="input form-control form-control-monospace cust-link col-xx-12 col-sm-8 col-lg-7" name="input1" readonly value="{$ios_password}" readonly="true">
-                                                    <button class="copy-text btn btn-subscription col-xx-12 col-sm-3 col-lg-2" type="button" data-clipboard-text="{$ios_password}">点击复制</button>
-                                                    <br>
-                                                </div>
-                                                <p><span class="mdi mdi-alert icon-lg text-white"></span><strong>禁止将账户分享给他人或登录 iCloud！</strong></p>
-                                                <hr/>
-                                                {/if}
-                                            {/if}
                                                 <p>Surge - [ SS/VMess ]：</p>
                                                     <p>
                                                         应用下载：
@@ -726,7 +705,6 @@
         $$.getElementById('msg').innerHTML = '您的流量已经用完或账户已经过期了，如需继续使用，请进入商店选购新的套餐~';
     };
     {/if}
-    {if $geetest_html == null}
     var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="mdi mdi-check"></span>&nbsp;已签到</a></p>';
     $(document).ready(function () {
         $("#checkin").click(function () {
@@ -761,58 +739,8 @@
             })
         })
     })
-    {else}
-    var checkedmsgGE = '<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="mdi mdi-check"></span>&nbsp;已签到</a></p>';
-    var handlerPopup = function (captchaObj) {
-        c = captchaObj;
-        captchaObj.onSuccess(function () {
-            var validate = captchaObj.getValidate();
-            $.ajax({
-                url: "/user/checkin", // 进行二次验证
-                type: "post",
-                dataType: "json",
-                data: {
-                    // 二次验证所需的三个值
-                    geetest_challenge: validate.geetest_challenge,
-                    geetest_validate: validate.geetest_validate,
-                    geetest_seccode: validate.geetest_seccode
-                },
-                success: (data) => {
-                    if (data.ret) {
-                        $$.getElementById('checkin-msg').innerHTML = data.msg;
-                        $$.getElementById('checkin-btn').innerHTML = checkedmsgGE;
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        $$.getElementById('remain').innerHTML = data.trafficInfo['unUsedTraffic'];
-                        $('.bar.remain.color').css('width', (data.unflowtraffic - ({$user->u}+{$user->d})) / data.unflowtraffic * 100 + '%');
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
-                },
-                error: (jqXHR) => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `发生错误：${
-                            jqXHR.status
-                            }`;
-                }
-            });
-        });
-        // 弹出式需要绑定触发验证码弹出按钮
-        //captchaObj.bindOn("#checkin")
-        // 将验证码加到id为captcha的元素里
-        captchaObj.appendTo("#popup-captcha");
-        // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
-    };
-    initGeetest({
-        gt: "{$geetest_html->gt}",
-        challenge: "{$geetest_html->challenge}",
-        product: "popup", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
-        offline: {if $geetest_html->success}0{else}1{/if} // 表示用户后台检测极验服务器是否宕机，与SDK配合，用户一般不需要关注
-    }, handlerPopup);
-    {/if}
 </script>
 
 {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
 {/if}

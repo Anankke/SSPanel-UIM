@@ -67,6 +67,13 @@
                                 </span>
                             </label>
                         </div>
+                        {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                        <div class="mb-3">
+                            <div class="input-group mb-2">
+                                <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
+                            </div>
+                        </div>
+                        {/if}
                         <div class="form-footer">
                             <button id="confirm-register" type="submit" class="btn btn-primary w-100">注册新账户</button>
                         </div>
@@ -125,6 +132,9 @@
                     email: $('#email').val(),
                     passwd: $('#passwd').val(),
                     repasswd: $('#repasswd').val(),
+                    {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                    turnstile: turnstile.getResponse(),
+                    {/if}
                 },
                 success: function(data) {
                     if (data.ret == 1) {
@@ -143,4 +153,7 @@
         });
     </script>
 
+    {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
+    {/if}
 {include file='tabler_footer.tpl'}

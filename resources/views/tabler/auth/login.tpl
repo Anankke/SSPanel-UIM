@@ -36,6 +36,13 @@
                             <span class="form-check-label">记住此设备</span>
                         </label>
                     </div>
+                    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                    <div class="mb-2">
+                        <div class="input-group mb-2">
+                            <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
+                        </div>
+                    </div>
+                    {/if}
                     <div class="form-footer">
                         <button id="login-dashboard" class="btn btn-primary w-100">登录</button>
                     </div>
@@ -58,6 +65,9 @@
                     email: $('#email').val(),
                     passwd: $('#passwd').val(),
                     remember_me: $('#remember_me').val(),
+                    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                    turnstile: turnstile.getResponse(),
+                    {/if}
                 },
                 success: function(data) {
                     if (data.ret == 1) {
@@ -73,4 +83,7 @@
         });
     </script>
 
+    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
+    {/if}
 {include file='tabler_footer.tpl'}

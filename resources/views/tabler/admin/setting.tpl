@@ -613,6 +613,14 @@
                                                 <option value="1" {if $settings['enable_checkin_captcha'] == true}selected{/if}>开启</option>
                                             </select>
                                         </div>
+                                        <!-- enable_reset_password_captcha -->
+                                        <div class="form-group form-group-label">
+                                            <label class="floating-label">重置密码验证码</label>
+                                            <select id="enable_reset_password_captcha" class="form-control maxwidth-edit">
+                                                <option value="0" {if $settings['enable_reset_password_captcha'] == false}selected{/if}>关闭</option>
+                                                <option value="1" {if $settings['enable_reset_password_captcha'] == true}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
 
                                         <button id="submit_verify_code" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
@@ -1371,7 +1379,8 @@
                     captcha_provider: $$getValue('captcha_provider'),
                     enable_reg_captcha: $$getValue('enable_reg_captcha'),
                     enable_login_captcha: $$getValue('enable_login_captcha'),
-                    enable_checkin_captcha: $$getValue('enable_checkin_captcha')
+                    enable_checkin_captcha: $$getValue('enable_checkin_captcha'),
+                    enable_reset_password_captcha: $$getValue('enable_reset_password_captcha')
                 },
                 success: data => {
                     $("#result").modal();

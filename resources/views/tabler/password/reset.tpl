@@ -18,6 +18,13 @@
                         <label class="form-label">注册邮箱</label>
                         <input id="email" type="email" class="form-control">
                     </div>
+                    {if $config['enable_reg_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                    <div class="mb-3">
+                        <div class="input-group mb-3">
+                            <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
+                        </div>
+                    </div>
+                    {/if}
                     <div class="form-footer">
                         <button id="send" class="btn btn-primary w-100">
                             <i class="ti ti-brand-telegram icon"></i>
@@ -40,6 +47,9 @@
                 dataType: "json",
                 data: {
                     email: $('#email').val(),
+                    {if $config['enable_reset_password_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                    turnstile: turnstile.getResponse(),
+                    {/if}
                 },
                 success: function(data) {
                     if (data.ret == 1) {
@@ -58,4 +68,7 @@
         });
     </script>
 
+    {if $config['enable_reset_password_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
+    {/if}
 {include file='tabler_footer.tpl'}

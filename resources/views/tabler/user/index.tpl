@@ -401,7 +401,7 @@
                             <div class="card-footer">
                                 <div class="d-flex">
                                     {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile' && $user->isAbleToCheckin()}
-                                    <div class="cf-turnstile" data-sitekey="{$turnstile_sitekey}" data-theme="light"></div>
+                                    <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
                                     {/if}
                                     {if !$user->isAbleToCheckin()}
                                     <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
@@ -429,12 +429,12 @@
             $.ajax({
                 type: "POST",
                 url: "/user/checkin",
-                dataType: "json",
-                {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                dataType: "json",              
                 data: {
+                    {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
                     turnstile: turnstile.getResponse(),
+                    {/if}
                 },
-                {/if}
                 success: function(data) {
                     if (data.ret == 1) {
                         $('#success-message').text(data.msg);

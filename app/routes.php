@@ -126,7 +126,6 @@ return function (SlimApp $app): void {
         $this->post('/send', App\Controllers\AuthController::class . ':sendVerify');
         $this->get('/logout', App\Controllers\AuthController::class . ':logout');
         $this->get('/telegram_oauth', App\Controllers\AuthController::class . ':telegramOauth');
-        $this->get('/login_getCaptcha', App\Controllers\AuthController::class . ':getCaptcha');
     })->add(new Guest());
 
     // Password
