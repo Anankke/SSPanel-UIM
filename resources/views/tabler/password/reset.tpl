@@ -1,111 +1,61 @@
-{include file='header.tpl'}
+{include file='tabler_header.tpl'}
 
-<!-- 新的 -->
-<div class="authpage">
-    <div class="container">
-
-        <div class="auth-main auth-row auth-col-one">
-            <div class="auth-top auth-row">
-                <a class="boardtop-left" href="/">
-                    <div>首 页</div>
-                </a>
-                <div class="auth-logo">
-                    <img src="/images/uim-logo-round.png">
-                </div>
-                <a href="/auth/login" class="boardtop-right">
-                    <div>登 录</div>
+<body class="border-top-wide border-primary d-flex flex-column">
+    <div class="page page-center">
+        <div class="container-tight py-4">
+            <div class="text-center mb-4">
+                <a href="#" class="navbar-brand navbar-brand-autodark">
+                    <img src="/images/uim-logo-round.png" height="64" alt="">
                 </a>
             </div>
-            <div class="auth-row">
-                <div class="form-group-label auth-row row-login">
-                    <label class="floating-label" for="email">邮箱</label>
-                    <input class="form-control maxwidth-auth" id="email" type="email" inputmode="email" autocomplete="username">
-                </div>
-            </div>
-
-            <div class="btn-auth auth-row">
-                <button id="reset" type="submit" class="btn btn-block btn-brand waves-attach waves-light">重置密码</button>
-            </div>
-            <div class="auth-help auth-row">
-                <div class="auth-help-table auth-row auth-reset">
-                    <a href="" onclick="return false;" data-toggle='modal'
-                       data-target='#email_nrcy_modal'>收不到验证码？点击这里</a>
-                </div>
-            </div>
-            <div class="auth-bottom auth-row auth-reset">
-                <div class="tgauth">
-                    <p>请妥善保管好自己的登录密码</p>
+            <div class="card card-md">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">忘记密码</h2>
+                    <p class="text-muted mb-4">
+                        我们将向你的注册邮箱发送一封邮件，邮件内容中包含一个可以重设密码的链接
+                    </p>
+                    <div class="mb-3">
+                        <label class="form-label">注册邮箱</label>
+                        <input id="email" type="email" class="form-control">
+                    </div>
+                    <div class="form-footer">
+                        <button id="send" class="btn btn-primary w-100">
+                            <i class="ti ti-brand-telegram icon"></i>
+                            发送邮件
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="card auth-tg">
-            <div class="card-main"></div>
+        <div class="text-center text-muted mt-3">
+            已有账户？ <a href="/auth/login" tabindex="-1">点击登录</a>
         </div>
     </div>
-</div>
 
-{include file='dialog.tpl'}
-
-<div aria-hidden="true" class="modal modal-va-middle fade" id="email_nrcy_modal" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-heading">
-                <h2 class="modal-title">收不到验证码？</h2>
-            </div>
-            <div class="modal-inner">
-                {include file='email_nrcy.tpl'}
-            </div>
-            <div class="modal-footer">
-                <p class="text-right">
-                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal"
-                            type="button">
-                        我知道了
-                    </button>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-{include file='footer.tpl'}
-
-<script>
-    $(document).ready(function () {
-        function reset() {
-            $("#result").modal();
-            $$.getElementById('msg').innerHTML = '发送中，请等待'
+    <script>
+        $("#send").click(function() {
             $.ajax({
-                type: "POST",
-                url: location.pathname,
+                type: 'POST',
+                url: '/password/reset',
                 dataType: "json",
                 data: {
-                    email: $$getValue('email'),
+                    email: $('#email').val(),
                 },
-                success: (data) => {
+                success: function(data) {
                     if (data.ret == 1) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        window.setTimeout("location.href='/auth/login'", 2000);
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
                     } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
                     }
-                },
-                error: (jqXHR) => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
                 }
-            });
-        }
+            })
+        });
 
-        $("html").keydown(function (event) {
-            if (event.keyCode === 13) {
-                reset();
-            }
+        $("#success-confirm").click(function() {
+            location.reload();
         });
-        $("#reset").click(function () {
-            reset();
-        });
-    })
-</script>
+    </script>
+
+{include file='tabler_footer.tpl'}
