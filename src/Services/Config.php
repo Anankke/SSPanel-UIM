@@ -75,6 +75,7 @@ final class Config
             'enable_reg_captcha' => $public_configs['enable_reg_captcha'],
             'enable_login_captcha' => $public_configs['enable_login_captcha'],
             'enable_checkin_captcha' => $public_configs['enable_checkin_captcha'],
+            'enable_reset_password_captcha' => $public_configs['enable_reset_password_captcha'],
             // 注册
             'register_mode' => $public_configs['reg_mode'],
             'enable_email_verify' => $public_configs['reg_email_verify'],
