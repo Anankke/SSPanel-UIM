@@ -5,31 +5,30 @@
         "ext-json": "*",
         "ext-mysqli": "*",
         "ext-xml": "*",
-        "aws/aws-sdk-php": "3.*",
-        "cloudflare/sdk": "1.3.0",
+        "anankke/omnipay-alipay": "^3.1.3",
+        "aws/aws-sdk-php": "^3",
+        "cloudflare/sdk": "^1",
         "esdeathlove/datatables": "^1.6",
-        "firebase/php-jwt": "~3.0",
+        "guzzlehttp/guzzle": "^7.4",
         "illuminate/database": "^9.0",
         "illuminate/pagination": "^9.0",
-        "irazasyed/telegram-bot-sdk": "^3.6",
+        "irazasyed/telegram-bot-sdk": "^3",
         "khanamiryan/qrcode-detector-decoder": "*",
         "league/omnipay": "^3.2.1",
-        "anankke/omnipay-alipay": "^3.1.3",
         "mailgun/mailgun-php": "^3",
-        "paymentwall/paymentwall-php": "^2.1",
-        "phpmailer/phpmailer": "~6.0",
+        "paymentwall/paymentwall-php": "^2",
+        "phpmailer/phpmailer": "^6",
         "ramsey/uuid": "^4",
-        "robmorgan/phinx": "^0.12.9",
-        "sendgrid/sendgrid": "^7",
+        "robmorgan/phinx": "^0.13",
+        "sendgrid/sendgrid": "^8",
         "sentry/sentry": "^3",
-        "slim/slim": "~3.0",
+        "slim/slim": "^3.12",
         "smarty/smarty": "^4",
-        "stripe/stripe-php": "^7.105",
-        "symfony/yaml": "^5",
+        "stripe/stripe-php": "^7",
+        "symfony/console": "*",
+        "symfony/yaml": "^6",
         "voku/anti-xss": "^4",
-        "zeuxisoo/slim-whoops": "0.5.*",
-        "guzzlehttp/guzzle": "^7.4",
-        "symfony/console": "*"
+        "zeuxisoo/slim-whoops": "0.6.*"
     },
     "autoload": {
         "psr-4": {
@@ -44,6 +43,6 @@
         }
     },
     "require-dev": {
-        "nunomaduro/phpinsights": "^2.5"
+        "nunomaduro/phpinsights": "*"
     }
 }
