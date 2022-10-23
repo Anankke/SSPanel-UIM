@@ -1,4 +1,5 @@
 {include file='user/tabler_header.tpl'}
+
 <div class="page-wrapper">
     <div class="container-xl">
         <!-- Page title -->
@@ -64,4 +65,5 @@
             </div>
         </div>
     </div>
+    
 {include file='user/tabler_footer.tpl'}

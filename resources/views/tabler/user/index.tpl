@@ -150,7 +150,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="#linux" class="nav-link" data-bs-toggle="tab">
-                                            <i class="ti ti-brand-debian icon"></i>
+                                            <i class="ti ti-brand-redhat icon"></i>
                                             &nbsp;Linux
                                         </a>
                                     </li>
