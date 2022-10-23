@@ -32,7 +32,7 @@ final class Tool extends Command
 │ ├─ resetTraffic            - 重置所有用户流量
 │ ├─ generateUUID            - 为所有用户生成新的 UUID
 │ ├─ generateGa              - 为所有用户生成新的 Ga Secret
-│ ├─ setTheme                - 为所有用户设置新的主题;
+│ ├─ setTheme                - 为所有用户设置新的主题
 
 EOL;
 
