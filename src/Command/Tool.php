@@ -31,7 +31,8 @@ final class Tool extends Command
 │ ├─ resetAllPort            - 重置所有用户端口
 │ ├─ resetTraffic            - 重置所有用户流量
 │ ├─ generateUUID            - 为所有用户生成新的 UUID
-│ ├─ generateGa              - 为所有用户生成新的 Ga Secret;
+│ ├─ generateGa              - 为所有用户生成新的 Ga Secret
+│ ├─ setTheme                - 为所有用户设置新的主题;
 
 EOL;
 
@@ -346,6 +347,20 @@ EOL;
             $user = ModelsUser::find($this->argv[3]);
             $expire_in = 86400 + \time();
             echo Hash::cookieHash($user->pass, $expire_in) . ' ' . $expire_in;
+        }
+    }
+
+    /**
+     * 为所有用户设置新的主题
+     */
+    public function setTheme(): void
+    {
+        fwrite(STDOUT, '请输入要设置的主题名称: ');
+        $theme = trim(fgets(STDIN));
+        $users = ModelsUser::all();
+        foreach ($users as $user) {
+            $user->theme = $theme;
+            $user->save();
         }
     }
 }
