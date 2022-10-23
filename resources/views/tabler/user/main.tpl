@@ -7,9 +7,9 @@
     <meta name="theme-color" content="#4285f4">
     <title>{$config['appName']}</title>
     <!-- css -->
-    <link href="/theme/material/css/base.min.css" rel="stylesheet">
-    <link href="/theme/material/css/project.min.css" rel="stylesheet">
-    <link href="/theme/material/css/user.min.css" rel="stylesheet">
+    <link href="/theme/tabler/css/base.min.css" rel="stylesheet">
+    <link href="/theme/tabler/css/project.min.css" rel="stylesheet">
+    <link href="/theme/tabler/css/user.min.css" rel="stylesheet">
     <link href="//fastly.jsdelivr.net/npm/@mdi/font@7.0.96/css/materialdesignicons.min.css" rel="stylesheet">
     <!-- jquery -->
     <script src="//cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>

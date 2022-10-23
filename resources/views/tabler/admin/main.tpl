@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#4285f4">
     <title>{$config['appName']}</title>
     <!-- css -->
-    <link href="/theme/material/css/base.min.css" rel="stylesheet">
-    <link href="/theme/material/css/project.min.css" rel="stylesheet">
+    <link href="/theme/tabler/css/base.min.css" rel="stylesheet">
+    <link href="/theme/tabler/css/project.min.css" rel="stylesheet">
     <link href="//fastly.jsdelivr.net/npm/@mdi/font@7.0.96/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="//cdn.staticfile.org/material-design-lite/1.3.0/material.min.css" rel="stylesheet">
     <link href="//cdn.staticfile.org/datatables/1.10.19/css/dataTables.material.min.css" rel="stylesheet">
