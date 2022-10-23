@@ -40,7 +40,7 @@
                                                     <p class="text-muted">
                                                         <i class="ti ti-info-circle icon text-blue"></i>
                                                         你当前的账户等级小于下列节点等级，因此仅能查看公开信息而无法使用。可前往 <a
-                                                            href="/user/product">商店</a> 订购相应等级套餐
+                                                            href="/user/shop">商店</a> 订购相应等级套餐
                                                     </p>
                                                 </div>
                                             </div>
@@ -48,6 +48,11 @@
                                         {/if}
                                         <div class="col-md-4 col-sm-12">
                                             <div class="card">
+                                                {if $server["class"] == 0}
+                                                <div class="ribbon bg-red">免费</div>
+                                                {else}
+                                                <div class="ribbon bg-red">LV. $server["class"]</div>
+                                                {/if}
                                                 <div class="card-body">
                                                     <div class="row g-3 align-items-center">
                                                         <div class="col-auto">
