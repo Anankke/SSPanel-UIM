@@ -32,13 +32,17 @@ final class UserController extends BaseController
     public function index($request, $response, $args): ResponseInterface
     {
         $node_id = $request->getQueryParam('node_id');
-        $node = Node::find($node_id);
-        if ($node === null) {
-            return $response->withJson([
-                'ret' => 0,
-            ]);
-        }
 
+        if (!$node_id) {
+            $node = Node::where('node_ip', $request->getServerParam('REMOTE_ADDR'))->first();
+        } else {
+            $node = Node::where('id', '=', $node_id)->first();
+            if ($node === null) {
+                return $response->withJson([
+                    'ret' => 0,
+                ]);
+            }
+        }
         $node->update(['node_heartbeat' => \time()]);
 
         if (($node->node_bandwidth_limit !== 0) && $node->node_bandwidth_limit < $node->node_bandwidth) {
@@ -128,6 +132,10 @@ final class UserController extends BaseController
         $data = $data->data;
 
         $node_id = $request->getQueryParam('node_id');
+        if (!$node_id) {
+            $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
+            $node_id = $node->id;
+        }
         $node = Node::find($node_id);
 
         if ($node === null) {
@@ -137,7 +145,7 @@ final class UserController extends BaseController
         }
 
         $pdo = DB::getPdo();
-        $stat = $pdo->prepare('UPDATE user SET t = UNIX_TIMESTAMP(), u = u + ?, d = d + ?, transfer_total = transfer_total + ? WHERE id = ?');
+        $stat = $pdo->prepare('UPDATE user SET t = UNIX_TIMESTAMP(), u = u + ?, d = d + ? WHERE id = ?');
 
         $rate = (float) $node->traffic_rate;
         $sum = 0;
@@ -146,7 +154,7 @@ final class UserController extends BaseController
             $d = $log?->d;
             $user_id = $log?->user_id;
             if ($user_id) {
-                $stat->execute([(int) ($u * $rate), (int) ($d * $rate), (int) ($u + $d), $user_id]);
+                $stat->execute([(int) ($u * $rate), (int) ($d * $rate), $user_id]);
             }
             $sum += $u + $d;
         }
@@ -178,14 +186,20 @@ final class UserController extends BaseController
         $data = \json_decode($request->getBody()->__toString());
         if (!$data || !\is_array($data?->data)) {
             return $response->withJson([
-                'ret' => 0,
+                'ret' => 1,
+                'data' => 'ok',
             ]);
         }
         $data = $data->data;
 
         $node_id = $request->getQueryParam('node_id');
+        if (!$node_id) {
+            $node_id = Node::where('node_ip', $request->getServerParam('REMOTE_ADDR'))->value('id');
+        } elseif (!Node::where('id', $node_id)->exists()) {
+            $node_id = null;
+        }
 
-        if ($node_id === null || !Node::where('id', $node_id)->exists()) {
+        if ($node_id === null) {
             return $response->withJson([
                 'ret' => 0,
             ]);
@@ -223,14 +237,20 @@ final class UserController extends BaseController
         $data = \json_decode($request->getBody()->__toString());
         if (!$data || !\is_array($data?->data)) {
             return $response->withJson([
-                'ret' => 0,
+                'ret' => 1,
+                'data' => 'ok',
             ]);
         }
         $data = $data->data;
 
         $node_id = $request->getQueryParam('node_id');
+        if (!$node_id) {
+            $node_id = Node::where('node_ip', $request->getServerParam('REMOTE_ADDR'))->value('id');
+        } elseif (!Node::where('id', $node_id)->exists()) {
+            $node_id = null;
+        }
 
-        if ($node_id === null || !Node::where('id', $node_id)->exists()) {
+        if ($node_id === null) {
             return $response->withJson([
                 'ret' => 0,
             ]);

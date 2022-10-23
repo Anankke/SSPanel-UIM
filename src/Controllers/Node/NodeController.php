@@ -7,6 +7,7 @@ namespace App\Controllers\Node;
 use App\Controllers\BaseController;
 use App\Models\Node;
 use App\Models\StreamMedia;
+use App\Services\Config;
 use App\Utils\ResponseHelper;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
@@ -19,9 +20,21 @@ final class NodeController extends BaseController
      */
     public function saveReport(Request $request, Response $response, array $args): void
     {
+        // $request_ip = $_SERVER["REMOTE_ADDR"];
         $node_id = $request->getParam('node_id');
         $content = $request->getParam('content');
         $result = \json_decode(base64_decode($content), true);
+
+        /* $node = Node::where('node_ip', $request_ip)->first();
+        if ($node != null) {
+            $report = new StreamMedia;
+            $report->node_id = $node->id;
+            $report->result = \json_encode($result);
+            $report->created_at = \time();
+            $report->save();
+            die('ok');
+        } */
+
         $report = new StreamMedia();
         $report->node_id = $node_id;
         $report->result = \json_encode($result);
@@ -36,6 +49,10 @@ final class NodeController extends BaseController
     public function info(Request $request, Response $response, array $args)
     {
         $node_id = $args['id'];
+        if ($node_id === '0') {
+            $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
+            $node_id = $node->id;
+        }
         $load = $request->getParam('load');
         $uptime = $request->getParam('uptime');
         $node = Node::find($node_id);
@@ -61,6 +78,10 @@ final class NodeController extends BaseController
     public function getInfo(Request $request, Response $response, array $args): ResponseInterface
     {
         $node_id = $args['id'];
+        if ($node_id === '0') {
+            $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
+            $node_id = $node->id;
+        }
         $node = Node::find($node_id);
         if ($node === null) {
             $res = [
@@ -91,5 +112,59 @@ final class NodeController extends BaseController
             'ret' => 1,
             'data' => $data,
         ]);
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function getAllInfo(Request $request, Response $response, array $args): ResponseInterface
+    {
+        $nodes = Node::where('node_ip', '<>', null)->where(
+            static function ($query): void {
+                $query->where('sort', '=', 0)
+                    ->orWhere('sort', '=', 10)
+                    ->orWhere('sort', '=', 12)
+                    ->orWhere('sort', '=', 13)
+                    ->orWhere('sort', '=', 14);
+            }
+        )->get();
+
+        return ResponseHelper::etagJson($request, $response, [
+            'ret' => 1,
+            'data' => $nodes,
+        ]);
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function getConfig(Request $request, Response $response, array $args)
+    {
+        $data = $request->getParsedBody();
+        switch ($data['type']) {
+            case 'database':
+                $db_config = Config::getDbConfig();
+                $db_config['host'] = $this->getServerIP();
+                $res = [
+                    'ret' => 1,
+                    'data' => $db_config,
+                ];
+                break;
+        }
+        return $response->withJson($res);
+    }
+
+    private function getServerIP()
+    {
+        if (isset($_SERVER)) {
+            if ($_SERVER['SERVER_ADDR']) {
+                $serverIP = $_SERVER['SERVER_ADDR'];
+            } else {
+                $serverIP = $_SERVER['LOCAL_ADDR'];
+            }
+        } else {
+            $serverIP = getenv('SERVER_ADDR');
+        }
+        return $serverIP;
     }
 }

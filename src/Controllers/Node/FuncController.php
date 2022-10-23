@@ -76,11 +76,16 @@ final class FuncController extends BaseController
 
         $data = $request->getParam('data');
         $node_id = $params['node_id'];
+        if ($node_id === '0') {
+            $node = Node::where('node_ip', $_SERVER['REMOTE_ADDR'])->first();
+            $node_id = $node->id;
+        }
         $node = Node::find($node_id);
         if ($node === null) {
-            return $response->withJson([
+            $res = [
                 'ret' => 0,
-            ]);
+            ];
+            return $response->withJson($res);
         }
 
         if (count($data) > 0) {
