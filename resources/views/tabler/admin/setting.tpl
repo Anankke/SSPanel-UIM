@@ -664,42 +664,6 @@
                                             </li>
                                         </ul>
                                     </nav>
-                                            
-                                    <div class="tab-pane fade active in" id="custom_background_image">
-                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>默认背景图片地址：/theme/material/css/images/bg/amber.jpg <a href="/theme/material/css/images/bg/amber.jpg">预览</a></p>
-                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>自带背景图片一地址：/theme/material/css/images/bg/streak.jpg <a href="/theme/material/css/images/bg/streak.jpg">预览</a></p>
-                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>自带背景图片二地址：/theme/material/css/images/bg/geometry.jpg <a href="/theme/material/css/images/bg/geometry.jpg">预览</a></p>
-                                        <p class="form-control-guide"><i class="mdi mdi-information"></i>如需自定义，图片地址可以指向 public 目录或图床图片地址</p>
-                                        <!-- user_center_bg -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">是否启用自定义用户中心背景图片</label>
-                                            <select id="user_center_bg" class="form-control maxwidth-edit">
-                                                <option value="0" {if $settings['user_center_bg'] == false}selected{/if}>关闭</option>
-                                                <option value="1" {if $settings['user_center_bg'] == true}selected{/if}>开启</option>
-                                            </select>
-                                        </div>
-                                        <!-- admin_center_bg -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">是否启用自定义管理中心背景图片</label>
-                                            <select id="admin_center_bg" class="form-control maxwidth-edit">
-                                                <option value="0" {if $settings['admin_center_bg'] == false}selected{/if}>关闭</option>
-                                                <option value="1" {if $settings['admin_center_bg'] == true}selected{/if}>开启</option>
-                                            </select>
-                                        </div>
-                                        <!-- user_center_bg_addr -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">用户中心背景图片地址</label>
-                                            <input class="form-control maxwidth-edit" id="user_center_bg_addr" value="{$settings['user_center_bg_addr']}">
-                                        </div>
-                                        <!-- admin_center_bg_addr -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">管理中心背景图片地址</label>
-                                            <input class="form-control maxwidth-edit" id="admin_center_bg_addr" value="{$settings['admin_center_bg_addr']}">
-                                        </div>
-
-                                        <button id="submit_custom_background_image" type="submit" class="btn btn-block btn-brand">提交</button>
-                                    </div>
-                                </div>
 
                                 <div class="tab-pane fade" id="registration_settings">
                                     <nav class="tab-nav margin-top-no">
@@ -1718,37 +1682,6 @@
                     stripe_pk: $$getValue('stripe_pk'),
                     stripe_sk: $$getValue('stripe_sk'),
                     stripe_webhook_key: $$getValue('stripe_webhook_key')
-                },
-                success: data => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = data.msg;
-                    if (data.ret) {
-                        window.setTimeout("location.href='/admin/setting'", {$config['jump_delay']});
-                    }
-                },
-                error: jqXHR => {
-                    alert(`发生错误：${
-                            jqXHR.status
-                            }`);
-                }
-            })
-        })
-    })
-</script>
-
-<script>
-    window.addEventListener('load', () => {
-        $$.getElementById('submit_custom_background_image').addEventListener('click', () => {
-            $.ajax({
-                type: "POST",
-                url: "/admin/setting",
-                dataType: "json",
-                data: {
-                    class: 'background_image',
-                    user_center_bg: $$getValue('user_center_bg'),
-                    admin_center_bg: $$getValue('admin_center_bg'),
-                    user_center_bg_addr: $$getValue('user_center_bg_addr'),
-                    admin_center_bg_addr: $$getValue('admin_center_bg_addr')
                 },
                 success: data => {
                     $("#result").modal();

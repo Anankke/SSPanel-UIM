@@ -54,11 +54,6 @@ final class Config
             // 充值
             'stripe_min_recharge' => $public_configs['stripe_min_recharge'],
             'stripe_max_recharge' => $public_configs['stripe_max_recharge'],
-            // 个性化
-            'user_center_bg' => $public_configs['user_center_bg'],
-            'admin_center_bg' => $public_configs['admin_center_bg'],
-            'user_center_bg_addr' => $public_configs['user_center_bg_addr'],
-            'admin_center_bg_addr' => $public_configs['admin_center_bg_addr'],
             // 客服系统
             'live_chat' => $public_configs['live_chat'],
             'tawk_id' => $public_configs['tawk_id'],
