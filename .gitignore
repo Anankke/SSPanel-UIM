@@ -25,11 +25,8 @@ config/.config.php
 config/.config.php.bak
 config/appprofile.php
 
-public/mazer
-public/ssr-download/
 public/clients/
 public/images/*.*
-!public/theme/material/css/images/bg/*
 
 storage/framework/smarty/cache/*
 storage/framework/smarty/compile/*
@@ -42,8 +39,6 @@ storage/*.*
 
 .user.ini
 public/.user.ini
-
-resources/views/material/analytics.tpl
 
 .envrc.local
 .envrc

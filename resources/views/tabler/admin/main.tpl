@@ -20,12 +20,6 @@
             position: relative;
         }
 
-        {if $config['admin_center_bg'] == true}
-        .page-brand .ui-content-header {
-            background-image: url({$config['admin_center_bg_addr']});
-        }
-        {/if}
-
         .table-responsive {
             background: white;
         }

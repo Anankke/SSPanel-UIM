@@ -94,10 +94,6 @@ final class SettingController extends BaseController
             case 'web_customer_service_system':
                 $list = ['live_chat', 'tawk_id', 'crisp_id', 'livechat_id', 'mylivechat_id'];
                 break;
-                // 个性化
-            case 'background_image':
-                $list = ['user_center_bg', 'admin_center_bg', 'user_center_bg_addr', 'admin_center_bg_addr'];
-                break;
                 // 注册设置
             case 'register':
                 $list = ['reg_mode', 'reg_email_verify', 'email_verify_ttl', 'email_verify_ip_limit', 'random_group', 'min_port', 'max_port',   'sign_up_for_free_traffic','free_user_reset_day', 'free_user_reset_bandwidth', 'sign_up_for_free_time', 'sign_up_for_class', 'sign_up_for_class_time', 'sign_up_for_invitation_codes', 'connection_device_limit', 'connection_rate_limit', 'sign_up_for_method', 'sign_up_for_protocol', 'sign_up_for_protocol_param', 'sign_up_for_obfs', 'sign_up_for_obfs_param', 'mu_suffix', 'mu_regex', 'reg_forbidden_ip', 'reg_forbidden_port', 'enable_reg_im', 'sign_up_for_daily_report'];

@@ -240,7 +240,7 @@ $_ENV['enable_login_bind_ip']   = false;        //是否将登陆线程和IP绑�
 $_ENV['rememberMeDuration']     = 7;           //登录时记住账号时长天数
 
 $_ENV['timeZone']               = 'PRC';                 //PRC 天朝时间  UTC 格林时间
-$_ENV['theme']                  = 'material';            //默认主题
+$_ENV['theme']                  = 'tabler';              //默认主题
 $_ENV['jump_delay']             = 1200;                  //跳转延时，单位ms，不建议太长
 
 $_ENV['checkNodeIp']            = true;                 //是否webapi验证节点ip

@@ -671,46 +671,6 @@
     },
     {
         "id": null,
-        "item": "user_center_bg",
-        "value": "0",
-        "class": "personalise",
-        "is_public": 1,
-        "type": "bool",
-        "default": "0",
-        "mark": "是否启用自定义用户中心背景图片"
-    },
-    {
-        "id": null,
-        "item": "admin_center_bg",
-        "value": "0",
-        "class": "personalise",
-        "is_public": 1,
-        "type": "bool",
-        "default": "0",
-        "mark": "是否启用自定义管理中心背景图片"
-    },
-    {
-        "id": null,
-        "item": "user_center_bg_addr",
-        "value": "\/theme\/material\/css\/images\/bg\/amber.jpg",
-        "class": "personalise",
-        "is_public": 1,
-        "type": "string",
-        "default": "\/theme\/material\/css\/images\/bg\/amber.jpg",
-        "mark": "用户中心背景图片地址"
-    },
-    {
-        "id": null,
-        "item": "admin_center_bg_addr",
-        "value": "\/theme\/material\/css\/images\/bg\/amber.jpg",
-        "class": "personalise",
-        "is_public": 1,
-        "type": "string",
-        "default": "\/theme\/material\/css\/images\/bg\/amber.jpg",
-        "mark": "管理中心背景图片地址"
-    },
-    {
-        "id": null,
         "item": "pmw_publickey",
         "value": "",
         "class": "pmw",
