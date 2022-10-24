@@ -32,7 +32,6 @@ use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\QQWry;
 use App\Utils\ResponseHelper;
-use App\Utils\Telegram;
 use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
 use App\Utils\URL;

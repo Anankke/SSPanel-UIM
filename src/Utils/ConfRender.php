@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: Indexyz
- * Date: 11/9/2018
- * Time: 9:15 PM
- */
-
 namespace App\Utils;
 
 use App\Services\Config;

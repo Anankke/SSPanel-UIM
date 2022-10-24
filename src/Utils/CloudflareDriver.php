@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: tonyzou
- * Date: 2018/9/10
- * Time: 上午9:54
- */
-
 namespace App\Utils;
 
 use Cloudflare\API\Adapter\Guzzle;

@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: tonyzou
- * Date: 2018/9/24
- * Time: 下午9:24
- */
-
 namespace App\Services\Gateway;
 
 use App\Models\Paylist;

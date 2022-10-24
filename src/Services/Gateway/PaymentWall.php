@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: tonyzou
- * Date: 2018/9/27
- * Time: 7:20 PM
- */
-
 namespace App\Services\Gateway;
 
 use App\Models\Code;

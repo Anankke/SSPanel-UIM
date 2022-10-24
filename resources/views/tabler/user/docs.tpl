@@ -27,16 +27,16 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>发布日期</th>
-                                        <th>公告内容</th>
+                                        <th>文档标题</th>
+                                        <th>文档内容</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {foreach $anns as $ann}
+                                    {foreach $docs as $doc}
                                         <tr>
-                                            <td>{$ann->id}</td>
-                                            <td>{$ann->date}</td>
-                                            <td>{$ann->content}</td>
+                                            <td>{$doc->id}</td>
+                                            <td>{$doc->title}</td>
+                                            <td>{$doc->content}</td>
                                         </tr>
                                     {/foreach}
                                 </tbody>

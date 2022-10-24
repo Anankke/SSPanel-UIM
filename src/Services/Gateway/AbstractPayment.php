@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: tonyzou
- * Date: 2018/9/24
- * Time: 下午4:23
- */
-
 namespace App\Services\Gateway;
 
 use App\Models\Code;
@@ -16,7 +9,6 @@ use App\Models\Payback;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Models\User;
-use App\Utils\Telegram;
 use Psr\Http\Message\ResponseInterface;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Request;
