@@ -289,17 +289,15 @@ return function (SlimApp $app): void {
     $app->group('/mod_mu', function (): void {
         // 流媒体检测
         $this->post('/media/saveReport', App\Controllers\Node\NodeController::class . ':saveReport');
-        // 其他
+        // 节点
         $this->get('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':getInfo');
         $this->post('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':info');
-        $this->get('/nodes', App\Controllers\Node\NodeController::class . ':getAllInfo');
-        $this->post('/nodes/config', App\Controllers\Node\NodeController::class . ':getConfig');
-
+        // 用户
         $this->get('/users', App\Controllers\Node\UserController::class . ':index');
         $this->post('/users/traffic', App\Controllers\Node\UserController::class . ':addTraffic');
         $this->post('/users/aliveip', App\Controllers\Node\UserController::class . ':addAliveIp');
         $this->post('/users/detectlog', App\Controllers\Node\UserController::class . ':addDetectLog');
-
+        // 审计 & 杂七杂八的功能
         $this->get('/func/detect_rules', App\Controllers\Node\FuncController::class . ':getDetectLogs');
         $this->post('/func/block_ip', App\Controllers\Node\FuncController::class . ':addBlockIp');
         $this->get('/func/block_ip', App\Controllers\Node\FuncController::class . ':getBlockip');
