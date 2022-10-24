@@ -9,7 +9,6 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Auth;
-use App\Utils\Telegram;
 use Paymentwall_Config;
 use Paymentwall_Pingback;
 use Paymentwall_Widget;
