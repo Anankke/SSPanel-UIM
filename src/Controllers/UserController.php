@@ -8,6 +8,7 @@ use App\Models\Ann;
 use App\Models\BlockIp;
 use App\Models\Bought;
 use App\Models\Code;
+use App\Models\Docs;
 use App\Models\EmailVerify;
 use App\Models\InviteCode;
 use App\Models\Ip;
@@ -31,7 +32,6 @@ use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\QQWry;
 use App\Utils\ResponseHelper;
-use App\Utils\Telegram;
 use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
 use App\Utils\URL;
@@ -121,33 +121,6 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function donate(Request $request, Response $response, array $args)
-    {
-        if ($_ENV['enable_donate'] !== true) {
-            exit(0);
-        }
-
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $codes = Code::where(
-            static function ($query): void {
-                $query->where('type', '=', -1)
-                    ->orWhere('type', '=', -2);
-            }
-        )->where('isused', 1)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
-        $render = Tools::paginateRender($codes);
-        return $response->write(
-            $this->view()
-                ->assign('codes', $codes)
-                ->assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))
-                ->assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))
-                ->assign('render', $render)
-                ->display('user/donate.tpl')
-        );
-    }
-
-    /**
-     * @param array     $args
-     */
     public function codeCheck(Request $request, Response $response, array $args)
     {
         $time = $request->getQueryParams()['time'];
@@ -193,14 +166,6 @@ final class UserController extends BaseController
             // 返利
             if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
                 Payback::rebate($user->id, $codeq->number);
-            }
-
-            if ($_ENV['enable_donate']) {
-                if ($this->user->is_hide === 1) {
-                    Telegram::send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
-                } else {
-                    Telegram::send('姐姐姐姐，' . $this->user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
-                }
             }
 
             return $response->withJson([
@@ -393,6 +358,27 @@ final class UserController extends BaseController
             $this->view()
                 ->assign('anns', $Anns)
                 ->display('user/announcement.tpl')
+        );
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function docs(Request $request, Response $response, array $args)
+    {
+        $docs = Docs::orderBy('id', 'desc')->get();
+
+        if ($request->getParam('json') === 1) {
+            return $response->withJson([
+                'docs' => $docs,
+                'ret' => 1,
+            ]);
+        }
+
+        return $response->write(
+            $this->view()
+                ->assign('docs', $docs)
+                ->display('user/docs.tpl')
         );
     }
 

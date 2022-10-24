@@ -19,39 +19,31 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="row gx-lg-5">
-                <div class="d-none d-lg-block col-lg-3 my-5">
-                    <ul class="nav nav-pills nav-vertical">
-                        <li class="nav-item">
-                            <a href="/user/docs/index" class="nav-link {if strtolower($client) == 'index'}active{/if}">
-                                前言
-                            </a>
-                        </li>
-                        <!--    客户端集合  客户端系统  客户端-->
-                        {foreach $groups as $key => $class}
-                            <li class="nav-item">
-                                <a href="#{$key}" class="nav-link" data-bs-toggle="collapse" aria-expanded="false">
-                                    {$key}
-                                    <span class="nav-link-toggle"></span>
-                                </a>
-                                <ul class="nav nav-pills collapse" id="{$key}">
-                                    {foreach $class as $item}
-                                        {if $item['switch'] == true}
-                                            <li class="nav-item">
-                                                {$app_name = explode('-', $client)}
-                                                <a href="{$item['url']}"
-                                                    class="nav-link {if strtolower($app_name['0']) == strtolower($item['name'])}active{/if}">
-                                                    {$item['name']}
-                                                </a>
-                                            </li>
-                                        {/if}
+            <div class="row row-deck row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table table-vcenter card-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>文档标题</th>
+                                        <th>文档内容</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $docs as $doc}
+                                        <tr>
+                                            <td>{$doc->id}</td>
+                                            <td>{$doc->title}</td>
+                                            <td>{$doc->content}</td>
+                                        </tr>
                                     {/foreach}
-                                </ul>
-                            </li>
-                        {/foreach}
-                    </ul>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                {include file="user/docs/{$client}.tpl"}
             </div>
         </div>
     </div>

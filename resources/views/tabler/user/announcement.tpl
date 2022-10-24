@@ -1,4 +1,5 @@
 {include file='user/tabler_header.tpl'}
+
 <div class="page-wrapper">
     <div class="container-xl">
         <!-- Page title -->
@@ -25,7 +26,7 @@
                             <table class="table table-vcenter card-table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th>ID</th>
                                         <th>发布日期</th>
                                         <th>公告内容</th>
                                     </tr>
@@ -46,4 +47,5 @@
             </div>
         </div>
     </div>
+
 {include file='user/tabler_footer.tpl'}

@@ -8,8 +8,8 @@
     <meta http-equiv="X-Frame-Options" content="sameorigin">
     <title>{$config['appName']}</title>
     <!-- css -->
-    <link href="/theme/material/css/base.min.css" rel="stylesheet">
-    <link href="/theme/material/css/project.min.css" rel="stylesheet">
+    <link href="/theme/tabler/css/base.min.css" rel="stylesheet">
+    <link href="/theme/tabler/css/project.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <!-- jquery -->
     <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
@@ -180,7 +180,7 @@
         }
 
         .page-green .ui-content-header {
-            background-image: url(/theme/material/css/images/bg/amber.jpg);
+            background-image: url(/theme/tabler/css/images/bg/amber.jpg);
         }
 
 

@@ -32,15 +32,13 @@ return function (SlimApp $app): void {
         $this->post('/checkin', App\Controllers\UserController::class . ':doCheckin');
 
         $this->get('/announcement', App\Controllers\UserController::class . ':announcement');
+        $this->get('/docs', App\Controllers\UserController::class . ':docs');
+
         $this->get('/media', App\Controllers\UserController::class . ':media');
 
-        $this->get('/donate', App\Controllers\UserController::class . ':donate');
         $this->get('/profile', App\Controllers\UserController::class . ':profile');
         $this->get('/invite', App\Controllers\UserController::class . ':invite');
         $this->get('/disable', App\Controllers\UserController::class . ':disable');
-
-        $this->get('/node', App\Controllers\User\NodeController::class . ':userNodePage');
-        $this->get('/node/{id}', App\Controllers\User\NodeController::class . ':userNodeInfo');
 
         $this->get('/server', App\Controllers\User\ServerController::class . ':userServerPage');
 
@@ -213,8 +211,6 @@ return function (SlimApp $app): void {
         $this->get('/code', App\Controllers\Admin\CodeController::class . ':index');
         $this->get('/code/create', App\Controllers\Admin\CodeController::class . ':create');
         $this->post('/code', App\Controllers\Admin\CodeController::class . ':add');
-        $this->get('/donate/create', App\Controllers\Admin\CodeController::class . ':donateCreate');
-        $this->post('/donate', App\Controllers\Admin\CodeController::class . ':donateAdd');
         $this->post('/code/ajax', App\Controllers\Admin\CodeController::class . ':ajaxCode');
 
         // User Mange
@@ -290,6 +286,7 @@ return function (SlimApp $app): void {
         // 流媒体检测
         $this->post('/media/saveReport', App\Controllers\Node\NodeController::class . ':saveReport');
         // 节点
+        $this->get('/nodes', App\Controllers\Node\NodeController::class . ':getAllInfo');
         $this->get('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':getInfo');
         $this->post('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':info');
         // 用户

@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: tonyzou
- * Date: 2018/9/27
- * Time: 7:20 PM
- */
-
 namespace App\Services\Gateway;
 
 use App\Models\Code;
@@ -16,7 +9,6 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\Auth;
-use App\Utils\Telegram;
 use Paymentwall_Config;
 use Paymentwall_Pingback;
 use Paymentwall_Widget;
@@ -78,13 +70,6 @@ final class PaymentWall extends AbstractPayment
                 // 返利
                 if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
                     Payback::rebate($user->id, $virtualCurrency);
-                }
-                if ($_ENV['enable_donate'] === true) {
-                    if ($user->is_hide === 1) {
-                        Telegram::send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
-                    } else {
-                        Telegram::send('姐姐姐姐，' . $user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
-                    }
                 }
 
                 return $response->write('OK');
