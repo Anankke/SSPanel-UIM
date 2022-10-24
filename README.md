@@ -12,7 +12,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Anankke/SSPanel-Uim/Lint%20code?label=lint&style=flat-square)
 
 
-[使用文档](https://wiki.sspanel.org) | [API 文档](https://github.com/sspanel-uim/API-documents) | [配套SS/SSR后端](https://github.com/sspanel-uim/shadowsocks-mod) | [配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 水群](https://t.me/ssunion) | [Telegram 通知频道](https://t.me/sspanel_uim) | [Telegram 开发频道](https://t.me/sspanel_uim_dev)
+[配套SS/SSR后端](https://github.com/sspanel-uim/shadowsocks-mod) | [配套Trojan后端](https://github.com/sspanel-uim/TrojanX) | [Telegram 水群](https://t.me/ssunion) | [Telegram 通知频道](https://t.me/sspanel_uim) | [Telegram 开发频道](https://t.me/sspanel_uim_dev)
 
 ## 简介
 
@@ -49,6 +49,10 @@ SSPanel UIM 支持安装在 Oneinstack、CloudPanel 等集成环境中。安装�
 [功能请求 & 问题回报](https://github.com/Anankke/SSPanel-Uim/issues/new) | [改善文档](https://github.com/sspanel-uim/Wiki) | [Fork & Pull Request](https://github.com/Anankke/SSPanel-Uim/fork) | [贡献者列表](https://wiki.sspanel.org/#/contributors)
 
 SSPanel UIM 欢迎各种贡献，包括但不限于改进，新功能，文档和代码改进，问题和错误报告。
+
+## 捐贈
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O5O850UEH)
 
 ## 协议
 
