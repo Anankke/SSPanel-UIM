@@ -290,6 +290,7 @@ return function (SlimApp $app): void {
         // 流媒体检测
         $this->post('/media/saveReport', App\Controllers\Node\NodeController::class . ':saveReport');
         // 节点
+        $this->get('/nodes', App\Controllers\Node\NodeController::class . ':getAllInfo');
         $this->get('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':getInfo');
         $this->post('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':info');
         // 用户
