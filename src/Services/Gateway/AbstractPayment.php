@@ -100,13 +100,6 @@ abstract class AbstractPayment
             Payback::rebate($user->id, $p->total);
         }
 
-        if ($_ENV['enable_donate'] === true) {
-            if ($user->is_hide === 1) {
-                Telegram::send('一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元!');
-            } else {
-                Telegram::send($user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元！');
-            }
-        }
         return 0;
     }
 

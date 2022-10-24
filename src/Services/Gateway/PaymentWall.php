@@ -79,13 +79,6 @@ final class PaymentWall extends AbstractPayment
                 if ($user->ref_by > 0 && Setting::obtain('invitation_mode') === 'after_recharge') {
                     Payback::rebate($user->id, $virtualCurrency);
                 }
-                if ($_ENV['enable_donate'] === true) {
-                    if ($user->is_hide === 1) {
-                        Telegram::send('姐姐姐姐，一位不愿透露姓名的大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
-                    } else {
-                        Telegram::send('姐姐姐姐，' . $user->user_name . ' 大老爷给我们捐了 ' . $codeq->number . ' 元呢~');
-                    }
-                }
 
                 return $response->write('OK');
             }

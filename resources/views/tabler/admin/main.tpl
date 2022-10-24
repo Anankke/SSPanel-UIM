@@ -103,7 +103,7 @@
                     <ul class="menu-collapse collapse in" id="ui_menu_trade">
                         <li><a href="/admin/code">
                                 <i class="mdi mdi-currency-usd icon-lg"></i>
-                                &nbsp;{if $config['enable_donate']===true}充值与捐赠记录{else}充值记录{/if}</a>
+                                &nbsp;充值记录</a>
                         </li>
                         <li><a href="/admin/shop"><i class="mdi mdi-shopping icon-lg"></i>&nbsp;商品</a></li>
                         <li><a href="/admin/coupon"><i class="mdi mdi-code-tags icon-lg"></i>&nbsp;优惠码</a></li>

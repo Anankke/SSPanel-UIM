@@ -102,11 +102,6 @@
                         <li>
                             <a href="/user/bought"><i class="mdi mdi-list-box icon-lg"></i>&nbsp;购买记录</a>
                         </li>
-                        {if $config['enable_donate']===true}
-                            <li>
-                                <a href="/user/donate"><i class="mdi mdi-gift icon-lg"></i>&nbsp;捐赠公示</a>
-                            </li>
-                        {/if}
                     </ul>
                     {if $user->is_admin}
                         <a href="/admin"><i class="mdi mdi-account-tie icon-lg"></i>&nbsp;管理面板</a>
