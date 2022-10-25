@@ -121,7 +121,7 @@ pre {
 }
 
 .page-orange .ui-content-header {
-  background-image: url(/theme/material/css/images/bg/amber.jpg);
+  background-image: url(/theme/tabler/css/images/bg/amber.jpg);
 }
 
 .content-heading {
@@ -337,7 +337,7 @@ a.btn-dl:visited {
   border-radius: 16px;
   top: 0;
   left: 0;
-  background: url(/theme/material/images/users/trafficbar.png) 0 0;
+  background: url(/theme/tabler/images/users/trafficbar.png) 0 0;
   animation: sparkle 1500ms linear infinite;
   animation: sparkle 1500ms linear infinite;
   animation: sparkle 1500ms linear infinite;

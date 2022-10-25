@@ -56,4 +56,4 @@ SSPanel UIM 欢迎各种贡献，包括但不限于改进，新功能，文档�
 
 ## 协议
 
-[MIT License](https://github.com/Anankke/SSPanel-Uim/blob/dev/LICENSE)
+[MIT License](blob/dev/LICENSE)
