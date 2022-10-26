@@ -1,276 +1,333 @@
-{include file='admin/main.tpl'}
+{include file='admin/tabler_header.tpl'}
 
-<script src="https://fastly.jsdelivr.net/npm/chart.js"></script>
-
-<main class="content">
-    <div class="content-header ui-content-header">
-        <div class="container">
-            <h1 class="content-heading">运营总览</h1>
+<div class="page-wrapper">
+    <div class="container-xl">
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title" style="line-height: unset;">
+                        <span class="home-title">系统概况</span>
+                    </h2>
+                    <div class="page-pretitle">
+                        <span class="home-subtitle">在这里查看系统的的各项运营指标</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="container">
-        <section class="content-inner margin-top-no">
-            <div class="row">
-                <div class="col-xx-12">
-                    <div class="card margin-bottom-no">
-                        <div class="card-main">
-                            <div class="card-inner">
-                                <p>下面是系统运行情况简报。</p>
-                                <p>
-                                    付费用户：{$user->paidUserCount()}<br/>
-                                    总共用户：{$user->count()}<br/>
-                                    总转换率：{round($user->paidUserCount()/$user->count()*100,2)}%
-                                </p>
-                                <p>
-                                    今日流水：￥{$user->calIncome("today")}<br/>
-                                    昨日流水：￥{$user->calIncome("yesterday")}<br/>
-                                    这月流水：￥{$user->calIncome("this month")}<br/>
-                                    上月流水：￥{$user->calIncome("last month")}<br/>
-                                    总共流水：￥{$user->calIncome("total")}
-                                </p>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-12">
+                    <div class="row row-cards">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-info text-white avatar">
+                                                <i class="ti ti-calendar-event icon"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                ￥{$user->calIncome("today")}
+                                            </div>
+                                            <div class="text-muted">
+                                                今日流水
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-blue text-white avatar">
+                                                <i class="ti ti-calendar-minus icon"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                ￥{$user->calIncome("yesterday")}
+                                            </div>
+                                            <div class="text-muted">
+                                                昨日流水
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-warning text-white avatar">
+                                                <i class="ti ti-calendar-stats icon"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                ￥{$user->calIncome("this month")}
+                                            </div>
+                                            <div class="text-muted">
+                                                这月流水
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="card card-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="bg-danger text-white avatar">
+                                                <i class="ti ti-calendar-plus icon"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-medium">
+                                                ￥{$user->calIncome("total")}
+                                            </div>
+                                            <div class="text-muted">
+                                                累计流水
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="ui-card-wrap">
-                <div class="row">
-                    <div class="col-xx-12 col-sm-6">
-                        <div class="card">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    <canvas id="check_chart"></canvas>
-                                </div>
-                            </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{$data['total']['user']} 位用户的签到情况</h3>
                         </div>
-                        <div class="card">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    <canvas id="alive_chart"></canvas>
-                                </div>
-                            </div>
+                        <div class="card-body">
+                            <div id="check-in"></div>
                         </div>
                     </div>
-                    <div class="col-xx-12 col-sm-6">
-                        <div class="card">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    <canvas id="node_chart"></canvas>
-                                </div>
-                            </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{$data['total']['node']} 个服务器的在线情况</h3>
                         </div>
-                        <div class="card">
-                            <div class="card-main">
-                                <div class="card-inner">
-                                    <canvas id="traffic_chart"></canvas>
-                                </div>
-                            </div>
+                        <div class="card-body">
+                            <div id="node-online"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">用户在线</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="user-online"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">流量用量</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="traffic-usage"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
-</main>
 
-{include file='admin/footer.tpl'}
-
-<script>
-    const check_chart = new Chart(
-        document.getElementById('check_chart'),
-        config = {
-            type: 'doughnut',
-            data: {
-                labels: [
-                    '没有签到过的用户（{$sts->getTotalUser()-$sts->getCheckinUser()}人）', 
-                    '曾经签到过的用户（{$sts->getCheckinUser()-$sts->getTodayCheckinUser()}人）', 
-                    '今日签到用户（{$sts->getTodayCheckinUser()}人）'
-                ],
-                datasets: [{
-                    label: '用户签到状态',
-                    data: [
-                        {$sts->getTotalUser()-$sts->getCheckinUser()}, 
-                        {$sts->getCheckinUser()-$sts->getTodayCheckinUser()},
-                        {$sts->getTodayCheckinUser()}
-                    ],
-                    backgroundColor: [
-                        'rgb(205, 180, 219)',
-                        'rgb(255, 175, 204)',
-                        'rgb(162, 210, 255)'
-                    ]
-                }]
-            },
-            options: {
-                aspectRatio: 2,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        font: {
-                            size: 14
-                        }
+    <script>
+        // @formatter:off
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('check-in'), {
+                chart: {
+                    type: "donut",
+                    fontFamily: 'inherit',
+                    height: 300,
+                    sparkline: {
+                        enabled: true
                     },
-                    title: {
-                        display: true,
-                        position: 'top',
-                        text: '用户签到状态',
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
-            }
-        },
-    );
-</script>
-
-<script>
-    const alive_chart = new Chart(
-        document.getElementById('alive_chart'),
-        config = {
-            type: 'doughnut',
-            data: {
-                labels: [
-                    '从未在线的用户（{$sts->getUnusedUser()}人）', 
-                    '一天以前在线的用户（{$sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser()}人）', 
-                    '一天内在线的用户（{$sts->getOnlineUser(86400)}人）',
-                    '一小时内在线的用户（{$sts->getOnlineUser(3600)}人）',
-                    '一分钟内在线的用户（{$sts->getOnlineUser(60)}人）'
-                ],
-                datasets: [{
-                    label: '用户在线状态',
-                    data: [
-                        {$sts->getUnusedUser()}, 
-                        {$sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser()},
-                        {$sts->getOnlineUser(86400)},
-                        {$sts->getOnlineUser(3600)},
-                        {$sts->getOnlineUser(60)}
-                    ],
-                    backgroundColor: [
-                        'rgb(205, 180, 219)',
-                        'rgb(255, 200, 221)',
-                        'rgb(255, 175, 204)',
-                        'rgb(189, 224, 254)',
-                        'rgb(162, 210, 255)'
-                    ]
-                }]
-            },
-            options: {
-                aspectRatio: 2,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        font: {
-                            size: 14
-                        }
+                    animations: {
+                        enabled: false
                     },
-                    title: {
-                        display: true,
-                        position: 'top',
-                        text: '用户在线状态',
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
-            }
-        },
-    );
-</script>
-
-
-<script>
-    const node_chart = new Chart(
-        document.getElementById('node_chart'),
-        config = {
-            type: 'doughnut',
-            data: {
-                labels: [
-                    '离线节点（{$sts->getTotalNodes()-$sts->getAliveNodes()}个）', 
-                    '在线节点（{$sts->getAliveNodes()}个）'
-                ],
-                datasets: [{
-                    label: '节点状态',
-                    data: [
-                        {$sts->getTotalNodes()-$sts->getAliveNodes()}, 
-                        {$sts->getAliveNodes()}
-                    ],
-                    backgroundColor: [
-                        'rgb(205, 180, 219)',
-                        'rgb(162, 210, 255)'
-                    ]
-                }]
-            },
-            options: {
-                aspectRatio: 2,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        font: {
-                            size: 14
-                        }
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{$data['check-in']['none']}, {$data['check-in']['last']}, {$data['check-in']['today']}],
+                labels: ["没有签到", "曾经签到", "今日签到"],
+                grid: {
+                    strokeDashArray: 3,
+                },
+                colors: ["#0780cf", "#009db2", "#fa6d1d"],
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    offsetY: 12,
+                    markers: {
+                        width: 10,
+                        height: 10,
+                        radius: 100,
                     },
-                    title: {
-                        display: true,
-                        position: 'top',
-                        text: '节点状态',
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
-            }
-        },
-    );
-</script>
-
-<script>
-    const traffic_chart = new Chart(
-        document.getElementById('traffic_chart'),
-        config = {
-            type: 'doughnut',
-            data: {
-                labels: [
-                    '总剩余可用（{$sts->getUnusedTrafficUsage()}）',
-                    '总过去已用（{$sts->getLastTrafficUsage()}）',
-                    '总今日已用（{$sts->getTodayTrafficUsage()}）'
-                ],
-                datasets: [{
-                    label: '流量使用状态',
-                    data: [
-                        {$sts->getRawUnusedTrafficUsage()}, 
-                        {$sts->getRawLastTrafficUsage()},
-                        {$sts->getRawTodayTrafficUsage()}
-                    ],
-                    backgroundColor: [
-                        'rgb(205, 180, 219)',
-                        'rgb(255, 175, 204)',
-                        'rgb(162, 210, 255)'
-                    ]
-                }]
-            },
-            options: {
-                aspectRatio: 2,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        font: {
-                            size: 14
-                        }
+                    itemMargin: {
+                        horizontal: 8,
+                        vertical: 8
                     },
-                    title: {
-                        display: true,
-                        position: 'top',
-                        text: '流量使用状态',
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
-            }
-        },
-    );
-</script>
+                },
+                tooltip: {
+                    fillSeriesColor: false
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+    <script>
+        // @formatter:off
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('node-online'), {
+                chart: {
+                    type: "donut",
+                    fontFamily: 'inherit',
+                    height: 300,
+                    sparkline: {
+                        enabled: true
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{$data['node']['online']}, {$data['node']['offline']}],
+                labels: ["在线", "离线"],
+                grid: {
+                    strokeDashArray: 2,
+                },
+                colors: ["#71ae46", "#d85d2a"],
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    offsetY: 12,
+                    markers: {
+                        width: 10,
+                        height: 10,
+                        radius: 100,
+                    },
+                    itemMargin: {
+                        horizontal: 8,
+                        vertical: 8
+                    },
+                },
+                tooltip: {
+                    fillSeriesColor: false
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+    <script>
+        // @formatter:off
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('user-online'), {
+                chart: {
+                    type: "donut",
+                    fontFamily: 'inherit',
+                    height: 300,
+                    sparkline: {
+                        enabled: true
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{$data['user']['none']}, {$data['user']['oneDayAgo']}, {$data['user']['inOneDay']}, {$data['user']['inOneHour']}, {$data['user']['inOneMin']}],
+                labels: ["从未在线", "一天前在线", "一天内在线", "一小时内在线", "一分钟内在线"],
+                grid: {
+                    strokeDashArray: 4,
+                },
+                colors: ["#0e72cc", "#6ca30f", "#f59311", "#fa4343", "#16afcc"],
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    offsetY: 12,
+                    markers: {
+                        width: 10,
+                        height: 10,
+                        radius: 100,
+                    },
+                    itemMargin: {
+                        horizontal: 8,
+                        vertical: 8
+                    },
+                },
+                tooltip: {
+                    fillSeriesColor: false
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+    <script>
+        // @formatter:off
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('traffic-usage'), {
+                chart: {
+                    type: "donut",
+                    fontFamily: 'inherit',
+                    height: 300,
+                    sparkline: {
+                        enabled: true
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{$data['traffic']['today']}, {$data['traffic']['last']}, {$data['traffic']['over']}],
+                labels: ["今日已用", "过去已用", "剩余流量"],
+                grid: {
+                    strokeDashArray: 3,
+                },
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    offsetY: 12,
+                    markers: {
+                        width: 10,
+                        height: 10,
+                        radius: 100,
+                    },
+                    itemMargin: {
+                        horizontal: 8,
+                        vertical: 8
+                    },
+                },
+                tooltip: {
+                    fillSeriesColor: false
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+
+{include file='admin/tabler_footer.tpl'}
