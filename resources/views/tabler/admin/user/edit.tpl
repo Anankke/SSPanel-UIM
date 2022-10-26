@@ -296,11 +296,6 @@
             } else {
                 var is_admin = 0;
             }
-            if (document.getElementById('enable').checked) {
-                var enable = 1;
-            } else {
-                var enable = 0;
-            }
             if (document.getElementById('ga_enable').checked) {
                 var ga_enable = 1;
             } else {
