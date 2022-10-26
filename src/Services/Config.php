@@ -99,7 +99,6 @@ final class Config
             'enable_analytics_code' => $_ENV['enable_analytics_code'],
             'enable_ticket' => $_ENV['enable_ticket'],
 
-            'enable_flag' => $_ENV['enable_flag'],
             'enable_kill' => $_ENV['enable_kill'],
             'enable_change_email' => $_ENV['enable_change_email'],
 

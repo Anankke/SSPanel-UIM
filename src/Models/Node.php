@@ -101,19 +101,6 @@ final class Node extends Model
     }
 
     /**
-     * 节点对应的国旗
-     *
-     * @return string [国家].png OR unknown.png
-     */
-    public function getNodeFlag(): string
-    {
-        $regex = $_ENV['flag_regex'];
-        $matches = [];
-        preg_match($regex, $this->name, $matches);
-        return $matches[0] ?? 'us';
-    }
-
-    /**
      * 节点最后活跃时间
      */
     public function nodeHeartbeat(): string
