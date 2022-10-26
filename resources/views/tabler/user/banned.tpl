@@ -1,4 +1,5 @@
 {include file='user/tabler_header.tpl'}
+
 <div class="page-wrapper">
     <div class="container-xl">
         <!-- Page title -->
@@ -7,10 +8,10 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        <span class="home-title">访问受限</span>
+                        <span class="home-title">账户已被封禁</span>
                     </h2>
                     <div class="page-pretitle">
-                        <span class="home-subtitle">你暂时无法访问除此页面外的其他页面</span>
+                        <span class="home-subtitle">你的账户功能已被停用，并且禁止访问用户中心</span>
                     </div>
                 </div>
             </div>
@@ -23,15 +24,20 @@
                     <div class="card">
                         <div class="empty">
                             <div class="empty-img">
-                                <img src="/theme/tabler/static/illustrations/undraw_quitting_time_dm8t.svg" height="128"
-                                    alt="">
+                                <i class="ti ti-circle-x icon mb-2 text-danger icon-lg" style="font-size:3.5rem;"></i>
                             </div>
-                            <p class="empty-title">账户被停用</p>
-                            <p class="empty-subtitle text-muted">你的账户被管理员停用了，请联系管理员</p>
+                            {if $banned_reason == null}
+                            <p class="empty-title">账户被系统封禁</p>
+                            <p class="empty-subtitle text-muted">你的账户被系统自动封禁了，请联系管理员</p>
+                            {else}
+                            <p class="empty-title">以下是你被封禁的理由</p>
+                            <p class="empty-subtitle text-muted">{$banned_reason}</p>
+                            {/if}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 {include file='user/tabler_footer.tpl'}

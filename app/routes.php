@@ -38,7 +38,7 @@ return function (SlimApp $app): void {
 
         $this->get('/profile', App\Controllers\UserController::class . ':profile');
         $this->get('/invite', App\Controllers\UserController::class . ':invite');
-        $this->get('/disable', App\Controllers\UserController::class . ':disable');
+        $this->get('/banned', App\Controllers\UserController::class . ':banned');
 
         $this->get('/server', App\Controllers\User\ServerController::class . ':userServerPage');
 

@@ -6,7 +6,6 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\Bought;
-use App\Models\DetectBanLog;
 use App\Models\Setting;
 use App\Models\Shop;
 use App\Models\User;
@@ -56,7 +55,8 @@ final class UserController extends BaseController
             'transfer_total' => '账户累计使用流量/GB',
             'last_checkin_time' => '上次签到时间',
             'today_traffic' => '今日流量',
-            'enable' => '是否启用',
+            'is_banned' => '账户状态',
+            'banned_reason' => '封禁理由',
             'reg_date' => '注册时间',
             'reg_ip' => '注册IP',
             'auto_reset_day' => '免费用户流量重置日',
@@ -231,7 +231,8 @@ final class UserController extends BaseController
         $user->method = $request->getParam('method');
         $user->node_speedlimit = $request->getParam('node_speedlimit');
         $user->node_connector = $request->getParam('node_connector');
-        $user->enable = $request->getParam('enable');
+        $user->is_banned = $request->getParam('is_banned');
+        $user->banned_reason = $request->getParam('banned_reason');
         $user->is_admin = $request->getParam('is_admin');
         $user->ga_enable = $request->getParam('ga_enable');
         $user->node_group = $request->getParam('group');
@@ -245,24 +246,6 @@ final class UserController extends BaseController
 
         $user->forbidden_ip = str_replace(PHP_EOL, ',', $request->getParam('forbidden_ip'));
         $user->forbidden_port = str_replace(PHP_EOL, ',', $request->getParam('forbidden_port'));
-
-        // 手动封禁
-        $ban_time = (int) $request->getParam('ban_time');
-        if ($ban_time > 0) {
-            $user->enable = 0;
-            $end_time = date('Y-m-d H:i:s');
-            $user->last_detect_ban_time = $end_time;
-            $DetectBanLog = new DetectBanLog();
-            $DetectBanLog->user_name = $user->user_name;
-            $DetectBanLog->user_id = $user->id;
-            $DetectBanLog->email = $user->email;
-            $DetectBanLog->detect_number = '0';
-            $DetectBanLog->ban_time = $ban_time;
-            $DetectBanLog->start_time = strtotime('1989-06-04 00:05:00');
-            $DetectBanLog->end_time = strtotime($end_time);
-            $DetectBanLog->all_detect_number = $user->all_detect_number;
-            $DetectBanLog->save();
-        }
 
         if (! $user->save()) {
             return $response->withJson([
@@ -392,7 +375,8 @@ final class UserController extends BaseController
                 'transfer_total' => Tools::flowToGB($value->transfer_total),
                 'last_checkin_time' => $value->lastCheckInTime(),
                 'today_traffic' => $value->todayUsedTraffic(),
-                'enable' => $value->enable === 1 ? '可用' : '禁用',
+                'is_banned' => $value->is_banned === 0 ? '正常' : '封禁',
+                'banned_reason' => $value->banned_reason,
                 'reg_date' => $value->reg_date,
                 'reg_ip' => $value->reg_ip,
                 'auto_reset_day' => $value->auto_reset_day,
