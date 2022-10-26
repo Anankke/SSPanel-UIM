@@ -8,7 +8,7 @@ final class RemoveUserEnable extends AbstractMigration
 {
     public function up(): void
     {
-        if (! $this->table('user')->hasColumn('enable')) {
+        if ($this->table('user')->hasColumn('enable')) {
             $this->table('user')
                 ->removeColumn('enable')
                 ->save();

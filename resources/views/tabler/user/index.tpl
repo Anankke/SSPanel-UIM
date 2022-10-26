@@ -368,9 +368,17 @@
                             <i class="ti ti-bell-ringing icon"></i>
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title">最新公告 <span class="card-subtitle">{$ann->date}</span></h3>
+                            <h3 class="card-title">最新公告 
+                            {if $ann != null}
+                            <span class="card-subtitle">{$ann->date}</span>
+                            {/if}
+                            </h3>
                             <p class="text-muted">
+                            {if $ann != null}
                                 {$ann->content}
+                            {else}
+                                暂无公告
+                            {/if}
                             </p>
                         </div>
                     </div>
