@@ -79,7 +79,7 @@
                                     <select id="is_banned" class="form-control maxwidth-edit" name="is_multi_user">
                                         <option value="0" {if $edit_user->is_banned==0}selected{/if}>正常
                                         </option>
-                                        <option value="1" {if $edit_user->is_banned==1}selected{/if}>手动封禁
+                                        <option value="1" {if $edit_user->is_banned==1}selected{/if}>封禁
                                         </option>
                                     </select>
                                 </label>
