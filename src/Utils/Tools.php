@@ -154,12 +154,6 @@ final class Tools
         return Hash::sha256WithSalt($unid);
     }
 
-    public static function genUUID()
-    {
-        // @TODO
-        return self::genSID();
-    }
-
     public static function getLastPort()
     {
         $user = User::orderBy('id', 'desc')->first();

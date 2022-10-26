@@ -714,62 +714,6 @@ final class User extends Model
     }
 
     /**
-     * 重置端口
-     */
-    public function resetPort(): array
-    {
-        $price = $_ENV['port_price'];
-        if ($this->money < $price) {
-            return [
-                'ok' => false,
-                'msg' => '余额不足',
-            ];
-        }
-        $this->money -= $price;
-        $Port = Tools::getAvPort();
-        $this->setPort($Port);
-        $this->save();
-        return [
-            'ok' => true,
-            'msg' => $this->port,
-        ];
-    }
-
-    /**
-     * 指定端口
-     */
-    public function specifyPort(int $Port): array
-    {
-        $price = $_ENV['port_price_specify'];
-        if ($this->money < $price) {
-            return [
-                'ok' => false,
-                'msg' => '余额不足',
-            ];
-        }
-        if ($Port < Setting::obtain('min_port') || $Port > Setting::obtain('max_port') || Tools::isInt($Port) === false) {
-            return [
-                'ok' => false,
-                'msg' => '端口不在要求范围内',
-            ];
-        }
-        $PortOccupied = User::pluck('port')->toArray();
-        if (\in_array($Port, $PortOccupied) === true) {
-            return [
-                'ok' => false,
-                'msg' => '端口已被占用',
-            ];
-        }
-        $this->money -= $price;
-        $this->setPort($Port);
-        $this->save();
-        return [
-            'ok' => true,
-            'msg' => '钦定成功',
-        ];
-    }
-
-    /**
      * 用户下次流量重置时间
      */
     public function validUseLoop(): string

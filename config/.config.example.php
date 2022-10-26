@@ -51,9 +51,6 @@ $_ENV['auto_clean_min_money']       = 1;            //余额低于多少的0级�
 $_ENV['enable_bought_reset']        = true;         //购买时是否重置流量
 $_ENV['enable_bought_extend']       = true;         //购买时是否延长等级期限（同等级配套）
 
-$_ENV['port_price']                 = -1;           //用户随机重置端口所需要的价格，价格小于0时视为不开放购买
-$_ENV['port_price_specify']         = -1;           //用户指明钦定端口所需要的价格，价格小于0时视为不开放购买
-
 #高级
 $_ENV['class_expire_reset_traffic'] = 0;            //等级到期时重置为的流量值，单位GB，小于0时不重置
 $_ENV['account_expire_delete_days'] = -1;           //账户到期几天之后会删除账户，小于0时不删除
@@ -185,7 +182,6 @@ $_ENV['telegram_general_terms']             = '服务条款.';                  
 #Telegram
 $_ENV['enable_telegram_login']              = false;   //开启这个设置前请先配置 Telegram bot 否则不会生效
 
-
 #工单系统设置
 $_ENV['enable_ticket']        = true;        //是否开启工单系统
 $_ENV['mail_ticket']          = true;        //是否开启工单邮件提醒
@@ -194,13 +190,9 @@ $_ENV['mail_ticket']          = true;        //是否开启工单邮件提醒
 $_ENV['useScFtqq']            = false;        //是否开启工单Server酱提醒
 $_ENV['ScFtqq_SCKEY']         = '';           //请填写您在Server酱获取的SCKEY  请仔细检查勿粘贴错
 
-
 #后台商品列表 销量统计
 $_ENV['sales_period']         = 30;             //统计指定周期内的销量，值为【expire/任意大于0的整数】
 
-#国旗
-$_ENV['enable_flag']          = true;            //启用该项之前务必先仔细阅读教程
-$_ENV['flag_regex']           = '/.*?(?=\s)/';   //从站点全名中匹配【国家/地区】的正则表达式(php版)
 
 //节点检测-----------------------------------------------------------------------------------------------
 #GFW检测，请通过crontab进行【开启/关闭】
@@ -214,17 +206,11 @@ $_ENV['enable_detect_offline']           = true;
 #离线检测是否推送到Server酱 请配置好上文的Server配置
 $_ENV['enable_detect_offline_useScFtqq'] = false;
 
-//V2Ray相关设置------------------------------------------------------------------------------------------
-$_ENV['v2ray_port']     = 443;                  //V2Ray端口
-$_ENV['v2ray_protocol'] = 'HTTP/2 + TLS';       //V2Ray协议
-$_ENV['v2ray_alter_id'] = 32;
-$_ENV['v2ray_level']    = 0;
-
 //以下所有均为高级设置（一般用不上，不用改---------------------------------------------------------------------
 
 // 主站是否提供 WebAPI
 // - 为了安全性，推荐使用 WebAPI 模式对接节点并关闭公网数据库连接。
-// - 如果您全部节点使用数据库连接或者拥有独立的 WebAPI 站点或 Seed，则可设为 false。
+// - 如果您全部节点使用数据库连接或者拥有独立的 WebAPI 站点或 gRPC API，则可设为 false。
 $_ENV['WebAPI']     = true;
 
 #杂项

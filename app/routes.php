@@ -69,8 +69,6 @@ return function (SlimApp $app): void {
         $this->post('/mail', App\Controllers\UserController::class . ':updateMail');
         $this->post('/passwd_reset', App\Controllers\UserController::class . ':resetPasswd');
         $this->post('/method', App\Controllers\UserController::class . ':updateMethod');
-        $this->post('/hide', App\Controllers\UserController::class . ':updateHide');
-        $this->get('/sys', App\Controllers\UserController::class . ':sys');
         $this->get('/trafficlog', App\Controllers\UserController::class . ':trafficLog');
         $this->get('/kill', App\Controllers\UserController::class . ':kill');
         $this->post('/kill', App\Controllers\UserController::class . ':handleKill');
@@ -84,8 +82,6 @@ return function (SlimApp $app): void {
         $this->post('/ga_set', App\Controllers\UserController::class . ':setGa');
         $this->get('/ga_reset', App\Controllers\UserController::class . ':resetGa');
         $this->post('/telegram_reset', App\Controllers\UserController::class . ':resetTelegram');
-        $this->post('/port_reset', App\Controllers\UserController::class . ':resetPort');
-        $this->post('/specifyport', App\Controllers\UserController::class . ':specifyPort');
         $this->post('/unblock', App\Controllers\UserController::class . ':unblock');
         $this->get('/bought', App\Controllers\UserController::class . ':bought');
         $this->delete('/bought', App\Controllers\UserController::class . ':deleteBoughtGet');

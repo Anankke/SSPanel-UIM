@@ -586,14 +586,6 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function sys(Request $request, Response $response, array $args)
-    {
-        return $this->view()->assign('ana', '')->display('user/sys.tpl');
-    }
-
-    /**
-     * @param array     $args
-     */
     public function updatePassword(Request $request, Response $response, array $args)
     {
         $oldpwd = $request->getParam('oldpwd');
@@ -676,19 +668,6 @@ final class UserController extends BaseController
         $user = $this->user;
         $antiXss = new AntiXSS();
         $user->user_name = $antiXss->xss_clean($newusername);
-        $user->save();
-
-        return ResponseHelper::successfully($response, '修改成功');
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function updateHide(Request $request, Response $response, array $args)
-    {
-        $hide = $request->getParam('hide');
-        $user = $this->user;
-        $user->is_hide = $hide;
         $user->save();
 
         return ResponseHelper::successfully($response, '修改成功');
