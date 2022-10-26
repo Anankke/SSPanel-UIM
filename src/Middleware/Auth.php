@@ -15,7 +15,7 @@ final class Auth
             return $response->withStatus(302)->withHeader('Location', '/auth/login');
         }
         $enablePages = ['/user/banned', '/user/backtoadmin', '/user/logout'];
-        if ($user->is_banned === 0 && ! \in_array($_SERVER['REQUEST_URI'], $enablePages)) {
+        if ($user->is_banned === 1 && ! \in_array($_SERVER['REQUEST_URI'], $enablePages)) {
             return $response->withStatus(302)->withHeader('Location', '/user/banned');
         }
         return $next($request, $response);
