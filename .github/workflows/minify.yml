@@ -9,6 +9,7 @@ on:
     paths:
       - 'public/assets/css/**'
       - 'public/assets/js/**'
+      - 'public/theme/**'
 
 jobs:
   build:
@@ -17,6 +18,14 @@ jobs:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT }}
+      - name: Auto Minify Tabler Theme CSS file
+        uses: nizarmah/auto-minify@master
+        with:
+          directory: 'public/theme/tabler/css'
+      - name: Auto Minify Tabler Theme JS file
+        uses: nizarmah/auto-minify@master
+        with:
+          directory: 'public/theme/tabler/js'
       - name: Auto Minify CSS file
         uses: nizarmah/auto-minify@master
         with:

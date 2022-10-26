@@ -67,7 +67,7 @@
                                                                 status-yellow 
                                                                 {elseif $server["online"] == "1"}
                                                                 status-green 
-                                                                {elseif $node["online"] == "0"}
+                                                                {elseif $server["online"] == "0"}
                                                                 status-orange 
                                                                 {else}
                                                                 status-red 

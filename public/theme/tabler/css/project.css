@@ -615,7 +615,7 @@ body {
 }
 
 .page-brand .ui-content-header {
-  background-image: url(./images/bg/amber.jpg);
+  background-image: url(/theme/tabler/css/images/bg/amber.jpg);
 }
 
 .ui-footer {
