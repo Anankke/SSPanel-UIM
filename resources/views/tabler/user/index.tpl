@@ -1,10 +1,11 @@
 {include file='user/tabler_header.tpl'}
+
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title">
+                    <h2 class="page-title" style="line-height: unset;">
                         <span class="home-title">用户中心</span>
                     </h2>
                     <div class="page-pretitle">
@@ -459,4 +460,5 @@
     {if $config['enable_checkin_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
     {/if}
+    
 {include file='user/tabler_footer.tpl'}
