@@ -93,8 +93,6 @@ final class Config
             'checkinMin' => $_ENV['checkinMin'],
             'checkinMax' => $_ENV['checkinMax'],
 
-            'port_price' => $_ENV['port_price'],
-            'port_price_specify' => $_ENV['port_price_specify'],
             'jump_delay' => $_ENV['jump_delay'],
             'enable_analytics_code' => $_ENV['enable_analytics_code'],
             'enable_ticket' => $_ENV['enable_ticket'],
