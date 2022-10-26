@@ -992,9 +992,12 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function disable(Request $request, Response $response, array $args)
+    public function banned(Request $request, Response $response, array $args)
     {
-        return $this->view()->display('user/disable.tpl');
+        $user = $this->user;
+        return $this->view()
+            ->assign('banned_reason', $user->banned_reason)
+            ->display('user/banned.tpl');
     }
 
     /**

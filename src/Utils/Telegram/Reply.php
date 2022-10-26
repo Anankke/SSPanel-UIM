@@ -90,7 +90,7 @@ final class Reply
             '',
             '用户邮箱：' . TelegramTools::getUserEmail($user->email, $ChatID),
             '账户余额：' . $user->money,
-            '是否启用：' . ((int) $user->enable === 1 ? '启用' : '禁用'),
+            '账户状态：' . ((int) $user->is_banned === 1 ? '封禁' : '正常'),
             '用户等级：' . $user->class,
             '剩余流量：' . $user->unusedTraffic(),
             '等级到期：' . $user->class_expire,

@@ -42,14 +42,6 @@
                             </div>
                             <div class="form-group form-group-label">
                                 <div class="checkbox switch">
-                                    <label for="enable">
-                                        <input {if $edit_user->enable==1}checked{/if} class="access-hide" id="enable"
-                                               type="checkbox"><span class="switch-toggle"></span>用户启用
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group form-group-label">
-                                <div class="checkbox switch">
                                     <label for="ga_enable">
                                         <input {if $edit_user->ga_enable==1}checked{/if} class="access-hide"
                                                id="ga_enable" type="checkbox"><span class="switch-toggle"></span>是否开启二次验证
@@ -82,27 +74,38 @@
 					<div class="card-main">
 						<div class="card-inner">
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="ban_time">手动封禁时长 (分钟)，不封禁不要修改</label>
-                                <input class="form-control maxwidth-edit" id="ban_time" type="text"
-                                       value="0">
+                                <label for="is_banned">
+                                    <label class="floating-label" for="sort">账户状态</label>
+                                    <select id="is_banned" class="form-control maxwidth-edit" name="is_multi_user">
+                                        <option value="0" {if $edit_user->is_banned==0}selected{/if}>正常
+                                        </option>
+                                        <option value="1" {if $edit_user->is_banned==1}selected{/if}>手动封禁
+                                        </option>
+                                    </select>
+                                </label>
                             </div>
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="last_detect_ban_time">最后一次被封禁的时间</label>
+                                <label class="floating-label" for="banned_reason">手动封禁理由</label>
+                                <input class="form-control maxwidth-edit" id="banned_reason" type="text"
+                                       value="{$edit_user->banned_reason}">
+                            </div>
+                            <div class="form-group form-group-label">
+                                <label class="floating-label" for="last_detect_ban_time">最后一次被自动封禁的时间</label>
                                 <input class="form-control maxwidth-edit" id="last_detect_ban_time" type="text"
                                        value="{$edit_user->lastDetectBanTime()}" readonly>
                             </div>
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="relieve_time">当前解封时间</label>
+                                <label class="floating-label" for="relieve_time">当前自动解封时间</label>
                                 <input class="form-control maxwidth-edit" id="relieve_time" type="text"
                                        value="{$edit_user->relieveTime()}" readonly>
                             </div>
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="detect_ban_number">累计封禁次数</label>
+                                <label class="floating-label" for="detect_ban_number">累计自动封禁次数</label>
                                 <input class="form-control maxwidth-edit" id="detect_ban_number" type="text"
                                        value="{if $edit_user->detectBanNumber()==0}标杆用户，没有被封禁过耶{else}太坏了，这位用户累计被封禁过 {$edit_user->detectBanNumber()} 次呢{/if}" readonly>
                             </div>
                             <div class="form-group form-group-label">
-                                <label class="floating-label" for="all_detect_number">累计违规次数</label>
+                                <label class="floating-label" for="all_detect_number">累计审计规则触发次数</label>
                                 <input class="form-control maxwidth-edit" id="all_detect_number" type="text"
                                        value="{$edit_user->all_detect_number}" readonly>
                             </div>
@@ -323,10 +326,10 @@
                     remark: $$getValue('remark'),
                     user_name: $$getValue('user_name'),
                     money: $$getValue('money'),
-                    enable,
                     is_admin,
                     ga_enable,
-                    ban_time: $$getValue('ban_time'),
+                    is_banned: $$getValue('is_banned'),
+                    banned_reason: $$getValue('banned_reason'),
                     ref_by: $$getValue('ref_by'),
                     forbidden_ip: $$getValue('forbidden_ip'),
                     forbidden_port: $$getValue('forbidden_port'),
