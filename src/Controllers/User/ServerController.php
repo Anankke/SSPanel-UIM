@@ -37,7 +37,6 @@ final class ServerController extends BaseController
             $array_node['class'] = $node->node_class;
             $array_node['sort'] = $node->sort;
             $array_node['info'] = $node->info;
-            $array_node['flag'] = $node->getNodeFlag();
             $array_node['online_user'] = $node->getNodeOnlineUserCount();
             $array_node['online'] = $node->getNodeOnlineStatus();
             $array_node['load'] = $node->getNodeLoad();
