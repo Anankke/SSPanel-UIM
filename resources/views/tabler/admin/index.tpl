@@ -109,7 +109,7 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">{$data['total']['user']} 位用户的签到情况</h3>
+                            <h3 class="card-title">{$sts->getTotalUser()} 位用户的签到情况</h3>
                         </div>
                         <div class="card-body">
                             <div id="check-in"></div>
@@ -119,7 +119,7 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">{$data['total']['node']} 个服务器的在线情况</h3>
+                            <h3 class="card-title">{$sts->getTotalNodes()} 个服务器的在线情况</h3>
                         </div>
                         <div class="card-body">
                             <div id="node-online"></div>
@@ -168,7 +168,7 @@
                 fill: {
                     opacity: 1,
                 },
-                series: [{$data['check-in']['none']}, {$data['check-in']['last']}, {$data['check-in']['today']}],
+                series: [{$sts->getTotalUser()-$sts->getCheckinUser()}, {$sts->getCheckinUser()-$sts->getTodayCheckinUser()}, {$sts->getTodayCheckinUser()}],
                 labels: ["没有签到", "曾经签到", "今日签到"],
                 grid: {
                     strokeDashArray: 3,
@@ -213,7 +213,7 @@
                 fill: {
                     opacity: 1,
                 },
-                series: [{$data['node']['online']}, {$data['node']['offline']}],
+                series: [{$sts->getTotalNodes()-$sts->getAliveNodes()}, {$sts->getAliveNodes()}],
                 labels: ["在线", "离线"],
                 grid: {
                     strokeDashArray: 2,
@@ -258,7 +258,7 @@
                 fill: {
                     opacity: 1,
                 },
-                series: [{$data['user']['none']}, {$data['user']['oneDayAgo']}, {$data['user']['inOneDay']}, {$data['user']['inOneHour']}, {$data['user']['inOneMin']}],
+                series: [{$sts->getUnusedUser()}, {$sts->getTotalUser()-$sts->getOnlineUser(86400)-$sts->getUnusedUser()}, {$sts->getOnlineUser(86400)}, {$sts->getOnlineUser(3600)}, {$sts->getOnlineUser(60)}],
                 labels: ["从未在线", "一天前在线", "一天内在线", "一小时内在线", "一分钟内在线"],
                 grid: {
                     strokeDashArray: 4,
@@ -303,7 +303,7 @@
                 fill: {
                     opacity: 1,
                 },
-                series: [{$data['traffic']['today']}, {$data['traffic']['last']}, {$data['traffic']['over']}],
+                series: [{$sts->getTodayTrafficUsage()}, {$sts->getLastTrafficUsage()}, {$sts->getUnusedTrafficUsage()}],
                 labels: ["今日已用", "过去已用", "剩余流量"],
                 grid: {
                     strokeDashArray: 3,
