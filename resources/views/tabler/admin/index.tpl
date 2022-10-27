@@ -213,7 +213,7 @@
                 fill: {
                     opacity: 1,
                 },
-                series: [{$sts->getTotalNodes()-$sts->getAliveNodes()}, {$sts->getAliveNodes()}],
+                series: [{$sts->getAliveNodes()}, {$sts->getTotalNodes()-$sts->getAliveNodes()}],
                 labels: ["在线", "离线"],
                 grid: {
                     strokeDashArray: 2,
@@ -303,7 +303,7 @@
                 fill: {
                     opacity: 1,
                 },
-                series: [{$sts->getTodayTrafficUsage()}, {$sts->getLastTrafficUsage()}, {$sts->getUnusedTrafficUsage()}],
+                series: [{$sts->getRawTodayTrafficUsage()}, {$sts->getRawLastTrafficUsage()}, {$sts->getRawUnusedTrafficUsage()}],
                 labels: ["今日已用", "过去已用", "剩余流量"],
                 grid: {
                     strokeDashArray: 3,
