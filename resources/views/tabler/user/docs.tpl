@@ -2,12 +2,10 @@
 
 <div class="page-wrapper">
     <div class="container-xl">
-        <!-- Page title -->
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <!-- Page pre-title -->
-                    <h2 class="page-title">
+                    <h2 class="page-title" style="line-height: unset;">
                         <span class="home-title">文档中心</span>
                     </h2>
                     <div class="page-pretitle">

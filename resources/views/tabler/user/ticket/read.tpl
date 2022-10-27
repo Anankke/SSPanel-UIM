@@ -1,10 +1,11 @@
 {include file='user/tabler_header.tpl'}
+
 <div class="page-wrapper">
     <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title">
+                    <h2 class="page-title" style="line-height: unset;">
                         <span class="home-title">工单回复</span>
                     </h2>
                     <div class="page-pretitle">
@@ -162,4 +163,5 @@
             location.reload();
         });
     </script>
+
 {include file='user/tabler_footer.tpl'}

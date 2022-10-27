@@ -1,13 +1,12 @@
 {include file='user/tabler_header.tpl'}
+
 <div class="page-wrapper">
     <div class="container-xl">
-        <!-- Page title -->
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <!-- Page pre-title -->
-                    <h2 class="page-title">
-                        <span class="home-title">审计记录</span>
+                    <h2 class="page-title" style="line-height: unset;">
+                        <span class="home-title" style="line-height: unset;">审计记录</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">系统中所有审计记录</span>
@@ -66,4 +65,5 @@
             </div>
         </div>
     </div>
+
 {include file='user/tabler_footer.tpl'}

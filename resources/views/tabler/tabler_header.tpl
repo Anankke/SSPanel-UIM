@@ -9,9 +9,6 @@
     <title>{$config['appName']}</title>
     <!-- CSS files -->
     <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
-    <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler-flags.min.css" rel="stylesheet" />
-    <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler-payments.min.css" rel="stylesheet" />
-    <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler-vendors.min.css" rel="stylesheet" />
     <link href="//fastly.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
     <!-- JS files -->
     <script src="/assets/js/fuck.min.js"></script>

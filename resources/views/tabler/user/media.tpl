@@ -1,12 +1,11 @@
 {include file='user/tabler_header.tpl'}
+
 <div class="page-wrapper">
     <div class="container-xl">
-        <!-- Page title -->
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <!-- Page pre-title -->
-                    <h2 class="page-title">
+                    <h2 class="page-title" style="line-height: unset;">
                         <span class="home-title">流媒体解锁</span>
                     </h2>
                     <div class="page-pretitle">
@@ -77,4 +76,5 @@
         $("td:contains('Unknow')").css("color", "orange");
         $("td:contains('仅限自制')").css("color", "purple");
     </script>
+    
 {include file='user/tabler_footer.tpl'}

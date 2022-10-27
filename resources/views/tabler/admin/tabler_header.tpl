@@ -5,17 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta name="format-detection" content="telephone=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="referrer" content="never">
     <title>{$config['appName']}</title>
     <!-- CSS files -->
     <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
     <link href="//fastly.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css" rel="stylesheet" />
     <!-- JS files -->
-    <script src="/assets/js/fuck.min.js"></script>
     <script src="//fastly.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
     <script src="//cdn.staticfile.org/clipboard.js/2.0.11/clipboard.min.js"></script>
     <script src="//cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.js"></script>
     <style>
         .home-subtitle {
             font-size: 14px;
@@ -27,11 +28,7 @@
     </style>
 </head>
 
-{if $user->is_dark_mode}
-<body class='theme-dark'>
-{else}
 <body>
-{/if}
     <div class="page">
         <header class="navbar navbar-expand-md navbar-dark navbar-overlap d-print-none">
             <div class="container-xl" style="background-image: none;">
@@ -66,12 +63,12 @@
                     <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="/user">
+                                <a class="nav-link" href="/admin">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
                                         <i class="ti ti-home icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        主页
+                                        概况
                                     </span>
                                 </a>
                             </li>
@@ -79,32 +76,30 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-user icon"></i>
+                                        <i class="ti ti-settings icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        我的
+                                        管理
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-menu-columns">
                                         <div class="dropdown-menu-column">
-                                            <a class="dropdown-item" href="/user/profile">
-                                                <i class="ti ti-info-square"></i>&nbsp;
-                                                账户信息
+                                            <a class="dropdown-item" href="/admin/setting">
+                                                <i class="ti ti-tool"></i>&nbsp;
+                                                设置
                                             </a>
-                                            <a class="dropdown-item" href="/user/edit">
-                                                <i class="ti ti-edit"></i>&nbsp;
-                                                资料修改
+                                            <a class="dropdown-item" href="/admin/user">
+                                                <i class="ti ti-users"></i>&nbsp;
+                                                用户
                                             </a>
-                                            {if $config['enable_ticket'] == true}
-                                                <a class="dropdown-item" href="/user/ticket">
-                                                    <i class="ti ti-ticket"></i>&nbsp;
-                                                    工单系统
-                                                </a>
-                                            {/if}
-                                            <a class="dropdown-item" href="/user/invite">
-                                                <i class="ti ti-friends"></i>&nbsp;
-                                                邀请注册
+                                            <a class="dropdown-item" href="/admin/node">
+                                                <i class="ti ti-server-2"></i>&nbsp;
+                                                节点
+                                            </a>
+                                            <a class="dropdown-item" href="/admin/giftcard">
+                                                <i class="ti ti-gift"></i>&nbsp;
+                                                礼品卡
                                             </a>
                                         </div>
                                     </div>
@@ -114,20 +109,20 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-brand-telegram icon"></i>
+                                        <i class="ti ti-brand-hipchat icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        使用
+                                        运营
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/user/server">
-                                        <i class="ti ti-server"></i>&nbsp;
-                                        节点列表
+                                    <a class="dropdown-item" href="/admin/announcement">
+                                        <i class="ti ti-speakerphone"></i>&nbsp;
+                                        公告
                                     </a>
-                                    <a class="dropdown-item" href="/user/media">
-                                        <i class="ti ti-key"></i>&nbsp;
-                                        流媒体解锁
+                                    <a class="dropdown-item" href="/admin/ticket">
+                                        <i class="ti ti-messages"></i>&nbsp;
+                                        工单
                                     </a>
                                 </div>
                             </li>
@@ -135,23 +130,66 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-dots-circle-horizontal icon"></i>
+                                        <i class="ti ti-report-analytics icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        更多
+                                        报表
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/user/announcement">
-                                        <i class="ti ti-speakerphone"></i>&nbsp;
-                                        站点公告
+                                    <a class="dropdown-item"
+                                        href="/admin/chart/index">
+                                        <i class="ti ti-timeline"></i>&nbsp;
+                                        总览
                                     </a>
-                                    {if $config['subscribeLog_show'] == true && $config['subscribeLog'] == true}
-                                        <a class="dropdown-item" href="/user/subscribe_log">
-                                            <i class="ti ti-rss"></i></i>&nbsp;
-                                            订阅日志
-                                        </a>
-                                    {/if}
+                                    <a class="dropdown-item"
+                                        href="/admin/chart/finance">
+                                        <i class="ti ti-businessplan"></i>&nbsp;
+                                        财务
+                                    </a>
+                                    <a class="dropdown-item"
+                                        href="/admin/chart/user/{date("Ymd", strtotime("-1 day"))}">
+                                        <i class="ti ti-sort-ascending-2"></i>&nbsp;
+                                        用户流量
+                                    </a>
+                                    <a class="dropdown-item"
+                                        href="/admin/chart/node/{date("Ymd", strtotime("-1 day"))}">
+                                        <i class="ti ti-sort-descending-2"></i>&nbsp;
+                                        节点流量
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <i class="ti ti-address-book icon"></i>
+                                    </span>
+                                    <span class="nav-link-title">
+                                        日志
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/admin/login">
+                                        <i class="ti ti-login"></i>&nbsp;
+                                        登录
+                                    </a>
+                                    <a class="dropdown-item" href="/admin/subscribe">
+                                        <i class="ti ti-rss"></i>&nbsp;
+                                        订阅
+                                    </a>
+                                    <a class="dropdown-item" href="/admin/payback">
+                                        <i class="ti ti-friends"></i>&nbsp;
+                                        返利
+                                    </a>
+                                    <a class="dropdown-item" href="/admin/alive">
+                                        <i class="ti ti-router"></i>&nbsp;
+                                        在线
+                                    </a>
+                                    <a class="dropdown-item" href="/admin/log">
+                                        <i class="ti ti-book-download"></i>&nbsp;
+                                        自定义
+                                    </a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -165,13 +203,13 @@
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/user/detect">
+                                    <a class="dropdown-item" href="/admin/detect">
                                         <i class="ti ti-barrier-block"></i>&nbsp;
-                                        审计规则
+                                        规则
                                     </a>
-                                    <a class="dropdown-item" href="/user/detect/log">
+                                    <a class="dropdown-item" href="/admin/detect/log">
                                         <i class="ti ti-notes"></i>&nbsp;
-                                        审计日志
+                                        记录
                                     </a>
                                 </div>
                             </li>
@@ -182,36 +220,38 @@
                                         <i class="ti ti-building-store icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        商店
+                                        商品
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-menu-columns">
                                         <div class="dropdown-menu-column">
-                                            <a class="dropdown-item" href="/user/shop">
-                                                <i class="ti ti-shopping-cart"></i>&nbsp;
-                                                套餐购买
+                                            <a class="dropdown-item" href="/admin/product">
+                                                <i class="ti ti-list-details"></i>&nbsp;
+                                                列表
                                             </a>
-                                            <a class="dropdown-item" href="/user/code">
-                                                <i class="ti ti-checklist"></i>&nbsp;
-                                                账户充值
+                                            <a class="dropdown-item" href="/admin/order">
+                                                <i class="ti ti-receipt"></i>&nbsp;
+                                                订单
+                                            </a>
+                                            <a class="dropdown-item" href="/admin/coupon">
+                                                <i class="ti ti-ticket"></i>&nbsp;
+                                                优惠码
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                             </li>
-                            {if $user->is_admin}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/admin">
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                            <i class="ti ti-settings icon"></i>
-                                        </span>
-                                        <span class="nav-link-title">
-                                            管理
-                                        </span>
-                                    </a>
-                                </li>
-                            {/if}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/user">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <i class="ti ti-arrow-back-up icon"></i>
+                                    </span>
+                                    <span class="nav-link-title">
+                                        返回
+                                    </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
