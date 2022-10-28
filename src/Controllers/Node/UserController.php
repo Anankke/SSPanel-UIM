@@ -55,8 +55,7 @@ final class UserController extends BaseController
             $mu_port_migration = false;
         }
 
-        $users_raw = User::where('enable', 1)
-            ->where('is_banned', '=', 0)
+        $users_raw = User::where('is_banned', 0)
             ->where('expire_in', '>', date('Y-m-d H:i:s'))
             ->where(static function (Builder $query) use ($node): void {
                 $query->whereRaw(
