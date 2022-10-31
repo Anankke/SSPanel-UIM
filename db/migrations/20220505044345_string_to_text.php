@@ -8,10 +8,6 @@ final class StringToText extends AbstractMigration
 {
     public function up(): void
     {
-        $this->table('email_queue')
-            ->changeColumn('array', 'text')
-            ->save();
-
         $this->table('shop')
             ->changeColumn('content', 'text')
             ->save();
@@ -26,7 +22,6 @@ final class StringToText extends AbstractMigration
 
         $this->table('node')
             ->changeColumn('info', 'text')
-            ->changeColumn('custom_config', 'text')
             ->save();
 
         $this->table('announcement')
