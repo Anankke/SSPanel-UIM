@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 /**
- * Ann Model
+ * Docs Model
  *
  * @property-read   int    $id         Document ID
  *
@@ -14,7 +14,7 @@ namespace App\Models;
  * @property        string $content    Document in HTML
  * @property        string $markdown   Document in MarkDown
  */
-final class Ann extends Model
+final class Docs extends Model
 {
     protected $connection = 'default';
     protected $table = 'docs';
