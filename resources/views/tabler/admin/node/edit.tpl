@@ -247,7 +247,9 @@
                 },
                 error: (jqXHR) => {
                     $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
+                    $$.getElementById('msg').innerHTML = `发生错误：${
+                        jqXHR.status
+                        }`;
                 }
             });
         }
