@@ -1,7 +1,7 @@
 {include file='admin/main.tpl'}
 
-<script src="//cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.js"></script>
-<link href="//cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.css" rel="stylesheet" type="text/css">
+<script src="//cdn.staticfile.org/jsoneditor/9.9.2/jsoneditor.min.js"></script>
+<link href="//cdn.staticfile.org/jsoneditor/9.9.2/jsoneditor.min.css" rel="stylesheet" type="text/css">
 
 <main class="content">
     <div class="content-header ui-content-header">
@@ -217,11 +217,10 @@
                 type: "PUT",
                 url: "/admin/node/{$node->id}",
                 dataType: "json",
-{literal}
                 data: {
                     name: $$getValue('name'),
                     server: $$getValue('server'),
-                    custom_config: editor.get(),
+                    custom_config: JSON.stringify(editor.get()),
                     node_ip: $$getValue('node_ip'),
                     rate: $$getValue('rate'),
                     info: $$getValue('info'),
@@ -232,8 +231,7 @@
                     node_speedlimit: $$getValue('node_speedlimit'),
                     class: $$getValue('class'),
                     node_bandwidth_limit: $$getValue('node_bandwidth_limit'),
-                    bandwidthlimit_resetday: $$getValue('bandwidthlimit_resetday')
-{/literal},
+                    bandwidthlimit_resetday: $$getValue('bandwidthlimit_resetday'),
                     mu_only: $$getValue('mu_only')
                 },
                 success: (data) => {
@@ -247,7 +245,6 @@
                         $$.getElementById('msg').innerHTML = data.msg;
                     }
                 },
-{literal}
                 error: (jqXHR) => {
                     $("#result").modal();
                     $$.getElementById('msg').innerHTML = `发生错误：${jqXHR.status}`;
@@ -255,7 +252,6 @@
             });
         }
     });
-{/literal}
 </script>
 <script>
     $(document).ready(function () {

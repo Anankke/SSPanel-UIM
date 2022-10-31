@@ -1,7 +1,7 @@
 {include file='admin/main.tpl'}
 
-<script src="//cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.js"></script>
-<link href="//cdn.staticfile.org/jsoneditor/9.9.0/jsoneditor.min.css" rel="stylesheet" type="text/css">
+<script src="//cdn.staticfile.org/jsoneditor/9.9.2/jsoneditor.min.js"></script>
+<link href="//cdn.staticfile.org/jsoneditor/9.9.2/jsoneditor.min.css" rel="stylesheet" type="text/css">
 
 <main class="content">
     <div class="content-header ui-content-header">
@@ -179,7 +179,7 @@
                 data: {
                     name: $$getValue('name'),
                     server: $$getValue('server'),
-                    custom_config: editor.get(),
+                    custom_config: JSON.stringify(editor.get()),
                     node_ip: $$getValue('node_ip'),
                     rate: $$getValue('rate'),
                     info: $$getValue('info'),
