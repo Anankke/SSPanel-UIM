@@ -20,12 +20,6 @@ final class Update extends Command
 
         echo PHP_EOL;
 
-        echo '开始升级 QQWry...' . PHP_EOL;
-        (new Tool($this->argv))->initQQWry();
-        echo '升级 QQWry结束' . PHP_EOL;
-
-        echo PHP_EOL;
-
         $config_old = file_get_contents(BASE_PATH . '/config/.config.php');
         $config_new = file_get_contents(BASE_PATH . '/config/.config.example.php');
 

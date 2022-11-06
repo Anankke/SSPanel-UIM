@@ -2,7 +2,7 @@
 
 [ $(id -u) != "0" ] && { echo "Error: You must be root to run this script!"; exit 1; }
 
-do_upgrade_sspanel(){
+do_update_sspanel(){
     git pull
     git reset --hard origin/dev
     git fetch --prune --prune-tags
@@ -12,6 +12,7 @@ do_upgrade_sspanel(){
     php vendor/bin/phinx migrate
     php xcat Update
     php xcat Tool importAllSettings
+    wget https://cdn.jsdelivr.net/gh/sspanel-uim/qqwry.dat@latest/qqwry.dat -O storage/qqwry.dat 
 }
 
-do_upgrade_sspanel
+do_update_sspanel

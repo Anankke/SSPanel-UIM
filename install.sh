@@ -21,9 +21,6 @@ do_install_sspanel() {
     wget https://getcomposer.org/installer -O composer.phar
     php composer.phar
     php composer.phar install
-    echo "Updating File Permission..."
-    chmod 755 -R *
-    chown www -R *
     echo "Writting configuration..."
     sed -i -e "s/$_ENV['key']        = 'ChangeMe';/$_ENV['key']        = '$key';/g" \
     -e "s/$_ENV['appName']    = 'SSPanel-UIM';/$_ENV['appName']    = '$app_name';/g" \
@@ -43,7 +40,7 @@ do_install_sspanel() {
     echo "Importing config to database..."
     php vendor/bin/phinx migrate
     php xcat Tool importAllSettings
-    php xcat Tool initQQwry
+    wget https://cdn.jsdelivr.net/gh/sspanel-uim/qqwry.dat@latest/qqwry.dat -O storage/qqwry.dat
     current_dir=$(pwd)
     crontab -l > cron.tmp
     echo "*/1 * * * * /usr/bin/php $current_dir/xcat Job CheckJob" >> cron.tmp
@@ -51,6 +48,9 @@ do_install_sspanel() {
     echo "0 0 * * *   /usr/bin/php -n $current_dir/xcat Job DailyJob" >> cron.tmp
     crontab cron.tmp
     rm cron.tmp
+    echo "Updating File Permission..."
+    chmod 755 -R *
+    chown www -R *
     echo "Installation completed! Now you can create your first admin user by running 'php xcat createAdmin'."
 }
 
