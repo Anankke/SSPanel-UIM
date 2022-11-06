@@ -9,7 +9,6 @@ use App\Models\Setting;
 use App\Models\User as ModelsUser;
 use App\Utils\GA;
 use App\Utils\Hash;
-use App\Utils\QQWry;
 use App\Utils\Tools;
 use Exception;
 use Ramsey\Uuid\Uuid;
