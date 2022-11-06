@@ -165,10 +165,6 @@ EOL;
         }
         // ------- 用户每日流量报告
 
-        // ------- 更新 IP 库
-        (new Tool($this->argv))->initQQWry();
-        // ------- 更新 IP 库
-
         // ------- 发送系统运行状况通知
         $sts = new Analytics();
         if (Setting::obtain('telegram_diary')) {
