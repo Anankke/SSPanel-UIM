@@ -6,7 +6,7 @@
 </footer>
 
 <!-- js -->
-<script src="https://cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <script src="/theme/tabler/js/base.min.js"></script>
 <script src="/theme/tabler/js/project.min.js"></script>
 

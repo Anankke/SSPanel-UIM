@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<script src="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 </body>
 
 </html>

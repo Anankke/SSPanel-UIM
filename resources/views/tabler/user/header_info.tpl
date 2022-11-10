@@ -12,7 +12,7 @@
     <link href="/theme/tabler/css/project.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <!-- jquery -->
-    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <!-- favicon -->
     <!-- ... -->
     <style>
