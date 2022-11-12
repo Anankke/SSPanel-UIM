@@ -10,7 +10,7 @@
     <link href="/theme/tabler/css/base.min.css" rel="stylesheet">
     <link href="/theme/tabler/css/project.min.css" rel="stylesheet">
     <link href="/theme/tabler/css/auth.min.css" rel="stylesheet">
-    <link href="//fastly.jsdelivr.net/npm/@mdi/font@7.0.96/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" rel="stylesheet">
     <style>
         .divcss5 {
             position: fixed;

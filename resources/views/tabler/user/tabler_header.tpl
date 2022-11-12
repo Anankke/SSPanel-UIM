@@ -9,13 +9,13 @@
     <meta name="referrer" content="never">
     <title>{$config['appName']}</title>
     <!-- CSS files -->
-    <link href="//fastly.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
-    <link href="//fastly.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
+    <link href="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
+    <link href="//cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
     <!-- JS files -->
     <script src="/assets/js/fuck.min.js"></script>
-    <script src="//fastly.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
-    <script src="//cdn.staticfile.org/clipboard.js/2.0.11/clipboard.min.js"></script>
-    <script src="//cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <style>
         .home-subtitle {
             font-size: 14px;

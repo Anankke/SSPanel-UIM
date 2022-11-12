@@ -9,11 +9,11 @@
     <!-- css -->
     <link href="/theme/tabler/css/base.min.css" rel="stylesheet">
     <link href="/theme/tabler/css/project.min.css" rel="stylesheet">
-    <link href="//fastly.jsdelivr.net/npm/@mdi/font@7.0.96/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="//cdn.staticfile.org/material-design-lite/1.3.0/material.min.css" rel="stylesheet">
-    <link href="//cdn.staticfile.org/datatables/1.10.19/css/dataTables.material.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/material-design-lite@1.3.0/material.min.css" rel="stylesheet">
+    <link href="//cdn.datatables.net/1.12.1/css/dataTables.material.min.css" rel="stylesheet">
     <!-- js -->
-    <script src="https://cdn.staticfile.org/jquery/3.6.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <!-- ... -->
     <style>
         body {
