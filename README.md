@@ -52,6 +52,7 @@ SSPanel UIM 欢迎各种贡献，包括但不限于改进，新功能，文档�
 
 ## 捐贈
 
+### M1Screw
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O5O850UEH)
 
 ## 协议
