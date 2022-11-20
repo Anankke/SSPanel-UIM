@@ -47,7 +47,7 @@
                         <div class="card-body">
                             <div class="divide-y">
                                 {$count = '0'}
-                                {$total = $comments->count()}
+                                {$total = count($comments)}
                                 {foreach $comments as $comment}
                                 <div>
                                     <div class="row">
