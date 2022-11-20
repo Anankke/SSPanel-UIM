@@ -5,7 +5,7 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title">
+                    <h2 class="page-title" style="line-height: unset;">
                         <span class="home-title">工单列表</span>
                     </h2>
                     <div class="page-pretitle">
@@ -40,13 +40,13 @@
                                         <div class="card-body">
                                             <div class="card-stamp">
                                                 {if $ticket->status !== 'closed'}
-                                                    <div class="card-stamp-icon bg-yellow">
-                                                        <i class="icon ti ti-clock"></i>
-                                                    </div>
+                                                <div class="card-stamp-icon bg-yellow">
+                                                    <i class="icon ti ti-clock"></i>
+                                                </div>
                                                 {else}
-                                                    <div class="card-stamp-icon bg-green">
-                                                        <i class="icon ti ti-check"></i>
-                                                    </div>
+                                                <div class="card-stamp-icon bg-green">
+                                                    <i class="icon ti ti-check"></i>
+                                                </div>
                                                 {/if}
                                             </div>
                                             <h3 class="card-title" style="font-size: 20px;">
@@ -59,28 +59,28 @@
                                         <div class="card-footer">
                                             <div class="d-flex">
                                                 {if $ticket->status === 'closed'}
-                                                    <span class="status status-grey">已结单</span>
+                                                <span class="status status-grey">已结单</span>
                                                 {/if}
                                                 {if $ticket->status === 'open_wait_user'}
-                                                    <span class="status status-orange">等待用户回复</span>
+                                                <span class="status status-orange">等待用户回复</span>
                                                 {/if}
                                                 {if $ticket->status === 'open_wait_admin'}
-                                                    <span class="status status-green">进行中</span>
+                                                <span class="status status-green">进行中</span>
                                                 {/if}
                                                 <a href="/user/ticket/{$ticket->id}/view"
-                                                    class="btn btn-primary ms-auto">浏览</a>
+                                                    class="btn btn-primary ms-auto">查看</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             {/foreach}
                         {else}
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">没有任何工单</h3>
-                                </div>
-                                <div class="card-body">如需帮助，请点击右上角按钮开启新工单</div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">没有任何工单</h3>
                             </div>
+                            <div class="card-body">如需帮助，请点击右上角按钮开启新工单</div>
+                        </div>
                         {/if}
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                 dataType: "json",
                 data: {
                     title: $('#ticket-title').val(),
-                    comment: $('#ticket-content').val(),
+                    comment: $('#ticket-comment').val(),
                     type: $('#ticket-type').val(),
                 },
                 success: function(data) {
