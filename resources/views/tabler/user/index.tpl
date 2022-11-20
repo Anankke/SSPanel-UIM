@@ -209,7 +209,7 @@
                                                 class="copy btn btn-primary ms-auto my-2">
                                                 复制 Clash
                                             </a>
-                                            <a href="/clients/Clash-Windows.dmg"
+                                            <a href="/clients/Clash-macOS.dmg"
                                                 class="btn btn-primary ms-auto">
                                                 下载 Clash for macOS
                                             </a>
@@ -267,9 +267,9 @@
                                                 class="copy btn btn-primary ms-auto">
                                                 复制 Clash
                                             </a>
-                                            <a href="/clients/Clash-Windows.tar.gz"
+                                            <a href="/clients/Clash-Linux.tar.gz"
                                                 class="btn btn-primary ms-auto">
-                                                下载 Clash for Windows
+                                                下载 Clash for Linux
                                             </a>
                                             <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
                                                 class="btn btn-primary ms-auto my-2">
