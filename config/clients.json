@@ -13,12 +13,12 @@
                 },
                 {
                     "sourceName": "Clash.for.Windows-%tagName%.dmg",
-                    "saveName": "Clash-Windows.dmg",
+                    "saveName": "Clash-macOS.dmg",
                     "apkpureUrl": ""
                 },
                 {
                     "sourceName": "Clash.for.Windows-%tagName%-x64-linux.tar.gz",
-                    "saveName": "Clash-Windows.tar.gz",
+                    "saveName": "Clash-Linux.tar.gz",
                     "apkpureUrl": ""
                 }
             ]
