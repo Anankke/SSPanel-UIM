@@ -18,9 +18,8 @@ final class Ticket extends Model
      */
     public static function userIsNull(Ticket $Ticket): void
     {
-        $tickets = Ticket::where('userid', $Ticket->userid)->where('rootid', 0)->get();
+        $tickets = Ticket::where('userid', $Ticket->userid)->get();
         foreach ($tickets as $ticket) {
-            self::where('rootid', $ticket->id)->delete();
             $ticket->delete();
         }
     }
@@ -34,29 +33,19 @@ final class Ticket extends Model
     }
 
     /**
-     * 用户
-     */
-    public function user(): ?User
-    {
-        return User::find($this->userid);
-    }
-
-    /**
-     * 用户名
-     */
-    public function userName(): string
-    {
-        if ($this->user() === null) {
-            return '用户已不存在';
-        }
-        return $this->user()->user_name;
-    }
-
-    /**
      * 工单状态
      */
     public function status(): string
     {
-        return $this->status === 1 ? '开启' : '关闭';
+        if ($this->status === 'closed') {
+            return '已结单';
+        }
+        if ($this->status === 'open_wait_user') {
+            return '等待用户回复';
+        }
+        if ($this->status === 'open_wait_admin') {
+            return '进行中';
+        }
+        return '未知';
     }
 }

@@ -1,11 +1,11 @@
 {include file='user/tabler_header.tpl'}
 
 <div class="page-wrapper">
-    <div class="container-xl">       
+    <div class="container-xl">
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
-                <div class="col">                    
-                    <h2 class="page-title" style="line-height: unset;">
+                <div class="col">
+                    <h2 class="page-title">
                         <span class="home-title">工单列表</span>
                     </h2>
                     <div class="page-pretitle">
@@ -16,24 +16,12 @@
                     <div class="btn-list">
                         <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#create-ticket">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24"
-                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
+                            <i class="icon ti ti-plus"></i>
                             创建工单
                         </a>
                         <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
                             data-bs-target="#create-ticket">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24"
-                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
+                            <i class="icon ti ti-plus"></i>
                         </a>
                     </div>
                 </div>
@@ -44,36 +32,48 @@
         <div class="container-xl">
             <div class="row row-deck row-cards">
                 <div class="col-12">
-                    <div class="card">
-                        {if $tickets->count() != '0'}
-                            <div class="table-responsive">
-                                <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>操作</th>
-                                            <th>标题</th>
-                                            <th>状态</th>
-                                            <th>创建时间</th>
-                                            <th>最后更新</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {foreach $tickets as $ticket}
-                                            <tr>
-                                                <td>{$ticket->tk_id}</td>
-                                                <td>
-                                                    <a href="/user/ticket/{$ticket->tk_id}/view">浏览</a>
-                                                </td>
-                                                <td>{$ticket->title}</td>
-                                                <td>{$ticket->closed_by}</td>
-                                                <td>{$ticket->created_at}</td>
-                                                <td>{$ticket->updated_at}</td>
-                                            </tr>
-                                        {/foreach}
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div class="row row-cards row-deck">
+                        {if $tickets !== 0}
+                            {foreach $tickets as $ticket}
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="card-stamp">
+                                                {if $ticket->status !== 'closed'}
+                                                    <div class="card-stamp-icon bg-yellow">
+                                                        <i class="icon ti ti-clock"></i>
+                                                    </div>
+                                                {else}
+                                                    <div class="card-stamp-icon bg-green">
+                                                        <i class="icon ti ti-check"></i>
+                                                    </div>
+                                                {/if}
+                                            </div>
+                                            <h3 class="card-title" style="font-size: 20px;">
+                                                #{$ticket->id}
+                                            </h3>
+                                            <p class="text-muted text-truncate" style="height: 100px;">
+                                                {$ticket->title}
+                                            </p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="d-flex">
+                                                {if $ticket->status === 'closed'}
+                                                    <span class="status status-grey">已结单</span>
+                                                {/if}
+                                                {if $ticket->status === 'open_wait_user'}
+                                                    <span class="status status-orange">等待用户回复</span>
+                                                {/if}
+                                                {if $ticket->status === 'open_wait_admin'}
+                                                    <span class="status status-green">进行中</span>
+                                                {/if}
+                                                <a href="/user/ticket/{$ticket->id}/view"
+                                                    class="btn btn-primary ms-auto">浏览</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {/foreach}
                         {else}
                             <div class="card">
                                 <div class="card-header">
@@ -97,40 +97,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <select id="ticket-client" class="form-select">
-                            <option value="0">请选择有问题的设备系统类型</option>
-                            <option value="reward_or_refund">提现或退款</option>
-                            <option value="Windows">Windows</option>
-                            <option value="Macos">Macos</option>
-                            <option value="Android">Android</option>
-                            <option value="IOS">IOS</option>
-                            <option value="Route">路由器</option>
-                            <option value="Linux">Linux</option>
-                            <option value="Other">其他</option>
+                        <select id="ticket-type" class="form-select">
+                            <option value="0">请选择工单类型</option>
+                            <option value="howto">使用</option>
+                            <option value="billing">财务</option>
+                            <option value="account">账户</option>
+                            <option value="other">其他</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <input id="ticket-title" type="text" class="form-control" placeholder="请输入工单主题">
                     </div>
                     <div class="mb-3">
-                        <textarea id="ticket-content" class="form-control" rows="12" placeholder="请输入工单内容"></textarea>
+                        <textarea id="ticket-comment" class="form-control" rows="12" placeholder="请输入工单内容"></textarea>
                     </div>
-                    <div class="mb-3">
-                        <input id="associated-order" type="text" class="form-control" placeholder="退款请填写订单号；提现请填写金额">
-                    </div>
-                    <div class="mb-3">
-                        <input id="receiving-method" type="text" class="form-control" placeholder="请输入接收方式，如支付宝 / 微信">
-                    </div>
-                    <div class="mb-3">
-                        <input id="receiving-account" type="text" class="form-control"
-                            placeholder="请输入接收方式账户，如手机号 / 邮箱 / 收款码图片链接">
-                    </div>
-                    <p>* 上传图片有助于帮助解决问题，请使用图床上传。可以前往
-                        <a target="view_window" href="https://www.imgurl.org/">
-                            imgurl.org
-                        </a>
-                    </p>
-                    <p>* 工单被回复时会邮件通知您</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
@@ -149,11 +129,8 @@
                 dataType: "json",
                 data: {
                     title: $('#ticket-title').val(),
-                    content: $('#ticket-content').val(),
-                    ticket_client: $('#ticket-client').val(),
-                    receiving_method: $('#receiving-method').val(),
-                    receiving_account: $('#receiving-account').val(),
-                    associated_order: $('#associated-order').val(),
+                    comment: $('#ticket-content').val(),
+                    type: $('#ticket-type').val(),
                 },
                 success: function(data) {
                     if (data.ret == 1) {
@@ -170,33 +147,6 @@
         $("#success-confirm").click(function() {
             location.reload();
         });
-
-        $('#ticket-client').on('change', function() {
-            var type = $('#ticket-client').val();
-            if (type == 'reward_or_refund') {
-                $("#ticket-title").val('提现或退款');
-                $("#ticket-title").attr('disabled', true);
-                $("#ticket-content").hide();
-                $("#receiving-method").show();
-                $("#receiving-account").show();
-                $("#associated-order").show();
-            } else {
-                $("#ticket-content").show();
-                $("#receiving-method").hide();
-                $("#receiving-account").hide();
-                $("#associated-order").hide();
-                $("#ticket-title").val('');
-                $("#ticket-title").attr('disabled', false);
-            }
-        });
-
-        $("#receiving-method").hide();
-        $("#receiving-account").hide();
-        $("#associated-order").hide();
-
-        $("td:contains('开启中')").css("color", "green");
-        $("td:contains('管理员')").css("color", "purple");
-        $("td:contains('您')").css("color", "orange");
     </script>
 
 {include file='user/tabler_footer.tpl'}

@@ -64,7 +64,6 @@ final class TicketController extends BaseController
         $antiXss = new AntiXSS();
         $ticket->title = $antiXss->xss_clean($title);
         $ticket->content = $antiXss->xss_clean($content);
-        $ticket->rootid = 0;
         $ticket->userid = $userid;
         $ticket->datetime = \time();
         $ticket->save();
@@ -122,7 +121,6 @@ final class TicketController extends BaseController
         $ticket = new Ticket();
         $ticket->title = $antiXss->xss_clean($main->title);
         $ticket->content = $antiXss->xss_clean($content);
-        $ticket->rootid = $main->id;
         $ticket->userid = $this->user->id;
         $ticket->datetime = \time();
         $ticket->save();
@@ -140,7 +138,7 @@ final class TicketController extends BaseController
      *
      * @param array     $args
      */
-    public function show(Request $request, Response $response, array $args)
+    public function ticketView(Request $request, Response $response, array $args)
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->first();
@@ -149,7 +147,7 @@ final class TicketController extends BaseController
         }
 
         $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
+        $ticketset = Ticket::where('id', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
 
         $render = Tools::paginateRender($ticketset);
         return $response->write(
