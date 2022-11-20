@@ -211,7 +211,7 @@
                                             </a>
                                             <a href="/clients/Clash-Windows.dmg"
                                                 class="btn btn-primary ms-auto">
-                                                下载 Clash for Windows
+                                                下载 Clash for macOS
                                             </a>
                                             <a href="clash://install-config?url={$subInfo['clash']}&name={$config['appName']}"
                                                 class="btn btn-primary ms-auto my-2">
