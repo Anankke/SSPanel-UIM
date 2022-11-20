@@ -46,27 +46,20 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="divide-y">
-                                {$count = '0'}
-                                {$total = count($comments)}
                                 {foreach $comments as $comment}
                                 <div>
                                     <div class="row">
-                                        <div class="col-auto">
-                                            <span class="avatar">{$comment->commenter_name}</span>
-                                        </div>
                                         <div class="col">
                                             <div>
-                                                {nl2br($comment->comment)}
+                                                {nl2br($comment['comment'])}
                                             </div>
-                                            <div class="text-muted my-1">{Tools::toDateTime($discuss->datetime)}</div>
+                                            <div class="text-muted my-1">{$comment['commenter_name']} 回复于 {Tools::toDateTime($comment['datetime'])}</div>
                                         </div>
-                                        <!-- 标记最新回复 -->
-                                        {$count = $count + 1}
-                                        {if $count == $total}
-                                        <div class="col-auto align-self-center">
-                                            <div class="badge bg-primary"></div>
+                                        <div class="col-auto">
+                                            <div>
+                                                # {$comment['comment_id'] + 1}
+                                            </div>
                                         </div>
-                                        {/if}
                                     </div>
                                 </div>
                                 {/foreach}
@@ -87,7 +80,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <textarea id="reply-content" class="form-control" rows="10" placeholder="请输入回复内容"></textarea>
+                        <textarea id="reply-comment" class="form-control" rows="10" placeholder="请输入回复内容"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -101,11 +94,11 @@
     <script>
         $("#reply").click(function() {
             $.ajax({
-                url: "/user/ticket/{$id}",
+                url: "/user/ticket/{$ticket->id}",
                 type: 'PUT',
                 dataType: "json",
                 data: {
-                    comment: $('#reply-content').val()
+                    comment: $('#reply-comment').val()
                 },
                 success: function(data) {
                     if (data.ret == 1) {

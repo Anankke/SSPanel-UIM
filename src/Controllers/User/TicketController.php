@@ -7,6 +7,7 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -116,10 +117,9 @@ final class TicketController extends BaseController
     public function ticketUpdate(Request $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $content = $request->getParam('content');
-        $status = $request->getParam('status');
+        $comment = $request->getParam('comment');
 
-        if ($content === '' || $status === '') {
+        if ($comment === '') {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '非法输入',
@@ -136,13 +136,14 @@ final class TicketController extends BaseController
 
         $content_old = \json_decode($ticket->content, true);
         $content_new = [
-            'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
-            'commenter_name' => $this->user->user_name,
-            'comment' => $antiXss->xss_clean($content),
-            'datetime' => \time(),
+            [
+                'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
+                'commenter_name' => $this->user->user_name,
+                'comment' => $antiXss->xss_clean($comment),
+                'datetime' => \time(),
+            ]
         ];
 
-        $ticket = new Ticket();
         $ticket->content = \json_encode(\array_merge($content_old, $content_new));
         $ticket->status = 'open_wait_admin';
         $ticket->save();
@@ -211,6 +212,7 @@ final class TicketController extends BaseController
             $this->view()
                 ->assign('ticket', $ticket)
                 ->assign('comments', $comments)
+                ->registerClass('Tools', Tools::class)
                 ->display('user/ticket/view.tpl')
         );
     }
