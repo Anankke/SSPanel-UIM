@@ -141,7 +141,7 @@ final class TicketController extends BaseController
                 'commenter_name' => $this->user->user_name,
                 'comment' => $antiXss->xss_clean($comment),
                 'datetime' => \time(),
-            ]
+            ],
         ];
 
         $ticket->content = \json_encode(\array_merge($content_old, $content_new));

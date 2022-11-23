@@ -5,7 +5,7 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title">
+                    <h2 class="page-title" style="line-height: unset;">
                         <span class="home-title">工单列表</span>
                     </h2>
                     <div class="page-pretitle">
@@ -44,15 +44,15 @@
                                     </tr>
                                 </thead>
                                 <tbody id="table_content">
-                                    {foreach $logs as $log}
+                                    {foreach $tickets as $ticket}
                                         <tr>
                                             <td>
-                                                <a class="text-red" href="#" onclick="deleteItem('{$log->tk_id}')">删除</a>
-                                                <a class="text-orange" href="#" onclick="closeItem('{$log->tk_id}')">关闭</a>
-                                                <a class="text-primray" href="/admin/ticket/{$log->tk_id}/view">回复</a>
+                                                <a class="text-red" href="#" onclick="deleteItem('{$ticket->id}')">删除</a>
+                                                <a class="text-orange" href="#" onclick="closeItem('{$ticket->id}')">关闭</a>
+                                                <a class="text-primray" href="/admin/ticket/{$ticket->id}/view">回复</a>
                                             </td>
                                             {foreach $details['field'] as $key => $value}
-                                                <td>{$log->$key}</td>
+                                                <td>{$ticket->$key}</td>
                                             {/foreach}
                                         </tr>
                                     {/foreach}
@@ -174,7 +174,7 @@
         $("#submit-query").click(function() {
             $.ajax({
                 type: "POST",
-                url: "/admin/{$details['route']}/ajax",
+                url: "/admin/ticket/ajax",
                 dataType: "json",
                 data: {
                     {foreach $details['search_dialog'] as $from}
@@ -210,7 +210,7 @@
         $("#notice-confirm").click(function() {
             if (action == 'delete') {
                 $.ajax({
-                    url: "/admin/{$details['route']}/" + item_id,
+                    url: "/admin/ticket/" + item_id,
                     type: 'DELETE',
                     dataType: "json",
                     success: function(data) {
@@ -226,7 +226,7 @@
             }
             if (action == 'close') {
                 $.ajax({
-                    url: "/admin/{$details['route']}/" + item_id + '/close',
+                    url: "/admin/ticket/" + item_id + '/close',
                     type: 'PUT',
                     dataType: "json",
                     success: function(data) {

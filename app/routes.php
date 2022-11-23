@@ -155,7 +155,9 @@ return function (SlimApp $app): void {
         $this->get('/ticket', App\Controllers\Admin\TicketController::class . ':index');
         $this->post('/ticket', App\Controllers\Admin\TicketController::class . ':add');
         $this->get('/ticket/{id}/view', App\Controllers\Admin\TicketController::class . ':ticketView');
+        $this->put('/ticket/{id}/close', App\Controllers\Admin\TicketController::class . ':close');
         $this->put('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':update');
+        $this->delete('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':delete');
         $this->post('/ticket/ajax', App\Controllers\Admin\TicketController::class . ':ajax');
 
         // Shop Mange

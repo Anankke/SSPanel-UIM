@@ -7,7 +7,6 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Ticket;
 use App\Models\User;
-use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -15,6 +14,34 @@ use voku\helper\AntiXSS;
 
 final class TicketController extends BaseController
 {
+    public $details =
+    [
+        'field' => [
+            'id' => '#',
+            'title' => '主题',
+            'status' => '工单状态',
+            'type' => '工单类型',
+            'userid' => '提交用户',
+            'datetime' => '创建时间',
+        ],
+        'search_dialog' => [
+            [
+                'id' => 'user_id',
+                'info' => '提交用户',
+                'type' => 'input',
+                'placeholder' => '请输入',
+                'exact' => true, // 精确匹配; false 时模糊匹配
+            ],
+            [
+                'id' => 'title',
+                'info' => '工单主题',
+                'type' => 'input',
+                'placeholder' => '请输入',
+                'exact' => false,
+            ],
+        ],
+    ];
+
     /**
      * 后台工单页面
      *
@@ -22,17 +49,12 @@ final class TicketController extends BaseController
      */
     public function index(Request $request, Response $response, array $args)
     {
+        $tickets = Ticket::orderBy('id', 'desc')->get();
+
         return $response->write(
             $this->view()
-                ->assign('table_config', ResponseHelper::buildTableConfig([
-                    'op' => '操作',
-                    'id' => 'ID',
-                    'datetime' => '时间',
-                    'title' => '标题',
-                    'userid' => '用户ID',
-                    'user_name' => '用户名',
-                    'status' => '状态',
-                ], 'ticket/ajax'))
+                ->assign('tickets', $tickets)
+                ->assign('details', self::$details)
                 ->display('admin/ticket/index.tpl')
         );
     }
@@ -142,19 +164,17 @@ final class TicketController extends BaseController
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->first();
+        $comments = \json_decode($ticket->content, true);
+
         if ($ticket === null) {
             return $response->withStatus(302)->withHeader('Location', '/user/ticket');
         }
 
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $ticketset = Ticket::where('id', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
-
-        $render = Tools::paginateRender($ticketset);
         return $response->write(
             $this->view()
-                ->assign('ticketset', $ticketset)
-                ->assign('id', $id)
-                ->assign('render', $render)
+                ->assign('ticket', $ticket)
+                ->assign('comments', $comments)
+                ->registerClass('Tools', Tools::class)
                 ->display('admin/ticket/view.tpl')
         );
     }
@@ -166,46 +186,76 @@ final class TicketController extends BaseController
      */
     public function ajax(Request $request, Response $response, array $args)
     {
-        $query = Ticket::getTableDataFromAdmin(
-            $request,
-            static function (&$order_field): void {
-                if (\in_array($order_field, ['op'])) {
-                    $order_field = 'id';
+        $condition = [];
+        $details = self::$details;
+        foreach ($details['search_dialog'] as $from) {
+            $field = $from['id'];
+            $keyword = $request->getParam($field);
+            if ($from['type'] === 'input') {
+                if ($from['exact']) {
+                    ($keyword !== '') && array_push($condition, [$field, '=', $keyword]);
+                } else {
+                    ($keyword !== '') && array_push($condition, [$field, 'like', '%'.$keyword.'%']);
                 }
-                if (\in_array($order_field, ['user_name'])) {
-                    $order_field = 'userid';
-                }
-            },
-            static function ($query): void {
-                $query->where('rootid', 0);
             }
-        );
-
-        $data = [];
-        foreach ($query['datas'] as $value) {
-            /** @var Ticket $value */
-
-            if ($value->user() === null) {
-                Ticket::userIsNull($value);
-                continue;
+            if ($from['type'] === 'select') {
+                ($keyword !== 'all') && array_push($condition, [$field, '=', $keyword]);
             }
-            $tempdata = [];
-            $tempdata['op'] = '<a class="btn btn-brand" href="/admin/ticket/' . $value->id . '/view">查看</a>';
-            $tempdata['id'] = $value->id;
-            $tempdata['datetime'] = $value->datetime();
-            $tempdata['title'] = $value->title;
-            $tempdata['userid'] = $value->userid;
-            $tempdata['user_name'] = $value->userName();
-            $tempdata['status'] = $value->status();
-
-            $data[] = $tempdata;
         }
 
+        $results = Ticket::orderBy('id', 'desc')
+            ->where('is_topic', '1')
+            ->where($condition)
+            ->limit($_ENV['page_load_data_entry'])
+            ->get();
+
         return $response->withJson([
-            'draw' => $request->getParam('draw'),
-            'recordsTotal' => Ticket::count(),
-            'recordsFiltered' => $query['count'],
-            'data' => $data,
+            'ret' => 1,
+            'result' => $results,
+        ]);
+    }
+
+    /**
+     * 后台 关闭工单
+     *
+     * @param array     $args
+     */
+    public function close(Request $request, Response $response, array $args)
+    {
+        $id = $args['id'];
+        $ticket = Ticket::where('id', '=', $id)->first();
+        $user = User::find($ticket->userid);
+        $user->sendMail(
+            $_ENV['appName'] . '-工单已被关闭',
+            'news/warn.tpl',
+            [
+                'text' => '您好，您的工单 #'. $ticket->id .' 已被关闭，如果您还有问题，欢迎提交新的工单。',
+            ],
+            []
+        );
+
+        $ticket->status = 'closed';
+        $ticket->save();
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '关闭成功',
+        ]);
+    }
+
+    /**
+     * 后台 删除工单
+     *
+     * @param array     $args
+     */
+    public function delete(Request $request, Response $response, array $args)
+    {
+        $id = $args['id'];
+        Ticket::where('id', '=', $id)->delete();
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '删除成功',
         ]);
     }
 }
