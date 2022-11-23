@@ -684,15 +684,15 @@ final class Tools
     /**
      * 工单状态
      */
-    public function getTicketStatus(): string
+    public static function getTicketStatus($ticket)
     {
-        if ($this->status === 'closed') {
+        if ($ticket->status === 'closed') {
             return '已结单';
         }
-        if ($this->status === 'open_wait_user') {
+        if ($ticket->status === 'open_wait_user') {
             return '等待用户回复';
         }
-        if ($this->status === 'open_wait_admin') {
+        if ($ticket->status === 'open_wait_admin') {
             return '进行中';
         }
         return '未知';
@@ -701,15 +701,15 @@ final class Tools
     /**
      * 工单类型
      */
-    public function getTicketType(): string
+    public static function getTicketType($ticket)
     {
-        if ($this->type === 'howto') {
+        if ($ticket->type === 'howto') {
             return '使用';
         }
-        if ($this->status === 'billing') {
+        if ($ticket->type === 'billing') {
             return '财务';
         }
-        if ($this->status === 'account') {
+        if ($ticket->type === 'account') {
             return '账户';
         }
         return '其他';
