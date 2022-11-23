@@ -73,7 +73,7 @@ final class TicketController extends BaseController
         $content_new = [
             [
                 'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
-                'commenter_name' => $this->user->user_name,
+                'commenter_name' => 'Admin',
                 'comment' => $antiXss->xss_clean($comment),
                 'datetime' => \time(),
             ],
