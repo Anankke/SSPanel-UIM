@@ -12,19 +12,6 @@
                         <span class="home-subtitle">查看并回复用户工单</span>
                     </div>
                 </div>
-                <div class="col-auto ms-auto d-print-none">
-                    <div class="btn-list">
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
-                            data-bs-target="#search-dialog">
-                            <i class="icon ti ti-search"></i>
-                            搜索
-                        </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                            data-bs-target="#search-dialog">
-                            <i class="icon ti ti-search"></i>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -47,11 +34,22 @@
                                     {foreach $tickets as $ticket}
                                         <tr>
                                             <td>
-                                                <a class="text-red" href="#" onclick="deleteItem('{$ticket->id}')">删除</a>
-                                                <a class="text-orange" href="#" onclick="closeItem('{$ticket->id}')">关闭</a>
-                                                <a class="text-primray" href="/admin/ticket/{$ticket->id}/view">回复</a>
+                                                <button type="button" class="btn btn-red" id="delete-ticket" 
+                                                onclick="deleteTicket({$ticket->id})">删除</button>
+                                                <button type="button" class="btn btn-orange" id="close-ticket" 
+                                                onclick="closeTicket({$ticket->id})">关闭</button>
+                                                <a class="btn btn-blue" href="/admin/ticket/{$ticket->id}/view">查看</a>
                                             </td>
                                             {foreach $details['field'] as $key => $value}
+                                                {if $key === 'status'}
+                                                <td>{Tools::getTicketStatus($ticket)}</td>
+                                                {/if}
+                                                {if $key === 'type'}
+                                                <td>{Tools::getTicketType($ticket)}</td>
+                                                {/if}
+                                                {if $key === 'datetime'}
+                                                <td>{Tools::toDateTime($ticket->$key)}</td>
+                                                {/if}
                                                 <td>{$ticket->$key}</td>
                                             {/foreach}
                                         </tr>
@@ -65,57 +63,11 @@
         </div>
     </div>
 
-    <div class="modal modal-blur fade" id="search-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">搜索条件</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    {foreach $details['search_dialog'] as $from}
-                        {if $from['type'] == 'input'}
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
-                                <div class="col">
-                                    <input id="search-{$from['id']}" type="text" class="form-control"
-                                        placeholder="{$from['placeholder']}">
-                                </div>
-                            </div>
-                        {/if}
-                        {if $from['type'] == 'textarea'}
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
-                                <textarea id="search-{$from['id']}" class="col form-control" rows="{$from['rows']}"
-                                    placeholder="{$from['placeholder']}"></textarea>
-                            </div>
-                        {/if}
-                        {if $from['type'] == 'select'}
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">{$from['info']}</label>
-                                <select id="search-{$from['id']}" class="col form-select">
-                                    {foreach $from['select'] as $key => $value}
-                                        <option value="{$key}">{$value}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
-                        {/if}
-                    {/foreach}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">取消</button>
-                    <button id="submit-query" type="button" class="btn btn-primary" data-bs-dismiss="modal">搜索</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         function adjustStyle() {
-            $("td:contains('开启中')").css("color", "green");
-            $("td:contains('null')").css("font-style", "italic");
-            $("td:contains('admin')").css("color", "orange");
-            $("td:contains('user')").css("color", "purple");
+            $("td:contains('open_wait_admin')").css("color", "green");
+            $("td:contains('open_wait_user')").css("color", "blue");
+            $("td:contains('closed')").css("color", "red");
         }
 
         function loadTable() {
@@ -155,62 +107,33 @@
             });
         }
 
-        function deleteItem(id) {
-            item_id = id;
-            action = 'delete';
-
-            $('#notice-message').text('确定删除此工单');
-            $('#notice-dialog').modal('show');
-        }
-
-        function closeItem(id) {
-            item_id = id;
-            action = 'close';
-
+        function closeTicket(ticket_id) {
             $('#notice-message').text('确定关闭此工单');
             $('#notice-dialog').modal('show');
-        }
-
-        $("#submit-query").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/admin/ticket/ajax",
-                dataType: "json",
-                data: {
-                    {foreach $details['search_dialog'] as $from}
-                        {$from['id']}: $('#search-{$from['id']}').val(),
-                    {/foreach}
-                },
-                success: function(data) {
-                    if (data.ret == 1) {
-                        var str = '';
-                        for (var i = 0; i < data.result.length; i++) {
-                            str += "<tr><td>" +
-                                '<a class=\"text-red\" href="#" onclick="deleteItem(' + data
-                                .result[i].tk_id + ')">删除</a>' +
-                                '&nbsp;<a class=\"text-orange\" href="#" onclick="closeItem(' + data
-                                .result[i].tk_id + ')">关闭</a>' +
-                                '&nbsp;<a class=\"text-blue\" href="/admin/ticket/' + data
-                                .result[i].tk_id + '/view">回复</a>' +
-                                {foreach $details['field'] as $key => $value}
-                                    {if $key != 'id'}
-                                        "</td><td>" + data.result[i].{$key} +
-                                    {/if}
-                                {/foreach} "</td></tr>";
-                        }
-                        $('#data_table').DataTable().destroy();
-                        $("#table_content").html(str);
-                        loadTable();
-                        adjustStyle();
-                    }
-                }
-            })
-        });
-
-        $("#notice-confirm").click(function() {
-            if (action == 'delete') {
+            $('#notice-confirm').on('click', function () {
                 $.ajax({
-                    url: "/admin/ticket/" + item_id,
+                    url: "/admin/ticket/" + ticket_id + '/close',
+                    type: 'PUT',
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.ret == 1) {
+                            $('#success-message').text(data.msg);
+                            $('#success-dialog').modal('show');
+                        } else {
+                            $('#fail-message').text(data.msg);
+                            $('#fail-dialog').modal('show');
+                        }
+                    }
+                });
+            });
+        };
+
+        function deleteTicket(ticket_id) {
+            $('#notice-message').text('确定删除此工单');
+            $('#notice-dialog').modal('show');
+            $('#notice-confirm').on('click', function() {
+                $.ajax({
+                    url: "/admin/ticket/" + ticket_id,
                     type: 'DELETE',
                     dataType: "json",
                     success: function(data) {
@@ -223,24 +146,8 @@
                         }
                     }
                 })
-            }
-            if (action == 'close') {
-                $.ajax({
-                    url: "/admin/ticket/" + item_id + '/close',
-                    type: 'PUT',
-                    dataType: "json",
-                    success: function(data) {
-                        if (data.ret == 1) {
-                            $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
-                        } else {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        }
-                    }
-                })
-            }
-        });
+            });
+        };
 
         $("#success-confirm").click(function() {
             location.reload();

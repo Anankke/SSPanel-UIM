@@ -14,31 +14,15 @@ use voku\helper\AntiXSS;
 
 final class TicketController extends BaseController
 {
-    public $details =
+    public static $details =
     [
         'field' => [
-            'id' => '#',
+            'id' => 'ID',
             'title' => '主题',
             'status' => '工单状态',
             'type' => '工单类型',
             'userid' => '提交用户',
             'datetime' => '创建时间',
-        ],
-        'search_dialog' => [
-            [
-                'id' => 'user_id',
-                'info' => '提交用户',
-                'type' => 'input',
-                'placeholder' => '请输入',
-                'exact' => true, // 精确匹配; false 时模糊匹配
-            ],
-            [
-                'id' => 'title',
-                'info' => '工单主题',
-                'type' => 'input',
-                'placeholder' => '请输入',
-                'exact' => false,
-            ],
         ],
     ];
 
@@ -55,6 +39,7 @@ final class TicketController extends BaseController
             $this->view()
                 ->assign('tickets', $tickets)
                 ->assign('details', self::$details)
+                ->registerClass('Tools', Tools::class)
                 ->display('admin/ticket/index.tpl')
         );
     }
@@ -114,40 +99,46 @@ final class TicketController extends BaseController
     public function update(Request $request, Response $response, array $args)
     {
         $id = $args['id'];
-        $content = $request->getParam('content');
-        $status = $request->getParam('status');
-        if ($content === '' || $status === '') {
+        $comment = $request->getParam('comment');
+
+        if ($comment === '') {
             return $response->withJson([
                 'ret' => 0,
-                'msg' => '请填全',
+                'msg' => '非法输入',
             ]);
         }
-        if (strpos($content, 'admin') !== false || strpos($content, 'user') !== false) {
-            return $response->withJson([
-                'ret' => 0,
-                'msg' => '请求中有不正当的词语。',
-            ]);
+
+        $ticket = Ticket::where('id', $id)->where('userid', $this->user->id)->first();
+
+        if ($ticket === null) {
+            return $response->withStatus(302)->withHeader('Location', '/admin/ticket');
         }
-        $main = Ticket::find($id);
-        $user = User::find($main->userid);
+
+        $antiXss = new AntiXSS();
+
+        $content_old = \json_decode($ticket->content, true);
+        $content_new = [
+            [
+                'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
+                'commenter_name' => $this->user->user_name,
+                'comment' => $antiXss->xss_clean($comment),
+                'datetime' => \time(),
+            ],
+        ];
+
+        $user = User::find($ticket->userid);
         $user->sendMail(
             $_ENV['appName'] . '-工单被回复',
             'news/warn.tpl',
             [
-                'text' => '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $main->id . '/view">工单</a>，请您查看。',
+                'text' => '您好，有人回复了<a href="' . $_ENV['baseUrl'] . '/user/ticket/' . $ticket->id . '/view">工单</a>，请您查看。',
             ],
             []
         );
 
-        $antiXss = new AntiXSS();
-        $ticket = new Ticket();
-        $ticket->title = $antiXss->xss_clean($main->title);
-        $ticket->content = $antiXss->xss_clean($content);
-        $ticket->userid = $this->user->id;
-        $ticket->datetime = \time();
+        $ticket->content = \json_encode(\array_merge($content_old, $content_new));
+        $ticket->status = 'open_wait_user';
         $ticket->save();
-        $main->status = $status;
-        $main->save();
 
         return $response->withJson([
             'ret' => 1,
@@ -180,42 +171,6 @@ final class TicketController extends BaseController
     }
 
     /**
-     * 后台工单页面 AJAX
-     *
-     * @param array     $args
-     */
-    public function ajax(Request $request, Response $response, array $args)
-    {
-        $condition = [];
-        $details = self::$details;
-        foreach ($details['search_dialog'] as $from) {
-            $field = $from['id'];
-            $keyword = $request->getParam($field);
-            if ($from['type'] === 'input') {
-                if ($from['exact']) {
-                    ($keyword !== '') && array_push($condition, [$field, '=', $keyword]);
-                } else {
-                    ($keyword !== '') && array_push($condition, [$field, 'like', '%'.$keyword.'%']);
-                }
-            }
-            if ($from['type'] === 'select') {
-                ($keyword !== 'all') && array_push($condition, [$field, '=', $keyword]);
-            }
-        }
-
-        $results = Ticket::orderBy('id', 'desc')
-            ->where('is_topic', '1')
-            ->where($condition)
-            ->limit($_ENV['page_load_data_entry'])
-            ->get();
-
-        return $response->withJson([
-            'ret' => 1,
-            'result' => $results,
-        ]);
-    }
-
-    /**
      * 后台 关闭工单
      *
      * @param array     $args
@@ -224,6 +179,14 @@ final class TicketController extends BaseController
     {
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->first();
+
+        if ($ticket->status === 'closed') {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => '工单已关闭',
+            ]);
+        }
+
         $user = User::find($ticket->userid);
         $user->sendMail(
             $_ENV['appName'] . '-工单已被关闭',

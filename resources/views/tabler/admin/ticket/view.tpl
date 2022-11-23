@@ -14,6 +14,7 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
+                        {if $ticket->status !== 'closed'}
                         <button href="#" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#close_ticket_confirm_dialog">
                             <i class="icon ti ti-x"></i>
@@ -23,6 +24,7 @@
                             data-bs-target="#close_ticket_confirm_dialog">
                             <i class="icon ti ti-x"></i>
                         </button>
+                        {/if}
                         <button href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#add-reply">
                             <i class="icon ti ti-plus"></i>

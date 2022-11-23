@@ -31,21 +31,4 @@ final class Ticket extends Model
     {
         return date('Y-m-d H:i:s', $this->datetime);
     }
-
-    /**
-     * 工单状态
-     */
-    public function status(): string
-    {
-        if ($this->status === 'closed') {
-            return '已结单';
-        }
-        if ($this->status === 'open_wait_user') {
-            return '等待用户回复';
-        }
-        if ($this->status === 'open_wait_admin') {
-            return '进行中';
-        }
-        return '未知';
-    }
 }

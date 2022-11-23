@@ -158,7 +158,6 @@ return function (SlimApp $app): void {
         $this->put('/ticket/{id}/close', App\Controllers\Admin\TicketController::class . ':close');
         $this->put('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':update');
         $this->delete('/ticket/{id}', App\Controllers\Admin\TicketController::class . ':delete');
-        $this->post('/ticket/ajax', App\Controllers\Admin\TicketController::class . ':ajax');
 
         // Shop Mange
         $this->get('/shop', App\Controllers\Admin\ShopController::class . ':index');
