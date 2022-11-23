@@ -26,8 +26,7 @@ final class TicketController extends BaseController
         if ($_ENV['enable_ticket'] !== true) {
             return null;
         }
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $tickets = Ticket::where('userid', $this->user->id)->where('rootid', 0)->orderBy('datetime', 'desc')->paginate(15, ['*'], 'page', $pageNum);
+        $tickets = Ticket::where('userid', $this->user->id)->orderBy('datetime', 'desc')->get();
 
         if ($request->getParam('json') === 1) {
             return $response->withJson([
@@ -35,24 +34,11 @@ final class TicketController extends BaseController
                 'tickets' => $tickets,
             ]);
         }
-        $render = Tools::paginateRender($tickets);
 
         return $response->write(
             $this->view()
                 ->assign('tickets', $tickets)
-                ->assign('render', $render)
-                ->display('user/ticket.tpl')
-        );
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function ticketCreate(Request $request, Response $response, array $args): ResponseInterface
-    {
-        return $response->write(
-            $this->view()
-                ->display('user/ticket_create.tpl')
+                ->display('user/ticket/index.tpl')
         );
     }
 
@@ -62,25 +48,34 @@ final class TicketController extends BaseController
     public function ticketAdd(Request $request, Response $response, array $args): ResponseInterface
     {
         $title = $request->getParam('title');
-        $content = $request->getParam('content');
-        $markdown = $request->getParam('markdown');
-        if ($title === '' || $content === '') {
+        $comment = $request->getParam('comment');
+        if ($title === '' || $comment === '') {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '非法输入',
             ]);
         }
 
-        $ticket = new Ticket();
         $antiXss = new AntiXSS();
+
+        $content = [
+            [
+                'comment_id' => 0,
+                'commenter_name' => $this->user->user_name,
+                'comment' => $antiXss->xss_clean($comment),
+                'datetime' => \time(),
+            ],
+        ];
+
+        $ticket = new Ticket();
         $ticket->title = $antiXss->xss_clean($title);
-        $ticket->content = $antiXss->xss_clean($content);
-        $ticket->rootid = 0;
+        $ticket->content = \json_encode($content);
         $ticket->userid = $this->user->id;
         $ticket->datetime = \time();
+        $ticket->status = 'open_wait_admin';
         $ticket->save();
 
-        if ($_ENV['mail_ticket'] === true && $markdown !== '') {
+        if ($_ENV['mail_ticket'] === true) {
             $adminUser = User::where('is_admin', 1)->get();
             foreach ($adminUser as $user) {
                 $user->sendMail(
@@ -93,11 +88,11 @@ final class TicketController extends BaseController
                 );
             }
         }
-        if ($_ENV['useScFtqq'] === true && $markdown !== '') {
+        if ($_ENV['useScFtqq'] === true) {
             $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
             $postdata = http_build_query([
                 'text' => $_ENV['appName'] . '-新工单被开启',
-                'desp' => $markdown,
+                'desp' => $title,
             ]);
             $opts = [
                 'http' => [
@@ -122,92 +117,66 @@ final class TicketController extends BaseController
     public function ticketUpdate(Request $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $content = $request->getParam('content');
-        $status = $request->getParam('status');
-        $markdown = $request->getParam('markdown');
-        if ($content === '' || $status === '') {
+        $comment = $request->getParam('comment');
+
+        if ($comment === '') {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '非法输入',
             ]);
         }
-        $ticket_main = Ticket::where('id', $id)->where('userid', $this->user->id)->where('rootid', 0)->first();
-        if ($ticket_main === null) {
+
+        $ticket = Ticket::where('id', $id)->where('userid', $this->user->id)->first();
+
+        if ($ticket === null) {
             return $response->withStatus(302)->withHeader('Location', '/user/ticket');
-        }
-        if ($status === 1 && $ticket_main->status !== $status) {
-            if ($_ENV['mail_ticket'] === true && $markdown !== '') {
-                $adminUser = User::where('is_admin', '=', '1')->get();
-                foreach ($adminUser as $user) {
-                    $user->sendMail(
-                        $_ENV['appName'] . '-工单被重新开启',
-                        'news/warn.tpl',
-                        [
-                            'text' => '管理员，有人重新开启了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。',
-                        ],
-                        []
-                    );
-                }
-            }
-            if ($_ENV['useScFtqq'] === true && $markdown !== '') {
-                $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
-                $postdata = http_build_query([
-                    'text' => $_ENV['appName'] . '-工单被重新开启',
-                    'desp' => $markdown,
-                ]);
-                $opts = [
-                    'http' => [
-                        'method' => 'POST',
-                        'header' => 'Content-type: application/x-www-form-urlencoded',
-                        'content' => $postdata,
-                    ],
-                ];
-                $context = stream_context_create($opts);
-                file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
-            }
-        } else {
-            if ($_ENV['mail_ticket'] === true && $markdown !== '') {
-                $adminUser = User::where('is_admin', 1)->get();
-                foreach ($adminUser as $user) {
-                    $user->sendMail(
-                        $_ENV['appName'] . '-工单被回复',
-                        'news/warn.tpl',
-                        [
-                            'text' => '管理员，有人回复了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket_main->id . '/view">工单</a>，请您及时处理。',
-                        ],
-                        []
-                    );
-                }
-            }
-            if ($_ENV['useScFtqq'] === true && $markdown !== '') {
-                $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
-                $postdata = http_build_query([
-                    'text' => $_ENV['appName'] . '-工单被回复',
-                    'desp' => $markdown,
-                ]);
-                $opts = [
-                    'http' => [
-                        'method' => 'POST',
-                        'header' => 'Content-type: application/x-www-form-urlencoded',
-                        'content' => $postdata,
-                    ],
-                ];
-                $context = stream_context_create($opts);
-                file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
-            }
         }
 
         $antiXss = new AntiXSS();
-        $ticket = new Ticket();
-        $ticket->title = $antiXss->xss_clean($ticket_main->title);
-        $ticket->content = $antiXss->xss_clean($content);
-        $ticket->rootid = $ticket_main->id;
-        $ticket->userid = $this->user->id;
-        $ticket->datetime = \time();
-        $ticket_main->status = $status;
 
-        $ticket_main->save();
+        $content_old = \json_decode($ticket->content, true);
+        $content_new = [
+            [
+                'comment_id' => $content_old[count($content_old) - 1]['comment_id'] + 1,
+                'commenter_name' => $this->user->user_name,
+                'comment' => $antiXss->xss_clean($comment),
+                'datetime' => \time(),
+            ],
+        ];
+
+        $ticket->content = \json_encode(\array_merge($content_old, $content_new));
+        $ticket->status = 'open_wait_admin';
         $ticket->save();
+
+        if ($_ENV['mail_ticket'] === true) {
+            $adminUser = User::where('is_admin', 1)->get();
+            foreach ($adminUser as $user) {
+                $user->sendMail(
+                    $_ENV['appName'] . '-工单被回复',
+                    'news/warn.tpl',
+                    [
+                        'text' => '管理员，有人回复了<a href="' . $_ENV['baseUrl'] . '/admin/ticket/' . $ticket->id . '/view">工</a>，请您及时处理。',
+                    ],
+                    []
+                );
+            }
+        }
+        if ($_ENV['useScFtqq'] === true) {
+            $ScFtqq_SCKEY = $_ENV['ScFtqq_SCKEY'];
+            $postdata = http_build_query([
+                'text' => $_ENV['appName'] . '-工单被回复',
+                'desp' => $ticket->title,
+            ]);
+            $opts = [
+                'http' => [
+                    'method' => 'POST',
+                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $postdata,
+                ],
+            ];
+            $context = stream_context_create($opts);
+            file_get_contents('https://sctapi.ftqq.com/' . $ScFtqq_SCKEY . '.send', false, $context);
+        }
 
         return $response->withJson([
             'ret' => 1,
@@ -221,35 +190,30 @@ final class TicketController extends BaseController
     public function ticketView(Request $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $ticket_main = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->where('rootid', '=', 0)->first();
-        if ($ticket_main === null) {
+        $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
+        $comments = \json_decode($ticket->content, true);
+
+        if ($ticket === null) {
             if ($request->getParam('json') === 1) {
                 return $response->withJson([
                     'ret' => 0,
-                    'msg' => '这不是你的工单！',
+                    'msg' => '无访问权限',
                 ]);
             }
             return $response->withStatus(302)->withHeader('Location', '/user/ticket');
         }
-        $pageNum = $request->getQueryParams()['page'] ?? 1;
-        $ticketset = Ticket::where('id', $id)->orWhere('rootid', '=', $id)->orderBy('datetime', 'desc')->paginate(5, ['*'], 'page', $pageNum);
         if ($request->getParam('json') === 1) {
-            foreach ($ticketset as $set) {
-                $set->username = $set->user()->user_name;
-                $set->datetime = $set->datetime();
-            }
             return $response->withJson([
                 'ret' => 1,
-                'tickets' => $ticketset,
+                'ticket' => $ticket,
             ]);
         }
-        $render = Tools::paginateRender($ticketset);
         return $response->write(
             $this->view()
-                ->assign('ticketset', $ticketset)
-                ->assign('id', $id)
-                ->assign('render', $render)
-                ->display('user/ticket_view.tpl')
+                ->assign('ticket', $ticket)
+                ->assign('comments', $comments)
+                ->registerClass('Tools', Tools::class)
+                ->display('user/ticket/view.tpl')
         );
     }
 }

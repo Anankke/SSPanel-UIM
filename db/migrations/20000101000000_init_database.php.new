@@ -298,11 +298,11 @@ final class InitDatabase extends AbstractMigration
         $this->table('ticket', [ 'id' => false, 'primary_key' => [ 'id' ]])
             ->addColumn('id', 'biginteger', [ 'identity' => true ])
             ->addColumn('title', 'string', [])
-            ->addColumn('content', 'text', [])
-            ->addColumn('rootid', 'biginteger', [])
+            ->addColumn('content', 'json', [ 'comment' => '工单内容', 'default' => '' ])
             ->addColumn('userid', 'biginteger', [])
             ->addColumn('datetime', 'biginteger', [])
-            ->addColumn('status', 'integer', [ 'default' => 1 ])
+            ->addColumn('status', 'string', [ 'comment' => '工单状态', 'default' => '' ])
+            ->addColumn('type', 'string', [ 'comment' => '工单类型', 'default' => 'other' ])
             ->create();
 
         $this->table('unblockip', [ 'id' => false, 'primary_key' => [ 'id' ]])

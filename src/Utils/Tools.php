@@ -680,4 +680,38 @@ final class Tools
         }
         return null;
     }
+
+    /**
+     * 工单状态
+     */
+    public static function getTicketStatus($ticket)
+    {
+        if ($ticket->status === 'closed') {
+            return '已结单';
+        }
+        if ($ticket->status === 'open_wait_user') {
+            return '等待用户回复';
+        }
+        if ($ticket->status === 'open_wait_admin') {
+            return '进行中';
+        }
+        return '未知';
+    }
+
+    /**
+     * 工单类型
+     */
+    public static function getTicketType($ticket)
+    {
+        if ($ticket->type === 'howto') {
+            return '使用';
+        }
+        if ($ticket->type === 'billing') {
+            return '财务';
+        }
+        if ($ticket->type === 'account') {
+            return '账户';
+        }
+        return '其他';
+    }
 }
