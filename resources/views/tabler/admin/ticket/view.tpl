@@ -90,7 +90,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <textarea id="reply-content" class="form-control" rows="12" placeholder="请输入回复内容"></textarea>
+                        <textarea id="reply-comment" class="form-control" rows="12" placeholder="请输入回复内容"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -130,7 +130,7 @@
                 type: 'PUT',
                 dataType: "json",
                 data: {
-                    content: $('#reply-content').val()
+                    comment: $('#reply-comment').val()
                 },
                 success: function(data) {
                     if (data.ret == 1) {

@@ -43,14 +43,13 @@
                                             {foreach $details['field'] as $key => $value}
                                                 {if $key === 'status'}
                                                 <td>{Tools::getTicketStatus($ticket)}</td>
-                                                {/if}
-                                                {if $key === 'type'}
+                                                {elseif $key === 'type'}
                                                 <td>{Tools::getTicketType($ticket)}</td>
-                                                {/if}
-                                                {if $key === 'datetime'}
+                                                {elseif $key === 'datetime'}
                                                 <td>{Tools::toDateTime($ticket->$key)}</td>
-                                                {/if}
+                                                {else}
                                                 <td>{$ticket->$key}</td>
+                                                {/if}
                                             {/foreach}
                                         </tr>
                                     {/foreach}
@@ -65,9 +64,9 @@
 
     <script>
         function adjustStyle() {
-            $("td:contains('open_wait_admin')").css("color", "green");
-            $("td:contains('open_wait_user')").css("color", "blue");
-            $("td:contains('closed')").css("color", "red");
+            $("td:contains('进行中')").css("color", "green");
+            $("td:contains('等待用户回复')").css("color", "blue");
+            $("td:contains('已结单')").css("color", "red");
         }
 
         function loadTable() {
