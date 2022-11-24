@@ -68,7 +68,7 @@
                     [1, 'desc']
                 ],
                 "columnDefs":[
-                    {targets:[0],orderable:false}
+                    { targets:[0],orderable:false }
                 ],
                 "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                     "<'row'<'col-sm-12'tr>>" +

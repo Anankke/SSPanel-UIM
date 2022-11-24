@@ -56,9 +56,9 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">重置密码</label>
+                                <label class="form-label col-3 col-form-label">账户密码</label>
                                 <div class="col">
-                                    <input id="reset_user_passwd" type="text" class="form-control"
+                                    <input id="pass" type="text" class="form-control"
                                         placeholder="若需为此用户重置密码, 填写此栏">
                                 </div>
                             </div>

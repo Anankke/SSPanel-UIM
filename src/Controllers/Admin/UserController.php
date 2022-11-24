@@ -200,7 +200,7 @@ final class UserController extends BaseController
         $id = $args['id'];
         $user = User::find($id);
 
-        if ($request->getParam('pass') !== '') {
+        if ($request->getParam('pass') !== '' && $request->getParam('pass') !== null) {
             $user->pass = Hash::passwordHash($request->getParam('pass'));
             $user->cleanLink();
         }
