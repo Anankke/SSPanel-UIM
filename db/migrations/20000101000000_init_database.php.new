@@ -108,12 +108,7 @@ final class InitDatabase extends AbstractMigration
             ->addColumn('markdown', 'text', [])
             ->create();
 
-        $this->table('blockip', [ 'id' => false, 'primary_key' => [ 'id' ]])
-            ->addColumn('id', 'biginteger', [ 'identity' => true ])
-            ->addColumn('nodeid', 'integer', [])
-            ->addColumn('ip', 'string', [])
-            ->addColumn('datetime', 'biginteger', [])
-            ->create();
+        
 
         $this->table('bought', [ 'id' => false, 'primary_key' => [ 'id' ]])
             ->addColumn('id', 'biginteger', [ 'identity' => true ])
@@ -305,13 +300,6 @@ final class InitDatabase extends AbstractMigration
             ->addColumn('type', 'string', [ 'comment' => '工单类型', 'default' => 'other' ])
             ->create();
 
-        $this->table('unblockip', [ 'id' => false, 'primary_key' => [ 'id' ]])
-            ->addColumn('id', 'biginteger', [ 'identity' => true ])
-            ->addColumn('ip', 'string', [])
-            ->addColumn('datetime', 'biginteger', [])
-            ->addColumn('userid', 'biginteger', [])
-            ->create();
-
         $this->table('user_hourly_usage', [ 'id' => false, 'primary_key' => [ 'id' ]])
             ->addColumn('id', 'biginteger', [ 'identity' => true,'signed' => false ])
             ->addColumn('user_id', 'biginteger', [ 'signed' => false ])
@@ -352,7 +340,6 @@ final class InitDatabase extends AbstractMigration
         $this->table('node')->drop()->update();
         $this->table('alive_ip')->drop()->update();
         $this->table('announcement')->drop()->update();
-        $this->table('blockip')->drop()->update();
         $this->table('bought')->drop()->update();
         $this->table('code')->drop()->update();
         $this->table('config')->drop()->update();
@@ -373,7 +360,6 @@ final class InitDatabase extends AbstractMigration
         $this->table('user_password_reset')->drop()->update();
         $this->table('telegram_session')->drop()->update();
         $this->table('ticket')->drop()->update();
-        $this->table('unblockip')->drop()->update();
         $this->table('user_hourly_usage')->drop()->update();
         $this->table('user_subscribe_log')->drop()->update();
         $this->table('user_token')->drop()->update();

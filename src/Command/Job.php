@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Models\Ann;
-use App\Models\BlockIp;
 use App\Models\Bought;
 use App\Models\DetectBanLog;
 use App\Models\DetectLog;
@@ -20,7 +19,6 @@ use App\Models\Shop;
 use App\Models\StreamMedia;
 use App\Models\TelegramSession;
 use App\Models\Token;
-use App\Models\UnblockIp;
 use App\Models\User;
 use App\Models\UserHourlyUsage;
 use App\Models\UserSubscribeLog;
@@ -76,8 +74,6 @@ EOL;
         EmailQueue::where('time', '<', \time() - 86400 * 3)->delete();
         PasswordReset::where('expire_time', '<', \time() - 86400 * 3)->delete();
         Ip::where('datetime', '<', \time() - 300)->delete();
-        UnblockIp::where('datetime', '<', \time() - 300)->delete();
-        BlockIp::where('datetime', '<', \time() - 86400)->delete();
         StreamMedia::where('created_at', '<', \time() - 86400 * 30)->delete();
         TelegramSession::where('datetime', '<', \time() - 900)->delete();
         // ------- 清理各表记录

@@ -446,7 +446,6 @@ final class User extends Model
         PasswordReset::where('email', '=', $email)->delete();
         TelegramSession::where('user_id', '=', $uid)->delete();
         Token::where('user_id', '=', $uid)->delete();
-        UnblockIp::where('userid', '=', $uid)->delete();
         UserSubscribeLog::where('user_id', '=', $uid)->delete();
 
         $this->delete();

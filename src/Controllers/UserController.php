@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\Ann;
-use App\Models\BlockIp;
 use App\Models\Bought;
 use App\Models\Code;
 use App\Models\Docs;
@@ -18,7 +17,6 @@ use App\Models\Payback;
 use App\Models\Setting;
 use App\Models\StreamMedia;
 use App\Models\Token;
-use App\Models\UnblockIp;
 use App\Models\User;
 use App\Models\UserSubscribeLog;
 use App\Services\Auth;
@@ -454,22 +452,11 @@ final class UserController extends BaseController
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
 
-        $BIP = BlockIp::where('ip', $_SERVER['REMOTE_ADDR'])->first();
-        if ($BIP === null) {
-            $Block = 'IP: ' . $_SERVER['REMOTE_ADDR'] . ' 没有被封';
-            $isBlock = 0;
-        } else {
-            $Block = 'IP: ' . $_SERVER['REMOTE_ADDR'] . ' 已被封';
-            $isBlock = 1;
-        }
-
         $bind_token = TelegramSessionManager::addBindSession($this->user);
 
         return $this->view()
             ->assign('user', $this->user)
             ->assign('themes', $themes)
-            ->assign('isBlock', $isBlock)
-            ->assign('Block', $Block)
             ->assign('bind_token', $bind_token)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->registerClass('Config', Config::class)
@@ -671,26 +658,6 @@ final class UserController extends BaseController
         $user->save();
 
         return ResponseHelper::successfully($response, '修改成功');
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function unblock(Request $request, Response $response, array $args)
-    {
-        $user = $this->user;
-        $BIP = BlockIp::where('ip', $_SERVER['REMOTE_ADDR'])->get();
-        foreach ($BIP as $bi) {
-            $bi->delete();
-        }
-
-        $UIP = new UnblockIp();
-        $UIP->userid = $user->id;
-        $UIP->ip = $_SERVER['REMOTE_ADDR'];
-        $UIP->datetime = \time();
-        $UIP->save();
-
-        return ResponseHelper::successfully($response, $_SERVER['REMOTE_ADDR']);
     }
 
     /**
