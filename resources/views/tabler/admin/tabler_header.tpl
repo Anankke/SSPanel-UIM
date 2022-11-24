@@ -178,17 +178,17 @@
                                         <i class="ti ti-rss"></i>&nbsp;
                                         订阅
                                     </a>
-                                    <a class="dropdown-item" href="/admin/payback">
+                                    <a class="dropdown-item" href="/admin/invite">
                                         <i class="ti ti-friends"></i>&nbsp;
-                                        返利
+                                        邀请
                                     </a>
                                     <a class="dropdown-item" href="/admin/alive">
                                         <i class="ti ti-router"></i>&nbsp;
-                                        在线
+                                        在线IP
                                     </a>
-                                    <a class="dropdown-item" href="/admin/log">
-                                        <i class="ti ti-book-download"></i>&nbsp;
-                                        自定义
+                                    <a class="dropdown-item" href="/admin/trafficlog">
+                                        <i class="ti ti-arrows-up-down"></i>&nbsp;
+                                        流量记录
                                     </a>
                                 </div>
                             </li>
