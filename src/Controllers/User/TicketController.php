@@ -202,6 +202,10 @@ final class TicketController extends BaseController
         $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
         $comments = \json_decode($ticket->content, true);
 
+        $ticket->status = Tools::getTicketStatus($ticket);
+        $ticket->type = Tools::getTicketType($ticket);
+        $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
+
         if ($ticket === null) {
             if ($request->getParam('json') === 1) {
                 return $response->withJson([

@@ -5,11 +5,11 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title" style="line-height: unset;">
+                    <h2 class="page-title">
                         <span class="home-title">工单记录</span>
                     </h2>
-                    <div class="page-pretitle">
-                        <span class="home-subtitle">你可以在这里查看历史消息并添加回复</span>
+                    <div class="page-pretitle my-3">
+                        <span class="home-subtitle">你可以在这里查看工单消息并添加回复</span>
                     </div>
                 </div>
                 {if $ticket->status !== 'closed'}
@@ -37,6 +37,40 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="h1 my-2 mb-3">#{$ticket->id} {$ticket->title}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-deck my-3">
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="subheader">工单状态</div>
+                            </div>
+                            <div class="h2 mb-3">{$ticket->status}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="subheader">工单类型</div>
+                            </div>
+                            <div class="h2 mb-3">{$ticket->type}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="subheader">工单开启时间</div>
+                                </div>
+                                <div class="h2 mb-3">{$ticket->datetime}</div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -5,8 +5,8 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title" style="line-height: unset;">
-                        <span class="home-title">工单列表</span>
+                    <h2 class="page-title">
+                        <span class="home-title my-3">工单列表</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">你可以在这里联系管理员获取支持</span>
@@ -59,15 +59,7 @@
                                         <div class="card-footer">
                                             <div class="d-flex">
                                                 <!-- 工单状态标签 -->
-                                                {if $ticket->status === '已结单'}
                                                 <span class="status status-grey">{$ticket->status}</span>
-                                                {/if}
-                                                {if $ticket->status === '等待用户回复'}
-                                                <span class="status status-orange">{$ticket->status}</span>
-                                                {/if}
-                                                {if $ticket->status === '处理中'}
-                                                <span class="status status-green">{$ticket->status}</span>
-                                                {/if}
                                                 <!-- 工单类型标签 -->
                                                 <span class="status status-grey">{$ticket->type}</span>
                                                 <a href="/user/ticket/{$ticket->id}/view"

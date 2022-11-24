@@ -5,10 +5,10 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">                    
-                    <h2 class="page-title" style="line-height: unset;">
+                    <h2 class="page-title">
                         <span class="home-title">订阅记录</span>
                     </h2>
-                    <div class="page-pretitle">
+                    <div class="page-pretitle my-3">
                         <span class="home-subtitle">在最近 {$config['subscribeLog_keep_days']} 天内所有的订阅记录</span>
                     </div>
                 </div>

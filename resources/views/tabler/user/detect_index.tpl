@@ -6,10 +6,10 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title" style="line-height: unset;">
+                    <h2 class="page-title">
                         <span class="home-title">审计规则</span>
                     </h2>
-                    <div class="page-pretitle">
+                    <div class="page-pretitle my-3">
                         <span class="home-subtitle">目前站点中所使用的审计规则</span>
                     </div>
                 </div>

@@ -5,10 +5,10 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">                   
-                    <h2 class="page-title" style="line-height: unset;">
+                    <h2 class="page-title">
                         <span class="home-title">账单详情</span>
                     </h2>
-                    <div class="page-pretitle">
+                    <div class="page-pretitle my-3">
                         <span class="home-subtitle">在这里查看账单详情</span>
                     </div>
                 </div>

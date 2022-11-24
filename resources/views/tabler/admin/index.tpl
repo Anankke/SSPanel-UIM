@@ -5,8 +5,8 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title" style="line-height: unset;">
-                        <span class="home-title">系统概况</span>
+                    <h2 class="page-title">
+                        <span class="home-title my-3">系统概况</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">在这里查看系统的的各项运营指标</span>
