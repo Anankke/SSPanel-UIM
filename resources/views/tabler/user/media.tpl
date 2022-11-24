@@ -5,10 +5,10 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title" style="line-height: unset;">
+                    <h2 class="page-title">
                         <span class="home-title">流媒体解锁</span>
                     </h2>
-                    <div class="page-pretitle">
+                    <div class="page-pretitle my-3">
                         <span class="home-subtitle">你可以在这里查看节点的流媒体解锁情况</span>
                     </div>
                 </div>

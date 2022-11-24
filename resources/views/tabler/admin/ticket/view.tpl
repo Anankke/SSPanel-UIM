@@ -5,8 +5,8 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title" style="line-height: unset;">
-                        <span class="home-title">工单回复</span>
+                    <h2 class="page-title">
+                        <span class="home-title my-3">工单回复</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">你可以在这里查看历史消息并添加回复</span>

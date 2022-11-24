@@ -11,12 +11,12 @@
     <!-- CSS files -->
     <link href="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet" />
     <link href="//cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css" rel="stylesheet" />
-    <link href="//cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/v/bs5/dt-1.13.1/datatables.min.css" rel="stylesheet" />
     <!-- JS files -->
     <script src="//cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <script src="//cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
+    <script src="//cdn.datatables.net/v/bs5/dt-1.13.1/datatables.min.js"></script>
     <style>
         .home-subtitle {
             font-size: 14px;
@@ -178,17 +178,17 @@
                                         <i class="ti ti-rss"></i>&nbsp;
                                         订阅
                                     </a>
-                                    <a class="dropdown-item" href="/admin/payback">
+                                    <a class="dropdown-item" href="/admin/invite">
                                         <i class="ti ti-friends"></i>&nbsp;
-                                        返利
+                                        邀请
                                     </a>
                                     <a class="dropdown-item" href="/admin/alive">
                                         <i class="ti ti-router"></i>&nbsp;
-                                        在线
+                                        在线IP
                                     </a>
-                                    <a class="dropdown-item" href="/admin/log">
-                                        <i class="ti ti-book-download"></i>&nbsp;
-                                        自定义
+                                    <a class="dropdown-item" href="/admin/trafficlog">
+                                        <i class="ti ti-arrows-up-down"></i>&nbsp;
+                                        流量记录
                                     </a>
                                 </div>
                             </li>

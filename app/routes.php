@@ -194,13 +194,8 @@ return function (SlimApp $app): void {
         $this->post('/detect/log/ajax', App\Controllers\Admin\DetectController::class . ':ajaxLog');
 
         // IP Mange
-        $this->get('/block', App\Controllers\Admin\IpController::class . ':block');
-        $this->get('/unblock', App\Controllers\Admin\IpController::class . ':unblock');
-        $this->post('/unblock', App\Controllers\Admin\IpController::class . ':doUnblock');
         $this->get('/login', App\Controllers\Admin\IpController::class . ':index');
         $this->get('/alive', App\Controllers\Admin\IpController::class . ':alive');
-        $this->post('/block/ajax', App\Controllers\Admin\IpController::class . ':ajaxBlock');
-        $this->post('/unblock/ajax', App\Controllers\Admin\IpController::class . ':ajaxUnblock');
         $this->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
         $this->post('/alive/ajax', App\Controllers\Admin\IpController::class . ':ajaxAlive');
 
@@ -214,10 +209,10 @@ return function (SlimApp $app): void {
         $this->get('/user', App\Controllers\Admin\UserController::class . ':index');
         $this->get('/user/{id}/edit', App\Controllers\Admin\UserController::class . ':edit');
         $this->put('/user/{id}', App\Controllers\Admin\UserController::class . ':update');
-        $this->delete('/user', App\Controllers\Admin\UserController::class . ':delete');
         $this->post('/user/changetouser', App\Controllers\Admin\UserController::class . ':changetouser');
         $this->post('/user/ajax', App\Controllers\Admin\UserController::class . ':ajax');
         $this->post('/user/create', App\Controllers\Admin\UserController::class . ':createNewUser');
+        $this->delete('/user/{id}', App\Controllers\Admin\UserController::class . ':delete');
 
         // Coupon Mange
         $this->get('/coupon', App\Controllers\AdminController::class . ':coupon');
@@ -235,28 +230,6 @@ return function (SlimApp $app): void {
         // Detect Ban Mange
         $this->get('/detect/ban', App\Controllers\Admin\DetectBanLogController::class . ':index');
         $this->post('/detect/ban/ajax', App\Controllers\Admin\DetectBanLogController::class . ':ajaxLog');
-
-        // 指定用户购买记录以及添加套餐
-        $this->get('/user/{id}/bought', App\Controllers\Admin\UserLog\BoughtLogController::class . ':bought');
-        $this->post('/user/{id}/bought/ajax', App\Controllers\Admin\UserLog\BoughtLogController::class . ':boughtAjax');
-        $this->delete('/user/bought', App\Controllers\Admin\UserLog\BoughtLogController::class . ':boughtDelete');
-        $this->post('/user/{id}/bought/buy', App\Controllers\Admin\UserLog\BoughtLogController::class . ':boughtAdd');
-
-        // 指定用户充值记录
-        $this->get('/user/{id}/code', App\Controllers\Admin\UserLog\CodeLogController::class . ':index');
-        $this->post('/user/{id}/code/ajax', App\Controllers\Admin\UserLog\CodeLogController::class . ':ajax');
-
-        // 指定用户订阅记录
-        $this->get('/user/{id}/sublog', App\Controllers\Admin\UserLog\SubLogController::class . ':index');
-        $this->post('/user/{id}/sublog/ajax', App\Controllers\Admin\UserLog\SubLogController::class . ':ajax');
-
-        // 指定用户审计记录
-        $this->get('/user/{id}/detect', App\Controllers\Admin\UserLog\DetectLogController::class . ':index');
-        $this->post('/user/{id}/detect/ajax', App\Controllers\Admin\UserLog\DetectLogController::class . ':ajax');
-
-        // 指定用户登录记录
-        $this->get('/user/{id}/login', App\Controllers\Admin\UserLog\LoginLogController::class . ':index');
-        $this->post('/user/{id}/login/ajax', App\Controllers\Admin\UserLog\LoginLogController::class . ':ajax');
 
         // 设置中心
         $this->get('/setting', App\Controllers\Admin\SettingController::class . ':index');
@@ -293,9 +266,6 @@ return function (SlimApp $app): void {
         $this->post('/users/detectlog', App\Controllers\Node\UserController::class . ':addDetectLog');
         // 审计 & 杂七杂八的功能
         $this->get('/func/detect_rules', App\Controllers\Node\FuncController::class . ':getDetectLogs');
-        $this->post('/func/block_ip', App\Controllers\Node\FuncController::class . ':addBlockIp');
-        $this->get('/func/block_ip', App\Controllers\Node\FuncController::class . ':getBlockip');
-        $this->get('/func/unblock_ip', App\Controllers\Node\FuncController::class . ':getUnblockip');
         $this->get('/func/ping', App\Controllers\Node\FuncController::class . ':ping');
     })->add(new NodeToken());
 

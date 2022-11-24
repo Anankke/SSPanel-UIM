@@ -77,8 +77,6 @@
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_node">节点</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_node">
                         <li><a href="/admin/node"><i class="mdi mdi-server icon-lg"></i>&nbsp;节点列表</a></li>
-                        <li><a href="/admin/block"><i class="mdi mdi-block-helper icon-lg"></i>&nbsp;已封禁IP</a></li>
-                        <li><a href="/admin/unblock"><i class="mdi mdi-check icon-lg"></i>&nbsp;已解封IP</a></li>
                     </ul>
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_user">用户</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_user">

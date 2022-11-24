@@ -5,10 +5,10 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title" style="line-height: unset;">
+                    <h2 class="page-title">
                         <span class="home-title">账户已被封禁</span>
                     </h2>
-                    <div class="page-pretitle">
+                    <div class="page-pretitle my-3">
                         <span class="home-subtitle">你的账户功能已被停用，并且禁止访问用户中心</span>
                     </div>
                 </div>

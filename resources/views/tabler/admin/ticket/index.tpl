@@ -5,8 +5,8 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title" style="line-height: unset;">
-                        <span class="home-title">工单列表</span>
+                    <h2 class="page-title">
+                        <span class="home-title my-3">工单列表</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">查看并回复用户工单</span>
@@ -41,15 +41,7 @@
                                                 <a class="btn btn-blue" href="/admin/ticket/{$ticket->id}/view">查看</a>
                                             </td>
                                             {foreach $details['field'] as $key => $value}
-                                                {if $key === 'status'}
-                                                <td>{Tools::getTicketStatus($ticket)}</td>
-                                                {elseif $key === 'type'}
-                                                <td>{Tools::getTicketType($ticket)}</td>
-                                                {elseif $key === 'datetime'}
-                                                <td>{Tools::toDateTime($ticket->$key)}</td>
-                                                {else}
                                                 <td>{$ticket->$key}</td>
-                                                {/if}
                                             {/foreach}
                                         </tr>
                                     {/foreach}
@@ -73,7 +65,10 @@
             $('#data_table').DataTable({
                 'iDisplayLength': 25,
                 'order': [
-                    [0, 'desc']
+                    [1, 'desc']
+                ],
+                "columnDefs":[
+                    { targets:[0],orderable:false }
                 ],
                 "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                     "<'row'<'col-sm-12'tr>>" +

@@ -5,8 +5,8 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 class="page-title" style="line-height: unset;">
-                        <span class="home-title">工单列表</span>
+                    <h2 class="page-title">
+                        <span class="home-title my-3">工单列表</span>
                     </h2>
                     <div class="page-pretitle">
                         <span class="home-subtitle">你可以在这里联系管理员获取支持</span>
@@ -59,26 +59,9 @@
                                         <div class="card-footer">
                                             <div class="d-flex">
                                                 <!-- 工单状态标签 -->
-                                                {if $ticket->status === 'closed'}
-                                                <span class="status status-grey">已结单</span>
-                                                {/if}
-                                                {if $ticket->status === 'open_wait_user'}
-                                                <span class="status status-orange">等待用户回复</span>
-                                                {/if}
-                                                {if $ticket->status === 'open_wait_admin'}
-                                                <span class="status status-green">处理中</span>
-                                                {/if}
+                                                <span class="status status-grey">{$ticket->status}</span>
                                                 <!-- 工单类型标签 -->
-                                                {if $ticket->type === 'howto'}
-                                                <span class="status status-grey">使用</span>
-                                                {/if}
-                                                {if $ticket->type === 'billing'}
-                                                <span class="status status-grey">财务</span>
-                                                {/if}
-                                                {if $ticket->type === 'account'}
-                                                <span class="status status-grey">账户</span>
-                                                {/if}
-                                                <span class="status status-grey">其他</span>
+                                                <span class="status status-grey">{$ticket->type}</span>
                                                 <a href="/user/ticket/{$ticket->id}/view"
                                                     class="btn btn-primary ms-auto">查看</a>
                                             </div>

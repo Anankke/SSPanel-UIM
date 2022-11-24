@@ -26,7 +26,14 @@ final class TicketController extends BaseController
         if ($_ENV['enable_ticket'] !== true) {
             return null;
         }
+
         $tickets = Ticket::where('userid', $this->user->id)->orderBy('datetime', 'desc')->get();
+
+        foreach ($tickets as $ticket) {
+            $ticket->status = Tools::getTicketStatus($ticket);
+            $ticket->type = Tools::getTicketType($ticket);
+            $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
+        }
 
         if ($request->getParam('json') === 1) {
             return $response->withJson([
@@ -49,6 +56,7 @@ final class TicketController extends BaseController
     {
         $title = $request->getParam('title');
         $comment = $request->getParam('comment');
+        $type = $request->getParam('type');
         if ($title === '' || $comment === '') {
             return $response->withJson([
                 'ret' => 0,
@@ -73,6 +81,7 @@ final class TicketController extends BaseController
         $ticket->userid = $this->user->id;
         $ticket->datetime = \time();
         $ticket->status = 'open_wait_admin';
+        $ticket->type = $antiXss->xss_clean($type);
         $ticket->save();
 
         if ($_ENV['mail_ticket'] === true) {
@@ -192,6 +201,10 @@ final class TicketController extends BaseController
         $id = $args['id'];
         $ticket = Ticket::where('id', '=', $id)->where('userid', $this->user->id)->first();
         $comments = \json_decode($ticket->content, true);
+
+        $ticket->status = Tools::getTicketStatus($ticket);
+        $ticket->type = Tools::getTicketType($ticket);
+        $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
 
         if ($ticket === null) {
             if ($request->getParam('json') === 1) {

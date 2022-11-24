@@ -6,10 +6,10 @@
             <div class="row align-items-center">
                 <div class="col">
                     
-                    <h2 class="page-title" style="line-height: unset;">
+                    <h2 class="page-title">
                         <span class="home-title">审计日志</span>
                     </h2>
-                    <div class="page-pretitle">
+                    <div class="page-pretitle my-3">
                         <span class="home-subtitle">被审计规则匹配的近500条流量记录</span>
                     </div>
                 </div>

@@ -5,10 +5,10 @@
         <div class="page-header d-print-none text-white">
             <div class="row align-items-center">
                 <div class="col">     
-                    <h2 class="page-title" style="line-height: unset;">
+                    <h2 class="page-title">
                         <span class="home-title">账户信息</span>
                     </h2>
-                    <div class="page-pretitle">
+                    <div class="page-pretitle my-3">
                         <span class="home-subtitle">浏览最近的登录和使用记录</span>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="row row-cards">
+            <div class="row row-deck">
                 <div class="col-sm-6 col-lg-3">
                     <div class="card">
                         <div class="card-body">

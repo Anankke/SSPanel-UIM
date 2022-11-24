@@ -35,11 +35,16 @@ final class TicketController extends BaseController
     {
         $tickets = Ticket::orderBy('id', 'desc')->get();
 
+        foreach ($tickets as $ticket) {
+            $ticket->status = Tools::getTicketStatus($ticket);
+            $ticket->type = Tools::getTicketType($ticket);
+            $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
+        }
+
         return $response->write(
             $this->view()
                 ->assign('tickets', $tickets)
                 ->assign('details', self::$details)
-                ->registerClass('Tools', Tools::class)
                 ->display('admin/ticket/index.tpl')
         );
     }
