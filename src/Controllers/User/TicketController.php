@@ -26,7 +26,14 @@ final class TicketController extends BaseController
         if ($_ENV['enable_ticket'] !== true) {
             return null;
         }
+
         $tickets = Ticket::where('userid', $this->user->id)->orderBy('datetime', 'desc')->get();
+
+        foreach ($tickets as $ticket) {
+            $ticket->status = Tools::getTicketStatus($ticket);
+            $ticket->type = Tools::getTicketType($ticket);
+            $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
+        }
 
         if ($request->getParam('json') === 1) {
             return $response->withJson([

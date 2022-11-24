@@ -21,7 +21,7 @@ final class UserController extends BaseController
 {
     public static $details = [
         'field' => [
-            'id' => '#',
+            'id' => '用户ID',
             'user_name' => '昵称',
             'email' => '邮箱',
             'money' => '余额',
@@ -99,9 +99,7 @@ final class UserController extends BaseController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $users = User::orderBy('id', 'desc')
-            ->limit($_ENV['page_load_data_entry'])
-            ->get();
+        $users = User::orderBy('id', 'desc')->get();
 
         foreach ($users as $user) {
             $user->transfer_enable = round($user->transfer_enable / 1073741824, 2);
