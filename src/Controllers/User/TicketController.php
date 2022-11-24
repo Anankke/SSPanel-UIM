@@ -49,6 +49,7 @@ final class TicketController extends BaseController
     {
         $title = $request->getParam('title');
         $comment = $request->getParam('comment');
+        $type = $request->getParam('type');
         if ($title === '' || $comment === '') {
             return $response->withJson([
                 'ret' => 0,
@@ -73,6 +74,7 @@ final class TicketController extends BaseController
         $ticket->userid = $this->user->id;
         $ticket->datetime = \time();
         $ticket->status = 'open_wait_admin';
+        $ticket->type = $antiXss->xss_clean($type);
         $ticket->save();
 
         if ($_ENV['mail_ticket'] === true) {
