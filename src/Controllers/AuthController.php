@@ -244,7 +244,7 @@ final class AuthController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id)
+    public function registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money)
     {
         if (Setting::obtain('reg_mode') === 'close') {
             return ResponseHelper::error($response, '暂时不对外开放注册');
@@ -300,8 +300,13 @@ final class AuthController extends BaseController
         $user->invite_num = $configs['sign_up_for_invitation_codes'];
         $user->auto_reset_day = Setting::obtain('free_user_reset_day');
         $user->auto_reset_bandwidth = Setting::obtain('free_user_reset_bandwidth');
-        $user->money = 0;
         $user->sendDailyMail = $configs['sign_up_for_daily_report'];
+
+        if ($money > 0) {
+            $user->money = $money;
+        } else {
+            $user->money = 0;
+        }
 
         //dumplin：填写邀请人，写入邀请奖励
         $user->ref_by = 0;
@@ -427,7 +432,7 @@ final class AuthController extends BaseController
             EmailVerify::where('email', $email)->delete();
         }
 
-        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0);
+        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0);
     }
 
     /**

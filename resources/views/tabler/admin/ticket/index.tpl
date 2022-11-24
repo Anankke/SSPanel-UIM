@@ -41,15 +41,7 @@
                                                 <a class="btn btn-blue" href="/admin/ticket/{$ticket->id}/view">查看</a>
                                             </td>
                                             {foreach $details['field'] as $key => $value}
-                                                {if $key === 'status'}
-                                                <td>{Tools::getTicketStatus($ticket)}</td>
-                                                {elseif $key === 'type'}
-                                                <td>{Tools::getTicketType($ticket)}</td>
-                                                {elseif $key === 'datetime'}
-                                                <td>{Tools::toDateTime($ticket->$key)}</td>
-                                                {else}
                                                 <td>{$ticket->$key}</td>
-                                                {/if}
                                             {/foreach}
                                         </tr>
                                     {/foreach}
