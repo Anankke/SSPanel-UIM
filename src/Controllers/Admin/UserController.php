@@ -140,7 +140,7 @@ final class UserController extends BaseController
             if ($password === '') {
                 $password = Tools::genRandomChar(16);
             }
-            AuthController::registerHelper('', 'user', $email, $password, '', '', '', 0, $balance);
+            AuthController::registerHelper($response, 'user', $email, $password, '', 1, '', 0, $balance, 1);
             $user = User::where('email', $email)->first();
             if ($shop_id > 0) {
                 $shop = Shop::find($shop_id);
