@@ -21,6 +21,7 @@ final class UserController extends BaseController
 {
     public static $details = [
         'field' => [
+            'op' => '操作',
             'id' => '用户ID',
             'user_name' => '昵称',
             'email' => '邮箱',
@@ -304,6 +305,26 @@ final class UserController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '切换成功',
+        ]);
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function ajax(Request $request, Response $response, array $args)
+    {
+        $users = User::orderBy('id', 'desc')->get();
+
+        foreach ($users as $user) {
+            $user->op = '<button type="button" class="btn btn-red" id="delete-user" 
+            onclick="deleteUser(' . $user->id . ')">删除</button>
+            <a class="btn btn-blue" href="/admin/user/' . $user->id . '/edit">编辑</a>';
+            $user->transfer_enable = round($user->transfer_enable / 1073741824, 2);
+            $user->last_day_t = round($user->last_day_t / 1073741824, 2);
+        }
+
+        return $response->withJson([
+            'users' => $users,
         ]);
     }
 }

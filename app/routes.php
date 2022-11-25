@@ -210,9 +210,9 @@ return function (SlimApp $app): void {
         $this->get('/user/{id}/edit', App\Controllers\Admin\UserController::class . ':edit');
         $this->put('/user/{id}', App\Controllers\Admin\UserController::class . ':update');
         $this->post('/user/changetouser', App\Controllers\Admin\UserController::class . ':changetouser');
-        $this->post('/user/ajax', App\Controllers\Admin\UserController::class . ':ajax');
         $this->post('/user/create', App\Controllers\Admin\UserController::class . ':createNewUser');
         $this->delete('/user/{id}', App\Controllers\Admin\UserController::class . ':delete');
+        $this->post('/user/ajax', App\Controllers\Admin\UserController::class . ':ajax');
 
         // Coupon Mange
         $this->get('/coupon', App\Controllers\AdminController::class . ':coupon');

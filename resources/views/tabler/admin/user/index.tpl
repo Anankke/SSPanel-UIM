@@ -39,26 +39,11 @@
                             <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                     <tr>
-                                        <th>操作</th>
                                         {foreach $details['field'] as $key => $value}
                                             <th>{$value}</th>
                                         {/foreach}
                                     </tr>
                                 </thead>
-                                <tbody id="table_content">
-                                    {foreach $users as $user}
-                                        <tr>
-                                            <td>
-                                                <button type="button" class="btn btn-red" id="delete-user" 
-                                                onclick="deleteUser({$user->id})">删除</button>
-                                                <a class="btn btn-blue" href="/admin/user/{$user->id}/edit">编辑</a>
-                                            </td>
-                                            {foreach $details['field'] as $key => $value}
-                                                <td>{$user->$key}</td>
-                                            {/foreach}
-                                        </tr>
-                                    {/foreach}
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -126,43 +111,57 @@
     </div>
 
     <script>
-        function loadTable() {
-            $('#data_table').DataTable({
-                'iDisplayLength': 25,
-                'order': [
-                    [1, 'asc']
-                ],
-                "columnDefs":[
-                    { targets:[0],orderable:false }
-                ],
-                "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row card-footer d-flex align-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                language: {
-                    "sProcessing": "处理中...",
-                    "sLengthMenu": "显示 _MENU_ 条",
-                    "sZeroRecords": "没有匹配结果",
-                    "sInfo": "第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                    "sInfoEmpty": "第 0 至 0 项结果，共 0 项",
-                    "sInfoFiltered": "(在 _MAX_ 项中查找)",
-                    "sInfoPostFix": "",
-                    "sSearch": "<i class=\"ti ti-search\"></i> ",
-                    "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
-                    "sLoadingRecords": "载入中...",
-                    "sInfoThousands": ",",
-                    "oPaginate": {
-                        "sFirst": "首页",
-                        "sPrevious": "<i class=\"ti ti-arrow-left\"></i>",
-                        "sNext": "<i class=\"ti ti-arrow-right\"></i>",
-                        "sLast": "末页"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": 以升序排列此列",
-                        "sSortDescending": ": 以降序排列此列"
-                    }
+        var table = $('#data_table').DataTable({
+            ajax: {
+                url: '/admin/user/ajax',
+                type: 'POST',
+                dataSrc: 'users'
+            },
+            "autoWidth":false,
+            'iDisplayLength': 25,
+            'scrollX': true,
+            'order': [
+                [1, 'asc']
+            ],
+            columns: [
+                {foreach $details['field'] as $key => $value}
+                { data: '{$key}' },
+                {/foreach}
+            ],
+            "columnDefs":[
+                { targets:[0],orderable:false },
+            ],
+            "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row card-footer d-flex align-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 条",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(在 _MAX_ 项中查找)",
+                "sInfoPostFix": "",
+                "sSearch": "<i class=\"ti ti-search\"></i> ",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "<i class=\"ti ti-arrow-left\"></i>",
+                    "sNext": "<i class=\"ti ti-arrow-right\"></i>",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
                 }
-            });
+            }
+        });
+
+        function loadTable() {
+            table;
         }
 
         $("#create-button").click(function() {
@@ -180,6 +179,7 @@
                     if (data.ret == 1) {
                         $('#success-message').text(data.msg);
                         $('#success-dialog').modal('show');
+                        reloadTableAjax();
                     } else {
                         $('#fail-message').text(data.msg);
                         $('#fail-dialog').modal('show');
@@ -200,6 +200,7 @@
                         if (data.ret == 1) {
                             $('#success-message').text(data.msg);
                             $('#success-dialog').modal('show');
+                            reloadTableAjax();
                         } else {
                             $('#fail-message').text(data.msg);
                             $('#fail-dialog').modal('show');
@@ -209,9 +210,9 @@
             });
         };
 
-        $("#success-confirm").click(function() {
-            location.reload();
-        });
+        function reloadTableAjax() {
+            table.ajax.reload(null, false);
+        }
 
         loadTable();
     </script>
