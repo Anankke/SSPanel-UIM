@@ -64,9 +64,9 @@
             "columnDefs":[
                 { targets:[0],orderable:false }
             ],
-            "dom": "<'row px-3 py-3'<'col-sm-12col-md-6'l><'col-sm-12 col-md-6'f>>" +
+            "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
-                "<'row card-footer d-flexalign-items-center'<'col-sm-12col-md-5'i><'col-sm-12 col-md-7'p>>",
+                "<'row card-footer d-flex d-flexalign-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             language: {
                 "sProcessing": "处理中...",
                 "sLengthMenu": "显示 _MENU_ 条",
