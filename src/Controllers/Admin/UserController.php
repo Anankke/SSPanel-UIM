@@ -100,16 +100,8 @@ final class UserController extends BaseController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $users = User::orderBy('id', 'desc')->get();
-
-        foreach ($users as $user) {
-            $user->transfer_enable = round($user->transfer_enable / 1073741824, 2);
-            $user->last_day_t = round($user->last_day_t / 1073741824, 2);
-        }
-
         return $response->write(
             $this->view()
-                ->assign('users', $users)
                 ->assign('shops', Shop::orderBy('name')->get())
                 ->assign('details', self::$details)
                 ->display('admin/user/index.tpl')
