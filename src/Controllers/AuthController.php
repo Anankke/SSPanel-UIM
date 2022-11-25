@@ -244,7 +244,7 @@ final class AuthController extends BaseController
      * @param Response  $response
      * @param array     $args
      */
-    public function registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money)
+    public static function registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, $telegram_id, $money, $is_admin_reg)
     {
         if (Setting::obtain('reg_mode') === 'close') {
             return ResponseHelper::error($response, '暂时不对外开放注册');
@@ -347,7 +347,7 @@ final class AuthController extends BaseController
             $user->node_group = $random_group[array_rand(explode(',', $random_group))];
         }
 
-        if ($user->save()) {
+        if ($user->save() && !$is_admin_reg) {
             Auth::login($user->id, 3600);
             $user->collectLoginIP($_SERVER['REMOTE_ADDR']);
 
@@ -432,7 +432,7 @@ final class AuthController extends BaseController
             EmailVerify::where('email', $email)->delete();
         }
 
-        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0);
+        return $this->registerHelper($response, $name, $email, $passwd, $code, $imtype, $imvalue, 0, 0, 0);
     }
 
     /**

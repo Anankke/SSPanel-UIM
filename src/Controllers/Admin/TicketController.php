@@ -17,6 +17,7 @@ final class TicketController extends BaseController
     public static $details =
     [
         'field' => [
+            'op' => '操作',
             'id' => 'ID',
             'title' => '主题',
             'status' => '工单状态',
@@ -33,17 +34,8 @@ final class TicketController extends BaseController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $tickets = Ticket::orderBy('id', 'desc')->get();
-
-        foreach ($tickets as $ticket) {
-            $ticket->status = Tools::getTicketStatus($ticket);
-            $ticket->type = Tools::getTicketType($ticket);
-            $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
-        }
-
         return $response->write(
             $this->view()
-                ->assign('tickets', $tickets)
                 ->assign('details', self::$details)
                 ->display('admin/ticket/index.tpl')
         );
@@ -177,6 +169,29 @@ final class TicketController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '删除成功',
+        ]);
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function ajax(Request $request, Response $response, array $args)
+    {
+        $tickets = Ticket::orderBy('id', 'desc')->get();
+
+        foreach ($tickets as $ticket) {
+            $ticket->op = '<button type="button" class="btn btn-red" id="delete-ticket" 
+            onclick="deleteTicket(' . $ticket->id . ')">删除</button>
+            <button type="button" class="btn btn-orange" id="close-ticket" 
+            onclick="closeTicket(' . $ticket->id . ')">关闭</button>
+            <a class="btn btn-blue" href="/admin/ticket/' . $ticket->id . '/view">查看</a>';
+            $ticket->status = Tools::getTicketStatus($ticket);
+            $ticket->type = Tools::getTicketType($ticket);
+            $ticket->datetime = Tools::toDateTime((int) $ticket->datetime);
+        }
+
+        return $response->withJson([
+            'tickets' => $tickets,
         ]);
     }
 }

@@ -48,7 +48,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="subheader">工单状态</div>
                             </div>
-                            <div class="h2 mb-3">{$ticket->status}</div>
+                            <div class="h1 mb-3">{$ticket->status}</div>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="subheader">工单类型</div>
                             </div>
-                            <div class="h2 mb-3">{$ticket->type}</div>
+                            <div class="h1 mb-3">{$ticket->type}</div>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="subheader">工单开启时间</div>
                                 </div>
-                                <div class="h2 mb-3">{$ticket->datetime}</div>
+                                <div class="h1 mb-3">{$ticket->datetime}</div>
                             </div>
                         </div>
                     </div>

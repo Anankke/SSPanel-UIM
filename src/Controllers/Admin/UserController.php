@@ -21,6 +21,7 @@ final class UserController extends BaseController
 {
     public static $details = [
         'field' => [
+            'op' => '操作',
             'id' => '用户ID',
             'user_name' => '昵称',
             'email' => '邮箱',
@@ -99,16 +100,8 @@ final class UserController extends BaseController
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $users = User::orderBy('id', 'desc')->get();
-
-        foreach ($users as $user) {
-            $user->transfer_enable = round($user->transfer_enable / 1073741824, 2);
-            $user->last_day_t = round($user->last_day_t / 1073741824, 2);
-        }
-
         return $response->write(
             $this->view()
-                ->assign('users', $users)
                 ->assign('shops', Shop::orderBy('name')->get())
                 ->assign('details', self::$details)
                 ->display('admin/user/index.tpl')
@@ -140,7 +133,7 @@ final class UserController extends BaseController
             if ($password === '') {
                 $password = Tools::genRandomChar(16);
             }
-            AuthController::registerHelper('', 'user', $email, $password, '', '', '', 0, $balance);
+            AuthController::registerHelper($response, 'user', $email, $password, '', 1, '', 0, $balance, 1);
             $user = User::where('email', $email)->first();
             if ($shop_id > 0) {
                 $shop = Shop::find($shop_id);
@@ -304,6 +297,26 @@ final class UserController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '切换成功',
+        ]);
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function ajax(Request $request, Response $response, array $args)
+    {
+        $users = User::orderBy('id', 'desc')->get();
+
+        foreach ($users as $user) {
+            $user->op = '<button type="button" class="btn btn-red" id="delete-user" 
+            onclick="deleteUser(' . $user->id . ')">删除</button>
+            <a class="btn btn-blue" href="/admin/user/' . $user->id . '/edit">编辑</a>';
+            $user->transfer_enable = round($user->transfer_enable / 1073741824, 2);
+            $user->last_day_t = round($user->last_day_t / 1073741824, 2);
+        }
+
+        return $response->withJson([
+            'users' => $users,
         ]);
     }
 }
