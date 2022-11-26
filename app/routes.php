@@ -268,6 +268,10 @@ return function (SlimApp $app): void {
         // 审计 & 杂七杂八的功能
         $this->get('/func/detect_rules', App\Controllers\Node\FuncController::class . ':getDetectLogs');
         $this->get('/func/ping', App\Controllers\Node\FuncController::class . ':ping');
+        // Dummy API for old version
+        $this->post('/func/block_ip', App\Controllers\Node\FuncController::class . ':addBlockIp');
+        $this->get('/func/block_ip', App\Controllers\Node\FuncController::class . ':getBlockip');
+        $this->get('/func/unblock_ip', App\Controllers\Node\FuncController::class . ':getUnblockip');
     })->add(new NodeToken());
 
     $app->group('/link', function (): void {
