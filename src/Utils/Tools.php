@@ -736,13 +736,13 @@ final class Tools
                 $sort = 'ShadowsocksR 单端口多用户（旧）';
                 break;
             case 11:
-                $sort = 'V2Ray 节点';
+                $sort = 'V2Ray';
                 break;
             case 14:
                 $sort = 'Trojan';
                 break;
             default:
-                $sort = '系统保留';
+                $sort = '未知';
         }
         return $sort;
     }

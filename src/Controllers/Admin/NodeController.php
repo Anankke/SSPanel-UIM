@@ -310,7 +310,7 @@ final class NodeController extends BaseController
     public function copy($request, $response, $args)
     {
         try {
-            $old_node_id = $request->getParam('id');
+            $old_node_id = $args['id'];
             $old_node = Node::find($old_node_id);
             $new_node = new Node();
             // https://laravel.com/docs/9.x/eloquent#replicating-models
