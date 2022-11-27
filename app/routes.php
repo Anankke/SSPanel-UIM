@@ -147,8 +147,9 @@ return function (SlimApp $app): void {
         $this->post('/node', App\Controllers\Admin\NodeController::class . ':add');
         $this->get('/node/{id}/edit', App\Controllers\Admin\NodeController::class . ':edit');
         $this->post('/node/{id}/password_reset', App\Controllers\Admin\NodeController::class . ':resetNodePassword');
+        $this->post('/node/{id}/copy', App\Controllers\Admin\NodeController::class . ':copy');
         $this->put('/node/{id}', App\Controllers\Admin\NodeController::class . ':update');
-        $this->delete('/node', App\Controllers\Admin\NodeController::class . ':delete');
+        $this->delete('/node/{id}', App\Controllers\Admin\NodeController::class . ':delete');
         $this->post('/node/ajax', App\Controllers\Admin\NodeController::class . ':ajax');
 
         // Ticket Mange

@@ -60,7 +60,7 @@ final class FuncController extends BaseController
             'data' => [],
         ]);
     }
-    
+
     /**
      * @param array     $args
      */

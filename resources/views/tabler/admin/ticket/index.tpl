@@ -99,7 +99,7 @@
         }
 
         function closeTicket(ticket_id) {
-            $('#notice-message').text('确定关闭此工单');
+            $('#notice-message').text('确定关闭此工单？');
             $('#notice-dialog').modal('show');
             $('#notice-confirm').on('click', function () {
                 $.ajax({
@@ -121,7 +121,7 @@
         };
 
         function deleteTicket(ticket_id) {
-            $('#notice-message').text('确定删除此工单');
+            $('#notice-message').text('确定删除此工单？');
             $('#notice-dialog').modal('show');
             $('#notice-confirm').on('click', function() {
                 $.ajax({

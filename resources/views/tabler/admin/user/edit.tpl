@@ -319,7 +319,7 @@
             dataType: "json",
             data: {
                 {foreach $update_field as $key}
-                    {$key}: $('#{$key}').val(),
+                {$key}: $('#{$key}').val(),
                 {/foreach}
                 is_admin: $("#is_admin").is(":checked"),
                 is_banned: $("#enable").is(":checked"),
