@@ -42,7 +42,6 @@ final class NodeController extends BaseController
         'info',
         'node_group',
         'node_speedlimit',
-        'status',
         'sort',
         'node_ip',
         'node_class',
@@ -91,10 +90,10 @@ final class NodeController extends BaseController
         $node->mu_only = $request->getParam('mu_only');
         $node->traffic_rate = $request->getParam('traffic_rate');
         $node->info = $request->getParam('info');
-        $node->type = ($request->getParam('type') === 'true') ? 1 : 0;
+        $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->node_group = $request->getParam('node_group');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
-        $node->status = $request->getParam('status');
+        $node->status = '';
         $node->sort = $request->getParam('sort');
 
         if ($request->getParam('custom_config') !== null) {
@@ -192,7 +191,7 @@ final class NodeController extends BaseController
         $node->traffic_rate = $request->getParam('rate');
         $node->info = $request->getParam('info');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
-        $node->type = ($request->getParam('type') === 'true') ? 1 : 0;
+        $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->sort = $request->getParam('sort');
 
         if ($request->getParam('custom_config') !== null) {
@@ -219,7 +218,7 @@ final class NodeController extends BaseController
             ]);
         }
 
-        $node->status = $request->getParam('status');
+        $node->status = '';
         $node->node_class = $request->getParam('class');
         $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');

@@ -47,7 +47,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">连接地址</label>
                                 <div class="col">
-                                    <input id="server" type="text" class="form-control">{$node->server}</input>
+                                    <input id="server" type="text" class="form-control" value="{$node->server}"></input>
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
@@ -115,7 +115,7 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">公有备注</label>
+                                <label class="form-label col-3 col-form-label">备注</label>
                                 <div class="col">
                                     <input id="info" type="text" class="form-control" value="{$node->info}">
                                 </div>
@@ -172,7 +172,9 @@
                                 <div class="row my-3">
                                     <div class="col">
                                         <button id="reset-node-password" class="btn btn-red">重置</button>
-                                        <button id="copy-password" class="btn btn-primary copy-text">复制</button>
+                                        <button id="copy-password" class="btn btn-primary copy-text" data-clipboard-text="{$node->password}">
+                                            复制
+                                        </button>
                                     </div>
                                 </div>
                                 <label class="form-label col-form-label">

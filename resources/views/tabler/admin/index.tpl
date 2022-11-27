@@ -330,4 +330,6 @@
         // @formatter:on
     </script>
 
+    <script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/libs/apexcharts/dist/apexcharts.min.js"></script>
+
 {include file='admin/tabler_footer.tpl'}

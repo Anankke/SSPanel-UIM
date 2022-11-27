@@ -39,8 +39,6 @@ final class Node extends Model
         'node_speedlimit' => 'float',
         'traffic_rate' => 'float',
         'mu_only' => 'int',
-        'sort' => 'int',
-        'type' => 'bool',
         'node_heartbeat' => 'int',
     ];
 

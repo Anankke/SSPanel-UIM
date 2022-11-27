@@ -38,12 +38,6 @@
     </div>
 
     <script>
-        function adjustStyle() {
-            $("td:contains('进行中')").css("color", "green");
-            $("td:contains('等待用户回复')").css("color", "blue");
-            $("td:contains('已结单')").css("color", "red");
-        }
-
         var table = $('#data_table').DataTable({
             ajax: {
                 url: '/admin/ticket/ajax',

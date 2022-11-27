@@ -47,7 +47,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">连接地址</label>
                                 <div class="col">
-                                    <input id="server" type="text" class="form-control"></input>
+                                    <input id="server" type="text" class="form-control" value=""></input>
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
@@ -119,7 +119,7 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">公有备注</label>
+                                <label class="form-label col-3 col-form-label">备注</label>
                                 <div class="col">
                                     <input id="info" type="text" class="form-control" value="">
                                 </div>

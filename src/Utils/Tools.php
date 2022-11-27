@@ -728,7 +728,7 @@ final class Tools
      */
     public static function getNodeSort($node)
     {
-        switch ($node->sort) {
+        switch ((int) $node->sort) {
             case 0:
                 $sort = 'Shadowsocks';
                 break;
