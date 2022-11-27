@@ -91,9 +91,6 @@
                                     请参考 <a href="//wiki.sspanel.org/#/setup-custom-config" target="_blank">wiki.sspanel.org/#/setup-custom-config</a> 修改节点自定义配置
                                 </label>
                             </div>
-                            <div class="hr-text">
-                                <span>高级选项</span>
-                            </div>
                             <div class="mb-3">
                                 <div class="divide-y">
                                     <div>

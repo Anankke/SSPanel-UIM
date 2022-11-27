@@ -185,10 +185,10 @@ final class NodeController extends BaseController
         $id = $args['id'];
         $node = Node::find($id);
         $node->name = $request->getParam('name');
-        $node->node_group = $request->getParam('group');
+        $node->node_group = $request->getParam('node_group');
         $node->server = trim($request->getParam('server'));
         $node->mu_only = $request->getParam('mu_only');
-        $node->traffic_rate = $request->getParam('rate');
+        $node->traffic_rate = $request->getParam('traffic_rate');
         $node->info = $request->getParam('info');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->type = $request->getParam('type') === 'true' ? 1 : 0;
@@ -219,7 +219,7 @@ final class NodeController extends BaseController
         }
 
         $node->status = '';
-        $node->node_class = $request->getParam('class');
+        $node->node_class = $request->getParam('node_class');
         $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
 
