@@ -174,7 +174,6 @@
         modes: ['code', 'tree'],
     };
     const editor = new JSONEditor(container, options);
-    editor.set({$node->custom_config})
 
     $("#create-node").click(function() {
         $.ajax({

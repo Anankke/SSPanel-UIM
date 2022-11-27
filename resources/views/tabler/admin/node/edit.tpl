@@ -86,7 +86,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">自定义配置</label>
                                 <dev id="custom_config"></dev>
-                                <label class="form-label col-3 col-form-label">
+                                <label class="form-label col-form-label">
                                     请参考 <a href="//wiki.sspanel.org/#/setup-custom-config" target="_blank">wiki.sspanel.org/#/setup-custom-config</a> 修改节点自定义配置
                                 </label>
                             </div>
@@ -96,15 +96,13 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">节点通讯密钥</label>
                                 <input type="text" class="form-control" id="password" value="{$node->password}" disabled="">
-                                <div class="row">
+                                <div class="row my-3">
                                     <div class="col">
                                         <button id="reset-node-password" class="btn btn-red">重置</button>
-                                    </div>
-                                    <div class="col">
                                         <button id="copy-password" class="btn btn-primary copy-text">复制</button>
                                     </div>
                                 </div>
-                                <label class="form-label col-3 col-form-label">
+                                <label class="form-label col-form-label">
                                     通讯密钥用于 gRPC API 鉴权，如需更改请点击重置
                                 </label>
                             </div>
@@ -153,24 +151,11 @@
                             <div class="hr-text">
                                 <span>流量设置</span>
                             </div>
-                            <!-- 避免除0 -->
-                            {if $node->node_bandwidth !== 0 && $node->node_bandwidth_limit !== 0}
-                            <div class="mb-3">
-                                <div class="progress mb-2">
-                                    <div class="progress-bar"
-                                        style="width: {round($node->node_bandwidth / $node->node_bandwidth_limit * 100, 2)}%"
-                                        role="progressbar" aria-valuenow="{round($node->node_bandwidth / $node->node_bandwidth_limit * 100, 2)}"aria-valuemin="0" aria-valuemax="100"
-                                        aria-label="{round($node->node_bandwidth / $node->node_bandwidth_limit * 100, 2)} Complete">
-                                        <span class="visually-hidden">{round($node->node_bandwidth / $node->node_bandwidth_limit * 100, 2)}Complete</span>
-                                    </div>
-                                </div>
-                            </div>
-                            {/if}
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">已用流量 (GB)</label>
                                 <div class="col">
                                     <input id="node_bandwidth" type="text" class="form-control"
-                                        value="{round($node->node_bandwidth / 1073741824, 2)}">
+                                        value="{round($node->node_bandwidth / 1073741824, 2)}" disabled="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
@@ -216,6 +201,7 @@
         modes: ['code', 'tree'],
     };
     const editor = new JSONEditor(container, options);
+    editor.set({$node->custom_config})
 
     $("#reset-node-password").click(function() {
         $.ajax({
