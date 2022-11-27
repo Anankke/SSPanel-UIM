@@ -274,7 +274,7 @@ final class NodeController extends BaseController
      */
     public function delete(Request $request, Response $response, array $args): ResponseInterface
     {
-        $id = $request->getParam('id');
+        $id = $args['id'];
         $node = Node::find($id);
 
         if (! $node->delete()) {
@@ -316,11 +316,9 @@ final class NodeController extends BaseController
             // https://laravel.com/docs/9.x/eloquent#replicating-models
             $new_node = $old_node->replicate([
                 'node_bandwidth',
-                'bandwidthlimit_resetday',
             ]);
             $new_node->name .= ' (副本)';
             $new_node->node_bandwidth = 0;
-            $new_node->bandwidthlimit_resetday = date('d');
             $new_node->save();
         } catch (\Exception $e) {
             return $response->withJson([
