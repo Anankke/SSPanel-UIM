@@ -714,4 +714,36 @@ final class Tools
         }
         return '其他';
     }
+
+    /**
+     * 节点状态
+     */
+    public static function getNodeType($node)
+    {
+        return $node->type ? '显示' : '隐藏';
+    }
+
+    /**
+     * 节点类型
+     */
+    public static function getNodeSort($node)
+    {
+        switch ($node->sort) {
+            case 0:
+                $sort = 'Shadowsocks';
+                break;
+            case 9:
+                $sort = 'ShadowsocksR 单端口多用户（旧）';
+                break;
+            case 11:
+                $sort = 'V2Ray 节点';
+                break;
+            case 14:
+                $sort = 'Trojan';
+                break;
+            default:
+                $sort = '系统保留';
+        }
+        return $sort;
+    }
 }

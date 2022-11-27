@@ -62,13 +62,10 @@ final class Node extends Model
                 $sort = 'Shadowsocks';
                 break;
             case 9:
-                $sort = 'Shadowsocks - 单端口多用户';
+                $sort = 'ShadowsocksR 单端口多用户（旧）';
                 break;
             case 11:
                 $sort = 'V2Ray 节点';
-                break;
-            case 13:
-                $sort = 'Shadowsocks - V2Ray-Plugin&Obfs';
                 break;
             case 14:
                 $sort = 'Trojan';

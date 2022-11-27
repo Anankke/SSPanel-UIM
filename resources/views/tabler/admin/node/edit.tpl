@@ -47,7 +47,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">连接地址</label>
                                 <div class="col">
-                                    <textarea id="server" class="col form-control" rows="5">{$node->server}</textarea>
+                                    <input id="server" type="text" class="form-control">{$node->server}</input>
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
@@ -66,7 +66,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">接入类型</label>
                                 <div class="col">
-                                    <select id="sort" class="col form-select">
+                                    <select id="sort" class="col form-select" value="{$node->sort}">
                                         <option value="14">Trojan</option>
                                         <option value="11">V2Ray</option>
                                         <option value="0">Shadowsocks</option>
@@ -88,22 +88,6 @@
                                 <dev id="custom_config"></dev>
                                 <label class="form-label col-form-label">
                                     请参考 <a href="//wiki.sspanel.org/#/setup-custom-config" target="_blank">wiki.sspanel.org/#/setup-custom-config</a> 修改节点自定义配置
-                                </label>
-                            </div>
-                            <div class="hr-text">
-                                <span>高级选项</span>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">节点通讯密钥</label>
-                                <input type="text" class="form-control" id="password" value="{$node->password}" disabled="">
-                                <div class="row my-3">
-                                    <div class="col">
-                                        <button id="reset-node-password" class="btn btn-red">重置</button>
-                                        <button id="copy-password" class="btn btn-primary copy-text">复制</button>
-                                    </div>
-                                </div>
-                                <label class="form-label col-form-label">
-                                    通讯密钥用于 gRPC API 鉴权，如需更改请点击重置
                                 </label>
                             </div>
                             <div class="mb-3">
@@ -178,6 +162,22 @@
                                     <input id="node_speedlimit" type="text" class="form-control"
                                         value="{$node->node_speedlimit}">
                                 </div>
+                            </div>
+                            <div class="hr-text">
+                                <span>高级选项</span>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label class="form-label col-3 col-form-label">节点通讯密钥</label>
+                                <input type="text" class="form-control" id="password" value="{$node->password}" disabled="">
+                                <div class="row my-3">
+                                    <div class="col">
+                                        <button id="reset-node-password" class="btn btn-red">重置</button>
+                                        <button id="copy-password" class="btn btn-primary copy-text">复制</button>
+                                    </div>
+                                </div>
+                                <label class="form-label col-form-label">
+                                    通讯密钥用于 gRPC API 鉴权，如需更改请点击重置
+                                </label>
                             </div>
                         </div>
                     </div>

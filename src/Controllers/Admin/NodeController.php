@@ -23,6 +23,7 @@ final class NodeController extends BaseController
             'id' => '节点ID',
             'name' => '名称',
             'server' => '地址',
+            'type' => '状态',
             'sort' => '类型',
             'traffic_rate' => '倍率',
             'node_class' => '等级',
@@ -350,13 +351,10 @@ final class NodeController extends BaseController
             <button type="button" class="btn btn-orange" id="copy-node" 
             onclick="copyNode(' . $node->id . ')">复制</button>
             <a class="btn btn-blue" href="/admin/node/' . $node->id . '/edit">编辑</a>';
-            $node->type = $node->type();
-            $node->sort = $node->sort();
-            $node->outaddress = $node->getOutAddress();
-            $node->node_bandwidth = Tools::flowToGB($node->node_bandwidth);
+            $node->type = Tools::getNodeType($node);
+            $node->sort = Tools::getNodeSort($node);
+            $node->node_bandwidth = round(Tools::flowToGB($node->node_bandwidth), 2);
             $node->node_bandwidth_limit = Tools::flowToGB($node->node_bandwidth_limit);
-            $node->node_heartbeat = $node->nodeHeartbeat();
-            $node->mu_only = $node->muOnly();
         }
 
         return $response->withJson([

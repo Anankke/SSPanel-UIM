@@ -47,7 +47,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">连接地址</label>
                                 <div class="col">
-                                    <textarea id="server" class="col form-control" rows="5"></textarea>
+                                    <input id="server" type="text" class="form-control"></input>
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
@@ -87,7 +87,7 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">自定义配置</label>
                                 <dev id="custom_config"></dev>
-                                <label class="form-label col-3 col-form-label">
+                                <label class="form-label col-form-label">
                                     请参考 <a href="//wiki.sspanel.org/#/setup-custom-config" target="_blank">wiki.sspanel.org/#/setup-custom-config</a> 修改节点自定义配置
                                 </label>
                             </div>
