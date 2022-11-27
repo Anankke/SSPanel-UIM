@@ -189,7 +189,7 @@
         });
 
         function deleteUser(user_id) {
-            $('#notice-message').text('确定删除此用户');
+            $('#notice-message').text('确定删除此用户？');
             $('#notice-dialog').modal('show');
             $('#notice-confirm').on('click', function() {
                 $.ajax({

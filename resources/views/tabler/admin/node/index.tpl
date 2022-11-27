@@ -1,97 +1,158 @@
-{include file='admin/main.tpl'}
+{include file='admin/tabler_header.tpl'}
 
-<main class="content">
-    <div class="content-header ui-content-header">
-        <div class="container">
-            <h1 class="content-heading">节点列表</h1>
+<div class="page-wrapper">
+    <div class="container-xl">
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        <span class="home-title">节点列表</span>
+                    </h2>
+                    <div class="page-pretitle my-3">
+                        <span class="home-subtitle">
+                            系统中所有节点的列表
+                        </span>
+                    </div>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                        <a href="/admin/node/create" class="btn btn-primary d-none d-sm-inline-block">
+                            <i class="icon ti ti-plus"></i>
+                            创建
+                        </a>
+                        <a href="/admin/node/create" class="btn btn-primary d-sm-none btn-icon">
+                            <i class="icon ti ti-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="container">
-        <div class="col-lg-12 col-sm-12">
-            <section class="content-inner margin-top-no">
-                <div class="card">
-                    <div class="card-main">
-                        <div class="card-inner">
-                            <p>系统中所有节点的列表。</p>
-                            <p>显示表项:
-                                {include file='table/checkbox.tpl'}
-                            </p>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table id="data_table" class="table card-table table-vcenter text-nowrap datatable">
+                                <thead>
+                                    <tr>
+                                        {foreach $details['field'] as $key => $value}
+                                            <th>{$value}</th>
+                                        {/foreach}
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    {include file='table/table.tpl'}
-                </div>
-                <div class="fbtn-container">
-                    <div class="fbtn-inner">
-                        <a class="fbtn fbtn-lg fbtn-brand-accent waves-attach waves-circle waves-light"
-                           href="/admin/node/create">+</a>
-                    </div>
-                </div>
-                <div aria-hidden="true" class="modal modal-va-middle fade" id="delete_modal" role="dialog"
-                     tabindex="-1">
-                    <div class="modal-dialog modal-xs">
-                        <div class="modal-content">
-                            <div class="modal-heading">
-                                <a class="modal-close" data-dismiss="modal">×</a>
-                                <h2 class="modal-title">确认要删除？</h2>
-                            </div>
-                            <div class="modal-inner">
-                                <p>请您确认。</p>
-                            </div>
-                            <div class="modal-footer">
-                                <p class="text-right">
-                                    <button class="btn btn-flat btn-brand-accent waves-attach waves-effect"
-                                            data-dismiss="modal" type="button">取消
-                                    </button>
-                                    <button class="btn btn-flat btn-brand-accent waves-attach" data-dismiss="modal"
-                                            id="delete_input" type="button">确定
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {include file='dialog.tpl'}
-            </section>
+            </div>
         </div>
     </div>
-</main>
 
-{include file='admin/footer.tpl'}
-
-<script>
-    function delete_modal_show(id) {
-        deleteid = id;
-        $("#delete_modal").modal();
-    }
-    {include file='table/js_1.tpl'}
-    window.addEventListener('load', () => {
-        {include file='table/js_2.tpl'}
-        function delete_id() {
-            $.ajax({
-                type: "DELETE",
-                url: "/admin/node",
-                dataType: "json",
-                data: {
-                    id: deleteid
+    <script>
+        var table = $('#data_table').DataTable({
+            ajax: {
+                url: '/admin/node/ajax',
+                type: 'POST',
+                dataSrc: 'nodes'
+            },
+            "autoWidth":false,
+            'iDisplayLength': 25,
+            'scrollX': true,
+            'order': [
+                [1, 'asc']
+            ],
+            columns: [
+                {foreach $details['field'] as $key => $value}
+                { data: '{$key}' },
+                {/foreach}
+            ],
+            "columnDefs":[
+                { targets:[0],orderable:false },
+            ],
+            "dom": "<'row px-3 py-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row card-footer d-flex align-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 条",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(在 _MAX_ 项中查找)",
+                "sInfoPostFix": "",
+                "sSearch": "<i class=\"ti ti-search\"></i> ",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "<i class=\"ti ti-arrow-left\"></i>",
+                    "sNext": "<i class=\"ti ti-arrow-right\"></i>",
+                    "sLast": "末页"
                 },
-                success: data => {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        {include file='table/js_delete.tpl'}
-                    } else {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                    }
-                },
-                error: jqXHR => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `${ldelim}data.msg{rdelim} 发生错误了。`;
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
                 }
-            });
+            }
+        });
+
+        function loadTable() {
+            table;
         }
-        $$.getElementById('delete_input').addEventListener('click', delete_id);
-    })
-</script>
+
+        function deleteNode(node_id) {
+            $('#notice-message').text('确定删除此节点？');
+            $('#notice-dialog').modal('show');
+            $('#notice-confirm').on('click', function() {
+                $.ajax({
+                    url: "/admin/node/" + node_id,
+                    type: 'DELETE',
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.ret == 1) {
+                            $('#success-message').text(data.msg);
+                            $('#success-dialog').modal('show');
+                            reloadTableAjax();
+                        } else {
+                            $('#fail-message').text(data.msg);
+                            $('#fail-dialog').modal('show');
+                        }
+                    }
+                })
+            });
+        };
+
+        function copyNode(node_id) {
+            $('#notice-message').text('确定复制此节点？');
+            $('#notice-dialog').modal('show');
+            $('#notice-confirm').on('click', function() {
+                $.ajax({
+                    url: "/admin/node/" + node_id + "/copy",
+                    type: 'POST',
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.ret == 1) {
+                            $('#success-message').text(data.msg);
+                            $('#success-dialog').modal('show');
+                            reloadTableAjax();
+                        } else {
+                            $('#fail-message').text(data.msg);
+                            $('#fail-dialog').modal('show');
+                        }
+                    }
+                })
+            });
+        };
+
+        function reloadTableAjax() {
+            table.ajax.reload(null, false);
+        }
+
+        loadTable();
+    </script>
+
+{include file='admin/tabler_footer.tpl'}

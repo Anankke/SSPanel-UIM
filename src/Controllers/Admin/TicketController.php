@@ -18,7 +18,7 @@ final class TicketController extends BaseController
     [
         'field' => [
             'op' => '操作',
-            'id' => 'ID',
+            'id' => '工单ID',
             'title' => '主题',
             'status' => '工单状态',
             'type' => '工单类型',

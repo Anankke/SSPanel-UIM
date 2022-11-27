@@ -17,6 +17,38 @@ use Slim\Http\Response;
 
 final class NodeController extends BaseController
 {
+    public static $details = [
+        'field' => [
+            'op' => '操作',
+            'id' => '节点ID',
+            'name' => '名称',
+            'server' => '地址',
+            'type' => '状态',
+            'sort' => '类型',
+            'traffic_rate' => '倍率',
+            'node_class' => '等级',
+            'node_group' => '组别',
+            'node_bandwidth_limit' => '流量限制',
+            'node_bandwidth' => '已用流量',
+            'bandwidthlimit_resetday' => '重置日',
+        ],
+    ];
+
+    public static $update_field = [
+        'name',
+        'server',
+        'mu_only',
+        'traffic_rate',
+        'info',
+        'node_group',
+        'node_speedlimit',
+        'sort',
+        'node_ip',
+        'node_class',
+        'node_bandwidth_limit',
+        'bandwidthlimit_resetday',
+    ];
+
     /**
      * 后台节点页面
      *
@@ -24,34 +56,9 @@ final class NodeController extends BaseController
      */
     public function index(Request $request, Response $response, array $args): ResponseInterface
     {
-        $table_config = [];
-        $table_config['total_column'] = [
-            'op' => '操作',
-            'id' => 'ID',
-            'name' => '节点名称',
-            'type' => '显示与隐藏',
-            'sort' => '类型',
-            'server' => '节点地址',
-            'outaddress' => '出口地址',
-            'node_ip' => '节点IP',
-            'info' => '节点信息',
-            'status' => '状态',
-            'traffic_rate' => '流量比率',
-            'node_group' => '节点群组',
-            'node_class' => '节点等级',
-            'node_speedlimit' => '节点限速/Mbps',
-            'node_bandwidth' => '已走流量/GB',
-            'node_bandwidth_limit' => '流量限制/GB',
-            'bandwidthlimit_resetday' => '流量重置日',
-            'node_heartbeat' => '上一次活跃时间',
-            'mu_only' => '只启用单端口多用户',
-        ];
-        $table_config['default_show_column'] = ['op', 'id', 'name', 'sort'];
-        $table_config['ajax_url'] = 'node/ajax';
-
         return $response->write(
             $this->view()
-                ->assign('table_config', $table_config)
+                ->assign('details', self::$details)
                 ->display('admin/node/index.tpl')
         );
     }
@@ -65,6 +72,7 @@ final class NodeController extends BaseController
     {
         return $response->write(
             $this->view()
+                ->assign('update_field', self::$update_field)
                 ->display('admin/node/create.tpl')
         );
     }
@@ -80,12 +88,12 @@ final class NodeController extends BaseController
         $node->name = $request->getParam('name');
         $node->server = trim($request->getParam('server'));
         $node->mu_only = $request->getParam('mu_only');
-        $node->traffic_rate = $request->getParam('rate');
+        $node->traffic_rate = $request->getParam('traffic_rate');
         $node->info = $request->getParam('info');
-        $node->type = $request->getParam('type');
-        $node->node_group = $request->getParam('group');
+        $node->type = $request->getParam('type') === 'true' ? 1 : 0;
+        $node->node_group = $request->getParam('node_group');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
-        $node->status = $request->getParam('status');
+        $node->status = '';
         $node->sort = $request->getParam('sort');
 
         if ($request->getParam('custom_config') !== null) {
@@ -111,7 +119,7 @@ final class NodeController extends BaseController
             ]);
         }
 
-        $node->node_class = $request->getParam('class');
+        $node->node_class = $request->getParam('node_class');
         $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
         $node->password = Tools::genRandomChar(32);
@@ -162,6 +170,7 @@ final class NodeController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('node', $node)
+                ->assign('update_field', self::$update_field)
                 ->display('admin/node/edit.tpl')
         );
     }
@@ -176,13 +185,13 @@ final class NodeController extends BaseController
         $id = $args['id'];
         $node = Node::find($id);
         $node->name = $request->getParam('name');
-        $node->node_group = $request->getParam('group');
+        $node->node_group = $request->getParam('node_group');
         $node->server = trim($request->getParam('server'));
         $node->mu_only = $request->getParam('mu_only');
-        $node->traffic_rate = $request->getParam('rate');
+        $node->traffic_rate = $request->getParam('traffic_rate');
         $node->info = $request->getParam('info');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
-        $node->type = $request->getParam('type');
+        $node->type = $request->getParam('type') === 'true' ? 1 : 0;
         $node->sort = $request->getParam('sort');
 
         if ($request->getParam('custom_config') !== null) {
@@ -209,8 +218,8 @@ final class NodeController extends BaseController
             ]);
         }
 
-        $node->status = $request->getParam('status');
-        $node->node_class = $request->getParam('class');
+        $node->status = '';
+        $node->node_class = $request->getParam('node_class');
         $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
 
@@ -265,7 +274,7 @@ final class NodeController extends BaseController
      */
     public function delete(Request $request, Response $response, array $args): ResponseInterface
     {
-        $id = $request->getParam('id');
+        $id = $args['id'];
         $node = Node::find($id);
 
         if (! $node->delete()) {
@@ -298,6 +307,32 @@ final class NodeController extends BaseController
         ]);
     }
 
+    public function copy($request, $response, $args)
+    {
+        try {
+            $old_node_id = $args['id'];
+            $old_node = Node::find($old_node_id);
+            $new_node = new Node();
+            // https://laravel.com/docs/9.x/eloquent#replicating-models
+            $new_node = $old_node->replicate([
+                'node_bandwidth',
+            ]);
+            $new_node->name .= ' (副本)';
+            $new_node->node_bandwidth = 0;
+            $new_node->save();
+        } catch (\Exception $e) {
+            return $response->withJson([
+                'ret' => 0,
+                'msg' => $e->getMessage(),
+            ]);
+        }
+
+        return $response->withJson([
+            'ret' => 1,
+            'msg' => '复制成功',
+        ]);
+    }
+
     /**
      * 后台节点页面 AJAX
      *
@@ -305,54 +340,22 @@ final class NodeController extends BaseController
      */
     public function ajax(Request $request, Response $response, array $args): ResponseInterface
     {
-        $query = Node::getTableDataFromAdmin(
-            $request,
-            static function (&$order_field): void {
-                if (\in_array($order_field, ['op'])) {
-                    $order_field = 'id';
-                }
-                if (\in_array($order_field, ['outaddress'])) {
-                    $order_field = 'server';
-                }
-            }
-        );
+        $nodes = Node::orderBy('id', 'desc')->get();
 
-        $data = [];
-        foreach ($query['datas'] as $value) {
-            /** @var Node $value */
-            $tempdata = [
-                'op' => <<<EOF
-                    <a class="btn btn-brand" href="/admin/node/{$value->id}/edit">编辑</a>
-                    <a class="btn btn-brand-accent" id="delete" value="{$value->id}" href="javascript:void(0);" onClick="delete_modal_show('{$value->id}')">删除</a>
-                EOF,
-                'id' => $value->id,
-                'name' => $value->name,
-                'type' => $value->type(),
-                'sort' => $value->sort(),
-                'server' => $value->server,
-                'outaddress' => $value->getOutAddress(),
-                'node_ip' => $value->node_ip,
-                'info' => $value->info,
-                'status' => $value->status,
-                'traffic_rate' => $value->traffic_rate,
-                'node_group' => $value->node_group,
-                'node_class' => $value->node_class,
-                'node_speedlimit' => $value->node_speedlimit,
-                'node_bandwidth' => Tools::flowToGB($value->node_bandwidth),
-                'node_bandwidth_limit' => Tools::flowToGB($value->node_bandwidth_limit),
-                'bandwidthlimit_resetday' => $value->bandwidthlimit_resetday,
-                'node_heartbeat' => $value->nodeHeartbeat(),
-                'mu_only' => $value->muOnly(),
-            ];
-
-            $data[] = $tempdata;
+        foreach ($nodes as $node) {
+            $node->op = '<button type="button" class="btn btn-red" id="delete-node" 
+            onclick="deleteNode(' . $node->id . ')">删除</button>
+            <button type="button" class="btn btn-orange" id="copy-node" 
+            onclick="copyNode(' . $node->id . ')">复制</button>
+            <a class="btn btn-blue" href="/admin/node/' . $node->id . '/edit">编辑</a>';
+            $node->type = Tools::getNodeType($node);
+            $node->sort = Tools::getNodeSort($node);
+            $node->node_bandwidth = round(Tools::flowToGB($node->node_bandwidth), 2);
+            $node->node_bandwidth_limit = Tools::flowToGB($node->node_bandwidth_limit);
         }
 
         return $response->withJson([
-            'draw' => $request->getParam('draw'),
-            'recordsTotal' => Node::count(),
-            'recordsFiltered' => $query['count'],
-            'data' => $data,
+            'nodes' => $nodes,
         ]);
     }
 }

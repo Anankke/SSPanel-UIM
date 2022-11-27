@@ -37,4 +37,39 @@ final class FuncController extends BaseController
             'data' => $rules,
         ]);
     }
+
+    // Dummy function
+    /**
+     * @param array     $args
+     */
+    public function getBlockip(Request $request, Response $response, array $args): ResponseInterface
+    {
+        return ResponseHelper::etagJson($request, $response, [
+            'ret' => 1,
+            'data' => [],
+        ]);
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function getUnblockip(Request $request, Response $response, array $args): ResponseInterface
+    {
+        return ResponseHelper::etagJson($request, $response, [
+            'ret' => 1,
+            'data' => [],
+        ]);
+    }
+
+    /**
+     * @param array     $args
+     */
+    public function addBlockIp(Request $request, Response $response, array $args)
+    {
+        $res = [
+            'ret' => 1,
+            'data' => 'ok',
+        ];
+        return $response->withJson($res);
+    }
 }
