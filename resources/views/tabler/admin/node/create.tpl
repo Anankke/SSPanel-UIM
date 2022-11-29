@@ -69,18 +69,8 @@
                                     <select id="sort" class="col form-select">
                                         <option value="11">V2Ray</option>
                                         <option value="14">Trojan</option>
-                                        <option value="0">ShadowSocks</option>
-                                        <option value="1">ShadowSocksR</option>
-                                        <option value="9">ShadowsocksR 单端口多用户（旧）</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">单端口多用户</label>
-                                <div class="col">
-                                    <select id="mu_only" class="col form-select">
-                                        <option value="-1">只启用普通端口</option>
-                                        <option value="1">只启用单端口多用户</option>
+                                        <option value="0">Shadowsocks</option>
+                                        <option value="1">ShadowsocksR</option>
                                     </select>
                                 </div>
                             </div>
