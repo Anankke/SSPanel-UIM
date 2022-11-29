@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
     <title>Not Found - {$config['appName']}</title>
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="bookmark" href="/favicon.ico" type="image/x-icon"/>
