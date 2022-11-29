@@ -175,7 +175,7 @@
                                                             </td>
                                                             <td class="alignright"
                                                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
-                                                                align="right" valign="top">{$lastday}
+                                                                align="right" valign="top">{$lastday_traffic}
                                                             </td>
                                                         </tr>
 

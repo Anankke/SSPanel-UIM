@@ -303,7 +303,7 @@ final class User extends Model
      */
     public function todayUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0) {
+        if ($this->transfer_enable === 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
             return 0;
         }
         $Todayused = $this->u + $this->d - $this->last_day_t;
@@ -325,7 +325,7 @@ final class User extends Model
      */
     public function lastUsedTrafficPercent(): float
     {
-        if ($this->transfer_enable === 0) {
+        if ($this->transfer_enable === 0 || $this->transfer_enable === '0' || $this->transfer_enable === null) {
             return 0;
         }
         $Lastused = $this->last_day_t;
@@ -818,7 +818,7 @@ final class User extends Model
      */
     public function sendDailyNotification(string $ann = ''): void
     {
-        $lastday = $this->todayUsedTraffic();
+        $lastday_traffic = $this->todayUsedTraffic();
         $enable_traffic = $this->enableTraffic();
         $used_traffic = $this->usedTraffic();
         $unused_traffic = $this->unusedTraffic();
@@ -833,7 +833,7 @@ final class User extends Model
                     [
                         'user' => $this,
                         'text' => '下面是系统中目前的最新公告:<br><br>' . $ann . '<br><br>晚安！',
-                        'lastday' => $lastday,
+                        'lastday_traffic' => $lastday_traffic,
                         'enable_traffic' => $enable_traffic,
                         'used_traffic' => $used_traffic,
                         'unused_traffic' => $unused_traffic,
@@ -848,7 +848,7 @@ final class User extends Model
                 $text .= '流量总计：' . $enable_traffic . PHP_EOL;
                 $text .= '已用流量：' . $used_traffic . PHP_EOL;
                 $text .= '剩余流量：' . $unused_traffic . PHP_EOL;
-                $text .= '今日使用：' . $lastday;
+                $text .= '今日使用：' . $lastday_traffic;
                 $this->sendTelegram(
                     $text
                 );

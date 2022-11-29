@@ -67,19 +67,10 @@
                                 <label class="form-label col-3 col-form-label">接入类型</label>
                                 <div class="col">
                                     <select id="sort" class="col form-select" value="{$node->sort}">
-                                        <option value="14">Trojan</option>
-                                        <option value="11">V2Ray</option>
-                                        <option value="0">Shadowsocks</option>
-                                        <option value="9">ShadowsocksR 单端口多用户（旧）</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">单端口多用户</label>
-                                <div class="col">
-                                    <select id="mu_only" class="col form-select">
-                                        <option value="-1">只启用普通端口</option>
-                                        <option value="1">只启用单端口多用户</option>
+                                        <option value="14" {if $node->sort === 14}selected{/if}>Trojan</option>
+                                        <option value="11" {if $node->sort === 11}selected{/if}>V2Ray</option>
+                                        <option value="0" {if $node->sort === 0}selected{/if}>Shadowsocks</option>
+                                        <option value="1" {if $node->sort === 1}selected{/if}>ShadowsocksR</option>
                                     </select>
                                 </div>
                             </div>

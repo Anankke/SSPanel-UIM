@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
-<html lang="zh-cn">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
     <title>{$config['appName']}</title>
     {if $user->isLogin}
     <script>

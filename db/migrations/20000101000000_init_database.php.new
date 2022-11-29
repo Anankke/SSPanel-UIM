@@ -33,8 +33,9 @@ final class InitDatabase extends AbstractMigration
             ->addColumn('ref_by', 'biginteger', [ 'comment' => '邀请人ID', 'default' => '0', 'signed' => false ])
             ->addColumn('method', 'string', [ 'comment' => 'SS/SSR加密方式', 'default' => 'rc4-md5' ])
             ->addColumn('reg_ip', 'string', [ 'comment' => '注册IP', 'default' => '127.0.0.1' ])
-            ->addColumn('node_speedlimit', 'decimal', [ 'default' => 0 ])
-            ->addColumn('node_connector', 'integer', [ 'default' => 0 ])
+            ->addColumn('node_speedlimit', 'decimal', [ 'comment' => '每个连接限速', 'default' => 0 ])
+            ->addColumn('node_iplimit', 'integer', [ 'comment' => '同时可连接IP数', 'default' => 0 ])
+            ->addColumn('node_connector', 'integer', [ 'comment' => '同时可使用连接数', 'default' => 0 ])
             ->addColumn('is_admin', 'boolean', [ 'comment' => '是否管理员', 'default' => false ])
             ->addColumn('im_type', 'integer', [ 'comment' => '联系方式类型', 'default' => 1 ])
             ->addColumn('im_value', 'string', [ 'comment' => '联系方式', 'default' => '' ])
@@ -107,8 +108,6 @@ final class InitDatabase extends AbstractMigration
             ->addColumn('content', 'text', [])
             ->addColumn('markdown', 'text', [])
             ->create();
-
-        
 
         $this->table('bought', [ 'id' => false, 'primary_key' => [ 'id' ]])
             ->addColumn('id', 'biginteger', [ 'identity' => true ])

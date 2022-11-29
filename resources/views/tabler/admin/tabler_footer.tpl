@@ -86,7 +86,26 @@
 </footer>
 </div>
 </div>
-<!-- Tabler Core -->
+<!-- js -->
+<script>
+    $("#switch_theme_mode").click(function() {
+        $.ajax({
+            type: "POST",
+            url: "/user/switch_theme_mode",
+            dataType: "json",
+            success: function(data) {
+                if (data.ret == 1) {
+                    $('#success-message').text(data.msg);
+                    $('#success-dialog').modal('show');
+                    window.setTimeout("location.reload()", {$config['jump_delay']});
+                } else {
+                    $('#fail-message').text(data.msg);
+                    $('#fail-dialog').modal('show');
+                }
+            }
+        })
+    });
+</script>
 <script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
 </body>
 

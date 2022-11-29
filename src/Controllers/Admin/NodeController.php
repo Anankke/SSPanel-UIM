@@ -87,7 +87,6 @@ final class NodeController extends BaseController
         $node = new Node();
         $node->name = $request->getParam('name');
         $node->server = trim($request->getParam('server'));
-        $node->mu_only = $request->getParam('mu_only');
         $node->traffic_rate = $request->getParam('traffic_rate');
         $node->info = $request->getParam('info');
         $node->type = $request->getParam('type') === 'true' ? 1 : 0;
@@ -187,7 +186,6 @@ final class NodeController extends BaseController
         $node->name = $request->getParam('name');
         $node->node_group = $request->getParam('node_group');
         $node->server = trim($request->getParam('server'));
-        $node->mu_only = $request->getParam('mu_only');
         $node->traffic_rate = $request->getParam('traffic_rate');
         $node->info = $request->getParam('info');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
