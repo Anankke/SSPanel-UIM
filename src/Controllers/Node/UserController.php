@@ -66,11 +66,13 @@ final class UserController extends BaseController
             ->get();
 
         if (\in_array($node->sort, [11, 14])) {
-            $key_list = ['node_speedlimit', 'id', 'node_connector', 'uuid', 'alive_ip'];
+            $key_list = [
+                'id', 'node_connector', 'node_speedlimit', 'node_iplimit', 'uuid', 'alive_ip',
+            ];
         } else {
             $key_list = [
-                'method', 'obfs', 'obfs_param', 'protocol', 'protocol_param', 'node_speedlimit',
-                'is_multi_user', 'id', 'port', 'passwd', 'node_connector', 'alive_ip',
+                'id', 'node_connector', 'node_speedlimit', 'node_iplimit', 'method', 'obfs', 'obfs_param', 
+                'protocol', 'protocol_param', 'is_multi_user', 'port', 'passwd', 'alive_ip',
             ];
         }
 
