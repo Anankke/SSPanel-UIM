@@ -28,7 +28,11 @@
     </style>
 </head>
 
+{if $user->is_dark_mode}
+<body class='theme-dark'>
+{else}
 <body>
+{/if}
     <div class="page">
         <header class="navbar navbar-expand-md navbar-dark navbar-overlap d-print-none">
             <div class="container-xl" style="background-image: none;">
