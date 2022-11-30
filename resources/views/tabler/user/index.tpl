@@ -410,14 +410,14 @@
                             <div class="card-footer">
                                 <div class="d-flex">
                                     {if !$user->isAbleToCheckin()}
+                                    <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
+                                    {else}
                                     {if $config['enable_checkin_captcha'] === true && $config['captcha_provider'] === 'turnstile'}
                                     <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
                                     {/if}
                                     {if $config['enable_checkin_captcha'] === true && $config['captcha_provider'] === 'geetest'}
                                     <div id="geetest"></div>
-                                    {/if}   
-                                    <button id="check-in" class="btn btn-primary ms-auto" disabled>已签到</button>
-                                    {else}
+                                    {/if} 
                                     <button id="check-in" class="btn btn-primary ms-auto">签到</button>
                                     {/if}
                                 </div>
