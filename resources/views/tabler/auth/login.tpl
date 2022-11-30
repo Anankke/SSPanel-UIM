@@ -36,10 +36,17 @@
                             <span class="form-check-label">记住此设备</span>
                         </label>
                     </div>
-                    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'turnstile'}
                     <div class="mb-2">
                         <div class="input-group mb-2">
                             <div class="cf-turnstile" data-sitekey="{$captcha['turnstile_sitekey']}" data-theme="light"></div>
+                        </div>
+                    </div>
+                    {/if}
+                    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'geetest'}
+                    <div class="mb-2">
+                        <div class="input-group mb-2">
+                            <div id="geetest"></div>
                         </div>
                     </div>
                     {/if}
@@ -65,8 +72,11 @@
                     email: $('#email').val(),
                     passwd: $('#passwd').val(),
                     remember_me: $('#remember_me').val(),
-                    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+                    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'turnstile'}
                     turnstile: turnstile.getResponse(),
+                    {/if}
+                    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'geetest'}
+                    geetest: geetest.getValidate(),
                     {/if}
                 },
                 success: function(data) {
@@ -83,7 +93,24 @@
         });
     </script>
 
-    {if $config['enable_login_captcha'] == true && $config['captcha_provider'] == 'turnstile'}
+    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'turnstile'}
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha" async defer></script>
+    {/if}
+    {if $config['enable_login_captcha'] === true && $config['captcha_provider'] === 'geetest'}
+        <script src="http://static.geetest.com/v4/gt4.js"></script>
+        <script>
+            var geetest_result = '';
+            initGeetest4({
+                captchaId: '{$captcha['geetest_id']}',
+                product: 'float',
+                language: "zho",
+                riskType:'slide'
+            }, function (geetest) {
+                geetest.appendTo("#geetest");
+                geetest.onSuccess(function() {
+                    geetest_result = geetest.getValidate();
+                });
+            });
+        </script> 
     {/if}
 {include file='tabler_footer.tpl'}
