@@ -45,10 +45,7 @@ final class User extends Model
      */
     protected $casts = [
         't' => 'int',
-        'u' => 'float',
-        'd' => 'float',
         'port' => 'int',
-        'transfer_enable' => 'float',
         'enable' => 'int',
         'is_admin' => 'boolean',
         'is_multi_user' => 'int',
