@@ -53,7 +53,42 @@ final class Captcha
                 }
                 break;
             case 'geetest':
-                // Todo https://github.com/GeeTeam/gt4-php-demo/blob/master/LoginController.php
+                if ($param['geetest'] !== '') {
+                    $captcha_id = Setting::obtain('geetest_id');
+                    $captcha_key = Setting::obtain('geetest_key');
+                    $lot_number = $param['geetest']['lot_number'];
+                    $captcha_output = $param['geetest']['captcha_output'];
+                    $pass_token = $param['geetest']['pass_token'];
+                    $gen_time = $param['geetest']['gen_time'];
+                    $sign_token = \hash_hmac('sha256', $lot_number, $captcha_key);
+                    $postdata = http_build_query(
+                        [
+                            'lot_number' => $lot_number,
+                            'captcha_output' => $captcha_output,
+                            'pass_token' => $pass_token,
+                            'gen_time' => $gen_time,
+                            'sign_token' => $sign_token,
+                        ]
+                    );
+                    $opts = [
+                        'http' => [
+                            'method' => 'POST',
+                            'header' => 'Content-type: application/x-www-form-urlencoded',
+                            'content' => $postdata,
+                            'timeout' => 5,
+                        ],
+                    ];
+                    $json = @file_get_contents(
+                        'http://gcaptcha4.geetest.com/validate?captcha_id=' . $captcha_id,
+                        false,
+                        stream_context_create($opts)
+                    );
+                    if (\json_decode($json)->result === 'success') {
+                        $result = true;
+                    } else {
+                        $result = false;
+                    }
+                }
                 break;
         }
 
