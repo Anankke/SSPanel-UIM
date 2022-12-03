@@ -39,10 +39,13 @@
 
     <script>
         var table = $('#data_table').DataTable({
+            "serverSide": true,
+            "searching": false,
+            "ordering": false,
             ajax: {
                 url: '/admin/login/ajax',
                 type: 'POST',
-                dataSrc: 'logins'
+                dataSrc: 'logins.data'
             },
             "autoWidth":false,
             'iDisplayLength': 10,

@@ -15,10 +15,6 @@ final class LoginIp extends Model
 
     protected $table = 'login_ip';
 
-    protected $casts = [
-        'type' => 'int',
-    ];
-
     /**
      * [静态方法] 删除不存在的用户的记录
      */

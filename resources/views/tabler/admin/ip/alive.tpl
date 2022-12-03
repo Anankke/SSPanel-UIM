@@ -39,10 +39,13 @@
 
     <script>
         var table = $('#data_table').DataTable({
+            "serverSide": true,
+            "searching": false,
+            "ordering": false,
             ajax: {
                 url: '/admin/alive/ajax',
                 type: 'POST',
-                dataSrc: 'alives'
+                dataSrc: 'alives.data'
             },
             "autoWidth":false,
             'iDisplayLength': 10,
