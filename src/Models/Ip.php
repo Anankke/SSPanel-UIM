@@ -73,15 +73,7 @@ final class Ip extends Model
     {
         return date('Y-m-d H:i:s', $this->datetime);
     }
-
-    /**
-     * 是否为中转连接
-     */
-    public function isNode(): string
-    {
-        return Node::where('node_ip', Tools::getRealIp($this->ip))->first() ? '是' : '否';
-    }
-
+    
     public function getUserAliveIpCount()
     {
         $db = new DatatablesHelper();
