@@ -90,8 +90,6 @@ final class InitDatabase extends AbstractMigration
             ->addColumn('online', 'boolean', [ 'default' => true ])
             ->addColumn('gfw_block', 'boolean', [ 'default' => false ])
             ->addColumn('password', 'string', [])
-            ->addColumn('load', 'string', ['default' => ''])
-            ->addColumn('uptime', 'integer', ['default' => 0])
             ->create();
 
         $this->table('alive_ip', [ 'id' => false, 'primary_key' => [ 'id' ]])

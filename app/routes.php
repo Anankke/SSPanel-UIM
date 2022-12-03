@@ -196,7 +196,7 @@ return function (SlimApp $app): void {
         $this->post('/detect/log/ajax', App\Controllers\Admin\DetectController::class . ':ajaxLog');
 
         // IP Mange
-        $this->get('/login', App\Controllers\Admin\IpController::class . ':index');
+        $this->get('/login', App\Controllers\Admin\IpController::class . ':login');
         $this->get('/alive', App\Controllers\Admin\IpController::class . ':alive');
         $this->post('/login/ajax', App\Controllers\Admin\IpController::class . ':ajaxLogin');
         $this->post('/alive/ajax', App\Controllers\Admin\IpController::class . ':ajaxAlive');

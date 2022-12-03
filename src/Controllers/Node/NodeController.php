@@ -35,19 +35,6 @@ final class NodeController extends BaseController
      */
     public function info(Request $request, Response $response, array $args)
     {
-        $node_id = $args['id'];
-        $load = $request->getParam('load');
-        $uptime = $request->getParam('uptime');
-        $node = Node::find($node_id);
-        $node->load = $load;
-        $node->uptime = $uptime;
-        if (! $node->save()) {
-            $res = [
-                'ret' => 0,
-                'data' => 'update failed',
-            ];
-            return $response->withJson($res);
-        }
         $res = [
             'ret' => 1,
             'data' => 'ok',

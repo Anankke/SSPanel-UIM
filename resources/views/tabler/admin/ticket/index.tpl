@@ -45,7 +45,7 @@
                 dataSrc: 'tickets'
             },
             "autoWidth":false,
-            'iDisplayLength': 25,
+            'iDisplayLength': 10,
             'scrollX': true,
             'order': [
                 [1, 'desc']

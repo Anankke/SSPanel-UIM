@@ -42,7 +42,7 @@ final class TicketController extends BaseController
     }
 
     /**
-     * 后台 更新工单内容
+     * 后台更新工单内容
      *
      * @param array     $args
      */
@@ -97,7 +97,7 @@ final class TicketController extends BaseController
     }
 
     /**
-     * 后台 查看指定工单
+     * 后台查看指定工单
      *
      * @param array     $args
      */
@@ -121,7 +121,7 @@ final class TicketController extends BaseController
     }
 
     /**
-     * 后台 关闭工单
+     * 后台关闭工单
      *
      * @param array     $args
      */
@@ -157,7 +157,7 @@ final class TicketController extends BaseController
     }
 
     /**
-     * 后台 删除工单
+     * 后台删除工单
      *
      * @param array     $args
      */
@@ -173,6 +173,8 @@ final class TicketController extends BaseController
     }
 
     /**
+     * 后台工单页面 Ajax
+     *
      * @param array     $args
      */
     public function ajax(Request $request, Response $response, array $args)

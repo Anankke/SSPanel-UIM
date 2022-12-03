@@ -8,16 +8,6 @@ final class MergeNodeInfo extends AbstractMigration
 {
     public function up(): void
     {
-        if (! $this->table('node')->hasColumn('load')) {
-            $this->table('node')
-                ->addColumn('load', 'string', ['default' => ''])
-                ->save();
-        }
-        if (! $this->table('node')->hasColumn('uptime')) {
-            $this->table('node')
-                ->addColumn('uptime', 'integer', ['default' => 0])
-                ->save();
-        }
         if ($this->hasTable('node_info')) {
             $this->table('node_info')->drop()->update();
         }
@@ -25,10 +15,6 @@ final class MergeNodeInfo extends AbstractMigration
 
     public function down(): void
     {
-        $this->table('node')
-            ->removeColumn('load')
-            ->removeColumn('uptime')
-            ->save();
         $this->table('node_info', [ 'id' => false, 'primary_key' => [ 'id' ]])
             ->addColumn('id', 'biginteger', [ 'identity' => true,'signed' => false ])
             ->addColumn('node_id', 'integer', [])
