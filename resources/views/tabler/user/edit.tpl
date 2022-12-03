@@ -281,7 +281,29 @@
                                 </div>
                                 <div class="tab-pane" id="use_safety" role="tabpanel">
                                     <div class="row row-cards">
-                                        <div class="col-sm-12 col-md-12">
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h3 class="card-title">更换加密方式</h3>
+                                                    <p>不同的客户端支持的加密方式可能会有所不同，请参考客户端支持列表进行设置</p>
+                                                    <div class="mb-3">
+                                                        <select id="user-method" class="form-select">
+                                                            {foreach $methods as $method}
+                                                            <option value="{$method}"
+                                                                {if $user->method == $method}selected{/if}>{$method}
+                                                            </option>
+                                                            {/foreach}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="d-flex">
+                                                        <a id="modify-user-method" class="btn btn-primary ms-auto">修改</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">更换订阅地址</h3>
@@ -295,7 +317,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 col-md-12">
+                                        <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">更换连接端口</h3>
@@ -309,11 +331,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 col-md-12">
+                                        <div class="col-sm-12 col-md-6">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h3 class="card-title">重置连接密码</h3>
                                                     <p>重置连接密码与UUID ，重置后需更新订阅，才能继续使用</p>
+                                                    <p>当前连接密码：<code>{$user->password}</code></p>
+                                                    <p>当前UUID：<code>{$user->uuid}</code></p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="d-flex">
@@ -560,6 +584,26 @@
                 dataType: "json",
                 data: {
                     newusername: $('#new-nickname').val()
+                },
+                success: function(data) {
+                    if (data.ret == 1) {
+                        $('#success-message').text(data.msg);
+                        $('#success-dialog').modal('show');
+                    } else {
+                        $('#fail-message').text(data.msg);
+                        $('#fail-dialog').modal('show');
+                    }
+                }
+            })
+        });
+
+        $("#modify-user-method").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/user/method",
+                dataType: "json",
+                data: {
+                    method: $('#user-method').val()
                 },
                 success: function(data) {
                     if (data.ret == 1) {

@@ -451,13 +451,14 @@ final class UserController extends BaseController
     public function edit(Request $request, Response $response, array $args)
     {
         $themes = Tools::getDir(BASE_PATH . '/resources/views');
-
         $bind_token = TelegramSessionManager::addBindSession($this->user);
+        $methods = Config::getSupportParam('method');
 
         return $this->view()
             ->assign('user', $this->user)
             ->assign('themes', $themes)
             ->assign('bind_token', $bind_token)
+            ->assign('methods', $methods)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->registerClass('Config', Config::class)
             ->registerClass('URL', URL::class)
@@ -875,10 +876,21 @@ final class UserController extends BaseController
     public function updateMethod(Request $request, Response $response, array $args)
     {
         $user = $this->user;
-        $method = strtolower($request->getParam('method'));
-        $result = $user->updateMethod($method);
-        $result['ret'] = $result['ok'] ? 1 : 0;
-        return $response->withJson($result);
+
+        $antiXss = new AntiXSS();
+
+        $method = strtolower($antiXss->xss_clean($request->getParam('method')));
+
+        if ($method === '') {
+            ResponseHelper::error($response, '非法输入');
+        }
+        if (! Tools::isParamValidate('method', $method)) {
+            ResponseHelper::error($response, '加密无效');
+        }
+
+        $user->method = $method;
+        
+        return ResponseHelper::successfully($response, '修改成功');;
     }
 
     /**
@@ -1109,7 +1121,7 @@ final class UserController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '切換成功',
+            'msg' => '切换成功',
         ]);
     }
 }
