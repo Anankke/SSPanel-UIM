@@ -7,8 +7,6 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Ip;
 use App\Models\LoginIp;
-use App\Utils\QQWry;
-use App\Utils\ResponseHelper;
 use App\Utils\Tools;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -22,7 +20,6 @@ final class IpController extends BaseController
             'userid' => '用户ID',
             'user_name' => '用户名',
             'ip' => 'IP',
-            'location' => 'IP归属地',
             'datetime' => '时间',
             'type' => '类型',
         ],
@@ -37,7 +34,6 @@ final class IpController extends BaseController
             'nodeid' => '节点ID',
             'node_name' => '节点名',
             'ip' => 'IP',
-            'location' => 'IP归属地',
             'datetime' => '时间',
         ],
     ];
@@ -65,10 +61,8 @@ final class IpController extends BaseController
     {
         $logins = LoginIp::orderBy('id', 'desc')->get();
 
-        $QQWry = new QQWry();
         foreach ($logins as $login) {
             $login->user_name = $login->userName();
-            $login->location = $login->location($QQWry);
             $login->datetime = Tools::toDateTime((int) $login->datetime);
             $login->type = $login->type();
         }
@@ -101,12 +95,10 @@ final class IpController extends BaseController
     {
         $alives = Ip::orderBy('id', 'desc')->get();
 
-        $QQWry = new QQWry();
         foreach ($alives as $alive) {
             $alive->user_name = $alive->userName();
             $alive->node_name = $alive->nodeName();
             $alive->ip = Tools::getRealIp($alive->ip);
-            $alive->location = $alive->location($QQWry);
             $alive->datetime = Tools::toDateTime((int) $alive->datetime);
         }
 

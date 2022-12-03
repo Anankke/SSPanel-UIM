@@ -73,7 +73,7 @@ final class Ip extends Model
     {
         return date('Y-m-d H:i:s', $this->datetime);
     }
-    
+
     public function getUserAliveIpCount()
     {
         $db = new DatatablesHelper();
