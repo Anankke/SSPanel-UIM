@@ -290,7 +290,8 @@
                                                         <select id="user-method" class="form-select">
                                                             {foreach $methods as $method}
                                                             <option value="{$method}"
-                                                                {if $user->method == $method}selected{/if}>{$method}
+                                                                {if $user->method == $method}selected{/if}
+                                                            >{$method}
                                                             </option>
                                                             {/foreach}
                                                         </select>
@@ -336,7 +337,7 @@
                                                 <div class="card-body">
                                                     <h3 class="card-title">重置连接密码</h3>
                                                     <p>重置连接密码与UUID ，重置后需更新订阅，才能继续使用</p>
-                                                    <p>当前连接密码：<code>{$user->password}</code></p>
+                                                    <p>当前连接密码：<code>{$user->passwd}</code></p>
                                                     <p>当前UUID：<code>{$user->uuid}</code></p>
                                                 </div>
                                                 <div class="card-footer">

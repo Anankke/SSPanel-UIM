@@ -85,7 +85,6 @@
                     "sSortDescending": ": 以降序排列此列"
                 }
             },
-            fnRowCallback: adjustStyle,
         });
 
         function loadTable() {
