@@ -82,7 +82,6 @@
                     "sSortDescending": ": 以降序排列此列"
                 }
             },
-            fnRowCallback: adjustStyle,
         });
 
         function loadTable() {
@@ -91,3 +90,5 @@
 
         loadTable();
     </script>
+
+{include file='admin/tabler_footer.tpl'}
