@@ -151,43 +151,6 @@ final class User extends Model
     }
 
     /**
-     * 更新加密方式
-     */
-    public function updateMethod(string $method): array
-    {
-        $return = [
-            'ok' => false,
-        ];
-        if ($method === '') {
-            $return['msg'] = '非法输入';
-            return $return;
-        }
-        if (! Tools::isParamValidate('method', $method)) {
-            $return['msg'] = '加密无效';
-            return $return;
-        }
-        $this->method = $method;
-        if (! Tools::checkNoneProtocol($this)) {
-            $return['msg'] = '系统检测到您将要设置的加密方式为 none ，但您的协议并不在以下协议【' . implode(',', Config::getSupportParam('allow_none_protocol')) . '】之内，请您先修改您的协议，再来修改此处设置。';
-            return $return;
-        }
-        if (! URL::SSCanConnect($this) && ! URL::SSRCanConnect($this)) {
-            $return['msg'] = '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。';
-            return $return;
-        }
-        $this->save();
-        $return['ok'] = true;
-        if (! URL::SSCanConnect($this)) {
-            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks 原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
-        }
-        if (! URL::SSRCanConnect($this)) {
-            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
-        }
-        $return['msg'] = '设置成功，您可自由选用两种客户端来进行连接。';
-        return $return;
-    }
-
-    /**
      * 生成邀请码
      */
     public function addInviteCode(): string

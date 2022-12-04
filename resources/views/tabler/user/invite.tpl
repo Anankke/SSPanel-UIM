@@ -17,7 +17,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
-            <div class="row row-cards">
+            <div class="row row-deck">
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
@@ -25,7 +25,6 @@
                             <ul>
                                 <li>邀请注册的用户在账单确认后，您可获得其账单金额的 <code>{$config['code_payback'] * 100} %</code>
                                     作为返利</li>
-                                <li>请不要注册小号来自己邀请自己，相关订单返利可能会被认定为欺诈</li>
                                 <li>具体邀请返利规则请查看公告，或通过工单系统询问管理员</li>
                                 <li>部分商品的返利比例可能不遵循上面的比例</li>
                             </ul>

@@ -16,12 +16,9 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="/admin/node/create" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="/admin/node/create" class="btn btn-primary">
                             <i class="icon ti ti-plus"></i>
                             创建
-                        </a>
-                        <a href="/admin/node/create" class="btn btn-primary d-sm-none btn-icon">
-                            <i class="icon ti ti-plus"></i>
                         </a>
                     </div>
                 </div>
