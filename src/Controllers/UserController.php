@@ -890,8 +890,8 @@ final class UserController extends BaseController
 
         $user->method = $method;
         $user->save();
-        
-        return ResponseHelper::successfully($response, '修改成功');;
+
+        return ResponseHelper::successfully($response, '修改成功');
     }
 
     /**

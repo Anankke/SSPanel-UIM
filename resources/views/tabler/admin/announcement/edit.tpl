@@ -1,96 +1,95 @@
-{include file='admin/main.tpl'}
+{include file='admin/tabler_header.tpl'}
 
-<main class="content">
-    <div class="content-header ui-content-header">
-        <div class="container">
-            <h1 class="content-heading">编辑公告 #{$ann->id}</h1>
-        </div>
-    </div>
-    <div class="container">
-        <div class="col-lg-12 col-md-12">
-            <section class="content-inner margin-top-no">
-                <div class="card">
-                    <div class="card-main">
-                        <div class="card-inner">
-                            <div class="form-group form-group-label">
-                                <label class="floating-label" for="content">内容</label>
-                                <link rel="stylesheet"
-                                      href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
-                                <div id="editormd">
-                                    <textarea style="display:none;" id="content">{$ann->markdown}</textarea>
-                                </div>
-                            </div>
-                        </div>
+<link rel="stylesheet" type="text/css" id="mce-u0" href="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/libs/tinymce/skins/ui/oxide/skin.min.css">
+<script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/libs/tinymce/tinymce.min.js"></script>
+
+<div class="page-wrapper">
+    <div class="container-xl">
+        <div class="page-header d-print-none text-white">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        <span class="home-title">编辑公告</span>
+                    </h2>
+                    <div class="page-pretitle my-3">
+                        <span class="home-subtitle">编辑站点公告</span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-main">
-                        <div class="card-inner">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-push-1">
-                                        <button id="submit" type="submit"
-                                                class="btn btn-block btn-brand waves-attach waves-light">修改
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                        <a id="save-ann" href="#" class="btn btn-primary">
+                            <i class="icon ti ti-device-floppy"></i>
+                            保存
+                        </a>
                     </div>
                 </div>
-                {include file='dialog.tpl'}
-            </section>
+            </div>
         </div>
     </div>
-</main>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <form method="post">
+                            <textarea id="tinymce">{$ann->content}</textarea>
+                        </form>
+                    </div>
+                </div>
+            </div>              
+        </div>
+    </div>
+</div>
 
-{include file='admin/footer.tpl'}
-
-<script src="//cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
 <script>
-    (() => {
-        editor = editormd("editormd", {
-            path: "https://cdn.jsdelivr.net/npm/editor.md@1.5.0/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
-            height: 720,
-            saveHTMLToTextarea: true,
-            emoji: true
-        });
-        /*
-        // or
-        var editor = editormd({
-            id   : "editormd",
-            path : "../lib/"
-        });
-        */
-    })();
-    window.addEventListener('load', () => {
-        function submit() {
-            $.ajax({
-                type: "PUT",
-                url: "/admin/announcement/{$ann->id}",
-                dataType: "json",
-                data: {
-                    content: editor.getHTML(),
-                    markdown: editor.getMarkdown()
-                },
-                success: data => {
-                    if (data.ret) {
-                        $("#result").modal();
-                        $$.getElementById('msg').innerHTML = data.msg;
-                        window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
-                    } else {
-                        $("#result").modal();
-                        document.getElementById('msg').innerHTML = data.msg;
-                    }
-                },
-                error: jqXHR => {
-                    $("#result").modal();
-                    $$.getElementById('msg').innerHTML = `发生错误：${
-                        jqXHR.status
-                    }`;
-                }
-            });
+    <script>
+      // @formatter:off
+      document.addEventListener("DOMContentLoaded", function () {
+        let options = {
+          selector: '#tinymce',
+          height: 300,
+          menubar: false,
+          statusbar: false,
+          plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+          ],
+          toolbar: 'undo redo | formatselect | ' +
+            'bold italic backcolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat',
+          content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }'
         }
-        $$.getElementById('submit').addEventListener('click', submit);
+        if (localStorage.getItem("tablerTheme") === 'dark') {
+          options.skin = 'oxide-dark';
+          options.content_css = 'dark';
+        }
+        tinyMCE.init(options);
+      })
+      // @formatter:on
+    </script>
+
+    $("#save-ann").click(function() {
+        $.ajax({
+            url: '/announcement/' + {$ann->id},
+            type: 'PUT',
+            dataType: "json",
+            data: {
+                content: tinyMCE.activeEditor.getContent(),
+            },
+            success: function(data) {
+                if (data.ret == 1) {
+                    $('#success-message').text(data.msg);
+                    $('#success-dialog').modal('show');
+                    window.setTimeout("location.href=top.document.referrer", {$config['jump_delay']});
+                } else {
+                    $('#fail-message').text(data.msg);
+                    $('#fail-dialog').modal('show');
+                }
+            }
+        })
     });
 </script>
+
+{include file='admin/tabler_footer.tpl'}

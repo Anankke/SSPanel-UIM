@@ -7,13 +7,26 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Models\Ann;
 use App\Models\User;
-use App\Utils\ResponseHelper;
 use App\Utils\Telegram;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 final class AnnController extends BaseController
 {
+    public static $details =
+    [
+        'field' => [
+            'op' => '操作',
+            'id' => '公告ID',
+            'date' => '日期',
+            'content' => '公告内容',
+        ],
+    ];
+
+    public static $update_field = [
+        'email_notify_class',
+    ];
+
     /**
      * 后台公告页面
      *
@@ -23,12 +36,7 @@ final class AnnController extends BaseController
     {
         return $response->write(
             $this->view()
-                ->assign('table_config', ResponseHelper::buildTableConfig([
-                    'op' => '操作',
-                    'id' => 'ID',
-                    'date' => '日期',
-                    'content' => '内容',
-                ], 'announcement/ajax'))
+                ->assign('details', self::$details)
                 ->display('admin/announcement/index.tpl')
         );
     }
@@ -40,33 +48,16 @@ final class AnnController extends BaseController
      */
     public function ajax(Request $request, Response $response, array $args)
     {
-        $query = Ann::getTableDataFromAdmin(
-            $request,
-            static function (&$order_field): void {
-                if (\in_array($order_field, ['op'])) {
-                    $order_field = 'id';
-                }
-            }
-        );
+        $anns = Ann::orderBy('id', 'asc')->get();
 
-        $data = [];
-        foreach ($query['datas'] as $value) {
-            /** @var Ann $value */
-
-            $tempdata = [];
-            $tempdata['op'] = '<a class="btn btn-brand" href="/admin/announcement/' . $value->id . '/edit">编辑</a> <a class="btn btn-brand-accent" id="delete" value="' . $value->id . '" href="javascript:void(0);" onClick="delete_modal_show(\'' . $value->id . '\')">删除</a>';
-            $tempdata['id'] = $value->id;
-            $tempdata['date'] = $value->date;
-            $tempdata['content'] = $value->content;
-
-            $data[] = $tempdata;
+        foreach ($anns as $ann) {
+            $ann->op = '<button type="button" class="btn btn-red" id="delete-announcement" 
+            onclick="deleteAnn(' . $ann->id . ')">删除</button>
+            <a class="btn btn-blue" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
         }
 
         return $response->withJson([
-            'draw' => $request->getParam('draw'),
-            'recordsTotal' => Ann::count(),
-            'recordsFiltered' => $query['count'],
-            'data' => $data,
+            'anns' => $anns,
         ]);
     }
 
@@ -79,6 +70,7 @@ final class AnnController extends BaseController
     {
         return $response->write(
             $this->view()
+                ->assign('update_field', self::$update_field)
                 ->display('admin/announcement/create.tpl')
         );
     }
@@ -90,17 +82,15 @@ final class AnnController extends BaseController
      */
     public function add(Request $request, Response $response, array $args)
     {
-        $vip = (int) $request->getParam('vip');
-        $page = (int) $request->getParam('page');
-        $issend = (int) $request->getParam('issend');
+        $email_notify_class = (int) $request->getParam('email_notify_class');
+        $email_notify = (int) $request->getParam('email_notify');
         $content = (string) $request->getParam('content');
         $subject = $_ENV['appName'] . ' - 公告';
 
-        if ($page === 1) {
+        if ($content !== '') {
             $ann = new Ann();
             $ann->date = date('Y-m-d H:i:s');
             $ann->content = $content;
-            $ann->markdown = $request->getParam('markdown');
 
             if (! $ann->save()) {
                 return $response->withJson([
@@ -109,8 +99,8 @@ final class AnnController extends BaseController
                 ]);
             }
         }
-        if ($issend === 1) {
-            $users = User::where('class', '>=', $vip)
+        if ($email_notify === 1) {
+            $users = User::where('class', '>=', $email_notify_class)
                 ->get();
 
             foreach ($users as $user) {
@@ -133,7 +123,7 @@ final class AnnController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => $issend === 1 ? '公告添加成功，邮件发送成功' : '公告添加成功',
+            'msg' => $email_notify === 1 ? '公告添加成功，邮件发送成功' : '公告添加成功',
         ]);
     }
 
@@ -161,7 +151,6 @@ final class AnnController extends BaseController
     {
         $ann = Ann::find($args['id']);
         $ann->content = $request->getParam('content');
-        $ann->markdown = $request->getParam('markdown');
         $ann->date = date('Y-m-d H:i:s');
         if (! $ann->save()) {
             return $response->withJson([
@@ -183,7 +172,7 @@ final class AnnController extends BaseController
      */
     public function delete(Request $request, Response $response, array $args)
     {
-        $ann = Ann::find($request->getParam('id'));
+        $ann = Ann::find($args['id']);
         if (! $ann->delete()) {
             return $response->withJson([
                 'ret' => 0,

@@ -181,7 +181,7 @@ return function (SlimApp $app): void {
         $this->post('/announcement', App\Controllers\Admin\AnnController::class . ':add');
         $this->get('/announcement/{id}/edit', App\Controllers\Admin\AnnController::class . ':edit');
         $this->put('/announcement/{id}', App\Controllers\Admin\AnnController::class . ':update');
-        $this->delete('/announcement', App\Controllers\Admin\AnnController::class . ':delete');
+        $this->delete('/announcement/{id}', App\Controllers\Admin\AnnController::class . ':delete');
         $this->post('/announcement/ajax', App\Controllers\Admin\AnnController::class . ':ajax');
 
         // Detect Mange
