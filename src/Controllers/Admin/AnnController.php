@@ -43,26 +43,6 @@ final class AnnController extends BaseController
     }
 
     /**
-     * 后台公告页面 AJAX
-     *
-     * @param array     $args
-     */
-    public function ajax(Request $request, Response $response, array $args)
-    {
-        $anns = Ann::orderBy('id', 'asc')->get();
-
-        foreach ($anns as $ann) {
-            $ann->op = '<button type="button" class="btn btn-red" id="delete-announcement" 
-            onclick="deleteAnn(' . $ann->id . ')">删除</button>
-            <a class="btn btn-blue" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
-        }
-
-        return $response->withJson([
-            'anns' => $anns,
-        ]);
-    }
-
-    /**
      * 后台公告创建页面
      *
      * @param array     $args
@@ -185,6 +165,26 @@ final class AnnController extends BaseController
         return $response->withJson([
             'ret' => 1,
             'msg' => '删除成功',
+        ]);
+    }
+
+    /**
+     * 后台公告页面 AJAX
+     *
+     * @param array     $args
+     */
+    public function ajax(Request $request, Response $response, array $args)
+    {
+        $anns = Ann::orderBy('id', 'asc')->get();
+
+        foreach ($anns as $ann) {
+            $ann->op = '<button type="button" class="btn btn-red" id="delete-announcement-' . $ann->id . '" 
+            onclick="deleteAnn(' . $ann->id . ')">删除</button>
+            <a class="btn btn-blue" href="/admin/announcement/' . $ann->id . '/edit">编辑</a>';
+        }
+
+        return $response->withJson([
+            'anns' => $anns,
         ]);
     }
 }

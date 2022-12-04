@@ -308,7 +308,7 @@ final class UserController extends BaseController
         $users = User::orderBy('id', 'desc')->get();
 
         foreach ($users as $user) {
-            $user->op = '<button type="button" class="btn btn-red" id="delete-user" 
+            $user->op = '<button type="button" class="btn btn-red" id="delete-user-' . $user->id . '" 
             onclick="deleteUser(' . $user->id . ')">删除</button>
             <a class="btn btn-blue" href="/admin/user/' . $user->id . '/edit">编辑</a>';
             $user->transfer_enable = round($user->transfer_enable / 1073741824, 2);
