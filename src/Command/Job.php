@@ -66,7 +66,7 @@ EOL;
 
         // ------- 清理各表记录
         UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', \time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
-        UserHourlyUsage::where('datetime', '<', \time() - 86400 * 30)->delete();
+        UserHourlyUsage::where('datetime', '<', \time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
         Token::where('expire_time', '<', \time())->delete();
         NodeOnlineLog::where('log_time', '<', \time() - 86400 * 3)->delete();
         DetectLog::where('datetime', '<', \time() - 86400 * 3)->delete();
@@ -350,19 +350,22 @@ EOL;
     {
         $users = User::all();
         foreach ($users as $user) {
-            $transfer_total = $user->transfer_total;
-            $transfer_total_last = UserHourlyUsage::where('user_id', $user->id)->orderBy('id', 'desc')->first();
-            if ($transfer_total_last === null) {
-                $transfer_total_last = 0;
-            } else {
-                $transfer_total_last = $transfer_total_last->traffic;
+            //流量记录
+            if ($_ENV['trafficLog'] === true) {
+                $transfer_total = $user->transfer_total;
+                $transfer_total_last = UserHourlyUsage::where('user_id', $user->id)->orderBy('id', 'desc')->first();
+                if ($transfer_total_last === null) {
+                    $transfer_total_last = 0;
+                } else {
+                    $transfer_total_last = $transfer_total_last->traffic;
+                }
+                $trafficlog = new UserHourlyUsage();
+                $trafficlog->user_id = $user->id;
+                $trafficlog->traffic = $transfer_total;
+                $trafficlog->hourly_usage = $transfer_total - $transfer_total_last;
+                $trafficlog->datetime = \time();
+                $trafficlog->save();
             }
-            $trafficlog = new UserHourlyUsage();
-            $trafficlog->user_id = $user->id;
-            $trafficlog->traffic = $transfer_total;
-            $trafficlog->hourly_usage = $transfer_total - $transfer_total_last;
-            $trafficlog->datetime = \time();
-            $trafficlog->save();
 
             if (strtotime($user->expire_in) < \time() && $user->expire_notified === false) {
                 $user->transfer_enable = 0;
