@@ -14,6 +14,7 @@
         "illuminate/pagination": "^9.0",
         "irazasyed/telegram-bot-sdk": "^3",
         "khanamiryan/qrcode-detector-decoder": "*",
+        "league/html-to-markdown": "^5.1",
         "league/omnipay": "^3.2.1",
         "mailgun/mailgun-php": "^3",
         "paymentwall/paymentwall-php": "^2",

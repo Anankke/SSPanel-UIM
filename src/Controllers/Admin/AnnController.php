@@ -8,6 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\Ann;
 use App\Models\User;
 use App\Utils\Telegram;
+use League\HTMLToMarkdown\HtmlConverter;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -117,8 +118,10 @@ final class AnnController extends BaseController
             }
         }
 
+        $converter = new HtmlConverter();
+
         if ($_ENV['enable_telegram']) {
-            Telegram::sendMarkdown('新公告：' . PHP_EOL . $request->getParam('markdown'));
+            Telegram::sendMarkdown('新公告：' . PHP_EOL . $converter->convert($request->getParam('content')));
         }
 
         return $response->withJson([

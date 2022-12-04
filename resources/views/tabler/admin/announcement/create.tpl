@@ -1,6 +1,6 @@
 {include file='admin/tabler_header.tpl'}
 
-<link rel="stylesheet" type="text/css" id="mce-u0" href="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/libs/tinymce/skins/ui/oxide/skin.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/libs/tinymce/skins/ui/oxide/skin.min.css">
 <script src="//cdn.jsdelivr.net/npm/@tabler/core@latest/dist/libs/tinymce/tinymce.min.js"></script>
 
 <div class="page-wrapper">
@@ -63,37 +63,34 @@
 </div>
 
 <script>
-    <script>
-      // @formatter:off
-      document.addEventListener("DOMContentLoaded", function () {
+    // @formatter:off
+    document.addEventListener("DOMContentLoaded", function () {
         let options = {
-          selector: '#tinymce',
-          height: 300,
-          menubar: false,
-          statusbar: false,
-          plugins: [
-            'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table paste code help wordcount'
-          ],
-          toolbar: 'undo redo | formatselect | ' +
-            'bold italic backcolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat',
-          content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }'
-        }
-        if (localStorage.getItem("tablerTheme") === 'dark') {
-          options.skin = 'oxide-dark';
-          options.content_css = 'dark';
+            selector: '#tinymce',
+            height: 300,
+            menubar: false,
+            statusbar: false,
+            plugins: 
+              'advlist autolink lists link image charmap preview anchor ' +
+              'searchreplace visualblocks code fullscreen ' +
+              'insertdatetime media table code help wordcount',
+            toolbar: 'undo redo | formatselect | ' +
+              'bold italic backcolor link | blocks | alignleft aligncenter ' +
+              'alignright alignjustify | bullist numlist outdent indent | ' +
+              'removeformat',
+            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;font-size:   14px; -webkit-font-smoothing: antialiased; }'
+            {if $user->is_dark_mode}
+            skin = 'oxide-dark';
+            content_css = 'dark';
+            {/if}
         }
         tinyMCE.init(options);
-      })
-      // @formatter:on
-    </script>
+    })
+    // @formatter:on
 
     $("#create-ann").click(function() {
         $.ajax({
-            url: '/announcement',
+            url: '/admin/announcement',
             type: 'POST',
             dataType: "json",
             data: {
