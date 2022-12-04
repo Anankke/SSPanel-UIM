@@ -51,7 +51,7 @@
             'iDisplayLength': 10,
             'scrollX': true,
             'order': [
-                [1, 'desc']
+                [0, 'desc']
             ],
             columns: [
                 {foreach $details['field'] as $key => $value}

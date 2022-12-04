@@ -17,7 +17,7 @@ final class TrafficLogController extends BaseController
     [
         'field' => [
             'id' => '记录ID',
-            'userid' => '用户ID',
+            'user_id' => '用户ID',
             'traffic' => '累计流量/GB',
             'hourly_usage' => '过去一小时使用流量/GB',
             'datetime' => '时间',
