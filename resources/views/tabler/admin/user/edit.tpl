@@ -105,51 +105,39 @@
                             <div class="hr-text">
                                 <span>高级选项</span>
                             </div>
-                            <div class="mb-3">
-                                <div class="divide-y">
-                                    <div>
-                                        <label class="row">
-                                            <span class="col">管理员</span>
-                                            <span class="col-auto">
-                                                <label class="form-check form-check-single form-switch">
-                                                    <input id="is_admin" class="form-check-input" type="checkbox"
-                                                        {if $edit_user->is_admin == 1}checked="" {/if}>
-                                                </label>
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="row">
-                                            <span class="col">封禁用户</span>
-                                            <span class="col-auto">
-                                                <label class="form-check form-check-single form-switch">
-                                                    <input id="is_banned" class="form-check-input" type="checkbox"
-                                                        {if $edit_user->is_banned == 1} checked=""{/if}>
-                                                </label>
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="row">
-                                            <span class="col">手动封禁理由</span>
-                                            <span class="col-auto">
-                                                <input id="banned_reason" type="text" class="form-control"
-                                                    value="{$edit_user->banned_reason}">
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="row">
-                                            <span class="col">两步认证</span>
-                                            <span class="col-auto">
-                                                <label class="form-check form-check-single form-switch">
-                                                    <input id="ga_enable" class="form-check-input" type="checkbox"
-                                                        {if $edit_user->ga_enable == 1}checked="" {/if}>
-                                                </label>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
+                            <div class="form-group mb-3 row">
+                                <span class="col">管理员</span>
+                                <span class="col-auto">
+                                    <label class="form-check form-check-single form-switch">
+                                        <input id="is_admin" class="form-check-input" type="checkbox"
+                                            {if $edit_user->is_admin == 1}checked="" {/if}>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <span class="col">两步认证</span>
+                                <span class="col-auto">
+                                    <label class="form-check form-check-single form-switch">
+                                        <input id="ga_enable" class="form-check-input" type="checkbox"
+                                            {if $edit_user->ga_enable == 1}checked="" {/if}>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <span class="col">封禁用户</span>
+                                <span class="col-auto">
+                                    <label class="form-check form-check-single form-switch">
+                                        <input id="is_banned" class="form-check-input" type="checkbox"
+                                            {if $edit_user->is_banned == 1} checked=""{/if}>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <span class="col">手动封禁理由</span>
+                                <span class="col-auto">
+                                    <input id="banned_reason" type="text" class="form-control"
+                                        value="{$edit_user->banned_reason}">
+                                </span>
                             </div>
                         </div>
                     </div>
