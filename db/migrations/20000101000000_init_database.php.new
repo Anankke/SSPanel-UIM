@@ -251,7 +251,7 @@ final class InitDatabase extends AbstractMigration
             ->create();
 
         $this->table('user_invite_code', [ 'id' => false, 'primary_key' => [ 'id' ]])
-            ->addColumn('id', 'biginteger', [ 'identity' => true,'signed' => false ])
+            ->addColumn('id', 'biginteger', [ 'identity' => true, 'signed' => false ])
             ->addColumn('code', 'string', [  ])
             ->addIndex([ 'code' ], [ 'unique' => true ])
             ->addColumn('user_id', 'biginteger', [ 'signed' => false ])
@@ -297,7 +297,7 @@ final class InitDatabase extends AbstractMigration
             ->create();
 
         $this->table('user_hourly_usage', [ 'id' => false, 'primary_key' => [ 'id' ]])
-            ->addColumn('id', 'biginteger', [ 'identity' => true,'signed' => false ])
+            ->addColumn('id', 'biginteger', [ 'identity' => true, 'signed' => false ])
             ->addColumn('user_id', 'biginteger', [ 'signed' => false ])
             ->addColumn('traffic', 'biginteger', [])
             ->addColumn('hourly_usage', 'biginteger', [])
@@ -307,7 +307,7 @@ final class InitDatabase extends AbstractMigration
             ->create();
 
         $this->table('user_subscribe_log', [ 'id' => false, 'primary_key' => [ 'id' ]])
-            ->addColumn('id', 'biginteger', [ 'identity' => true,'signed' => false ])
+            ->addColumn('id', 'biginteger', [ 'identity' => true, 'signed' => false ])
             ->addColumn('user_name', 'string', [ 'comment' => '用户名' ])
             ->addColumn('user_id', 'biginteger', [ 'comment' => '用户 ID','signed' => false ])
             ->addColumn('email', 'string', [ 'comment' => '用户邮箱' ])
@@ -320,7 +320,7 @@ final class InitDatabase extends AbstractMigration
             ->create();
 
         $this->table('user_token', [ 'id' => false, 'primary_key' => [ 'id' ]])
-            ->addColumn('id', 'biginteger', [ 'identity' => true,'signed' => false ])
+            ->addColumn('id', 'biginteger', [ 'identity' => true, 'signed' => false ])
             ->addColumn('token', 'string', [])
             ->addColumn('user_id', 'biginteger', [ 'signed' => false ])
             ->addColumn('create_time', 'biginteger', [ 'signed' => false ])
