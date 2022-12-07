@@ -104,6 +104,7 @@ final class InitDatabase extends AbstractMigration
             ->addColumn('id', 'integer', [ 'identity' => true ])
             ->addColumn('date', 'datetime', [])
             ->addColumn('content', 'text', [])
+            ->addColumn('markdown', 'text', [])
             ->create();
 
         $this->table('bought', [ 'id' => false, 'primary_key' => [ 'id' ]])
