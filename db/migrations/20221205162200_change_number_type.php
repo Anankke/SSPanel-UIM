@@ -9,11 +9,11 @@ final class ChangeNumberType extends AbstractMigration
     public function up(): void
     {
         $this->table('user')
-            ->changeColumn('port', 'smallinteger', [ 'comment' => '端口', 'null' => false ])
+            ->changeColumn('port', 'smallinteger', [ 'comment' => '端口', 'signed' => false, 'null' => false ])
             ->changeColumn('class', 'integer', [ 'comment' => '等级', 'default' => 0, 'signed' => false, 'null' => false ])
             ->changeColumn('node_group', 'integer', [ 'comment' => '节点分组', 'default' => 0, 'signed' => false, 'null' => false ])
             ->changeColumn('node_speedlimit', 'double', [ 'comment' => '用户限速', 'default' => 0, 'null' => false ])
-            ->changeColumn('node_iplimit', 'smallinteger', [ 'comment' => '同时可连接IP数', 'default' => 0, 'null' => false ])
+            ->changeColumn('node_iplimit', 'smallinteger', [ 'comment' => '同时可连接IP数', 'default' => 0, 'signed' => false, 'null' => false ])
             ->changeColumn('uuid', 'uuid', [ 'comment' => 'UUID', 'null' => false ])
             ->save();
         $this->table('node')
