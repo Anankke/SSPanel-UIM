@@ -58,11 +58,15 @@ final class SubController extends BaseController
             $sub_info = self::getClash($user);
         }
 
+        if ($subtype === 'sip008') {
+            $sub_info = self::getSIP008($user);
+        }
+
         if ($_ENV['subscribeLog'] === true) {
             UserSubscribeLog::addSubscribeLog($user, $subtype, $request->getHeaderLine('User-Agent'));
         }
 
-        if ($subtype === 'json') {
+        if ($subtype === 'json' || $subtype === 'sip008') {
             return $response->withJson([
                 $sub_info,
             ]);
@@ -94,7 +98,7 @@ final class SubController extends BaseController
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = \json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! array_key_exists('server_user', $node_custom_config)) {
+            if (! \array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
@@ -157,9 +161,9 @@ final class SubController extends BaseController
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? '0';
-                    $security = $node_custom_config['security'] ?? array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
+                    $security = $node_custom_config['security'] ?? \array_key_exists('enable_xtls', $node_custom_config) && $node_custom_config['enable_xtls'] === '1' ? 'xtls' : 'tls';
                     $mux = $node_custom_config['mux'] ?? '';
-                    $transport = $node_custom_config['transport'] ?? array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
+                    $transport = $node_custom_config['transport'] ?? \array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
 
                     $transport_plugin = $node_custom_config['transport_plugin'] ?? '';
                     $transport_method = $node_custom_config['transport_method'] ?? '';
@@ -219,7 +223,7 @@ final class SubController extends BaseController
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = \json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
-            if (! array_key_exists('server_user', $node_custom_config)) {
+            if (! \array_key_exists('server_user', $node_custom_config)) {
                 $server = $node_raw->server;
             } else {
                 $server = $node_custom_config['server_user'];
@@ -341,6 +345,11 @@ final class SubController extends BaseController
         ];
 
         return Yaml::dump($clash, 3, 1);
+    }
+
+    // SIP008 SS 订阅
+    public static function getSIP008($user): void
+    {
     }
 
     public static function getUniversalSub($user)
