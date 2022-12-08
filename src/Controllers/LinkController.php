@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-//Thanks to http://blog.csdn.net/jollyjumper/article/details/9823047
-
 namespace App\Controllers;
 
 use App\Models\Link;

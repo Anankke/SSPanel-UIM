@@ -188,6 +188,18 @@ final class User extends Model
         return $this->save();
     }
 
+    /**
+     * 生成新的 API Token
+     */
+    public function generateApiToken($s): bool
+    {
+        $this->api_token = Uuid::uuid3(
+            Uuid::NAMESPACE_DNS,
+            $this->pass . '|' . $s
+        );
+        return $this->save();
+    }
+
     /*
      * 总流量[自动单位]
      */

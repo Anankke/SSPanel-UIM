@@ -30,6 +30,7 @@ final class Tool extends Command
 │ ├─ resetTraffic            - 重置所有用户流量
 │ ├─ generateUUID            - 为所有用户生成新的 UUID
 │ ├─ generateGa              - 为所有用户生成新的 Ga Secret
+| ├─ generateApiToken        - 为所有用户生成新的 API Token
 │ ├─ setTheme                - 为所有用户设置新的主题
 
 EOL;
@@ -204,7 +205,7 @@ EOL;
     }
 
     /**
-     * 为所有用户生成新的UUID
+     * 为所有用户生成新的 UUID
      */
     public function generateUUID(): void
     {
@@ -231,6 +232,20 @@ EOL;
             $user->save();
         }
         echo 'generate Ga Secret successful';
+    }
+
+    /**
+     * 为所有用户生成新的 Api Token
+     */
+    public function generateApiToken(): void
+    {
+        $users = ModelsUser::all();
+        $current_timestamp = \time();
+        foreach ($users as $user) {
+            /** @var ModelsUser $user */
+            $user->generateApiToken($current_timestamp);
+        }
+        echo 'generate Api Token successful';
     }
 
     /**
@@ -267,12 +282,13 @@ EOL;
             $configs = Setting::getClass('register');
             // do reg user
             $user = new ModelsUser();
-            $user->user_name = 'admin';
+            $user->user_name = 'Admin';
             $user->email = $email;
-            $user->remark = 'admin';
+            $user->remark = '';
             $user->pass = Hash::passwordHash($passwd);
             $user->passwd = Tools::genRandomChar(16);
             $user->uuid = Uuid::uuid3(Uuid::NAMESPACE_DNS, $email . '|' . $current_timestamp);
+            $user->api_token = Uuid::uuid3(Uuid::NAMESPACE_DNS, $user->pass . '|' . $current_timestamp);
             $user->port = Tools::getLastPort() + 1;
             $user->t = 0;
             $user->u = 0;
