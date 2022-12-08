@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controllers\Node;
+namespace App\Controllers\WebAPI;
 
 use App\Controllers\BaseController;
 use App\Models\DetectLog;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controllers\Node;
+namespace App\Controllers\WebAPI;
 
 use App\Controllers\BaseController;
 use App\Models\Node;
@@ -88,9 +88,8 @@ final class NodeController extends BaseController
         $nodes = Node::where('node_ip', '<>', null)->where(
             static function ($query): void {
                 $query->where('sort', '=', 0)
-                    ->orWhere('sort', '=', 10)
-                    ->orWhere('sort', '=', 12)
-                    ->orWhere('sort', '=', 13)
+                    ->orWhere('sort', '=', 1)
+                    ->orWhere('sort', '=', 11)
                     ->orWhere('sort', '=', 14);
             }
         )->get();
