@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Controllers\LinkController;
 use App\Services\Config;
 use App\Services\Mail;
 use App\Utils\GA;
@@ -44,9 +43,7 @@ final class User extends Model
      * @var array
      */
     protected $casts = [
-        't' => 'int',
         'port' => 'int',
-        'enable' => 'int',
         'is_admin' => 'boolean',
         'is_multi_user' => 'int',
         'node_speedlimit' => 'float',
@@ -180,13 +177,25 @@ final class User extends Model
     }
 
     /**
-     * 生成新的UUID
+     * 生成新的 UUID
      */
     public function generateUUID($s): bool
     {
         $this->uuid = Uuid::uuid3(
             Uuid::NAMESPACE_DNS,
             $this->email . '|' . $s
+        );
+        return $this->save();
+    }
+
+    /**
+     * 生成新的 API Token
+     */
+    public function generateApiToken($s): bool
+    {
+        $this->api_token = Uuid::uuid3(
+            Uuid::NAMESPACE_DNS,
+            $this->pass . '|' . $s
         );
         return $this->save();
     }
@@ -357,7 +366,7 @@ final class User extends Model
      */
     public function getSublink()
     {
-        return LinkController::generateSSRSubCode($this->id);
+        return Tools::generateSSRSubCode($this->id);
     }
 
     /**
