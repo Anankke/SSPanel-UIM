@@ -349,7 +349,7 @@ final class SubController extends BaseController
         $token = Link::where('userid', $userid)->first();
         if ($token === null) {
             $token = new Link();
-            $token = $userid;
+            $token->userid = $userid;
             $token->token = Tools::genSubToken();
             $token->save();
         }
