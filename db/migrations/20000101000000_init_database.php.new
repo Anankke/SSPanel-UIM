@@ -10,7 +10,7 @@ final class InitDatabase extends AbstractMigration
     public function up(): void
     {
         $this->table('user', [ 'id' => false, 'primary_key' => [ 'id' ]])
-            ->addColumn('id', 'integer', [ 'comment' => '用户ID', 'identity' => true, 'signed' => false, 'null' => false ])
+            ->addColumn('id', 'biginteger', [ 'comment' => '用户ID', 'identity' => true, 'signed' => false, 'null' => false ])
             ->addColumn('user_name', 'string', [ 'comment' => '用户名' ])
             ->addColumn('email', 'string', [ 'comment' => 'E-Mail' ])
             ->addIndex([ 'email' ], [ 'unique' => true ])
