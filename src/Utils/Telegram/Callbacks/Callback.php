@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Utils\Telegram\Callbacks;
 
-use App\Controllers\LinkController;
 use App\Controllers\SubController;
 use App\Models\InviteCode;
 use App\Models\Ip;

@@ -10,7 +10,7 @@ final class AddUserNodeIplimit extends AbstractMigration
     {
         if (! $this->table('user')->hasColumn('node_iplimit')) {
             $this->table('user')
-                ->addColumn('node_iplimit', 'integer', [ 'comment' => '同时可连接IP数', 'default' => 0 ])
+                ->addColumn('node_iplimit', 'smallinteger', [ 'comment' => '同时可连接IP数', 'default' => 0, 'signed' => false, 'null' => false ])
                 ->save();
         }
     }

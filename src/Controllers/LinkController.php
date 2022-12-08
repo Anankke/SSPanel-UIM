@@ -8,7 +8,6 @@ namespace App\Controllers;
 
 use App\Models\Link;
 use App\Models\UserSubscribeLog;
-use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
