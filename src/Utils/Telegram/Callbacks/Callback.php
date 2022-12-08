@@ -932,14 +932,6 @@ final class Callback
                     $filename = 'Clash_' . $token . '_' . \time() . '.yaml';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
-                    $opts = [
-                        'clash' => 1,
-                    ];
-                    $Rule = [
-                        'type' => 'all',
-                        'is_mu' => 1,
-                        'extend' => true,
-                    ];
                     $string = SubController::getClash($this->User);
                     fwrite($fh, $string);
                     fclose($fh);
