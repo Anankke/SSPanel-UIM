@@ -54,24 +54,6 @@ final class UserController extends BaseController
             $captcha = Captcha::generate();
         }
 
-        if ($_ENV['subscribe_client_url'] !== '') {
-            $getClient = new Token();
-            for ($i = 0; $i < 10; $i++) {
-                $token = $this->user->id . Tools::genRandomChar(16);
-                $Elink = Token::where('token', '=', $token)->first();
-                if ($Elink === null) {
-                    $getClient->token = $token;
-                    break;
-                }
-            }
-            $getClient->user_id = $this->user->id;
-            $getClient->create_time = \time();
-            $getClient->expire_time = \time() + 10 * 60;
-            $getClient->save();
-        } else {
-            $token = '';
-        }
-
         $data = [
             'today_traffic_usage' => (int) $this->user->transfer_enable === 0 ? 0 : ($this->user->u + $this->user->d - $this->user->last_day_t) / $this->user->transfer_enable * 100,
             'past_traffic_usage' => (int) $this->user->transfer_enable === 0 ? 0 : $this->user->last_day_t / $this->user->transfer_enable * 100,
@@ -80,14 +62,8 @@ final class UserController extends BaseController
 
         return $response->write(
             $this->view()
-                ->assign('ssr_sub_token', $this->user->getSublink())
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
-                ->assign('mergeSub', $_ENV['mergeSub'])
-                ->assign('subUrl', $_ENV['subUrl'] . '/link/')
-                ->registerClass('URL', URL::class)
-                ->assign('subInfo', LinkController::getSubinfo($this->user, 0))
                 ->assign('getUniversalSub', SubController::getUniversalSub($this->user))
-                ->assign('getClient', $token)
                 ->assign('data', $data)
                 ->assign('captcha', $captcha)
                 ->display('user/index.tpl')
