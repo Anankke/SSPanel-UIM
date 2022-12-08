@@ -51,13 +51,13 @@ final class UserSubscribeLog extends Model
     public static function addSubscribeLog(User $user, string $type, string $ua): void
     {
         $log = new UserSubscribeLog();
+        $antiXss = new AntiXSS();
         $log->user_name = $user->user_name;
         $log->user_id = $user->id;
         $log->email = $user->email;
-        $log->subscribe_type = $type;
+        $log->subscribe_type = $antiXss->xss_clean($type);
         $log->request_ip = $_SERVER['REMOTE_ADDR'];
         $log->request_time = date('Y-m-d H:i:s');
-        $antiXss = new AntiXSS();
         $log->request_user_agent = $antiXss->xss_clean($ua);
         $log->save();
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Utils\Telegram\Callbacks;
 
 use App\Controllers\LinkController;
+use App\Controllers\SubController;
 use App\Models\InviteCode;
 use App\Models\Ip;
 use App\Models\LoginIp;
@@ -997,10 +998,10 @@ final class Callback
                 ],
             ];
             $token = LinkController::generateSSRSubCode($this->User->id);
-            $UserApiUrl = LinkController::getSubinfo($this->User, 0)['link'];
+            $UserApiUrl = SubController::getUniversalSub($this->User);
             switch ($CallbackDataExplode[1]) {
                 case '?clash=1':
-                    $temp['text'] = '您的 Clash 配置文件.' . PHP_EOL . '同时，您也可使用该订阅链接：' . $UserApiUrl . $CallbackDataExplode[1];
+                    $temp['text'] = '您的 Clash 配置文件.' . PHP_EOL . '同时，您也可使用该订阅链接：' . $UserApiUrl . '/clash';
                     $filename = 'Clash_' . $token . '_' . \time() . '.yaml';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
                     $fh = fopen($filepath, 'w+');
@@ -1012,7 +1013,7 @@ final class Callback
                         'is_mu' => 1,
                         'extend' => true,
                     ];
-                    $string = LinkController::getClash($this->User, 1, $opts, $Rule);
+                    $string = SubController::getClash($this->User);
                     fwrite($fh, $string);
                     fclose($fh);
                     $this->bot->sendDocument(
@@ -1023,84 +1024,6 @@ final class Callback
                         ]
                     );
                     unlink($filepath);
-                    break;
-                case '?quantumult=3':
-                    $temp['text'] = '点击打开配置文件，选择分享 拷贝到 Quantumult，选择更新配置.';
-                    $filename = 'Quantumult_' . $token . '_' . \time() . '.conf';
-                    $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
-                    $fh = fopen($filepath, 'w+');
-                    $opts = [
-                        'quantumult' => 3,
-                    ];
-                    $Rule = [
-                        'type' => 'all',
-                        'is_mu' => 1,
-                        'extend' => true,
-                    ];
-                    $string = LinkController::GetQuantumult($this->User, 3, $opts, $Rule);
-                    fwrite($fh, $string);
-                    fclose($fh);
-                    $this->bot->sendDocument(
-                        [
-                            'chat_id' => $this->ChatID,
-                            'document' => InputFile::create($filepath),
-                            'caption' => $temp['text'],
-                        ]
-                    );
-                    unlink($filepath);
-                    break;
-                case '?surge=2':
-                    $temp['text'] = '点击打开配置文件，选择分享 拷贝到 Surge，点击启动.';
-                    $filename = 'Surge_' . $token . '_' . \time() . '.conf';
-                    $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
-                    $fh = fopen($filepath, 'w+');
-                    $opts = [
-                        'surge' => 2,
-                    ];
-                    $Rule = [
-                        'type' => 'ss',
-                        'is_mu' => 1,
-                        'extend' => true,
-                    ];
-                    $string = LinkController::getSurge($this->User, 2, $opts, $Rule);
-                    fwrite($fh, $string);
-                    fclose($fh);
-                    $this->bot->sendDocument(
-                        [
-                            'chat_id' => $this->ChatID,
-                            'document' => InputFile::create($filepath),
-                            'caption' => $temp['text'],
-                        ]
-                    );
-                    unlink($filepath);
-                    break;
-                case '?surge=3':
-                    $temp['text'] = '点击打开配置文件，选择分享 拷贝到 Surge，点击启动.';
-                    $filename = 'Surge_' . $token . '_' . \time() . '.conf';
-                    $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
-                    $fh = fopen($filepath, 'w+');
-                    $opts = [
-                        'surge' => 3,
-                    ];
-                    $Rule = [
-                        'type' => 'ss',
-                        'is_mu' => 1,
-                        'extend' => true,
-                    ];
-                    $string = LinkController::getSurge($this->User, 3, $opts, $Rule);
-                    fwrite($fh, $string);
-                    fclose($fh);
-                    $this->bot->sendDocument(
-                        [
-                            'chat_id' => $this->ChatID,
-                            'document' => InputFile::create($filepath),
-                            'caption' => $temp['text'],
-                        ]
-                    );
-                    unlink($filepath);
-                    break;
-                default:
-                    $temp['text'] = '该订阅链接为：' . PHP_EOL . PHP_EOL . $UserApiUrl . $CallbackDataExplode[1];
                     break;
             }
         } else {

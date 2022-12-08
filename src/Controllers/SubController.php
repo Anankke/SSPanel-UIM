@@ -9,6 +9,7 @@ use App\Models\Node;
 use App\Models\UserSubscribeLog;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  *  SubController
@@ -67,15 +68,21 @@ final class SubController extends BaseController
             ]);
         }
 
-        return $response->write(
-            $sub_info
-        );
+        if ($subtype === 'clash') {
+            $sub_details = ' upload=' . $user->u
+            . '; download=' . $user->d
+            . '; total=' . $user->transfer_enable
+            . '; expire=' . strtotime($user->class_expire);
+            return $response->withHeader('Subscription-Userinfo', $sub_details)->write(
+                $sub_info
+            );
+        }
     }
 
     public static function getJson($user)
     {
         $nodes = [];
-        //篩選出用戶能連接的節點，感謝 @AVX512
+        //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
             ->whereIn('node_group', [0, $user->group])
@@ -197,8 +204,143 @@ final class SubController extends BaseController
         ];
     }
 
-    public static function getClash($user): void
+    public static function getClash($user): string
     {
+        $nodes = [];
+        //篩選出用戶能連接的節點
+        $nodes_raw = Node::where('type', 1)
+            ->where('node_class', '<=', $user->class)
+            ->whereIn('node_group', [0, $user->group])
+            ->where(static function ($query): void {
+                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
+            })
+            ->get();
+
+        foreach ($nodes_raw as $node_raw) {
+            $node_custom_config = \json_decode($node_raw->custom_config, true);
+            //檢查是否配置“前端/订阅中下发的服务器地址”
+            if (! array_key_exists('server_user', $node_custom_config)) {
+                $server = $node_raw->server;
+            } else {
+                $server = $node_custom_config['server_user'];
+            }
+            switch ($node_raw->sort) {
+                case '0':
+                    $plugin = $node_custom_config['plugin'] ?? '';
+                    $plugin_option = $node_custom_config['plugin_option'] ?? null;
+                    // Clash 特定配置
+                    $udp = $node_custom_config['udp'] ?? true;
+
+                    $node = [
+                        'name' => $node_raw->name,
+                        'type' => 'ss',
+                        'server' => $server,
+                        'port' => $user->port,
+                        'password' => $user->passwd,
+                        'cipher' => $user->method,
+                        'udp' => $udp,
+                        'plugin' => $plugin,
+                        'plugin-opts' => $plugin_option,
+                    ];
+
+                    break;
+                case '11':
+                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_confi['offset_port_node'] ?? 443));
+                    $alter_id = $node_custom_config['alter_id'] ?? '0';
+                    $security = $node_custom_config['security'] ?? 'none';
+                    $encryption = $node_custom_config['encryption'] ?? 'auto';
+                    $network = $node_custom_config['network'] ?? '';
+                    $host = $node_custom_config['host'] ?? '';
+                    $servicename = $node_custom_config['servicename'] ?? '';
+                    $tls = \in_array($security, ['tls', 'xtls']) ? true : false;
+                    // Clash 特定配置
+                    $udp = $node_custom_config['udp'] ?? true;
+                    $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? null;
+                    $h2_opts = $node_custom_config['h2-opts'] ?? $node_custom_config['h2_opts'] ?? null;
+                    $http_opts = $node_custom_config['http-opts'] ?? $node_custom_config['http_opts'] ?? null;
+                    $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
+
+                    $node = [
+                        'name' => $node_raw->name,
+                        'type' => 'vmess',
+                        'server' => $server,
+                        'port' => $v2_port,
+                        'uuid' => $user->uuid,
+                        'alterId' => $alter_id,
+                        'cipher' => $encryption,
+                        'udp' => $udp,
+                        'network' => $network,
+                        'tls' => $tls,
+                        'servicename' => $servicename,
+                        'ws-opts' => $ws_opts,
+                        'h2-opts' => $h2_opts,
+                        'http-opts' => $http_opts,
+                        'grpc-opts' => $grpc_opts,
+                    ];
+
+                    break;
+                case '14':
+                    $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_confi['offset_port_node'] ?? 443));
+                    $network = $node_custom_config['network'] ?? '';
+                    $host = $node_custom_config['host'] ?? '';
+                    $alpn = $node_custom_config['alpn'] ?? null;
+                    $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
+                    $servicename = $node_custom_config['servicename'] ?? '';
+                    // Clash 特定配置
+                    $udp = $node_custom_config['udp'] ?? true;
+                    $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? null;
+                    $grpc_opts = $node_custom_config['grpc-opts'] ?? $node_custom_config['grpc_opts'] ?? null;
+
+                    $node = [
+                        'name' => $node_raw->name,
+                        'type' => 'trojan',
+                        'server' => $server,
+                        'sni' => $host,
+                        'port' => $trojan_port,
+                        'password' => $user->uuid,
+                        'network' => $network,
+                        'alpn' => $alpn,
+                        'udp' => $udp,
+                        'skip-cert-verify' => $allow_insecure,
+                        'ws-opts' => $ws_opts,
+                        'grpc-opts' => $grpc_opts,
+                    ];
+
+                    break;
+            }
+            if ($node === null) {
+                continue;
+            }
+            $nodes[] = $node;
+        }
+
+        $clash = [
+            'port' => 7890,
+            'socks-port' => 7891,
+            'redir-port' => 7892,
+            'allow-lan' => false,
+            'mode' => 'Global',
+            'log-level' => 'error',
+            'external-controller' => '0.0.0.0:9090',
+            'dns' => [
+                'enable' => true,
+                'ipv6' => false,
+                'listen' => '0.0.0.0:53',
+                'enhanced-mode' => 'fake-ip',
+                'fake-ip-range' => '198.18.0.1/16',
+                'nameserver' => [
+                    '119.29.29.29',
+                    '1.1.1.1',
+                    'https://cloudflare-dns.com/dns-query',
+                ],
+                'fallback' => [
+                    'tcp://1.1.1.1',
+                ],
+            ],
+            'proxies' => $nodes,
+        ];
+
+        return Yaml::dump($clash, 3, 1);
     }
 
     public static function getUniversalSub($user)
