@@ -676,7 +676,7 @@ final class Tools
         if ($Elink !== null) {
             return $Elink->token;
         }
-        
+
         $NLink = new Link();
         $NLink->userid = $userid;
         $NLink->token = self::genSubToken();
