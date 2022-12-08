@@ -31,7 +31,6 @@ use App\Utils\QQWry;
 use App\Utils\ResponseHelper;
 use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
-use App\Utils\URL;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -436,7 +435,6 @@ final class UserController extends BaseController
             ->assign('methods', $methods)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->registerClass('Config', Config::class)
-            ->registerClass('URL', URL::class)
             ->display('user/edit.tpl');
     }
 
@@ -720,71 +718,6 @@ final class UserController extends BaseController
     /**
      * @param array     $args
      */
-    public function updateSSR(Request $request, Response $response, array $args)
-    {
-        $protocol = $request->getParam('protocol');
-        $obfs = $request->getParam('obfs');
-        $obfs_param = $request->getParam('obfs_param');
-        $obfs_param = trim($obfs_param);
-
-        $user = $this->user;
-
-        if ($obfs === '' || $protocol === '') {
-            return ResponseHelper::error($response, '非法输入');
-        }
-
-        if (! Tools::isParamValidate('obfs', $obfs)) {
-            return ResponseHelper::error($response, '协议无效');
-        }
-
-        if (! Tools::isParamValidate('protocol', $protocol)) {
-            return ResponseHelper::error($response, '协议无效');
-        }
-
-        $antiXss = new AntiXSS();
-
-        $user->protocol = $antiXss->xss_clean($protocol);
-        $user->obfs = $antiXss->xss_clean($obfs);
-        $user->obfs_param = $antiXss->xss_clean($obfs_param);
-
-        if (! Tools::checkNoneProtocol($user)) {
-            return ResponseHelper::error(
-                $response,
-                '系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议<br>'
-                . implode(',', Config::getSupportParam('allow_none_protocol'))
-                . '<br>之内，请您先修改您的加密方式，再来修改此处设置。'
-            );
-        }
-
-        if (! URL::SSCanConnect($user) && ! URL::SSRCanConnect($user)) {
-            return ResponseHelper::error(
-                $response,
-                '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。'
-            );
-        }
-
-        $user->save();
-
-        if (! URL::SSCanConnect($user)) {
-            return ResponseHelper::error(
-                $response,
-                '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。'
-            );
-        }
-
-        if (! URL::SSRCanConnect($user)) {
-            return ResponseHelper::error(
-                $response,
-                '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。'
-            );
-        }
-
-        return ResponseHelper::successfully($response, '设置成功，您可自由选用客户端来连接。');
-    }
-
-    /**
-     * @param array     $args
-     */
     public function updateTheme(Request $request, Response $response, array $args)
     {
         $theme = $request->getParam('theme');
@@ -1029,35 +962,6 @@ final class UserController extends BaseController
             'old_local' => null,
         ], $expire_in);
         return $response->withStatus(302)->withHeader('Location', $local);
-    }
-
-    /**
-     * @param array     $args
-     */
-    public function getUserAllURL(Request $request, Response $response, array $args)
-    {
-        $user = $this->user;
-        $type = $request->getQueryParams()['type'];
-        $return = '';
-        switch ($type) {
-            case 'ss':
-                $return .= URL::getNewAllUrl($user, ['type' => 'ss']) . PHP_EOL;
-                break;
-            case 'ssr':
-                $return .= URL::getNewAllUrl($user, ['type' => 'ssr']) . PHP_EOL;
-                break;
-            case 'v2ray':
-                $return .= URL::getNewAllUrl($user, ['type' => 'vmess']) . PHP_EOL;
-                break;
-            default:
-                $return .= '悟空别闹！';
-                break;
-        }
-        $response = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')
-            ->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
-            ->withHeader('Content-Disposition', ' attachment; filename=node.txt');
-
-        return $response->write($return);
     }
 
     /**

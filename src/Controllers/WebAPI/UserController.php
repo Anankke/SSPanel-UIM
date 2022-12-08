@@ -48,13 +48,6 @@ final class UserController extends BaseController
             ]);
         }
 
-        if (\in_array($node->sort, [0, 10]) && $node->mu_only !== -1) {
-            $mu_port_migration = $_ENV['mu_port_migration'];
-            $muPort = Tools::getMutilUserOutPortArray($node);
-        } else {
-            $mu_port_migration = false;
-        }
-
         $users_raw = User::where('is_banned', 0)
             ->where('expire_in', '>', date('Y-m-d H:i:s'))
             ->where(static function (Builder $query) use ($node): void {
@@ -90,16 +83,7 @@ final class UserController extends BaseController
                     continue;
                 }
             }
-            if ($mu_port_migration === true && $user_raw->is_multi_user !== 0) {
-                // 下发偏移后端口
-                if ($muPort['type'] === 0) {
-                    if (\in_array($user_raw->port, array_keys($muPort['port']))) {
-                        $user_raw->port = $muPort['port'][$user_raw->port]['backend'];
-                    }
-                } else {
-                    $user_raw->port += $muPort['type'];
-                }
-            }
+
             $user_raw = Tools::keyFilter($user_raw, $key_list);
             $users[] = $user_raw;
         }

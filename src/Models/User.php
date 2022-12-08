@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Services\Config;
 use App\Services\Mail;
 use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Telegram;
 use App\Utils\Tools;
-use App\Utils\URL;
 use Exception;
 use Ramsey\Uuid\Uuid;
 
@@ -535,85 +533,6 @@ final class User extends Model
             $return['msg'] = '获得了 ' . $traffic . 'MB 流量.';
         }
 
-        return $return;
-    }
-
-    /**
-     * 更新协议
-     */
-    public function setProtocol(string $Protocol): array
-    {
-        $return = [
-            'ok' => true,
-            'msg' => '设置成功，您可自由选用客户端来连接。',
-        ];
-        if ($Protocol === '') {
-            $return['ok'] = false;
-            $return['msg'] = '非法输入';
-            return $return;
-        }
-        if (! Tools::isParamValidate('protocol', $Protocol)) {
-            $return['ok'] = false;
-            $return['msg'] = '协议无效';
-            return $return;
-        }
-        $this->protocol = $Protocol;
-        if (! Tools::checkNoneProtocol($this)) {
-            $return['ok'] = false;
-            $return['msg'] = '系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议【' . implode(',', Config::getSupportParam('allow_none_protocol')) . '】之内，请您先修改您的加密方式，再来修改此处设置。';
-            return $return;
-        }
-        if (! URL::SSCanConnect($this) && ! URL::SSRCanConnect($this)) {
-            $return['ok'] = false;
-            $return['msg'] = '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。';
-            return $return;
-        }
-        $this->save();
-        if (! URL::SSCanConnect($this)) {
-            $return['ok'] = true;
-            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks 原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
-        }
-        if (! URL::SSRCanConnect($this)) {
-            $return['ok'] = true;
-            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
-        }
-        return $return;
-    }
-
-    /**
-     * 更新混淆
-     */
-    public function setObfs(string $Obfs): array
-    {
-        $return = [
-            'ok' => true,
-            'msg' => '设置成功，您可自由选用客户端来连接。',
-        ];
-        if ($Obfs === '') {
-            $return['ok'] = false;
-            $return['msg'] = '非法输入';
-            return $return;
-        }
-        if (! Tools::isParamValidate('obfs', $Obfs)) {
-            $return['ok'] = false;
-            $return['msg'] = '混淆无效';
-            return $return;
-        }
-        $this->obfs = $Obfs;
-        if (! URL::SSCanConnect($this) && ! URL::SSRCanConnect($this)) {
-            $return['ok'] = false;
-            $return['msg'] = '您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。';
-            return $return;
-        }
-        $this->save();
-        if (! URL::SSCanConnect($this)) {
-            $return['ok'] = true;
-            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks 原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。';
-        }
-        if (! URL::SSRCanConnect($this)) {
-            $return['ok'] = true;
-            $return['msg'] = '设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。';
-        }
         return $return;
     }
 
