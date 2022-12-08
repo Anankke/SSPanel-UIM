@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Services\Config;
 use App\Services\Mail;
 use App\Utils\GA;
 use App\Utils\Hash;
 use App\Utils\Telegram;
 use App\Utils\Tools;
-use App\Utils\URL;
 use Exception;
 use Ramsey\Uuid\Uuid;
 

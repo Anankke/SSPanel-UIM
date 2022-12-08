@@ -25,9 +25,7 @@ namespace App\Models;
  * @property        bool    $gfw_block  If node is blocked by GFW
  */
 
-use App\Services\Config;
 use App\Utils\Tools;
-use App\Utils\URL;
 
 final class Node extends Model
 {

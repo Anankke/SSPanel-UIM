@@ -71,7 +71,7 @@ final class LinkController extends BaseController
                     $sub_type = 'ss';
                     $sub_info = self::getSS($user);
                     break;
-            };
+            }
         }
 
         // 记录订阅日志
@@ -101,7 +101,7 @@ final class LinkController extends BaseController
                 $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
             })
             ->get();
-        
+
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = \json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
@@ -112,10 +112,10 @@ final class LinkController extends BaseController
             }
             switch ($node_raw->sort) {
                 case '0':
-                    $links .= \base64_encode($user->method . ':' . $user->passwd . '@' . $server . ':' . $user->port) . '#' . 
+                    $links .= \base64_encode($user->method . ':' . $user->passwd . '@' . $server . ':' . $user->port) . '#' .
                     $node_raw->name . PHP_EOL;
                     break;
-                }
+            }
         }
 
         return $links;
@@ -137,7 +137,7 @@ final class LinkController extends BaseController
                 $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
             })
             ->get();
-        
+
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = \json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
@@ -179,7 +179,7 @@ final class LinkController extends BaseController
                     }
                     $links .= 'vmess://' . \base64_encode(\json_encode($v2rayn_array)) . PHP_EOL;
                     break;
-                }
+            }
         }
 
         return $links;
@@ -196,7 +196,7 @@ final class LinkController extends BaseController
                 $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
             })
             ->get();
-        
+
         foreach ($nodes_raw as $node_raw) {
             $node_custom_config = \json_decode($node_raw->custom_config, true);
             //檢查是否配置“前端/订阅中下发的服务器地址”
@@ -219,12 +219,12 @@ final class LinkController extends BaseController
                     $servicename = $node_custom_config['servicename'] ?? '';
                     $path = $node_custom_config['path'] ?? '';
 
-                    $links .= 'trojan://' . $user->uuid . '@' . $server . ':' . $trojan_port . '?peer=' . $host . '&sni=' . $host . 
-                    '&obfs=' . $transport_plugin . '&path=' . $path . '&mux=' . $mux . '&allowInsecure=' . $allow_insecure . 
-                    '&obfsParam=' . $transport_method . '&type=' . $transport . '&security=' . $security . 'serviceName=' . $servicename . '#' . 
+                    $links .= 'trojan://' . $user->uuid . '@' . $server . ':' . $trojan_port . '?peer=' . $host . '&sni=' . $host .
+                    '&obfs=' . $transport_plugin . '&path=' . $path . '&mux=' . $mux . '&allowInsecure=' . $allow_insecure .
+                    '&obfsParam=' . $transport_method . '&type=' . $transport . '&security=' . $security . 'serviceName=' . $servicename . '#' .
                     $node_raw->name . PHP_EOL;
                     break;
-                }
+            }
         }
 
         return $links;

@@ -31,7 +31,6 @@ use App\Utils\QQWry;
 use App\Utils\ResponseHelper;
 use App\Utils\TelegramSessionManager;
 use App\Utils\Tools;
-use App\Utils\URL;
 use Ramsey\Uuid\Uuid;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -436,7 +435,6 @@ final class UserController extends BaseController
             ->assign('methods', $methods)
             ->assign('telegram_bot', $_ENV['telegram_bot'])
             ->registerClass('Config', Config::class)
-            ->registerClass('URL', URL::class)
             ->display('user/edit.tpl');
     }
 

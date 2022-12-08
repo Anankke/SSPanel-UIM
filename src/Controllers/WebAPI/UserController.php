@@ -72,7 +72,6 @@ final class UserController extends BaseController
         $alive_ip = (new \App\Models\Ip())->getUserAliveIpCount();
         $users = [];
         foreach ($users_raw as $user_raw) {
-            
             if (isset($alive_ip[strval($user_raw->id)]) && $user_raw->node_connector !== 0) {
                 $user_raw->alive_ip = $alive_ip[strval($user_raw->id)];
             }
