@@ -253,26 +253,26 @@ return function (SlimApp $app): void {
         })->add(new AuthorizationBearer($_ENV['adminApiToken']));
     }
 
-    // mu
+    // WebAPI
     $app->group('/mod_mu', function (): void {
         // 流媒体检测
-        $this->post('/media/saveReport', App\Controllers\Node\NodeController::class . ':saveReport');
+        $this->post('/media/saveReport', App\Controllers\WebAPI\NodeController::class . ':saveReport');
         // 节点
-        $this->get('/nodes', App\Controllers\Node\NodeController::class . ':getAllInfo');
-        $this->get('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':getInfo');
-        $this->post('/nodes/{id}/info', App\Controllers\Node\NodeController::class . ':info');
+        $this->get('/nodes', App\Controllers\WebAPI\NodeController::class . ':getAllInfo');
+        $this->get('/nodes/{id}/info', App\Controllers\WebAPI\NodeController::class . ':getInfo');
         // 用户
-        $this->get('/users', App\Controllers\Node\UserController::class . ':index');
-        $this->post('/users/traffic', App\Controllers\Node\UserController::class . ':addTraffic');
-        $this->post('/users/aliveip', App\Controllers\Node\UserController::class . ':addAliveIp');
-        $this->post('/users/detectlog', App\Controllers\Node\UserController::class . ':addDetectLog');
+        $this->get('/users', App\Controllers\WebAPI\UserController::class . ':index');
+        $this->post('/users/traffic', App\Controllers\WebAPI\UserController::class . ':addTraffic');
+        $this->post('/users/aliveip', App\Controllers\WebAPI\UserController::class . ':addAliveIp');
+        $this->post('/users/detectlog', App\Controllers\WebAPI\UserController::class . ':addDetectLog');
         // 审计 & 杂七杂八的功能
-        $this->get('/func/detect_rules', App\Controllers\Node\FuncController::class . ':getDetectLogs');
-        $this->get('/func/ping', App\Controllers\Node\FuncController::class . ':ping');
+        $this->get('/func/detect_rules', App\Controllers\WebAPI\FuncController::class . ':getDetectLogs');
+        $this->get('/func/ping', App\Controllers\WebAPI\FuncController::class . ':ping');
         // Dummy API for old version
-        $this->post('/func/block_ip', App\Controllers\Node\FuncController::class . ':addBlockIp');
-        $this->get('/func/block_ip', App\Controllers\Node\FuncController::class . ':getBlockip');
-        $this->get('/func/unblock_ip', App\Controllers\Node\FuncController::class . ':getUnblockip');
+        $this->post('/func/block_ip', App\Controllers\WebAPI\FuncController::class . ':addBlockIp');
+        $this->get('/func/block_ip', App\Controllers\WebAPI\FuncController::class . ':getBlockip');
+        $this->get('/func/unblock_ip', App\Controllers\WebAPI\FuncController::class . ':getUnblockip');
+        $this->post('/nodes/{id}/info', App\Controllers\WebAPI\NodeController::class . ':info');
     })->add(new NodeToken());
 
     $app->group('/link', function (): void {
