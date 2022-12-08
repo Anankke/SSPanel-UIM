@@ -670,6 +670,20 @@ final class Tools
         return "couldn't alloc token";
     }
 
+    public static function generateSSRSubCode(int $userid): string
+    {
+        $Elink = Link::where('userid', $userid)->first();
+        if ($Elink !== null) {
+            return $Elink->token;
+        }
+        $NLink = new Link();
+        $NLink->userid = $userid;
+        $NLink->token = self::genSubToken();
+        $NLink->save();
+
+        return $NLink->token;
+    }
+
     public static function searchEnvName($name)
     {
         global $_ENV;

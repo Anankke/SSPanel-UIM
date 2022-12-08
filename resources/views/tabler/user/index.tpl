@@ -254,7 +254,7 @@
                                                 class="copy btn btn-primary ms-auto">
                                                 复制 Shadowrocket
                                             </a>
-                                            <a href="sub://{base64_encode({$getUniversalSub}/clash)}"
+                                            <a href="sub://{base64_encode('{$getUniversalSub}/clash')}"
                                                 class="btn btn-primary ms-auto">
                                                 导入 Shadowrocket
                                             </a>

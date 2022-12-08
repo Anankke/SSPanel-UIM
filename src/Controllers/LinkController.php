@@ -8,7 +8,6 @@ namespace App\Controllers;
 
 use App\Models\Link;
 use App\Models\UserSubscribeLog;
-use App\Controllers\SubController;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
@@ -19,33 +18,6 @@ use Slim\Http\Response;
  */
 final class LinkController extends BaseController
 {
-    public static function generateRandomLink()
-    {
-        for ($i = 0; $i < 10; $i++) {
-            $token = Tools::genRandomChar(16);
-            $Elink = Link::where('token', $token)->first();
-            if ($Elink === null) {
-                return $token;
-            }
-        }
-
-        return "couldn't alloc token";
-    }
-
-    public static function generateSSRSubCode(int $userid): string
-    {
-        $Elink = Link::where('userid', $userid)->first();
-        if ($Elink !== null) {
-            return $Elink->token;
-        }
-        $NLink = new Link();
-        $NLink->userid = $userid;
-        $NLink->token = self::generateRandomLink();
-        $NLink->save();
-
-        return $NLink->token;
-    }
-
     public static function getContent(Request $request, Response $response, array $args): ResponseInterface
     {
         if (! $_ENV['Subscribe']) {

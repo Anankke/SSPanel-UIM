@@ -887,80 +887,8 @@ final class Callback
         $keyboard = [
             [
                 [
-                    'text' => 'SSR 订阅',
-                    'callback_data' => 'user.subscribe|?sub=1',
-                ],
-            ],
-            [
-                [
-                    'text' => 'SS-Android 订阅',
-                    'callback_data' => 'user.subscribe|?list=ssa',
-                ],
-                [
-                    'text' => 'V2RayN 订阅',
-                    'callback_data' => 'user.subscribe|?sub=3',
-                ],
-            ],
-            [
-                [
-                    'text' => 'Shadowrocket',
-                    'callback_data' => 'user.subscribe|?list=shadowrocket',
-                ],
-                [
-                    'text' => 'Kitsunebi',
-                    'callback_data' => 'user.subscribe|?list=kitsunebi',
-                ],
-            ],
-            [
-                [
                     'text' => 'Clash',
                     'callback_data' => 'user.subscribe|?clash=1',
-                ],
-            ],
-            [
-                [
-                    'text' => 'Clash Provider',
-                    'callback_data' => 'user.subscribe|?list=clash',
-                ],
-            ],
-            [
-                [
-                    'text' => 'Surge List',
-                    'callback_data' => 'user.subscribe|?list=surge',
-                ],
-                [
-                    'text' => 'Surge 4',
-                    'callback_data' => 'user.subscribe|?surge=4',
-                ],
-            ],
-            [
-                [
-                    'text' => 'Surge 2',
-                    'callback_data' => 'user.subscribe|?surge=2',
-                ],
-                [
-                    'text' => 'Surge 3',
-                    'callback_data' => 'user.subscribe|?surge=3',
-                ],
-            ],
-            [
-                [
-                    'text' => 'Quantumult',
-                    'callback_data' => 'user.subscribe|?list=quantumult',
-                ],
-                [
-                    'text' => 'QuantumultX',
-                    'callback_data' => 'user.subscribe|?list=quantumultx',
-                ],
-            ],
-            [
-                [
-                    'text' => 'Quantumult Conf',
-                    'callback_data' => 'user.subscribe|?quantumult=3',
-                ],
-                [
-                    'text' => 'Surfboard',
-                    'callback_data' => 'user.subscribe|?surfboard=1',
                 ],
             ],
             [
@@ -997,7 +925,7 @@ final class Callback
                     ],
                 ],
             ];
-            $token = LinkController::generateSSRSubCode($this->User->id);
+            $token = Tools::generateSSRSubCode($this->User->id);
             $UserApiUrl = SubController::getUniversalSub($this->User);
             switch ($CallbackDataExplode[1]) {
                 case '?clash=1':
