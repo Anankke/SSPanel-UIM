@@ -287,7 +287,6 @@ final class SubController extends BaseController
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_confi['offset_port_node'] ?? 443));
                     $network = $node_custom_config['network'] ?? '';
                     $host = $node_custom_config['host'] ?? '';
-                    $alpn = $node_custom_config['alpn'] ?? null;
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     $servicename = $node_custom_config['servicename'] ?? '';
                     // Clash 特定配置
@@ -303,7 +302,6 @@ final class SubController extends BaseController
                         'port' => (int) $trojan_port,
                         'password' => $user->uuid,
                         'network' => $network,
-                        'alpn' => $alpn,
                         'udp' => $udp,
                         'skip-cert-verify' => $allow_insecure,
                         'ws-opts' => $ws_opts,
