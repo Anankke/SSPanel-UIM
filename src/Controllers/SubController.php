@@ -326,26 +326,10 @@ final class SubController extends BaseController
         $clash = [
             'port' => 7890,
             'socks-port' => 7891,
-            'redir-port' => 7892,
             'allow-lan' => false,
             'mode' => 'Global',
             'log-level' => 'error',
             'external-controller' => '0.0.0.0:9090',
-            'dns' => [
-                'enable' => true,
-                'ipv6' => false,
-                'listen' => '0.0.0.0:53',
-                'enhanced-mode' => 'fake-ip',
-                'fake-ip-range' => '198.18.0.1/16',
-                'nameserver' => [
-                    '119.29.29.29',
-                    '1.1.1.1',
-                    'https://cloudflare-dns.com/dns-query',
-                ],
-                'fallback' => [
-                    'tcp://1.1.1.1',
-                ],
-            ],
             'proxies' => $nodes,
         ];
 
