@@ -211,6 +211,8 @@ final class SubController extends BaseController
     public static function getClash($user): string
     {
         $nodes = [];
+        $clash_config = $_ENV['Clash_Config'];
+
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
@@ -314,6 +316,11 @@ final class SubController extends BaseController
                 continue;
             }
             $nodes[] = $node;
+
+            $indexes = [0, 1, 2, 5, 7, 8, 9, 12];
+            foreach ($indexes as $index) {
+                $clash_config['proxy-groups'][$index]['proxies'][] = $node_raw->name;
+            }
         }
 
         $clash = [
@@ -340,6 +347,7 @@ final class SubController extends BaseController
                 ],
             ],
             'proxies' => $nodes,
+            $clash_config,
         ];
 
         return Yaml::dump($clash, 3, 1);
