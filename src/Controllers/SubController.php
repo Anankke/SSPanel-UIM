@@ -347,10 +347,9 @@ final class SubController extends BaseController
                 ],
             ],
             'proxies' => $nodes,
-            $clash_config,
         ];
 
-        return Yaml::dump($clash, 3, 1);
+        return Yaml::dump(\array_merge($clash, $clash_config), 3, 1);
     }
 
     // SIP008 SS 订阅
