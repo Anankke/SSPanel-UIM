@@ -105,9 +105,6 @@ final class Config
 
             'enable_telegram_login' => $_ENV['enable_telegram_login'],
 
-            'subscribe_client' => $_ENV['subscribe_client'],
-            'subscribe_client_url' => $_ENV['subscribe_client_url'],
-
             'subscribeLog' => $_ENV['subscribeLog'],
             'subscribeLog_show' => $_ENV['subscribeLog_show'],
             'subscribeLog_keep_days' => $_ENV['subscribeLog_keep_days'],

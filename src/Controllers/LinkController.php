@@ -173,7 +173,7 @@ final class LinkController extends BaseController
                         'tls' => $security,
                     ];
 
-                    if ($enable_vless === '1') {
+                    if ($enable_vless === '1' || $enable_vless === 1) {
                         $links .= 'vless://' . \base64_encode(\json_encode($v2rayn_array)) . PHP_EOL;
                         break;
                     }
@@ -221,7 +221,7 @@ final class LinkController extends BaseController
 
                     $links .= 'trojan://' . $user->uuid . '@' . $server . ':' . $trojan_port . '?peer=' . $host . '&sni=' . $host .
                     '&obfs=' . $transport_plugin . '&path=' . $path . '&mux=' . $mux . '&allowInsecure=' . $allow_insecure .
-                    '&obfsParam=' . $transport_method . '&type=' . $transport . '&security=' . $security . 'serviceName=' . $servicename . '#' .
+                    '&obfsParam=' . $transport_method . '&type=' . $transport . '&security=' . $security . '&serviceName=' . $servicename . '#' .
                     $node_raw->name . PHP_EOL;
                     break;
             }

@@ -28,8 +28,8 @@ final class NodeController extends BaseController
             'traffic_rate' => '倍率',
             'node_class' => '等级',
             'node_group' => '组别',
-            'node_bandwidth_limit' => '流量限制',
-            'node_bandwidth' => '已用流量',
+            'node_bandwidth_limit' => '流量限制/GB',
+            'node_bandwidth' => '已用流量/GB',
             'bandwidthlimit_resetday' => '重置日',
         ],
     ];

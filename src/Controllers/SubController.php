@@ -211,6 +211,8 @@ final class SubController extends BaseController
     public static function getClash($user): string
     {
         $nodes = [];
+        $clash_config = $_ENV['Clash_Config'];
+
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
@@ -287,7 +289,6 @@ final class SubController extends BaseController
                     $trojan_port = $node_custom_config['trojan_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_confi['offset_port_node'] ?? 443));
                     $network = $node_custom_config['network'] ?? '';
                     $host = $node_custom_config['host'] ?? '';
-                    $alpn = $node_custom_config['alpn'] ?? null;
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     $servicename = $node_custom_config['servicename'] ?? '';
                     // Clash 特定配置
@@ -303,7 +304,6 @@ final class SubController extends BaseController
                         'port' => (int) $trojan_port,
                         'password' => $user->uuid,
                         'network' => $network,
-                        'alpn' => $alpn,
                         'udp' => $udp,
                         'skip-cert-verify' => $allow_insecure,
                         'ws-opts' => $ws_opts,
@@ -316,6 +316,11 @@ final class SubController extends BaseController
                 continue;
             }
             $nodes[] = $node;
+
+            $indexes = [0, 1, 2, 5, 7, 8, 9, 12];
+            foreach ($indexes as $index) {
+                $clash_config['proxy-groups'][$index]['proxies'][] = $node_raw->name;
+            }
         }
 
         $clash = [
@@ -344,7 +349,7 @@ final class SubController extends BaseController
             'proxies' => $nodes,
         ];
 
-        return Yaml::dump($clash, 3, 1);
+        return Yaml::dump(\array_merge($clash, $clash_config), 3, 1);
     }
 
     // SIP008 SS 订阅
