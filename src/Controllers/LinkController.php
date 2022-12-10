@@ -229,4 +229,11 @@ final class LinkController extends BaseController
 
         return $links;
     }
+
+    public static function getTraditionalSub($user)
+    {
+        $userid = $user->id;
+        $token = Link::where('userid', $userid)->first();
+        return $_ENV['subUrl'] . '/link/' . $token->token;
+    }
 }
