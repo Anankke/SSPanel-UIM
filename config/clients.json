@@ -48,6 +48,32 @@
                     "apkpureUrl": ""
                 }
             ]
+        },
+        {
+            "name": "v2rayN",
+            "tagMethod": "github_release",
+            "gitRepo": "2dust/v2rayN",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "v2rayN-Core.zip",
+                    "saveName": "v2rayN-Core.zip",
+                    "apkpureUrl": ""
+                }
+            ]
+        },
+        {
+            "name": "v2rayNG",
+            "tagMethod": "github_pre_release",
+            "gitRepo": "2dust/v2rayNG",
+            "savePath": "public/clients/",
+            "downloads": [
+                {
+                    "sourceName": "v2rayNG_%tagName%.apk",
+                    "saveName": "v2rayNG.apk",
+                    "apkpureUrl": ""
+                }
+            ]
         }
     ]
 }

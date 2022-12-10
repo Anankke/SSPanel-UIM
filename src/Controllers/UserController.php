@@ -62,6 +62,7 @@ final class UserController extends BaseController
             $this->view()
                 ->assign('ann', Ann::orderBy('date', 'desc')->first())
                 ->assign('getUniversalSub', SubController::getUniversalSub($this->user))
+                ->assign('getTraditionalSub', LinkController::getTraditionalSub($this->user))
                 ->assign('data', $data)
                 ->assign('captcha', $captcha)
                 ->display('user/index.tpl')
