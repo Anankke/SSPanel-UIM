@@ -42,8 +42,9 @@ return function (SlimApp $app): void {
 
         $this->get('/server', App\Controllers\User\ServerController::class . ':userServerPage');
 
-        $this->get('/detect', App\Controllers\User\DetectController::class . ':detectIndex');
-        $this->get('/detect/log', App\Controllers\User\DetectController::class . ':detectLog');
+        // 审计
+        $this->get('/detect', App\Controllers\User\DetectController::class . ':index');
+        $this->get('/detect/log', App\Controllers\User\DetectController::class . ':log');
 
         $this->get('/shop', App\Controllers\User\ShopController::class . ':shop');
         $this->post('/coupon_check', App\Controllers\User\ShopController::class . ':couponCheck');
