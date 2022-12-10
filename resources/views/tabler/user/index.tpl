@@ -76,7 +76,7 @@
                                                 设备限制
                                             </div>
                                             <div class="text-muted">
-                                                {if $user->node_connector != 0}
+                                                {if $user->node_connector !== 0}
                                                     {$user->node_connector}
                                                 {else}
                                                     不限制
@@ -101,7 +101,7 @@
                                                 速度限制
                                             </div>
                                             <div class="text-muted">
-                                                {if $user->node_speedlimit != 0}
+                                                {if $user->node_speedlimit !== 0}
                                                     {$user->node_speedlimit}</code> Mbps
                                                 {else}
                                                     不限制
@@ -123,6 +123,12 @@
                                         <a href="#sub" class="nav-link active" data-bs-toggle="tab">
                                             <i class="ti ti-rss icon"></i>
                                             &nbsp;通用订阅
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#traditional-sub" class="nav-link active" data-bs-toggle="tab">
+                                            <i class="ti ti-rss icon"></i>
+                                            &nbsp;传统订阅
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -179,6 +185,39 @@
                                                 <a data-clipboard-text="{$getUniversalSub}/clash"
                                                     class="copy btn btn-primary ms-auto">
                                                     复制通用订阅（clash）
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane active show" id="traditional-sub">
+                                            <div>
+                                                <p>
+                                                    传统订阅（Shadowsocks）：<code>{$getTraditionalSub}?sub=2</code>
+                                                </p>
+                                                <p>
+                                                    传统订阅（V2Ray）：<code>{$getTraditionalSub}?sub=3</code>
+                                                </p>
+                                                <p>
+                                                    传统订阅（Trojan）：<code>{$getTraditionalSub}?sub=4</code>
+                                                </p>
+                                                <a data-clipboard-text="{$getTraditionalSub}?sub=2"
+                                                    class="copy btn btn-primary ms-auto">
+                                                    复制传统订阅（Shadowsocks）
+                                                </a>
+                                                <a data-clipboard-text="{$getTraditionalSub}?sub=3"
+                                                    class="copy btn btn-primary ms-auto">
+                                                    复制传统订阅（V2Ray）
+                                                </a>
+                                                <a data-clipboard-text="{$getTraditionalSub}?sub=4"
+                                                    class="copy btn btn-primary ms-auto">
+                                                    复制传统订阅（Trojan）
+                                                </a>
+                                                <a href="/clients/v2rayN-Core.zip"
+                                                    class="btn btn-primary ms-auto">
+                                                    下载 v2rayN（Windows）
+                                                </a>
+                                                <a href="/clients/v2rayNG.apk"
+                                                    class="btn btn-primary ms-auto">
+                                                    下载 v2rayNG（Android）
                                                 </a>
                                             </div>
                                         </div>
@@ -297,18 +336,6 @@
                                                         <td><strong>自定义加密</strong></td>
                                                         <td>{$user->method}</td>
                                                     </tr>
-                                                    <tr>
-                                                        <td><strong>自定义协议</strong></td>
-                                                        <td>{$user->protocol}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>自定义混淆</strong></td>
-                                                        <td>{$user->obfs}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>自定义混淆参数</strong></td>
-                                                        <td>{$user->obfs_param}</td>
-                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -370,12 +397,12 @@
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">最新公告 
-                            {if $ann != null}
+                            {if $ann !== null}
                             <span class="card-subtitle">{$ann->date}</span>
                             {/if}
                             </h3>
                             <p class="text-muted">
-                            {if $ann != null}
+                            {if $ann !== null}
                                 {$ann->content}
                             {else}
                                 暂无公告
@@ -396,7 +423,7 @@
                                 <h3 class="card-title">每日签到</h3>
                                 <p class="text-muted">
                                     签到可领取
-                                    {if $config['checkinMin'] != $config['checkinMax']}
+                                    {if $config['checkinMin'] !== $config['checkinMax']}
                                         &nbsp;<code>{$config['checkinMin']} MB</code> 至 <code>{$config['checkinMax']} MB</code>
                                         范围内的流量，
                                     {else}
