@@ -73,11 +73,11 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-medium">
-                                                设备限制
+                                                同时连接IP限制
                                             </div>
                                             <div class="text-muted">
-                                                {if $user->node_connector !== 0}
-                                                    {$user->node_connector}
+                                                {if $user->node_iplimit !== 0}
+                                                    {$user->node_iplimit}
                                                 {else}
                                                     不限制
                                                 {/if}
@@ -101,7 +101,7 @@
                                                 速度限制
                                             </div>
                                             <div class="text-muted">
-                                                {if $user->node_speedlimit !== 0}
+                                                {if $user->node_speedlimit !== 0.0}
                                                     {$user->node_speedlimit}</code> Mbps
                                                 {else}
                                                     不限制
@@ -126,7 +126,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#traditional-sub" class="nav-link active" data-bs-toggle="tab">
+                                        <a href="#traditional-sub" class="nav-link" data-bs-toggle="tab">
                                             <i class="ti ti-rss icon"></i>
                                             &nbsp;传统订阅
                                         </a>
@@ -188,7 +188,7 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="tab-pane active show" id="traditional-sub">
+                                        <div class="tab-pane show" id="traditional-sub">
                                             <div>
                                                 <p>
                                                     传统订阅（Shadowsocks）：<code>{$getTraditionalSub}?sub=2</code>
