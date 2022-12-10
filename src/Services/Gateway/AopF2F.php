@@ -96,7 +96,7 @@ final class AopF2F extends AbstractPayment
 
     public static function getPurchaseHTML(): string
     {
-        return View::getSmarty()->fetch('user/aopf2f.tpl');
+        return View::getSmarty()->fetch('gateway/aopf2f.tpl');
     }
 
     private function createGateway(): AbstractAopGateway

@@ -95,6 +95,6 @@ final class THeadPay extends AbstractPayment
 
     public static function getPurchaseHTML(): string
     {
-        return View::getSmarty()->fetch('user/theadpay.tpl');
+        return View::getSmarty()->fetch('gateway/theadpay.tpl');
     }
 }

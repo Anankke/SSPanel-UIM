@@ -82,7 +82,7 @@ final class StripeCard extends AbstractPayment
 
     public static function getPurchaseHTML(): string
     {
-        return View::getSmarty()->fetch('user/stripe_card.tpl');
+        return View::getSmarty()->fetch('gateway/stripe_card.tpl');
     }
 
     public function getReturnHTML($request, $response, $args): ResponseInterface

@@ -170,7 +170,7 @@ final class PAYJS extends AbstractPayment
 
     public static function getPurchaseHTML(): string
     {
-        return View::getSmarty()->fetch('user/payjs.tpl');
+        return View::getSmarty()->fetch('gateway/payjs.tpl');
     }
 
     public function getReturnHTML($request, $response, $args): ResponseInterface
@@ -197,7 +197,7 @@ final class PAYJS extends AbstractPayment
                 $success = 0;
             }
         }
-        return View::getSmarty()->assign('money', $money)->assign('success', $success)->fetch('user/pay_success.tpl');
+        return View::getSmarty()->assign('money', $money)->assign('success', $success)->fetch('gateway/payjs_success.tpl');
     }
 
     public function getStatus($request, $response, $args): ResponseInterface
