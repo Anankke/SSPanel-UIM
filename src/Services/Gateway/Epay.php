@@ -115,7 +115,7 @@ final class Epay extends AbstractPayment
     }
     public static function getPurchaseHTML(): string
     {
-        return View::getSmarty()->fetch('user/epay.tpl');
+        return View::getSmarty()->fetch('gateway/epay.tpl');
     }
 
     public function getReturnHTML($request, $response, $args): ResponseInterface
