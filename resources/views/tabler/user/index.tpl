@@ -178,14 +178,16 @@
                                                 <p>
                                                     通用订阅（clash）：<code>{$getUniversalSub}/clash</code>
                                                 </p>
-                                                <a data-clipboard-text="{$getUniversalSub}/json"
-                                                    class="copy btn btn-primary ms-auto">
-                                                    复制通用订阅（json）
-                                                </a>
-                                                <a data-clipboard-text="{$getUniversalSub}/clash"
-                                                    class="copy btn btn-primary ms-auto">
-                                                    复制通用订阅（clash）
-                                                </a>
+                                                <div class="btn-list justify-content-start">
+                                                    <a data-clipboard-text="{$getUniversalSub}/json"
+                                                        class="copy btn btn-primary">
+                                                        复制通用订阅（json）
+                                                    </a>
+                                                    <a data-clipboard-text="{$getUniversalSub}/clash"
+                                                        class="copy btn btn-primary">
+                                                        复制通用订阅（clash）
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane show" id="traditional-sub">
@@ -199,26 +201,28 @@
                                                 <p>
                                                     传统订阅（Trojan）：<code>{$getTraditionalSub}?sub=4</code>
                                                 </p>
-                                                <a data-clipboard-text="{$getTraditionalSub}?sub=2"
-                                                    class="copy btn btn-primary ms-auto">
-                                                    复制传统订阅（Shadowsocks）
-                                                </a>
-                                                <a data-clipboard-text="{$getTraditionalSub}?sub=3"
-                                                    class="copy btn btn-primary ms-auto">
-                                                    复制传统订阅（V2Ray）
-                                                </a>
-                                                <a data-clipboard-text="{$getTraditionalSub}?sub=4"
-                                                    class="copy btn btn-primary ms-auto">
-                                                    复制传统订阅（Trojan）
-                                                </a>
-                                                <a href="/clients/v2rayN-Core.zip"
-                                                    class="btn btn-primary ms-auto">
-                                                    下载 v2rayN（Windows）
-                                                </a>
-                                                <a href="/clients/v2rayNG.apk"
-                                                    class="btn btn-primary ms-auto">
-                                                    下载 v2rayNG（Android）
-                                                </a>
+                                                <div class="btn-list justify-content-start">
+                                                    <a data-clipboard-text="{$getTraditionalSub}?sub=2"
+                                                        class="copy btn btn-primary">
+                                                        复制传统订阅（Shadowsocks）
+                                                    </a>
+                                                    <a data-clipboard-text="{$getTraditionalSub}?sub=3"
+                                                        class="copy btn btn-primary">
+                                                        复制传统订阅（V2Ray）
+                                                    </a>
+                                                    <a data-clipboard-text="{$getTraditionalSub}?sub=4"
+                                                        class="copy btn btn-primary">
+                                                        复制传统订阅（Trojan）
+                                                    </a>
+                                                    <a href="/clients/v2rayN-Core.zip"
+                                                        class="btn btn-primary">
+                                                        下载 v2rayN（Windows）
+                                                    </a>
+                                                    <a href="/clients/v2rayNG.apk"
+                                                        class="btn btn-primary">
+                                                        下载 v2rayNG（Android）
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="windows">
@@ -226,53 +230,59 @@
                                                 <p>
                                                     适用于 Clash 的订阅：<code>{$getUniversalSub}/clash</code>
                                                 </p>
-                                                <a data-clipboard-text="{$getUniversalSub}/clash"
-                                                    class="copy btn btn-primary ms-auto">
-                                                    复制 Clash
-                                                </a>
-                                                <a href="/clients/Clash-Windows.exe"
-                                                    class="btn btn-primary ms-auto">
-                                                    下载 Clash for Windows
-                                                </a>
-                                                <a href="clash://install-config?url={$getUniversalSub}/clash&name={$config['appName']}"
-                                                    class="btn btn-primary ms-auto my-2">
-                                                    导入 Clash
-                                                </a>
+                                                <div class="btn-list justify-content-start">
+                                                    <a data-clipboard-text="{$getUniversalSub}/clash"
+                                                        class="copy btn btn-primary">
+                                                        复制 Clash
+                                                    </a>
+                                                    <a href="/clients/Clash-Windows.exe"
+                                                        class="btn btn-primary">
+                                                        下载 Clash for Windows
+                                                    </a>
+                                                    <a href="clash://install-config?url={$getUniversalSub}/clash&name={$config['appName']}"
+                                                        class="btn btn-primary">
+                                                        导入 Clash
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="macos">
                                             <p>
                                                 适用于 Clash 的订阅：<code>{$getUniversalSub}/clash</code>
                                             </p>
-                                            <a data-clipboard-text="{$getUniversalSub}/clash"
-                                                class="copy btn btn-primary ms-auto my-2">
-                                                复制 Clash
-                                            </a>
-                                            <a href="/clients/Clash-Windows.dmg"
-                                                class="btn btn-primary ms-auto">
-                                                下载 Clash for Windows
-                                            </a>
-                                            <a href="clash://install-config?url={$getUniversalSub}/clash&name={$config['appName']}"
-                                                class="btn btn-primary ms-auto my-2">
-                                                导入 Clash
-                                            </a>
+                                            <div class="btn-list justify-content-start">
+                                                <a data-clipboard-text="{$getUniversalSub}/clash"
+                                                    class="copy btn btn-primary">
+                                                    复制 Clash
+                                                </a>
+                                                <a href="/clients/Clash-Windows.dmg"
+                                                    class="btn btn-primary">
+                                                    下载 Clash for Windows
+                                                </a>
+                                                <a href="clash://install-config?url={$getUniversalSub}/clash&name={$config['appName']}"
+                                                    class="btn btn-primary">
+                                                    导入 Clash
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="tab-pane" id="android">
                                             <p>
                                                 适用于 Clash 的订阅：<code>{$getUniversalSub}/clash</code>
                                             </p>
-                                            <a data-clipboard-text="{$getUniversalSub}/clash"
-                                                class="copy btn btn-primary ms-auto">
-                                                复制 Clash
-                                            </a>
-                                            <a href="/clients/Clash-Android.apk"
-                                                class="btn btn-primary ms-auto">
-                                                下载 Clash for Android
-                                            </a>
-                                            <a href="clash://install-config?url={$getUniversalSub}/clash&name={$config['appName']}"
-                                                class="btn btn-primary ms-auto my-2">
-                                                导入 Clash
-                                            </a>
+                                            <div class="btn-list justify-content-start">
+                                                <a data-clipboard-text="{$getUniversalSub}/clash"
+                                                    class="copy btn btn-primary">
+                                                    复制 Clash
+                                                </a>
+                                                <a href="/clients/Clash-Android.apk"
+                                                    class="btn btn-primary">
+                                                    下载 Clash for Android
+                                                </a>
+                                                <a href="clash://install-config?url={$getUniversalSub}/clash&name={$config['appName']}"
+                                                    class="btn btn-primary">
+                                                    导入 Clash
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="tab-pane" id="ios">
                                             <p>
@@ -285,35 +295,39 @@
                                             <p style="color: red;">
                                                 如若提示无法打开，是因为需要先安装对应 APP，然后才能导入
                                             </p>
-                                            <a href="https://apps.apple.com/us/app/shadowrocket/id932747118"
-                                                class="btn btn-primary ms-auto">
-                                                购买 Shadowrocket
-                                            </a>
-                                            <a data-clipboard-text="{$getUniversalSub}/clash"
-                                                class="copy btn btn-primary ms-auto">
-                                                复制 Shadowrocket
-                                            </a>
-                                            <a href="sub://{base64_encode('{$getUniversalSub}/clash')}"
-                                                class="btn btn-primary ms-auto">
-                                                导入 Shadowrocket
-                                            </a>
+                                            <div class="btn-list justify-content-start">
+                                                <a href="https://apps.apple.com/us/app/shadowrocket/id932747118"
+                                                    class="btn btn-primary">
+                                                    购买 Shadowrocket
+                                                </a>
+                                                <a data-clipboard-text="{$getUniversalSub}/clash"
+                                                    class="copy btn btn-primary">
+                                                    复制 Shadowrocket
+                                                </a>
+                                                <a href="sub://{base64_encode('{$getUniversalSub}/clash')}"
+                                                    class="btn btn-primary">
+                                                    导入 Shadowrocket
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="tab-pane" id="linux">
                                             <p>
                                                 适用于 Clash 的订阅：<code>{$getUniversalSub}/clash</code>
                                             </p>
-                                            <a data-clipboard-text="{$getUniversalSub}/clash"
-                                                class="copy btn btn-primary ms-auto">
-                                                复制 Clash
-                                            </a>
-                                            <a href="/clients/Clash-Windows.tar.gz"
-                                                class="btn btn-primary ms-auto">
-                                                下载 Clash for Windows
-                                            </a>
-                                            <a href="clash://install-config?url={$getUniversalSub}/clash&name={$config['appName']}"
-                                                class="btn btn-primary ms-auto my-2">
-                                                导入 Clash
-                                            </a>
+                                            <div class="btn-list justify-content-start">
+                                                <a data-clipboard-text="{$getUniversalSub}/clash"
+                                                    class="copy btn btn-primary">
+                                                    复制 Clash
+                                                </a>
+                                                <a href="/clients/Clash-Windows.tar.gz"
+                                                    class="btn btn-primary">
+                                                    下载 Clash for Windows
+                                                </a>
+                                                <a href="clash://install-config?url={$getUniversalSub}/clash&name={$config['appName']}"
+                                                    class="btn btn-primary">
+                                                    导入 Clash
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="tab-pane" id="config">
                                             <p>您的连接信息：</p>
