@@ -778,26 +778,6 @@
                                             <label class="floating-label">默认加密</label>
                                             <input class="form-control maxwidth-edit" id="sign_up_for_method" value="{$settings['sign_up_for_method']}">
                                         </div>
-                                        <!-- sign_up_for_protocol -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">默认协议</label>
-                                            <input class="form-control maxwidth-edit" id="sign_up_for_protocol" value="{$settings['sign_up_for_protocol']}">
-                                        </div>
-                                        <!-- sign_up_for_protocol_param -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">默认协议参数</label>
-                                            <input class="form-control maxwidth-edit" id="sign_up_for_protocol_param" value="{$settings['sign_up_for_protocol_param']}">
-                                        </div>
-                                        <!-- sign_up_for_obfs -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">默认混淆</label>
-                                            <input class="form-control maxwidth-edit" id="sign_up_for_obfs" value="{$settings['sign_up_for_obfs']}">
-                                        </div>
-                                        <!-- sign_up_for_obfs_param -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">默认混淆参数</label>
-                                            <input class="form-control maxwidth-edit" id="sign_up_for_obfs_param" value="{$settings['sign_up_for_obfs_param']}">
-                                        </div>
                                         <!-- mu_suffix -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">单端口多用户混淆参数后缀</label>
@@ -1726,10 +1706,6 @@
                     connection_device_limit: $$getValue('connection_device_limit'),
                     connection_rate_limit: $$getValue('connection_rate_limit'),
                     sign_up_for_method: $$getValue('sign_up_for_method'),
-                    sign_up_for_protocol: $$getValue('sign_up_for_protocol'),
-                    sign_up_for_protocol_param: $$getValue('sign_up_for_protocol_param'),
-                    sign_up_for_obfs: $$getValue('sign_up_for_obfs'),
-                    sign_up_for_obfs_param: $$getValue('sign_up_for_obfs_param'),
                     mu_suffix: $$getValue('mu_suffix'),
                     mu_regex: $$getValue('mu_regex'),
                     reg_forbidden_ip: $$getValue('reg_forbidden_ip'),

@@ -17,7 +17,7 @@ final class ChangeNumberType extends AbstractMigration
             ->changeColumn('uuid', 'uuid', [ 'comment' => 'UUID', 'null' => false ])
             ->save();
         $this->table('node')
-            ->changeColumn('node_speedlimit', 'double', [ 'comment' => '节点限速', 'null' => false ])
+            ->changeColumn('node_speedlimit', 'double', [ 'comment' => '节点限速', 'default' => 0, 'null' => false ])
             ->save();
     }
 

@@ -288,10 +288,6 @@ final class AuthController extends BaseController
         $user->u = 0;
         $user->d = 0;
         $user->method = $configs['sign_up_for_method'];
-        $user->protocol = $configs['sign_up_for_protocol'];
-        $user->protocol_param = $configs['sign_up_for_protocol_param'];
-        $user->obfs = $configs['sign_up_for_obfs'];
-        $user->obfs_param = $configs['sign_up_for_obfs_param'];
         $user->forbidden_ip = Setting::obtain('reg_forbidden_ip');
         $user->forbidden_port = Setting::obtain('reg_forbidden_port');
         $user->im_type = $imtype;

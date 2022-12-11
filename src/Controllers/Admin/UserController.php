@@ -68,7 +68,6 @@ final class UserController extends BaseController
         'remark',
         'pass',
         'money',
-        'is_multi_user',
         'is_admin',
         'is_banned',
         'banned_reason',
@@ -87,10 +86,6 @@ final class UserController extends BaseController
         'port',
         'passwd',
         'method',
-        'protocol',
-        'protocol_param',
-        'obfs',
-        'obfs_param',
         'forbidden_ip',
         'forbidden_port',
     ];
@@ -204,7 +199,6 @@ final class UserController extends BaseController
         $user->user_name = $request->getParam('user_name');
         $user->remark = $request->getParam('remark');
         $user->money = $request->getParam('money');
-        $user->is_multi_user = $request->getParam('is_multi_user');
         $user->is_admin = $request->getParam('is_admin') === 'true' ? 1 : 0;
         $user->is_banned = $request->getParam('is_banned') === 'true' ? 1 : 0;
         $user->banned_reason = $request->getParam('banned_reason');
@@ -223,10 +217,6 @@ final class UserController extends BaseController
         $user->port = $request->getParam('port');
         $user->passwd = $request->getParam('passwd');
         $user->method = $request->getParam('method');
-        $user->protocol = $request->getParam('protocol');
-        $user->protocol_param = $request->getParam('protocol_param');
-        $user->obfs = $request->getParam('obfs');
-        $user->obfs_param = $request->getParam('obfs_param');
         $user->forbidden_ip = str_replace(PHP_EOL, ',', $request->getParam('forbidden_ip'));
         $user->forbidden_port = str_replace(PHP_EOL, ',', $request->getParam('forbidden_port'));
 
