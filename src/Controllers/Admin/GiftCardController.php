@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\GiftCard;
 use App\Utils\Tools;
 
-final class GiftCardController extends AdminController
+final class GiftCardController extends BaseController
 {
     public static $details = [
         'field' => [
