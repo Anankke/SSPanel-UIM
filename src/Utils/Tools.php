@@ -512,4 +512,12 @@ final class Tools
         }
         return $sort;
     }
+
+    /**
+     * 礼品卡状态
+     */
+    public static function getGiftCardStatus($giftcard)
+    {
+        return $giftcard->status ? '已使用' : '未使用';
+    }
 }

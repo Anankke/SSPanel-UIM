@@ -29,17 +29,25 @@ return function (SlimApp $app): void {
         $this->get('', App\Controllers\UserController::class . ':index');
         $this->get('/', App\Controllers\UserController::class . ':index');
 
+        // 签到
         $this->post('/checkin', App\Controllers\UserController::class . ':doCheckin');
 
+        // 公告
         $this->get('/announcement', App\Controllers\UserController::class . ':announcement');
+
+        // 文档
         $this->get('/docs', App\Controllers\UserController::class . ':docs');
 
+        //流媒体解锁
         $this->get('/media', App\Controllers\UserController::class . ':media');
 
         $this->get('/profile', App\Controllers\UserController::class . ':profile');
         $this->get('/invite', App\Controllers\UserController::class . ':invite');
+
+        // 封禁
         $this->get('/banned', App\Controllers\UserController::class . ':banned');
 
+        // 节点
         $this->get('/server', App\Controllers\User\ServerController::class . ':userServerPage');
 
         // 审计
@@ -51,6 +59,7 @@ return function (SlimApp $app): void {
         $this->post('/buy', App\Controllers\User\ShopController::class . ':buy');
         $this->post('/buy_traffic_package', App\Controllers\User\ShopController::class . ':buyTrafficPackage');
 
+        // 工单
         $this->get('/ticket', App\Controllers\User\TicketController::class . ':ticket');
         $this->get('/ticket/create', App\Controllers\User\TicketController::class . ':ticketCreate');
         $this->post('/ticket', App\Controllers\User\TicketController::class . ':ticketAdd');
@@ -70,7 +79,6 @@ return function (SlimApp $app): void {
         $this->post('/mail', App\Controllers\UserController::class . ':updateMail');
         $this->post('/passwd_reset', App\Controllers\UserController::class . ':resetPasswd');
         $this->post('/method', App\Controllers\UserController::class . ':updateMethod');
-        $this->get('/trafficlog', App\Controllers\UserController::class . ':trafficLog');
         $this->get('/kill', App\Controllers\UserController::class . ':kill');
         $this->post('/kill', App\Controllers\UserController::class . ':handleKill');
         $this->get('/logout', App\Controllers\UserController::class . ':logout');
@@ -239,6 +247,12 @@ return function (SlimApp $app): void {
         $this->post('/setting', App\Controllers\Admin\SettingController::class . ':save');
         $this->post('/setting/email', App\Controllers\Admin\SettingController::class . ':test');
         $this->post('/setting/payment', App\Controllers\Admin\SettingController::class . ':payment');
+
+        // 礼品卡
+        $this->get('/giftcard', App\Controllers\Admin\GiftCardController::class . ':index');
+        $this->post('/giftcard', App\Controllers\Admin\GiftCardController::class . ':add');
+        $this->post('/giftcard/ajax', App\Controllers\Admin\GiftCardController::class . ':ajax');
+        $this->delete('/giftcard/{id}', App\Controllers\Admin\GiftCardController::class . ':delete');
     })->add(new Admin());
 
     if ($_ENV['enableAdminApi']) {

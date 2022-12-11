@@ -321,38 +321,21 @@ final class InitDatabase extends AbstractMigration
             ->addIndex([ 'user_id' ])
             ->addForeignKey('user_id', 'user', 'id', [ 'delete' => 'CASCADE', 'update' => 'CASCADE' ])
             ->create();
+
+        $this->table('gift_card', [ 'id' => false, 'primary_key' => [ 'id' ]])
+            ->addColumn('id', 'biginteger', [ 'identity' => true,'signed' => false ])
+            ->addColumn('card', 'text', array('comment' => '卡号'))
+            ->addColumn('balance', 'integer', array('comment' => '余额'))
+            ->addColumn('created_at', 'integer', array('comment' => '创建时间'))
+            ->addColumn('status', 'integer', array('comment' => '使用状态'))
+            ->addColumn('used_at', 'integer', array('comment' => '使用时间'))
+            ->addColumn('use_user', 'integer', array('comment' => '使用用户'))
+            ->create();
             ->addColumn('status', 'text', [ 'comment' => '订单状态' ])
             ->addIndex([ 'status' ])
     }
 
     public function down(): void
     {
-        $this->table('user')->drop()->update();
-        $this->table('node')->drop()->update();
-        $this->table('alive_ip')->drop()->update();
-        $this->table('announcement')->drop()->update();
-        $this->table('bought')->drop()->update();
-        $this->table('code')->drop()->update();
-        $this->table('config')->drop()->update();
-        $this->table('coupon')->drop()->update();
-        $this->table('detect_ban_log')->drop()->update();
-        $this->table('detect_list')->drop()->update();
-        $this->table('detect_log')->drop()->update();
-        $this->table('email_queue')->drop()->update();
-        $this->table('email_verify')->drop()->update();
-        $this->table('gconfig')->drop()->update();
-        $this->table('link')->drop()->update();
-        $this->table('login_ip')->drop()->update();
-        $this->table('payback')->drop()->update();
-        $this->table('paylist')->drop()->update();
-        $this->table('shop')->drop()->update();
-        $this->table('user_invite_code')->drop()->update();
-        $this->table('node_online_log')->drop()->update();
-        $this->table('user_password_reset')->drop()->update();
-        $this->table('telegram_session')->drop()->update();
-        $this->table('ticket')->drop()->update();
-        $this->table('user_hourly_usage')->drop()->update();
-        $this->table('user_subscribe_log')->drop()->update();
-        $this->table('user_token')->drop()->update();
     }
 }
