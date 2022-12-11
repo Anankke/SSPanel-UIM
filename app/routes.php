@@ -276,11 +276,12 @@ return function (SlimApp $app): void {
         $this->post('/nodes/{id}/info', App\Controllers\WebAPI\NodeController::class . ':info');
     })->add(new NodeToken());
 
+    // 传统订阅（SS/V2Ray/Trojan）
     $app->group('/link', function (): void {
         $this->get('/{token}', App\Controllers\LinkController::class . ':getContent');
     });
 
-    //通用訂閲
+    // 通用订阅（Json/Clash）
     $app->group('/sub', function (): void {
         $this->get('/{token}/{subtype}', App\Controllers\SubController::class . ':getContent');
     });

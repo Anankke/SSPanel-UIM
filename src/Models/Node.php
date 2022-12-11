@@ -101,56 +101,6 @@ final class Node extends Model
     }
 
     /**
-     * 获取节点在线时间
-     */
-    public function getNodeUptime(): string
-    {
-        $uptime = $this->uptime;
-        if ($uptime === null) {
-            return '未知';
-        }
-        return Tools::secondsToTime((int) $uptime);
-    }
-
-    /**
-     * 获取节点负载
-     */
-    public function getNodeLoad(): float
-    {
-        $load = $this->load;
-        if ($load === null) {
-            return 0;
-        }
-        return (float) number_format(((float) explode(' ', $load)[0]), 2, '.', '');
-    }
-
-    public function getNodeUpRate()
-    {
-        $log = NodeOnlineLog::where('node_id', $this->id)->where('log_time', '>=', \time() - 86400)->count();
-        return $log / 1440;
-    }
-
-    public function getNodeAlive()
-    {
-        return NodeOnlineLog::where('node_id', $this->id)->orderBy('id', 'desc')->whereRaw('`log_time`%1800<60')->limit(48)->get();
-    }
-
-    /**
-     * 获取节点 5 分钟内最新的在线人数
-     */
-    public function getNodeOnlineUserCount(): int
-    {
-        if (\in_array($this->sort, [9])) {
-            return -1;
-        }
-        $log = NodeOnlineLog::where('node_id', $this->id)->where('log_time', '>', \time() - 300)->orderBy('id', 'desc')->first();
-        if ($log === null) {
-            return 0;
-        }
-        return $log->online_user;
-    }
-
-    /**
      * 获取节点在线状态
      *
      * @return int 0 = new node OR -1 = offline OR 1 = online

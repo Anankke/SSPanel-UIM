@@ -8,7 +8,6 @@ use App\Controllers\BaseController;
 use App\Models\DetectLog;
 use App\Models\Ip;
 use App\Models\Node;
-use App\Models\NodeOnlineLog;
 use App\Models\User;
 use App\Services\DB;
 use App\Utils\ResponseHelper;
@@ -138,11 +137,9 @@ final class UserController extends BaseController
         }
 
         $node->increment('node_bandwidth', $sum);
-        NodeOnlineLog::insert([
-            'node_id' => $node_id,
-            'online_user' => count($data),
-            'log_time' => \time(),
-        ]);
+
+        $node->online_user = count($data);
+        $node->save();
 
         return $response->withJson([
             'ret' => 1,
