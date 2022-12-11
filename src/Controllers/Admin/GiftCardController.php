@@ -84,18 +84,18 @@ final class GiftCardController extends BaseController
             // save to database
             $giftcard = new GiftCard();
             $giftcard->card = $card;
-            $giftcard->balance = $card_value * 100;
+            $giftcard->balance = $card_value;
             $giftcard->create_time = \time();
             $giftcard->status = 0;
             $giftcard->use_time = 0;
             $giftcard->use_user = 0;
             $giftcard->save();
-            $card_added .= $card . '</br>';
+            $card_added .= $card . PHP_EOL;
         }
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '添加成功</br>' . $card_added,
+            'msg' => '添加成功' . PHP_EOL . $card_added,
         ]);
     }
 
@@ -105,6 +105,7 @@ final class GiftCardController extends BaseController
         foreach ($giftcards as $giftcard) {
             $giftcard->op = '<button type="button" class="btn btn-red" id="delete-gift-card-' . $giftcard->id . '" 
         onclick="deleteGiftCard(' . $giftcard->id . ')">删除</button>';
+            $giftcard->status = Tools::getGiftCardStatus($giftcard);
             $giftcard->create_time = Tools::toDateTime((int) $giftcard->create_time);
             $giftcard->use_time = Tools::toDateTime((int) $giftcard->use_time);
         }
