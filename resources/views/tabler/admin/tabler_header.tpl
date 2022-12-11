@@ -101,10 +101,6 @@
                                                 <i class="ti ti-server-2"></i>&nbsp;
                                                 节点
                                             </a>
-                                            <a class="dropdown-item" href="/admin/giftcard">
-                                                <i class="ti ti-gift"></i>&nbsp;
-                                                礼品卡
-                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -127,39 +123,6 @@
                                     <a class="dropdown-item" href="/admin/ticket">
                                         <i class="ti ti-messages"></i>&nbsp;
                                         工单
-                                    </a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
-                                    data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-report-analytics icon"></i>
-                                    </span>
-                                    <span class="nav-link-title">
-                                        报表
-                                    </span>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item"
-                                        href="/admin/chart/index">
-                                        <i class="ti ti-timeline"></i>&nbsp;
-                                        总览
-                                    </a>
-                                    <a class="dropdown-item"
-                                        href="/admin/chart/finance">
-                                        <i class="ti ti-businessplan"></i>&nbsp;
-                                        财务
-                                    </a>
-                                    <a class="dropdown-item"
-                                        href="/admin/chart/user/{date("Ymd", strtotime("-1 day"))}">
-                                        <i class="ti ti-sort-ascending-2"></i>&nbsp;
-                                        用户流量
-                                    </a>
-                                    <a class="dropdown-item"
-                                        href="/admin/chart/node/{date("Ymd", strtotime("-1 day"))}">
-                                        <i class="ti ti-sort-descending-2"></i>&nbsp;
-                                        节点流量
                                     </a>
                                 </div>
                             </li>
@@ -192,7 +155,7 @@
                                     </a>
                                     <a class="dropdown-item" href="/admin/trafficlog">
                                         <i class="ti ti-arrows-up-down"></i>&nbsp;
-                                        流量记录
+                                        流量使用
                                     </a>
                                 </div>
                             </li>
@@ -221,10 +184,10 @@
                                 <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown"
                                     data-bs-auto-close="outside" role="button" aria-expanded="false">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <i class="ti ti-building-store icon"></i>
+                                        <i class="ti ti-coin icon"></i>
                                     </span>
                                     <span class="nav-link-title">
-                                        商品
+                                        财务
                                     </span>
                                 </a>
                                 <div class="dropdown-menu">
@@ -232,15 +195,23 @@
                                         <div class="dropdown-menu-column">
                                             <a class="dropdown-item" href="/admin/product">
                                                 <i class="ti ti-list-details"></i>&nbsp;
-                                                列表
+                                                商品
                                             </a>
                                             <a class="dropdown-item" href="/admin/order">
                                                 <i class="ti ti-receipt"></i>&nbsp;
                                                 订单
                                             </a>
+                                            <a class="dropdown-item" href="/admin/invoice">
+                                                <i class="ti ti-receipt"></i>&nbsp;
+                                                账单
+                                            </a>
                                             <a class="dropdown-item" href="/admin/coupon">
                                                 <i class="ti ti-ticket"></i>&nbsp;
                                                 优惠码
+                                            </a>
+                                            <a class="dropdown-item" href="/admin/giftcard">
+                                                <i class="ti ti-gift"></i>&nbsp;
+                                                礼品卡
                                             </a>
                                         </div>
                                     </div>

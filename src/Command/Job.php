@@ -12,7 +12,6 @@ use App\Models\EmailQueue;
 use App\Models\EmailVerify;
 use App\Models\Ip;
 use App\Models\Node;
-use App\Models\NodeOnlineLog;
 use App\Models\PasswordReset;
 use App\Models\Setting;
 use App\Models\Shop;
@@ -68,13 +67,12 @@ EOL;
         UserSubscribeLog::where('request_time', '<', date('Y-m-d H:i:s', \time() - 86400 * (int) $_ENV['subscribeLog_keep_days']))->delete();
         UserHourlyUsage::where('datetime', '<', \time() - 86400 * (int) $_ENV['trafficLog_keep_days'])->delete();
         Token::where('expire_time', '<', \time())->delete();
-        NodeOnlineLog::where('log_time', '<', \time() - 86400 * 3)->delete();
         DetectLog::where('datetime', '<', \time() - 86400 * 3)->delete();
         EmailVerify::where('expire_in', '<', \time() - 86400 * 3)->delete();
         EmailQueue::where('time', '<', \time() - 86400 * 3)->delete();
         PasswordReset::where('expire_time', '<', \time() - 86400 * 3)->delete();
         Ip::where('datetime', '<', \time() - 300)->delete();
-        StreamMedia::where('created_at', '<', \time() - 86400 * 30)->delete();
+        StreamMedia::where('created_at', '<', \time() - 86400 * 3)->delete();
         TelegramSession::where('datetime', '<', \time() - 900)->delete();
         // ------- 清理各表记录
 
@@ -82,6 +80,24 @@ EOL;
         $db = new DatatablesHelper();
         Tools::resetAutoIncrement($db, 'node_online_log');
         // ------- 重置自增 ID
+
+        // ------- 用户每日流量报告
+        $users = User::all();
+
+        $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
+        $ann_latest = $ann_latest_raw->content . '<br><br>';
+
+        $lastday_total = 0;
+
+        foreach ($users as $user) {
+            // 将用户日流量加到统计中
+            $lastday_total += $user->u + $user->d - $user->last_day_t;
+            $user->sendDailyNotification($ann_latest);
+            // 覆盖用户 last_day_t 值，为下一个周期的流量重置做准备
+            $user->last_day_t = $user->u + $user->d;
+            $user->save();
+        }
+        // ------- 用户每日流量报告
 
         // ------- 付费用户流量重置
         // 取消已下架的商品不支持重置的限制，因为目前没有库存限制
@@ -122,14 +138,11 @@ EOL;
         // ------- 付费用户流量重置
 
         // ------- 免费用户流量重置
-        $users = User::all();
         foreach ($users as $user) {
-            /** @var User $user */
-            $user->last_day_t = $user->u + $user->d;
-            $user->save();
             if (\in_array($user->id, $bought_users)) {
                 continue;
             }
+
             if (date('d') === $user->auto_reset_day) {
                 $user->u = 0;
                 $user->d = 0;
@@ -148,18 +161,6 @@ EOL;
             }
         }
         // ------- 免费用户流量重置
-
-        // ------- 用户每日流量报告
-        $ann_latest_raw = Ann::orderBy('date', 'desc')->first();
-        $ann_latest = $ann_latest_raw->content . '<br><br>';
-
-        $lastday_total = 0;
-
-        foreach ($users as $user) {
-            $lastday_total += $user->u + $user->d - $user->last_day_t;
-            $user->sendDailyNotification($ann_latest);
-        }
-        // ------- 用户每日流量报告
 
         // ------- 发送系统运行状况通知
         $sts = new Analytics();

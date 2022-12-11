@@ -37,10 +37,8 @@ final class ServerController extends BaseController
             $array_node['class'] = $node->node_class;
             $array_node['sort'] = $node->sort;
             $array_node['info'] = $node->info;
-            $array_node['online_user'] = $node->getNodeOnlineUserCount();
+            $array_node['online_user'] = $node->online_user;
             $array_node['online'] = $node->getNodeOnlineStatus();
-            $array_node['load'] = $node->getNodeLoad();
-            $array_node['uptime'] = $node->getNodeUptime();
             $array_node['traffic_rate'] = $node->traffic_rate;
             $array_node['status'] = $node->status;
             $array_node['traffic_used'] = (int) Tools::flowToGB($node->node_bandwidth);
