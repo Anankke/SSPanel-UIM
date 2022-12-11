@@ -16,7 +16,7 @@ final class DetectController extends BaseController
     /**
      * @param array     $args
      */
-    public function detectIndex(Request $request, Response $response, array $args)
+    public function index(Request $request, Response $response, array $args)
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectRule::paginate(15, ['*'], 'page', $pageNum);
@@ -32,13 +32,13 @@ final class DetectController extends BaseController
         return $this->view()
             ->assign('rules', $logs)
             ->assign('render', $render)
-            ->display('user/detect_index.tpl');
+            ->display('user/detect/index.tpl');
     }
 
     /**
      * @param array     $args
      */
-    public function detectLog(Request $request, Response $response, array $args)
+    public function log(Request $request, Response $response, array $args)
     {
         $pageNum = $request->getQueryParams()['page'] ?? 1;
         $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
@@ -71,6 +71,6 @@ final class DetectController extends BaseController
         return $this->view()
             ->assign('logs', $logs)
             ->assign('render', $render)
-            ->display('user/detect_log.tpl');
+            ->display('user/detect/log.tpl');
     }
 }
