@@ -324,15 +324,15 @@ final class InitDatabase extends AbstractMigration
 
         $this->table('gift_card', [ 'id' => false, 'primary_key' => [ 'id' ]])
             ->addColumn('id', 'biginteger', [ 'identity' => true,'signed' => false ])
-            ->addColumn('card', 'text', array('comment' => '卡号'))
-            ->addColumn('balance', 'integer', array('comment' => '余额'))
-            ->addColumn('created_at', 'integer', array('comment' => '创建时间'))
-            ->addColumn('status', 'integer', array('comment' => '使用状态'))
-            ->addColumn('used_at', 'integer', array('comment' => '使用时间'))
-            ->addColumn('use_user', 'integer', array('comment' => '使用用户'))
-            ->create();
-            ->addColumn('status', 'text', [ 'comment' => '订单状态' ])
+            ->addColumn('card', 'text', ['comment' => '卡号'])
+            ->addColumn('balance', 'integer', ['comment' => '余额'])
+            ->addColumn('create_time', 'integer', ['comment' => '创建时间'])
+            ->addColumn('status', 'integer', ['comment' => '使用状态'])
+            ->addColumn('use_time', 'integer', ['comment' => '使用时间'])
+            ->addColumn('use_user', 'integer', ['comment' => '使用用户'])
+            ->addIndex([ 'id' ])
             ->addIndex([ 'status' ])
+            ->create();
     }
 
     public function down(): void
