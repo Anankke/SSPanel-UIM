@@ -230,49 +230,8 @@ final class TelegramTools
                 $User->$useOptionMethod = $new;
                 break;
                 // ##############
-            case 'obfs':
             case 'method':
-            case 'protocol':
-                // 支持系统中存在的协议、混淆、加密，且受可行性限制
-                $MethodClass = 'set' . ucfirst($useOptionMethod);
-                $temp = $User->$MethodClass($value);
-                if ($temp['ok'] === true) {
-                    $strArray = [
-                        '目标用户：' . $Email,
-                        '被修改项：' . $useOptionMethodName . '[' . $useOptionMethod . ']',
-                        '修改前值：' . $old,
-                        '修改后值：' . $User->$useOptionMethod,
-                        '修改备注：' . $temp['msg'],
-                    ];
-                } else {
-                    $strArray = [
-                        '目标用户：' . $Email,
-                        '欲修改项：' . $useOptionMethodName . '[' . $useOptionMethod . ']',
-                        '当前值为：' . $old,
-                        '欲修改为：' . $value,
-                        '错误详情：' . $temp['msg'],
-                    ];
-                }
-                return [
-                    'ok' => $temp['ok'],
-                    'msg' => self::strArrayToCode($strArray),
-                ];
-                break;
-                // ##############
             case 'passwd':
-            case 'obfs_param':
-            case 'protocol_param':
-                // 参数值中不允许有空格
-                if (strpos($value, ' ') !== false) {
-                    return [
-                        'ok' => false,
-                        'msg' => '处理出错，协议中含有空格等字符.',
-                    ];
-                }
-                $new = $value;
-                $User->$useOptionMethod = $new;
-                break;
-                // ##############
             case 'money':
                 $strArray = [
                     '// 参数值中不允许有空格，结果会含小数 2 位',

@@ -230,11 +230,6 @@ final class Tools
         return $object;
     }
 
-    public static function checkNoneProtocol($user)
-    {
-        return ! ($user->method === 'none' && ! \in_array($user->protocol, Config::getSupportParam('allow_none_protocol')));
-    }
-
     public static function getRealIp($rawIp)
     {
         return str_replace('::ffff:', '', $rawIp);

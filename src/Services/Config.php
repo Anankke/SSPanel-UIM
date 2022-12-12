@@ -143,46 +143,6 @@ final class Config
     public static function getSupportParam($type)
     {
         switch ($type) {
-            case 'obfs':
-                return [
-                    'plain',
-                    'http_simple',
-                    'http_simple_compatible',
-                    'http_post',
-                    'http_post_compatible',
-                    'tls1.2_ticket_auth',
-                    'tls1.2_ticket_auth_compatible',
-                    'tls1.2_ticket_fastauth',
-                    'tls1.2_ticket_fastauth_compatible',
-                    'simple_obfs_http',
-                    'simple_obfs_http_compatible',
-                    'simple_obfs_tls',
-                    'simple_obfs_tls_compatible',
-                ];
-            case 'protocol':
-                return [
-                    'origin',
-                    'verify_deflate',
-                    'auth_sha1_v4',
-                    'auth_sha1_v4_compatible',
-                    'auth_aes128_sha1',
-                    'auth_aes128_md5',
-                    'auth_chain_a',
-                    'auth_chain_b',
-                    'auth_chain_c',
-                    'auth_chain_d',
-                    'auth_chain_e',
-                    'auth_chain_f',
-                ];
-            case 'allow_none_protocol':
-                return [
-                    'auth_chain_a',
-                    'auth_chain_b',
-                    'auth_chain_c',
-                    'auth_chain_d',
-                    'auth_chain_e',
-                    'auth_chain_f',
-                ];
             case 'ss_aead_method':
                 return [
                     'aes-128-gcm',
@@ -197,6 +157,12 @@ final class Config
                     'simple_obfs_http_compatible',
                     'simple_obfs_tls',
                     'simple_obfs_tls_compatible',
+                ];
+            case 'ss_2022':
+                return [
+                    '2022-blake3-aes-128-gcm',
+                    '2022-blake3-aes-256-gcm',
+                    '2022-blake3-chacha20-poly1305',
                 ];
             default:
                 return [
