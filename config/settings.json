@@ -901,46 +901,6 @@
     },
     {
         "id": null,
-        "item": "sign_up_for_protocol",
-        "value": "auth_aes128_sha1",
-        "class": "register",
-        "is_public": 0,
-        "type": "string",
-        "default": "auth_aes128_sha1",
-        "mark": "默认协议"
-    },
-    {
-        "id": null,
-        "item": "sign_up_for_obfs",
-        "value": "http_simple",
-        "class": "register",
-        "is_public": 0,
-        "type": "string",
-        "default": "http_simple",
-        "mark": "默认混淆"
-    },
-    {
-        "id": null,
-        "item": "sign_up_for_protocol_param",
-        "value": "",
-        "class": "register",
-        "is_public": 0,
-        "type": "string",
-        "default": "",
-        "mark": "默认协议参数"
-    },
-    {
-        "id": null,
-        "item": "sign_up_for_obfs_param",
-        "value": "www.jd.hk",
-        "class": "register",
-        "is_public": 0,
-        "type": "string",
-        "default": "www.jd.hk",
-        "mark": "默认混淆参数"
-    },
-    {
-        "id": null,
         "item": "mu_suffix",
         "value": "microsoft.com",
         "class": "register",

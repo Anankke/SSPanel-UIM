@@ -106,7 +106,7 @@ return function (SlimApp $app): void {
         // getUserAllURL
         $this->get('/getUserAllURL', App\Controllers\UserController::class . ':getUserAllURL');
 
-        //Reconstructed Payment System
+        // 支付
         $this->post('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');
         $this->get('/payment/purchase/{type}', App\Services\Payment::class . ':purchase');
         $this->get('/payment/return/{type}', App\Services\Payment::class . ':returnHTML');

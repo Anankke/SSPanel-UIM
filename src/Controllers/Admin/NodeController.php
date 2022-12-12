@@ -119,7 +119,13 @@ final class NodeController extends BaseController
         }
 
         $node->node_class = $request->getParam('node_class');
-        $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
+
+        if ($request->getParam('node_bandwidth_limit') === null || $request->getParam('node_bandwidth_limit') === '') {
+            $node->node_bandwidth_limit = 0;
+        } else {
+            $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
+        }
+
         $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
         $node->password = Tools::genRandomChar(32);
 
