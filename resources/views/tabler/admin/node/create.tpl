@@ -67,7 +67,6 @@
                                         <option value="11">V2Ray</option>
                                         <option value="14">Trojan</option>
                                         <option value="0">Shadowsocks</option>
-                                        <option value="1">ShadowsocksR</option>
                                     </select>
                                 </div>
                             </div>
@@ -161,7 +160,7 @@
 
     $("#create-node").click(function() {
         $.ajax({
-            url: '/node',
+            url: '/admin/node',
             type: 'POST',
             dataType: "json",
             data: {

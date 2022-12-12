@@ -235,43 +235,6 @@
                                     <input id="method" type="text" class="form-control" value="{$edit_user->method}">
                                 </div>
                             </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">协议</label>
-                                <div class="col">
-                                    <input id="protocol" type="text" class="form-control"
-                                        value="{$edit_user->protocol}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">协议参数</label>
-                                <div class="col">
-                                    <input id="protocol_param" type="text" class="form-control"
-                                        value="{$edit_user->protocol_param}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">混淆方式</label>
-                                <div class="col">
-                                    <input id="obfs" type="text" class="form-control" value="{$edit_user->obfs}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">混淆参数</label>
-                                <div class="col">
-                                    <input id="obfs_param" type="text" class="form-control"
-                                        value="{$edit_user->obfs_param}">
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 row">
-                                <label class="form-label col-3 col-form-label">单端口多用户承载端口</label>
-                                <div class="col">
-                                    <select id="is_multi_user" class="col form-select">
-                                        <option value="0">非单端口多用户承载端口</option>
-                                        <option value="1">混淆式单端口多用户承载端口</option>
-                                        <option value="2">协议式单端口多用户承载端口</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div class="hr-text">
                                 <span>访问限制</span>
                             </div>
