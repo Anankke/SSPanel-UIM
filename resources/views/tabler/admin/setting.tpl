@@ -772,21 +772,11 @@
                                             <label class="floating-label">使用速率限制</label>
                                             <input class="form-control maxwidth-edit" id="connection_rate_limit" value="{$settings['connection_rate_limit']}">
                                         </div>
-                                        <h5>SSR 设置</h5>
+                                        <h5>Shadowsocks 设置</h5>
                                         <!-- sign_up_for_method -->
                                         <div class="form-group form-group-label">
                                             <label class="floating-label">默认加密</label>
                                             <input class="form-control maxwidth-edit" id="sign_up_for_method" value="{$settings['sign_up_for_method']}">
-                                        </div>
-                                        <!-- mu_suffix -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">单端口多用户混淆参数后缀</label>
-                                            <input class="form-control maxwidth-edit" id="mu_suffix" value="{$settings['mu_suffix']}">
-                                        </div>
-                                        <!-- mu_regex -->
-                                        <div class="form-group form-group-label">
-                                            <label class="floating-label">单端口多用户混淆参数表达式</label>
-                                            <input class="form-control maxwidth-edit" id="mu_regex" value="{$settings['mu_regex']}">
                                         </div>
                                         <h5>其他</h5>
                                         <!-- reg_forbidden_ip -->
@@ -1706,8 +1696,6 @@
                     connection_device_limit: $$getValue('connection_device_limit'),
                     connection_rate_limit: $$getValue('connection_rate_limit'),
                     sign_up_for_method: $$getValue('sign_up_for_method'),
-                    mu_suffix: $$getValue('mu_suffix'),
-                    mu_regex: $$getValue('mu_regex'),
                     reg_forbidden_ip: $$getValue('reg_forbidden_ip'),
                     reg_forbidden_port: $$getValue('reg_forbidden_port'),
                     sign_up_for_daily_report: $$getValue('sign_up_for_daily_report'),

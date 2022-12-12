@@ -901,26 +901,6 @@
     },
     {
         "id": null,
-        "item": "mu_suffix",
-        "value": "microsoft.com",
-        "class": "register",
-        "is_public": 0,
-        "type": "string",
-        "default": "microsoft.com",
-        "mark": "单端口多用户混淆参数后缀"
-    },
-    {
-        "id": null,
-        "item": "mu_regex",
-        "value": "%5m%id.%suffix",
-        "class": "register",
-        "is_public": 0,
-        "type": "string",
-        "default": "%5m%id.%suffix",
-        "mark": "单端口多用户混淆参数表达式"
-    },
-    {
-        "id": null,
         "item": "sign_up_for_daily_report",
         "value": "0",
         "class": "register",

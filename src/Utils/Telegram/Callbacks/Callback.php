@@ -773,9 +773,7 @@ final class Callback
                 $text = '您可在此编辑您的资料或连接信息：' . PHP_EOL . PHP_EOL;
                 $text .= '端口：' . $this->User->port . PHP_EOL;
                 $text .= '密码：' . $this->User->passwd . PHP_EOL;
-                $text .= '加密：' . $this->User->method . PHP_EOL;
-                $text .= '协议：' . $this->User->protocol . PHP_EOL;
-                $text .= '混淆：' . $this->User->obfs;
+                $text .= '加密：' . $this->User->method;
                 $sendMessage = [
                     'text' => $text,
                     'disable_web_page_preview' => false,
@@ -805,7 +803,7 @@ final class Callback
             [
                 [
                     'text' => 'Clash',
-                    'callback_data' => 'user.subscribe|?clash=1',
+                    'callback_data' => 'user.subscribe|clash',
                 ],
             ],
             [
@@ -845,7 +843,7 @@ final class Callback
             $token = Tools::generateSSRSubCode($this->User->id);
             $UserApiUrl = SubController::getUniversalSub($this->User);
             switch ($CallbackDataExplode[1]) {
-                case '?clash=1':
+                case 'clash':
                     $temp['text'] = '您的 Clash 配置文件.' . PHP_EOL . '同时，您也可使用该订阅链接：' . $UserApiUrl . '/clash';
                     $filename = 'Clash_' . $token . '_' . \time() . '.yaml';
                     $filepath = BASE_PATH . '/storage/SendTelegram/' . $filename;
