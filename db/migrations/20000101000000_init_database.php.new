@@ -79,7 +79,7 @@ final class InitDatabase extends AbstractMigration
             ->addColumn('sort', 'integer', [])
             ->addColumn('traffic_rate', 'float', [ 'default' => 1 ])
             ->addColumn('node_class', 'integer', [ 'default' => 0 ])
-            ->addColumn('node_speedlimit', 'double', [ 'comment' => '节点限速', 'null' => false ])
+            ->addColumn('node_speedlimit', 'double', [ 'comment' => '节点限速', 'default' => 0, 'null' => false ])
             ->addColumn('node_connector', 'integer', [ 'default' => 0 ])
             ->addColumn('node_bandwidth', 'biginteger', [ 'default' => 0 ])
             ->addColumn('node_bandwidth_limit', 'biginteger', [ 'default' => 0 ])
