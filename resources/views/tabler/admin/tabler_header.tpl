@@ -202,7 +202,7 @@
                                                 订单
                                             </a>
                                             <a class="dropdown-item" href="/admin/invoice">
-                                                <i class="ti ti-receipt"></i>&nbsp;
+                                                <i class="ti ti-file-dollar"></i>&nbsp;
                                                 账单
                                             </a>
                                             <a class="dropdown-item" href="/admin/coupon">
