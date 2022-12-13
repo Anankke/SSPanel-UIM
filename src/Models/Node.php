@@ -158,18 +158,16 @@ final class Node extends Model
      */
     public function changeNodeIp(string $server_name): bool
     {
-        $result = dns_get_record($server_name , DNS_A + DNS_AAAA);
-        $dns = array();
-        if(count($result) > 0){
+        $result = dns_get_record($server_name, DNS_A + DNS_AAAA);
+        $dns = array(0);
+        if (count($result) > 0) {
             $dns = $result[0];
         }
-        if(array_key_exists('ip', $dns)){
+        if (array_key_exists('ip', $dns)) {
             $ip = $dns['ip'];
-        }
-        elseif (array_key_exists('ipv6', $dns)){
+        } elseif (array_key_exists('ipv6', $dns)) {
             $ip = $dns['ipv6'];
-        }
-        else{
+        }else{
             $ip = $server_name;
         }
         $this->node_ip = $ip;
