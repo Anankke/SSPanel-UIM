@@ -25,8 +25,6 @@ namespace App\Models;
  * @property        bool    $gfw_block  If node is blocked by GFW
  */
 
-use App\Utils\Tools;
-
 final class Node extends Model
 {
     protected $connection = 'default';
@@ -160,18 +158,25 @@ final class Node extends Model
      */
     public function changeNodeIp(string $server_name): bool
     {
-        $dns = dns_get_record($server_name,DNS_A + DNS_AAAA)[0];
+    {
+        $result = dns_get_record($server_name , DNS_A + DNS_AAAA);
+        $dns = array();
+        if(count($result) > 0){
+            $dns = $result[0];
+        }
         if(array_key_exists('ip', $dns)){
             $ip = $dns['ip'];
         }
-        else if (array_key_exists('ipv6', $dns)){
+        elseif (array_key_exists('ipv6', $dns)){
             $ip = $dns['ipv6'];
         }
         else{
             $ip = $server_name;
         }
+        var_dump($ip);
         $this->node_ip = $ip;
         return true;
+    }
     }
 
     /**
