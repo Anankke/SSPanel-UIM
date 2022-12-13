@@ -261,8 +261,6 @@
 </div>
 
 <script>
-    $("#is_multi_user").prop('value', '{$edit_user->is_multi_user}');
-
     $("#save_changes").click(function() {
         $.ajax({
             url: '/admin/user/{$edit_user->id}',

@@ -809,29 +809,6 @@
                 }
             })
         });
-
-        $("#modify-config").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/user/ssr",
-                dataType: "json",
-                data: {
-                    obfs: $('#obfs').val(),
-                    method: $('#method').val(),
-                    protocol: $('#protocol').val(),
-                    obfs_param: $('#obfs_param').val()
-                },
-                success: function(data) {
-                    if (data.ret == 1) {
-                        $('#success-message').text(data.msg);
-                        $('#success-dialog').modal('show');
-                    } else {
-                        $('#fail-message').text(data.msg);
-                        $('#fail-dialog').modal('show');
-                    }
-                }
-            })
-        });
         
         {if $config['enable_kill'] == true}
         $("#confirm-destroy").click(function() {

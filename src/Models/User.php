@@ -43,7 +43,6 @@ final class User extends Model
     protected $casts = [
         'port' => 'int',
         'is_admin' => 'boolean',
-        'is_multi_user' => 'int',
         'node_speedlimit' => 'float',
         'sendDailyMail' => 'int',
         'ref_by' => 'int',
@@ -88,26 +87,6 @@ final class User extends Model
             default:
                 return '<a href="https://telegram.me/' . $this->im_value . '">' . $this->im_value . '</a>';
         }
-    }
-
-    public function getMuMd5()
-    {
-        $str = str_replace(
-            ['%id', '%suffix'],
-            [$this->id, Setting::obtain('mu_suffix')],
-            Setting::obtain('mu_regex')
-        );
-        preg_match_all("|%-?[1-9]\d*m|U", $str, $matches, PREG_PATTERN_ORDER);
-        foreach ($matches[0] as $key) {
-            $key_match = (int) str_replace(['%', 'm'], '', $key);
-            $md5 = substr(
-                md5($this->id . $this->passwd . $this->method . $this->obfs . $this->protocol),
-                ($key_match < 0 ? $key_match : 0),
-                abs($key_match)
-            );
-            $str = str_replace($key, $md5, $str);
-        }
-        return $str;
     }
 
     /**

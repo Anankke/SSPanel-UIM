@@ -251,7 +251,7 @@ final class SubController extends BaseController
 
                     break;
                 case '11':
-                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_confi['offset_port_node'] ?? 443));
+                    $v2_port = $node_custom_config['v2_port'] ?? ($node_custom_config['offset_port_user'] ?? ($node_custom_config['offset_port_node'] ?? 443));
                     $alter_id = $node_custom_config['alter_id'] ?? '0';
                     $security = $node_custom_config['security'] ?? 'none';
                     $encryption = $node_custom_config['encryption'] ?? 'auto';
