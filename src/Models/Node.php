@@ -167,7 +167,7 @@ final class Node extends Model
             $ip = $dns['ip'];
         } elseif (array_key_exists('ipv6', $dns)) {
             $ip = $dns['ipv6'];
-        }else{
+        } else {
             $ip = $server_name;
         }
         $this->node_ip = $ip;
