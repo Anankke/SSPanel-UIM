@@ -159,7 +159,7 @@ final class Node extends Model
     public function changeNodeIp(string $server_name): bool
     {
         $result = dns_get_record($server_name, DNS_A + DNS_AAAA);
-        $dns = array(0);
+        $dns = [];
         if (count($result) > 0) {
             $dns = $result[0];
         }
