@@ -158,7 +158,6 @@ final class Node extends Model
      */
     public function changeNodeIp(string $server_name): bool
     {
-    {
         $result = dns_get_record($server_name , DNS_A + DNS_AAAA);
         $dns = array();
         if(count($result) > 0){
@@ -175,7 +174,6 @@ final class Node extends Model
         }
         $this->node_ip = $ip;
         return true;
-    }
     }
 
     /**
