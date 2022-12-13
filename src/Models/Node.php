@@ -173,7 +173,6 @@ final class Node extends Model
         else{
             $ip = $server_name;
         }
-        var_dump($ip);
         $this->node_ip = $ip;
         return true;
     }
