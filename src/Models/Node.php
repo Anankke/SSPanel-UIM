@@ -168,13 +168,10 @@ final class Node extends Model
             $ip = $dns['ipv6'];
         }
         else{
-            $ip = '';
-        }
-        $this->node_ip = $ip;
-        if ($ip === '') {
             $ip = $server_name;
         }
-                return true;
+        $this->node_ip = $ip;
+        return true;
     }
 
     /**
