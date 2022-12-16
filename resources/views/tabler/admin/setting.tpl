@@ -27,9 +27,6 @@
                                     <a data-toggle="tab" href="#verification_code_settings"><i class="mdi mdi-shield-check icon-lg"></i>&nbsp;验证</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#personalise_settings"><i class="mdi mdi-magic-staff icon-lg"></i>&nbsp;个性化</a>
-                                </li>
-                                <li>
                                     <a data-toggle="tab" href="#registration_settings"><i class="mdi mdi-account-plus icon-lg"></i>&nbsp;注册</a>
                                 </li>
                                 <li>
@@ -655,15 +652,6 @@
                                         <button id="submit_geetest" type="submit" class="btn btn-block btn-brand">提交</button>
                                     </div>
                                 </div>
-
-                                <div class="tab-pane fade" id="personalise_settings">
-                                    <nav class="tab-nav margin-top-no">
-                                        <ul class="nav nav-list">
-                                            <li class="active">
-                                                <a data-toggle="tab" href="#custom_background_image">&nbsp;背景图像</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
 
                                 <div class="tab-pane fade" id="registration_settings">
                                     <nav class="tab-nav margin-top-no">
