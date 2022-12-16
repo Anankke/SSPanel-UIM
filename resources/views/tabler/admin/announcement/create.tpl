@@ -78,10 +78,10 @@
               'bold italic backcolor link | blocks | alignleft aligncenter ' +
               'alignright alignjustify | bullist numlist outdent indent | ' +
               'removeformat',
-            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;font-size:   14px; -webkit-font-smoothing: antialiased; }'
+            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;font-size:   14px; -webkit-font-smoothing: antialiased; }',
             {if $user->is_dark_mode}
-            skin = 'oxide-dark';
-            content_css = 'dark';
+            skin: 'oxide-dark',
+            content_css: 'dark',
             {/if}
         }
         tinyMCE.init(options);
