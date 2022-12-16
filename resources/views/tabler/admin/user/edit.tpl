@@ -124,6 +124,15 @@
                                 </span>
                             </div>
                             <div class="form-group mb-3 row">
+                                <span class="col">使用新的商店系统</span>
+                                <span class="col-auto">
+                                    <label class="form-check form-check-single form-switch">
+                                        <input id="use_new_shop" class="form-check-input" type="checkbox"
+                                            {if $edit_user->use_new_shop == 1}checked="" {/if}>
+                                    </label>
+                                </span>
+                            </div>
+                            <div class="form-group mb-3 row">
                                 <span class="col">封禁用户</span>
                                 <span class="col-auto">
                                     <label class="form-check form-check-single form-switch">

@@ -65,6 +65,7 @@ final class InitDatabase extends AbstractMigration
             ->addColumn('auto_reset_day', 'integer', [ 'default' => 0])
             ->addColumn('auto_reset_bandwidth', 'decimal', [ 'default' => '0.00', 'precision' => 12, 'scale' => 2 ])
             ->addColumn('api_token', 'uuid', [ 'comment' => 'API 密钥', 'null' => false, 'default' => '' ])
+            ->addColumn('use_new_shop', 'smallinteger', [ 'comment' => '是否启用新商店', 'null' => false, 'default' => 0 ])
             ->addIndex([ 'user_name' ])
             ->create();
 

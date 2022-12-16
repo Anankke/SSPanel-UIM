@@ -15,6 +15,6 @@ final class Factory
             case 'cookie':
                 return new Cookie();
         }
-        return new Redis();
+        return new Cookie();
     }
 }

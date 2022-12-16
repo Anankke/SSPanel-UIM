@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\InviteCode;
+use App\Services\Auth;
 use App\Utils\Telegram\Process;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
@@ -45,6 +46,10 @@ final class HomeController extends BaseController
      */
     public function staff(Request $request, Response $response, array $args): ResponseInterface
     {
+        $user = Auth::getUser();
+        if (! $user->isLogin) {
+            return $response->withStatus(404)->write($this->view()->fetch('404.tpl'));
+        }
         return $response->write($this->view()->fetch('staff.tpl'));
     }
 
