@@ -257,7 +257,7 @@ final class SubController extends BaseController
                     $encryption = $node_custom_config['encryption'] ?? 'auto';
                     $network = $node_custom_config['network'] ?? '';
                     $host = $node_custom_config['host'] ?? '';
-                    $servicename = $node_custom_config['servicename'] ?? '';
+                    $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
                     $tls = \in_array($security, ['tls', 'xtls']) ? true : false;
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
@@ -275,9 +275,10 @@ final class SubController extends BaseController
                         'alterId' => (int) $alter_id,
                         'cipher' => $encryption,
                         'udp' => $udp,
-                        'network' => $network,
                         'tls' => $tls,
-                        'servicename' => $servicename,
+                        'skip-cert-verify' => $allow_insecure,
+                        'servername' => $host,
+                        'network' => $network,
                         'ws-opts' => $ws_opts,
                         'h2-opts' => $h2_opts,
                         'http-opts' => $http_opts,
@@ -290,7 +291,6 @@ final class SubController extends BaseController
                     $network = $node_custom_config['network'] ?? \array_key_exists('grpc', $node_custom_config) && $node_custom_config['grpc'] === '1' ? 'grpc' : 'tcp';
                     $host = $node_custom_config['host'] ?? '';
                     $allow_insecure = $node_custom_config['allow_insecure'] ?? false;
-                    $servicename = $node_custom_config['servicename'] ?? '';
                     // Clash 特定配置
                     $udp = $node_custom_config['udp'] ?? true;
                     $ws_opts = $node_custom_config['ws-opts'] ?? $node_custom_config['ws_opts'] ?? null;
