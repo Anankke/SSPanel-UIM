@@ -76,7 +76,7 @@
                     <a class="waves-attach" data-toggle="collapse" href="#ui_menu_use">使用</a>
                     <ul class="menu-collapse collapse in" id="ui_menu_use">
                         <li>
-                            <a href="/user/node"><i class="mdi mdi-server icon-lg"></i>&nbsp;节点列表</a>
+                            <a href="/user/server"><i class="mdi mdi-server icon-lg"></i>&nbsp;节点列表</a>
                         </li>
                         <li>
                             <a href="/user/media"><i class="mdi mdi-multimedia icon-lg"></i>&nbsp;流媒体解锁</a>
