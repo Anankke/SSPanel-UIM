@@ -515,4 +515,40 @@ final class Tools
     {
         return $giftcard->status ? '已使用' : '未使用';
     }
+
+    /**
+     * 商品类型
+     */
+    public static function getProductType($product)
+    {
+        if ($product->type === 'tabp') {
+            return '时间流量包';
+        }
+        if ($product->type === 'time') {
+            return '时间包';
+        }
+        if ($product->type === 'bandwidth') {
+            return '流量包';
+        }
+        return '其他';
+    }
+
+    /**
+     * 商品状态
+     */
+    public static function getProductStatus($product)
+    {
+        return $product->status ? '正常' : '下架';
+    }
+
+    /**
+     * 商品库存
+     */
+    public static function getProductStock($product)
+    {
+        if ($product->stock === -1) {
+            return '无限制';
+        }
+        return $product->stock;
+    }
 }
