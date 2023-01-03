@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Middleware\Admin;
 use App\Middleware\Auth;
-use App\Middleware\AuthorizationBearer;
 use App\Middleware\Guest;
 use App\Middleware\NodeToken;
 use Slim\App as SlimApp;
@@ -55,7 +54,6 @@ return function (SlimApp $app): void {
         $this->get('/detect/log', App\Controllers\User\DetectController::class . ':log');
 
         $this->get('/shop', App\Controllers\User\ShopController::class . ':shop');
-        $this->post('/coupon_check', App\Controllers\User\ShopController::class . ':couponCheck');
         $this->post('/buy', App\Controllers\User\ShopController::class . ':buy');
         $this->post('/buy_traffic_package', App\Controllers\User\ShopController::class . ':buyTrafficPackage');
 
@@ -74,7 +72,6 @@ return function (SlimApp $app): void {
         $this->post('/password', App\Controllers\UserController::class . ':updatePassword');
         $this->post('/send', App\Controllers\AuthController::class . ':sendVerify');
         $this->post('/contact_update', App\Controllers\UserController::class . ':updateContact');
-        $this->post('/ssr', App\Controllers\UserController::class . ':updateSSR');
         $this->post('/theme', App\Controllers\UserController::class . ':updateTheme');
         $this->post('/mail', App\Controllers\UserController::class . ':updateMail');
         $this->post('/passwd_reset', App\Controllers\UserController::class . ':resetPasswd');
@@ -253,20 +250,25 @@ return function (SlimApp $app): void {
         $this->post('/giftcard', App\Controllers\Admin\GiftCardController::class . ':add');
         $this->post('/giftcard/ajax', App\Controllers\Admin\GiftCardController::class . ':ajax');
         $this->delete('/giftcard/{id}', App\Controllers\Admin\GiftCardController::class . ':delete');
+
+        // 商品
+        $this->get('/product', App\Controllers\Admin\ProductController::class . ':index');
+        $this->get('/product/create', App\Controllers\Admin\ProductController::class . ':create');
+        $this->post('/product', App\Controllers\Admin\ProductController::class . ':add');
+        $this->get('/product/{id}/edit', App\Controllers\Admin\ProductController::class . ':edit');
+        $this->post('/product/{id}/copy', App\Controllers\Admin\ProductController::class . ':copy');
+        $this->put('/product/{id}', App\Controllers\Admin\ProductController::class . ':update');
+        $this->delete('/product/{id}', App\Controllers\Admin\ProductController::class . ':delete');
+        $this->post('/product/ajax', App\Controllers\Admin\ProductController::class . ':ajax');
     })->add(new Admin());
 
-    if ($_ENV['enableAdminApi']) {
-        $app->group('/admin/api', function (): void {
-            $this->get('/nodes', App\Controllers\Admin\ApiController::class . ':getNodeList');
-            $this->get('/node/{id}', App\Controllers\Admin\ApiController::class . ':getNodeInfo');
-            $this->get('/ping', App\Controllers\Admin\ApiController::class . ':ping');
+    //$app->group('/admin/api', function (): void {
+    //    $this->post('/{action}', App\Controllers\Api\AdminApiController::class . ':actionHandler');
+    //})->add(new AdminApiToken());
 
-            // Re-bind controller, bypass admin token require
-            $this->post('/node', App\Controllers\Admin\NodeController::class . ':add');
-            $this->put('/node/{id}', App\Controllers\Admin\NodeController::class . ':update');
-            $this->delete('/node', App\Controllers\Admin\NodeController::class . ':delete');
-        })->add(new AuthorizationBearer($_ENV['adminApiToken']));
-    }
+    //$app->group('/user/api', function (): void {
+    //    $this->post('/{action}', App\Controllers\Api\UserApiController::class . ':actionHandler');
+    //})->add(new UserApiToken());
 
     // WebAPI
     $app->group('/mod_mu', function (): void {
@@ -290,7 +292,7 @@ return function (SlimApp $app): void {
         $this->post('/nodes/{id}/info', App\Controllers\WebAPI\NodeController::class . ':info');
     })->add(new NodeToken());
 
-    // 传统订阅（SS/V2Ray/Trojan）
+    // 传统订阅（SS/V2Ray/Trojan etc.）
     $app->group('/link', function (): void {
         $this->get('/{token}', App\Controllers\LinkController::class . ':getContent');
     });
