@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\AdminController;
+use App\Controllers\BaseController;
 use App\Models\Product;
 use App\Utils\Tools;
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-final class ProductController extends AdminController
+final class ProductController extends BaseController
 {
     public static $details = [
         'field' => [
@@ -32,15 +31,17 @@ final class ProductController extends AdminController
         'type',
         'name',
         'price',
-        'traffic_rate',
-        'info',
+        'status',
+        'stock',
+        'time',
+        'bandwidth',
+        'class',
+        'class_time',
         'node_group',
-        'node_speedlimit',
-        'sort',
-        'node_ip',
-        'node_class',
-        'node_bandwidth_limit',
-        'bandwidthlimit_resetday',
+        'speed_limit',
+        'ip_limit',
+        'class_requried',
+        'node_group_requried',
     ];
 
     public function index(Request $request, Response $response, array $args): ResponseInterface
@@ -73,13 +74,14 @@ final class ProductController extends AdminController
         $time = $request->getParam('time');
         $bandwidth = $request->getParam('bandwidth');
         $class = $request->getParam('class');
-        $class_time = $request->getParam('class_time'); 
+        $class_time = $request->getParam('class_time');
+        $node_group = $request->getParam('node_group');
         $speed_limit = $request->getParam('speed_limit');
         $ip_limit = $request->getParam('ip_limit');
         // limit
         $class_requried = $request->getParam('class_requried');
         $node_group_requried = $request->getParam('node_group_requried');
-        $new_user_requried = $request->getParam('new_user_requried');
+        $new_user_requried = $request->getParam('new_user_requried') === 'true' ? 1 : 0;
 
         try {
             $product = new Product();
@@ -112,6 +114,7 @@ final class ProductController extends AdminController
                     'bandwidth' => $bandwidth,
                     'class' => $class,
                     'class_time' => $class_time,
+                    'node_group' => $node_group,
                     'speed_limit' => $speed_limit,
                     'ip_limit' => $ip_limit,
                 ];
@@ -169,9 +172,13 @@ final class ProductController extends AdminController
     {
         $id = $args['id'];
         $product = Product::find($id);
+        $content = \json_decode($product->content, true);
+        $limit = \json_decode($product->limit, true);
         return $response->write(
             $this->view()
                 ->assign('product', $product)
+                ->assign('content', $content)
+                ->assign('limit', $limit)
                 ->assign('update_field', self::$update_field)
                 ->display('admin/product/create.tpl')
         );
@@ -190,13 +197,14 @@ final class ProductController extends AdminController
         $time = $request->getParam('time');
         $bandwidth = $request->getParam('bandwidth');
         $class = $request->getParam('class');
-        $class_time = $request->getParam('class_time'); 
+        $class_time = $request->getParam('class_time');
+        $node_group = $request->getParam('node_group');
         $speed_limit = $request->getParam('speed_limit');
         $ip_limit = $request->getParam('ip_limit');
         // limit
         $class_requried = $request->getParam('class_requried');
         $node_group_requried = $request->getParam('node_group_requried');
-        $new_user_requried = $request->getParam('new_user_requried');
+        $new_user_requried = $request->getParam('new_user_requried') === 'true' ? 1 : 0;
 
         try {
             $product = Product::find($product_id);
@@ -219,7 +227,7 @@ final class ProductController extends AdminController
                     throw new \Exception('请填写套餐流量');
                 }
 
-                ($class === '') && $product_class = '0';
+                ($class === '') && $class = '0';
                 ($class_time === '') && $class_time = $time;
                 ($speed_limit === '') && $speed_limit = '0';
                 ($ip_limit === '') && $ip_limit = '0';
@@ -229,6 +237,7 @@ final class ProductController extends AdminController
                     'bandwidth' => $bandwidth,
                     'class' => $class,
                     'class_time' => $class_time,
+                    'node_group' => $node_group,
                     'speed_limit' => $speed_limit,
                     'ip_limit' => $ip_limit,
                 ];
@@ -262,6 +271,7 @@ final class ProductController extends AdminController
             $product->name = $name;
             $product->price = $price;
             $product->content = \json_encode($content);
+            $product->limit = \json_encode($limit);
             $product->stock = $stock;
             $product->status = $status;
             $product->update_time = \time();
