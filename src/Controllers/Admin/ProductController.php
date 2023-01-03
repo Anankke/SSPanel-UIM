@@ -180,7 +180,7 @@ final class ProductController extends BaseController
                 ->assign('content', $content)
                 ->assign('limit', $limit)
                 ->assign('update_field', self::$update_field)
-                ->display('admin/product/create.tpl')
+                ->display('admin/product/edit.tpl')
         );
     }
 
@@ -335,9 +335,9 @@ final class ProductController extends BaseController
 
         foreach ($products as $product) {
             $product->op = '<button type="button" class="btn btn-red" id="delete-product-' . $product->id . '" 
-            onclick="deleteNode(' . $product->id . ')">删除</button>
+            onclick="deleteProduct(' . $product->id . ')">删除</button>
             <button type="button" class="btn btn-orange" id="copy-product-' . $product->id . '" 
-            onclick="copyNode(' . $product->id . ')">复制</button>
+            onclick="copyProduct(' . $product->id . ')">复制</button>
             <a class="btn btn-blue" href="/admin/product/' . $product->id . '/edit">编辑</a>';
             $product->create_time = Tools::toDateTime($product->create_time);
             $product->update_time = Tools::toDateTime($product->update_time);
