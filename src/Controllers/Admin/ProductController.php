@@ -17,6 +17,7 @@ final class ProductController extends BaseController
         'field' => [
             'op' => '操作',
             'id' => '商品ID',
+            'type' => '类型',
             'name' => '名称',
             'price' => '售价',
             'status' => '销售状态',
@@ -339,8 +340,11 @@ final class ProductController extends BaseController
             <button type="button" class="btn btn-orange" id="copy-product-' . $product->id . '" 
             onclick="copyProduct(' . $product->id . ')">复制</button>
             <a class="btn btn-blue" href="/admin/product/' . $product->id . '/edit">编辑</a>';
+            $product->type = Tools::getProductType($product);
+            $product->status = Tools::getProductStatus($product);
             $product->create_time = Tools::toDateTime($product->create_time);
             $product->update_time = Tools::toDateTime($product->update_time);
+            $product->stock = Tools::getProductStock($product);
         }
 
         return $response->withJson([
