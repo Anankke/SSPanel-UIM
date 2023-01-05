@@ -6,10 +6,10 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title my-3">流量记录</span>
+                        <span class="home-title">登录IP</span>
                     </h2>
-                    <div class="page-pretitle">
-                        <span class="home-subtitle">查看用户每小时使用流量记录</span>
+                    <div class="page-pretitle my-3">
+                        <span class="home-subtitle">查看用户账户的登录记录</span>
                     </div>
                 </div>
             </div>
@@ -43,9 +43,9 @@
             "searching": false,
             "ordering": false,
             ajax: {
-                url: '/admin/trafficlog/ajax',
+                url: '/admin/login/ajax',
                 type: 'POST',
-                dataSrc: 'trafficlogs.data'
+                dataSrc: 'logins.data'
             },
             "autoWidth":false,
             'iDisplayLength': 10,
