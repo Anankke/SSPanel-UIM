@@ -54,6 +54,7 @@ return function (SlimApp $app): void {
         $this->get('/detect/log', App\Controllers\User\DetectController::class . ':log');
 
         $this->get('/shop', App\Controllers\User\ShopController::class . ':shop');
+        $this->post('/coupon_check', App\Controllers\User\ShopController::class . ':couponCheck');
         $this->post('/buy', App\Controllers\User\ShopController::class . ':buy');
         $this->post('/buy_traffic_package', App\Controllers\User\ShopController::class . ':buyTrafficPackage');
 
