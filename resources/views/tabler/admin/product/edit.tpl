@@ -137,14 +137,14 @@
                                 <label class="form-label col-3 col-form-label">用户等级要求</label>
                                 <div class="col">
                                     <input id="class_requried" type="text" class="form-control"
-                                        value="{$limit['class_requried']}">
+                                        value="{$limit['class_required']}">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">用户所在的节点组</label>
                                 <div class="col">
                                     <input id="node_group_requried" type="text" class="form-control"
-                                        value="{$limit['node_group_requried']}">
+                                        value="{$limit['node_group_required']}">
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -153,7 +153,7 @@
                                     <span class="col-auto">
                                         <label class="form-check form-check-single form-switch">
                                             <input id="new_user_requried" class="form-check-input" type="checkbox" 
-                                                {if $limit['new_user_requried'] === 1}checked="" {/if}>
+                                                {if $limit['new_user_required'] === 1}checked="" {/if}>
                                         </label>
                                     </span>
                                 </label>
@@ -176,7 +176,7 @@
                 {foreach $update_field as $key}
                 {$key}: $('#{$key}').val(),
                 {/foreach}
-                new_user_requried: $("#new_user_requried").is(":checked"),
+                new_user_required: $("#new_user_required").is(":checked"),
             },
             success: function(data) {
                 if (data.ret == 1) {

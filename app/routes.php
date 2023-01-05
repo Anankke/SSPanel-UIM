@@ -260,6 +260,12 @@ return function (SlimApp $app): void {
         $this->put('/product/{id}', App\Controllers\Admin\ProductController::class . ':update');
         $this->delete('/product/{id}', App\Controllers\Admin\ProductController::class . ':delete');
         $this->post('/product/ajax', App\Controllers\Admin\ProductController::class . ':ajax');
+
+        // 订单
+        $this->get('/order', App\Controllers\Admin\OrderController::class . ':index');
+        $this->get('/order/{id}/edit', App\Controllers\Admin\OrderController::class . ':edit');
+        $this->put('/order/{id}', App\Controllers\Admin\OrderController::class . ':update');
+        $this->post('/order/ajax', App\Controllers\Admin\OrderController::class . ':ajax');
     })->add(new Admin());
 
     //$app->group('/admin/api', function (): void {
