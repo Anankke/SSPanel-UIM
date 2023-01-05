@@ -303,8 +303,8 @@
                 fill: {
                     opacity: 1,
                 },
-                series: [{$sts->getRawTodayTrafficUsage()}, {$sts->getRawLastTrafficUsage()}, {$sts->getRawUnusedTrafficUsage()}],
-                labels: ["今日已用", "过去已用", "剩余流量"],
+                series: [{$sts->getRawGbTodayTrafficUsage()}, {$sts->getRawGbLastTrafficUsage()}, {$sts->getRawGbUnusedTrafficUsage()}],
+                labels: ["今日已用({$sts->getTodayTrafficUsage()})", "过去已用({$sts->getLastTrafficUsage()})", "剩余流量({$sts->getUnusedTrafficUsage()})"],
                 grid: {
                     strokeDashArray: 3,
                 },
