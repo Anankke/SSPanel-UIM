@@ -42,7 +42,7 @@ final class Analytics
 
     public function getRawGbTodayTrafficUsage()
     {
-        return User::sum('u') + User::sum('d') - User::sum('last_day_t');
+        return Tools::flowToGB(User::sum('u') + User::sum('d') - User::sum('last_day_t'));
     }
 
     public function getLastTrafficUsage()

@@ -264,8 +264,9 @@ return function (SlimApp $app): void {
 
         // 订单
         $this->get('/order', App\Controllers\Admin\OrderController::class . ':index');
-        $this->get('/order/{id}/edit', App\Controllers\Admin\OrderController::class . ':edit');
-        $this->put('/order/{id}', App\Controllers\Admin\OrderController::class . ':update');
+        $this->get('/order/{id}/view', App\Controllers\Admin\OrderController::class . ':detail');
+        $this->post('/order/{id}/cancel', App\Controllers\Admin\ProductController::class . ':cancel');
+        $this->delete('/order/{id}', App\Controllers\Admin\OrderController::class . ':delete');
         $this->post('/order/ajax', App\Controllers\Admin\OrderController::class . ':ajax');
     })->add(new Admin());
 
