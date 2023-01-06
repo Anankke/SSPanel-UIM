@@ -603,7 +603,7 @@ final class User extends Model
      */
     public function addMoneyLog($total): void
     {
-        if ($_ENV['money_from_admin'] && $total !== 0) {
+        if ($_ENV['money_from_admin'] && $total !== 0.00) {
             $codeq = new Code();
             $codeq->code = ($total > 0 ? '管理员赏赐' : '管理员惩戒');
             $codeq->isused = 1;
