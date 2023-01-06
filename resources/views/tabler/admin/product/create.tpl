@@ -128,14 +128,14 @@
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">用户等级要求</label>
                                 <div class="col">
-                                    <input id="class_requried" type="text" class="form-control"
+                                    <input id="class_required" type="text" class="form-control"
                                         value="">
                                 </div>
                             </div>
                             <div class="form-group mb-3 row">
                                 <label class="form-label col-3 col-form-label">用户所在的节点组</label>
                                 <div class="col">
-                                    <input id="node_group_requried" type="text" class="form-control"
+                                    <input id="node_group_required" type="text" class="form-control"
                                         value="">
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
                                     <span class="col">仅限新用户购买</span>
                                     <span class="col-auto">
                                         <label class="form-check form-check-single form-switch">
-                                            <input id="new_user_requried" class="form-check-input" type="checkbox">
+                                            <input id="new_user_required" class="form-check-input" type="checkbox">
                                         </label>
                                     </span>
                                 </label>
@@ -167,7 +167,7 @@
                 {foreach $update_field as $key}
                 {$key}: $('#{$key}').val(),
                 {/foreach}
-                new_user_requried: $("#new_user_requried").is(":checked"),
+                new_user_required: $("#new_user_required").is(":checked"),
             },
             success: function(data) {
                 if (data.ret == 1) {

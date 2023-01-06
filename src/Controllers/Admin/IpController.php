@@ -51,7 +51,7 @@ final class IpController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$login_details)
-                ->display('admin/ip/login.tpl')
+                ->display('admin/log/login.tpl')
         );
     }
 
@@ -95,7 +95,7 @@ final class IpController extends BaseController
         return $response->write(
             $this->view()
                 ->assign('details', self::$ip_details)
-                ->display('admin/ip/alive.tpl')
+                ->display('admin/log/alive.tpl')
         );
     }
 

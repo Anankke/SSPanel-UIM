@@ -6,10 +6,10 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title my-3">登录IP</span>
+                        <span class="home-title">在线IP</span>
                     </h2>
-                    <div class="page-pretitle">
-                        <span class="home-subtitle">查看用户账户的登录记录</span>
+                    <div class="page-pretitle my-3">
+                        <span class="home-subtitle">查看现在在线的用户IP</span>
                     </div>
                 </div>
             </div>
@@ -43,9 +43,9 @@
             "searching": false,
             "ordering": false,
             ajax: {
-                url: '/admin/login/ajax',
+                url: '/admin/alive/ajax',
                 type: 'POST',
-                dataSrc: 'logins.data'
+                dataSrc: 'alives.data'
             },
             "autoWidth":false,
             'iDisplayLength': 10,

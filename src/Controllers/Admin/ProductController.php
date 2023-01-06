@@ -13,10 +13,11 @@ use Slim\Http\Response;
 
 final class ProductController extends BaseController
 {
-    public static $details = [
+    public static array $details = [
         'field' => [
             'op' => '操作',
             'id' => '商品ID',
+            'type' => '类型',
             'name' => '名称',
             'price' => '售价',
             'status' => '销售状态',
@@ -27,7 +28,7 @@ final class ProductController extends BaseController
         ],
     ];
 
-    public static $update_field = [
+    public static array $update_field = [
         'type',
         'name',
         'price',
@@ -40,8 +41,8 @@ final class ProductController extends BaseController
         'node_group',
         'speed_limit',
         'ip_limit',
-        'class_requried',
-        'node_group_requried',
+        'class_required',
+        'node_group_required',
     ];
 
     public function index(Request $request, Response $response, array $args): ResponseInterface
@@ -79,9 +80,9 @@ final class ProductController extends BaseController
         $speed_limit = $request->getParam('speed_limit');
         $ip_limit = $request->getParam('ip_limit');
         // limit
-        $class_requried = $request->getParam('class_requried');
-        $node_group_requried = $request->getParam('node_group_requried');
-        $new_user_requried = $request->getParam('new_user_requried') === 'true' ? 1 : 0;
+        $class_required = $request->getParam('class_required');
+        $node_group_required = $request->getParam('node_group_required');
+        $new_user_required = $request->getParam('new_user_required') === 'true' ? 1 : 0;
 
         try {
             $product = new Product();
@@ -139,9 +140,9 @@ final class ProductController extends BaseController
             }
 
             $limit = [
-                'class_requried' => $class_requried,
-                'node_group_requried' => $node_group_requried,
-                'new_user_requried' => $new_user_requried,
+                'class_required' => $class_required,
+                'node_group_required' => $node_group_required,
+                'new_user_required' => $new_user_required,
             ];
 
             $product->type = $type;
@@ -202,9 +203,9 @@ final class ProductController extends BaseController
         $speed_limit = $request->getParam('speed_limit');
         $ip_limit = $request->getParam('ip_limit');
         // limit
-        $class_requried = $request->getParam('class_requried');
-        $node_group_requried = $request->getParam('node_group_requried');
-        $new_user_requried = $request->getParam('new_user_requried') === 'true' ? 1 : 0;
+        $class_required = $request->getParam('class_required');
+        $node_group_required = $request->getParam('node_group_required');
+        $new_user_required = $request->getParam('new_user_required') === 'true' ? 1 : 0;
 
         try {
             $product = Product::find($product_id);
@@ -262,9 +263,9 @@ final class ProductController extends BaseController
             }
 
             $limit = [
-                'class_requried' => $class_requried,
-                'node_group_requried' => $node_group_requried,
-                'new_user_requried' => $new_user_requried,
+                'class_required' => $class_required,
+                'node_group_required' => $node_group_required,
+                'new_user_required' => $new_user_required,
             ];
 
             $product->type = $type;
@@ -339,8 +340,11 @@ final class ProductController extends BaseController
             <button type="button" class="btn btn-orange" id="copy-product-' . $product->id . '" 
             onclick="copyProduct(' . $product->id . ')">复制</button>
             <a class="btn btn-blue" href="/admin/product/' . $product->id . '/edit">编辑</a>';
+            $product->type = Tools::getProductType($product);
+            $product->status = Tools::getProductStatus($product);
             $product->create_time = Tools::toDateTime($product->create_time);
             $product->update_time = Tools::toDateTime($product->update_time);
+            $product->stock = Tools::getProductStock($product);
         }
 
         return $response->withJson([

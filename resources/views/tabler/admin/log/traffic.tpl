@@ -6,10 +6,10 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title my-3">在线IP</span>
+                        <span class="home-title">流量记录</span>
                     </h2>
-                    <div class="page-pretitle">
-                        <span class="home-subtitle">查看现在在线的用户IP</span>
+                    <div class="page-pretitle my-3">
+                        <span class="home-subtitle">查看用户每小时使用流量记录</span>
                     </div>
                 </div>
             </div>
@@ -43,9 +43,9 @@
             "searching": false,
             "ordering": false,
             ajax: {
-                url: '/admin/alive/ajax',
+                url: '/admin/trafficlog/ajax',
                 type: 'POST',
-                dataSrc: 'alives.data'
+                dataSrc: 'trafficlogs.data'
             },
             "autoWidth":false,
             'iDisplayLength': 10,

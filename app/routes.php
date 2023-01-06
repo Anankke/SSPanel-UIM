@@ -54,6 +54,7 @@ return function (SlimApp $app): void {
         $this->get('/detect/log', App\Controllers\User\DetectController::class . ':log');
 
         $this->get('/shop', App\Controllers\User\ShopController::class . ':shop');
+        $this->post('/coupon_check', App\Controllers\User\ShopController::class . ':couponCheck');
         $this->post('/buy', App\Controllers\User\ShopController::class . ':buy');
         $this->post('/buy_traffic_package', App\Controllers\User\ShopController::class . ':buyTrafficPackage');
 
@@ -260,6 +261,13 @@ return function (SlimApp $app): void {
         $this->put('/product/{id}', App\Controllers\Admin\ProductController::class . ':update');
         $this->delete('/product/{id}', App\Controllers\Admin\ProductController::class . ':delete');
         $this->post('/product/ajax', App\Controllers\Admin\ProductController::class . ':ajax');
+
+        // 订单
+        $this->get('/order', App\Controllers\Admin\OrderController::class . ':index');
+        $this->get('/order/{id}/view', App\Controllers\Admin\OrderController::class . ':detail');
+        $this->post('/order/{id}/cancel', App\Controllers\Admin\ProductController::class . ':cancel');
+        $this->delete('/order/{id}', App\Controllers\Admin\OrderController::class . ':delete');
+        $this->post('/order/ajax', App\Controllers\Admin\OrderController::class . ':ajax');
     })->add(new Admin());
 
     //$app->group('/admin/api', function (): void {

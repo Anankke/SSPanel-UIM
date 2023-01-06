@@ -27,14 +27,12 @@ final class Analytics
 
     public function getTrafficUsage()
     {
-        $total = User::sum('u') + User::sum('d');
-        return Tools::flowAutoShow($total);
+        return Tools::flowAutoShow(User::sum('u') + User::sum('d'));
     }
 
     public function getTodayTrafficUsage()
     {
-        $total = User::sum('u') + User::sum('d') - User::sum('last_day_t');
-        return Tools::flowAutoShow($total);
+        return Tools::flowAutoShow(User::sum('u') + User::sum('d') - User::sum('last_day_t'));
     }
 
     public function getRawTodayTrafficUsage()
@@ -42,10 +40,14 @@ final class Analytics
         return User::sum('u') + User::sum('d') - User::sum('last_day_t');
     }
 
+    public function getRawGbTodayTrafficUsage()
+    {
+        return Tools::flowToGB(User::sum('u') + User::sum('d') - User::sum('last_day_t'));
+    }
+
     public function getLastTrafficUsage()
     {
-        $total = User::sum('last_day_t');
-        return Tools::flowAutoShow($total);
+        return Tools::flowAutoShow(User::sum('last_day_t'));
     }
 
     public function getRawLastTrafficUsage()
@@ -53,10 +55,14 @@ final class Analytics
         return User::sum('last_day_t');
     }
 
+    public function getRawGbLastTrafficUsage()
+    {
+        return Tools::flowToGB(User::sum('last_day_t'));
+    }
+
     public function getUnusedTrafficUsage()
     {
-        $total = User::sum('transfer_enable') - User::sum('u') - User::sum('d');
-        return Tools::flowAutoShow($total);
+        return Tools::flowAutoShow(User::sum('transfer_enable') - User::sum('u') - User::sum('d'));
     }
 
     public function getRawUnusedTrafficUsage()
@@ -64,15 +70,24 @@ final class Analytics
         return User::sum('transfer_enable') - User::sum('u') - User::sum('d');
     }
 
+    public function getRawGbUnusedTrafficUsage()
+    {
+        return Tools::flowToGB(User::sum('transfer_enable') - User::sum('u') - User::sum('d'));
+    }
+
     public function getTotalTraffic()
     {
-        $total = User::sum('transfer_enable');
-        return Tools::flowAutoShow(intval($total));
+        return Tools::flowAutoShow(User::sum('transfer_enable'));
     }
 
     public function getRawTotalTraffic()
     {
         return User::sum('transfer_enable');
+    }
+
+    public function getRawGbTotalTraffic()
+    {
+        return Tools::flowToGB(User::sum('transfer_enable'));
     }
 
     public function getOnlineUser($time)
