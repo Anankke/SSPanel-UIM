@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/Anankke/SSPanel-Uim/dev/public/images/uim-logo-round.png" alt="logo" width="130" height="130" align="left" />
+<img src="https://raw.githubusercontent.com/Anankke/SSPanel-Uim/dev/public/images/uim-logo-round_192x192.png" alt="logo" width="130" height="130" align="left" />
 
 <h1>SSPanel UIM</h1>
 
