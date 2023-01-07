@@ -26,7 +26,6 @@ config/.config.php.bak
 config/appprofile.php
 
 public/clients/
-public/images/*.*
 
 storage/framework/smarty/cache/*
 storage/framework/smarty/compile/*

@@ -9,17 +9,17 @@
         <br />
         {if $config['epay_alipay'] == true}
         <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="alipay">
-            <img src="/images/alipay.jpg" height="50px" />
+            <img src="/images/alipay.png" height="50px" />
         </button>
         {/if}
         {if $config['epay_wechat'] == true}
         <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="wxpay">
-            <img src="/images/weixin.jpg" height="50px" />
+            <img src="/images/wechat.png" height="50px" />
         </button>
         {/if}
         {if $config['epay_qq'] == true}
         <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="qqpay">
-            <img src="/images/qqpay.jpg" height="50px" />
+            <img src="/images/qqpay.png" height="50px" />
         </button>
         {/if}
         {if $config['epay_usdt'] == true}
