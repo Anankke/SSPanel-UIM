@@ -96,7 +96,7 @@ final class LinkController extends BaseController
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
-            ->whereIn('node_group', [0, $user->group])
+            ->whereIn('node_group', [0, $user->node_group])
             ->where(static function ($query): void {
                 $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
             })
@@ -132,7 +132,7 @@ final class LinkController extends BaseController
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
-            ->whereIn('node_group', [0, $user->group])
+            ->whereIn('node_group', [0, $user->node_group])
             ->where(static function ($query): void {
                 $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
             })
@@ -191,7 +191,7 @@ final class LinkController extends BaseController
         //篩選出用戶能連接的節點
         $nodes_raw = Node::where('type', 1)
             ->where('node_class', '<=', $user->class)
-            ->whereIn('node_group', [0, $user->group])
+            ->whereIn('node_group', [0, $user->node_group])
             ->where(static function ($query): void {
                 $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
             })
