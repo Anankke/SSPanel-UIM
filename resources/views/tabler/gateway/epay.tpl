@@ -23,7 +23,7 @@
         </button>
         {/if}
         {if $config['epay_usdt'] == true}
-        <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value=usdt">
+        <button class="btn btn-flat waves-attach" id="btnSubmit" type="submit" name="type" value="usdt">
             <img src="/images/usdt.png" height="50px" />
         </button>
         {/if}
