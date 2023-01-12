@@ -14,21 +14,21 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <button href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <button href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="">
                             <i class="icon ti ti-user"></i>
                             查看关联用户
                         </button>
-                        <button href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-red d-sm-none btn-icon" data-bs-toggle="modal"
+                        <button href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
                             data-bs-target="">
                             <i class="icon ti ti-user"></i>
                         </button>
-                        <button href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <button href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="">
                             <i class="icon ti ti-file-dollar"></i>
                             查看关联账单
                         </button>
-                        <button href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-red d-sm-none btn-icon" data-bs-toggle="modal"
+                        <button href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
                             data-bs-target="">
                             <i class="icon ti ti-file-dollar"></i>
                         </button>
@@ -65,32 +65,32 @@
                             <div class="datagrid-content">{$order->product_id}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">商品类型</div>
-                          <div class="datagrid-content">{$order->product_type}</div>
+                            <div class="datagrid-title">商品类型</div>
+                            <div class="datagrid-content">{$order->product_type}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">商品名称</div>
-                          <div class="datagrid-content">{$order->product_name}</div>
+                            <div class="datagrid-title">商品名称</div>
+                            <div class="datagrid-content">{$order->product_name}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">订单优惠码</div>
-                          <div class="datagrid-content">{$order->coupon}</div>
+                            <div class="datagrid-title">订单优惠码</div>
+                            <div class="datagrid-content">{$order->coupon}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">订单金额</div>
-                          <div class="datagrid-content">{$order->price}</div>
+                            <div class="datagrid-title">订单金额</div>
+                            <div class="datagrid-content">{$order->price}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">订单状态</div>
-                          <div class="datagrid-content">{$order->status}</div>
+                            <div class="datagrid-title">订单状态</div>
+                            <div class="datagrid-content">{$order->status}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">创建时间</div>
-                          <div class="datagrid-content">{$order->create_time}</div>
+                            <div class="datagrid-title">创建时间</div>
+                            <div class="datagrid-content">{$order->create_time}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">更新时间</div>
-                          <div class="datagrid-content">{$order->update_time}</div>
+                            <div class="datagrid-title">更新时间</div>
+                            <div class="datagrid-content">{$order->update_time}</div>
                         </div>
                     </div>
                 </div>
@@ -102,32 +102,38 @@
                 <div class="card-body">
                     <div class="datagrid">
                         <div class="datagrid-item">
-                            <div class="datagrid-title">商品时长</div>
+                            <div class="datagrid-title">商品时长 (天)</div>
                             <div class="datagrid-content">{$product_content['time']}</div>
                         </div>
                         <div class="datagrid-item">
-                            <div class="datagrid-title">流量</div>
+                            <div class="datagrid-title">可用流量 (GB)</div>
                             <div class="datagrid-content">{$product_content['bandwidth']}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">等级</div>
-                          <div class="datagrid-content">{$product_content['class']}</div>
+                            <div class="datagrid-title">等级</div>
+                            <div class="datagrid-content">{$product_content['class']}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">等级时长</div>
-                          <div class="datagrid-content">{$product_content['class_time']}</div>
+                            <div class="datagrid-title">等级时长 (天)</div>
+                            <div class="datagrid-content">{$product_content['class_time']}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">节点分组</div>
-                          <div class="datagrid-content">{$product_content['node_group']}</div>
+                            <div class="datagrid-title">用户分组</div>
+                            <div class="datagrid-content">{$product_content['node_group']}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">速率限制</div>
-                          <div class="datagrid-content">{$product_content['speed_limit']}</div>
+                            <div class="datagrid-title">速率限制 (Mbps)</div>
+                            <div class="datagrid-content">{$product_content['speed_limit']}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">同时连接IP限制</div>
-                          <div class="datagrid-content">{$product_content['ip_limit']}</div>
+                            <div class="datagrid-title">同时连接IP限制</div>
+                            <div class="datagrid-content">
+                            {if $product_content['ip_limit'] === -1}
+                            不限制
+                            {else}
+                            {$product_content['ip_limit']}
+                            {/if}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -166,20 +172,20 @@
                             <div class="datagrid-content">{$invoice->price}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">账单状态</div>
-                          <div class="datagrid-content">{$invoice->status}</div>
+                            <div class="datagrid-title">账单状态</div>
+                            <div class="datagrid-content">{$invoice->status}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">创建时间</div>
-                          <div class="datagrid-content">{$invoice->create_time}</div>
+                            <div class="datagrid-title">创建时间</div>
+                            <div class="datagrid-content">{$invoice->create_time}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">更新时间</div>
-                          <div class="datagrid-content">{$invoice->update_time}</div>
+                            <div class="datagrid-title">更新时间</div>
+                            <div class="datagrid-content">{$invoice->update_time}</div>
                         </div>
                         <div class="datagrid-item">
-                          <div class="datagrid-title">支付时间</div>
-                          <div class="datagrid-content">{$invoice->pay_time}</div>
+                            <div class="datagrid-title">支付时间</div>
+                            <div class="datagrid-content">{$invoice->pay_time}</div>
                         </div>
                     </div>
                 </div>
