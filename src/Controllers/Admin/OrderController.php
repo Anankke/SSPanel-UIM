@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Utils\Tools;
 use Psr\Http\Message\ResponseInterface;
@@ -41,12 +42,28 @@ final class OrderController extends BaseController
     public function detail(Request $request, Response $response, array $args): ResponseInterface
     {
         $id = $args['id'];
+
         $order = Order::find($id);
+        $order->product_type = Tools::getOrderProductType($order);
+        $order->status = Tools::getOrderStatus($order);
+        $order->create_time = Tools::toDateTime($order->create_time);
+        $order->update_time = Tools::toDateTime($order->update_time);
+
         $product_content = \json_decode($order->product_content, true);
+
+        $invoice = Invoice::where('order_id', $id)->first();
+        $invoice->status = Tools::getInvoiceStatus($invoice);
+        $invoice->create_time = Tools::toDateTime($invoice->create_time);
+        $invoice->update_time = Tools::toDateTime($invoice->update_time);
+        $invoice->pay_time = Tools::toDateTime($invoice->pay_time);
+        $invoice_content = \json_decode($invoice->content, true);
+
         return $response->write(
             $this->view()
                 ->assign('order', $order)
+                ->assign('invoice', $invoice)
                 ->assign('product_content', $product_content)
+                ->assign('invoice_content', $invoice_content)
                 ->display('admin/order/view.tpl')
         );
     }
@@ -63,6 +80,7 @@ final class OrderController extends BaseController
             ]);
         }
 
+        $order->update_time = \time();
         $order->status = 'cancelled';
         $order->save();
 

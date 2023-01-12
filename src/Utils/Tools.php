@@ -588,4 +588,24 @@ final class Tools
         }
         return '其他';
     }
+
+    /**
+     * 账单状态
+     */
+    public static function getInvoiceStatus($invoice)
+    {
+        if ($invoice->status === 'unpaid') {
+            return '未支付';
+        }
+        if ($invoice->status === 'paid_gateway') {
+            return '已支付（支付网关）';
+        }
+        if ($invoice->status === 'paid_balance') {
+            return '已支付（账户余额）';
+        }
+        if ($invoice->status === 'cancelled') {
+            return '已取消';
+        }
+        return '未知';
+    }
 }
