@@ -152,8 +152,8 @@
                                         <tbody>
                                             {foreach $invoice_content as $invoice_content_detail}
                                             <tr>
-                                                <td>{$invoice_content_detail->name}</td>
-                                                <td>{$invoice_content_detail->price}</td>
+                                                <td>{$invoice_content_detail['name']}</td>
+                                                <td>{$invoice_content_detail['price']}</td>
                                             </tr>
                                             {/foreach}
                                         </tbody>
