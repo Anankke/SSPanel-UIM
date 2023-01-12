@@ -14,24 +14,24 @@
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <button href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                        <a href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="">
                             <i class="icon ti ti-user"></i>
                             查看关联用户
-                        </button>
-                        <button href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                        </a>
+                        <a href="/admin/user/{$order->user_id}/edit" targer="_blank" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
                             data-bs-target="">
                             <i class="icon ti ti-user"></i>
-                        </button>
-                        <button href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                        </a>
+                        <a href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="">
                             <i class="icon ti ti-file-dollar"></i>
                             查看关联账单
-                        </button>
-                        <button href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                        </a>
+                        <a href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
                             data-bs-target="">
                             <i class="icon ti ti-file-dollar"></i>
-                        </button>
+                        </a>
                         {if $order->status !== 'cancelled'}
                         <button href="#" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#cancel_order_confirm_dialog">
@@ -95,7 +95,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card my-3">
                 <div class="card-header">
                     <h3 class="card-title">商品内容</h3>
                 </div>
@@ -128,7 +128,7 @@
                         <div class="datagrid-item">
                             <div class="datagrid-title">同时连接IP限制</div>
                             <div class="datagrid-content">
-                            {if $product_content['ip_limit'] === -1}
+                            {if $product_content['ip_limit'] === '-1'}
                             不限制
                             {else}
                             {$product_content['ip_limit']}
@@ -138,7 +138,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card my-3">
                 <div class="card-header">
                     <h3 class="card-title">关联账单</h3>
                 </div>
