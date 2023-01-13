@@ -28,7 +28,7 @@
                         <a href="/admin/invoice/{$invoice->id}/view" targer="_blank" class="btn btn-primary d-sm-none btn-icon">
                             <i class="icon ti ti-file-dollar"></i>
                         </a>
-                        {if $order->status !== 'cancelled'}
+                        {if $order->status !== 'cancelled' && $order->status !== 'activated'}
                         <button href="#" class="btn btn-red d-none d-sm-inline-block" data-bs-toggle="modal"
                             data-bs-target="#cancel_order_confirm_dialog">
                             <i class="icon ti ti-x"></i>
