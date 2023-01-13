@@ -16,11 +16,7 @@ final class PAYJS extends AbstractPayment
 {
     private $appSecret;
     private $gatewayUri;
-    /**
-     * 签名初始化
-     *
-     * @param merKey    签名密钥
-     */
+
     public function __construct()
     {
         $this->appSecret = Setting::obtain('payjs_key');
@@ -50,11 +46,7 @@ final class PAYJS extends AbstractPayment
         ksort($data);
         return http_build_query($data);
     }
-    /**
-     * @name    生成签名
-     *
-     * @param sourceData
-     */
+
     public function sign($data): string
     {
         return strtoupper(md5(urldecode($data) . '&key=' . $this->appSecret));
@@ -95,7 +87,7 @@ final class PAYJS extends AbstractPayment
     {
         $price = $request->getParam('price');
         if ($price <= 0) {
-            return \json_encode(['code' => -1, 'errmsg' => '非法的金额.']);
+            return $response->withJson(['code' => -1, 'errmsg' => '非法的金额.']);
         }
         $user = Auth::getUser();
         $pl = new Paylist();
@@ -197,7 +189,8 @@ final class PAYJS extends AbstractPayment
                 $success = 0;
             }
         }
-        return View::getSmarty()->assign('money', $money)->assign('success', $success)->fetch('gateway/payjs_success.tpl');
+
+        return $response->write(View::getSmarty()->assign('money', $money)->assign('success', $success)->fetch('gateway/payjs_success.tpl'));
     }
 
     public function getStatus($request, $response, $args): ResponseInterface

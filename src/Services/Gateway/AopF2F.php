@@ -52,7 +52,7 @@ final class AopF2F extends AbstractPayment
 
         $gateway = $this->createGateway();
 
-        /** @var AopTradePreCreateRequest $request */
+        /** @var \Omnipay\Alipay\Requests\AopTradePreCreateRequest $request */
         $request = $gateway->purchase();
         $request->setBizContent([
             'subject' => $pl->tradeno,
@@ -77,7 +77,7 @@ final class AopF2F extends AbstractPayment
     public function notify($request, $response, $args): ResponseInterface
     {
         $gateway = $this->createGateway();
-        /** @var AopCompletePurchaseRequest $aliRequest */
+        /** @var \Omnipay\Alipay\Requests\AopCompletePurchaseRequest $aliRequest */
         $aliRequest = $gateway->completePurchase();
         $aliRequest->setParams($_POST);
 
@@ -92,6 +92,8 @@ final class AopF2F extends AbstractPayment
         } catch (Exception $e) {
             return $response->write('fail');
         }
+
+        return $response->write('unknown');
     }
 
     public static function getPurchaseHTML(): string

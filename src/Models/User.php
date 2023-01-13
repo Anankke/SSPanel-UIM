@@ -211,7 +211,7 @@ final class User extends Model
         }
         $percent = ($this->u + $this->d) / $this->transfer_enable;
         $percent = round($percent, 2);
-        return $percent * 100;
+        return (int) $percent * 100;
     }
 
     /*

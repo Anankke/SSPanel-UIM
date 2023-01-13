@@ -15,12 +15,10 @@ final class Captcha
                 return [
                     'turnstile_sitekey' => Setting::obtain('turnstile_sitekey'),
                 ];
-                break;
             case 'geetest':
                 return [
                     'geetest_id' => Setting::obtain('geetest_id'),
                 ];
-                break;
         }
 
         return [];

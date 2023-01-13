@@ -6,7 +6,8 @@ namespace App\Services\Gateway\Epay;
 
 final class EpayNotify
 {
-    public $alipay_config;
+    private $alipay_config;
+    private $http_verify_url;
 
     public function __construct($alipay_config)
     {
@@ -70,14 +71,9 @@ final class EpayNotify
 
     public function getResponse($notify_id)
     {
-        $transport = strtolower(trim($this->alipay_config['transport']));
         $partner = trim($this->alipay_config['partner']);
         $veryfy_url = '';
-        if ($transport === 'https') {
-            $veryfy_url = $this->https_verify_url;
-        } else {
-            $veryfy_url = $this->http_verify_url;
-        }
+        $veryfy_url = $this->http_verify_url;
         $veryfy_url .= 'partner=' . $partner . '&notify_id=' . $notify_id;
         return EpayTool::getHttpResponseGET($veryfy_url, $this->alipay_config['cacert']);
     }

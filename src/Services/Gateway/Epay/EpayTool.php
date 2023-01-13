@@ -143,7 +143,7 @@ final class EpayTool
     {
         $output = '';
         if (! isset($_input_charset)) {
-            $_input_charset = $_input_charset;
+            $_input_charset = $_output_charset;
         }
         if ($_input_charset === $_output_charset || $input === null) {
             $output = $input;
