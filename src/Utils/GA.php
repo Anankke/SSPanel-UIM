@@ -50,7 +50,7 @@ final class GA
         // Only 32 bits
         $value &= 0x7FFFFFFF;
         $modulo = 10 ** $this->codeLength;
-        
+
         return str_pad($value % $modulo, $this->codeLength, '0', STR_PAD_LEFT);
     }
 
