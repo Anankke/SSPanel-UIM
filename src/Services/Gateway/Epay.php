@@ -13,7 +13,6 @@ namespace App\Services\Gateway;
 use App\Models\Paylist;
 use App\Models\Setting;
 use App\Services\Auth;
-use App\Services\Config;
 use App\Services\Gateway\Epay\EpayNotify;
 use App\Services\Gateway\Epay\EpaySubmit;
 use App\Services\View;
@@ -55,7 +54,7 @@ final class Epay extends AbstractPayment
         $type = $request->getParam('type');
         $price = $request->getParam('price');
         if ($price <= 0) {
-            return \json_encode(['errcode' => -1, 'errmsg' => '非法的金额.']);
+            return $response->withJson(['errcode' => -1, 'errmsg' => '非法的金额.']);
         }
         $user = Auth::getUser();
         $pl = new Paylist();
@@ -71,12 +70,12 @@ final class Epay extends AbstractPayment
             'pid' => trim($this->epay['partner']),
             'type' => $type,
             'out_trade_no' => $pl->tradeno,
-            'notify_url' => Config::get('baseUrl') . '/payment/notify/epay',
-            'return_url' => Config::get('baseUrl') . '/user/payment/return/epay',
+            'notify_url' => $_ENV['baseUrl'] . '/payment/notify/epay',
+            'return_url' => $_ENV['baseUrl'] . '/user/payment/return/epay',
             'name' => $pl->tradeno,
             #"name" =>  $user->mobile . "" . $price . "",
             'money' => $price,
-            'sitename' => Config::get('appName'),
+            'sitename' => $_ENV['appName'],
         ];
         $alipaySubmit = new EpaySubmit($this->epay);
         $html_text = $alipaySubmit->buildRequestForm($data);
@@ -98,15 +97,15 @@ final class Epay extends AbstractPayment
                     $type = 'QQ';
                     break;
                 case 'wxpay':
-                    $type = 'Wechat';
-                    // no break
+                    $type = 'WeChat';
+                    break;
                 case 'epusdt':
-                    $type = 'Epusdt';
+                    $type = 'USDT';
                     break;
             }
             $trade_status = $_GET['trade_status'];
             if ($trade_status === 'TRADE_SUCCESS') {
-                $this->postPayment($out_trade_no, $type);
+                $this->postPayment($out_trade_no, $type . ' ' . $out_trade_no);
                 return $response->withJson(['state' => 'success', 'msg' => '支付成功']);
             }
             return $response->withJson(['state' => 'fail', 'msg' => '支付失败']);

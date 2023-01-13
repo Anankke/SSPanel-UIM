@@ -49,8 +49,8 @@ final class GA
         $value = $value[1];
         // Only 32 bits
         $value &= 0x7FFFFFFF;
-
         $modulo = 10 ** $this->codeLength;
+
         return str_pad($value % $modulo, $this->codeLength, '0', STR_PAD_LEFT);
     }
 
@@ -82,7 +82,7 @@ final class GA
         }
 
         for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
-            $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
+            $calculatedCode = $this->getCode($secret, (int) $currentTimeSlice + $i);
             if ($calculatedCode === $code) {
                 return true;
             }

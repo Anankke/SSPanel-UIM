@@ -55,7 +55,7 @@ final class Bought extends Model
      */
     public function datetime(): string
     {
-        return date('Y-m-d H:i:s', $this->datetime);
+        return date('Y-m-d H:i:s', (int) $this->datetime);
     }
 
     /**
@@ -138,7 +138,7 @@ final class Bought extends Model
             $resetIndex = 1 + (int) ((\time() - $this->datetime - $day) / ($shop->reset() * $day));
             $restTime = $resetIndex * $shop->reset() * $day + $this->datetime;
             $time = \time() + ($day * 86400);
-            return ! $unix ? date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d', $restTime)))) : $time;
+            return ! $unix ? date('Y-m-d', strtotime('+1 day', strtotime(date('Y-m-d', (int) $restTime)))) : $time;
         }
         return ! $unix ? '-' : 0;
     }
@@ -151,7 +151,7 @@ final class Bought extends Model
         $shop = $this->shop();
         if ($shop->useLoop()) {
             $time = $this->datetime + ($shop->resetExp() * 86400);
-            return ! $unix ? date('Y-m-d H:i:s', $time) : $time;
+            return ! $unix ? date('Y-m-d H:i:s', (int) $time) : $time;
         }
         return ! $unix ? '-' : 0;
     }

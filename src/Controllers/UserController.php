@@ -154,9 +154,9 @@ final class UserController extends BaseController
 
         if ($codeq->type === 10002) {
             if (\time() > strtotime($user->expire_in)) {
-                $user->expire_in = date('Y-m-d H:i:s', \time() + $codeq->number * 86400);
+                $user->expire_in = date('Y-m-d H:i:s', \time() + (int) $codeq->number * 86400);
             } else {
-                $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + $codeq->number * 86400);
+                $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + (int) $codeq->number * 86400);
             }
             $user->save();
         }
@@ -166,7 +166,7 @@ final class UserController extends BaseController
                 $user->class_expire = date('Y-m-d H:i:s', \time());
                 $user->save();
             }
-            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + $codeq->number * 86400);
+            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + (int) $codeq->number * 86400);
             $user->class = $codeq->type;
             $user->save();
         }
@@ -413,7 +413,8 @@ final class UserController extends BaseController
             }
         }
 
-        array_multisort(array_column($results, 'node_name'), SORT_ASC, $results);
+        $node_names = array_column($results, 'node_name');
+        array_multisort($node_names, SORT_ASC, $results);
 
         return $this->view()
             ->assign('results', $results)

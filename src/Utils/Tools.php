@@ -94,7 +94,6 @@ final class Tools
                 break;
             default:
                 return null;
-                break;
         }
         return $number;
     }

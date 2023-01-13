@@ -41,7 +41,7 @@ final class SubController extends BaseController
             ]);
         }
 
-        $subtype_list = ['json', 'clash'];
+        $subtype_list = ['json', 'clash', 'sip008'];
         if (! \in_array($subtype, $subtype_list)) {
             return $response->withJson([
                 'ret' => 0,

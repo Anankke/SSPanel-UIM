@@ -12,6 +12,7 @@ final class SendGrid extends Base
     private $sg;
     private $sender;
     private $name;
+    private $email;
 
     public function __construct()
     {
