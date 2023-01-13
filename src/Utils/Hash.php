@@ -12,22 +12,17 @@ final class Hash
         switch ($method) {
             case 'md5':
                 return self::md5WithSalt($pass);
-                break;
             case 'sha256':
                 return self::sha256WithSalt($pass);
-                break;
             case 'bcrypt':
                 return \password_hash($pass, PASSWORD_BCRYPT);
-                break;
             case 'argon2i':
                 return \password_hash($pass, PASSWORD_ARGON2I);
-                break;
             case 'argon2id':
                 return \password_hash($pass, PASSWORD_ARGON2ID);
-                break;
 
             default:
-                return self::md5WithSalt($pass);
+                return \password_hash($pass, PASSWORD_BCRYPT);
         }
     }
 
