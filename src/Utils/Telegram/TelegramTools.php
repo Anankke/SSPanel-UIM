@@ -121,7 +121,7 @@ final class TelegramTools
                 // ##############
             case 'port':
                 // 支持正整数或 0 随机选择
-                if (! is_numeric($value) || strpos($value, '-') === 0) {
+                if (! is_numeric($value) || strpos((string) $value, '-') === 0) {
                     return [
                         'ok' => false,
                         'msg' => '提供的端口非数值，如要随机重置请指定为 0.',
@@ -199,7 +199,7 @@ final class TelegramTools
                         $number *= 86400;
                         $old_time = strtotime($old);
                         $new = ($operator === '+' ? $old_time + $number : $old_time - $number);
-                        $new = date('Y-m-d H:i:s', $new);
+                        $new = date('Y-m-d H:i:s', (int) $new);
                     } else {
                         if (strtotime($value) === false) {
                             return [
@@ -215,7 +215,7 @@ final class TelegramTools
                     if (is_numeric($value)) {
                         $number *= 86400;
                         $new = \time() + $number;
-                        $new = date('Y-m-d H:i:s', $new);
+                        $new = date('Y-m-d H:i:s', (int) $new);
                     } else {
                         if (strtotime($value) === false) {
                             return [
@@ -279,7 +279,6 @@ final class TelegramTools
                     'ok' => false,
                     'msg' => '尚不支持.',
                 ];
-                break;
         }
         if ($User->save()) {
             if ($useOptionMethod === 'money') {

@@ -58,7 +58,7 @@ final class Message
             if ($this->ChatID > 0) {
                 // 私聊
                 if ($this->User !== null) {
-                    if (is_numeric($MessageData) && strlen($MessageData) === 6) {
+                    if (is_numeric($MessageData) && strlen((string) $MessageData) === 6) {
                         $uid = TelegramSessionManager::verifyLoginNumber($MessageData, $this->User->id);
                         if ($uid !== 0) {
                             $text = '登录验证成功，邮箱：' . $this->User->email;
