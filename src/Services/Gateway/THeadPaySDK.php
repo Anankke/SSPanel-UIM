@@ -6,6 +6,8 @@ namespace App\Services\Gateway;
 
 final class THeadPaySDK
 {
+    private $config;
+
     public function __construct($config)
     {
         $this->config = $config;

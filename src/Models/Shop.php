@@ -161,22 +161,22 @@ final class Shop extends Model
                     break;
                 case 'expire':
                     if (\time() > strtotime($user->expire_in)) {
-                        $user->expire_in = date('Y-m-d H:i:s', \time() + $value * 86400);
+                        $user->expire_in = date('Y-m-d H:i:s', \time() + (int) $value * 86400);
                     } else {
-                        $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + $value * 86400);
+                        $user->expire_in = date('Y-m-d H:i:s', strtotime($user->expire_in) + (int) $value * 86400);
                     }
                     break;
                 case 'class':
                     if ($_ENV['enable_bought_extend'] === true) {
                         if ($user->class === $value) {
-                            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + $this->content['class_expire'] * 86400);
+                            $user->class_expire = date('Y-m-d H:i:s', strtotime($user->class_expire) + (int) $this->content['class_expire'] * 86400);
                         } else {
-                            $user->class_expire = date('Y-m-d H:i:s', \time() + $this->content['class_expire'] * 86400);
+                            $user->class_expire = date('Y-m-d H:i:s', \time() + (int) $this->content['class_expire'] * 86400);
                         }
                         $user->class = $value;
                     } else {
                         $user->class = $value;
-                        $user->class_expire = date('Y-m-d H:i:s', \time() + $this->content['class_expire'] * 86400);
+                        $user->class_expire = date('Y-m-d H:i:s', \time() + (int) $this->content['class_expire'] * 86400);
                         break;
                     }
                     // no break
