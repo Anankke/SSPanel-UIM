@@ -21,7 +21,7 @@ final class UpdateTicket extends AbstractMigration
     public function down(): void
     {
         $this->table('ticket')
-            ->changeColumn->addColumn('content', 'text', [])
+            ->changeColumn('content', 'text', [])
             ->changeColumn('status', 'integer', [ 'default' => 1 ])
             ->removeColumn('type')
             ->addColumn('rootid', 'biginteger', [])

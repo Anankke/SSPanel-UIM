@@ -53,6 +53,21 @@ final class LinkController extends BaseController
             $sub_info = self::getSIP002($user);
         }
 
+        if (isset($params['ss']) && $params['ss'] === '1') {
+            $sub_type = 'ss';
+            $sub_info = self::getSS($user);
+        }
+
+        if (isset($params['v2ray']) && $params['v2ray'] === '1') {
+            $sub_type = 'v2ray';
+            $sub_info = self::getV2Ray($user);
+        }
+
+        if (isset($params['trojan']) && $params['trojan'] === '1') {
+            $sub_type = 'trojan';
+            $sub_info = self::getTrojan($user);
+        }
+
         if (isset($params['sub'])) {
             switch ($params['sub']) {
                 case '2':
@@ -122,8 +137,39 @@ final class LinkController extends BaseController
     }
 
     // SIP002 SS 订阅
-    public static function getSIP002($user): void
+    public static function getSIP002($user): string
     {
+        $links = '';
+        //篩選出用戶能連接的節點
+        $nodes_raw = Node::where('type', 1)
+            ->where('node_class', '<=', $user->class)
+            ->whereIn('node_group', [0, $user->node_group])
+            ->where(static function ($query): void {
+                $query->where('node_bandwidth_limit', '=', 0)->orWhereRaw('node_bandwidth < node_bandwidth_limit');
+            })
+            ->get();
+
+        foreach ($nodes_raw as $node_raw) {
+            $node_custom_config = \json_decode($node_raw->custom_config, true);
+            //檢查是否配置“前端/订阅中下发的服务器地址”
+            if (! \array_key_exists('server_user', $node_custom_config)) {
+                $server = $node_raw->server;
+            } else {
+                $server = $node_custom_config['server_user'];
+            }
+            switch ($node_raw->sort) {
+                case '0':
+                    $plugin = $node_custom_config['plugin'] ?? '';
+                    $plugin_option = $node_custom_config['plugin_option'] ?? '';
+
+                    $links .= $user->method . ':' . $user->passwd . '@' . $server . ':' .
+                    $user->port . '/?plugin=' . $plugin . '&' . $plugin_option . '#' .
+                    $node_raw->name . PHP_EOL;
+                    break;
+            }
+        }
+
+        return $links;
     }
 
     public static function getV2Ray($user): string
