@@ -268,6 +268,12 @@ return function (SlimApp $app): void {
         $this->post('/order/{id}/cancel', App\Controllers\Admin\OrderController::class . ':cancel');
         $this->delete('/order/{id}', App\Controllers\Admin\OrderController::class . ':delete');
         $this->post('/order/ajax', App\Controllers\Admin\OrderController::class . ':ajax');
+
+        // 账单
+        $this->get('/invoice', App\Controllers\Admin\InvoiceController::class . ':index');
+        $this->get('/invoice/{id}/view', App\Controllers\Admin\InvoiceController::class . ':detail');
+        $this->post('/invoice/{id}/mark_paid', App\Controllers\Admin\InvoiceController::class . ':mark_paid');
+        $this->post('/invoice/ajax', App\Controllers\Admin\InvoiceController::class . ':ajax');
     })->add(new Admin());
 
     //$app->group('/admin/api', function (): void {

@@ -6,10 +6,12 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        <span class="home-title">订单列表</span>
+                        <span class="home-title">账单列表</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">管理客户订单</span>
+                        <span class="home-subtitle">
+                            管理用户账单
+                        </span>
                     </div>
                 </div>
             </div>
@@ -25,7 +27,7 @@
                                 <thead>
                                     <tr>
                                         {foreach $details['field'] as $key => $value}
-                                            <th>{$value}</th>
+                                        <th>{$value}</th>
                                         {/foreach}
                                     </tr>
                                 </thead>
@@ -40,9 +42,9 @@
     <script>
         var table = $('#data_table').DataTable({
             ajax: {
-                url: '/admin/order/ajax',
+                url: '/admin/invoice/ajax',
                 type: 'POST',
-                dataSrc: 'orders'
+                dataSrc: 'invoices'
             },
             "autoWidth":false,
             'iDisplayLength': 10,
@@ -90,56 +92,6 @@
         function loadTable() {
             table;
         }
-
-        function deleteOrder(order_id) {
-            $('#notice-message').text('确定删除此订单？');
-            $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
-                $.ajax({
-                    url: "/admin/order/" + order_id,
-                    type: 'DELETE',
-                    dataType: "json",
-                    success: function(data) {
-                        if (data.ret == 1) {
-                            $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
-                            reloadTableAjax();
-                        } else {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        }
-                    }
-                })
-            });
-        };
-
-        function cancelOrder(order_id) {
-            $('#notice-message').text('确定取消此订单？');
-            $('#notice-dialog').modal('show');
-            $('#notice-confirm').on('click', function() {
-                $.ajax({
-                    url: "/admin/order/" + order_id + "/cancel",
-                    type: 'POST',
-                    dataType: "json",
-                    success: function(data) {
-                        if (data.ret == 1) {
-                            $('#success-message').text(data.msg);
-                            $('#success-dialog').modal('show');
-                            reloadTableAjax();
-                        } else {
-                            $('#fail-message').text(data.msg);
-                            $('#fail-dialog').modal('show');
-                        }
-                    }
-                })
-            });
-        };
-
-        function reloadTableAjax() {
-            table.ajax.reload(null, false);
-        }
-
-        loadTable();
     </script>
 
 {include file='admin/tabler_footer.tpl'}

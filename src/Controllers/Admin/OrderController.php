@@ -84,9 +84,25 @@ final class OrderController extends BaseController
         $order->status = 'cancelled';
         $order->save();
 
+        $invoice = Invoice::where('order_id', $order_id)->first();
+        $invoice->update_time = \time();
+
+        if ($invoice->status === 'paid_gateway' || $invoice->status === 'paid_balance' || $invoice->status === 'paid_admin') {
+            $invoice->status = 'cancelled';
+            $invoice->save();
+
+            return $response->withJson([
+                'ret' => 1,
+                'msg' => '订单取消成功，但关联账单已支付',
+            ]);
+        }
+
+        $invoice->status = 'cancelled';
+        $invoice->save();
+
         return $response->withJson([
             'ret' => 1,
-            'msg' => '取消成功',
+            'msg' => '订单取消成功',
         ]);
     }
 
@@ -94,6 +110,7 @@ final class OrderController extends BaseController
     {
         $order_id = $args['id'];
         Order::find($order_id)->delete();
+        Invoice::where('order_id', $order_id)->first()->delete();
 
         return $response->withJson([
             'ret' => 1,
