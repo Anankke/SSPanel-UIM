@@ -9,7 +9,7 @@
                         <span class="home-title">订单 #{$order->id}</span>
                     </h2>
                     <div class="page-pretitle my-3">
-                        <span class="home-subtitle">你可以在这里查看并管理订单</span>
+                        <span class="home-subtitle">订单详情</span>
                     </div>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
@@ -144,7 +144,7 @@
                             <div class="datagrid-title">账单内容</div>
                             <div class="datagrid-content">
                                 <div class="table-responsive">
-                                    <table id="data_table" class="table table-vcenter card-table">
+                                    <table id="invoice_content_table" class="table table-vcenter card-table">
                                         <thead>
                                             <tr>
                                                 <th>名称</th>

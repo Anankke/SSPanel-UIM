@@ -602,6 +602,9 @@ final class Tools
         if ($invoice->status === 'paid_balance') {
             return '已支付（账户余额）';
         }
+        if ($invoice->status === 'paid_admin') {
+            return '已支付（管理员）';
+        }
         if ($invoice->status === 'cancelled') {
             return '已取消';
         }
