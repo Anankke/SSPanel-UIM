@@ -195,7 +195,7 @@ final class CouponController extends BaseController
 
         return $response->withJson([
             'ret' => 1,
-            'msg' => '优惠码 <code>' . $code . '</code> 添加成功',
+            'msg' => '优惠码 ' . $code . ' 添加成功',
         ]);
     }
 
@@ -221,7 +221,7 @@ final class CouponController extends BaseController
             $content = \json_decode($coupon->content);
             $limit = \json_decode($coupon->limit);
             $coupon->op = '<button type="button" class="btn btn-red" id="delete-coupon-' . $coupon->id . '" 
-        onclick="deleteCoupons(' . $coupon->id . ')">删除</button>';
+        onclick="deleteCoupon(' . $coupon->id . ')">删除</button>';
             $coupon->type = Tools::getCouponType($content);
             $coupon->value = $content->value;
             $coupon->product_id = $limit->product_id;
