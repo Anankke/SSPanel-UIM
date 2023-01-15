@@ -602,11 +602,39 @@ final class Tools
         if ($invoice->status === 'paid_balance') {
             return '已支付（账户余额）';
         }
+        if ($invoice->status === 'paid_giftcard') {
+            return '已支付（礼品卡）';
+        }
         if ($invoice->status === 'paid_admin') {
             return '已支付（管理员）';
         }
         if ($invoice->status === 'cancelled') {
             return '已取消';
+        }
+        return '未知';
+    }
+
+    /**
+     * 优惠码状态
+     */
+    public static function getCouponStatus($coupon)
+    {
+        if ($coupon->expire_time < \time()) {
+            return '已过期';
+        }
+        return '激活';
+    }
+
+    /**
+     * 优惠码类型
+     */
+    public static function getCouponType($content)
+    {
+        if ($content->type === 'percentage') {
+            return '百分比';
+        }
+        if ($content->type === 'fixed') {
+            return '固定金额';
         }
         return '未知';
     }

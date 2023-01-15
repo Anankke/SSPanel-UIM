@@ -56,12 +56,12 @@ final class InvoiceController extends BaseController
         );
     }
 
-    public function mark_paid(Request $request, Response $response, array $args): ResponseInterface
+    public function markPaid(Request $request, Response $response, array $args): ResponseInterface
     {
         $invoice_id = $args['id'];
         $invoice = Invoice::find($invoice_id);
 
-        if ($invoice->status === 'paid_gateway' || $invoice->status === 'paid_balance' || $invoice->status === 'paid_admin') {
+        if (\in_array($invoice->status, ['paid_gateway', 'paid_balance', 'paid_admin', 'paid_giftcard'])) {
             return $response->withJson([
                 'ret' => 0,
                 'msg' => '不能标记已经支付的账单',
